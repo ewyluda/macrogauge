@@ -43,7 +43,9 @@ jobs:
         if: steps.gate.outputs.run == 'true'
         run: |
           git config user.name "macrogauge-bot"
-          git config user.email "bot@users.noreply.github.com"
+          # Vercel (Hobby) blocks deploys for commits whose author email doesn't
+          # match a GitHub account — use the owner's noreply address.
+          git config user.email "35318463+ewyluda@users.noreply.github.com"
           git add store site/public/data
           if git diff --cached --quiet; then
             echo "no data changes"
