@@ -468,7 +468,7 @@ git commit -m "feat: publish official.json — interim dashboard data live"
 
 **Interfaces:**
 - Produces (format.ts additions): `fmtSigned(pct: number | null): string` (`+3.1%` / `−1.2%` / `—` for null, 1dp); `fmtMoney(v: number, unit: string): string` (`$4.13`, `$4,141`, `¢17.4` style: `$` unit → 2dp under 100 / 0dp with thousands separators at ≥100; `%` → 2dp + `%`; other units → 1-2dp + unit suffix); `yoyColor(pct: number | null): string` — `var(--accent-red)` when > 0.05, `var(--accent-emerald)` when < −0.05, `var(--muted)` otherwise/null.
-- Produces: `DeltaChip({value, suffix?})` — small pill, dark bg, signed value colored by `yoyColor`; `StatusPill({ok, label})` — uppercase micro-badge, emerald dot/border when ok, red when not; `Section({title, children})` — 11px uppercase letter-spaced muted header + block.
+- Produces: `DeltaChip({value, prefix?})` — small pill, dark bg, signed value colored by `yoyColor`; `StatusPill({ok, label})` — uppercase micro-badge, emerald dot/border when ok, red when not; `Section({title, children})` — 11px uppercase letter-spaced muted header + block.
 
 - [ ] **Step 1: Implement** (site has no unit-test rig — verification is the Task 5 build + visual check; keep these exact)
 
