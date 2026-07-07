@@ -1,0 +1,51 @@
+{
+  "status": "REQUEST_SUCCEEDED",
+  "responseTime": 120,
+  "message": [],
+  "Results": {
+    "series": [
+      {
+        "seriesID": "APU0000708111",
+        "data": [
+          {"year": "2026", "period": "M05", "periodName": "May", "value": "4.126"},
+          {"year": "2026", "period": "M04", "periodName": "April", "value": "4.055"}
+        ]
+      },
+      {
+        "seriesID": "APU0000709112",
+        "data": [
+          {"year": "2026", "period": "M05", "periodName": "May", "value": "4.312"},
+          {"year": "2026", "period": "M04", "periodName": "April", "value": "4.287"}
+        ]
+      },
+      {
+        "seriesID": "APU0000702111",
+        "data": [
+          {"year": "2026", "period": "M05", "periodName": "May", "value": "2.104"},
+          {"year": "2026", "period": "M04", "periodName": "April", "value": "2.087"}
+        ]
+      },
+      {
+        "seriesID": "APU0000703112",
+        "data": [
+          {"year": "2026", "period": "M05", "periodName": "May", "value": "5.612"},
+          {"year": "2026", "period": "M04", "periodName": "April", "value": "5.578"}
+        ]
+      },
+      {
+        "seriesID": "APU0000706111",
+        "data": [
+          {"year": "2026", "period": "M05", "periodName": "May", "value": "2.043"},
+          {"year": "2026", "period": "M04", "periodName": "April", "value": "2.019"}
+        ]
+      },
+      {
+        "seriesID": "APU0000711211",
+        "data": [
+          {"year": "2026", "period": "M05", "periodName": "May", "value": "0.662"},
+          {"year": "2026", "period": "M04", "periodName": "April", "value": "0.658"}
+        ]
+      }
+    ]
+  }
+}

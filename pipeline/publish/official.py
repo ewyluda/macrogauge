@@ -53,7 +53,10 @@ def build(conn, series) -> dict:
 
     quotes = []
     for code, (label, group, unit) in QUOTES.items():
-        q = engine.latest_quote(conn, code)
+        try:
+            q = engine.latest_quote(conn, code)
+        except ValueError:
+            continue  # series never collected — publish without it
         quotes.append({"code": code, "label": label, "group": group, "unit": unit,
                        "latest": round(q["latest"], 2), "obs_date": q["obs_date"],
                        "yoy_pct": _round(q["yoy_pct"])})

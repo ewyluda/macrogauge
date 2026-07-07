@@ -53,7 +53,7 @@ def fake_post(url, json=None, timeout=None):
 
         def json(self):
             import json as j
-            return j.loads((FIXTURES / "bls_ap.json").read_text())
+            return j.loads((FIXTURES / "bls_ap_full.json").read_text())
     return R()
 
 
