@@ -12,3 +12,9 @@ basket from live market data, published as a static site over pre-baked JSON.
 Daily run: `.github/workflows/daily.yml` (8:40 AM ET weekdays) → commits data → Vercel deploys.
 
 Local run: `FRED_API_KEY=... python -m pipeline.run_daily --store store --out site/public/data`
+
+## Status
+
+- Production: https://macrogauge-cloudten.vercel.app
+- Phase 0 exit: daily workflow green on schedule 3 consecutive weekdays (check
+  `gh run list --workflow daily` after three trading days).
