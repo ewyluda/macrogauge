@@ -1,0 +1,234 @@
+{
+  "published_at": "2026-07-07T20:54:08Z",
+  "headline": {
+    "cpi": {
+      "month": "2026-05-01",
+      "yoy_pct": 4.25,
+      "prev_yoy_pct": 3.81
+    },
+    "core": {
+      "month": "2026-05-01",
+      "yoy_pct": 2.85,
+      "prev_yoy_pct": 2.75
+    }
+  },
+  "components": [
+    {
+      "code": "CUUR0000SETB01",
+      "label": "Gasoline (CPI)",
+      "month": "2026-05-01",
+      "yoy_pct": 40.46,
+      "mom_pct": 8.64
+    },
+    {
+      "code": "CUUR0000SEHF01",
+      "label": "Electricity (CPI)",
+      "month": "2026-05-01",
+      "yoy_pct": 5.92,
+      "mom_pct": 1.03
+    },
+    {
+      "code": "CUUR0000SAG",
+      "label": "Other goods & services",
+      "month": "2026-05-01",
+      "yoy_pct": 4.91,
+      "mom_pct": 0.77
+    },
+    {
+      "code": "CUUR0000SAA",
+      "label": "Apparel",
+      "month": "2026-05-01",
+      "yoy_pct": 4.79,
+      "mom_pct": -0.41
+    },
+    {
+      "code": "CUUR0000SEFV",
+      "label": "Food away from home",
+      "month": "2026-05-01",
+      "yoy_pct": 3.54,
+      "mom_pct": 0.3
+    },
+    {
+      "code": "CUUR0000SEHC",
+      "label": "Owners' equiv. rent",
+      "month": "2026-05-01",
+      "yoy_pct": 3.32,
+      "mom_pct": 0.28
+    },
+    {
+      "code": "CUUR0000SEHF02",
+      "label": "Piped gas (CPI)",
+      "month": "2026-05-01",
+      "yoy_pct": 3.01,
+      "mom_pct": -0.24
+    },
+    {
+      "code": "CUUR0000SEHA",
+      "label": "Rent",
+      "month": "2026-05-01",
+      "yoy_pct": 2.92,
+      "mom_pct": 0.3
+    },
+    {
+      "code": "CUUR0000SAF11",
+      "label": "Food at home",
+      "month": "2026-05-01",
+      "yoy_pct": 2.74,
+      "mom_pct": 0.06
+    },
+    {
+      "code": "CUUR0000SAR",
+      "label": "Recreation",
+      "month": "2026-05-01",
+      "yoy_pct": 2.62,
+      "mom_pct": 0.28
+    },
+    {
+      "code": "CUUR0000SAM",
+      "label": "Medical care",
+      "month": "2026-05-01",
+      "yoy_pct": 2.59,
+      "mom_pct": 0.27
+    },
+    {
+      "code": "CUUR0000SAE",
+      "label": "Education & comm",
+      "month": "2026-05-01",
+      "yoy_pct": 0.84,
+      "mom_pct": 0.71
+    },
+    {
+      "code": "CUUR0000SETA01",
+      "label": "New vehicles",
+      "month": "2026-05-01",
+      "yoy_pct": 0.24,
+      "mom_pct": -0.03
+    },
+    {
+      "code": "CUUR0000SETA02",
+      "label": "Used cars & trucks",
+      "month": "2026-05-01",
+      "yoy_pct": -1.99,
+      "mom_pct": 1.47
+    }
+  ],
+  "quotes": [
+    {
+      "code": "APU0000708111",
+      "label": "Eggs, dozen",
+      "group": "grocery",
+      "unit": "$",
+      "latest": 2.19,
+      "obs_date": "2026-05-01",
+      "yoy_pct": -51.82
+    },
+    {
+      "code": "APU0000709112",
+      "label": "Milk, gallon",
+      "group": "grocery",
+      "unit": "$",
+      "latest": 4.22,
+      "obs_date": "2026-05-01",
+      "yoy_pct": 4.85
+    },
+    {
+      "code": "APU0000702111",
+      "label": "Bread, lb",
+      "group": "grocery",
+      "unit": "$",
+      "latest": 1.83,
+      "obs_date": "2026-05-01",
+      "yoy_pct": -2.45
+    },
+    {
+      "code": "APU0000703112",
+      "label": "Ground chuck, lb",
+      "group": "grocery",
+      "unit": "$",
+      "latest": 6.75,
+      "obs_date": "2026-05-01",
+      "yoy_pct": 12.77
+    },
+    {
+      "code": "APU0000706111",
+      "label": "Chicken, lb",
+      "group": "grocery",
+      "unit": "$",
+      "latest": 2.04,
+      "obs_date": "2026-05-01",
+      "yoy_pct": -1.21
+    },
+    {
+      "code": "APU0000711211",
+      "label": "Bananas, lb",
+      "group": "grocery",
+      "unit": "$",
+      "latest": 0.65,
+      "obs_date": "2026-05-01",
+      "yoy_pct": -1.37
+    },
+    {
+      "code": "eia_gasreg_w",
+      "label": "Gas, regular",
+      "group": "energy",
+      "unit": "$/gal",
+      "latest": 3.78,
+      "obs_date": "2026-07-06",
+      "yoy_pct": 19.37
+    },
+    {
+      "code": "eia_elec_res",
+      "label": "Electricity",
+      "group": "energy",
+      "unit": "\u00a2/kWh",
+      "latest": 18.83,
+      "obs_date": "2026-04-01",
+      "yoy_pct": 7.29
+    },
+    {
+      "code": "eia_ng_res",
+      "label": "Natural gas",
+      "group": "energy",
+      "unit": "$/Mcf",
+      "latest": 18.17,
+      "obs_date": "2026-04-01",
+      "yoy_pct": 12.37
+    },
+    {
+      "code": "pmms_30yr",
+      "label": "30yr mortgage",
+      "group": "rates",
+      "unit": "%",
+      "latest": 6.43,
+      "obs_date": "2026-07-02",
+      "yoy_pct": -5.02
+    },
+    {
+      "code": "fmp_gold",
+      "label": "Gold",
+      "group": "markets",
+      "unit": "$/oz",
+      "latest": 4117.4,
+      "obs_date": "2026-07-07",
+      "yoy_pct": null
+    },
+    {
+      "code": "fmp_wti",
+      "label": "WTI crude",
+      "group": "markets",
+      "unit": "$/bbl",
+      "latest": 72.23,
+      "obs_date": "2026-07-07",
+      "yoy_pct": null
+    },
+    {
+      "code": "fiscal_debt_total",
+      "label": "Total public debt",
+      "group": "fiscal",
+      "unit": "$",
+      "latest": 39387881222485.61,
+      "obs_date": "2026-07-06",
+      "yoy_pct": 8.76
+    }
+  ]
+}

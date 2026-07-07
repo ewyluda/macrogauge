@@ -12,6 +12,7 @@ from pathlib import Path
 from pipeline import collect, registry
 from pipeline.connectors import fred
 from pipeline.engine import official
+from pipeline.publish import official as official_json
 from pipeline.publish import pulse_lite, qa, sources_status, validate
 from pipeline.store import vintage
 
@@ -45,6 +46,11 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     pulse_path = pulse_lite.write(cpi, args.out, published_at=published_at)
     validate.validate_file(pulse_path, SCHEMAS / "pulse_lite.schema.json")
     print(f"published: {pulse_path} (CPI YoY {round(cpi['yoy_pct'], 2)}%, month {cpi['month']})")
+
+    official_path = official_json.write(official_json.build(conn, series), args.out,
+                                        published_at=published_at)
+    validate.validate_file(official_path, SCHEMAS / "official.schema.json")
+    print(f"published: {official_path}")
 
     status = sources_status.build(results, sources, series, conn)
     status_path = sources_status.write(status, args.out)

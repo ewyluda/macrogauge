@@ -75,6 +75,9 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
     assert qa["total"] == 4
+    official = json.loads((out / "official.json").read_text())
+    assert len(official["components"]) == 14
+    assert len(official["quotes"]) == 13
 
 
 def test_one_source_down_still_publishes(tmp_path, monkeypatch):
