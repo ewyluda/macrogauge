@@ -58,8 +58,9 @@ def build(conn, series) -> dict:
                        "latest": round(q["latest"], 2), "obs_date": q["obs_date"],
                        "yoy_pct": _round(q["yoy_pct"])})
 
-    return {"headline": {"cpi": headline_row("CPIAUCNS"),
-                         "core": headline_row("CPILFENS")},
+    cpi_code, core_code = HEADLINE
+    return {"headline": {"cpi": headline_row(cpi_code),
+                         "core": headline_row(core_code)},
             "components": components, "quotes": quotes}
 
 

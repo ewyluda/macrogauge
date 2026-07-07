@@ -11,18 +11,21 @@ SCHEMAS = Path(__file__).parent.parent / "schemas"
 
 
 def seed_full(tmp_path):
-    """Minimal 13-month histories for every registry series so build() succeeds."""
+    """Minimal 14-month histories for every registry series so build() succeeds."""
     _, series = load_registry()
     obs = []
     months = [f"2025-{m:02d}-01" for m in range(4, 13)] + \
              [f"2026-{m:02d}-01" for m in range(1, 6)]
     for s in series:
-        if s.code in ("fmp_gold", "fmp_wti", "fiscal_debt_total",
-                      "pmms_30yr", "eia_gasreg_w"):
+        if s.code == "fmp_wti":
+            # single observation: no YoY base -> yoy_pct must be None
+            obs += [Observation(s.code, "2026-06-29", 71.85, "2026-07-07", s.source, "API")]
+        elif s.code in ("fmp_gold", "fiscal_debt_total", "pmms_30yr", "eia_gasreg_w"):
             obs += [Observation(s.code, "2025-06-20", 100.0, "2026-07-07", s.source, "API"),
                     Observation(s.code, "2026-06-29", 110.0, "2026-07-07", s.source, "API")]
         else:
-            obs += [Observation(s.code, m, 200.0 + i, "2026-07-07", s.source, "API")
+            slope = 1 + (sum(s.code.encode()) % 7)  # deterministic, distinct YoY per series
+            obs += [Observation(s.code, m, 200.0 + i * slope, "2026-07-07", s.source, "API")
                     for i, m in enumerate(months)]
     vintage.append(obs, tmp_path)
     return vintage.load(tmp_path)
@@ -33,11 +36,14 @@ def test_build_and_write_validates(tmp_path):
     _, series = load_registry()
     payload = official_pub.build(conn, series)
     assert len(payload["components"]) == 14
+    yoys = [c["yoy_pct"] for c in payload["components"]]
+    assert yoys == sorted(yoys, reverse=True) and len(set(yoys)) > 1
     assert len(payload["quotes"]) == 13
     groups = {q["group"] for q in payload["quotes"]}
     assert groups == {"grocery", "energy", "rates", "markets", "fiscal"}
     q = {q["code"]: q for q in payload["quotes"]}
     assert q["fmp_gold"]["yoy_pct"] == 10.0  # 110/100 - 1
+    assert q["fmp_wti"]["yoy_pct"] is None  # single obs: no YoY base
     assert payload["headline"]["cpi"]["month"] == "2026-05-01"
     path = official_pub.write(payload, tmp_path / "out", "2026-07-07T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "official.schema.json")
