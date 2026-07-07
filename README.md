@@ -9,6 +9,11 @@ basket from live market data, published as a static site over pre-baked JSON.
 - `schemas/` — JSON Schema per published file, validated in CI and before every publish
 - Design spec: `docs/macrogauge-design.md`
 
+**Store row-evolution policy:** `store/obs/*.jsonl` rows are immutable and
+schema-versionless. New `Observation` fields may be added; fields are never
+renamed, removed, or retyped. Readers default absent fields (old partitions
+load forever). Never rewrite a committed partition.
+
 Daily run: `.github/workflows/daily.yml` (8:40 AM ET weekdays) → commits data → Vercel deploys.
 
 Local run: `FRED_API_KEY=... python -m pipeline.run_daily --store store --out site/public/data`

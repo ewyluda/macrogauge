@@ -53,3 +53,22 @@ def test_max_vintage_unknown_series_raises(tmp_path):
     conn = vintage.load(tmp_path)
     with pytest.raises(ValueError):
         vintage.max_vintage(conn, "NO_SUCH_SERIES")
+
+
+def test_load_tolerates_rows_missing_future_fields(tmp_path):
+    part = tmp_path / "obs" / "2026-07.jsonl"
+    part.parent.mkdir(parents=True)
+    part.write_text(
+        '{"series_code": "OLD", "obs_date": "2026-05-01", "value": 1.5,'
+        ' "vintage_date": "2026-07-07"}\n')  # no source/route — legacy row
+    conn = vintage.load(tmp_path)
+    assert vintage.latest(conn, "OLD") == [("2026-05-01", 1.5)]
+    row = conn.execute("SELECT source, route FROM observations").fetchone()
+    assert row == (None, None)
+
+
+def test_max_obs_date(tmp_path):
+    vintage.append([obs(date="2026-04-01"), obs(date="2026-05-01")], tmp_path)
+    conn = vintage.load(tmp_path)
+    assert vintage.max_obs_date(conn, "CPIAUCNS") == "2026-05-01"
+    assert vintage.max_obs_date(conn, "NO_SUCH_SERIES") is None
