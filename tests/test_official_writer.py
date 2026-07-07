@@ -49,6 +49,7 @@ def test_build_and_write_validates(tmp_path):
     assert q["fmp_gold"]["yoy_pct"] == 10.0  # 110/100 - 1
     assert q["fmp_wti"]["yoy_pct"] is None  # single obs: no YoY base
     assert payload["headline"]["cpi"]["month"] == "2026-05-01"
+    assert payload["headline"]["cpi"]["as_of"] == "2026-07-07"  # seed vintage
     path = official_pub.write(payload, tmp_path / "out", "2026-07-07T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "official.schema.json")
     data = json.loads(path.read_text())

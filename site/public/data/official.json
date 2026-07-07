@@ -1,15 +1,17 @@
 {
-  "published_at": "2026-07-07T20:54:08Z",
+  "published_at": "2026-07-07T21:32:51Z",
   "headline": {
     "cpi": {
       "month": "2026-05-01",
       "yoy_pct": 4.25,
-      "prev_yoy_pct": 3.81
+      "prev_yoy_pct": 3.81,
+      "as_of": "2026-07-07"
     },
     "core": {
       "month": "2026-05-01",
       "yoy_pct": 2.85,
-      "prev_yoy_pct": 2.75
+      "prev_yoy_pct": 2.75,
+      "as_of": "2026-07-07"
     }
   },
   "components": [
@@ -208,7 +210,7 @@
       "label": "Gold",
       "group": "markets",
       "unit": "$/oz",
-      "latest": 4117.4,
+      "latest": 4157.4,
       "obs_date": "2026-07-07",
       "yoy_pct": null
     },
@@ -217,7 +219,7 @@
       "label": "WTI crude",
       "group": "markets",
       "unit": "$/bbl",
-      "latest": 72.23,
+      "latest": 72.21,
       "obs_date": "2026-07-07",
       "yoy_pct": null
     },

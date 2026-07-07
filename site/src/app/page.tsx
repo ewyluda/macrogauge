@@ -57,10 +57,11 @@ function QuoteCard({ q }: { q: (typeof official.quotes)[number] }) {
 
 export default function Home() {
   const { cpi, core } = official.headline;
-  const gas = official.quotes.find((q) => q.code === "eia_gasreg_w")!;
-  const mortgage = official.quotes.find((q) => q.code === "pmms_30yr")!;
-  const gold = official.quotes.find((q) => q.code === "fmp_gold")!;
-  const debt = official.quotes.find((q) => q.code === "fiscal_debt_total")!;
+  const quote = (code: string) => official.quotes.find((q) => q.code === code);
+  const gas = quote("eia_gasreg_w");
+  const mortgage = quote("pmms_30yr");
+  const gold = quote("fmp_gold");
+  const debt = quote("fiscal_debt_total");
   const groups = ["grocery", "energy", "rates", "markets", "fiscal"] as const;
 
   return (
@@ -98,39 +99,47 @@ export default function Home() {
         <KpiCard
           label="Official CPI · YoY"
           value={fmtPct(cpi.yoy_pct)}
-          context={`${fmtMonth(cpi.month)} print · prev ${fmtPct(cpi.prev_yoy_pct)}`}
+          context={`${fmtMonth(cpi.month)} print · prev ${fmtPct(cpi.prev_yoy_pct)} · as of ${cpi.as_of}`}
           accent="amber"
         />
         <KpiCard
           label="Core CPI · YoY"
           value={fmtPct(core.yoy_pct)}
-          context={`${fmtMonth(core.month)} print · prev ${fmtPct(core.prev_yoy_pct)}`}
+          context={`${fmtMonth(core.month)} print · prev ${fmtPct(core.prev_yoy_pct)} · as of ${core.as_of}`}
           accent="amber"
         />
-        <KpiCard
-          label="Gas · regular"
-          value={fmtMoney(gas.latest, gas.unit)}
-          context={`${fmtSigned(gas.yoy_pct)} YoY · wk of ${gas.obs_date}`}
-          accent="sky"
-        />
-        <KpiCard
-          label="30yr mortgage"
-          value={fmtMoney(mortgage.latest, mortgage.unit)}
-          context={`${fmtSigned(mortgage.yoy_pct)} YoY · ${mortgage.obs_date}`}
-          accent="sky"
-        />
-        <KpiCard
-          label="Gold"
-          value={fmtMoney(gold.latest, gold.unit)}
-          context={`${fmtSigned(gold.yoy_pct)} YoY · ${gold.obs_date}`}
-          accent="violet"
-        />
-        <KpiCard
-          label="Public debt"
-          value={`$${(debt.latest / 1e12).toFixed(2)}T`}
-          context={`${fmtSigned(debt.yoy_pct)} YoY · ${debt.obs_date}`}
-          accent="violet"
-        />
+        {gas && (
+          <KpiCard
+            label="Gas · regular"
+            value={fmtMoney(gas.latest, gas.unit)}
+            context={`${fmtSigned(gas.yoy_pct)} YoY · wk of ${gas.obs_date}`}
+            accent="sky"
+          />
+        )}
+        {mortgage && (
+          <KpiCard
+            label="30yr mortgage"
+            value={fmtMoney(mortgage.latest, mortgage.unit)}
+            context={`${fmtSigned(mortgage.yoy_pct)} YoY · ${mortgage.obs_date}`}
+            accent="sky"
+          />
+        )}
+        {gold && (
+          <KpiCard
+            label="Gold"
+            value={fmtMoney(gold.latest, gold.unit)}
+            context={`${fmtSigned(gold.yoy_pct)} YoY · ${gold.obs_date}`}
+            accent="violet"
+          />
+        )}
+        {debt && (
+          <KpiCard
+            label="Public debt"
+            value={`$${(debt.latest / 1e12).toFixed(2)}T`}
+            context={`${fmtSigned(debt.yoy_pct)} YoY · ${debt.obs_date}`}
+            accent="violet"
+          />
+        )}
       </div>
 
       <Section title={`Official CPI components — YoY (${fmtMonth(cpi.month)} print)`}>

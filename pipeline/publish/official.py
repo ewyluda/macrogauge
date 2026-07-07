@@ -41,7 +41,7 @@ def build(conn, series) -> dict:
     def headline_row(code):
         r = engine.latest_yoy(conn, code)
         return {"month": r["month"], "yoy_pct": round(r["yoy_pct"], 2),
-                "prev_yoy_pct": round(r["prev_yoy_pct"], 2)}
+                "prev_yoy_pct": round(r["prev_yoy_pct"], 2), "as_of": r["as_of"]}
 
     components = []
     for code, label in SHORT_LABELS.items():

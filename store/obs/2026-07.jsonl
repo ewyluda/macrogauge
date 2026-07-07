@@ -8295,3 +8295,5 @@
 {"obs_date": "2026-07-07", "route": "API", "series_code": "fmp_gold", "source": "FMP", "value": 4117.4, "vintage_date": "2026-07-07"}
 {"obs_date": "2026-07-07", "route": "API", "series_code": "fmp_wti", "source": "FMP", "value": 72.23, "vintage_date": "2026-07-07"}
 {"obs_date": "2026-07-06", "route": "API", "series_code": "fiscal_debt_total", "source": "TREASURY", "value": 39387881222485.61, "vintage_date": "2026-07-07"}
+{"obs_date": "2026-07-07", "route": "API", "series_code": "fmp_gold", "source": "FMP", "value": 4157.4, "vintage_date": "2026-07-07"}
+{"obs_date": "2026-07-07", "route": "API", "series_code": "fmp_wti", "source": "FMP", "value": 72.21, "vintage_date": "2026-07-07"}

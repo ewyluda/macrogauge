@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-07T20:54:08Z",
+  "generated_at": "2026-07-07T21:32:51Z",
   "sources": [
     {
       "name": "BLS",
@@ -9,7 +9,7 @@
       "fetched": 671,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-07T20:54:03Z",
+      "finished_at": "2026-07-07T21:32:45Z",
       "series_count": 6,
       "latest_obs": "2026-05-01"
     },
@@ -21,7 +21,7 @@
       "fetched": 2715,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-07T20:54:06Z",
+      "finished_at": "2026-07-07T21:32:48Z",
       "series_count": 3,
       "latest_obs": "2026-07-06"
     },
@@ -33,7 +33,7 @@
       "fetched": 2,
       "new_rows": 2,
       "error": null,
-      "finished_at": "2026-07-07T20:54:06Z",
+      "finished_at": "2026-07-07T21:32:48Z",
       "series_count": 2,
       "latest_obs": "2026-07-07"
     },
@@ -45,7 +45,7 @@
       "fetched": 1795,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-07T20:54:03Z",
+      "finished_at": "2026-07-07T21:32:44Z",
       "series_count": 16,
       "latest_obs": "2026-05-01"
     },
@@ -57,7 +57,7 @@
       "fetched": 496,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-07T20:54:08Z",
+      "finished_at": "2026-07-07T21:32:51Z",
       "series_count": 1,
       "latest_obs": "2026-07-02"
     },
@@ -67,9 +67,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 2386,
-      "new_rows": 1,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-07T20:54:06Z",
+      "finished_at": "2026-07-07T21:32:49Z",
       "series_count": 1,
       "latest_obs": "2026-07-06"
     },
@@ -81,7 +81,7 @@
       "fetched": 226,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-07T20:54:08Z",
+      "finished_at": "2026-07-07T21:32:50Z",
       "series_count": 2,
       "latest_obs": "2026-05-01"
     }

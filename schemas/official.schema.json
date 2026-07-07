@@ -51,12 +51,13 @@
   "$defs": {
     "headline_row": {
       "type": "object",
-      "required": ["month", "yoy_pct", "prev_yoy_pct"],
+      "required": ["month", "yoy_pct", "prev_yoy_pct", "as_of"],
       "additionalProperties": false,
       "properties": {
         "month": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
         "yoy_pct": {"type": "number"},
-        "prev_yoy_pct": {"type": "number"}
+        "prev_yoy_pct": {"type": "number"},
+        "as_of": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}
       }
     }
   }
