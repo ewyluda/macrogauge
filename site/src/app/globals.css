@@ -1,0 +1,23 @@
+:root {
+  --bg: #0B0F14;
+  --card: #11161C;
+  --border: #1E2630;
+  --text: #E6EDF3;
+  --muted: #8B98A5;
+  --accent-sky: #38BDF8;
+  --accent-amber: #F59E0B;
+  --accent-red: #F87171;
+  --accent-emerald: #34D399;
+  --accent-violet: #A78BFA;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, -apple-system, system-ui, "Segoe UI", sans-serif;
+}
