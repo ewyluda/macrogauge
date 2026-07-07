@@ -25,6 +25,8 @@ def fetch(series_ids: list[str], api_key: str | None, start_year: str = "2017",
         for row in s["data"]:
             if not row["period"].startswith("M") or row["period"] == "M13":
                 continue
+            if row["value"] == "-":  # BLS's missing-value marker (e.g. shutdown gaps)
+                continue
             out.append(Observation(
                 series_code=s["seriesID"],
                 obs_date=f"{row['year']}-{row['period'][1:]}-01",

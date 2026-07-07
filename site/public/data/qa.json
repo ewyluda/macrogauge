@@ -1,19 +1,31 @@
 {
   "generated_at": "2026-07-07",
-  "passed": 2,
-  "total": 2,
+  "passed": 3,
+  "total": 4,
   "checks": [
     {
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-05-01 is 67d old (limit 75)"
+      "detail": "latest official month 2026-05-01 is 67d old (limit 80)"
     },
     {
       "name": "yoy_finite",
       "critical": true,
       "pass": true,
       "detail": "yoy=4.248674039164446 prev=3.8108449321217597"
+    },
+    {
+      "name": "connectors_ok",
+      "critical": false,
+      "pass": true,
+      "detail": "7/7 ok"
+    },
+    {
+      "name": "sources_fresh",
+      "critical": false,
+      "pass": false,
+      "detail": "29/31 fresh; stale \u2014 eia_elec_res (97d > 95d), eia_ng_res (97d > 95d)"
     }
   ]
 }

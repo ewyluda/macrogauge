@@ -1,0 +1,89 @@
+{
+  "generated_at": "2026-07-07T19:08:48Z",
+  "sources": [
+    {
+      "name": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "ok": true,
+      "fetched": 671,
+      "new_rows": 671,
+      "error": null,
+      "finished_at": "2026-07-07T19:08:43Z",
+      "series_count": 6,
+      "latest_obs": "2026-05-01"
+    },
+    {
+      "name": "EIA",
+      "route": "API",
+      "cadence": "monthly",
+      "ok": true,
+      "fetched": 2715,
+      "new_rows": 2715,
+      "error": null,
+      "finished_at": "2026-07-07T19:08:46Z",
+      "series_count": 3,
+      "latest_obs": "2026-07-06"
+    },
+    {
+      "name": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "ok": true,
+      "fetched": 2,
+      "new_rows": 2,
+      "error": null,
+      "finished_at": "2026-07-07T19:08:46Z",
+      "series_count": 2,
+      "latest_obs": "2026-07-07"
+    },
+    {
+      "name": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "ok": true,
+      "fetched": 1795,
+      "new_rows": 1683,
+      "error": null,
+      "finished_at": "2026-07-07T19:08:43Z",
+      "series_count": 16,
+      "latest_obs": "2026-05-01"
+    },
+    {
+      "name": "PMMS",
+      "route": "CSV",
+      "cadence": "weekly",
+      "ok": true,
+      "fetched": 496,
+      "new_rows": 0,
+      "error": null,
+      "finished_at": "2026-07-07T19:08:48Z",
+      "series_count": 1,
+      "latest_obs": "2026-07-02"
+    },
+    {
+      "name": "TREASURY",
+      "route": "API",
+      "cadence": "daily",
+      "ok": true,
+      "fetched": 2385,
+      "new_rows": 2385,
+      "error": null,
+      "finished_at": "2026-07-07T19:08:47Z",
+      "series_count": 1,
+      "latest_obs": "2026-07-03"
+    },
+    {
+      "name": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "ok": true,
+      "fetched": 226,
+      "new_rows": 0,
+      "error": null,
+      "finished_at": "2026-07-07T19:08:48Z",
+      "series_count": 2,
+      "latest_obs": "2026-05-01"
+    }
+  ]
+}

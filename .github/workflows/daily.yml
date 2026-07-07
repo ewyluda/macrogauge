@@ -44,6 +44,9 @@ jobs:
         if: steps.gate.outputs.run == 'true'
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
         run: |
           pip install -e . -q
           python -m pipeline.run_daily --store store --out site/public/data

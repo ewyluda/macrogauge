@@ -1,8 +1,9 @@
 """EIA connector — v2 seriesid compatibility route.
 
-https://api.eia.gov/v2/seriesid/<SERIES_ID>?api_key=... returns
-response.data[] rows of {period, value}. Monthly periods are 'YYYY-MM',
-weekly/daily are 'YYYY-MM-DD'.
+https://api.eia.gov/v2/seriesid/<SERIES_ID>?api_key=... returns response.data[]
+rows keyed by period plus a dataset-specific value column — most datasets call
+it 'value', but electricity retail-sales (ELEC.PRICE.*) calls it 'price'.
+Monthly periods are 'YYYY-MM', weekly/daily are 'YYYY-MM-DD'.
 """
 import requests
 
@@ -22,11 +23,12 @@ def fetch(series_ids: list[str], api_key: str, vintage_date: str | None = None,
         resp = http_get(EIA_URL.format(sid=sid), params={"api_key": api_key}, timeout=60)
         resp.raise_for_status()
         for row in resp.json()["response"]["data"]:
-            if row["value"] is None:
+            val = row.get("value", row.get("price"))
+            if val is None:
                 continue
             period = str(row["period"])
             obs_date = period if len(period) == 10 else month_first(period)
             out.append(Observation(series_code=sid, obs_date=obs_date,
-                                   value=float(row["value"]), vintage_date=vintage,
+                                   value=float(val), vintage_date=vintage,
                                    source="EIA", route="API"))
     return out

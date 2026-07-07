@@ -18,8 +18,9 @@ class FakeResponse:
 
 
 def fake_get(url, params=None, timeout=None):
+    assert "batch-quote" in url
     assert params["apikey"] == "fmp-key"
-    assert params["symbol"] == "GCUSD,CLUSD"
+    assert params["symbols"] == "GCUSD,CLUSD"
     return FakeResponse(json.loads(FIXTURE.read_text()))
 
 

@@ -35,7 +35,7 @@ def test_month_first():
 def test_fetch_parses_and_skips_annual():
     obs = bls.fetch(["APU0000708111", "APU0000709112"], "bls-key",
                     vintage_date="2026-07-07", http_post=fake_post)
-    assert len(obs) == 3  # M13 skipped
+    assert len(obs) == 3  # M13 annual + M10 "-" (lapse in appropriations) skipped
     eggs = [o for o in obs if o.series_code == "APU0000708111"]
     assert [(o.obs_date, o.value) for o in eggs] == [("2026-05-01", 4.126),
                                                      ("2026-04-01", 4.055)]
