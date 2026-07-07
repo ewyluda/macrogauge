@@ -60,3 +60,17 @@ def test_provider_ids_remapped_to_internal_codes(tmp_path, monkeypatch):
     assert results[0].ok
     conn = vintage.load(tmp_path)
     assert vintage.latest(conn, "nice_code") == [("2026-07-01", 1.0)]
+
+
+def test_error_messages_redact_api_keys(tmp_path, monkeypatch):
+    def leaky_fetcher(subset, key, http):
+        raise RuntimeError(
+            "500 for url: https://api.eia.gov/v2/seriesid/X?api_key=SECRET123&x=1 "
+            "and https://api.stlouisfed.org/obs?apikey=TOPSECRET&series_id=Y "
+            "and registrationkey=ALSOSECRET end")
+    monkeypatch.setattr(collect, "FETCHERS", {"A": leaky_fetcher})
+    results = collect.collect_all({"A": src("A")}, [ser("a1", "A")], {}, tmp_path)
+    err = results[0].error
+    assert "SECRET123" not in err and "TOPSECRET" not in err and "ALSOSECRET" not in err
+    assert "api_key=REDACTED" in err and "apikey=REDACTED" in err and "registrationkey=REDACTED" in err
+    assert "RuntimeError" in err

@@ -16,6 +16,28 @@ def test_load_real_registry():
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
     assert len(fred) == 16
+    # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
+    # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
+    # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
+    fred_ids = {s.code: s.source_id for s in fred}
+    assert fred_ids == {
+        "CPIAUCNS": "CPIAUCNS",
+        "CPILFENS": "CPILFENS",
+        "CUUR0000SAF11": "CUUR0000SAF11",
+        "CUUR0000SEFV": "CUUR0000SEFV",
+        "CUUR0000SAM": "CPIMEDNS",
+        "CUUR0000SAA": "CPIAPPNS",
+        "CUUR0000SAR": "CPIRECNS",
+        "CUUR0000SAE": "CPIEDUNS",
+        "CUUR0000SAG": "CPIOGSNS",
+        "CUUR0000SETA01": "CUUR0000SETA01",
+        "CUUR0000SETA02": "CUUR0000SETA02",
+        "CUUR0000SEHA": "CUUR0000SEHA",
+        "CUUR0000SEHC": "CUUR0000SEHC",
+        "CUUR0000SEHF01": "CUUR0000SEHF01",
+        "CUUR0000SEHF02": "CUUR0000SEHF02",
+        "CUUR0000SETB01": "CUUR0000SETB01",
+    }
 
 
 def test_duplicate_code_rejected(tmp_path):

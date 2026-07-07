@@ -4,6 +4,7 @@ A broken source records an error in its SourceResult (surfaced via
 sources_status.json and QA) and lowers freshness — it never blocks the run.
 The store's carry-forward semantics make a missed day harmless.
 """
+import re
 from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
@@ -11,6 +12,13 @@ from pathlib import Path
 from pipeline.connectors import bls, eia, fmp, fred, pmms, treasury, zillow
 from pipeline.registry import Series, Source
 from pipeline.store import vintage
+
+_KEY_PARAMS = re.compile(r"(api_key|apikey|registrationkey)=[^&\s\"']+", re.IGNORECASE)
+
+
+def _sanitize(msg: str) -> str:
+    """Redact API-key query params — error strings are published in sources_status.json."""
+    return _KEY_PARAMS.sub(r"\1=REDACTED", msg)
 
 
 @dataclass(frozen=True)
@@ -85,5 +93,6 @@ def collect_all(sources: dict[str, Source], series: list[Series],
             results.append(SourceResult(name, True, len(obs), new, None, _now()))
         except Exception as e:  # isolation boundary: any connector error is contained
             results.append(SourceResult(name, False, 0, 0,
-                                        f"{type(e).__name__}: {e}", _now()))
+                                        f"{type(e).__name__}: {_sanitize(str(e))}",
+                                        _now()))
     return results
