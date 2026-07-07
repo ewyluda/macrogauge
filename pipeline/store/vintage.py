@@ -4,6 +4,7 @@ Re-published values append a new vintage row — never overwrite. History
 can't be silently rewritten; git is the audit trail.
 """
 import json
+import sqlite3
 from dataclasses import asdict
 from pathlib import Path
 
@@ -45,3 +46,35 @@ def append(observations: list[Observation], store_dir: Path) -> int:
         latest[(o.series_code, o.obs_date)] = o.value
         written += 1
     return written
+
+
+def load(store_dir: Path) -> sqlite3.Connection:
+    """Load all partitions into an in-memory SQLite database."""
+    conn = sqlite3.connect(":memory:")
+    conn.execute("""CREATE TABLE observations (
+        series_code TEXT, obs_date TEXT, value REAL,
+        vintage_date TEXT, source TEXT, route TEXT)""")
+    conn.execute("CREATE INDEX idx_series ON observations (series_code, obs_date)")
+    for part in _partitions(store_dir):
+        rows = [json.loads(line) for line in part.read_text().splitlines()]
+        conn.executemany(
+            "INSERT INTO observations VALUES "
+            "(:series_code, :obs_date, :value, :vintage_date, :source, :route)", rows)
+    conn.commit()
+    return conn
+
+
+def latest(conn: sqlite3.Connection, series_code: str) -> list[tuple[str, float]]:
+    """(obs_date, value) ascending; latest vintage wins per obs_date."""
+    return conn.execute("""
+        SELECT obs_date, value FROM (
+            SELECT obs_date, value, ROW_NUMBER() OVER (
+                PARTITION BY obs_date ORDER BY vintage_date DESC, rowid DESC) rn
+            FROM observations WHERE series_code = ?)
+        WHERE rn = 1 ORDER BY obs_date""", (series_code,)).fetchall()
+
+
+def max_vintage(conn: sqlite3.Connection, series_code: str) -> str:
+    row = conn.execute("SELECT MAX(vintage_date) FROM observations WHERE series_code = ?",
+                       (series_code,)).fetchone()
+    return row[0]

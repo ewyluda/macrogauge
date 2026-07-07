@@ -34,3 +34,13 @@ def test_append_keeps_revisions(tmp_path):
     n = vintage.append([obs(value=321.0, vintage="2026-08-02")], tmp_path)
     assert n == 1
     assert (tmp_path / "obs" / "2026-08.jsonl").exists()
+
+
+def test_load_and_latest_vintage_wins(tmp_path):
+    vintage.append([obs(date="2026-04-01", value=319.0),
+                    obs(date="2026-05-01", value=320.5)], tmp_path)
+    vintage.append([obs(date="2026-04-01", value=319.2, vintage="2026-08-02")], tmp_path)
+    conn = vintage.load(tmp_path)
+    assert vintage.latest(conn, "CPIAUCNS") == [("2026-04-01", 319.2),
+                                                ("2026-05-01", 320.5)]
+    assert vintage.max_vintage(conn, "CPIAUCNS") == "2026-08-02"
