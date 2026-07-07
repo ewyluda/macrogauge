@@ -16,18 +16,26 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Gate — only the cron matching current ET offset proceeds
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+      - name: Gate — scheduled runs publish once per day, 8:40-10:59 ET
         id: gate
         run: |
-          if [ "${{ github.event_name }}" = "schedule" ] && \
-             [ "$(TZ=America/New_York date +%H%M)" != "0840" ] && \
-             [ "$(TZ=America/New_York date +%H)" != "08" ]; then
-            echo "run=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "run=true" >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"; exit 0
           fi
-      - uses: actions/checkout@v4
-        if: steps.gate.outputs.run == 'true'
+          H=$(TZ=America/New_York date +%H)
+          TODAY=$(TZ=America/New_York date +%Y-%m-%d)
+          if [ "$H" != "08" ] && [ "$H" != "09" ] && [ "$H" != "10" ]; then
+            echo "wrong ET window (hour $H) — this is the other DST cron or a big slip"
+            echo "run=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          if git log --oneline --grep "^data: daily publish $TODAY" | grep -q .; then
+            echo "already published today"
+            echo "run=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          echo "run=true" >> "$GITHUB_OUTPUT"
       - uses: actions/setup-python@v5
         if: steps.gate.outputs.run == 'true'
         with:
@@ -47,8 +55,11 @@ jobs:
           # match a GitHub account — use the owner's noreply address.
           git config user.email "35318463+ewyluda@users.noreply.github.com"
           git add store site/public/data
+          # published_at advances every run, so a successful run always commits —
+          # the daily commit is the loop's heartbeat. The guard is only a safety
+          # net for a pipeline step that wrote nothing.
           if git diff --cached --quiet; then
-            echo "no data changes"
+            echo "nothing staged — pipeline wrote no artifacts?"
           else
             git commit -m "data: daily publish $(TZ=America/New_York date '+%Y-%m-%d %H:%M ET')"
             git push

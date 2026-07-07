@@ -2,9 +2,9 @@
 
 **Date:** 2026-07-07
 **Status:** Approved design, pending implementation plans (one per phase)
-**Reference:** [`dashboards/nowflation-site-teardown.md`](../../../dashboards/nowflation-site-teardown.md)
+**Reference:** dashboards/nowflation-site-teardown.md (in the notebook repo)
 (full teardown of nowflation.com, studied 2026-07-06) + full-page screenshots in
-[`dashboards/nowflation-screenshots/`](../../../dashboards/nowflation-screenshots/).
+`dashboards/nowflation-screenshots/` (in the notebook repo).
 
 ## 1. Goal
 
@@ -75,9 +75,10 @@ dashboard-scaffold pattern, scaled up.)
 - **Steps:** collect all connectors (failures isolated) → append vintage store → run engine →
   write `site/public/data/*.json` → validate against `schemas/` → run QA self-test → build Next
   export → deploy to Vercel → commit store partitions + published JSONs back to the repo.
-  (No `[skip ci]` on data commits — Vercel skips deploys for it, and there is no Actions loop
-  to guard: the daily workflow has no `push` trigger, and CI re-validating data commits is
-  desirable.)
+  (No `[skip ci]` on data commits — Vercel skips deploys for `[skip ci]` commits, which would
+  kill the deploy. Bot pushes made with `GITHUB_TOKEN` don't trigger Actions `push` workflows
+  anyway, so `ci.yml` never runs on data commits; validation happens pre-commit, in the
+  pipeline.)
 - **A failed connector never blocks publish.** It carries the prior value forward, lowers the
   coverage score, and surfaces in `sources_status.json` + a failing QA check.
 - **Secrets:** FRED, BLS, EIA, FMP API keys as Actions secrets (all free/already held).
@@ -309,7 +310,7 @@ Each phase gets its own implementation plan (superpowers:writing-plans) when it 
 
 ## Sources
 
-- [`dashboards/nowflation-site-teardown.md`](../../../dashboards/nowflation-site-teardown.md) —
+- dashboards/nowflation-site-teardown.md (in the notebook repo) —
   the primary reference; all formulas, weights, palettes, and file schemas trace to it (studied
   2026-07-06 from nowflation.com, credit: Steven Fiorillo / Fiorillo Media).
 - Brainstorming session decisions, 2026-07-07 (this doc, §1).

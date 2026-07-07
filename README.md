@@ -16,5 +16,6 @@ Local run: `FRED_API_KEY=... python -m pipeline.run_daily --store store --out si
 ## Status
 
 - Production: https://macrogauge-cloudten.vercel.app
-- Phase 0 exit: daily workflow green on schedule 3 consecutive weekdays (check
-  `gh run list --workflow daily` after three trading days).
+- Phase 0 exit: a `data: daily publish` commit lands on 3 consecutive weekdays
+  (`git log --oneline --grep "data: daily publish"` — green runs alone don't count;
+  a gate-skipped run is also green).

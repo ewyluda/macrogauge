@@ -21,7 +21,7 @@
 - Design tokens (hard rule): bg `#0B0F14`, card `#11161C`, border `#1E2630`, text `#E6EDF3`, muted `#8B98A5`; accents sky `#38BDF8` (ours), amber `#F59E0B` (official), red `#F87171`, emerald `#34D399`, violet `#A78BFA`; radius 10px; system font; uppercase 11px micro-labels; tabular numerals. Semantic mapping: blue = ours, amber = official.
 - All dates in data are `YYYY-MM-DD` strings; scheduling decisions use ET (`America/New_York`).
 - Commit messages: conventional prefixes (`feat:`, `fix:`, `chore:`, `data:`, `ci:`, `test:`, `docs:`).
-- **Deviation from spec §2/§11, locked here:** data commits do NOT use `[skip ci]` — Vercel skips deployments for `[skip ci]` commits, which would kill the deploy. There is no Actions loop to guard against because `daily.yml` has no `push` trigger; `ci.yml` running on data commits is harmless (it re-validates).
+- **Deviation from spec §2/§11, locked here:** data commits do NOT use `[skip ci]` — Vercel skips deployments for `[skip ci]` commits, which would kill the deploy. There is no Actions loop to guard against: `daily.yml` has no `push` trigger, and bot pushes made with `GITHUB_TOKEN` don't trigger `push` workflows at all (GitHub anti-recursion) — so `ci.yml` does NOT run on data commits. Data is schema-validated by `run_daily` before commit; the CI schema guard re-validates on the next human push.
 
 ---
 
@@ -1316,7 +1316,7 @@ Expected: both jobs green. (The schema guard is `tests/test_published_data.py`, 
 
 **Interfaces:**
 - Consumes: `python -m pipeline.run_daily` CLI (Task 8); repo secret `FRED_API_KEY`.
-- Produces: scheduled runs at 8:40 AM ET weekdays (dual UTC crons + in-job ET gate) that run the pipeline and commit refreshed `store/` + `site/public/data/` to `main`. The push triggers Vercel's deploy (Task 12) and `ci.yml` (harmless re-validation). No `[skip ci]` — see Global Constraints.
+- Produces: scheduled runs at 8:40 AM ET weekdays (dual UTC crons + in-job ET gate) that run the pipeline and commit refreshed `store/` + `site/public/data/` to `main`. The push triggers Vercel's deploy (Task 12); bot pushes made with `GITHUB_TOKEN` don't trigger Actions `push` workflows, so `ci.yml` does not run on data commits. No `[skip ci]` — see Global Constraints.
 
 - [ ] **Step 1: Set the repo secret** (user action if key not in shell env):
 
@@ -1392,7 +1392,7 @@ git push
 gh workflow run daily
 sleep 20 && gh run watch --exit-status
 ```
-Expected: run green. If official data hasn't changed since the seed run, the log says "no data changes" — that's correct behavior.
+Expected: run green. Every successful run commits a heartbeat (`published_at` advances); "nothing staged" appears only if the pipeline wrote no artifacts.
 
 - [ ] **Step 4: Verify a data commit lands when data changes**
 
