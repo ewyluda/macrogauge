@@ -35,4 +35,5 @@ def test_fetch_normalizes_monthly_and_keeps_weekly():
                                                         ("2026-04-01", 17.21)]
     assert [(o.obs_date, o.value) for o in weekly] == [("2026-06-29", 3.412),
                                                        ("2026-06-22", 3.388)]
+    assert len(obs) == 4  # the null 2026-03 monthly row is skipped
     assert obs[0].source == "EIA" and obs[0].route == "API"

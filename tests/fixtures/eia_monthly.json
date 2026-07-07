@@ -1,9 +1,10 @@
 {
   "response": {
-    "total": 2,
+    "total": 3,
     "data": [
       {"period": "2026-05", "value": 17.45},
-      {"period": "2026-04", "value": 17.21}
+      {"period": "2026-04", "value": 17.21},
+      {"period": "2026-03", "value": null}
     ]
   }
 }
