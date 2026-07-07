@@ -20,7 +20,7 @@
 - Vintage store is append-only JSONL partitioned by vintage month (`store/obs/YYYY-MM.jsonl`); re-published values append a new vintage row, never overwrite.
 - Design tokens (hard rule): bg `#0B0F14`, card `#11161C`, border `#1E2630`, text `#E6EDF3`, muted `#8B98A5`; accents sky `#38BDF8` (ours), amber `#F59E0B` (official), red `#F87171`, emerald `#34D399`, violet `#A78BFA`; radius 10px; system font; uppercase 11px micro-labels; tabular numerals. Semantic mapping: blue = ours, amber = official.
 - All dates in data are `YYYY-MM-DD` strings; scheduling decisions use ET (`America/New_York`).
-- Commit messages: conventional prefixes (`feat:`, `data:`, `ci:`, `test:`, `docs:`).
+- Commit messages: conventional prefixes (`feat:`, `fix:`, `chore:`, `data:`, `ci:`, `test:`, `docs:`).
 - **Deviation from spec §2/§11, locked here:** data commits do NOT use `[skip ci]` — Vercel skips deployments for `[skip ci]` commits, which would kill the deploy. There is no Actions loop to guard against because `daily.yml` has no `push` trigger; `ci.yml` running on data commits is harmless (it re-validates).
 
 ---
