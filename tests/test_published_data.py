@@ -10,7 +10,8 @@ DATA = ROOT / "site" / "public" / "data"
 SCHEMAS = ROOT / "schemas"
 
 CONTRACT = [("pulse_lite.json", "pulse_lite.schema.json"),
-            ("qa.json", "qa.schema.json")]
+            ("qa.json", "qa.schema.json"),
+            ("sources_status.json", "sources_status.schema.json")]
 
 
 @pytest.mark.parametrize("data_file,schema_file", CONTRACT)

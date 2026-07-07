@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "sources_status",
+  "type": "object",
+  "required": ["generated_at", "sources"],
+  "additionalProperties": false,
+  "properties": {
+    "generated_at": {"type": "string"},
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "route", "cadence", "ok", "fetched", "new_rows",
+                     "error", "finished_at", "series_count", "latest_obs"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string"},
+          "route": {"type": "string"},
+          "cadence": {"type": "string"},
+          "ok": {"type": "boolean"},
+          "fetched": {"type": "integer"},
+          "new_rows": {"type": "integer"},
+          "error": {"type": ["string", "null"]},
+          "finished_at": {"type": "string"},
+          "series_count": {"type": "integer"},
+          "latest_obs": {"type": ["string", "null"]}
+        }
+      }
+    }
+  }
+}
