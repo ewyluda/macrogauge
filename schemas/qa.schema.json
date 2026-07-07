@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "qa",
+  "type": "object",
+  "required": ["generated_at", "passed", "total", "checks"],
+  "additionalProperties": false,
+  "properties": {
+    "generated_at": {"type": "string"},
+    "passed": {"type": "integer"},
+    "total": {"type": "integer"},
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "pass", "critical", "detail"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string"},
+          "pass": {"type": "boolean"},
+          "critical": {"type": "boolean"},
+          "detail": {"type": "string"}
+        }
+      }
+    }
+  }
+}
