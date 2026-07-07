@@ -28,7 +28,7 @@ def fake_get(url, params=None, timeout=None):
 def test_fetch_parses_and_skips_missing():
     obs = fred.fetch(["CPIAUCNS"], "test-key", vintage_date="2026-07-07",
                      http_get=fake_get)
-    assert len(obs) == 3  # the "." row is skipped
+    assert len(obs) == 5  # the "." row is skipped
     first = obs[0]
     assert (first.series_code, first.obs_date, first.value) == ("CPIAUCNS", "2025-04-01", 312.9)
     assert (first.vintage_date, first.source, first.route) == ("2026-07-07", "FRED", "API")

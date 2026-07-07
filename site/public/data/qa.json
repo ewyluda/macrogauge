@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-07-07",
+  "passed": 2,
+  "total": 2,
+  "checks": [
+    {
+      "name": "headline_current",
+      "critical": true,
+      "pass": true,
+      "detail": "latest official month 2026-05-01 is 67d old (limit 75)"
+    },
+    {
+      "name": "yoy_finite",
+      "critical": true,
+      "pass": true,
+      "detail": "yoy=4.248674039164446 prev=3.8108449321217597"
+    }
+  ]
+}
