@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from pipeline.models import Observation
 from pipeline.store import vintage
 
@@ -44,3 +46,10 @@ def test_load_and_latest_vintage_wins(tmp_path):
     assert vintage.latest(conn, "CPIAUCNS") == [("2026-04-01", 319.2),
                                                 ("2026-05-01", 320.5)]
     assert vintage.max_vintage(conn, "CPIAUCNS") == "2026-08-02"
+
+
+def test_max_vintage_unknown_series_raises(tmp_path):
+    vintage.append([obs()], tmp_path)
+    conn = vintage.load(tmp_path)
+    with pytest.raises(ValueError):
+        vintage.max_vintage(conn, "NO_SUCH_SERIES")

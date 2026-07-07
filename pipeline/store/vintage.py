@@ -77,4 +77,6 @@ def latest(conn: sqlite3.Connection, series_code: str) -> list[tuple[str, float]
 def max_vintage(conn: sqlite3.Connection, series_code: str) -> str:
     row = conn.execute("SELECT MAX(vintage_date) FROM observations WHERE series_code = ?",
                        (series_code,)).fetchone()
+    if row[0] is None:
+        raise ValueError(f"no observations for {series_code}")
     return row[0]
