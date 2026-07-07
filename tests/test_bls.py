@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from pipeline.connectors import bls, util
+from pipeline.connectors.fred import today_et
 
 FIXTURE = Path(__file__).parent / "fixtures" / "bls_ap.json"
 
@@ -21,7 +22,7 @@ class FakeResponse:
 def fake_post(url, json=None, timeout=None):
     assert "api.bls.gov" in url
     assert json["seriesid"] == ["APU0000708111", "APU0000709112"]
-    assert json["startyear"] == "2017"
+    assert json["startyear"] == str(max(2017, int(today_et()[:4]) - 9))
     assert json.get("registrationkey") == "bls-key"
     import json as j
     return FakeResponse(j.loads(FIXTURE.read_text()))

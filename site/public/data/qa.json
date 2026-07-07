@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-07-07",
-  "passed": 3,
+  "passed": 4,
   "total": 4,
   "checks": [
     {
@@ -24,8 +24,8 @@
     {
       "name": "sources_fresh",
       "critical": false,
-      "pass": false,
-      "detail": "29/31 fresh; stale \u2014 eia_elec_res (97d > 95d), eia_ng_res (97d > 95d)"
+      "pass": true,
+      "detail": "31/31 fresh"
     }
   ]
 }

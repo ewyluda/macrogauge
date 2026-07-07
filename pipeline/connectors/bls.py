@@ -10,10 +10,11 @@ from pipeline.models import Observation
 BLS_URL = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
 
 
-def fetch(series_ids: list[str], api_key: str | None, start_year: str = "2017",
+def fetch(series_ids: list[str], api_key: str | None, start_year: str | None = None,
           vintage_date: str | None = None, http_post=None) -> list[Observation]:
     http_post = http_post or requests.post
     vintage = vintage_date or today_et()
+    start_year = start_year or str(max(2017, int(today_et()[:4]) - 9))
     payload = {"seriesid": series_ids, "startyear": start_year,
                "endyear": today_et()[:4]}
     if api_key:

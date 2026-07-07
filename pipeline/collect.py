@@ -16,9 +16,13 @@ from pipeline.store import vintage
 _KEY_PARAMS = re.compile(r"(api_key|apikey|registrationkey)=[^&\s\"']+", re.IGNORECASE)
 
 
-def _sanitize(msg: str) -> str:
-    """Redact API-key query params — error strings are published in sources_status.json."""
-    return _KEY_PARAMS.sub(r"\1=REDACTED", msg)
+def _sanitize(msg: str, secret_values=()) -> str:
+    """Redact API keys — error strings are published in sources_status.json."""
+    msg = _KEY_PARAMS.sub(r"\1=REDACTED", msg)
+    for v in secret_values:
+        if v:
+            msg = msg.replace(v, "REDACTED")
+    return msg
 
 
 @dataclass(frozen=True)
@@ -93,6 +97,6 @@ def collect_all(sources: dict[str, Source], series: list[Series],
             results.append(SourceResult(name, True, len(obs), new, None, _now()))
         except Exception as e:  # isolation boundary: any connector error is contained
             results.append(SourceResult(name, False, 0, 0,
-                                        f"{type(e).__name__}: {_sanitize(str(e))}",
+                                        f"{type(e).__name__}: {_sanitize(str(e), secrets.values())}",
                                         _now()))
     return results

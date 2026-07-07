@@ -74,3 +74,14 @@ def test_error_messages_redact_api_keys(tmp_path, monkeypatch):
     assert "SECRET123" not in err and "TOPSECRET" not in err and "ALSOSECRET" not in err
     assert "api_key=REDACTED" in err and "apikey=REDACTED" in err and "registrationkey=REDACTED" in err
     assert "RuntimeError" in err
+
+
+def test_error_messages_redact_secret_values(tmp_path, monkeypatch):
+    def leaky_fetcher(subset, key, http):
+        raise RuntimeError('BLS said: {"registrationkey": "VALSECRET99"} rejected')
+    monkeypatch.setattr(collect, "FETCHERS", {"A": leaky_fetcher})
+    sources = {"A": src("A", secret="A_KEY")}
+    results = collect.collect_all(sources, [ser("a1", "A")],
+                                  {"A_KEY": "VALSECRET99"}, tmp_path)
+    assert "VALSECRET99" not in results[0].error
+    assert "REDACTED" in results[0].error
