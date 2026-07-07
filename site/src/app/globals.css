@@ -9,6 +9,7 @@
   --accent-red: #F87171;
   --accent-emerald: #34D399;
   --accent-violet: #A78BFA;
+  --chip-bg: rgba(139, 152, 165, 0.08);
 }
 
 * {

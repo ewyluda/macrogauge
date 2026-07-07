@@ -5,7 +5,7 @@ export function DeltaChip({ value, prefix }: { value: number | null; prefix?: st
     <span
       style={{
         display: "inline-block",
-        background: "rgba(139, 152, 165, 0.08)",
+        background: "var(--chip-bg)",
         border: "1px solid var(--border)",
         borderRadius: 999,
         padding: "1px 8px",
