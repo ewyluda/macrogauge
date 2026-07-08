@@ -4,11 +4,14 @@ import qa from "../../public/data/qa.json";
 import status from "../../public/data/sources_status.json";
 import gaugeDaily from "../../public/data/gauge_daily.json";
 import compare from "../../public/data/compare.json";
+import gaptable from "../../public/data/gaptable.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DeltaChip } from "@/components/DeltaChip";
 import { StatusPill } from "@/components/StatusPill";
 import { Section } from "@/components/Section";
 import { HeroChart } from "@/components/HeroChart";
+import { GapTable } from "@/components/GapTable";
+import { GapDecomposition } from "@/components/GapDecomposition";
 import { fmtMonth, fmtPct, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
 
 const GROUP_TITLES: Record<string, string> = {
@@ -166,6 +169,44 @@ export default function Home() {
           print · {pulse.gauge.coverage_pct.toFixed(0)}% of basket weight rides
           live data
         </div>
+      </Section>
+
+      <Section title="Component gap decomposition — ours vs BLS">
+        <GapDecomposition
+          rows={gaptable.rows}
+          asOf={gaptable.as_of}
+          officialMonth={gaptable.official_month}
+          totalGapPp={gaptable.total_gap_pp}
+        />
+      </Section>
+
+      <Section title="Macrogauge vs official — gap table">
+        <GapTable
+          rows={[
+            {
+              index: "US CPI",
+              sub: "daily gauge",
+              oursYoy: pulse.gauge.yoy_pct,
+              oursAsOf: pulse.gauge.as_of,
+              officialYoy: pulse.official.yoy_pct,
+              officialMonth: pulse.official.month,
+            },
+            {
+              index: "CPI-Tracker",
+              sub: "official shelter dynamics",
+              oursYoy: pulse.tracker.yoy_pct,
+              oursAsOf: pulse.tracker.as_of,
+              officialYoy: pulse.official.yoy_pct,
+              officialMonth: pulse.official.month,
+            },
+          ]}
+          nextPrint={pulse.next_print}
+          cumulativePct={
+            gaugeDaily.variants.gauge.index[
+              gaugeDaily.variants.gauge.index.length - 1
+            ] - 100
+          }
+        />
       </Section>
 
       <Section title={`Official CPI components — YoY (${fmtMonth(cpi.month)} print)`}>
