@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "gauge_daily",
+  "type": "object",
+  "required": ["published_at", "rebase", "variants"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "rebase": {"type": "string"},
+    "variants": {
+      "type": "object",
+      "required": ["gauge", "tracker"],
+      "additionalProperties": false,
+      "properties": {
+        "gauge": {"$ref": "#/$defs/series"},
+        "tracker": {"$ref": "#/$defs/series"}
+      }
+    }
+  },
+  "$defs": {
+    "series": {
+      "type": "object",
+      "required": ["dates", "index", "yoy_pct"],
+      "additionalProperties": false,
+      "properties": {
+        "dates": {"type": "array",
+                  "items": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}},
+        "index": {"type": "array", "items": {"type": "number"}},
+        "yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}}
+      }
+    }
+  }
+}
