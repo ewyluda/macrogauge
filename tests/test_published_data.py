@@ -9,7 +9,10 @@ ROOT = Path(__file__).parent.parent
 DATA = ROOT / "site" / "public" / "data"
 SCHEMAS = ROOT / "schemas"
 
-CONTRACT = [("pulse_lite.json", "pulse_lite.schema.json"),
+CONTRACT = [("pulse.json", "pulse.schema.json"),
+            ("gauge_daily.json", "gauge_daily.schema.json"),
+            ("compare.json", "compare.schema.json"),
+            ("gaptable.json", "gaptable.schema.json"),
             ("qa.json", "qa.schema.json"),
             ("sources_status.json", "sources_status.schema.json"),
             ("official.json", "official.schema.json")]
@@ -21,3 +24,13 @@ def test_published_file_matches_schema(data_file, schema_file):
     if not path.exists():
         pytest.skip(f"{data_file} not published yet")
     validate.validate_file(path, SCHEMAS / schema_file)
+
+
+def test_pulse_gap_consistent():
+    import json
+    path = DATA / "pulse.json"
+    if not path.exists():
+        pytest.skip("pulse.json not published yet")
+    pulse = json.loads(path.read_text())
+    expected = pulse["gauge"]["yoy_pct"] - pulse["official"]["yoy_pct"]
+    assert abs(pulse["gap_pp"] - expected) <= 0.011  # rounding tolerance

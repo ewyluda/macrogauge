@@ -68,16 +68,38 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     rc = run_daily.main(["--store", str(store), "--out", str(out)],
                         http_get=fake_get, http_post=fake_post)
     assert rc == 0
-    pulse = json.loads((out / "pulse_lite.json").read_text())
-    assert pulse["official_cpi"]["month"] == "2026-04-01"
+    pulse = json.loads((out / "pulse.json").read_text())
+    assert pulse["official"]["month"] == "2026-04-01"
+    assert isinstance(pulse["gauge"]["yoy_pct"], float)
+    assert isinstance(pulse["gap_pp"], float)
+    for name in ("gauge_daily.json", "compare.json", "gaptable.json"):
+        assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 7
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
-    assert qa["total"] == 5
+    assert qa["total"] == 10  # 4 existing + engine_ok + 5 gauge checks
     official = json.loads((out / "official.json").read_text())
     assert len(official["components"]) == 14
     assert len(official["quotes"]) == 13
+
+
+def test_engine_failure_still_publishes_status_and_qa(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("engine boom")
+
+    monkeypatch.setattr(run_daily.gauge_engine, "run", boom)
+    store, out = tmp_path / "store", tmp_path / "out"
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0  # publication never blocks; failure surfaces in qa
+    assert (out / "sources_status.json").exists()
+    qa_data = json.loads((out / "qa.json").read_text())
+    eng = [c for c in qa_data["checks"] if c["name"] == "engine_ok"][0]
+    assert eng["pass"] is False and "engine boom" in eng["detail"]
+    assert not (out / "pulse.json").exists()
 
 
 def test_one_source_down_still_publishes(tmp_path, monkeypatch):

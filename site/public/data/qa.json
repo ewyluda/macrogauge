@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-07-08",
-  "passed": 4,
-  "total": 4,
+  "passed": 10,
+  "total": 10,
   "checks": [
     {
       "name": "headline_current",
@@ -16,6 +16,12 @@
       "detail": "yoy=4.248674039164446 prev=3.8108449321217597"
     },
     {
+      "name": "engine_ok",
+      "critical": true,
+      "pass": true,
+      "detail": "engine and writers completed"
+    },
+    {
       "name": "connectors_ok",
       "critical": false,
       "pass": true,
@@ -26,6 +32,36 @@
       "critical": false,
       "pass": true,
       "detail": "31/31 fresh"
+    },
+    {
+      "name": "gauge_current",
+      "critical": true,
+      "pass": true,
+      "detail": "gauge as-of 2026-07-06 is 2d old (limit 7)"
+    },
+    {
+      "name": "gauge_components_present",
+      "critical": true,
+      "pass": true,
+      "detail": "all components present at grid end"
+    },
+    {
+      "name": "basket_weights_sum",
+      "critical": true,
+      "pass": true,
+      "detail": "sum(weights) = 1.0"
+    },
+    {
+      "name": "gauge_coverage",
+      "critical": false,
+      "pass": true,
+      "detail": "gauge live coverage 40.5% (floor 35%)"
+    },
+    {
+      "name": "tracker_corr",
+      "critical": false,
+      "pass": true,
+      "detail": "tracker monthly-YoY corr vs official = 0.9805 (floor 0.95)"
     }
   ]
 }

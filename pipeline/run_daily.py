@@ -2,18 +2,31 @@
 
 Connector failures never block publication — they surface in
 sources_status.json and qa.json, and stale series carry forward.
+
+sources_status publishes FIRST (right after collect): a broken engine must
+never hide a broken source. The strict engine+writer block (cpi -> gauge ->
+pulse/gauge_daily/compare/gaptable/official) is wrapped in try/except so an
+engine failure still publishes status+qa (rc 0, failure visible on-site via
+engine_ok) — but a jsonschema.ValidationError re-raises and fails the run: a
+schema-invalid artifact must never deploy.
 """
 import argparse
+import math
 import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+import jsonschema
+
+from pipeline import basket as basket_mod
 from pipeline import collect, registry
 from pipeline.connectors import fred
+from pipeline.engine import gauge as gauge_engine
 from pipeline.engine import official
 from pipeline.publish import official as official_json
-from pipeline.publish import pulse_lite, qa, sources_status, validate
+from pipeline.publish import (compare, gaptable, gauge_daily, pulse, qa,
+                              sources_status, validate)
 from pipeline.store import vintage
 
 SCHEMAS = Path(__file__).parent.parent / "schemas"
@@ -40,27 +53,78 @@ def main(argv=None, http_get=None, http_post=None) -> int:
                  else f"FAILED — {r.error}"))
 
     conn = vintage.load(args.store)
-    cpi = official.latest_yoy(conn, "CPIAUCNS")
 
-    published_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    pulse_path = pulse_lite.write(cpi, args.out, published_at=published_at)
-    validate.validate_file(pulse_path, SCHEMAS / "pulse_lite.schema.json")
-    print(f"published: {pulse_path} (CPI YoY {round(cpi['yoy_pct'], 2)}%, month {cpi['month']})")
-
-    official_path = official_json.write(official_json.build(conn, series), args.out,
-                                        published_at=published_at)
-    validate.validate_file(official_path, SCHEMAS / "official.schema.json")
-    print(f"published: {official_path}")
-
+    # sources_status FIRST: a broken engine must never hide a broken source
     status = sources_status.build(results, sources, series, conn)
     status_path = sources_status.write(status, args.out)
     validate.validate_file(status_path, SCHEMAS / "sources_status.schema.json")
     print(f"published: {status_path}")
 
+    today = fred.today_et()
+    published_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    cpi = gauge_qa = None
+    engine_error = None
+    try:
+        cpi = official.latest_yoy(conn, "CPIAUCNS")
+        staleness = {s.code: s.max_staleness_days for s in series}
+        gauge_result = gauge_engine.run(conn, today=today, staleness=staleness)
+
+        pulse_path = pulse.write(pulse.build(gauge_result, cpi), args.out,
+                                 published_at=published_at)
+        validate.validate_file(pulse_path, SCHEMAS / "pulse.schema.json")
+        g = gauge_result["variants"]["gauge"]
+        print(f"published: {pulse_path} (gauge YoY "
+              f"{round(g['yoy'][g['as_of']], 2)}%, official "
+              f"{round(cpi['yoy_pct'], 2)}%, coverage {round(g['coverage_pct'])}%)")
+
+        gd_path = gauge_daily.write(gauge_daily.build(gauge_result), args.out,
+                                    published_at=published_at)
+        validate.validate_file(gd_path, SCHEMAS / "gauge_daily.schema.json")
+        print(f"published: {gd_path}")
+
+        compare_payload = compare.build(gauge_result, conn)
+        cmp_path = compare.write(compare_payload, args.out,
+                                 published_at=published_at)
+        validate.validate_file(cmp_path, SCHEMAS / "compare.schema.json")
+        print(f"published: {cmp_path} "
+              f"(tracker corr {compare_payload['validation']['tracker']['corr']})")
+
+        _, comps = basket_mod.load_basket()
+        gt_path = gaptable.write(
+            gaptable.build(gauge_result, conn, comps,
+                           official_month=cpi["month"]),
+            args.out, published_at=published_at)
+        validate.validate_file(gt_path, SCHEMAS / "gaptable.schema.json")
+        print(f"published: {gt_path}")
+
+        official_path = official_json.write(official_json.build(conn, series),
+                                            args.out,
+                                            published_at=published_at)
+        validate.validate_file(official_path, SCHEMAS / "official.schema.json")
+        print(f"published: {official_path}")
+
+        gauge_qa = {"as_of": g["as_of"], "coverage_pct": g["coverage_pct"],
+                    "null_components": [
+                        c for c, e in g["components"].items()
+                        if e["end_value"] is None
+                        or not math.isfinite(e["end_value"])],
+                    "gate_flags": g["gate_flags"],
+                    "weights_sum": sum(e["weight"]
+                                       for e in g["components"].values()),
+                    "tracker_corr":
+                        compare_payload["validation"]["tracker"]["corr"]}
+    except jsonschema.ValidationError:
+        raise  # contract violation must fail the run — never deploy invalid JSON
+    except Exception as e:  # engine isolation: failure surfaces in qa, never blocks
+        engine_error = f"{type(e).__name__}: {e}"
+        print(f"ENGINE/PUBLISH FAILED — {engine_error}")
+
     freshness = [{"code": s.code, "latest_obs": vintage.max_obs_date(conn, s.code),
                   "limit_days": s.max_staleness_days} for s in series]
-    qa_path = qa.write(qa.run_checks(cpi, today=fred.today_et(),
-                                     source_results=results, freshness=freshness),
+    qa_path = qa.write(qa.run_checks(cpi, today=today, source_results=results,
+                                     freshness=freshness, gauge=gauge_qa,
+                                     engine_error=engine_error),
                        args.out)
     validate.validate_file(qa_path, SCHEMAS / "qa.schema.json")
     print(f"qa: {qa_path}")
