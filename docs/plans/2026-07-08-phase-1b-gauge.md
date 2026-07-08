@@ -43,8 +43,9 @@ pipeline/publish/gauge_daily.py     # + schemas/gauge_daily.schema.json (Task 8)
 pipeline/publish/compare.py         # + schemas/compare.schema.json (Task 9)
 pipeline/publish/gaptable.py        # + schemas/gaptable.schema.json (Task 10)
 tests/test_backfill.py              # exit criterion: tracker corr ≥ 0.95 (Task 11)
-pipeline/publish/qa.py              # + 5 gauge checks (Task 12)
-pipeline/run_daily.py               # rewired; pulse_lite retired (Task 13)
+pipeline/publish/qa.py              # + 5 gauge checks, engine_ok, None-tolerant cpi (Task 12)
+pipeline/engine/official.py         # missing-month walk-back (Task 12b)
+pipeline/run_daily.py               # rewired + engine isolation; pulse_lite retired (Task 13)
 site/src/components/KpiCard.tsx     # optional chip prop (Task 14)
 site/src/app/page.tsx               # gauge KPI card (Task 14)
 DELETED: pipeline/publish/pulse_lite.py, schemas/pulse_lite.schema.json,
@@ -1696,6 +1697,30 @@ Expected: tracker corr ≥ 0.95 over a window ending 2026-05. Record the numbers
 
 If RED: debug per the IMPORTANT note above (check component YoY vs official component YoY one by one via `compare.build`'s arrays) before touching anything else.
 
+- [ ] **Step 2b: EIA-vs-CPI cross-check (1b entry task from the 1a.5 final review)**
+
+Print the per-component ours-vs-BLS YoY gaps over the real store and record them in the task report — the controller adjudicates plausibility before the task is accepted:
+
+```bash
+python3 - <<'EOF'
+from pathlib import Path
+from pipeline import basket
+from pipeline.engine import gauge, official
+from pipeline.store import vintage
+conn = vintage.load(Path("store"))
+r = gauge.run(conn, today="2099-01-01")
+g = r["variants"]["gauge"]
+_, comps = basket.load_basket()
+print(f"{'component':16s} {'ours':>8s} {'bls':>8s} {'gap':>8s}  mode")
+for c in comps:
+    e = g["components"][c.code]
+    bls = official.component_summary(conn, c.official_series)["yoy_pct"]
+    print(f"{c.code:16s} {e['yoy_pct']:8.2f} {bls:8.2f} "
+          f"{e['yoy_pct'] - bls:8.2f}  {e['mode']}")
+EOF
+```
+Expected: `bls_cf` rows show gap ≈ 0 (same data, timing only); live rows (shelter, fuel, electricity, nat_gas) show single-digit-pp gaps. nat_gas and electricity may diverge more (EIA residential $ vs CPI index methodology) — record the numbers verbatim; do not "fix" anything without controller sign-off.
+
 - [ ] **Step 3: Commit**
 
 ```bash
@@ -1713,7 +1738,9 @@ git commit -m "test: pin Phase-1 exit criterion — tracker corr >= 0.95 on comm
 
 **Interfaces:**
 - Consumes: existing `qa.run_checks(cpi, today, source_results, freshness)` signature and check-dict shape (`name`/`critical`/`pass`/`detail`); `schemas/qa.schema.json` already fits any check list (no schema change).
-- Produces: `qa.run_checks(..., gauge: dict | None = None)` — when `gauge` is provided, appends 5 checks: `gauge_current` (critical, as_of ≤ 7d old), `gauge_components_present` (critical; gate flags ride in the detail), `basket_weights_sum` (critical, |Σ−1| ≤ 1e-9), `gauge_coverage` (non-critical, ≥ 35), `tracker_corr` (non-critical, ≥ 0.95). The `gauge` dict keys: `as_of: str`, `coverage_pct: float`, `null_components: list[str]`, `gate_flags: list[str]`, `weights_sum: float`, `tracker_corr: float | None`.
+- Produces: `qa.run_checks(cpi: dict | None, today, source_results=None, freshness=None, gauge: dict | None = None, engine_error: str | None = None)`:
+  - When `gauge` is provided, appends 5 checks: `gauge_current` (critical, as_of ≤ 7d old), `gauge_components_present` (critical; gate flags ride in the detail), `basket_weights_sum` (critical, |Σ−1| ≤ 1e-9), `gauge_coverage` (non-critical, ≥ 35), `tracker_corr` (non-critical, ≥ 0.95). The `gauge` dict keys: `as_of: str`, `coverage_pct: float`, `null_components: list[str]`, `gate_flags: list[str]`, `weights_sum: float`, `tracker_corr: float | None`.
+  - **Engine isolation (1b entry task):** `engine_ok` check is ALWAYS emitted (critical; pass = `engine_error is None`; detail = the error string or `"engine and writers completed"`). `cpi=None` is tolerated: the two headline checks emit `pass=False` with detail `f"engine failed: {engine_error}"` instead of crashing. If existing tests assert `total`/`passed` counts, update them for the always-present `engine_ok` (+1).
 
 - [ ] **Step 1: Write the failing tests** (append to `tests/test_qa.py`)
 
@@ -1760,6 +1787,22 @@ def test_no_gauge_arg_keeps_existing_checks_only():
     r = qa.run_checks(CPI, today="2026-07-08")
     assert not any(c["name"].startswith(("gauge", "basket", "tracker"))
                    for c in r["checks"])
+
+
+def test_engine_ok_passes_when_no_error():
+    r = qa.run_checks(CPI, today="2026-07-08", gauge=GAUGE_OK)
+    eng = [c for c in r["checks"] if c["name"] == "engine_ok"][0]
+    assert eng["pass"] is True and eng["critical"] is True
+
+
+def test_engine_error_fails_engine_ok_and_headline_tolerates_none_cpi():
+    r = qa.run_checks(None, today="2026-07-08", engine_error="RuntimeError: boom")
+    eng = [c for c in r["checks"] if c["name"] == "engine_ok"][0]
+    assert eng["pass"] is False and "boom" in eng["detail"]
+    head = [c for c in r["checks"] if c["name"] == "headline_current"][0]
+    assert head["pass"] is False and "boom" in head["detail"]
+    fin = [c for c in r["checks"] if c["name"] == "yoy_finite"][0]
+    assert fin["pass"] is False
 ```
 
 Note: reuse the existing `CPI` constant already defined at the top of `tests/test_qa.py`; if the existing tests name it differently, match that name.
@@ -1771,7 +1814,38 @@ Expected: new tests FAIL with `TypeError: run_checks() got an unexpected keyword
 
 - [ ] **Step 3: Extend `pipeline/publish/qa.py`**
 
-Add to the signature: `gauge: dict | None = None`. Append inside `run_checks`, after the `freshness` block, before the return:
+New signature: `run_checks(cpi: dict | None, today: str, source_results: list | None = None, freshness: list[dict] | None = None, gauge: dict | None = None, engine_error: str | None = None) -> dict`.
+
+Replace the opening headline block (the `age = ...` line and the initial `checks = [...]`) with a None-tolerant version, and always append `engine_ok`:
+
+```python
+    if cpi is not None:
+        age = (date.fromisoformat(today) - date.fromisoformat(cpi["month"])).days
+        checks = [
+            {"name": "headline_current", "critical": True,
+             "pass": age <= STALE_DAYS,
+             "detail": f"latest official month {cpi['month']} is {age}d old "
+                       f"(limit {STALE_DAYS})"},
+            {"name": "yoy_finite", "critical": True,
+             "pass": math.isfinite(cpi["yoy_pct"])
+                     and math.isfinite(cpi["prev_yoy_pct"]),
+             "detail": f"yoy={cpi['yoy_pct']} prev={cpi['prev_yoy_pct']}"},
+        ]
+    else:
+        detail = (f"engine failed: {engine_error}" if engine_error
+                  else "no headline computed")
+        checks = [
+            {"name": "headline_current", "critical": True, "pass": False,
+             "detail": detail},
+            {"name": "yoy_finite", "critical": True, "pass": False,
+             "detail": detail},
+        ]
+    checks.append({"name": "engine_ok", "critical": True,
+                   "pass": engine_error is None,
+                   "detail": engine_error or "engine and writers completed"})
+```
+
+Then append inside `run_checks`, after the `freshness` block, before the return:
 
 ```python
     if gauge is not None:
@@ -1812,12 +1886,112 @@ Expected: all passed (old + 5 new)
 
 ```bash
 git add pipeline/publish/qa.py tests/test_qa.py
-git commit -m "feat: qa gauge checks — currency, components, weights, coverage, corr"
+git commit -m "feat: qa gauge checks + engine_ok — currency, components, weights, coverage, corr"
 ```
 
 ---
 
-### Task 13: run_daily rewire + pulse_lite retirement + publish
+### Task 12b: latest_yoy / component_summary missing-month walk-back
+
+**Context (1b entry task, HARD DEADLINE ~Nov 12 2026):** the October 2025 CPI print was never published (government shutdown) — `CPIAUCNS` and the CUUR component series have no `2025-10-01` row in FRED itself. When the 2026-10 print becomes the latest month (~Nov 12 2026), `latest_yoy` and `component_summary` will raise on the missing 2025-10 base and kill the daily run. Fix: select the latest month whose required reference months exist, instead of assuming the latest month qualifies.
+
+**Files:**
+- Modify: `pipeline/engine/official.py`
+- Test: `tests/test_official.py` (append)
+
+**Interfaces:**
+- Consumes: existing `latest_yoy` / `component_summary` signatures — unchanged.
+- Produces: same dict shapes, but `month` is now the LATEST month for which YoY (and MoM, for `component_summary`) is computable; `prev_yoy_pct` is the YoY of the next-older computable month. Raises `ValueError` only when no month qualifies. Existing callers (pulse, official.json writer) need no changes; existing tests keep passing (for gap-free data the behavior is identical).
+
+- [ ] **Step 1: Write the failing tests** (append to `tests/test_official.py`)
+
+```python
+def test_latest_yoy_skips_month_with_missing_base(tmp_path):
+    # 2025-10 print never published (shutdown): Oct-2026 YoY has no base ->
+    # headline falls back to the latest computable month (Sep 2026)
+    conn = seed(tmp_path, [
+        ("2025-08-01", 298.0), ("2025-09-01", 299.0), ("2025-11-01", 301.0),
+        ("2026-08-01", 305.0), ("2026-09-01", 306.0), ("2026-10-01", 307.0)])
+    r = official.latest_yoy(conn, "CPIAUCNS")
+    assert r["month"] == "2026-09-01"
+    assert r["yoy_pct"] == pytest.approx((306.0 / 299.0 - 1) * 100)
+    assert r["prev_yoy_pct"] == pytest.approx((305.0 / 298.0 - 1) * 100)
+
+
+def test_latest_yoy_no_computable_month_raises(tmp_path):
+    conn = seed(tmp_path, [("2026-09-01", 306.0), ("2026-10-01", 307.0)])
+    with pytest.raises(ValueError):
+        official.latest_yoy(conn, "CPIAUCNS")
+
+
+def test_component_summary_skips_month_with_missing_base(tmp_path):
+    conn = seed_code(tmp_path, "COMP9", [
+        ("2025-09-01", 200.0), ("2025-11-01", 202.0),
+        ("2026-08-01", 204.0), ("2026-09-01", 205.0), ("2026-10-01", 206.0)])
+    r = official.component_summary(conn, "COMP9")
+    assert r["month"] == "2026-09-01"
+    assert r["yoy_pct"] == pytest.approx((205.0 / 200.0 - 1) * 100)
+    assert r["mom_pct"] == pytest.approx((205.0 / 204.0 - 1) * 100)
+```
+
+- [ ] **Step 2: Run tests to verify they fail**
+
+Run: `pytest tests/test_official.py -v`
+Expected: the three new tests FAIL (`ValueError: missing base month ...` / wrong month); existing tests pass.
+
+- [ ] **Step 3: Rework the two functions in `pipeline/engine/official.py`**
+
+```python
+def latest_yoy(conn: sqlite3.Connection, series_code: str) -> dict:
+    """YoY of the latest computable month (a month can lack its YoY base:
+    the 2025-10 print was never published due to the government shutdown)."""
+    series = dict(vintage.latest(conn, series_code))
+    if not series:
+        raise ValueError(f"no observations for {series_code}")
+
+    def yoy(m: str) -> float:
+        return (series[m] / series[_months_back(m, 12)] - 1) * 100
+
+    computable = [m for m in sorted(series, reverse=True)
+                  if _months_back(m, 12) in series]
+    if len(computable) < 2:
+        raise ValueError(f"need two YoY-computable months for {series_code}")
+    return {"series_code": series_code, "month": computable[0],
+            "yoy_pct": yoy(computable[0]), "prev_yoy_pct": yoy(computable[1]),
+            "as_of": vintage.max_vintage(conn, series_code)}
+```
+
+```python
+def component_summary(conn: sqlite3.Connection, series_code: str) -> dict:
+    """YoY + MoM for the latest month where both references exist (unrounded)."""
+    series = dict(vintage.latest(conn, series_code))
+    if not series:
+        raise ValueError(f"no observations for {series_code}")
+    candidates = [m for m in sorted(series, reverse=True)
+                  if _months_back(m, 12) in series and _months_back(m, 1) in series]
+    if not candidates:
+        raise ValueError(f"no YoY+MoM-computable month for {series_code}")
+    month = candidates[0]
+    return {"code": series_code, "month": month,
+            "yoy_pct": (series[month] / series[_months_back(month, 12)] - 1) * 100,
+            "mom_pct": (series[month] / series[_months_back(month, 1)] - 1) * 100}
+```
+
+- [ ] **Step 4: Run the full suite (existing behavior must be unchanged for gap-free data)**
+
+Run: `pytest tests/test_official.py tests/test_official_writer.py tests/test_run_daily.py -v && pytest -q`
+Expected: all passing.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add pipeline/engine/official.py tests/test_official.py
+git commit -m "fix: headline/component summaries skip months lacking YoY base (2025-10 shutdown hole)"
+```
+
+---
+
+### Task 13: run_daily rewire + engine isolation + pulse_lite retirement + publish
 
 **Files:**
 - Modify: `pipeline/run_daily.py`
@@ -1828,8 +2002,8 @@ git commit -m "feat: qa gauge checks — currency, components, weights, coverage
 - Create (by running the pipeline): `site/public/data/{pulse,gauge_daily,compare,gaptable}.json`
 
 **Interfaces:**
-- Consumes: everything from Tasks 1–12.
-- Produces: `run_daily` publishing seven files (official, pulse, gauge_daily, compare, gaptable, sources_status, qa), each schema-validated before publish. `pulse_lite` gone.
+- Consumes: everything from Tasks 1–12b.
+- Produces: `run_daily` publishing seven files, each schema-validated before publish; `pulse_lite` gone. **Publish order (1b entry task — isolation + reorder):** `sources_status` FIRST (right after collect), then the strict engine+writer block (cpi → gauge → pulse/gauge_daily/compare/gaptable/official) wrapped in try/except, then `qa` LAST with `engine_error`. An engine failure still publishes status+qa (rc 0, failure visible on-site via `engine_ok`); a `jsonschema.ValidationError` re-raises and FAILS the run — a schema-invalid artifact must never deploy.
 
 - [ ] **Step 1: Update the tests first** (`tests/test_run_daily.py` and `tests/test_published_data.py`)
 
@@ -1846,13 +2020,34 @@ In `tests/test_run_daily.py::test_end_to_end_all_sources`, replace the `pulse_li
     assert len(status["sources"]) == 7
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
-    assert qa["total"] == 9  # 4 existing + 5 gauge checks
+    assert qa["total"] == 10  # 4 existing + engine_ok + 5 gauge checks
     official = json.loads((out / "official.json").read_text())
     assert len(official["components"]) == 14
     assert len(official["quotes"]) == 13
 ```
 
 (Do not assert `qa["passed"]` — with short fixture history, `tracker_corr` legitimately fails in this test.)
+
+Add the engine-isolation test (1b entry task):
+
+```python
+def test_engine_failure_still_publishes_status_and_qa(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("engine boom")
+
+    monkeypatch.setattr(run_daily.gauge_engine, "run", boom)
+    store, out = tmp_path / "store", tmp_path / "out"
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0  # publication never blocks; failure surfaces in qa
+    assert (out / "sources_status.json").exists()
+    qa_data = json.loads((out / "qa.json").read_text())
+    eng = [c for c in qa_data["checks"] if c["name"] == "engine_ok"][0]
+    assert eng["pass"] is False and "engine boom" in eng["detail"]
+    assert not (out / "pulse.json").exists()
+```
 
 In `tests/test_published_data.py`, replace the CONTRACT list and add the cross-file sanity test:
 
@@ -1893,6 +2088,8 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+import jsonschema
+
 from pipeline import basket as basket_mod
 from pipeline import collect, registry
 from pipeline.connectors import fred
@@ -1904,67 +2101,80 @@ from pipeline.publish import (compare, gaptable, gauge_daily, pulse, qa,
 from pipeline.store import vintage
 ```
 
-and, after the existing `conn = vintage.load(args.store)` line:
+and replace everything after the existing `conn = vintage.load(args.store)` line with:
 
 ```python
-    cpi = official.latest_yoy(conn, "CPIAUCNS")
-    today = fred.today_et()
-    staleness = {s.code: s.max_staleness_days for s in series}
-    gauge_result = gauge_engine.run(conn, today=today, staleness=staleness)
-
-    published_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-
-    pulse_path = pulse.write(pulse.build(gauge_result, cpi), args.out,
-                             published_at=published_at)
-    validate.validate_file(pulse_path, SCHEMAS / "pulse.schema.json")
-    g = gauge_result["variants"]["gauge"]
-    print(f"published: {pulse_path} (gauge YoY "
-          f"{round(g['yoy'][g['as_of']], 2)}%, official "
-          f"{round(cpi['yoy_pct'], 2)}%, coverage {round(g['coverage_pct'])}%)")
-
-    gd_path = gauge_daily.write(gauge_daily.build(gauge_result), args.out,
-                                published_at=published_at)
-    validate.validate_file(gd_path, SCHEMAS / "gauge_daily.schema.json")
-    print(f"published: {gd_path}")
-
-    compare_payload = compare.build(gauge_result, conn)
-    cmp_path = compare.write(compare_payload, args.out,
-                             published_at=published_at)
-    validate.validate_file(cmp_path, SCHEMAS / "compare.schema.json")
-    print(f"published: {cmp_path} "
-          f"(tracker corr {compare_payload['validation']['tracker']['corr']})")
-
-    _, comps = basket_mod.load_basket()
-    gt_path = gaptable.write(
-        gaptable.build(gauge_result, conn, comps, official_month=cpi["month"]),
-        args.out, published_at=published_at)
-    validate.validate_file(gt_path, SCHEMAS / "gaptable.schema.json")
-    print(f"published: {gt_path}")
-
-    official_path = official_json.write(official_json.build(conn, series),
-                                        args.out, published_at=published_at)
-    validate.validate_file(official_path, SCHEMAS / "official.schema.json")
-    print(f"published: {official_path}")
-
+    # sources_status FIRST: a broken engine must never hide a broken source
     status = sources_status.build(results, sources, series, conn)
     status_path = sources_status.write(status, args.out)
     validate.validate_file(status_path, SCHEMAS / "sources_status.schema.json")
     print(f"published: {status_path}")
 
+    today = fred.today_et()
+    published_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    cpi = gauge_qa = None
+    engine_error = None
+    try:
+        cpi = official.latest_yoy(conn, "CPIAUCNS")
+        staleness = {s.code: s.max_staleness_days for s in series}
+        gauge_result = gauge_engine.run(conn, today=today, staleness=staleness)
+
+        pulse_path = pulse.write(pulse.build(gauge_result, cpi), args.out,
+                                 published_at=published_at)
+        validate.validate_file(pulse_path, SCHEMAS / "pulse.schema.json")
+        g = gauge_result["variants"]["gauge"]
+        print(f"published: {pulse_path} (gauge YoY "
+              f"{round(g['yoy'][g['as_of']], 2)}%, official "
+              f"{round(cpi['yoy_pct'], 2)}%, coverage {round(g['coverage_pct'])}%)")
+
+        gd_path = gauge_daily.write(gauge_daily.build(gauge_result), args.out,
+                                    published_at=published_at)
+        validate.validate_file(gd_path, SCHEMAS / "gauge_daily.schema.json")
+        print(f"published: {gd_path}")
+
+        compare_payload = compare.build(gauge_result, conn)
+        cmp_path = compare.write(compare_payload, args.out,
+                                 published_at=published_at)
+        validate.validate_file(cmp_path, SCHEMAS / "compare.schema.json")
+        print(f"published: {cmp_path} "
+              f"(tracker corr {compare_payload['validation']['tracker']['corr']})")
+
+        _, comps = basket_mod.load_basket()
+        gt_path = gaptable.write(
+            gaptable.build(gauge_result, conn, comps,
+                           official_month=cpi["month"]),
+            args.out, published_at=published_at)
+        validate.validate_file(gt_path, SCHEMAS / "gaptable.schema.json")
+        print(f"published: {gt_path}")
+
+        official_path = official_json.write(official_json.build(conn, series),
+                                            args.out,
+                                            published_at=published_at)
+        validate.validate_file(official_path, SCHEMAS / "official.schema.json")
+        print(f"published: {official_path}")
+
+        gauge_qa = {"as_of": g["as_of"], "coverage_pct": g["coverage_pct"],
+                    "null_components": [
+                        c for c, e in g["components"].items()
+                        if e["end_value"] is None
+                        or not math.isfinite(e["end_value"])],
+                    "gate_flags": g["gate_flags"],
+                    "weights_sum": sum(e["weight"]
+                                       for e in g["components"].values()),
+                    "tracker_corr":
+                        compare_payload["validation"]["tracker"]["corr"]}
+    except jsonschema.ValidationError:
+        raise  # contract violation must fail the run — never deploy invalid JSON
+    except Exception as e:  # engine isolation: failure surfaces in qa, never blocks
+        engine_error = f"{type(e).__name__}: {e}"
+        print(f"ENGINE/PUBLISH FAILED — {engine_error}")
+
     freshness = [{"code": s.code, "latest_obs": vintage.max_obs_date(conn, s.code),
                   "limit_days": s.max_staleness_days} for s in series]
-    gauge_qa = {"as_of": g["as_of"], "coverage_pct": g["coverage_pct"],
-                "null_components": [
-                    c for c, e in g["components"].items()
-                    if e["end_value"] is None
-                    or not math.isfinite(e["end_value"])],
-                "gate_flags": g["gate_flags"],
-                "weights_sum": sum(e["weight"]
-                                   for e in g["components"].values()),
-                "tracker_corr":
-                    compare_payload["validation"]["tracker"]["corr"]}
     qa_path = qa.write(qa.run_checks(cpi, today=today, source_results=results,
-                                     freshness=freshness, gauge=gauge_qa),
+                                     freshness=freshness, gauge=gauge_qa,
+                                     engine_error=engine_error),
                        args.out)
     validate.validate_file(qa_path, SCHEMAS / "qa.schema.json")
     print(f"qa: {qa_path}")
