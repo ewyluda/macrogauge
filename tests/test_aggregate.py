@@ -40,3 +40,33 @@ def test_yoy_zero_base_value_is_computed_not_none():
 
 def test_headline_empty_components_returns_empty():
     assert aggregate.headline({}, {}) == {}
+
+
+def test_fill_yoy_forward_fills_and_preserves_none():
+    y = {"2026-01-01": 2.0, "2026-01-04": None, "2026-01-06": 3.0}
+    f = aggregate.fill_yoy(y, "2026-01-01", "2026-01-07")
+    assert f == {"2026-01-01": 2.0, "2026-01-02": 2.0, "2026-01-03": 2.0,
+                 "2026-01-04": None, "2026-01-05": None,
+                 "2026-01-06": 3.0, "2026-01-07": 3.0}
+
+
+def test_fill_yoy_no_backfill_before_first_obs():
+    f = aggregate.fill_yoy({"2026-01-03": 1.0}, "2026-01-01", "2026-01-04")
+    assert sorted(f) == ["2026-01-03", "2026-01-04"]
+
+
+def test_weighted_yoy_intersection_and_renormalization():
+    ys = {"a": {"2026-01-01": 2.0, "2026-01-02": 4.0},
+          "b": {"2026-01-02": 1.0}}
+    out = aggregate.weighted_yoy(ys, {"a": 0.6, "b": 0.2})
+    # only 2026-01-02 shared; weights renormalize to .75/.25
+    assert out == {"2026-01-02": pytest.approx(4.0 * 0.75 + 1.0 * 0.25)}
+
+
+def test_weighted_yoy_none_component_makes_date_none():
+    ys = {"a": {"2026-01-01": 2.0}, "b": {"2026-01-01": None}}
+    assert aggregate.weighted_yoy(ys, {"a": 0.5, "b": 0.5}) == {"2026-01-01": None}
+
+
+def test_weighted_yoy_empty_returns_empty():
+    assert aggregate.weighted_yoy({}, {}) == {}

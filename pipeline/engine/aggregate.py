@@ -38,3 +38,42 @@ def yoy(index: dict[str, float]) -> dict[str, float | None]:
         base = index.get((date.fromisoformat(d) - timedelta(days=365)).isoformat())
         out[d] = (v / base - 1) * 100 if base is not None else None
     return out
+
+
+def fill_yoy(yoy_at_obs: dict[str, float | None], start: str, end: str
+             ) -> dict[str, float | None]:
+    """Forward-fill a YoY series computed at a component's own obs dates.
+
+    Unlike fill_daily, None is a real value here (missing YoY base) and is
+    carried forward as None — a missing base must not resurrect the prior
+    observation's YoY."""
+    obs = sorted(yoy_at_obs)
+    out: dict[str, float | None] = {}
+    d = date.fromisoformat(max(start, obs[0]))
+    stop = date.fromisoformat(end)
+    idx, cur, seen = 0, None, False
+    while d <= stop:
+        ds = d.isoformat()
+        while idx < len(obs) and obs[idx] <= ds:
+            cur, seen = yoy_at_obs[obs[idx]], True
+            idx += 1
+        if seen:
+            out[ds] = cur
+        d += timedelta(days=1)
+    return out
+
+
+def weighted_yoy(component_yoys: dict[str, dict[str, float | None]],
+                 weights: dict[str, float]) -> dict[str, float | None]:
+    """Headline YoY = sum(w_i * yoy_i) on dates every component covers;
+    weights renormalize like headline(). None where any component is None."""
+    if not component_yoys:
+        return {}
+    dates = set.intersection(*(set(c) for c in component_yoys.values()))
+    total = sum(weights.values())
+    out: dict[str, float | None] = {}
+    for d in sorted(dates):
+        vals = [(weights[k], c[d]) for k, c in component_yoys.items()]
+        out[d] = (sum(w * v for w, v in vals) / total
+                  if all(v is not None for _, v in vals) else None)
+    return out
