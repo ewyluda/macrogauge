@@ -131,3 +131,39 @@ def test_bls_cf_component_yoy_equals_official_yoy(tmp_path):
     t = r["variants"]["tracker"]
     assert t["components"]["shelter"]["mode"] == "bls_cf"
     assert t["components"]["shelter"]["yoy_pct"] == pytest.approx(3.0)
+
+
+def test_headline_yoy_no_between_print_decay(tmp_path):
+    # The between-print sawtooth (spec 1c §3): sticky's last print is
+    # 2018-05; the live component extends the grid to 2018-06-20. The base
+    # year has a June jump (100 -> 110), so a grid-end LEVEL ratio compares
+    # May-2018 against June-2017 (-2.27% headline). The headline must
+    # instead carry sticky's own May-vs-May YoY (+5%) forward: +2.5%.
+    mini = {"base_month": "2018-01", "components": [
+        {"code": "sticky", "label": "Sticky", "weight": 0.5,
+         "official_series": "OFF_ST"},
+        {"code": "live", "label": "Live", "weight": 0.5,
+         "official_series": "OFF_LV", "live_blend": {"LIVE_LV": 1.0},
+         "live_variants": ["gauge"]}]}
+    rows = [
+        ("OFF_ST", "2017-01-01", 100.0), ("OFF_ST", "2017-05-01", 100.0),
+        ("OFF_ST", "2017-06-01", 110.0), ("OFF_ST", "2018-01-01", 110.0),
+        ("OFF_ST", "2018-05-01", 105.0),
+        ("OFF_LV", "2017-01-01", 100.0), ("OFF_LV", "2018-01-01", 100.0),
+        ("LIVE_LV", "2017-01-01", 50.0), ("LIVE_LV", "2018-01-01", 50.0),
+        ("LIVE_LV", "2018-06-20", 50.0)]
+    obs = [Observation(series_code=c, obs_date=d, value=v,
+                       vintage_date="2018-06-21", source="T", route="API")
+           for c, d, v in rows]
+    vintage.append(obs, tmp_path)
+    bp = tmp_path / "basket.json"
+    bp.write_text(json.dumps(mini))
+    conn = vintage.load(tmp_path)
+    r = gauge.run(conn, today="2018-06-22", basket_path=bp,
+                  staleness={"LIVE_LV": 75})
+    g = r["variants"]["gauge"]
+    assert g["as_of"] == "2018-06-20"
+    # sticky: rebased on 2018-01 anchor 110 -> 2017-05 = 90.909,
+    # 2018-05 = 95.4545 -> own YoY +5.0%, carried to grid end.
+    # live: flat -> 0%. headline = .5*5 + .5*0 = 2.5
+    assert g["yoy"]["2018-06-20"] == pytest.approx(2.5)

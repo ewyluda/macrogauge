@@ -60,6 +60,17 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
         daily = {k: aggregate.fill_daily(c, GRID_START, end)
                  for k, c in built.items()}
         index = aggregate.headline(daily, weights)
+        # Headline YoY (Option A, 1c spec §3): each component's YoY is honest
+        # only at its OWN observation dates (like-month vs like-month); the
+        # last computed YoY carries forward between obs. Aggregating filled
+        # LEVELS at the grid end compared a stale print against a
+        # different-month base a year ago -- the between-print sawtooth.
+        own_yoy = {}
+        for code, series_by_date in built.items():
+            filled_yoy = aggregate.yoy(daily[code])
+            at_obs = {d: filled_yoy[d] for d in series_by_date
+                      if d in filled_yoy}
+            own_yoy[code] = aggregate.fill_yoy(at_obs, GRID_START, end)
         coverage = sum(c.weight for c in comps
                        if modes[c.code] == "live"
                        and _fresh(conn, c.live_blend, staleness, today))
@@ -72,10 +83,10 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
             # different-month base a year ago.
             components[c.code] = {
                 "weight": c.weight, "mode": modes[c.code],
-                "yoy_pct": aggregate.yoy(daily[c.code]).get(own_end),
+                "yoy_pct": own_yoy[c.code].get(own_end),
                 "end_value": daily[c.code][end]}  # end_value stays at grid end; QA uses it
         out[variant] = {
-            "index": index, "yoy": aggregate.yoy(index), "as_of": end,
-            "coverage_pct": coverage * 100, "gate_flags": flags,
+            "index": index, "yoy": aggregate.weighted_yoy(own_yoy, weights),
+            "as_of": end, "coverage_pct": coverage * 100, "gate_flags": flags,
             "components": components}
     return {"base_month": base_month, "variants": out}
