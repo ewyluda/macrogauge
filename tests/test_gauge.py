@@ -120,3 +120,14 @@ def test_missing_live_source_falls_back_to_bls_cf(tmp_path):
     g = r["variants"]["gauge"]
     assert g["components"]["shelter"]["mode"] == "bls_cf"
     assert g["yoy"]["2019-01-01"] == pytest.approx(0.6 * 3.0 + 0.4 * 4.0)
+
+
+def test_bls_cf_component_yoy_equals_official_yoy(tmp_path):
+    # tracker's shelter is bls_cf (shelter's live_variants is ["gauge"] only)
+    # -- a carried-forward component's YoY must equal its official series'
+    # own YoY: OFF_SH 100 (2018-01-01) -> 103 (2019-01-01) = +3.0%
+    conn, bp = seed(tmp_path, ROWS)
+    r = gauge.run(conn, today="2019-01-05", basket_path=bp, staleness=STALENESS)
+    t = r["variants"]["tracker"]
+    assert t["components"]["shelter"]["mode"] == "bls_cf"
+    assert t["components"]["shelter"]["yoy_pct"] == pytest.approx(3.0)

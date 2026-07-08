@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+import jsonschema
 import pytest
 
 from pipeline import run_daily
@@ -123,3 +124,29 @@ def test_missing_fred_key_clean_exit(tmp_path, monkeypatch):
     monkeypatch.setenv("FRED_API_KEY", "")  # Actions passes unset secrets as ""
     with pytest.raises(SystemExit, match="FRED_API_KEY"):
         run_daily.main(["--store", str(tmp_path / "s"), "--out", str(tmp_path / "o")])
+
+
+def test_schema_invalid_payload_fails_the_run(tmp_path, monkeypatch):
+    # a writer producing contract-violating output must CRASH the run
+    # (nothing deployable), not be swallowed as an "engine failure"
+    set_keys(monkeypatch)
+    monkeypatch.setattr(run_daily.pulse, "build", lambda *a, **k: {"bogus": True})
+    store, out = tmp_path / "store", tmp_path / "out"
+    with pytest.raises(jsonschema.ValidationError):
+        run_daily.main(["--store", str(store), "--out", str(out)],
+                       http_get=fake_get, http_post=fake_post)
+    assert (out / "sources_status.json").exists()  # published before the strict block
+    assert not (out / "qa.json").exists()          # run died before qa
+
+
+def test_validation_error_inside_engine_block_not_swallowed(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+
+    def raise_validation(*args, **kwargs):
+        raise jsonschema.ValidationError("contract violated")
+
+    monkeypatch.setattr(run_daily.gauge_engine, "run", raise_validation)
+    store, out = tmp_path / "store", tmp_path / "out"
+    with pytest.raises(jsonschema.ValidationError):
+        run_daily.main(["--store", str(store), "--out", str(out)],
+                       http_get=fake_get, http_post=fake_post)

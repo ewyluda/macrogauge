@@ -1,7 +1,5 @@
 from pathlib import Path
 
-import pytest
-
 from pipeline.models import Observation
 from pipeline.publish import compare, validate
 from pipeline.store import vintage
