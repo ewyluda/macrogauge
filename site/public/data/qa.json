@@ -61,7 +61,7 @@
       "name": "tracker_corr",
       "critical": false,
       "pass": true,
-      "detail": "tracker monthly-YoY corr vs official = 0.9805 (floor 0.95)"
+      "detail": "tracker monthly-YoY corr vs official = 0.9775 (floor 0.95)"
     }
   ]
 }

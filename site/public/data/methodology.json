@@ -1,0 +1,501 @@
+{
+  "published_at": "2026-07-08T20:46:15Z",
+  "stats": {
+    "series_count": 31,
+    "obs_count": 8306,
+    "source_count": 7,
+    "tracker_corr": 0.9775,
+    "live_coverage_pct": 40.5,
+    "engine_version": "1.0",
+    "rebase": "2018-01=100"
+  },
+  "stages": [
+    {
+      "n": 1,
+      "name": "Rebase",
+      "description": "Every series is indexed so its base-month mean = 100, making $/gal, cents/kWh and $ rent unitless and comparable.",
+      "formula": "idx_t = 100 * value_t / mean(value | month = base)"
+    },
+    {
+      "n": 2,
+      "name": "Blend & splice",
+      "description": "Volatile components ride live market data grafted onto official BLS history at the splice point; weights renormalize as sources phase in.",
+      "formula": null
+    },
+    {
+      "n": 3,
+      "name": "Quality gate",
+      "description": "A live component moving more than 5% in one day is held at its prior value for one day; if the move persists it passes through. Publication never blocks.",
+      "formula": null
+    },
+    {
+      "n": 4,
+      "name": "Aggregate",
+      "description": "Laspeyres headline over the daily grid; headline YoY is the weighted sum of each component's like-month YoY at its own last observation, carried forward between prints.",
+      "formula": "headline_yoy(d) = sum_i w_i * yoy_i(d)"
+    },
+    {
+      "n": 5,
+      "name": "Variants",
+      "description": "Each published cut assembles the same components with a different live/official mix; which component rides live data is config, not code.",
+      "formula": null
+    }
+  ],
+  "basket": [
+    {
+      "code": "shelter_owned",
+      "label": "Shelter (owned)",
+      "weight": 0.265,
+      "mode": "live",
+      "live_sources": [
+        "aptlist_us",
+        "redfin_us",
+        "zori_us"
+      ],
+      "official_series": "CUUR0000SEHC",
+      "yoy_pct": 2.03
+    },
+    {
+      "code": "other",
+      "label": "Other goods & services",
+      "weight": 0.185,
+      "mode": "bls_cf",
+      "live_sources": [],
+      "official_series": "CUUR0000SAG",
+      "yoy_pct": 4.91
+    },
+    {
+      "code": "food_home",
+      "label": "Food at home",
+      "weight": 0.082,
+      "mode": "bls_cf",
+      "live_sources": [],
+      "official_series": "CUUR0000SAF11",
+      "yoy_pct": 2.74
+    },
+    {
+      "code": "medical",
+      "label": "Medical care",
+      "weight": 0.081,
+      "mode": "bls_cf",
+      "live_sources": [],
+      "official_series": "CUUR0000SAM",
+      "yoy_pct": 2.59
+    },
+    {
+      "code": "shelter_rent",
+      "label": "Rent",
+      "weight": 0.075,
+      "mode": "live",
+      "live_sources": [
+        "aptlist_us",
+        "redfin_us",
+        "zori_us"
+      ],
+      "official_series": "CUUR0000SEHA",
+      "yoy_pct": 2.03
+    },
+    {
+      "code": "food_away",
+      "label": "Food away from home",
+      "weight": 0.057,
+      "mode": "bls_cf",
+      "live_sources": [],
+      "official_series": "CUUR0000SEFV",
+      "yoy_pct": 3.54
+    },
+    {
+      "code": "education_comm",
+      "label": "Education & comm",
+      "weight": 0.055,
+      "mode": "bls_cf",
+      "live_sources": [],
+      "official_series": "CUUR0000SAE",
+      "yoy_pct": 0.84
+    },
+    {
+      "code": "recreation",
+      "label": "Recreation",
+      "weight": 0.053,
+      "mode": "bls_cf",
+      "live_sources": [],
+      "official_series": "CUUR0000SAR",
+      "yoy_pct": 2.62
+    },
+    {
+      "code": "new_vehicles",
+      "label": "New vehicles",
+      "weight": 0.036,
+      "mode": "bls_cf",
+      "live_sources": [],
+      "official_series": "CUUR0000SETA01",
+      "yoy_pct": 0.24
+    },
+    {
+      "code": "fuel",
+      "label": "Gasoline",
+      "weight": 0.03,
+      "mode": "live",
+      "live_sources": [
+        "eia_gasreg_w"
+      ],
+      "official_series": "CUUR0000SETB01",
+      "yoy_pct": 19.37
+    },
+    {
+      "code": "electricity",
+      "label": "Electricity",
+      "weight": 0.028,
+      "mode": "live",
+      "live_sources": [
+        "eia_elec_res"
+      ],
+      "official_series": "CUUR0000SEHF01",
+      "yoy_pct": 7.29
+    },
+    {
+      "code": "apparel",
+      "label": "Apparel",
+      "weight": 0.025,
+      "mode": "bls_cf",
+      "live_sources": [],
+      "official_series": "CUUR0000SAA",
+      "yoy_pct": 4.79
+    },
+    {
+      "code": "used_vehicles",
+      "label": "Used cars & trucks",
+      "weight": 0.021,
+      "mode": "bls_cf",
+      "live_sources": [],
+      "official_series": "CUUR0000SETA02",
+      "yoy_pct": -1.99
+    },
+    {
+      "code": "nat_gas",
+      "label": "Piped gas",
+      "weight": 0.007,
+      "mode": "live",
+      "live_sources": [
+        "eia_ng_res"
+      ],
+      "official_series": "CUUR0000SEHF02",
+      "yoy_pct": 12.37
+    }
+  ],
+  "freshness": {
+    "fresh_count": 31,
+    "total": 31
+  },
+  "inventory": [
+    {
+      "code": "CPIAUCNS",
+      "name": "CPI-U all items (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CPILFENS",
+      "name": "CPI-U core, ex food & energy (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CUUR0000SAF11",
+      "name": "CPI food at home (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CUUR0000SEFV",
+      "name": "CPI food away from home (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CUUR0000SAM",
+      "name": "CPI medical care (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CUUR0000SAA",
+      "name": "CPI apparel (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CUUR0000SAR",
+      "name": "CPI recreation (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CUUR0000SAE",
+      "name": "CPI education & communication (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CUUR0000SAG",
+      "name": "CPI other goods & services (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CUUR0000SETA01",
+      "name": "CPI new vehicles (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CUUR0000SETA02",
+      "name": "CPI used cars & trucks (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CUUR0000SEHA",
+      "name": "CPI rent of primary residence (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CUUR0000SEHC",
+      "name": "CPI owners' equivalent rent (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CUUR0000SEHF01",
+      "name": "CPI electricity (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CUUR0000SEHF02",
+      "name": "CPI utility piped gas (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CUUR0000SETB01",
+      "name": "CPI gasoline all types (NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000708111",
+      "name": "Avg price: eggs, grade A, dozen",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000709112",
+      "name": "Avg price: milk, whole, gallon",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000702111",
+      "name": "Avg price: bread, white, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000703112",
+      "name": "Avg price: ground chuck, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000706111",
+      "name": "Avg price: chicken, whole, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000711211",
+      "name": "Avg price: bananas, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res",
+      "name": "Residential electricity \u00a2/kWh (US)",
+      "source": "EIA",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_ng_res",
+      "name": "Residential natural gas $/Mcf (US)",
+      "source": "EIA",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_gasreg_w",
+      "name": "US regular gasoline retail $/gal (weekly)",
+      "source": "EIA",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-06",
+      "fresh": true
+    },
+    {
+      "code": "fmp_gold",
+      "name": "Gold futures front month $/oz",
+      "source": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-08",
+      "fresh": true
+    },
+    {
+      "code": "fmp_wti",
+      "name": "WTI crude front month $/bbl",
+      "source": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-08",
+      "fresh": true
+    },
+    {
+      "code": "fiscal_debt_total",
+      "name": "Total public debt outstanding $",
+      "source": "TREASURY",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-07",
+      "fresh": true
+    },
+    {
+      "code": "zori_us",
+      "name": "Zillow Observed Rent Index (US)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_us",
+      "name": "Zillow Home Value Index (US)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "pmms_30yr",
+      "name": "Freddie Mac 30yr fixed mortgage %",
+      "source": "PMMS",
+      "route": "CSV",
+      "cadence": "weekly",
+      "latest_obs": "2026-07-02",
+      "fresh": true
+    }
+  ],
+  "validation": {
+    "gauge": {
+      "corr": 0.9393,
+      "mean_abs_gap_pp": 0.79,
+      "window": "2018-01..2026-05",
+      "lead_lag": {
+        "best_shift_months": 1,
+        "corr": 0.942
+      }
+    },
+    "tracker": {
+      "corr": 0.9775,
+      "mean_abs_gap_pp": 0.4,
+      "window": "2018-01..2026-05"
+    },
+    "bls_reconstruction": {
+      "weighted_bls_yoy_pct": 4.32,
+      "official_yoy_pct": 4.25
+    }
+  },
+  "variants": {
+    "gauge": "CPI-comparable: the market-rent blend drives both shelter components; fuel, electricity and piped gas ride live EIA data.",
+    "tracker": "Official shelter dynamics; only fuel, electricity and piped gas ride live \u2014 built to re-track the print."
+  },
+  "limitations": [
+    "Components without a live source carry the latest official BLS print forward between releases (labeled BLS-CF); their between-print YoY is the last print's, not a nowcast.",
+    "Live coverage is a minority of basket weight today; the coverage percentage is published on every card rather than hidden.",
+    "Fuel diverges from BLS by construction: pump-price YoY vs the CPI gasoline index methodology.",
+    "Component YoY is computed at each component's own last observation (like month vs like month), so lagging series compare honestly at the cost of timeliness."
+  ]
+}
