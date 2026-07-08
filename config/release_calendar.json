@@ -1,0 +1,10 @@
+{
+  "cpi": [
+    {"release_date": "2026-07-14", "reference_month": "2026-06"},
+    {"release_date": "2026-08-12", "reference_month": "2026-07"},
+    {"release_date": "2026-09-11", "reference_month": "2026-08"},
+    {"release_date": "2026-10-14", "reference_month": "2026-09"},
+    {"release_date": "2026-11-10", "reference_month": "2026-10"},
+    {"release_date": "2026-12-10", "reference_month": "2026-11"}
+  ]
+}

@@ -20,7 +20,7 @@ from pathlib import Path
 import jsonschema
 
 from pipeline import basket as basket_mod
-from pipeline import collect, registry
+from pipeline import collect, registry, release_calendar
 from pipeline.connectors import fred
 from pipeline.engine import gauge as gauge_engine
 from pipeline.engine import official
@@ -70,8 +70,10 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         staleness = {s.code: s.max_staleness_days for s in series}
         gauge_result = gauge_engine.run(conn, today=today, staleness=staleness)
 
-        pulse_path = pulse.write(pulse.build(gauge_result, cpi), args.out,
-                                 published_at=published_at)
+        pulse_path = pulse.write(
+            pulse.build(gauge_result, cpi,
+                        next_print=release_calendar.next_print(today)),
+            args.out, published_at=published_at)
         validate.validate_file(pulse_path, SCHEMAS / "pulse.schema.json")
         g = gauge_result["variants"]["gauge"]
         print(f"published: {pulse_path} (gauge YoY "
