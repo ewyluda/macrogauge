@@ -15,7 +15,7 @@ VARIANTS = ("gauge", "tracker")
 def build_component(comp: basket.Component, variant: str,
                     official_series: dict[str, float],
                     live_sources: dict[str, dict[str, float]]
-                    ) -> tuple[dict[str, float], str]:
+                    ) -> tuple[dict[str, float], str, dict[str, float]]:
     """Assemble one component's index for one variant.
 
     Inputs are raw store series ({obs_date: value}); output is re-anchored to
@@ -27,5 +27,5 @@ def build_component(comp: basket.Component, variant: str,
             {k: rebase_mod.rebase(v) for k, v in live_sources.items() if v},
             comp.live_blend)
         assembled = blend_mod.splice(official_idx, live)
-        return rebase_mod.rebase(assembled), "live"
-    return official_idx, "bls_cf"
+        return rebase_mod.rebase(assembled), "live", official_idx
+    return official_idx, "bls_cf", official_idx

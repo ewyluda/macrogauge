@@ -167,3 +167,15 @@ def test_headline_yoy_no_between_print_decay(tmp_path):
     # 2018-05 = 95.4545 -> own YoY +5.0%, carried to grid end.
     # live: flat -> 0%. headline = .5*5 + .5*0 = 2.5
     assert g["yoy"]["2018-06-20"] == pytest.approx(2.5)
+
+
+def test_components_expose_daily_index_arrays(tmp_path):
+    conn, bp = seed(tmp_path, ROWS)
+    r = gauge.run(conn, today="2019-01-05", basket_path=bp, staleness=STALENESS)
+    fuel = r["variants"]["gauge"]["components"]["fuel"]
+    # ours: LIVE_FU 10 -> 10.4 rebased = 100 -> 104, filled daily
+    assert fuel["daily_index"]["2018-01-01"] == pytest.approx(100.0)
+    assert fuel["daily_index"]["2018-06-15"] == pytest.approx(100.0)  # filled
+    assert fuel["daily_index"]["2019-01-01"] == pytest.approx(104.0)
+    # official: OFF_FU 200 -> 208 rebased = 100 -> 104
+    assert fuel["official_daily_index"]["2019-01-01"] == pytest.approx(104.0)

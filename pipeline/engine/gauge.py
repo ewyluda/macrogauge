@@ -43,12 +43,13 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
     out = {}
     for variant in variants.VARIANTS:
         built, modes, flags = {}, {}, []
+        official_rebased = {}
         for comp in comps:
             official_series = _series(conn, comp.official_series)
             live_sources = ({name: _series(conn, name) for name in comp.live_blend}
                             if comp.live_blend else {})
-            idx, mode = variants.build_component(comp, variant,
-                                                 official_series, live_sources)
+            idx, mode, official_idx = variants.build_component(comp, variant,
+                                                      official_series, live_sources)
             if mode == "live":
                 last = max(idx)
                 arrived = _arrived_today(conn, list(comp.live_blend), last, today)
@@ -56,9 +57,12 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
                 if flagged:
                     flags.append(f"{comp.code}@{last}")
             built[comp.code], modes[comp.code] = idx, mode
+            official_rebased[comp.code] = official_idx
         end = max(max(c) for c in built.values())
         daily = {k: aggregate.fill_daily(c, GRID_START, end)
                  for k, c in built.items()}
+        official_daily = {k: aggregate.fill_daily(v, GRID_START, end)
+                          for k, v in official_rebased.items()}
         index = aggregate.headline(daily, weights)
         # Headline YoY (Option A, 1c spec §3): each component's YoY is honest
         # only at its OWN observation dates (like-month vs like-month); the
@@ -84,7 +88,9 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
             components[c.code] = {
                 "weight": c.weight, "mode": modes[c.code],
                 "yoy_pct": own_yoy[c.code].get(own_end),
-                "end_value": daily[c.code][end]}  # end_value stays at grid end; QA uses it
+                "end_value": daily[c.code][end],  # end_value stays at grid end; QA uses it
+                "daily_index": daily[c.code],
+                "official_daily_index": official_daily[c.code]}
         out[variant] = {
             "index": index, "yoy": aggregate.weighted_yoy(own_yoy, weights),
             "as_of": end, "coverage_pct": coverage * 100, "gate_flags": flags,
