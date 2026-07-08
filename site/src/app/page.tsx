@@ -66,36 +66,11 @@ export default function Home() {
   const groups = ["grocery", "energy", "rates", "markets", "fiscal"] as const;
 
   return (
-    <main style={{ maxWidth: 1200, margin: "0 auto", padding: 24 }}>
-      <header
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "baseline",
-          gap: 12,
-          justifyContent: "space-between",
-        }}
-      >
-        <div>
-          <h1 style={{ fontSize: 26, fontWeight: 700, margin: 0 }}>
-            macrogauge{" "}
-            <span style={{ color: "var(--muted)", fontWeight: 400, fontSize: 16 }}>
-              daily US inflation &amp; macro
-            </span>
-          </h1>
-          <div style={{ color: "var(--muted)", fontSize: 13, marginTop: 4 }}>
-            published {pulse.published_at} · independent gauge + official data
-          </div>
-        </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <StatusPill ok={true} label={`Gauge ${fmtPct(pulse.gauge.yoy_pct)}`} />
-          <StatusPill ok={true} label={`CPI ${fmtPct(cpi.yoy_pct)}`} />
-          <StatusPill
-            ok={qa.passed === qa.total}
-            label={`Self-test ${qa.passed}/${qa.total}`}
-          />
-        </div>
-      </header>
+    <div>
+      <div style={{ color: "var(--muted)", fontSize: 13, marginTop: 16 }}>
+        daily US inflation &amp; macro · published {pulse.published_at} ·
+        independent gauge + official data
+      </div>
 
       <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 24 }}>
         <KpiCard
@@ -261,6 +236,6 @@ export default function Home() {
           prints).
         </div>
       </Section>
-    </main>
+    </div>
   );
 }

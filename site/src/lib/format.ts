@@ -38,3 +38,10 @@ export function yoyColor(pct: number | null): string {
   if (pct < -0.05) return "var(--accent-emerald)";
   return "var(--muted)";
 }
+
+/** +0.30pp / −0.87pp / — (2dp, for gap chips) */
+export function fmtPp(pp: number | null): string {
+  if (pp === null || pp === undefined) return "—";
+  const s = pp > 0 ? "+" : pp < 0 ? "−" : "";
+  return `${s}${Math.abs(pp).toFixed(2)}pp`;
+}
