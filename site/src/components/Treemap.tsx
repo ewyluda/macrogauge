@@ -136,6 +136,10 @@ export function Treemap() {
         ? data.components.map((c) => ({ c, v: modeValue(c, frame.i, mode) }))
         : [];
     return {
+      // notMerge:true in EChart means every 250ms playback frame is a full
+      // re-render; ECharts' default ~1s treemap enter animation would leave the
+      // canvas permanently mid-animation during a sweep. Render frames instantly.
+      animation: false,
       tooltip: {
         backgroundColor: C.card,
         borderColor: C.border,
