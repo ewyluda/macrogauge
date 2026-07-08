@@ -23,6 +23,8 @@ def fill_daily(series: dict[str, float], start: str, end: str) -> dict[str, floa
 def headline(components: dict[str, dict[str, float]],
              weights: dict[str, float]) -> dict[str, float]:
     """Laspeyres on dates where every component has a value; weights sum to 1."""
+    if not components:
+        return {}
     dates = set.intersection(*(set(c) for c in components.values()))
     total = sum(weights.values())
     return {d: sum(weights[k] * components[k][d] for k in components) / total
@@ -34,5 +36,5 @@ def yoy(index: dict[str, float]) -> dict[str, float | None]:
     out: dict[str, float | None] = {}
     for d, v in index.items():
         base = index.get((date.fromisoformat(d) - timedelta(days=365)).isoformat())
-        out[d] = (v / base - 1) * 100 if base else None
+        out[d] = (v / base - 1) * 100 if base is not None else None
     return out

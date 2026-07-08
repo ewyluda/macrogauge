@@ -30,3 +30,13 @@ def test_yoy_365_day_base():
     assert y["2026-01-01"] == pytest.approx(3.0)
     assert y["2025-01-01"] is None  # no base a year earlier
     assert y["2025-06-01"] is None
+
+
+def test_yoy_zero_base_value_is_computed_not_none():
+    idx = {"2025-01-01": 0.0, "2026-01-01": 103.0}
+    with pytest.raises(ZeroDivisionError):
+        aggregate.yoy(idx)
+
+
+def test_headline_empty_components_returns_empty():
+    assert aggregate.headline({}, {}) == {}
