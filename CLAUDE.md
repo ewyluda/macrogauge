@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install -e ".[dev]"                      # setuptools; installs pytest
-pytest -q                                     # full suite (113 tests)
+pytest -q                                     # full suite (135 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -87,8 +87,9 @@ weights that **must sum to 1.0** (validated on load). Grid start is 2017-01 inte
 YoY bases); writers publish from 2018-01.
 
 ### 4. Publish (`pipeline/publish/`) + orchestration (`pipeline/run_daily.py`)
-Seven published files, each with a JSON Schema in `schemas/` validated before it lands:
-`sources_status`, `pulse`, `gauge_daily`, `compare`, `gaptable`, `official`, `qa`.
+Nine published files, each with a JSON Schema in `schemas/` validated before it lands:
+`sources_status`, `pulse`, `gauge_daily`, `replay`, `compare`, `gaptable`, `methodology`,
+`official`, `qa`.
 
 `run_daily.py` ordering is deliberate and load-bearing:
 - **`sources_status` publishes FIRST**, right after collect — a broken engine must never hide a

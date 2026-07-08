@@ -85,7 +85,7 @@ export default function Home() {
           value={fmtPct(pulse.gauge.yoy_pct)}
           context={`${pulse.gauge.coverage_pct.toFixed(0)}% live weight · as of ${pulse.gauge.as_of}`}
           accent="sky"
-          chip={<DeltaChip value={pulse.gap_pp} prefix="vs official" />}
+          chip={<DeltaChip value={pulse.gap_pp} prefix="vs official" pp />}
         />
         <KpiCard
           label="Official CPI · YoY"

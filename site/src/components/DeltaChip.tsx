@@ -1,6 +1,15 @@
-import { fmtSigned, yoyColor } from "@/lib/format";
+import { fmtPp, fmtSigned, yoyColor } from "@/lib/format";
 
-export function DeltaChip({ value, prefix }: { value: number | null; prefix?: string }) {
+/** `pp` renders percentage-point deltas (2dp, "pp") instead of % (1dp). */
+export function DeltaChip({
+  value,
+  prefix,
+  pp = false,
+}: {
+  value: number | null;
+  prefix?: string;
+  pp?: boolean;
+}) {
   return (
     <span
       style={{
@@ -16,7 +25,7 @@ export function DeltaChip({ value, prefix }: { value: number | null; prefix?: st
       }}
     >
       {prefix ? `${prefix} ` : ""}
-      {fmtSigned(value)}
+      {pp ? fmtPp(value) : fmtSigned(value)}
     </span>
   );
 }

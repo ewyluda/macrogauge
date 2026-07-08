@@ -277,6 +277,11 @@ export function Treemap() {
         <span>
           Ours {oursHeadline === null ? "—" : `${oursHeadline.toFixed(2)}%`} · BLS{" "}
           {blsHeadline === null ? "—" : `${blsHeadline.toFixed(2)}%`}
+          {/* the latest frame's naive 365-day level ratio understates lagging
+              components between prints; the headline uses like-month YoY */}
+          {at === monthEnds.length - 1 && oursHeadline !== null
+            ? " · 365-day ratio at partial month — headline uses like-month YoY"
+            : ""}
         </span>
       </div>
     </div>
