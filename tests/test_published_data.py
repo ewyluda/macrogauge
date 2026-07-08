@@ -13,6 +13,7 @@ CONTRACT = [("pulse.json", "pulse.schema.json"),
             ("gauge_daily.json", "gauge_daily.schema.json"),
             ("compare.json", "compare.schema.json"),
             ("gaptable.json", "gaptable.schema.json"),
+            ("replay.json", "replay.schema.json"),
             ("qa.json", "qa.schema.json"),
             ("sources_status.json", "sources_status.schema.json"),
             ("official.json", "official.schema.json")]

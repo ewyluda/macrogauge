@@ -26,7 +26,7 @@ from pipeline.engine import gauge as gauge_engine
 from pipeline.engine import official
 from pipeline.publish import official as official_json
 from pipeline.publish import (compare, gaptable, gauge_daily, pulse, qa,
-                              sources_status, validate)
+                              replay, sources_status, validate)
 from pipeline.store import vintage
 
 SCHEMAS = Path(__file__).parent.parent / "schemas"
@@ -63,6 +63,8 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     today = fred.today_et()
     published_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
+    _, comps = basket_mod.load_basket()
+
     cpi = gauge_qa = None
     engine_error = None
     try:
@@ -85,6 +87,11 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         validate.validate_file(gd_path, SCHEMAS / "gauge_daily.schema.json")
         print(f"published: {gd_path}")
 
+        replay_path = replay.write(replay.build(gauge_result, comps), args.out,
+                                   published_at=published_at)
+        validate.validate_file(replay_path, SCHEMAS / "replay.schema.json")
+        print(f"published: {replay_path}")
+
         compare_payload = compare.build(gauge_result, conn)
         cmp_path = compare.write(compare_payload, args.out,
                                  published_at=published_at)
@@ -92,7 +99,6 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         print(f"published: {cmp_path} "
               f"(tracker corr {compare_payload['validation']['tracker']['corr']})")
 
-        _, comps = basket_mod.load_basket()
         gt_path = gaptable.write(
             gaptable.build(gauge_result, conn, comps,
                            official_month=cpi["month"]),
