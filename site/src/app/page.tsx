@@ -10,6 +10,7 @@ import { DeltaChip } from "@/components/DeltaChip";
 import { StatusPill } from "@/components/StatusPill";
 import { Section } from "@/components/Section";
 import { HeroChart } from "@/components/HeroChart";
+import { Treemap } from "@/components/Treemap";
 import { GapTable } from "@/components/GapTable";
 import { GapDecomposition } from "@/components/GapDecomposition";
 import { fmtMonth, fmtPct, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
@@ -169,6 +170,10 @@ export default function Home() {
           print · {pulse.gauge.coverage_pct.toFixed(0)}% of basket weight rides
           live data
         </div>
+      </Section>
+
+      <Section title="Basket treemap — every component, replay 2018 → now">
+        <Treemap />
       </Section>
 
       <Section title="Component gap decomposition — ours vs BLS">
