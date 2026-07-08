@@ -109,11 +109,12 @@ export function Treemap() {
     timer.current = setInterval(() => {
       setPos((p) => {
         const cur = p === -1 ? 0 : p;
-        if (cur >= monthEnds.length - 1) {
+        const next = cur + 1;
+        if (next >= monthEnds.length - 1) {
           setPlaying(false);
           return monthEnds.length - 1;
         }
-        return cur + 1;
+        return next;
       });
     }, 250);
     return () => {
@@ -226,7 +227,13 @@ export function Treemap() {
       </div>
       <EChart option={option} height={420} />
       <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 10 }}>
-        <button style={chip(playing)} onClick={() => setPlaying(!playing)}>
+        <button
+          style={chip(playing)}
+          onClick={() => {
+            if (!playing && (pos === -1 || at >= monthEnds.length - 1)) setPos(0);
+            setPlaying(!playing);
+          }}
+        >
           {playing ? "❚❚ Pause" : "▶ Play"}
         </button>
         <input
