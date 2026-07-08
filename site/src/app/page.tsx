@@ -1,3 +1,4 @@
+import pulse from "../../public/data/pulse.json";
 import official from "../../public/data/official.json";
 import qa from "../../public/data/qa.json";
 import status from "../../public/data/sources_status.json";
@@ -83,10 +84,11 @@ export default function Home() {
             </span>
           </h1>
           <div style={{ color: "var(--muted)", fontSize: 13, marginTop: 4 }}>
-            published {official.published_at} · official data · gauge coming in phase 1b
+            published {pulse.published_at} · independent gauge + official data
           </div>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
+          <StatusPill ok={true} label={`Gauge ${fmtPct(pulse.gauge.yoy_pct)}`} />
           <StatusPill ok={true} label={`CPI ${fmtPct(cpi.yoy_pct)}`} />
           <StatusPill
             ok={qa.passed === qa.total}
@@ -96,6 +98,13 @@ export default function Home() {
       </header>
 
       <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 24 }}>
+        <KpiCard
+          label="Macrogauge · YoY"
+          value={fmtPct(pulse.gauge.yoy_pct)}
+          context={`${pulse.gauge.coverage_pct.toFixed(0)}% live weight · as of ${pulse.gauge.as_of}`}
+          accent="sky"
+          chip={<DeltaChip value={pulse.gap_pp} prefix="vs official" />}
+        />
         <KpiCard
           label="Official CPI · YoY"
           value={fmtPct(cpi.yoy_pct)}
@@ -246,7 +255,10 @@ export default function Home() {
         <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 12 }}>
           All figures from official/public sources (BLS, FRED, EIA, Zillow, Freddie
           Mac, U.S. Treasury, FMP) — collected daily, published with as-of dates. The
-          independent macrogauge index arrives in phase 1b.
+          independent macrogauge index re-prices the CPI basket daily from live
+          market and public data ({pulse.gauge.coverage_pct.toFixed(0)}% of basket
+          weight today; the rest carries official BLS values forward between
+          prints).
         </div>
       </Section>
     </main>

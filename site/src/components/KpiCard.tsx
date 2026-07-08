@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 const ACCENTS = {
   sky: "var(--accent-sky)",
   amber: "var(--accent-amber)",
@@ -13,11 +15,13 @@ export function KpiCard({
   value,
   context,
   accent = "sky",
+  chip,
 }: {
   label: string;
   value: string;
   context: string;
   accent?: Accent;
+  chip?: ReactNode;
 }) {
   return (
     <div
@@ -50,7 +54,10 @@ export function KpiCard({
       >
         {value}
       </div>
-      <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 4 }}>{context}</div>
+      <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 4 }}>
+        {chip ? <span style={{ marginRight: 8 }}>{chip}</span> : null}
+        {context}
+      </div>
     </div>
   );
 }
