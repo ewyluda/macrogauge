@@ -13,22 +13,21 @@ def _months_back(obs_date: str, n: int) -> str:
 
 
 def latest_yoy(conn: sqlite3.Connection, series_code: str) -> dict:
+    """YoY of the latest computable month (a month can lack its YoY base:
+    the 2025-10 print was never published due to the government shutdown)."""
     series = dict(vintage.latest(conn, series_code))
     if not series:
         raise ValueError(f"no observations for {series_code}")
-    month = max(series)
 
     def yoy(m: str) -> float:
-        base = _months_back(m, 12)
-        if base not in series:
-            raise ValueError(f"missing base month {base} for {series_code}")
-        return (series[m] / series[base] - 1) * 100
+        return (series[m] / series[_months_back(m, 12)] - 1) * 100
 
-    prev_month = _months_back(month, 1)
-    if prev_month not in series:
-        raise ValueError(f"missing prior month {prev_month} for {series_code}")
-    return {"series_code": series_code, "month": month, "yoy_pct": yoy(month),
-            "prev_yoy_pct": yoy(prev_month),
+    computable = [m for m in sorted(series, reverse=True)
+                  if _months_back(m, 12) in series]
+    if len(computable) < 2:
+        raise ValueError(f"need two YoY-computable months for {series_code}")
+    return {"series_code": series_code, "month": computable[0],
+            "yoy_pct": yoy(computable[0]), "prev_yoy_pct": yoy(computable[1]),
             "as_of": vintage.max_vintage(conn, series_code)}
 
 
@@ -36,17 +35,18 @@ QUOTE_BASE_TOLERANCE_DAYS = 60  # a YoY base older than this before target is me
 
 
 def component_summary(conn: sqlite3.Connection, series_code: str) -> dict:
-    """YoY + MoM for a monthly index series (unrounded)."""
+    """YoY + MoM for the latest month where both references exist (unrounded)."""
     series = dict(vintage.latest(conn, series_code))
     if not series:
         raise ValueError(f"no observations for {series_code}")
-    month = max(series)
-    base, prev = _months_back(month, 12), _months_back(month, 1)
-    if base not in series or prev not in series:
-        raise ValueError(f"missing base/prior month for {series_code}")
+    candidates = [m for m in sorted(series, reverse=True)
+                  if _months_back(m, 12) in series and _months_back(m, 1) in series]
+    if not candidates:
+        raise ValueError(f"no YoY+MoM-computable month for {series_code}")
+    month = candidates[0]
     return {"code": series_code, "month": month,
-            "yoy_pct": (series[month] / series[base] - 1) * 100,
-            "mom_pct": (series[month] / series[prev] - 1) * 100}
+            "yoy_pct": (series[month] / series[_months_back(month, 12)] - 1) * 100,
+            "mom_pct": (series[month] / series[_months_back(month, 1)] - 1) * 100}
 
 
 def latest_quote(conn: sqlite3.Connection, series_code: str) -> dict:

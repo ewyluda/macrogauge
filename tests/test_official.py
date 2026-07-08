@@ -77,3 +77,31 @@ def test_latest_quote_stale_base_is_none(tmp_path):
         ("2025-03-01", 3.00), ("2026-06-29", 3.40)])
     r = official.latest_quote(conn, "GAS3")
     assert r["yoy_pct"] is None  # base 115d before target — outside 60d tolerance
+
+
+def test_latest_yoy_skips_month_with_missing_base(tmp_path):
+    # 2025-10 print never published (shutdown): Oct-2026 YoY has no base ->
+    # headline falls back to the latest computable month (Sep 2026)
+    conn = seed(tmp_path, [
+        ("2025-08-01", 298.0), ("2025-09-01", 299.0), ("2025-11-01", 301.0),
+        ("2026-08-01", 305.0), ("2026-09-01", 306.0), ("2026-10-01", 307.0)])
+    r = official.latest_yoy(conn, "CPIAUCNS")
+    assert r["month"] == "2026-09-01"
+    assert r["yoy_pct"] == pytest.approx((306.0 / 299.0 - 1) * 100)
+    assert r["prev_yoy_pct"] == pytest.approx((305.0 / 298.0 - 1) * 100)
+
+
+def test_latest_yoy_no_computable_month_raises(tmp_path):
+    conn = seed(tmp_path, [("2026-09-01", 306.0), ("2026-10-01", 307.0)])
+    with pytest.raises(ValueError):
+        official.latest_yoy(conn, "CPIAUCNS")
+
+
+def test_component_summary_skips_month_with_missing_base(tmp_path):
+    conn = seed_code(tmp_path, "COMP9", [
+        ("2025-09-01", 200.0), ("2025-11-01", 202.0),
+        ("2026-08-01", 204.0), ("2026-09-01", 205.0), ("2026-10-01", 206.0)])
+    r = official.component_summary(conn, "COMP9")
+    assert r["month"] == "2026-09-01"
+    assert r["yoy_pct"] == pytest.approx((205.0 / 200.0 - 1) * 100)
+    assert r["mom_pct"] == pytest.approx((205.0 / 204.0 - 1) * 100)
