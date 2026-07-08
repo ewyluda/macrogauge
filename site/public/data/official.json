@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-07T21:32:51Z",
+  "published_at": "2026-07-08T14:58:52Z",
   "headline": {
     "cpi": {
       "month": "2026-05-01",
@@ -210,8 +210,8 @@
       "label": "Gold",
       "group": "markets",
       "unit": "$/oz",
-      "latest": 4157.4,
-      "obs_date": "2026-07-07",
+      "latest": 4049.6,
+      "obs_date": "2026-07-08",
       "yoy_pct": null
     },
     {
@@ -219,8 +219,8 @@
       "label": "WTI crude",
       "group": "markets",
       "unit": "$/bbl",
-      "latest": 72.21,
-      "obs_date": "2026-07-07",
+      "latest": 75.36,
+      "obs_date": "2026-07-08",
       "yoy_pct": null
     },
     {

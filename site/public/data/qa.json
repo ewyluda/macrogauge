@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-07",
+  "generated_at": "2026-07-08",
   "passed": 4,
   "total": 4,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-05-01 is 67d old (limit 80)"
+      "detail": "latest official month 2026-05-01 is 68d old (limit 80)"
     },
     {
       "name": "yoy_finite",
