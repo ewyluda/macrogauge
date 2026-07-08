@@ -136,10 +136,12 @@ export function Treemap() {
         ? data.components.map((c) => ({ c, v: modeValue(c, frame.i, mode) }))
         : [];
     return {
-      // notMerge:true in EChart means every 250ms playback frame is a full
-      // re-render; ECharts' default ~1s treemap enter animation would leave the
-      // canvas permanently mid-animation during a sweep. Render frames instantly.
-      animation: false,
+      // Replay frames arrive every 250ms via merged setOption. Stable per-tile
+      // ids make ECharts diff by id (update-in-place) instead of name churn
+      // (remove+add); enter animation off, update animation 200ms < cadence.
+      animationDuration: 0,
+      animationDurationUpdate: 200,
+      animationEasingUpdate: "linear" as const,
       tooltip: {
         backgroundColor: C.card,
         borderColor: C.border,
@@ -158,6 +160,7 @@ export function Treemap() {
             formatter: (p: { name: string }) => p.name,
           },
           data: values.map(({ c, v }) => ({
+            id: c.code,
             name: `${c.label}\n${v === null ? "—" : `${v.toFixed(1)}%`}`,
             value: c.weight,
             itemStyle: {
