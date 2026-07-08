@@ -103,6 +103,22 @@ def test_engine_failure_still_publishes_status_and_qa(tmp_path, monkeypatch):
     assert not (out / "pulse.json").exists()
 
 
+def test_basket_config_failure_still_publishes_status_and_qa(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+
+    def bad_basket(*args, **kwargs):
+        raise ValueError("weights sum to 0.9")
+
+    monkeypatch.setattr(run_daily.basket_mod, "load_basket", bad_basket)
+    store, out = tmp_path / "store", tmp_path / "out"
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0  # config failure surfaces in qa, never blocks
+    qa_data = json.loads((out / "qa.json").read_text())
+    eng = [c for c in qa_data["checks"] if c["name"] == "engine_ok"][0]
+    assert eng["pass"] is False and "weights sum" in eng["detail"]
+
+
 def test_one_source_down_still_publishes(tmp_path, monkeypatch):
     set_keys(monkeypatch)
 

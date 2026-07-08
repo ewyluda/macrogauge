@@ -63,14 +63,13 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     today = fred.today_et()
     published_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    _, comps = basket_mod.load_basket()
-
     cpi = gauge_qa = None
     engine_error = None
     try:
         cpi = official.latest_yoy(conn, "CPIAUCNS")
         staleness = {s.code: s.max_staleness_days for s in series}
         gauge_result = gauge_engine.run(conn, today=today, staleness=staleness)
+        _, comps = basket_mod.load_basket()  # inside try: config errors -> qa
 
         pulse_path = pulse.write(
             pulse.build(gauge_result, cpi,
