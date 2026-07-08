@@ -11,11 +11,18 @@ CPI_ROWS = [("2017-01-01", 100.0), ("2017-02-01", 100.5), ("2017-03-01", 101.0),
             ("2018-01-01", 102.0), ("2018-02-01", 103.0), ("2018-03-01", 104.5)]
 # official YoY: Jan +2.0, Feb +2.487..., Mar +3.465...
 
+CORE_ROWS = [("2017-01-01", 200.0), ("2017-02-01", 201.0), ("2017-03-01", 202.0),
+             ("2018-01-01", 205.0), ("2018-02-01", 206.0), ("2018-03-01", 208.0)]
+# core YoY: Jan +2.5, Feb +2.4876, Mar +2.9703
+
 
 def seed(tmp_path):
     obs = [Observation(series_code="CPIAUCNS", obs_date=d, value=v,
                        vintage_date="2018-04-01", source="FRED", route="API")
            for d, v in CPI_ROWS]
+    obs += [Observation(series_code="CPILFENS", obs_date=d, value=v,
+                        vintage_date="2018-04-01", source="FRED", route="API")
+            for d, v in CORE_ROWS]
     vintage.append(obs, tmp_path)
     return vintage.load(tmp_path)
 
@@ -63,3 +70,19 @@ def test_write_validates_against_schema(tmp_path):
                          published_at="2026-07-08T12:00:00Z")
     assert path == tmp_path / "compare.json"
     validate.validate_file(path, SCHEMAS / "compare.schema.json")
+
+
+def test_official_core_yoy_column(tmp_path):
+    conn = seed(tmp_path)
+    p = compare.build(RESULT, conn)
+    assert p["official_core_yoy_pct"] == [2.5, 2.49, 2.97]
+
+
+def test_lead_lag_reports_best_forward_shift(tmp_path):
+    conn = seed(tmp_path)
+    p = compare.build(RESULT, conn)
+    ll = p["validation"]["gauge"]["lead_lag"]
+    # gauge [2.5, 3.0, 4.0] vs official shifted +1 = [2.49, 3.47] on 2 pairs
+    # -> corr exactly 1.0 (any increasing 2-point pair); k=0 corr < 1.
+    assert ll == {"best_shift_months": 1, "corr": 1.0}
+    assert "lead_lag" not in p["validation"]["tracker"]

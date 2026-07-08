@@ -36,11 +36,36 @@ def _validation(official: list[float], ours: list[float | None]) -> dict:
     return {"corr": corr, "mean_abs_gap_pp": mag}
 
 
+def _lead_lag(official: list[float], ours: list[float | None],
+              max_shift: int = 6) -> dict | None:
+    """Best Pearson corr of ours vs official shifted k months AHEAD (k=0..6).
+    The gauge sees market prices before they reach the print — this is the
+    hero-callout credibility stat (1c spec §5.2)."""
+    best = None
+    for k in range(max_shift + 1):
+        pairs = [(o, official[i + k]) for i, o in enumerate(ours)
+                 if o is not None and i + k < len(official)]
+        if len(pairs) < 2:
+            continue
+        xs, ys = [p[0] for p in pairs], [p[1] for p in pairs]
+        try:
+            c = statistics.correlation(xs, ys)
+        except statistics.StatisticsError:  # zero variance
+            continue
+        if best is None or c > best[1]:
+            best = (k, c)
+    return (None if best is None
+            else {"best_shift_months": best[0], "corr": round(best[1], 4)})
+
+
 def build(gauge_result: dict, conn) -> dict:
     off = _official_yoy(conn)
     months = [m for m in sorted(off) if m >= PUBLISH_START]
     official_col = [round(off[m], 2) for m in months]
+    core = _official_yoy(conn, "CPILFENS")
+    core_col = [None if m not in core else round(core[m], 2) for m in months]
     payload = {"months": months, "official_yoy_pct": official_col,
+               "official_core_yoy_pct": core_col,
                "validation": {}}
     window = f"{months[0][:7]}..{months[-1][:7]}" if months else ""
     for name, v in gauge_result["variants"].items():
@@ -49,6 +74,9 @@ def build(gauge_result: dict, conn) -> dict:
                                       for x in raw]
         payload["validation"][name] = {
             **_validation([off[m] for m in months], raw), "window": window}
+        if name == "gauge":
+            payload["validation"][name]["lead_lag"] = _lead_lag(
+                [off[m] for m in months], raw)
     return payload
 
 
