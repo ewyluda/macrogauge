@@ -63,12 +63,19 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
         coverage = sum(c.weight for c in comps
                        if modes[c.code] == "live"
                        and _fresh(conn, c.live_blend, staleness, today))
+        components = {}
+        for c in comps:
+            own_end = max(built[c.code])  # this component's own last-observation
+            # date, not the grid end -- lagging components (e.g. EIA natgas,
+            # CPI) must compare like-month-to-like-month on their own filled
+            # daily series, never a forward-filled value against a
+            # different-month base a year ago.
+            components[c.code] = {
+                "weight": c.weight, "mode": modes[c.code],
+                "yoy_pct": aggregate.yoy(daily[c.code]).get(own_end),
+                "end_value": daily[c.code][end]}  # end_value stays at grid end; QA uses it
         out[variant] = {
             "index": index, "yoy": aggregate.yoy(index), "as_of": end,
             "coverage_pct": coverage * 100, "gate_flags": flags,
-            "components": {
-                c.code: {"weight": c.weight, "mode": modes[c.code],
-                         "yoy_pct": aggregate.yoy(daily[c.code]).get(end),
-                         "end_value": daily[c.code][end]}
-                for c in comps}}
+            "components": components}
     return {"base_month": base_month, "variants": out}

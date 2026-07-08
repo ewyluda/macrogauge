@@ -712,7 +712,7 @@ git commit -m "feat: engine aggregate — daily grid, Laspeyres headline, 365d Y
      "gate_flags": [str],             # "component@date" held today
      "components": {
        code: {"weight": float, "mode": "live" | "bls_cf",
-              "yoy_pct": float | None,   # component YoY at as_of, unrounded
+              "yoy_pct": float | None,   # component YoY at its own last obs date, unrounded
               "end_value": float}}}}}    # component index at as_of
 ```
 

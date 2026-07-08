@@ -177,9 +177,10 @@ published; 1c's methodology page reads it from here.
               "gap_pp": 0.0, "contribution_pp": 0.0 } ],
   "total_gap_pp": 0.0 }
 ```
-`ours_yoy_pct` as of the daily grid end; `bls_yoy_pct` at the latest official month —
-being ahead of the print is the point, both carry their as-of. `contribution_pp` =
-weight × gap. `mode` labels carried-forward rows honestly (`BLS-CF` badge in 1c).
+`ours_yoy_pct` is as of each component's own last observation (so carried-forward rows
+show zero gap by construction); `bls_yoy_pct` at the latest official month — being ahead
+of the print is the point, both carry their as-of. `contribution_pp` = weight × gap.
+`mode` labels carried-forward rows honestly (`BLS-CF` badge in 1c).
 
 **Wiring.** `run_daily`: collect → official engine (unchanged) → gauge engine → write
 official + pulse + gauge_daily + compare + gaptable + sources_status + qa → validate all

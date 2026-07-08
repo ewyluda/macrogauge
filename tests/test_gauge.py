@@ -79,6 +79,40 @@ def test_gate_holds_spiking_arrival(tmp_path):
     assert g["components"]["fuel"]["end_value"] == pytest.approx(100.0)  # held
 
 
+def test_component_yoy_at_own_last_obs_not_grid_end(tmp_path):
+    # fuel's live data lags (ends 2018-12-01); shelter extends the grid to
+    # 2019-01-01. Fuel YoY must be Dec-vs-Dec (its own as-of), not a
+    # forward-filled Jan-vs-Jan.
+    #
+    # Hand-derivation (traced through the real engine chain):
+    #   official OFF_FU rebased on 2018-01 (anchor=200.0 @ 2018-01-01):
+    #       {2018-01-01: 100.0, 2019-01-01: 104.0}
+    #   live LIVE_FU rebased on 2018-01 (anchor=10.0 @ 2018-01-01):
+    #       {2017-12-01: 98.0, 2018-01-01: 100.0, 2018-12-01: 103.0}
+    #   splice: live's first date is 2017-12-01, strictly BEFORE official's
+    #       first date (2018-01-01) -> no official point at/before t0 ->
+    #       scale = 1.0 (blend.splice's no-prior fallback), output is
+    #       all-live: {2017-12-01: 98.0, 2018-01-01: 100.0, 2018-12-01: 103.0}
+    #   re-anchor to 2018-01 (anchor is already 100.0 there) -> unchanged.
+    #   fuel's own_end = max(built["fuel"]) = 2018-12-01 -- its own last
+    #       obs, NOT the grid end 2019-01-01 (which belongs to shelter).
+    #   365d back from 2018-12-01 lands exactly on 2017-12-01 (no Feb 29
+    #       crossed), which IS present in fuel's daily-filled series
+    #       (grid start 2017-01-01) -> base=98.0, value=103.0.
+    #   yoy = (103.0/98.0 - 1) * 100 = (10.3/9.8 - 1) * 100 ~= 5.10204082
+    rows = [r for r in ROWS if r[0] != "LIVE_FU"] + [
+        ("LIVE_FU", "2017-12-01", 9.8), ("LIVE_FU", "2018-01-01", 10.0),
+        ("LIVE_FU", "2018-12-01", 10.3)]
+    conn, bp = seed(tmp_path, rows)
+    r = gauge.run(conn, today="2019-01-05", basket_path=bp, staleness=STALENESS)
+    g = r["variants"]["gauge"]
+    EXPECTED = (10.3 / 9.8 - 1) * 100  # ~= 5.102040816326525
+    assert g["as_of"] == "2019-01-01"  # grid still ends at shelter's last obs
+    assert g["components"]["fuel"]["yoy_pct"] == pytest.approx(EXPECTED)
+    # end_value is unchanged: still sampled at grid end, forward-filled
+    assert g["components"]["fuel"]["end_value"] == pytest.approx(103.0)
+
+
 def test_missing_live_source_falls_back_to_bls_cf(tmp_path):
     rows = [row for row in ROWS if row[0] != "LIVE_SH"]
     conn, bp = seed(tmp_path, rows)

@@ -1,8 +1,10 @@
 """Writer for gaptable.json — per-component gap decomposition (gauge variant).
 
-gap contribution_i = weight_i x (our YoY_i - BLS YoY_i). Ours is as of the
-daily-grid end; BLS is at the latest official print month — being ahead of
-the print is the point, and both carry their as-of.
+gap contribution_i = weight_i x (our YoY_i - BLS YoY_i). Ours (component
+yoy_pct) is as of each component's own last observation — not the daily-grid
+end — so a like-month-to-like-month comparison always holds; bls_cf rows
+therefore show gap 0 by construction. BLS is at the latest official print
+month — being ahead of the print is the point, and both carry their as-of.
 """
 import json
 from pathlib import Path
