@@ -2,10 +2,13 @@ import pulse from "../../public/data/pulse.json";
 import official from "../../public/data/official.json";
 import qa from "../../public/data/qa.json";
 import status from "../../public/data/sources_status.json";
+import gaugeDaily from "../../public/data/gauge_daily.json";
+import compare from "../../public/data/compare.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DeltaChip } from "@/components/DeltaChip";
 import { StatusPill } from "@/components/StatusPill";
 import { Section } from "@/components/Section";
+import { HeroChart } from "@/components/HeroChart";
 import { fmtMonth, fmtPct, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
 
 const GROUP_TITLES: Record<string, string> = {
@@ -125,6 +128,45 @@ export default function Home() {
           />
         )}
       </div>
+
+      <Section title="Macrogauge vs official — YoY since 2018">
+        <div
+          style={{
+            background: "var(--card)",
+            border: "1px solid var(--border)",
+            borderRadius: 10,
+            padding: "12px 8px 4px",
+          }}
+        >
+          <HeroChart
+            dates={gaugeDaily.variants.gauge.dates}
+            gauge={gaugeDaily.variants.gauge.yoy_pct}
+            tracker={gaugeDaily.variants.tracker.yoy_pct}
+            months={compare.months}
+            official={compare.official_yoy_pct}
+            core={compare.official_core_yoy_pct}
+          />
+        </div>
+        <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 8 }}>
+          {compare.validation.gauge.lead_lag ? (
+            <>
+              <span style={{ color: "var(--accent-sky)", fontWeight: 600 }}>
+                LEAD-LAG:
+              </span>{" "}
+              gauge today correlates {compare.validation.gauge.lead_lag.corr}{" "}
+              with official CPI{" "}
+              {compare.validation.gauge.lead_lag.best_shift_months} month
+              {compare.validation.gauge.lead_lag.best_shift_months === 1
+                ? ""
+                : "s"}{" "}
+              ahead ·{" "}
+            </>
+          ) : null}
+          CPI-TRACKER {fmtPct(pulse.tracker.yoy_pct)} — built to re-track the
+          print · {pulse.gauge.coverage_pct.toFixed(0)}% of basket weight rides
+          live data
+        </div>
+      </Section>
 
       <Section title={`Official CPI components — YoY (${fmtMonth(cpi.month)} print)`}>
         <div
