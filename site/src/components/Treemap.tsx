@@ -229,7 +229,7 @@ export function Treemap() {
           </button>
         ))}
       </div>
-      <EChart option={option} height={420} />
+      <EChart option={option} height={420} notMerge={false} />
       <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 10 }}>
         <button
           style={chip(playing)}

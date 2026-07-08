@@ -21,13 +21,18 @@ echarts.use([
 ]);
 
 /** Thin ECharts wrapper: init on mount (client-only — SSG renders an empty
- *  div), setOption on change, resize with the window, dispose on unmount. */
+ *  div), setOption on change, resize with the window, dispose on unmount.
+ *  `notMerge` defaults to true (full reset per option change); pass false for
+ *  rapid dynamic updates (e.g. treemap replay) so each setOption merges into
+ *  the live chart and repaints immediately instead of tearing it down. */
 export function EChart({
   option,
   height = 320,
+  notMerge = true,
 }: {
   option: Record<string, unknown>;
   height?: number;
+  notMerge?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const chartRef = useRef<echarts.ECharts | null>(null);
@@ -45,8 +50,8 @@ export function EChart({
   }, []);
 
   useEffect(() => {
-    chartRef.current?.setOption(option, { notMerge: true });
-  }, [option]);
+    chartRef.current?.setOption(option, { notMerge });
+  }, [option, notMerge]);
 
   return <div ref={ref} style={{ width: "100%", height }} />;
 }
