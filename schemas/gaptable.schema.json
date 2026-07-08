@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "gaptable",
+  "type": "object",
+  "required": ["published_at", "as_of", "official_month", "rows", "total_gap_pp"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "as_of": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "official_month": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["component", "label", "weight", "mode", "ours_yoy_pct",
+                     "bls_yoy_pct", "gap_pp", "contribution_pp"],
+        "additionalProperties": false,
+        "properties": {
+          "component": {"type": "string"},
+          "label": {"type": "string"},
+          "weight": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+          "mode": {"enum": ["live", "bls_cf"]},
+          "ours_yoy_pct": {"type": ["number", "null"]},
+          "bls_yoy_pct": {"type": "number"},
+          "gap_pp": {"type": ["number", "null"]},
+          "contribution_pp": {"type": ["number", "null"]}
+        }
+      }
+    },
+    "total_gap_pp": {"type": "number"}
+  }
+}
