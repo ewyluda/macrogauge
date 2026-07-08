@@ -73,7 +73,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert pulse["official"]["month"] == "2026-04-01"
     assert isinstance(pulse["gauge"]["yoy_pct"], float)
     assert isinstance(pulse["gap_pp"], float)
-    for name in ("gauge_daily.json", "compare.json", "gaptable.json", "replay.json"):
+    for name in ("gauge_daily.json", "compare.json", "gaptable.json", "replay.json",
+                 "methodology.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 7

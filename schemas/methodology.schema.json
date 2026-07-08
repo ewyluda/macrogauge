@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "methodology",
+  "type": "object",
+  "required": ["published_at", "stats", "stages", "basket", "freshness",
+               "inventory", "validation", "variants", "limitations"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "stats": {
+      "type": "object",
+      "required": ["series_count", "obs_count", "source_count", "tracker_corr",
+                   "live_coverage_pct", "engine_version", "rebase"],
+      "additionalProperties": false,
+      "properties": {
+        "series_count": {"type": "integer", "minimum": 1},
+        "obs_count": {"type": "integer", "minimum": 1},
+        "source_count": {"type": "integer", "minimum": 1},
+        "tracker_corr": {"type": ["number", "null"], "minimum": -1, "maximum": 1},
+        "live_coverage_pct": {"type": "number", "minimum": 0, "maximum": 100},
+        "engine_version": {"type": "string"},
+        "rebase": {"type": "string"}
+      }
+    },
+    "stages": {
+      "type": "array", "minItems": 5, "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["n", "name", "description", "formula"],
+        "additionalProperties": false,
+        "properties": {
+          "n": {"type": "integer"},
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "formula": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "basket": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "label", "weight", "mode", "live_sources",
+                     "official_series", "yoy_pct"],
+        "additionalProperties": false,
+        "properties": {
+          "code": {"type": "string"},
+          "label": {"type": "string"},
+          "weight": {"type": "number"},
+          "mode": {"enum": ["live", "bls_cf"]},
+          "live_sources": {"type": "array", "items": {"type": "string"}},
+          "official_series": {"type": "string"},
+          "yoy_pct": {"type": ["number", "null"]}
+        }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "required": ["fresh_count", "total"],
+      "additionalProperties": false,
+      "properties": {
+        "fresh_count": {"type": "integer", "minimum": 0},
+        "total": {"type": "integer", "minimum": 1}
+      }
+    },
+    "inventory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "name", "source", "route", "cadence",
+                     "latest_obs", "fresh"],
+        "additionalProperties": false,
+        "properties": {
+          "code": {"type": "string"},
+          "name": {"type": "string"},
+          "source": {"type": "string"},
+          "route": {"type": "string"},
+          "cadence": {"type": "string"},
+          "latest_obs": {"type": ["string", "null"]},
+          "fresh": {"type": "boolean"}
+        }
+      }
+    },
+    "validation": {"type": "object"},
+    "variants": {
+      "type": "object",
+      "additionalProperties": {"type": "string"}
+    },
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+  }
+}

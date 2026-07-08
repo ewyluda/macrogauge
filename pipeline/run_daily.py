@@ -25,8 +25,8 @@ from pipeline.connectors import fred
 from pipeline.engine import gauge as gauge_engine
 from pipeline.engine import official
 from pipeline.publish import official as official_json
-from pipeline.publish import (compare, gaptable, gauge_daily, pulse, qa,
-                              replay, sources_status, validate)
+from pipeline.publish import (compare, gaptable, gauge_daily, methodology,
+                              pulse, qa, replay, sources_status, validate)
 from pipeline.store import vintage
 
 SCHEMAS = Path(__file__).parent.parent / "schemas"
@@ -98,12 +98,20 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         print(f"published: {cmp_path} "
               f"(tracker corr {compare_payload['validation']['tracker']['corr']})")
 
-        gt_path = gaptable.write(
-            gaptable.build(gauge_result, conn, comps,
-                           official_month=cpi["month"]),
-            args.out, published_at=published_at)
+        gaptable_payload = gaptable.build(gauge_result, conn, comps,
+                                          official_month=cpi["month"])
+        gt_path = gaptable.write(gaptable_payload, args.out,
+                                 published_at=published_at)
         validate.validate_file(gt_path, SCHEMAS / "gaptable.schema.json")
         print(f"published: {gt_path}")
+
+        meth_path = methodology.write(
+            methodology.build(gauge_result, conn, sources, series, comps,
+                              compare_payload["validation"], gaptable_payload,
+                              cpi, today),
+            args.out, published_at=published_at)
+        validate.validate_file(meth_path, SCHEMAS / "methodology.schema.json")
+        print(f"published: {meth_path}")
 
         official_path = official_json.write(official_json.build(conn, series),
                                             args.out,

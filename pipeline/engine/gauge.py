@@ -9,6 +9,7 @@ from pipeline.store import vintage
 
 GRID_START = "2017-01-01"    # internal grid start: feeds 365d YoY bases for 2018
 PUBLISH_START = "2018-01-01"  # writers publish from here
+ENGINE_VERSION = "1.0"           # bumped on methodology-changing engine math
 
 
 def _series(conn: sqlite3.Connection, code: str) -> dict[str, float]:
