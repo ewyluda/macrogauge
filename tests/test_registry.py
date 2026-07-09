@@ -8,8 +8,9 @@ from pipeline import registry
 
 def test_load_real_registry():
     sources, series = registry.load_registry()
-    assert set(sources) == {"FRED", "BLS", "EIA", "FMP", "TREASURY", "ZILLOW", "PMMS", "APTLIST"}
-    assert len(series) == 32
+    assert set(sources) == {"FRED", "BLS", "EIA", "FMP", "TREASURY", "ZILLOW", "PMMS",
+                            "APTLIST", "USDA"}
+    assert len(series) == 37
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]

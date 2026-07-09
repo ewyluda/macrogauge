@@ -7,7 +7,8 @@
     "TREASURY": {"route": "API", "cadence": "daily"},
     "ZILLOW":   {"route": "CSV", "cadence": "monthly"},
     "PMMS":     {"route": "CSV", "cadence": "weekly"},
-    "APTLIST":  {"route": "CSV", "cadence": "monthly"}
+    "APTLIST":  {"route": "CSV", "cadence": "monthly"},
+    "USDA":     {"route": "API", "cadence": "weekly", "secret": "USDA_API_KEY"}
   },
   "series": [
     {"code": "CPIAUCNS",        "source": "FRED",     "source_id": "CPIAUCNS",                     "name": "CPI-U all items (NSA)",              "max_staleness_days": 80},
@@ -41,6 +42,11 @@
     {"code": "zori_us",         "source": "ZILLOW",   "source_id": "zori",                         "name": "Zillow Observed Rent Index (US)",    "max_staleness_days": 75},
     {"code": "zhvi_us",         "source": "ZILLOW",   "source_id": "zhvi",                         "name": "Zillow Home Value Index (US)",       "max_staleness_days": 75},
     {"code": "pmms_30yr",       "source": "PMMS",     "source_id": "pmms30",                       "name": "Freddie Mac 30yr fixed mortgage %",  "max_staleness_days": 21},
-    {"code": "aptlist_us",      "source": "APTLIST",  "source_id": "national_rent",                "name": "Apartment List national rent estimate $", "max_staleness_days": 75}
+    {"code": "aptlist_us",      "source": "APTLIST",  "source_id": "national_rent",                "name": "Apartment List national rent estimate $", "max_staleness_days": 75},
+    {"code": "usda_eggs_w",     "source": "USDA",     "source_id": "2757:eggs",                    "name": "USDA national shell eggs, large white, $/carton (weekly)", "max_staleness_days": 30},
+    {"code": "usda_milk_w",     "source": "USDA",     "source_id": "2995:milk",                    "name": "USDA national whole milk, gallon, $/gal (weekly)", "max_staleness_days": 30},
+    {"code": "usda_beef_w",     "source": "USDA",     "source_id": "3228:beef",                    "name": "USDA national ground beef 80-89%, $/lb (weekly)", "max_staleness_days": 30},
+    {"code": "usda_pork_w",     "source": "USDA",     "source_id": "2868:pork",                    "name": "USDA national sliced bacon, $/lb (weekly)", "max_staleness_days": 30},
+    {"code": "usda_broiler_w",  "source": "USDA",     "source_id": "3646:broiler",                 "name": "USDA national broiler/fryer composite, ¢/lb (weekly)", "max_staleness_days": 30}
   ]
 }

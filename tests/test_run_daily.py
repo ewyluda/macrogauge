@@ -10,7 +10,7 @@ from tests.test_fred import FakeResponse
 FIXTURES = Path(__file__).parent / "fixtures"
 
 
-def fake_get(url, params=None, timeout=None):
+def fake_get(url, params=None, timeout=None, **kw):
     if "api.stlouisfed.org" in url:
         # test_fred.fake_get hard-asserts series_id == "CPIAUCNS" (written when
         # FRED had a single registry series); the registry now carries 16 FRED
@@ -34,6 +34,9 @@ def fake_get(url, params=None, timeout=None):
         return _text(FIXTURES / "pmms.csv")
     if "ctfassets.net" in url:
         return _text(FIXTURES / "aptlist.csv")
+    if "marsapi.ams.usda.gov" in url:
+        assert kw.get("auth") == ("test-key", "")
+        return FakeResponse(json.loads((FIXTURES / "usda_report.json").read_text()))
     raise AssertionError(f"unexpected url {url}")
 
 
@@ -61,7 +64,7 @@ def fake_post(url, json=None, timeout=None):
 
 
 def set_keys(monkeypatch):
-    for k in ("FRED_API_KEY", "EIA_API_KEY", "BLS_API_KEY", "FMP_API_KEY"):
+    for k in ("FRED_API_KEY", "EIA_API_KEY", "BLS_API_KEY", "FMP_API_KEY", "USDA_API_KEY"):
         monkeypatch.setenv(k, "test-key")
 
 
@@ -79,7 +82,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "methodology.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 8
+    assert len(status["sources"]) == 9
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
     assert qa["total"] == 10  # 4 existing + engine_ok + 5 gauge checks
@@ -125,10 +128,10 @@ def test_basket_config_failure_still_publishes_status_and_qa(tmp_path, monkeypat
 def test_one_source_down_still_publishes(tmp_path, monkeypatch):
     set_keys(monkeypatch)
 
-    def get_with_eia_down(url, params=None, timeout=None):
+    def get_with_eia_down(url, params=None, timeout=None, **kw):
         if "api.eia.gov" in url:
             raise RuntimeError("EIA 503")
-        return fake_get(url, params=params, timeout=timeout)
+        return fake_get(url, params=params, timeout=timeout, **kw)
 
     store, out = tmp_path / "store", tmp_path / "out"
     rc = run_daily.main(["--store", str(store), "--out", str(out)],
