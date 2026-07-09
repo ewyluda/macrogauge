@@ -109,7 +109,8 @@ Nine published files, each with a JSON Schema in `schemas/` validated before it 
 ## Operational notes
 
 - **Daily run** (`.github/workflows/daily.yml`): cron at 8:40 AM ET weekdays (two crons for
-  EDT/EST), gated so scheduled runs publish at most once/day in the 8:40–10:59 ET window; commits
+  EDT/EST, plus a midday backup cron), gated so scheduled runs publish at most once/day in the
+  8:40–15:59 ET window — the window must out-span GitHub's cron slip (2.5–3h observed); commits
   `store/` + `site/public/data` back as `data: daily publish <date>` (the loop's heartbeat), which
   triggers the Vercel deploy.
 - **`origin/main` gets a daily bot commit every morning.** Always `git fetch` / rebase before
