@@ -1,0 +1,39 @@
+{
+  "reportSection": "Report Details",
+  "results": [
+    {
+      "report_date": "12/25/2023",
+      "office_name": "Washington, DC - LP (Retail)",
+      "region": "NATIONAL",
+      "report_title": "Weekly Grocery Store Egg Feature Activity",
+      "slug_id": 2757,
+      "slug_name": "AMS_2757",
+      "community": "Meat",
+      "commodity": "Eggs",
+      "type": "WHITE LARGE",
+      "condition": "Fresh",
+      "environment": "Conventional",
+      "price_unit": "Per Doz",
+      "price_avg": 2.10,
+      "store_count": 5000,
+      "final_ind": "Final"
+    },
+    {
+      "report_date": "12/25/2023",
+      "office_name": "Washington, DC - LP (Retail)",
+      "region": "NATIONAL",
+      "report_title": "Weekly Grocery Store Egg Feature Activity",
+      "slug_id": 2757,
+      "slug_name": "AMS_2757",
+      "community": "Meat",
+      "commodity": "Eggs",
+      "type": "BROWN LARGE",
+      "condition": "Fresh",
+      "environment": "Conventional",
+      "price_unit": "Per Doz",
+      "price_avg": 2.60,
+      "store_count": 1200,
+      "final_ind": "Final"
+    }
+  ]
+}

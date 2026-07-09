@@ -141,6 +141,9 @@ def fetch(series_ids: list[str], api_key: str, vintage_date: str | None = None,
     for sid in series_ids:
         slug, key = sid.split(":", 1)
         cfg = STAPLE_CONFIG[key]
+        if slug != cfg["slug"]:
+            raise ValueError(
+                f"{sid}: registry slug {slug} != connector config {cfg['slug']}")
         rows = []
         for q_filters in cfg["queries"]:
             filters = dict(q_filters)
