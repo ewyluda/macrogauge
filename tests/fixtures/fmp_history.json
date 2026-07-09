@@ -1,0 +1,62 @@
+[
+  {
+    "symbol": "GCUSD",
+    "date": "2017-01-16",
+    "price": 1212.9,
+    "volume": 381417
+  },
+  {
+    "symbol": "GCUSD",
+    "date": "2017-01-13",
+    "price": 1196.2,
+    "volume": 288619
+  },
+  {
+    "symbol": "GCUSD",
+    "date": "2017-01-12",
+    "price": 1199.8,
+    "volume": 269319
+  },
+  {
+    "symbol": "GCUSD",
+    "date": "2017-01-11",
+    "price": 1196.6,
+    "volume": 328686
+  },
+  {
+    "symbol": "GCUSD",
+    "date": "2017-01-10",
+    "price": 1185.5,
+    "volume": 224813
+  },
+  {
+    "symbol": "GCUSD",
+    "date": "2017-01-09",
+    "price": 1184.9,
+    "volume": 179034
+  },
+  {
+    "symbol": "GCUSD",
+    "date": "2017-01-06",
+    "price": 1173.4,
+    "volume": 226432
+  },
+  {
+    "symbol": "GCUSD",
+    "date": "2017-01-05",
+    "price": 1181.3,
+    "volume": 272124
+  },
+  {
+    "symbol": "GCUSD",
+    "date": "2017-01-04",
+    "price": 1165.3,
+    "volume": 179878
+  },
+  {
+    "symbol": "GCUSD",
+    "date": "2017-01-03",
+    "price": 1162,
+    "volume": 229177
+  }
+]

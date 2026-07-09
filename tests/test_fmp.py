@@ -4,6 +4,7 @@ from pathlib import Path
 from pipeline.connectors import fmp
 
 FIXTURE = Path(__file__).parent / "fixtures" / "fmp_quote.json"
+HISTORY_FIXTURE = Path(__file__).parent / "fixtures" / "fmp_history.json"
 
 
 class FakeResponse:
@@ -32,3 +33,19 @@ def test_fetch_quotes_dated_from_timestamp():
         ("GCUSD", "2026-07-07", 3412.5),
         ("CLUSD", "2026-07-07", 71.85)]
     assert obs[0].source == "FMP" and obs[0].route == "API"
+
+
+def test_fetch_history_parses_daily_rows():
+    fixture = json.loads(HISTORY_FIXTURE.read_text())
+
+    def fake_get(url, params=None, timeout=None):
+        assert "historical-price-eod" in url
+        assert params["symbol"] in ("GCUSD",)
+        assert params["from"] == "2017-01-01"
+        return FakeResponse(fixture)
+
+    obs = fmp.fetch_history(["GCUSD"], "k", vintage_date="2026-07-10", http_get=fake_get)
+    assert len(obs) == len(fixture)
+    assert obs[0].series_code == "GCUSD"
+    assert obs[0].route == "API" and obs[0].source == "FMP"
+    assert obs[0].vintage_date == "2026-07-10"
