@@ -25,7 +25,7 @@
      "official_series": "CUUR0000SETA01"},
     {"code": "fuel", "label": "Gasoline", "weight": 0.030,
      "official_series": "CUUR0000SETB01",
-     "live_blend": {"eia_gasreg_w": 1.0},
+     "live_blend": {"aaa_gas_d": 0.7, "eia_gasreg_w": 0.3},
      "live_variants": ["gauge", "tracker"]},
     {"code": "electricity", "label": "Electricity", "weight": 0.028,
      "official_series": "CUUR0000SEHF01",

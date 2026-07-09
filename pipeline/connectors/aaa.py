@@ -1,0 +1,47 @@
+"""AAA national average gas price — scraped from https://gasprices.aaa.com/
+
+One observation per run (today's national regular average); daily history
+accrues in the store. Scrape protections (spec 2a §3): tight regex pinned to
+a recorded fixture, plausible-range check, and the collect-layer isolation —
+a redesigned page degrades fuel to its blend partners, never crashes the run.
+
+Access spike (2026-07-09): the live page repeats the national average in two
+places — a mobile banner ("Today’s AAA National Average $3.8460") and a
+desktop badge that splits the same label across a <br/> ("Today’s AAA<br/>
+National Average" ... "$3.8460" in a following <p class="numb">). The mobile
+banner's text is contiguous, so anchoring on that exact label is a tight,
+single-match anchor — it does NOT match the desktop badge (split by the
+<br/>) or the per-grade "Current Avg." table row (no label at all), even
+though both contain the same numeric value. The price itself is always
+$D.DDDD (single dollar digit, 4 decimals) across the whole page, confirmed
+across every grade/state price sampled in the spike fixture.
+"""
+import re
+
+import requests
+
+from pipeline.connectors.fred import today_et
+from pipeline.connectors.util import get_text
+from pipeline.models import Observation
+
+URL = "https://gasprices.aaa.com/"
+# Pinned by the Task-7 spike against tests/fixtures/aaa.html — the national
+# average appears as "AAA National Average $D.DDDD" in the mobile-banner
+# price-text block (see module docstring).
+PRICE_RE = re.compile(r"AAA National Average\s+\$(\d\.\d{4})")
+PLAUSIBLE = (1.5, 7.0)  # $/gal — outside this the page structure has drifted
+
+
+def fetch(vintage_date: str | None = None, http_get=None) -> list[Observation]:
+    http_get = http_get or requests.get
+    vintage = vintage_date or today_et()
+    html = get_text(URL, http_get)
+    m = PRICE_RE.search(html)
+    if not m:
+        raise ValueError("AAA page: national average not found (structure drift?)")
+    value = float(m.group(1))
+    if not (PLAUSIBLE[0] <= value <= PLAUSIBLE[1]):
+        raise ValueError(f"AAA national average {value} implausible "
+                         f"(range {PLAUSIBLE}) — structure drift?")
+    return [Observation(series_code="aaa_gas_d", obs_date=vintage, value=value,
+                        vintage_date=vintage, source="AAA", route="SCRAPE")]

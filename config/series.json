@@ -8,7 +8,8 @@
     "ZILLOW":   {"route": "CSV", "cadence": "monthly"},
     "PMMS":     {"route": "CSV", "cadence": "weekly"},
     "APTLIST":  {"route": "CSV", "cadence": "monthly"},
-    "USDA":     {"route": "API", "cadence": "weekly", "secret": "USDA_API_KEY"}
+    "USDA":     {"route": "API", "cadence": "weekly", "secret": "USDA_API_KEY"},
+    "AAA":      {"route": "SCRAPE", "cadence": "daily"}
   },
   "series": [
     {"code": "CPIAUCNS",        "source": "FRED",     "source_id": "CPIAUCNS",                     "name": "CPI-U all items (NSA)",              "max_staleness_days": 80},
@@ -47,6 +48,7 @@
     {"code": "usda_milk_w",     "source": "USDA",     "source_id": "2995:milk",                    "name": "USDA national whole milk, gallon, $/gal (weekly)", "max_staleness_days": 30},
     {"code": "usda_beef_w",     "source": "USDA",     "source_id": "3228:beef",                    "name": "USDA national ground beef 80-89%, $/lb (weekly)", "max_staleness_days": 30},
     {"code": "usda_pork_w",     "source": "USDA",     "source_id": "2868:pork",                    "name": "USDA national sliced bacon, $/lb (weekly)", "max_staleness_days": 30},
-    {"code": "usda_broiler_w",  "source": "USDA",     "source_id": "3646:broiler",                 "name": "USDA national broiler/fryer composite, ¢/lb (weekly)", "max_staleness_days": 30}
+    {"code": "usda_broiler_w",  "source": "USDA",     "source_id": "3646:broiler",                 "name": "USDA national broiler/fryer composite, ¢/lb (weekly)", "max_staleness_days": 30},
+    {"code": "aaa_gas_d",       "source": "AAA",      "source_id": "national_regular",             "name": "AAA national average regular gasoline $/gal", "max_staleness_days": 4}
   ]
 }

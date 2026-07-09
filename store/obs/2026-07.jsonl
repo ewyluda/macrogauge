@@ -15524,3 +15524,6 @@
 {"obs_date": "2026-06-29", "route": "API", "series_code": "usda_broiler_w", "source": "USDA", "value": 127.92, "vintage_date": "2026-07-09"}
 {"obs_date": "2026-07-09", "route": "API", "series_code": "fmp_gold", "source": "FMP", "value": 4132.3, "vintage_date": "2026-07-09"}
 {"obs_date": "2026-07-09", "route": "API", "series_code": "fmp_wti", "source": "FMP", "value": 71.81, "vintage_date": "2026-07-09"}
+{"obs_date": "2026-07-09", "route": "API", "series_code": "fmp_gold", "source": "FMP", "value": 4131.8, "vintage_date": "2026-07-09"}
+{"obs_date": "2026-07-09", "route": "API", "series_code": "fmp_wti", "source": "FMP", "value": 71.88, "vintage_date": "2026-07-09"}
+{"obs_date": "2026-07-09", "route": "SCRAPE", "series_code": "aaa_gas_d", "source": "AAA", "value": 3.846, "vintage_date": "2026-07-09"}

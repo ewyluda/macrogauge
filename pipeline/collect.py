@@ -9,7 +9,7 @@ from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
 
-from pipeline.connectors import aptlist, bls, eia, fmp, fred, pmms, treasury, usda, zillow
+from pipeline.connectors import aaa, aptlist, bls, eia, fmp, fred, pmms, treasury, usda, zillow
 from pipeline.registry import Series, Source
 from pipeline.store import vintage
 
@@ -71,9 +71,13 @@ def _usda(subset, key, http):
     return usda.fetch([s.source_id for s in subset], key, http_get=http)
 
 
+def _aaa(subset, key, http):
+    return aaa.fetch(http_get=http)
+
+
 FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             "TREASURY": _treasury, "ZILLOW": _zillow, "PMMS": _pmms,
-            "APTLIST": _aptlist, "USDA": _usda}
+            "APTLIST": _aptlist, "USDA": _usda, "AAA": _aaa}
 
 # BLS posts; everything else gets. collect_all passes the right client through.
 POST_SOURCES = {"BLS"}
