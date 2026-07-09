@@ -35,7 +35,7 @@ spec when 2a ships.
 4. **Variants 2→5:** Cost-of-Living, Supercore, PCE-weighted join gauge/tracker (§4).
 5. **New published artifacts:** `quilt_months_{24,48,all}.json` (+1 schema),
    `grocery_basket.json` (~25 BLS AP items, expanded from the current 6) (+1 schema);
-   `compare`/`gaptable`/`methodology` extend to five variants. Published files 9 → 14.
+   `compare`/`gaptable`/`methodology` extend to five variants. Published files 9 → 13 (quilt ×3 + grocery).
 6. **Close-out:** scrape-failure live drill (§7), full republish, ship.
 
 **Out of scope:** all Phase-2 pages (2b); nowcasts/benchmarks (phase 3); composites (phase 4);
@@ -133,7 +133,7 @@ All changes stay within the five pure stages; no stage gains I/O.
   (validation stats — corr + mean abs gap — published per variant, same as gauge/tracker today).
   Schema bumps follow the 1c Task-3 precedent: committed-data contract tests regenerate in-task.
 - **`replay.json`** gains per-component own-obs YoY (entry task, §1.1).
-- Published file count 9 → 14. Every new file gets a JSON Schema in `schemas/`, validated before
+- Published file count 9 → 13 (quilt ×3 + grocery). Every new file gets a JSON Schema in `schemas/`, validated before
   landing; the run_daily ordering invariants (status-first, ValidationError-fails-run) are
   pinned by existing tests and untouched.
 
@@ -159,7 +159,7 @@ New in 2a:
 - `test_run_daily`'s end-to-end fake extends to all 13 sources.
 - **Live drill (exit criterion):** a controlled local run with each scrape's fetch deliberately
   raising, verifying: component falls to its documented fallback, coverage drops, QA +
-  `sources_status` surface it, all 14 files publish, exit 0. Drill evidence (tee-verbatim, per
+  `sources_status` surface it, all 13 files publish, exit 0. Drill evidence (tee-verbatim, per
   process conventions) goes in the task report.
 
 ## 8. Exit criteria
