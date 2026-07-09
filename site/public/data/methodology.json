@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-09T19:31:49Z",
+  "published_at": "2026-07-09T20:47:27Z",
   "stats": {
     "series_count": 31,
     "obs_count": 8309,
@@ -52,6 +52,9 @@
         "redfin_us",
         "zori_us"
       ],
+      "live_active": [
+        "zori_us"
+      ],
       "official_series": "CUUR0000SEHC",
       "yoy_pct": 2.03
     },
@@ -61,6 +64,7 @@
       "weight": 0.185,
       "mode": "bls_cf",
       "live_sources": [],
+      "live_active": [],
       "official_series": "CUUR0000SAG",
       "yoy_pct": 4.91
     },
@@ -70,6 +74,7 @@
       "weight": 0.082,
       "mode": "bls_cf",
       "live_sources": [],
+      "live_active": [],
       "official_series": "CUUR0000SAF11",
       "yoy_pct": 2.74
     },
@@ -79,6 +84,7 @@
       "weight": 0.081,
       "mode": "bls_cf",
       "live_sources": [],
+      "live_active": [],
       "official_series": "CUUR0000SAM",
       "yoy_pct": 2.59
     },
@@ -92,6 +98,9 @@
         "redfin_us",
         "zori_us"
       ],
+      "live_active": [
+        "zori_us"
+      ],
       "official_series": "CUUR0000SEHA",
       "yoy_pct": 2.03
     },
@@ -101,6 +110,7 @@
       "weight": 0.057,
       "mode": "bls_cf",
       "live_sources": [],
+      "live_active": [],
       "official_series": "CUUR0000SEFV",
       "yoy_pct": 3.54
     },
@@ -110,6 +120,7 @@
       "weight": 0.055,
       "mode": "bls_cf",
       "live_sources": [],
+      "live_active": [],
       "official_series": "CUUR0000SAE",
       "yoy_pct": 0.84
     },
@@ -119,6 +130,7 @@
       "weight": 0.053,
       "mode": "bls_cf",
       "live_sources": [],
+      "live_active": [],
       "official_series": "CUUR0000SAR",
       "yoy_pct": 2.62
     },
@@ -128,6 +140,7 @@
       "weight": 0.036,
       "mode": "bls_cf",
       "live_sources": [],
+      "live_active": [],
       "official_series": "CUUR0000SETA01",
       "yoy_pct": 0.24
     },
@@ -137,6 +150,9 @@
       "weight": 0.03,
       "mode": "live",
       "live_sources": [
+        "eia_gasreg_w"
+      ],
+      "live_active": [
         "eia_gasreg_w"
       ],
       "official_series": "CUUR0000SETB01",
@@ -150,6 +166,9 @@
       "live_sources": [
         "eia_elec_res"
       ],
+      "live_active": [
+        "eia_elec_res"
+      ],
       "official_series": "CUUR0000SEHF01",
       "yoy_pct": 7.29
     },
@@ -159,6 +178,7 @@
       "weight": 0.025,
       "mode": "bls_cf",
       "live_sources": [],
+      "live_active": [],
       "official_series": "CUUR0000SAA",
       "yoy_pct": 4.79
     },
@@ -168,6 +188,7 @@
       "weight": 0.021,
       "mode": "bls_cf",
       "live_sources": [],
+      "live_active": [],
       "official_series": "CUUR0000SETA02",
       "yoy_pct": -1.99
     },
@@ -177,6 +198,9 @@
       "weight": 0.007,
       "mode": "live",
       "live_sources": [
+        "eia_ng_res"
+      ],
+      "live_active": [
         "eia_ng_res"
       ],
       "official_series": "CUUR0000SEHF02",

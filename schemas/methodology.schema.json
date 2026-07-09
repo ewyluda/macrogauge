@@ -41,7 +41,7 @@
       "items": {
         "type": "object",
         "required": ["code", "label", "weight", "mode", "live_sources",
-                     "official_series", "yoy_pct"],
+                     "live_active", "official_series", "yoy_pct"],
         "additionalProperties": false,
         "properties": {
           "code": {"type": "string"},
@@ -49,6 +49,7 @@
           "weight": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
           "mode": {"enum": ["live", "bls_cf"]},
           "live_sources": {"type": "array", "items": {"type": "string"}},
+          "live_active": {"type": "array", "items": {"type": "string"}},
           "official_series": {"type": "string"},
           "yoy_pct": {"type": ["number", "null"]}
         }

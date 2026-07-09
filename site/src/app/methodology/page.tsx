@@ -127,7 +127,13 @@ export default function Methodology() {
                     </span>
                   </td>
                   <td style={{ ...td, color: "var(--muted)", fontSize: 12 }}>
-                    {b.live_sources.length ? b.live_sources.join(" + ") : b.official_series}
+                    {b.live_sources.length
+                      ? b.live_sources
+                          .map((s) =>
+                            (b.live_active as string[]).includes(s) ? s : `${s} (phase-in)`
+                          )
+                          .join(" + ")
+                      : b.official_series}
                   </td>
                   <td style={{ ...td, textAlign: "right" }}>{fmtSigned(b.yoy_pct)}</td>
                 </tr>
@@ -180,6 +186,17 @@ export default function Methodology() {
               </div>
             </div>
           ))}
+          {"lead_lag" in v.gauge && v.gauge.lead_lag ? (
+            <div style={statChip}>
+              <div style={{ fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--muted)" }}>
+                lead vs print
+              </div>
+              <div style={{ fontSize: 15, marginTop: 4 }}>
+                best corr <b>{v.gauge.lead_lag.corr}</b> at{" "}
+                <b>{v.gauge.lead_lag.best_shift_months}mo</b> ahead
+              </div>
+            </div>
+          ) : null}
           <div style={statChip}>
             <div
               style={{

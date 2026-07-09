@@ -78,10 +78,13 @@ def build(gauge_result: dict, conn, sources: dict, series: list, comps,
     basket_rows = []
     for comp in comps:
         e = g["components"][comp.code]
+        live_sources = sorted(comp.live_blend) if comp.live_blend else []
         basket_rows.append({
             "code": comp.code, "label": comp.label, "weight": comp.weight,
             "mode": e["mode"],
-            "live_sources": sorted(comp.live_blend) if comp.live_blend else [],
+            "live_sources": live_sources,
+            "live_active": [s for s in live_sources
+                            if vintage.max_obs_date(conn, s) is not None],
             "official_series": comp.official_series,
             "yoy_pct": None if e["yoy_pct"] is None else round(e["yoy_pct"], 2)})
     weighted_bls = sum(r["weight"] * r["bls_yoy_pct"]
