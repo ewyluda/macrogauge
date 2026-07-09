@@ -30,7 +30,7 @@ URL = "https://www.mortgagenewsdaily.com/mortgage-rates/30-year-fixed"
 # docstring for why this anchor (not the header ticker or sidebar widget,
 # both of which repeat the same value but aren't uniquely labeled) is tight.
 RATE_RE = re.compile(
-    r"MND's 30 Year Fixed \(daily survey\).*?<td class=\"rate\">(\d\.\d{2})%</td>",
+    r"MND's 30 Year Fixed \(daily survey\).*?<td class=\"rate\">(\d{1,2}\.\d{2})%</td>",
     re.DOTALL,
 )
 PLAUSIBLE = (2.0, 12.0)  # percent
