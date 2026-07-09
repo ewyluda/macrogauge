@@ -17,7 +17,11 @@ RESULT = {"base_month": "2018-01", "variants": {"gauge": {
         "daily_index": {"2017-12-31": 99.456, "2018-01-01": 100.004,
                         "2018-01-02": 100.456},
         "official_daily_index": {"2017-12-31": 99.0, "2018-01-01": 100.0,
-                                 "2018-01-02": 100.111}}}}}}
+                                 "2018-01-02": 100.111},
+        "own_yoy_daily": {"2017-12-31": 1.5, "2018-01-01": 2.0,
+                          "2018-01-02": None},
+        "official_own_yoy_daily": {"2017-12-31": 0.9, "2018-01-01": 1.0,
+                                   "2018-01-02": 1.1}}}}}}
 
 
 def test_build_clips_rounds_and_pairs_arrays():
@@ -37,3 +41,12 @@ def test_write_is_compact_and_validates(tmp_path):
     assert path == tmp_path / "replay.json"
     assert '": ' not in path.read_text()  # compact separators, no indent
     validate.validate_file(path, SCHEMAS / "replay.schema.json")
+
+
+def test_replay_carries_own_yoy_arrays():
+    payload = replay.build(RESULT, [COMP])
+    for comp in payload["components"]:
+        assert len(comp["yoy"]) == len(payload["dates"])
+        assert len(comp["bls_yoy"]) == len(payload["dates"])
+    # a date where own_yoy is None must publish null, not a level ratio
+    assert None in payload["components"][0]["yoy"]

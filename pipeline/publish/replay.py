@@ -21,7 +21,12 @@ def build(gauge_result: dict, comps) -> dict:
             "mode": e["mode"],
             "index": [round(e["daily_index"][d], 2) for d in dates],
             "bls_index": [round(e["official_daily_index"][d], 2)
-                          for d in dates]})
+                          for d in dates],
+            "yoy": [None if e["own_yoy_daily"].get(d) is None
+                    else round(e["own_yoy_daily"][d], 2) for d in dates],
+            "bls_yoy": [None if e["official_own_yoy_daily"].get(d) is None
+                        else round(e["official_own_yoy_daily"][d], 2)
+                        for d in dates]})
     return {"rebase": f"{gauge_result['base_month']}=100",
             "dates": dates, "components": components}
 

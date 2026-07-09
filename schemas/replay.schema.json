@@ -13,7 +13,8 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["code", "label", "weight", "mode", "index", "bls_index"],
+        "required": ["code", "label", "weight", "mode", "index", "bls_index",
+                     "yoy", "bls_yoy"],
         "additionalProperties": false,
         "properties": {
           "code": {"type": "string"},
@@ -21,7 +22,9 @@
           "weight": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
           "mode": {"enum": ["live", "bls_cf"]},
           "index": {"type": "array", "items": {"type": "number"}},
-          "bls_index": {"type": "array", "items": {"type": "number"}}
+          "bls_index": {"type": "array", "items": {"type": "number"}},
+          "yoy": {"type": "array", "items": {"type": ["number", "null"]}},
+          "bls_yoy": {"type": "array", "items": {"type": ["number", "null"]}}
         }
       }
     }

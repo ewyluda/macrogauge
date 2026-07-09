@@ -76,6 +76,11 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
             at_obs = {d: filled_yoy[d] for d in series_by_date
                       if d in filled_yoy}
             own_yoy[code] = aggregate.fill_yoy(at_obs, GRID_START, end)
+        official_own_yoy = {}
+        for code, off_idx in official_rebased.items():
+            filled = aggregate.yoy(official_daily[code])
+            at_obs = {d: filled[d] for d in off_idx if d in filled}
+            official_own_yoy[code] = aggregate.fill_yoy(at_obs, GRID_START, end)
         coverage = sum(c.weight for c in comps
                        if modes[c.code] == "live"
                        and _fresh(conn, c.live_blend, staleness, today))
@@ -91,7 +96,9 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
                 "yoy_pct": own_yoy[c.code].get(own_end),
                 "end_value": daily[c.code][end],  # end_value stays at grid end; QA uses it
                 "daily_index": daily[c.code],
-                "official_daily_index": official_daily[c.code]}
+                "official_daily_index": official_daily[c.code],
+                "own_yoy_daily": own_yoy[c.code],
+                "official_own_yoy_daily": official_own_yoy[c.code]}
         out[variant] = {
             "index": index, "yoy": aggregate.weighted_yoy(own_yoy, weights),
             "as_of": end, "coverage_pct": coverage * 100, "gate_flags": flags,

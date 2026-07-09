@@ -179,3 +179,17 @@ def test_components_expose_daily_index_arrays(tmp_path):
     assert fuel["daily_index"]["2019-01-01"] == pytest.approx(104.0)
     # official: OFF_FU 200 -> 208 rebased = 100 -> 104
     assert fuel["official_daily_index"]["2019-01-01"] == pytest.approx(104.0)
+
+
+def test_components_carry_own_yoy_daily(tmp_path):
+    """Every component exposes its own-obs YoY (ours and official) as daily
+    forward-filled series covering the grid end."""
+    conn, bp = seed(tmp_path, ROWS)
+    r = gauge.run(conn, today="2019-01-05", basket_path=bp, staleness=STALENESS)
+    g = r["variants"]["gauge"]
+    for code, entry in g["components"].items():
+        assert "own_yoy_daily" in entry, code
+        assert "official_own_yoy_daily" in entry, code
+        end = g["as_of"]
+        assert end in entry["own_yoy_daily"], code
+        assert end in entry["official_own_yoy_daily"], code

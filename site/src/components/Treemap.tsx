@@ -13,6 +13,8 @@ type Replay = {
     mode: string;
     index: number[];
     bls_index: number[];
+    yoy: (number | null)[];
+    bls_yoy: (number | null)[];
   }[];
 };
 
@@ -59,12 +61,13 @@ function modeValue(
   const ix = c.index;
   switch (mode) {
     case "yoy":
-      return i >= 365 ? pct(ix[i], ix[i - 365]) : null;
+      return c.yoy[i];
     case "mom_ann":
       return i >= 30 ? (Math.pow(ix[i] / ix[i - 30], 12) - 1) * 100 : null;
     case "vs_bls": {
-      if (i < 365) return null;
-      return pct(ix[i], ix[i - 365]) - pct(c.bls_index[i], c.bls_index[i - 365]);
+      const a = c.yoy[i];
+      const b = c.bls_yoy[i];
+      return a === null || b === null ? null : a - b;
     }
     case "d1":
       return i >= 1 ? pct(ix[i], ix[i - 1]) : null;
@@ -191,13 +194,14 @@ export function Treemap() {
     c,
     v: modeValue(c, frame.i, mode),
   }));
-  const oursHeadline = values.every((x) => x.v !== null && mode === "yoy")
-    ? values.reduce((s, x) => s + x.c.weight * (x.v as number), 0)
-    : null;
+  const oursHeadline =
+    mode === "yoy" && values.every((x) => x.v !== null)
+      ? values.reduce((s, x) => s + x.c.weight * (x.v as number), 0)
+      : null;
   const blsHeadline =
-    mode === "yoy" && frame.i >= 365
+    mode === "yoy" && data.components.every((c) => c.bls_yoy[frame.i] !== null)
       ? data.components.reduce(
-          (s, c) => s + c.weight * pct(c.bls_index[frame.i], c.bls_index[frame.i - 365]),
+          (s, c) => s + c.weight * (c.bls_yoy[frame.i] as number),
           0
         )
       : null;
@@ -277,11 +281,6 @@ export function Treemap() {
         <span>
           Ours {oursHeadline === null ? "—" : `${oursHeadline.toFixed(2)}%`} · BLS{" "}
           {blsHeadline === null ? "—" : `${blsHeadline.toFixed(2)}%`}
-          {/* the latest frame's naive 365-day level ratio understates lagging
-              components between prints; the headline uses like-month YoY */}
-          {at === monthEnds.length - 1 && oursHeadline !== null
-            ? " · 365-day ratio at partial month — headline uses like-month YoY"
-            : ""}
         </span>
       </div>
     </div>
