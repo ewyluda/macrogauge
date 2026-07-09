@@ -39,6 +39,8 @@ def fake_get(url, params=None, timeout=None, **kw):
         return FakeResponse(json.loads((FIXTURES / "usda_report.json").read_text()))
     if "gasprices.aaa.com" in url:
         return _text(FIXTURES / "aaa.html")
+    if "mortgagenewsdaily.com" in url:
+        return _text(FIXTURES / "mnd.html")
     raise AssertionError(f"unexpected url {url}")
 
 
@@ -84,7 +86,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "methodology.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 10
+    assert len(status["sources"]) == 11
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
     assert qa["total"] == 10  # 4 existing + engine_ok + 5 gauge checks

@@ -1,0 +1,136 @@
+<!-- Trimmed real fragment from
+     https://www.mortgagenewsdaily.com/mortgage-rates/30-year-fixed
+     (access spike, 2026-07-09). Markup copied verbatim; unrelated nav/JS
+     cut. Kept intentionally: the 15YR ticker price and three *other* rate
+     rows (Prior Year column, MBA weekly, Freddie Mac weekly) — all decoys
+     the regex must NOT match. Real answer for this fixture: 6.65. -->
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<title>30 Year Fixed Mortgage Rates - Mortgage News Daily</title>
+</head>
+<body>
+    <div class="header-charts hidden-xs hidden-sm" style="max-height: 40px; float: right;">
+    <div class="header-chart">
+        <a href="/mortgage-rates">
+            <div class="product-details">
+                <div class="product">30YR Fixed Rate</div>
+                <div class="price">6.65%</div>
+                <div class="rate rate-down">-0.03%</div>
+            </div>
+            <div class="product-chart">
+                <div class="chart"><img style="width: 38px; height: 21px;" src="/charts/ratessvg/30yrfrm?c=rate-down" /></div>
+            </div>
+        </a>
+    </div>
+        <div class="header-chart">
+            <a href="/mortgage-rates">
+                <div class="product-details">
+                    <div class="product">15YR Fixed Rate</div>
+                    <div class="price">6.20%</div>
+                    <div class="rate rate-down">-0.02%</div>
+                </div>
+                <div class="product-chart">
+                    <div class="chart"><img style="width: 38px; height: 21px;" src="/charts/ratessvg/15yrfrm?c=rate-down" /></div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="row rate-page">
+      <div class="col-md-12">
+        <table class="table table-hover mtg-rates">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Rate</th>
+              <th>Points</th>
+              <th>Change</th>
+              <th>Prior Year</th>
+              <th>YOY Change</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th colspan="6" class="rate-product">MND's 30 Year Fixed (daily survey)</th>
+            </tr>
+              <tr>
+                <td class="rate-date">
+                  <span class="hidden-xs">Jul 09 2026</span>
+                  <span class="visible-xs">7/9/26</span>
+                </td>
+                <td class="rate">6.65%</td>
+                <td>--</td>
+                <td class="text-center change">
+                  -0.03%
+                  <i class="fa fa-arrow-down rate-down"></i>
+                </td>
+                <td class="rate">6.77%</td>
+                <td class="text-center change">
+                  -0.12%
+                  <i class="fa fa-arrow-down rate-down"></i>
+                </td>
+              </tr>
+              <tr>
+                <td class="rate-date">
+                  <span class="hidden-xs">Jul 08 2026</span>
+                  <span class="visible-xs">7/8/26</span>
+                </td>
+                <td class="rate">6.68%</td>
+                <td>--</td>
+                <td class="text-center change">
+                  &#x2B;0.05%
+                  <i class="fa fa-arrow-up rate-up"></i>
+                </td>
+                <td class="rate">6.81%</td>
+                <td class="text-center change">
+                  -0.13%
+                  <i class="fa fa-arrow-down rate-down"></i>
+                </td>
+              </tr>
+            <tr>
+              <th colspan="6" class="rate-product">MBA 30 Year Fixed (weekly)</th>
+            </tr>
+              <tr>
+                <td class="rate-date">
+                  <span class="hidden-xs">Jul 01 2026</span>
+                  <span class="visible-xs">7/1/26</span>
+                </td>
+                <td class="rate">6.57%</td>
+                <td>0.65</td>
+                <td class="text-center change">
+                  -0.02%
+                  <i class="fa fa-arrow-down rate-down"></i>
+                </td>
+                <td class="rate">6.79%</td>
+                <td class="text-center change">
+                  -0.22%
+                  <i class="fa fa-arrow-down rate-down"></i>
+                </td>
+              </tr>
+            <tr>
+              <th colspan="6" class="rate-product">Freddie Mac 30 Year Fixed (weekly) </th>
+            </tr>
+              <tr>
+                <td class="rate-date">
+                  <span class="hidden-xs">Jul 09 2026</span>
+                  <span class="visible-xs">7/9/26</span>
+                </td>
+                <td class="rate">6.49%</td>
+                <td>0.00</td>
+                <td class="text-center change">
+                  &#x2B;0.06%
+                  <i class="fa fa-arrow-up rate-up"></i>
+                </td>
+                <td class="rate">6.67%</td>
+                <td class="text-center change">
+                  -0.18%
+                  <i class="fa fa-arrow-down rate-down"></i>
+                </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</body>
+</html>

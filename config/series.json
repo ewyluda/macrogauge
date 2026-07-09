@@ -9,7 +9,8 @@
     "PMMS":     {"route": "CSV", "cadence": "weekly"},
     "APTLIST":  {"route": "CSV", "cadence": "monthly"},
     "USDA":     {"route": "API", "cadence": "weekly", "secret": "USDA_API_KEY"},
-    "AAA":      {"route": "SCRAPE", "cadence": "daily"}
+    "AAA":      {"route": "SCRAPE", "cadence": "daily"},
+    "MND":      {"route": "SCRAPE", "cadence": "daily"}
   },
   "series": [
     {"code": "CPIAUCNS",        "source": "FRED",     "source_id": "CPIAUCNS",                     "name": "CPI-U all items (NSA)",              "max_staleness_days": 80},
@@ -49,6 +50,7 @@
     {"code": "usda_beef_w",     "source": "USDA",     "source_id": "3228:beef",                    "name": "USDA national ground beef 80-89%, $/lb (weekly)", "max_staleness_days": 30},
     {"code": "usda_pork_w",     "source": "USDA",     "source_id": "2868:pork",                    "name": "USDA national sliced bacon, $/lb (weekly)", "max_staleness_days": 30},
     {"code": "usda_broiler_w",  "source": "USDA",     "source_id": "3646:broiler",                 "name": "USDA national broiler/fryer composite, ¢/lb (weekly)", "max_staleness_days": 30},
+    {"code": "mnd_30y_d",       "source": "MND",      "source_id": "rate_30yr_fixed",              "name": "Mortgage News Daily 30yr fixed %",   "max_staleness_days": 5},
     {"code": "aaa_gas_d",       "source": "AAA",      "source_id": "national_regular",             "name": "AAA national average regular gasoline $/gal", "max_staleness_days": 4}
   ]
 }
