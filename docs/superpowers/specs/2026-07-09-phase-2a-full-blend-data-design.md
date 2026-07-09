@@ -75,7 +75,7 @@ pinned by that spike:
 | Source | Route | Cadence | Access (verify in spike) | max_staleness | On failure |
 |---|---|---|---|---|---|
 | Apartment List | CSV | monthly | research/data page CSV, national rent index | ~45d | blend renormalizes to zori/redfin |
-| Redfin | CSV | monthly | Data Center TSV (public S3), national rents | ~45d | blend renormalizes |
+| Redfin | CSV | monthly | RETIRED — dataset gone (2a deviation) | ~45d | blend renormalizes |
 | AAA gas | scrape | daily | gasprices.aaa.com national average | ~4d | fuel → EIA weekly → BLS-CF |
 | MND 30yr | scrape | daily | mortgagenewsdaily.com rate page | ~5d | CoL rate → PMMS weekly |
 | Manheim | scrape | monthly (mid + full) | UVVI publish page | ~45d | used_vehicles → BLS-CF |
@@ -92,6 +92,9 @@ pinned by that spike:
   spec's food_home row moves to a later phase — recorded as a deviation, not silently absorbed.
 - **Fuel demotion is config + one QA check:** EIA GASREGW keeps collecting; a new QA check
   flags AAA-vs-GASREGW weekly divergence beyond a threshold set in the plan.
+
+**Deviation 2026-07-09:** Redfin retired its bulk rental dataset (Feb-2025 Zillow partnership); redfin_us dropped from the shelter blend — 2-source zori/aptlist (5:3) rides instead. User-ratified.
+
 - **Registry adds:** ~6 live-source series (`aptlist_us`, `redfin_us`, `aaa_gas_d`, `mnd_30y_d`,
   `manheim_uvvi_m`, USDA composite inputs) + ~19 AP grocery items (one batched BLS request —
   50-series/request limit, quota trivial).

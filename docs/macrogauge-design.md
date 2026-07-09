@@ -113,7 +113,7 @@ One module per source exposing `fetch(session) -> list[Observation]`, registered
 | CSV | Zillow ZORI + ZHVI | shelter rent blend, home values | 1 |
 | CSV | Freddie Mac PMMS | 30yr mortgage (weekly fallback) | 1 |
 | CSV | Apartment List | shelter rent blend | 2 |
-| CSV | Redfin Data Center | shelter rent blend | 2 |
+| CSV | Redfin Data Center | shelter rent blend | 2 — retired by Redfin 2025, dropped (2a) |
 | Scrape | AAA daily gas | fuel component (daily) | 2 |
 | Scrape | Mortgage News Daily | 30yr daily rate (primary; PMMS fallback) | 2 |
 | Scrape | Manheim (Cox Automotive) | used-vehicle index, shifted +30d | 2 |
@@ -136,7 +136,7 @@ Five pure stages over the vintage store (each independently unit-testable):
 1. **Rebase** — every series indexed to Jan 2018 = 100. Late-starting series spliced: scaled to
    match their component index at first overlap.
 2. **Blend & splice** — volatile components ride live data spliced onto official BLS history:
-   - shelter_rent = 50% Zillow ZORI + 30% Apartment List + 20% Redfin
+   - shelter_rent = Zillow ZORI + Apartment List (5:3, renormalized; Redfin leg dropped 2a — dataset retired)
    - fuel = AAA daily pump, validated weekly vs EIA GASREGW
    - used_vehicles = Manheim wholesale shifted 30 days (wholesale leads retail)
    - food_home = USDA composite; electricity + nat_gas = EIA residential

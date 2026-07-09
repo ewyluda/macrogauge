@@ -1,9 +1,9 @@
 {
-  "published_at": "2026-07-09T20:47:27Z",
+  "published_at": "2026-07-09T21:51:35Z",
   "stats": {
-    "series_count": 31,
-    "obs_count": 8309,
-    "source_count": 7,
+    "series_count": 32,
+    "obs_count": 13369,
+    "source_count": 8,
     "tracker_corr": 0.9775,
     "live_coverage_pct": 40.5,
     "engine_version": "1.0",
@@ -49,14 +49,14 @@
       "mode": "live",
       "live_sources": [
         "aptlist_us",
-        "redfin_us",
         "zori_us"
       ],
       "live_active": [
+        "aptlist_us",
         "zori_us"
       ],
       "official_series": "CUUR0000SEHC",
-      "yoy_pct": 2.03
+      "yoy_pct": 0.71
     },
     {
       "code": "other",
@@ -95,14 +95,14 @@
       "mode": "live",
       "live_sources": [
         "aptlist_us",
-        "redfin_us",
         "zori_us"
       ],
       "live_active": [
+        "aptlist_us",
         "zori_us"
       ],
       "official_series": "CUUR0000SEHA",
-      "yoy_pct": 2.03
+      "yoy_pct": 0.71
     },
     {
       "code": "food_away",
@@ -208,8 +208,8 @@
     }
   ],
   "freshness": {
-    "fresh_count": 31,
-    "total": 31
+    "fresh_count": 32,
+    "total": 32
   },
   "inventory": [
     {
@@ -461,7 +461,7 @@
       "source": "TREASURY",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-07",
+      "latest_obs": "2026-07-08",
       "fresh": true
     },
     {
@@ -490,16 +490,25 @@
       "cadence": "weekly",
       "latest_obs": "2026-07-09",
       "fresh": true
+    },
+    {
+      "code": "aptlist_us",
+      "name": "Apartment List national rent estimate $",
+      "source": "APTLIST",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
     }
   ],
   "validation": {
     "gauge": {
-      "corr": 0.9393,
-      "mean_abs_gap_pp": 0.79,
+      "corr": 0.9236,
+      "mean_abs_gap_pp": 0.92,
       "window": "2018-01..2026-05",
       "lead_lag": {
         "best_shift_months": 1,
-        "corr": 0.942
+        "corr": 0.9295
       }
     },
     "tracker": {

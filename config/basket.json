@@ -3,7 +3,7 @@
   "components": [
     {"code": "shelter_owned", "label": "Shelter (owned)", "weight": 0.265,
      "official_series": "CUUR0000SEHC",
-     "live_blend": {"zori_us": 0.50, "aptlist_us": 0.30, "redfin_us": 0.20},
+     "live_blend": {"zori_us": 0.50, "aptlist_us": 0.30},
      "live_variants": ["gauge"]},
     {"code": "other", "label": "Other goods & services", "weight": 0.185,
      "official_series": "CUUR0000SAG"},
@@ -13,7 +13,7 @@
      "official_series": "CUUR0000SAM"},
     {"code": "shelter_rent", "label": "Rent", "weight": 0.075,
      "official_series": "CUUR0000SEHA",
-     "live_blend": {"zori_us": 0.50, "aptlist_us": 0.30, "redfin_us": 0.20},
+     "live_blend": {"zori_us": 0.50, "aptlist_us": 0.30},
      "live_variants": ["gauge"]},
     {"code": "food_away", "label": "Food away from home", "weight": 0.057,
      "official_series": "CUUR0000SEFV"},
