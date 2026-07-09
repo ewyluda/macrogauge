@@ -9,7 +9,7 @@ from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
 
-from pipeline.connectors import bls, eia, fmp, fred, pmms, treasury, zillow
+from pipeline.connectors import aptlist, bls, eia, fmp, fred, pmms, treasury, zillow
 from pipeline.registry import Series, Source
 from pipeline.store import vintage
 
@@ -63,8 +63,13 @@ def _pmms(subset, key, http):
     return pmms.fetch(http_get=http)
 
 
+def _aptlist(subset, key, http):
+    return aptlist.fetch(http_get=http)
+
+
 FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
-            "TREASURY": _treasury, "ZILLOW": _zillow, "PMMS": _pmms}
+            "TREASURY": _treasury, "ZILLOW": _zillow, "PMMS": _pmms,
+            "APTLIST": _aptlist}
 
 # BLS posts; everything else gets. collect_all passes the right client through.
 POST_SOURCES = {"BLS"}

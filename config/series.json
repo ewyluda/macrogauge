@@ -6,7 +6,8 @@
     "FMP":      {"route": "API", "cadence": "daily",   "secret": "FMP_API_KEY"},
     "TREASURY": {"route": "API", "cadence": "daily"},
     "ZILLOW":   {"route": "CSV", "cadence": "monthly"},
-    "PMMS":     {"route": "CSV", "cadence": "weekly"}
+    "PMMS":     {"route": "CSV", "cadence": "weekly"},
+    "APTLIST":  {"route": "CSV", "cadence": "monthly"}
   },
   "series": [
     {"code": "CPIAUCNS",        "source": "FRED",     "source_id": "CPIAUCNS",                     "name": "CPI-U all items (NSA)",              "max_staleness_days": 80},
@@ -39,6 +40,7 @@
     {"code": "fiscal_debt_total","source": "TREASURY","source_id": "debt_to_penny",                "name": "Total public debt outstanding $",    "max_staleness_days": 10},
     {"code": "zori_us",         "source": "ZILLOW",   "source_id": "zori",                         "name": "Zillow Observed Rent Index (US)",    "max_staleness_days": 75},
     {"code": "zhvi_us",         "source": "ZILLOW",   "source_id": "zhvi",                         "name": "Zillow Home Value Index (US)",       "max_staleness_days": 75},
-    {"code": "pmms_30yr",       "source": "PMMS",     "source_id": "pmms30",                       "name": "Freddie Mac 30yr fixed mortgage %",  "max_staleness_days": 21}
+    {"code": "pmms_30yr",       "source": "PMMS",     "source_id": "pmms30",                       "name": "Freddie Mac 30yr fixed mortgage %",  "max_staleness_days": 21},
+    {"code": "aptlist_us",      "source": "APTLIST",  "source_id": "national_rent",                "name": "Apartment List national rent estimate $", "max_staleness_days": 75}
   ]
 }
