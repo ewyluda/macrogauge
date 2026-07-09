@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-08T20:46:15Z",
+  "published_at": "2026-07-09T19:31:49Z",
   "headline": {
     "cpi": {
       "month": "2026-05-01",
@@ -201,17 +201,17 @@
       "label": "30yr mortgage",
       "group": "rates",
       "unit": "%",
-      "latest": 6.43,
-      "obs_date": "2026-07-02",
-      "yoy_pct": -5.02
+      "latest": 6.49,
+      "obs_date": "2026-07-09",
+      "yoy_pct": -2.7
     },
     {
       "code": "fmp_gold",
       "label": "Gold",
       "group": "markets",
       "unit": "$/oz",
-      "latest": 4083.5,
-      "obs_date": "2026-07-08",
+      "latest": 4133.6,
+      "obs_date": "2026-07-09",
       "yoy_pct": null
     },
     {
@@ -219,8 +219,8 @@
       "label": "WTI crude",
       "group": "markets",
       "unit": "$/bbl",
-      "latest": 74.81,
-      "obs_date": "2026-07-08",
+      "latest": 71.77,
+      "obs_date": "2026-07-09",
       "yoy_pct": null
     },
     {

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08",
+  "generated_at": "2026-07-09",
   "passed": 10,
   "total": 10,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-05-01 is 68d old (limit 80)"
+      "detail": "latest official month 2026-05-01 is 69d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -37,7 +37,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-06 is 2d old (limit 7)"
+      "detail": "gauge as-of 2026-07-06 is 3d old (limit 7)"
     },
     {
       "name": "gauge_components_present",

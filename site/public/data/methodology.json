@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-07-08T20:46:15Z",
+  "published_at": "2026-07-09T19:31:49Z",
   "stats": {
     "series_count": 31,
-    "obs_count": 8306,
+    "obs_count": 8309,
     "source_count": 7,
     "tracker_corr": 0.9775,
     "live_coverage_pct": 40.5,
@@ -419,7 +419,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-08",
+      "latest_obs": "2026-07-09",
       "fresh": true
     },
     {
@@ -428,7 +428,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-08",
+      "latest_obs": "2026-07-09",
       "fresh": true
     },
     {
@@ -464,7 +464,7 @@
       "source": "PMMS",
       "route": "CSV",
       "cadence": "weekly",
-      "latest_obs": "2026-07-02",
+      "latest_obs": "2026-07-09",
       "fresh": true
     }
   ],
