@@ -41,6 +41,6 @@
     {"code": "zori_us",         "source": "ZILLOW",   "source_id": "zori",                         "name": "Zillow Observed Rent Index (US)",    "max_staleness_days": 75},
     {"code": "zhvi_us",         "source": "ZILLOW",   "source_id": "zhvi",                         "name": "Zillow Home Value Index (US)",       "max_staleness_days": 75},
     {"code": "pmms_30yr",       "source": "PMMS",     "source_id": "pmms30",                       "name": "Freddie Mac 30yr fixed mortgage %",  "max_staleness_days": 21},
-    {"code": "aptlist_us",      "source": "APTLIST",  "source_id": "national_rent",                "name": "Apartment List national rent estimate $", "max_staleness_days": 75}
+    {"code": "aptlist_us",      "source": "APTLIST",  "source_id": "national_rent",                "name": "Apartment List national rent estimate $", "max_staleness_days": 45}
   ]
 }

@@ -26,6 +26,10 @@ def test_fetch_parses_national_monthly_rows():
     assert all(o.obs_date >= "2017-01-01" for o in obs)
     dates = [o.obs_date for o in obs]
     assert dates == sorted(dates) and len(dates) >= 12
+    # Verify bed_size filter: fixture has national overall and national 1br rows;
+    # only overall should be picked up. Check first (2017-01: 1068) and last (2018-02: 1089).
+    assert obs[0].value == 1068
+    assert obs[-1].value == 1089
 
 
 def test_fetch_raises_when_national_row_missing():
