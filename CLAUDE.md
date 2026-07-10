@@ -27,7 +27,6 @@ FRED_API_KEY=... python -m pipeline.run_daily --store store --out site/public/da
 cd site && npm ci
 npm run dev        # local dev server
 npm run build      # static export (must pass in CI)
-npm run lint
 ```
 
 CI (`.github/workflows/ci.yml`) runs two independent jobs on every push/PR: `pipeline` (`pytest -q`)
