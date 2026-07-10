@@ -78,8 +78,7 @@ default absent fields to `None` so old partitions load forever. **Never rewrite 
 
 `official.py` is a separate, trivial engine for YoY off the latest official monthly print.
 
-**Two variants** (`variants.VARIANTS`): `gauge` (the live market-rent blend drives *both* shelter
-components) and `tracker` (official shelter dynamics; only fuel/electricity/nat_gas ride live).
+**Five variants** (`variants.VARIANTS`): `gauge` (the market-rent blend drives both shelter components; fuel, electricity and piped gas ride live EIA data), `col` (owned shelter = marginal-buyer payment: 0.80×ZHVI at the 30yr rate, MND daily/PMMS fallback; everything else rides live), `tracker` (official shelter dynamics; only fuel, electricity and piped gas ride live), `supercore` (services-ex-shelter approximation over our 14 coarse components, renormalized), and `pce` (same components under hand-seeded BEA-share weights, graded vs PCEPI).
 Which component rides live data in which variant is config (`live_variants` in `config/basket.json`),
 not code.
 
