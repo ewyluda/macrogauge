@@ -12,6 +12,7 @@ import { StatusPill } from "@/components/StatusPill";
 import { Section } from "@/components/Section";
 import { HeroChart } from "@/components/HeroChart";
 import { Treemap } from "@/components/Treemap";
+import { QuiltHeatmap } from "@/components/QuiltHeatmap";
 import { GapTable } from "@/components/GapTable";
 import { GapDecomposition } from "@/components/GapDecomposition";
 import { SparklineCard } from "@/components/SparklineCard";
@@ -225,6 +226,10 @@ export default function Home() {
             ] - 100
           }
         />
+      </Section>
+
+      <Section title="Inflation quilt — every component, every month">
+        <QuiltHeatmap />
       </Section>
 
       <Section title={`Official CPI components — YoY (${fmtMonth(cpi.month)} print)`}>

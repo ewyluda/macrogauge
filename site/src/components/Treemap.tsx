@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { EChart } from "./EChart";
 import { C } from "@/lib/chartTheme";
+import { ramp } from "@/lib/heat";
 
 type Replay = {
   rebase: string;
@@ -26,28 +27,6 @@ const MODES = [
   { key: "wow", label: "WoW Δ", domain: [-1, 1] },
 ] as const;
 type ModeKey = (typeof MODES)[number]["key"];
-
-// blue → slate → amber → red, nowflation's -2%→6% ramp normalized to t∈[0,1]
-const STOPS: [number, [number, number, number]][] = [
-  [0.0, [37, 99, 235]],   // blue
-  [0.25, [71, 85, 105]],  // slate ≈ 0
-  [0.62, [217, 119, 6]],  // amber
-  [1.0, [220, 38, 38]],   // red
-];
-
-function ramp(t: number): string {
-  const x = Math.max(0, Math.min(1, t));
-  for (let i = 1; i < STOPS.length; i++) {
-    if (x <= STOPS[i][0]) {
-      const [t0, c0] = STOPS[i - 1];
-      const [t1, c1] = STOPS[i];
-      const f = (x - t0) / (t1 - t0);
-      const c = c0.map((v, j) => Math.round(v + (c1[j] - v) * f));
-      return `rgb(${c[0]},${c[1]},${c[2]})`;
-    }
-  }
-  return `rgb(220,38,38)`;
-}
 
 const pct = (a: number, b: number) => (a / b - 1) * 100;
 
