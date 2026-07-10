@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { realRaisePct } from "@/lib/realwage";
-import { fmtPp } from "@/lib/format";
+import { fmtMonth, fmtPp } from "@/lib/format";
 
 function ResultChip({ label, pct }: { label: string; pct: number }) {
   const color = pct >= 0 ? "var(--accent-emerald)" : "var(--accent-red)";
@@ -36,9 +36,11 @@ function ResultChip({ label, pct }: { label: string; pct: number }) {
 export function RaiseCalculator({
   gaugeYoy,
   officialYoy,
+  officialMonth,
 }: {
   gaugeYoy: number;
   officialYoy: number;
+  officialMonth: string;
 }) {
   const [raise, setRaise] = useState(4.0);
   return (
@@ -86,7 +88,10 @@ export function RaiseCalculator({
           label="vs today's prices (macrogauge)"
           pct={realRaisePct(raise, gaugeYoy)}
         />
-        <ResultChip label="vs official CPI" pct={realRaisePct(raise, officialYoy)} />
+        <ResultChip
+          label={`vs official CPI (${fmtMonth(officialMonth)})`}
+          pct={realRaisePct(raise, officialYoy)}
+        />
       </div>
       <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 10 }}>
         Real change = (1 + raise) ÷ (1 + inflation) − 1 · gauge{" "}

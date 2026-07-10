@@ -37,7 +37,9 @@ export default function RealWages() {
         <KpiCard
           label="Real wage growth"
           value={k.real_wage_growth_pct === null ? "—" : fmtPct(k.real_wage_growth_pct)}
-          context="typical wage growth minus today's inflation"
+          context={`typical wage growth minus today's inflation · wage ${
+            k.wage_as_of ? fmtMonth(k.wage_as_of) : "—"
+          } vs gauge ${pulse.gauge.as_of}`}
           accent={
             k.real_wage_growth_pct !== null && k.real_wage_growth_pct < 0
               ? "red"
@@ -50,6 +52,7 @@ export default function RealWages() {
         <RaiseCalculator
           gaugeYoy={pulse.gauge.yoy_pct}
           officialYoy={pulse.official.yoy_pct}
+          officialMonth={pulse.official.month}
         />
       </Section>
 
