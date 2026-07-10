@@ -117,7 +117,7 @@ One module per source exposing `fetch(session) -> list[Observation]`, registered
 | Scrape | AAA daily gas | fuel component (daily) | 2 |
 | Scrape | Mortgage News Daily | 30yr daily rate (primary; PMMS fallback) | 2 |
 | Scrape | Manheim (Cox Automotive) | used-vehicle index, shifted +30d | 2 |
-| API | USDA (NASS/MMN) | food-at-home composite, farm-gate prices | 2 |
+| API | USDA (NASS/MMN) | food-at-home composite, farm-gate prices (2a: collected, composite not yet driving food_home) | 2 |
 | Scrape | Cleveland Fed | inflation nowcast benchmark | 3 |
 | API | Kalshi | CPI/FOMC market odds | 3 |
 | API | Polymarket | prediction markets page | 4 |
@@ -139,7 +139,7 @@ Five pure stages over the vintage store (each independently unit-testable):
    - shelter_rent = Zillow ZORI + Apartment List (5:3, renormalized; Redfin leg dropped 2a — dataset retired)
    - fuel = AAA daily pump, validated weekly vs EIA GASREGW
    - used_vehicles = Manheim wholesale shifted 30 days (wholesale leads retail)
-   - food_home = USDA composite; electricity + nat_gas = EIA residential
+   - food_home = USDA composite — flip reverted 2a (day-one gap −38.9pp); BLS-CF, connector accruing; electricity + nat_gas = EIA residential
    - **Sticky categories carry official BLS forward between prints** (medical, recreation,
      education_comm, food_away, new_vehicles, apparel, other) — no fake precision.
 3. **Quality gate** — any live component moving >5% in one day: hold at prior value one day,
