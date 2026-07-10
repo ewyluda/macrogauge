@@ -22,7 +22,7 @@ def test_blend_late_source_joins_midway():
     b = {"2018-02-01": 100.0}
     out = blend.blend({"a": a, "b": b}, {"a": 0.5, "b": 0.5})
     assert out["2018-01-01"] == pytest.approx(100.0)  # a alone
-    assert out["2018-02-01"] == pytest.approx(105.0)  # equal-weight mean
+    assert out["2018-02-01"] == pytest.approx(110.0)  # entry splice: b joins at the blend's level — no cliff on a day nothing moved
 
 
 def test_blend_all_empty_raises():
@@ -74,3 +74,27 @@ def test_shift_days_moves_dates_forward():
 def test_shift_days_zero_is_identity():
     s = {"2026-05-01": 200.0}
     assert blend.shift_days(s, 0) == s
+
+
+def test_late_entrant_enters_at_blend_level_no_cliff():
+    """A source starting after the blend has begun must not step the blend
+    to its own anchor level (the 2026-07 fuel cliff): it enters AT the
+    incumbents' blended level and contributes relative movement after."""
+    a = {"2018-01-01": 100.0, "2018-01-02": 100.0, "2018-01-03": 102.0}
+    b = {"2018-01-03": 50.0, "2018-01-04": 55.0}  # own-anchor basis
+    out = blend.blend({"a": a, "b": b}, {"a": 0.7, "b": 0.3})
+    # entry date: continuous with the incumbent level, no cliff
+    assert out["2018-01-03"] == pytest.approx(102.0)
+    # next day: b scaled by 102/50 = 2.04 -> 55*2.04 = 112.2 (hand-computed)
+    # a forward-fills 102: 0.7*102 + 0.3*112.2 = 105.06
+    assert out["2018-01-04"] == pytest.approx(105.06)
+
+
+def test_sources_from_first_date_keep_original_behavior():
+    """Sources present at the blend's first date are unscaled — existing
+    shelter-blend behavior (both legs 2018-based) must not change."""
+    a = {"2018-01-01": 100.0, "2018-01-02": 110.0}
+    b = {"2018-01-01": 100.0, "2018-01-02": 90.0}
+    out = blend.blend({"a": a, "b": b}, {"a": 0.5, "b": 0.5})
+    assert out["2018-01-01"] == pytest.approx(100.0)
+    assert out["2018-01-02"] == pytest.approx(100.0)

@@ -18266,3 +18266,5 @@
 {"obs_date": "2026-07-10", "route": "API", "series_code": "usda_milk_w", "source": "USDA", "value": 3.2100000000000004, "vintage_date": "2026-07-10"}
 {"obs_date": "2026-07-06", "route": "API", "series_code": "usda_beef_w", "source": "USDA", "value": 6.391962187711005, "vintage_date": "2026-07-10"}
 {"obs_date": "2026-07-10", "route": "SCRAPE", "series_code": "mnd_30y_d", "source": "MND", "value": 6.64, "vintage_date": "2026-07-10"}
+{"obs_date": "2026-07-10", "route": "API", "series_code": "fmp_gold", "source": "FMP", "value": 4113.0, "vintage_date": "2026-07-10"}
+{"obs_date": "2026-07-10", "route": "API", "series_code": "fmp_wti", "source": "FMP", "value": 71.52, "vintage_date": "2026-07-10"}

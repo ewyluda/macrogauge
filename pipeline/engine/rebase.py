@@ -3,9 +3,9 @@
 Rebasing makes price levels ($/gal, cents/kWh, $ rent) unitless and
 comparable. Anchor = mean of the series' observations dated within the base
 month (robust for weekly series). A series with no base-month rows anchors on
-its FIRST month instead — late starters are spliced and re-anchored
-downstream, and short-history fixture stores must still run; in production
-every basket series has 2017+ history, so the fallback never fires.
+its FIRST month instead — late starters are entry-spliced into blends
+downstream (blend.py), and short-history fixture stores must still run; in
+production every basket series has 2017+ history, so the fallback never fires.
 """
 
 BASE_MONTH = "2018-01"

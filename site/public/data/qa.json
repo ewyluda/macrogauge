@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-07-10",
-  "passed": 12,
+  "passed": 11,
   "total": 13,
   "checks": [
     {
@@ -24,8 +24,8 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": true,
-      "detail": "12/12 ok"
+      "pass": false,
+      "detail": "11/12 ok; failed \u2014 BLS: KeyError: 'series'"
     },
     {
       "name": "sources_fresh",
