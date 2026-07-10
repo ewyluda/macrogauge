@@ -181,6 +181,68 @@ def test_components_expose_daily_index_arrays(tmp_path):
     assert fuel["official_daily_index"]["2019-01-01"] == pytest.approx(104.0)
 
 
+def test_lead_shifted_obs_cannot_future_date_as_of(tmp_path):
+    """Fix 1 regression (Task 9 review): a component with a config lead_days
+    shift (blend.shift_days, wired in gauge.py) can have its latest
+    engine-view observation land AFTER `today` -- e.g. a raw store obs of
+    2018-12-27 shifted +30d becomes 2019-01-26, which is in the future
+    relative to today=2019-01-05. Pre-fix, `end = max(max(c) for c in
+    built.values())` took that shifted future date as the published grid end,
+    so as_of (and every published date-keyed series) landed 21 days ahead of
+    today. Fixed: `end` is clamped at `today`, and each component's own_end is
+    its last observation AT OR BEFORE that clamp -- the future-shifted point
+    stays in `built` and enters the grid naturally once a later run's `today`
+    catches up to it."""
+    mini = {"base_month": "2018-01", "components": [
+        {"code": "shelter", "label": "Shelter", "weight": 0.6,
+         "official_series": "OFF_SH", "live_blend": {"LIVE_SH": 1.0},
+         "live_variants": ["gauge"]},
+        {"code": "fuel", "label": "Fuel", "weight": 0.4,
+         "official_series": "OFF_FU", "live_blend": {"LIVE_FU": 1.0},
+         "live_variants": ["gauge", "tracker"],
+         "lead_days": {"LIVE_FU": 30}}]}
+    rows = [
+        ("OFF_SH", "2018-01-01", 100.0), ("OFF_SH", "2019-01-01", 103.0),
+        ("LIVE_SH", "2018-01-01", 50.0), ("LIVE_SH", "2019-01-01", 53.0),
+        ("OFF_FU", "2018-01-01", 200.0), ("OFF_FU", "2019-01-01", 208.0),
+        # LIVE_FU's raw store dates, shifted +30d by lead_days:
+        #   2017-12-01 -> 2017-12-31, 2018-01-01 -> 2018-01-31,
+        #   2018-12-01 -> 2018-12-31 (own_end after clamp: like-month base
+        #   2017-12-31 gives yoy = (10.3/9.8 - 1)*100),
+        #   2018-12-27 -> 2019-01-26 (BEYOND today=2019-01-05 -- must not
+        #   become as_of).
+        ("LIVE_FU", "2017-12-01", 9.8), ("LIVE_FU", "2018-01-01", 10.0),
+        ("LIVE_FU", "2018-12-01", 10.3), ("LIVE_FU", "2018-12-27", 10.35)]
+    obs = [Observation(series_code=c, obs_date=d, value=v,
+                       vintage_date="2019-01-02", source="T", route="API")
+           for c, d, v in rows]
+    vintage.append(obs, tmp_path)
+    bp = tmp_path / "basket.json"
+    bp.write_text(json.dumps(mini))
+    conn = vintage.load(tmp_path)
+    today = "2019-01-05"
+    r = gauge.run(conn, today=today, basket_path=bp, staleness=STALENESS)
+    g = r["variants"]["gauge"]
+    EXPECTED_FUEL_YOY = (10.3 / 9.8 - 1) * 100  # ~= 5.102040816326525
+
+    assert g["as_of"] == today  # clamped -- NOT the shifted 2019-01-26
+    assert g["yoy"][today] is not None  # headline yoy at as_of computes
+    # fuel's yoy is at its own last obs <= today (2018-12-31), not the
+    # future-shifted 2019-01-26 (which would give a different, wrong value)
+    assert g["components"]["fuel"]["yoy_pct"] == pytest.approx(EXPECTED_FUEL_YOY)
+
+    published_series = [
+        g["index"], g["yoy"],
+        g["components"]["fuel"]["daily_index"],
+        g["components"]["fuel"]["own_yoy_daily"],
+        g["components"]["fuel"]["official_daily_index"],
+        g["components"]["fuel"]["official_own_yoy_daily"],
+        g["components"]["shelter"]["daily_index"],
+        g["components"]["shelter"]["own_yoy_daily"]]
+    for series_dict in published_series:
+        assert all(d <= today for d in series_dict)
+
+
 def test_components_carry_own_yoy_daily(tmp_path):
     """Every component exposes its own-obs YoY (ours and official) as daily
     forward-filled series covering the grid end."""

@@ -2,12 +2,20 @@
      https://site.manheim.com/en/services/consulting/used-vehicle-value-index.html
      (access spike, 2026-07-09; page redirects from publish.manheim.com). Markup
      copied verbatim; unrelated nav/JS/lightbox-image blocks cut. Kept
-     intentionally as decoys the regex must NOT grab: the index value repeated
-     a second time in a standalone stat callout further down the same section,
-     and the *unrelated* next-release date in the closing paragraph -- a loose
-     month/year scan run over the whole page would latch onto that instead of
-     the report's own dated heading. Only one "... Trends" heading appears on
-     the live page (no accordion of past months). -->
+     intentionally as decoys the regex must NOT grab: a standalone stat
+     callout further down the same section, and the *unrelated* next-release
+     date in the closing paragraph -- a loose month/year scan run over the
+     whole page would latch onto that instead of the report's own dated
+     heading. Only one "... Trends" heading appears on the live page (no
+     accordion of past months).
+     NOTE: on the real live page the stat callout repeats the SAME value
+     (206.0) as the heading-anchored figure -- verbatim per the module
+     docstring in pipeline/connectors/manheim.py. Deliberately mutated here to
+     a different in-range value (199.9) so this fixture is adversarial: a
+     regex that grabs the callout instead of the heading-anchored occurrence
+     produces a value the test can catch (see EXPECTED_VALUE = 206.0 in
+     tests/test_manheim.py). A same-value decoy would let a wrong-anchor
+     implementation pass by coincidence. -->
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -29,7 +37,7 @@
 	<div class="elementor-widget-wrap elementor-element-populated">
 				<div class="elementor-element elementor-element-d84eed6 elementor-widget elementor-widget-text-editor" data-widget_type="text-editor.default">
 		<div class="elementor-widget-container">
-							<p style="text-align: left;"><span style="text-align: right;"><b><span class="TextRun SCXW90702359 BCX2" lang="EN-US" xml:lang="EN-US" data-contrast="auto"><span class="NormalTextRun SCXW90702359 BCX2">206.0</span></span> </b><b><span style="color: green;">&#8657;0.6%</span></b></span></p>								</div>
+							<p style="text-align: left;"><span style="text-align: right;"><b><span class="TextRun SCXW90702359 BCX2" lang="EN-US" xml:lang="EN-US" data-contrast="auto"><span class="NormalTextRun SCXW90702359 BCX2">199.9</span></span> </b><b><span style="color: green;">&#8657;0.6%</span></b></span></p>								</div>
 		</div>
 			</div>
 	</div>

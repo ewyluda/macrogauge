@@ -10,6 +10,11 @@ FIXTURES = pathlib.Path(__file__).parent / "fixtures"
 # report on-page right now is the "Mid-December 2025" update, value 206.0.
 EXPECTED_MONTH = "2025-12-01"
 EXPECTED_VALUE = 206.0
+# The fixture's stat-callout decoy is deliberately a *different* in-range
+# value (see tests/fixtures/manheim.html) so a regex that grabs the wrong
+# ("... Trends" heading-unanchored) occurrence is caught here instead of
+# passing by coincidence.
+DECOY_VALUE = 199.9
 
 
 class FakeResponse:
@@ -35,7 +40,11 @@ def test_fetch_extracts_latest_index_and_month():
     assert o.source == "MANHEIM" and o.route == "SCRAPE"
     assert o.obs_date == EXPECTED_MONTH
     assert o.vintage_date == "2026-07-10"
+    # Anchored on the "... Trends" heading, not the stat-callout decoy:
+    # asserting the exact value (and that it is NOT the decoy) proves the
+    # heading anchor -- not first-match luck -- is load-bearing.
     assert o.value == pytest.approx(EXPECTED_VALUE)
+    assert o.value != pytest.approx(DECOY_VALUE)
 
 
 def test_fetch_raises_on_structure_drift():

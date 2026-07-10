@@ -63,7 +63,7 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
                     flags.append(f"{comp.code}@{last}")
             built[comp.code], modes[comp.code] = idx, mode
             official_rebased[comp.code] = official_idx
-        end = max(max(c) for c in built.values())
+        end = min(max(max(c) for c in built.values()), today)
         daily = {k: aggregate.fill_daily(c, GRID_START, end)
                  for k, c in built.items()}
         official_daily = {k: aggregate.fill_daily(v, GRID_START, end)
@@ -90,11 +90,16 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
                        and _fresh(conn, c.live_blend, staleness, today))
         components = {}
         for c in comps:
-            own_end = max(built[c.code])  # this component's own last-observation
-            # date, not the grid end -- lagging components (e.g. EIA natgas,
-            # CPI) must compare like-month-to-like-month on their own filled
-            # daily series, never a forward-filled value against a
-            # different-month base a year ago.
+            own_end = max(d for d in built[c.code] if d <= end)
+            # this component's own last-observation date AT OR BEFORE the
+            # clamped grid end, not the grid end itself -- lagging components
+            # (e.g. EIA natgas, CPI) must compare like-month-to-like-month on
+            # their own filled daily series, never a forward-filled value
+            # against a different-month base a year ago. Clamping to `end`
+            # also excludes lead-shifted observations that land beyond
+            # today's `end` (a +30d shift can push a component's latest
+            # engine-view date past today) -- those stay in `built` and enter
+            # the grid naturally as later runs' `today` catches up.
             components[c.code] = {
                 "weight": c.weight, "mode": modes[c.code],
                 "yoy_pct": own_yoy[c.code].get(own_end),
