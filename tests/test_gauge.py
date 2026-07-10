@@ -1,16 +1,19 @@
 import json
+import tempfile
+from pathlib import Path
 
 import pytest
 
+from pipeline import basket as basket_mod
 from pipeline.engine import gauge
 from pipeline.models import Observation
 from pipeline.store import vintage
 
-MINI = {"base_month": "2018-01", "components": [
-    {"code": "shelter", "label": "Shelter", "weight": 0.6,
+MINI = {"base_month": "2018-01", "supercore_components": ["fuel"], "components": [
+    {"code": "shelter", "label": "Shelter", "weight": 0.6, "pce_weight": 0.6,
      "official_series": "OFF_SH", "live_blend": {"LIVE_SH": 1.0},
      "live_variants": ["gauge"]},
-    {"code": "fuel", "label": "Fuel", "weight": 0.4,
+    {"code": "fuel", "label": "Fuel", "weight": 0.4, "pce_weight": 0.4,
      "official_series": "OFF_FU", "live_blend": {"LIVE_FU": 1.0},
      "live_variants": ["gauge", "tracker"]}]}
 
@@ -139,10 +142,10 @@ def test_headline_yoy_no_between_print_decay(tmp_path):
     # year has a June jump (100 -> 110), so a grid-end LEVEL ratio compares
     # May-2018 against June-2017 (-2.27% headline). The headline must
     # instead carry sticky's own May-vs-May YoY (+5%) forward: +2.5%.
-    mini = {"base_month": "2018-01", "components": [
-        {"code": "sticky", "label": "Sticky", "weight": 0.5,
+    mini = {"base_month": "2018-01", "supercore_components": ["sticky"], "components": [
+        {"code": "sticky", "label": "Sticky", "weight": 0.5, "pce_weight": 0.5,
          "official_series": "OFF_ST"},
-        {"code": "live", "label": "Live", "weight": 0.5,
+        {"code": "live", "label": "Live", "weight": 0.5, "pce_weight": 0.5,
          "official_series": "OFF_LV", "live_blend": {"LIVE_LV": 1.0},
          "live_variants": ["gauge"]}]}
     rows = [
@@ -193,11 +196,11 @@ def test_lead_shifted_obs_cannot_future_date_as_of(tmp_path):
     its last observation AT OR BEFORE that clamp -- the future-shifted point
     stays in `built` and enters the grid naturally once a later run's `today`
     catches up to it."""
-    mini = {"base_month": "2018-01", "components": [
-        {"code": "shelter", "label": "Shelter", "weight": 0.6,
+    mini = {"base_month": "2018-01", "supercore_components": ["fuel"], "components": [
+        {"code": "shelter", "label": "Shelter", "weight": 0.6, "pce_weight": 0.6,
          "official_series": "OFF_SH", "live_blend": {"LIVE_SH": 1.0},
          "live_variants": ["gauge"]},
-        {"code": "fuel", "label": "Fuel", "weight": 0.4,
+        {"code": "fuel", "label": "Fuel", "weight": 0.4, "pce_weight": 0.4,
          "official_series": "OFF_FU", "live_blend": {"LIVE_FU": 1.0},
          "live_variants": ["gauge", "tracker"],
          "lead_days": {"LIVE_FU": 30}}]}
@@ -255,3 +258,63 @@ def test_components_carry_own_yoy_daily(tmp_path):
         end = g["as_of"]
         assert end in entry["own_yoy_daily"], code
         assert end in entry["official_own_yoy_daily"], code
+
+
+def _store_with_two_years():
+    """Real 14-component basket (config/basket.json), ~2.5 years of monthly
+    official-series data for every component -- enough for own-obs YoY across
+    the whole grid. No live sources are seeded: every component resolves
+    bls_cf (empty per-source dicts are falsy, so variants.build_component's
+    `any(live_sources.values())` guard is False) and the CoL payment override
+    degrades to its configured market-rent blend request, which also comes
+    back empty -- a designed degradation (Task 12 brief note), not a bug.
+    These three tests only assert variant-set membership, the supercore
+    renormalization identity, and pce_weight wiring -- all hold regardless of
+    live/bls_cf mode."""
+    _, comps = basket_mod.load_basket()
+    months = []
+    y, m = 2017, 1
+    while (y, m) <= (2019, 6):
+        months.append(f"{y}-{m:02d}-01")
+        m += 1
+        if m == 13:
+            y, m = y + 1, 1
+    obs = []
+    for i, comp in enumerate(comps):
+        for j, d in enumerate(months):
+            obs.append(Observation(series_code=comp.official_series, obs_date=d,
+                                   value=100.0 + i + 0.1 * j,
+                                   vintage_date="2019-06-02", source="T", route="API"))
+    with tempfile.TemporaryDirectory() as td:
+        tmp = Path(td)
+        vintage.append(obs, tmp)
+        return vintage.load(tmp)
+
+
+def test_five_variants_published():
+    conn = _store_with_two_years()
+    result = gauge.run(conn, today="2026-07-01")
+    assert set(result["variants"]) == {"gauge", "col", "tracker", "supercore", "pce"}
+
+
+def test_supercore_is_renormalized_subset():
+    conn = _store_with_two_years()
+    result = gauge.run(conn, today="2026-07-01")
+    sc = result["variants"]["supercore"]
+    assert set(sc["components"]) == set(basket_mod.load_supercore_components())
+    # headline() renormalizes by total weight; hand-check one date:
+    # supercore index at as_of == sum(w_i * idx_i)/sum(w_i) over subset
+    d = sc["as_of"]
+    comps = sc["components"]
+    manual = (sum(e["weight"] * e["daily_index"][d] for e in comps.values())
+              / sum(e["weight"] for e in comps.values()))
+    assert abs(sc["index"][d] - manual) < 1e-9
+
+
+def test_pce_uses_pce_weights():
+    conn = _store_with_two_years()
+    result = gauge.run(conn, today="2026-07-01")
+    _, comps = basket_mod.load_basket()
+    pce_w = {c.code: c.pce_weight for c in comps}
+    for code, entry in result["variants"]["pce"]["components"].items():
+        assert entry["weight"] == pce_w[code]

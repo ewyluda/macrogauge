@@ -36,7 +36,10 @@ def variant(yoy_by_month):
 
 RESULT = {"base_month": "2018-01", "variants": {
     "gauge": variant({"2018-01-01": 2.5, "2018-02-01": 3.0, "2018-03-01": 4.0}),
-    "tracker": variant({"2018-01-01": 2.1, "2018-02-01": 2.6, "2018-03-01": 3.4})}}
+    "tracker": variant({"2018-01-01": 2.1, "2018-02-01": 2.6, "2018-03-01": 3.4}),
+    "col": variant({"2018-01-01": 2.4, "2018-02-01": 2.9, "2018-03-01": 3.9}),
+    "supercore": variant({"2018-01-01": 2.6, "2018-02-01": 3.1, "2018-03-01": 4.1}),
+    "pce": variant({"2018-01-01": 2.2, "2018-02-01": 2.7, "2018-03-01": 3.7})}}
 
 
 def test_build_months_arrays_and_validation(tmp_path):
@@ -76,6 +79,24 @@ def test_official_core_yoy_column(tmp_path):
     conn = seed(tmp_path)
     p = compare.build(RESULT, conn)
     assert p["official_core_yoy_pct"] == [2.5, 2.49, 2.97]
+
+
+def test_supercore_grades_against_core_cpi_pce_tolerates_absent_pcepi(tmp_path):
+    """Task 12 spec §9.7: supercore grades vs CPILFENS (seeded here via
+    CORE_ROWS), pce vs PCEPI. The store has zero PCEPI rows (matches
+    production on a fresh basket, before the first collect run picks it up)
+    -- _official_yoy(conn, "PCEPI") then returns {}, so pce's validation
+    pairs list is empty and must degrade to corr=None/mean_abs_gap_pp=None,
+    not crash (compare._validation's existing empty-pairs path)."""
+    conn = seed(tmp_path)
+    p = compare.build(RESULT, conn)
+    assert compare.GRADE_REF == {"gauge": "CPIAUCNS", "col": "CPIAUCNS",
+                                 "tracker": "CPIAUCNS", "supercore": "CPILFENS",
+                                 "pce": "PCEPI"}
+    sc = p["validation"]["supercore"]
+    assert sc["corr"] is not None and -1.0 <= sc["corr"] <= 1.0
+    pce = p["validation"]["pce"]
+    assert pce["corr"] is None and pce["mean_abs_gap_pp"] is None
 
 
 def test_lead_lag_reports_best_forward_shift(tmp_path):

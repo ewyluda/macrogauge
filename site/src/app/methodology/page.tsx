@@ -166,9 +166,9 @@ export default function Methodology() {
         <MethodologyInventory rows={methodology.inventory} />
       </Section>
 
-      <Section title="Validation vs official CPI">
+      <Section title="Validation vs official">
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-          {(["gauge", "tracker"] as const).map((name) => (
+          {(["gauge", "col", "tracker", "supercore", "pce"] as const).map((name) => (
             <div key={name} style={statChip}>
               <div
                 style={{

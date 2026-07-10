@@ -3,7 +3,8 @@
   "title": "compare",
   "type": "object",
   "required": ["published_at", "months", "official_yoy_pct", "official_core_yoy_pct",
-               "gauge_yoy_pct", "tracker_yoy_pct", "validation"],
+               "gauge_yoy_pct", "col_yoy_pct", "tracker_yoy_pct", "supercore_yoy_pct",
+               "pce_yoy_pct", "validation"],
   "additionalProperties": false,
   "properties": {
     "published_at": {"type": "string"},
@@ -12,14 +13,20 @@
     "official_yoy_pct": {"type": "array", "items": {"type": "number"}},
     "official_core_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
     "gauge_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
+    "col_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
     "tracker_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
+    "supercore_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
+    "pce_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
     "validation": {
       "type": "object",
-      "required": ["gauge", "tracker"],
+      "required": ["gauge", "col", "tracker", "supercore", "pce"],
       "additionalProperties": false,
       "properties": {
         "gauge": {"$ref": "#/$defs/stats"},
-        "tracker": {"$ref": "#/$defs/stats"}
+        "col": {"$ref": "#/$defs/stats"},
+        "tracker": {"$ref": "#/$defs/stats"},
+        "supercore": {"$ref": "#/$defs/stats"},
+        "pce": {"$ref": "#/$defs/stats"}
       }
     }
   },

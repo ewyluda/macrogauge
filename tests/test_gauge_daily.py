@@ -15,7 +15,9 @@ def variant():
 
 
 RESULT = {"base_month": "2018-01",
-          "variants": {"gauge": variant(), "tracker": variant()}}
+          "variants": {"gauge": variant(), "tracker": variant(),
+                      "col": variant(), "supercore": variant(),
+                      "pce": variant()}}
 
 
 def test_build_clips_to_publish_start_and_rounds():

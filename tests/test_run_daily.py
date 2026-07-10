@@ -13,8 +13,8 @@ FIXTURES = Path(__file__).parent / "fixtures"
 def fake_get(url, params=None, timeout=None, **kw):
     if "api.stlouisfed.org" in url:
         # test_fred.fake_get hard-asserts series_id == "CPIAUCNS" (written when
-        # FRED had a single registry series); the registry now carries 16 FRED
-        # series, so the FRED connector's per-series loop calls this with 16
+        # FRED had a single registry series); the registry now carries 17 FRED
+        # series, so the FRED connector's per-series loop calls this with 17
         # different ids. Use a laxer local fake (same fixture/data) instead of
         # reusing that strict one — same pattern test_bls's laxer fake_post uses.
         assert params["api_key"] == "test-key"

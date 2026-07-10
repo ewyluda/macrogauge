@@ -9,11 +9,14 @@
     "rebase": {"type": "string"},
     "variants": {
       "type": "object",
-      "required": ["gauge", "tracker"],
+      "required": ["gauge", "col", "tracker", "supercore", "pce"],
       "additionalProperties": false,
       "properties": {
         "gauge": {"$ref": "#/$defs/series"},
-        "tracker": {"$ref": "#/$defs/series"}
+        "col": {"$ref": "#/$defs/series"},
+        "tracker": {"$ref": "#/$defs/series"},
+        "supercore": {"$ref": "#/$defs/series"},
+        "pce": {"$ref": "#/$defs/series"}
       }
     }
   },

@@ -1,37 +1,47 @@
 {
-  "published_at": "2026-07-09T19:31:49Z",
-  "as_of": "2026-07-06",
+  "published_at": "2026-07-10T01:22:59Z",
+  "as_of": "2026-07-09",
   "official_month": "2026-05-01",
   "rows": [
-    {
-      "component": "fuel",
-      "label": "Gasoline",
-      "weight": 0.03,
-      "mode": "live",
-      "ours_yoy_pct": 19.37,
-      "bls_yoy_pct": 40.46,
-      "gap_pp": -21.09,
-      "contribution_pp": -0.63
-    },
     {
       "component": "shelter_owned",
       "label": "Shelter (owned)",
       "weight": 0.265,
       "mode": "live",
-      "ours_yoy_pct": 2.03,
+      "ours_yoy_pct": 0.71,
       "bls_yoy_pct": 3.32,
-      "gap_pp": -1.28,
-      "contribution_pp": -0.34
+      "gap_pp": -2.61,
+      "contribution_pp": -0.69
+    },
+    {
+      "component": "fuel",
+      "label": "Gasoline",
+      "weight": 0.03,
+      "mode": "live",
+      "ours_yoy_pct": 20.86,
+      "bls_yoy_pct": 40.46,
+      "gap_pp": -19.6,
+      "contribution_pp": -0.59
     },
     {
       "component": "shelter_rent",
       "label": "Rent",
       "weight": 0.075,
       "mode": "live",
-      "ours_yoy_pct": 2.03,
+      "ours_yoy_pct": 0.71,
       "bls_yoy_pct": 2.92,
-      "gap_pp": -0.89,
-      "contribution_pp": -0.07
+      "gap_pp": -2.22,
+      "contribution_pp": -0.17
+    },
+    {
+      "component": "used_vehicles",
+      "label": "Used cars & trucks",
+      "weight": 0.021,
+      "mode": "live",
+      "ours_yoy_pct": 1.63,
+      "bls_yoy_pct": -1.99,
+      "gap_pp": 3.63,
+      "contribution_pp": 0.08
     },
     {
       "component": "nat_gas",
@@ -132,17 +142,34 @@
       "bls_yoy_pct": 4.79,
       "gap_pp": 0.0,
       "contribution_pp": 0.0
-    },
-    {
-      "component": "used_vehicles",
-      "label": "Used cars & trucks",
-      "weight": 0.021,
-      "mode": "bls_cf",
-      "ours_yoy_pct": -1.99,
-      "bls_yoy_pct": -1.99,
-      "gap_pp": -0.0,
-      "contribution_pp": -0.0
     }
   ],
-  "total_gap_pp": -0.94
+  "total_gap_pp": -1.27,
+  "variants": {
+    "gauge": {
+      "yoy_pct": 3.05,
+      "as_of": "2026-07-09",
+      "coverage_pct": 40.5
+    },
+    "col": {
+      "yoy_pct": 3.08,
+      "as_of": "2026-07-09",
+      "coverage_pct": 40.5
+    },
+    "tracker": {
+      "yoy_pct": 3.83,
+      "as_of": "2026-07-09",
+      "coverage_pct": 6.5
+    },
+    "supercore": {
+      "yoy_pct": 3.48,
+      "as_of": "2026-05-01",
+      "coverage_pct": 0.0
+    },
+    "pce": {
+      "yoy_pct": 3.51,
+      "as_of": "2026-07-09",
+      "coverage_pct": 20.5
+    }
+  }
 }

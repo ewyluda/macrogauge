@@ -16,6 +16,7 @@
   "series": [
     {"code": "CPIAUCNS",        "source": "FRED",     "source_id": "CPIAUCNS",                     "name": "CPI-U all items (NSA)",              "max_staleness_days": 80},
     {"code": "CPILFENS",        "source": "FRED",     "source_id": "CPILFENS",                     "name": "CPI-U core, ex food & energy (NSA)", "max_staleness_days": 80},
+    {"code": "PCEPI",           "source": "FRED",     "source_id": "PCEPI",                        "name": "PCE price index (monthly, NSA)",     "max_staleness_days": 80},
     {"code": "CUUR0000SAF11",   "source": "FRED",     "source_id": "CUUR0000SAF11",                "name": "CPI food at home (NSA)",             "max_staleness_days": 80},
     {"code": "CUUR0000SEFV",    "source": "FRED",     "source_id": "CUUR0000SEFV",                 "name": "CPI food away from home (NSA)",      "max_staleness_days": 80},
     {"code": "CUUR0000SAM",     "source": "FRED",     "source_id": "CPIMEDNS",                     "name": "CPI medical care (NSA)",             "max_staleness_days": 80},

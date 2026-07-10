@@ -6,6 +6,7 @@ from pathlib import Path
 from pipeline import basket as basket_mod
 from pipeline.engine import aggregate, gate, variants
 from pipeline.engine import blend as blend_mod
+from pipeline.engine import payment as payment_mod
 from pipeline.store import vintage
 
 GRID_START = "2017-01-01"    # internal grid start: feeds 365d YoY bases for 2018
@@ -41,20 +42,45 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
         staleness: dict[str, int] | None = None) -> dict:
     base_month, comps = basket_mod.load_basket(basket_path)
     staleness = staleness or {}
-    weights = {c.code: c.weight for c in comps}
+    supercore = basket_mod.load_supercore_components(basket_path)
+    payment_series: dict[str, float] | None = None
     out = {}
     for variant in variants.VARIANTS:
+        # supercore iterates a renormalized subset; every other variant
+        # (including pce) iterates all 14 components. Which weight a
+        # component carries is also variant-dependent: pce uses the
+        # hand-seeded BEA-share weight, everything else the BLS weight.
+        comps_v = [c for c in comps
+                   if variant != "supercore" or c.code in supercore]
+        weights = {c.code: (c.pce_weight if variant == "pce" else c.weight)
+                   for c in comps_v}
         built, modes, flags = {}, {}, []
         official_rebased = {}
-        for comp in comps:
+        for comp in comps_v:
             official_series = _series(conn, comp.official_series)
             live_sources = ({name: blend_mod.shift_days(
                                  _series(conn, name),
                                  (comp.lead_days or {}).get(name, 0))
                              for name in comp.live_blend}
                             if comp.live_blend else {})
-            idx, mode, official_idx = variants.build_component(comp, variant,
-                                                      official_series, live_sources)
+            # col's shelter_owned rides the marginal-buyer payment index
+            # (spec §5) instead of the market-rent blend; every other
+            # component/variant combination uses the component's configured
+            # blend (live_blend stays None -> build_component's default).
+            live_blend = None
+            if variant == "col" and comp.code == "shelter_owned":
+                if payment_series is None:
+                    zhvi = _series(conn, "zhvi_us")
+                    rate = {**_series(conn, "pmms_30yr"),
+                            **_series(conn, "mnd_30y_d")}
+                    payment_series = payment_mod.payment_index(zhvi, rate)
+                if payment_series:
+                    live_sources = {"col_payment": payment_series}
+                    live_blend = {"col_payment": 1.0}
+                # else: no ZHVI/rate data yet -- fall through to shelter_owned's
+                # configured market-rent blend (or bls_cf if that's absent too).
+            idx, mode, official_idx = variants.build_component(
+                comp, variant, official_series, live_sources, live_blend)
             if mode == "live":
                 last = max(idx)
                 arrived = _arrived_today(conn, list(comp.live_blend), last, today)
@@ -85,11 +111,14 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
             filled = aggregate.yoy(official_daily[code])
             at_obs = {d: filled[d] for d in off_idx if d in filled}
             official_own_yoy[code] = aggregate.fill_yoy(at_obs, GRID_START, end)
-        coverage = sum(c.weight for c in comps
+        # coverage renormalizes over the variant's own weights -- supercore's
+        # subset weights don't sum to 1 (they're a slice of the full basket).
+        total_w = sum(weights.values())
+        coverage = sum(weights[c.code] for c in comps_v
                        if modes[c.code] == "live"
-                       and _fresh(conn, c.live_blend, staleness, today))
+                       and _fresh(conn, c.live_blend, staleness, today)) / total_w
         components = {}
-        for c in comps:
+        for c in comps_v:
             own_end = max(d for d in built[c.code] if d <= end)
             # this component's own last-observation date AT OR BEFORE the
             # clamped grid end, not the grid end itself -- lagging components
@@ -101,7 +130,7 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
             # engine-view date past today) -- those stay in `built` and enter
             # the grid naturally as later runs' `today` catches up.
             components[c.code] = {
-                "weight": c.weight, "mode": modes[c.code],
+                "weight": weights[c.code], "mode": modes[c.code],
                 "yoy_pct": own_yoy[c.code].get(own_end),
                 "end_value": daily[c.code][end],  # end_value stays at grid end; QA uses it
                 "daily_index": daily[c.code],

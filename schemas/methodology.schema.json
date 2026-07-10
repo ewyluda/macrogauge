@@ -88,7 +88,10 @@
       "additionalProperties": false,
       "properties": {
         "gauge": {"$ref": "#/$defs/stats"},
+        "col": {"$ref": "#/$defs/stats"},
         "tracker": {"$ref": "#/$defs/stats"},
+        "supercore": {"$ref": "#/$defs/stats"},
+        "pce": {"$ref": "#/$defs/stats"},
         "bls_reconstruction": {
           "type": "object",
           "required": ["weighted_bls_yoy_pct", "official_yoy_pct"],
@@ -102,11 +105,14 @@
     },
     "variants": {
       "type": "object",
-      "required": ["gauge", "tracker"],
+      "required": ["gauge", "col", "tracker", "supercore", "pce"],
       "additionalProperties": false,
       "properties": {
         "gauge": {"type": "string"},
-        "tracker": {"type": "string"}
+        "col": {"type": "string"},
+        "tracker": {"type": "string"},
+        "supercore": {"type": "string"},
+        "pce": {"type": "string"}
       }
     },
     "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}}

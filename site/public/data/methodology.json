@@ -1,9 +1,9 @@
 {
-  "published_at": "2026-07-09T21:51:35Z",
+  "published_at": "2026-07-10T01:22:59Z",
   "stats": {
-    "series_count": 32,
-    "obs_count": 13369,
-    "source_count": 8,
+    "series_count": 61,
+    "obs_count": 17688,
+    "source_count": 12,
     "tracker_corr": 0.9775,
     "live_coverage_pct": 40.5,
     "engine_version": "1.0",
@@ -150,13 +150,15 @@
       "weight": 0.03,
       "mode": "live",
       "live_sources": [
+        "aaa_gas_d",
         "eia_gasreg_w"
       ],
       "live_active": [
+        "aaa_gas_d",
         "eia_gasreg_w"
       ],
       "official_series": "CUUR0000SETB01",
-      "yoy_pct": 19.37
+      "yoy_pct": 20.86
     },
     {
       "code": "electricity",
@@ -186,11 +188,15 @@
       "code": "used_vehicles",
       "label": "Used cars & trucks",
       "weight": 0.021,
-      "mode": "bls_cf",
-      "live_sources": [],
-      "live_active": [],
+      "mode": "live",
+      "live_sources": [
+        "manheim_uvvi_m"
+      ],
+      "live_active": [
+        "manheim_uvvi_m"
+      ],
       "official_series": "CUUR0000SETA02",
-      "yoy_pct": -1.99
+      "yoy_pct": 1.63
     },
     {
       "code": "nat_gas",
@@ -208,8 +214,8 @@
     }
   ],
   "freshness": {
-    "fresh_count": 32,
-    "total": 32
+    "fresh_count": 59,
+    "total": 61
   },
   "inventory": [
     {
@@ -229,6 +235,15 @@
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
       "fresh": true
+    },
+    {
+      "code": "PCEPI",
+      "name": "PCE price index (monthly, NSA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": null,
+      "fresh": false
     },
     {
       "code": "CUUR0000SAF11",
@@ -385,7 +400,7 @@
     },
     {
       "code": "APU0000703112",
-      "name": "Avg price: ground chuck, lb",
+      "name": "Avg price: ground beef, 100% beef, lb",
       "source": "BLS",
       "route": "API",
       "cadence": "monthly",
@@ -404,6 +419,186 @@
     {
       "code": "APU0000711211",
       "name": "Avg price: bananas, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000701111",
+      "name": "Avg price: flour, white, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000701312",
+      "name": "Avg price: rice, white, long-grain, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000701322",
+      "name": "Avg price: spaghetti/macaroni, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000702212",
+      "name": "Avg price: bread, whole wheat, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000702421",
+      "name": "Avg price: cookies, chocolate chip, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000703511",
+      "name": "Avg price: steak, round, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000704111",
+      "name": "Avg price: bacon, sliced, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000704211",
+      "name": "Avg price: pork chops, center cut, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000704312",
+      "name": "Avg price: ham, boneless, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000FF1101",
+      "name": "Avg price: chicken breast, boneless, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000FS1101",
+      "name": "Avg price: butter, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000710212",
+      "name": "Avg price: cheddar cheese, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000710411",
+      "name": "Avg price: ice cream, half-gal",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000711311",
+      "name": "Avg price: oranges, navel, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000712112",
+      "name": "Avg price: potatoes, white, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000712211",
+      "name": "Avg price: lettuce, iceberg, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000712311",
+      "name": "Avg price: tomatoes, field-grown, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000713111",
+      "name": "Avg price: orange juice, 12oz",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000715211",
+      "name": "Avg price: sugar, white, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU0000717311",
+      "name": "Avg price: coffee, ground roast, lb",
       "source": "BLS",
       "route": "API",
       "cadence": "monthly",
@@ -499,21 +694,108 @@
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
       "fresh": true
+    },
+    {
+      "code": "usda_eggs_w",
+      "name": "USDA national shell eggs, large white, $/carton (weekly)",
+      "source": "USDA",
+      "route": "API",
+      "cadence": "weekly",
+      "latest_obs": "2026-06-29",
+      "fresh": true
+    },
+    {
+      "code": "usda_milk_w",
+      "name": "USDA national whole milk, gallon, $/gal (weekly)",
+      "source": "USDA",
+      "route": "API",
+      "cadence": "weekly",
+      "latest_obs": "2026-07-03",
+      "fresh": true
+    },
+    {
+      "code": "usda_beef_w",
+      "name": "USDA national ground beef 80-89%, $/lb (weekly)",
+      "source": "USDA",
+      "route": "API",
+      "cadence": "weekly",
+      "latest_obs": "2026-06-29",
+      "fresh": true
+    },
+    {
+      "code": "usda_pork_w",
+      "name": "USDA national sliced bacon, $/lb (weekly)",
+      "source": "USDA",
+      "route": "API",
+      "cadence": "weekly",
+      "latest_obs": "2026-06-29",
+      "fresh": true
+    },
+    {
+      "code": "usda_broiler_w",
+      "name": "USDA national broiler/fryer composite, \u00a2/lb (weekly)",
+      "source": "USDA",
+      "route": "API",
+      "cadence": "weekly",
+      "latest_obs": "2026-06-29",
+      "fresh": true
+    },
+    {
+      "code": "mnd_30y_d",
+      "name": "Mortgage News Daily 30yr fixed %",
+      "source": "MND",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-09",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_d",
+      "name": "AAA national average regular gasoline $/gal",
+      "source": "AAA",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-09",
+      "fresh": true
+    },
+    {
+      "code": "manheim_uvvi_m",
+      "name": "Manheim Used Vehicle Value Index",
+      "source": "MANHEIM",
+      "route": "SCRAPE",
+      "cadence": "monthly",
+      "latest_obs": "2025-12-01",
+      "fresh": false
     }
   ],
   "validation": {
     "gauge": {
-      "corr": 0.9236,
-      "mean_abs_gap_pp": 0.92,
+      "corr": 0.9239,
+      "mean_abs_gap_pp": 0.91,
       "window": "2018-01..2026-05",
       "lead_lag": {
         "best_shift_months": 1,
-        "corr": 0.9295
+        "corr": 0.93
       }
+    },
+    "col": {
+      "corr": 0.908,
+      "mean_abs_gap_pp": 3.5,
+      "window": "2018-01..2026-05"
     },
     "tracker": {
       "corr": 0.9775,
       "mean_abs_gap_pp": 0.4,
+      "window": "2018-01..2026-05"
+    },
+    "supercore": {
+      "corr": 0.8244,
+      "mean_abs_gap_pp": 0.8,
+      "window": "2018-01..2026-05"
+    },
+    "pce": {
+      "corr": null,
+      "mean_abs_gap_pp": null,
       "window": "2018-01..2026-05"
     },
     "bls_reconstruction": {
@@ -523,7 +805,10 @@
   },
   "variants": {
     "gauge": "CPI-comparable: the market-rent blend drives both shelter components; fuel, electricity and piped gas ride live EIA data.",
-    "tracker": "Official shelter dynamics; only fuel, electricity and piped gas ride live \u2014 built to re-track the print."
+    "col": "Cost-of-living: shelter_owned rides the marginal home-buyer's monthly payment \u2014 P = L*r*(1+r)^360 / ((1+r)^360 - 1), L = 0.80 * ZHVI, r = the 30yr mortgage rate / 12 \u2014 instead of the market-rent blend; everything else gauge rides live, col rides live too. Graded vs official CPI.",
+    "tracker": "Official shelter dynamics; only fuel, electricity and piped gas ride live \u2014 built to re-track the print.",
+    "supercore": "Services-ex-shelter approximation over our 14 coarse components (medical, education & comm, recreation, other goods & services) \u2014 includes goods subcomponents inside those categories, so it is not a true PCE core-services cut. Graded vs official core CPI.",
+    "pce": "Same 14 components under hand-seeded BEA underlying-detail share weights instead of BLS relative importance, graded vs the official PCE price index rather than CPI."
   },
   "limitations": [
     "Components without a live source carry the latest official BLS print forward between releases (labeled BLS-CF); their between-print YoY is the last print's, not a nowcast.",

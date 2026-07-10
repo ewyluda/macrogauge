@@ -22,8 +22,17 @@ def _official_yoy(conn, code: str = "CPIAUCNS") -> dict[str, float]:
     return out
 
 
-def _validation(official: list[float], ours: list[float | None]) -> dict:
-    pairs = [(o, s) for o, s in zip(official, ours) if s is not None]
+GRADE_REF = {"gauge": "CPIAUCNS", "col": "CPIAUCNS", "tracker": "CPIAUCNS",
+             "supercore": "CPILFENS", "pce": "PCEPI"}
+
+
+def _validation(official: list[float | None], ours: list[float | None]) -> dict:
+    # official can itself carry Nones here (e.g. pce grades against PCEPI,
+    # which has no store rows until the next collect -- _official_yoy then
+    # returns {} and every element of `official` is None). Filtering both
+    # sides means an empty/partial grading series degrades to the same
+    # "no pairs" path as a genuinely short window: corr/mag both None.
+    pairs = [(o, s) for o, s in zip(official, ours) if o is not None and s is not None]
     corr = mag = None
     if pairs:
         xs, ys = [p[0] for p in pairs], [p[1] for p in pairs]
@@ -68,12 +77,24 @@ def build(gauge_result: dict, conn) -> dict:
                "official_core_yoy_pct": core_col,
                "validation": {}}
     window = f"{months[0][:7]}..{months[-1][:7]}" if months else ""
+    ref_yoy_cache: dict[str, dict[str, float]] = {"CPIAUCNS": off}
     for name, v in gauge_result["variants"].items():
         raw = [v["yoy"].get(m) for m in months]
         payload[f"{name}_yoy_pct"] = [None if x is None else round(x, 2)
                                       for x in raw]
+        # each variant grades against its own reference series (spec §9.7):
+        # gauge/col/tracker vs headline CPI, supercore vs core CPI, pce vs
+        # the official PCE price index. PCEPI has no store rows until the
+        # next collect on a fresh basket — _official_yoy then returns {} and
+        # ref_col is all-None, which _validation degrades to corr=mag=None
+        # (the same "no pairs" path a too-short window takes), not a crash.
+        ref_code = GRADE_REF.get(name, "CPIAUCNS")
+        if ref_code not in ref_yoy_cache:
+            ref_yoy_cache[ref_code] = _official_yoy(conn, ref_code)
+        ref = ref_yoy_cache[ref_code]
+        ref_col = [ref.get(m) for m in months]
         payload["validation"][name] = {
-            **_validation([off[m] for m in months], raw), "window": window}
+            **_validation(ref_col, raw), "window": window}
         if name == "gauge":
             payload["validation"][name]["lead_lag"] = _lead_lag(
                 [off[m] for m in months], raw)

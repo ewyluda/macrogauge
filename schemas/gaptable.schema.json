@@ -2,12 +2,25 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "gaptable",
   "type": "object",
-  "required": ["published_at", "as_of", "official_month", "rows", "total_gap_pp"],
+  "required": ["published_at", "as_of", "official_month", "rows", "total_gap_pp",
+               "variants"],
   "additionalProperties": false,
   "properties": {
     "published_at": {"type": "string"},
     "as_of": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
     "official_month": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "variants": {
+      "type": "object",
+      "required": ["gauge", "col", "tracker", "supercore", "pce"],
+      "additionalProperties": false,
+      "properties": {
+        "gauge": {"$ref": "#/$defs/variant_summary"},
+        "col": {"$ref": "#/$defs/variant_summary"},
+        "tracker": {"$ref": "#/$defs/variant_summary"},
+        "supercore": {"$ref": "#/$defs/variant_summary"},
+        "pce": {"$ref": "#/$defs/variant_summary"}
+      }
+    },
     "rows": {
       "type": "array",
       "items": {
@@ -28,5 +41,17 @@
       }
     },
     "total_gap_pp": {"type": "number"}
+  },
+  "$defs": {
+    "variant_summary": {
+      "type": "object",
+      "required": ["yoy_pct", "as_of", "coverage_pct"],
+      "additionalProperties": false,
+      "properties": {
+        "yoy_pct": {"type": ["number", "null"]},
+        "as_of": {"type": "string"},
+        "coverage_pct": {"type": "number"}
+      }
+    }
   }
 }
