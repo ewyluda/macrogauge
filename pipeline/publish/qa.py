@@ -5,11 +5,20 @@ from datetime import date
 from pathlib import Path
 
 STALE_DAYS = 80  # ~1 CPI cycle + release slip headroom (final-review calibration)
+FUEL_DIVERGENCE_MAX = 0.075  # AAA (daily pump) vs EIA (weekly survey) — same-day gap
+                             # is expected by design; only flag if it blows out
+QUILT_MONTHS_MIN = 24
+GROCERY_ITEMS_MIN = 20
+# Coverage floor: 40, not the 45 that a food_home live-data flip would have allowed —
+# that flip was reverted in Task 6 (day-one gap failed), so food_home stays
+# BLS-CF (official-only, no live blend) per the 2a deviation.
+GAUGE_COVERAGE_FLOOR = 40.0
 
 
 def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                freshness: list[dict] | None = None, gauge: dict | None = None,
-               engine_error: str | None = None) -> dict:
+               engine_error: str | None = None, fuel_divergence: dict | None = None,
+               artifacts: dict | None = None) -> dict:
     if cpi is not None:
         age = (date.fromisoformat(today) - date.fromisoformat(cpi["month"])).days
         checks = [
@@ -54,6 +63,34 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                        "pass": not stale,
                        "detail": (f"{len(freshness) - len(stale)}/{len(freshness)} fresh"
                                   + (f"; stale — {', '.join(stale)}" if stale else ""))})
+    if fuel_divergence is not None:
+        aaa, eia = fuel_divergence.get("aaa_wk_avg"), fuel_divergence.get("eia")
+        if aaa is None or eia is None:
+            checks.append({"name": "fuel_sources_agree", "critical": False,
+                           "pass": True,
+                           "detail": "one or both fuel sources lack data — "
+                                     f"aaa={aaa}, eia={eia} (check skipped)"})
+        else:
+            rel = fuel_divergence.get("rel", abs(aaa / eia - 1))
+            checks.append({"name": "fuel_sources_agree", "critical": False,
+                           "pass": rel <= FUEL_DIVERGENCE_MAX,
+                           "detail": f"AAA daily wk-avg ${aaa} vs EIA weekly ${eia} "
+                                     f"— relative divergence {rel:.1%} "
+                                     f"(limit {FUEL_DIVERGENCE_MAX:.1%}; some gap "
+                                     f"is expected by design — different survey methods)"})
+    if artifacts is not None:
+        quilt_months = artifacts.get("quilt_months", 0)
+        checks.append({"name": "quilt_complete", "critical": False,
+                       "pass": quilt_months >= QUILT_MONTHS_MIN,
+                       "detail": f"quilt covers {quilt_months} months "
+                                 f"(floor {QUILT_MONTHS_MIN})"})
+        grocery_items, grocery_skipped = (artifacts.get("grocery_items", 0),
+                                          artifacts.get("grocery_skipped", 0))
+        checks.append({"name": "grocery_items", "critical": False,
+                       "pass": grocery_items >= GROCERY_ITEMS_MIN,
+                       "detail": f"grocery basket has {grocery_items} items, "
+                                 f"{grocery_skipped} skipped "
+                                 f"(floor {GROCERY_ITEMS_MIN})"})
     if gauge is not None:
         gauge_age = (date.fromisoformat(today)
                      - date.fromisoformat(gauge["as_of"])).days
@@ -73,9 +110,10 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                        "pass": abs(gauge["weights_sum"] - 1.0) <= 1e-9,
                        "detail": f"sum(weights) = {gauge['weights_sum']}"})
         checks.append({"name": "gauge_coverage", "critical": False,
-                       "pass": gauge["coverage_pct"] >= 35.0,
+                       "pass": gauge["coverage_pct"] >= GAUGE_COVERAGE_FLOOR,
                        "detail": f"gauge live coverage "
-                                 f"{gauge['coverage_pct']}% (floor 35%)"})
+                                 f"{gauge['coverage_pct']}% "
+                                 f"(floor 40 (food_home BLS-CF per 2a deviation))"})
         corr = gauge["tracker_corr"]
         checks.append({"name": "tracker_corr", "critical": False,
                        "pass": corr is not None and corr >= 0.95,

@@ -92,7 +92,9 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert len(status["sources"]) == 12
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
-    assert qa["total"] == 10  # 4 existing + engine_ok + 5 gauge checks
+    # 4 existing + engine_ok + 5 gauge checks + fuel_sources_agree
+    # + quilt_complete + grocery_items
+    assert qa["total"] == 13
     official = json.loads((out / "official.json").read_text())
     assert len(official["components"]) == 14
     assert len(official["quotes"]) == 13

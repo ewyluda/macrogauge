@@ -63,7 +63,18 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     today = fred.today_et()
     published_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    cpi = gauge_qa = None
+    # Fuel cross-check reads only the store (outside the engine try): AAA daily
+    # pump prices vs EIA weekly survey, flagged if they diverge beyond design.
+    fuel_div = None
+    aaa_rows = vintage.latest(conn, "aaa_gas_d")
+    eia_rows = vintage.latest(conn, "eia_gasreg_w")
+    if aaa_rows and eia_rows:
+        week = [v for d, v in aaa_rows[-7:]]
+        aaa_avg, eia_last = sum(week) / len(week), eia_rows[-1][1]
+        fuel_div = {"aaa_wk_avg": round(aaa_avg, 3), "eia": round(eia_last, 3),
+                    "rel": abs(aaa_avg / eia_last - 1)}
+
+    cpi = gauge_qa = artifacts = None
     engine_error = None
     try:
         cpi = official.latest_yoy(conn, "CPIAUCNS")
@@ -91,7 +102,8 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         validate.validate_file(replay_path, SCHEMAS / "replay.schema.json")
         print(f"published: {replay_path}")
 
-        quilt_paths = quilt.write(quilt.build(gauge_result, comps), args.out,
+        quilt_payload = quilt.build(gauge_result, comps)
+        quilt_paths = quilt.write(quilt_payload, args.out,
                                   published_at=published_at)
         for qp in quilt_paths:
             validate.validate_file(qp, SCHEMAS / "quilt.schema.json")
@@ -142,6 +154,10 @@ def main(argv=None, http_get=None, http_post=None) -> int:
                                        for e in g["components"].values()),
                     "tracker_corr":
                         compare_payload["validation"]["tracker"]["corr"]}
+
+        artifacts = {"quilt_months": len(quilt_payload["months"]),
+                     "grocery_items": len(grocery_payload["items"]),
+                     "grocery_skipped": len(grocery_payload["skipped"])}
     except jsonschema.ValidationError:
         raise  # contract violation must fail the run — never deploy invalid JSON
     except Exception as e:  # engine isolation: failure surfaces in qa, never blocks
@@ -152,7 +168,9 @@ def main(argv=None, http_get=None, http_post=None) -> int:
                   "limit_days": s.max_staleness_days} for s in series]
     qa_path = qa.write(qa.run_checks(cpi, today=today, source_results=results,
                                      freshness=freshness, gauge=gauge_qa,
-                                     engine_error=engine_error),
+                                     engine_error=engine_error,
+                                     fuel_divergence=fuel_div,
+                                     artifacts=artifacts),
                        args.out)
     validate.validate_file(qa_path, SCHEMAS / "qa.schema.json")
     print(f"qa: {qa_path}")

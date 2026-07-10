@@ -132,3 +132,77 @@ def test_engine_error_fails_engine_ok_and_headline_tolerates_none_cpi():
     assert head["pass"] is False and "boom" in head["detail"]
     fin = [c for c in r["checks"] if c["name"] == "yoy_finite"][0]
     assert fin["pass"] is False
+
+
+def _cpi():
+    return FRESH
+
+
+def _by_name(result, name):
+    return next((c for c in result["checks"] if c["name"] == name), None)
+
+
+def test_fuel_divergence_check_passes_within_band():
+    result = qa.run_checks(_cpi(), today="2026-07-10",
+                           fuel_divergence={"aaa_wk_avg": 3.10, "eia": 3.05,
+                                            "rel": abs(3.10 / 3.05 - 1)})
+    check = _by_name(result, "fuel_sources_agree")
+    assert check["pass"] is True
+
+
+def test_fuel_divergence_check_fails_beyond_band():
+    result = qa.run_checks(_cpi(), today="2026-07-10",
+                           fuel_divergence={"aaa_wk_avg": 3.60, "eia": 3.00,
+                                            "rel": 0.20})
+    assert _by_name(result, "fuel_sources_agree")["pass"] is False
+
+
+def test_fuel_divergence_absent_sources_pass_with_detail():
+    result = qa.run_checks(_cpi(), today="2026-07-10", fuel_divergence=None)
+    assert _by_name(result, "fuel_sources_agree") is None  # check only added when computed
+
+
+def test_artifact_checks():
+    result = qa.run_checks(_cpi(), today="2026-07-10",
+                           artifacts={"quilt_months": 30, "grocery_items": 24,
+                                      "grocery_skipped": 1})
+    assert _by_name(result, "quilt_complete")["pass"] is True
+    assert _by_name(result, "grocery_items")["pass"] is True
+
+
+def test_artifact_checks_absent_when_no_artifacts():
+    result = qa.run_checks(_cpi(), today="2026-07-10")
+    assert _by_name(result, "quilt_complete") is None
+    assert _by_name(result, "grocery_items") is None
+
+
+def test_quilt_incomplete_fails_noncritical():
+    result = qa.run_checks(_cpi(), today="2026-07-10",
+                           artifacts={"quilt_months": 12, "grocery_items": 24,
+                                      "grocery_skipped": 1})
+    check = _by_name(result, "quilt_complete")
+    assert check["pass"] is False and check["critical"] is False
+
+
+def test_grocery_items_below_floor_fails_noncritical():
+    result = qa.run_checks(_cpi(), today="2026-07-10",
+                           artifacts={"quilt_months": 30, "grocery_items": 10,
+                                      "grocery_skipped": 5})
+    check = _by_name(result, "grocery_items")
+    assert check["pass"] is False and check["critical"] is False
+
+
+def test_coverage_floor_is_40_with_self_explaining_detail():
+    g = dict(GAUGE_OK, coverage_pct=40.0)
+    r = qa.run_checks(FRESH, today="2026-07-08", gauge=g)
+    cov = _by_name(r, "gauge_coverage")
+    assert cov["pass"] is True
+    assert "40" in cov["detail"]
+    assert "food_home" in cov["detail"]
+
+
+def test_coverage_just_below_new_floor_fails():
+    g = dict(GAUGE_OK, coverage_pct=39.9)
+    r = qa.run_checks(FRESH, today="2026-07-08", gauge=g)
+    cov = _by_name(r, "gauge_coverage")
+    assert cov["pass"] is False
