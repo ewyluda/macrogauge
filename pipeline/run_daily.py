@@ -65,14 +65,17 @@ def main(argv=None, http_get=None, http_post=None) -> int:
 
     # Fuel cross-check reads only the store (outside the engine try): AAA daily
     # pump prices vs EIA weekly survey, flagged if they diverge beyond design.
+    # Zero-guard: a zero stored value would crash here (outside engine try),
+    # violating the never-block-publication invariant. Compute only if both are truthy.
     fuel_div = None
     aaa_rows = vintage.latest(conn, "aaa_gas_d")
     eia_rows = vintage.latest(conn, "eia_gasreg_w")
     if aaa_rows and eia_rows:
         week = [v for d, v in aaa_rows[-7:]]
         aaa_avg, eia_last = sum(week) / len(week), eia_rows[-1][1]
-        fuel_div = {"aaa_wk_avg": round(aaa_avg, 3), "eia": round(eia_last, 3),
-                    "rel": abs(aaa_avg / eia_last - 1)}
+        if aaa_avg and eia_last:
+            fuel_div = {"aaa_wk_avg": round(aaa_avg, 3), "eia": round(eia_last, 3),
+                        "rel": abs(aaa_avg / eia_last - 1), "n_obs": len(week)}
 
     cpi = gauge_qa = artifacts = None
     engine_error = None
@@ -155,7 +158,12 @@ def main(argv=None, http_get=None, http_post=None) -> int:
                     "tracker_corr":
                         compare_payload["validation"]["tracker"]["corr"]}
 
+        quilt_aligned = all(
+            len(c["ours_yoy_pct"]) == len(quilt_payload["months"])
+            and len(c["official_yoy_pct"]) == len(quilt_payload["months"])
+            for c in quilt_payload["components"])
         artifacts = {"quilt_months": len(quilt_payload["months"]),
+                     "quilt_aligned": quilt_aligned,
                      "grocery_items": len(grocery_payload["items"]),
                      "grocery_skipped": len(grocery_payload["skipped"])}
     except jsonschema.ValidationError:

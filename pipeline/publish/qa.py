@@ -72,18 +72,21 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                                      f"aaa={aaa}, eia={eia} (check skipped)"})
         else:
             rel = fuel_divergence.get("rel", abs(aaa / eia - 1))
+            n_obs = fuel_divergence.get("n_obs", "?")
             checks.append({"name": "fuel_sources_agree", "critical": False,
                            "pass": rel <= FUEL_DIVERGENCE_MAX,
-                           "detail": f"AAA daily wk-avg ${aaa} vs EIA weekly ${eia} "
+                           "detail": f"AAA avg over {n_obs} obs ${aaa} vs EIA weekly ${eia} "
                                      f"— relative divergence {rel:.1%} "
                                      f"(limit {FUEL_DIVERGENCE_MAX:.1%}; some gap "
                                      f"is expected by design — different survey methods)"})
     if artifacts is not None:
         quilt_months = artifacts.get("quilt_months", 0)
+        quilt_aligned = artifacts.get("quilt_aligned", True)
         checks.append({"name": "quilt_complete", "critical": False,
-                       "pass": quilt_months >= QUILT_MONTHS_MIN,
+                       "pass": quilt_months >= QUILT_MONTHS_MIN and quilt_aligned,
                        "detail": f"quilt covers {quilt_months} months "
-                                 f"(floor {QUILT_MONTHS_MIN})"})
+                                 f"(floor {QUILT_MONTHS_MIN})"
+                                 + ("" if quilt_aligned else " (arrays misaligned)")})
         grocery_items, grocery_skipped = (artifacts.get("grocery_items", 0),
                                           artifacts.get("grocery_skipped", 0))
         checks.append({"name": "grocery_items", "critical": False,

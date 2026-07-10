@@ -181,3 +181,31 @@ def test_validation_error_inside_engine_block_not_swallowed(tmp_path, monkeypatc
     with pytest.raises(jsonschema.ValidationError):
         run_daily.main(["--store", str(store), "--out", str(out)],
                        http_get=fake_get, http_post=fake_post)
+
+
+def test_zero_eia_value_zero_guard_never_blocks_publication(tmp_path, monkeypatch):
+    # Zero eia_last would crash fuel_div computation (outside engine try).
+    # Verify zero-guard prevents crash and run completes with qa published.
+    set_keys(monkeypatch)
+
+    def get_with_zero_eia(url, params=None, timeout=None, **kw):
+        if "api.eia.gov" in url:
+            # Return fixture with the most recent value zeroed
+            fixture_data = json.loads((FIXTURES / "eia_weekly.json").read_text())
+            # Zero out the first (most recent) observation in response.data
+            response_data = fixture_data.get("response", {}).get("data", [])
+            if response_data:
+                response_data[0]["value"] = 0.0
+            return FakeResponse(fixture_data)
+        return fake_get(url, params=params, timeout=timeout, **kw)
+
+    store, out = tmp_path / "store", tmp_path / "out"
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=get_with_zero_eia, http_post=fake_post)
+    assert rc == 0  # run completes (zero-guard prevents crash)
+    qa_data = json.loads((out / "qa.json").read_text())
+    # With eia_last = 0.0 (falsy), fuel_div stays None, so no fuel_sources_agree check
+    fuel_check = next((c for c in qa_data["checks"]
+                       if c["name"] == "fuel_sources_agree"), None)
+    # fuel_check should be None because fuel_div was None (zero-guard prevented creation)
+    assert fuel_check is None

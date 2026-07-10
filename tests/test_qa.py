@@ -145,16 +145,19 @@ def _by_name(result, name):
 def test_fuel_divergence_check_passes_within_band():
     result = qa.run_checks(_cpi(), today="2026-07-10",
                            fuel_divergence={"aaa_wk_avg": 3.10, "eia": 3.05,
-                                            "rel": abs(3.10 / 3.05 - 1)})
+                                            "rel": abs(3.10 / 3.05 - 1), "n_obs": 7})
     check = _by_name(result, "fuel_sources_agree")
     assert check["pass"] is True
+    assert "AAA avg over 7 obs" in check["detail"]
 
 
 def test_fuel_divergence_check_fails_beyond_band():
     result = qa.run_checks(_cpi(), today="2026-07-10",
                            fuel_divergence={"aaa_wk_avg": 3.60, "eia": 3.00,
-                                            "rel": 0.20})
-    assert _by_name(result, "fuel_sources_agree")["pass"] is False
+                                            "rel": 0.20, "n_obs": 7})
+    check = _by_name(result, "fuel_sources_agree")
+    assert check["pass"] is False
+    assert "AAA avg over 7 obs" in check["detail"]
 
 
 def test_fuel_divergence_absent_sources_pass_with_detail():
@@ -162,10 +165,20 @@ def test_fuel_divergence_absent_sources_pass_with_detail():
     assert _by_name(result, "fuel_sources_agree") is None  # check only added when computed
 
 
+def test_fuel_divergence_rel_fallback_when_omitted():
+    # rel is omitted; qa.py computes fallback: abs(aaa / eia - 1)
+    result = qa.run_checks(_cpi(), today="2026-07-10",
+                           fuel_divergence={"aaa_wk_avg": 3.10, "eia": 3.00, "n_obs": 7})
+    check = _by_name(result, "fuel_sources_agree")
+    assert check["pass"] is True  # fallback rel = abs(3.10/3.00 - 1) ≈ 0.033 < 0.075
+    assert "AAA avg over 7 obs" in check["detail"]
+    # The detail string gets constructed with the fallback rel value
+
+
 def test_artifact_checks():
     result = qa.run_checks(_cpi(), today="2026-07-10",
                            artifacts={"quilt_months": 30, "grocery_items": 24,
-                                      "grocery_skipped": 1})
+                                      "grocery_skipped": 1, "quilt_aligned": True})
     assert _by_name(result, "quilt_complete")["pass"] is True
     assert _by_name(result, "grocery_items")["pass"] is True
 
@@ -179,9 +192,18 @@ def test_artifact_checks_absent_when_no_artifacts():
 def test_quilt_incomplete_fails_noncritical():
     result = qa.run_checks(_cpi(), today="2026-07-10",
                            artifacts={"quilt_months": 12, "grocery_items": 24,
-                                      "grocery_skipped": 1})
+                                      "grocery_skipped": 1, "quilt_aligned": True})
     check = _by_name(result, "quilt_complete")
     assert check["pass"] is False and check["critical"] is False
+
+
+def test_quilt_misaligned_arrays_fail_noncritical():
+    result = qa.run_checks(_cpi(), today="2026-07-10",
+                           artifacts={"quilt_months": 30, "grocery_items": 24,
+                                      "grocery_skipped": 1, "quilt_aligned": False})
+    check = _by_name(result, "quilt_complete")
+    assert check["pass"] is False and check["critical"] is False
+    assert "misaligned" in check["detail"]
 
 
 def test_grocery_items_below_floor_fails_noncritical():
