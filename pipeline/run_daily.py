@@ -25,7 +25,7 @@ from pipeline.connectors import fred
 from pipeline.engine import gauge as gauge_engine
 from pipeline.engine import official
 from pipeline.publish import official as official_json
-from pipeline.publish import (compare, gaptable, gauge_daily, methodology,
+from pipeline.publish import (compare, gaptable, gauge_daily, grocery, methodology,
                               pulse, qa, quilt, replay, sources_status, validate)
 from pipeline.store import vintage
 
@@ -96,6 +96,13 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         for qp in quilt_paths:
             validate.validate_file(qp, SCHEMAS / "quilt.schema.json")
             print(f"published: {qp}")
+
+        grocery_payload = grocery.build(conn, series)
+        gr_path = grocery.write(grocery_payload, args.out,
+                                published_at=published_at)
+        validate.validate_file(gr_path, SCHEMAS / "grocery_basket.schema.json")
+        print(f"published: {gr_path} ({len(grocery_payload['items'])} items, "
+              f"{len(grocery_payload['skipped'])} skipped)")
 
         compare_payload = compare.build(gauge_result, conn)
         cmp_path = compare.write(compare_payload, args.out,

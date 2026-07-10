@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "grocery_basket",
+  "type": "object",
+  "required": ["published_at", "as_of", "items", "skipped"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "as_of": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$|null"},
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "name", "month", "price", "mom_pct", "yoy_pct"],
+        "additionalProperties": false,
+        "properties": {
+          "code": {"type": "string"},
+          "name": {"type": "string"},
+          "month": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+          "price": {"type": "number"},
+          "mom_pct": {"type": "number"},
+          "yoy_pct": {"type": "number"}
+        }
+      }
+    },
+    "skipped": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  }
+}
