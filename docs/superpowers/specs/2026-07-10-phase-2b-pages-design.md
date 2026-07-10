@@ -186,15 +186,19 @@ original; defaults are not meant to reproduce the gauge.
 **Mechanics** — pure functions in `site/src/lib/reweight.ts`:
 1. Scale the 14 published basket weights (`replay.json` `components[].weight`) by the
    selected multipliers; renormalize to 1.0.
-2. Personal Laspeyres index over `replay.json` component `index` arrays sampled at
-   month-ends: `personal_index_t = Σ wᵢ × component_indexᵢ(t)`.
-3. Personal YoY = `personal_index_t / personal_index_{t−12mo} − 1`, monthly; chart starts
-   2019-01 (first month with a full base).
-This mirrors the engine's own headline construction — index first, then YoY — never an
-average of component YoYs. **Invariant (vitest-pinned):** with all multipliers ×1 and no
-housing reallocation, the personal series reproduces the published gauge monthly YoY
-(`compare.json`) within rounding — using the same month-sampling convention as the compare
-writer (read the writer before pinning the fixture).
+2. Personal YoY at date t = `Σ wᵢ × component_own_yoyᵢ(t)` over `replay.json`
+   `components[].yoy` — the component own-observation YoY arrays. This **is** the engine's
+   headline construction (Option A, `aggregate.weighted_yoy` over own-obs component YoYs,
+   the 1c sawtooth fix) — replay carries own-obs YoY precisely so consumers reconcile with
+   the published headline. Never an index-ratio recomputation, never an average over
+   forward-filled levels.
+3. Chart: personal line evaluated at the month keys of `compare.json` (month-start dates);
+   the gauge line is **read** from `compare.json`, not recomputed. Result strip: personal
+   rate at the last replay date vs `pulse.gauge.yoy_pct` (same as-of).
+A pleasant Option-A property: the contribution list sums exactly to the personal rate.
+**Invariant (vitest-pinned, verified against live data during spec review):** with all
+multipliers ×1 and no housing reallocation, the personal series equals
+`compare.json gauge_yoy_pct` at every month within rounding.
 
 **Display:** result strip — YOUR INFLATION RATE (big, gold) vs MACROGAUGE (blue) + callout
 "your basket is running X.XXpp hotter/cooler than the average consumer's" (red hotter /
