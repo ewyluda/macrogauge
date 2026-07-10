@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-07-10",
-  "passed": 11,
+  "passed": 12,
   "total": 13,
   "checks": [
     {
@@ -24,14 +24,14 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": false,
-      "detail": "11/12 ok; failed \u2014 TREASURY: ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      "pass": true,
+      "detail": "12/12 ok"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "60/61 fresh; stale \u2014 manheim_uvvi_m (221d > 45d)"
+      "detail": "62/63 fresh; stale \u2014 manheim_uvvi_m (221d > 45d)"
     },
     {
       "name": "fuel_sources_agree",
@@ -49,7 +49,7 @@
       "name": "grocery_items",
       "critical": false,
       "pass": true,
-      "detail": "grocery basket has 26 items, 0 skipped (floor 20)"
+      "detail": "grocery basket has 28 items, 0 skipped (floor 20)"
     },
     {
       "name": "gauge_current",

@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-07-10T14:33:55Z",
+  "published_at": "2026-07-10T14:45:29Z",
   "stats": {
-    "series_count": 61,
-    "obs_count": 17807,
+    "series_count": 63,
+    "obs_count": 18033,
     "source_count": 12,
     "tracker_corr": 0.9775,
     "live_coverage_pct": 40.5,
@@ -214,8 +214,8 @@
     }
   ],
   "freshness": {
-    "fresh_count": 60,
-    "total": 61
+    "fresh_count": 62,
+    "total": 63
   },
   "inventory": [
     {
@@ -599,6 +599,24 @@
     {
       "code": "APU0000717311",
       "name": "Avg price: coffee, ground roast, lb",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU000072610",
+      "name": "Avg price: electricity, kWh",
+      "source": "BLS",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "APU000072620",
+      "name": "Avg price: utility gas, therm",
       "source": "BLS",
       "route": "API",
       "cadence": "monthly",

@@ -10,7 +10,7 @@ def test_load_real_registry():
     sources, series = registry.load_registry()
     assert set(sources) == {"FRED", "BLS", "EIA", "FMP", "TREASURY", "ZILLOW", "PMMS",
                             "APTLIST", "USDA", "AAA", "MND", "MANHEIM"}
-    assert len(series) == 61
+    assert len(series) == 63
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]

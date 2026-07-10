@@ -57,6 +57,8 @@
     {"code": "APU0000713111",   "source": "BLS",      "source_id": "APU0000713111",                "name": "Avg price: orange juice, 12oz",      "max_staleness_days": 80},
     {"code": "APU0000715211",   "source": "BLS",      "source_id": "APU0000715211",                "name": "Avg price: sugar, white, lb",        "max_staleness_days": 80},
     {"code": "APU0000717311",   "source": "BLS",      "source_id": "APU0000717311",                "name": "Avg price: coffee, ground roast, lb", "max_staleness_days": 80},
+    {"code": "APU000072610",    "source": "BLS",      "source_id": "APU000072610",                 "name": "Avg price: electricity, kWh",        "max_staleness_days": 80},
+    {"code": "APU000072620",    "source": "BLS",      "source_id": "APU000072620",                 "name": "Avg price: utility gas, therm",      "max_staleness_days": 80},
     {"code": "eia_elec_res",    "source": "EIA",      "source_id": "ELEC.PRICE.US-RES.M",          "name": "Residential electricity ¢/kWh (US)", "max_staleness_days": 120},
     {"code": "eia_ng_res",      "source": "EIA",      "source_id": "NG.N3010US3.M",                "name": "Residential natural gas $/Mcf (US)", "max_staleness_days": 120},
     {"code": "eia_gasreg_w",    "source": "EIA",      "source_id": "PET.EMM_EPMR_PTE_NUS_DPG.W",   "name": "US regular gasoline retail $/gal (weekly)", "max_staleness_days": 21},
