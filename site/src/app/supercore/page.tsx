@@ -44,7 +44,7 @@ export default function Supercore() {
         <KpiCard
           label="Spread"
           value={fmtPp(spread)}
-          context="supercore minus headline — sticky-services pressure"
+          context={`supercore minus headline — sticky-services pressure · supercore ${scAsOf} vs gauge ${pulse.gauge.as_of}`}
           accent={spread > 0 ? "red" : "emerald"}
         />
       </div>
