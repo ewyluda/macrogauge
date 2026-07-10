@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-07-09",
-  "passed": 12,
+  "generated_at": "2026-07-10",
+  "passed": 11,
   "total": 13,
   "checks": [
     {
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-05-01 is 69d old (limit 80)"
+      "detail": "latest official month 2026-05-01 is 70d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -24,20 +24,20 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": true,
-      "detail": "12/12 ok"
+      "pass": false,
+      "detail": "11/12 ok; failed \u2014 USDA: missing secret USDA_API_KEY"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "60/61 fresh; stale \u2014 manheim_uvvi_m (220d > 45d)"
+      "detail": "60/61 fresh; stale \u2014 manheim_uvvi_m (221d > 45d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 1 obs $3.846 vs EIA weekly $3.777 \u2014 relative divergence 1.8% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 2 obs $3.865 vs EIA weekly $3.777 \u2014 relative divergence 2.3% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -55,13 +55,13 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-09 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-10 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
       "critical": true,
       "pass": true,
-      "detail": "all components present at grid end; gated today \u2014 fuel@2026-07-09"
+      "detail": "all components present at grid end"
     },
     {
       "name": "basket_weights_sum",

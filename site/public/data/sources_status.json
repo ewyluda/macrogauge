@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-10T02:33:34Z",
+  "generated_at": "2026-07-10T15:17:14Z",
   "sources": [
     {
       "name": "AAA",
@@ -7,11 +7,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-10T02:33:34Z",
+      "finished_at": "2026-07-10T15:17:13Z",
       "series_count": 1,
-      "latest_obs": "2026-07-09"
+      "latest_obs": "2026-07-10"
     },
     {
       "name": "APTLIST",
@@ -21,7 +21,7 @@
       "fetched": 114,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T02:31:47Z",
+      "finished_at": "2026-07-10T15:17:13Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -33,7 +33,7 @@
       "fetched": 2821,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T02:31:40Z",
+      "finished_at": "2026-07-10T15:17:08Z",
       "series_count": 26,
       "latest_obs": "2026-05-01"
     },
@@ -45,7 +45,7 @@
       "fetched": 2715,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T02:31:43Z",
+      "finished_at": "2026-07-10T15:17:10Z",
       "series_count": 3,
       "latest_obs": "2026-07-06"
     },
@@ -57,9 +57,9 @@
       "fetched": 2,
       "new_rows": 2,
       "error": null,
-      "finished_at": "2026-07-10T02:31:43Z",
+      "finished_at": "2026-07-10T15:17:10Z",
       "series_count": 2,
-      "latest_obs": "2026-07-09"
+      "latest_obs": "2026-07-10"
     },
     {
       "name": "FRED",
@@ -67,9 +67,9 @@
       "cadence": "monthly",
       "ok": true,
       "fetched": 1908,
-      "new_rows": 113,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T02:31:39Z",
+      "finished_at": "2026-07-10T15:17:06Z",
       "series_count": 17,
       "latest_obs": "2026-05-01"
     },
@@ -81,7 +81,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T02:33:34Z",
+      "finished_at": "2026-07-10T15:17:14Z",
       "series_count": 1,
       "latest_obs": "2025-12-01"
     },
@@ -91,11 +91,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-10T02:33:34Z",
+      "finished_at": "2026-07-10T15:17:14Z",
       "series_count": 1,
-      "latest_obs": "2026-07-09"
+      "latest_obs": "2026-07-10"
     },
     {
       "name": "PMMS",
@@ -105,7 +105,7 @@
       "fetched": 497,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T02:31:46Z",
+      "finished_at": "2026-07-10T15:17:12Z",
       "series_count": 1,
       "latest_obs": "2026-07-09"
     },
@@ -117,7 +117,7 @@
       "fetched": 2388,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T02:31:44Z",
+      "finished_at": "2026-07-10T15:17:11Z",
       "series_count": 1,
       "latest_obs": "2026-07-08"
     },
@@ -125,11 +125,11 @@
       "name": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "ok": true,
-      "fetched": 2153,
+      "ok": false,
+      "fetched": 0,
       "new_rows": 0,
-      "error": null,
-      "finished_at": "2026-07-10T02:33:33Z",
+      "error": "missing secret USDA_API_KEY",
+      "finished_at": "2026-07-10T15:17:13Z",
       "series_count": 5,
       "latest_obs": "2026-07-03"
     },
@@ -141,7 +141,7 @@
       "fetched": 226,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T02:31:46Z",
+      "finished_at": "2026-07-10T15:17:12Z",
       "series_count": 2,
       "latest_obs": "2026-05-01"
     }
