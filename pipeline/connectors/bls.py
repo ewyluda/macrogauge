@@ -9,28 +9,31 @@ from pipeline.models import Observation
 
 BLS_URL = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
 
+CHUNK = 25  # keyless v2 request cap; registered cap is 50 — 25 is safe for both
+
 
 def fetch(series_ids: list[str], api_key: str | None, start_year: str | None = None,
           vintage_date: str | None = None, http_post=None) -> list[Observation]:
     http_post = http_post or requests.post
     vintage = vintage_date or today_et()
     start_year = start_year or str(max(2017, int(today_et()[:4]) - 9))
-    payload = {"seriesid": series_ids, "startyear": start_year,
-               "endyear": today_et()[:4]}
-    if api_key:
-        payload["registrationkey"] = api_key
-    resp = http_post(BLS_URL, json=payload, timeout=60)
-    resp.raise_for_status()
     out: list[Observation] = []
-    for s in resp.json()["Results"]["series"]:
-        for row in s["data"]:
-            if not row["period"].startswith("M") or row["period"] == "M13":
-                continue
-            if row["value"] == "-":  # BLS's missing-value marker (e.g. shutdown gaps)
-                continue
-            out.append(Observation(
-                series_code=s["seriesID"],
-                obs_date=f"{row['year']}-{row['period'][1:]}-01",
-                value=float(row["value"]), vintage_date=vintage,
-                source="BLS", route="API"))
+    for i in range(0, len(series_ids), CHUNK):
+        payload = {"seriesid": series_ids[i:i + CHUNK], "startyear": start_year,
+                   "endyear": today_et()[:4]}
+        if api_key:
+            payload["registrationkey"] = api_key
+        resp = http_post(BLS_URL, json=payload, timeout=60)
+        resp.raise_for_status()
+        for s in resp.json()["Results"]["series"]:
+            for row in s["data"]:
+                if not row["period"].startswith("M") or row["period"] == "M13":
+                    continue
+                if row["value"] == "-":  # BLS's missing-value marker (e.g. shutdown gaps)
+                    continue
+                out.append(Observation(
+                    series_code=s["seriesID"],
+                    obs_date=f"{row['year']}-{row['period'][1:]}-01",
+                    value=float(row["value"]), vintage_date=vintage,
+                    source="BLS", route="API"))
     return out

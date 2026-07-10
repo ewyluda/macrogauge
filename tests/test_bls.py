@@ -51,3 +51,19 @@ def test_fetch_omits_key_when_none():
     obs = bls.fetch(["APU0000708111", "APU0000709112"], None,
                     vintage_date="2026-07-07", http_post=post_no_key)
     assert len(obs) == 3
+
+
+def test_fetch_chunks_large_series_lists():
+    """Keyless BLS v2 caps at 25 series/request — fetch must chunk."""
+    calls = []
+
+    def fake_post(url, json=None, timeout=None):
+        calls.append(list(json["seriesid"]))
+        return FakeResponse({"Results": {"series": [
+            {"seriesID": sid, "data": []} for sid in json["seriesid"]]}})
+
+    ids = [f"APU0000{i:06d}" for i in range(30)]
+    bls.fetch(ids, api_key=None, http_post=fake_post)
+    assert len(calls) == 2
+    assert all(len(c) <= 25 for c in calls)
+    assert [s for c in calls for s in c] == ids
