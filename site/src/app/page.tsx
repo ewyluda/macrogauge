@@ -5,6 +5,7 @@ import status from "../../public/data/sources_status.json";
 import gaugeDaily from "../../public/data/gauge_daily.json";
 import compare from "../../public/data/compare.json";
 import gaptable from "../../public/data/gaptable.json";
+import grocery from "../../public/data/grocery_basket.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DeltaChip } from "@/components/DeltaChip";
 import { StatusPill } from "@/components/StatusPill";
@@ -13,6 +14,7 @@ import { HeroChart } from "@/components/HeroChart";
 import { Treemap } from "@/components/Treemap";
 import { GapTable } from "@/components/GapTable";
 import { GapDecomposition } from "@/components/GapDecomposition";
+import { SparklineCard } from "@/components/SparklineCard";
 import { fmtMonth, fmtPct, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
 
 const GROUP_TITLES: Record<string, string> = {
@@ -22,6 +24,17 @@ const GROUP_TITLES: Record<string, string> = {
   markets: "Markets",
   fiscal: "Fiscal",
 };
+
+// faithful six (original homepage row); the other items stay published-but-
+// unfeatured until the Phase 5 cart page
+const FEATURED_GROCERY: [string, string][] = [
+  ["APU0000708111", "Eggs (dozen)"],
+  ["APU0000709112", "Milk (gallon)"],
+  ["APU0000703112", "Ground beef (lb)"],
+  ["APU0000702111", "Bread (lb)"],
+  ["APU000072610", "Electricity (kWh)"],
+  ["APU000072620", "Utility gas (therm)"],
+];
 
 function QuoteCard({ q }: { q: (typeof official.quotes)[number] }) {
   return (
@@ -304,6 +317,30 @@ export default function Home() {
           </div>
         </Section>
       ))}
+
+      <Section title="Grocery basket — BLS average prices">
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+          {FEATURED_GROCERY.map(([code, label]) => {
+            const item = grocery.items.find((i) => i.code === code);
+            if (!item) return null; // graceful before a code's first collect
+            return (
+              <SparklineCard
+                key={code}
+                label={label}
+                price={`$${item.price.toFixed(2)}`}
+                yoyPct={item.yoy_pct}
+                asOf={fmtMonth(item.month)}
+                prices={item.series.prices}
+              />
+            );
+          })}
+        </div>
+        <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 8 }}>
+          BLS average prices (AP series), monthly, national city average — as of{" "}
+          {grocery.as_of ? fmtMonth(grocery.as_of) : "—"}. Sparkline = full monthly
+          history since 2018.
+        </div>
+      </Section>
 
       <Section title="Sources">
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
