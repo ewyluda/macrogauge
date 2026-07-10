@@ -68,6 +68,13 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
             # component/variant combination uses the component's configured
             # blend (live_blend stays None -> build_component's default).
             live_blend = None
+            # gate_codes: the REAL underlying store series to check for a
+            # just-arrived spike. Defaults to the component's configured
+            # blend; the col/shelter_owned override below rides a different
+            # set of sources, so the arrival check must too -- otherwise the
+            # gate checks codes (zori_us/aptlist_us) that never even feed the
+            # override and never fires.
+            gate_codes = list(comp.live_blend) if comp.live_blend else []
             if variant == "col" and comp.code == "shelter_owned":
                 if payment_series is None:
                     zhvi = _series(conn, "zhvi_us")
@@ -77,13 +84,14 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
                 if payment_series:
                     live_sources = {"col_payment": payment_series}
                     live_blend = {"col_payment": 1.0}
+                    gate_codes = ["zhvi_us", "pmms_30yr", "mnd_30y_d"]
                 # else: no ZHVI/rate data yet -- fall through to shelter_owned's
                 # configured market-rent blend (or bls_cf if that's absent too).
             idx, mode, official_idx = variants.build_component(
                 comp, variant, official_series, live_sources, live_blend)
             if mode == "live":
                 last = max(idx)
-                arrived = _arrived_today(conn, list(comp.live_blend), last, today)
+                arrived = _arrived_today(conn, gate_codes, last, today)
                 idx, flagged = gate.apply_gate(idx, arrived)
                 if flagged:
                     flags.append(f"{comp.code}@{last}")

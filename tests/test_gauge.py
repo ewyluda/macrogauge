@@ -82,6 +82,50 @@ def test_gate_holds_spiking_arrival(tmp_path):
     assert g["components"]["fuel"]["end_value"] == pytest.approx(100.0)  # held
 
 
+def test_gate_protects_col_payment_override(tmp_path):
+    """Task 12 review fix: col's shelter_owned rides the marginal-buyer
+    payment index (zhvi_us + pmms_30yr/mnd_30y_d), NOT its configured
+    live_blend (zori_us/aptlist_us here) -- the gate's arrival check must
+    look at the override's REAL underlying sources, or a >5% one-day spike
+    in mnd_30y_d (a daily scrape, the glitch-prone class the gate exists for)
+    would never be seen as "just arrived" and would sail through ungated.
+
+    shelter_owned's official/live_blend history gives a splice scale of
+    exactly 1.0 (OFF_SH and the payment index's own rebase anchor are both
+    100.0 at the splice point) -- so the held (pre-spike) value is provably
+    100.0 regardless of the exact payment math, which is what we assert."""
+    mini = {"base_month": "2018-01", "supercore_components": ["fuel"], "components": [
+        {"code": "shelter_owned", "label": "Shelter (owned)", "weight": 0.6,
+         "pce_weight": 0.6, "official_series": "OFF_SH",
+         "live_blend": {"zori_us": 0.5, "aptlist_us": 0.3},
+         "live_variants": ["col"]},
+        {"code": "fuel", "label": "Fuel", "weight": 0.4, "pce_weight": 0.4,
+         "official_series": "OFF_FU", "live_blend": {"LIVE_FU": 1.0},
+         "live_variants": ["gauge", "tracker"]}]}
+    rows = [
+        ("OFF_SH", "2018-01-01", 100.0), ("OFF_SH", "2019-01-01", 103.0),
+        ("OFF_FU", "2018-01-01", 200.0), ("OFF_FU", "2019-01-01", 208.0),
+        ("zhvi_us", "2018-01-01", 300000.0),
+        ("pmms_30yr", "2018-12-28", 6.0)]
+    obs = [Observation(series_code=c, obs_date=d, value=v,
+                       vintage_date="2019-01-02", source="T", route="API")
+           for c, d, v in rows]
+    vintage.append(obs, tmp_path)
+    bp = tmp_path / "basket.json"
+    bp.write_text(json.dumps(mini))
+    today = "2019-01-05"
+    # today's mnd_30y_d scrape: rate more than doubles (6.0 -> 14.0) ->
+    # payment index jumps far more than 5% -- and it just arrived today.
+    spike = [Observation(series_code="mnd_30y_d", obs_date=today, value=14.0,
+                         vintage_date=today, source="T", route="API")]
+    vintage.append(spike, tmp_path)
+    conn = vintage.load(tmp_path)
+    r = gauge.run(conn, today=today, basket_path=bp)
+    col = r["variants"]["col"]
+    assert col["gate_flags"] == [f"shelter_owned@{today}"]
+    assert col["components"]["shelter_owned"]["end_value"] == pytest.approx(100.0)
+
+
 def test_component_yoy_at_own_last_obs_not_grid_end(tmp_path):
     # fuel's live data lags (ends 2018-12-01); shelter extends the grid to
     # 2019-01-01. Fuel YoY must be Dec-vs-Dec (its own as-of), not a
