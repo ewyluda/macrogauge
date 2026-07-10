@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install -e ".[dev]"                      # setuptools; installs pytest
-pytest -q                                     # full suite (135 tests)
+pytest -q                                     # full suite (205 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -39,14 +39,20 @@ Data flows in one direction: **collect → store → engine → publish → vali
 live in one repo.
 
 ### 1. Collection (`pipeline/collect.py`, `pipeline/connectors/`)
-One connector module per source (fred, bls, eia, fmp, treasury, zillow, pmms). What gets collected
-is driven entirely by `config/series.json` (via `pipeline/registry.py`) — the single source of truth
-for series, sources, and per-series `max_staleness_days`.
+One connector module per source — 12 total: API/CSV (fred, bls, eia, fmp, treasury, zillow, pmms,
+aptlist, usda) and scrape (aaa, mnd, manheim). What gets collected is driven entirely by
+`config/series.json` (via `pipeline/registry.py`) — the single source of truth for series,
+sources, and per-series `max_staleness_days`.
 
 **Connector failure isolation is a hard invariant.** A broken source records an error in its
 `SourceResult`, lowers freshness, and surfaces in `sources_status.json` + `qa.json` — it *never*
 blocks the run. Carry-forward store semantics make a missed day harmless. Error strings are
 sanitized (API keys redacted) because they get published.
+
+**Scrape connectors (`aaa.py`, `mnd.py`, `manheim.py`) carry drift protection**, not just the
+generic failure isolation above: a tight regex pinned to a recorded fixture plus a plausible-value
+range check, so a redesigned source page raises a clear "structure drift?" error (caught by the
+same isolation path) instead of silently ingesting garbage.
 
 ### 2. Vintage store (`store/obs/*.jsonl`, `pipeline/store/vintage.py`)
 Append-only JSONL, **partitioned by vintage month** (the month we *learned* a value, not the month
@@ -87,9 +93,11 @@ weights that **must sum to 1.0** (validated on load). Grid start is 2017-01 inte
 YoY bases); writers publish from 2018-01.
 
 ### 4. Publish (`pipeline/publish/`) + orchestration (`pipeline/run_daily.py`)
-Nine published files, each with a JSON Schema in `schemas/` validated before it lands:
-`sources_status`, `pulse`, `gauge_daily`, `replay`, `compare`, `gaptable`, `methodology`,
-`official`, `qa`.
+13 published files, each with a JSON Schema in `schemas/` validated before it lands:
+`sources_status`, `pulse`, `gauge_daily`, `replay`, `quilt_months_24`, `quilt_months_48`,
+`quilt_months_all`, `grocery_basket`, `compare`, `gaptable`, `methodology`, `official`, `qa`.
+The three `quilt_months_*` files share one schema (a window-months slice of the same
+month × component YoY grid); `grocery_basket` is BLS average-price staples.
 
 `run_daily.py` ordering is deliberate and load-bearing:
 - **`sources_status` publishes FIRST**, right after collect — a broken engine must never hide a

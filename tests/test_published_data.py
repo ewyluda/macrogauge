@@ -1,4 +1,5 @@
 """Validate committed published data against schemas — runs in CI on every push."""
+import json
 from pathlib import Path
 
 import pytest
@@ -17,22 +18,46 @@ CONTRACT = [("pulse.json", "pulse.schema.json"),
             ("qa.json", "qa.schema.json"),
             ("sources_status.json", "sources_status.schema.json"),
             ("official.json", "official.schema.json"),
-            ("methodology.json", "methodology.schema.json")]
+            ("methodology.json", "methodology.schema.json"),
+            ("quilt_months_24.json", "quilt.schema.json"),
+            ("quilt_months_48.json", "quilt.schema.json"),
+            ("quilt_months_all.json", "quilt.schema.json"),
+            ("grocery_basket.json", "grocery_basket.schema.json")]
 
 
 @pytest.mark.parametrize("data_file,schema_file", CONTRACT)
 def test_published_file_matches_schema(data_file, schema_file):
     path = DATA / data_file
-    if not path.exists():
-        pytest.skip(f"{data_file} not published yet")
     validate.validate_file(path, SCHEMAS / schema_file)
 
 
 def test_pulse_gap_consistent():
-    import json
     path = DATA / "pulse.json"
-    if not path.exists():
-        pytest.skip("pulse.json not published yet")
     pulse = json.loads(path.read_text())
     expected = pulse["gauge"]["yoy_pct"] - pulse["official"]["yoy_pct"]
     assert abs(pulse["gap_pp"] - expected) <= 0.011  # rounding tolerance
+
+
+QUILT_FILES = ["quilt_months_24.json", "quilt_months_48.json", "quilt_months_all.json"]
+
+
+@pytest.mark.parametrize("data_file", QUILT_FILES)
+def test_quilt_arrays_match_months_length(data_file):
+    """Every quilt component's ours_yoy_pct/official_yoy_pct array must be exactly
+    as long as the file's own months array — a length mismatch would silently
+    misalign the heatmap x-axis against its data."""
+    quilt = json.loads((DATA / data_file).read_text())
+    n = len(quilt["months"])
+    for c in quilt["components"]:
+        assert len(c["ours_yoy_pct"]) == n, (
+            f"{data_file}: {c['code']} ours_yoy_pct len {len(c['ours_yoy_pct'])} != months {n}")
+        assert len(c["official_yoy_pct"]) == n, (
+            f"{data_file}: {c['code']} official_yoy_pct len {len(c['official_yoy_pct'])} != months {n}")
+
+
+def test_grocery_basket_items():
+    """At least 20 items published, and every published item has a real price —
+    the grocery card would rather skip an item (see 'skipped') than show a null."""
+    grocery = json.loads((DATA / "grocery_basket.json").read_text())
+    assert len(grocery["items"]) >= 20
+    assert all(item["price"] is not None for item in grocery["items"])

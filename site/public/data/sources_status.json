@@ -1,16 +1,40 @@
 {
-  "generated_at": "2026-07-09T19:31:49Z",
+  "generated_at": "2026-07-10T02:33:34Z",
   "sources": [
+    {
+      "name": "AAA",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "ok": true,
+      "fetched": 1,
+      "new_rows": 0,
+      "error": null,
+      "finished_at": "2026-07-10T02:33:34Z",
+      "series_count": 1,
+      "latest_obs": "2026-07-09"
+    },
+    {
+      "name": "APTLIST",
+      "route": "CSV",
+      "cadence": "monthly",
+      "ok": true,
+      "fetched": 114,
+      "new_rows": 0,
+      "error": null,
+      "finished_at": "2026-07-10T02:31:47Z",
+      "series_count": 1,
+      "latest_obs": "2026-06-01"
+    },
     {
       "name": "BLS",
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 671,
+      "fetched": 2821,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-09T19:31:45Z",
-      "series_count": 6,
+      "finished_at": "2026-07-10T02:31:40Z",
+      "series_count": 26,
       "latest_obs": "2026-05-01"
     },
     {
@@ -21,7 +45,7 @@
       "fetched": 2715,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-09T19:31:46Z",
+      "finished_at": "2026-07-10T02:31:43Z",
       "series_count": 3,
       "latest_obs": "2026-07-06"
     },
@@ -33,7 +57,7 @@
       "fetched": 2,
       "new_rows": 2,
       "error": null,
-      "finished_at": "2026-07-09T19:31:47Z",
+      "finished_at": "2026-07-10T02:31:43Z",
       "series_count": 2,
       "latest_obs": "2026-07-09"
     },
@@ -42,12 +66,36 @@
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 1795,
+      "fetched": 1908,
+      "new_rows": 113,
+      "error": null,
+      "finished_at": "2026-07-10T02:31:39Z",
+      "series_count": 17,
+      "latest_obs": "2026-05-01"
+    },
+    {
+      "name": "MANHEIM",
+      "route": "SCRAPE",
+      "cadence": "monthly",
+      "ok": true,
+      "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-09T19:31:44Z",
-      "series_count": 16,
-      "latest_obs": "2026-05-01"
+      "finished_at": "2026-07-10T02:33:34Z",
+      "series_count": 1,
+      "latest_obs": "2025-12-01"
+    },
+    {
+      "name": "MND",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "ok": true,
+      "fetched": 1,
+      "new_rows": 0,
+      "error": null,
+      "finished_at": "2026-07-10T02:33:34Z",
+      "series_count": 1,
+      "latest_obs": "2026-07-09"
     },
     {
       "name": "PMMS",
@@ -55,9 +103,9 @@
       "cadence": "weekly",
       "ok": true,
       "fetched": 497,
-      "new_rows": 1,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-09T19:31:49Z",
+      "finished_at": "2026-07-10T02:31:46Z",
       "series_count": 1,
       "latest_obs": "2026-07-09"
     },
@@ -66,12 +114,24 @@
       "route": "API",
       "cadence": "daily",
       "ok": true,
-      "fetched": 2387,
+      "fetched": 2388,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-09T19:31:47Z",
+      "finished_at": "2026-07-10T02:31:44Z",
       "series_count": 1,
-      "latest_obs": "2026-07-07"
+      "latest_obs": "2026-07-08"
+    },
+    {
+      "name": "USDA",
+      "route": "API",
+      "cadence": "weekly",
+      "ok": true,
+      "fetched": 2153,
+      "new_rows": 0,
+      "error": null,
+      "finished_at": "2026-07-10T02:33:33Z",
+      "series_count": 5,
+      "latest_obs": "2026-07-03"
     },
     {
       "name": "ZILLOW",
@@ -81,7 +141,7 @@
       "fetched": 226,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-09T19:31:48Z",
+      "finished_at": "2026-07-10T02:31:46Z",
       "series_count": 2,
       "latest_obs": "2026-05-01"
     }

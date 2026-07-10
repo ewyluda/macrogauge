@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-09T19:31:49Z",
+  "published_at": "2026-07-10T02:33:34Z",
   "headline": {
     "cpi": {
       "month": "2026-05-01",
@@ -144,7 +144,7 @@
     },
     {
       "code": "APU0000703112",
-      "label": "Ground chuck, lb",
+      "label": "Ground beef (100%), lb",
       "group": "grocery",
       "unit": "$",
       "latest": 6.75,
@@ -210,27 +210,27 @@
       "label": "Gold",
       "group": "markets",
       "unit": "$/oz",
-      "latest": 4133.6,
+      "latest": 4136.5,
       "obs_date": "2026-07-09",
-      "yoy_pct": null
+      "yoy_pct": 24.56
     },
     {
       "code": "fmp_wti",
       "label": "WTI crude",
       "group": "markets",
       "unit": "$/bbl",
-      "latest": 71.77,
+      "latest": 72.31,
       "obs_date": "2026-07-09",
-      "yoy_pct": null
+      "yoy_pct": 5.75
     },
     {
       "code": "fiscal_debt_total",
       "label": "Total public debt",
       "group": "fiscal",
       "unit": "$",
-      "latest": 39414977491738.78,
-      "obs_date": "2026-07-07",
-      "yoy_pct": 7.74
+      "latest": 39394977645639.05,
+      "obs_date": "2026-07-08",
+      "yoy_pct": 7.56
     }
   ]
 }

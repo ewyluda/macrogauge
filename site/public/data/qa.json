@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-07-09",
-  "passed": 10,
-  "total": 10,
+  "passed": 12,
+  "total": 13,
   "checks": [
     {
       "name": "headline_current",
@@ -25,25 +25,43 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": true,
-      "detail": "7/7 ok"
+      "detail": "12/12 ok"
     },
     {
       "name": "sources_fresh",
       "critical": false,
+      "pass": false,
+      "detail": "60/61 fresh; stale \u2014 manheim_uvvi_m (220d > 45d)"
+    },
+    {
+      "name": "fuel_sources_agree",
+      "critical": false,
       "pass": true,
-      "detail": "31/31 fresh"
+      "detail": "AAA avg over 1 obs $3.846 vs EIA weekly $3.777 \u2014 relative divergence 1.8% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+    },
+    {
+      "name": "quilt_complete",
+      "critical": false,
+      "pass": true,
+      "detail": "quilt covers 103 months (floor 24)"
+    },
+    {
+      "name": "grocery_items",
+      "critical": false,
+      "pass": true,
+      "detail": "grocery basket has 26 items, 0 skipped (floor 20)"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-06 is 3d old (limit 7)"
+      "detail": "gauge as-of 2026-07-09 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
       "critical": true,
       "pass": true,
-      "detail": "all components present at grid end"
+      "detail": "all components present at grid end; gated today \u2014 fuel@2026-07-09"
     },
     {
       "name": "basket_weights_sum",
@@ -55,7 +73,7 @@
       "name": "gauge_coverage",
       "critical": false,
       "pass": true,
-      "detail": "gauge live coverage 40.5% (floor 35%)"
+      "detail": "gauge live coverage 40.5% (floor 40 (food_home BLS-CF per 2a deviation))"
     },
     {
       "name": "tracker_corr",

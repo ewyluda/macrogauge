@@ -1,0 +1,215 @@
+{
+  "published_at": "2026-07-10T02:33:34Z",
+  "as_of": "2026-05-01",
+  "items": [
+    {
+      "code": "APU0000704111",
+      "name": "Avg price: bacon, sliced, lb",
+      "month": "2026-05-01",
+      "price": 6.712,
+      "mom_pct": -1.67,
+      "yoy_pct": -3.91
+    },
+    {
+      "code": "APU0000711211",
+      "name": "Avg price: bananas, lb",
+      "month": "2026-05-01",
+      "price": 0.646,
+      "mom_pct": -1.22,
+      "yoy_pct": -1.37
+    },
+    {
+      "code": "APU0000702111",
+      "name": "Avg price: bread, white, lb",
+      "month": "2026-05-01",
+      "price": 1.83,
+      "mom_pct": -2.09,
+      "yoy_pct": -2.45
+    },
+    {
+      "code": "APU0000702212",
+      "name": "Avg price: bread, whole wheat, lb",
+      "month": "2026-05-01",
+      "price": 2.814,
+      "mom_pct": 2.89,
+      "yoy_pct": 8.15
+    },
+    {
+      "code": "APU0000FS1101",
+      "name": "Avg price: butter, lb",
+      "month": "2026-05-01",
+      "price": 3.929,
+      "mom_pct": -6.81,
+      "yoy_pct": -20.66
+    },
+    {
+      "code": "APU0000710212",
+      "name": "Avg price: cheddar cheese, lb",
+      "month": "2026-05-01",
+      "price": 5.685,
+      "mom_pct": -5.71,
+      "yoy_pct": -3.77
+    },
+    {
+      "code": "APU0000FF1101",
+      "name": "Avg price: chicken breast, boneless, lb",
+      "month": "2026-05-01",
+      "price": 4.171,
+      "mom_pct": 0.07,
+      "yoy_pct": -1.07
+    },
+    {
+      "code": "APU0000706111",
+      "name": "Avg price: chicken, whole, lb",
+      "month": "2026-05-01",
+      "price": 2.036,
+      "mom_pct": 0.49,
+      "yoy_pct": -1.21
+    },
+    {
+      "code": "APU0000717311",
+      "name": "Avg price: coffee, ground roast, lb",
+      "month": "2026-05-01",
+      "price": 9.511,
+      "mom_pct": -2.18,
+      "yoy_pct": 19.92
+    },
+    {
+      "code": "APU0000702421",
+      "name": "Avg price: cookies, chocolate chip, lb",
+      "month": "2026-05-01",
+      "price": 5.181,
+      "mom_pct": -0.02,
+      "yoy_pct": 2.61
+    },
+    {
+      "code": "APU0000708111",
+      "name": "Avg price: eggs, grade A, dozen",
+      "month": "2026-05-01",
+      "price": 2.191,
+      "mom_pct": -2.62,
+      "yoy_pct": -51.82
+    },
+    {
+      "code": "APU0000701111",
+      "name": "Avg price: flour, white, lb",
+      "month": "2026-05-01",
+      "price": 0.544,
+      "mom_pct": 0.18,
+      "yoy_pct": -3.2
+    },
+    {
+      "code": "APU0000703112",
+      "name": "Avg price: ground beef, 100% beef, lb",
+      "month": "2026-05-01",
+      "price": 6.745,
+      "mom_pct": -2.23,
+      "yoy_pct": 12.77
+    },
+    {
+      "code": "APU0000704312",
+      "name": "Avg price: ham, boneless, lb",
+      "month": "2026-05-01",
+      "price": 5.457,
+      "mom_pct": 0.96,
+      "yoy_pct": 0.07
+    },
+    {
+      "code": "APU0000710411",
+      "name": "Avg price: ice cream, half-gal",
+      "month": "2026-05-01",
+      "price": 6.045,
+      "mom_pct": -3.12,
+      "yoy_pct": -6.51
+    },
+    {
+      "code": "APU0000712211",
+      "name": "Avg price: lettuce, iceberg, lb",
+      "month": "2026-05-01",
+      "price": 1.964,
+      "mom_pct": 20.56,
+      "yoy_pct": 36.58
+    },
+    {
+      "code": "APU0000709112",
+      "name": "Avg price: milk, whole, gallon",
+      "month": "2026-05-01",
+      "price": 4.217,
+      "mom_pct": 1.96,
+      "yoy_pct": 4.85
+    },
+    {
+      "code": "APU0000713111",
+      "name": "Avg price: orange juice, 12oz",
+      "month": "2026-05-01",
+      "price": 4.97,
+      "mom_pct": 1.37,
+      "yoy_pct": 12.21
+    },
+    {
+      "code": "APU0000711311",
+      "name": "Avg price: oranges, navel, lb",
+      "month": "2026-05-01",
+      "price": 1.542,
+      "mom_pct": 2.53,
+      "yoy_pct": -1.41
+    },
+    {
+      "code": "APU0000704211",
+      "name": "Avg price: pork chops, center cut, lb",
+      "month": "2026-05-01",
+      "price": 4.905,
+      "mom_pct": 6.7,
+      "yoy_pct": 8.88
+    },
+    {
+      "code": "APU0000712112",
+      "name": "Avg price: potatoes, white, lb",
+      "month": "2026-05-01",
+      "price": 0.894,
+      "mom_pct": 3.95,
+      "yoy_pct": -6.68
+    },
+    {
+      "code": "APU0000701312",
+      "name": "Avg price: rice, white, long-grain, lb",
+      "month": "2026-05-01",
+      "price": 1.071,
+      "mom_pct": -0.46,
+      "yoy_pct": 0.37
+    },
+    {
+      "code": "APU0000701322",
+      "name": "Avg price: spaghetti/macaroni, lb",
+      "month": "2026-05-01",
+      "price": 1.374,
+      "mom_pct": 2.31,
+      "yoy_pct": 3.93
+    },
+    {
+      "code": "APU0000703511",
+      "name": "Avg price: steak, round, lb",
+      "month": "2026-05-01",
+      "price": 9.789,
+      "mom_pct": -0.37,
+      "yoy_pct": 16.52
+    },
+    {
+      "code": "APU0000715211",
+      "name": "Avg price: sugar, white, lb",
+      "month": "2026-05-01",
+      "price": 1.034,
+      "mom_pct": 2.78,
+      "yoy_pct": -1.9
+    },
+    {
+      "code": "APU0000712311",
+      "name": "Avg price: tomatoes, field-grown, lb",
+      "month": "2026-05-01",
+      "price": 2.489,
+      "mom_pct": -7.44,
+      "yoy_pct": 45.98
+    }
+  ],
+  "skipped": []
+}

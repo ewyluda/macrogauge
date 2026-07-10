@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-10T01:22:59Z",
+  "published_at": "2026-07-10T02:33:34Z",
   "months": [
     "2018-01-01",
     "2018-02-01",
@@ -332,8 +332,8 @@
       "window": "2018-01..2026-05"
     },
     "pce": {
-      "corr": null,
-      "mean_abs_gap_pp": null,
+      "corr": 0.9492,
+      "mean_abs_gap_pp": 0.56,
       "window": "2018-01..2026-05"
     }
   },
