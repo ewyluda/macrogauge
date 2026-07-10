@@ -31,7 +31,7 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "62/63 fresh; stale \u2014 manheim_uvvi_m (221d > 45d)"
+      "detail": "64/65 fresh; stale \u2014 manheim_uvvi_m (221d > 45d)"
     },
     {
       "name": "fuel_sources_agree",

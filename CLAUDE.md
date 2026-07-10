@@ -92,9 +92,10 @@ weights that **must sum to 1.0** (validated on load). Grid start is 2017-01 inte
 YoY bases); writers publish from 2018-01.
 
 ### 4. Publish (`pipeline/publish/`) + orchestration (`pipeline/run_daily.py`)
-13 published files, each with a JSON Schema in `schemas/` validated before it lands:
+14 published files, each with a JSON Schema in `schemas/` validated before it lands:
 `sources_status`, `pulse`, `gauge_daily`, `replay`, `quilt_months_24`, `quilt_months_48`,
-`quilt_months_all`, `grocery_basket`, `compare`, `gaptable`, `methodology`, `official`, `qa`.
+`quilt_months_all`, `grocery_basket`, `compare`, `gaptable`, `methodology`, `official`,
+`real_wages`, `qa`.
 The three `quilt_months_*` files share one schema (a window-months slice of the same
 month × component YoY grid); `grocery_basket` is BLS average-price staples.
 

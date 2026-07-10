@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-07-10T14:45:29Z",
+  "published_at": "2026-07-10T18:05:47Z",
   "stats": {
-    "series_count": 63,
-    "obs_count": 18033,
+    "series_count": 65,
+    "obs_count": 18266,
     "source_count": 12,
     "tracker_corr": 0.9775,
     "live_coverage_pct": 40.5,
@@ -214,8 +214,8 @@
     }
   ],
   "freshness": {
-    "fresh_count": 62,
-    "total": 63
+    "fresh_count": 64,
+    "total": 65
   },
   "inventory": [
     {
@@ -369,6 +369,24 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "FRBATLWGT3MMAUMHWGO",
+      "name": "Atlanta Fed wage growth (3mo MA median)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CES0500000003",
+      "name": "Avg hourly earnings, total private ($/hr)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -719,7 +737,7 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-06-29",
+      "latest_obs": "2026-07-06",
       "fresh": true
     },
     {
@@ -728,7 +746,7 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-07-03",
+      "latest_obs": "2026-07-10",
       "fresh": true
     },
     {
@@ -737,7 +755,7 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-06-29",
+      "latest_obs": "2026-07-06",
       "fresh": true
     },
     {
@@ -746,7 +764,7 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-06-29",
+      "latest_obs": "2026-07-06",
       "fresh": true
     },
     {

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-10T14:45:29Z",
+  "generated_at": "2026-07-10T18:05:47Z",
   "sources": [
     {
       "name": "AAA",
@@ -9,7 +9,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T14:45:29Z",
+      "finished_at": "2026-07-10T18:05:46Z",
       "series_count": 1,
       "latest_obs": "2026-07-10"
     },
@@ -21,7 +21,7 @@
       "fetched": 114,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T14:44:07Z",
+      "finished_at": "2026-07-10T18:03:57Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -31,9 +31,9 @@
       "cadence": "monthly",
       "ok": true,
       "fetched": 3045,
-      "new_rows": 224,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T14:44:01Z",
+      "finished_at": "2026-07-10T18:03:48Z",
       "series_count": 28,
       "latest_obs": "2026-05-01"
     },
@@ -45,7 +45,7 @@
       "fetched": 2715,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T14:44:04Z",
+      "finished_at": "2026-07-10T18:03:54Z",
       "series_count": 3,
       "latest_obs": "2026-07-06"
     },
@@ -57,7 +57,7 @@
       "fetched": 2,
       "new_rows": 2,
       "error": null,
-      "finished_at": "2026-07-10T14:44:04Z",
+      "finished_at": "2026-07-10T18:03:54Z",
       "series_count": 2,
       "latest_obs": "2026-07-10"
     },
@@ -66,12 +66,12 @@
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 1908,
-      "new_rows": 0,
+      "fetched": 2134,
+      "new_rows": 226,
       "error": null,
-      "finished_at": "2026-07-10T14:43:59Z",
-      "series_count": 17,
-      "latest_obs": "2026-05-01"
+      "finished_at": "2026-07-10T18:03:47Z",
+      "series_count": 19,
+      "latest_obs": "2026-06-01"
     },
     {
       "name": "MANHEIM",
@@ -81,7 +81,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T14:45:29Z",
+      "finished_at": "2026-07-10T18:05:47Z",
       "series_count": 1,
       "latest_obs": "2025-12-01"
     },
@@ -91,9 +91,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-10T14:45:29Z",
+      "finished_at": "2026-07-10T18:05:46Z",
       "series_count": 1,
       "latest_obs": "2026-07-10"
     },
@@ -105,7 +105,7 @@
       "fetched": 497,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T14:44:06Z",
+      "finished_at": "2026-07-10T18:03:57Z",
       "series_count": 1,
       "latest_obs": "2026-07-09"
     },
@@ -117,7 +117,7 @@
       "fetched": 2388,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T14:44:05Z",
+      "finished_at": "2026-07-10T18:03:55Z",
       "series_count": 1,
       "latest_obs": "2026-07-08"
     },
@@ -126,12 +126,12 @@
       "route": "API",
       "cadence": "weekly",
       "ok": true,
-      "fetched": 2153,
-      "new_rows": 0,
+      "fetched": 2157,
+      "new_rows": 4,
       "error": null,
-      "finished_at": "2026-07-10T14:45:28Z",
+      "finished_at": "2026-07-10T18:05:46Z",
       "series_count": 5,
-      "latest_obs": "2026-07-03"
+      "latest_obs": "2026-07-10"
     },
     {
       "name": "ZILLOW",
@@ -141,7 +141,7 @@
       "fetched": 226,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T14:44:06Z",
+      "finished_at": "2026-07-10T18:03:57Z",
       "series_count": 2,
       "latest_obs": "2026-05-01"
     }

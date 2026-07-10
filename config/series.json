@@ -31,6 +31,8 @@
     {"code": "CUUR0000SEHF01",  "source": "FRED",     "source_id": "CUUR0000SEHF01",               "name": "CPI electricity (NSA)",              "max_staleness_days": 80},
     {"code": "CUUR0000SEHF02",  "source": "FRED",     "source_id": "CUUR0000SEHF02",               "name": "CPI utility piped gas (NSA)",        "max_staleness_days": 80},
     {"code": "CUUR0000SETB01",  "source": "FRED",     "source_id": "CUUR0000SETB01",               "name": "CPI gasoline all types (NSA)",       "max_staleness_days": 80},
+    {"code": "FRBATLWGT3MMAUMHWGO", "source": "FRED", "source_id": "FRBATLWGT3MMAUMHWGO",     "name": "Atlanta Fed wage growth (3mo MA median)", "max_staleness_days": 80},
+    {"code": "CES0500000003",   "source": "FRED",     "source_id": "CES0500000003",                "name": "Avg hourly earnings, total private ($/hr)", "max_staleness_days": 80},
     {"code": "APU0000708111",   "source": "BLS",      "source_id": "APU0000708111",                "name": "Avg price: eggs, grade A, dozen",    "max_staleness_days": 80},
     {"code": "APU0000709112",   "source": "BLS",      "source_id": "APU0000709112",                "name": "Avg price: milk, whole, gallon",     "max_staleness_days": 80},
     {"code": "APU0000702111",   "source": "BLS",      "source_id": "APU0000702111",                "name": "Avg price: bread, white, lb",        "max_staleness_days": 80},

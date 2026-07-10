@@ -10,13 +10,13 @@ def test_load_real_registry():
     sources, series = registry.load_registry()
     assert set(sources) == {"FRED", "BLS", "EIA", "FMP", "TREASURY", "ZILLOW", "PMMS",
                             "APTLIST", "USDA", "AAA", "MND", "MANHEIM"}
-    assert len(series) == 63
+    assert len(series) == 65
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 17
+    assert len(fred) == 19
     # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
     # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
     # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
@@ -39,6 +39,8 @@ def test_load_real_registry():
         "CUUR0000SEHF01": "CUUR0000SEHF01",
         "CUUR0000SEHF02": "CUUR0000SEHF02",
         "CUUR0000SETB01": "CUUR0000SETB01",
+        "FRBATLWGT3MMAUMHWGO": "FRBATLWGT3MMAUMHWGO",
+        "CES0500000003": "CES0500000003",
     }
 
 

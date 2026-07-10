@@ -26,7 +26,8 @@ from pipeline.engine import gauge as gauge_engine
 from pipeline.engine import official
 from pipeline.publish import official as official_json
 from pipeline.publish import (compare, gaptable, gauge_daily, grocery, methodology,
-                              pulse, qa, quilt, replay, sources_status, validate)
+                              pulse, qa, quilt, real_wages, replay, sources_status,
+                              validate)
 from pipeline.store import vintage
 
 SCHEMAS = Path(__file__).parent.parent / "schemas"
@@ -146,6 +147,11 @@ def main(argv=None, http_get=None, http_post=None) -> int:
                                             published_at=published_at)
         validate.validate_file(official_path, SCHEMAS / "official.schema.json")
         print(f"published: {official_path}")
+
+        rw_path = real_wages.write(real_wages.build(conn, gauge_result),
+                                   args.out, published_at=published_at)
+        validate.validate_file(rw_path, SCHEMAS / "real_wages.schema.json")
+        print(f"published: {rw_path}")
 
         gauge_qa = {"as_of": g["as_of"], "coverage_pct": g["coverage_pct"],
                     "null_components": [

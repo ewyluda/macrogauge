@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "real_wages",
+  "type": "object",
+  "required": ["published_at", "kpis", "series"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "kpis": {
+      "type": "object",
+      "required": ["wage_growth_pct", "wage_as_of", "real_wage_growth_pct"],
+      "additionalProperties": false,
+      "properties": {
+        "wage_growth_pct": {"type": ["number", "null"]},
+        "wage_as_of": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "real_wage_growth_pct": {"type": ["number", "null"]}
+      }
+    },
+    "series": {
+      "type": "object",
+      "required": ["months", "atlanta_wgt_yoy_pct", "ahe_yoy_pct"],
+      "additionalProperties": false,
+      "properties": {
+        "months": {"type": "array",
+                   "items": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}},
+        "atlanta_wgt_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
+        "ahe_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}}
+      }
+    }
+  }
+}
