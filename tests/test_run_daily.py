@@ -85,6 +85,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert isinstance(pulse["gauge"]["yoy_pct"], float)
     assert isinstance(pulse["gap_pp"], float)
     for name in ("gauge_daily.json", "compare.json", "gaptable.json", "replay.json",
+                 "quilt_months_24.json", "quilt_months_48.json", "quilt_months_all.json",
                  "methodology.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())

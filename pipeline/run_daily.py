@@ -26,7 +26,7 @@ from pipeline.engine import gauge as gauge_engine
 from pipeline.engine import official
 from pipeline.publish import official as official_json
 from pipeline.publish import (compare, gaptable, gauge_daily, methodology,
-                              pulse, qa, replay, sources_status, validate)
+                              pulse, qa, quilt, replay, sources_status, validate)
 from pipeline.store import vintage
 
 SCHEMAS = Path(__file__).parent.parent / "schemas"
@@ -90,6 +90,12 @@ def main(argv=None, http_get=None, http_post=None) -> int:
                                    published_at=published_at)
         validate.validate_file(replay_path, SCHEMAS / "replay.schema.json")
         print(f"published: {replay_path}")
+
+        quilt_paths = quilt.write(quilt.build(gauge_result, comps), args.out,
+                                  published_at=published_at)
+        for qp in quilt_paths:
+            validate.validate_file(qp, SCHEMAS / "quilt.schema.json")
+            print(f"published: {qp}")
 
         compare_payload = compare.build(gauge_result, conn)
         cmp_path = compare.write(compare_payload, args.out,
