@@ -9,7 +9,8 @@ from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
 
-from pipeline.connectors import aaa, aptlist, bls, eia, fmp, fred, mnd, pmms, treasury, usda, zillow
+from pipeline.connectors import (aaa, aptlist, bls, eia, fmp, fred, manheim, mnd, pmms,
+                                 treasury, usda, zillow)
 from pipeline.registry import Series, Source
 from pipeline.store import vintage
 
@@ -79,9 +80,14 @@ def _mnd(subset, key, http):
     return mnd.fetch(http_get=http)
 
 
+def _manheim(subset, key, http):
+    return manheim.fetch(http_get=http)
+
+
 FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             "TREASURY": _treasury, "ZILLOW": _zillow, "PMMS": _pmms,
-            "APTLIST": _aptlist, "USDA": _usda, "AAA": _aaa, "MND": _mnd}
+            "APTLIST": _aptlist, "USDA": _usda, "AAA": _aaa, "MND": _mnd,
+            "MANHEIM": _manheim}
 
 # BLS posts; everything else gets. collect_all passes the right client through.
 POST_SOURCES = {"BLS"}

@@ -5,6 +5,7 @@ from pathlib import Path
 
 from pipeline import basket as basket_mod
 from pipeline.engine import aggregate, gate, variants
+from pipeline.engine import blend as blend_mod
 from pipeline.store import vintage
 
 GRID_START = "2017-01-01"    # internal grid start: feeds 365d YoY bases for 2018
@@ -47,7 +48,10 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
         official_rebased = {}
         for comp in comps:
             official_series = _series(conn, comp.official_series)
-            live_sources = ({name: _series(conn, name) for name in comp.live_blend}
+            live_sources = ({name: blend_mod.shift_days(
+                                 _series(conn, name),
+                                 (comp.lead_days or {}).get(name, 0))
+                             for name in comp.live_blend}
                             if comp.live_blend else {})
             idx, mode, official_idx = variants.build_component(comp, variant,
                                                       official_series, live_sources)

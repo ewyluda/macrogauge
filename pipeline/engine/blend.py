@@ -25,6 +25,17 @@ def blend(sources: dict[str, dict[str, float]],
     return out
 
 
+def shift_days(series: dict[str, float], days: int) -> dict[str, float]:
+    """Date-shift view of a series (config lead_days): wholesale sources that
+    lead retail are read `days` later. A view over the store — stored
+    observation dates are never rewritten."""
+    if not days:
+        return dict(series)
+    from datetime import date, timedelta
+    return {(date.fromisoformat(d) + timedelta(days=days)).isoformat(): v
+            for d, v in series.items()}
+
+
 def splice(official: dict[str, float], live: dict[str, float]) -> dict[str, float]:
     """Official history before the live start; live (scaled to match) after.
 

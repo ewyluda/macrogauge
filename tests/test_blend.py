@@ -64,3 +64,13 @@ def test_splice_live_predates_official_uses_scale_one():
     out = blend.splice(official, live)
     assert out["2017-06-01"] == pytest.approx(52.0)
     assert out["2018-01-01"] == pytest.approx(55.0)
+
+
+def test_shift_days_moves_dates_forward():
+    s = {"2026-05-01": 200.0, "2026-06-01": 204.0}
+    assert blend.shift_days(s, 30) == {"2026-05-31": 200.0, "2026-07-01": 204.0}
+
+
+def test_shift_days_zero_is_identity():
+    s = {"2026-05-01": 200.0}
+    assert blend.shift_days(s, 0) == s

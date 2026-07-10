@@ -55,3 +55,33 @@ def test_live_variants_without_blend_raises(tmp_path):
     p.write_text(json.dumps(bad))
     with pytest.raises(ValueError, match="live_blend"):
         basket.load_basket(p)
+
+
+def _minimal_basket_config():
+    return {"base_month": "2018-01", "components": [
+        {"code": "a", "label": "A", "weight": 1.0, "official_series": "X"}]}
+
+
+def test_lead_days_parsed_and_validated(tmp_path):
+    cfg = _minimal_basket_config()
+    cfg["components"][0]["live_blend"] = {"src_a": 1.0}
+    cfg["components"][0]["live_variants"] = ["gauge"]
+    cfg["components"][0]["lead_days"] = {"src_a": 30}
+    p = tmp_path / "basket.json"
+    p.write_text(json.dumps(cfg))
+    _, comps = basket.load_basket(p)
+    assert comps[0].lead_days == {"src_a": 30}
+
+
+def test_lead_days_key_must_be_in_live_blend(tmp_path):
+    cfg = _minimal_basket_config()
+    cfg["components"][0]["live_blend"] = {"src_a": 1.0}
+    cfg["components"][0]["live_variants"] = ["gauge"]
+    cfg["components"][0]["lead_days"] = {"other_src": 30}
+    p = tmp_path / "basket.json"
+    p.write_text(json.dumps(cfg))
+    try:
+        basket.load_basket(p)
+        assert False, "expected ValueError"
+    except ValueError as e:
+        assert "lead_days" in str(e)
