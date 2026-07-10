@@ -25,7 +25,7 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": false,
-      "detail": "11/12 ok; failed \u2014 USDA: missing secret USDA_API_KEY"
+      "detail": "11/12 ok; failed \u2014 TREASURY: ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
     },
     {
       "name": "sources_fresh",

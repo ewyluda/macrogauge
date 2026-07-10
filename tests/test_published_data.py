@@ -61,3 +61,15 @@ def test_grocery_basket_items():
     grocery = json.loads((DATA / "grocery_basket.json").read_text())
     assert len(grocery["items"]) >= 20
     assert all(item["price"] is not None for item in grocery["items"])
+
+
+def test_grocery_series_aligned():
+    """Sparkline arrays must align and the card price must equal the series
+    value at the item's own month — a mismatch would draw a sparkline that
+    contradicts the printed price."""
+    grocery = json.loads((DATA / "grocery_basket.json").read_text())
+    for it in grocery["items"]:
+        s = it["series"]
+        assert len(s["months"]) == len(s["prices"]) > 0, it["code"]
+        assert s["months"] == sorted(s["months"]), it["code"]
+        assert it["price"] == s["prices"][s["months"].index(it["month"])], it["code"]

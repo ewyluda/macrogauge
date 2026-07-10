@@ -52,3 +52,16 @@ def test_non_ap_series_ignored(tmp_path):
     conn = _store_with(tmp_path, {"CPIAUCNS": {"2026-06-01": 320.0}})
     payload = grocery.build(conn, [_series_row("CPIAUCNS", "CPI-U all items (NSA)")])
     assert payload["items"] == [] and payload["skipped"] == []
+
+
+def test_items_carry_series_from_publish_start(tmp_path):
+    conn = _store_with(tmp_path, {
+        "APU0000708111": {"2017-12-01": 2.40, "2018-01-01": 2.45, "2025-06-01": 2.50,
+                          "2026-05-01": 3.90, "2026-06-01": 4.00}})
+    payload = grocery.build(
+        conn, [_series_row("APU0000708111", "Avg price: eggs, grade A, dozen")])
+    s = payload["items"][0]["series"]
+    # 2017-12 excluded: writers publish from 2018-01 (PUBLISH_START)
+    assert s["months"] == ["2018-01-01", "2025-06-01", "2026-05-01", "2026-06-01"]
+    assert s["prices"] == [2.45, 2.50, 3.90, 4.00]
+    assert len(s["months"]) == len(s["prices"])

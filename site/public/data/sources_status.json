@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-10T15:17:14Z",
+  "generated_at": "2026-07-10T14:33:55Z",
   "sources": [
     {
       "name": "AAA",
@@ -9,7 +9,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-10T15:17:13Z",
+      "finished_at": "2026-07-10T14:33:54Z",
       "series_count": 1,
       "latest_obs": "2026-07-10"
     },
@@ -21,7 +21,7 @@
       "fetched": 114,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T15:17:13Z",
+      "finished_at": "2026-07-10T14:32:18Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -33,7 +33,7 @@
       "fetched": 2821,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T15:17:08Z",
+      "finished_at": "2026-07-10T14:32:12Z",
       "series_count": 26,
       "latest_obs": "2026-05-01"
     },
@@ -45,7 +45,7 @@
       "fetched": 2715,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T15:17:10Z",
+      "finished_at": "2026-07-10T14:32:15Z",
       "series_count": 3,
       "latest_obs": "2026-07-06"
     },
@@ -57,7 +57,7 @@
       "fetched": 2,
       "new_rows": 2,
       "error": null,
-      "finished_at": "2026-07-10T15:17:10Z",
+      "finished_at": "2026-07-10T14:32:15Z",
       "series_count": 2,
       "latest_obs": "2026-07-10"
     },
@@ -69,7 +69,7 @@
       "fetched": 1908,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T15:17:06Z",
+      "finished_at": "2026-07-10T14:32:11Z",
       "series_count": 17,
       "latest_obs": "2026-05-01"
     },
@@ -81,7 +81,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T15:17:14Z",
+      "finished_at": "2026-07-10T14:33:55Z",
       "series_count": 1,
       "latest_obs": "2025-12-01"
     },
@@ -93,7 +93,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-10T15:17:14Z",
+      "finished_at": "2026-07-10T14:33:54Z",
       "series_count": 1,
       "latest_obs": "2026-07-10"
     },
@@ -105,7 +105,7 @@
       "fetched": 497,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T15:17:12Z",
+      "finished_at": "2026-07-10T14:32:18Z",
       "series_count": 1,
       "latest_obs": "2026-07-09"
     },
@@ -113,11 +113,11 @@
       "name": "TREASURY",
       "route": "API",
       "cadence": "daily",
-      "ok": true,
-      "fetched": 2388,
+      "ok": false,
+      "fetched": 0,
       "new_rows": 0,
-      "error": null,
-      "finished_at": "2026-07-10T15:17:11Z",
+      "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+      "finished_at": "2026-07-10T14:32:16Z",
       "series_count": 1,
       "latest_obs": "2026-07-08"
     },
@@ -125,11 +125,11 @@
       "name": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "ok": false,
-      "fetched": 0,
+      "ok": true,
+      "fetched": 2153,
       "new_rows": 0,
-      "error": "missing secret USDA_API_KEY",
-      "finished_at": "2026-07-10T15:17:13Z",
+      "error": null,
+      "finished_at": "2026-07-10T14:33:54Z",
       "series_count": 5,
       "latest_obs": "2026-07-03"
     },
@@ -141,7 +141,7 @@
       "fetched": 226,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T15:17:12Z",
+      "finished_at": "2026-07-10T14:32:17Z",
       "series_count": 2,
       "latest_obs": "2026-05-01"
     }
