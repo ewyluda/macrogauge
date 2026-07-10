@@ -67,3 +67,29 @@ def test_fetch_chunks_large_series_lists():
     assert len(calls) == 2
     assert all(len(c) <= 25 for c in calls)
     assert [s for c in calls for s in c] == ids
+
+
+def test_fetch_chunk_boundary_exact_multiple():
+    """Chunking boundary: exactly 25 ids → 1 request; exactly 50 ids → 2 requests."""
+    calls = []
+
+    def fake_post(url, json=None, timeout=None):
+        calls.append(list(json["seriesid"]))
+        return FakeResponse({"Results": {"series": [
+            {"seriesID": sid, "data": []} for sid in json["seriesid"]]}})
+
+    # Test exact multiple of chunk size: 25 ids
+    calls.clear()
+    ids_25 = [f"APU0000{i:06d}" for i in range(25)]
+    bls.fetch(ids_25, api_key=None, http_post=fake_post)
+    assert len(calls) == 1, f"Expected 1 request for 25 ids, got {len(calls)}"
+    assert calls[0] == ids_25
+
+    # Test exact multiple of chunk size: 50 ids
+    calls.clear()
+    ids_50 = [f"APU0000{i:06d}" for i in range(50)]
+    bls.fetch(ids_50, api_key=None, http_post=fake_post)
+    assert len(calls) == 2, f"Expected 2 requests for 50 ids, got {len(calls)}"
+    assert len(calls[0]) == 25
+    assert len(calls[1]) == 25
+    assert [s for c in calls for s in c] == ids_50

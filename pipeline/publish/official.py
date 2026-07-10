@@ -20,7 +20,7 @@ QUOTES = {  # code -> (label, group, unit)
     "APU0000708111": ("Eggs, dozen", "grocery", "$"),
     "APU0000709112": ("Milk, gallon", "grocery", "$"),
     "APU0000702111": ("Bread, lb", "grocery", "$"),
-    "APU0000703112": ("Ground chuck, lb", "grocery", "$"),
+    "APU0000703112": ("Ground beef (100%), lb", "grocery", "$"),
     "APU0000706111": ("Chicken, lb", "grocery", "$"),
     "APU0000711211": ("Bananas, lb", "grocery", "$"),
     "eia_gasreg_w": ("Gas, regular", "energy", "$/gal"),

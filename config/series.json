@@ -33,7 +33,7 @@
     {"code": "APU0000708111",   "source": "BLS",      "source_id": "APU0000708111",                "name": "Avg price: eggs, grade A, dozen",    "max_staleness_days": 80},
     {"code": "APU0000709112",   "source": "BLS",      "source_id": "APU0000709112",                "name": "Avg price: milk, whole, gallon",     "max_staleness_days": 80},
     {"code": "APU0000702111",   "source": "BLS",      "source_id": "APU0000702111",                "name": "Avg price: bread, white, lb",        "max_staleness_days": 80},
-    {"code": "APU0000703112",   "source": "BLS",      "source_id": "APU0000703112",                "name": "Avg price: ground chuck, lb",        "max_staleness_days": 80},
+    {"code": "APU0000703112",   "source": "BLS",      "source_id": "APU0000703112",                "name": "Avg price: ground beef, 100% beef, lb", "max_staleness_days": 80},
     {"code": "APU0000706111",   "source": "BLS",      "source_id": "APU0000706111",                "name": "Avg price: chicken, whole, lb",      "max_staleness_days": 80},
     {"code": "APU0000711211",   "source": "BLS",      "source_id": "APU0000711211",                "name": "Avg price: bananas, lb",             "max_staleness_days": 80},
     {"code": "APU0000701111",   "source": "BLS",      "source_id": "APU0000701111",                "name": "Avg price: flour, white, lb",        "max_staleness_days": 80},
