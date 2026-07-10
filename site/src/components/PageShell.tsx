@@ -28,6 +28,9 @@ export function PageShell({ children }: { children: React.ReactNode }) {
             <Link href="/" style={{ color: "var(--muted)", textDecoration: "none" }}>
               Home
             </Link>
+            <Link href="/real-wages" style={{ color: "var(--muted)", textDecoration: "none" }}>
+              Real Wages
+            </Link>
             <Link
               href="/methodology"
               style={{ color: "var(--muted)", textDecoration: "none" }}
