@@ -6,6 +6,8 @@ __pycache__/
 node_modules/
 site/.next/
 site/out/
+site/test-results/
+site/playwright-report/
 .vercel
 .DS_Store
 .superpowers/

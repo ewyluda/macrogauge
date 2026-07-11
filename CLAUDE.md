@@ -27,10 +27,12 @@ FRED_API_KEY=... python -m pipeline.run_daily --store store --out site/public/da
 cd site && npm ci
 npm run dev        # local dev server
 npm run build      # static export (must pass in CI)
+npm test           # vitest — client math (since/reweight/realwage)
+npm run e2e        # Playwright smoke — 6 pages render, zero console errors
 ```
 
 CI (`.github/workflows/ci.yml`) runs two independent jobs on every push/PR: `pipeline` (`pytest -q`)
-and `site` (`npm run build`). Both must be green.
+and `site` (`npm run build`, `npm test`, `npm run e2e`). Both must be green.
 
 ## Architecture
 

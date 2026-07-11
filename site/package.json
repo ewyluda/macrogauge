@@ -5,7 +5,8 @@
     "dev": "next dev",
     "build": "next build",
     "lint": "next lint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "e2e": "playwright test"
   },
   "dependencies": {
     "echarts": "^6.1.0",
@@ -14,9 +15,11 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "serve": "^14.2.6",
     "typescript": "^5",
     "vitest": "^4.1.10"
   }
