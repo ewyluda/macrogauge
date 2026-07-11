@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { EChart } from "./EChart";
 import { C } from "@/lib/chartTheme";
-import { ramp } from "@/lib/heat";
+import { ramp, EMPTY_CELL } from "@/lib/heat";
 
 type Replay = {
   rebase: string;
@@ -148,7 +148,7 @@ export function Treemap() {
             itemStyle: {
               color:
                 v === null
-                  ? "#2a3542"
+                  ? EMPTY_CELL
                   : ramp((v - domain[0]) / (domain[1] - domain[0])),
             },
           })),

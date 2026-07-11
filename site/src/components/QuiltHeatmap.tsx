@@ -74,12 +74,16 @@ export function QuiltHeatmap() {
   const [win, setWin] = useState<WindowKey>("24");
   const [cache, setCache] = useState<Partial<Record<WindowKey, Quilt>>>({});
   const [compare, setCompare] = useState<Compare | null>(null);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     fetch("/data/compare.json")
       .then((r) => r.json())
       .then(setCompare)
-      .catch(() => setCompare(null));
+      .catch(() => {
+        setCompare(null);
+        setFailed(true);
+      });
   }, []);
 
   useEffect(() => {
@@ -87,10 +91,17 @@ export function QuiltHeatmap() {
     fetch(`/data/quilt_months_${win}.json`)
       .then((r) => r.json())
       .then((q: Quilt) => setCache((c) => ({ ...c, [win]: q })))
-      .catch(() => {});
+      .catch(() => setFailed(true));
   }, [win, cache]);
 
   const quilt = cache[win];
+  if (failed) {
+    return (
+      <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>
+        inflation quilt data unavailable — reload to retry
+      </div>
+    );
+  }
   if (!quilt || !compare) {
     return (
       <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>
@@ -199,8 +210,9 @@ export function QuiltHeatmap() {
       </div>
       <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 8 }}>
         Cell = our component YoY that month (own-observation, like-month honest) ·
-        headline rows from compare.json · empty BLS cells = print not yet released ·
-        colors: −2% blue → +6% red, same scale as the treemap.
+        headline rows from compare.json · empty BLS/OURS-headline cells = print not yet
+        released or trailing past compare.json&apos;s last graded month · colors: −2% blue →
+        +6% red, same scale as the treemap · as of {asOf}.
       </div>
     </div>
   );
