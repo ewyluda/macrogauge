@@ -10,7 +10,9 @@ def momentum(series: list[tuple[str, float]], periods: int = 3,
     out = []
     for i in range(periods, len(series)):
         current, prior = series[i][1], series[i - periods][1]
-        if percent and prior:
+        if percent:
+            if prior <= 0:
+                continue  # % change off a non-positive base flips sign/explodes
             value = (current / prior - 1) * 100
         else:
             value = current - prior
@@ -19,8 +21,8 @@ def momentum(series: list[tuple[str, float]], periods: int = 3,
 
 
 def latest_z(series: list[tuple[str, float]], periods: int = 3,
-             direction: int = 1) -> dict | None:
-    changes = momentum(series, periods)
+             direction: int = 1, percent: bool = True) -> dict | None:
+    changes = momentum(series, periods, percent)
     if len(changes) < 3:
         return None
     values = [value for _, value in changes]

@@ -1,5 +1,37 @@
-from pipeline.engine.composites import (heat_check, latest_z, recession_composite,
-                                        stress_index)
+import json
+from pathlib import Path
+
+from pipeline.engine.composites import (heat_check, latest_z, momentum,
+                                        recession_composite, stress_index)
+
+CONFIG = Path(__file__).parent.parent / "config" / "composites.json"
+
+
+def test_momentum_diff_mode_keeps_sign_on_negative_series():
+    rows = [("2026-01-01", -0.5), ("2026-02-01", -0.25)]
+    assert momentum(rows, periods=1, percent=False) == [("2026-02-01", 0.25)]
+
+
+def test_momentum_percent_skips_non_positive_priors():
+    rows = [("d1", -0.1), ("d2", 0.0), ("d3", 200.0), ("d4", 300.0)]
+    assert momentum(rows, periods=1) == [("d4", 50.0)]
+
+
+def test_latest_z_diff_mode():
+    rows = [(f"2026-{m:02d}-01", v) for m, v in
+            enumerate([-0.5, -0.4, -0.2, 0.1, 0.5], start=1)]
+    result = latest_z(rows, periods=1, direction=1, percent=False)
+    assert result["momentum"] == 0.4
+    assert result["z"] > 0
+
+
+def test_heatcheck_config_uses_diff_mode_for_rates_and_spreads():
+    cfg = json.loads(CONFIG.read_text())["heatcheck"]
+    by_code = {item["code"]: item for item in cfg["indicators"]}
+    for code in ("T10Y2Y", "T5YIE", "FEDFUNDS", "pmms_30yr", "UNRATE"):
+        assert by_code[code].get("mode") == "diff", code
+    assert by_code["T10Y2Y"]["periods"] == 63  # daily series ≈ 3 months
+    assert by_code["ICSA"]["periods"] == 13    # weekly series ≈ 3 months
 
 
 def test_latest_z_signs_and_clamps_momentum():

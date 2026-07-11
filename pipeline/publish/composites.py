@@ -19,8 +19,12 @@ def build_heatcheck(conn, config_path: Path = CONFIG) -> dict:
     cfg = json.loads(config_path.read_text())["heatcheck"]
     indicators = []
     for item in cfg["indicators"]:
+        # mode "diff" for rates/spreads (zero-crossing bases break % change);
+        # periods scale the ~3-month horizon to the series cadence.
         result = composites.latest_z(vintage.latest(conn, item["code"]),
-                                     periods=3, direction=item["direction"])
+                                     periods=item.get("periods", 3),
+                                     direction=item["direction"],
+                                     percent=item.get("mode", "pct") != "diff")
         indicators.append({**item, **(result or {"as_of": None, "momentum": None,
                                                  "z": None})})
     return composites.heat_check(indicators, cfg["group_weights"])

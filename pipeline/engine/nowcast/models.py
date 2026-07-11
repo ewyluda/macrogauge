@@ -23,6 +23,11 @@ def _previous_month(month: str) -> str:
     return f"{y - (m == 1):04d}-{12 if m == 1 else m - 1:02d}-01"
 
 
+def _next_month(month: str) -> str:
+    y, m = map(int, month[:7].split("-"))
+    return f"{y + (m == 12):04d}-{1 if m == 12 else m + 1:02d}-01"
+
+
 def _pct_change(values: dict[str, float], end: str, start: str) -> float | None:
     if end not in values or start not in values or values[start] == 0:
         return None
@@ -33,11 +38,16 @@ def cpi_nowcast(gauge_result: dict, target_month: str) -> dict:
     """Bottom-up CPI forecast from weighted component index changes."""
     target = _month_start(target_month)
     prior = _previous_month(target)
+    after = _next_month(target)
     variant = gauge_result["variants"]["gauge"]
     contributions, total = [], 0.0
     for code, component in variant["components"].items():
         series = component["daily_index"]
-        end = min(variant["as_of"], max(series))
+        # Never read past the target month: once it is over, later moves belong
+        # to the NEXT print, and this forecast gets graded against a one-month
+        # actual.
+        end = min(variant["as_of"],
+                  max((d for d in series if d < after), default=max(series)))
         # If target is not complete, compare the latest in-month reading with
         # the prior month start. Sticky categories naturally contribute zero.
         start = prior if prior in series else max(d for d in series if d < end)
@@ -106,22 +116,24 @@ def nfp_nowcast(payroll_rows, claims_rows, window: int = 60) -> dict | None:
     if len(changes) < 4:
         return None
     claims = [v for _, v in claims_rows]
-    claims_delta = ((sum(claims[-4:]) / min(4, len(claims[-4:]))) -
-                    (sum(claims[-8:-4]) / min(4, len(claims[-8:-4])))) if len(claims) >= 8 else 0
+    # ICSA is raw persons; payroll changes are thousands — convert before mixing.
+    claims_delta = ((sum(claims[-4:]) / 4 - sum(claims[-8:-4]) / 4) / 1000
+                    if len(claims) >= 8 else 0.0)
     ordered = sorted(changes)
     rows, ys = [], []
     for i in range(3, len(ordered)):
         momentum = sum(changes[m] for m in ordered[i - 3:i]) / 3
-        rows.append([1.0, momentum, 0.0])
+        rows.append([1.0, momentum])
         ys.append(changes[ordered[i]])
-    beta = _ols(rows[-window:], ys[-window:]) or [0.0, 1.0, -1.0]
+    beta = _ols(rows[-window:], ys[-window:]) or [0.0, 1.0]
+    claims_beta = -1.0  # hand-seeded: +1k claims (4wk avg) ≈ 1k fewer payrolls
     momentum = sum(changes[m] for m in ordered[-3:]) / 3
-    forecast = beta[0] + beta[1] * momentum + beta[2] * claims_delta
+    forecast = beta[0] + beta[1] * momentum + claims_beta * claims_delta
     return {"change_thousands": round(forecast), "status": "live",
             "parameters": {"a": round(beta[0], 6), "b": round(beta[1], 6),
-                           "c": round(-beta[2], 6), "window_months": window},
+                           "c": round(-claims_beta, 6), "window_months": window},
             "inputs": {"payroll_momentum": round(momentum, 2),
-                       "claims_delta": round(claims_delta, 2)}}
+                       "claims_delta_thousands": round(claims_delta, 2)}}
 
 
 def ensemble(forecasts: dict[str, float | None], errors: dict[str, float | None]) -> dict:

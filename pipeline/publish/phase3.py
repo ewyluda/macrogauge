@@ -96,19 +96,23 @@ def build_nextprint(nowcast: dict) -> dict:
             "ensemble": nowcast["ensemble"], "forecasters": candidates}
 
 
+BBL_GALLONS = 42  # WTI quotes in $/barrel; the pump price is $/gallon
+FUEL_FORMULA = ("pump + 0.85 × (RBOB_5d_avg − RBOB_prior15d_avg); "
+                "WTI proxy converted at 42 gal/bbl")
+
+
 def build_fuel(conn) -> dict:
     pump = vintage.latest(conn, "aaa_gas_d")
     rbob = vintage.latest(conn, "fmp_wti")  # WTI proxy until RBOB is registered
     if not pump or len(rbob) < 2:
-        return {"available": False, "formula":
-                "pump + 0.85 × (RBOB_5d_avg − RBOB_prior15d_avg)"}
+        return {"available": False, "formula": FUEL_FORMULA}
     recent = [v for _, v in rbob[-5:]]
     prior = [v for _, v in rbob[-20:-5]] or recent
-    change = sum(recent) / len(recent) - sum(prior) / len(prior)
+    change = (sum(recent) / len(recent) - sum(prior) / len(prior)) / BBL_GALLONS
     return {"available": True, "as_of": pump[-1][0], "pump": pump[-1][1],
             "forward_2wk": round(pump[-1][1] + 0.85 * change, 3),
             "proxy": "WTI (RBOB unavailable)",
-            "formula": "pump + 0.85 × (RBOB_5d_avg − RBOB_prior15d_avg)"}
+            "formula": FUEL_FORMULA}
 
 
 def write_all(nowcast: dict, conn, out_dir: Path, published_at: str) -> list[Path]:

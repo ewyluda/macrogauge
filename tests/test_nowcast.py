@@ -1,4 +1,42 @@
-from pipeline.engine.nowcast.models import ensemble, nfp_nowcast, pce_bridge
+from pipeline.engine.nowcast.models import (cpi_nowcast, ensemble, nfp_nowcast,
+                                            pce_bridge)
+
+
+def test_cpi_nowcast_clamps_window_to_target_month():
+    gauge_result = {"variants": {"gauge": {
+        "as_of": "2026-07-10",
+        "yoy": {"2026-07-10": 3.1},
+        "components": {"fuel": {"weight": 1.0, "daily_index": {
+            "2026-05-01": 100.0, "2026-06-30": 102.0, "2026-07-10": 110.0}}}}}}
+    result = cpi_nowcast(gauge_result, "2026-06")
+    # June's MoM ends at Jun-30; July's slide must not leak into the June print.
+    assert result["mom_pct"] == 2.0
+    assert result["components"][0]["mom_pct"] == 2.0
+
+
+def test_nfp_ols_actually_fits_momentum_coefficient():
+    # Payroll changes double each month, so next_change = (24/7) × momentum
+    # exactly, with zero intercept — a real fit must recover both.
+    level, payroll = 150000.0, []
+    for m in range(1, 13):
+        level += 2 ** m
+        payroll.append((f"2024-{m:02d}-01", level))
+    result = nfp_nowcast(payroll, [])
+    assert abs(result["parameters"]["b"] - 24 / 7) < 1e-6
+    assert abs(result["parameters"]["a"]) < 1e-6
+
+
+def test_nfp_claims_delta_converted_to_thousands():
+    level, payroll = 150000.0, []
+    for m in range(1, 13):
+        level += 100
+        payroll.append((f"2024-{m:02d}-01", level))
+    flat = [(f"2024-02-{d:02d}", 200000.0) for d in range(1, 9)]
+    risen = [(d, v + (8000 if i >= 4 else 0)) for i, (d, v) in enumerate(flat)]
+    calm = nfp_nowcast(payroll, flat)
+    stressed = nfp_nowcast(payroll, risen)
+    # +8,000 persons on the ICSA 4-week average is 8k jobs of drag, not 8M.
+    assert calm["change_thousands"] - stressed["change_thousands"] == 8
 
 
 def test_pce_bridge_fits_linear_relationship():
