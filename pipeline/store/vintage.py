@@ -81,6 +81,29 @@ def latest(conn: sqlite3.Connection, series_code: str) -> list[tuple[str, float]
         WHERE rn = 1 ORDER BY obs_date""", (series_code,)).fetchall()
 
 
+def as_of(conn: sqlite3.Connection, series_code: str,
+          vintage_date: str) -> list[tuple[str, float]]:
+    """Vintage-true series view using only information known by ``vintage_date``."""
+    return conn.execute("""
+        SELECT obs_date, value FROM (
+            SELECT obs_date, value, ROW_NUMBER() OVER (
+                PARTITION BY obs_date ORDER BY vintage_date DESC, rowid DESC) rn
+            FROM observations
+            WHERE series_code = ? AND vintage_date <= ?)
+        WHERE rn = 1 ORDER BY obs_date""", (series_code, vintage_date)).fetchall()
+
+
+def first_releases(conn: sqlite3.Connection,
+                   series_code: str) -> list[tuple[str, float, str]]:
+    """First stored release for each observation: (obs_date, value, vintage_date)."""
+    return conn.execute("""
+        SELECT obs_date, value, vintage_date FROM (
+            SELECT obs_date, value, vintage_date, ROW_NUMBER() OVER (
+                PARTITION BY obs_date ORDER BY vintage_date ASC, rowid ASC) rn
+            FROM observations WHERE series_code = ?)
+        WHERE rn = 1 ORDER BY obs_date""", (series_code,)).fetchall()
+
+
 def max_vintage(conn: sqlite3.Connection, series_code: str) -> str:
     row = conn.execute("SELECT MAX(vintage_date) FROM observations WHERE series_code = ?",
                        (series_code,)).fetchone()

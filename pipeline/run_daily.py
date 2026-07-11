@@ -24,9 +24,10 @@ from pipeline import collect, registry, release_calendar
 from pipeline.connectors import fred
 from pipeline.engine import gauge as gauge_engine
 from pipeline.engine import official
+from pipeline.engine.nowcast import build_latest as build_nowcast
 from pipeline.publish import official as official_json
 from pipeline.publish import (compare, gaptable, gauge_daily, grocery, methodology,
-                              pulse, qa, quilt, real_wages, replay, sources_status,
+                              phase3, pulse, qa, quilt, real_wages, replay, sources_status,
                               validate)
 from pipeline.store import vintage
 
@@ -153,6 +154,26 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         validate.validate_file(rw_path, SCHEMAS / "real_wages.schema.json")
         print(f"published: {rw_path}")
 
+        next_release = release_calendar.next_print(today)
+        nowcast_payload = build_nowcast(
+            conn, gauge_result, next_release,
+            benchmarks=phase3.latest_benchmarks(conn))
+        phase3.record_forecasts(nowcast_payload, conn, args.store, today)
+        phase3_paths = phase3.write_all(nowcast_payload, conn, args.out,
+                                        published_at)
+        schema_by_name = {
+            "nowcast_latest.json": "nowcast_latest.schema.json",
+            "nextprint.json": "nextprint.schema.json",
+            "releases.json": "releases.schema.json",
+            "backtest.json": "backtest.schema.json",
+            "fuel.json": "fuel.schema.json",
+        }
+        for path in phase3_paths:
+            schema = ("accountability.schema.json" if path.name.startswith("accountability_")
+                      else schema_by_name[path.name])
+            validate.validate_file(path, SCHEMAS / schema)
+            print(f"published: {path}")
+
         gauge_qa = {"as_of": g["as_of"], "coverage_pct": g["coverage_pct"],
                     "null_components": [
                         c for c, e in g["components"].items()
@@ -171,7 +192,8 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         artifacts = {"quilt_months": len(quilt_payload["months"]),
                      "quilt_aligned": quilt_aligned,
                      "grocery_items": len(grocery_payload["items"]),
-                     "grocery_skipped": len(grocery_payload["skipped"])}
+                     "grocery_skipped": len(grocery_payload["skipped"]),
+                     "nowcast": nowcast_payload}
     except jsonschema.ValidationError:
         raise  # contract violation must fail the run — never deploy invalid JSON
     except Exception as e:  # engine isolation: failure surfaces in qa, never blocks

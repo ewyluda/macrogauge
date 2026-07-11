@@ -1,0 +1,9 @@
+{
+  "published_at": "2026-07-11T01:40:06Z",
+  "available": true,
+  "as_of": "2026-07-10",
+  "pump": 3.884,
+  "forward_2wk": 3.187,
+  "proxy": "WTI (RBOB unavailable)",
+  "formula": "pump + 0.85 \u00d7 (RBOB_5d_avg \u2212 RBOB_prior15d_avg)"
+}

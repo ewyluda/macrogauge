@@ -1,0 +1,293 @@
+{
+  "published_at": "2026-07-11T01:40:06Z",
+  "releases": [
+    {
+      "target": "cpi",
+      "reference_period": "2024-05",
+      "value": 314.069,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2024-06",
+      "value": 314.175,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2024-07",
+      "value": 314.54,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2024-08",
+      "value": 314.796,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2024-09",
+      "value": 315.301,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2024-10",
+      "value": 315.664,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2024-11",
+      "value": 315.493,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2024-12",
+      "value": 315.605,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2025-01",
+      "value": 317.671,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2025-02",
+      "value": 319.082,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2025-03",
+      "value": 319.799,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2025-04",
+      "value": 320.795,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2025-05",
+      "value": 321.465,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2025-06",
+      "value": 322.561,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2025-07",
+      "value": 323.048,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2025-08",
+      "value": 323.976,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2025-09",
+      "value": 324.8,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2025-11",
+      "value": 324.122,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2025-12",
+      "value": 324.054,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2026-01",
+      "value": 325.252,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2026-02",
+      "value": 326.785,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2026-03",
+      "value": 330.213,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2026-04",
+      "value": 333.02,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2026-05",
+      "value": 335.123,
+      "first_release_date": "2026-07-07"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2024-06",
+      "value": 123.539,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2024-07",
+      "value": 123.736,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2024-08",
+      "value": 123.889,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2024-09",
+      "value": 124.164,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2024-10",
+      "value": 124.494,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2024-11",
+      "value": 124.637,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2024-12",
+      "value": 124.979,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2025-01",
+      "value": 125.417,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2025-02",
+      "value": 125.921,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2025-03",
+      "value": 125.941,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2025-04",
+      "value": 126.15,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2025-05",
+      "value": 126.38,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2025-06",
+      "value": 126.743,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2025-07",
+      "value": 126.96,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2025-08",
+      "value": 127.293,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2025-09",
+      "value": 127.625,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2025-10",
+      "value": 127.871,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2025-11",
+      "value": 128.152,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2025-12",
+      "value": 128.576,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2026-01",
+      "value": 129.023,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2026-02",
+      "value": 129.539,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2026-03",
+      "value": 130.403,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2026-04",
+      "value": 130.938,
+      "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "pce",
+      "reference_period": "2026-05",
+      "value": 131.527,
+      "first_release_date": "2026-07-09"
+    }
+  ]
+}

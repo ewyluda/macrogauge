@@ -24,7 +24,16 @@ def fake_get(url, params=None, timeout=None, **kw):
         name = "eia_weekly.json" if ".W" in url else "eia_monthly.json"
         return FakeResponse(json.loads((FIXTURES / name).read_text()))
     if "financialmodelingprep.com" in url:
+        if "economic-calendar" in url:
+            return FakeResponse([{"event": "Consumer Price Index MoM",
+                                  "date": "2026-07-14 08:30:00", "estimate": 0.3}])
         return FakeResponse(json.loads((FIXTURES / "fmp_quote.json").read_text()))
+    if "clevelandfed.org" in url:
+        return _TextResponse("<tr><td>July 2026</td><td>0.20</td><td>0.25</td>"
+                             "<td>0.18</td><td>0.22</td><td>07/10</td></tr>")
+    if "external-api.kalshi.com" in url:
+        return FakeResponse({"markets": [{"floor_strike": 0.2,
+                                           "last_price_dollars": "1.0"}]})
     if "fiscaldata.treasury.gov" in url:
         return FakeResponse(json.loads((FIXTURES / "treasury_debt.json").read_text()))
     if "zillowstatic.com" in url:
@@ -86,15 +95,18 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert isinstance(pulse["gap_pp"], float)
     for name in ("gauge_daily.json", "compare.json", "gaptable.json", "replay.json",
                  "quilt_months_24.json", "quilt_months_48.json", "quilt_months_all.json",
-                 "methodology.json", "grocery_basket.json", "real_wages.json"):
+                 "methodology.json", "grocery_basket.json", "real_wages.json",
+                 "nowcast_latest.json", "nextprint.json", "releases.json", "backtest.json",
+                 "accountability_cpi.json", "accountability_pce.json",
+                 "accountability_nfp.json", "fuel.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 12
+    assert len(status["sources"]) == 15
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + 5 gauge checks + fuel_sources_agree
     # + quilt_complete + grocery_items
-    assert qa["total"] == 13
+    assert qa["total"] == 16
     official = json.loads((out / "official.json").read_text())
     assert len(official["components"]) == 14
     assert len(official["quotes"]) == 13

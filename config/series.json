@@ -11,7 +11,10 @@
     "USDA":     {"route": "API", "cadence": "weekly", "secret": "USDA_API_KEY"},
     "AAA":      {"route": "SCRAPE", "cadence": "daily"},
     "MND":      {"route": "SCRAPE", "cadence": "daily"},
-    "MANHEIM":  {"route": "SCRAPE", "cadence": "monthly"}
+    "MANHEIM":  {"route": "SCRAPE", "cadence": "monthly"},
+    "CLEVELAND": {"route": "SCRAPE", "cadence": "daily"},
+    "KALSHI":   {"route": "API", "cadence": "daily"},
+    "STREET":   {"route": "API", "cadence": "daily", "secret": "FMP_API_KEY"}
   },
   "series": [
     {"code": "CPIAUCNS",        "source": "FRED",     "source_id": "CPIAUCNS",                     "name": "CPI-U all items (NSA)",              "max_staleness_days": 80},
@@ -78,6 +81,14 @@
     {"code": "usda_broiler_w",  "source": "USDA",     "source_id": "3646:broiler",                 "name": "USDA national broiler/fryer composite, ¢/lb (weekly)", "max_staleness_days": 30},
     {"code": "mnd_30y_d",       "source": "MND",      "source_id": "rate_30yr_fixed",              "name": "Mortgage News Daily 30yr fixed %",   "max_staleness_days": 5},
     {"code": "aaa_gas_d",       "source": "AAA",      "source_id": "national_regular",             "name": "AAA national average regular gasoline $/gal", "max_staleness_days": 4},
-    {"code": "manheim_uvvi_m",  "source": "MANHEIM",  "source_id": "uvvi",                         "name": "Manheim Used Vehicle Value Index",   "max_staleness_days": 45}
+    {"code": "manheim_uvvi_m",  "source": "MANHEIM",  "source_id": "uvvi",                         "name": "Manheim Used Vehicle Value Index",   "max_staleness_days": 45},
+    {"code": "PAYEMS",          "source": "FRED",      "source_id": "PAYEMS",                       "name": "Total nonfarm payrolls (thousands)", "max_staleness_days": 45},
+    {"code": "ICSA",            "source": "FRED",      "source_id": "ICSA",                         "name": "Initial unemployment claims",       "max_staleness_days": 14},
+    {"code": "cleveland_cpi_mom", "source": "CLEVELAND", "source_id": "cleveland_cpi_mom",         "name": "Cleveland Fed CPI nowcast MoM",     "max_staleness_days": 5},
+    {"code": "cleveland_core_cpi_mom", "source": "CLEVELAND", "source_id": "cleveland_core_cpi_mom", "name": "Cleveland Fed core CPI nowcast MoM", "max_staleness_days": 5},
+    {"code": "cleveland_pce_mom", "source": "CLEVELAND", "source_id": "cleveland_pce_mom",         "name": "Cleveland Fed PCE nowcast MoM",     "max_staleness_days": 5},
+    {"code": "cleveland_core_pce_mom", "source": "CLEVELAND", "source_id": "cleveland_core_pce_mom", "name": "Cleveland Fed core PCE nowcast MoM", "max_staleness_days": 5},
+    {"code": "kalshi_cpi_mom",  "source": "KALSHI",    "source_id": "KXCPI",                        "name": "Kalshi CPI market-implied MoM",     "max_staleness_days": 5},
+    {"code": "street_cpi_mom",  "source": "STREET",    "source_id": "CPI_MOM",                      "name": "Street CPI consensus MoM",          "max_staleness_days": 5}
   ]
 }

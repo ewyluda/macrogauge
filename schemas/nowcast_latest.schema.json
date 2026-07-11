@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object",
+  "required": ["published_at", "target", "release_date", "reference_month", "cpi", "pce", "nfp", "benchmarks", "ensemble", "generated_on"],
+  "properties": {
+    "published_at": {"type": "string"}, "target": {"const": "CPI"},
+    "release_date": {"type": "string"}, "reference_month": {"type": "string"},
+    "cpi": {"$ref": "#/$defs/forecast"}, "pce": {"$ref": "#/$defs/forecast"},
+    "nfp": {"type": ["object", "null"]}, "benchmarks": {"type": "object"},
+    "ensemble": {"type": "object"}, "generated_on": {"type": "string"}
+  },
+  "$defs": {"forecast": {"type": "object", "required": ["mom_pct", "status", "as_of", "parameters"]}}
+}

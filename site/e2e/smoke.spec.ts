@@ -8,6 +8,12 @@ const ROUTES: [string, string][] = [
   ["/my-inflation", "the official basket isn"],
   ["/calculator", "The Since-Date Calculator"],
   ["/real-wages", "Real Wage Tracker"],
+  ["/cpi-preview", "Component receipts"],
+  ["/scoreboard", "Forecast Scoreboard"],
+  ["/matrix", "Nowcast Matrix"],
+  ["/gap", "Gauge Gap"],
+  ["/vs-bls", "Macrogauge vs BLS"],
+  ["/next-print", "who’s where"],
 ];
 
 for (const [path, text] of ROUTES) {

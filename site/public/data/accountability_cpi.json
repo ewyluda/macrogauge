@@ -1,0 +1,14 @@
+{
+  "published_at": "2026-07-11T01:40:06Z",
+  "target": "CPI",
+  "graded": [],
+  "pending": [
+    {
+      "reference_period": "2026-06",
+      "badge": "LIVE",
+      "forecast": -0.18,
+      "as_of": "2026-07-10",
+      "actual": null
+    }
+  ]
+}

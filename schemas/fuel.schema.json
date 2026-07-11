@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","required":["published_at","available","formula"],"properties":{"published_at":{"type":"string"},"available":{"type":"boolean"},"formula":{"type":"string"},"as_of":{"type":"string"},"pump":{"type":"number"},"forward_2wk":{"type":"number"},"proxy":{"type":"string"}}}

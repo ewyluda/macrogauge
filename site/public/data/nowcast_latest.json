@@ -1,0 +1,128 @@
+{
+  "published_at": "2026-07-11T01:40:06Z",
+  "target": "CPI",
+  "release_date": "2026-07-14",
+  "reference_month": "2026-06",
+  "cpi": {
+    "target_month": "2026-06",
+    "mom_pct": -0.18,
+    "yoy_pct": 3.07,
+    "as_of": "2026-07-10",
+    "status": "live",
+    "parameters": {
+      "fuel_beta": 0.85,
+      "rent_lag_months": 12,
+      "rent_w": 0.45
+    },
+    "components": [
+      {
+        "component": "shelter_owned",
+        "mom_pct": 0.1467,
+        "weight": 0.265,
+        "contribution_pp": 0.0389
+      },
+      {
+        "component": "other",
+        "mom_pct": 0.0,
+        "weight": 0.185,
+        "contribution_pp": 0.0
+      },
+      {
+        "component": "food_home",
+        "mom_pct": 0.0,
+        "weight": 0.082,
+        "contribution_pp": 0.0
+      },
+      {
+        "component": "medical",
+        "mom_pct": 0.0,
+        "weight": 0.081,
+        "contribution_pp": 0.0
+      },
+      {
+        "component": "shelter_rent",
+        "mom_pct": 0.1467,
+        "weight": 0.075,
+        "contribution_pp": 0.011
+      },
+      {
+        "component": "food_away",
+        "mom_pct": 0.0,
+        "weight": 0.057,
+        "contribution_pp": 0.0
+      },
+      {
+        "component": "education_comm",
+        "mom_pct": 0.0,
+        "weight": 0.055,
+        "contribution_pp": 0.0
+      },
+      {
+        "component": "recreation",
+        "mom_pct": 0.0,
+        "weight": 0.053,
+        "contribution_pp": 0.0
+      },
+      {
+        "component": "new_vehicles",
+        "mom_pct": 0.0,
+        "weight": 0.036,
+        "contribution_pp": 0.0
+      },
+      {
+        "component": "fuel",
+        "mom_pct": -7.7584,
+        "weight": 0.03,
+        "contribution_pp": -0.2328
+      },
+      {
+        "component": "electricity",
+        "mom_pct": 0.0,
+        "weight": 0.028,
+        "contribution_pp": 0.0
+      },
+      {
+        "component": "apparel",
+        "mom_pct": 0.0,
+        "weight": 0.025,
+        "contribution_pp": 0.0
+      },
+      {
+        "component": "used_vehicles",
+        "mom_pct": 0.0,
+        "weight": 0.021,
+        "contribution_pp": 0.0
+      },
+      {
+        "component": "nat_gas",
+        "mom_pct": 0.0,
+        "weight": 0.007,
+        "contribution_pp": 0.0
+      }
+    ]
+  },
+  "pce": {
+    "mom_pct": 0.06,
+    "parameters": {
+      "intercept": 0.136577,
+      "cpi_beta": 0.411546,
+      "window_months": 24,
+      "observations": 24
+    },
+    "status": "live",
+    "as_of": "2026-07-10"
+  },
+  "nfp": null,
+  "benchmarks": {
+    "cleveland": null,
+    "street": null,
+    "kalshi": null
+  },
+  "ensemble": {
+    "value": -0.18,
+    "weights": {
+      "macrogauge": 1.0
+    }
+  },
+  "generated_on": "2026-07-10"
+}
