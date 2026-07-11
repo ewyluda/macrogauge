@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-10T18:33:47Z",
+  "generated_at": "2026-07-11T23:34:37Z",
   "sources": [
     {
       "name": "AAA",
@@ -7,11 +7,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-10T18:33:46Z",
+      "finished_at": "2026-07-11T23:34:35Z",
       "series_count": 1,
-      "latest_obs": "2026-07-10"
+      "latest_obs": "2026-07-11"
     },
     {
       "name": "APTLIST",
@@ -21,7 +21,7 @@
       "fetched": 114,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T18:32:05Z",
+      "finished_at": "2026-07-11T23:34:35Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -29,13 +29,25 @@
       "name": "BLS",
       "route": "API",
       "cadence": "monthly",
-      "ok": false,
-      "fetched": 0,
+      "ok": true,
+      "fetched": 3045,
       "new_rows": 0,
-      "error": "KeyError: 'series'",
-      "finished_at": "2026-07-10T18:31:59Z",
+      "error": null,
+      "finished_at": "2026-07-11T23:34:30Z",
       "series_count": 28,
       "latest_obs": "2026-05-01"
+    },
+    {
+      "name": "CLEVELAND",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "ok": true,
+      "fetched": 4,
+      "new_rows": 4,
+      "error": null,
+      "finished_at": "2026-07-11T23:34:36Z",
+      "series_count": 4,
+      "latest_obs": "2026-07-01"
     },
     {
       "name": "EIA",
@@ -45,7 +57,7 @@
       "fetched": 2715,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T18:32:02Z",
+      "finished_at": "2026-07-11T23:34:32Z",
       "series_count": 3,
       "latest_obs": "2026-07-06"
     },
@@ -57,7 +69,7 @@
       "fetched": 2,
       "new_rows": 2,
       "error": null,
-      "finished_at": "2026-07-10T18:32:02Z",
+      "finished_at": "2026-07-11T23:34:33Z",
       "series_count": 2,
       "latest_obs": "2026-07-10"
     },
@@ -66,12 +78,24 @@
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 2134,
-      "new_rows": 0,
+      "fetched": 12946,
+      "new_rows": 10812,
       "error": null,
-      "finished_at": "2026-07-10T18:31:59Z",
-      "series_count": 19,
-      "latest_obs": "2026-06-01"
+      "finished_at": "2026-07-11T23:34:29Z",
+      "series_count": 47,
+      "latest_obs": "2026-07-10"
+    },
+    {
+      "name": "KALSHI",
+      "route": "API",
+      "cadence": "daily",
+      "ok": true,
+      "fetched": 1,
+      "new_rows": 1,
+      "error": null,
+      "finished_at": "2026-07-11T23:34:37Z",
+      "series_count": 1,
+      "latest_obs": "2026-07-11"
     },
     {
       "name": "MANHEIM",
@@ -81,7 +105,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T18:33:47Z",
+      "finished_at": "2026-07-11T23:34:36Z",
       "series_count": 1,
       "latest_obs": "2025-12-01"
     },
@@ -91,11 +115,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-10T18:33:46Z",
+      "finished_at": "2026-07-11T23:34:36Z",
       "series_count": 1,
-      "latest_obs": "2026-07-10"
+      "latest_obs": "2026-07-11"
     },
     {
       "name": "PMMS",
@@ -105,31 +129,43 @@
       "fetched": 497,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T18:32:05Z",
+      "finished_at": "2026-07-11T23:34:35Z",
       "series_count": 1,
       "latest_obs": "2026-07-09"
+    },
+    {
+      "name": "STREET",
+      "route": "API",
+      "cadence": "daily",
+      "ok": false,
+      "fetched": 0,
+      "new_rows": 0,
+      "error": "ValueError: no CPI monthly consensus in FMP calendar",
+      "finished_at": "2026-07-11T23:34:37Z",
+      "series_count": 1,
+      "latest_obs": null
     },
     {
       "name": "TREASURY",
       "route": "API",
       "cadence": "daily",
       "ok": true,
-      "fetched": 2388,
-      "new_rows": 0,
+      "fetched": 2389,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-10T18:32:03Z",
+      "finished_at": "2026-07-11T23:34:33Z",
       "series_count": 1,
-      "latest_obs": "2026-07-08"
+      "latest_obs": "2026-07-09"
     },
     {
       "name": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "ok": true,
-      "fetched": 2157,
+      "ok": false,
+      "fetched": 0,
       "new_rows": 0,
-      "error": null,
-      "finished_at": "2026-07-10T18:33:45Z",
+      "error": "missing secret USDA_API_KEY",
+      "finished_at": "2026-07-11T23:34:35Z",
       "series_count": 5,
       "latest_obs": "2026-07-10"
     },
@@ -141,7 +177,7 @@
       "fetched": 226,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-10T18:32:05Z",
+      "finished_at": "2026-07-11T23:34:35Z",
       "series_count": 2,
       "latest_obs": "2026-05-01"
     }

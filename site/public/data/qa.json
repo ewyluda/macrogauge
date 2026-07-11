@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-07-10",
-  "passed": 11,
-  "total": 13,
+  "generated_at": "2026-07-11",
+  "passed": 14,
+  "total": 16,
   "checks": [
     {
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-05-01 is 70d old (limit 80)"
+      "detail": "latest official month 2026-05-01 is 71d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -25,19 +25,19 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": false,
-      "detail": "11/12 ok; failed \u2014 BLS: KeyError: 'series'"
+      "detail": "13/15 ok; failed \u2014 USDA: missing secret USDA_API_KEY; STREET: ValueError: no CPI monthly consensus in FMP calendar"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "64/65 fresh; stale \u2014 manheim_uvvi_m (221d > 45d)"
+      "detail": "76/99 fresh; stale \u2014 manheim_uvvi_m (222d > 45d), cleveland_cpi_mom (10d > 5d), cleveland_core_cpi_mom (10d > 5d), cleveland_pce_mom (10d > 5d), cleveland_core_pce_mom (10d > 5d), street_cpi_mom (never seen), INDPRO (71d > 60d), RSAFS (71d > 60d), DSPIC96 (71d > 60d), PPIACO (71d > 60d), PCUOMFGOMFG (71d > 60d), HOUST (71d > 60d), PERMIT (71d > 60d), CSUSHPINSA (101d > 90d), M2SL (71d > 60d), UMCSENT (71d > 60d), DRCCLACBS (191d > 150d), PSAVERT (71d > 60d), TDSP (191d > 150d), REVOLSL (71d > 60d), DRSFRMACBS (191d > 150d), CFNAIMA3 (71d > 60d), RECPROUSM156N (71d > 60d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 2 obs $3.865 vs EIA weekly $3.777 \u2014 relative divergence 2.3% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 3 obs $3.871 vs EIA weekly $3.777 \u2014 relative divergence 2.5% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -52,10 +52,28 @@
       "detail": "grocery basket has 28 items, 0 skipped (floor 20)"
     },
     {
+      "name": "nowcast_fresh",
+      "critical": false,
+      "pass": true,
+      "detail": "CPI nowcast as-of 2026-07-11"
+    },
+    {
+      "name": "ensemble_computed",
+      "critical": false,
+      "pass": true,
+      "detail": "ensemble=-0.12 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+    },
+    {
+      "name": "nowcast_params_published",
+      "critical": true,
+      "pass": true,
+      "detail": "parameters={'fuel_beta': 0.85, 'rent_lag_months': 12, 'rent_w': 0.45}"
+    },
+    {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-10 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-11 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",

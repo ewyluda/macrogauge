@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-11T01:40:06Z",
+  "published_at": "2026-07-11T23:34:37Z",
   "releases": [
     {
       "target": "cpi",
@@ -288,6 +288,150 @@
       "reference_period": "2026-05",
       "value": 131.527,
       "first_release_date": "2026-07-09"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2024-07",
+      "value": 157748.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2024-08",
+      "value": 157757.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2024-09",
+      "value": 157912.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2024-10",
+      "value": 157945.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2024-11",
+      "value": 158079.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2024-12",
+      "value": 158316.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2025-01",
+      "value": 158268.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2025-02",
+      "value": 158310.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2025-03",
+      "value": 158377.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2025-04",
+      "value": 158485.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2025-05",
+      "value": 158498.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2025-06",
+      "value": 158478.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2025-07",
+      "value": 158542.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2025-08",
+      "value": 158472.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2025-09",
+      "value": 158548.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2025-10",
+      "value": 158408.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2025-11",
+      "value": 158449.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2025-12",
+      "value": 158432.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2026-01",
+      "value": 158592.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2026-02",
+      "value": 158436.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2026-03",
+      "value": 158650.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2026-04",
+      "value": 158798.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2026-05",
+      "value": 158927.0,
+      "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2026-06",
+      "value": 158984.0,
+      "first_release_date": "2026-07-11"
     }
   ]
 }

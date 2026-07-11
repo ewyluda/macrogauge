@@ -1,50 +1,50 @@
 {
-  "published_at": "2026-07-11T01:53:28Z",
-  "probability_pct": null,
+  "published_at": "2026-07-11T23:34:37Z",
+  "probability_pct": 0.0,
   "triggered": 0,
-  "available": 0,
+  "available": 6,
   "signals": [
     {
       "name": "Sahm",
       "code": "SAHMREALTIME",
       "rule": ">= +0.50pp",
-      "value": null,
-      "triggered": null
+      "value": 0.07,
+      "triggered": false
     },
     {
       "name": "10Y\u20133M",
       "code": "T10Y3M",
       "rule": "< 0",
-      "value": null,
-      "triggered": null
+      "value": 0.71,
+      "triggered": false
     },
     {
       "name": "NFCI",
       "code": "NFCI",
       "rule": "> 0",
-      "value": null,
-      "triggered": null
+      "value": -0.515,
+      "triggered": false
     },
     {
       "name": "Claims",
       "code": "ICSA",
       "rule": "3m avg > 110% of 12m avg",
-      "value": null,
-      "triggered": null
+      "value": 215000.0,
+      "triggered": false
     },
     {
       "name": "CFNAI",
       "code": "CFNAIMA3",
       "rule": "< -0.70",
-      "value": null,
-      "triggered": null
+      "value": -0.03,
+      "triggered": false
     },
     {
       "name": "Chauvet-Piger",
       "code": "RECPROUSM156N",
       "rule": "> 20%",
-      "value": null,
-      "triggered": null
+      "value": 0.54,
+      "triggered": false
     }
   ]
 }

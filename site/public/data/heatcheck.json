@@ -1,21 +1,42 @@
 {
-  "published_at": "2026-07-11T01:53:28Z",
-  "score": 54.8,
-  "coverage_pct": 18.8,
+  "published_at": "2026-07-11T23:34:37Z",
+  "score": -0.1,
+  "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": 1.367333333333333,
+      "z": 1.13864,
       "weight": 25,
-      "available": 3,
+      "available": 5,
       "expected": 5,
-      "active_weight": 15.0
+      "active_weight": 25.0
+    },
+    "real_economy": {
+      "z": 0.05616,
+      "weight": 25,
+      "available": 5,
+      "expected": 5,
+      "active_weight": 25.0
+    },
+    "pipeline": {
+      "z": -0.5186,
+      "weight": 20,
+      "available": 4,
+      "expected": 4,
+      "active_weight": 20.0
     },
     "housing": {
-      "z": 0.0103,
+      "z": -0.565475,
       "weight": 15,
-      "available": 1,
+      "available": 4,
       "expected": 4,
-      "active_weight": 3.75
+      "active_weight": 15.0
+    },
+    "money_expectations": {
+      "z": -0.7498666666666667,
+      "weight": 15,
+      "available": 3,
+      "expected": 3,
+      "active_weight": 15.0
     }
   },
   "indicators": [
@@ -44,12 +65,158 @@
       "z": 1.5321
     },
     {
+      "code": "PPIACO",
+      "group": "prices",
+      "direction": 1,
+      "as_of": "2026-05-01",
+      "momentum": 8.5145,
+      "z": 2.5
+    },
+    {
+      "code": "T5YIE",
+      "group": "prices",
+      "direction": 1,
+      "mode": "diff",
+      "periods": 63,
+      "as_of": "2026-07-10",
+      "momentum": -0.28,
+      "z": -0.9088
+    },
+    {
+      "code": "PAYEMS",
+      "group": "real_economy",
+      "direction": 1,
+      "as_of": "2026-06-01",
+      "momentum": 0.2105,
+      "z": -0.0217
+    },
+    {
+      "code": "UNRATE",
+      "group": "real_economy",
+      "direction": -1,
+      "mode": "diff",
+      "as_of": "2026-06-01",
+      "momentum": -0.1,
+      "z": 0.0519
+    },
+    {
+      "code": "INDPRO",
+      "group": "real_economy",
+      "direction": 1,
+      "as_of": "2026-05-01",
+      "momentum": 0.6849,
+      "z": 0.183
+    },
+    {
+      "code": "RSAFS",
+      "group": "real_economy",
+      "direction": 1,
+      "as_of": "2026-05-01",
+      "momentum": 3.0255,
+      "z": 0.3479
+    },
+    {
+      "code": "DSPIC96",
+      "group": "real_economy",
+      "direction": 1,
+      "as_of": "2026-05-01",
+      "momentum": -0.3772,
+      "z": -0.2803
+    },
+    {
+      "code": "ICSA",
+      "group": "pipeline",
+      "direction": -1,
+      "periods": 13,
+      "as_of": "2026-07-04",
+      "momentum": -1.3761,
+      "z": 0.1311
+    },
+    {
+      "code": "CCSA",
+      "group": "pipeline",
+      "direction": -1,
+      "periods": 13,
+      "as_of": "2026-06-27",
+      "momentum": 1.5109,
+      "z": 0.1154
+    },
+    {
+      "code": "PCUOMFGOMFG",
+      "group": "pipeline",
+      "direction": -1,
+      "as_of": "2026-05-01",
+      "momentum": 10.466,
+      "z": -2.5
+    },
+    {
+      "code": "FEDFUNDS",
+      "group": "pipeline",
+      "direction": -1,
+      "mode": "diff",
+      "as_of": "2026-06-01",
+      "momentum": -0.01,
+      "z": 0.1791
+    },
+    {
+      "code": "HOUST",
+      "group": "housing",
+      "direction": 1,
+      "as_of": "2026-05-01",
+      "momentum": -12.5557,
+      "z": -1.1381
+    },
+    {
+      "code": "PERMIT",
+      "group": "housing",
+      "direction": 1,
+      "as_of": "2026-05-01",
+      "momentum": -8.4416,
+      "z": -1.1006
+    },
+    {
+      "code": "CSUSHPINSA",
+      "group": "housing",
+      "direction": 1,
+      "as_of": "2026-04-01",
+      "momentum": 1.8314,
+      "z": 0.1014
+    },
+    {
       "code": "pmms_30yr",
       "group": "housing",
       "direction": -1,
+      "mode": "diff",
+      "periods": 13,
       "as_of": "2026-07-09",
-      "momentum": 0.3091,
-      "z": 0.0103
+      "momentum": 0.12,
+      "z": -0.1246
+    },
+    {
+      "code": "M2SL",
+      "group": "money_expectations",
+      "direction": 1,
+      "as_of": "2026-05-01",
+      "momentum": 1.8801,
+      "z": 0.1589
+    },
+    {
+      "code": "UMCSENT",
+      "group": "money_expectations",
+      "direction": 1,
+      "as_of": "2026-05-01",
+      "momentum": -20.8481,
+      "z": -1.8804
+    },
+    {
+      "code": "T10Y2Y",
+      "group": "money_expectations",
+      "direction": 1,
+      "mode": "diff",
+      "periods": 63,
+      "as_of": "2026-07-10",
+      "momentum": -0.16,
+      "z": -0.5281
     }
   ]
 }
