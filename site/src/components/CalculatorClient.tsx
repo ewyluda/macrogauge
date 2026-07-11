@@ -31,6 +31,7 @@ export function CalculatorClient() {
   const { dates, index } = data.variants.gauge;
   const s = sinceStats(dates, index, since, amount);
   const from = s ? dates.indexOf(s.startDate) : 0;
+  const base = baseOption();
   const input: React.CSSProperties = {
     background: "var(--bg)",
     color: "var(--text)",
@@ -92,13 +93,13 @@ export function CalculatorClient() {
             <KpiCard
               label={`$${amount} then costs now`}
               value={`$${s.thenNow.toFixed(2)}`}
-              context="same basket, today's prices"
+              context={`same basket, today's prices · through ${dates[dates.length - 1]}`}
               accent="amber"
             />
             <KpiCard
               label={`$${amount} now buys what this bought`}
               value={`$${s.buys.toFixed(2)}`}
-              context="purchasing power remaining"
+              context={`purchasing power remaining · through ${dates[dates.length - 1]}`}
               accent="sky"
             />
             <KpiCard
@@ -130,8 +131,15 @@ export function CalculatorClient() {
             </div>
             <EChart
               option={{
-                ...baseOption(),
+                ...base,
                 legend: { show: false },
+                // this chart plots the unitless index level (Jan 2018 = 100),
+                // not a percent — drop baseOption()'s "%" valueFormatter
+                tooltip: {
+                  ...base.tooltip,
+                  valueFormatter: (v: unknown) =>
+                    typeof v === "number" ? v.toFixed(2) : "—",
+                },
                 series: [
                   {
                     name: "Gauge index",
@@ -145,7 +153,7 @@ export function CalculatorClient() {
                   },
                 ],
                 yAxis: {
-                  ...baseOption().yAxis,
+                  ...base.yAxis,
                   axisLabel: { color: C.muted },
                   scale: true,
                 },
