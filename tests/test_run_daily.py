@@ -98,7 +98,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "methodology.json", "grocery_basket.json", "real_wages.json",
                  "nowcast_latest.json", "nextprint.json", "releases.json", "backtest.json",
                  "accountability_cpi.json", "accountability_pce.json",
-                 "accountability_nfp.json", "fuel.json"):
+                 "accountability_nfp.json", "fuel.json", "heatcheck.json",
+                 "stress.json", "recession.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 15

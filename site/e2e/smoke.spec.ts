@@ -14,6 +14,9 @@ const ROUTES: [string, string][] = [
   ["/gap", "Gauge Gap"],
   ["/vs-bls", "Macrogauge vs BLS"],
   ["/next-print", "who’s where"],
+  ["/heatcheck", "Economy Heat Check"],
+  ["/stress", "Consumer Stress Index"],
+  ["/recession", "six transparent signals"],
 ];
 
 for (const [path, text] of ROUTES) {

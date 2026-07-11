@@ -26,7 +26,7 @@ from pipeline.engine import gauge as gauge_engine
 from pipeline.engine import official
 from pipeline.engine.nowcast import build_latest as build_nowcast
 from pipeline.publish import official as official_json
-from pipeline.publish import (compare, gaptable, gauge_daily, grocery, methodology,
+from pipeline.publish import (compare, composites as composite_json, gaptable, gauge_daily, grocery, methodology,
                               phase3, pulse, qa, quilt, real_wages, replay, sources_status,
                               validate)
 from pipeline.store import vintage
@@ -172,6 +172,11 @@ def main(argv=None, http_get=None, http_post=None) -> int:
             schema = ("accountability.schema.json" if path.name.startswith("accountability_")
                       else schema_by_name[path.name])
             validate.validate_file(path, SCHEMAS / schema)
+            print(f"published: {path}")
+
+        composite_paths = composite_json.write_all(conn, args.out, published_at)
+        for path in composite_paths:
+            validate.validate_file(path, SCHEMAS / f"{path.stem}.schema.json")
             print(f"published: {path}")
 
         gauge_qa = {"as_of": g["as_of"], "coverage_pct": g["coverage_pct"],

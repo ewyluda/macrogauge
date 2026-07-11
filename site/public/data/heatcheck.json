@@ -1,0 +1,55 @@
+{
+  "published_at": "2026-07-11T01:53:28Z",
+  "score": 54.8,
+  "coverage_pct": 18.8,
+  "groups": {
+    "prices": {
+      "z": 1.367333333333333,
+      "weight": 25,
+      "available": 3,
+      "expected": 5,
+      "active_weight": 15.0
+    },
+    "housing": {
+      "z": 0.0103,
+      "weight": 15,
+      "available": 1,
+      "expected": 4,
+      "active_weight": 3.75
+    }
+  },
+  "indicators": [
+    {
+      "code": "CPIAUCNS",
+      "group": "prices",
+      "direction": 1,
+      "as_of": "2026-05-01",
+      "momentum": 2.5515,
+      "z": 2.0544
+    },
+    {
+      "code": "CPILFENS",
+      "group": "prices",
+      "direction": 1,
+      "as_of": "2026-05-01",
+      "momentum": 1.0815,
+      "z": 0.5155
+    },
+    {
+      "code": "PCEPI",
+      "group": "prices",
+      "direction": 1,
+      "as_of": "2026-05-01",
+      "momentum": 1.5347,
+      "z": 1.5321
+    },
+    {
+      "code": "pmms_30yr",
+      "group": "housing",
+      "direction": -1,
+      "as_of": "2026-07-09",
+      "momentum": 0.3091,
+      "z": 0.0103
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "heatcheck": {
+    "group_weights": {"prices": 25, "real_economy": 25, "pipeline": 20, "housing": 15, "money_expectations": 15},
+    "indicators": [
+      {"code": "CPIAUCNS", "group": "prices", "direction": 1},
+      {"code": "CPILFENS", "group": "prices", "direction": 1},
+      {"code": "PCEPI", "group": "prices", "direction": 1},
+      {"code": "PPIACO", "group": "prices", "direction": 1},
+      {"code": "T5YIE", "group": "prices", "direction": 1},
+      {"code": "PAYEMS", "group": "real_economy", "direction": 1},
+      {"code": "UNRATE", "group": "real_economy", "direction": -1},
+      {"code": "INDPRO", "group": "real_economy", "direction": 1},
+      {"code": "RSAFS", "group": "real_economy", "direction": 1},
+      {"code": "DSPIC96", "group": "real_economy", "direction": 1},
+      {"code": "ICSA", "group": "pipeline", "direction": -1},
+      {"code": "CCSA", "group": "pipeline", "direction": -1},
+      {"code": "PCUOMFGOMFG", "group": "pipeline", "direction": -1},
+      {"code": "FEDFUNDS", "group": "pipeline", "direction": -1},
+      {"code": "HOUST", "group": "housing", "direction": 1},
+      {"code": "PERMIT", "group": "housing", "direction": 1},
+      {"code": "CSUSHPINSA", "group": "housing", "direction": 1},
+      {"code": "pmms_30yr", "group": "housing", "direction": -1},
+      {"code": "M2SL", "group": "money_expectations", "direction": 1},
+      {"code": "UMCSENT", "group": "money_expectations", "direction": 1},
+      {"code": "T10Y2Y", "group": "money_expectations", "direction": 1}
+    ]
+  },
+  "stress": [
+    {"code": "DRCCLACBS", "weight": 20, "direction": 1},
+    {"code": "TERMCBCCALLNS", "weight": 15, "direction": 1},
+    {"code": "PSAVERT", "weight": 15, "direction": -1},
+    {"code": "TDSP", "weight": 15, "direction": 1},
+    {"code": "REVOLSL", "weight": 15, "direction": 1},
+    {"code": "DRSFRMACBS", "weight": 10, "direction": 1},
+    {"code": "CCSA", "weight": 10, "direction": 1}
+  ]
+}

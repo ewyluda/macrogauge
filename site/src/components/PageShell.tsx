@@ -37,6 +37,12 @@ export function PageShell({ children }: { children: React.ReactNode }) {
             <Link href="/scoreboard" style={{ color: "var(--muted)", textDecoration: "none" }}>
               Scoreboard
             </Link>
+            <Link href="/heatcheck" style={{ color: "var(--muted)", textDecoration: "none" }}>
+              Heat Check
+            </Link>
+            <Link href="/recession" style={{ color: "var(--muted)", textDecoration: "none" }}>
+              Recession
+            </Link>
             <Link href="/my-inflation" style={{ color: "var(--muted)", textDecoration: "none" }}>
               My Inflation
             </Link>

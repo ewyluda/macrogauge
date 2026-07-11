@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","required":["published_at","score","coverage_pct","groups","indicators"],"properties":{"published_at":{"type":"string"},"score":{"type":"number","minimum":-100,"maximum":100},"coverage_pct":{"type":"number","minimum":0,"maximum":100},"groups":{"type":"object"},"indicators":{"type":"array"}}}
