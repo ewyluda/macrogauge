@@ -99,7 +99,14 @@ export function MyInflationClient({
       number | null,
     ];
   });
-  const top = contributions(data.components, weights, lastIdx).slice(0, 5);
+  // contributions() substitutes 0 for missing component YoYs (reweight.ts is
+  // spec-verbatim); weightedYoY() propagates null instead. Only compute and
+  // render the drivers card when the personal rate itself is non-null, so the
+  // card can never show numbers whose headline reads "—".
+  const top =
+    mine === null
+      ? []
+      : contributions(data.components, weights, lastIdx).slice(0, 5);
   const maxPp = Math.max(...top.map((t) => Math.abs(t.pp)), 0.01);
 
   return (
@@ -151,6 +158,7 @@ export function MyInflationClient({
           <div style={{ fontSize: 32, fontWeight: 700, color: "var(--accent-sky)", fontVariantNumeric: "tabular-nums" }}>
             {fmtPct(gaugeYoy)}
           </div>
+          <div style={{ fontSize: 11, color: "var(--muted)" }}>as of {gaugeAsOf}</div>
         </div>
         {diff !== null && (
           <div style={{ fontSize: 14 }}>
@@ -200,39 +208,41 @@ export function MyInflationClient({
         />
       </div>
 
-      <div
-        style={{
-          background: "var(--card)",
-          border: "1px solid var(--border)",
-          borderRadius: 10,
-          padding: 16,
-          marginTop: 16,
-        }}
-      >
-        <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 10 }}>
-          What&apos;s driving your number
-        </div>
-        {top.map((t) => (
-          <div
-            key={t.code}
-            style={{ display: "flex", gap: 12, alignItems: "center", padding: "4px 0", fontSize: 13 }}
-          >
-            <span style={{ minWidth: 140 }}>{t.label}</span>
-            <span
-              style={{
-                height: 6,
-                width: `${(Math.abs(t.pp) / maxPp) * 120}px`,
-                background: heatColor(t.yoyPct),
-                borderRadius: 3,
-              }}
-            />
-            <span style={{ color: "var(--muted)", fontVariantNumeric: "tabular-nums" }}>
-              {t.pp.toFixed(2)}pp · {t.weightPct.toFixed(0)}% of your basket at{" "}
-              {t.yoyPct.toFixed(1)}%
-            </span>
+      {mine !== null && (
+        <div
+          style={{
+            background: "var(--card)",
+            border: "1px solid var(--border)",
+            borderRadius: 10,
+            padding: 16,
+            marginTop: 16,
+          }}
+        >
+          <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 10 }}>
+            What&apos;s driving your number
           </div>
-        ))}
-      </div>
+          {top.map((t) => (
+            <div
+              key={t.code}
+              style={{ display: "flex", gap: 12, alignItems: "center", padding: "4px 0", fontSize: 13 }}
+            >
+              <span style={{ minWidth: 140 }}>{t.label}</span>
+              <span
+                style={{
+                  height: 6,
+                  width: `${(Math.abs(t.pp) / maxPp) * 120}px`,
+                  background: heatColor(t.yoyPct),
+                  borderRadius: 3,
+                }}
+              />
+              <span style={{ color: "var(--muted)", fontVariantNumeric: "tabular-nums" }}>
+                {t.pp.toFixed(2)}pp · {t.weightPct.toFixed(0)}% of your basket at{" "}
+                {t.yoyPct.toFixed(1)}%
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 12, lineHeight: 1.6 }}>
         Method: the published basket weights are scaled by your answers, renormalized to
