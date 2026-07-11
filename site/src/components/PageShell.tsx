@@ -31,6 +31,9 @@ export function PageShell({ children }: { children: React.ReactNode }) {
             <Link href="/supercore" style={{ color: "var(--muted)", textDecoration: "none" }}>
               Supercore
             </Link>
+            <Link href="/calculator" style={{ color: "var(--muted)", textDecoration: "none" }}>
+              Calculator
+            </Link>
             <Link href="/real-wages" style={{ color: "var(--muted)", textDecoration: "none" }}>
               Real Wages
             </Link>
