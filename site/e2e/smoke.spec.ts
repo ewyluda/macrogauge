@@ -17,6 +17,7 @@ const ROUTES: [string, string][] = [
   ["/heatcheck", "Economy Heat Check"],
   ["/stress", "Consumer Stress Index"],
   ["/recession", "six transparent signals"],
+  ["/datacenter", "Data Center Cost Index"],
 ];
 
 for (const [path, text] of ROUTES) {
