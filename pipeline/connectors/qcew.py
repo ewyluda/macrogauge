@@ -7,8 +7,10 @@ rows (small-cell wages BLS zeroes out and flags via disclosure_code) are
 dropped, not ingested as a real 0. Quarterly observations are dated at the
 quarter's first month. Keyless. QCEW publishes with a ~5-month lag
 and revises prior quarters, so each run walks the last N_QUARTERS quarters:
-per-quarter failures are tolerated (the newest quarters 404 until published),
-but zero loaded quarters raises — collect's isolation surfaces it. The store's
+per-quarter failures are tolerated — HTTP errors AND bodies that fail to parse
+as the expected CSV (the newest quarters 404 until published; a 200 HTML
+maintenance page must not discard the other quarters) — but zero loaded
+quarters raises, and collect's isolation surfaces it. The store's
 value-dedupe makes refetching unchanged quarters free.
 """
 import csv
@@ -37,6 +39,32 @@ def _recent_quarters(today: str, n: int = N_QUARTERS) -> list[tuple[int, int]]:
     return list(reversed(out))  # oldest first
 
 
+def _parse_quarter(text: str, wanted: set[str], vintage: str) -> list[Observation]:
+    reader = csv.DictReader(io.StringIO(text))
+    if not reader.fieldnames or "own_code" not in reader.fieldnames:
+        raise ValueError("unexpected CSV structure (drift?)")
+    out: list[Observation] = []
+    for row in reader:
+        if row["own_code"] != "5" or row["area_fips"] not in wanted:
+            continue
+        # BLS suppresses small cells by zeroing the value and setting
+        # disclosure_code (e.g. "N") rather than omitting the row — a
+        # suppressed 0 is not a real wage and must not be ingested as one.
+        # Checked BEFORE float(): a suppressed row may carry a blank field.
+        if row["disclosure_code"]:
+            continue
+        wage = float(row["avg_wkly_wage"])
+        if wage <= 0:
+            continue
+        month = (int(row["qtr"]) - 1) * 3 + 1
+        out.append(Observation(
+            series_code=row["area_fips"],
+            obs_date=f"{row['year']}-{month:02d}-01",
+            value=wage,
+            vintage_date=vintage, source="QCEW", route="CSV"))
+    return out
+
+
 def fetch(area_fips: list[str], vintage_date: str | None = None,
           http_get=None) -> list[Observation]:
     http_get = http_get or requests.get
@@ -49,25 +77,12 @@ def fetch(area_fips: list[str], vintage_date: str | None = None,
             resp = http_get(QCEW_URL.format(year=year, qtr=q, naics=NAICS),
                             timeout=120)  # industry files are large (all counties)
             resp.raise_for_status()
-        except Exception as e:
+            rows = _parse_quarter(resp.text, wanted, vintage)
+        except Exception as e:  # per-quarter: never discard the other quarters
             errors.append(f"{year}q{q}: {type(e).__name__}")
             continue
         loaded += 1
-        for row in csv.DictReader(io.StringIO(resp.text)):
-            if row["own_code"] != "5" or row["area_fips"] not in wanted:
-                continue
-            # BLS suppresses small cells by zeroing the value and setting
-            # disclosure_code (e.g. "N") rather than omitting the row — a
-            # suppressed 0 is not a real wage and must not be ingested as one.
-            wage = float(row["avg_wkly_wage"])
-            if row["disclosure_code"] or wage <= 0:
-                continue
-            month = (int(row["qtr"]) - 1) * 3 + 1
-            out.append(Observation(
-                series_code=row["area_fips"],
-                obs_date=f"{row['year']}-{month:02d}-01",
-                value=wage,
-                vintage_date=vintage, source="QCEW", route="CSV"))
+        out.extend(rows)
     if not loaded:
         raise RuntimeError(f"QCEW: no quarter loaded — {'; '.join(errors)}")
     return out

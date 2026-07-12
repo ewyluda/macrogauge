@@ -44,6 +44,43 @@ def test_recent_quarters_walks_back_across_year_boundary():
     assert qcew._recent_quarters("2026-01-15", n=3) == [(2025, 3), (2025, 4), (2026, 1)]
 
 
+def test_malformed_quarter_body_tolerated_but_all_malformed_raises():
+    # A 200 response that isn't the expected CSV (e.g. an HTML maintenance
+    # page) must fail that quarter only — never discard the other quarters.
+    calls = []
+
+    def wobbly_get(url, timeout=None, **kw):
+        calls.append(url)
+        if len(calls) == 1:
+            return _Resp("<html><body>scheduled maintenance</body></html>")
+        return _Resp(FIXTURE.read_text())
+
+    obs = qcew.fetch(["US000"], vintage_date="2026-07-12", http_get=wobbly_get)
+    assert obs  # the other quarters still parsed
+    assert len(calls) == qcew.N_QUARTERS
+
+    def all_html_get(url, timeout=None, **kw):
+        return _Resp("<html>oops</html>")
+
+    with pytest.raises(RuntimeError, match="no quarter loaded"):
+        qcew.fetch(["US000"], vintage_date="2026-07-12", http_get=all_html_get)
+
+
+def test_suppressed_row_with_blank_wage_field_skipped():
+    # BLS format wobble: a suppressed cell arrives blank instead of 0 — the
+    # disclosure_code check must run before float() so the row is skipped,
+    # not a ValueError that discards the quarter.
+    lines = FIXTURE.read_text().splitlines()
+    ak = lines[1].split(",")
+    assert ak[0] == '"02000"' and ak[7] == '"N"'
+    ak[15] = ""  # avg_wkly_wage
+    csv_text = "\n".join([lines[0], ",".join(ak), lines[5]]) + "\n"
+
+    obs = qcew.fetch(["US000", "02000"], vintage_date="2026-07-12",
+                     http_get=lambda url, timeout=None, **kw: _Resp(csv_text))
+    assert {o.series_code for o in obs} == {"US000"}
+
+
 def test_missing_quarters_tolerated_but_all_missing_raises():
     calls = []
 
