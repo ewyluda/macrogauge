@@ -5,7 +5,8 @@
     "published_at": {"type": "string"}, "target": {"const": "CPI"},
     "release_date": {"type": ["string", "null"]}, "reference_month": {"type": ["string", "null"]},
     "cpi": {"$ref": "#/$defs/forecast"}, "pce": {"$ref": "#/$defs/forecast"},
-    "nfp": {"type": ["object", "null"]},
+    "nfp": {"oneOf": [{"type": "null"},
+      {"type": "object", "required": ["change_thousands", "reference_month", "status"]}]},
     "benchmarks": {"type": "object", "additionalProperties": {"oneOf": [
       {"type": "null"},
       {"type": "object", "required": ["value", "as_of"],

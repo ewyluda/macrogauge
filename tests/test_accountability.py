@@ -71,3 +71,15 @@ def test_latest_benchmarks_filters_to_reference_month(tmp_path: Path):
 def test_latest_benchmarks_none_reference_month(tmp_path: Path):
     out = phase3.latest_benchmarks(vintage.load(tmp_path), None)
     assert out == {"cleveland": None, "street": None, "kalshi": None}
+
+
+def test_record_forecasts_uses_nfp_own_reference_month(tmp_path: Path):
+    conn = vintage.load(tmp_path)
+    nowcast = {"reference_month": "2026-06", "generated_on": "2026-07-10",
+               "cpi": {"mom_pct": 0.25}, "pce": {"mom_pct": 0.2},
+               "nfp": {"change_thousands": 110, "reference_month": "2026-07"}}
+    written = phase3.record_forecasts(nowcast, conn, tmp_path, "2026-07-10")
+    assert written == 3
+    row = conn.execute("SELECT obs_date FROM observations "
+                       "WHERE series_code = 'forecast_nfp_change'").fetchone()
+    assert row[0] == "2026-07-01"  # NFP's own month, not CPI's 2026-06

@@ -1,3 +1,4 @@
+from pipeline.engine.nowcast import models
 from pipeline.engine.nowcast.models import (build_latest, cpi_nowcast, ensemble,
                                             nfp_nowcast, pce_bridge)
 
@@ -67,6 +68,12 @@ def test_ensemble_omits_missing_benchmarks_and_normalizes_weights():
                       {"ours": 0.1, "street": 0.2})
     assert set(result["weights"]) == {"ours", "street"}
     assert abs(sum(result["weights"].values()) - 1) < 1e-3
+
+
+def test_nfp_nowcast_reference_month_is_month_after_latest_payroll():
+    payroll = [(f"2025-{m:02d}-01", 150000.0 + 10 * m) for m in range(1, 13)]
+    result = models.nfp_nowcast(payroll, [])
+    assert result["reference_month"] == "2026-01"  # Dec released -> forecasting Jan
 
 
 def test_build_latest_degrades_instead_of_raising_when_calendar_exhausted():

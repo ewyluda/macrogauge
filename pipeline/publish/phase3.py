@@ -61,14 +61,17 @@ def record_forecasts(nowcast: dict, conn, store_dir: Path, vintage_date: str) ->
     """Persist today's live forecasts so later grades never reconstruct history."""
     if nowcast.get("reference_month") is None:  # degraded nowcast: nothing to record
         return 0
-    target_date = f"{nowcast['reference_month']}-01"
-    values = {"forecast_cpi_mom": nowcast["cpi"]["mom_pct"],
-              "forecast_pce_mom": nowcast["pce"]["mom_pct"],
-              "forecast_nfp_change": (None if nowcast["nfp"] is None else
-                                      nowcast["nfp"]["change_thousands"])}
-    observations = [Observation(code, target_date, value, vintage_date,
+    cpi_month = f"{nowcast['reference_month']}-01"
+    nfp = nowcast.get("nfp")
+    entries = [("forecast_cpi_mom", cpi_month, nowcast["cpi"]["mom_pct"]),
+               ("forecast_pce_mom", cpi_month, nowcast["pce"]["mom_pct"])]
+    if nfp is not None:
+        entries.append(("forecast_nfp_change",
+                        f"{nfp['reference_month']}-01",
+                        nfp["change_thousands"]))
+    observations = [Observation(code, obs_date, value, vintage_date,
                                 "MACROGAUGE", "MODEL")
-                    for code, value in values.items() if value is not None]
+                    for code, obs_date, value in entries if value is not None]
     written = vintage.append(observations, store_dir)
     conn.executemany("INSERT INTO observations VALUES (?, ?, ?, ?, ?, ?)",
                      [(o.series_code, o.obs_date, o.value, o.vintage_date,
@@ -108,8 +111,10 @@ def build_accountability(target: str, nowcast: dict, conn) -> dict:
                        "actual": round(actual, 2),
                        "error": round(value - actual, 2),
                        "release_date": release_date})
+    reference = (nowcast.get("nfp") or {}).get("reference_month") \
+        if target == "nfp" else nowcast.get("reference_month")
     pending = [] if forecast is None or forecast.get("status") == "unavailable" else [{
-        "reference_period": nowcast.get("reference_month"), "badge": "LIVE",
+        "reference_period": reference, "badge": "LIVE",
         "forecast": forecast.get("mom_pct", forecast.get("change_thousands")),
         "as_of": forecast.get("as_of", nowcast.get("generated_on")), "actual": None}]
     return {"target": target.upper(), "graded": graded, "pending": pending}

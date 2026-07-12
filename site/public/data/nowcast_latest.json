@@ -115,6 +115,7 @@
   "nfp": {
     "change_thousands": 117,
     "status": "live",
+    "reference_month": "2026-07",
     "parameters": {
       "a": 25.322472,
       "b": 0.82215,

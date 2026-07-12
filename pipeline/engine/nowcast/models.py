@@ -107,6 +107,7 @@ def nfp_nowcast(payroll_rows, claims_rows, window: int = 60) -> dict | None:
     momentum = sum(changes[m] for m in ordered[-3:]) / 3
     forecast = beta[0] + beta[1] * momentum + claims_beta * claims_delta
     return {"change_thousands": round(forecast), "status": "live",
+            "reference_month": next_month(months[-1])[:7],
             "parameters": {"a": round(beta[0], 6), "b": round(beta[1], 6),
                            "c": round(-claims_beta, 6), "window_months": window},
             "inputs": {"payroll_momentum": round(momentum, 2),
