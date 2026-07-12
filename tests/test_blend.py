@@ -98,3 +98,37 @@ def test_sources_from_first_date_keep_original_behavior():
     out = blend.blend({"a": a, "b": b}, {"a": 0.5, "b": 0.5})
     assert out["2018-01-01"] == pytest.approx(100.0)
     assert out["2018-01-02"] == pytest.approx(100.0)
+
+
+def test_splice_anchored_keeps_official_and_scales_tail():
+    official = {"2017-01-01": 100.0, "2017-02-01": 102.0}
+    live = {"2017-01-15": 50.0, "2017-02-10": 52.0, "2017-03-01": 55.0}
+    out = blend.splice_anchored(official, live)
+    # official values never overwritten
+    assert out["2017-01-01"] == 100.0 and out["2017-02-01"] == 102.0
+    # tail scaled at the LAST official obs: scale = 102 / live(2017-01-15) = 2.04
+    assert out["2017-02-10"] == pytest.approx(52.0 * 2.04)
+    assert out["2017-03-01"] == pytest.approx(55.0 * 2.04)
+    # live points at/before the anchor never enter the output
+    assert "2017-01-15" not in out
+
+
+def test_splice_anchored_reanchors_on_new_print():
+    official = {"2017-01-01": 100.0, "2017-02-01": 102.0, "2017-03-01": 110.0}
+    live = {"2017-01-15": 50.0, "2017-02-10": 52.0, "2017-03-01": 55.0,
+            "2017-03-20": 56.0}
+    out = blend.splice_anchored(official, live)
+    # anchor moved to 2017-03-01: scale = 110/55 = 2.0 — drift does not compound
+    assert out["2017-03-01"] == 110.0
+    assert out["2017-03-20"] == pytest.approx(112.0)
+    assert "2017-02-10" not in out  # official backbone covers that span now
+
+
+def test_splice_anchored_edges():
+    official = {"2017-01-01": 100.0}
+    assert blend.splice_anchored(official, {}) == official
+    assert blend.splice_anchored({}, {"2017-01-02": 5.0}) == {"2017-01-02": 5.0}
+    # live entirely after the anchor with no overlap: cannot scale -> official only
+    assert blend.splice_anchored(official, {"2017-02-01": 55.0}) == official
+    # zero at the scaling point: official only (no div-by-zero)
+    assert blend.splice_anchored(official, {"2016-12-31": 0.0, "2017-02-01": 5.0}) == official
