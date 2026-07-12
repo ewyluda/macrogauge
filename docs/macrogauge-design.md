@@ -163,8 +163,8 @@ Five pure stages over the vintage store (each independently unit-testable):
 
 ### Nowcasts (phase 3) — all versioned, all graded
 
-- **CPI** — bottom-up from component indexes mapped onto the BLS shelter cycle; calibrated
-  params (fuel_beta, rent_lag_months, rent_w) published in the JSON.
+- **CPI** — bottom-up from weighted component index moves (no calibrated/fitted parameters;
+  `nowcast.cpi.parameters` is published empty).
 - **PCE bridge** — maps the CPI-space nowcast into PCE space.
 - **NFP** — linear `nfp = a + b·payroll_momentum − c·claims_delta`, walk-forward refit monthly;
   MAE vs naive published.

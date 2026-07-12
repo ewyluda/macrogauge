@@ -187,7 +187,13 @@ every `*.json` in the out dir shares one `published_at` run stamp.
   - stress.json embeds full value histories — **DONE**, dropped; score/coverage
     unchanged (`0b50f71`).
   - backtest O(months²) `as_of` scans — **DONE**, single-pass vintage walk
-    (`a2ca102`); byte-identical output confirmed against the real store.
+    (`a2ca102`); real-store comparison was vacuous (the local store has only
+    one vintage-month partition, so `min_history: 3` is never satisfied and
+    both old/new outputs are empty `rows: []`) — correctness instead verified
+    via the task reviewer's independent differential script (sorted vs.
+    unsorted `known` dict on a constructed out-of-order backfill scenario,
+    proving the obs_date-sort is load-bearing) plus the pinning test
+    `test_walk_forward_revised_values_stay_vintage_true`.
   - CLAUDE.md stale counts (12→15 connectors, 14→25 published files, 213→239
     tests, 6→15 e2e routes) — **DONE**: connector/file/e2e counts were
     refreshed pre-plan (`542f096`); the test count is bumped 258→274 in this

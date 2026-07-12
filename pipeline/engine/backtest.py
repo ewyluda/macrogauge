@@ -1,7 +1,7 @@
 """Vintage-true CPI backtest and live-forecast grading."""
 from datetime import date, timedelta
 
-from pipeline.dates import monthly_changes, prior_month  # noqa: F401 (prior_month re-exported for phase3)
+from pipeline.dates import monthly_changes
 from pipeline.store import vintage
 
 
