@@ -103,15 +103,15 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "nowcast_latest.json", "nextprint.json", "releases.json", "backtest.json",
                  "accountability_cpi.json", "accountability_pce.json",
                  "accountability_nfp.json", "fuel.json", "outlook.json", "heatcheck.json",
-                 "stress.json", "recession.json"):
+                 "stress.json", "recession.json", "datacenter.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 17
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
-    # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items
-    assert qa["total"] == 19
+    # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok
+    assert qa["total"] == 20
     stamp = [c for c in qa["checks"] if c["name"] == "single_run_stamp"][0]
     assert stamp["pass"] is True  # a clean full run leaves no stale artifacts
     official = json.loads((out / "official.json").read_text())
@@ -342,3 +342,22 @@ def test_phase3_writer_validates_inline_and_validation_error_fails_run(tmp_path,
         run_daily.main(["--store", str(store), "--out", str(out)],
                        http_get=fake_get, http_post=fake_post)
     assert not (out / "qa.json").exists()  # run died before qa
+
+
+def test_datacenter_failure_does_not_block_other_blocks(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("dc boom")
+
+    monkeypatch.setattr(run_daily.dcindex, "run", boom)
+    store, out = tmp_path / "store", tmp_path / "out"
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    assert not (out / "datacenter.json").exists()
+    qa_data = json.loads((out / "qa.json").read_text())
+    checks = {c["name"]: c for c in qa_data["checks"]}
+    assert checks["datacenter_ok"]["pass"] is False and "dc boom" in checks["datacenter_ok"]["detail"]
+    assert checks["engine_ok"]["pass"] is True
+    assert (out / "heatcheck.json").exists() and (out / "pulse.json").exists()
