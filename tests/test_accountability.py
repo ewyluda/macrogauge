@@ -27,3 +27,26 @@ def test_accountability_pending_empty_when_forecast_unavailable(tmp_path: Path):
                "cpi": {"mom_pct": None, "status": "unavailable", "as_of": None}}
     result = phase3.build_accountability("cpi", nowcast, vintage.load(tmp_path))
     assert result["pending"] == []
+
+
+def test_accountability_skips_actual_spanning_missing_month(tmp_path: Path):
+    # The 2025-10 CPI print was never published (government shutdown):
+    # 2025-11's first release follows 2025-09 in the store, so a
+    # consecutive-row diff grades the 2025-11 forecast against a 2-month
+    # change. That period must be skipped; 2025-12 (true prior month
+    # present) still grades.
+    rows = [
+        Observation("CPIAUCNS", "2025-09-01", 100.0, "2025-10-15", "FRED", "API"),
+        Observation("CPIAUCNS", "2025-11-01", 100.8, "2025-12-18", "FRED", "API"),
+        Observation("CPIAUCNS", "2025-12-01", 101.0, "2026-01-13", "FRED", "API"),
+        Observation("forecast_cpi_mom", "2025-11-01", 0.3, "2025-12-10", "MACROGAUGE", "MODEL"),
+        Observation("forecast_cpi_mom", "2025-12-01", 0.2, "2026-01-10", "MACROGAUGE", "MODEL"),
+    ]
+    vintage.append(rows, tmp_path)
+    nowcast = {"reference_month": "2026-01", "generated_on": "2026-01-15",
+               "cpi": {"mom_pct": 0.25, "as_of": "2026-01-15"}}
+    result = phase3.build_accountability("cpi", nowcast, vintage.load(tmp_path))
+    periods = [g["reference_period"] for g in result["graded"]]
+    assert "2025-11" not in periods
+    assert periods == ["2025-12"]
+    assert result["graded"][0]["actual"] == round((101.0 / 100.8 - 1) * 100, 2)

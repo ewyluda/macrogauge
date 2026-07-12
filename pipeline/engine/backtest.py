@@ -4,12 +4,23 @@ from datetime import date, timedelta
 from pipeline.store import vintage
 
 
+def prior_month(obs_date: str) -> str:
+    """First-of-month date one month before obs_date (monthly rows are YYYY-MM-01)."""
+    year, month = int(obs_date[:4]), int(obs_date[5:7])
+    total = year * 12 + month - 2
+    return f"{total // 12:04d}-{total % 12 + 1:02d}-01"
+
+
 def _mom(rows):
+    """MoM between calendar-adjacent rows only: a pair spanning a missing
+    month (the never-published 2025-10 print) is a 2-month change, not a
+    MoM — it must neither grade a target nor enter the trailing forecast
+    inputs."""
     out = {}
     for i in range(1, len(rows)):
         d, v = rows[i][0], rows[i][1]
         prior = rows[i - 1][1]
-        if prior:
+        if prior and rows[i - 1][0] == prior_month(d):
             out[d] = (v / prior - 1) * 100
     return out
 
