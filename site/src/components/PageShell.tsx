@@ -34,11 +34,26 @@ export function PageShell({ children }: { children: React.ReactNode }) {
             <Link href="/cpi-preview" style={{ color: "var(--muted)", textDecoration: "none" }}>
               CPI Preview
             </Link>
+            <Link href="/next-print" style={{ color: "var(--muted)", textDecoration: "none" }}>
+              Next Print
+            </Link>
             <Link href="/scoreboard" style={{ color: "var(--muted)", textDecoration: "none" }}>
               Scoreboard
             </Link>
+            <Link href="/matrix" style={{ color: "var(--muted)", textDecoration: "none" }}>
+              Matrix
+            </Link>
+            <Link href="/gap" style={{ color: "var(--muted)", textDecoration: "none" }}>
+              Gap
+            </Link>
+            <Link href="/vs-bls" style={{ color: "var(--muted)", textDecoration: "none" }}>
+              vs BLS
+            </Link>
             <Link href="/heatcheck" style={{ color: "var(--muted)", textDecoration: "none" }}>
               Heat Check
+            </Link>
+            <Link href="/stress" style={{ color: "var(--muted)", textDecoration: "none" }}>
+              Stress
             </Link>
             <Link href="/recession" style={{ color: "var(--muted)", textDecoration: "none" }}>
               Recession

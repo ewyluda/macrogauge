@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install -e ".[dev]"                      # setuptools; installs pytest
-pytest -q                                     # full suite (213 tests)
+pytest -q                                     # full suite (258 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -28,7 +28,7 @@ cd site && npm ci
 npm run dev        # local dev server
 npm run build      # static export (must pass in CI)
 npm test           # vitest — client math (since/reweight/realwage)
-npm run e2e        # Playwright smoke — 6 pages render, zero console errors
+npm run e2e        # Playwright smoke — 16 pages render, zero console errors
 ```
 
 CI (`.github/workflows/ci.yml`) runs two independent jobs on every push/PR: `pipeline` (`pytest -q`)
@@ -40,8 +40,8 @@ Data flows in one direction: **collect → store → engine → publish → vali
 live in one repo.
 
 ### 1. Collection (`pipeline/collect.py`, `pipeline/connectors/`)
-One connector module per source — 12 total: API/CSV (fred, bls, eia, fmp, treasury, zillow, pmms,
-aptlist, usda) and scrape (aaa, mnd, manheim). What gets collected is driven entirely by
+One connector module per source — 15 total: API/CSV (fred, bls, eia, fmp, treasury, zillow, pmms,
+aptlist, usda, kalshi, street) and scrape (aaa, mnd, manheim, cleveland). What gets collected is driven entirely by
 `config/series.json` (via `pipeline/registry.py`) — the single source of truth for series,
 sources, and per-series `max_staleness_days`.
 
@@ -93,18 +93,22 @@ weights that **must sum to 1.0** (validated on load). Grid start is 2017-01 inte
 YoY bases); writers publish from 2018-01.
 
 ### 4. Publish (`pipeline/publish/`) + orchestration (`pipeline/run_daily.py`)
-14 published files, each with a JSON Schema in `schemas/` validated before it lands:
+25 published files, each with a JSON Schema in `schemas/` validated inline as it lands:
 `sources_status`, `pulse`, `gauge_daily`, `replay`, `quilt_months_24`, `quilt_months_48`,
 `quilt_months_all`, `grocery_basket`, `compare`, `gaptable`, `methodology`, `official`,
-`real_wages`, `qa`.
+`real_wages`, `qa`, plus phase 3 (`nowcast_latest`, `nextprint`, `releases`, `backtest`,
+`fuel`, `accountability_{cpi,pce,nfp}`) and phase 4 composites (`heatcheck`, `stress`,
+`recession`).
 The three `quilt_months_*` files share one schema (a window-months slice of the same
-month × component YoY grid); `grocery_basket` is BLS average-price staples.
+month × component YoY grid), as do the three `accountability_*` files; `grocery_basket`
+is BLS average-price staples.
 
 `run_daily.py` ordering is deliberate and load-bearing:
 - **`sources_status` publishes FIRST**, right after collect — a broken engine must never hide a
   broken source.
-- The engine + strict writers block is wrapped in `try/except` so an engine failure still publishes
-  status + qa (exit 0, failure visible on-site via `engine_ok`) instead of a hard crash.
+- The gauge engine, nowcast, and composites run in three ISOLATED `try/except` blocks — a failure
+  in any one still publishes status + qa (exit 0, visible on-site via `engine_ok` / `nowcast_ok` /
+  `composites_ok`) instead of a hard crash or suppressing the other phases.
 - **`jsonschema.ValidationError` re-raises and fails the run** (caught *before* the generic
   `Exception`) — a schema-invalid artifact must never deploy. This ordering is pinned by tests.
 
