@@ -5,7 +5,8 @@
   "baseline_annual_pct": 2.0,
   "volatility_lookback_months": 60,
   "volatility_fallback_pp": 0.35,
-  "trailing_median_months": 6,
+  "trailing_median_months": 12,
+  "component_trend_annual_cap_pct": 20.0,
   "shelter_half_life_months": 6,
   "fuel": {
     "lookback_months": 2,
