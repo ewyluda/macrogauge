@@ -3,17 +3,12 @@ import { useEffect, useState } from "react";
 import { SegmentedControl } from "./SegmentedControl";
 import { heatColor } from "@/lib/heat";
 import { exportQuiltPng, type QuiltRow } from "@/lib/quiltPng";
+import { buildComponentRows, type QuiltComponent } from "@/lib/quiltRows";
 
 type Quilt = {
   published_at: string;
   months: string[]; // "YYYY-MM"
-  components: {
-    code: string;
-    label: string;
-    weight: number;
-    ours_yoy_pct: (number | null)[];
-    official_yoy_pct: (number | null)[];
-  }[];
+  components: QuiltComponent[];
 };
 type Compare = {
   months: string[]; // "YYYY-MM-01"
@@ -37,26 +32,6 @@ const HEADLINES: [string, keyof Compare][] = [
   ["OURS: CPI-Tracker", "tracker_yoy_pct"],
   ["BLS: CPI YoY", "official_yoy_pct"],
   ["BLS: Core CPI YoY", "official_core_yoy_pct"],
-];
-
-// Keep this presentation order aligned with Nowflation's public quilt. The
-// codes are MacroGauge's stable artifact keys; labels intentionally match the
-// public comparison surface rather than the longer internal component names.
-const COMPONENT_ROWS: [string, string][] = [
-  ["shelter_rent", "Shelter: Rent"],
-  ["shelter_owned", "Shelter: Owned"],
-  ["fuel", "Motor Fuel"],
-  ["used_vehicles", "Used Vehicles"],
-  ["new_vehicles", "New Vehicles"],
-  ["food_home", "Food at Home"],
-  ["food_away", "Food Away"],
-  ["electricity", "Electricity"],
-  ["nat_gas", "Utility Gas"],
-  ["medical", "Medical Care"],
-  ["apparel", "Apparel"],
-  ["recreation", "Recreation"],
-  ["education_comm", "Education & Comm"],
-  ["other", "Everything Else"],
 ];
 
 /** BLS trailing months where the print lags stay null — rendered empty,
@@ -130,10 +105,7 @@ export function QuiltHeatmap() {
     );
   }
 
-  const compRows: QuiltRow[] = COMPONENT_ROWS.flatMap(([code, label]) => {
-    const component = quilt.components.find((candidate) => candidate.code === code);
-    return component ? [{ label, values: component.ours_yoy_pct }] : [];
-  });
+  const compRows: QuiltRow[] = buildComponentRows(quilt.components);
   const hRows = headlineRows(quilt.months, compare);
   const asOf = quilt.months[quilt.months.length - 1];
 
