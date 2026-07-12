@@ -1,9 +1,9 @@
 {
-  "published_at": "2026-07-12T19:15:21Z",
+  "published_at": "2026-07-12T20:52:08Z",
   "stats": {
-    "series_count": 110,
-    "obs_count": 53024,
-    "source_count": 15,
+    "series_count": 230,
+    "obs_count": 75459,
+    "source_count": 17,
     "tracker_corr": 0.9775,
     "live_coverage_pct": 40.5,
     "engine_version": "1.0",
@@ -214,8 +214,8 @@
     }
   ],
   "freshness": {
-    "fresh_count": 89,
-    "total": 110
+    "fresh_count": 93,
+    "total": 230
   },
   "inventory": [
     {
@@ -1206,6 +1206,1086 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
+      "fresh": false
+    },
+    {
+      "code": "ces_constr_ahe",
+      "name": "Avg hourly earnings, construction ($/hr)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "ppi_elec_contr",
+      "name": "PPI electrical contractors, nonresidential building work",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": false
+    },
+    {
+      "code": "ppi_plumb_hvac",
+      "name": "PPI plumbing/HVAC contractors, nonresidential building work",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": false
+    },
+    {
+      "code": "ppi_steel",
+      "name": "PPI steel mill products",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": false
+    },
+    {
+      "code": "ppi_concrete",
+      "name": "PPI ready-mix concrete",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": false
+    },
+    {
+      "code": "ppi_copper_wire",
+      "name": "PPI copper wire & cable",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": false
+    },
+    {
+      "code": "ppi_alum_shapes",
+      "name": "PPI aluminum mill shapes",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": false
+    },
+    {
+      "code": "ppi_switchgear",
+      "name": "PPI switchgear & switchboard",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": false
+    },
+    {
+      "code": "ppi_transformer",
+      "name": "PPI transformers & power regulators",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": false
+    },
+    {
+      "code": "ppi_genset",
+      "name": "PPI turbine & generator sets",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": false
+    },
+    {
+      "code": "ppi_hvac_equip",
+      "name": "PPI AC, refrigeration & heating equip",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": false
+    },
+    {
+      "code": "ppi_pumps",
+      "name": "PPI pumps & compressors",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": false
+    },
+    {
+      "code": "ces_dp_ahe",
+      "name": "Avg hourly earnings, Information supersector ($/hr)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "ppi_mach_repair",
+      "name": "PPI machinery repair & maintenance",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": false
+    },
+    {
+      "code": "fmp_copper",
+      "name": "Copper futures front month $/lb",
+      "source": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-10",
+      "fresh": true
+    },
+    {
+      "code": "fmp_alum",
+      "name": "Aluminum futures front month $/ton",
+      "source": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-10",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_ind_us",
+      "name": "Industrial electricity \u00a2/kWh (US)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_al",
+      "name": "Industrial electricity \u00a2/kWh (AL)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ak",
+      "name": "Industrial electricity \u00a2/kWh (AK)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_az",
+      "name": "Industrial electricity \u00a2/kWh (AZ)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ar",
+      "name": "Industrial electricity \u00a2/kWh (AR)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ca",
+      "name": "Industrial electricity \u00a2/kWh (CA)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_co",
+      "name": "Industrial electricity \u00a2/kWh (CO)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ct",
+      "name": "Industrial electricity \u00a2/kWh (CT)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_de",
+      "name": "Industrial electricity \u00a2/kWh (DE)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_dc",
+      "name": "Industrial electricity \u00a2/kWh (DC)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_fl",
+      "name": "Industrial electricity \u00a2/kWh (FL)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ga",
+      "name": "Industrial electricity \u00a2/kWh (GA)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_hi",
+      "name": "Industrial electricity \u00a2/kWh (HI)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_id",
+      "name": "Industrial electricity \u00a2/kWh (ID)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_il",
+      "name": "Industrial electricity \u00a2/kWh (IL)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_in",
+      "name": "Industrial electricity \u00a2/kWh (IN)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ia",
+      "name": "Industrial electricity \u00a2/kWh (IA)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ks",
+      "name": "Industrial electricity \u00a2/kWh (KS)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ky",
+      "name": "Industrial electricity \u00a2/kWh (KY)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_la",
+      "name": "Industrial electricity \u00a2/kWh (LA)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_me",
+      "name": "Industrial electricity \u00a2/kWh (ME)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_md",
+      "name": "Industrial electricity \u00a2/kWh (MD)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ma",
+      "name": "Industrial electricity \u00a2/kWh (MA)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_mi",
+      "name": "Industrial electricity \u00a2/kWh (MI)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_mn",
+      "name": "Industrial electricity \u00a2/kWh (MN)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ms",
+      "name": "Industrial electricity \u00a2/kWh (MS)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_mo",
+      "name": "Industrial electricity \u00a2/kWh (MO)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_mt",
+      "name": "Industrial electricity \u00a2/kWh (MT)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ne",
+      "name": "Industrial electricity \u00a2/kWh (NE)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_nv",
+      "name": "Industrial electricity \u00a2/kWh (NV)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_nh",
+      "name": "Industrial electricity \u00a2/kWh (NH)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_nj",
+      "name": "Industrial electricity \u00a2/kWh (NJ)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_nm",
+      "name": "Industrial electricity \u00a2/kWh (NM)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ny",
+      "name": "Industrial electricity \u00a2/kWh (NY)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_nc",
+      "name": "Industrial electricity \u00a2/kWh (NC)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_nd",
+      "name": "Industrial electricity \u00a2/kWh (ND)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_oh",
+      "name": "Industrial electricity \u00a2/kWh (OH)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ok",
+      "name": "Industrial electricity \u00a2/kWh (OK)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_or",
+      "name": "Industrial electricity \u00a2/kWh (OR)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_pa",
+      "name": "Industrial electricity \u00a2/kWh (PA)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ri",
+      "name": "Industrial electricity \u00a2/kWh (RI)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_sc",
+      "name": "Industrial electricity \u00a2/kWh (SC)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_sd",
+      "name": "Industrial electricity \u00a2/kWh (SD)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_tn",
+      "name": "Industrial electricity \u00a2/kWh (TN)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_tx",
+      "name": "Industrial electricity \u00a2/kWh (TX)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_ut",
+      "name": "Industrial electricity \u00a2/kWh (UT)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_vt",
+      "name": "Industrial electricity \u00a2/kWh (VT)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_va",
+      "name": "Industrial electricity \u00a2/kWh (VA)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_wa",
+      "name": "Industrial electricity \u00a2/kWh (WA)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_wv",
+      "name": "Industrial electricity \u00a2/kWh (WV)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_wi",
+      "name": "Industrial electricity \u00a2/kWh (WI)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "eia_elec_ind_wy",
+      "name": "Industrial electricity \u00a2/kWh (WY)",
+      "source": "EIA_STATE",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_us",
+      "name": "QCEW avg weekly wage, construction (US)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_al",
+      "name": "QCEW avg weekly wage, construction (AL)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ak",
+      "name": "QCEW avg weekly wage, construction (AK)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_az",
+      "name": "QCEW avg weekly wage, construction (AZ)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ar",
+      "name": "QCEW avg weekly wage, construction (AR)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ca",
+      "name": "QCEW avg weekly wage, construction (CA)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_co",
+      "name": "QCEW avg weekly wage, construction (CO)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ct",
+      "name": "QCEW avg weekly wage, construction (CT)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_de",
+      "name": "QCEW avg weekly wage, construction (DE)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_dc",
+      "name": "QCEW avg weekly wage, construction (DC)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_fl",
+      "name": "QCEW avg weekly wage, construction (FL)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ga",
+      "name": "QCEW avg weekly wage, construction (GA)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_hi",
+      "name": "QCEW avg weekly wage, construction (HI)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_id",
+      "name": "QCEW avg weekly wage, construction (ID)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_il",
+      "name": "QCEW avg weekly wage, construction (IL)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_in",
+      "name": "QCEW avg weekly wage, construction (IN)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ia",
+      "name": "QCEW avg weekly wage, construction (IA)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ks",
+      "name": "QCEW avg weekly wage, construction (KS)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ky",
+      "name": "QCEW avg weekly wage, construction (KY)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_la",
+      "name": "QCEW avg weekly wage, construction (LA)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_me",
+      "name": "QCEW avg weekly wage, construction (ME)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_md",
+      "name": "QCEW avg weekly wage, construction (MD)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ma",
+      "name": "QCEW avg weekly wage, construction (MA)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_mi",
+      "name": "QCEW avg weekly wage, construction (MI)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_mn",
+      "name": "QCEW avg weekly wage, construction (MN)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ms",
+      "name": "QCEW avg weekly wage, construction (MS)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_mo",
+      "name": "QCEW avg weekly wage, construction (MO)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_mt",
+      "name": "QCEW avg weekly wage, construction (MT)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ne",
+      "name": "QCEW avg weekly wage, construction (NE)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_nv",
+      "name": "QCEW avg weekly wage, construction (NV)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_nh",
+      "name": "QCEW avg weekly wage, construction (NH)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_nj",
+      "name": "QCEW avg weekly wage, construction (NJ)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_nm",
+      "name": "QCEW avg weekly wage, construction (NM)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ny",
+      "name": "QCEW avg weekly wage, construction (NY)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_nc",
+      "name": "QCEW avg weekly wage, construction (NC)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_nd",
+      "name": "QCEW avg weekly wage, construction (ND)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_oh",
+      "name": "QCEW avg weekly wage, construction (OH)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ok",
+      "name": "QCEW avg weekly wage, construction (OK)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_or",
+      "name": "QCEW avg weekly wage, construction (OR)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_pa",
+      "name": "QCEW avg weekly wage, construction (PA)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ri",
+      "name": "QCEW avg weekly wage, construction (RI)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_sc",
+      "name": "QCEW avg weekly wage, construction (SC)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_sd",
+      "name": "QCEW avg weekly wage, construction (SD)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_tn",
+      "name": "QCEW avg weekly wage, construction (TN)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_tx",
+      "name": "QCEW avg weekly wage, construction (TX)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_ut",
+      "name": "QCEW avg weekly wage, construction (UT)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_vt",
+      "name": "QCEW avg weekly wage, construction (VT)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_va",
+      "name": "QCEW avg weekly wage, construction (VA)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_wa",
+      "name": "QCEW avg weekly wage, construction (WA)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_wv",
+      "name": "QCEW avg weekly wage, construction (WV)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_wi",
+      "name": "QCEW avg weekly wage, construction (WI)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": false
+    },
+    {
+      "code": "qcew_wage23_wy",
+      "name": "QCEW avg weekly wage, construction (WY)",
+      "source": "QCEW",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
       "fresh": false
     }
   ],
