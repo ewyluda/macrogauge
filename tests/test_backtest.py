@@ -42,3 +42,20 @@ def test_walk_forward_skips_target_month_after_hole(tmp_path: Path):
     for row in result["rows"]:
         assert abs(row["actual_mom_pct"] - 0.2) < 0.05, row
         assert abs(row["naive_mom_pct"] - 0.2) < 0.05, row
+
+
+def test_walk_forward_revised_values_stay_vintage_true(tmp_path: Path):
+    # a revision published AFTER a release's cutoff must not leak into that
+    # release's known history (the whole point of vintage-true grading)
+    obs = [Observation("CPIAUCNS", f"2025-{m:02d}-01", 100.0 * (1.002 ** m),
+                       f"2025-{m + 1:02d}-10", "FRED", "API") for m in range(1, 8)]
+    # big revision to March, learned in August — after all July-and-earlier cutoffs
+    obs.append(Observation("CPIAUCNS", "2025-03-01", 999.0, "2025-08-15", "FRED", "API"))
+    vintage.append(obs, tmp_path)
+    result = backtest.cpi_walk_forward(vintage.load(tmp_path))
+    # every graded row's forecast was fit on pre-revision values: no forecast
+    # or naive value can reflect the 999.0 level (which would produce a
+    # massive MoM in the trailing window)
+    for row in result["rows"]:
+        assert abs(row["forecast_mom_pct"]) < 5, row
+        assert abs(row["naive_mom_pct"]) < 5, row

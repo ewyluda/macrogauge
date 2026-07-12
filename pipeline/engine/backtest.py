@@ -12,13 +12,23 @@ def _mom(rows):
 
 
 def cpi_walk_forward(conn, min_history: int = 3) -> dict:
-    releases = vintage.first_releases(conn, "CPIAUCNS")
-    actual_mom = _mom(releases)
-    rows = []
+    releases = sorted(vintage.first_releases(conn, "CPIAUCNS"),
+                      key=lambda r: r[2])  # walk in release order
+    actual_mom = _mom(sorted(releases))
+    # One pass over all vintages instead of an O(months^2) as_of scan per
+    # release: rows sorted by vintage feed an incremental latest-known view.
+    all_rows = conn.execute(
+        "SELECT obs_date, value, vintage_date FROM observations "
+        "WHERE series_code = ? ORDER BY vintage_date, rowid",
+        ("CPIAUCNS",)).fetchall()
+    known: dict[str, float] = {}
+    rows, i = [], 0
     for obs_date, actual, release_date in releases:
         cutoff = (date.fromisoformat(release_date) - timedelta(days=1)).isoformat()
-        known = vintage.as_of(conn, "CPIAUCNS", cutoff)
-        known_mom = list(_mom(known).values())
+        while i < len(all_rows) and all_rows[i][2] <= cutoff:
+            known[all_rows[i][0]] = all_rows[i][1]
+            i += 1
+        known_mom = list(monthly_changes(dict(sorted(known.items()))).values())
         if len(known_mom) < min_history or obs_date not in actual_mom:
             continue
         ours = sum(known_mom[-3:]) / 3
