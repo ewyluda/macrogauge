@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "outlook",
+  "type": "object",
+  "required": [
+    "published_at", "model", "as_of", "origin_month", "horizon_months",
+    "latest_complete_month_yoy_pct", "history", "forecast", "base_effects_only",
+    "sigma_monthly_pp", "sigma_window_months", "driver_coverage_pct", "drivers",
+    "component_paths", "parameters", "method", "disclaimer"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "model": {"type": "string"},
+    "as_of": {"type": "string"},
+    "origin_month": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}$"},
+    "horizon_months": {"const": 12},
+    "latest_complete_month_yoy_pct": {"type": "number"},
+    "history": {
+      "type": "array", "minItems": 1, "maxItems": 25,
+      "items": {"$ref": "#/$defs/yoyPoint"}
+    },
+    "forecast": {
+      "type": "array", "minItems": 12, "maxItems": 12,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["month", "central_yoy_pct", "mom_pct", "low_yoy_pct", "high_yoy_pct"],
+        "properties": {
+          "month": {"type": "string"},
+          "central_yoy_pct": {"type": "number"},
+          "mom_pct": {"type": "number"},
+          "low_yoy_pct": {"type": "number"},
+          "high_yoy_pct": {"type": "number"}
+        }
+      }
+    },
+    "base_effects_only": {
+      "type": "array", "minItems": 12, "maxItems": 12,
+      "items": {"$ref": "#/$defs/yoyPoint"}
+    },
+    "sigma_monthly_pp": {"type": "number", "minimum": 0},
+    "sigma_window_months": {"type": "integer", "minimum": 0},
+    "driver_coverage_pct": {"type": "number", "minimum": 0, "maximum": 100},
+    "drivers": {
+      "type": "array", "minItems": 8, "maxItems": 8,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["key", "name", "value", "unit", "reading", "as_of", "status", "effect", "sources"],
+        "properties": {
+          "key": {"type": "string"}, "name": {"type": "string"},
+          "value": {"type": ["number", "null"]}, "unit": {"type": "string"},
+          "reading": {"type": "string"}, "as_of": {"type": ["string", "null"]},
+          "status": {"enum": ["live", "partial", "fallback"]},
+          "effect": {"type": "string"},
+          "sources": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "component_paths": {
+      "type": "object", "minProperties": 14,
+      "additionalProperties": {
+        "type": "array", "minItems": 12, "maxItems": 12,
+        "items": {
+          "type": "object", "additionalProperties": false,
+          "required": ["month", "mom_pct", "index"],
+          "properties": {
+            "month": {"type": "string"}, "mom_pct": {"type": "number"},
+            "index": {"type": "number", "exclusiveMinimum": 0}
+          }
+        }
+      }
+    },
+    "parameters": {"type": "object"},
+    "method": {"type": "string"},
+    "disclaimer": {"type": "string"}
+  },
+  "$defs": {
+    "yoyPoint": {
+      "type": "object", "additionalProperties": false,
+      "required": ["month", "yoy_pct"],
+      "properties": {"month": {"type": "string"}, "yoy_pct": {"type": "number"}}
+    }
+  }
+}

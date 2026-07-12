@@ -1,8 +1,9 @@
 """One-time FMP history backfill (Phase 2a). Run locally with FMP_API_KEY set:
 
-    FMP_API_KEY=... python scripts/backfill_fmp.py --store store
+    FMP_API_KEY=... python scripts/backfill_fmp.py --store store \
+      --symbols RBUSD NGUSD ZCUSD ZWUSD ZSUSD ZLUSD KCUSD SBUSD CCUSD LEUSD
 
-Appends daily GCUSD/CLUSD closes since 2017 with TODAY's vintage; the store's
+Appends requested FMP closes since 2017 with TODAY's vintage; the store's
 value-dedupe skips rows that already match, so re-running is harmless.
 
 **Same-vintage overlap:** The backfill refetches the full range including days
@@ -19,20 +20,33 @@ import os
 import sys
 from pathlib import Path
 
+from pipeline import registry
 from pipeline.connectors import fmp
 from pipeline.store import vintage
+
+DEFAULT_SYMBOLS = ["GCUSD", "CLUSD"]
+
+
+def registry_id_map() -> dict[str, str]:
+    _, series = registry.load_registry()
+    return {row.source_id: row.code for row in series if row.source == "FMP"}
 
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--store", required=True, type=Path)
+    parser.add_argument("--symbols", nargs="+", default=DEFAULT_SYMBOLS)
+    parser.add_argument("--from-date", default="2017-01-01")
     args = parser.parse_args(argv)
     key = os.environ.get("FMP_API_KEY")
     if not key:
         sys.exit("FMP_API_KEY not set")
-    obs = fmp.fetch_history(["GCUSD", "CLUSD"], key)
+    id_map = registry_id_map()
+    unknown = sorted(set(args.symbols) - set(id_map))
+    if unknown:
+        parser.error("symbols absent from config/series.json: " + ", ".join(unknown))
+    obs = fmp.fetch_history(args.symbols, key, from_date=args.from_date)
     # store rows keep the registry's internal codes, mirroring collect_all's id_map
-    id_map = {"GCUSD": "fmp_gold", "CLUSD": "fmp_wti"}
     from dataclasses import replace
     obs = [replace(o, series_code=id_map[o.series_code]) for o in obs]
     written = vintage.append(obs, args.store)

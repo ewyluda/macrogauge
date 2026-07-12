@@ -11,13 +11,13 @@ def test_load_real_registry():
     assert set(sources) == {"FRED", "BLS", "EIA", "FMP", "TREASURY", "ZILLOW", "PMMS",
                             "APTLIST", "USDA", "AAA", "MND", "MANHEIM",
                             "CLEVELAND", "KALSHI", "STREET"}
-    assert len(series) == 99
+    assert len(series) == 110
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 47
+    assert len(fred) == 48
     # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
     # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
     # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
@@ -45,7 +45,8 @@ def test_load_real_registry():
             "PAYEMS": "PAYEMS",
             "ICSA": "ICSA",
             "UNRATE": "UNRATE", "INDPRO": "INDPRO", "RSAFS": "RSAFS",
-            "DSPIC96": "DSPIC96", "PPIACO": "PPIACO", "T5YIE": "T5YIE",
+            "DSPIC96": "DSPIC96", "PPIACO": "PPIACO",
+            "IREXPETCOM": "IREXPETCOM", "T5YIE": "T5YIE",
             "CCSA": "CCSA", "PCUOMFGOMFG": "PCUOMFGOMFG",
             "FEDFUNDS": "FEDFUNDS", "HOUST": "HOUST", "PERMIT": "PERMIT",
             "CSUSHPINSA": "CSUSHPINSA", "M2SL": "M2SL", "UMCSENT": "UMCSENT",

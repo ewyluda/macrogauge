@@ -3,7 +3,7 @@
 // then `x as Fuel`) instead of relying on inference: TypeScript infers JSON
 // types from the *committed sample*, so a valid degraded artifact — nulled
 // fields, empty arrays — would otherwise fail `next build`.
-// Keep in sync with schemas/{fuel,nextprint,nowcast_latest}.schema.json.
+// Keep in sync with schemas/{fuel,nextprint,nowcast_latest,outlook}.schema.json.
 
 export type Forecaster = { name: string; value: number; kind: string; as_of: string };
 
@@ -24,6 +24,42 @@ export type Fuel = {
   pump: number | null;
   forward_2wk: number | null;
   proxy: string | null;
+};
+
+export type OutlookPoint = { month: string; yoy_pct: number };
+
+export type Outlook = {
+  published_at: string;
+  model: string;
+  as_of: string;
+  origin_month: string;
+  horizon_months: 12;
+  latest_complete_month_yoy_pct: number;
+  history: OutlookPoint[];
+  forecast: Array<{
+    month: string;
+    central_yoy_pct: number;
+    mom_pct: number;
+    low_yoy_pct: number;
+    high_yoy_pct: number;
+  }>;
+  base_effects_only: OutlookPoint[];
+  sigma_monthly_pp: number;
+  sigma_window_months: number;
+  driver_coverage_pct: number;
+  drivers: Array<{
+    key: string;
+    name: string;
+    value: number | null;
+    unit: string;
+    reading: string;
+    as_of: string | null;
+    status: "live" | "partial" | "fallback";
+    effect: string;
+    sources: string[];
+  }>;
+  method: string;
+  disclaimer: string;
 };
 
 export type NowcastComponent = {

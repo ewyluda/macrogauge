@@ -39,3 +39,12 @@ test("quilt module renders month cells and grocery cards render prices", async (
   await expect(page.getByText("OURS: CPI-Comparable")).toBeVisible();
   await expect(page.getByText("Eggs (dozen)")).toBeVisible();
 });
+
+test("12-month outlook renders its summary and forward-driver receipts", async ({ page }) => {
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+  await expect(page.getByText("Macrogauge outlook — next 12 months")).toBeVisible();
+  await expect(page.getByText("latest complete month", { exact: false })).toBeVisible();
+  await expect(page.getByText("Fuel futures", { exact: false })).toBeVisible();
+  await expect(page.getByText("realized-volatility band", { exact: false })).toBeVisible();
+});

@@ -4,14 +4,15 @@ Connector failures never block publication — they surface in
 sources_status.json and qa.json, and stale series carry forward.
 
 sources_status publishes FIRST (right after collect): a broken engine must
-never hide a broken source. Three independently isolated try/except blocks
+never hide a broken source. Four independently isolated try/except blocks
 follow: (1) the core gauge engine + writers (cpi -> gauge ->
 pulse/gauge_daily/compare/gaptable/official, surfaces via engine_ok),
 (2) the phase-3 nowcast (surfaces via nowcast_ok — build_latest degrades to
 status "unavailable" rather than raising once the release calendar is
-exhausted), and (3) phase-4 composites (surfaces via composites_ok, which
+exhausted), (3) the 12-month component outlook (outlook_ok), and (4) phase-4
+composites (surfaces via composites_ok, which
 don't depend on the CPI calendar or gauge engine at all). A failure in any
-one block still publishes status+qa (rc 0) without blocking the other two —
+one block still publishes status+qa (rc 0) without blocking the others —
 but a jsonschema.ValidationError re-raises and fails the run in every block:
 a schema-invalid artifact must never deploy.
 """
@@ -30,10 +31,11 @@ from pipeline import collect, registry, release_calendar
 from pipeline.connectors import fred
 from pipeline.engine import gauge as gauge_engine
 from pipeline.engine import official
+from pipeline.engine import outlook as outlook_engine
 from pipeline.engine.nowcast import build_latest as build_nowcast
 from pipeline.publish import official as official_json
 from pipeline.publish import (compare, composites as composite_json, gaptable, gauge_daily, grocery, methodology,
-                              phase3, pulse, qa, quilt, real_wages, replay, sources_status,
+                              outlook as outlook_json, phase3, pulse, qa, quilt, real_wages, replay, sources_status,
                               validate)
 from pipeline.store import vintage
 
@@ -211,6 +213,23 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         nowcast_error = f"{type(e).__name__}: {e}"
         print(f"NOWCAST FAILED — {nowcast_error}")
 
+    # Twelve-month outlook: depends on the gauge's component levels but is
+    # isolated from both the core engine writers and the next-print nowcast.
+    outlook_error = None
+    outlook_payload = None
+    try:
+        if gauge_result is None:
+            raise RuntimeError("skipped — gauge engine failed upstream")
+        outlook_payload = outlook_engine.run(conn, gauge_result)
+        outlook_path = outlook_json.write(outlook_payload, args.out, published_at)
+        validate.validate_file(outlook_path, SCHEMAS / "outlook.schema.json")
+        print(f"published: {outlook_path}")
+    except jsonschema.ValidationError:
+        raise
+    except Exception as e:
+        outlook_error = f"{type(e).__name__}: {e}"
+        print(f"OUTLOOK FAILED — {outlook_error}")
+
     # Phase-4 composites: isolated from both blocks above — heatcheck/stress/
     # recession don't depend on the CPI release calendar or the gauge engine
     # at all, so neither of those failing should stop them from publishing.
@@ -251,6 +270,7 @@ def main(argv=None, http_get=None, http_post=None) -> int:
                                      freshness=freshness, gauge=gauge_qa,
                                      engine_error=engine_error,
                                      nowcast_error=nowcast_error,
+                                     outlook_error=outlook_error,
                                      composites_error=composites_error,
                                      fuel_divergence=fuel_div,
                                      artifacts=artifacts,

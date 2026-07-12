@@ -65,6 +65,26 @@ a:hover { color: var(--text) !important; }
 .hot { color: var(--accent-red); }
 .cool { color: var(--accent-emerald); }
 
+.outlook-module { min-width: 0; }
+.outlook-meta { display: flex; gap: 9px; flex-wrap: wrap; color: var(--muted); font-size: 10px; letter-spacing: .04em; }
+.outlook-meta span + span::before { content: "·"; margin-right: 9px; color: #46515d; }
+.outlook-summary { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin: 8px 0 4px; font-size: 13px; font-variant-numeric: tabular-nums; }
+.outlook-summary strong { font-size: 16px; }
+.outlook-summary small, .outlook-band-copy { color: var(--muted); font-size: 11px; }
+.outlook-actual { color: var(--accent-sky); }
+.outlook-central { color: var(--accent-emerald); }
+.outlook-drivers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+.outlook-driver { min-width: 0; padding: 8px 10px; background: #0d1218; border: 1px solid var(--border); border-radius: 8px; }
+.outlook-driver span, .outlook-driver small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.outlook-driver span { color: var(--muted); font-size: 10px; }
+.outlook-driver strong { display: block; margin-top: 4px; font-size: 13px; font-variant-numeric: tabular-nums; }
+.outlook-driver small { margin-top: 3px; color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: .04em; }
+.outlook-driver-live { border-color: rgba(52, 211, 153, .32); }
+.outlook-driver-partial { border-color: rgba(245, 158, 11, .35); }
+.outlook-driver-fallback strong { color: var(--muted); }
+.outlook-method, .outlook-disclaimer { margin: 9px 0 0; color: var(--muted); font-size: 10.5px; line-height: 1.55; }
+.outlook-disclaimer { color: var(--accent-amber); }
+
 h1 { font-size: 26px; margin: 28px 0 8px; }
 .subtitle, .lede, .method { color: var(--muted); }
 .subtitle { font-size: 16px; font-weight: 400; }
@@ -97,10 +117,12 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
   .dashboard-row { grid-template-columns: 1fr; }
   .movers-panel { grid-column: auto; }
   .market-grid { grid-template-columns: 1fr 1fr; }
+  .outlook-drivers { grid-template-columns: 1fr 1fr; }
   .section-featured { margin-left: -6px; margin-right: -6px; padding: 10px; }
 }
 
 @media (max-width: 430px) {
   .headline-grid { grid-template-columns: 1fr; }
   .kpi-card { min-height: 0; }
+  .outlook-drivers { grid-template-columns: 1fr; }
 }

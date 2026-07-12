@@ -100,16 +100,16 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "methodology.json", "grocery_basket.json", "real_wages.json",
                  "nowcast_latest.json", "nextprint.json", "releases.json", "backtest.json",
                  "accountability_cpi.json", "accountability_pce.json",
-                 "accountability_nfp.json", "fuel.json", "heatcheck.json",
+                 "accountability_nfp.json", "fuel.json", "outlook.json", "heatcheck.json",
                  "stress.json", "recession.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 15
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
-    # 4 existing + engine_ok + nowcast_ok + composites_ok + single_run_stamp
+    # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items
-    assert qa["total"] == 18
+    assert qa["total"] == 19
     stamp = [c for c in qa["checks"] if c["name"] == "single_run_stamp"][0]
     assert stamp["pass"] is True  # a clean full run leaves no stale artifacts
     official = json.loads((out / "official.json").read_text())

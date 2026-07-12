@@ -19,6 +19,7 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                freshness: list[dict] | None = None, gauge: dict | None = None,
                engine_error: str | None = None, fuel_divergence: dict | None = None,
                artifacts: dict | None = None, nowcast_error: str | None = None,
+               outlook_error: str | None = None,
                composites_error: str | None = None,
                stale_stamps: list[str] | None = None) -> dict:
     if cpi is not None:
@@ -45,13 +46,15 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
     checks.append({"name": "engine_ok", "critical": True,
                    "pass": engine_error is None,
                    "detail": engine_error or "engine and writers completed"})
-    # nowcast_ok/composites_ok mirror engine_ok but for the phase-3/phase-4
-    # blocks, which run in their own isolated try/except in run_daily.py — a
-    # nowcast or composites failure must surface distinctly from, and never
-    # suppress, the core gauge's critical checks below.
+    # These checks mirror engine_ok for the isolated forecast/composites
+    # blocks in run_daily.py. Their failures surface distinctly and never
+    # suppress the core gauge's critical checks below.
     checks.append({"name": "nowcast_ok", "critical": False,
                    "pass": nowcast_error is None,
                    "detail": nowcast_error or "nowcast completed"})
+    checks.append({"name": "outlook_ok", "critical": False,
+                   "pass": outlook_error is None,
+                   "detail": outlook_error or "12-month outlook completed"})
     checks.append({"name": "composites_ok", "critical": False,
                    "pass": composites_error is None,
                    "detail": composites_error or "composites completed"})
