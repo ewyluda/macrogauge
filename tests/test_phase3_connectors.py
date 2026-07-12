@@ -1,3 +1,5 @@
+import pathlib
+
 import pytest
 
 from pipeline.connectors import cleveland, kalshi, street
@@ -56,3 +58,23 @@ def test_street_selects_monthly_cpi_consensus():
     rows = street.fetch("key", "2026-07-10",
                         http_get=lambda *a, **k: FakeResponse(payload))
     assert rows[0].value == 0.3
+
+
+def test_cleveland_parses_recorded_fixture():
+    # Pinned to tests/fixtures/cleveland.html (recorded 2026-07-11) — the
+    # drift-protection convention every scrape connector carries (spec 2a §3).
+    html = (pathlib.Path(__file__).parent / "fixtures" / "cleveland.html").read_text()
+    rows = cleveland.fetch("2026-07-11", http_get=lambda *a, **k: TextResponse(html))
+    assert [(r.series_code, r.value) for r in rows] == [
+        ("cleveland_cpi_mom", -0.0), ("cleveland_core_cpi_mom", 0.23),
+        ("cleveland_pce_mom", 0.13), ("cleveland_core_pce_mom", 0.28)]
+    assert all(r.obs_date == "2026-07-01" for r in rows)
+
+
+def test_cleveland_implausible_value_raises_drift():
+    # A YoY-magnitude number (the YoY table sits right below the MoM table
+    # on the same page) means the anchor slid — degrade, don't ingest.
+    html = ("<table><tr><td>July 2026</td><td>2.90</td><td>3.10</td>"
+            "<td>2.60</td><td>2.80</td><td>07/10</td></tr></table>")
+    with pytest.raises(ValueError, match="drift"):
+        cleveland.fetch("2026-07-10", http_get=lambda *a, **k: TextResponse(html))
