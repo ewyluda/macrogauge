@@ -1,0 +1,28 @@
+{
+  "base_month": "2018-01",
+  "group_labels": {
+    "labor": "Construction labor", "materials": "Materials",
+    "electrical": "Electrical equipment", "mechanical": "Mechanical / cooling",
+    "power": "Power", "ops_labor": "Facilities & ops labor",
+    "maintenance": "Maintenance & parts"
+  },
+  "build": [
+    {"code": "constr_wages",           "label": "Construction wages",              "group": "labor",      "series": "ces_constr_ahe",  "weight": 0.15},
+    {"code": "elec_contractors",       "label": "Electrical contractors",          "group": "labor",      "series": "ppi_elec_contr",  "weight": 0.09},
+    {"code": "plumb_hvac_contractors", "label": "Plumbing/HVAC contractors",       "group": "labor",      "series": "ppi_plumb_hvac",  "weight": 0.06},
+    {"code": "steel",                  "label": "Steel mill products",             "group": "materials",  "series": "ppi_steel",       "weight": 0.065},
+    {"code": "concrete",               "label": "Ready-mix concrete",              "group": "materials",  "series": "ppi_concrete",    "weight": 0.05},
+    {"code": "copper_wire",            "label": "Copper wire & cable",             "group": "materials",  "series": "ppi_copper_wire", "weight": 0.055, "live_proxy": "fmp_copper"},
+    {"code": "alum_shapes",            "label": "Aluminum mill shapes",            "group": "materials",  "series": "ppi_alum_shapes", "weight": 0.03, "live_proxy": "fmp_alum"},
+    {"code": "switchgear",             "label": "Switchgear & switchboard",        "group": "electrical", "series": "ppi_switchgear",  "weight": 0.14},
+    {"code": "transformers",           "label": "Power & distribution transformers","group": "electrical","series": "ppi_transformer", "weight": 0.12},
+    {"code": "generators",             "label": "Generator sets & turbines",       "group": "electrical", "series": "ppi_genset",      "weight": 0.09},
+    {"code": "hvac_equip",             "label": "AC & refrigeration equipment",    "group": "mechanical", "series": "ppi_hvac_equip",  "weight": 0.10},
+    {"code": "pumps",                  "label": "Industrial pumps",                "group": "mechanical", "series": "ppi_pumps",       "weight": 0.05}
+  ],
+  "ops": [
+    {"code": "power",       "label": "Industrial electricity",        "group": "power",       "series": "eia_elec_ind_us", "weight": 0.55},
+    {"code": "ops_wages",   "label": "Facilities & ops wages",        "group": "ops_labor",   "series": "ces_dp_ahe",      "weight": 0.30},
+    {"code": "maintenance", "label": "Machinery repair & maintenance","group": "maintenance", "series": "ppi_mach_repair", "weight": 0.15}
+  ]
+}
