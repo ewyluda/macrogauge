@@ -96,10 +96,6 @@ def _street(subset, key, http):
     return street.fetch(key, http_get=http)
 
 
-def _eia_state(subset, key, http):
-    return eia.fetch([s.source_id for s in subset], key, http_get=http)
-
-
 def _qcew(subset, key, http):
     return qcew.fetch([s.source_id for s in subset], http_get=http)
 
@@ -109,7 +105,9 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             "APTLIST": _aptlist, "USDA": _usda, "AAA": _aaa, "MND": _mnd,
             "MANHEIM": _manheim, "CLEVELAND": _cleveland,
             "KALSHI": _kalshi, "STREET": _street,
-            "EIA_STATE": _eia_state, "QCEW": _qcew}
+            # EIA_STATE is a separate source key only for failure isolation
+            # and its own status row — the fetch mechanics are plain EIA.
+            "EIA_STATE": _eia, "QCEW": _qcew}
 
 # BLS posts; everything else gets. collect_all passes the right client through.
 POST_SOURCES = {"BLS"}
