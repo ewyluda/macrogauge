@@ -137,7 +137,11 @@ export default function Home() {
         <KpiCard
           label="Next CPI · ensemble MoM"
           value={nextprint.ensemble.value == null ? "—" : `${nextprint.ensemble.value.toFixed(2)}%`}
-          context={`${nextprint.reference_month} · releases ${nextprint.release_date ?? "TBA"}`}
+          context={
+            nextprint.reference_month
+              ? `${nextprint.reference_month} · releases ${nextprint.release_date ?? "TBA"}`
+              : "TBA (release calendar awaiting refresh)"
+          }
           accent="emerald"
         />
       </div>
@@ -176,7 +180,7 @@ export default function Home() {
 
       <div className="dashboard-row">
         <section className="dashboard-panel next-print-panel">
-          <div className="panel-title">◴ Next CPI print — {nextprint.reference_month}</div>
+          <div className="panel-title">◴ Next CPI print — {nextprint.reference_month ?? "TBA"}</div>
           <div className="release-date">{nextprint.release_date ?? "TBA"}</div>
           <div className="panel-muted">BLS release · previous print {fmtPct(cpi.yoy_pct)} YoY</div>
           <div className="forecast-strip">

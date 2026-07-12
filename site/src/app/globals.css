@@ -24,22 +24,29 @@ body {
 }
 
 a { transition: color 140ms ease, background 140ms ease; }
-a:hover { color: var(--text) !important; }
+/* !important beats the nav links' inline muted color; scoped to the nav so
+   intentionally accent-colored links elsewhere keep their color on hover. */
+.site-nav a:hover { color: var(--text) !important; }
 
-.page-shell { width: 100%; max-width: 1720px; margin: 0 auto; padding: 20px; }
+/* 1200px is the site-wide canvas every page was designed for; only the
+   homepage dashboard opts into the wide layout. */
+.page-shell { width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px; }
+.page-shell:has(.home-dashboard) { max-width: 1720px; }
 .site-header { display: flex; align-items: center; gap: 18px; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
 .header-primary { min-width: 0; display: flex; align-items: center; gap: 22px; }
 .wordmark { font-size: 18px; font-weight: 800; letter-spacing: .16em; white-space: nowrap; }
 .site-nav { display: flex; align-items: center; gap: 4px; font-size: 12px; overflow-x: auto; scrollbar-width: none; }
 .site-nav a { padding: 7px 9px; border-radius: 7px; white-space: nowrap; }
-.site-nav a:first-child { color: var(--accent-sky) !important; background: rgba(56,189,248,.09); }
 .header-status { display: flex; gap: 8px; align-items: center; white-space: nowrap; }
 
 .home-dashboard { padding-bottom: 24px; }
 .home-kicker { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .07em; margin: 14px 0; display: flex; gap: 10px; flex-wrap: wrap; }
 .home-kicker span + span::before { content: "·"; margin-right: 10px; color: #46515d; }
 .headline-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
-.kpi-card { min-width: 0; min-height: 146px; }
+/* Default preserves the pre-dashboard flex-row contract every other page
+   relies on; the homepage's dense grid opts out below. */
+.kpi-card { min-width: 220px; }
+.headline-grid .kpi-card { min-width: 0; min-height: 146px; }
 .section { margin-top: 30px; }
 .section-featured { margin-top: 14px; padding: 16px; background: var(--card); border: 1px solid var(--border); border-radius: 11px; }
 .hero-chart-card { padding: 0 2px; }
@@ -123,6 +130,6 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
 
 @media (max-width: 430px) {
   .headline-grid { grid-template-columns: 1fr; }
-  .kpi-card { min-height: 0; }
+  .headline-grid .kpi-card { min-height: 0; }
   .outlook-drivers { grid-template-columns: 1fr; }
 }
