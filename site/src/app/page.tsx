@@ -8,6 +8,7 @@ import gaptable from "../../public/data/gaptable.json";
 import grocery from "../../public/data/grocery_basket.json";
 import nextprintJson from "../../public/data/nextprint.json";
 import fuelJson from "../../public/data/fuel.json";
+import outlookJson from "../../public/data/outlook.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DeltaChip } from "@/components/DeltaChip";
 import { StatusPill } from "@/components/StatusPill";
@@ -18,12 +19,14 @@ import { QuiltHeatmap } from "@/components/QuiltHeatmap";
 import { GapTable } from "@/components/GapTable";
 import { GapDecomposition } from "@/components/GapDecomposition";
 import { SparklineCard } from "@/components/SparklineCard";
+import { OutlookChart } from "@/components/OutlookChart";
 import { fmtMonth, fmtPct, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
-import type { Fuel, NextPrint } from "@/lib/types";
+import type { Fuel, NextPrint, Outlook } from "@/lib/types";
 
 // Cast, don't infer: these artifacts legally degrade (see lib/types.ts).
 const nextprint = nextprintJson as NextPrint;
 const fuel = fuelJson as Fuel;
+const outlook = outlookJson as Outlook;
 
 const GROUP_TITLES: Record<string, string> = {
   grocery: "Grocery basket",
@@ -257,6 +260,10 @@ export default function Home() {
             ] - 100
           }
         />
+      </Section>
+
+      <Section title="Macrogauge outlook — next 12 months" featured>
+        <OutlookChart outlook={outlook} />
       </Section>
 
       <Section title="Inflation quilt — every component, every month">

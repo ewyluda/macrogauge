@@ -10,8 +10,8 @@ FRESH = {"series_code": "CPIAUCNS", "month": "2026-05-01",
 
 def test_all_green_when_fresh():
     r = qa.run_checks(FRESH, today="2026-07-07")
-    # headline_current, yoy_finite, engine_ok, nowcast_ok, composites_ok
-    assert (r["passed"], r["total"]) == (5, 5)
+    # headline_current, yoy_finite, engine_ok, nowcast_ok, outlook_ok, composites_ok
+    assert (r["passed"], r["total"]) == (6, 6)
     assert all(c["pass"] for c in r["checks"])
 
 
@@ -19,7 +19,7 @@ def test_stale_headline_fails():
     r = qa.run_checks(FRESH, today="2026-10-01")  # 153 days after 2026-05-01
     by_name = {c["name"]: c for c in r["checks"]}
     assert by_name["headline_current"]["pass"] is False
-    assert r["passed"] == 4
+    assert r["passed"] == 5
 
 
 def test_nan_yoy_fails():
@@ -45,7 +45,7 @@ def test_connector_and_freshness_checks_green():
                       source_results=[_res("FRED", True), _res("EIA", True)],
                       freshness=[{"code": "CPIAUCNS", "latest_obs": "2026-05-01",
                                   "limit_days": 80}])
-    assert (r["passed"], r["total"]) == (7, 7)
+    assert (r["passed"], r["total"]) == (8, 8)
 
 
 def test_connector_failure_flagged_not_critical():
@@ -158,6 +158,16 @@ def test_nowcast_error_fails_nowcast_ok_without_touching_engine_ok():
     eng = [c for c in r["checks"] if c["name"] == "engine_ok"][0]
     assert now["pass"] is False and "release calendar" in now["detail"]
     assert eng["pass"] is True  # nowcast failure is isolated from the gauge engine
+
+
+def test_outlook_error_fails_outlook_ok_without_touching_engine_ok():
+    r = qa.run_checks(FRESH, today="2026-07-08", gauge=GAUGE_OK,
+                      outlook_error="RuntimeError: forecast base missing")
+    outlook = _by_name(r, "outlook_ok")
+    eng = _by_name(r, "engine_ok")
+    assert outlook["pass"] is False and "forecast base" in outlook["detail"]
+    assert outlook["critical"] is False
+    assert eng["pass"] is True
 
 
 def test_composites_error_fails_composites_ok_without_touching_engine_ok():

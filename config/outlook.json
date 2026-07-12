@@ -1,0 +1,56 @@
+{
+  "model": "macrogauge_outlook_v1",
+  "horizon_months": 12,
+  "history_months": 25,
+  "baseline_annual_pct": 2.0,
+  "volatility_lookback_months": 60,
+  "volatility_fallback_pp": 0.35,
+  "trailing_median_months": 6,
+  "shelter_half_life_months": 6,
+  "fuel": {
+    "lookback_months": 2,
+    "pass_through": 0.85,
+    "horizon_months": 2,
+    "series": {"fmp_rbob": 0.6, "fmp_wti": 0.4}
+  },
+  "food_home": {
+    "lookback_months": 3,
+    "pass_through": 0.15,
+    "horizon_months": 4,
+    "series": [
+      "fmp_corn",
+      "fmp_wheat",
+      "fmp_soybeans",
+      "fmp_soybean_oil",
+      "fmp_coffee",
+      "fmp_sugar",
+      "fmp_cocoa",
+      "fmp_live_cattle"
+    ]
+  },
+  "nat_gas": {
+    "series": "fmp_natgas",
+    "lookback_months": 3,
+    "pass_through": 0.35,
+    "start_month": 2,
+    "end_month": 6
+  },
+  "used_vehicles": {
+    "series": "manheim_uvvi_m",
+    "lookback_months": 3,
+    "pass_through": 0.7,
+    "horizon_months": 3
+  },
+  "wages": {
+    "series": "FRBATLWGT3MMAUMHWGO",
+    "anchor_weight": 0.25,
+    "service_components": ["food_away", "medical", "recreation", "education_comm", "other"]
+  },
+  "goods_pipeline": {
+    "series": ["PPIACO", "PCUOMFGOMFG", "IREXPETCOM"],
+    "lookback_months": 3,
+    "strength": 0.5,
+    "annual_cap_pp": 1.0,
+    "components": ["new_vehicles", "apparel", "other"]
+  }
+}
