@@ -33,7 +33,9 @@ def fake_get(url, params=None, timeout=None, **kw):
                              "<td>0.18</td><td>0.22</td><td>07/10</td></tr>")
     if "external-api.kalshi.com" in url:
         return FakeResponse({"markets": [{"floor_strike": 0.2,
-                                           "last_price_dollars": "1.0"}]})
+                                           "last_price_dollars": "1.0",
+                                           "event_ticker": "KXCPI-26JUL",
+                                           "close_time": "2026-08-11T00:00:00Z"}]})
     if "fiscaldata.treasury.gov" in url:
         return FakeResponse(json.loads((FIXTURES / "treasury_debt.json").read_text()))
     if "zillowstatic.com" in url:

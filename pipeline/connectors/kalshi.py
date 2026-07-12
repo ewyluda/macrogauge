@@ -1,10 +1,29 @@
 """Kalshi public market-data connector for CPI threshold probabilities."""
+import re
+
 import requests
 
 from pipeline.connectors.fred import today_et
+from pipeline.dates import month_first, prior_month
 from pipeline.models import Observation
 
 URL = "https://external-api.kalshi.com/trade-api/v2/markets"
+
+MONTHS = {"JAN": 1, "FEB": 2, "MAR": 3, "APR": 4, "MAY": 5, "JUN": 6,
+          "JUL": 7, "AUG": 8, "SEP": 9, "OCT": 10, "NOV": 11, "DEC": 12}
+TICKER_RE = re.compile(r"-(\d{2})([A-Z]{3})$")
+
+
+def _reference_month(event_ticker: str, close_time: str | None) -> str:
+    """KXCPI-26JUN names the June data month. Fallback: markets close on
+    release morning, and a CPI release covers the prior calendar month."""
+    m = TICKER_RE.search(event_ticker or "")
+    if m and m[2] in MONTHS:
+        return f"20{m[1]}-{MONTHS[m[2]]:02d}-01"
+    if close_time:
+        return prior_month(month_first(close_time[:10]))
+    raise ValueError("cannot derive Kalshi reference month "
+                     f"(ticker={event_ticker!r}, no close_time)")
 
 
 def fetch(series_ticker: str = "KXCPI", vintage_date: str | None = None,
@@ -28,8 +47,9 @@ def fetch(series_ticker: str = "KXCPI", vintage_date: str | None = None,
     events: dict[str, list[dict]] = {}
     for market in markets:
         events.setdefault(market.get("event_ticker", ""), []).append(market)
-    nearest = min(events.values(),
-                  key=lambda ms: min(m.get("close_time") or "9999" for m in ms))
+    ticker, nearest = min(
+        events.items(),
+        key=lambda kv: min(m.get("close_time") or "9999" for m in kv[1]))
     # These are cumulative "Above X%" binaries: price ≈ P(MoM > strike), a
     # survival curve — bucket masses are adjacent-price differences, valued at
     # bracket midpoints (tails extend half a typical bracket past the edge).
@@ -46,5 +66,8 @@ def fetch(series_ticker: str = "KXCPI", vintage_date: str | None = None,
               + [a - b for a, b in zip(probs, probs[1:])]
               + [probs[-1]])
     expected = round(sum(v * m for v, m in zip(values, masses)), 6)
-    return [Observation("kalshi_cpi_mom", vintage, expected, vintage,
+    close = min((m.get("close_time") for m in nearest if m.get("close_time")),
+                default=None)
+    obs_date = _reference_month(ticker, close)
+    return [Observation("kalshi_cpi_mom", obs_date, expected, vintage,
                         "KALSHI", "API")]
