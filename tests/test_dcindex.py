@@ -103,3 +103,64 @@ def test_missing_series_raises_clear_error(tmp_path):
     basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
     with pytest.raises(ValueError):
         dcindex.run(conn, today="2018-01-15", basket_path=basket)
+
+
+def test_parity_pinned_worked_example():
+    # spec §6 pinned formula: mult = w x relative + (1 - w)
+    out = dcindex.parity_rows(
+        power={"ca": ("2026-05-01", 12.0)}, wage={"ca": ("2026-01-01", 2000.0)},
+        nat_power=("2026-05-01", 10.0), nat_wage=("2026-01-01", 1600.0),
+        w_labor=0.30, w_power=0.55)
+    assert out["mode"] == "full"
+    row = out["states"][0]
+    assert row["state"] == "CA"
+    assert row["power_rel"] == pytest.approx(1.2)
+    assert row["ops_mult"] == pytest.approx(0.55 * 1.2 + 0.45)   # 1.11
+    assert row["wage_rel"] == pytest.approx(1.25)
+    assert row["build_mult"] == pytest.approx(0.30 * 1.25 + 0.70)  # 1.075
+    assert row["power_asof"] == "2026-05-01" and row["wage_asof"] == "2026-01-01"
+
+
+def test_parity_degrades_to_ops_only_without_wages():
+    out = dcindex.parity_rows(
+        power={"ca": ("2026-05-01", 12.0)}, wage={},
+        nat_power=("2026-05-01", 10.0), nat_wage=None,
+        w_labor=0.30, w_power=0.55)
+    assert out["mode"] == "ops_only"
+    row = out["states"][0]
+    assert row["ops_mult"] == pytest.approx(1.11)
+    assert row["wage_rel"] is None and row["build_mult"] is None
+
+
+def test_parity_unavailable_without_national_power():
+    out = dcindex.parity_rows(power={"ca": ("2026-05-01", 12.0)}, wage={},
+                              nat_power=None, nat_wage=None,
+                              w_labor=0.30, w_power=0.55)
+    assert out["mode"] == "unavailable" and out["states"] == []
+
+
+def test_parity_from_store_discovers_states(tmp_path):
+    conn = make_conn(tmp_path, [
+        ("eia_elec_ind_us", "2026-05-01", 10.0),
+        ("eia_elec_ind_ca", "2026-05-01", 12.0),
+        ("eia_elec_ind_va", "2026-04-01", 8.0),
+        ("qcew_wage23_us", "2026-01-01", 1600.0),
+        ("qcew_wage23_ca", "2026-01-01", 2000.0),
+    ])
+    # explicit tmp basket with known parity shares: w_labor 0.30, w_power 0.55
+    build = [
+        {"code": "labor", "label": "L", "group": "labor", "series": "ces_constr_ahe", "weight": 0.30},
+        {"code": "rest", "label": "R", "group": "materials", "series": "ppi_steel", "weight": 0.70},
+    ]
+    ops = [
+        {"code": "power", "label": "P", "group": "power", "series": "eia_elec_ind_us", "weight": 0.55},
+        {"code": "ops_wages", "label": "W", "group": "ops_labor", "series": "ces_dp_ahe", "weight": 0.45},
+    ]
+    basket = write_basket(tmp_path, build, ops)
+    out = dcindex.parity_from_store(conn, basket_path=basket)
+    assert out["mode"] == "full"
+    by_state = {r["state"]: r for r in out["states"]}
+    assert set(by_state) == {"CA", "VA"}
+    assert by_state["CA"]["build_mult"] == pytest.approx(1.075)     # 0.30 x 1.25 + 0.70
+    assert by_state["VA"]["ops_mult"] == pytest.approx(0.55 * 0.8 + 0.45)
+    assert by_state["VA"]["build_mult"] is None  # no VA wage row
