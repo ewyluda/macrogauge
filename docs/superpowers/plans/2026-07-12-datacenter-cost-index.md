@@ -440,6 +440,18 @@ In `fake_get`, before the final `raise AssertionError`:
         return _text(FIXTURES / "qcew_industry23.csv")
 ```
 
+Also tighten the existing EIA branch — its `".W" in url` heuristic misfires on the new
+state series (`ELEC.PRICE.WA-IND.M` contains `.W`), which would feed weekly gasoline
+prices into WA/WV/WI/WY power series. Change:
+
+```python
+        name = "eia_weekly.json" if ".W" in url else "eia_monthly.json"
+```
+to
+```python
+        name = "eia_weekly.json" if url.endswith(".W") else "eia_monthly.json"
+```
+
 Update the source-count assertion in `test_end_to_end_all_sources`:
 `assert len(status["sources"]) == 17` (was 15; EIA_STATE routes through the existing
 `api.eia.gov` fake branch — no new fixture needed).
@@ -447,7 +459,9 @@ Update the source-count assertion in `test_end_to_end_all_sources`:
 - [ ] **Step 7: Run the full suite**
 
 Run: `pytest -q`
-Expected: all pass (registry, collect, run_daily end-to-end with 17 sources).
+Expected: all pass (registry, collect, run_daily end-to-end with 17 sources). If any
+other test pins a series/source count (search: `grep -rn "== 99\|== 15\|== 47" tests/`),
+update that pin the same way as test_registry — do not weaken the assertion.
 
 - [ ] **Step 8: Commit**
 
@@ -668,6 +682,9 @@ git commit -m "feat(dc-index): series-level basket config + loader with parity s
 - Produces: `blend.splice_anchored(official: dict[str, float], live: dict[str, float]) -> dict[str, float]` — Task 6 calls it.
 
 - [ ] **Step 1: Write the failing tests (append to `tests/test_blend.py`)**
+
+Match the file's existing import style (it already imports the blend module; ensure
+`import pytest` is present at the top since these tests use `pytest.approx`).
 
 ```python
 def test_splice_anchored_keeps_official_and_scales_tail():
@@ -1030,22 +1047,24 @@ def test_parity_from_store_discovers_states(tmp_path):
         ("qcew_wage23_us", "2026-01-01", 1600.0),
         ("qcew_wage23_ca", "2026-01-01", 2000.0),
     ])
-    basket = write_basket(tmp_path, TWO_COMP_BUILD[:1] | {}, ONE_COMP_OPS) if False else None
-    # real dc_basket shares: use an explicit tmp basket with known shares
-    build = [{"code": "a", "label": "A", "group": "labor", "series": "ppi_steel", "weight": 0.30},
-             {"code": "b", "label": "B", "group": "materials", "series": "ppi_concrete", "weight": 0.70}]
-    basket = write_basket(tmp_path, build, ONE_COMP_OPS)
+    # explicit tmp basket with known parity shares: w_labor 0.30, w_power 0.55
+    build = [
+        {"code": "labor", "label": "L", "group": "labor", "series": "ces_constr_ahe", "weight": 0.30},
+        {"code": "rest", "label": "R", "group": "materials", "series": "ppi_steel", "weight": 0.70},
+    ]
+    ops = [
+        {"code": "power", "label": "P", "group": "power", "series": "eia_elec_ind_us", "weight": 0.55},
+        {"code": "ops_wages", "label": "W", "group": "ops_labor", "series": "ces_dp_ahe", "weight": 0.45},
+    ]
+    basket = write_basket(tmp_path, build, ops)
     out = dcindex.parity_from_store(conn, basket_path=basket)
     assert out["mode"] == "full"
     by_state = {r["state"]: r for r in out["states"]}
     assert set(by_state) == {"CA", "VA"}
-    assert by_state["CA"]["build_mult"] == pytest.approx(1.075)
+    assert by_state["CA"]["build_mult"] == pytest.approx(1.075)     # 0.30 x 1.25 + 0.70
     assert by_state["VA"]["ops_mult"] == pytest.approx(0.55 * 0.8 + 0.45)
     assert by_state["VA"]["build_mult"] is None  # no VA wage row
 ```
-
-Note the stray `if False else None` line above is a placeholder-guard mistake — write
-the test WITHOUT it (only the explicit `build`/`basket` lines that follow it).
 
 - [ ] **Step 2: Run to verify failure**
 
