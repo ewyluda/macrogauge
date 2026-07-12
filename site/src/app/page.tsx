@@ -18,7 +18,6 @@ import { QuiltHeatmap } from "@/components/QuiltHeatmap";
 import { GapTable } from "@/components/GapTable";
 import { GapDecomposition } from "@/components/GapDecomposition";
 import { SparklineCard } from "@/components/SparklineCard";
-import { ForecastTable } from "@/components/ForecastTable";
 import { fmtMonth, fmtPct, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
 import type { Fuel, NextPrint } from "@/lib/types";
 
@@ -93,21 +92,32 @@ export default function Home() {
   const gold = quote("fmp_gold");
   const debt = quote("fiscal_debt_total");
   const groups = ["grocery", "energy", "rates", "markets", "fiscal"] as const;
+  const movers = [...official.components]
+    .sort((a, b) => Math.abs(b.mom_pct) - Math.abs(a.mom_pct))
+    .slice(0, 6);
 
   return (
-    <div>
-      <div style={{ color: "var(--muted)", fontSize: 13, marginTop: 16 }}>
-        daily US inflation &amp; macro · published {pulse.published_at} ·
-        independent gauge + official data
+    <div className="home-dashboard">
+      <div className="home-kicker">
+        <span>Daily US inflation &amp; macro</span>
+        <span>Published {pulse.published_at}</span>
+        <span>{pulse.gauge.coverage_pct.toFixed(0)}% live basket coverage</span>
       </div>
 
-      <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 24 }}>
+      <div className="headline-grid">
         <KpiCard
           label="Macrogauge · YoY"
           value={fmtPct(pulse.gauge.yoy_pct)}
-          context={`${pulse.gauge.coverage_pct.toFixed(0)}% live weight · as of ${pulse.gauge.as_of}`}
+          context={`CPI-comparable · as of ${pulse.gauge.as_of}`}
           accent="sky"
           chip={<DeltaChip value={pulse.gap_pp} prefix="vs official" pp />}
+        />
+        <KpiCard
+          label="CPI-Tracker · YoY"
+          value={fmtPct(pulse.tracker.yoy_pct)}
+          context="BLS shelter dynamics · built to re-track the print"
+          accent="violet"
+          chip={<DeltaChip value={pulse.tracker.yoy_pct - cpi.yoy_pct} prefix="gap" pp />}
         />
         <KpiCard
           label="Official CPI · YoY"
@@ -121,66 +131,16 @@ export default function Home() {
           context={`${fmtMonth(core.month)} print · prev ${fmtPct(core.prev_yoy_pct)} · as of ${core.as_of}`}
           accent="amber"
         />
-        {gas && (
-          <KpiCard
-            label="Gas · regular"
-            value={fmtMoney(gas.latest, gas.unit)}
-            context={`${fmtSigned(gas.yoy_pct)} YoY · wk of ${gas.obs_date}`}
-            accent="sky"
-          />
-        )}
-        {mortgage && (
-          <KpiCard
-            label="30yr mortgage"
-            value={fmtMoney(mortgage.latest, mortgage.unit)}
-            context={`${fmtSigned(mortgage.yoy_pct)} YoY · ${mortgage.obs_date}`}
-            accent="sky"
-          />
-        )}
-        {gold && (
-          <KpiCard
-            label="Gold"
-            value={fmtMoney(gold.latest, gold.unit)}
-            context={`${fmtSigned(gold.yoy_pct)} YoY · ${gold.obs_date}`}
-            accent="violet"
-          />
-        )}
-        {debt && (
-          <KpiCard
-            label="Public debt"
-            value={`$${(debt.latest / 1e12).toFixed(2)}T`}
-            context={`${fmtSigned(debt.yoy_pct)} YoY · ${debt.obs_date}`}
-            accent="violet"
-          />
-        )}
+        <KpiCard
+          label="Next CPI · ensemble MoM"
+          value={nextprint.ensemble.value == null ? "—" : `${nextprint.ensemble.value.toFixed(2)}%`}
+          context={`${nextprint.reference_month} · releases ${nextprint.release_date ?? "TBA"}`}
+          accent="emerald"
+        />
       </div>
 
-      <Section title={nextprint.release_date
-          ? `Next CPI print — ${nextprint.reference_month} · ${nextprint.release_date}`
-          : "Next CPI print — TBA (release calendar awaiting refresh)"}>
-        <div className="kpi-row">
-          <KpiCard label="Ensemble · MoM"
-            value={nextprint.ensemble.value == null ? "—" : `${nextprint.ensemble.value.toFixed(2)}%`}
-            context={`${nextprint.forecasters.length} available forecasters · unavailable inputs excluded`}
-            accent="sky" />
-          <KpiCard label="Fuel · two-week forward"
-            value={fuel.forward_2wk == null ? "—" : `$${fuel.forward_2wk.toFixed(3)}`}
-            context={fuel.available && fuel.proxy ? `${fuel.proxy} · ${fuel.as_of}` : "awaiting sufficient market history"}
-            accent="amber" />
-        </div>
-        <ForecastTable rows={nextprint.forecasters} />
-        <div className="method">Fuel formula: {fuel.formula}</div>
-      </Section>
-
-      <Section title="Macrogauge vs official — YoY since 2018">
-        <div
-          style={{
-            background: "var(--card)",
-            border: "1px solid var(--border)",
-            borderRadius: 10,
-            padding: "12px 8px 4px",
-          }}
-        >
+      <Section title="Macrogauge vs official — YoY since 2018" featured>
+        <div className="hero-chart-card">
           <HeroChart
             dates={gaugeDaily.variants.gauge.dates}
             gauge={gaugeDaily.variants.gauge.yoy_pct}
@@ -190,7 +150,7 @@ export default function Home() {
             core={compare.official_core_yoy_pct}
           />
         </div>
-        <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 8 }}>
+        <div className="chart-caption">
           {compare.validation.gauge.lead_lag ? (
             <>
               <span style={{ color: "var(--accent-sky)", fontWeight: 600 }}>
@@ -210,6 +170,52 @@ export default function Home() {
           live data
         </div>
       </Section>
+
+      <div className="dashboard-row">
+        <section className="dashboard-panel next-print-panel">
+          <div className="panel-title">◴ Next CPI print — {nextprint.reference_month}</div>
+          <div className="release-date">{nextprint.release_date ?? "TBA"}</div>
+          <div className="panel-muted">BLS release · previous print {fmtPct(cpi.yoy_pct)} YoY</div>
+          <div className="forecast-strip">
+            {nextprint.forecasters.map((forecaster) => (
+              <div key={forecaster.name} className="forecast-call">
+                <span>{forecaster.name}</span>
+                <strong>{forecaster.value == null ? "—" : `${forecaster.value.toFixed(2)}%`}</strong>
+              </div>
+            ))}
+          </div>
+          <div className="panel-foot">
+            Ensemble {nextprint.ensemble.value == null ? "—" : `${nextprint.ensemble.value.toFixed(2)}%`} MoM · all available calls equally weighted
+          </div>
+        </section>
+
+        <section className="dashboard-panel market-panel">
+          <div className="panel-title">▥ Market pulse — live transmission channels</div>
+          <div className="market-grid">
+            {gas && <div><span>Regular gas</span><strong>{fmtMoney(gas.latest, gas.unit)}</strong><small>{fmtSigned(gas.yoy_pct)} YoY</small></div>}
+            {mortgage && <div><span>30Y mortgage</span><strong>{fmtMoney(mortgage.latest, mortgage.unit)}</strong><small>{fmtSigned(mortgage.yoy_pct)} YoY</small></div>}
+            {gold && <div><span>Gold</span><strong>{fmtMoney(gold.latest, gold.unit)}</strong><small>{fmtSigned(gold.yoy_pct)} YoY</small></div>}
+            {debt && <div><span>Public debt</span><strong>${(debt.latest / 1e12).toFixed(2)}T</strong><small>{fmtSigned(debt.yoy_pct)} YoY</small></div>}
+          </div>
+          <div className="panel-foot">
+            Fuel 2-week forward {fuel.forward_2wk == null ? "—" : `$${fuel.forward_2wk.toFixed(3)}`} · {fuel.as_of ?? "awaiting data"}
+          </div>
+        </section>
+
+        <section className="dashboard-panel movers-panel">
+          <div className="panel-title">ϟ Top movers — official CPI</div>
+          <div className="mover-list">
+            {movers.map((mover) => (
+              <div key={mover.code}>
+                <span>{mover.mom_pct >= 0 ? "▲" : "▼"} {mover.label}</span>
+                <strong className={mover.mom_pct >= 0 ? "hot" : "cool"}>{fmtSigned(mover.mom_pct)}</strong>
+                <small>MoM</small>
+              </div>
+            ))}
+          </div>
+          <div className="panel-foot">Ranked by absolute monthly move · {fmtMonth(cpi.month)} print</div>
+        </section>
+      </div>
 
       <Section title="Basket treemap — every component, replay 2018 → now">
         <Treemap />

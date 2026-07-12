@@ -39,6 +39,26 @@ const HEADLINES: [string, keyof Compare][] = [
   ["BLS: Core CPI YoY", "official_core_yoy_pct"],
 ];
 
+// Keep this presentation order aligned with Nowflation's public quilt. The
+// codes are MacroGauge's stable artifact keys; labels intentionally match the
+// public comparison surface rather than the longer internal component names.
+const COMPONENT_ROWS: [string, string][] = [
+  ["shelter_rent", "Shelter: Rent"],
+  ["shelter_owned", "Shelter: Owned"],
+  ["fuel", "Motor Fuel"],
+  ["used_vehicles", "Used Vehicles"],
+  ["new_vehicles", "New Vehicles"],
+  ["food_home", "Food at Home"],
+  ["food_away", "Food Away"],
+  ["electricity", "Electricity"],
+  ["nat_gas", "Utility Gas"],
+  ["medical", "Medical Care"],
+  ["apparel", "Apparel"],
+  ["recreation", "Recreation"],
+  ["education_comm", "Education & Comm"],
+  ["other", "Everything Else"],
+];
+
 /** BLS trailing months where the print lags stay null — rendered empty,
  *  never forward-filled. */
 function headlineRows(months: string[], compare: Compare): QuiltRow[] {
@@ -110,12 +130,10 @@ export function QuiltHeatmap() {
     );
   }
 
-  // rows ordered by basket weight, heaviest first (shelter rows on top)
-  const comps = [...quilt.components].sort((a, b) => b.weight - a.weight);
-  const compRows: QuiltRow[] = comps.map((c) => ({
-    label: c.label,
-    values: c.ours_yoy_pct,
-  }));
+  const compRows: QuiltRow[] = COMPONENT_ROWS.flatMap(([code, label]) => {
+    const component = quilt.components.find((candidate) => candidate.code === code);
+    return component ? [{ label, values: component.ours_yoy_pct }] : [];
+  });
   const hRows = headlineRows(quilt.months, compare);
   const asOf = quilt.months[quilt.months.length - 1];
 
