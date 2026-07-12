@@ -21,7 +21,7 @@ def fake_get(url, params=None, timeout=None, **kw):
         assert params["file_type"] == "json"
         return FakeResponse(json.loads((FIXTURES / "fred_cpiaucns.json").read_text()))
     if "api.eia.gov" in url:
-        name = "eia_weekly.json" if ".W" in url else "eia_monthly.json"
+        name = "eia_weekly.json" if url.endswith(".W") else "eia_monthly.json"
         return FakeResponse(json.loads((FIXTURES / name).read_text()))
     if "financialmodelingprep.com" in url:
         if "economic-calendar" in url:
@@ -54,6 +54,8 @@ def fake_get(url, params=None, timeout=None, **kw):
         return _text(FIXTURES / "mnd.html")
     if "manheim.com" in url:
         return _text(FIXTURES / "manheim.html")
+    if "data.bls.gov/cew" in url:
+        return _text(FIXTURES / "qcew_industry23.csv")
     raise AssertionError(f"unexpected url {url}")
 
 
@@ -104,7 +106,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "stress.json", "recession.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 15
+    assert len(status["sources"]) == 17
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp

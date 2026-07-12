@@ -10,14 +10,14 @@ def test_load_real_registry():
     sources, series = registry.load_registry()
     assert set(sources) == {"FRED", "BLS", "EIA", "FMP", "TREASURY", "ZILLOW", "PMMS",
                             "APTLIST", "USDA", "AAA", "MND", "MANHEIM",
-                            "CLEVELAND", "KALSHI", "STREET"}
-    assert len(series) == 110
+                            "CLEVELAND", "KALSHI", "STREET", "EIA_STATE", "QCEW"}
+    assert len(series) == 230
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 48
+    assert len(fred) == 62
     # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
     # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
     # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
@@ -56,7 +56,25 @@ def test_load_real_registry():
             "SAHMREALTIME": "SAHMREALTIME", "T10Y3M": "T10Y3M",
             "NFCI": "NFCI", "CFNAIMA3": "CFNAIMA3",
             "RECPROUSM156N": "RECPROUSM156N",
+            "ces_constr_ahe": "CES2000000003",
+            "ppi_elec_contr": "PCU23821X23821X",
+            "ppi_plumb_hvac": "PCU23822X23822X",
+            "ppi_steel": "WPU1017",
+            "ppi_concrete": "PCU327320327320",
+            "ppi_copper_wire": "WPU10260314",
+            "ppi_alum_shapes": "WPU102501",
+            "ppi_switchgear": "WPU1175",
+            "ppi_transformer": "WPU1174",
+            "ppi_genset": "PCU333611333611",
+            "ppi_hvac_equip": "PCU333415333415",
+            "ppi_pumps": "WPU1141",
+            "ces_dp_ahe": "CES5000000003",
+            "ppi_mach_repair": "PCU811310811310",
         }
+    assert sources["QCEW"].secret is None and sources["QCEW"].route == "CSV"
+    assert sources["EIA_STATE"].secret == "EIA_API_KEY"
+    assert sum(1 for s in series if s.source == "EIA_STATE") == 52
+    assert sum(1 for s in series if s.source == "QCEW") == 52
 
 
 def test_duplicate_code_rejected(tmp_path):

@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from pipeline.connectors import (aaa, aptlist, bls, cleveland, eia, fmp, fred, kalshi,
-                                 manheim, mnd, pmms, street, treasury, usda, zillow)
+                                 manheim, mnd, pmms, qcew, street, treasury, usda, zillow)
 from pipeline.registry import Series, Source
 from pipeline.store import vintage
 
@@ -96,11 +96,20 @@ def _street(subset, key, http):
     return street.fetch(key, http_get=http)
 
 
+def _eia_state(subset, key, http):
+    return eia.fetch([s.source_id for s in subset], key, http_get=http)
+
+
+def _qcew(subset, key, http):
+    return qcew.fetch([s.source_id for s in subset], http_get=http)
+
+
 FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             "TREASURY": _treasury, "ZILLOW": _zillow, "PMMS": _pmms,
             "APTLIST": _aptlist, "USDA": _usda, "AAA": _aaa, "MND": _mnd,
             "MANHEIM": _manheim, "CLEVELAND": _cleveland,
-            "KALSHI": _kalshi, "STREET": _street}
+            "KALSHI": _kalshi, "STREET": _street,
+            "EIA_STATE": _eia_state, "QCEW": _qcew}
 
 # BLS posts; everything else gets. collect_all passes the right client through.
 POST_SOURCES = {"BLS"}
