@@ -26,7 +26,7 @@ export function ParityTable({ states, mode }: { states: ParityRow[]; mode: strin
   });
   const th = (label: string, k: Key) => (
     <th style={{ cursor: "pointer" }}
-        onClick={() => (k === key ? setAsc(!asc) : (setKey(k), setAsc(false)))}>
+        onClick={() => (k === key ? setAsc(!asc) : (setKey(k), setAsc(k === "state")))}>
       {label}{key === k ? (asc ? " ↑" : " ↓") : ""}
     </th>
   );
@@ -47,6 +47,8 @@ export function ParityTable({ states, mode }: { states: ParityRow[]; mode: strin
       </table>
       {mode === "ops_only" ? (
         <p className="method">Build parity unavailable this run (QCEW wages missing) — showing power-driven ops parity only.</p>
+      ) : states.some((s) => s.build_mult == null) ? (
+        <p className="method">— in the Build column: BLS suppresses small-cell QCEW wages for these states, so no current-quarter wage relative exists.</p>
       ) : null}
     </div>
   );

@@ -2,6 +2,7 @@ import dc from "../../../public/data/datacenter.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DcIndexChart } from "@/components/DcIndexChart";
 import { ParityTable, type ParityRow } from "@/components/ParityTable";
+import { fmtSigned, fmtPp } from "@/lib/format";
 
 type Comp = {
   code: string; label: string; group: string; weight: number; mode: string;
@@ -9,10 +10,6 @@ type Comp = {
 };
 
 const GROUPS = dc.group_labels as Record<string, string>;
-
-function fmtPct(v: number | null): string {
-  return v == null ? "—" : `${v >= 0 ? "+" : ""}${v.toFixed(1)}%`;
-}
 
 function ComponentTable({ title, comps }: { title: string; comps: Comp[] }) {
   const max = Math.max(...comps.map((c) => Math.abs(c.contribution_pp ?? 0)), 0.01);
@@ -26,13 +23,13 @@ function ComponentTable({ title, comps }: { title: string; comps: Comp[] }) {
             <td>{c.label}</td>
             <td>{GROUPS[c.group] ?? c.group}</td>
             <td>{(c.weight * 100).toFixed(0)}%</td>
-            <td>{fmtPct(c.yoy_pct)}</td>
+            <td>{fmtSigned(c.yoy_pct)}</td>
             <td>
               <span style={{ display: "inline-block", verticalAlign: "middle",
                              height: 8, borderRadius: 2,
                              width: `${(Math.abs(c.contribution_pp ?? 0) / max) * 90}px`,
                              background: (c.contribution_pp ?? 0) >= 0 ? "var(--accent-red)" : "var(--accent-emerald)" }} />
-              <span style={{ marginLeft: 6 }}>{c.contribution_pp == null ? "—" : `${c.contribution_pp.toFixed(2)}pp`}</span>
+              <span style={{ marginLeft: 6 }}>{fmtPp(c.contribution_pp)}</span>
             </td>
             <td>{c.mode === "official+proxy" ? "monthly + futures tail" : "monthly official"}</td>
             <td>{c.last_obs}</td>
@@ -50,9 +47,9 @@ export default function Datacenter() {
     <div>
       <h1>Data Center Cost Index <span className="subtitle">facility build & operating input costs — no official DC PPI exists</span></h1>
       <div className="kpi-row">
-        <KpiCard label="DC Build YoY" value={fmtPct(build.headline_yoy_pct)}
+        <KpiCard label="DC Build YoY" value={fmtSigned(build.headline_yoy_pct)}
                  context={`construction input costs · as of ${build.as_of}`} accent="sky" />
-        <KpiCard label="DC Ops YoY" value={fmtPct(ops.headline_yoy_pct)}
+        <KpiCard label="DC Ops YoY" value={fmtSigned(ops.headline_yoy_pct)}
                  context={`operating input costs · as of ${ops.as_of}`} accent="violet" />
       </div>
       <DcIndexChart buildDates={build.dates} buildIndex={build.index}
