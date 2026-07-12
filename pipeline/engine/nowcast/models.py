@@ -145,7 +145,9 @@ def build_latest(conn, gauge_result: dict, next_release: dict | None,
                      vintage.latest(conn, "PCEPI"))
     nfp = nfp_nowcast(vintage.latest(conn, "PAYEMS"), vintage.latest(conn, "ICSA"))
     benchmark_values = benchmarks or {}
-    forecasts = {"macrogauge": cpi["mom_pct"], **benchmark_values}
+    forecasts = {"macrogauge": cpi["mom_pct"],
+                 **{name: b["value"] for name, b in benchmark_values.items()
+                    if b is not None}}
     ens = ensemble(forecasts, {name: None for name in forecasts})
     return {"target": "CPI", "release_date": next_release["date"],
             "reference_month": next_release["reference_month"], "cpi": cpi,

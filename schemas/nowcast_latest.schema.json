@@ -5,7 +5,12 @@
     "published_at": {"type": "string"}, "target": {"const": "CPI"},
     "release_date": {"type": ["string", "null"]}, "reference_month": {"type": ["string", "null"]},
     "cpi": {"$ref": "#/$defs/forecast"}, "pce": {"$ref": "#/$defs/forecast"},
-    "nfp": {"type": ["object", "null"]}, "benchmarks": {"type": "object"},
+    "nfp": {"type": ["object", "null"]},
+    "benchmarks": {"type": "object", "additionalProperties": {"oneOf": [
+      {"type": "null"},
+      {"type": "object", "required": ["value", "as_of"],
+       "properties": {"value": {"type": "number"}, "as_of": {"type": "string"}}}
+    ]}},
     "ensemble": {"type": "object"}, "generated_on": {"type": "string"}
   },
   "$defs": {"forecast": {"type": "object", "required": ["mom_pct", "status", "as_of", "parameters"]}}

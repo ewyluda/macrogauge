@@ -50,3 +50,24 @@ def test_accountability_skips_actual_spanning_missing_month(tmp_path: Path):
     assert "2025-11" not in periods
     assert periods == ["2025-12"]
     assert result["graded"][0]["actual"] == round((101.0 / 100.8 - 1) * 100, 2)
+
+
+def test_latest_benchmarks_filters_to_reference_month(tmp_path: Path):
+    rows = [
+        # old-convention leftover (obs_date = scrape day) must NOT match
+        Observation("kalshi_cpi_mom", "2026-07-10", 0.99, "2026-07-10", "KALSHI", "API"),
+        # new-convention rows: June reference, retrieved on two days (latest vintage wins)
+        Observation("kalshi_cpi_mom", "2026-06-01", 0.21, "2026-07-09", "KALSHI", "API"),
+        Observation("kalshi_cpi_mom", "2026-06-01", 0.22, "2026-07-11", "KALSHI", "API"),
+        Observation("cleveland_cpi_mom", "2026-06-01", 0.18, "2026-07-11", "CLEVELAND", "SCRAPE"),
+    ]
+    vintage.append(rows, tmp_path)
+    out = phase3.latest_benchmarks(vintage.load(tmp_path), "2026-06")
+    assert out["kalshi"] == {"value": 0.22, "as_of": "2026-07-11"}
+    assert out["cleveland"] == {"value": 0.18, "as_of": "2026-07-11"}
+    assert out["street"] is None  # no row for the month
+
+
+def test_latest_benchmarks_none_reference_month(tmp_path: Path):
+    out = phase3.latest_benchmarks(vintage.load(tmp_path), None)
+    assert out == {"cleveland": None, "street": None, "kalshi": None}

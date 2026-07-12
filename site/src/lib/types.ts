@@ -53,7 +53,7 @@ export type Nowcast = {
     parameters: { observations?: number; intercept?: number; cpi_beta?: number; window_months?: number };
   };
   nfp: { change_thousands: number } | null;
-  benchmarks: Record<string, number | null>;
+  benchmarks: Record<string, { value: number; as_of: string } | null>;
   ensemble: { value: number | null; weights: Record<string, number> };
   generated_on: string;
 };

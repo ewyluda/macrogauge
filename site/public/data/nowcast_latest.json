@@ -127,9 +127,15 @@
     }
   },
   "benchmarks": {
-    "cleveland": 0.0,
+    "cleveland": {
+      "value": 0.0,
+      "as_of": "2026-07-11"
+    },
     "street": null,
-    "kalshi": -0.202
+    "kalshi": {
+      "value": -0.202,
+      "as_of": "2026-07-11"
+    }
   },
   "ensemble": {
     "value": -0.12,

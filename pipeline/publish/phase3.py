@@ -26,11 +26,25 @@ def _write(name: str, payload: dict, out_dir: Path, published_at: str) -> Path:
     return path
 
 
-def latest_benchmarks(conn) -> dict[str, float | None]:
+def latest_benchmarks(conn, reference_month: str | None) -> dict[str, dict | None]:
+    """Benchmark forecasts FOR the nowcast's reference month, with real as-of.
+
+    Rows are keyed obs_date = reference-month first (shared connector
+    convention); anything else — old-convention leftovers, a stale prior
+    month — is excluded rather than silently blended into the ensemble."""
     codes = {"cleveland": "cleveland_cpi_mom", "street": "street_cpi_mom",
              "kalshi": "kalshi_cpi_mom"}
-    return {name: (rows[-1][1] if (rows := vintage.latest(conn, code)) else None)
-            for name, code in codes.items()}
+    if reference_month is None:
+        return {name: None for name in codes}
+    out = {}
+    for name, code in codes.items():
+        row = conn.execute(
+            "SELECT value, vintage_date FROM observations "
+            "WHERE series_code = ? AND obs_date = ? "
+            "ORDER BY vintage_date DESC, rowid DESC LIMIT 1",
+            (code, f"{reference_month}-01")).fetchone()
+        out[name] = None if row is None else {"value": row[0], "as_of": row[1]}
+    return out
 
 
 def build_releases(conn) -> dict:
@@ -107,9 +121,10 @@ def build_nextprint(nowcast: dict) -> dict:
     candidates = ([{"name": "Macrogauge", "value": nowcast["cpi"]["mom_pct"],
                     "kind": "model", "as_of": nowcast["cpi"]["as_of"]}]
                   if nowcast["cpi"]["mom_pct"] is not None else [])
-    candidates += [{"name": name.title(), "value": value, "kind": "benchmark",
-                    "as_of": nowcast["generated_on"]}
-                   for name, value in nowcast["benchmarks"].items() if value is not None]
+    candidates += [{"name": name.title(), "value": bench["value"],
+                    "kind": "benchmark", "as_of": bench["as_of"]}
+                   for name, bench in nowcast["benchmarks"].items()
+                   if bench is not None]
     return {"target": "CPI MoM", "release_date": nowcast["release_date"],
             "reference_month": nowcast["reference_month"],
             "ensemble": nowcast["ensemble"], "forecasters": candidates}
