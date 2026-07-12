@@ -50,7 +50,8 @@ visualization (v1 is a sortable table), non-US geographies.
 Backbone series ride **existing connectors** (FRED, BLS, EIA, FMP) — zero new connector
 modules expected (QCEW is the one possible exception, §6). All new series are entries in
 `config/series.json` with per-series `max_staleness_days` (PPI ~45d, EIA state power
-~75d, futures ~5d, QCEW ~200d).
+~75d, futures ~5d, QCEW ~270d — quarterly with a ~5-month publication lag, so the latest
+observation is legitimately ~8 months old just before a release).
 
 ### DC Build (weights sum 1.0, validated on load)
 
@@ -127,10 +128,13 @@ Per state, two multipliers vs the national average, shown as a sortable table:
 
 Parity math: multiplier = weighted blend of the state-varying inputs, renormalized over
 what actually varies by state — materials and equipment are treated as nationally priced
-(true to first order; stated in methodology). So build parity ≈ wage relative weighted at
-the labor share; ops parity ≈ power relative at the power share, wage relative at the
-labor share, maintenance national. Each column shows its as-of date; refresh cadence is
-whatever the source gives (monthly power, quarterly wages).
+(true to first order; stated in methodology). So **build parity** = state construction
+wage relative, weighted at the labor share, renormalized. **Ops parity (v1)** = state
+industrial power price relative at the power share, renormalized — ops labor and
+maintenance are treated as nationally priced in v1 (state facilities-ops wages would
+need QCEW NAICS-518 per state; upgrade only if the spike shows it's as cheap as
+NAICS-23). Each column shows its as-of date; refresh cadence is whatever the source
+gives (monthly power, quarterly wages).
 
 Parity is computed in the engine step from the store (pure function, like everything
 else) and published inside `datacenter.json` — the site computes nothing.
