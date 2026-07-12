@@ -21,6 +21,7 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                artifacts: dict | None = None, nowcast_error: str | None = None,
                outlook_error: str | None = None,
                composites_error: str | None = None,
+               datacenter_error: str | None = None,
                stale_stamps: list[str] | None = None) -> dict:
     if cpi is not None:
         age = (date.fromisoformat(today) - date.fromisoformat(cpi["month"])).days
@@ -58,6 +59,9 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
     checks.append({"name": "composites_ok", "critical": False,
                    "pass": composites_error is None,
                    "detail": composites_error or "composites completed"})
+    checks.append({"name": "datacenter_ok", "critical": False,
+                   "pass": datacenter_error is None,
+                   "detail": datacenter_error or "datacenter completed"})
     if stale_stamps is not None:
         # Files in the out dir whose published_at differs from this run's —
         # leftovers from a prior partial/manual run about to deploy alongside

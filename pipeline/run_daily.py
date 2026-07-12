@@ -4,14 +4,15 @@ Connector failures never block publication — they surface in
 sources_status.json and qa.json, and stale series carry forward.
 
 sources_status publishes FIRST (right after collect): a broken engine must
-never hide a broken source. Four independently isolated try/except blocks
+never hide a broken source. Five independently isolated try/except blocks
 follow: (1) the core gauge engine + writers (cpi -> gauge ->
 pulse/gauge_daily/compare/gaptable/official, surfaces via engine_ok),
 (2) the phase-3 nowcast (surfaces via nowcast_ok — build_latest degrades to
 status "unavailable" rather than raising once the release calendar is
-exhausted), (3) the 12-month component outlook (outlook_ok), and (4) phase-4
+exhausted), (3) the 12-month component outlook (outlook_ok), (4) phase-4
 composites (surfaces via composites_ok, which
-don't depend on the CPI calendar or gauge engine at all). A failure in any
+don't depend on the CPI calendar or gauge engine at all), and (5) the DC cost
+index (surfaces via datacenter_ok). A failure in any
 one block still publishes status+qa (rc 0) without blocking the others —
 but a jsonschema.ValidationError re-raises and fails the run in every block:
 a schema-invalid artifact must never deploy.
@@ -29,14 +30,15 @@ import jsonschema
 from pipeline import basket as basket_mod
 from pipeline import collect, registry, release_calendar
 from pipeline.connectors import fred
+from pipeline.engine import dcindex
 from pipeline.engine import gauge as gauge_engine
 from pipeline.engine import official
 from pipeline.engine import outlook as outlook_engine
 from pipeline.engine.nowcast import build_latest as build_nowcast
 from pipeline.publish import official as official_json
-from pipeline.publish import (compare, composites as composite_json, gaptable, gauge_daily, grocery, methodology,
-                              outlook as outlook_json, phase3, pulse, qa, quilt, real_wages, replay, sources_status,
-                              validate)
+from pipeline.publish import (compare, composites as composite_json, datacenter as datacenter_json, gaptable,
+                              gauge_daily, grocery, methodology, outlook as outlook_json, phase3, pulse, qa, quilt,
+                              real_wages, replay, sources_status, validate)
 from pipeline.store import vintage
 
 SCHEMAS = Path(__file__).parent.parent / "schemas"
@@ -245,6 +247,23 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         composites_error = f"{type(e).__name__}: {e}"
         print(f"COMPOSITES FAILED — {composites_error}")
 
+    # DC cost index (datacenter page): isolated like the three blocks above —
+    # a broken PPI/QCEW/state-power series must never touch the core gauge.
+    datacenter_error = None
+    try:
+        dc_result = dcindex.run(conn, today=today)
+        parity_result = dcindex.parity_from_store(conn)
+        dc_path = datacenter_json.write(
+            datacenter_json.build(dc_result, parity_result),
+            args.out, published_at=published_at)
+        validate.validate_file(dc_path, SCHEMAS / "datacenter.schema.json")
+        print(f"published: {dc_path}")
+    except jsonschema.ValidationError:
+        raise  # contract violation must fail the run — never deploy invalid JSON
+    except Exception as e:  # datacenter isolation: never blocks gauge/nowcast/composites
+        datacenter_error = f"{type(e).__name__}: {e}"
+        print(f"DATACENTER FAILED — {datacenter_error}")
+
     if nowcast_payload is not None:
         artifacts = {**(artifacts or {}), "nowcast": nowcast_payload}
 
@@ -272,6 +291,7 @@ def main(argv=None, http_get=None, http_post=None) -> int:
                                      nowcast_error=nowcast_error,
                                      outlook_error=outlook_error,
                                      composites_error=composites_error,
+                                     datacenter_error=datacenter_error,
                                      fuel_divergence=fuel_div,
                                      artifacts=artifacts,
                                      stale_stamps=stale_stamps),

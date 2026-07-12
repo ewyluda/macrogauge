@@ -40,8 +40,8 @@ Data flows in one direction: **collect → store → engine → publish → vali
 live in one repo.
 
 ### 1. Collection (`pipeline/collect.py`, `pipeline/connectors/`)
-One connector module per source — 15 total: API/CSV (fred, bls, eia, fmp, treasury, zillow, pmms,
-aptlist, usda, kalshi, street) and scrape (aaa, mnd, manheim, cleveland). What gets collected is driven entirely by
+One connector module per source — 16 total: API/CSV (fred, bls, eia, fmp, treasury, zillow, pmms,
+aptlist, usda, kalshi, street, qcew) and scrape (aaa, mnd, manheim, cleveland). What gets collected is driven entirely by
 `config/series.json` (via `pipeline/registry.py`) — the single source of truth for series,
 sources, and per-series `max_staleness_days`.
 
@@ -93,12 +93,12 @@ weights that **must sum to 1.0** (validated on load). Grid start is 2017-01 inte
 YoY bases); writers publish from 2018-01.
 
 ### 4. Publish (`pipeline/publish/`) + orchestration (`pipeline/run_daily.py`)
-25 published files, each with a JSON Schema in `schemas/` validated inline as it lands:
+26 published files, each with a JSON Schema in `schemas/` validated inline as it lands:
 `sources_status`, `pulse`, `gauge_daily`, `replay`, `quilt_months_24`, `quilt_months_48`,
 `quilt_months_all`, `grocery_basket`, `compare`, `gaptable`, `methodology`, `official`,
 `real_wages`, `qa`, plus phase 3 (`nowcast_latest`, `nextprint`, `releases`, `backtest`,
 `fuel`, `accountability_{cpi,pce,nfp}`) and phase 4 composites (`heatcheck`, `stress`,
-`recession`).
+`recession`), plus the DC cost index (`datacenter`).
 The three `quilt_months_*` files share one schema (a window-months slice of the same
 month × component YoY grid), as do the three `accountability_*` files; `grocery_basket`
 is BLS average-price staples.
@@ -106,9 +106,10 @@ is BLS average-price staples.
 `run_daily.py` ordering is deliberate and load-bearing:
 - **`sources_status` publishes FIRST**, right after collect — a broken engine must never hide a
   broken source.
-- The gauge engine, nowcast, and composites run in three ISOLATED `try/except` blocks — a failure
-  in any one still publishes status + qa (exit 0, visible on-site via `engine_ok` / `nowcast_ok` /
-  `composites_ok`) instead of a hard crash or suppressing the other phases.
+- The gauge engine, nowcast, outlook, composites, and DC cost index run in five ISOLATED `try/except`
+  blocks — a failure in any one still publishes status + qa (exit 0, visible on-site via `engine_ok` /
+  `nowcast_ok` / `outlook_ok` / `composites_ok` / `datacenter_ok`) instead of a hard crash or
+  suppressing the other phases.
 - **`jsonschema.ValidationError` re-raises and fails the run** (caught *before* the generic
   `Exception`) — a schema-invalid artifact must never deploy. This ordering is pinned by tests.
 
