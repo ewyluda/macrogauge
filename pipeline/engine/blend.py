@@ -72,3 +72,26 @@ def splice(official: dict[str, float], live: dict[str, float]) -> dict[str, floa
     out = {d: v for d, v in official.items() if d < t0}
     out.update({d: v * scale for d, v in live.items()})
     return out
+
+
+def splice_anchored(official: dict[str, float], live: dict[str, float]) -> dict[str, float]:
+    """Official everywhere it exists; live tail only AFTER the last official
+    obs, scaled to be continuous there — re-anchored every run as new prints
+    land.
+
+    Contrast splice(): that anchors ONCE at the live series' first obs and
+    drops official data after it — right for the gauge's independent
+    re-pricing (live replaces official), wrong for a proxy that merely
+    nowcasts an official backbone (DC index): raw futures are an input to a
+    fabricated-product PPI, not a measure of it, so proxy volatility and
+    contract-roll drift must stay confined to the ~1-2 month tail."""
+    if not official:
+        return dict(live)
+    t0 = max(official)
+    overlap = [d for d in live if d <= t0]
+    if not overlap or not live[max(overlap)]:
+        return dict(official)  # nothing to scale on (or zero): official only
+    scale = official[t0] / live[max(overlap)]
+    out = dict(official)
+    out.update({d: v * scale for d, v in live.items() if d > t0})
+    return out
