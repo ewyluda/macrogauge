@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-12T20:52:08Z",
+  "published_at": "2026-07-12T21:20:09Z",
   "target": "CPI",
   "release_date": "2026-07-14",
   "reference_month": "2026-06",
@@ -127,7 +127,7 @@
     "cleveland": null,
     "street": null,
     "kalshi": {
-      "value": -0.199,
+      "value": -0.195,
       "as_of": "2026-07-12"
     }
   },

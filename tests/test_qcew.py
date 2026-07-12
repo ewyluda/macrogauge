@@ -32,6 +32,14 @@ def test_fetch_filters_to_registered_areas_private_ownership():
         assert o.value > 0
 
 
+def test_disclosure_suppressed_rows_excluded_not_zero():
+    # AK (02000) is disclosure_code "N" with avg_wkly_wage 0 in the fixture —
+    # a genuinely suppressed BLS row, not a real zero wage. Ingesting it as
+    # 0.0 would make AK look ~100% cheaper than national in state parity.
+    obs = qcew.fetch(["US000", "02000"], vintage_date="2026-07-12", http_get=fake_get)
+    assert {o.series_code for o in obs} == {"US000"}
+
+
 def test_recent_quarters_walks_back_across_year_boundary():
     assert qcew._recent_quarters("2026-01-15", n=3) == [(2025, 3), (2025, 4), (2026, 1)]
 

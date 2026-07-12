@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-12T20:52:08Z",
+  "published_at": "2026-07-12T21:20:09Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -18757,9 +18757,9 @@
         "power_rel": 2.8718,
         "ops_mult": 2.0295,
         "power_asof": "2026-04-01",
-        "wage_rel": 0.0,
-        "build_mult": 0.7,
-        "wage_asof": "2025-10-01"
+        "wage_rel": null,
+        "build_mult": null,
+        "wage_asof": null
       },
       {
         "state": "AL",
@@ -18820,9 +18820,9 @@
         "power_rel": 2.5855,
         "ops_mult": 1.872,
         "power_asof": "2026-04-01",
-        "wage_rel": 0.0,
-        "build_mult": 0.7,
-        "wage_asof": "2025-10-01"
+        "wage_rel": null,
+        "build_mult": null,
+        "wage_asof": null
       },
       {
         "state": "DE",
@@ -18919,18 +18919,18 @@
         "power_rel": 0.8268,
         "ops_mult": 0.9047,
         "power_asof": "2026-04-01",
-        "wage_rel": 0.0,
-        "build_mult": 0.7,
-        "wage_asof": "2025-10-01"
+        "wage_rel": null,
+        "build_mult": null,
+        "wage_asof": null
       },
       {
         "state": "MA",
         "power_rel": 2.142,
         "ops_mult": 1.6281,
         "power_asof": "2026-04-01",
-        "wage_rel": 0.0,
-        "build_mult": 0.7,
-        "wage_asof": "2025-10-01"
+        "wage_rel": null,
+        "build_mult": null,
+        "wage_asof": null
       },
       {
         "state": "MD",
@@ -18973,9 +18973,9 @@
         "power_rel": 0.9561,
         "ops_mult": 0.9759,
         "power_asof": "2026-04-01",
-        "wage_rel": 0.0,
-        "build_mult": 0.7,
-        "wage_asof": "2025-10-01"
+        "wage_rel": null,
+        "build_mult": null,
+        "wage_asof": null
       },
       {
         "state": "MS",
@@ -19108,9 +19108,9 @@
         "power_rel": 2.3961,
         "ops_mult": 1.7678,
         "power_asof": "2026-04-01",
-        "wage_rel": 0.0,
-        "build_mult": 0.7,
-        "wage_asof": "2025-10-01"
+        "wage_rel": null,
+        "build_mult": null,
+        "wage_asof": null
       },
       {
         "state": "SC",
@@ -19126,9 +19126,9 @@
         "power_rel": 1.0566,
         "ops_mult": 1.0311,
         "power_asof": "2026-04-01",
-        "wage_rel": 0.0,
-        "build_mult": 0.7,
-        "wage_asof": "2025-10-01"
+        "wage_rel": null,
+        "build_mult": null,
+        "wage_asof": null
       },
       {
         "state": "TN",
@@ -19171,9 +19171,9 @@
         "power_rel": 1.4411,
         "ops_mult": 1.2426,
         "power_asof": "2026-04-01",
-        "wage_rel": 0.0,
-        "build_mult": 0.7,
-        "wage_asof": "2025-10-01"
+        "wage_rel": null,
+        "build_mult": null,
+        "wage_asof": null
       },
       {
         "state": "WA",

@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-07-12T20:52:08Z",
+  "published_at": "2026-07-12T21:20:09Z",
   "stats": {
     "series_count": 230,
-    "obs_count": 75459,
+    "obs_count": 75454,
     "source_count": 17,
     "tracker_corr": 0.9775,
     "live_coverage_pct": 40.5,
@@ -1844,7 +1844,7 @@
       "source": "QCEW",
       "route": "CSV",
       "cadence": "quarterly",
-      "latest_obs": "2025-10-01",
+      "latest_obs": null,
       "fresh": false
     },
     {
@@ -1907,7 +1907,7 @@
       "source": "QCEW",
       "route": "CSV",
       "cadence": "quarterly",
-      "latest_obs": "2025-10-01",
+      "latest_obs": null,
       "fresh": false
     },
     {
@@ -1997,7 +1997,7 @@
       "source": "QCEW",
       "route": "CSV",
       "cadence": "quarterly",
-      "latest_obs": "2025-10-01",
+      "latest_obs": null,
       "fresh": false
     },
     {
@@ -2024,7 +2024,7 @@
       "source": "QCEW",
       "route": "CSV",
       "cadence": "quarterly",
-      "latest_obs": "2025-10-01",
+      "latest_obs": null,
       "fresh": false
     },
     {
@@ -2060,7 +2060,7 @@
       "source": "QCEW",
       "route": "CSV",
       "cadence": "quarterly",
-      "latest_obs": "2025-10-01",
+      "latest_obs": null,
       "fresh": false
     },
     {
@@ -2186,7 +2186,7 @@
       "source": "QCEW",
       "route": "CSV",
       "cadence": "quarterly",
-      "latest_obs": "2025-10-01",
+      "latest_obs": null,
       "fresh": false
     },
     {
@@ -2204,7 +2204,7 @@
       "source": "QCEW",
       "route": "CSV",
       "cadence": "quarterly",
-      "latest_obs": "2025-10-01",
+      "latest_obs": null,
       "fresh": false
     },
     {
@@ -2240,7 +2240,7 @@
       "source": "QCEW",
       "route": "CSV",
       "cadence": "quarterly",
-      "latest_obs": "2025-10-01",
+      "latest_obs": null,
       "fresh": false
     },
     {

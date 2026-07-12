@@ -2,8 +2,10 @@
 
 https://data.bls.gov/cew/data/api/{year}/{qtr}/industry/{naics}.csv returns one
 row per area x ownership for that quarter. We keep own_code 5 (private) rows
-whose area_fips is registered, reading avg_wkly_wage; quarterly observations are
-dated at the quarter's first month. Keyless. QCEW publishes with a ~5-month lag
+whose area_fips is registered, reading avg_wkly_wage; disclosure-suppressed
+rows (small-cell wages BLS zeroes out and flags via disclosure_code) are
+dropped, not ingested as a real 0. Quarterly observations are dated at the
+quarter's first month. Keyless. QCEW publishes with a ~5-month lag
 and revises prior quarters, so each run walks the last N_QUARTERS quarters:
 per-quarter failures are tolerated (the newest quarters 404 until published),
 but zero loaded quarters raises — collect's isolation surfaces it. The store's
@@ -54,11 +56,17 @@ def fetch(area_fips: list[str], vintage_date: str | None = None,
         for row in csv.DictReader(io.StringIO(resp.text)):
             if row["own_code"] != "5" or row["area_fips"] not in wanted:
                 continue
+            # BLS suppresses small cells by zeroing the value and setting
+            # disclosure_code (e.g. "N") rather than omitting the row — a
+            # suppressed 0 is not a real wage and must not be ingested as one.
+            wage = float(row["avg_wkly_wage"])
+            if row["disclosure_code"] or wage <= 0:
+                continue
             month = (int(row["qtr"]) - 1) * 3 + 1
             out.append(Observation(
                 series_code=row["area_fips"],
                 obs_date=f"{row['year']}-{month:02d}-01",
-                value=float(row["avg_wkly_wage"]),
+                value=wage,
                 vintage_date=vintage, source="QCEW", route="CSV"))
     if not loaded:
         raise RuntimeError(f"QCEW: no quarter loaded — {'; '.join(errors)}")
