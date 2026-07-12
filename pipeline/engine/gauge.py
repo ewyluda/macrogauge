@@ -140,6 +140,7 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
             # the grid naturally as later runs' `today` catches up.
             components[c.code] = {
                 "weight": weights[c.code], "mode": modes[c.code],
+                "last_obs": own_end,
                 "yoy_pct": own_yoy[c.code].get(own_end),
                 "end_value": daily[c.code][end],  # end_value stays at grid end; QA uses it
                 "daily_index": daily[c.code],

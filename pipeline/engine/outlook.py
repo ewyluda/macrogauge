@@ -98,6 +98,18 @@ def _monthly_from_annual(annual_pct: float) -> float:
     return ((1 + bounded / 100) ** (1 / 12) - 1) * 100
 
 
+def _blend_label(series_weights: dict[str, float], used: list[str],
+                 display: dict[str, str]) -> str:
+    # Label the composition that actually produced the number: a missing leg
+    # renormalizes the rest, so the configured 60/40 must not be claimed when
+    # only one series had data. With nothing available (fallback), show the
+    # configured composition.
+    subset = {code: series_weights[code] for code in used} or series_weights
+    total = sum(subset.values())
+    return " / ".join(f"{display.get(code, code)} {round(100 * weight / total)}%"
+                      for code, weight in subset.items())
+
+
 def _driver(key: str, name: str, value: float | None, unit: str,
             as_of: str | None, status: str, effect: str,
             sources: list[str]) -> dict:
@@ -113,8 +125,14 @@ def _status(found: int, expected: int) -> str:
     return "live" if found == expected else "partial"
 
 
-def _component_monthly_levels(component: dict, origin_month: str) -> dict[str, float]:
-    return _month_values(component["daily_index"].items(), origin_month)
+def _component_trend_levels(component: dict, origin_month: str) -> dict[str, float]:
+    # Trend estimation must stop at the component's own last real observation:
+    # past it the daily grid is pure forward-fill, so every adjacent-month
+    # "change" is a fabricated 0.0 that drags the trailing median toward zero
+    # (the same like-month rule behind the gauge's own component YoY).
+    last_real_month = component["last_obs"][:7]
+    return _month_values(component["daily_index"].items(),
+                         min(origin_month, last_real_month))
 
 
 def _headline_monthly(index: dict[str, float], origin_month: str) -> dict[str, float]:
@@ -134,11 +152,21 @@ def run(conn, gauge_result: dict, config_path: Path | None = None) -> dict:
     neutral_mom = _monthly_from_annual(float(config["baseline_annual_pct"]))
     trailing_window = int(config["trailing_median_months"])
     component_levels = {
-        code: _component_monthly_levels(component, origin_month)
+        code: _month_values(component["daily_index"].items(), origin_month)
         for code, component in variant["components"].items()
     }
-    base_mom = {code: _median_mom(levels, trailing_window)
-                for code, levels in component_levels.items()}
+    # Base rates come from real observations only (see _component_trend_levels);
+    # a component with no computable change gets the neutral baseline drift, not
+    # frozen prices, and the cap keeps a spiky NSA window (winter utility gas)
+    # from being annualized into an implausible year-long path.
+    trend_cap = float(config["component_trend_annual_cap_pct"])
+    cap_low, cap_high = _monthly_from_annual(-trend_cap), _monthly_from_annual(trend_cap)
+    base_mom = {
+        code: min(cap_high, max(cap_low, _median_mom(
+            _component_trend_levels(component, origin_month), trailing_window,
+            fallback=neutral_mom)))
+        for code, component in variant["components"].items()
+    }
 
     # Forward drivers. Every unavailable value remains None and is disclosed;
     # component paths then use their own trailing median.
@@ -187,38 +215,54 @@ def run(conn, gauge_result: dict, config_path: Path | None = None) -> dict:
                   for code in ("zori_us", "aptlist_us")]
     rent_asof = max((date for date in rent_dates if date is not None), default=None)
 
+    # Every numeric claim in a driver name/effect interpolates the config knob
+    # that drives the math — a tuned knob must never leave a stale receipt.
+    fuel_label = _blend_label(fuel_cfg["series"], fuel_sources,
+                              {"fmp_rbob": "RBOB", "fmp_wti": "WTI"})
     drivers = [
-        _driver("fuel", f"Fuel futures (RBOB 60% / WTI 40%, {fuel_cfg['lookback_months']}mo)",
+        _driver("fuel", f"Fuel futures ({fuel_label}, {fuel_cfg['lookback_months']}mo)",
                 fuel_value, "%", fuel_asof,
                 _status(len(fuel_sources), len(fuel_cfg["series"])),
-                "85% pass-through over two months, then flat", fuel_sources),
-        _driver("shelter", "New-lease rents (ZORI + Apartment List, 6mo median)",
+                f"{fuel_cfg['pass_through']:.0%} pass-through over "
+                f"{fuel_cfg['horizon_months']} months, then flat", fuel_sources),
+        _driver("shelter", f"New-lease rents (ZORI + Apartment List, {trailing_window}mo median)",
                 base_mom.get("shelter_rent"), "%/mo", rent_asof,
                 "live" if rent_asof else "fallback",
-                "drives rent and CPI-comparable OER; six-month half-life", ["zori_us", "aptlist_us"]),
-        _driver("food_home", "Agricultural futures composite (8 contracts, 3mo)",
+                f"drives rent and CPI-comparable OER; "
+                f"{config['shelter_half_life_months']}-month half-life",
+                ["zori_us", "aptlist_us"]),
+        _driver("food_home", f"Agricultural futures composite "
+                f"({len(food_cfg['series'])} contracts, {food_cfg['lookback_months']}mo)",
                 food_value, "%", food_asof,
                 _status(len(food_sources), len(food_cfg["series"])),
-                "15% farm-share pass-through over four months", food_sources),
-        _driver("nat_gas", "Henry Hub natural gas (3mo)", gas_value, "%", gas_asof,
+                f"{food_cfg['pass_through']:.0%} farm-share pass-through over "
+                f"{food_cfg['horizon_months']} months", food_sources),
+        _driver("nat_gas", f"Henry Hub natural gas ({gas_cfg['lookback_months']}mo)",
+                gas_value, "%", gas_asof,
                 "live" if gas_value is not None else "fallback",
-                "35% pass-through into utility rates in months 2–6",
+                f"{gas_cfg['pass_through']:.0%} pass-through into utility rates "
+                f"in months {gas_cfg['start_month']}–{gas_cfg['end_month']}",
                 [gas_cfg["series"]] if gas_value is not None else []),
-        _driver("used_vehicles", "Manheim used wholesale (3mo)", used_value, "%", used_asof,
+        _driver("used_vehicles", f"Manheim used wholesale ({used_cfg['lookback_months']}mo)",
+                used_value, "%", used_asof,
                 "live" if used_value is not None else "fallback",
-                "70% retail pass-through over three months",
+                f"{used_cfg['pass_through']:.0%} retail pass-through over "
+                f"{used_cfg['horizon_months']} months",
                 [used_cfg["series"]] if used_value is not None else []),
         _driver("new_vehicles", "New vehicles (own complete-month trend)",
                 base_mom.get("new_vehicles"), "%/mo", origin_month + "-01", "fallback",
                 "KBB ATP is not yet a stable production input", ["CUUR0000SETA01"]),
         _driver("wages", "Atlanta Fed wage growth", wage_value, "%/yr", wage_asof,
                 "live" if wage_value is not None else "fallback",
-                "25% terminal anchor for food-away and sticky services",
+                f"{wage_cfg['anchor_weight']:.0%} terminal anchor for food-away "
+                f"and sticky services",
                 [wage_cfg["series"]] if wage_value is not None else []),
-        _driver("goods_pipeline", "Ex-energy pipeline (PPI + imports, half strength)",
+        _driver("goods_pipeline", f"Ex-energy pipeline (PPI + imports, "
+                f"{pipe_cfg['strength']:g}× strength)",
                 pipeline_tilt, "pp/yr", pipeline_asof,
                 _status(len(pipe_sources), len(pipe_cfg["series"])),
-                "capped tilt on new vehicles, apparel, and other goods", pipe_sources),
+                f"tilt capped at ±{pipe_cfg['annual_cap_pp']:g}pp/yr on "
+                f"{', '.join(pipe_cfg['components'])}", pipe_sources),
     ]
 
     driver_scores = {"live": 1.0, "partial": 0.5, "fallback": 0.0}
@@ -233,7 +277,10 @@ def run(conn, gauge_result: dict, config_path: Path | None = None) -> dict:
         path = [own] * horizon
         if code in shelter_codes:
             half_life = config["shelter_half_life_months"]
-            path = [neutral_mom + (own - neutral_mom) * 0.5 ** (h / half_life)
+            # (h + 1): forecast month 1 already decays one step, so the excess
+            # over neutral actually halves at the disclosed half-life month
+            # (the wage ramp below indexes months the same way).
+            path = [neutral_mom + (own - neutral_mom) * 0.5 ** ((h + 1) / half_life)
                     for h in range(horizon)]
         elif code == "fuel" and fuel_value is not None:
             shock = _distributed_return(fuel_value * fuel_cfg["pass_through"],
@@ -335,9 +382,11 @@ def run(conn, gauge_result: dict, config_path: Path | None = None) -> dict:
         "driver_coverage_pct": round(driver_coverage, 1),
         "drivers": drivers, "component_paths": component_paths,
         "parameters": config,
-        "method": ("Each of the 14 gauge components receives a 12-month path from forward drivers "
-                   "or its own complete-month trailing median. Component index levels are CPI-weighted; "
-                   "YoY uses actual year-ago levels, so base effects are exact."),
+        "method": (f"Each of the 14 gauge components receives a {horizon}-month path from forward "
+                   f"drivers or the {trailing_window}-month median of its own real complete-month "
+                   f"changes (stopped at its last observation, capped at ±{trend_cap:g}%/yr). "
+                   "Component index levels are CPI-weighted; YoY uses actual year-ago levels, "
+                   "so base effects are exact."),
         "disclaimer": ("Model projection, not a promise or investment advice. The shaded range is a "
                        "realized-volatility band, not a calibrated confidence interval."),
     }

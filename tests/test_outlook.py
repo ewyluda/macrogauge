@@ -8,7 +8,7 @@ from pipeline.publish import outlook as outlook_json, validate
 from pipeline.store import vintage
 
 
-def _gauge_result():
+def _gauge_result(component_overrides=None):
     _, components = basket.load_basket()
     month = "2021-01-01"
     level = 100.0
@@ -20,13 +20,17 @@ def _gauge_result():
         month = next_month(month)
     # Partial January must not become the forecast anchor.
     levels["2025-01-15"] = level * 1.25
+    component_dicts = {
+        c.code: {"weight": c.weight, "daily_index": dict(levels),
+                 "last_obs": "2025-01-15"}
+        for c in components
+    }
+    for code, patch in (component_overrides or {}).items():
+        component_dicts[code].update(patch)
     return {"variants": {"gauge": {
         "as_of": "2025-01-15",
         "index": dict(levels),
-        "components": {
-            c.code: {"weight": c.weight, "daily_index": dict(levels)}
-            for c in components
-        },
+        "components": component_dicts,
     }}}
 
 
@@ -98,6 +102,79 @@ def test_missing_forward_inputs_use_labelled_fallbacks(tmp_path):
     assert statuses["new_vehicles"] == "fallback"
     assert result["driver_coverage_pct"] == 0.0
     assert all(math.isfinite(row["central_yoy_pct"]) for row in result["forecast"])
+
+
+def test_trailing_median_stops_at_last_real_observation(tmp_path):
+    """A lagging component's forward-filled months are fabricated 0.0% changes;
+    they must never enter the trailing median (the gauge's like-month rule)."""
+    conn = vintage.load(tmp_path / "store")
+
+    # medical goes stale after 2024-03: the daily grid forward-fills the level,
+    # so months 2024-04..2024-12 would contribute nine phantom zeros — enough
+    # to force the 12-month median to exactly 0.0 without the truncation.
+    base = _gauge_result()
+    shared = base["variants"]["gauge"]["components"]["medical"]["daily_index"]
+    frozen_level = shared["2024-03-01"]
+    frozen = {date: (value if date <= "2024-03-01" else frozen_level)
+              for date, value in shared.items()}
+    result = outlook.run(conn, _gauge_result(component_overrides={
+        "medical": {"daily_index": frozen, "last_obs": "2024-03-31"}}))
+
+    expected = outlook._median_mom(
+        outlook._month_values(frozen.items(), "2024-03"), 12)
+    assert expected > 0
+    medical = result["component_paths"]["medical"]
+    assert medical[0]["mom_pct"] == round(expected, 4)
+    assert all(row["mom_pct"] != 0.0 for row in medical)
+
+
+def test_component_trend_is_capped_at_config_annual_rate(tmp_path):
+    """A spiky NSA window (winter utility gas) must not be annualized into an
+    implausible year-long path: the base rate is capped at ±cap %/yr."""
+    conn = vintage.load(tmp_path / "store")
+
+    month, level, explosive = "2021-01-01", 100.0, {}
+    for _ in range(49):
+        explosive[month] = level
+        level *= 1.08  # +8%/mo compounds to ~+152%/yr, far beyond the cap
+        month = next_month(month)
+    result = outlook.run(conn, _gauge_result(component_overrides={
+        "electricity": {"daily_index": explosive, "last_obs": "2025-01-01"}}))
+
+    cap_monthly = outlook._monthly_from_annual(20.0)
+    assert result["component_paths"]["electricity"][0]["mom_pct"] == round(cap_monthly, 4)
+
+
+def test_empty_trend_window_falls_back_to_neutral_not_frozen(tmp_path):
+    """No computable real change means the neutral baseline drift — a fully
+    stale source must not converge to a hard 0.0%/mo (frozen prices) path."""
+    conn = vintage.load(tmp_path / "store")
+
+    result = outlook.run(conn, _gauge_result(component_overrides={
+        "used_vehicles": {"last_obs": "2021-01-31"}}))
+
+    neutral = outlook._monthly_from_annual(2.0)
+    assert result["component_paths"]["used_vehicles"][0]["mom_pct"] == round(neutral, 4)
+
+
+def test_fuel_label_reflects_series_actually_used(tmp_path):
+    """The blend label must describe the composition that produced the number:
+    with only WTI in the store, the receipt must not claim a 60/40 blend."""
+    conn = vintage.load(tmp_path / "store")
+    _insert(conn, "fmp_wti", [("2024-10-01", 100.0), ("2024-12-01", 110.0)])
+
+    result = outlook.run(conn, _gauge_result())
+    fuel = result["drivers"][0]
+    assert fuel["name"] == "Fuel futures (WTI 100%, 2mo)"
+    assert fuel["status"] == "partial"
+    assert fuel["sources"] == ["fmp_wti"]
+    assert fuel["effect"] == "85% pass-through over 2 months, then flat"
+
+    conn_full = vintage.load(tmp_path / "store2")
+    _seed_forward_drivers(conn_full)
+    both = outlook.run(conn_full, _gauge_result())
+    assert both["drivers"][0]["name"] == "Fuel futures (RBOB 60% / WTI 40%, 2mo)"
+    assert both["drivers"][0]["status"] == "live"
 
 
 def test_outlook_writer_matches_schema(tmp_path):
