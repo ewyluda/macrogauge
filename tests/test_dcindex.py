@@ -98,6 +98,41 @@ def test_proxy_splice_and_gate(tmp_path):
     assert b["gate_flags"] == []
 
 
+def test_official_print_not_gated_when_proxy_tail_is_empty(tmp_path):
+    # splice_anchored drops proxy points <= the last official print, so when
+    # the proxy has nothing newer, `last` IS an official print. A proxy
+    # vintage correction arriving today for that exact date must NOT let the
+    # gate hold a legitimate >5% official month-over-month move — official
+    # data is trusted, the gate confines the proxy tail only.
+    build = [{"code": "copper_wire", "label": "Copper", "group": "materials",
+              "series": "ppi_copper_wire", "weight": 1.0, "live_proxy": "fmp_copper"}]
+    rows = [
+        ("ppi_copper_wire", "2017-12-01", 100.0), ("ppi_copper_wire", "2018-01-01", 100.0),
+        ("ppi_copper_wire", "2018-02-01", 110.0),  # legitimate +10% print
+        ("fmp_copper", "2018-01-15", 50.0), ("fmp_copper", "2018-02-01", 55.0),
+    ] + OPS_ROWS
+    basket = write_basket(tmp_path, build, ONE_COMP_OPS)
+    conn = make_conn(tmp_path, rows,
+                     vintages={("fmp_copper", "2018-02-01"): "2018-02-15"})
+    result = dcindex.run(conn, today="2018-02-15", basket_path=basket)
+    b = result["indexes"]["build"]
+    assert b["gate_flags"] == []
+    assert b["index"]["2018-02-01"] == pytest.approx(110.0)  # not held at 100
+
+
+def test_component_with_no_grid_observations_raises_named_error(tmp_path):
+    # every steel obs predates GRID_START: the daily grid only carries the
+    # stale value forward, so there is no obs ON the grid to compute YoY at —
+    # must raise a clear error naming the component, not a bare IndexError.
+    conn = make_conn(tmp_path, [
+        ("ppi_steel", "2015-01-01", 100.0), ("ppi_steel", "2016-06-01", 105.0),
+        ("ppi_concrete", "2017-01-01", 200.0), ("ppi_concrete", "2018-01-01", 210.0),
+    ] + OPS_ROWS)
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    with pytest.raises(ValueError, match="steel"):
+        dcindex.run(conn, today="2018-01-15", basket_path=basket)
+
+
 def test_missing_series_raises_clear_error(tmp_path):
     conn = make_conn(tmp_path, OPS_ROWS)  # no build series data at all
     basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
@@ -130,6 +165,30 @@ def test_parity_degrades_to_ops_only_without_wages():
     row = out["states"][0]
     assert row["ops_mult"] == pytest.approx(1.11)
     assert row["wage_rel"] is None and row["build_mult"] is None
+
+
+def test_parity_wage_from_older_quarter_treated_as_missing():
+    # a state whose newest quarter is disclosure-suppressed keeps its prior
+    # quarter in the store; dividing it by the newer national quarter would
+    # bias build_mult low by a quarter of wage growth — degrade to null
+    out = dcindex.parity_rows(
+        power={"ca": ("2026-05-01", 12.0)}, wage={"ca": ("2025-10-01", 1900.0)},
+        nat_power=("2026-05-01", 10.0), nat_wage=("2026-01-01", 1600.0),
+        w_labor=0.30, w_power=0.55)
+    row = out["states"][0]
+    assert row["wage_rel"] is None and row["build_mult"] is None
+    assert row["wage_asof"] is None
+    assert row["ops_mult"] == pytest.approx(1.11)  # power side unaffected
+
+
+def test_by_state_ignores_non_state_suffixes(tmp_path):
+    conn = make_conn(tmp_path, [
+        ("eia_elec_ind_us", "2026-05-01", 10.0),
+        ("eia_elec_ind_ca", "2026-05-01", 12.0),
+        # a future series family sharing the prefix must not become a "state"
+        ("eia_elec_ind_res_tx", "2026-05-01", 9.0),
+    ])
+    assert set(dcindex._by_state(conn, "eia_elec_ind_")) == {"ca"}
 
 
 def test_parity_unavailable_without_national_power():

@@ -48,12 +48,19 @@ def run(conn: sqlite3.Connection, today: str,
             live = _series(conn, comp.live_proxy) if comp.live_proxy else {}
             if live:
                 live_idx = rebase.rebase(live, base_month)
+                official_end = max(idx)
                 idx = blend_mod.splice_anchored(idx, live_idx)
                 last = max(idx)
-                idx, flagged = gate.apply_gate(
-                    idx, _arrived_today(conn, comp.live_proxy, last, today))
-                if flagged:
-                    flags.append(f"{comp.code}@{last}")
+                # Gate only a real proxy tail. When the proxy has no points
+                # past the last official print, `last` IS an official print:
+                # official data is trusted (never held), matching the gauge —
+                # otherwise a proxy vintage correction dated at the print
+                # could hold a legitimate official month-over-month move.
+                if last > official_end:
+                    idx, flagged = gate.apply_gate(
+                        idx, _arrived_today(conn, comp.live_proxy, last, today))
+                    if flagged:
+                        flags.append(f"{comp.code}@{last}")
             built[comp.code] = idx
             modes[comp.code] = "official+proxy" if live else "official"
         end = min(max(max(s) for s in built.values()), today)
@@ -64,6 +71,10 @@ def run(conn: sqlite3.Connection, today: str,
         own_yoy = {}
         for code, s in built.items():
             at_obs = aggregate.yoy_at_obs(s, daily[code])
+            if not at_obs:
+                raise ValueError(
+                    f"dc-index component {code}: no observations on the daily "
+                    f"grid (all outside {GRID_START}..{end})")
             own_yoy[code] = aggregate.fill_yoy(at_obs, GRID_START, end)
         components = {}
         for c in comps:
@@ -103,7 +114,11 @@ def parity_rows(power: dict[str, tuple[str, float]],
                "power_asof": p_date,
                "wage_rel": None, "build_mult": None, "wage_asof": None}
         w = wage.get(st)
-        if w and nat_wage and nat_wage[1]:
+        # like-for-like quarters only: a state whose newest quarter is
+        # disclosure-suppressed keeps its prior-quarter wage in the store —
+        # dividing it by the newer national quarter would bias build_mult
+        # low by a quarter of wage growth, so treat it as missing instead
+        if w and nat_wage and nat_wage[1] and w[0] == nat_wage[0]:
             wage_rel = w[1] / nat_wage[1]
             row["wage_rel"] = round(wage_rel, 4)
             row["build_mult"] = round(w_labor * wage_rel + (1 - w_labor), 4)
@@ -124,7 +139,10 @@ def _by_state(conn, prefix: str) -> dict[str, tuple[str, float]]:
     out = {}
     for code in codes:
         st = code[len(prefix):]
-        if st == "us":
+        # accept only 2-letter state suffixes: the open LIKE prefix would
+        # otherwise sweep any future series family sharing the prefix
+        # (e.g. eia_elec_ind_res_tx) into the parity table as a bogus state
+        if st == "us" or len(st) != 2 or not st.isalpha():
             continue
         row = _latest_row(conn, code)
         if row:
