@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-07-11T23:34:37Z",
+  "published_at": "2026-07-12T19:15:21Z",
   "stats": {
-    "series_count": 99,
-    "obs_count": 29092,
+    "series_count": 110,
+    "obs_count": 53024,
     "source_count": 15,
     "tracker_corr": 0.9775,
     "live_coverage_pct": 40.5,
@@ -158,7 +158,7 @@
         "eia_gasreg_w"
       ],
       "official_series": "CUUR0000SETB01",
-      "yoy_pct": 21.66
+      "yoy_pct": 21.52
     },
     {
       "code": "electricity",
@@ -214,8 +214,8 @@
     }
   ],
   "freshness": {
-    "fresh_count": 76,
-    "total": 99
+    "fresh_count": 89,
+    "total": 110
   },
   "inventory": [
     {
@@ -687,6 +687,96 @@
       "fresh": true
     },
     {
+      "code": "fmp_rbob",
+      "name": "RBOB gasoline futures front month $/gal",
+      "source": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-10",
+      "fresh": true
+    },
+    {
+      "code": "fmp_natgas",
+      "name": "Henry Hub natural gas futures front month $/MMBtu",
+      "source": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-10",
+      "fresh": true
+    },
+    {
+      "code": "fmp_corn",
+      "name": "Corn futures front month",
+      "source": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-10",
+      "fresh": true
+    },
+    {
+      "code": "fmp_wheat",
+      "name": "Wheat futures front month",
+      "source": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-10",
+      "fresh": true
+    },
+    {
+      "code": "fmp_soybeans",
+      "name": "Soybean futures front month",
+      "source": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-10",
+      "fresh": true
+    },
+    {
+      "code": "fmp_soybean_oil",
+      "name": "Soybean oil futures front month",
+      "source": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-10",
+      "fresh": true
+    },
+    {
+      "code": "fmp_coffee",
+      "name": "Coffee futures front month",
+      "source": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-10",
+      "fresh": true
+    },
+    {
+      "code": "fmp_sugar",
+      "name": "Sugar futures front month",
+      "source": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-12",
+      "fresh": true
+    },
+    {
+      "code": "fmp_cocoa",
+      "name": "Cocoa futures front month",
+      "source": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-10",
+      "fresh": true
+    },
+    {
+      "code": "fmp_live_cattle",
+      "name": "Live cattle futures front month",
+      "source": "FMP",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-10",
+      "fresh": true
+    },
+    {
       "code": "fiscal_debt_total",
       "name": "Total public debt outstanding $",
       "source": "TREASURY",
@@ -773,7 +863,7 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-06-29",
+      "latest_obs": "2026-07-06",
       "fresh": true
     },
     {
@@ -782,7 +872,7 @@
       "source": "MND",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-07-11",
+      "latest_obs": "2026-07-12",
       "fresh": true
     },
     {
@@ -791,7 +881,7 @@
       "source": "AAA",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-07-11",
+      "latest_obs": "2026-07-12",
       "fresh": true
     },
     {
@@ -828,7 +918,7 @@
       "route": "SCRAPE",
       "cadence": "daily",
       "latest_obs": "2026-07-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "cleveland_core_cpi_mom",
@@ -837,7 +927,7 @@
       "route": "SCRAPE",
       "cadence": "daily",
       "latest_obs": "2026-07-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "cleveland_pce_mom",
@@ -846,7 +936,7 @@
       "route": "SCRAPE",
       "cadence": "daily",
       "latest_obs": "2026-07-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "cleveland_core_pce_mom",
@@ -855,7 +945,7 @@
       "route": "SCRAPE",
       "cadence": "daily",
       "latest_obs": "2026-07-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "kalshi_cpi_mom",
@@ -921,6 +1011,15 @@
       "fresh": false
     },
     {
+      "code": "IREXPETCOM",
+      "name": "Import price index ex computers, semiconductors, and petroleum",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": false
+    },
+    {
       "code": "T5YIE",
       "name": "5-year breakeven inflation",
       "source": "FRED",
@@ -936,7 +1035,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-27",
-      "fresh": true
+      "fresh": false
     },
     {
       "code": "PCUOMFGOMFG",

@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-07-11",
-  "passed": 13,
-  "total": 15,
+  "generated_at": "2026-07-12",
+  "passed": 17,
+  "total": 19,
   "checks": [
     {
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-05-01 is 71d old (limit 80)"
+      "detail": "latest official month 2026-05-01 is 72d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -22,22 +22,46 @@
       "detail": "engine and writers completed"
     },
     {
+      "name": "nowcast_ok",
+      "critical": false,
+      "pass": true,
+      "detail": "nowcast completed"
+    },
+    {
+      "name": "outlook_ok",
+      "critical": false,
+      "pass": true,
+      "detail": "12-month outlook completed"
+    },
+    {
+      "name": "composites_ok",
+      "critical": false,
+      "pass": true,
+      "detail": "composites completed"
+    },
+    {
+      "name": "single_run_stamp",
+      "critical": false,
+      "pass": true,
+      "detail": "all artifacts share this run's published_at"
+    },
+    {
       "name": "connectors_ok",
       "critical": false,
       "pass": false,
-      "detail": "13/15 ok; failed \u2014 USDA: missing secret USDA_API_KEY; STREET: ValueError: no CPI monthly consensus in FMP calendar"
+      "detail": "14/15 ok; failed \u2014 STREET: ValueError: no CPI monthly consensus in FMP calendar"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "76/99 fresh; stale \u2014 manheim_uvvi_m (222d > 45d), cleveland_cpi_mom (10d > 5d), cleveland_core_cpi_mom (10d > 5d), cleveland_pce_mom (10d > 5d), cleveland_core_pce_mom (10d > 5d), street_cpi_mom (never seen), INDPRO (71d > 60d), RSAFS (71d > 60d), DSPIC96 (71d > 60d), PPIACO (71d > 60d), PCUOMFGOMFG (71d > 60d), HOUST (71d > 60d), PERMIT (71d > 60d), CSUSHPINSA (101d > 90d), M2SL (71d > 60d), UMCSENT (71d > 60d), DRCCLACBS (191d > 150d), PSAVERT (71d > 60d), TDSP (191d > 150d), REVOLSL (71d > 60d), DRSFRMACBS (191d > 150d), CFNAIMA3 (71d > 60d), RECPROUSM156N (71d > 60d)"
+      "detail": "89/110 fresh; stale \u2014 manheim_uvvi_m (223d > 45d), street_cpi_mom (never seen), INDPRO (72d > 60d), RSAFS (72d > 60d), DSPIC96 (72d > 60d), PPIACO (72d > 60d), IREXPETCOM (72d > 60d), CCSA (15d > 14d), PCUOMFGOMFG (72d > 60d), HOUST (72d > 60d), PERMIT (72d > 60d), CSUSHPINSA (102d > 90d), M2SL (72d > 60d), UMCSENT (72d > 60d), DRCCLACBS (192d > 150d), PSAVERT (72d > 60d), TDSP (192d > 150d), REVOLSL (72d > 60d), DRSFRMACBS (192d > 150d), CFNAIMA3 (72d > 60d), RECPROUSM156N (72d > 60d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 3 obs $3.871 vs EIA weekly $3.777 \u2014 relative divergence 2.5% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 4 obs $3.872 vs EIA weekly $3.777 \u2014 relative divergence 2.5% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -55,19 +79,19 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-07-11"
+      "detail": "CPI nowcast as-of 2026-07-12"
     },
     {
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=-0.12 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=-0.18 weights={'macrogauge': 0.5, 'kalshi': 0.5}"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-11 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-12 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
