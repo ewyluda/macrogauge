@@ -142,22 +142,53 @@ every `*.json` in the out dir shares one `published_at` run stamp.
 - Benchmark provenance: `latest_benchmarks` has no staleness/reference-month
   filter; cleveland/street/kalshi use three different obs_date conventions;
   `build_nextprint` restamps benchmark `as_of` to today (`pipeline/publish/phase3.py:17,92`).
+  **DONE** — `latest_benchmarks` now filters on `obs_date = {reference_month}-01`
+  and returns real `{value, as_of}` per row, threaded through `build_nextprint`
+  (`2c0e5fe`); street.py and kalshi.py normalized onto that same month-first
+  convention (`b01ca15`, `683300b`). Note: the store has no rows written under
+  the new convention yet (collect hasn't run since these landed), so a fresh
+  regen over the real store currently returns all-null benchmarks — expected,
+  self-corrects on the next daily collect+publish run (see Task 9 Step 2 review).
 - Grading month-adjacency: `build_accountability` + `backtest._mom` treat
   consecutive first-release rows as adjacent months; CPI 2025-10 is already
   missing in the store, so 2025-11's "actual" is a 2-month change.
+  **DONE** — the adjacency guard (skip pairs spanning a missing month) landed
+  in `a17c03a` (pre-plan); this plan's Task 1 consolidated it into the shared
+  `dates.monthly_changes`, used by `_mom`, `build_accountability`, and the new
+  `cpi_walk_forward` alike (`9bb3338`).
 - Cleveland staleness false-flag: obs_date = reference-month start vs
   `max_staleness_days: 5` → `sources_fresh` fails ~all month (config/series.json:87).
+  Fixed pre-plan (`542f096`, `max_staleness_days` 5→40) — outside this plan's
+  8-task scope, noted here for completeness only.
 - Cleveland drift protection: no plausible-value range check, no recorded
   fixture in tests/fixtures/, bypasses `util.get_text` (CLAUDE.md scrape rule).
+  Fixed pre-plan (`3b17f7e`, recorded fixture + MoM range check) — outside
+  this plan's 8-task scope, noted here for completeness only.
 - CPI_PARAMS (`fuel_beta`/`rent_lag_months`/`rent_w`) still published but
   unused by `cpi_nowcast`, pinned by a critical qa check and /cpi-preview prose.
+  **DONE** — removed from the payload, the qa check, and /cpi-preview prose;
+  `cpi.parameters` now publishes `{}` (`6622430`).
 - street.py: no country filter; `estimate: null` + populated `consensus` is
   skipped; first-match can grab Core CPI.
+  **DONE** (`b01ca15`).
 - NFP forecasts recorded under the CPI print's reference month target an
   already-released NFP for ~2 weeks each month.
-- Cleanup cluster: duplicated `_write`, 4 MoM helpers, `_month_start`/
-  `_previous_month`/`_next_month` vs `official._months_back`/`util.month_first`,
-  PageShell nav missing /matrix /gap /vs-bls /next-print /stress, stress.json
-  embeds full value histories, backtest O(months²) `as_of` scans, CLAUDE.md
-  stale counts (12→15 connectors, 14→25 published files, 213→239 tests, 6→15
-  e2e routes).
+  **DONE** — NFP forecasts now recorded and graded under NFP's own reference
+  month (`9af9fae`).
+- Cleanup cluster:
+  - duplicated `_write` (phase3.py / composites.py) — kept intentionally
+    (decision 6, task-9 plan self-review); not touched.
+  - 4 MoM helpers / `_month_start`/`_previous_month`/`_next_month` vs
+    `official._months_back`/`util.month_first` — **DONE**, consolidated into
+    `pipeline/dates.py` (`9bb3338`).
+  - PageShell nav missing /matrix /gap /vs-bls /next-print /stress — fixed
+    pre-plan (`542f096`) — outside this plan's 8-task scope, noted for
+    completeness only.
+  - stress.json embeds full value histories — **DONE**, dropped; score/coverage
+    unchanged (`0b50f71`).
+  - backtest O(months²) `as_of` scans — **DONE**, single-pass vintage walk
+    (`a2ca102`); byte-identical output confirmed against the real store.
+  - CLAUDE.md stale counts (12→15 connectors, 14→25 published files, 213→239
+    tests, 6→15 e2e routes) — **DONE**: connector/file/e2e counts were
+    refreshed pre-plan (`542f096`); the test count is bumped 258→274 in this
+    commit (Task 9 Step 3), closing out the last stale figure.
