@@ -177,6 +177,27 @@ def test_fuel_label_reflects_series_actually_used(tmp_path):
     assert both["drivers"][0]["status"] == "live"
 
 
+def test_stale_driver_series_are_gated_to_fallback(tmp_path):
+    """A frozen source's months-old move must not be re-applied as a fresh
+    forward shock with status 'live' — gate on the registry's staleness limit.
+    An ungated leg of a blend renormalizes, and the label follows."""
+    conn = vintage.load(tmp_path / "store")
+    _seed_forward_drivers(conn)  # every driver series ends 2024-12-01
+
+    result = outlook.run(conn, _gauge_result(),
+                         staleness={"manheim_uvvi_m": 45, "fmp_rbob": 7},
+                         today="2025-06-30")  # ~200 days past the last obs
+
+    drivers = {d["key"]: d for d in result["drivers"]}
+    assert drivers["used_vehicles"]["status"] == "fallback"
+    assert drivers["used_vehicles"]["value"] is None
+    # fmp_rbob gated out; fmp_wti carries no limit -> treated fresh -> the
+    # blend renormalizes to WTI-only and the receipt says so
+    assert drivers["fuel"]["status"] == "partial"
+    assert drivers["fuel"]["sources"] == ["fmp_wti"]
+    assert drivers["fuel"]["name"] == "Fuel futures (WTI 100%, 2mo)"
+
+
 def test_outlook_writer_matches_schema(tmp_path):
     conn = vintage.load(tmp_path / "store")
     result = outlook.run(conn, _gauge_result())

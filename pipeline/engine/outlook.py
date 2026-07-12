@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import math
 import statistics
+from datetime import date
 from pathlib import Path
 
 from pipeline.dates import month_first, months_back, next_month, prior_month
@@ -60,11 +61,32 @@ def _lookback_return(rows, through_month: str, lookback_months: int) -> tuple[fl
     return (levels[end_month] / levels[start_month] - 1) * 100, end_month
 
 
+def _fresh_series(rows, code: str, staleness: dict[str, int] | None,
+                  today: str | None) -> bool:
+    """A stale driver series must not produce a forward shock: its months-old
+    move already passed through actual CPI, and _lookback_return anchors at
+    the series' own last month, so it would be re-applied as if it just
+    happened (published 'live'). Gate on the registry's max_staleness_days;
+    with no gating context (unit tests, unregistered code) treat as fresh."""
+    if staleness is None or today is None:
+        return True
+    limit = staleness.get(code)
+    if limit is None:
+        return True
+    last = max((obs_date for obs_date, _ in rows), default=None)
+    if last is None:
+        return False
+    return (date.fromisoformat(today) - date.fromisoformat(last)).days <= limit
+
+
 def _weighted_signal(conn, series_weights: dict[str, float], through_month: str,
-                     lookback_months: int) -> tuple[float | None, list[str], str | None]:
+                     lookback_months: int, staleness: dict[str, int] | None = None,
+                     today: str | None = None) -> tuple[float | None, list[str], str | None]:
     available: list[tuple[str, float, float, str | None]] = []
     for code, weight in series_weights.items():
         rows = vintage.latest(conn, code)
+        if not _fresh_series(rows, code, staleness, today):
+            continue
         value, _ = _lookback_return(rows, through_month, lookback_months)
         if value is not None:
             available.append((code, weight, value, _month_asof(rows, through_month)))
@@ -77,9 +99,10 @@ def _weighted_signal(conn, series_weights: dict[str, float], through_month: str,
 
 
 def _equal_signal(conn, codes: list[str], through_month: str,
-                  lookback_months: int) -> tuple[float | None, list[str], str | None]:
+                  lookback_months: int, staleness: dict[str, int] | None = None,
+                  today: str | None = None) -> tuple[float | None, list[str], str | None]:
     return _weighted_signal(conn, {code: 1.0 for code in codes},
-                            through_month, lookback_months)
+                            through_month, lookback_months, staleness, today)
 
 
 def _distributed_return(total_return_pct: float, months: int) -> float:
@@ -139,7 +162,8 @@ def _headline_monthly(index: dict[str, float], origin_month: str) -> dict[str, f
     return _month_values(index.items(), origin_month)
 
 
-def run(conn, gauge_result: dict, config_path: Path | None = None) -> dict:
+def run(conn, gauge_result: dict, config_path: Path | None = None,
+        staleness: dict[str, int] | None = None, today: str | None = None) -> dict:
     config = json.loads((config_path or DEFAULT_CONFIG).read_text())
     variant = gauge_result["variants"]["gauge"]
     as_of = variant["as_of"]
@@ -172,32 +196,42 @@ def run(conn, gauge_result: dict, config_path: Path | None = None) -> dict:
     # component paths then use their own trailing median.
     fuel_cfg = config["fuel"]
     fuel_value, fuel_sources, fuel_asof = _weighted_signal(
-        conn, fuel_cfg["series"], origin_month, fuel_cfg["lookback_months"])
+        conn, fuel_cfg["series"], origin_month, fuel_cfg["lookback_months"],
+        staleness, today)
 
     food_cfg = config["food_home"]
     food_value, food_sources, food_asof = _equal_signal(
-        conn, food_cfg["series"], origin_month, food_cfg["lookback_months"])
+        conn, food_cfg["series"], origin_month, food_cfg["lookback_months"],
+        staleness, today)
 
     gas_cfg = config["nat_gas"]
     gas_rows = vintage.latest(conn, gas_cfg["series"])
-    gas_value, _ = _lookback_return(gas_rows, origin_month, gas_cfg["lookback_months"])
+    gas_value = None
+    if _fresh_series(gas_rows, gas_cfg["series"], staleness, today):
+        gas_value, _ = _lookback_return(gas_rows, origin_month, gas_cfg["lookback_months"])
     gas_asof = _month_asof(gas_rows, origin_month)
 
     used_cfg = config["used_vehicles"]
     used_rows = vintage.latest(conn, used_cfg["series"])
-    used_value, _ = _lookback_return(used_rows, origin_month, used_cfg["lookback_months"])
+    used_value = None
+    if _fresh_series(used_rows, used_cfg["series"], staleness, today):
+        used_value, _ = _lookback_return(used_rows, origin_month, used_cfg["lookback_months"])
     used_asof = _month_asof(used_rows, origin_month)
 
     wage_cfg = config["wages"]
     wage_rows = vintage.latest(conn, wage_cfg["series"])
-    wage_months = _month_values(wage_rows, origin_month)
-    wage_value = wage_months[max(wage_months)] if wage_months else None
+    wage_value = None
+    if _fresh_series(wage_rows, wage_cfg["series"], staleness, today):
+        wage_months = _month_values(wage_rows, origin_month)
+        wage_value = wage_months[max(wage_months)] if wage_months else None
     wage_asof = _month_asof(wage_rows, origin_month)
 
     pipe_cfg = config["goods_pipeline"]
     pipe_values, pipe_sources, pipe_dates = [], [], []
     for code in pipe_cfg["series"]:
         rows = vintage.latest(conn, code)
+        if not _fresh_series(rows, code, staleness, today):
+            continue
         value, _ = _lookback_return(rows, origin_month, pipe_cfg["lookback_months"])
         if value is not None:
             pipe_values.append(_annualized(value, pipe_cfg["lookback_months"]))

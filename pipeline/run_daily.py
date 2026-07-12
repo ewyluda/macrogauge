@@ -91,9 +91,9 @@ def main(argv=None, http_get=None, http_post=None) -> int:
 
     cpi = gauge_qa = artifacts = gauge_result = None
     engine_error = None
+    staleness = {s.code: s.max_staleness_days for s in series}
     try:
         cpi = official.latest_yoy(conn, "CPIAUCNS")
-        staleness = {s.code: s.max_staleness_days for s in series}
         gauge_result = gauge_engine.run(conn, today=today, staleness=staleness)
         _, comps = basket_mod.load_basket()  # inside try: config errors -> qa
 
@@ -222,7 +222,8 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     try:
         if gauge_result is None:
             raise RuntimeError("skipped — gauge engine failed upstream")
-        outlook_payload = outlook_engine.run(conn, gauge_result)
+        outlook_payload = outlook_engine.run(conn, gauge_result,
+                                             staleness=staleness, today=today)
         outlook_path = outlook_json.write(outlook_payload, args.out, published_at)
         validate.validate_file(outlook_path, SCHEMAS / "outlook.schema.json")
         print(f"published: {outlook_path}")
