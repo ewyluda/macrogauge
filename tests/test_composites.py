@@ -61,6 +61,16 @@ def test_stress_index_direction_adjusts_and_weights():
     assert result["coverage_pct"] == 30
 
 
+def test_stress_index_rows_do_not_embed_history():
+    # history is scoring input, not display data — embedding ~1800 daily
+    # values per indicator bloats stress.json for zero site benefit
+    indicators = [{"code": "X", "weight": 1.0, "direction": 1, "value": 5.0,
+                   "as_of": "2026-07-01", "history": [1.0, 2.0, 3.0, 4.0, 5.0]}]
+    result = stress_index(indicators)
+    assert "history" not in result["indicators"][0]
+    assert result["indicators"][0]["score"] == 100.0
+
+
 def test_recession_composite_uses_available_signals_only():
     result = recession_composite([
         {"name": "one", "triggered": True}, {"name": "two", "triggered": False},

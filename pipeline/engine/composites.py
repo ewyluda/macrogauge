@@ -70,7 +70,8 @@ def stress_index(indicators: list[dict]) -> dict:
         score = percentile(item["value"], history)
         if item.get("direction", 1) < 0:
             score = 100 - score
-        rows.append({**item, "score": round(score, 1)})
+        rows.append({**{k: v for k, v in item.items() if k != "history"},
+                     "score": round(score, 1)})
         weighted += score * item["weight"]
         active += item["weight"]
     return {"score": None if not active else round(weighted / active, 1),
