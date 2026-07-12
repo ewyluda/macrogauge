@@ -1,6 +1,6 @@
-export function Section({ title, children }: { title: string; children: React.ReactNode }) {
+export function Section({ title, children, featured = false }: { title: string; children: React.ReactNode; featured?: boolean }) {
   return (
-    <section style={{ marginTop: 32 }}>
+    <section className={featured ? "section section-featured" : "section"}>
       <div
         style={{
           fontSize: 11,

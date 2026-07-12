@@ -25,12 +25,12 @@ export function KpiCard({
 }) {
   return (
     <div
+      className="kpi-card"
       style={{
         background: "var(--card)",
         border: "1px solid var(--border)",
         borderRadius: 10,
         padding: 16,
-        minWidth: 220,
       }}
     >
       <div
@@ -45,7 +45,7 @@ export function KpiCard({
       </div>
       <div
         style={{
-          fontSize: 40,
+          fontSize: 34,
           fontWeight: 700,
           color: ACCENTS[accent],
           fontVariantNumeric: "tabular-nums",

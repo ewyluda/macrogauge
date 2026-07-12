@@ -6,25 +6,15 @@ import { fmtPct } from "@/lib/format";
 
 export function PageShell({ children }: { children: React.ReactNode }) {
   return (
-    <main style={{ maxWidth: 1200, margin: "0 auto", padding: 24 }}>
-      <header
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          gap: 12,
-          justifyContent: "space-between",
-          paddingBottom: 16,
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "baseline", gap: 18 }}>
+    <main className="page-shell">
+      <header className="site-header">
+        <div className="header-primary">
           <Link href="/" style={{ textDecoration: "none", color: "var(--text)" }}>
-            <span style={{ fontSize: 19, fontWeight: 700, letterSpacing: "0.14em" }}>
+            <span className="wordmark">
               MACROGAUGE
             </span>
           </Link>
-          <nav style={{ display: "flex", gap: 14, fontSize: 13 }}>
+          <nav className="site-nav">
             <Link href="/" style={{ color: "var(--muted)", textDecoration: "none" }}>
               Home
             </Link>
@@ -75,7 +65,7 @@ export function PageShell({ children }: { children: React.ReactNode }) {
             </Link>
           </nav>
         </div>
-        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <div className="header-status">
           <span
             style={{
               display: "inline-flex",
