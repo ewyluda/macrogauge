@@ -1,5 +1,5 @@
-from pipeline.engine.nowcast.models import (cpi_nowcast, ensemble, nfp_nowcast,
-                                            pce_bridge)
+from pipeline.engine.nowcast.models import (build_latest, cpi_nowcast, ensemble,
+                                            nfp_nowcast, pce_bridge)
 
 
 def test_cpi_nowcast_clamps_window_to_target_month():
@@ -67,3 +67,22 @@ def test_ensemble_omits_missing_benchmarks_and_normalizes_weights():
                       {"ours": 0.1, "street": 0.2})
     assert set(result["weights"]) == {"ours", "street"}
     assert abs(sum(result["weights"].values()) - 1) < 1e-3
+
+
+def test_build_latest_degrades_instead_of_raising_when_calendar_exhausted():
+    # config/release_calendar.json's last entry is 2026-12-10 — every run from
+    # 2026-12-11 onward hits next_release=None until the next calendar refresh.
+    # This must degrade the nowcast, never raise (a nowcast failure can't take
+    # composites or gauge QA down with it).
+    result = build_latest(conn=None, gauge_result={}, next_release=None,
+                          benchmarks={"cleveland": 0.2})
+    assert result["release_date"] is None
+    assert result["reference_month"] is None
+    assert result["cpi"]["status"] == "unavailable"
+    assert result["cpi"]["mom_pct"] is None
+    assert result["cpi"]["parameters"] == {"fuel_beta": 0.85, "rent_lag_months": 12,
+                                           "rent_w": 0.45}
+    assert result["pce"]["status"] == "unavailable"
+    assert result["nfp"] is None
+    assert result["benchmarks"] == {"cleveland": 0.2}
+    assert result["ensemble"] == {"value": None, "weights": {}}

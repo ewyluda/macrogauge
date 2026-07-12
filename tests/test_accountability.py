@@ -18,3 +18,12 @@ def test_accountability_grades_recorded_pre_release_forecast(tmp_path: Path):
     assert result["graded"][0]["badge"] == "LIVE"
     assert result["graded"][0]["actual"] == 0.3
     assert result["graded"][0]["error"] == -0.1
+
+
+def test_accountability_pending_empty_when_forecast_unavailable(tmp_path: Path):
+    # Calendar-exhausted nowcast: forecast dict exists but status is
+    # "unavailable" — pending must stay empty, not claim a LIVE forecast of None.
+    nowcast = {"reference_month": None, "generated_on": "2026-12-11",
+               "cpi": {"mom_pct": None, "status": "unavailable", "as_of": None}}
+    result = phase3.build_accountability("cpi", nowcast, vintage.load(tmp_path))
+    assert result["pending"] == []

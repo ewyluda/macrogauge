@@ -105,9 +105,11 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert len(status["sources"]) == 15
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
-    # 4 existing + engine_ok + 5 gauge checks + fuel_sources_agree
-    # + quilt_complete + grocery_items
-    assert qa["total"] == 16
+    # 4 existing + engine_ok + nowcast_ok + composites_ok + single_run_stamp
+    # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items
+    assert qa["total"] == 19
+    stamp = [c for c in qa["checks"] if c["name"] == "single_run_stamp"][0]
+    assert stamp["pass"] is True  # a clean full run leaves no stale artifacts
     official = json.loads((out / "official.json").read_text())
     assert len(official["components"]) == 14
     assert len(official["quotes"]) == 13
@@ -126,9 +128,17 @@ def test_engine_failure_still_publishes_status_and_qa(tmp_path, monkeypatch):
     assert rc == 0  # publication never blocks; failure surfaces in qa
     assert (out / "sources_status.json").exists()
     qa_data = json.loads((out / "qa.json").read_text())
-    eng = [c for c in qa_data["checks"] if c["name"] == "engine_ok"][0]
+    checks = {c["name"]: c for c in qa_data["checks"]}
+    eng = checks["engine_ok"]
     assert eng["pass"] is False and "engine boom" in eng["detail"]
     assert not (out / "pulse.json").exists()
+    # composites don't depend on the gauge engine — they still publish
+    assert (out / "heatcheck.json").exists()
+    assert checks["composites_ok"]["pass"] is True
+    # the nowcast DOES depend on the gauge; it skips with the upstream cause
+    # named, not a cryptic TypeError from feeding it gauge_result=None
+    assert checks["nowcast_ok"]["pass"] is False
+    assert "gauge engine failed upstream" in checks["nowcast_ok"]["detail"]
 
 
 def test_basket_config_failure_still_publishes_status_and_qa(tmp_path, monkeypatch):
@@ -222,3 +232,109 @@ def test_zero_eia_value_zero_guard_never_blocks_publication(tmp_path, monkeypatc
                        if c["name"] == "fuel_sources_agree"), None)
     # fuel_check should be None because fuel_div was None (zero-guard prevented creation)
     assert fuel_check is None
+
+
+def test_nowcast_failure_does_not_block_gauge_or_composites(tmp_path, monkeypatch):
+    # Risk 1 (docs/plans/2026-07-11-phase-3-4-structural-risks.md): a phase-3
+    # exception must not take composites or the gauge's critical QA down with it.
+    set_keys(monkeypatch)
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("nowcast boom")
+
+    monkeypatch.setattr(run_daily, "build_nowcast", boom)
+    store, out = tmp_path / "store", tmp_path / "out"
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    assert (out / "pulse.json").exists()  # core gauge block unaffected
+    assert (out / "heatcheck.json").exists()  # composites block unaffected
+    assert not (out / "nowcast_latest.json").exists()  # phase-3 block never wrote
+    qa_data = json.loads((out / "qa.json").read_text())
+    checks = {c["name"]: c for c in qa_data["checks"]}
+    assert checks["nowcast_ok"]["pass"] is False
+    assert "nowcast boom" in checks["nowcast_ok"]["detail"]
+    assert checks["engine_ok"]["pass"] is True
+    assert checks["composites_ok"]["pass"] is True
+    # critical gauge checks survive a phase-3 failure — this was the bug
+    assert checks["gauge_current"]["pass"] is True
+    assert checks["gauge_components_present"]["pass"] is True
+    assert checks["basket_weights_sum"]["pass"] is True
+
+
+def test_composites_failure_does_not_block_gauge_or_nowcast(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("heatcheck boom")
+
+    monkeypatch.setattr(run_daily.composite_json, "write_all", boom)
+    store, out = tmp_path / "store", tmp_path / "out"
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    assert (out / "pulse.json").exists()  # core gauge block unaffected
+    assert (out / "nowcast_latest.json").exists()  # phase-3 block unaffected
+    assert not (out / "heatcheck.json").exists()  # composites block never wrote
+    qa_data = json.loads((out / "qa.json").read_text())
+    checks = {c["name"]: c for c in qa_data["checks"]}
+    assert checks["composites_ok"]["pass"] is False
+    assert "heatcheck boom" in checks["composites_ok"]["detail"]
+    assert checks["engine_ok"]["pass"] is True
+    assert checks["nowcast_ok"]["pass"] is True
+
+
+def test_release_calendar_exhausted_degrades_nowcast_instead_of_crashing(tmp_path, monkeypatch):
+    # config/release_calendar.json's last entry is 2026-12-10 — every run from
+    # 2026-12-11 onward hits next_print()=None until the yearly calendar refresh.
+    set_keys(monkeypatch)
+    monkeypatch.setattr(run_daily.release_calendar, "next_print", lambda *a, **k: None)
+    store, out = tmp_path / "store", tmp_path / "out"
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    assert (out / "pulse.json").exists()
+    assert (out / "heatcheck.json").exists()
+    nowcast = json.loads((out / "nowcast_latest.json").read_text())
+    assert nowcast["release_date"] is None
+    assert nowcast["reference_month"] is None
+    assert nowcast["cpi"]["status"] == "unavailable"
+    nextprint = json.loads((out / "nextprint.json").read_text())
+    assert nextprint["release_date"] is None
+    qa_data = json.loads((out / "qa.json").read_text())
+    checks = {c["name"]: c for c in qa_data["checks"]}
+    assert checks["nowcast_ok"]["pass"] is True  # exhaustion is not an error
+    assert checks["engine_ok"]["pass"] is True
+    assert checks["nowcast_params_published"]["pass"] is True
+
+
+def test_stale_leftover_artifact_flagged_by_single_run_stamp(tmp_path, monkeypatch):
+    # Risk 3: a partial/manual run can leave artifacts in the out dir that this
+    # run doesn't rewrite; they'd be committed and deployed alongside today's
+    # files. The single_run_stamp check makes that mixed set visible in qa.json.
+    set_keys(monkeypatch)
+    store, out = tmp_path / "store", tmp_path / "out"
+    out.mkdir(parents=True)
+    (out / "leftover.json").write_text(json.dumps(
+        {"published_at": "2026-07-01T01:00:00Z", "orphan": True}))
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    qa_data = json.loads((out / "qa.json").read_text())
+    stamp = [c for c in qa_data["checks"] if c["name"] == "single_run_stamp"][0]
+    assert stamp["pass"] is False
+    assert "leftover.json" in stamp["detail"]
+
+
+def test_phase3_writer_validates_inline_and_validation_error_fails_run(tmp_path, monkeypatch):
+    # Risk 3: validation now happens inside the writer, right after each file
+    # lands — a schema-invalid phase-3 artifact must crash the run (never
+    # deploy), not be swallowed by the nowcast block's generic except.
+    set_keys(monkeypatch)
+    monkeypatch.setattr(run_daily.phase3, "build_nextprint",
+                        lambda nowcast: {"bogus": True})
+    store, out = tmp_path / "store", tmp_path / "out"
+    with pytest.raises(jsonschema.ValidationError):
+        run_daily.main(["--store", str(store), "--out", str(out)],
+                       http_get=fake_get, http_post=fake_post)
+    assert not (out / "qa.json").exists()  # run died before qa

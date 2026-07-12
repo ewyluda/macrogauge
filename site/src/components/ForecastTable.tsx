@@ -1,4 +1,4 @@
-type Forecaster = { name: string; value: number; kind: string; as_of: string };
+import type { Forecaster } from "@/lib/types";
 
 export function ForecastTable({ rows }: { rows: Forecaster[] }) {
   return (

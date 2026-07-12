@@ -6,8 +6,8 @@ import gaugeDaily from "../../public/data/gauge_daily.json";
 import compare from "../../public/data/compare.json";
 import gaptable from "../../public/data/gaptable.json";
 import grocery from "../../public/data/grocery_basket.json";
-import nextprint from "../../public/data/nextprint.json";
-import fuel from "../../public/data/fuel.json";
+import nextprintJson from "../../public/data/nextprint.json";
+import fuelJson from "../../public/data/fuel.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DeltaChip } from "@/components/DeltaChip";
 import { StatusPill } from "@/components/StatusPill";
@@ -20,6 +20,11 @@ import { GapDecomposition } from "@/components/GapDecomposition";
 import { SparklineCard } from "@/components/SparklineCard";
 import { ForecastTable } from "@/components/ForecastTable";
 import { fmtMonth, fmtPct, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
+import type { Fuel, NextPrint } from "@/lib/types";
+
+// Cast, don't infer: these artifacts legally degrade (see lib/types.ts).
+const nextprint = nextprintJson as NextPrint;
+const fuel = fuelJson as Fuel;
 
 const GROUP_TITLES: Record<string, string> = {
   grocery: "Grocery basket",
@@ -150,15 +155,17 @@ export default function Home() {
         )}
       </div>
 
-      <Section title={`Next CPI print — ${nextprint.reference_month} · ${nextprint.release_date}`}>
+      <Section title={nextprint.release_date
+          ? `Next CPI print — ${nextprint.reference_month} · ${nextprint.release_date}`
+          : "Next CPI print — TBA (release calendar awaiting refresh)"}>
         <div className="kpi-row">
           <KpiCard label="Ensemble · MoM"
             value={nextprint.ensemble.value == null ? "—" : `${nextprint.ensemble.value.toFixed(2)}%`}
             context={`${nextprint.forecasters.length} available forecasters · unavailable inputs excluded`}
             accent="sky" />
           <KpiCard label="Fuel · two-week forward"
-            value={fuel.available ? `$${fuel.forward_2wk.toFixed(3)}` : "—"}
-            context={fuel.available ? `${fuel.proxy} · ${fuel.as_of}` : "awaiting sufficient market history"}
+            value={fuel.forward_2wk == null ? "—" : `$${fuel.forward_2wk.toFixed(3)}`}
+            context={fuel.available && fuel.proxy ? `${fuel.proxy} · ${fuel.as_of}` : "awaiting sufficient market history"}
             accent="amber" />
         </div>
         <ForecastTable rows={nextprint.forecasters} />

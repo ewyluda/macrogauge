@@ -4,13 +4,19 @@ Connector failures never block publication — they surface in
 sources_status.json and qa.json, and stale series carry forward.
 
 sources_status publishes FIRST (right after collect): a broken engine must
-never hide a broken source. The strict engine+writer block (cpi -> gauge ->
-pulse/gauge_daily/compare/gaptable/official) is wrapped in try/except so an
-engine failure still publishes status+qa (rc 0, failure visible on-site via
-engine_ok) — but a jsonschema.ValidationError re-raises and fails the run: a
-schema-invalid artifact must never deploy.
+never hide a broken source. Three independently isolated try/except blocks
+follow: (1) the core gauge engine + writers (cpi -> gauge ->
+pulse/gauge_daily/compare/gaptable/official, surfaces via engine_ok),
+(2) the phase-3 nowcast (surfaces via nowcast_ok — build_latest degrades to
+status "unavailable" rather than raising once the release calendar is
+exhausted), and (3) phase-4 composites (surfaces via composites_ok, which
+don't depend on the CPI calendar or gauge engine at all). A failure in any
+one block still publishes status+qa (rc 0) without blocking the other two —
+but a jsonschema.ValidationError re-raises and fails the run in every block:
+a schema-invalid artifact must never deploy.
 """
 import argparse
+import json
 import math
 import os
 import sys
@@ -79,7 +85,7 @@ def main(argv=None, http_get=None, http_post=None) -> int:
             fuel_div = {"aaa_wk_avg": round(aaa_avg, 3), "eia": round(eia_last, 3),
                         "rel": abs(aaa_avg / eia_last - 1), "n_obs": len(week)}
 
-    cpi = gauge_qa = artifacts = None
+    cpi = gauge_qa = artifacts = gauge_result = None
     engine_error = None
     try:
         cpi = official.latest_yoy(conn, "CPIAUCNS")
@@ -108,10 +114,9 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         print(f"published: {replay_path}")
 
         quilt_payload = quilt.build(gauge_result, comps)
-        quilt_paths = quilt.write(quilt_payload, args.out,
+        quilt_paths = quilt.write(quilt_payload, args.out,  # validates each window inline
                                   published_at=published_at)
         for qp in quilt_paths:
-            validate.validate_file(qp, SCHEMAS / "quilt.schema.json")
             print(f"published: {qp}")
 
         grocery_payload = grocery.build(conn, series)
@@ -154,31 +159,6 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         validate.validate_file(rw_path, SCHEMAS / "real_wages.schema.json")
         print(f"published: {rw_path}")
 
-        next_release = release_calendar.next_print(today)
-        nowcast_payload = build_nowcast(
-            conn, gauge_result, next_release,
-            benchmarks=phase3.latest_benchmarks(conn))
-        phase3.record_forecasts(nowcast_payload, conn, args.store, today)
-        phase3_paths = phase3.write_all(nowcast_payload, conn, args.out,
-                                        published_at)
-        schema_by_name = {
-            "nowcast_latest.json": "nowcast_latest.schema.json",
-            "nextprint.json": "nextprint.schema.json",
-            "releases.json": "releases.schema.json",
-            "backtest.json": "backtest.schema.json",
-            "fuel.json": "fuel.schema.json",
-        }
-        for path in phase3_paths:
-            schema = ("accountability.schema.json" if path.name.startswith("accountability_")
-                      else schema_by_name[path.name])
-            validate.validate_file(path, SCHEMAS / schema)
-            print(f"published: {path}")
-
-        composite_paths = composite_json.write_all(conn, args.out, published_at)
-        for path in composite_paths:
-            validate.validate_file(path, SCHEMAS / f"{path.stem}.schema.json")
-            print(f"published: {path}")
-
         gauge_qa = {"as_of": g["as_of"], "coverage_pct": g["coverage_pct"],
                     "null_components": [
                         c for c, e in g["components"].items()
@@ -197,21 +177,83 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         artifacts = {"quilt_months": len(quilt_payload["months"]),
                      "quilt_aligned": quilt_aligned,
                      "grocery_items": len(grocery_payload["items"]),
-                     "grocery_skipped": len(grocery_payload["skipped"]),
-                     "nowcast": nowcast_payload}
+                     "grocery_skipped": len(grocery_payload["skipped"])}
     except jsonschema.ValidationError:
         raise  # contract violation must fail the run — never deploy invalid JSON
     except Exception as e:  # engine isolation: failure surfaces in qa, never blocks
         engine_error = f"{type(e).__name__}: {e}"
         print(f"ENGINE/PUBLISH FAILED — {engine_error}")
 
+    # Phase-3 nowcast: isolated from the core gauge block above so a nowcast
+    # failure (or an exhausted release calendar) can never eat the gauge's
+    # critical QA checks. build_latest degrades to status "unavailable"
+    # instead of raising once the calendar runs out.
+    nowcast_error = None
+    nowcast_payload = None
+    try:
+        if gauge_result is None:
+            # Don't let the nowcast trip over the missing gauge and publish a
+            # cryptic TypeError in qa.json — name the upstream cause.
+            raise RuntimeError("skipped — gauge engine failed upstream")
+        next_release = release_calendar.next_print(today)
+        nowcast_payload = build_nowcast(
+            conn, gauge_result, next_release,
+            benchmarks=phase3.latest_benchmarks(conn))
+        phase3.record_forecasts(nowcast_payload, conn, args.store, today)
+        phase3_paths = phase3.write_all(nowcast_payload, conn, args.out,
+                                        published_at)  # validates each file inline
+        for path in phase3_paths:
+            print(f"published: {path}")
+    except jsonschema.ValidationError:
+        raise  # contract violation must fail the run — never deploy invalid JSON
+    except Exception as e:  # nowcast isolation: never blocks composites/gauge QA
+        nowcast_error = f"{type(e).__name__}: {e}"
+        print(f"NOWCAST FAILED — {nowcast_error}")
+
+    # Phase-4 composites: isolated from both blocks above — heatcheck/stress/
+    # recession don't depend on the CPI release calendar or the gauge engine
+    # at all, so neither of those failing should stop them from publishing.
+    composites_error = None
+    try:
+        composite_paths = composite_json.write_all(conn, args.out,
+                                                   published_at)  # validates inline
+        for path in composite_paths:
+            print(f"published: {path}")
+    except jsonschema.ValidationError:
+        raise  # contract violation must fail the run — never deploy invalid JSON
+    except Exception as e:  # composites isolation: never blocks gauge/nowcast QA
+        composites_error = f"{type(e).__name__}: {e}"
+        print(f"COMPOSITES FAILED — {composites_error}")
+
+    if nowcast_payload is not None:
+        artifacts = {**(artifacts or {}), "nowcast": nowcast_payload}
+
+    # Every artifact in the out dir must carry THIS run's published_at stamp.
+    # A mismatch means a leftover from a prior partial/manual run is about to
+    # be committed and deployed alongside today's files (Risk 3 in
+    # docs/plans/2026-07-11-phase-3-4-structural-risks.md). sources_status.json
+    # (generated_at, no published_at) and qa.json (written below) are exempt.
+    stale_stamps = []
+    for p in sorted(args.out.glob("*.json")):
+        if p.name in ("sources_status.json", "qa.json"):
+            continue
+        try:
+            stamp = json.loads(p.read_text()).get("published_at")
+        except (json.JSONDecodeError, OSError):
+            stamp = None
+        if stamp != published_at:
+            stale_stamps.append(p.name)
+
     freshness = [{"code": s.code, "latest_obs": vintage.max_obs_date(conn, s.code),
                   "limit_days": s.max_staleness_days} for s in series]
     qa_path = qa.write(qa.run_checks(cpi, today=today, source_results=results,
                                      freshness=freshness, gauge=gauge_qa,
                                      engine_error=engine_error,
+                                     nowcast_error=nowcast_error,
+                                     composites_error=composites_error,
                                      fuel_divergence=fuel_div,
-                                     artifacts=artifacts),
+                                     artifacts=artifacts,
+                                     stale_stamps=stale_stamps),
                        args.out)
     validate.validate_file(qa_path, SCHEMAS / "qa.schema.json")
     print(f"qa: {qa_path}")

@@ -9,9 +9,24 @@ heatcheck momentum diff-mode for rates/spreads + cadence-scaled periods —
 covered by 11 new tests, suite at 239). **The three structural risks below are
 NOT fixed** and are the next session's work, roughly in this order.
 
-## Risk 1 — one nowcast failure takes down composites and gauge QA; the release calendar guarantees it on 2026-12-11
+## Risk 1 — FIXED (2026-07-11) — one nowcast failure takes down composites and gauge QA; the release calendar guarantees it on 2026-12-11
 
-Mechanism (`pipeline/run_daily.py:158-183`): the phase-3 block sits inside the
+Fix: `run_daily.py` now runs the core gauge engine, the phase-3 nowcast, and
+phase-4 composites as three independently isolated try/except blocks (each
+still re-raises `jsonschema.ValidationError`); `qa.json` gained `nowcast_ok`
+and `composites_ok` checks alongside `engine_ok` so a phase-3/phase-4
+failure surfaces distinctly without blanking the critical gauge checks.
+`models.build_latest` no longer raises when the release calendar is
+exhausted — it returns a `status: "unavailable"` nowcast (nulls for
+`release_date`/`reference_month`, mirroring `pulse`'s `next_print: null`
+convention); `nowcast_latest.schema.json` / `nextprint.schema.json` were
+loosened to allow those nulls, and `build_accountability`'s `pending` list
+now also short-circuits on `status == "unavailable"`. Covered by 8 new tests
+(247 total) including two isolation tests (phase-3 fails → gauge/composites
+still publish; composites fails → gauge/nowcast still publish) and one for
+calendar exhaustion. Original mechanism description below, kept for context.
+
+Mechanism (`pipeline/run_daily.py:158-183`, pre-fix): the phase-3 block sat inside the
 single engine `try:` **before** the composites writers and **before** the
 `gauge_qa`/`artifacts` assignment. Any exception there — and
 `models.build_latest` (`pipeline/engine/nowcast/models.py`) hard-raises
@@ -63,6 +78,23 @@ no conditional requireds) mean a malformed artifact validates, deploys, and
 only fails in the browser — tighten them to the backtest.schema.json standard
 (array `items` + `required`).
 
+**FIXED (2026-07-11) — both (a) and (b):**
+- Pipeline: `build_fuel`'s degraded branch now carries every key
+  (`as_of`/`pump`/`forward_2wk`/`proxy` nulled); `build_nextprint` omits the
+  Macrogauge row when `mom_pct` is null (forecaster rows never carry null
+  values); `record_forecasts` no-ops on a degraded nowcast.
+- Schemas: `releases`/`accountability`/`nextprint`/`stress`/`recession`/
+  `heatcheck` now have typed array `items` + per-item `required` (backtest
+  standard); `fuel.schema.json` requires all keys always, nullable, plus an
+  `if available: then` non-null clause.
+- Site: hand-written `site/src/lib/types.ts` (`Fuel`, `NextPrint`,
+  `Forecaster`, `Nowcast`); `page.tsx`, `next-print`, `matrix`, `cpi-preview`,
+  `ForecastHero`, `ForecastTable` now cast their imports and null-guard
+  `release_date`/`reference_month`/`mom_pct`/`forward_2wk` displays.
+- Verified: degraded fuel/nextprint/nowcast samples (calendar-exhausted,
+  no-data) validate against the tightened schemas AND `tsc --noEmit` passes
+  with them committed; vitest 16/16, Playwright e2e 16/16, `next build` green.
+
 ## Risk 3 — the deployed data directory bypassed the collect→publish→validate→qa loop
 
 State committed by last night's work (still live until the next full daily run):
@@ -87,6 +119,23 @@ Fix direction: validate-immediately-after-each-write (pass the schema into the
 writer, mirroring the strict-writer pattern), derive the schema name from
 `path.stem` everywhere (kill `schema_by_name`), and consider a qa check that
 every `*.json` in the out dir shares one `published_at` run stamp.
+
+**FIXED (2026-07-11) — all three directions:**
+- `quilt.write`, `phase3._write`, and `composites._write` now validate each
+  file inline, immediately after it lands — a mid-batch failure can no longer
+  leave later files written-but-unvalidated; a schema-invalid file raises
+  `jsonschema.ValidationError` from inside the writer, which every isolation
+  block re-raises, so the run dies non-zero and the daily workflow's commit
+  step never executes (nothing deploys).
+- Schema names derive from `path.stem` (`accountability_*` → the shared
+  accountability schema); the hand-maintained `schema_by_name` dict and its
+  KeyError landmine are gone from `run_daily.py`.
+- New non-critical `single_run_stamp` qa check: `run_daily` scans the out dir
+  and flags any artifact whose `published_at` differs from this run's stamp
+  (sources_status.json and qa.json exempt) — partial/manual leftovers now
+  surface in qa.json instead of deploying silently. Covered by 3 new tests
+  (leftover-artifact flag, phase-3 inline-validation re-raise, degraded-fuel
+  key stability); suite at 250.
 
 ## Also open (below the fix line, from the same review)
 

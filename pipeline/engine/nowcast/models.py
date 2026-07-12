@@ -150,7 +150,19 @@ def ensemble(forecasts: dict[str, float | None], errors: dict[str, float | None]
 def build_latest(conn, gauge_result: dict, next_release: dict | None,
                  benchmarks: dict[str, float | None] | None = None) -> dict:
     if next_release is None:
-        raise ValueError("release calendar has no future CPI print")
+        # Calendar exhausted (config/release_calendar.json needs its annual
+        # refresh): degrade to an "unavailable" nowcast rather than raising —
+        # a nowcast we can't compute must never take composites or gauge QA
+        # down with it (see docs/plans/2026-07-11-phase-3-4-structural-risks.md).
+        return {"target": "CPI", "release_date": None, "reference_month": None,
+                "cpi": {"mom_pct": None, "yoy_pct": None, "as_of": None,
+                        "status": "unavailable", "parameters": CPI_PARAMS,
+                        "components": []},
+                "pce": {"mom_pct": None, "status": "unavailable", "as_of": None,
+                        "parameters": {}},
+                "nfp": None, "benchmarks": benchmarks or {},
+                "ensemble": {"value": None, "weights": {}},
+                "generated_on": date.today().isoformat()}
     cpi = cpi_nowcast(gauge_result, next_release["reference_month"])
     pce = pce_bridge(cpi["mom_pct"], vintage.latest(conn, "CPIAUCNS"),
                      vintage.latest(conn, "PCEPI"))

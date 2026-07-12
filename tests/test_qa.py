@@ -10,7 +10,8 @@ FRESH = {"series_code": "CPIAUCNS", "month": "2026-05-01",
 
 def test_all_green_when_fresh():
     r = qa.run_checks(FRESH, today="2026-07-07")
-    assert (r["passed"], r["total"]) == (3, 3)
+    # headline_current, yoy_finite, engine_ok, nowcast_ok, composites_ok
+    assert (r["passed"], r["total"]) == (5, 5)
     assert all(c["pass"] for c in r["checks"])
 
 
@@ -18,7 +19,7 @@ def test_stale_headline_fails():
     r = qa.run_checks(FRESH, today="2026-10-01")  # 153 days after 2026-05-01
     by_name = {c["name"]: c for c in r["checks"]}
     assert by_name["headline_current"]["pass"] is False
-    assert r["passed"] == 2
+    assert r["passed"] == 4
 
 
 def test_nan_yoy_fails():
@@ -44,7 +45,7 @@ def test_connector_and_freshness_checks_green():
                       source_results=[_res("FRED", True), _res("EIA", True)],
                       freshness=[{"code": "CPIAUCNS", "latest_obs": "2026-05-01",
                                   "limit_days": 80}])
-    assert (r["passed"], r["total"]) == (5, 5)
+    assert (r["passed"], r["total"]) == (7, 7)
 
 
 def test_connector_failure_flagged_not_critical():
@@ -140,6 +141,32 @@ def _cpi():
 
 def _by_name(result, name):
     return next((c for c in result["checks"] if c["name"] == name), None)
+
+
+def test_nowcast_ok_and_composites_ok_pass_when_no_error():
+    r = qa.run_checks(FRESH, today="2026-07-08")
+    now = [c for c in r["checks"] if c["name"] == "nowcast_ok"][0]
+    comp = [c for c in r["checks"] if c["name"] == "composites_ok"][0]
+    assert now["pass"] is True and now["critical"] is False
+    assert comp["pass"] is True and comp["critical"] is False
+
+
+def test_nowcast_error_fails_nowcast_ok_without_touching_engine_ok():
+    r = qa.run_checks(FRESH, today="2026-07-08", gauge=GAUGE_OK,
+                      nowcast_error="ValueError: release calendar has no future CPI print")
+    now = [c for c in r["checks"] if c["name"] == "nowcast_ok"][0]
+    eng = [c for c in r["checks"] if c["name"] == "engine_ok"][0]
+    assert now["pass"] is False and "release calendar" in now["detail"]
+    assert eng["pass"] is True  # nowcast failure is isolated from the gauge engine
+
+
+def test_composites_error_fails_composites_ok_without_touching_engine_ok():
+    r = qa.run_checks(FRESH, today="2026-07-08", gauge=GAUGE_OK,
+                      composites_error="RuntimeError: heatcheck boom")
+    comp = [c for c in r["checks"] if c["name"] == "composites_ok"][0]
+    eng = [c for c in r["checks"] if c["name"] == "engine_ok"][0]
+    assert comp["pass"] is False and "heatcheck boom" in comp["detail"]
+    assert eng["pass"] is True  # composites failure is isolated from the gauge engine
 
 
 def test_fuel_divergence_check_passes_within_band():

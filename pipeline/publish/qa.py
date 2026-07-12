@@ -18,7 +18,9 @@ GAUGE_COVERAGE_FLOOR = 40.0
 def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                freshness: list[dict] | None = None, gauge: dict | None = None,
                engine_error: str | None = None, fuel_divergence: dict | None = None,
-               artifacts: dict | None = None) -> dict:
+               artifacts: dict | None = None, nowcast_error: str | None = None,
+               composites_error: str | None = None,
+               stale_stamps: list[str] | None = None) -> dict:
     if cpi is not None:
         age = (date.fromisoformat(today) - date.fromisoformat(cpi["month"])).days
         checks = [
@@ -43,6 +45,26 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
     checks.append({"name": "engine_ok", "critical": True,
                    "pass": engine_error is None,
                    "detail": engine_error or "engine and writers completed"})
+    # nowcast_ok/composites_ok mirror engine_ok but for the phase-3/phase-4
+    # blocks, which run in their own isolated try/except in run_daily.py — a
+    # nowcast or composites failure must surface distinctly from, and never
+    # suppress, the core gauge's critical checks below.
+    checks.append({"name": "nowcast_ok", "critical": False,
+                   "pass": nowcast_error is None,
+                   "detail": nowcast_error or "nowcast completed"})
+    checks.append({"name": "composites_ok", "critical": False,
+                   "pass": composites_error is None,
+                   "detail": composites_error or "composites completed"})
+    if stale_stamps is not None:
+        # Files in the out dir whose published_at differs from this run's —
+        # leftovers from a prior partial/manual run about to deploy alongside
+        # today's artifacts. The isolation blocks make a partially-failed run
+        # legal, so this is how a mixed artifact set stays visible.
+        checks.append({"name": "single_run_stamp", "critical": False,
+                       "pass": not stale_stamps,
+                       "detail": ("all artifacts share this run's published_at"
+                                  if not stale_stamps else
+                                  "stale published_at — " + ", ".join(stale_stamps))})
     if source_results is not None:
         failed = [f"{r.source}: {r.error}" for r in source_results if not r.ok]
         checks.append({"name": "connectors_ok", "critical": False,

@@ -8,6 +8,9 @@ import json
 from pathlib import Path
 
 from pipeline.engine.gauge import PUBLISH_START
+from pipeline.publish import validate
+
+SCHEMAS = Path(__file__).parent.parent.parent / "schemas"
 
 WINDOWS = {"quilt_months_24.json": 24, "quilt_months_48.json": 48,
            "quilt_months_all.json": None}
@@ -60,5 +63,8 @@ def write(payload: dict, out_dir: Path, published_at: str) -> list[Path]:
                                  for c in payload["components"]]}
         path = out_dir / name
         path.write_text(json.dumps(sliced, separators=(",", ":")) + "\n")
+        # Validate immediately, one window at a time — a mid-loop failure must
+        # never leave a later window written-but-unvalidated on disk.
+        validate.validate_file(path, SCHEMAS / "quilt.schema.json")
         paths.append(path)
     return paths

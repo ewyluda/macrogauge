@@ -4,13 +4,24 @@ from pathlib import Path
 
 from pipeline.engine import backtest
 from pipeline.models import Observation
+from pipeline.publish import validate
 from pipeline.store import vintage
+
+SCHEMAS = Path(__file__).parent.parent.parent / "schemas"
+# accountability_{cpi,pce,nfp}.json share one schema; every other file's
+# schema name is derived from path.stem (see _write) — no hand-maintained map.
+ACCOUNTABILITY_SCHEMA = "accountability.schema.json"
 
 
 def _write(name: str, payload: dict, out_dir: Path, published_at: str) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / name
     path.write_text(json.dumps({"published_at": published_at, **payload}, indent=2) + "\n")
+    # Validate immediately, one file at a time — a mid-batch failure must never
+    # leave a later file written-but-unvalidated on disk (see
+    # docs/plans/2026-07-11-phase-3-4-structural-risks.md, Risk 3).
+    schema = ACCOUNTABILITY_SCHEMA if name.startswith("accountability_") else f"{path.stem}.schema.json"
+    validate.validate_file(path, SCHEMAS / schema)
     return path
 
 
@@ -33,6 +44,8 @@ def build_releases(conn) -> dict:
 
 def record_forecasts(nowcast: dict, conn, store_dir: Path, vintage_date: str) -> int:
     """Persist today's live forecasts so later grades never reconstruct history."""
+    if nowcast.get("reference_month") is None:  # degraded nowcast: nothing to record
+        return 0
     target_date = f"{nowcast['reference_month']}-01"
     values = {"forecast_cpi_mom": nowcast["cpi"]["mom_pct"],
               "forecast_pce_mom": nowcast["pce"]["mom_pct"],
@@ -78,7 +91,7 @@ def build_accountability(target: str, nowcast: dict, conn) -> dict:
                        "actual": round(actual, 2),
                        "error": round(value - actual, 2),
                        "release_date": release_date})
-    pending = [] if forecast is None else [{
+    pending = [] if forecast is None or forecast.get("status") == "unavailable" else [{
         "reference_period": nowcast.get("reference_month"), "badge": "LIVE",
         "forecast": forecast.get("mom_pct", forecast.get("change_thousands")),
         "as_of": forecast.get("as_of", nowcast.get("generated_on")), "actual": None}]
@@ -86,8 +99,11 @@ def build_accountability(target: str, nowcast: dict, conn) -> dict:
 
 
 def build_nextprint(nowcast: dict) -> dict:
-    candidates = [{"name": "Macrogauge", "value": nowcast["cpi"]["mom_pct"],
-                   "kind": "model", "as_of": nowcast["cpi"]["as_of"]}]
+    # Forecaster rows never carry a null value — an unavailable model is
+    # omitted, same convention as unavailable benchmarks.
+    candidates = ([{"name": "Macrogauge", "value": nowcast["cpi"]["mom_pct"],
+                    "kind": "model", "as_of": nowcast["cpi"]["as_of"]}]
+                  if nowcast["cpi"]["mom_pct"] is not None else [])
     candidates += [{"name": name.title(), "value": value, "kind": "benchmark",
                     "as_of": nowcast["generated_on"]}
                    for name, value in nowcast["benchmarks"].items() if value is not None]
@@ -102,10 +118,15 @@ FUEL_FORMULA = ("pump + 0.85 × (RBOB_5d_avg − RBOB_prior15d_avg); "
 
 
 def build_fuel(conn) -> dict:
+    # Always carry every key (nulled when unavailable) so the artifact has a
+    # stable shape regardless of data availability — a differently-shaped
+    # valid artifact is what breaks the site's statically-typed JSON imports
+    # (docs/plans/2026-07-11-phase-3-4-structural-risks.md, Risk 2).
     pump = vintage.latest(conn, "aaa_gas_d")
     rbob = vintage.latest(conn, "fmp_wti")  # WTI proxy until RBOB is registered
     if not pump or len(rbob) < 2:
-        return {"available": False, "formula": FUEL_FORMULA}
+        return {"available": False, "formula": FUEL_FORMULA,
+                "as_of": None, "pump": None, "forward_2wk": None, "proxy": None}
     recent = [v for _, v in rbob[-5:]]
     prior = [v for _, v in rbob[-20:-5]] or recent
     change = (sum(recent) / len(recent) - sum(prior) / len(prior)) / BBL_GALLONS
