@@ -25,7 +25,7 @@ def fake_get(url, params=None, timeout=None, **kw):
         return FakeResponse(json.loads((FIXTURES / name).read_text()))
     if "financialmodelingprep.com" in url:
         if "economic-calendar" in url:
-            return FakeResponse([{"event": "Consumer Price Index MoM",
+            return FakeResponse([{"country": "US", "event": "Consumer Price Index MoM",
                                   "date": "2026-07-14 08:30:00", "estimate": 0.3}])
         return FakeResponse(json.loads((FIXTURES / "fmp_quote.json").read_text()))
     if "clevelandfed.org" in url:

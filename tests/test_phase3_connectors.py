@@ -53,11 +53,44 @@ def test_kalshi_unpriced_markets_raise_cleanly():
 
 
 def test_street_selects_monthly_cpi_consensus():
-    payload = [{"event": "Consumer Price Index MoM", "date": "2026-07-14 08:30:00",
-                "estimate": 0.3}]
+    payload = [{"country": "US", "event": "Consumer Price Index MoM",
+                "date": "2026-07-14 08:30:00", "estimate": 0.3}]
     rows = street.fetch("key", "2026-07-10",
                         http_get=lambda *a, **k: FakeResponse(payload))
     assert rows[0].value == 0.3
+    assert rows[0].obs_date == "2026-06-01"
+
+
+def test_street_obs_date_is_reference_month_first():
+    # July-14 release covers June: obs_date = 2026-06-01 (benchmark convention)
+    payload = [{"country": "US", "event": "Consumer Price Index MoM",
+                "date": "2026-07-14 08:30:00", "estimate": 0.3}]
+    rows = street.fetch("key", "2026-07-10",
+                        http_get=lambda *a, **k: FakeResponse(payload))
+    assert rows[0].obs_date == "2026-06-01"
+    assert rows[0].vintage_date == "2026-07-10"
+
+
+def test_street_skips_core_and_foreign_rows():
+    payload = [
+        {"country": "GB", "event": "Consumer Price Index MoM",
+         "date": "2026-07-16 07:00:00", "estimate": 0.5},
+        {"country": "US", "event": "Core Consumer Price Index MoM",
+         "date": "2026-07-14 08:30:00", "estimate": 0.4},
+        {"country": "US", "event": "Consumer Price Index MoM",
+         "date": "2026-07-14 08:30:00", "estimate": 0.3}]
+    rows = street.fetch("key", "2026-07-10",
+                        http_get=lambda *a, **k: FakeResponse(payload))
+    assert rows[0].value == 0.3  # not the UK 0.5 or the Core 0.4
+
+
+def test_street_null_estimate_falls_back_to_consensus():
+    payload = [{"country": "US", "event": "Consumer Price Index MoM",
+                "date": "2026-07-14 08:30:00", "estimate": None,
+                "consensus": 0.25}]
+    rows = street.fetch("key", "2026-07-10",
+                        http_get=lambda *a, **k: FakeResponse(payload))
+    assert rows[0].value == 0.25
 
 
 def test_cleveland_parses_recorded_fixture():
