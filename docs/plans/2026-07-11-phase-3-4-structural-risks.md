@@ -198,3 +198,27 @@ every `*.json` in the out dir shares one `published_at` run stamp.
     tests, 6→15 e2e routes) — **DONE**: connector/file/e2e counts were
     refreshed pre-plan (`542f096`); the test count is bumped 258→274 in this
     commit (Task 9 Step 3), closing out the last stale figure.
+
+## Follow-up opened by the benchmark-provenance plan's final review (2026-07-12)
+
+- **Cleveland benchmark obs_date does not follow the reference-month convention
+  it was assumed to already satisfy.** Design decision 1 of
+  `docs/plans/2026-07-11-benchmark-provenance-and-cleanup.md` stated "Cleveland
+  already complies" with `obs_date = first day of the reference month the
+  forecast covers" — matching street/kalshi's new convention. Verified against
+  the live store this is false: `cleveland.py` extracts the *first row* of the
+  Cleveland Fed nowcast table, which is the current in-progress calendar month,
+  not the next-unreleased-print's reference month. Concretely (as of
+  2026-07-11): store row `cleveland_cpi_mom obs_date=2026-07-01`, while
+  `release_calendar.next_print` returns `reference_month=2026-06` until the
+  July 14 release. Because `phase3.latest_benchmarks` (added in that plan's
+  Task 4) now does an exact `obs_date` match, Cleveland structurally alternates
+  between matched and excluded roughly every two weeks of each release cycle
+  (matches from release-day through month-end, excluded from month-start
+  through the next release-day) — not a one-time gap that "self-corrects,"
+  as that plan's Task 9 close-out note assumed for all three benchmarks.
+  Nothing is unsafe: the ensemble renormalizes over whichever benchmarks are
+  present. **Not yet fixed** — needs someone to inspect the live Cleveland
+  nowcast table to determine whether a capturable reference-month row exists
+  (in which case the connector should select that row instead of "first row"),
+  or whether null-until-rollover is the accepted behavior.
