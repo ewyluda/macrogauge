@@ -1,7 +1,7 @@
 """One-time FMP history backfill (Phase 2a). Run locally with FMP_API_KEY set:
 
     FMP_API_KEY=... python scripts/backfill_fmp.py --store store \
-      --symbols RBUSD NGUSD ZCUSD ZWUSD ZSUSD ZLUSD KCUSD SBUSD CCUSD LEUSD
+      --symbols RBUSD NGUSD ZCUSX KEUSX ZSUSX ZLUSX KCUSX SBUSD CCUSD LEUSX
 
 Appends requested FMP closes since 2017 with TODAY's vintage; the store's
 value-dedupe skips rows that already match, so re-running is harmless.
