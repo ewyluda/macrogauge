@@ -9,23 +9,10 @@ from __future__ import annotations
 import math
 from datetime import date, timedelta
 
+from pipeline.dates import month_first, monthly_changes, next_month, prior_month
 from pipeline.store import vintage
 
 CPI_PARAMS = {"fuel_beta": 0.85, "rent_lag_months": 12, "rent_w": 0.45}
-
-
-def _month_start(month: str) -> str:
-    return f"{month[:7]}-01"
-
-
-def _previous_month(month: str) -> str:
-    y, m = map(int, month[:7].split("-"))
-    return f"{y - (m == 1):04d}-{12 if m == 1 else m - 1:02d}-01"
-
-
-def _next_month(month: str) -> str:
-    y, m = map(int, month[:7].split("-"))
-    return f"{y + (m == 12):04d}-{1 if m == 12 else m + 1:02d}-01"
 
 
 def _pct_change(values: dict[str, float], end: str, start: str) -> float | None:
@@ -36,9 +23,9 @@ def _pct_change(values: dict[str, float], end: str, start: str) -> float | None:
 
 def cpi_nowcast(gauge_result: dict, target_month: str) -> dict:
     """Bottom-up CPI forecast from weighted component index changes."""
-    target = _month_start(target_month)
-    prior = _previous_month(target)
-    after = _next_month(target)
+    target = month_first(target_month)
+    prior = prior_month(target)
+    after = next_month(target)
     variant = gauge_result["variants"]["gauge"]
     contributions, total = [], 0.0
     for code, component in variant["components"].items():
@@ -64,16 +51,6 @@ def cpi_nowcast(gauge_result: dict, target_month: str) -> dict:
             "components": contributions}
 
 
-def _monthly_changes(rows: list[tuple[str, float]]) -> dict[str, float]:
-    levels = dict(rows)
-    out = {}
-    for month, value in levels.items():
-        prior = _previous_month(month)
-        if prior in levels and levels[prior]:
-            out[month] = (value / levels[prior] - 1) * 100
-    return out
-
-
 def _ols(xs: list[list[float]], ys: list[float]) -> list[float] | None:
     """Small Gaussian-elimination OLS, with intercept already in X."""
     if not xs or len(xs) < len(xs[0]):
@@ -97,7 +74,7 @@ def _ols(xs: list[list[float]], ys: list[float]) -> list[float] | None:
 
 
 def pce_bridge(cpi_mom: float, cpi_rows, pce_rows, window: int = 24) -> dict:
-    cpi, pce = _monthly_changes(cpi_rows), _monthly_changes(pce_rows)
+    cpi, pce = monthly_changes(dict(cpi_rows)), monthly_changes(dict(pce_rows))
     months = sorted(set(cpi) & set(pce))[-window:]
     beta = _ols([[1.0, cpi[m]] for m in months], [pce[m] for m in months])
     if beta is None:

@@ -2,14 +2,8 @@
 import sqlite3
 from datetime import date, timedelta
 
+from pipeline.dates import months_back as _months_back
 from pipeline.store import vintage
-
-
-def _months_back(obs_date: str, n: int) -> str:
-    """First-of-month date n months before obs_date (FRED monthly dates are YYYY-MM-01)."""
-    year, month = int(obs_date[:4]), int(obs_date[5:7])
-    total = year * 12 + (month - 1) - n
-    return f"{total // 12:04d}-{total % 12 + 1:02d}-01"
 
 
 def latest_yoy(conn: sqlite3.Connection, series_code: str) -> dict:

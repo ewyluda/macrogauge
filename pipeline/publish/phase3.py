@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 
+from pipeline.dates import prior_month
 from pipeline.engine import backtest
 from pipeline.models import Observation
 from pipeline.publish import validate
@@ -74,7 +75,7 @@ def build_accountability(target: str, nowcast: dict, conn) -> dict:
     for i in range(1, len(actuals)):
         period, value, released = actuals[i]
         previous = actuals[i - 1][1]
-        if actuals[i - 1][0] != backtest.prior_month(period):
+        if actuals[i - 1][0] != prior_month(period):
             continue  # spans a never-published month (2025-10): not a MoM
         actual_changes[period] = ((value / previous - 1) * 100 if target in ("cpi", "pce")
                                   else value - previous, released)
