@@ -125,11 +125,6 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                            "pass": nowcast["ensemble"]["value"] is not None,
                            "detail": f"ensemble={nowcast['ensemble']['value']} "
                                      f"weights={nowcast['ensemble']['weights']}"})
-            params = nowcast["cpi"].get("parameters", {})
-            checks.append({"name": "nowcast_params_published", "critical": True,
-                           "pass": all(k in params for k in
-                                       ("fuel_beta", "rent_lag_months", "rent_w")),
-                           "detail": f"parameters={params}"})
     if gauge is not None:
         gauge_age = (date.fromisoformat(today)
                      - date.fromisoformat(gauge["as_of"])).days

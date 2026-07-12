@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-07-11",
-  "passed": 14,
-  "total": 16,
+  "passed": 13,
+  "total": 15,
   "checks": [
     {
       "name": "headline_current",
@@ -62,12 +62,6 @@
       "critical": false,
       "pass": true,
       "detail": "ensemble=-0.12 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
-    },
-    {
-      "name": "nowcast_params_published",
-      "critical": true,
-      "pass": true,
-      "detail": "parameters={'fuel_beta': 0.85, 'rent_lag_months': 12, 'rent_w': 0.45}"
     },
     {
       "name": "gauge_current",

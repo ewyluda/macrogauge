@@ -12,6 +12,6 @@ export default function CpiPreview() {
     <Section title="Component receipts"><div className="table-card"><table className="data-table"><thead><tr><th>Component</th><th>MoM</th><th>Weight</th><th>Contribution</th></tr></thead><tbody>
       {nowcast.cpi.components.map((row) => <tr key={row.component}><td>{row.component}</td><td>{row.mom_pct.toFixed(2)}%</td><td>{(row.weight * 100).toFixed(1)}%</td><td>{row.contribution_pp.toFixed(3)}pp</td></tr>)}
     </tbody></table></div></Section>
-    <p className="method">Parameters: fuel β {nowcast.cpi.parameters.fuel_beta}; rent lag {nowcast.cpi.parameters.rent_lag_months} months; rent weight {nowcast.cpi.parameters.rent_w}. Status: {nowcast.cpi.status.toUpperCase()}.</p>
+    <p className="method">Status: {nowcast.cpi.status.toUpperCase()}.</p>
   </div>;
 }

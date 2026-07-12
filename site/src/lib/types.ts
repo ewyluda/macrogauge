@@ -43,7 +43,7 @@ export type Nowcast = {
     yoy_pct: number | null;
     as_of: string | null;
     status: string;
-    parameters: { fuel_beta: number; rent_lag_months: number; rent_w: number };
+    parameters: Record<string, number>;
     components: NowcastComponent[];
   };
   pce: {

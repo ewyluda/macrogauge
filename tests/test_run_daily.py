@@ -109,7 +109,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items
-    assert qa["total"] == 19
+    assert qa["total"] == 18
     stamp = [c for c in qa["checks"] if c["name"] == "single_run_stamp"][0]
     assert stamp["pass"] is True  # a clean full run leaves no stale artifacts
     official = json.loads((out / "official.json").read_text())
@@ -307,7 +307,7 @@ def test_release_calendar_exhausted_degrades_nowcast_instead_of_crashing(tmp_pat
     checks = {c["name"]: c for c in qa_data["checks"]}
     assert checks["nowcast_ok"]["pass"] is True  # exhaustion is not an error
     assert checks["engine_ok"]["pass"] is True
-    assert checks["nowcast_params_published"]["pass"] is True
+    assert "nowcast_params_published" not in checks
 
 
 def test_stale_leftover_artifact_flagged_by_single_run_stamp(tmp_path, monkeypatch):

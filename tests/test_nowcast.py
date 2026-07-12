@@ -87,9 +87,14 @@ def test_build_latest_degrades_instead_of_raising_when_calendar_exhausted():
     assert result["reference_month"] is None
     assert result["cpi"]["status"] == "unavailable"
     assert result["cpi"]["mom_pct"] is None
-    assert result["cpi"]["parameters"] == {"fuel_beta": 0.85, "rent_lag_months": 12,
-                                           "rent_w": 0.45}
+    assert result["cpi"]["parameters"] == {}
     assert result["pce"]["status"] == "unavailable"
     assert result["nfp"] is None
     assert result["benchmarks"] == {"cleveland": 0.2}
     assert result["ensemble"] == {"value": None, "weights": {}}
+
+
+def test_cpi_nowcast_publishes_no_phantom_parameters():
+    # fuel_beta / rent_lag_months / rent_w were never used by the model —
+    # publishing them was dishonest methodology (2026-07-11 review).
+    assert not hasattr(models, "CPI_PARAMS")

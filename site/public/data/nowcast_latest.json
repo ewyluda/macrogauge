@@ -9,11 +9,7 @@
     "yoy_pct": 3.07,
     "as_of": "2026-07-11",
     "status": "live",
-    "parameters": {
-      "fuel_beta": 0.85,
-      "rent_lag_months": 12,
-      "rent_w": 0.45
-    },
+    "parameters": {},
     "components": [
       {
         "component": "shelter_owned",

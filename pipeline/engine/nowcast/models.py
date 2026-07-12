@@ -12,8 +12,6 @@ from datetime import date, timedelta
 from pipeline.dates import month_first, monthly_changes, next_month, prior_month
 from pipeline.store import vintage
 
-CPI_PARAMS = {"fuel_beta": 0.85, "rent_lag_months": 12, "rent_w": 0.45}
-
 
 def _pct_change(values: dict[str, float], end: str, start: str) -> float | None:
     if end not in values or start not in values or values[start] == 0:
@@ -47,7 +45,7 @@ def cpi_nowcast(gauge_result: dict, target_month: str) -> dict:
     latest_yoy = variant["yoy"][variant["as_of"]]
     return {"target_month": target[:7], "mom_pct": round(total, 2),
             "yoy_pct": round(latest_yoy, 2), "as_of": variant["as_of"],
-            "status": "live", "parameters": CPI_PARAMS,
+            "status": "live", "parameters": {},
             "components": contributions}
 
 
@@ -134,7 +132,7 @@ def build_latest(conn, gauge_result: dict, next_release: dict | None,
         # down with it (see docs/plans/2026-07-11-phase-3-4-structural-risks.md).
         return {"target": "CPI", "release_date": None, "reference_month": None,
                 "cpi": {"mom_pct": None, "yoy_pct": None, "as_of": None,
-                        "status": "unavailable", "parameters": CPI_PARAMS,
+                        "status": "unavailable", "parameters": {},
                         "components": []},
                 "pce": {"mom_pct": None, "status": "unavailable", "as_of": None,
                         "parameters": {}},
