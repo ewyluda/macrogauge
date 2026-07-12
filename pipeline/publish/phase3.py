@@ -136,8 +136,9 @@ def build_nextprint(nowcast: dict) -> dict:
 
 
 BBL_GALLONS = 42  # WTI quotes in $/barrel; the pump price is $/gallon
-FUEL_FORMULA = ("pump + 0.85 × (RBOB_5d_avg − RBOB_prior15d_avg); "
-                "WTI proxy converted at 42 gal/bbl")
+FUEL_FORMULA_RBOB = "pump + 0.85 × (RBOB_5d_avg − RBOB_prior15d_avg)"
+FUEL_FORMULA_WTI = ("pump + 0.85 × (WTI_5d_avg − WTI_prior15d_avg); "
+                    "WTI proxy converted at 42 gal/bbl")
 
 
 def build_fuel(conn) -> dict:
@@ -146,17 +147,23 @@ def build_fuel(conn) -> dict:
     # valid artifact is what breaks the site's statically-typed JSON imports
     # (docs/plans/2026-07-11-phase-3-4-structural-risks.md, Risk 2).
     pump = vintage.latest(conn, "aaa_gas_d")
-    rbob = vintage.latest(conn, "fmp_wti")  # WTI proxy until RBOB is registered
-    if not pump or len(rbob) < 2:
-        return {"available": False, "formula": FUEL_FORMULA,
+    rbob = vintage.latest(conn, "fmp_rbob")
+    if len(rbob) >= 2:
+        # RBOB quotes in $/gal — no barrel conversion.
+        series, divisor = rbob, 1.0
+        proxy, formula = "RBOB futures", FUEL_FORMULA_RBOB
+    else:
+        series, divisor = vintage.latest(conn, "fmp_wti"), BBL_GALLONS
+        proxy, formula = "WTI (RBOB unavailable)", FUEL_FORMULA_WTI
+    if not pump or len(series) < 2:
+        return {"available": False, "formula": FUEL_FORMULA_RBOB,
                 "as_of": None, "pump": None, "forward_2wk": None, "proxy": None}
-    recent = [v for _, v in rbob[-5:]]
-    prior = [v for _, v in rbob[-20:-5]] or recent
-    change = (sum(recent) / len(recent) - sum(prior) / len(prior)) / BBL_GALLONS
+    recent = [v for _, v in series[-5:]]
+    prior = [v for _, v in series[-20:-5]] or recent
+    change = (sum(recent) / len(recent) - sum(prior) / len(prior)) / divisor
     return {"available": True, "as_of": pump[-1][0], "pump": pump[-1][1],
             "forward_2wk": round(pump[-1][1] + 0.85 * change, 3),
-            "proxy": "WTI (RBOB unavailable)",
-            "formula": FUEL_FORMULA}
+            "proxy": proxy, "formula": formula}
 
 
 def write_all(nowcast: dict, conn, out_dir: Path, published_at: str) -> list[Path]:
