@@ -362,3 +362,35 @@ def test_pce_uses_pce_weights():
     pce_w = {c.code: c.pce_weight for c in comps}
     for code, entry in result["variants"]["pce"]["components"].items():
         assert entry["weight"] == pce_w[code]
+
+
+def test_bls_cf_component_walks_back_over_base_month_hole(tmp_path):
+    """Base-hole walk-back (HARD DEADLINE 2026-11-12): the 2018-10 print was
+    never published here (2025-10 shutdown-hole analog). A 2019-10-01 obs has
+    no like-month base, and the forward-filled grid silently supplies the
+    Sep-2018 value -- a 13-month "YoY" that surfaces as a phantom gap on
+    every bls_cf gaptable row the day the Oct-2026 print lands. The
+    component must instead carry the latest honest YoY (Sep-vs-Sep)
+    forward, official.py-style -- and the weighted headline must stay
+    numeric, not None-poisoned."""
+    rows = [
+        ("OFF_SH", "2018-01-01", 100.0), ("OFF_SH", "2018-09-01", 101.0),
+        ("OFF_SH", "2018-11-01", 101.5), ("OFF_SH", "2019-08-01", 103.5),
+        ("OFF_SH", "2019-09-01", 104.0), ("OFF_SH", "2019-10-01", 105.0),
+        ("OFF_FU", "2018-01-01", 200.0), ("OFF_FU", "2018-09-01", 202.0),
+        ("OFF_FU", "2018-11-01", 203.0), ("OFF_FU", "2019-08-01", 209.0),
+        ("OFF_FU", "2019-09-01", 210.0), ("OFF_FU", "2019-10-01", 212.0)]
+    conn, bp = seed(tmp_path, rows, vintage_date="2019-10-02")
+    r = gauge.run(conn, today="2019-10-05", basket_path=bp, staleness=STALENESS)
+    g = r["variants"]["gauge"]
+    SH = (104.0 / 101.0 - 1) * 100  # Sep-vs-Sep: the latest honest month
+    FU = (210.0 / 202.0 - 1) * 100
+    assert g["as_of"] == "2019-10-01"
+    assert g["components"]["shelter"]["mode"] == "bls_cf"  # no LIVE_* rows
+    assert g["components"]["shelter"]["yoy_pct"] == pytest.approx(SH)
+    assert g["components"]["fuel"]["yoy_pct"] == pytest.approx(FU)
+    # the official mirror series has the same hole and walks back the same way
+    assert g["components"]["fuel"]["official_own_yoy_daily"]["2019-10-01"] == \
+        pytest.approx(FU)
+    # walk-back must NOT None-poison the weighted headline at the grid end
+    assert g["yoy"]["2019-10-01"] == pytest.approx(0.6 * SH + 0.4 * FU)

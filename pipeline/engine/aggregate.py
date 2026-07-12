@@ -40,14 +40,40 @@ def yoy(index: dict[str, float]) -> dict[str, float | None]:
     return out
 
 
-def fill_yoy(yoy_at_obs: dict[str, float | None], start: str, end: str
+def yoy_at_obs(series: dict[str, float], filled: dict[str, float]
+               ) -> dict[str, float | None]:
+    """YoY sampled at a series' own observation dates, from its filled grid.
+
+    A base date whose calendar month has no genuine observation is a hole
+    (the 2025-10 CPI print was never published — government shutdown): the
+    forward-filled grid would silently supply the prior month's value,
+    fabricating a 13-month change. Such obs dates are OMITTED so fill_yoy
+    carries the last honest YoY forward — the same walk-back official.py
+    applies. A base that merely predates the grid stays None (not omitted):
+    early Nones must keep seeding fill_yoy's domain."""
+    filled_yoy = yoy(filled)
+    months = {d[:7] for d in series}
+    out: dict[str, float | None] = {}
+    for d in series:
+        if d not in filled_yoy:
+            continue
+        v = filled_yoy[d]
+        if v is not None:
+            base = (date.fromisoformat(d) - timedelta(days=365)).isoformat()
+            if base[:7] not in months:
+                continue
+        out[d] = v
+    return out
+
+
+def fill_yoy(at_obs: dict[str, float | None], start: str, end: str
              ) -> dict[str, float | None]:
     """Forward-fill a YoY series computed at a component's own obs dates.
 
     Unlike fill_daily, None is a real value here (missing YoY base) and is
     carried forward as None — a missing base must not resurrect the prior
     observation's YoY."""
-    obs = sorted(yoy_at_obs)
+    obs = sorted(at_obs)
     out: dict[str, float | None] = {}
     d = date.fromisoformat(max(start, obs[0]))
     stop = date.fromisoformat(end)
@@ -55,7 +81,7 @@ def fill_yoy(yoy_at_obs: dict[str, float | None], start: str, end: str
     while d <= stop:
         ds = d.isoformat()
         while idx < len(obs) and obs[idx] <= ds:
-            cur, seen = yoy_at_obs[obs[idx]], True
+            cur, seen = at_obs[obs[idx]], True
             idx += 1
         if seen:
             out[ds] = cur

@@ -108,16 +108,17 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
         # last computed YoY carries forward between obs. Aggregating filled
         # LEVELS at the grid end compared a stale print against a
         # different-month base a year ago -- the between-print sawtooth.
+        # yoy_at_obs also walks back over base-month holes (the never-
+        # published 2025-10 print): an obs whose like-month base is missing
+        # is omitted, so the last honest YoY carries forward instead of a
+        # 13-month change against a forward-filled stale base.
         own_yoy = {}
         for code, series_by_date in built.items():
-            filled_yoy = aggregate.yoy(daily[code])
-            at_obs = {d: filled_yoy[d] for d in series_by_date
-                      if d in filled_yoy}
+            at_obs = aggregate.yoy_at_obs(series_by_date, daily[code])
             own_yoy[code] = aggregate.fill_yoy(at_obs, GRID_START, end)
         official_own_yoy = {}
         for code, off_idx in official_rebased.items():
-            filled = aggregate.yoy(official_daily[code])
-            at_obs = {d: filled[d] for d in off_idx if d in filled}
+            at_obs = aggregate.yoy_at_obs(off_idx, official_daily[code])
             official_own_yoy[code] = aggregate.fill_yoy(at_obs, GRID_START, end)
         # coverage renormalizes over the variant's own weights -- supercore's
         # subset weights don't sum to 1 (they're a slice of the full basket).

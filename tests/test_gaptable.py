@@ -4,6 +4,7 @@ from pathlib import Path
 import pytest
 
 from pipeline import basket
+from pipeline.engine import gauge
 from pipeline.models import Observation
 from pipeline.publish import gaptable, validate
 from pipeline.store import vintage
@@ -92,3 +93,31 @@ def test_variant_summary_has_all_five_variants(tmp_path):
         assert set(v) == {"yoy_pct", "as_of", "coverage_pct"}
     assert p["variants"]["gauge"] == {"yoy_pct": 5.5, "as_of": "2019-01-05",
                                       "coverage_pct": 60.0}
+
+
+def test_bls_cf_gap_zero_across_base_month_hole(tmp_path):
+    # End-to-end engine -> gaptable across the shutdown hole (2018-10 print
+    # missing, 2025-10 analog): ours must walk back to the same honest month
+    # component_summary picks, keeping bls_cf gaps 0 by construction.
+    rows = [
+        ("OFF_SH", "2018-01-01", 100.0), ("OFF_SH", "2018-09-01", 101.0),
+        ("OFF_SH", "2018-11-01", 101.5), ("OFF_SH", "2019-08-01", 103.5),
+        ("OFF_SH", "2019-09-01", 104.0), ("OFF_SH", "2019-10-01", 105.0),
+        ("OFF_FU", "2018-01-01", 200.0), ("OFF_FU", "2018-09-01", 202.0),
+        ("OFF_FU", "2018-11-01", 203.0), ("OFF_FU", "2019-08-01", 209.0),
+        ("OFF_FU", "2019-09-01", 210.0), ("OFF_FU", "2019-10-01", 212.0)]
+    obs = [Observation(series_code=c, obs_date=d, value=v,
+                       vintage_date="2019-10-02", source="T", route="API")
+           for c, d, v in rows]
+    vintage.append(obs, tmp_path)
+    bp = tmp_path / "basket.json"
+    bp.write_text(json.dumps(MINI))
+    _, comps = basket.load_basket(bp)
+    conn = vintage.load(tmp_path)
+    result = gauge.run(conn, today="2019-10-05", basket_path=bp)
+    p = gaptable.build(result, conn, comps, official_month="2019-09-01")
+    assert len(p["rows"]) == 2
+    for row in p["rows"]:
+        assert row["mode"] == "bls_cf"
+        assert row["gap_pp"] == 0.0, row
+    assert p["total_gap_pp"] == 0.0
