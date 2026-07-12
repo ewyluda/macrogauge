@@ -5,9 +5,20 @@ import jsonschema
 import pytest
 
 from pipeline import run_daily
+from pipeline.store import vintage
 from tests.test_fred import FakeResponse
 
 FIXTURES = Path(__file__).parent / "fixtures"
+
+# The symbols FMP actually serves (mirrors /stable/commodities-list). The fake
+# answers only for requested∩known, like the real batch-quote route: a typo'd
+# source_id in config/series.json quietly gets no quote, no store row — and the
+# per-code store assertion in the e2e goes red instead of CI staying green.
+FMP_QUOTES = {
+    "GCUSD": 3412.5, "CLUSD": 71.85, "RBUSD": 2.11, "NGUSD": 3.45,
+    "ZCUSX": 461.0, "KEUSX": 676.25, "ZSUSX": 1196.5, "ZLUSX": 68.98,
+    "KCUSX": 334.25, "SBUSD": 223.43, "CCUSD": 8200.0, "LEUSX": 230.55,
+}
 
 
 def fake_get(url, params=None, timeout=None, **kw):
@@ -27,7 +38,11 @@ def fake_get(url, params=None, timeout=None, **kw):
         if "economic-calendar" in url:
             return FakeResponse([{"country": "US", "event": "Consumer Price Index MoM",
                                   "date": "2026-07-14 08:30:00", "estimate": 0.3}])
-        return FakeResponse(json.loads((FIXTURES / "fmp_quote.json").read_text()))
+        requested = (params or {}).get("symbols", "").split(",")
+        return FakeResponse([
+            {"symbol": s, "price": FMP_QUOTES[s], "timestamp": 1783440000}
+            for s in requested if s in FMP_QUOTES
+        ])
     if "clevelandfed.org" in url:
         return _TextResponse("<tr><td>July 2026</td><td>0.20</td><td>0.25</td>"
                              "<td>0.18</td><td>0.22</td><td>07/10</td></tr>")
@@ -117,6 +132,16 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     official = json.loads((out / "official.json").read_text())
     assert len(official["components"]) == 14
     assert len(official["quotes"]) == 13
+    # every registered FMP series must land a store row — this is what catches
+    # a typo'd source_id (the ZCUSD-vs-ZCUSX class) that the real API would
+    # silently drop from the batch-quote response
+    conn = vintage.load(store)
+    for code in ("fmp_gold", "fmp_wti", "fmp_rbob", "fmp_natgas", "fmp_corn",
+                 "fmp_wheat", "fmp_soybeans", "fmp_soybean_oil", "fmp_coffee",
+                 "fmp_sugar", "fmp_cocoa", "fmp_live_cattle"):
+        assert vintage.latest(conn, code), f"no store rows for {code}"
+    checks = {c["name"]: c for c in qa["checks"]}
+    assert checks["outlook_ok"]["pass"] is True
 
 
 def test_engine_failure_still_publishes_status_and_qa(tmp_path, monkeypatch):
@@ -328,6 +353,47 @@ def test_stale_leftover_artifact_flagged_by_single_run_stamp(tmp_path, monkeypat
     stamp = [c for c in qa_data["checks"] if c["name"] == "single_run_stamp"][0]
     assert stamp["pass"] is False
     assert "leftover.json" in stamp["detail"]
+
+
+def test_outlook_failure_does_not_block_composites_or_qa(tmp_path, monkeypatch):
+    # The outlook block mirrors the nowcast/composites isolation contract:
+    # its failure surfaces in outlook_ok and must never take down the gauge,
+    # the nowcast, the composites, or qa publication.
+    set_keys(monkeypatch)
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("outlook boom")
+
+    monkeypatch.setattr(run_daily.outlook_engine, "run", boom)
+    store, out = tmp_path / "store", tmp_path / "out"
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    assert (out / "pulse.json").exists()           # core gauge block unaffected
+    assert (out / "nowcast_latest.json").exists()  # phase-3 block unaffected
+    assert (out / "heatcheck.json").exists()       # composites block unaffected
+    assert not (out / "outlook.json").exists()     # outlook block never wrote
+    qa_data = json.loads((out / "qa.json").read_text())
+    checks = {c["name"]: c for c in qa_data["checks"]}
+    assert checks["outlook_ok"]["pass"] is False
+    assert "outlook boom" in checks["outlook_ok"]["detail"]
+    assert checks["engine_ok"]["pass"] is True
+    assert checks["nowcast_ok"]["pass"] is True
+    assert checks["composites_ok"]["pass"] is True
+
+
+def test_outlook_schema_violation_fails_run(tmp_path, monkeypatch):
+    # The outlook block's ValidationError re-raise: a contract-violating
+    # outlook.json must crash the run (never deploy), not be swallowed into
+    # the outlook_ok degradation path.
+    set_keys(monkeypatch)
+    monkeypatch.setattr(run_daily.outlook_engine, "run",
+                        lambda *a, **k: {"bogus": True})
+    store, out = tmp_path / "store", tmp_path / "out"
+    with pytest.raises(jsonschema.ValidationError):
+        run_daily.main(["--store", str(store), "--out", str(out)],
+                       http_get=fake_get, http_post=fake_post)
+    assert not (out / "qa.json").exists()  # run died before qa
 
 
 def test_phase3_writer_validates_inline_and_validation_error_fails_run(tmp_path, monkeypatch):
