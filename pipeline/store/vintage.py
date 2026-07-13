@@ -54,6 +54,31 @@ def append(observations: list[Observation], store_dir: Path) -> int:
     return written
 
 
+def append_vintages(observations: list[Observation], store_dir: Path) -> int:
+    """Append historical-vintage rows, deduped by identity, not value.
+
+    append()'s value-dedupe is wrong for backfills: a first release whose
+    value never changed would be skipped because the daily snapshot already
+    holds it — losing the release date that vintage-true grading needs. Here
+    a row is skipped only if the exact (series, obs_date, vintage) is already
+    stored, so re-running a backfill is a no-op."""
+    seen = {(row["series_code"], row["obs_date"], row["vintage_date"])
+            for part in _partitions(store_dir)
+            for row in map(json.loads, part.read_text().splitlines())}
+    written = 0
+    for o in observations:
+        key = (o.series_code, o.obs_date, o.vintage_date)
+        if key in seen:
+            continue
+        part = store_dir / OBS_SUBDIR / f"{o.vintage_date[:7]}.jsonl"
+        part.parent.mkdir(parents=True, exist_ok=True)
+        with part.open("a") as f:
+            f.write(json.dumps(asdict(o), sort_keys=True) + "\n")
+        seen.add(key)
+        written += 1
+    return written
+
+
 def load(store_dir: Path) -> sqlite3.Connection:
     """Load all partitions into an in-memory SQLite database."""
     conn = sqlite3.connect(":memory:")

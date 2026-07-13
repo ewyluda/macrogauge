@@ -67,6 +67,31 @@ def test_load_tolerates_rows_missing_future_fields(tmp_path):
     assert row == (None, None)
 
 
+def test_append_vintages_writes_equal_value_at_earlier_vintage(tmp_path):
+    # the daily snapshot already holds today's value; a historical backfill
+    # must still land the first-release row even though the value is identical
+    # (value-dedupe in append() would wrongly skip it)
+    vintage.append([obs(date="2025-05-01", value=313.6, vintage="2026-07-13")], tmp_path)
+    n = vintage.append_vintages(
+        [obs(date="2025-05-01", value=313.6, vintage="2025-06-11")], tmp_path)
+    assert n == 1
+    assert (tmp_path / "obs" / "2025-06.jsonl").exists()
+    conn = vintage.load(tmp_path)
+    assert vintage.first_releases(conn, "CPIAUCNS") == [
+        ("2025-05-01", 313.6, "2025-06-11")]
+    # latest-vintage-wins view is unchanged by the backfill
+    assert vintage.latest(conn, "CPIAUCNS") == [("2025-05-01", 313.6)]
+
+
+def test_append_vintages_is_idempotent(tmp_path):
+    rows = [obs(date="2025-05-01", value=313.6, vintage="2025-06-11"),
+            obs(date="2025-04-01", value=313.0, vintage="2025-05-13")]
+    assert vintage.append_vintages(rows, tmp_path) == 2
+    assert vintage.append_vintages(rows, tmp_path) == 0
+    lines = (tmp_path / "obs" / "2025-06.jsonl").read_text().strip().splitlines()
+    assert len(lines) == 1
+
+
 def test_max_obs_date(tmp_path):
     vintage.append([obs(date="2026-04-01"), obs(date="2026-05-01")], tmp_path)
     conn = vintage.load(tmp_path)

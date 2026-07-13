@@ -1,0 +1,19 @@
+{
+  "realtime_start": "2016-01-01",
+  "realtime_end": "9999-12-31",
+  "observation_start": "2024-11-01",
+  "units": "lin",
+  "count": 10,
+  "observations": [
+    {"realtime_start": "2024-12-11", "realtime_end": "9999-12-31", "date": "2024-11-01", "value": "310.0"},
+    {"realtime_start": "2025-01-15", "realtime_end": "9999-12-31", "date": "2024-12-01", "value": "310.6"},
+    {"realtime_start": "2025-02-12", "realtime_end": "9999-12-31", "date": "2025-01-01", "value": "311.2"},
+    {"realtime_start": "2025-03-12", "realtime_end": "9999-12-31", "date": "2025-02-01", "value": "311.8"},
+    {"realtime_start": "2025-04-10", "realtime_end": "2025-05-12", "date": "2025-03-01", "value": "312.4"},
+    {"realtime_start": "2025-05-13", "realtime_end": "9999-12-31", "date": "2025-03-01", "value": "312.5"},
+    {"realtime_start": "2025-05-13", "realtime_end": "9999-12-31", "date": "2025-04-01", "value": "313.0"},
+    {"realtime_start": "2025-06-11", "realtime_end": "9999-12-31", "date": "2025-05-01", "value": "313.6"},
+    {"realtime_start": "2025-07-15", "realtime_end": "9999-12-31", "date": "2025-06-01", "value": "314.2"},
+    {"realtime_start": "2025-07-15", "realtime_end": "9999-12-31", "date": "2025-07-01", "value": "."}
+  ]
+}
