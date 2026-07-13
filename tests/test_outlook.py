@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from pipeline import basket
+from pipeline import basket, registry
 from pipeline.dates import next_month
 from pipeline.engine import outlook
 from pipeline.publish import outlook as outlook_json, validate
@@ -187,14 +187,16 @@ def test_stale_driver_series_are_gated_to_fallback(tmp_path):
     conn = vintage.load(tmp_path / "store")
     _seed_forward_drivers(conn)  # every driver series ends 2024-12-01
 
-    result = outlook.run(conn, _gauge_result(),
-                         staleness={"manheim_uvvi_m": 45, "fmp_rbob": 7},
+    _, series = registry.load_registry()
+    staleness = {s.code: 100_000 for s in series}  # everything fresh by default
+    staleness.update({"manheim_uvvi_m": 45, "fmp_rbob": 7})
+    result = outlook.run(conn, _gauge_result(), staleness=staleness,
                          today="2025-06-30")  # ~200 days past the last obs
 
     drivers = {d["key"]: d for d in result["drivers"]}
     assert drivers["used_vehicles"]["status"] == "fallback"
     assert drivers["used_vehicles"]["value"] is None
-    # fmp_rbob gated out; fmp_wti carries no limit -> treated fresh -> the
+    # fmp_rbob gated out; fmp_wti stays within its generous limit -> the
     # blend renormalizes to WTI-only and the receipt says so
     assert drivers["fuel"]["status"] == "partial"
     assert drivers["fuel"]["sources"] == ["fmp_wti"]
@@ -238,6 +240,35 @@ def test_shelter_and_new_vehicle_receipts_follow_config(tmp_path):
     assert drivers["shelter"]["sources"] == ["zori_us"]
     assert "Apartment List" not in drivers["shelter"]["name"]
     assert drivers["new_vehicles"]["sources"] == ["kbb_atp"]
+
+
+def test_config_series_typo_raises_instead_of_silent_fallback(tmp_path):
+    """With registry context available, a typo'd series code in outlook.json
+    must fail the run loudly — not degrade to a permanent 'fallback' driver."""
+    cfg = json.loads(outlook.DEFAULT_CONFIG.read_text())
+    cfg["fuel"]["series"] = {"fmp_rbobb": 0.6, "fmp_wti": 0.4}
+    config_path = tmp_path / "outlook.json"
+    config_path.write_text(json.dumps(cfg))
+    conn = vintage.load(tmp_path / "store")
+    _, series = registry.load_registry()
+    staleness = {s.code: s.max_staleness_days for s in series}
+
+    with pytest.raises(ValueError, match="unknown series.*fmp_rbobb"):
+        outlook.run(conn, _gauge_result(), config_path=config_path,
+                    staleness=staleness, today="2025-01-15")
+
+
+def test_config_component_typo_raises(tmp_path):
+    """Component references must exist in the gauge basket — a typo would
+    silently drop the wage anchor or pipeline tilt from that component."""
+    cfg = json.loads(outlook.DEFAULT_CONFIG.read_text())
+    cfg["wages"]["service_components"] = ["food_away", "medcial"]
+    config_path = tmp_path / "outlook.json"
+    config_path.write_text(json.dumps(cfg))
+    conn = vintage.load(tmp_path / "store")
+
+    with pytest.raises(ValueError, match="unknown component.*medcial"):
+        outlook.run(conn, _gauge_result(), config_path=config_path)
 
 
 def test_short_history_raises_named_error_not_indexerror(tmp_path):

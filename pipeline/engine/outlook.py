@@ -162,10 +162,32 @@ def _headline_monthly(index: dict[str, float], origin_month: str) -> dict[str, f
     return _month_values(index.items(), origin_month)
 
 
+def _validate_config(config: dict, component_codes: set[str],
+                     staleness: dict[str, int] | None) -> None:
+    """A typo'd series or component name in outlook.json must fail the run
+    loudly, not degrade to a silent permanent fallback. Series codes are
+    checked against the registry map when the caller provides one (run_daily
+    always does); component references are always checkable."""
+    series_refs = (set(config["fuel"]["series"]) | set(config["food_home"]["series"])
+                   | set(config["goods_pipeline"]["series"]) | set(config["shelter"]["series"])
+                   | {config["nat_gas"]["series"], config["used_vehicles"]["series"],
+                      config["wages"]["series"], config["new_vehicles"]["trend_source"]})
+    if staleness is not None:
+        unknown = sorted(series_refs - staleness.keys())
+        if unknown:
+            raise ValueError("outlook: config references unknown series: " + ", ".join(unknown))
+    component_refs = (set(config["wages"]["service_components"])
+                      | set(config["goods_pipeline"]["components"]))
+    unknown = sorted(component_refs - component_codes)
+    if unknown:
+        raise ValueError("outlook: config references unknown components: " + ", ".join(unknown))
+
+
 def run(conn, gauge_result: dict, config_path: Path | None = None,
         staleness: dict[str, int] | None = None, today: str | None = None) -> dict:
     config = json.loads((config_path or DEFAULT_CONFIG).read_text())
     variant = gauge_result["variants"]["gauge"]
+    _validate_config(config, set(variant["components"]), staleness)
     as_of = variant["as_of"]
     origin_month = prior_month(month_first(as_of))[:7]
     headline = _headline_monthly(variant["index"], origin_month)
