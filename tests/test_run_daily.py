@@ -102,6 +102,22 @@ def set_keys(monkeypatch):
         monkeypatch.setenv(k, "test-key")
 
 
+def test_run_phase_isolation_contract():
+    """The shared runner every publish phase goes through: success returns
+    (value, None); failure returns (None, 'Type: msg') and never propagates;
+    jsonschema.ValidationError re-raises — invalid JSON must never deploy."""
+    assert run_daily._run_phase("demo", lambda: 42) == (42, None)
+
+    def boom():
+        raise RuntimeError("kaput")
+    assert run_daily._run_phase("demo", boom) == (None, "RuntimeError: kaput")
+
+    def invalid():
+        raise jsonschema.ValidationError("bad artifact")
+    with pytest.raises(jsonschema.ValidationError):
+        run_daily._run_phase("demo", invalid)
+
+
 def test_end_to_end_all_sources(tmp_path, monkeypatch):
     set_keys(monkeypatch)
     store, out = tmp_path / "store", tmp_path / "out"

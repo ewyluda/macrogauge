@@ -4,17 +4,17 @@ Connector failures never block publication — they surface in
 sources_status.json and qa.json, and stale series carry forward.
 
 sources_status publishes FIRST (right after collect): a broken engine must
-never hide a broken source. Five independently isolated try/except blocks
-follow: (1) the core gauge engine + writers (cpi -> gauge ->
-pulse/gauge_daily/compare/gaptable/official, surfaces via engine_ok),
-(2) the phase-3 nowcast (surfaces via nowcast_ok — build_latest degrades to
-status "unavailable" rather than raising once the release calendar is
-exhausted), (3) the 12-month component outlook (outlook_ok), (4) phase-4
-composites (surfaces via composites_ok, which
+never hide a broken source. Five independently isolated phases follow, all
+running under the same _run_phase isolation contract: (1) the core gauge
+engine + writers (cpi -> gauge -> pulse/gauge_daily/compare/gaptable/official,
+surfaces via engine_ok), (2) the phase-3 nowcast (surfaces via nowcast_ok —
+build_latest degrades to status "unavailable" rather than raising once the
+release calendar is exhausted), (3) the 12-month component outlook
+(outlook_ok), (4) phase-4 composites (surfaces via composites_ok, which
 don't depend on the CPI calendar or gauge engine at all), and (5) the DC cost
-index (surfaces via datacenter_ok). A failure in any
-one block still publishes status+qa (rc 0) without blocking the others —
-but a jsonschema.ValidationError re-raises and fails the run in every block:
+index (surfaces via datacenter_ok). A failure in any one phase still
+publishes status+qa (rc 0) without blocking the others — but a
+jsonschema.ValidationError re-raises and fails the run in every phase:
 a schema-invalid artifact must never deploy.
 """
 import argparse
@@ -42,6 +42,23 @@ from pipeline.publish import (compare, composites as composite_json, datacenter 
 from pipeline.store import vintage
 
 SCHEMAS = Path(__file__).parent.parent / "schemas"
+
+
+def _run_phase(label, fn):
+    """The isolation contract every publish phase runs under: a failure
+    surfaces as (None, "Type: msg") for qa.json and never blocks the phases
+    after it, but a jsonschema.ValidationError re-raises and fails the run —
+    a schema-invalid artifact must never deploy. Phase functions that build
+    up partial state (the engine's cpi, the nowcast payload) write it into a
+    dict as they go, so qa still sees whatever was computed before a failure."""
+    try:
+        return fn(), None
+    except jsonschema.ValidationError:
+        raise  # contract violation must fail the run — never deploy invalid JSON
+    except Exception as e:  # phase isolation: failure surfaces in qa, never blocks
+        error = f"{type(e).__name__}: {e}"
+        print(f"{label} FAILED — {error}")
+        return None, error
 
 
 def main(argv=None, http_get=None, http_post=None) -> int:
@@ -75,9 +92,9 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     today = fred.today_et()
     published_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    # Fuel cross-check reads only the store (outside the engine try): AAA daily
+    # Fuel cross-check reads only the store (outside the engine phase): AAA daily
     # pump prices vs EIA weekly survey, flagged if they diverge beyond design.
-    # Zero-guard: a zero stored value would crash here (outside engine try),
+    # Zero-guard: a zero stored value would crash here (outside the engine phase),
     # violating the never-block-publication invariant. Compute only if both are truthy.
     fuel_div = None
     aaa_rows = vintage.latest(conn, "aaa_gas_d")
@@ -89,13 +106,14 @@ def main(argv=None, http_get=None, http_post=None) -> int:
             fuel_div = {"aaa_wk_avg": round(aaa_avg, 3), "eia": round(eia_last, 3),
                         "rel": abs(aaa_avg / eia_last - 1), "n_obs": len(week)}
 
-    cpi = gauge_qa = artifacts = gauge_result = None
-    engine_error = None
     staleness = {s.code: s.max_staleness_days for s in series}
-    try:
-        cpi = official.latest_yoy(conn, "CPIAUCNS")
-        gauge_result = gauge_engine.run(conn, today=today, staleness=staleness)
-        _, comps = basket_mod.load_basket()  # inside try: config errors -> qa
+    engine_state = {}
+
+    def _engine_phase():
+        engine_state["cpi"] = cpi = official.latest_yoy(conn, "CPIAUCNS")
+        engine_state["gauge_result"] = gauge_result = gauge_engine.run(
+            conn, today=today, staleness=staleness)
+        _, comps = basket_mod.load_basket()  # inside the phase: config errors -> qa
 
         pulse_path = pulse.write(
             pulse.build(gauge_result, cpi,
@@ -163,63 +181,61 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         validate.validate_file(rw_path, SCHEMAS / "real_wages.schema.json")
         print(f"published: {rw_path}")
 
-        gauge_qa = {"as_of": g["as_of"], "coverage_pct": g["coverage_pct"],
-                    "null_components": [
-                        c for c, e in g["components"].items()
-                        if e["end_value"] is None
-                        or not math.isfinite(e["end_value"])],
-                    "gate_flags": g["gate_flags"],
-                    "weights_sum": sum(e["weight"]
-                                       for e in g["components"].values()),
-                    "tracker_corr":
-                        compare_payload["validation"]["tracker"]["corr"]}
+        engine_state["gauge_qa"] = {
+            "as_of": g["as_of"], "coverage_pct": g["coverage_pct"],
+            "null_components": [
+                c for c, e in g["components"].items()
+                if e["end_value"] is None
+                or not math.isfinite(e["end_value"])],
+            "gate_flags": g["gate_flags"],
+            "weights_sum": sum(e["weight"]
+                               for e in g["components"].values()),
+            "tracker_corr":
+                compare_payload["validation"]["tracker"]["corr"]}
 
         quilt_aligned = all(
             len(c["ours_yoy_pct"]) == len(quilt_payload["months"])
             and len(c["official_yoy_pct"]) == len(quilt_payload["months"])
             for c in quilt_payload["components"])
-        artifacts = {"quilt_months": len(quilt_payload["months"]),
-                     "quilt_aligned": quilt_aligned,
-                     "grocery_items": len(grocery_payload["items"]),
-                     "grocery_skipped": len(grocery_payload["skipped"])}
-    except jsonschema.ValidationError:
-        raise  # contract violation must fail the run — never deploy invalid JSON
-    except Exception as e:  # engine isolation: failure surfaces in qa, never blocks
-        engine_error = f"{type(e).__name__}: {e}"
-        print(f"ENGINE/PUBLISH FAILED — {engine_error}")
+        engine_state["artifacts"] = {"quilt_months": len(quilt_payload["months"]),
+                                     "quilt_aligned": quilt_aligned,
+                                     "grocery_items": len(grocery_payload["items"]),
+                                     "grocery_skipped": len(grocery_payload["skipped"])}
+
+    _, engine_error = _run_phase("ENGINE/PUBLISH", _engine_phase)
+    cpi = engine_state.get("cpi")
+    gauge_result = engine_state.get("gauge_result")
+    gauge_qa = engine_state.get("gauge_qa")
+    artifacts = engine_state.get("artifacts")
 
     # Phase-3 nowcast: isolated from the core gauge block above so a nowcast
     # failure (or an exhausted release calendar) can never eat the gauge's
     # critical QA checks. build_latest degrades to status "unavailable"
     # instead of raising once the calendar runs out.
-    nowcast_error = None
-    nowcast_payload = None
-    try:
+    nowcast_state = {}
+
+    def _nowcast_phase():
         if gauge_result is None:
             # Don't let the nowcast trip over the missing gauge and publish a
             # cryptic TypeError in qa.json — name the upstream cause.
             raise RuntimeError("skipped — gauge engine failed upstream")
         next_release = release_calendar.next_print(today)
-        nowcast_payload = build_nowcast(
+        nowcast_state["payload"] = payload = build_nowcast(
             conn, gauge_result, next_release,
             benchmarks=phase3.latest_benchmarks(
                 conn, next_release["reference_month"] if next_release else None))
-        phase3.record_forecasts(nowcast_payload, conn, args.store, today)
-        phase3_paths = phase3.write_all(nowcast_payload, conn, args.out,
+        phase3.record_forecasts(payload, conn, args.store, today)
+        phase3_paths = phase3.write_all(payload, conn, args.out,
                                         published_at)  # validates each file inline
         for path in phase3_paths:
             print(f"published: {path}")
-    except jsonschema.ValidationError:
-        raise  # contract violation must fail the run — never deploy invalid JSON
-    except Exception as e:  # nowcast isolation: never blocks composites/gauge QA
-        nowcast_error = f"{type(e).__name__}: {e}"
-        print(f"NOWCAST FAILED — {nowcast_error}")
+
+    _, nowcast_error = _run_phase("NOWCAST", _nowcast_phase)
+    nowcast_payload = nowcast_state.get("payload")
 
     # Twelve-month outlook: depends on the gauge's component levels but is
     # isolated from both the core engine writers and the next-print nowcast.
-    outlook_error = None
-    outlook_payload = None
-    try:
+    def _outlook_phase():
         if gauge_result is None:
             raise RuntimeError("skipped — gauge engine failed upstream")
         outlook_payload = outlook_engine.run(conn, gauge_result,
@@ -227,31 +243,23 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         outlook_path = outlook_json.write(outlook_payload, args.out, published_at)
         validate.validate_file(outlook_path, SCHEMAS / "outlook.schema.json")
         print(f"published: {outlook_path}")
-    except jsonschema.ValidationError:
-        raise
-    except Exception as e:
-        outlook_error = f"{type(e).__name__}: {e}"
-        print(f"OUTLOOK FAILED — {outlook_error}")
+
+    _, outlook_error = _run_phase("OUTLOOK", _outlook_phase)
 
     # Phase-4 composites: isolated from both blocks above — heatcheck/stress/
     # recession don't depend on the CPI release calendar or the gauge engine
     # at all, so neither of those failing should stop them from publishing.
-    composites_error = None
-    try:
+    def _composites_phase():
         composite_paths = composite_json.write_all(conn, args.out,
                                                    published_at)  # validates inline
         for path in composite_paths:
             print(f"published: {path}")
-    except jsonschema.ValidationError:
-        raise  # contract violation must fail the run — never deploy invalid JSON
-    except Exception as e:  # composites isolation: never blocks gauge/nowcast QA
-        composites_error = f"{type(e).__name__}: {e}"
-        print(f"COMPOSITES FAILED — {composites_error}")
+
+    _, composites_error = _run_phase("COMPOSITES", _composites_phase)
 
     # DC cost index (datacenter page): isolated like the three blocks above —
     # a broken PPI/QCEW/state-power series must never touch the core gauge.
-    datacenter_error = None
-    try:
+    def _datacenter_phase():
         dc_result = dcindex.run(conn, today=today)
         parity_result = dcindex.parity_from_store(conn)
         dc_path = datacenter_json.write(
@@ -259,11 +267,8 @@ def main(argv=None, http_get=None, http_post=None) -> int:
             args.out, published_at=published_at)
         validate.validate_file(dc_path, SCHEMAS / "datacenter.schema.json")
         print(f"published: {dc_path}")
-    except jsonschema.ValidationError:
-        raise  # contract violation must fail the run — never deploy invalid JSON
-    except Exception as e:  # datacenter isolation: never blocks gauge/nowcast/composites
-        datacenter_error = f"{type(e).__name__}: {e}"
-        print(f"DATACENTER FAILED — {datacenter_error}")
+
+    _, datacenter_error = _run_phase("DATACENTER", _datacenter_phase)
 
     if nowcast_payload is not None:
         artifacts = {**(artifacts or {}), "nowcast": nowcast_payload}
