@@ -26,7 +26,13 @@ import type { Fuel, NextPrint, Outlook } from "@/lib/types";
 // Cast, don't infer: these artifacts legally degrade (see lib/types.ts).
 const nextprint = nextprintJson as NextPrint;
 const fuel = fuelJson as Fuel;
-const outlook = outlookJson as Outlook;
+// component_paths (~11KB) and the full parameters block are unconsumed by the
+// chart — strip them so they never enter the client component's RSC payload.
+const { component_paths: _componentPaths, parameters: outlookParams, ...outlookRest } = outlookJson;
+const outlook = {
+  ...outlookRest,
+  parameters: { baseline_annual_pct: outlookParams.baseline_annual_pct },
+} as Outlook;
 
 const GROUP_TITLES: Record<string, string> = {
   grocery: "Grocery basket",
@@ -120,7 +126,7 @@ export default function Home() {
           value={fmtPct(pulse.tracker.yoy_pct)}
           context="BLS shelter dynamics · built to re-track the print"
           accent="violet"
-          chip={<DeltaChip value={pulse.tracker.yoy_pct - cpi.yoy_pct} prefix="gap" pp />}
+          chip={<DeltaChip value={pulse.tracker_gap_pp} prefix="gap" pp />}
         />
         <KpiCard
           label="Official CPI · YoY"
@@ -205,7 +211,8 @@ export default function Home() {
             {debt && <div><span>Public debt</span><strong>${(debt.latest / 1e12).toFixed(2)}T</strong><small>{fmtSigned(debt.yoy_pct)} YoY</small></div>}
           </div>
           <div className="panel-foot">
-            Fuel 2-week forward {fuel.forward_2wk == null ? "—" : `$${fuel.forward_2wk.toFixed(3)}`} · {fuel.as_of ?? "awaiting data"}
+            Fuel 2-week forward {fuel.forward_2wk == null ? "—" : `$${fuel.forward_2wk.toFixed(3)}`}
+            {fuel.available && fuel.proxy ? ` · ${fuel.proxy}` : ""} · {fuel.as_of ?? "awaiting data"}
           </div>
         </section>
 

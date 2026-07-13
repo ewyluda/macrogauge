@@ -58,6 +58,9 @@ export type Outlook = {
     effect: string;
     sources: string[];
   }>;
+  // pruned to the one knob the chart labels; the full config + component_paths
+  // stay out of the RSC payload (see page.tsx)
+  parameters: { baseline_annual_pct: number };
   method: string;
   disclaimer: string;
 };

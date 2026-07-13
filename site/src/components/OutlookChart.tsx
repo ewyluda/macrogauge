@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { EChart } from "./EChart";
 import { C, baseOption } from "@/lib/chartTheme";
+import { fmtMonth } from "@/lib/format";
 import type { Outlook } from "@/lib/types";
 
 type Point = [string, number];
@@ -11,6 +12,7 @@ const date = (month: string) => `${month}-01`;
 
 export function OutlookChart({ outlook }: { outlook: Outlook }) {
   const terminal = outlook.forecast[outlook.forecast.length - 1];
+  const baselineName = `Base effects only (flat ${outlook.parameters.baseline_annual_pct}% ann.)`;
   const option = useMemo(() => {
     const origin: Point = [date(outlook.origin_month), outlook.latest_complete_month_yoy_pct];
     const lows: Point[] = [origin, ...outlook.forecast.map((row) => [date(row.month), row.low_yoy_pct] as Point)];
@@ -24,7 +26,7 @@ export function OutlookChart({ outlook }: { outlook: Outlook }) {
       grid: { left: 48, right: 16, top: 40, bottom: 28 },
       legend: {
         top: 0,
-        data: ["Macrogauge (actual)", "Outlook (central)", "Base effects only (flat 2% ann.)"],
+        data: ["Macrogauge (actual)", "Outlook (central)", baselineName],
         textStyle: { color: C.muted, fontSize: 11 },
         icon: "circle",
         itemWidth: 8,
@@ -41,6 +43,9 @@ export function OutlookChart({ outlook }: { outlook: Outlook }) {
           name: "band-low",
           type: "line",
           stack: "outlook-band",
+          // default 'samesign' restacks negatives separately: the band tears
+          // apart the month a low crosses 0
+          stackStrategy: "all",
           data: lows,
           showSymbol: false,
           lineStyle: { opacity: 0 },
@@ -51,6 +56,7 @@ export function OutlookChart({ outlook }: { outlook: Outlook }) {
           name: "realized-volatility band",
           type: "line",
           stack: "outlook-band",
+          stackStrategy: "all",
           data: ranges,
           showSymbol: false,
           lineStyle: { opacity: 0 },
@@ -75,7 +81,7 @@ export function OutlookChart({ outlook }: { outlook: Outlook }) {
           itemStyle: { color: C.emerald },
         },
         {
-          name: "Base effects only (flat 2% ann.)",
+          name: baselineName,
           type: "line",
           data: [origin, ...outlook.base_effects_only.map((row) => [date(row.month), row.yoy_pct] as Point)],
           showSymbol: false,
@@ -84,7 +90,7 @@ export function OutlookChart({ outlook }: { outlook: Outlook }) {
         },
       ],
     };
-  }, [outlook]);
+  }, [outlook, baselineName]);
 
   return (
     <div className="outlook-module">
@@ -99,7 +105,7 @@ export function OutlookChart({ outlook }: { outlook: Outlook }) {
         </span>
         <span aria-hidden="true">→</span>
         <span>
-          {terminal.month} <strong className="outlook-central">{terminal.central_yoy_pct.toFixed(2)}%</strong>{" "}
+          {fmtMonth(date(terminal.month))} <strong className="outlook-central">{terminal.central_yoy_pct.toFixed(2)}%</strong>{" "}
           <small>({terminal.low_yoy_pct.toFixed(2)}–{terminal.high_yoy_pct.toFixed(2)}%)</small>
         </span>
         <span className="outlook-band-copy">
