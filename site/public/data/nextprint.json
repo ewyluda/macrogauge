@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-12T21:20:09Z",
+  "published_at": "2026-07-13T15:32:03Z",
   "target": "CPI MoM",
   "release_date": "2026-07-14",
   "reference_month": "2026-06",
@@ -15,13 +15,13 @@
       "name": "Macrogauge",
       "value": -0.16,
       "kind": "model",
-      "as_of": "2026-07-12"
+      "as_of": "2026-07-13"
     },
     {
       "name": "Kalshi",
-      "value": -0.195,
+      "value": -0.194,
       "kind": "benchmark",
-      "as_of": "2026-07-12"
+      "as_of": "2026-07-13"
     }
   ]
 }

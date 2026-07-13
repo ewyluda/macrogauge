@@ -1,9 +1,9 @@
 {
-  "published_at": "2026-07-12T21:20:09Z",
+  "published_at": "2026-07-13T15:32:03Z",
   "available": true,
-  "as_of": "2026-07-12",
-  "pump": 3.876,
-  "forward_2wk": 3.859,
-  "proxy": "WTI (RBOB unavailable)",
-  "formula": "pump + 0.85 \u00d7 (RBOB_5d_avg \u2212 RBOB_prior15d_avg); WTI proxy converted at 42 gal/bbl"
+  "as_of": "2026-07-13",
+  "pump": 3.872,
+  "forward_2wk": 3.903,
+  "proxy": "RBOB futures",
+  "formula": "pump + 0.85 \u00d7 (RBOB_5d_avg \u2212 RBOB_prior15d_avg)"
 }

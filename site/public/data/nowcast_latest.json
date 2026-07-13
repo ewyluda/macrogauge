@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-12T21:20:09Z",
+  "published_at": "2026-07-13T15:32:03Z",
   "target": "CPI",
   "release_date": "2026-07-14",
   "reference_month": "2026-06",
@@ -7,7 +7,7 @@
     "target_month": "2026-06",
     "mom_pct": -0.16,
     "yoy_pct": 3.07,
-    "as_of": "2026-07-12",
+    "as_of": "2026-07-13",
     "status": "live",
     "parameters": {},
     "components": [
@@ -106,7 +106,7 @@
       "observations": 24
     },
     "status": "live",
-    "as_of": "2026-07-12"
+    "as_of": "2026-07-13"
   },
   "nfp": {
     "change_thousands": 117,
@@ -127,8 +127,8 @@
     "cleveland": null,
     "street": null,
     "kalshi": {
-      "value": -0.195,
-      "as_of": "2026-07-12"
+      "value": -0.194,
+      "as_of": "2026-07-13"
     }
   },
   "ensemble": {
@@ -138,5 +138,5 @@
       "kalshi": 0.5
     }
   },
-  "generated_on": "2026-07-12"
+  "generated_on": "2026-07-13"
 }

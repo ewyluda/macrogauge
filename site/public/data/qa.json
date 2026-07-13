@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-12",
+  "generated_at": "2026-07-13",
   "passed": 18,
   "total": 20,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-05-01 is 72d old (limit 80)"
+      "detail": "latest official month 2026-05-01 is 73d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -55,19 +55,19 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": false,
-      "detail": "16/17 ok; failed \u2014 STREET: ValueError: no CPI monthly consensus in FMP calendar"
+      "detail": "15/17 ok; failed \u2014 USDA: missing secret USDA_API_KEY; STREET: ValueError: no CPI monthly consensus in FMP calendar"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "93/230 fresh; stale \u2014 manheim_uvvi_m (223d > 45d), street_cpi_mom (never seen), INDPRO (72d > 60d), RSAFS (72d > 60d), DSPIC96 (72d > 60d), PPIACO (72d > 60d), IREXPETCOM (72d > 60d), CCSA (15d > 14d), PCUOMFGOMFG (72d > 60d), HOUST (72d > 60d), PERMIT (72d > 60d), CSUSHPINSA (102d > 90d), M2SL (72d > 60d), UMCSENT (72d > 60d), DRCCLACBS (192d > 150d), PSAVERT (72d > 60d), TDSP (192d > 150d), REVOLSL (72d > 60d), DRSFRMACBS (192d > 150d), CFNAIMA3 (72d > 60d), RECPROUSM156N (72d > 60d), ppi_elec_contr (72d > 45d), ppi_plumb_hvac (72d > 45d), ppi_steel (72d > 45d), ppi_concrete (72d > 45d), ppi_copper_wire (72d > 45d), ppi_alum_shapes (72d > 45d), ppi_switchgear (72d > 45d), ppi_transformer (72d > 45d), ppi_genset (72d > 45d), ppi_hvac_equip (72d > 45d), ppi_pumps (72d > 45d), ppi_mach_repair (72d > 45d), eia_elec_ind_us (102d > 75d), eia_elec_ind_al (102d > 75d), eia_elec_ind_ak (102d > 75d), eia_elec_ind_az (102d > 75d), eia_elec_ind_ar (102d > 75d), eia_elec_ind_ca (102d > 75d), eia_elec_ind_co (102d > 75d), eia_elec_ind_ct (102d > 75d), eia_elec_ind_de (102d > 75d), eia_elec_ind_dc (102d > 75d), eia_elec_ind_fl (102d > 75d), eia_elec_ind_ga (102d > 75d), eia_elec_ind_hi (102d > 75d), eia_elec_ind_id (102d > 75d), eia_elec_ind_il (102d > 75d), eia_elec_ind_in (102d > 75d), eia_elec_ind_ia (102d > 75d), eia_elec_ind_ks (102d > 75d), eia_elec_ind_ky (102d > 75d), eia_elec_ind_la (102d > 75d), eia_elec_ind_me (102d > 75d), eia_elec_ind_md (102d > 75d), eia_elec_ind_ma (102d > 75d), eia_elec_ind_mi (102d > 75d), eia_elec_ind_mn (102d > 75d), eia_elec_ind_ms (102d > 75d), eia_elec_ind_mo (102d > 75d), eia_elec_ind_mt (102d > 75d), eia_elec_ind_ne (102d > 75d), eia_elec_ind_nv (102d > 75d), eia_elec_ind_nh (102d > 75d), eia_elec_ind_nj (102d > 75d), eia_elec_ind_nm (102d > 75d), eia_elec_ind_ny (102d > 75d), eia_elec_ind_nc (102d > 75d), eia_elec_ind_nd (102d > 75d), eia_elec_ind_oh (102d > 75d), eia_elec_ind_ok (102d > 75d), eia_elec_ind_or (102d > 75d), eia_elec_ind_pa (102d > 75d), eia_elec_ind_ri (102d > 75d), eia_elec_ind_sc (102d > 75d), eia_elec_ind_sd (102d > 75d), eia_elec_ind_tn (102d > 75d), eia_elec_ind_tx (102d > 75d), eia_elec_ind_ut (102d > 75d), eia_elec_ind_vt (102d > 75d), eia_elec_ind_va (102d > 75d), eia_elec_ind_wa (102d > 75d), eia_elec_ind_wv (102d > 75d), eia_elec_ind_wi (102d > 75d), eia_elec_ind_wy (102d > 75d), qcew_wage23_us (284d > 270d), qcew_wage23_al (284d > 270d), qcew_wage23_ak (never seen), qcew_wage23_az (284d > 270d), qcew_wage23_ar (284d > 270d), qcew_wage23_ca (284d > 270d), qcew_wage23_co (284d > 270d), qcew_wage23_ct (284d > 270d), qcew_wage23_de (284d > 270d), qcew_wage23_dc (never seen), qcew_wage23_fl (284d > 270d), qcew_wage23_ga (284d > 270d), qcew_wage23_hi (284d > 270d), qcew_wage23_id (284d > 270d), qcew_wage23_il (284d > 270d), qcew_wage23_in (284d > 270d), qcew_wage23_ia (284d > 270d), qcew_wage23_ks (284d > 270d), qcew_wage23_ky (284d > 270d), qcew_wage23_la (never seen), qcew_wage23_me (284d > 270d), qcew_wage23_md (284d > 270d), qcew_wage23_ma (never seen), qcew_wage23_mi (284d > 270d), qcew_wage23_mn (284d > 270d), qcew_wage23_ms (284d > 270d), qcew_wage23_mo (never seen), qcew_wage23_mt (284d > 270d), qcew_wage23_ne (284d > 270d), qcew_wage23_nv (284d > 270d), qcew_wage23_nh (284d > 270d), qcew_wage23_nj (284d > 270d), qcew_wage23_nm (284d > 270d), qcew_wage23_ny (284d > 270d), qcew_wage23_nc (284d > 270d), qcew_wage23_nd (284d > 270d), qcew_wage23_oh (284d > 270d), qcew_wage23_ok (284d > 270d), qcew_wage23_or (284d > 270d), qcew_wage23_pa (284d > 270d), qcew_wage23_ri (never seen), qcew_wage23_sc (284d > 270d), qcew_wage23_sd (never seen), qcew_wage23_tn (284d > 270d), qcew_wage23_tx (284d > 270d), qcew_wage23_ut (284d > 270d), qcew_wage23_vt (never seen), qcew_wage23_va (284d > 270d), qcew_wage23_wa (284d > 270d), qcew_wage23_wv (284d > 270d), qcew_wage23_wi (284d > 270d), qcew_wage23_wy (284d > 270d)"
+      "detail": "189/230 fresh; stale \u2014 manheim_uvvi_m (224d > 45d), street_cpi_mom (never seen), INDPRO (73d > 60d), RSAFS (73d > 60d), DSPIC96 (73d > 60d), PPIACO (73d > 60d), IREXPETCOM (73d > 60d), CCSA (16d > 14d), PCUOMFGOMFG (73d > 60d), HOUST (73d > 60d), PERMIT (73d > 60d), CSUSHPINSA (103d > 90d), M2SL (73d > 60d), UMCSENT (73d > 60d), DRCCLACBS (193d > 150d), PSAVERT (73d > 60d), TDSP (193d > 150d), REVOLSL (73d > 60d), DRSFRMACBS (193d > 150d), CFNAIMA3 (73d > 60d), RECPROUSM156N (73d > 60d), ppi_elec_contr (73d > 45d), ppi_plumb_hvac (73d > 45d), ppi_steel (73d > 45d), ppi_concrete (73d > 45d), ppi_copper_wire (73d > 45d), ppi_alum_shapes (73d > 45d), ppi_switchgear (73d > 45d), ppi_transformer (73d > 45d), ppi_genset (73d > 45d), ppi_hvac_equip (73d > 45d), ppi_pumps (73d > 45d), ppi_mach_repair (73d > 45d), qcew_wage23_ak (never seen), qcew_wage23_dc (never seen), qcew_wage23_la (never seen), qcew_wage23_ma (never seen), qcew_wage23_mo (never seen), qcew_wage23_ri (never seen), qcew_wage23_sd (never seen), qcew_wage23_vt (never seen)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 4 obs $3.872 vs EIA weekly $3.777 \u2014 relative divergence 2.5% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 5 obs $3.872 vs EIA weekly $3.777 \u2014 relative divergence 2.5% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -85,7 +85,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-07-12"
+      "detail": "CPI nowcast as-of 2026-07-13"
     },
     {
       "name": "ensemble_computed",
@@ -97,7 +97,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-12 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-13 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
