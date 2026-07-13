@@ -1,3 +1,4 @@
+import json
 import math
 from pathlib import Path
 
@@ -218,6 +219,25 @@ def test_pipeline_tilt_is_compounded_monthly_not_divided(tmp_path):
     own = outlook._median_mom(levels, 12)         # apparel is goods-only, no other shock
     expected = own + outlook._monthly_from_annual(tilt)
     assert result["component_paths"]["apparel"][0]["mom_pct"] == round(expected, 4)
+
+
+def test_shelter_and_new_vehicle_receipts_follow_config(tmp_path):
+    """The shelter rent legs and the new-vehicles trend series are config, not
+    code: recomposing the blend must not leave stale hardcoded receipts."""
+    cfg = json.loads(outlook.DEFAULT_CONFIG.read_text())
+    cfg["shelter"] = {"series": ["zori_us"]}
+    cfg["new_vehicles"] = {"trend_source": "kbb_atp"}
+    config_path = tmp_path / "outlook.json"
+    config_path.write_text(json.dumps(cfg))
+    conn = vintage.load(tmp_path / "store")
+    _insert(conn, "zori_us", [("2024-12-01", 2000.0)])
+
+    result = outlook.run(conn, _gauge_result(), config_path=config_path)
+
+    drivers = {d["key"]: d for d in result["drivers"]}
+    assert drivers["shelter"]["sources"] == ["zori_us"]
+    assert "Apartment List" not in drivers["shelter"]["name"]
+    assert drivers["new_vehicles"]["sources"] == ["kbb_atp"]
 
 
 def test_short_history_raises_named_error_not_indexerror(tmp_path):

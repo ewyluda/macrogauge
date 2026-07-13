@@ -42,6 +42,12 @@
     "pass_through": 0.7,
     "horizon_months": 3
   },
+  "shelter": {
+    "series": ["zori_us", "aptlist_us"]
+  },
+  "new_vehicles": {
+    "trend_source": "CUUR0000SETA01"
+  },
   "wages": {
     "series": "FRBATLWGT3MMAUMHWGO",
     "anchor_weight": 0.25,

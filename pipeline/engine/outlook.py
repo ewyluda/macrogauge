@@ -245,9 +245,13 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
         pipeline_tilt = max(-pipe_cfg["annual_cap_pp"], min(pipe_cfg["annual_cap_pp"], raw))
     pipeline_asof = max(pipe_dates) if pipe_dates else None
 
+    shelter_cfg = config["shelter"]
     rent_dates = [_month_asof(vintage.latest(conn, code), origin_month)
-                  for code in ("zori_us", "aptlist_us")]
+                  for code in shelter_cfg["series"]]
     rent_asof = max((date for date in rent_dates if date is not None), default=None)
+    rent_display = {"zori_us": "ZORI", "aptlist_us": "Apartment List"}
+    rent_label = " + ".join(rent_display.get(code, code) for code in shelter_cfg["series"])
+    new_cfg = config["new_vehicles"]
 
     # Every numeric claim in a driver name/effect interpolates the config knob
     # that drives the math — a tuned knob must never leave a stale receipt.
@@ -259,12 +263,12 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
                 _status(len(fuel_sources), len(fuel_cfg["series"])),
                 f"{fuel_cfg['pass_through']:.0%} pass-through over "
                 f"{fuel_cfg['horizon_months']} months, then flat", fuel_sources),
-        _driver("shelter", f"New-lease rents (ZORI + Apartment List, {trailing_window}mo median)",
+        _driver("shelter", f"New-lease rents ({rent_label}, {trailing_window}mo median)",
                 base_mom.get("shelter_rent"), "%/mo", rent_asof,
                 "live" if rent_asof else "fallback",
                 f"drives rent and CPI-comparable OER; "
                 f"{config['shelter_half_life_months']}-month half-life",
-                ["zori_us", "aptlist_us"]),
+                list(shelter_cfg["series"])),
         _driver("food_home", f"Agricultural futures composite "
                 f"({len(food_cfg['series'])} contracts, {food_cfg['lookback_months']}mo)",
                 food_value, "%", food_asof,
@@ -285,7 +289,8 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
                 [used_cfg["series"]] if used_value is not None else []),
         _driver("new_vehicles", "New vehicles (own complete-month trend)",
                 base_mom.get("new_vehicles"), "%/mo", origin_month + "-01", "fallback",
-                "KBB ATP is not yet a stable production input", ["CUUR0000SETA01"]),
+                "KBB ATP is not yet a stable production input",
+                [new_cfg["trend_source"]]),
         _driver("wages", "Atlanta Fed wage growth", wage_value, "%/yr", wage_asof,
                 "live" if wage_value is not None else "fallback",
                 f"{wage_cfg['anchor_weight']:.0%} terminal anchor for food-away "
