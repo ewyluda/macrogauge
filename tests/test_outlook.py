@@ -1,6 +1,8 @@
 import math
 from pathlib import Path
 
+import pytest
+
 from pipeline import basket
 from pipeline.dates import next_month
 from pipeline.engine import outlook
@@ -8,12 +10,12 @@ from pipeline.publish import outlook as outlook_json, validate
 from pipeline.store import vintage
 
 
-def _gauge_result(component_overrides=None):
+def _gauge_result(component_overrides=None, start="2021-01-01", months=49):
     _, components = basket.load_basket()
-    month = "2021-01-01"
+    month = start
     level = 100.0
     levels = {}
-    for i in range(49):
+    for i in range(months):
         if i:
             level *= 1 + (0.18 + 0.08 * math.sin(i / 2)) / 100
         levels[month] = level
@@ -196,6 +198,27 @@ def test_stale_driver_series_are_gated_to_fallback(tmp_path):
     assert drivers["fuel"]["status"] == "partial"
     assert drivers["fuel"]["sources"] == ["fmp_wti"]
     assert drivers["fuel"]["name"] == "Fuel futures (WTI 100%, 2mo)"
+
+
+def test_short_history_raises_named_error_not_indexerror(tmp_path):
+    """With <13 complete months there is no actual YoY at all; the engine must
+    fail with a diagnosable message, not an IndexError on actual_yoy[-1]."""
+    conn = vintage.load(tmp_path / "store")
+
+    with pytest.raises(ValueError, match="outlook: .*13 complete months"):
+        outlook.run(conn, _gauge_result(start="2024-01-01", months=12))
+
+
+def test_fallback_sigma_reports_zero_window(tmp_path):
+    """When the volatility window is too short and the configured fallback sigma
+    is used, sigma_window_months must say 0 — not the size of the window the
+    stdev was never computed over."""
+    conn = vintage.load(tmp_path / "store")
+
+    result = outlook.run(conn, _gauge_result(start="2023-06-01", months=19))
+
+    assert result["sigma_monthly_pp"] == 0.35  # volatility_fallback_pp
+    assert result["sigma_window_months"] == 0
 
 
 def test_outlook_writer_matches_schema(tmp_path):

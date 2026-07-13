@@ -381,11 +381,14 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
         base = headline.get(months_back(f"{month}-01", 12)[:7])
         if base:
             actual_yoy.append((month, (level / base - 1) * 100))
+    if not actual_yoy:
+        raise ValueError("outlook: gauge history has fewer than 13 complete months — "
+                         "no actual YoY to anchor the outlook")
     history = actual_yoy[-int(config["history_months"]):]
     vol_levels = actual_yoy[-(int(config["volatility_lookback_months"]) + 1):]
     diffs = [b[1] - a[1] for a, b in zip(vol_levels, vol_levels[1:])]
-    sigma = (statistics.stdev(diffs) if len(diffs) >= 12
-             else float(config["volatility_fallback_pp"]))
+    realized = len(diffs) >= 12
+    sigma = statistics.stdev(diffs) if realized else float(config["volatility_fallback_pp"])
 
     for h, row in enumerate(forecast, 1):
         width = sigma * math.sqrt(h)
@@ -412,7 +415,8 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
         "history": [{"month": month, "yoy_pct": round(value, 2)} for month, value in history],
         "forecast": forecast, "base_effects_only": baseline,
         "sigma_monthly_pp": round(sigma, 4),
-        "sigma_window_months": min(len(diffs), int(config["volatility_lookback_months"])),
+        # 0 = the configured fallback sigma, not a stdev over some tiny window
+        "sigma_window_months": len(diffs) if realized else 0,
         "driver_coverage_pct": round(driver_coverage, 1),
         "drivers": drivers, "component_paths": component_paths,
         "parameters": config,
