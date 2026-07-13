@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-13T15:32:03Z",
+  "published_at": "2026-07-13T16:05:53Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -13,7 +13,7 @@
   "indexes": {
     "build": {
       "as_of": "2026-07-13",
-      "headline_yoy_pct": 6.66,
+      "headline_yoy_pct": 6.65,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -6249,7 +6249,7 @@
         166.21,
         166.21,
         166.21,
-        166.33
+        166.31
       ],
       "yoy_pct": [
         3.05,
@@ -9367,7 +9367,7 @@
         6.58,
         6.58,
         6.58,
-        6.66
+        6.65
       ],
       "components": [
         {
@@ -9427,8 +9427,8 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-07-13",
-          "yoy_pct": 22.96,
-          "contribution_pp": 1.26
+          "yoy_pct": 22.64,
+          "contribution_pp": 1.25
         },
         {
           "code": "alum_shapes",
@@ -9437,8 +9437,8 @@
           "weight": 0.03,
           "mode": "official+proxy",
           "last_obs": "2026-07-13",
-          "yoy_pct": 32.46,
-          "contribution_pp": 0.97
+          "yoy_pct": 32.7,
+          "contribution_pp": 0.98
         },
         {
           "code": "switchgear",

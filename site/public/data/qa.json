@@ -55,13 +55,13 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": false,
-      "detail": "15/17 ok; failed \u2014 USDA: missing secret USDA_API_KEY; STREET: ValueError: no CPI monthly consensus in FMP calendar"
+      "detail": "16/17 ok; failed \u2014 STREET: ValueError: no CPI monthly consensus in FMP calendar"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "189/230 fresh; stale \u2014 manheim_uvvi_m (224d > 45d), street_cpi_mom (never seen), INDPRO (73d > 60d), RSAFS (73d > 60d), DSPIC96 (73d > 60d), PPIACO (73d > 60d), IREXPETCOM (73d > 60d), CCSA (16d > 14d), PCUOMFGOMFG (73d > 60d), HOUST (73d > 60d), PERMIT (73d > 60d), CSUSHPINSA (103d > 90d), M2SL (73d > 60d), UMCSENT (73d > 60d), DRCCLACBS (193d > 150d), PSAVERT (73d > 60d), TDSP (193d > 150d), REVOLSL (73d > 60d), DRSFRMACBS (193d > 150d), CFNAIMA3 (73d > 60d), RECPROUSM156N (73d > 60d), ppi_elec_contr (73d > 45d), ppi_plumb_hvac (73d > 45d), ppi_steel (73d > 45d), ppi_concrete (73d > 45d), ppi_copper_wire (73d > 45d), ppi_alum_shapes (73d > 45d), ppi_switchgear (73d > 45d), ppi_transformer (73d > 45d), ppi_genset (73d > 45d), ppi_hvac_equip (73d > 45d), ppi_pumps (73d > 45d), ppi_mach_repair (73d > 45d), qcew_wage23_ak (never seen), qcew_wage23_dc (never seen), qcew_wage23_la (never seen), qcew_wage23_ma (never seen), qcew_wage23_mo (never seen), qcew_wage23_ri (never seen), qcew_wage23_sd (never seen), qcew_wage23_vt (never seen)"
+      "detail": "220/230 fresh; stale \u2014 manheim_uvvi_m (224d > 45d), street_cpi_mom (never seen), qcew_wage23_ak (never seen), qcew_wage23_dc (never seen), qcew_wage23_la (never seen), qcew_wage23_ma (never seen), qcew_wage23_mo (never seen), qcew_wage23_ri (never seen), qcew_wage23_sd (never seen), qcew_wage23_vt (never seen)"
     },
     {
       "name": "fuel_sources_agree",

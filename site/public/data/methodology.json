@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-07-13T15:32:03Z",
+  "published_at": "2026-07-13T16:05:53Z",
   "stats": {
     "series_count": 230,
-    "obs_count": 75473,
+    "obs_count": 75488,
     "source_count": 17,
     "tracker_corr": 0.9775,
     "live_coverage_pct": 40.5,
@@ -214,7 +214,7 @@
     }
   ],
   "freshness": {
-    "fresh_count": 189,
+    "fresh_count": 220,
     "total": 230
   },
   "inventory": [
@@ -981,7 +981,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "RSAFS",
@@ -990,7 +990,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "DSPIC96",
@@ -999,7 +999,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "PPIACO",
@@ -1008,7 +1008,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "IREXPETCOM",
@@ -1017,7 +1017,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "T5YIE",
@@ -1035,7 +1035,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-27",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "PCUOMFGOMFG",
@@ -1044,7 +1044,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "FEDFUNDS",
@@ -1062,7 +1062,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "PERMIT",
@@ -1071,7 +1071,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "CSUSHPINSA",
@@ -1080,7 +1080,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-04-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "M2SL",
@@ -1089,7 +1089,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "UMCSENT",
@@ -1098,7 +1098,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "T10Y2Y",
@@ -1116,7 +1116,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-01-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "TERMCBCCALLNS",
@@ -1134,7 +1134,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "TDSP",
@@ -1143,7 +1143,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-01-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "REVOLSL",
@@ -1152,7 +1152,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "DRSFRMACBS",
@@ -1161,7 +1161,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-01-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "SAHMREALTIME",
@@ -1197,7 +1197,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "RECPROUSM156N",
@@ -1206,7 +1206,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ces_constr_ahe",
@@ -1224,7 +1224,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ppi_plumb_hvac",
@@ -1233,7 +1233,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ppi_steel",
@@ -1242,7 +1242,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ppi_concrete",
@@ -1251,7 +1251,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ppi_copper_wire",
@@ -1260,7 +1260,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ppi_alum_shapes",
@@ -1269,7 +1269,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ppi_switchgear",
@@ -1278,7 +1278,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ppi_transformer",
@@ -1287,7 +1287,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ppi_genset",
@@ -1296,7 +1296,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ppi_hvac_equip",
@@ -1305,7 +1305,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ppi_pumps",
@@ -1314,7 +1314,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ces_dp_ahe",
@@ -1332,7 +1332,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "fmp_copper",
