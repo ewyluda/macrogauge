@@ -77,6 +77,16 @@ def test_load_real_registry():
     assert sum(1 for s in series if s.source == "QCEW") == 52
 
 
+def test_monthly_lagged_fred_staleness_covers_publication_gap():
+    # These monthly series print mid-to-late in the following month, so the prior
+    # observation is ~75 days old on the eve of each new print. 60d false-flagged
+    # sources_fresh (and gated outlook drivers) for ~2 weeks every cycle.
+    _, series = registry.load_registry()
+    limits = {s.code: s.max_staleness_days for s in series}
+    for code in ("PPIACO", "INDPRO", "RSAFS", "DSPIC96", "PCUOMFGOMFG", "IREXPETCOM"):
+        assert limits[code] >= 75, f"{code} flaps every publication cycle at {limits[code]}d"
+
+
 def test_duplicate_code_rejected(tmp_path):
     bad = {"sources": {"X": {"route": "API", "cadence": "daily"}},
            "series": [
