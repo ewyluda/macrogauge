@@ -200,6 +200,26 @@ def test_stale_driver_series_are_gated_to_fallback(tmp_path):
     assert drivers["fuel"]["name"] == "Fuel futures (WTI 100%, 2mo)"
 
 
+def test_pipeline_tilt_is_compounded_monthly_not_divided(tmp_path):
+    """The goods-pipeline tilt is an annual pp figure; its monthly form must
+    compound ((1+t)^(1/12)-1), matching every other annual→monthly conversion
+    in the engine, not a linear t/12."""
+    conn = vintage.load(tmp_path / "store")
+    for code in ("PPIACO", "PCUOMFGOMFG", "IREXPETCOM"):
+        _insert(conn, code, [("2024-09-01", 100.0), ("2024-12-01", 101.0)])
+
+    gauge = _gauge_result()
+    result = outlook.run(conn, gauge)
+
+    annual = outlook._annualized(1.0, 3)          # each series +1% over the 3mo lookback
+    tilt = max(-1.0, min(1.0, (annual - 2.0) * 0.5))
+    levels = outlook._component_trend_levels(
+        gauge["variants"]["gauge"]["components"]["apparel"], "2024-12")
+    own = outlook._median_mom(levels, 12)         # apparel is goods-only, no other shock
+    expected = own + outlook._monthly_from_annual(tilt)
+    assert result["component_paths"]["apparel"][0]["mom_pct"] == round(expected, 4)
+
+
 def test_short_history_raises_named_error_not_indexerror(tmp_path):
     """With <13 complete months there is no actual YoY at all; the engine must
     fail with a diagnosable message, not an IndexError on actual_yoy[-1]."""

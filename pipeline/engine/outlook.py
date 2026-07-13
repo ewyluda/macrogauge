@@ -345,7 +345,7 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
             path = [value + (target_monthly - own) * ((h + 1) / horizon)
                     for h, value in enumerate(path)]
         if code in goods_codes and pipeline_tilt is not None:
-            path = [value + pipeline_tilt / 12 for value in path]
+            path = [value + _monthly_from_annual(pipeline_tilt) for value in path]
         component_moms[code] = path
 
     weights = {code: component["weight"] for code, component in variant["components"].items()}
