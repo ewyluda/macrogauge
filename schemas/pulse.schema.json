@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "pulse",
   "type": "object",
-  "required": ["published_at", "gauge", "tracker", "official", "gap_pp", "next_print"],
+  "required": ["published_at", "gauge", "tracker", "official", "gap_pp", "tracker_gap_pp", "next_print"],
   "additionalProperties": false,
   "properties": {
     "published_at": {"type": "string"},
@@ -19,6 +19,7 @@
       }
     },
     "gap_pp": {"type": "number"},
+    "tracker_gap_pp": {"type": "number"},
     "next_print": {"oneOf": [
       {"type": "null"},
       {"type": "object",

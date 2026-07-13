@@ -29,6 +29,9 @@ def test_build_rounds_and_computes_gap():
                              "month": "2026-05-01"}
     # gap from UNROUNDED values, then rounded: 2.412345-2.398765 = 0.01358 -> 0.01
     assert p["gap_pp"] == 0.01
+    # tracker gap is published, not left for the site to subtract from a
+    # possibly different print: 2.351111-2.398765 = -0.047654 -> -0.05
+    assert p["tracker_gap_pp"] == -0.05
     assert p["next_print"] == {"date": "2026-07-14", "reference_month": "2026-06"}
 
 

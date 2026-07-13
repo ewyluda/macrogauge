@@ -9,12 +9,14 @@ def build(gauge_result: dict, cpi: dict, next_print: dict | None = None) -> dict
                 "coverage_pct": round(v["coverage_pct"], 2)}
 
     g = gauge_result["variants"]["gauge"]
+    t = gauge_result["variants"]["tracker"]
     return {"gauge": block(g),
-            "tracker": block(gauge_result["variants"]["tracker"]),
+            "tracker": block(t),
             "official": {"yoy_pct": round(cpi["yoy_pct"], 2),
                          "prev_yoy_pct": round(cpi["prev_yoy_pct"], 2),
                          "month": cpi["month"]},
             "gap_pp": round(g["yoy"][g["as_of"]] - cpi["yoy_pct"], 2),
+            "tracker_gap_pp": round(t["yoy"][t["as_of"]] - cpi["yoy_pct"], 2),
             "next_print": next_print}
 
 
