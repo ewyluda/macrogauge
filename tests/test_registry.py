@@ -77,14 +77,34 @@ def test_load_real_registry():
     assert sum(1 for s in series if s.source == "QCEW") == 52
 
 
-def test_monthly_lagged_fred_staleness_covers_publication_gap():
-    # These monthly series print mid-to-late in the following month, so the prior
-    # observation is ~75 days old on the eve of each new print. 60d false-flagged
-    # sources_fresh (and gated outlook drivers) for ~2 weeks every cycle.
+MONTHLY_MID_MONTH_LAG = (
+    # print mid-to-late in the following month: the prior obs is 73–77 days old
+    # on the eve of each new print, so limits below 80d false-flag sources_fresh
+    # (and gate outlook/dcindex drivers) for ~2 weeks every publication cycle
+    "PPIACO", "INDPRO", "RSAFS", "DSPIC96", "PCUOMFGOMFG", "IREXPETCOM",
+    "HOUST", "PERMIT", "M2SL", "UMCSENT", "PSAVERT", "REVOLSL",
+    "CFNAIMA3", "RECPROUSM156N",
+    # DC-index national PPI detail series share the PPI release calendar
+    "ppi_elec_contr", "ppi_plumb_hvac", "ppi_steel", "ppi_concrete",
+    "ppi_copper_wire", "ppi_alum_shapes", "ppi_switchgear", "ppi_transformer",
+    "ppi_genset", "ppi_hvac_equip", "ppi_pumps", "ppi_mach_repair",
+)
+
+
+def test_staleness_limits_cover_publication_lags():
+    # Observed live 2026-07-13: every series here sat "stale" purely because its
+    # limit undershot the source's own publication cadence.
     _, series = registry.load_registry()
     limits = {s.code: s.max_staleness_days for s in series}
-    for code in ("PPIACO", "INDPRO", "RSAFS", "DSPIC96", "PCUOMFGOMFG", "IREXPETCOM"):
-        assert limits[code] >= 75, f"{code} flaps every publication cycle at {limits[code]}d"
+    for code in MONTHLY_MID_MONTH_LAG:
+        assert limits[code] >= 80, f"{code} flaps every publication cycle at {limits[code]}d"
+    # Case-Shiller lags two months (obs age peaks ~105d)
+    assert limits["CSUSHPINSA"] >= 110
+    # quarterly bank-condition series release mid-to-late the following quarter (~193d)
+    for code in ("DRCCLACBS", "TDSP", "DRSFRMACBS"):
+        assert limits[code] >= 210, f"{code} flaps every quarter at {limits[code]}d"
+    # continued claims lag two weeks and slip past 14d on holiday weeks
+    assert limits["CCSA"] >= 21
 
 
 def test_duplicate_code_rejected(tmp_path):
