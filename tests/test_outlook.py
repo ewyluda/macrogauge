@@ -7,6 +7,7 @@ import pytest
 from pipeline import basket, registry
 from pipeline.dates import next_month
 from pipeline.engine import outlook
+from pipeline.models import Observation
 from pipeline.publish import outlook as outlook_json, validate
 from pipeline.store import vintage
 
@@ -37,34 +38,33 @@ def _gauge_result(component_overrides=None, start="2021-01-01", months=49):
     }}}
 
 
-def _insert(conn, code, rows):
-    conn.executemany(
-        "INSERT INTO observations VALUES (?, ?, ?, ?, ?, ?)",
-        [(code, date, value, "2025-01-10", "TEST", "FIXTURE")
-         for date, value in rows],
-    )
-    conn.commit()
+def _insert(store_dir, code, rows):
+    # Seed through the real store API so these fixtures track the production
+    # row shape (the row-evolution policy) instead of a hand-rolled INSERT.
+    vintage.append([Observation(series_code=code, obs_date=date, value=value,
+                                vintage_date="2025-01-10", source="TEST", route="FIXTURE")
+                    for date, value in rows], store_dir)
 
 
-def _seed_forward_drivers(conn):
+def _seed_forward_drivers(store_dir):
     energy = [("2024-10-01", 100.0), ("2024-12-01", 110.0)]
     for code in ("fmp_rbob", "fmp_wti"):
-        _insert(conn, code, energy)
+        _insert(store_dir, code, energy)
     for code in ("fmp_corn", "fmp_wheat", "fmp_soybeans", "fmp_soybean_oil",
                  "fmp_coffee", "fmp_sugar", "fmp_cocoa", "fmp_live_cattle"):
-        _insert(conn, code, [("2024-09-01", 100.0), ("2024-12-01", 103.0)])
-    _insert(conn, "fmp_natgas", [("2024-09-01", 100.0), ("2024-12-01", 112.0)])
-    _insert(conn, "manheim_uvvi_m", [("2024-09-01", 100.0), ("2024-12-01", 106.0)])
-    _insert(conn, "FRBATLWGT3MMAUMHWGO", [("2024-12-01", 3.5)])
+        _insert(store_dir, code, [("2024-09-01", 100.0), ("2024-12-01", 103.0)])
+    _insert(store_dir, "fmp_natgas", [("2024-09-01", 100.0), ("2024-12-01", 112.0)])
+    _insert(store_dir, "manheim_uvvi_m", [("2024-09-01", 100.0), ("2024-12-01", 106.0)])
+    _insert(store_dir, "FRBATLWGT3MMAUMHWGO", [("2024-12-01", 3.5)])
     for code in ("PPIACO", "PCUOMFGOMFG", "IREXPETCOM"):
-        _insert(conn, code, [("2024-09-01", 100.0), ("2024-12-01", 101.0)])
-    _insert(conn, "zori_us", [("2024-12-01", 2000.0)])
-    _insert(conn, "aptlist_us", [("2024-12-01", 1500.0)])
+        _insert(store_dir, code, [("2024-09-01", 100.0), ("2024-12-01", 101.0)])
+    _insert(store_dir, "zori_us", [("2024-12-01", 2000.0)])
+    _insert(store_dir, "aptlist_us", [("2024-12-01", 1500.0)])
 
 
 def test_outlook_rolls_12_months_from_latest_complete_month(tmp_path):
+    _seed_forward_drivers(tmp_path / "store")
     conn = vintage.load(tmp_path / "store")
-    _seed_forward_drivers(conn)
 
     result = outlook.run(conn, _gauge_result())
 
@@ -78,8 +78,8 @@ def test_outlook_rolls_12_months_from_latest_complete_month(tmp_path):
 
 
 def test_disclosed_fuel_pass_through_and_band_math(tmp_path):
+    _seed_forward_drivers(tmp_path / "store")
     conn = vintage.load(tmp_path / "store")
-    _seed_forward_drivers(conn)
     result = outlook.run(conn, _gauge_result())
 
     expected = outlook._distributed_return(10.0 * 0.85, 2)
@@ -163,8 +163,8 @@ def test_empty_trend_window_falls_back_to_neutral_not_frozen(tmp_path):
 def test_fuel_label_reflects_series_actually_used(tmp_path):
     """The blend label must describe the composition that produced the number:
     with only WTI in the store, the receipt must not claim a 60/40 blend."""
+    _insert(tmp_path / "store", "fmp_wti", [("2024-10-01", 100.0), ("2024-12-01", 110.0)])
     conn = vintage.load(tmp_path / "store")
-    _insert(conn, "fmp_wti", [("2024-10-01", 100.0), ("2024-12-01", 110.0)])
 
     result = outlook.run(conn, _gauge_result())
     fuel = result["drivers"][0]
@@ -173,8 +173,8 @@ def test_fuel_label_reflects_series_actually_used(tmp_path):
     assert fuel["sources"] == ["fmp_wti"]
     assert fuel["effect"] == "85% pass-through over 2 months, then flat"
 
+    _seed_forward_drivers(tmp_path / "store2")
     conn_full = vintage.load(tmp_path / "store2")
-    _seed_forward_drivers(conn_full)
     both = outlook.run(conn_full, _gauge_result())
     assert both["drivers"][0]["name"] == "Fuel futures (RBOB 60% / WTI 40%, 2mo)"
     assert both["drivers"][0]["status"] == "live"
@@ -184,8 +184,8 @@ def test_stale_driver_series_are_gated_to_fallback(tmp_path):
     """A frozen source's months-old move must not be re-applied as a fresh
     forward shock with status 'live' — gate on the registry's staleness limit.
     An ungated leg of a blend renormalizes, and the label follows."""
+    _seed_forward_drivers(tmp_path / "store")  # every driver series ends 2024-12-01
     conn = vintage.load(tmp_path / "store")
-    _seed_forward_drivers(conn)  # every driver series ends 2024-12-01
 
     _, series = registry.load_registry()
     staleness = {s.code: 100_000 for s in series}  # everything fresh by default
@@ -207,9 +207,9 @@ def test_pipeline_tilt_is_compounded_monthly_not_divided(tmp_path):
     """The goods-pipeline tilt is an annual pp figure; its monthly form must
     compound ((1+t)^(1/12)-1), matching every other annual→monthly conversion
     in the engine, not a linear t/12."""
-    conn = vintage.load(tmp_path / "store")
     for code in ("PPIACO", "PCUOMFGOMFG", "IREXPETCOM"):
-        _insert(conn, code, [("2024-09-01", 100.0), ("2024-12-01", 101.0)])
+        _insert(tmp_path / "store", code, [("2024-09-01", 100.0), ("2024-12-01", 101.0)])
+    conn = vintage.load(tmp_path / "store")
 
     gauge = _gauge_result()
     result = outlook.run(conn, gauge)
@@ -231,8 +231,8 @@ def test_shelter_and_new_vehicle_receipts_follow_config(tmp_path):
     cfg["new_vehicles"] = {"trend_source": "kbb_atp"}
     config_path = tmp_path / "outlook.json"
     config_path.write_text(json.dumps(cfg))
+    _insert(tmp_path / "store", "zori_us", [("2024-12-01", 2000.0)])
     conn = vintage.load(tmp_path / "store")
-    _insert(conn, "zori_us", [("2024-12-01", 2000.0)])
 
     result = outlook.run(conn, _gauge_result(), config_path=config_path)
 
