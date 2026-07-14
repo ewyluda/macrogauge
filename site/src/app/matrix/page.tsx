@@ -3,7 +3,7 @@ import { KpiCard } from "@/components/KpiCard";
 import { ForecastHero } from "@/components/ForecastHero";
 import type { Nowcast } from "@/lib/types";
 
-const nowcast = nowcastJson as Nowcast;
+const nowcast = nowcastJson as unknown as Nowcast;
 
 export default function Matrix() {
   const nfp = nowcast.nfp;

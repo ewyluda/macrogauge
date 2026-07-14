@@ -3,15 +3,15 @@ import { ForecastHero } from "@/components/ForecastHero";
 import { Section } from "@/components/Section";
 import type { Nowcast } from "@/lib/types";
 
-const nowcast = nowcastJson as Nowcast;
+const nowcast = nowcastJson as unknown as Nowcast;
 
 export default function CpiPreview() {
   return <div><h1>CPI Preview <span className="subtitle">evergreen forecast → result</span></h1>
     <p className="lede">Bottom-up forecast for {nowcast.reference_month ?? "the next print (release calendar awaiting refresh)"}, frozen and graded when the BLS print arrives.</p>
     <ForecastHero />
     <Section title="Component receipts"><div className="table-card"><table className="data-table"><thead><tr><th>Component</th><th>MoM</th><th>Weight</th><th>Contribution</th></tr></thead><tbody>
-      {nowcast.cpi.components.map((row) => <tr key={row.component}><td>{row.component}</td><td>{row.mom_pct.toFixed(2)}%</td><td>{(row.weight * 100).toFixed(1)}%</td><td>{row.contribution_pp.toFixed(3)}pp</td></tr>)}
+      {nowcast.cpi.components.map((row) => <tr key={row.component}><td>{row.component}</td><td>{row.mom_pct.toFixed(2)}%{row.basis !== "measured" && <span className="badge" style={{ marginLeft: 6 }} title={row.driver_mom_pct !== undefined ? `trend + ${row.driver_mom_pct.toFixed(2)}pp futures driver` : "trailing-median trend"}>modeled</span>}</td><td>{(row.weight * 100).toFixed(1)}%</td><td>{row.contribution_pp.toFixed(3)}pp</td></tr>)}
     </tbody></table></div></Section>
-    <p className="method">Status: {nowcast.cpi.status.toUpperCase()}.</p>
+    <p className="method">Status: {nowcast.cpi.status.toUpperCase()}. Rows tagged “modeled” have no observation inside the target month yet: they carry the component’s own trailing-median trend (plus a disclosed futures-driver slice where one applies) instead of a fabricated 0.00%.</p>
   </div>;
 }

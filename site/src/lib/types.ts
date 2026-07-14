@@ -70,6 +70,8 @@ export type NowcastComponent = {
   mom_pct: number;
   weight: number;
   contribution_pp: number;
+  basis: "measured" | "trend" | "trend+driver";
+  driver_mom_pct?: number;
 };
 
 export type Nowcast = {
