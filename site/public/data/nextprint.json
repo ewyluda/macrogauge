@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-07-14T01:25:38Z",
+  "published_at": "2026-07-14T13:12:54Z",
   "target": "CPI MoM",
   "release_date": "2026-07-14",
   "reference_month": "2026-06",
   "ensemble": {
-    "value": -0.14,
+    "value": -0.13,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,
@@ -14,9 +14,9 @@
   "forecasters": [
     {
       "name": "Macrogauge",
-      "value": -0.16,
+      "value": -0.14,
       "kind": "model",
-      "as_of": "2026-07-13"
+      "as_of": "2026-07-14"
     },
     {
       "name": "Cleveland",

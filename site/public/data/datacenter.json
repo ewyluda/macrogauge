@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-14T01:25:38Z",
+  "published_at": "2026-07-14T13:12:54Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -12,8 +12,8 @@
   },
   "indexes": {
     "build": {
-      "as_of": "2026-07-13",
-      "headline_yoy_pct": 6.63,
+      "as_of": "2026-07-14",
+      "headline_yoy_pct": 6.75,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -3131,7 +3131,8 @@
         "2026-07-10",
         "2026-07-11",
         "2026-07-12",
-        "2026-07-13"
+        "2026-07-13",
+        "2026-07-14"
       ],
       "index": [
         100.0,
@@ -6249,7 +6250,8 @@
         166.21,
         166.21,
         166.21,
-        166.29
+        166.29,
+        166.48
       ],
       "yoy_pct": [
         3.05,
@@ -9367,7 +9369,8 @@
         6.58,
         6.58,
         6.58,
-        6.63
+        6.63,
+        6.75
       ],
       "components": [
         {
@@ -9426,9 +9429,9 @@
           "group": "materials",
           "weight": 0.055,
           "mode": "official+proxy",
-          "last_obs": "2026-07-13",
-          "yoy_pct": 22.45,
-          "contribution_pp": 1.23
+          "last_obs": "2026-07-14",
+          "yoy_pct": 24.22,
+          "contribution_pp": 1.33
         },
         {
           "code": "alum_shapes",
@@ -9436,9 +9439,9 @@
           "group": "materials",
           "weight": 0.03,
           "mode": "official+proxy",
-          "last_obs": "2026-07-13",
-          "yoy_pct": 32.51,
-          "contribution_pp": 0.98
+          "last_obs": "2026-07-14",
+          "yoy_pct": 33.33,
+          "contribution_pp": 1.0
         },
         {
           "code": "switchgear",

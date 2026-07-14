@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-13",
+  "generated_at": "2026-07-14",
   "passed": 19,
   "total": 20,
   "checks": [
@@ -7,13 +7,13 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-05-01 is 73d old (limit 80)"
+      "detail": "latest official month 2026-06-01 is 43d old (limit 80)"
     },
     {
       "name": "yoy_finite",
       "critical": true,
       "pass": true,
-      "detail": "yoy=4.248674039164446 prev=3.8108449321217597"
+      "detail": "yoy=3.5314250637863864 prev=4.248674039164446"
     },
     {
       "name": "engine_ok",
@@ -67,7 +67,7 @@
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 5 obs $3.872 vs EIA weekly $3.777 \u2014 relative divergence 2.5% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 6 obs $3.87 vs EIA weekly $3.777 \u2014 relative divergence 2.5% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -85,19 +85,19 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-07-13"
+      "detail": "CPI nowcast as-of 2026-07-14"
     },
     {
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=-0.14 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=-0.13 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-13 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-14 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
@@ -121,7 +121,7 @@
       "name": "tracker_corr",
       "critical": false,
       "pass": true,
-      "detail": "tracker monthly-YoY corr vs official = 0.9775 (floor 0.95)"
+      "detail": "tracker monthly-YoY corr vs official = 0.9771 (floor 0.95)"
     }
   ]
 }

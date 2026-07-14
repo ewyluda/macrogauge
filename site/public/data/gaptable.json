@@ -1,7 +1,7 @@
 {
-  "published_at": "2026-07-14T01:25:38Z",
-  "as_of": "2026-07-13",
-  "official_month": "2026-05-01",
+  "published_at": "2026-07-14T13:12:54Z",
+  "as_of": "2026-07-14",
+  "official_month": "2026-06-01",
   "rows": [
     {
       "component": "shelter_owned",
@@ -9,19 +9,19 @@
       "weight": 0.265,
       "mode": "live",
       "ours_yoy_pct": 0.71,
-      "bls_yoy_pct": 3.32,
-      "gap_pp": -2.61,
-      "contribution_pp": -0.69
+      "bls_yoy_pct": 3.25,
+      "gap_pp": -2.54,
+      "contribution_pp": -0.67
     },
     {
       "component": "fuel",
       "label": "Gasoline",
       "weight": 0.03,
       "mode": "live",
-      "ours_yoy_pct": 21.44,
-      "bls_yoy_pct": 40.46,
-      "gap_pp": -19.02,
-      "contribution_pp": -0.57
+      "ours_yoy_pct": 20.96,
+      "bls_yoy_pct": 26.72,
+      "gap_pp": -5.77,
+      "contribution_pp": -0.17
     },
     {
       "component": "shelter_rent",
@@ -29,9 +29,19 @@
       "weight": 0.075,
       "mode": "live",
       "ours_yoy_pct": 0.71,
-      "bls_yoy_pct": 2.92,
-      "gap_pp": -2.22,
-      "contribution_pp": -0.17
+      "bls_yoy_pct": 2.84,
+      "gap_pp": -2.13,
+      "contribution_pp": -0.16
+    },
+    {
+      "component": "electricity",
+      "label": "Electricity",
+      "weight": 0.028,
+      "mode": "live",
+      "ours_yoy_pct": 7.29,
+      "bls_yoy_pct": 4.03,
+      "gap_pp": 3.26,
+      "contribution_pp": 0.09
     },
     {
       "component": "nat_gas",
@@ -39,8 +49,8 @@
       "weight": 0.007,
       "mode": "live",
       "ours_yoy_pct": 12.37,
-      "bls_yoy_pct": 3.01,
-      "gap_pp": 9.36,
+      "bls_yoy_pct": 3.03,
+      "gap_pp": 9.34,
       "contribution_pp": 0.07
     },
     {
@@ -49,27 +59,17 @@
       "weight": 0.021,
       "mode": "live",
       "ours_yoy_pct": 0.89,
-      "bls_yoy_pct": -1.99,
-      "gap_pp": 2.89,
+      "bls_yoy_pct": -1.77,
+      "gap_pp": 2.67,
       "contribution_pp": 0.06
-    },
-    {
-      "component": "electricity",
-      "label": "Electricity",
-      "weight": 0.028,
-      "mode": "live",
-      "ours_yoy_pct": 7.29,
-      "bls_yoy_pct": 5.92,
-      "gap_pp": 1.37,
-      "contribution_pp": 0.04
     },
     {
       "component": "other",
       "label": "Other goods & services",
       "weight": 0.185,
       "mode": "bls_cf",
-      "ours_yoy_pct": 4.91,
-      "bls_yoy_pct": 4.91,
+      "ours_yoy_pct": 4.59,
+      "bls_yoy_pct": 4.59,
       "gap_pp": 0.0,
       "contribution_pp": 0.0
     },
@@ -78,8 +78,8 @@
       "label": "Food at home",
       "weight": 0.082,
       "mode": "bls_cf",
-      "ours_yoy_pct": 2.74,
-      "bls_yoy_pct": 2.74,
+      "ours_yoy_pct": 2.75,
+      "bls_yoy_pct": 2.75,
       "gap_pp": 0.0,
       "contribution_pp": 0.0
     },
@@ -88,8 +88,8 @@
       "label": "Medical care",
       "weight": 0.081,
       "mode": "bls_cf",
-      "ours_yoy_pct": 2.59,
-      "bls_yoy_pct": 2.59,
+      "ours_yoy_pct": 2.03,
+      "bls_yoy_pct": 2.03,
       "gap_pp": 0.0,
       "contribution_pp": 0.0
     },
@@ -98,8 +98,8 @@
       "label": "Food away from home",
       "weight": 0.057,
       "mode": "bls_cf",
-      "ours_yoy_pct": 3.54,
-      "bls_yoy_pct": 3.54,
+      "ours_yoy_pct": 3.37,
+      "bls_yoy_pct": 3.37,
       "gap_pp": 0.0,
       "contribution_pp": 0.0
     },
@@ -108,18 +108,18 @@
       "label": "Education & comm",
       "weight": 0.055,
       "mode": "bls_cf",
-      "ours_yoy_pct": 0.84,
-      "bls_yoy_pct": 0.84,
-      "gap_pp": 0.0,
-      "contribution_pp": 0.0
+      "ours_yoy_pct": -0.06,
+      "bls_yoy_pct": -0.06,
+      "gap_pp": -0.0,
+      "contribution_pp": -0.0
     },
     {
       "component": "recreation",
       "label": "Recreation",
       "weight": 0.053,
       "mode": "bls_cf",
-      "ours_yoy_pct": 2.62,
-      "bls_yoy_pct": 2.62,
+      "ours_yoy_pct": 2.83,
+      "bls_yoy_pct": 2.83,
       "gap_pp": -0.0,
       "contribution_pp": -0.0
     },
@@ -128,8 +128,8 @@
       "label": "New vehicles",
       "weight": 0.036,
       "mode": "bls_cf",
-      "ours_yoy_pct": 0.24,
-      "bls_yoy_pct": 0.24,
+      "ours_yoy_pct": 0.5,
+      "bls_yoy_pct": 0.5,
       "gap_pp": 0.0,
       "contribution_pp": 0.0
     },
@@ -138,37 +138,37 @@
       "label": "Apparel",
       "weight": 0.025,
       "mode": "bls_cf",
-      "ours_yoy_pct": 4.79,
-      "bls_yoy_pct": 4.79,
+      "ours_yoy_pct": 3.88,
+      "bls_yoy_pct": 3.88,
       "gap_pp": 0.0,
       "contribution_pp": 0.0
     }
   ],
-  "total_gap_pp": -1.26,
+  "total_gap_pp": -0.79,
   "variants": {
     "gauge": {
-      "yoy_pct": 3.05,
-      "as_of": "2026-07-13",
+      "yoy_pct": 2.87,
+      "as_of": "2026-07-14",
       "coverage_pct": 42.6
     },
     "col": {
-      "yoy_pct": 3.22,
-      "as_of": "2026-07-13",
+      "yoy_pct": 3.04,
+      "as_of": "2026-07-14",
       "coverage_pct": 42.6
     },
     "tracker": {
-      "yoy_pct": 3.85,
-      "as_of": "2026-07-13",
+      "yoy_pct": 3.65,
+      "as_of": "2026-07-14",
       "coverage_pct": 6.5
     },
     "supercore": {
-      "yoy_pct": 3.48,
-      "as_of": "2026-05-01",
+      "yoy_pct": 3.1,
+      "as_of": "2026-06-01",
       "coverage_pct": 0.0
     },
     "pce": {
-      "yoy_pct": 3.52,
-      "as_of": "2026-07-13",
+      "yoy_pct": 3.26,
+      "as_of": "2026-07-14",
       "coverage_pct": 21.7
     }
   }

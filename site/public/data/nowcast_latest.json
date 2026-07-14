@@ -1,13 +1,13 @@
 {
-  "published_at": "2026-07-14T01:25:38Z",
+  "published_at": "2026-07-14T13:12:54Z",
   "target": "CPI",
   "release_date": "2026-07-14",
   "reference_month": "2026-06",
   "cpi": {
     "target_month": "2026-06",
-    "mom_pct": -0.16,
-    "yoy_pct": 3.05,
-    "as_of": "2026-07-13",
+    "mom_pct": -0.14,
+    "yoy_pct": 2.87,
+    "as_of": "2026-07-14",
     "status": "live",
     "parameters": {},
     "components": [
@@ -15,90 +15,104 @@
         "component": "shelter_owned",
         "mom_pct": 0.1467,
         "weight": 0.265,
-        "contribution_pp": 0.0389
+        "contribution_pp": 0.0389,
+        "basis": "measured"
       },
       {
         "component": "other",
-        "mom_pct": 0.0,
+        "mom_pct": 0.1318,
         "weight": 0.185,
-        "contribution_pp": 0.0
+        "contribution_pp": 0.0244,
+        "basis": "measured"
       },
       {
         "component": "food_home",
-        "mom_pct": 0.0,
+        "mom_pct": 0.1819,
         "weight": 0.082,
-        "contribution_pp": 0.0
+        "contribution_pp": 0.0149,
+        "basis": "measured"
       },
       {
         "component": "medical",
-        "mom_pct": 0.0,
+        "mom_pct": -0.0824,
         "weight": 0.081,
-        "contribution_pp": 0.0
+        "contribution_pp": -0.0067,
+        "basis": "measured"
       },
       {
         "component": "shelter_rent",
         "mom_pct": 0.1467,
         "weight": 0.075,
-        "contribution_pp": 0.011
+        "contribution_pp": 0.011,
+        "basis": "measured"
       },
       {
         "component": "food_away",
-        "mom_pct": 0.0,
+        "mom_pct": 0.2293,
         "weight": 0.057,
-        "contribution_pp": 0.0
+        "contribution_pp": 0.0131,
+        "basis": "measured"
       },
       {
         "component": "education_comm",
-        "mom_pct": 0.0,
+        "mom_pct": -0.7607,
         "weight": 0.055,
-        "contribution_pp": 0.0
+        "contribution_pp": -0.0418,
+        "basis": "measured"
       },
       {
         "component": "recreation",
-        "mom_pct": 0.0,
+        "mom_pct": 0.4338,
         "weight": 0.053,
-        "contribution_pp": 0.0
+        "contribution_pp": 0.023,
+        "basis": "measured"
       },
       {
         "component": "new_vehicles",
-        "mom_pct": 0.0,
+        "mom_pct": 0.1021,
         "weight": 0.036,
-        "contribution_pp": 0.0
+        "contribution_pp": 0.0037,
+        "basis": "measured"
       },
       {
         "component": "fuel",
         "mom_pct": -7.0822,
         "weight": 0.03,
-        "contribution_pp": -0.2125
+        "contribution_pp": -0.2125,
+        "basis": "measured"
       },
       {
         "component": "electricity",
-        "mom_pct": 0.0,
+        "mom_pct": 0.2879,
         "weight": 0.028,
-        "contribution_pp": 0.0
+        "contribution_pp": 0.0081,
+        "basis": "trend"
       },
       {
         "component": "apparel",
-        "mom_pct": 0.0,
+        "mom_pct": -1.1585,
         "weight": 0.025,
-        "contribution_pp": 0.0
+        "contribution_pp": -0.029,
+        "basis": "measured"
       },
       {
         "component": "used_vehicles",
         "mom_pct": 0.3303,
         "weight": 0.021,
-        "contribution_pp": 0.0069
+        "contribution_pp": 0.0069,
+        "basis": "measured"
       },
       {
         "component": "nat_gas",
-        "mom_pct": 0.0,
+        "mom_pct": 1.5309,
         "weight": 0.007,
-        "contribution_pp": 0.0
+        "contribution_pp": 0.0107,
+        "basis": "trend"
       }
     ]
   },
   "pce": {
-    "mom_pct": 0.07,
+    "mom_pct": 0.08,
     "parameters": {
       "intercept": 0.136577,
       "cpi_beta": 0.411546,
@@ -106,7 +120,7 @@
       "observations": 24
     },
     "status": "live",
-    "as_of": "2026-07-13"
+    "as_of": "2026-07-14"
   },
   "nfp": {
     "change_thousands": 117,
@@ -134,12 +148,12 @@
     }
   },
   "ensemble": {
-    "value": -0.14,
+    "value": -0.13,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-07-13"
+  "generated_on": "2026-07-14"
 }

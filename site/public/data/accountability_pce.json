@@ -1,13 +1,13 @@
 {
-  "published_at": "2026-07-14T01:25:38Z",
+  "published_at": "2026-07-14T13:12:54Z",
   "target": "PCE",
   "graded": [],
   "pending": [
     {
       "reference_period": "2026-06",
       "badge": "LIVE",
-      "forecast": 0.07,
-      "as_of": "2026-07-13",
+      "forecast": 0.08,
+      "as_of": "2026-07-14",
       "actual": null
     }
   ]
