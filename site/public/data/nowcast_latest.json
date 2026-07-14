@@ -1,12 +1,12 @@
 {
-  "published_at": "2026-07-14T00:49:10Z",
+  "published_at": "2026-07-14T01:25:38Z",
   "target": "CPI",
   "release_date": "2026-07-14",
   "reference_month": "2026-06",
   "cpi": {
     "target_month": "2026-06",
     "mom_pct": -0.16,
-    "yoy_pct": 3.07,
+    "yoy_pct": 3.05,
     "as_of": "2026-07-13",
     "status": "live",
     "parameters": {},
@@ -85,9 +85,9 @@
       },
       {
         "component": "used_vehicles",
-        "mom_pct": 0.0,
+        "mom_pct": 0.3303,
         "weight": 0.021,
-        "contribution_pp": 0.0
+        "contribution_pp": 0.0069
       },
       {
         "component": "nat_gas",
@@ -129,7 +129,7 @@
       "as_of": "2026-07-13"
     },
     "kalshi": {
-      "value": -0.193,
+      "value": -0.191,
       "as_of": "2026-07-13"
     }
   },

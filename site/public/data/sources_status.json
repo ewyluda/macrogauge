@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-14T00:49:10Z",
+  "generated_at": "2026-07-14T01:25:38Z",
   "sources": [
     {
       "name": "AAA",
@@ -9,7 +9,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T00:48:40Z",
+      "finished_at": "2026-07-14T01:25:08Z",
       "series_count": 1,
       "latest_obs": "2026-07-13"
     },
@@ -21,7 +21,7 @@
       "fetched": 114,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T00:47:24Z",
+      "finished_at": "2026-07-14T01:23:56Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -33,7 +33,7 @@
       "fetched": 3045,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T00:47:18Z",
+      "finished_at": "2026-07-14T01:23:51Z",
       "series_count": 28,
       "latest_obs": "2026-05-01"
     },
@@ -43,9 +43,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 8,
-      "new_rows": 4,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T00:48:41Z",
+      "finished_at": "2026-07-14T01:25:09Z",
       "series_count": 4,
       "latest_obs": "2026-07-01"
     },
@@ -57,7 +57,7 @@
       "fetched": 2715,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T00:47:20Z",
+      "finished_at": "2026-07-14T01:23:53Z",
       "series_count": 3,
       "latest_obs": "2026-07-06"
     },
@@ -69,7 +69,7 @@
       "fetched": 15808,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T00:49:08Z",
+      "finished_at": "2026-07-14T01:25:36Z",
       "series_count": 52,
       "latest_obs": "2026-04-01"
     },
@@ -79,9 +79,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 14,
-      "new_rows": 9,
+      "new_rows": 6,
       "error": null,
-      "finished_at": "2026-07-14T00:47:21Z",
+      "finished_at": "2026-07-14T01:23:53Z",
       "series_count": 14,
       "latest_obs": "2026-07-13"
     },
@@ -93,7 +93,7 @@
       "fetched": 14644,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T00:47:16Z",
+      "finished_at": "2026-07-14T01:23:49Z",
       "series_count": 62,
       "latest_obs": "2026-07-13"
     },
@@ -105,7 +105,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-14T00:48:42Z",
+      "finished_at": "2026-07-14T01:25:10Z",
       "series_count": 1,
       "latest_obs": "2026-07-11"
     },
@@ -117,9 +117,9 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T00:48:41Z",
+      "finished_at": "2026-07-14T01:25:09Z",
       "series_count": 1,
-      "latest_obs": "2025-12-01"
+      "latest_obs": "2026-06-01"
     },
     {
       "name": "MND",
@@ -129,7 +129,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T00:48:41Z",
+      "finished_at": "2026-07-14T01:25:09Z",
       "series_count": 1,
       "latest_obs": "2026-07-13"
     },
@@ -141,7 +141,7 @@
       "fetched": 497,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T00:47:24Z",
+      "finished_at": "2026-07-14T01:23:56Z",
       "series_count": 1,
       "latest_obs": "2026-07-09"
     },
@@ -153,7 +153,7 @@
       "fetched": 44,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T00:49:10Z",
+      "finished_at": "2026-07-14T01:25:38Z",
       "series_count": 52,
       "latest_obs": "2025-10-01"
     },
@@ -165,7 +165,7 @@
       "fetched": 2390,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T00:47:22Z",
+      "finished_at": "2026-07-14T01:23:54Z",
       "series_count": 1,
       "latest_obs": "2026-07-10"
     },
@@ -177,7 +177,7 @@
       "fetched": 2158,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T00:48:40Z",
+      "finished_at": "2026-07-14T01:25:08Z",
       "series_count": 5,
       "latest_obs": "2026-07-10"
     },
@@ -189,7 +189,7 @@
       "fetched": 226,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T00:47:23Z",
+      "finished_at": "2026-07-14T01:23:55Z",
       "series_count": 2,
       "latest_obs": "2026-05-01"
     }
