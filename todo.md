@@ -26,10 +26,12 @@ findings root-caused against the store and pipeline).
    `scripts/backfill_manheim.py` filled the Dec 2025–May 2026 gap (peak 215.3 in
    March); used_vehicles YoY now +0.89% off real monthly history.
 
-4. **Widen nowcast component coverage.** CPI Preview receipts are 0.00% MoM for 11 of 14
-   components — the ensemble is effectively a fuel-plus-shelter call. Reuse the outlook
-   model's driver paths (USDA futures → food-at-home, EIA → electricity/nat-gas) for the
-   one-month nowcast.
+4. **[DONE 2026-07-14] Widen nowcast component coverage.** Root cause: the measured-only
+   model fabricated 0.00% MoM for every component without in-target-month data. Lagging
+   components now ride their capped trailing-median trend plus one-month futures-driver
+   slices (ag composite → food_home; Manheim when lagging), staleness-gated, sharing the
+   outlook's math (new `pipeline/engine/signals.py`) and knobs. Receipts carry a `basis`
+   field and the site tags modeled rows — design: docs/plans/2026-07-14-nowcast-component-coverage.md.
 
 ## Product / coverage (phase 5 candidates)
 
