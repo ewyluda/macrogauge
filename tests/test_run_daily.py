@@ -35,17 +35,21 @@ def fake_get(url, params=None, timeout=None, **kw):
         name = "eia_weekly.json" if url.endswith(".W") else "eia_monthly.json"
         return FakeResponse(json.loads((FIXTURES / name).read_text()))
     if "financialmodelingprep.com" in url:
-        if "economic-calendar" in url:
-            return FakeResponse([{"country": "US", "event": "Consumer Price Index MoM",
-                                  "date": "2026-07-14 08:30:00", "estimate": 0.3}])
         requested = (params or {}).get("symbols", "").split(",")
         return FakeResponse([
             {"symbol": s, "price": FMP_QUOTES[s], "timestamp": 1783440000}
             for s in requested if s in FMP_QUOTES
         ])
     if "clevelandfed.org" in url:
-        return _TextResponse("<tr><td>July 2026</td><td>0.20</td><td>0.25</td>"
-                             "<td>0.18</td><td>0.22</td><td>07/10</td></tr>")
+        return _TextResponse(
+            "<h2>Inflation, month-over-month percent change</h2>"
+            "<tr><td>July 2026</td><td>0.20</td><td>0.25</td>"
+            "<td>0.18</td><td>0.22</td><td>07/10</td></tr>"
+            "<tr><td>June 2026</td><td>0.15</td><td>0.24</td>"
+            "<td>0.12</td><td>0.20</td><td>07/10</td></tr>"
+            "<h2>Inflation, year-over-year percent change</h2>"
+            "<tr><td>July 2026</td><td>3.71</td><td>2.81</td>"
+            "<td>3.84</td><td>3.47</td><td>07/10</td></tr>")
     if "external-api.kalshi.com" in url:
         return FakeResponse({"markets": [{"floor_strike": 0.2,
                                            "last_price_dollars": "1.0",
@@ -137,7 +141,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "stress.json", "recession.json", "datacenter.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 17
+    assert len(status["sources"]) == 16
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp

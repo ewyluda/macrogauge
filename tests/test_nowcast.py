@@ -64,9 +64,9 @@ def test_nfp_model_returns_transparent_inputs_and_coefficients():
 
 
 def test_ensemble_omits_missing_benchmarks_and_normalizes_weights():
-    result = ensemble({"ours": 0.2, "cleveland": None, "street": 0.3},
-                      {"ours": 0.1, "street": 0.2})
-    assert set(result["weights"]) == {"ours", "street"}
+    result = ensemble({"ours": 0.2, "cleveland": None, "kalshi": 0.3},
+                      {"ours": 0.1, "kalshi": 0.2})
+    assert set(result["weights"]) == {"ours", "kalshi"}
     assert abs(sum(result["weights"].values()) - 1) < 1e-3
 
 

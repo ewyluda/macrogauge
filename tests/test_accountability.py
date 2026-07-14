@@ -65,12 +65,12 @@ def test_latest_benchmarks_filters_to_reference_month(tmp_path: Path):
     out = phase3.latest_benchmarks(vintage.load(tmp_path), "2026-06")
     assert out["kalshi"] == {"value": 0.22, "as_of": "2026-07-11"}
     assert out["cleveland"] == {"value": 0.18, "as_of": "2026-07-11"}
-    assert out["street"] is None  # no row for the month
+    assert set(out) == {"cleveland", "kalshi"}
 
 
 def test_latest_benchmarks_none_reference_month(tmp_path: Path):
     out = phase3.latest_benchmarks(vintage.load(tmp_path), None)
-    assert out == {"cleveland": None, "street": None, "kalshi": None}
+    assert out == {"cleveland": None, "kalshi": None}
 
 
 def test_record_forecasts_uses_nfp_own_reference_month(tmp_path: Path):

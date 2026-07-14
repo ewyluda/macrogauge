@@ -1,6 +1,5 @@
 """FMP connector — batch quote for futures proxies (gold, WTI).
 
-Phase 3 grows this to the economic calendar + street consensus.
 
 Note: `stable/quote` only accepts a single symbol — a comma-joined `symbol`
 silently returns `[]` (verified live). The multi-symbol batch route is

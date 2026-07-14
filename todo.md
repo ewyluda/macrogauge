@@ -5,17 +5,17 @@ findings root-caused against the store and pipeline).
 
 ## Highest value / analytics
 
-1. **[IN PROGRESS] Seed the backtest from ALFRED.** All 112 `CPIAUCNS` rows share one
+1. **[DONE 2026-07-13] Seed the backtest from ALFRED.** All 112 `CPIAUCNS` rows share one
    2026-07 backfill vintage, so the vintage-true walk-forward in
    `pipeline/engine/backtest.py` produces 0 rows and the Forecast Scoreboard is empty.
    Backfill historical first-release vintages from ALFRED (FRED realtime API) into the
    store — instantly populates years of BT rows and a real MAE-vs-naive comparison.
 
-2. **Replace the Street consensus source.** FMP's economic calendar no longer carries a
-   CPI monthly consensus (`street_cpi_mom` never seen; STREET connector fails every run).
-   Best candidate: scrape the Cleveland Fed nowcast page's *next*-month row too — one
-   scrape, two benchmark rows, also fixes Cleveland dropping out of the ensemble in the
-   week before a print (its current-month row rolls forward before our reference month does).
+2. **[DONE 2026-07-13] Replace the Street consensus source.** FMP's calendar carries zero
+   US CPI events (verified live), so STREET was deleted outright. Cleveland's scraper now
+   parses every month row in the MoM table (sliced away from the YoY table below it), so
+   the current reference month stays in the ensemble until its print lands — Forecasters
+   Live went 2 → 3 and connectors_ok now passes (QA 19/20).
 
 3. **Fix the used-vehicles driver.** Manheim scrape dead 224 days; `used_vehicles` live
    blend is 100% `manheim_uvvi_m` with carry-forward, so its LIVE badge (+1.6% vs BLS

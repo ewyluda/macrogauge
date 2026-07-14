@@ -32,8 +32,7 @@ def latest_benchmarks(conn, reference_month: str | None) -> dict[str, dict | Non
     Rows are keyed obs_date = reference-month first (shared connector
     convention); anything else — old-convention leftovers, a stale prior
     month — is excluded rather than silently blended into the ensemble."""
-    codes = {"cleveland": "cleveland_cpi_mom", "street": "street_cpi_mom",
-             "kalshi": "kalshi_cpi_mom"}
+    codes = {"cleveland": "cleveland_cpi_mom", "kalshi": "kalshi_cpi_mom"}
     if reference_month is None:
         return {name: None for name in codes}
     out = {}
