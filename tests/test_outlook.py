@@ -6,7 +6,7 @@ import pytest
 
 from pipeline import basket, registry
 from pipeline.dates import next_month
-from pipeline.engine import outlook
+from pipeline.engine import outlook, signals
 from pipeline.models import Observation
 from pipeline.publish import outlook as outlook_json, validate
 from pipeline.store import vintage
@@ -82,7 +82,7 @@ def test_disclosed_fuel_pass_through_and_band_math(tmp_path):
     conn = vintage.load(tmp_path / "store")
     result = outlook.run(conn, _gauge_result())
 
-    expected = outlook._distributed_return(10.0 * 0.85, 2)
+    expected = signals.distributed_return(10.0 * 0.85, 2)
     fuel = result["component_paths"]["fuel"]
     assert fuel[0]["mom_pct"] == round(expected, 4)
     assert fuel[1]["mom_pct"] == round(expected, 4)
@@ -123,8 +123,8 @@ def test_trailing_median_stops_at_last_real_observation(tmp_path):
     result = outlook.run(conn, _gauge_result(component_overrides={
         "medical": {"daily_index": frozen, "last_obs": "2024-03-31"}}))
 
-    expected = outlook._median_mom(
-        outlook._month_values(frozen.items(), "2024-03"), 12)
+    expected = signals.median_mom(
+        signals.month_values(frozen.items(), "2024-03"), 12)
     assert expected > 0
     medical = result["component_paths"]["medical"]
     assert medical[0]["mom_pct"] == round(expected, 4)
@@ -144,7 +144,7 @@ def test_component_trend_is_capped_at_config_annual_rate(tmp_path):
     result = outlook.run(conn, _gauge_result(component_overrides={
         "electricity": {"daily_index": explosive, "last_obs": "2025-01-01"}}))
 
-    cap_monthly = outlook._monthly_from_annual(20.0)
+    cap_monthly = signals.monthly_from_annual(20.0)
     assert result["component_paths"]["electricity"][0]["mom_pct"] == round(cap_monthly, 4)
 
 
@@ -156,7 +156,7 @@ def test_empty_trend_window_falls_back_to_neutral_not_frozen(tmp_path):
     result = outlook.run(conn, _gauge_result(component_overrides={
         "used_vehicles": {"last_obs": "2021-01-31"}}))
 
-    neutral = outlook._monthly_from_annual(2.0)
+    neutral = signals.monthly_from_annual(2.0)
     assert result["component_paths"]["used_vehicles"][0]["mom_pct"] == round(neutral, 4)
 
 
@@ -214,12 +214,12 @@ def test_pipeline_tilt_is_compounded_monthly_not_divided(tmp_path):
     gauge = _gauge_result()
     result = outlook.run(conn, gauge)
 
-    annual = outlook._annualized(1.0, 3)          # each series +1% over the 3mo lookback
+    annual = signals.annualized(1.0, 3)          # each series +1% over the 3mo lookback
     tilt = max(-1.0, min(1.0, (annual - 2.0) * 0.5))
-    levels = outlook._component_trend_levels(
+    levels = signals.component_trend_levels(
         gauge["variants"]["gauge"]["components"]["apparel"], "2024-12")
-    own = outlook._median_mom(levels, 12)         # apparel is goods-only, no other shock
-    expected = own + outlook._monthly_from_annual(tilt)
+    own = signals.median_mom(levels, 12)         # apparel is goods-only, no other shock
+    expected = own + signals.monthly_from_annual(tilt)
     assert result["component_paths"]["apparel"][0]["mom_pct"] == round(expected, 4)
 
 

@@ -13,112 +13,10 @@ from datetime import date
 from pathlib import Path
 
 from pipeline.dates import month_first, months_back, next_month, prior_month
+from pipeline.engine import signals
 from pipeline.store import vintage
 
 DEFAULT_CONFIG = Path(__file__).parent.parent.parent / "config" / "outlook.json"
-
-
-def _month_values(rows, through_month: str | None = None) -> dict[str, float]:
-    """Last observation in each complete month, keyed YYYY-MM."""
-    out: dict[str, tuple[str, float]] = {}
-    for obs_date, value in rows:
-        month = obs_date[:7]
-        if through_month is not None and month > through_month:
-            continue
-        if month not in out or obs_date >= out[month][0]:
-            out[month] = (obs_date, float(value))
-    return {month: pair[1] for month, pair in sorted(out.items())}
-
-
-def _month_asof(rows, through_month: str) -> str | None:
-    dates = [d for d, _ in rows if d[:7] <= through_month]
-    return max(dates) if dates else None
-
-
-def _adjacent_changes(levels: dict[str, float]) -> list[tuple[str, float]]:
-    out = []
-    for month, value in levels.items():
-        prior = prior_month(f"{month}-01")[:7]
-        base = levels.get(prior)
-        if base not in (None, 0):
-            out.append((month, (value / base - 1) * 100))
-    return out
-
-
-def _median_mom(levels: dict[str, float], window: int, fallback: float = 0.0) -> float:
-    changes = [value for _, value in _adjacent_changes(levels)[-window:]]
-    return statistics.median(changes) if changes else fallback
-
-
-def _lookback_return(rows, through_month: str, lookback_months: int) -> tuple[float | None, str | None]:
-    levels = _month_values(rows, through_month)
-    if not levels:
-        return None, None
-    end_month = max(levels)
-    start_month = months_back(f"{end_month}-01", lookback_months)[:7]
-    if start_month not in levels or levels[start_month] == 0:
-        return None, end_month
-    return (levels[end_month] / levels[start_month] - 1) * 100, end_month
-
-
-def _fresh_series(rows, code: str, staleness: dict[str, int] | None,
-                  today: str | None) -> bool:
-    """A stale driver series must not produce a forward shock: its months-old
-    move already passed through actual CPI, and _lookback_return anchors at
-    the series' own last month, so it would be re-applied as if it just
-    happened (published 'live'). Gate on the registry's max_staleness_days;
-    with no gating context (unit tests, unregistered code) treat as fresh."""
-    if staleness is None or today is None:
-        return True
-    limit = staleness.get(code)
-    if limit is None:
-        return True
-    last = max((obs_date for obs_date, _ in rows), default=None)
-    if last is None:
-        return False
-    return (date.fromisoformat(today) - date.fromisoformat(last)).days <= limit
-
-
-def _weighted_signal(conn, series_weights: dict[str, float], through_month: str,
-                     lookback_months: int, staleness: dict[str, int] | None = None,
-                     today: str | None = None) -> tuple[float | None, list[str], str | None]:
-    available: list[tuple[str, float, float, str | None]] = []
-    for code, weight in series_weights.items():
-        rows = vintage.latest(conn, code)
-        if not _fresh_series(rows, code, staleness, today):
-            continue
-        value, _ = _lookback_return(rows, through_month, lookback_months)
-        if value is not None:
-            available.append((code, weight, value, _month_asof(rows, through_month)))
-    if not available:
-        return None, [], None
-    total = sum(weight for _, weight, _, _ in available)
-    signal = sum(weight * value for _, weight, value, _ in available) / total
-    asof = max((date for *_, date in available if date is not None), default=None)
-    return signal, [code for code, *_ in available], asof
-
-
-def _equal_signal(conn, codes: list[str], through_month: str,
-                  lookback_months: int, staleness: dict[str, int] | None = None,
-                  today: str | None = None) -> tuple[float | None, list[str], str | None]:
-    return _weighted_signal(conn, {code: 1.0 for code in codes},
-                            through_month, lookback_months, staleness, today)
-
-
-def _distributed_return(total_return_pct: float, months: int) -> float:
-    # A bad upstream price can never turn a component level negative.
-    bounded = max(total_return_pct, -95.0)
-    return ((1 + bounded / 100) ** (1 / months) - 1) * 100
-
-
-def _annualized(return_pct: float, months: int) -> float:
-    bounded = max(return_pct, -95.0)
-    return ((1 + bounded / 100) ** (12 / months) - 1) * 100
-
-
-def _monthly_from_annual(annual_pct: float) -> float:
-    bounded = max(annual_pct, -95.0)
-    return ((1 + bounded / 100) ** (1 / 12) - 1) * 100
 
 
 def _blend_label(series_weights: dict[str, float], used: list[str],
@@ -148,18 +46,8 @@ def _status(found: int, expected: int) -> str:
     return "live" if found == expected else "partial"
 
 
-def _component_trend_levels(component: dict, origin_month: str) -> dict[str, float]:
-    # Trend estimation must stop at the component's own last real observation:
-    # past it the daily grid is pure forward-fill, so every adjacent-month
-    # "change" is a fabricated 0.0 that drags the trailing median toward zero
-    # (the same like-month rule behind the gauge's own component YoY).
-    last_real_month = component["last_obs"][:7]
-    return _month_values(component["daily_index"].items(),
-                         min(origin_month, last_real_month))
-
-
 def _headline_monthly(index: dict[str, float], origin_month: str) -> dict[str, float]:
-    return _month_values(index.items(), origin_month)
+    return signals.month_values(index.items(), origin_month)
 
 
 def _validate_config(config: dict, component_codes: set[str],
@@ -195,21 +83,21 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
         raise ValueError(f"outlook: no complete-month gauge level for {origin_month}")
 
     horizon = int(config["horizon_months"])
-    neutral_mom = _monthly_from_annual(float(config["baseline_annual_pct"]))
+    neutral_mom = signals.monthly_from_annual(float(config["baseline_annual_pct"]))
     trailing_window = int(config["trailing_median_months"])
     component_levels = {
-        code: _month_values(component["daily_index"].items(), origin_month)
+        code: signals.month_values(component["daily_index"].items(), origin_month)
         for code, component in variant["components"].items()
     }
-    # Base rates come from real observations only (see _component_trend_levels);
+    # Base rates come from real observations only (see signals.component_trend_levels);
     # a component with no computable change gets the neutral baseline drift, not
     # frozen prices, and the cap keeps a spiky NSA window (winter utility gas)
     # from being annualized into an implausible year-long path.
     trend_cap = float(config["component_trend_annual_cap_pct"])
-    cap_low, cap_high = _monthly_from_annual(-trend_cap), _monthly_from_annual(trend_cap)
+    cap_low, cap_high = signals.monthly_from_annual(-trend_cap), signals.monthly_from_annual(trend_cap)
     base_mom = {
-        code: min(cap_high, max(cap_low, _median_mom(
-            _component_trend_levels(component, origin_month), trailing_window,
+        code: min(cap_high, max(cap_low, signals.median_mom(
+            signals.component_trend_levels(component, origin_month), trailing_window,
             fallback=neutral_mom)))
         for code, component in variant["components"].items()
     }
@@ -217,48 +105,48 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
     # Forward drivers. Every unavailable value remains None and is disclosed;
     # component paths then use their own trailing median.
     fuel_cfg = config["fuel"]
-    fuel_value, fuel_sources, fuel_asof = _weighted_signal(
+    fuel_value, fuel_sources, fuel_asof = signals.weighted_signal(
         conn, fuel_cfg["series"], origin_month, fuel_cfg["lookback_months"],
         staleness, today)
 
     food_cfg = config["food_home"]
-    food_value, food_sources, food_asof = _equal_signal(
+    food_value, food_sources, food_asof = signals.equal_signal(
         conn, food_cfg["series"], origin_month, food_cfg["lookback_months"],
         staleness, today)
 
     gas_cfg = config["nat_gas"]
     gas_rows = vintage.latest(conn, gas_cfg["series"])
     gas_value = None
-    if _fresh_series(gas_rows, gas_cfg["series"], staleness, today):
-        gas_value, _ = _lookback_return(gas_rows, origin_month, gas_cfg["lookback_months"])
-    gas_asof = _month_asof(gas_rows, origin_month)
+    if signals.fresh_series(gas_rows, gas_cfg["series"], staleness, today):
+        gas_value, _ = signals.lookback_return(gas_rows, origin_month, gas_cfg["lookback_months"])
+    gas_asof = signals.month_asof(gas_rows, origin_month)
 
     used_cfg = config["used_vehicles"]
     used_rows = vintage.latest(conn, used_cfg["series"])
     used_value = None
-    if _fresh_series(used_rows, used_cfg["series"], staleness, today):
-        used_value, _ = _lookback_return(used_rows, origin_month, used_cfg["lookback_months"])
-    used_asof = _month_asof(used_rows, origin_month)
+    if signals.fresh_series(used_rows, used_cfg["series"], staleness, today):
+        used_value, _ = signals.lookback_return(used_rows, origin_month, used_cfg["lookback_months"])
+    used_asof = signals.month_asof(used_rows, origin_month)
 
     wage_cfg = config["wages"]
     wage_rows = vintage.latest(conn, wage_cfg["series"])
     wage_value = None
-    if _fresh_series(wage_rows, wage_cfg["series"], staleness, today):
-        wage_months = _month_values(wage_rows, origin_month)
+    if signals.fresh_series(wage_rows, wage_cfg["series"], staleness, today):
+        wage_months = signals.month_values(wage_rows, origin_month)
         wage_value = wage_months[max(wage_months)] if wage_months else None
-    wage_asof = _month_asof(wage_rows, origin_month)
+    wage_asof = signals.month_asof(wage_rows, origin_month)
 
     pipe_cfg = config["goods_pipeline"]
     pipe_values, pipe_sources, pipe_dates = [], [], []
     for code in pipe_cfg["series"]:
         rows = vintage.latest(conn, code)
-        if not _fresh_series(rows, code, staleness, today):
+        if not signals.fresh_series(rows, code, staleness, today):
             continue
-        value, _ = _lookback_return(rows, origin_month, pipe_cfg["lookback_months"])
+        value, _ = signals.lookback_return(rows, origin_month, pipe_cfg["lookback_months"])
         if value is not None:
-            pipe_values.append(_annualized(value, pipe_cfg["lookback_months"]))
+            pipe_values.append(signals.annualized(value, pipe_cfg["lookback_months"]))
             pipe_sources.append(code)
-            date = _month_asof(rows, origin_month)
+            date = signals.month_asof(rows, origin_month)
             if date:
                 pipe_dates.append(date)
     pipeline_tilt = None
@@ -268,7 +156,7 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
     pipeline_asof = max(pipe_dates) if pipe_dates else None
 
     shelter_cfg = config["shelter"]
-    rent_dates = [_month_asof(vintage.latest(conn, code), origin_month)
+    rent_dates = [signals.month_asof(vintage.latest(conn, code), origin_month)
                   for code in shelter_cfg["series"]]
     rent_asof = max((date for date in rent_dates if date is not None), default=None)
     rent_display = {"zori_us": "ZORI", "aptlist_us": "Apartment List"}
@@ -344,22 +232,22 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
             path = [neutral_mom + (own - neutral_mom) * 0.5 ** ((h + 1) / half_life)
                     for h in range(horizon)]
         elif code == "fuel" and fuel_value is not None:
-            shock = _distributed_return(fuel_value * fuel_cfg["pass_through"],
+            shock = signals.distributed_return(fuel_value * fuel_cfg["pass_through"],
                                         fuel_cfg["horizon_months"])
             path = [shock if h < fuel_cfg["horizon_months"] else 0.0
                     for h in range(horizon)]
         elif code == "food_home" and food_value is not None:
-            shock = _distributed_return(food_value * food_cfg["pass_through"],
+            shock = signals.distributed_return(food_value * food_cfg["pass_through"],
                                         food_cfg["horizon_months"])
             path = [own + (shock if h < food_cfg["horizon_months"] else 0.0)
                     for h in range(horizon)]
         elif code == "nat_gas" and gas_value is not None:
             count = gas_cfg["end_month"] - gas_cfg["start_month"] + 1
-            shock = _distributed_return(gas_value * gas_cfg["pass_through"], count)
+            shock = signals.distributed_return(gas_value * gas_cfg["pass_through"], count)
             path = [own + (shock if gas_cfg["start_month"] <= h + 1 <= gas_cfg["end_month"] else 0.0)
                     for h in range(horizon)]
         elif code == "used_vehicles" and used_value is not None:
-            shock = _distributed_return(used_value * used_cfg["pass_through"],
+            shock = signals.distributed_return(used_value * used_cfg["pass_through"],
                                         used_cfg["horizon_months"])
             path = [own + (shock if h < used_cfg["horizon_months"] else 0.0)
                     for h in range(horizon)]
@@ -368,11 +256,11 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
             own_annual = (1 + own / 100) ** 12 * 100 - 100
             target_annual = ((1 - wage_cfg["anchor_weight"]) * own_annual
                              + wage_cfg["anchor_weight"] * wage_value)
-            target_monthly = _monthly_from_annual(target_annual)
+            target_monthly = signals.monthly_from_annual(target_annual)
             path = [value + (target_monthly - own) * ((h + 1) / horizon)
                     for h, value in enumerate(path)]
         if code in goods_codes and pipeline_tilt is not None:
-            path = [value + _monthly_from_annual(pipeline_tilt) for value in path]
+            path = [value + signals.monthly_from_annual(pipeline_tilt) for value in path]
         component_moms[code] = path
 
     weights = {code: component["weight"] for code, component in variant["components"].items()}
