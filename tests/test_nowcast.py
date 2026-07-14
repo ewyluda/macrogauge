@@ -1,13 +1,32 @@
+import pytest
+
 from pipeline.engine.nowcast import models
 from pipeline.engine.nowcast.models import (build_latest, cpi_nowcast, ensemble,
                                             nfp_nowcast, pce_bridge)
+
+TREND_CONFIG = {"baseline_annual_pct": 2.0, "trailing_median_months": 12,
+                "component_trend_annual_cap_pct": 20.0}
+
+
+def _sticky_gauge(code="medical", monthly_pct=0.3, last="2026-05-28"):
+    daily, level = {}, 100.0
+    months = [f"2025-{m:02d}" for m in range(1, 13)] + [f"2026-{m:02d}" for m in range(1, 6)]
+    for i, m in enumerate(months):
+        if i:
+            level *= 1 + monthly_pct / 100
+        daily[f"{m}-28"] = level
+    return {"variants": {"gauge": {
+        "as_of": "2026-06-20", "yoy": {"2026-06-20": 3.0},
+        "components": {code: {"weight": 1.0, "daily_index": daily,
+                              "last_obs": last}}}}}
 
 
 def test_cpi_nowcast_clamps_window_to_target_month():
     gauge_result = {"variants": {"gauge": {
         "as_of": "2026-07-10",
         "yoy": {"2026-07-10": 3.1},
-        "components": {"fuel": {"weight": 1.0, "daily_index": {
+        "components": {"fuel": {"weight": 1.0, "last_obs": "2026-07-10",
+                                "daily_index": {
             "2026-05-01": 100.0, "2026-06-30": 102.0, "2026-07-10": 110.0}}}}}}
     result = cpi_nowcast(gauge_result, "2026-06")
     # June's MoM ends at Jun-30; July's slide must not leak into the June print.
@@ -98,3 +117,41 @@ def test_cpi_nowcast_publishes_no_phantom_parameters():
     # fuel_beta / rent_lag_months / rent_w were never used by the model —
     # publishing them was dishonest methodology (2026-07-11 review).
     assert not hasattr(models, "CPI_PARAMS")
+
+
+def test_modeled_component_uses_trailing_median_not_zero():
+    # medical's last real obs is May; June has only forward-fill. The old
+    # model published 0.00 -- the systematic downward bias behind todo #4.
+    result = cpi_nowcast(_sticky_gauge(), "2026-06", config=TREND_CONFIG)
+    row = result["components"][0]
+    assert row["basis"] == "trend"
+    assert row["mom_pct"] == pytest.approx(0.3, abs=0.02)
+    assert result["mom_pct"] == pytest.approx(0.3, abs=0.02)
+    assert "driver_mom_pct" not in row
+
+
+def test_modeled_trend_is_capped_and_falls_back_to_neutral():
+    # +8%/mo history slams into the ±20%/yr cap (≈ +1.531%/mo)...
+    hot = cpi_nowcast(_sticky_gauge(monthly_pct=8.0), "2026-06", config=TREND_CONFIG)
+    from pipeline.engine import signals
+    assert hot["components"][0]["mom_pct"] == pytest.approx(
+        signals.monthly_from_annual(20.0), abs=1e-4)
+    # ...and a single-observation history has no computable change: neutral
+    # 2%/yr baseline, not frozen prices.
+    lone = _sticky_gauge()
+    comp = lone["variants"]["gauge"]["components"]["medical"]
+    comp["daily_index"] = {"2026-05-28": 100.0}
+    assert cpi_nowcast(lone, "2026-06", config=TREND_CONFIG)["components"][0][
+        "mom_pct"] == pytest.approx(signals.monthly_from_annual(2.0), abs=1e-4)
+
+
+def test_measured_component_math_unchanged_and_labeled():
+    gauge_result = {"variants": {"gauge": {
+        "as_of": "2026-07-10", "yoy": {"2026-07-10": 3.1},
+        "components": {"fuel": {"weight": 1.0, "last_obs": "2026-07-10",
+                                "daily_index": {"2026-05-01": 100.0,
+                                                "2026-06-30": 102.0,
+                                                "2026-07-10": 110.0}}}}}}
+    result = cpi_nowcast(gauge_result, "2026-06", config=TREND_CONFIG)
+    assert result["components"][0]["basis"] == "measured"
+    assert result["components"][0]["mom_pct"] == 2.0  # same clamp as before

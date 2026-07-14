@@ -6,10 +6,13 @@ never imputed.
 """
 from __future__ import annotations
 
+import json
 import math
 from datetime import date, timedelta
 
 from pipeline.dates import month_first, monthly_changes, next_month, prior_month
+from pipeline.engine import signals
+from pipeline.engine.outlook import DEFAULT_CONFIG
 from pipeline.store import vintage
 
 
@@ -19,28 +22,59 @@ def _pct_change(values: dict[str, float], end: str, start: str) -> float | None:
     return (values[end] / values[start] - 1) * 100
 
 
-def cpi_nowcast(gauge_result: dict, target_month: str) -> dict:
-    """Bottom-up CPI forecast from weighted component index changes."""
+def _driver_slice(code: str, conn, config: dict, through_month: str,
+                  staleness: dict[str, int] | None, today: str | None) -> float | None:
+    return None  # Task 3 wires food_home / used_vehicles futures slices.
+
+
+def cpi_nowcast(gauge_result: dict, target_month: str, conn=None,
+                config: dict | None = None,
+                staleness: dict[str, int] | None = None,
+                today: str | None = None) -> dict:
+    """Bottom-up CPI forecast: measured intra-month moves where the target
+    month has real data; capped trailing-median trend (+ one-month driver
+    slice, Task 3) where it does not. Modeled rows are labeled -- a modeled
+    MoM is never presented as an observed one."""
+    config = config or json.loads(DEFAULT_CONFIG.read_text())
     target = month_first(target_month)
     prior = prior_month(target)
     after = next_month(target)
     variant = gauge_result["variants"]["gauge"]
+    neutral = signals.monthly_from_annual(float(config["baseline_annual_pct"]))
+    cap = float(config["component_trend_annual_cap_pct"])
+    lo, hi = signals.monthly_from_annual(-cap), signals.monthly_from_annual(cap)
     contributions, total = [], 0.0
     for code, component in variant["components"].items():
         series = component["daily_index"]
-        # Never read past the target month: once it is over, later moves belong
-        # to the NEXT print, and this forecast gets graded against a one-month
-        # actual.
-        end = min(variant["as_of"],
-                  max((d for d in series if d < after), default=max(series)))
-        # If target is not complete, compare the latest in-month reading with
-        # the prior month start. Sticky categories naturally contribute zero.
-        start = prior if prior in series else max(d for d in series if d < end)
-        move = _pct_change(series, end, start) or 0.0
+        driver_mom = None
+        if component["last_obs"] >= target:
+            # Measured: never read past the target month -- once it is over,
+            # later moves belong to the NEXT print, and this forecast gets
+            # graded against a one-month actual.
+            end = min(variant["as_of"],
+                      max((d for d in series if d < after), default=max(series)))
+            start = prior if prior in series else max(d for d in series if d < end)
+            move = _pct_change(series, end, start) or 0.0
+            basis = "measured"
+        else:
+            # Modeled: the component's grid is pure forward-fill inside the
+            # target month; its own capped trailing-median trend replaces the
+            # fabricated 0.0 (same base-rate rule as the outlook).
+            levels = signals.component_trend_levels(component, prior[:7])
+            move = min(hi, max(lo, signals.median_mom(
+                levels, int(config["trailing_median_months"]), fallback=neutral)))
+            driver_mom = _driver_slice(code, conn, config, target[:7], staleness, today)
+            basis = "trend"
+            if driver_mom is not None:
+                move += driver_mom
+                basis = "trend+driver"
         contribution = component["weight"] * move
-        contributions.append({"component": code, "mom_pct": round(move, 4),
-                              "weight": component["weight"],
-                              "contribution_pp": round(contribution, 4)})
+        row = {"component": code, "mom_pct": round(move, 4),
+               "weight": component["weight"],
+               "contribution_pp": round(contribution, 4), "basis": basis}
+        if driver_mom is not None:
+            row["driver_mom_pct"] = round(driver_mom, 4)
+        contributions.append(row)
         total += contribution
     latest_yoy = variant["yoy"][variant["as_of"]]
     return {"target_month": target[:7], "mom_pct": round(total, 2),
@@ -139,7 +173,7 @@ def build_latest(conn, gauge_result: dict, next_release: dict | None,
                 "nfp": None, "benchmarks": benchmarks or {},
                 "ensemble": {"value": None, "weights": {}},
                 "generated_on": date.today().isoformat()}
-    cpi = cpi_nowcast(gauge_result, next_release["reference_month"])
+    cpi = cpi_nowcast(gauge_result, next_release["reference_month"], conn=conn)
     pce = pce_bridge(cpi["mom_pct"], vintage.latest(conn, "CPIAUCNS"),
                      vintage.latest(conn, "PCEPI"))
     nfp = nfp_nowcast(vintage.latest(conn, "PAYEMS"), vintage.latest(conn, "ICSA"))
