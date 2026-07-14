@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-13T23:57:27Z",
+  "published_at": "2026-07-14T00:49:10Z",
   "target": "CPI",
   "release_date": "2026-07-14",
   "reference_month": "2026-06",
@@ -124,18 +124,21 @@
     }
   },
   "benchmarks": {
-    "cleveland": null,
-    "street": null,
+    "cleveland": {
+      "value": -0.06,
+      "as_of": "2026-07-13"
+    },
     "kalshi": {
-      "value": -0.191,
+      "value": -0.193,
       "as_of": "2026-07-13"
     }
   },
   "ensemble": {
-    "value": -0.18,
+    "value": -0.14,
     "weights": {
-      "macrogauge": 0.5,
-      "kalshi": 0.5
+      "macrogauge": 0.3333,
+      "cleveland": 0.3333,
+      "kalshi": 0.3333
     }
   },
   "generated_on": "2026-07-13"
