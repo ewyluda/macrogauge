@@ -1,8 +1,11 @@
 import pytest
 
+from pipeline.engine import signals
 from pipeline.engine.nowcast import models
 from pipeline.engine.nowcast.models import (build_latest, cpi_nowcast, ensemble,
                                             nfp_nowcast, pce_bridge)
+from pipeline.models import Observation
+from pipeline.store import vintage
 
 TREND_CONFIG = {"baseline_annual_pct": 2.0, "trailing_median_months": 12,
                 "component_trend_annual_cap_pct": 20.0}
@@ -155,3 +158,66 @@ def test_measured_component_math_unchanged_and_labeled():
     result = cpi_nowcast(gauge_result, "2026-06", config=TREND_CONFIG)
     assert result["components"][0]["basis"] == "measured"
     assert result["components"][0]["mom_pct"] == 2.0  # same clamp as before
+
+
+AG_SERIES = ["fmp_corn", "fmp_wheat", "fmp_soybeans", "fmp_soybean_oil",
+             "fmp_coffee", "fmp_sugar", "fmp_cocoa", "fmp_live_cattle"]
+DRIVER_CONFIG = {**TREND_CONFIG,
+                 "food_home": {"lookback_months": 3, "pass_through": 0.15,
+                               "horizon_months": 4, "series": AG_SERIES},
+                 "used_vehicles": {"series": "manheim_uvvi_m",
+                                   "lookback_months": 3, "pass_through": 0.7,
+                                   "horizon_months": 3}}
+
+
+def _seed(store_dir, code, rows):
+    vintage.append([Observation(series_code=code, obs_date=d, value=v,
+                                vintage_date="2026-06-15", source="TEST",
+                                route="FIXTURE")
+                    for d, v in rows], store_dir)
+
+
+def test_food_home_gets_one_month_futures_slice(tmp_path):
+    for code in AG_SERIES:  # +3% over the 3-month lookback
+        _seed(tmp_path, code, [("2026-03-10", 100.0), ("2026-06-10", 103.0)])
+    conn = vintage.load(tmp_path)
+    result = cpi_nowcast(_sticky_gauge(code="food_home"), "2026-06",
+                         conn=conn, config=DRIVER_CONFIG)
+    row = result["components"][0]
+    assert row["basis"] == "trend+driver"
+    expected_slice = signals.distributed_return(3.0 * 0.15, 4)
+    assert row["driver_mom_pct"] == pytest.approx(expected_slice, abs=1e-4)
+    assert row["mom_pct"] == pytest.approx(0.3 + expected_slice, abs=0.03)
+
+
+def test_stale_futures_degrade_food_home_to_trend_only(tmp_path):
+    for code in AG_SERIES:
+        _seed(tmp_path, code, [("2026-01-10", 100.0), ("2026-04-10", 103.0)])
+    conn = vintage.load(tmp_path)
+    result = cpi_nowcast(_sticky_gauge(code="food_home"), "2026-06", conn=conn,
+                         config=DRIVER_CONFIG,
+                         staleness={code: 7 for code in AG_SERIES},
+                         today="2026-06-20")  # last obs 71 days old, limit 7
+    row = result["components"][0]
+    assert row["basis"] == "trend"
+    assert "driver_mom_pct" not in row
+
+
+def test_lagging_used_vehicles_gets_manheim_slice(tmp_path):
+    _seed(tmp_path, "manheim_uvvi_m", [("2026-02-01", 200.0), ("2026-05-01", 206.0)])
+    conn = vintage.load(tmp_path)
+    result = cpi_nowcast(_sticky_gauge(code="used_vehicles"), "2026-06",
+                         conn=conn, config=DRIVER_CONFIG)
+    row = result["components"][0]
+    assert row["basis"] == "trend+driver"
+    assert row["driver_mom_pct"] == pytest.approx(
+        signals.distributed_return(3.0 * 0.7, 3), abs=1e-4)
+
+
+def test_energy_components_stay_trend_only_with_full_store(tmp_path):
+    _seed(tmp_path, "fmp_natgas", [("2026-03-10", 100.0), ("2026-06-10", 112.0)])
+    conn = vintage.load(tmp_path)
+    for code in ("nat_gas", "electricity"):
+        row = cpi_nowcast(_sticky_gauge(code=code), "2026-06", conn=conn,
+                          config=DRIVER_CONFIG)["components"][0]
+        assert row["basis"] == "trend"  # outlook says pass-through starts month 2

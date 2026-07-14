@@ -24,7 +24,27 @@ def _pct_change(values: dict[str, float], end: str, start: str) -> float | None:
 
 def _driver_slice(code: str, conn, config: dict, through_month: str,
                   staleness: dict[str, int] | None, today: str | None) -> float | None:
-    return None  # Task 3 wires food_home / used_vehicles futures slices.
+    """One month of the outlook's futures shock for the two components whose
+    pass-through starts immediately. nat_gas/electricity are deliberately
+    absent (outlook start_month 2 -- retail utility pass-through lags); wage
+    anchor and goods-pipeline tilt are 12-month ramps, negligible at month 1."""
+    if conn is None:
+        return None
+    if code == "food_home" and "food_home" in config:
+        cfg = config["food_home"]
+        value, used, _ = signals.equal_signal(conn, cfg["series"], through_month,
+                                              cfg["lookback_months"], staleness, today)
+    elif code == "used_vehicles" and "used_vehicles" in config:
+        cfg = config["used_vehicles"]
+        rows = vintage.latest(conn, cfg["series"])
+        if not signals.fresh_series(rows, cfg["series"], staleness, today):
+            return None
+        value, _ = signals.lookback_return(rows, through_month, cfg["lookback_months"])
+    else:
+        return None
+    if value is None:
+        return None
+    return signals.distributed_return(value * cfg["pass_through"], cfg["horizon_months"])
 
 
 def cpi_nowcast(gauge_result: dict, target_month: str, conn=None,
