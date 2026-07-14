@@ -221,3 +221,26 @@ def test_energy_components_stay_trend_only_with_full_store(tmp_path):
         row = cpi_nowcast(_sticky_gauge(code=code), "2026-06", conn=conn,
                           config=DRIVER_CONFIG)["components"][0]
         assert row["basis"] == "trend"  # outlook says pass-through starts month 2
+
+
+def test_build_latest_threads_staleness_into_cpi_receipts(tmp_path, monkeypatch):
+    captured = {}
+    real = models.cpi_nowcast
+
+    def spy(gauge_result, target_month, conn=None, config=None,
+            staleness=None, today=None):
+        captured.update(staleness=staleness, today=today)
+        return real(gauge_result, target_month, conn=conn, config=config,
+                    staleness=staleness, today=today)
+
+    monkeypatch.setattr(models, "cpi_nowcast", spy)
+    _seed(tmp_path, "CPIAUCNS", [("2026-04-01", 320.0), ("2026-05-01", 321.0)])
+    _seed(tmp_path, "PCEPI", [("2026-04-01", 126.0), ("2026-05-01", 126.2)])
+    _seed(tmp_path, "PAYEMS", [(f"2026-{m:02d}-01", 159000.0 + m) for m in range(1, 6)])
+    _seed(tmp_path, "ICSA", [(f"2026-05-{d:02d}", 220000.0) for d in range(1, 9)])
+    conn = vintage.load(tmp_path)
+    result = build_latest(conn, _sticky_gauge(), {"date": "2026-07-14",
+                                                  "reference_month": "2026-06"},
+                          staleness={"fmp_corn": 30}, today="2026-06-20")
+    assert captured == {"staleness": {"fmp_corn": 30}, "today": "2026-06-20"}
+    assert result["cpi"]["components"][0]["basis"] in ("trend", "trend+driver")

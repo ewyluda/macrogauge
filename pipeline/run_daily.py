@@ -223,7 +223,8 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         nowcast_state["payload"] = payload = build_nowcast(
             conn, gauge_result, next_release,
             benchmarks=phase3.latest_benchmarks(
-                conn, next_release["reference_month"] if next_release else None))
+                conn, next_release["reference_month"] if next_release else None),
+            staleness=staleness, today=today)
         phase3.record_forecasts(payload, conn, args.store, today)
         phase3_paths = phase3.write_all(payload, conn, args.out,
                                         published_at)  # validates each file inline

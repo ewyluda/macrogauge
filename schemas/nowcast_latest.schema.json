@@ -14,5 +14,22 @@
     ]}},
     "ensemble": {"type": "object"}, "generated_on": {"type": "string"}
   },
-  "$defs": {"forecast": {"type": "object", "required": ["mom_pct", "status", "as_of", "parameters"]}}
+  "$defs": {"forecast": {"type": "object", "required": ["mom_pct", "status", "as_of", "parameters"],
+    "properties": {
+      "components": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["component", "mom_pct", "weight", "contribution_pp", "basis"],
+          "properties": {
+            "component": {"type": "string"},
+            "mom_pct": {"type": "number"},
+            "weight": {"type": "number"},
+            "contribution_pp": {"type": "number"},
+            "basis": {"enum": ["measured", "trend", "trend+driver"]},
+            "driver_mom_pct": {"type": "number"}
+          }
+        }
+      }
+    }}}
 }

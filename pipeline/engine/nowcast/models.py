@@ -178,7 +178,9 @@ def ensemble(forecasts: dict[str, float | None], errors: dict[str, float | None]
 
 
 def build_latest(conn, gauge_result: dict, next_release: dict | None,
-                 benchmarks: dict[str, float | None] | None = None) -> dict:
+                 benchmarks: dict[str, float | None] | None = None,
+                 staleness: dict[str, int] | None = None,
+                 today: str | None = None) -> dict:
     if next_release is None:
         # Calendar exhausted (config/release_calendar.json needs its annual
         # refresh): degrade to an "unavailable" nowcast rather than raising —
@@ -193,7 +195,8 @@ def build_latest(conn, gauge_result: dict, next_release: dict | None,
                 "nfp": None, "benchmarks": benchmarks or {},
                 "ensemble": {"value": None, "weights": {}},
                 "generated_on": date.today().isoformat()}
-    cpi = cpi_nowcast(gauge_result, next_release["reference_month"], conn=conn)
+    cpi = cpi_nowcast(gauge_result, next_release["reference_month"], conn=conn,
+                      staleness=staleness, today=today)
     pce = pce_bridge(cpi["mom_pct"], vintage.latest(conn, "CPIAUCNS"),
                      vintage.latest(conn, "PCEPI"))
     nfp = nfp_nowcast(vintage.latest(conn, "PAYEMS"), vintage.latest(conn, "ICSA"))
