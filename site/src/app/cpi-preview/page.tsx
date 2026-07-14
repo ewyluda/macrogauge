@@ -3,7 +3,7 @@ import { ForecastHero } from "@/components/ForecastHero";
 import { Section } from "@/components/Section";
 import type { Nowcast } from "@/lib/types";
 
-const nowcast = nowcastJson as unknown as Nowcast;
+const nowcast = nowcastJson as Nowcast;
 
 export default function CpiPreview() {
   return <div><h1>CPI Preview <span className="subtitle">evergreen forecast → result</span></h1>
