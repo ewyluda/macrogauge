@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-07-14",
-  "passed": 19,
+  "passed": 18,
   "total": 20,
   "checks": [
     {
@@ -54,8 +54,8 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": true,
-      "detail": "16/16 ok"
+      "pass": false,
+      "detail": "15/16 ok; failed \u2014 USDA: missing secret USDA_API_KEY"
     },
     {
       "name": "sources_fresh",
@@ -67,7 +67,7 @@
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 6 obs $3.87 vs EIA weekly $3.777 \u2014 relative divergence 2.5% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 6 obs $3.87 vs EIA weekly $3.855 \u2014 relative divergence 0.4% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",

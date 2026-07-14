@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-14T13:12:54Z",
+  "generated_at": "2026-07-14T14:27:03Z",
   "sources": [
     {
       "name": "AAA",
@@ -9,7 +9,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T13:12:24Z",
+      "finished_at": "2026-07-14T14:26:39Z",
       "series_count": 1,
       "latest_obs": "2026-07-14"
     },
@@ -21,7 +21,7 @@
       "fetched": 114,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T13:11:17Z",
+      "finished_at": "2026-07-14T14:26:39Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -31,9 +31,9 @@
       "cadence": "monthly",
       "ok": true,
       "fetched": 3071,
-      "new_rows": 26,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T13:11:09Z",
+      "finished_at": "2026-07-14T14:26:33Z",
       "series_count": 28,
       "latest_obs": "2026-06-01"
     },
@@ -42,10 +42,10 @@
       "route": "SCRAPE",
       "cadence": "daily",
       "ok": true,
-      "fetched": 8,
-      "new_rows": 0,
+      "fetched": 4,
+      "new_rows": 4,
       "error": null,
-      "finished_at": "2026-07-14T13:12:25Z",
+      "finished_at": "2026-07-14T14:26:42Z",
       "series_count": 4,
       "latest_obs": "2026-07-01"
     },
@@ -54,12 +54,12 @@
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 2715,
-      "new_rows": 0,
+      "fetched": 2716,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-14T13:11:13Z",
+      "finished_at": "2026-07-14T14:26:36Z",
       "series_count": 3,
-      "latest_obs": "2026-07-06"
+      "latest_obs": "2026-07-13"
     },
     {
       "name": "EIA_STATE",
@@ -69,7 +69,7 @@
       "fetched": 15808,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T13:12:51Z",
+      "finished_at": "2026-07-14T14:26:58Z",
       "series_count": 52,
       "latest_obs": "2026-04-01"
     },
@@ -79,9 +79,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 14,
-      "new_rows": 8,
+      "new_rows": 14,
       "error": null,
-      "finished_at": "2026-07-14T13:11:14Z",
+      "finished_at": "2026-07-14T14:26:36Z",
       "series_count": 14,
       "latest_obs": "2026-07-14"
     },
@@ -91,9 +91,9 @@
       "cadence": "monthly",
       "ok": true,
       "fetched": 14660,
-      "new_rows": 16,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T13:11:07Z",
+      "finished_at": "2026-07-14T14:26:32Z",
       "series_count": 62,
       "latest_obs": "2026-07-13"
     },
@@ -103,9 +103,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-14T13:12:26Z",
+      "finished_at": "2026-07-14T14:26:43Z",
       "series_count": 1,
       "latest_obs": "2026-07-11"
     },
@@ -117,7 +117,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T13:12:24Z",
+      "finished_at": "2026-07-14T14:26:41Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -129,7 +129,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T13:12:24Z",
+      "finished_at": "2026-07-14T14:26:40Z",
       "series_count": 1,
       "latest_obs": "2026-07-14"
     },
@@ -141,7 +141,7 @@
       "fetched": 497,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T13:11:16Z",
+      "finished_at": "2026-07-14T14:26:39Z",
       "series_count": 1,
       "latest_obs": "2026-07-09"
     },
@@ -153,7 +153,7 @@
       "fetched": 44,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T13:12:54Z",
+      "finished_at": "2026-07-14T14:27:02Z",
       "series_count": 52,
       "latest_obs": "2025-10-01"
     },
@@ -165,7 +165,7 @@
       "fetched": 2390,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T13:11:15Z",
+      "finished_at": "2026-07-14T14:26:37Z",
       "series_count": 1,
       "latest_obs": "2026-07-10"
     },
@@ -173,11 +173,11 @@
       "name": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "ok": true,
-      "fetched": 2158,
+      "ok": false,
+      "fetched": 0,
       "new_rows": 0,
-      "error": null,
-      "finished_at": "2026-07-14T13:12:23Z",
+      "error": "missing secret USDA_API_KEY",
+      "finished_at": "2026-07-14T14:26:39Z",
       "series_count": 5,
       "latest_obs": "2026-07-10"
     },
@@ -189,7 +189,7 @@
       "fetched": 226,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-14T13:11:16Z",
+      "finished_at": "2026-07-14T14:26:38Z",
       "series_count": 2,
       "latest_obs": "2026-05-01"
     }

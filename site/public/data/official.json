@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-14T13:12:54Z",
+  "published_at": "2026-07-14T14:27:03Z",
   "headline": {
     "cpi": {
       "month": "2026-06-01",
@@ -174,9 +174,9 @@
       "label": "Gas, regular",
       "group": "energy",
       "unit": "$/gal",
-      "latest": 3.78,
-      "obs_date": "2026-07-06",
-      "yoy_pct": 19.37
+      "latest": 3.85,
+      "obs_date": "2026-07-13",
+      "yoy_pct": 23.36
     },
     {
       "code": "eia_elec_res",
@@ -210,18 +210,18 @@
       "label": "Gold",
       "group": "markets",
       "unit": "$/oz",
-      "latest": 4086.0,
+      "latest": 4079.3,
       "obs_date": "2026-07-14",
-      "yoy_pct": 21.64
+      "yoy_pct": 21.44
     },
     {
       "code": "fmp_wti",
       "label": "WTI crude",
       "group": "markets",
       "unit": "$/bbl",
-      "latest": 80.85,
+      "latest": 79.52,
       "obs_date": "2026-07-14",
-      "yoy_pct": 20.71
+      "yoy_pct": 18.72
     },
     {
       "code": "fiscal_debt_total",

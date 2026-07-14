@@ -1,12 +1,12 @@
 {
-  "published_at": "2026-07-14T13:12:54Z",
+  "published_at": "2026-07-14T14:27:03Z",
   "target": "CPI",
   "release_date": "2026-07-14",
   "reference_month": "2026-06",
   "cpi": {
     "target_month": "2026-06",
     "mom_pct": -0.14,
-    "yoy_pct": 2.87,
+    "yoy_pct": 2.89,
     "as_of": "2026-07-14",
     "status": "live",
     "parameters": {},
