@@ -17,10 +17,14 @@ findings root-caused against the store and pipeline).
    the current reference month stays in the ensemble until its print lands — Forecasters
    Live went 2 → 3 and connectors_ok now passes (QA 19/20).
 
-3. **Fix the used-vehicles driver.** Manheim scrape dead 224 days; `used_vehicles` live
-   blend is 100% `manheim_uvvi_m` with carry-forward, so its LIVE badge (+1.6% vs BLS
-   −2.0%, +3.63pp gap contribution) rides 7-month-old data. Repair the scrape, swap to a
-   live alternative (Black Book weekly / CarGurus index), or demote to BLS-CF.
+3. **[DONE 2026-07-13] Fix the used-vehicles driver.** Root cause: the scrape wasn't
+   erroring — site.manheim.com froze at the Mid-December 2025 report while Cox kept
+   publishing on coxautoinc.com/insights, so the connector stayed green re-fetching
+   206.0 for 7 months. Re-pointed to the Insights feed → latest "… Trends" post
+   (h1-anchored parse; the <head> JSON-LD carries a stale decoy value on some months,
+   and prose spaces can be &nbsp; entities — both pinned in fixtures). One-time
+   `scripts/backfill_manheim.py` filled the Dec 2025–May 2026 gap (peak 215.3 in
+   March); used_vehicles YoY now +0.89% off real monthly history.
 
 4. **Widen nowcast component coverage.** CPI Preview receipts are 0.00% MoM for 11 of 14
    components — the ensemble is effectively a fuel-plus-shelter call. Reuse the outlook

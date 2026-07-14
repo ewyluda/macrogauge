@@ -15,7 +15,7 @@ import requests
 
 from pipeline import run_daily
 
-SCRAPE_DOMAINS = ("gasprices.aaa.com", "mortgagenewsdaily.com", "manheim.com")
+SCRAPE_DOMAINS = ("gasprices.aaa.com", "mortgagenewsdaily.com", "coxautoinc.com")
 SCRAPE_SERIES = {"aaa_gas_d", "mnd_30y_d", "manheim_uvvi_m"}
 
 
@@ -43,14 +43,16 @@ def main() -> int:
     assert rc == 0, f"run failed rc={rc}"
     assert {"AAA", "MND", "MANHEIM"} <= failed, f"expected scrape failures, got {failed}"
     published = sorted(p.name for p in out.glob("*.json"))
-    # 13 published files: compare, gaptable, gauge_daily, grocery_basket,
-    # methodology, official, pulse, qa, quilt_months_{24,48,all}, replay,
-    # sources_status. (Brief said 14 — actual publish count is 13.)
-    assert len(published) == 13, f"expected 13 files, got {len(published)}: {published}"
+    # 27 published files: the phase-2 set (compare, gaptable, gauge_daily,
+    # grocery_basket, methodology, official, pulse, qa, quilt_months_{24,48,all},
+    # replay, sources_status) plus phase 3 (accountability_{cpi,nfp,pce},
+    # backtest, fuel, nextprint, nowcast_latest, outlook, releases), phase 4
+    # composites (heatcheck, recession, stress), and datacenter.
+    assert len(published) == 27, f"expected 27 files, got {len(published)}: {published}"
     engine_ok = next(c for c in qa["checks"] if c["name"] == "engine_ok")
     assert engine_ok["pass"], engine_ok
     print(f"DRILL PASS — failures surfaced: {sorted(failed)}; "
-          f"13 files published; qa {qa['passed']}/{qa['total']}")
+          f"{len(published)} files published; qa {qa['passed']}/{qa['total']}")
 
     # Extra evidence for the report: gauge coverage (pulse.json), per-component
     # mode for fuel/used_vehicles (methodology.json — fuel's EIA leg should

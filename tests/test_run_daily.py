@@ -71,8 +71,10 @@ def fake_get(url, params=None, timeout=None, **kw):
         return _text(FIXTURES / "aaa.html")
     if "mortgagenewsdaily.com" in url:
         return _text(FIXTURES / "mnd.html")
-    if "manheim.com" in url:
-        return _text(FIXTURES / "manheim.html")
+    if "coxautoinc.com/insights/feed" in url:
+        return _text(FIXTURES / "manheim_feed.xml")
+    if "coxautoinc.com/insights/manheim-used-vehicle-value-index" in url:
+        return _text(FIXTURES / "manheim_post.html")
     if "data.bls.gov/cew" in url:
         return _text(FIXTURES / "qcew_industry23.csv")
     raise AssertionError(f"unexpected url {url}")
