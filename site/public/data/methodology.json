@@ -1,9 +1,9 @@
 {
-  "published_at": "2026-07-15T20:58:14Z",
+  "published_at": "2026-07-15T22:24:57Z",
   "stats": {
-    "series_count": 240,
-    "obs_count": 77570,
-    "source_count": 16,
+    "series_count": 242,
+    "obs_count": 77889,
+    "source_count": 17,
     "tracker_corr": 0.9771,
     "live_coverage_pct": 42.6,
     "engine_version": "1.0",
@@ -214,8 +214,8 @@
     }
   ],
   "freshness": {
-    "fresh_count": 232,
-    "total": 240
+    "fresh_count": 234,
+    "total": 242
   },
   "inventory": [
     {
@@ -1016,7 +1016,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-14",
+      "latest_obs": "2026-07-15",
       "fresh": true
     },
     {
@@ -1097,7 +1097,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-14",
+      "latest_obs": "2026-07-15",
       "fresh": true
     },
     {
@@ -1169,7 +1169,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-14",
+      "latest_obs": "2026-07-15",
       "fresh": true
     },
     {
@@ -1422,6 +1422,24 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "census_dc_constr_saar",
+      "name": "Data center construction spend, SAAR ($M, annual rate)",
+      "source": "CENSUS",
+      "route": "XLSX",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "census_dc_constr_nsa",
+      "name": "Data center construction spend, NSA ($M/month)",
+      "source": "CENSUS",
+      "route": "XLSX",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
       "fresh": true
     },
     {
