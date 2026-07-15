@@ -24,7 +24,7 @@ call, not a cited split.
 | Dell'Oro Group, "Data Center Capex to Surpass $1 Trillion by 2029" (Baron Fung) | 2025-02-05 | https://www.delloro.com/news/data-center-capex-to-surpass-1-trillion-by-2029/ | "Accelerated servers for AI training and domain-specific workloads could represent nearly half of data center infrastructure spending by 2029." Compute's structural share is rising, not flat. |
 | Dell'Oro Group, "Data Center Capex to Grow at 21 Percent CAGR Through 2029" (Baron Fung) | 2025-08-06 | https://www.delloro.com/news/data-center-capex-to-grow-at-21-percent-cagr-through-2029/ | "GPUs and custom AI accelerators now account for roughly one third of total data center capex." That's GPU/accelerator silicon *alone*, against a denominator that includes non-IT facility/power spend — corroborates compute as the single largest hardware category well before finished systems and semis/components are added in. |
 | Dell'Oro Group, "Hyperscaler AI Deployments Lift Data Center Capex to Record Highs in 2Q 2025" | 2025-09-16 | https://www.delloro.com/news/hyperscaler-ai-deployments-lift-data-center-capex-to-record-highs-in-2q-2025/ | "Accelerated server spending rose 76 percent, driven by the ramp of NVIDIA Blackwell Ultra platforms..."; white-box vendors >60% of server market. Compute is both the largest and fastest-growing category. Directional, no exact split disclosed (full split is in Dell'Oro's paid quarterly report). |
-| Epoch AI, "Total cost of ownership of a one-gigawatt AI data center" | 2026-05-14 | https://epoch.ai/data-insights/ai-datacenter-cost-breakdown | Direct three-way split for a GPU-cluster AI data center: **servers ≈ 60% of total annualized TCO** ($5B of $8.5B/yr), **networking ≈ 13%**, **storage ≈ 1–1.5%**. Strongest single citation for a compute/storage/network split; note the denominator is *total* annualized cost (incl. power/land/cooling), an even broader base than IT-hardware-only, and "storage ≈1-1.5%" reflects a pure GPU-training-cluster frame that structurally undercounts freestanding enterprise storage. |
+| Epoch AI, "Total cost of ownership of a one-gigawatt AI data center" | 2026-05-14 | https://epoch.ai/data-insights/ai-datacenter-cost-breakdown | GPU-cluster AI-data-center TCO model. **Servers ≈ 60% of total annualized TCO** ($5.0B of $8.5B/yr — read directly off the page). **Network ≈ 13.7% — derived from the source's underlying CSV, not read off the page:** `one_gw_dc_capex_opex.csv` (linked from the page; fetched 2026-07-15) itemizes Network infrastructure at $1,167M annualized against a $8,514M total ($7,607M CapEx + $907M OpEx) → 1,167 / 8,514 = 13.7%. **Storage: the model contains no freestanding storage line item at all** — its complete category list (page and CSV, verified 2026-07-15) is Servers, Facility, Network infrastructure, Energy, Taxes, Maintenance, Labor, Utility works, Land, Water; the raw page contains zero occurrences of "storage". That absence is used below *as an absence* (an AI-cluster TCO model that gives storage no line of its own treats it as bundled-into-servers or negligible), never as a number the source does not contain. Denominator caveat: total annualized cost incl. power/land/cooling — an even broader base than IT-hardware-only. |
 | IoT Analytics, "Data Center Equipment & Infrastructure Market Report 2025–2030" | 2025-11 | https://iot-analytics.com/data-center-infrastructure-market/ | 2024 actuals, general/traditional (non-AI-cluster-specific) market: **servers 61%, networking 10%, storage 6.5%** of total DC spending. Renormalized to just these three categories (sum 77.5%): compute ≈79%, network ≈13%, storage ≈8%. This is the "pre-AI-cycle" baseline the plan's brief anticipated. |
 | Synergy Research Group (aggregated press coverage, srgresearch.com) | 2025 (reporting CY2024 data) | https://www.srgresearch.com/research/data-center-infrastructure | "The main hardware-oriented segments of servers, storage and networking in aggregate accounted for 85% of the data center infrastructure market" in 2024 (up from 77% in 2021). Confirms these three are the dominant hardware categories; the specific server/storage/network sub-split sits behind Synergy's paywalled report and was **not** independently confirmed — used only as corroborating context, not as a split source. |
 | InfotechLead / Digital Journal, reporting IDC Q1 2026 storage-market data | 2026-04 | https://infotechlead.com/networking/storage-market-jumps-22-7-to-9-2-bn-in-q1-2026-as-ai-demand-and-flash-storage-adoption-surge-96585 ; https://www.digitaljournal.com/article/ai-demand-pushes-enterprise-storage-market-into-faster-growth-phase/ | Worldwide external OEM enterprise storage systems revenue $9.2–9.9B in Q1 2026, +22.7–22.9% YoY, explicitly attributed to "AI demand" and All-Flash-Array adoption (>50% of storage revenue). Set against IDC's own reported Q1 2026 server-market run-rate (~$120B+/quarter per the same news cycle, e.g. theregister.com/2025/12/15/idc_server_storage_q3/), **storage is ≈8% of server-market spend even during this AI-elevated growth spurt** — the key citation capping how far storage can be justified above the traditional 6.5–8% baseline. |
@@ -37,7 +37,7 @@ call, not a cited split.
 ### Compute: 0.60 → **0.65**
 
 Every citation — traditional (IoT Analytics: 61% of total DC spend, ~79% renormalized to the
-three hardware categories) and AI-era (Epoch AI/SemiAnalysis: 60% of total annualized TCO;
+three hardware categories) and AI-era (Epoch AI: servers ≈60% of total annualized TCO;
 Dell'Oro: GPUs/accelerators alone ~33% of *total* capex, servers trending toward ~50% of DC
 infrastructure spend by 2029) — puts compute as the clear majority share, consistently at or
 above 60%. The plan's provisional 0.60 sits at the *low* end of the cited range rather than the
@@ -52,7 +52,10 @@ No citation found supports storage at 0.25 (25%) of DC IT-hardware capex. Every 
 below that:
 - Traditional/general market (IoT Analytics, 2024 actuals): 6.5% of total DC spend, ~8%
   renormalized to servers+storage+network.
-- Pure AI-training-cluster TCO (Epoch AI/SemiAnalysis): ~1–1.5% of total annualized cost.
+- Pure AI-training-cluster TCO (Epoch AI): the model has **no freestanding storage line item at
+  all** — storage is either bundled into the server figure or too small to merit its own
+  category (§a). Cited as an absence, not a number; either reading argues storage's standalone
+  capex share in an AI cluster is small.
 - IDC's own Q1 2026 AI-elevated storage growth (+22.7% YoY, AI-demand-attributed): even at this
   accelerated rate, storage revenue is ≈8% of concurrent server-market revenue.
 
@@ -73,8 +76,9 @@ and not dropped all the way to the raw ~8% capex-share figure either.
 
 ### Network: 0.15 → **0.20**
 
-Citations bracket network capex share from ~10% (IoT Analytics, traditional) to ~13%
-(renormalized IoT Analytics; Epoch AI/SemiAnalysis AI-cluster TCO) to a genuine AI-specific
+Citations bracket network capex share from ~10% (IoT Analytics, traditional) to ~13–13.7%
+(renormalized IoT Analytics; Epoch AI AI-cluster TCO — the 13.7% is derived from the source's
+underlying CSV as shown in §a, not read off the page) to a genuine AI-specific
 buildout story: Dell'Oro's $100B-by-2030 AI-back-end-switch forecast and ~$80B five-year Ethernet
 switch outlook, plus the broader Ethernet-overtaking-InfiniBand shift in AI fabric (found via
 search, not independently re-fetched for exact figures — treated as directional corroboration,
@@ -156,5 +160,19 @@ Verification used WebSearch and WebFetch against public sources only — no API 
 state changed. Where a figure came only from a WebSearch results summary rather than a direct
 WebFetch of primary text (Synergy's server/storage/network sub-split; the general Ethernet-vs-
 InfiniBand share shift), it is flagged as such in §a and treated as corroborating context, never
-as the sole basis for a weight. Every number that drives the final weight decision in §b/§e was
-independently confirmed via WebFetch of the source page with its publication date recorded.
+as the sole basis for a weight. Every number that drives the final weight decision in §b/§e is
+confirmed against a directly fetched source — the page itself, or, for the Epoch AI network
+share, the source's own linked CSV with the derivation arithmetic shown in §a.
+
+### Correction (2026-07-15, same-day, post-review)
+
+The first committed version of this doc attributed a "storage ≈ 1–1.5%" figure to the Epoch AI
+TCO page. That figure is **not in the source**: the page and both of its linked CSVs
+(`one_gw_dc_capex_opex.csv`, `one_gw_dc_upfront_capex.csv`) contain no storage line item and
+zero occurrences of the word "storage" — the number had leaked in from a WebSearch results
+summary without being verified against the fetched page, contradicting this doc's own method
+claim. Fixed by restating the citation as what the source actually shows (an *absence* of any
+freestanding storage category), and by re-deriving the network share (13.7%) directly from the
+fetched CSV. **The final weights (0.65/0.15/0.20) are unchanged** — the storage decision rests
+on the IoT Analytics 6.5% / renormalized ~8% figure and the IDC-reported ~8% storage-to-server
+revenue ratio, both independently fetched and unaffected by this correction.
