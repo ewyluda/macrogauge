@@ -264,7 +264,8 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         dc_result = dcindex.run(conn, today=today)
         parity_result = dcindex.parity_from_store(conn)
         dc_path = datacenter_json.write(
-            datacenter_json.build(dc_result, parity_result),
+            datacenter_json.build(dc_result, parity_result,
+                                  {s.code: s.source_id for s in series}),
             args.out, published_at=published_at)
         validate.validate_file(dc_path, SCHEMAS / "datacenter.schema.json")
         print(f"published: {dc_path}")

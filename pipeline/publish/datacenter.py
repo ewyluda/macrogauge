@@ -1,4 +1,4 @@
-"""Writer for datacenter.json — DC Build/Ops cost indexes + state parity."""
+"""Writer for datacenter.json — DC Build/Ops/Hardware cost indexes, hedonic-gap panel, state parity."""
 import json
 from pathlib import Path
 
@@ -6,7 +6,7 @@ from pipeline import dc_basket
 from pipeline.engine.dcindex import PUBLISH_START
 
 
-def build(dc_result: dict, parity_result: dict) -> dict:
+def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str]) -> dict:
     out = {"rebase": f"{dc_result['base_month']}=100",
            "group_labels": dc_basket.load_group_labels(),
            "indexes": {}, "parity": parity_result}
@@ -29,6 +29,12 @@ def build(dc_result: dict, parity_result: dict) -> dict:
                  "contribution_pp": None if e["yoy_pct"] is None
                      else round(e["weight"] * e["yoy_pct"], 2)}
                 for code, e in v["components"].items()]}
+    out["hardware_gap"] = [
+        {"code": r["code"], "label": r["label"],
+         "source_id": source_ids.get(r["series"], r["series"]),
+         "yoy_pct": None if r["yoy_pct"] is None else round(r["yoy_pct"], 2),
+         "last_obs": r["last_obs"], "in_basket": r["in_basket"]}
+        for r in dc_result.get("hardware_gap", [])]
     return out
 
 
