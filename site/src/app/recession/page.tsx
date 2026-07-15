@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import recession from "../../../public/data/recession.json";
 import { KpiCard } from "@/components/KpiCard";
+
+export const metadata: Metadata = {
+  title: "Recession Composite",
+  description: "Six transparent recession signals — rules, values and what's triggered, no black box.",
+};
 
 export default function Recession() {
   const probability = recession.probability_pct as number | null;

@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import dc from "../../../public/data/datacenter.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DcIndexChart } from "@/components/DcIndexChart";
 import { ParityTable, type ParityRow } from "@/components/ParityTable";
 import { fmtSigned, fmtPp } from "@/lib/format";
+
+export const metadata: Metadata = {
+  title: `Data Center Cost Index: build ${fmtSigned(dc.indexes.build.headline_yoy_pct)} · ops ${fmtSigned(dc.indexes.ops.headline_yoy_pct)} YoY`,
+  description: "Facility build & operating input costs, indexed daily — no official DC PPI exists, so we built one.",
+};
 
 type Comp = {
   code: string; label: string; group: string; weight: number; mode: string;

@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import nowcastJson from "../../../public/data/nowcast_latest.json";
 import { ForecastHero } from "@/components/ForecastHero";
 import { Section } from "@/components/Section";
 import type { Nowcast } from "@/lib/types";
+
+export const metadata: Metadata = {
+  title: "CPI Preview",
+  description: "Evergreen CPI forecast with component receipts — forecast → result, graded when the print lands.",
+};
 
 const nowcast = nowcastJson as Nowcast;
 

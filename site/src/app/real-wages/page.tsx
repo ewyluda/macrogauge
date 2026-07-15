@@ -8,7 +8,10 @@ import { RaiseCalculator } from "@/components/RaiseCalculator";
 import { WageChart } from "@/components/WageChart";
 import { fmtMonth, fmtPct } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Real Wage Tracker — macrogauge" };
+export const metadata: Metadata = {
+  title: "Real Wage Tracker",
+  description: "Wage growth minus inflation, live — is your raise real?",
+};
 
 export default function RealWages() {
   const k = realWages.kpis;

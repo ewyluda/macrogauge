@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import methodology from "../../../public/data/methodology.json";
 import { Section } from "@/components/Section";
 import { MethodologyInventory } from "@/components/MethodologyInventory";
 import { fmtSigned } from "@/lib/format";
+
+export const metadata: Metadata = {
+  title: "Methodology",
+  description: "How the gauge is built — five pure stages, every series inventoried, generated from config and live validation.",
+};
 
 const statChip: React.CSSProperties = {
   background: "var(--card)",

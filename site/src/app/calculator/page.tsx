@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { Section } from "@/components/Section";
 import { CalculatorClient } from "@/components/CalculatorClient";
 
-export const metadata: Metadata = { title: "The Since-Date Calculator — macrogauge" };
+export const metadata: Metadata = {
+  title: "The Since-Date Calculator",
+  description: "What prices have done since any date that matters to you — lease signing, last raise, first job.",
+};
 
 export default function Calculator() {
   return (

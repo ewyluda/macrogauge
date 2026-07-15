@@ -24,9 +24,6 @@ body {
 }
 
 a { transition: color 140ms ease, background 140ms ease; }
-/* !important beats the nav links' inline muted color; scoped to the nav so
-   intentionally accent-colored links elsewhere keep their color on hover. */
-.site-nav a:hover { color: var(--text) !important; }
 
 /* 1200px is the site-wide canvas every page was designed for; only the
    homepage dashboard opts into the wide layout. */
@@ -35,9 +32,48 @@ a { transition: color 140ms ease, background 140ms ease; }
 .site-header { display: flex; align-items: center; gap: 18px; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
 .header-primary { min-width: 0; display: flex; align-items: center; gap: 22px; }
 .wordmark { font-size: 18px; font-weight: 800; letter-spacing: .16em; white-space: nowrap; }
-.site-nav { display: flex; align-items: center; gap: 4px; font-size: 12px; overflow-x: auto; scrollbar-width: none; }
-.site-nav a { padding: 7px 9px; border-radius: 7px; white-space: nowrap; }
+.site-nav { display: flex; align-items: center; gap: 2px; font-size: 12px; flex-wrap: wrap; }
+.site-nav .nav-link { color: var(--muted); text-decoration: none; padding: 7px 9px; border-radius: 7px; white-space: nowrap; }
+.nav-trigger {
+  background: none; border: none; cursor: pointer; font: inherit; font-size: 12px;
+  color: var(--muted); padding: 7px 9px; border-radius: 7px; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 5px;
+  transition: color 140ms ease, background 140ms ease;
+}
+.site-nav .nav-link:hover, .nav-trigger:hover { color: var(--text); }
+.site-nav .nav-link.active, .nav-trigger.active { color: var(--text); background: var(--chip-bg); }
+.site-nav .nav-link:focus-visible, .nav-trigger:focus-visible, .nav-menu-link:focus-visible { outline: 2px solid var(--accent-sky); outline-offset: 1px; }
+.nav-caret { font-size: 9px; opacity: .7; }
+.nav-group { position: relative; }
+/* Menus stay in the DOM when closed (server-rendered links for crawlers and
+   no-JS visitors) — .open toggles visibility. top: 100% leaves no hover gap
+   between trigger and menu, so mouseleave can't fire mid-travel. */
+.nav-menu {
+  position: absolute; top: 100%; left: 0; z-index: 60;
+  display: none; gap: 24px; padding: 12px 14px; min-width: max-content;
+  background: var(--card); border: 1px solid var(--border); border-radius: 11px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5);
+}
+.nav-group.open .nav-menu { display: flex; }
+.nav-menu-col { display: flex; flex-direction: column; gap: 1px; min-width: 150px; }
+.nav-menu-head { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: 2px 8px 5px; }
+.nav-menu-col + .nav-menu-col { border-left: 1px solid var(--border); padding-left: 20px; }
+.nav-menu-link { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 7px; color: var(--text); text-decoration: none; font-size: 12.5px; white-space: nowrap; }
+.nav-menu-link:hover { background: var(--chip-bg); }
+.nav-menu-link.active { background: var(--chip-bg); color: var(--accent-sky); }
+.nav-emoji { width: 17px; text-align: center; flex: none; }
 .header-status { display: flex; gap: 8px; align-items: center; white-space: nowrap; }
+
+.site-footer { margin-top: 52px; border-top: 1px solid var(--border); padding: 22px 0 10px; display: flex; flex-direction: column; gap: 16px; }
+.footer-main { display: flex; justify-content: space-between; gap: 28px; flex-wrap: wrap; }
+.footer-brand { max-width: 340px; }
+.footer-brand p { color: var(--muted); font-size: 12px; line-height: 1.55; margin: 8px 0 0; }
+.footer-links { display: flex; gap: 44px; flex-wrap: wrap; }
+.footer-col { display: flex; flex-direction: column; gap: 6px; min-width: 120px; }
+.footer-col-head { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.footer-col a { color: var(--muted); font-size: 12px; text-decoration: none; }
+.footer-col a:hover { color: var(--text); }
+.footer-meta { color: var(--muted); font-size: 11px; line-height: 1.55; border-top: 1px solid var(--border); padding-top: 12px; }
 
 .home-dashboard { padding-bottom: 24px; }
 .home-kicker { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .07em; margin: 14px 0; display: flex; gap: 10px; flex-wrap: wrap; }
@@ -104,11 +140,11 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
 .data-table th:first-child, .data-table td:first-child { text-align: left; }
 .data-table th { color: var(--muted); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
 .badge { border: 1px solid rgba(56,189,248,.35); background: rgba(56,189,248,.1); color: var(--accent-sky); border-radius: 999px; padding: 2px 7px; font-size: 10px; }
+.badge.badge-muted { border-color: var(--border); background: var(--chip-bg); color: var(--muted); }
 
 @media (max-width: 1180px) {
   .site-header { align-items: flex-start; }
   .header-primary { align-items: flex-start; flex-direction: column; gap: 10px; }
-  .site-nav { max-width: calc(100vw - 310px); }
   .headline-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .dashboard-row { grid-template-columns: 1fr 1fr; }
   .movers-panel { grid-column: 1 / -1; }
@@ -118,8 +154,13 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
   .page-shell { padding: 14px; }
   .site-header { flex-direction: column; }
   .header-primary { width: 100%; }
-  .site-nav { max-width: 100%; width: 100%; }
+  .site-nav { width: 100%; }
+  /* dropdowns expand inline on small screens instead of floating */
+  .nav-menu { position: static; flex-direction: column; gap: 10px; box-shadow: none; border: none; background: transparent; padding: 2px 0 6px 14px; width: 100%; }
+  .nav-menu-col + .nav-menu-col { border-left: none; padding-left: 0; }
+  .nav-group { width: 100%; }
   .header-status { width: 100%; justify-content: space-between; }
+  .footer-main { flex-direction: column; }
   .headline-grid { grid-template-columns: 1fr 1fr; }
   .dashboard-row { grid-template-columns: 1fr; }
   .movers-panel { grid-column: auto; }

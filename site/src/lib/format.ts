@@ -39,6 +39,11 @@ export function yoyColor(pct: number | null): string {
   return "var(--muted)";
 }
 
+/** "2026-07-14T13:12:54Z" -> "2026-07-14 13:12 UTC" (run/publish stamps) */
+export function fmtStamp(iso: string): string {
+  return `${iso.slice(0, 10)} ${iso.slice(11, 16)} UTC`;
+}
+
 /** +0.30pp / −0.87pp / — (2dp, for gap chips) */
 export function fmtPp(pp: number | null): string {
   if (pp === null || pp === undefined) return "—";

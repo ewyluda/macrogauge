@@ -1,6 +1,8 @@
 import Link from "next/link";
 import pulse from "../../public/data/pulse.json";
 import qa from "../../public/data/qa.json";
+import { NavBar } from "./NavBar";
+import { SiteFooter } from "./SiteFooter";
 import { StatusPill } from "./StatusPill";
 import { fmtPct } from "@/lib/format";
 
@@ -14,59 +16,7 @@ export function PageShell({ children }: { children: React.ReactNode }) {
               MACROGAUGE
             </span>
           </Link>
-          <nav className="site-nav">
-            <Link href="/" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              Home
-            </Link>
-            <Link href="/supercore" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              Supercore
-            </Link>
-            <Link href="/cpi-preview" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              CPI Preview
-            </Link>
-            <Link href="/next-print" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              Next Print
-            </Link>
-            <Link href="/scoreboard" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              Scoreboard
-            </Link>
-            <Link href="/matrix" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              Matrix
-            </Link>
-            <Link href="/gap" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              Gap
-            </Link>
-            <Link href="/vs-bls" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              vs BLS
-            </Link>
-            <Link href="/heatcheck" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              Heat Check
-            </Link>
-            <Link href="/stress" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              Stress
-            </Link>
-            <Link href="/recession" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              Recession
-            </Link>
-            <Link href="/datacenter" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              Data Centers
-            </Link>
-            <Link href="/my-inflation" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              My Inflation
-            </Link>
-            <Link href="/calculator" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              Calculator
-            </Link>
-            <Link href="/real-wages" style={{ color: "var(--muted)", textDecoration: "none" }}>
-              Real Wages
-            </Link>
-            <Link
-              href="/methodology"
-              style={{ color: "var(--muted)", textDecoration: "none" }}
-            >
-              Methodology
-            </Link>
-          </nav>
+          <NavBar />
         </div>
         <div className="header-status">
           <span
@@ -95,13 +45,16 @@ export function PageShell({ children }: { children: React.ReactNode }) {
             />
             MACROGAUGE {fmtPct(pulse.gauge.yoy_pct)}
           </span>
-          <StatusPill
-            ok={qa.passed === qa.total}
-            label={`Self-test ${qa.passed}/${qa.total}`}
-          />
+          <Link href="/status" style={{ textDecoration: "none" }}>
+            <StatusPill
+              ok={qa.passed === qa.total}
+              label={`Self-test ${qa.passed}/${qa.total}`}
+            />
+          </Link>
         </div>
       </header>
       {children}
+      <SiteFooter />
     </main>
   );
 }

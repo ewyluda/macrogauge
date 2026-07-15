@@ -10,14 +10,17 @@ const ROUTES: [string, string][] = [
   ["/real-wages", "Real Wage Tracker"],
   ["/cpi-preview", "Component receipts"],
   ["/scoreboard", "Forecast Scoreboard"],
-  ["/matrix", "Nowcast Matrix"],
-  ["/gap", "Gauge Gap"],
+  // markers must be unique to the page body — nav/footer link labels appear
+  // (hidden) on every page, so bare page names would resolve to those first
+  ["/matrix", "models × targets"],
+  ["/gap", "where ours differs from BLS"],
   ["/vs-bls", "Macrogauge vs BLS"],
   ["/next-print", "who’s where"],
   ["/heatcheck", "Economy Heat Check"],
   ["/stress", "Consumer Stress Index"],
   ["/recession", "six transparent signals"],
   ["/datacenter", "Data Center Cost Index"],
+  ["/status", "Data-integrity self-test"],
 ];
 
 for (const [path, text] of ROUTES) {

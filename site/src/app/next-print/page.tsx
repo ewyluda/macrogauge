@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import fuelJson from "../../../public/data/fuel.json";
 import { ForecastHero } from "@/components/ForecastHero";
 import { KpiCard } from "@/components/KpiCard";
 import type { Fuel } from "@/lib/types";
+
+export const metadata: Metadata = {
+  title: "Next CPI Print — who's where",
+  description: "Every forecaster's call for the next CPI print, plus the fuel two-week forward.",
+};
 
 const fuel = fuelJson as Fuel;
 

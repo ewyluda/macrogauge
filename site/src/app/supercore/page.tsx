@@ -6,7 +6,10 @@ import { Section } from "@/components/Section";
 import { StepChart } from "@/components/StepChart";
 import { fmtPct, fmtPp } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Supercore Services — macrogauge" };
+export const metadata: Metadata = {
+  title: "Supercore Services",
+  description: "Services inflation ex-shelter — the Fed's favorite cut, tracked daily.",
+};
 
 export default function Supercore() {
   const sc = gaugeDaily.variants.supercore;

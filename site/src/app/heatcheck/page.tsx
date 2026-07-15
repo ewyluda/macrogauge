@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import heat from "../../../public/data/heatcheck.json";
 import { KpiCard } from "@/components/KpiCard";
+
+export const metadata: Metadata = {
+  title: "Economy Heat Check",
+  description: "One standardized momentum score across prices, pipeline, labor and demand — −100 cooling to +100 heating.",
+};
 
 type Indicator = { code: string; group: string; momentum: number; z: number; as_of: string; mode?: string };
 

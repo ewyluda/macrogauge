@@ -3,7 +3,10 @@ import compare from "../../../public/data/compare.json";
 import pulse from "../../../public/data/pulse.json";
 import { MyInflationClient } from "@/components/MyInflationClient";
 
-export const metadata: Metadata = { title: "My Inflation — macrogauge" };
+export const metadata: Metadata = {
+  title: "My Inflation",
+  description: "The official basket isn't your basket — reweight the gauge to your life.",
+};
 
 export default function MyInflation() {
   return (

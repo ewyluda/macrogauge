@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import stress from "../../../public/data/stress.json";
 import { KpiCard } from "@/components/KpiCard";
+
+export const metadata: Metadata = {
+  title: "Consumer Stress Index",
+  description: "Delinquencies, debt service and savings pressure in one 0–100 score.",
+};
 
 export default function Stress() {
   const score = stress.score as number | null;

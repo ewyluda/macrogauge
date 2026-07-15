@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import nowcastJson from "../../../public/data/nowcast_latest.json";
 import { KpiCard } from "@/components/KpiCard";
 import { ForecastHero } from "@/components/ForecastHero";
 import type { Nowcast } from "@/lib/types";
+
+export const metadata: Metadata = {
+  title: "Nowcast Matrix",
+  description: "Models × targets — CPI, PCE bridge and NFP nowcasts side by side.",
+};
 
 const nowcast = nowcastJson as Nowcast;
 

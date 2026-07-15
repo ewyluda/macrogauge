@@ -1,6 +1,6 @@
+import type { Metadata } from "next";
 import pulse from "../../public/data/pulse.json";
 import official from "../../public/data/official.json";
-import qa from "../../public/data/qa.json";
 import status from "../../public/data/sources_status.json";
 import gaugeDaily from "../../public/data/gauge_daily.json";
 import compare from "../../public/data/compare.json";
@@ -21,6 +21,14 @@ import { GapDecomposition } from "@/components/GapDecomposition";
 import { SparklineCard } from "@/components/SparklineCard";
 import { OutlookChart } from "@/components/OutlookChart";
 import { fmtMonth, fmtPct, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
+
+// Numbers are baked at build time, so the tab title is a live headline —
+// refreshed by the daily publish like everything else.
+export const metadata: Metadata = {
+  title: {
+    absolute: `US inflation today: ${fmtPct(pulse.gauge.yoy_pct)} macrogauge vs ${fmtPct(pulse.official.yoy_pct)} official CPI`,
+  },
+};
 import type { Fuel, NextPrint, Outlook } from "@/lib/types";
 
 // Cast, don't infer: these artifacts legally degrade (see lib/types.ts).
