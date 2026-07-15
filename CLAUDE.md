@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install -e ".[dev]"                      # setuptools; installs pytest
-pytest -q                                     # full suite (351 tests)
+pytest -q                                     # full suite (365 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -40,8 +40,8 @@ Data flows in one direction: **collect → store → engine → publish → vali
 live in one repo.
 
 ### 1. Collection (`pipeline/collect.py`, `pipeline/connectors/`)
-One connector module per source — 15 total: API/CSV (fred, bls, eia, fmp, treasury, zillow, pmms,
-aptlist, usda, kalshi, qcew) and scrape (aaa, mnd, manheim, cleveland). What gets collected is driven entirely by
+One connector module per source — 16 total: API/CSV/XLSX (fred, bls, eia, fmp, treasury, zillow, pmms,
+aptlist, usda, kalshi, qcew, census) and scrape (aaa, mnd, manheim, cleveland). What gets collected is driven entirely by
 `config/series.json` (via `pipeline/registry.py`) — the single source of truth for series,
 sources, and per-series `max_staleness_days`.
 
