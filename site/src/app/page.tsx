@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import pulse from "../../public/data/pulse.json";
 import official from "../../public/data/official.json";
 import status from "../../public/data/sources_status.json";
@@ -20,6 +21,8 @@ import { GapTable } from "@/components/GapTable";
 import { GapDecomposition } from "@/components/GapDecomposition";
 import { SparklineCard } from "@/components/SparklineCard";
 import { OutlookChart } from "@/components/OutlookChart";
+import { Countdown } from "@/components/Countdown";
+import { ForecastNumberLine } from "@/components/ForecastNumberLine";
 import { fmtMonth, fmtPct, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
 
 // Numbers are baked at build time, so the tab title is a live headline —
@@ -61,45 +64,11 @@ const FEATURED_GROCERY: [string, string][] = [
   ["APU000072620", "Utility gas (therm)"],
 ];
 
-function QuoteCard({ q }: { q: (typeof official.quotes)[number] }) {
-  return (
-    <div
-      style={{
-        background: "var(--card)",
-        border: "1px solid var(--border)",
-        borderRadius: 10,
-        padding: 12,
-        minWidth: 150,
-        flex: "1 1 150px",
-      }}
-    >
-      <div
-        style={{
-          fontSize: 11,
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
-          color: "var(--muted)",
-        }}
-      >
-        {q.label}
-      </div>
-      <div
-        style={{
-          fontSize: 22,
-          fontWeight: 700,
-          fontVariantNumeric: "tabular-nums",
-          margin: "2px 0",
-        }}
-      >
-        {fmtMoney(q.latest, q.unit)}
-      </div>
-      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-        <DeltaChip value={q.yoy_pct} prefix="YoY" />
-        <span style={{ fontSize: 11, color: "var(--muted)" }}>{q.obs_date}</span>
-      </div>
-    </div>
-  );
-}
+// the public-debt level is quoted in dollars; every other quote fits fmtMoney
+const fmtQuote = (q: (typeof official.quotes)[number]) =>
+  q.code === "fiscal_debt_total"
+    ? `$${(q.latest / 1e12).toFixed(2)}T`
+    : fmtMoney(q.latest, q.unit);
 
 export default function Home() {
   const { cpi, core } = official.headline;
@@ -108,13 +77,27 @@ export default function Home() {
   const mortgage = quote("pmms_30yr");
   const gold = quote("fmp_gold");
   const debt = quote("fiscal_debt_total");
-  const groups = ["grocery", "energy", "rates", "markets", "fiscal"] as const;
   const movers = [...official.components]
     .sort((a, b) => Math.abs(b.mom_pct) - Math.abs(a.mom_pct))
     .slice(0, 6);
+  // both dates are baked by the same publish, so this flips on exactly the
+  // morning run that lands on release day
+  const printDay =
+    nextprint.release_date != null &&
+    pulse.published_at.slice(0, 10) === nextprint.release_date;
 
   return (
     <div className="home-dashboard">
+      {printDay && (
+        <div className="print-banner">
+          <span className="print-banner-tag">🔴 CPI day</span>
+          <span>
+            The {nextprint.reference_month} print lands at 8:30 AM ET — calls
+            below are frozen and grade automatically on the{" "}
+            <Link href="/scoreboard">scoreboard</Link>.
+          </span>
+        </div>
+      )}
       <div className="home-kicker">
         <span>Daily US inflation &amp; macro</span>
         <span>Published {pulse.published_at}</span>
@@ -196,15 +179,9 @@ export default function Home() {
         <section className="dashboard-panel next-print-panel">
           <div className="panel-title">◴ Next CPI print — {nextprint.reference_month ?? "TBA"}</div>
           <div className="release-date">{nextprint.release_date ?? "TBA"}</div>
+          <Countdown releaseDate={nextprint.release_date} />
           <div className="panel-muted">BLS release · previous print {fmtPct(cpi.yoy_pct)} YoY</div>
-          <div className="forecast-strip">
-            {nextprint.forecasters.map((forecaster) => (
-              <div key={forecaster.name} className="forecast-call">
-                <span>{forecaster.name}</span>
-                <strong>{forecaster.value == null ? "—" : `${forecaster.value.toFixed(2)}%`}</strong>
-              </div>
-            ))}
-          </div>
+          <ForecastNumberLine calls={nextprint.forecasters} />
           <div className="panel-foot">
             Ensemble {nextprint.ensemble.value == null ? "—" : `${nextprint.ensemble.value.toFixed(2)}%`} MoM · all available calls equally weighted
           </div>
@@ -368,17 +345,21 @@ export default function Home() {
         </div>
       </Section>
 
-      {groups.map((g) => (
-        <Section key={g} title={GROUP_TITLES[g]}>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            {official.quotes
-              .filter((q) => q.group === g)
-              .map((q) => (
-                <QuoteCard key={q.code} q={q} />
-              ))}
-          </div>
-        </Section>
-      ))}
+      <Section title="Quote board — official prices across the basket">
+        <div className="quote-board">
+          {official.quotes.map((q) => (
+            <div className="quote-tile" key={q.code}>
+              <span className="quote-group">{GROUP_TITLES[q.group] ?? q.group}</span>
+              <span className="quote-label">{q.label}</span>
+              <strong>{fmtQuote(q)}</strong>
+              <span className="quote-meta">
+                <DeltaChip value={q.yoy_pct} prefix="YoY" />
+                <small>{q.obs_date}</small>
+              </span>
+            </div>
+          ))}
+        </div>
+      </Section>
 
       <Section title="Grocery basket — BLS average prices">
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
