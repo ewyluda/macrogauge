@@ -5,6 +5,7 @@ import { KpiCard } from "@/components/KpiCard";
 import { DcIndexChart } from "@/components/DcIndexChart";
 import { ParityTable, type ParityRow } from "@/components/ParityTable";
 import { StateTileMap } from "@/components/StateTileMap";
+import { HardwareGapPanel, type GapRow } from "@/components/HardwareGapPanel";
 import { fmtSigned, fmtPp } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -134,6 +135,7 @@ export default function Datacenter() {
       <ComponentTable title="DC Build components" comps={build.components as Comp[]} groupHeaders />
       <ComponentTable title="DC Ops components" comps={ops.components as Comp[]} />
       <ComponentTable title="DC Hardware components" comps={hardware.components as Comp[]} groupHeaders />
+      <HardwareGapPanel rows={dc.hardware_gap as GapRow[]} />
       <h2>State cost parity <span className="subtitle">multipliers vs national average</span></h2>
       <StateTileMap states={states} national={dc.parity.national} />
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, margin: "12px 0" }}>
@@ -151,6 +153,15 @@ export default function Datacenter() {
         build = {dc.parity.w_labor} × state construction wage relative (QCEW NAICS-23) + {(1 - dc.parity.w_labor).toFixed(2)};
         ops = {dc.parity.w_power} × state industrial power relative (EIA) + {(1 - dc.parity.w_power).toFixed(2)}.
         Weight citations in the methodology page pattern; sources refresh monthly (power, PPI, CES) and quarterly (QCEW, ~2-quarter lag).
+        {" "}The DC Hardware index uses only transaction-sensitive official series; the
+        hedonically quality-adjusted series (domestic servers PPI, CPI computers, the headline
+        semiconductor PPI) are shown above as contrast, not averaged in — the selection rule is
+        transaction-based, not hot: imported semiconductors ride in the basket at whatever they
+        print. No official DRAM or memory price index exists (BLS catalogs verified 2026-07-15;
+        the microprocessor PPI was discontinued in 2015), which is why a market-data memory
+        nowcast tail is the planned upgrade. Hardware is nationally priced — it does not enter
+        the state parity table. Weights are cited in the methodology notes; group shares:
+        compute 0.65, storage &amp; memory 0.15, network 0.20.
       </p>
     </div>
   );
