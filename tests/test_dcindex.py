@@ -281,3 +281,58 @@ def test_parity_from_store_discovers_states(tmp_path):
     assert by_state["CA"]["build_mult"] == pytest.approx(1.075)     # 0.30 x 1.25 + 0.70
     assert by_state["VA"]["ops_mult"] == pytest.approx(0.55 * 0.8 + 0.45)
     assert by_state["VA"]["build_mult"] is None  # no VA wage row
+
+
+def test_construction_block_deflation_yoy_and_2014_avg():
+    saar = {"2014-01-01": 1500.0, "2014-07-01": 2500.0,
+            "2018-01-01": 20000.0, "2019-01-01": 30000.0}
+    nsa = {"2018-01-01": 1600.0, "2019-01-01": 2000.0}
+    build = {"2018-01-01": 100.0, "2019-01-01": 125.0}
+    out = dcindex.construction_block(saar, nsa, build)
+    assert out["months"] == ["2014-01-01", "2014-07-01", "2018-01-01", "2019-01-01"]
+    assert out["saar"] == [1500.0, 2500.0, 20000.0, 30000.0]
+    # deflator missing for 2014 months -> null; 30000/(125/100) = 24000
+    assert out["real"] == [None, None, 20000.0, pytest.approx(24000.0)]
+    assert out["yoy_pct"] == pytest.approx(25.0)      # NSA 2000 vs 1600
+    assert out["yoy_asof"] == "2019-01-01"
+    assert out["as_of"] == "2019-01-01"
+    assert out["latest_saar"] == 30000.0
+    assert out["unit"] == "$M"
+    assert out["vs_2014_avg"] == pytest.approx(15.0)  # 30000 / mean(1500, 2500)
+
+
+def test_construction_block_yoy_none_when_base_missing():
+    out = dcindex.construction_block(
+        {"2018-01-01": 100.0}, {"2018-01-01": 10.0}, {"2018-01-01": 100.0})
+    assert out["yoy_pct"] is None
+    assert out["vs_2014_avg"] is None                 # no 2014 obs
+
+
+def test_construction_block_none_on_empty_inputs():
+    assert dcindex.construction_block({}, {"2018-01-01": 1.0}, {}) is None
+    assert dcindex.construction_block({"2018-01-01": 1.0}, {}, {}) is None
+
+
+def test_construction_from_store(tmp_path):
+    conn = make_conn(tmp_path, [
+        ("ppi_steel", "2017-01-01", 100.0), ("ppi_steel", "2018-01-01", 110.0),
+        ("ppi_concrete", "2017-01-01", 200.0), ("ppi_concrete", "2018-01-01", 210.0),
+        ("census_dc_constr_saar", "2018-01-01", 20000.0),
+        ("census_dc_constr_nsa", "2018-01-01", 1600.0),
+    ] + OPS_ROWS)
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    dc_result = dcindex.run(conn, today="2018-01-15", basket_path=basket)
+    out = dcindex.construction_from_store(conn, dc_result)
+    # both build components rebase to 100.0 at base month 2018-01 -> deflator 100
+    assert out["months"] == ["2018-01-01"]
+    assert out["real"] == [pytest.approx(20000.0)]
+
+
+def test_construction_from_store_none_before_first_collect(tmp_path):
+    conn = make_conn(tmp_path, [
+        ("ppi_steel", "2017-01-01", 100.0), ("ppi_steel", "2018-01-01", 110.0),
+        ("ppi_concrete", "2017-01-01", 200.0), ("ppi_concrete", "2018-01-01", 210.0),
+    ] + OPS_ROWS)
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    dc_result = dcindex.run(conn, today="2018-01-15", basket_path=basket)
+    assert dcindex.construction_from_store(conn, dc_result) is None

@@ -177,3 +177,42 @@ def parity_from_store(conn: sqlite3.Connection,
                        _latest_row(conn, "eia_elec_ind_us"),
                        _latest_row(conn, "qcew_wage23_us"),
                        w_labor, w_power)
+
+
+def construction_block(saar: dict[str, float], nsa: dict[str, float],
+                       build_index: dict[str, float]) -> dict | None:
+    """Census C30 DC construction: nominal SAAR, real SAAR (constant 2018-01
+    dollars via the DC Build deflator sampled at month-firsts), and NSA
+    same-month YoY. Returns None when either series is absent from the store
+    (pre-first-collect / test contexts) — never raises; the page hides the
+    section. Month arithmetic, not the 365-day daily grid: this series never
+    joins an index basket."""
+    if not saar or not nsa:
+        return None
+    months = sorted(saar)
+    real = []
+    for m in months:
+        deflator = build_index.get(m)
+        real.append(None if deflator is None else saar[m] / (deflator / 100.0))
+    nsa_last = max(nsa)
+    base = nsa.get(f"{int(nsa_last[:4]) - 1}{nsa_last[4:]}")
+    y2014 = [v for m, v in saar.items() if m.startswith("2014-")]
+    latest = months[-1]
+    return {"as_of": latest, "unit": "$M",
+            "latest_saar": saar[latest],
+            "yoy_pct": None if base is None else (nsa[nsa_last] / base - 1) * 100.0,
+            "yoy_asof": nsa_last,
+            "vs_2014_avg": (saar[latest] / (sum(y2014) / len(y2014))
+                            if y2014 else None),
+            "months": months,
+            "saar": [saar[m] for m in months],
+            "real": real}
+
+
+def construction_from_store(conn: sqlite3.Connection, dc_result: dict) -> dict | None:
+    """Store-driven wrapper (parity_from_store pattern): the two Census series
+    plus the Build daily grid already computed in dc_result as the deflator."""
+    return construction_block(
+        _series(conn, "census_dc_constr_saar"),
+        _series(conn, "census_dc_constr_nsa"),
+        dc_result["indexes"]["build"]["index"])
