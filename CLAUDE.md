@@ -132,4 +132,5 @@ is BLS average-price staples.
   resolved by *union* (keep both rows; last-seen wins on load), not by picking a side.
 - The bot commits as `35318463+ewyluda@users.noreply.github.com` — Vercel Hobby blocks deploys whose
   author email doesn't match a GitHub account.
-- Production: https://macrogauge-cloudten.vercel.app (behind Vercel Auth).
+- Production: https://macrogauge-cloudten.vercel.app (public; Vercel Auth protects preview
+  deployments only).
