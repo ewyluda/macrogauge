@@ -8,8 +8,11 @@ Scrape protections per house convention: per-row regex anchored on the exact
 product label, pinned to tests/fixtures/dramex.html; plausible-range check;
 collect-layer isolation.
 
-ToS posture (spike 2026-07-15): §6.3 permits use with attribution — only
-derived/rebased values may ever be published, never raw price republication.
+ToS posture (spike 2026-07-15, corrected): §6.2 requires express prior
+written consent for publication/redistribution; §6.3 alone is not an
+attribution license. This wave COLLECTS for internal analysis only;
+publication of any DRAM-derived value is gated on a wave-3b ToS resolution
+(see docs/superpowers/specs/2026-07-15-collectors-first-design.md §3.1).
 """
 import re
 
