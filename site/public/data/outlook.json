@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-15T14:24:53Z",
+  "published_at": "2026-07-15T20:58:14Z",
   "model": "macrogauge_outlook_v1",
   "as_of": "2026-07-15",
   "origin_month": "2026-06",
@@ -353,7 +353,7 @@
       "value": 1.0,
       "unit": "pp/yr",
       "reading": "+1.00pp/yr",
-      "as_of": "2026-05-01",
+      "as_of": "2026-06-01",
       "status": "live",
       "effect": "tilt capped at \u00b11pp/yr on new_vehicles, apparel, other",
       "sources": [

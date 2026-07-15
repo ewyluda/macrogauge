@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-07-15T14:24:53Z",
+  "published_at": "2026-07-15T20:58:14Z",
   "stats": {
-    "series_count": 229,
-    "obs_count": 76252,
+    "series_count": 240,
+    "obs_count": 77570,
     "source_count": 16,
     "tracker_corr": 0.9771,
     "live_coverage_pct": 42.6,
@@ -214,8 +214,8 @@
     }
   ],
   "freshness": {
-    "fresh_count": 221,
-    "total": 229
+    "fresh_count": 232,
+    "total": 240
   },
   "inventory": [
     {
@@ -782,7 +782,7 @@
       "source": "TREASURY",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-13",
+      "latest_obs": "2026-07-14",
       "fresh": true
     },
     {
@@ -998,7 +998,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1034,7 +1034,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1214,7 +1214,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1223,7 +1223,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1232,7 +1232,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1241,7 +1241,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1250,7 +1250,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1259,7 +1259,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1268,7 +1268,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1277,7 +1277,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1286,7 +1286,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1295,7 +1295,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1304,7 +1304,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1322,7 +1322,106 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "ppi_storage",
+      "name": "PPI computer storage device mfg",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "ppi_semis_components",
+      "name": "PPI semiconductor & electronic component mfg (group)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "ppi_network_equip",
+      "name": "PPI telephone apparatus mfg (network equipment)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "mxp_computers_exsemi",
+      "name": "Import price: computers, peripherals ex-semiconductors",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
       "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "mxp_semis",
+      "name": "Import price: semiconductors (end use)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "mxp_semis_comp_naics",
+      "name": "Import price: semis & electronic components (NAICS 3344)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "ppi_semi_headline",
+      "name": "PPI semiconductor & related device mfg (headline)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "ppi_servers",
+      "name": "PPI host computers & servers",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "ppi_ic_packages",
+      "name": "PPI integrated circuit packages incl. microprocessors",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "ppi_wafers",
+      "name": "PPI other semiconductor devices incl. wafers",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "cpi_computers",
+      "name": "CPI computers, peripherals & smart home assistants",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
