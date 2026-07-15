@@ -209,6 +209,53 @@ def test_parity_unavailable_without_national_power():
     assert out["mode"] == "unavailable" and out["states"] == []
 
 
+GAP_HW = [{"code": "hw", "label": "HW", "group": "compute",
+           "series": "ppi_storage", "weight": 1.0}]
+
+
+def test_hardware_gap_yoy_at_own_last_obs(tmp_path):
+    conn = make_conn(tmp_path, [
+        ("ppi_steel", "2017-01-01", 100.0), ("ppi_steel", "2018-01-01", 110.0),
+        ("ppi_concrete", "2017-01-01", 200.0), ("ppi_concrete", "2018-01-01", 210.0),
+        ("ppi_storage", "2017-01-01", 100.0), ("ppi_storage", "2018-01-01", 120.0),
+        ("ppi_servers", "2017-02-01", 200.0), ("ppi_servers", "2018-02-01", 202.0),
+    ] + OPS_ROWS)
+    basket = write_basket(
+        tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS, hardware=GAP_HW,
+        gap=[{"code": "storage", "label": "Storage PPI", "series": "ppi_storage"},
+             {"code": "servers", "label": "Servers PPI", "series": "ppi_servers"}])
+    result = dcindex.run(conn, today="2018-02-15", basket_path=basket)
+    panel = {r["code"]: r for r in result["hardware_gap"]}
+    assert [r["code"] for r in result["hardware_gap"]] == ["storage", "servers"]
+    assert panel["storage"]["in_basket"] is True
+    assert panel["storage"]["yoy_pct"] == pytest.approx(20.0)
+    assert panel["storage"]["last_obs"] == "2018-01-01"
+    # servers is NOT in the basket, and its YoY sits at ITS own last obs
+    assert panel["servers"]["in_basket"] is False
+    assert panel["servers"]["yoy_pct"] == pytest.approx(1.0)
+    assert panel["servers"]["last_obs"] == "2018-02-01"
+
+
+def test_hardware_gap_missing_base_is_none_and_empty_series_omitted(tmp_path):
+    conn = make_conn(tmp_path, [
+        ("ppi_steel", "2017-01-01", 100.0), ("ppi_steel", "2018-01-01", 110.0),
+        ("ppi_concrete", "2017-01-01", 200.0), ("ppi_concrete", "2018-01-01", 210.0),
+        ("ppi_storage", "2017-01-01", 100.0), ("ppi_storage", "2018-01-01", 120.0),
+        # cpi_computers first obs 2017-09: its 2018-01 YoY base (2017-01) is missing
+        ("cpi_computers", "2017-09-01", 50.0), ("cpi_computers", "2018-01-01", 51.0),
+        # ppi_wafers has NO store rows at all
+    ] + OPS_ROWS)
+    basket = write_basket(
+        tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS, hardware=GAP_HW,
+        gap=[{"code": "storage", "label": "Storage PPI", "series": "ppi_storage"},
+             {"code": "cpi_computers", "label": "CPI computers", "series": "cpi_computers"},
+             {"code": "wafers", "label": "Wafers PPI", "series": "ppi_wafers"}])
+    result = dcindex.run(conn, today="2018-02-15", basket_path=basket)
+    panel = {r["code"]: r for r in result["hardware_gap"]}
+    assert set(panel) == {"storage", "cpi_computers"}   # wafers row omitted
+    assert panel["cpi_computers"]["yoy_pct"] is None    # base predates first obs
+
+
 def test_parity_from_store_discovers_states(tmp_path):
     conn = make_conn(tmp_path, [
         ("eia_elec_ind_us", "2026-05-01", 10.0),

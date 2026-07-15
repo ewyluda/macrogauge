@@ -1,4 +1,4 @@
-"""DC cost index engine: two input-cost indexes (build, ops) + state parity.
+"""DC cost index engine: three input-cost indexes (build, ops, hardware) + state parity + hedonic-gap panel.
 
 Composes the existing pure stages per component: rebase -> (anchored splice of
 a futures proxy, if configured) -> gate -> aggregate. Weights live at the
@@ -87,7 +87,23 @@ def run(conn: sqlite3.Connection, today: str,
         out[name] = {"index": index,
                      "yoy": aggregate.weighted_yoy(own_yoy, weights),
                      "as_of": end, "gate_flags": flags, "components": components}
-    return {"base_month": base_month, "indexes": out}
+    # Hedonic-gap panel: YoY at each series' OWN last observation, same
+    # like-month honesty as basket components (yoy_at_obs omits month-hole
+    # bases). A panel-only series with no store rows degrades to a missing
+    # row — it must never take the whole index down (unlike basket
+    # components, whose absence raises above).
+    panel = []
+    for row in dc_basket.load_hardware_gap(basket_path):
+        s = _series(conn, row.series)
+        if not s:
+            continue
+        last = max(s)
+        filled = aggregate.fill_daily(s, GRID_START, last)
+        panel.append({"code": row.code, "label": row.label, "series": row.series,
+                      "in_basket": row.in_basket,
+                      "yoy_pct": aggregate.yoy_at_obs(s, filled).get(last),
+                      "last_obs": last})
+    return {"base_month": base_month, "indexes": out, "hardware_gap": panel}
 
 
 def parity_rows(power: dict[str, tuple[str, float]],
