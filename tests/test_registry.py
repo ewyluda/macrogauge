@@ -11,13 +11,13 @@ def test_load_real_registry():
     assert set(sources) == {"FRED", "BLS", "EIA", "FMP", "TREASURY", "ZILLOW", "PMMS",
                             "APTLIST", "USDA", "AAA", "MND", "MANHEIM",
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW"}
-    assert len(series) == 229
+    assert len(series) == 240
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 62
+    assert len(fred) == 73
     # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
     # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
     # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
@@ -70,6 +70,17 @@ def test_load_real_registry():
             "ppi_pumps": "WPU1141",
             "ces_dp_ahe": "CES5000000003",
             "ppi_mach_repair": "PCU811310811310",
+            "ppi_storage": "PCU334112334112",
+            "ppi_semis_components": "PCU33443344",
+            "ppi_network_equip": "PCU334210334210",
+            "mxp_computers_exsemi": "IR213COM",
+            "mxp_semis": "IR21320",
+            "mxp_semis_comp_naics": "IZ3344",
+            "ppi_semi_headline": "PCU334413334413",
+            "ppi_servers": "PCU3341113341115",
+            "ppi_ic_packages": "WPU117839",
+            "ppi_wafers": "PCU334413334413A",
+            "cpi_computers": "CUUR0000SEEE01",
         }
     assert sources["QCEW"].secret is None and sources["QCEW"].route == "CSV"
     assert sources["EIA_STATE"].secret == "EIA_API_KEY"
