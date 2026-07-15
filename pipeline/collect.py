@@ -9,7 +9,7 @@ from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
 
-from pipeline.connectors import (aaa, aptlist, bls, cleveland, eia, fmp, fred, kalshi,
+from pipeline.connectors import (aaa, aptlist, bls, census, cleveland, eia, fmp, fred, kalshi,
                                  manheim, mnd, pmms, qcew, treasury, usda, zillow)
 from pipeline.registry import Series, Source
 from pipeline.store import vintage
@@ -42,6 +42,10 @@ def _fred(subset, key, http):
 
 def _bls(subset, key, http):
     return bls.fetch([s.source_id for s in subset], key or None, http_post=http)
+
+
+def _census(subset, key, http):
+    return census.fetch([s.source_id for s in subset], http_get=http)
 
 
 def _eia(subset, key, http):
@@ -103,7 +107,7 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             "KALSHI": _kalshi,
             # EIA_STATE is a separate source key only for failure isolation
             # and its own status row — the fetch mechanics are plain EIA.
-            "EIA_STATE": _eia, "QCEW": _qcew}
+            "EIA_STATE": _eia, "QCEW": _qcew, "CENSUS": _census}
 
 # BLS posts; everything else gets. collect_all passes the right client through.
 POST_SOURCES = {"BLS"}

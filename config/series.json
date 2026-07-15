@@ -15,7 +15,8 @@
     "CLEVELAND": {"route": "SCRAPE", "cadence": "daily"},
     "KALSHI":   {"route": "API", "cadence": "daily"},
     "EIA_STATE": {"route": "API", "cadence": "monthly", "secret": "EIA_API_KEY"},
-    "QCEW":     {"route": "CSV", "cadence": "quarterly"}
+    "QCEW":     {"route": "CSV", "cadence": "quarterly"},
+    "CENSUS": {"route": "XLSX", "cadence": "monthly"}
   },
   "series": [
     {"code": "CPIAUCNS",        "source": "FRED",     "source_id": "CPIAUCNS",                     "name": "CPI-U all items (NSA)",              "max_staleness_days": 80},
@@ -152,6 +153,8 @@
     {"code": "ppi_ic_packages", "source": "FRED", "source_id": "WPU117839", "name": "PPI integrated circuit packages incl. microprocessors", "max_staleness_days": 80},
     {"code": "ppi_wafers", "source": "FRED", "source_id": "PCU334413334413A", "name": "PPI other semiconductor devices incl. wafers", "max_staleness_days": 80},
     {"code": "cpi_computers", "source": "FRED", "source_id": "CUUR0000SEEE01", "name": "CPI computers, peripherals & smart home assistants", "max_staleness_days": 80},
+    {"code": "census_dc_constr_saar", "source": "CENSUS", "source_id": "privsatime.xlsx:Data center", "name": "Data center construction spend, SAAR ($M, annual rate)", "max_staleness_days": 75},
+    {"code": "census_dc_constr_nsa", "source": "CENSUS", "source_id": "privtime.xlsx:Data center", "name": "Data center construction spend, NSA ($M/month)", "max_staleness_days": 75},
     {"code": "fmp_copper",      "source": "FMP",  "source_id": "HGUSD",           "name": "Copper futures front month $/lb",          "max_staleness_days": 7},
     {"code": "fmp_alum",        "source": "FMP",  "source_id": "ALIUSD",          "name": "Aluminum futures front month $/ton",       "max_staleness_days": 7},
     {"code": "eia_elec_ind_us", "source": "EIA_STATE", "source_id": "ELEC.PRICE.US-IND.M", "name": "Industrial electricity ¢/kWh (US)", "max_staleness_days": 150},

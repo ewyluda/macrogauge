@@ -1,3 +1,4 @@
+import io
 import json
 from pathlib import Path
 
@@ -19,6 +20,39 @@ FMP_QUOTES = {
     "ZCUSX": 461.0, "KEUSX": 676.25, "ZSUSX": 1196.5, "ZLUSX": 68.98,
     "KCUSX": 334.25, "SBUSD": 223.43, "CCUSD": 8200.0, "LEUSX": 230.55,
 }
+
+
+def _census_wb(sheet, rows):
+    import openpyxl
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = sheet
+    ws.append(["Value of Private Construction Put in Place"])
+    ws.append(["(Millions of dollars)"])
+    ws.append([])
+    ws.append(["Date", "Total", "Data center"])
+    for r in rows:
+        ws.append(list(r))
+    ws.append(["The Census Bureau has reviewed this data product."])
+    buf = io.BytesIO()
+    wb.save(buf)
+    return buf.getvalue()
+
+
+_CENSUS_XLSX = {
+    "privsatime.xlsx": _census_wb("Private SA", [
+        ("Jun-26p", 1668966, 61000), ("Jun-25", 1500000, 45000), ("Jan-14", 900000, 1500)]),
+    "privtime.xlsx": _census_wb("Private NSA", [
+        ("Jun-26p", 144936, 5059), ("Jun-25", 130000, 3900), ("Jan-14", 75000, 124)]),
+}
+
+
+class _BytesResponse:
+    def __init__(self, content):
+        self.content = content
+
+    def raise_for_status(self):
+        pass
 
 
 def fake_get(url, params=None, timeout=None, **kw):
@@ -77,6 +111,8 @@ def fake_get(url, params=None, timeout=None, **kw):
         return _text(FIXTURES / "manheim_post.html")
     if "data.bls.gov/cew" in url:
         return _text(FIXTURES / "qcew_industry23.csv")
+    if "census.gov/construction" in url:
+        return _BytesResponse(_CENSUS_XLSX[url.rsplit("/", 1)[1]])
     raise AssertionError(f"unexpected url {url}")
 
 
@@ -143,7 +179,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "stress.json", "recession.json", "datacenter.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 16
+    assert len(status["sources"]) == 17
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
