@@ -11,6 +11,9 @@ export const C = {
   red: "#F87171",
   emerald: "#34D399",
   violet: "#A78BFA",
+  // reserved for the col (cost-of-living) variant line — deliberately not one
+  // of the semantic accents (sky = ours, amber = official)
+  col: "#FB923C",
 } as const;
 
 /** NBER recessions inside the 2018→now window (peak month → trough month). */

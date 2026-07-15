@@ -18,6 +18,7 @@ export function HeroChart({
   dates,
   gauge,
   tracker,
+  col,
   months,
   official,
   core,
@@ -25,6 +26,7 @@ export function HeroChart({
   dates: string[];
   gauge: (number | null)[];
   tracker: (number | null)[];
+  col?: (number | null)[];
   months: string[];
   official: (number | null)[];
   core: (number | null)[];
@@ -54,6 +56,19 @@ export function HeroChart({
           lineStyle: { width: 1.5, color: C.violet },
           itemStyle: { color: C.violet },
         },
+        // optional: the col variant (marginal-buyer shelter) as a 5th series
+        ...(col
+          ? [
+              {
+                name: "Cost of Living",
+                type: "line",
+                data: pair(dates, col),
+                showSymbol: false,
+                lineStyle: { width: 1.5, color: C.col },
+                itemStyle: { color: C.col },
+              },
+            ]
+          : []),
         {
           name: "Official CPI",
           type: "line",
@@ -74,7 +89,7 @@ export function HeroChart({
         },
       ],
     }),
-    [dates, gauge, tracker, months, official, core],
+    [dates, gauge, tracker, col, months, official, core],
   );
   return <EChart option={option} height={340} />;
 }

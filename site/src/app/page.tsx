@@ -149,6 +149,7 @@ export default function Home() {
             dates={gaugeDaily.variants.gauge.dates}
             gauge={gaugeDaily.variants.gauge.yoy_pct}
             tracker={gaugeDaily.variants.tracker.yoy_pct}
+            col={gaugeDaily.variants.col.yoy_pct}
             months={compare.months}
             official={compare.official_yoy_pct}
             core={compare.official_core_yoy_pct}
@@ -183,7 +184,12 @@ export default function Home() {
           <div className="panel-muted">BLS release · previous print {fmtPct(cpi.yoy_pct)} YoY</div>
           <ForecastNumberLine calls={nextprint.forecasters} />
           <div className="panel-foot">
-            Ensemble {nextprint.ensemble.value == null ? "—" : `${nextprint.ensemble.value.toFixed(2)}%`} MoM · all available calls equally weighted
+            Ensemble {nextprint.ensemble.value == null ? "—" : `${nextprint.ensemble.value.toFixed(2)}%`} MoM
+            {Object.keys(nextprint.ensemble.weights).length > 0
+              ? ` · weights ${Object.entries(nextprint.ensemble.weights)
+                  .map(([n, w]) => `${n} ${(w * 100).toFixed(0)}%`)
+                  .join(" · ")}`
+              : " · awaiting forecaster calls"}
           </div>
         </section>
 
@@ -196,8 +202,9 @@ export default function Home() {
             {debt && <div><span>Public debt</span><strong>${(debt.latest / 1e12).toFixed(2)}T</strong><small>{fmtSigned(debt.yoy_pct)} YoY</small></div>}
           </div>
           <div className="panel-foot">
-            Fuel 2-week forward {fuel.forward_2wk == null ? "—" : `$${fuel.forward_2wk.toFixed(3)}`}
-            {fuel.available && fuel.proxy ? ` · ${fuel.proxy}` : ""} · {fuel.as_of ?? "awaiting data"}
+            Fuel: pump {fuel.pump == null ? "—" : `$${fuel.pump.toFixed(2)}`} →{" "}
+            {fuel.forward_2wk == null ? "—" : `$${fuel.forward_2wk.toFixed(2)}`} in 2 weeks
+            {fuel.available && fuel.proxy ? ` · implied by ${fuel.proxy}` : ""} · {fuel.as_of ?? "awaiting data"}
           </div>
         </section>
 
@@ -388,11 +395,17 @@ export default function Home() {
       <Section title="Sources">
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
           {status.sources.map((s) => (
-            <StatusPill
+            <Link
               key={s.name}
-              ok={s.ok}
-              label={`${s.name} · ${s.latest_obs ?? "never"}`}
-            />
+              href="/status"
+              title={s.error ?? `${s.name} ok · last pull ${s.finished_at}`}
+              style={{ textDecoration: "none" }}
+            >
+              <StatusPill
+                ok={s.ok}
+                label={`${s.name} · ${s.latest_obs ?? "never"}`}
+              />
+            </Link>
           ))}
         </div>
         <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 12 }}>

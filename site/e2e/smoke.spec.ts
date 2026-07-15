@@ -21,6 +21,10 @@ const ROUTES: [string, string][] = [
   ["/recession", "six transparent signals"],
   ["/datacenter", "Data Center Cost Index"],
   ["/status", "Data-integrity self-test"],
+  ["/releases", "the evidence base for vintage-true grading"],
+  ["/grocery", "every BLS average-price staple, monthly since 2018"],
+  ["/outlook", "the next 12 months, component by component"],
+  ["/cost-of-living", "the buy-in premium"],
 ];
 
 for (const [path, text] of ROUTES) {

@@ -28,7 +28,7 @@ cd site && npm ci
 npm run dev        # local dev server
 npm run build      # static export (must pass in CI)
 npm test           # vitest — client math (since/reweight/realwage/quiltRows)
-npm run e2e        # Playwright smoke — 17 pages render, zero console errors
+npm run e2e        # Playwright smoke — 21 pages render, zero console errors
 ```
 
 CI (`.github/workflows/ci.yml`) runs two independent jobs on every push/PR: `pipeline` (`pytest -q`)

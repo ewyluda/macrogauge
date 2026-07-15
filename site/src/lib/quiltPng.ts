@@ -9,7 +9,8 @@ export function exportQuiltPng(
   months: string[],
   componentRows: QuiltRow[],
   headlineRows: QuiltRow[],
-  asOf: string
+  asOf: string,
+  sourceLabel = "OURS" // which grid fills the component cells: OURS or BLS
 ): void {
   const W = 1920;
   const H = 1080;
@@ -33,7 +34,11 @@ export function exportQuiltPng(
   ctx.fillText("MACROGAUGE — INFLATION QUILT", 24, 44);
   ctx.fillStyle = "#8B98A5";
   ctx.font = "16px ui-sans-serif, system-ui";
-  ctx.fillText(`component YoY %, every month · as of ${asOf}`, 24, 70);
+  ctx.fillText(
+    `${sourceLabel} component YoY %, every month · as of ${asOf}`,
+    24,
+    70
+  );
 
   const drawRow = (row: QuiltRow, y: number) => {
     ctx.fillStyle = "#8B98A5";

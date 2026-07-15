@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import dc from "../../../public/data/datacenter.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DcIndexChart } from "@/components/DcIndexChart";
 import { ParityTable, type ParityRow } from "@/components/ParityTable";
+import { StateTileMap } from "@/components/StateTileMap";
 import { fmtSigned, fmtPp } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -17,30 +19,59 @@ type Comp = {
 
 const GROUPS = dc.group_labels as Record<string, string>;
 
-function ComponentTable({ title, comps }: { title: string; comps: Comp[] }) {
+function ComponentTable({ title, comps, groupHeaders = false }: {
+  title: string; comps: Comp[]; groupHeaders?: boolean;
+}) {
   const max = Math.max(...comps.map((c) => Math.abs(c.contribution_pp ?? 0)), 0.01);
+  // Group header rows are presentation only — published rows rendered in
+  // published order, no computed group sums.
+  const rows: ReactNode[] = [];
+  // insertion-order grouping (not run-length) so a publish that interleaves
+  // groups can't emit duplicate header keys
+  const byGroup = new Map<string, typeof comps>();
+  for (const c of comps) {
+    const bucket = byGroup.get(c.group);
+    if (bucket) bucket.push(c);
+    else byGroup.set(c.group, [c]);
+  }
+  for (const [group, groupComps] of byGroup) {
+    if (groupHeaders) {
+      rows.push(
+        <tr key={`group-${group}`}>
+          <td colSpan={7} style={{ textAlign: "left", color: "var(--muted)",
+                                   fontSize: 11, fontWeight: 600, textTransform: "uppercase",
+                                   letterSpacing: "0.08em", paddingTop: 12 }}>
+            {GROUPS[group] ?? group}
+          </td>
+        </tr>
+      );
+    }
+    for (const c of groupComps) {
+    rows.push(
+      <tr key={c.code}>
+        <td>{c.label}</td>
+        <td>{GROUPS[group] ?? group}</td>
+        <td>{(c.weight * 100).toFixed(0)}%</td>
+        <td>{fmtSigned(c.yoy_pct)}</td>
+        <td>
+          <span style={{ display: "inline-block", verticalAlign: "middle",
+                         height: 8, borderRadius: 2,
+                         width: `${(Math.abs(c.contribution_pp ?? 0) / max) * 90}px`,
+                         background: (c.contribution_pp ?? 0) >= 0 ? "var(--accent-red)" : "var(--accent-emerald)" }} />
+          <span style={{ marginLeft: 6 }}>{fmtPp(c.contribution_pp)}</span>
+        </td>
+        <td>{c.mode === "official+proxy" ? "monthly + futures tail" : "monthly official"}</td>
+        <td>{c.last_obs}</td>
+      </tr>
+    );
+    }
+  }
   return (
     <div className="table-card">
       <h2>{title}</h2>
       <table className="data-table">
         <thead><tr><th>Component</th><th>Group</th><th>Weight</th><th>YoY</th><th>Contribution</th><th>Data</th><th>Last obs</th></tr></thead>
-        <tbody>{comps.map((c) => (
-          <tr key={c.code}>
-            <td>{c.label}</td>
-            <td>{GROUPS[c.group] ?? c.group}</td>
-            <td>{(c.weight * 100).toFixed(0)}%</td>
-            <td>{fmtSigned(c.yoy_pct)}</td>
-            <td>
-              <span style={{ display: "inline-block", verticalAlign: "middle",
-                             height: 8, borderRadius: 2,
-                             width: `${(Math.abs(c.contribution_pp ?? 0) / max) * 90}px`,
-                             background: (c.contribution_pp ?? 0) >= 0 ? "var(--accent-red)" : "var(--accent-emerald)" }} />
-              <span style={{ marginLeft: 6 }}>{fmtPp(c.contribution_pp)}</span>
-            </td>
-            <td>{c.mode === "official+proxy" ? "monthly + futures tail" : "monthly official"}</td>
-            <td>{c.last_obs}</td>
-          </tr>
-        ))}</tbody>
+        <tbody>{rows}</tbody>
       </table>
     </div>
   );
@@ -49,6 +80,29 @@ function ComponentTable({ title, comps }: { title: string; comps: Comp[] }) {
 export default function Datacenter() {
   const build = dc.indexes.build;
   const ops = dc.indexes.ops;
+  const gateFlags = [
+    ...(build.gate_flags as string[]),
+    ...(ops.gate_flags as string[]),
+  ];
+  const states = dc.parity.states as ParityRow[];
+  const rankedOps = states
+    .filter((s) => s.ops_mult != null)
+    .sort((a, b) => a.ops_mult - b.ops_mult);
+  const cheapest = rankedOps.slice(0, 5);
+  const priciest = rankedOps.slice(-5).reverse();
+  const strip = (label: string, rows: ParityRow[], color: string) => (
+    <div>
+      <div style={{ fontSize: 11, color: "var(--muted)", textTransform: "uppercase",
+                    letterSpacing: "0.08em", marginBottom: 6 }}>{label}</div>
+      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+        {rows.map((s) => (
+          <span key={s.state} className="badge badge-muted" style={{ color }}>
+            {s.state} {s.ops_mult.toFixed(3)}×
+          </span>
+        ))}
+      </div>
+    </div>
+  );
   return (
     <div>
       <h1>Data Center Cost Index <span className="subtitle">facility build & operating input costs — no official DC PPI exists</span></h1>
@@ -58,14 +112,29 @@ export default function Datacenter() {
         <KpiCard label="DC Ops YoY" value={fmtSigned(ops.headline_yoy_pct)}
                  context={`operating input costs · as of ${ops.as_of}`} accent="violet" />
       </div>
-      <DcIndexChart buildDates={build.dates} buildIndex={build.index}
-                    opsDates={ops.dates} opsIndex={ops.index} />
-      <ComponentTable title="DC Build components" comps={build.components as Comp[]} />
+      {gateFlags.length > 0 && (
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", margin: "8px 0" }}>
+          {gateFlags.map((f) => (
+            <span key={f} className="badge badge-muted"
+                  style={{ color: "var(--accent-amber)", borderColor: "rgba(245,158,11,0.4)" }}>
+              quality hold: {f}
+            </span>
+          ))}
+        </div>
+      )}
+      <DcIndexChart buildDates={build.dates} buildIndex={build.index} buildYoy={build.yoy_pct}
+                    opsDates={ops.dates} opsIndex={ops.index} opsYoy={ops.yoy_pct} />
+      <ComponentTable title="DC Build components" comps={build.components as Comp[]} groupHeaders />
       <ComponentTable title="DC Ops components" comps={ops.components as Comp[]} />
       <h2>State cost parity <span className="subtitle">multipliers vs national average</span></h2>
-      <ParityTable states={dc.parity.states as ParityRow[]} mode={dc.parity.mode} />
+      <StateTileMap states={states} national={dc.parity.national} />
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 24, margin: "12px 0" }}>
+        {strip("Cheapest to operate", cheapest, "var(--accent-emerald)")}
+        {strip("Priciest to operate", priciest, "var(--accent-red)")}
+      </div>
+      <ParityTable states={states} mode={dc.parity.mode} />
       <p className="method">
-        Input-price indexes (2018-01 = 100), not turnkey build quotes: each component is an
+        Input-price indexes ({dc.rebase}), not turnkey build quotes: each component is an
         official PPI/CES/EIA series weighted by published industry cost breakdowns (facility
         only — no servers/GPUs; IT hardware indexes are hedonically adjusted and would mislead
         in the GPU era). Copper and aluminum components carry a live futures tail spliced onto

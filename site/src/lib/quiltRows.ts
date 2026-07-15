@@ -28,23 +28,34 @@ export const COMPONENT_ROWS: [string, string][] = [
   ["other", "Everything Else"],
 ];
 
+/** Which published value array fills the cells: our gauge or the official
+ *  BLS print. Both arrays are month-aligned in the artifact; official months
+ *  where the print lags are null (rendered as the empty cell style). */
+export type QuiltMode = "ours" | "bls";
+
 /** Pinned rows first, in presentation order with display labels; anything the
  *  pipeline publishes beyond the pinned list appends by weight under the
  *  artifact's own label — a new or renamed basket component must never
- *  silently vanish from the quilt. */
-export function buildComponentRows(components: QuiltComponent[]): QuiltRow[] {
+ *  silently vanish from the quilt. Pure: same components + mode in, same
+ *  rows out. */
+export function buildComponentRows(
+  components: QuiltComponent[],
+  mode: QuiltMode = "ours",
+): QuiltRow[] {
+  const values = (c: QuiltComponent) =>
+    mode === "bls" ? c.official_yoy_pct : c.ours_yoy_pct;
   const pinned: QuiltRow[] = [];
   const seen = new Set<string>();
   for (const [code, label] of COMPONENT_ROWS) {
     const component = components.find((candidate) => candidate.code === code);
     if (component) {
-      pinned.push({ label, values: component.ours_yoy_pct });
+      pinned.push({ label, values: values(component) });
       seen.add(code);
     }
   }
   const extras = components
     .filter((candidate) => !seen.has(candidate.code))
     .sort((a, b) => b.weight - a.weight)
-    .map((candidate) => ({ label: candidate.label, values: candidate.ours_yoy_pct }));
+    .map((candidate) => ({ label: candidate.label, values: values(candidate) }));
   return [...pinned, ...extras];
 }

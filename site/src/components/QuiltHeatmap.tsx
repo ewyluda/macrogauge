@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import { SegmentedControl } from "./SegmentedControl";
 import { heatColor } from "@/lib/heat";
 import { exportQuiltPng, type QuiltRow } from "@/lib/quiltPng";
-import { buildComponentRows, type QuiltComponent } from "@/lib/quiltRows";
+import {
+  buildComponentRows,
+  type QuiltComponent,
+  type QuiltMode,
+} from "@/lib/quiltRows";
 
 type Quilt = {
   published_at: string;
@@ -25,6 +29,11 @@ const WINDOWS = [
   { key: "all", label: "FULL HISTORY" },
 ] as const;
 type WindowKey = (typeof WINDOWS)[number]["key"];
+
+const MODES = [
+  { key: "ours", label: "OURS" },
+  { key: "bls", label: "BLS" },
+] as const satisfies readonly { key: QuiltMode; label: string }[];
 
 const HEADLINES: [string, keyof Compare][] = [
   ["OURS: CPI-Comparable", "gauge_yoy_pct"],
@@ -67,6 +76,7 @@ function Cell({ v }: { v: number | null }) {
 
 export function QuiltHeatmap() {
   const [win, setWin] = useState<WindowKey>("24");
+  const [mode, setMode] = useState<QuiltMode>("ours");
   const [cache, setCache] = useState<Partial<Record<WindowKey, Quilt>>>({});
   const [compare, setCompare] = useState<Compare | null>(null);
   const [failed, setFailed] = useState(false);
@@ -105,7 +115,7 @@ export function QuiltHeatmap() {
     );
   }
 
-  const compRows: QuiltRow[] = buildComponentRows(quilt.components);
+  const compRows: QuiltRow[] = buildComponentRows(quilt.components, mode);
   const hRows = headlineRows(quilt.months, compare);
   const asOf = quilt.months[quilt.months.length - 1];
 
@@ -139,9 +149,20 @@ export function QuiltHeatmap() {
           marginBottom: 10,
         }}
       >
-        <SegmentedControl options={WINDOWS} value={win} onChange={setWin} />
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+          <SegmentedControl options={WINDOWS} value={win} onChange={setWin} />
+          <SegmentedControl options={MODES} value={mode} onChange={setMode} />
+        </div>
         <button
-          onClick={() => exportQuiltPng(quilt.months, compRows, hRows, asOf)}
+          onClick={() =>
+            exportQuiltPng(
+              quilt.months,
+              compRows,
+              hRows,
+              asOf,
+              mode === "bls" ? "BLS" : "OURS"
+            )
+          }
           style={{
             border: "1px solid var(--border)",
             background: "var(--chip-bg)",
@@ -199,10 +220,13 @@ export function QuiltHeatmap() {
         </table>
       </div>
       <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 8 }}>
-        Cell = our component YoY that month (own-observation, like-month honest) ·
-        headline rows from compare.json · empty BLS/OURS-headline cells = print not yet
-        released or trailing past compare.json&apos;s last graded month · colors: −2% blue →
-        +6% red, same scale as the treemap · as of {asOf}.
+        Cell ={" "}
+        {mode === "ours"
+          ? "our component YoY that month (own-observation, like-month honest)"
+          : "official BLS component YoY that month (empty = print not yet published)"}{" "}
+        · headline rows from compare.json, identical in both modes · empty cells = print
+        not yet released or trailing past compare.json&apos;s last graded month · colors:
+        −2% blue → +6% red, same scale as the treemap in either mode · as of {asOf}.
       </div>
     </div>
   );

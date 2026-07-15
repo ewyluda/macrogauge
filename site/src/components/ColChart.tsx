@@ -1,0 +1,72 @@
+"use client";
+import { useMemo } from "react";
+import { EChart } from "./EChart";
+import { C, NBER_RECESSIONS, baseOption } from "@/lib/chartTheme";
+
+
+type Pt = [string, number];
+
+function pair(xs: string[], ys: (number | null)[]): Pt[] {
+  const out: Pt[] = [];
+  xs.forEach((x, i) => {
+    const y = ys[i];
+    if (y !== null && y !== undefined) out.push([x, y]);
+  });
+  return out;
+}
+
+/** Cost of Living (orange) vs the headline gauge (sky), daily YoY, with the
+ *  official CPI print stepped in dashed amber for the monthly ground truth. */
+export function ColChart({
+  dates,
+  col,
+  gauge,
+  months,
+  official,
+}: {
+  dates: string[];
+  col: (number | null)[];
+  gauge: (number | null)[];
+  months: string[];
+  official: (number | null)[];
+}) {
+  const option = useMemo(
+    () => ({
+      ...baseOption(),
+      series: [
+        {
+          name: "Cost of Living",
+          type: "line",
+          data: pair(dates, col),
+          showSymbol: false,
+          lineStyle: { width: 2, color: C.col },
+          itemStyle: { color: C.col },
+          markArea: {
+            silent: true,
+            itemStyle: { color: "rgba(139, 152, 165, 0.08)" },
+            data: NBER_RECESSIONS.map(([a, b]) => [{ xAxis: a }, { xAxis: b }]),
+          },
+        },
+        {
+          name: "Macrogauge",
+          type: "line",
+          data: pair(dates, gauge),
+          showSymbol: false,
+          lineStyle: { width: 1.5, color: C.sky },
+          itemStyle: { color: C.sky },
+        },
+        {
+          name: "Official CPI",
+          type: "line",
+          step: "end",
+          data: pair(months, official),
+          showSymbol: false,
+          lineStyle: { width: 1.5, type: "dashed", color: C.amber },
+          itemStyle: { color: C.amber },
+        },
+      ],
+    }),
+    [dates, col, gauge, months, official],
+  );
+  return <EChart option={option} height={340} />;
+}

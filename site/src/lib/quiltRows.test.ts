@@ -33,4 +33,46 @@ describe("buildComponentRows", () => {
       "Data Center",
     ]);
   });
+
+  it("bls mode fills cells from official_yoy_pct, preserving nulls", () => {
+    const components: QuiltComponent[] = [
+      {
+        ...comp("fuel", "internal fuel", 0.03),
+        ours_yoy_pct: [1.1, 2.2, 3.3],
+        official_yoy_pct: [4.4, null, 6.6], // trailing/lagging print stays null
+      },
+    ];
+    const rows = buildComponentRows(components, "bls");
+    expect(rows).toEqual([{ label: "Motor Fuel", values: [4.4, null, 6.6] }]);
+  });
+
+  it("defaults to ours mode, and both modes emit the same rows over the same months", () => {
+    const components: QuiltComponent[] = [
+      {
+        ...comp("shelter_rent", "internal shelter", 0.1),
+        ours_yoy_pct: [1.0, 2.0],
+        official_yoy_pct: [3.0, null],
+      },
+      {
+        ...comp("robotaxis", "Robotaxis", 0.05),
+        ours_yoy_pct: [0.5, 0.6],
+        official_yoy_pct: [null, null],
+      },
+    ];
+    const ours = buildComponentRows(components, "ours");
+    const bls = buildComponentRows(components, "bls");
+    // explicit "ours" is the default behavior
+    expect(buildComponentRows(components)).toEqual(ours);
+    // same row identity and month count in both modes — only the fill differs
+    expect(bls.map((r) => r.label)).toEqual(ours.map((r) => r.label));
+    expect(bls.map((r) => r.values.length)).toEqual(ours.map((r) => r.values.length));
+    expect(ours.map((r) => r.values)).toEqual([
+      [1.0, 2.0],
+      [0.5, 0.6],
+    ]);
+    expect(bls.map((r) => r.values)).toEqual([
+      [3.0, null],
+      [null, null],
+    ]);
+  });
 });

@@ -20,6 +20,7 @@ export const NAV: NavEntry[] = [
         title: "The gauge",
         items: [
           { href: "/supercore", label: "Supercore", emoji: "📈" },
+          { href: "/cost-of-living", label: "Cost of Living", emoji: "🔑" },
           { href: "/gap", label: "Gauge Gap", emoji: "📐" },
           { href: "/vs-bls", label: "vs BLS", emoji: "⚖️" },
         ],
@@ -28,6 +29,7 @@ export const NAV: NavEntry[] = [
         title: "Your inflation",
         items: [
           { href: "/my-inflation", label: "My Inflation", emoji: "🧮" },
+          { href: "/grocery", label: "Grocery Prices", emoji: "🛒" },
           { href: "/calculator", label: "Since-Date Calculator", emoji: "📆" },
           { href: "/real-wages", label: "Real Wages", emoji: "💵" },
         ],
@@ -42,8 +44,10 @@ export const NAV: NavEntry[] = [
         items: [
           { href: "/cpi-preview", label: "CPI Preview", emoji: "📅" },
           { href: "/next-print", label: "Next Print", emoji: "⏱️" },
+          { href: "/outlook", label: "12-Month Outlook", emoji: "🔮" },
           { href: "/scoreboard", label: "Scoreboard", emoji: "🏆" },
           { href: "/matrix", label: "Nowcast Matrix", emoji: "🔢" },
+          { href: "/releases", label: "Release Log", emoji: "🧾" },
         ],
       },
     ],
