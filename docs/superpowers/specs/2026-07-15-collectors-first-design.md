@@ -74,8 +74,12 @@ precedes the 8:40 ET run, so one daily fetch captures the close. Session-average
 `source_id` = the pinned row label. Drift protection (house pattern): regex anchored on the row
 label capturing the session-average cell, pinned to a recorded fixture; plausible range
 (0.5, 1000) $ per unit; any miss → `"structure drift?"` ValueError. Weekend/holiday gaps are
-carry-forward, not errors. ToS posture (binding at publication, not collection): §6.3 permits use
-with attribution — publish only derived/rebased values, never raw price republication.
+carry-forward, not errors. ToS posture (corrected by the 2026-07-15 spike): **§6.2 requires
+written consent for publication/redistribution; §6.3 alone is not a standalone attribution
+license.** Collection for internal analysis proceeds in this wave; publication of any
+DRAM-derived value is GATED on a wave-3b ToS resolution (written consent, or an alternative
+source, or publishing only sufficiently-derived aggregates after review). The NAND row also
+updates slower than daily (observed 9 days stale) — its staleness limit is 21, not 7.
 
 ### 3.2 `VASTAI` — GPU rental medians (keyless API)
 

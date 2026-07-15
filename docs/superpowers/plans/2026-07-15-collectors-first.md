@@ -401,6 +401,14 @@ def test_zero_rows_is_structure_drift():
     html = FIXTURE.replace("avg", "mangled")
     with pytest.raises(ValueError, match="structure drift"):
         sfcompute.fetch(["H100"], vintage_date="2026-07-15", http_get=_get(html))
+
+
+def test_zero_average_rows_skipped_not_error():
+    # spike-observed: H200/B200 carry avg=0 on no-trade days — a real market
+    # state; rows parse (no drift) but produce no observations
+    obs = sfcompute.fetch(["H200"], vintage_date="2026-07-15",
+                          http_get=_get(FIXTURE))
+    assert all(o.value > 0 for o in obs)   # zeros never stored
 ```
 
 - [ ] **Step 2: Verify failure.** **Step 3: Create `pipeline/connectors/sfcompute.py`** (ROW_RE's exact escaping is SPIKE-FINAL — the controller injects the spike's regex if it differs):
@@ -453,6 +461,9 @@ def fetch(source_ids: list[str], vintage_date: str | None = None,
                 f"sfcompute {sid}: zero rows parsed (structure drift?)")
         for date_s, avg_s in rows:
             value = float(avg_s)
+            if value == 0:
+                continue  # avg 0 = no trades that day (spike-observed for
+                          # H200/B200), a real market state — never an error
             if not (PLAUSIBLE[0] <= value <= PLAUSIBLE[1]):
                 raise ValueError(f"sfcompute {sid}: {value} implausible "
                                  f"(range {PLAUSIBLE}) — structure drift?")
@@ -627,7 +638,7 @@ git commit -m "feat(connectors): OPENROUTER inference prices ($/Mtok, fixed bask
 Append 25 series after the census entries (source_ids are SPIKE-FINAL; the labels below are the candidates):
 
 ```json
-{"code": "dramex_nand_mlc64", "source": "DRAMEX", "source_id": "MLC 64Gb 8GBx8", "name": "NAND flash spot, session avg ($)", "max_staleness_days": 7},
+{"code": "dramex_nand_mlc64", "source": "DRAMEX", "source_id": "MLC 64Gb 8GBx8", "name": "NAND flash spot, session avg ($)", "max_staleness_days": 21},
 {"code": "dramex_ddr5_16g", "source": "DRAMEX", "source_id": "DDR5 16Gb (2Gx8) 4800/5600", "name": "DDR5 16Gb spot, session avg ($)", "max_staleness_days": 7},
 {"code": "dramex_ddr4_16g", "source": "DRAMEX", "source_id": "DDR4 16Gb (2Gx8) 3200", "name": "DDR4 16Gb spot, session avg ($)", "max_staleness_days": 7},
 {"code": "vast_h100_sxm", "source": "VASTAI", "source_id": "H100 SXM", "name": "vast.ai H100 SXM median ($/GPU-hr)", "max_staleness_days": 7},
