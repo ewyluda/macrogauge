@@ -19,12 +19,17 @@ function pair(
   return dates.map((d, i) => [d, vals[i]] as [string, number | null]);
 }
 
-export function DcIndexChart({
-  buildDates, buildIndex, buildYoy, opsDates, opsIndex, opsYoy,
-}: {
-  buildDates: string[]; buildIndex: number[]; buildYoy: (number | null)[];
-  opsDates: string[]; opsIndex: number[]; opsYoy: (number | null)[];
-}) {
+export type DcSeries = {
+  key: string;
+  label: string;
+  dates: string[];
+  index: number[];
+  yoy: (number | null)[];
+};
+
+const LINE_COLORS = [C.sky, C.violet, C.amber];
+
+export function DcIndexChart({ series }: { series: DcSeries[] }) {
   const [mode, setMode] = useState<Mode>("level");
   const wrapRef = useRef<HTMLDivElement>(null);
 
@@ -45,16 +50,14 @@ export function DcIndexChart({
       yAxis: level
         ? { ...base.yAxis, axisLabel: { color: C.muted }, scale: true }
         : { ...base.yAxis, scale: true },
-      series: [
-        { name: "DC Build", type: "line", showSymbol: false,
-          data: pair(buildDates, level ? buildIndex : buildYoy),
-          lineStyle: { width: 2, color: C.sky }, itemStyle: { color: C.sky } },
-        { name: "DC Ops", type: "line", showSymbol: false,
-          data: pair(opsDates, level ? opsIndex : opsYoy),
-          lineStyle: { width: 2, color: C.violet }, itemStyle: { color: C.violet } },
-      ],
+      series: series.map((s, i) => ({
+        name: s.label, type: "line", showSymbol: false,
+        data: pair(s.dates, level ? s.index : s.yoy),
+        lineStyle: { width: 2, color: LINE_COLORS[i % LINE_COLORS.length] },
+        itemStyle: { color: LINE_COLORS[i % LINE_COLORS.length] },
+      })),
     };
-  }, [mode, buildDates, buildIndex, buildYoy, opsDates, opsIndex, opsYoy]);
+  }, [mode, series]);
 
   const exportPng = () => {
     // The shared EChart wrapper doesn't expose its instance; recover it from

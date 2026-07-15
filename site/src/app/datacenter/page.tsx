@@ -8,7 +8,7 @@ import { StateTileMap } from "@/components/StateTileMap";
 import { fmtSigned, fmtPp } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: `Data Center Cost Index: build ${fmtSigned(dc.indexes.build.headline_yoy_pct)} · ops ${fmtSigned(dc.indexes.ops.headline_yoy_pct)} YoY`,
+  title: `Data Center Cost Index: build ${fmtSigned(dc.indexes.build.headline_yoy_pct)} · ops ${fmtSigned(dc.indexes.ops.headline_yoy_pct)} · hardware ${fmtSigned(dc.indexes.hardware.headline_yoy_pct)} YoY`,
   description: "Facility build & operating input costs, indexed daily — no official DC PPI exists, so we built one.",
 };
 
@@ -80,9 +80,11 @@ function ComponentTable({ title, comps, groupHeaders = false }: {
 export default function Datacenter() {
   const build = dc.indexes.build;
   const ops = dc.indexes.ops;
+  const hardware = dc.indexes.hardware;
   const gateFlags = [
     ...(build.gate_flags as string[]),
     ...(ops.gate_flags as string[]),
+    ...(hardware.gate_flags as string[]),
   ];
   const states = dc.parity.states as ParityRow[];
   const rankedOps = states
@@ -111,6 +113,8 @@ export default function Datacenter() {
                  context={`construction input costs · as of ${build.as_of}`} accent="sky" />
         <KpiCard label="DC Ops YoY" value={fmtSigned(ops.headline_yoy_pct)}
                  context={`operating input costs · as of ${ops.as_of}`} accent="violet" />
+        <KpiCard label="DC Hardware YoY" value={fmtSigned(hardware.headline_yoy_pct)}
+                 context={`IT hardware input costs · as of ${hardware.as_of}`} accent="amber" />
       </div>
       {gateFlags.length > 0 && (
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", margin: "8px 0" }}>
@@ -122,10 +126,14 @@ export default function Datacenter() {
           ))}
         </div>
       )}
-      <DcIndexChart buildDates={build.dates} buildIndex={build.index} buildYoy={build.yoy_pct}
-                    opsDates={ops.dates} opsIndex={ops.index} opsYoy={ops.yoy_pct} />
+      <DcIndexChart series={[
+        { key: "build", label: "DC Build", dates: build.dates, index: build.index, yoy: build.yoy_pct },
+        { key: "ops", label: "DC Ops", dates: ops.dates, index: ops.index, yoy: ops.yoy_pct },
+        { key: "hardware", label: "DC Hardware", dates: hardware.dates, index: hardware.index, yoy: hardware.yoy_pct },
+      ]} />
       <ComponentTable title="DC Build components" comps={build.components as Comp[]} groupHeaders />
       <ComponentTable title="DC Ops components" comps={ops.components as Comp[]} />
+      <ComponentTable title="DC Hardware components" comps={hardware.components as Comp[]} groupHeaders />
       <h2>State cost parity <span className="subtitle">multipliers vs national average</span></h2>
       <StateTileMap states={states} national={dc.parity.national} />
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, margin: "12px 0" }}>
