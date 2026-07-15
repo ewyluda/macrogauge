@@ -26,18 +26,18 @@ The dedicated [Data Centers page](https://macrogauge-cloudten.vercel.app/datacen
 
 All three indexes are rebased to `2018-01 = 100`. Build and Ops remain separate because capex and opex have different cost drivers; the project does not manufacture a blended total-cost-of-ownership number from an arbitrary capex/opex split.
 
-### In development: the construction boom in real terms
+### The construction boom, in real terms
 
-The next pipeline increment is designed and is being implemented. It will add monthly Census C30 data-center construction spending to the existing page:
+The page also carries monthly Census C30 data-center construction spending — and a series no one else publishes, because it requires a data-center-specific cost deflator:
 
-- a new, keyless **Census XLSX connector** for seasonally adjusted annual-rate and not-seasonally-adjusted construction series;
+- a keyless **Census XLSX connector** for the seasonally adjusted annual-rate and not-seasonally-adjusted construction series;
 - nominal construction spending in dollars and NSA same-month YoY growth;
 - **real data-center construction spending**, calculated by deflating Census nominal spending with MacroGauge's own DC Build Index into constant January 2018 dollars;
 - revision-aware ingestion into the append-only vintage store, preserving preliminary, revised, and final Census values;
-- a nullable `construction` block inside `datacenter.json`, so the section can degrade cleanly before the first successful collect;
+- a nullable `construction` block inside `datacenter.json`, so the section degrades cleanly if the source breaks;
 - source-drift checks and an isolated `CENSUS` failure domain, so a workbook-layout change cannot break the core inflation gauge or the rest of the Data Center page.
 
-The approved design is documented in [DC Construction Boom Design](docs/superpowers/specs/2026-07-15-dc-construction-design.md). Until that work lands, these items should be read as planned capabilities rather than current production behavior.
+The design is documented in [DC Construction Boom Design](docs/superpowers/specs/2026-07-15-dc-construction-design.md).
 
 ## What you can explore
 
@@ -189,6 +189,6 @@ This policy keeps old vintages replayable and makes source revisions auditable o
 - **Production:** [macrogauge-cloudten.vercel.app](https://macrogauge-cloudten.vercel.app)
 - **Daily publisher:** [`.github/workflows/daily.yml`](.github/workflows/daily.yml)
 - **CI:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
-- **Current work:** Data Center construction spending and real-terms deflation, as described above
+- **Current work:** a market-data memory nowcast tail for the DC Hardware Index (no official DRAM price index exists) and a cost-of-compute section (GPU rental and AI inference prices)
 
 MacroGauge is an analytical project, not investment advice. Source data can be revised, delayed, or unavailable; the site exposes freshness and QA state so those limitations remain visible.
