@@ -6,7 +6,8 @@ from pipeline import dc_basket
 from pipeline.engine.dcindex import PUBLISH_START
 
 
-def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str]) -> dict:
+def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
+          construction: dict | None) -> dict:
     out = {"rebase": f"{dc_result['base_month']}=100",
            "group_labels": dc_basket.load_group_labels(),
            "indexes": {}, "parity": parity_result}
@@ -35,6 +36,17 @@ def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str]) -> d
          "yoy_pct": None if r["yoy_pct"] is None else round(r["yoy_pct"], 2),
          "last_obs": r["last_obs"], "in_basket": r["in_basket"]}
         for r in dc_result.get("hardware_gap", [])]
+    out["construction"] = None if construction is None else {
+        "as_of": construction["as_of"], "unit": construction["unit"],
+        "latest_saar": round(construction["latest_saar"], 1),
+        "yoy_pct": (None if construction["yoy_pct"] is None
+                    else round(construction["yoy_pct"], 1)),
+        "yoy_asof": construction["yoy_asof"],
+        "vs_2014_avg": (None if construction["vs_2014_avg"] is None
+                        else round(construction["vs_2014_avg"], 1)),
+        "months": construction["months"],
+        "saar": [round(v, 1) for v in construction["saar"]],
+        "real": [None if v is None else round(v, 1) for v in construction["real"]]}
     return out
 
 
