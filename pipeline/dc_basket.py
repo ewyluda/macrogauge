@@ -25,7 +25,7 @@ class DCComponent:
 def load_baskets(path: Path | None = None,
                  registry_codes: set[str] | None = None
                  ) -> tuple[str, dict[str, list[DCComponent]]]:
-    """(base_month, {"build": [...], "ops": [...]}). Validates weight sums,
+    """(base_month, {"build": [...], "ops": [...], "hardware": [...]}). Validates weight sums,
     duplicate codes, and that every series/live_proxy exists in the registry
     (pass registry_codes explicitly in tests)."""
     raw = json.loads((path or DEFAULT_PATH).read_text())
@@ -34,7 +34,7 @@ def load_baskets(path: Path | None = None,
         _, series = registry.load_registry()
         registry_codes = {s.code for s in series}
     baskets: dict[str, list[DCComponent]] = {}
-    for name in ("build", "ops"):
+    for name in ("build", "ops", "hardware"):
         comps = [DCComponent(code=c["code"], label=c["label"], group=c["group"],
                              series=c["series"], weight=c["weight"],
                              live_proxy=c.get("live_proxy"))
@@ -67,3 +67,34 @@ def parity_shares(baskets: dict[str, list[DCComponent]]) -> tuple[float, float]:
     if not w_labor or not w_power:
         raise ValueError("parity shares: build needs a 'labor' group, ops a 'power' group")
     return w_labor, w_power
+
+
+@dataclass(frozen=True)
+class GapRow:
+    code: str                   # panel row id
+    label: str                  # display label
+    series: str                 # store series code
+    in_basket: bool             # derived: series is a hardware-basket backbone
+
+
+def load_hardware_gap(path: Path | None = None,
+                      registry_codes: set[str] | None = None) -> list[GapRow]:
+    """Hedonic-gap panel rows, config order. in_basket is DERIVED from
+    hardware-basket series membership — never hand-maintained (spec §2)."""
+    raw = json.loads((path or DEFAULT_PATH).read_text())
+    rows = raw.get("hardware_gap", [])
+    if registry_codes is None:
+        from pipeline import registry
+        _, series = registry.load_registry()
+        registry_codes = {s.code for s in series}
+    hw_series = {c["series"] for c in raw.get("hardware", [])}
+    out = [GapRow(code=r["code"], label=r["label"], series=r["series"],
+                  in_basket=r["series"] in hw_series) for r in rows]
+    codes = [r.code for r in out]
+    dupes = {c for c in codes if codes.count(c) > 1}
+    if dupes:
+        raise ValueError(f"hardware_gap: duplicate codes {sorted(dupes)}")
+    for r in out:
+        if r.series not in registry_codes:
+            raise ValueError(f"hardware_gap/{r.code}: unknown series code {r.series}")
+    return out

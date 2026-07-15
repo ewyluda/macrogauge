@@ -17,10 +17,17 @@ def make_conn(tmp_path, rows, vintages=None):
     return vintage.load(tmp_path / "store")
 
 
-def write_basket(tmp_path, build, ops):
+ONE_COMP_HW = [
+    {"code": "hw", "label": "HW", "group": "compute", "series": "ppi_steel", "weight": 1.0},
+]
+
+
+def write_basket(tmp_path, build, ops, hardware=None, gap=None):
     p = tmp_path / "dc_basket.json"
     p.write_text(json.dumps({"base_month": "2018-01", "group_labels": {},
-                             "build": build, "ops": ops}))
+                             "build": build, "ops": ops,
+                             "hardware": hardware or ONE_COMP_HW,
+                             "hardware_gap": gap or []}))
     return p
 
 
@@ -78,7 +85,9 @@ def test_proxy_splice_and_gate(tmp_path):
         ("ppi_copper_wire", "2017-01-01", 100.0), ("ppi_copper_wire", "2018-01-01", 100.0),
         ("fmp_copper", "2018-01-01", 50.0), ("fmp_copper", "2018-01-05", 55.0),
     ] + OPS_ROWS
-    basket = write_basket(tmp_path, build, ONE_COMP_OPS)
+    basket = write_basket(tmp_path, build, ONE_COMP_OPS,
+                          hardware=[{"code": "hw", "label": "HW", "group": "compute",
+                                     "series": "ppi_copper_wire", "weight": 1.0}])
 
     # (a) proxy point just arrived today and jumps 10% -> gate holds it one day
     conn = make_conn(tmp_path / "a", rows,
@@ -111,7 +120,9 @@ def test_official_print_not_gated_when_proxy_tail_is_empty(tmp_path):
         ("ppi_copper_wire", "2018-02-01", 110.0),  # legitimate +10% print
         ("fmp_copper", "2018-01-15", 50.0), ("fmp_copper", "2018-02-01", 55.0),
     ] + OPS_ROWS
-    basket = write_basket(tmp_path, build, ONE_COMP_OPS)
+    basket = write_basket(tmp_path, build, ONE_COMP_OPS,
+                          hardware=[{"code": "hw", "label": "HW", "group": "compute",
+                                     "series": "ppi_copper_wire", "weight": 1.0}])
     conn = make_conn(tmp_path, rows,
                      vintages={("fmp_copper", "2018-02-01"): "2018-02-15"})
     result = dcindex.run(conn, today="2018-02-15", basket_path=basket)

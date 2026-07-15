@@ -4,7 +4,10 @@
     "labor": "Construction labor", "materials": "Materials",
     "electrical": "Electrical equipment", "mechanical": "Mechanical / cooling",
     "power": "Power", "ops_labor": "Facilities & ops labor",
-    "maintenance": "Maintenance & parts"
+    "maintenance": "Maintenance & parts",
+    "compute": "Compute",
+    "storage": "Storage & memory",
+    "network": "Network equipment"
   },
   "build": [
     {"code": "constr_wages",           "label": "Construction wages",              "group": "labor",      "series": "ces_constr_ahe",  "weight": 0.15},
@@ -24,5 +27,25 @@
     {"code": "power",       "label": "Industrial electricity",        "group": "power",       "series": "eia_elec_ind_us", "weight": 0.55},
     {"code": "ops_wages",   "label": "Facilities & ops wages",        "group": "ops_labor",   "series": "ces_dp_ahe",      "weight": 0.30},
     {"code": "maintenance", "label": "Machinery repair & maintenance","group": "maintenance", "series": "ppi_mach_repair", "weight": 0.15}
+  ],
+  "hardware": [
+    {"code": "hw_imported", "label": "Imported hardware ex-semis", "group": "compute", "series": "mxp_computers_exsemi", "weight": 0.38},
+    {"code": "semis_components", "label": "Semis & electronic components", "group": "compute", "series": "ppi_semis_components", "weight": 0.16},
+    {"code": "imported_semis", "label": "Imported semiconductors", "group": "compute", "series": "mxp_semis", "weight": 0.11},
+    {"code": "storage", "label": "Computer storage devices", "group": "storage", "series": "ppi_storage", "weight": 0.15},
+    {"code": "network", "label": "Network & telephone apparatus", "group": "network", "series": "ppi_network_equip", "weight": 0.20}
+  ],
+  "hardware_gap": [
+    {"code": "storage", "label": "Computer storage devices PPI", "series": "ppi_storage"},
+    {"code": "semis_imports_naics", "label": "Import: semis & components (NAICS)", "series": "mxp_semis_comp_naics"},
+    {"code": "semis_components", "label": "Semis & components group PPI", "series": "ppi_semis_components"},
+    {"code": "hw_imported", "label": "Import: computers ex-semis", "series": "mxp_computers_exsemi"},
+    {"code": "network", "label": "Network & telephone apparatus PPI", "series": "ppi_network_equip"},
+    {"code": "ic_packages", "label": "IC packages incl. microprocessors PPI", "series": "ppi_ic_packages"},
+    {"code": "imported_semis", "label": "Import: semiconductors", "series": "mxp_semis"},
+    {"code": "servers", "label": "Servers (host computers) PPI", "series": "ppi_servers"},
+    {"code": "semi_headline", "label": "Semiconductor mfg PPI (headline)", "series": "ppi_semi_headline"},
+    {"code": "cpi_computers", "label": "CPI computers & peripherals", "series": "cpi_computers"},
+    {"code": "wafers", "label": "Other semis incl. wafers PPI", "series": "ppi_wafers"}
   ]
 }
