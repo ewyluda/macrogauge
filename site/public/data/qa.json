@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-14",
+  "generated_at": "2026-07-15",
   "passed": 18,
   "total": 20,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-06-01 is 43d old (limit 80)"
+      "detail": "latest official month 2026-06-01 is 44d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -67,7 +67,7 @@
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 6 obs $3.87 vs EIA weekly $3.855 \u2014 relative divergence 0.4% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $3.873 vs EIA weekly $3.855 \u2014 relative divergence 0.5% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -85,19 +85,19 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-07-14"
+      "detail": "CPI nowcast as-of 2026-07-15"
     },
     {
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=-0.13 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=-0.04 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-14 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-15 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",

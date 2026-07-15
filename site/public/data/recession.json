@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-14T14:27:03Z",
+  "published_at": "2026-07-15T14:24:53Z",
   "probability_pct": 0.0,
   "triggered": 0,
   "available": 6,
@@ -15,14 +15,14 @@
       "name": "10Y\u20133M",
       "code": "T10Y3M",
       "rule": "< 0",
-      "value": 0.73,
+      "value": 0.74,
       "triggered": false
     },
     {
       "name": "NFCI",
       "code": "NFCI",
       "rule": "> 0",
-      "value": -0.515,
+      "value": -0.538,
       "triggered": false
     },
     {
