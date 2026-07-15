@@ -111,6 +111,9 @@ def test_staleness_limits_cover_publication_lags():
         assert limits[code] >= 80, f"{code} flaps every publication cycle at {limits[code]}d"
     # Case-Shiller lags two months (obs age peaks ~105d)
     assert limits["CSUSHPINSA"] >= 110
+    # Census C30 lags two months (obs age peaks ~94d; matches CSUSHPINSA profile)
+    assert limits["census_dc_constr_saar"] >= 110
+    assert limits["census_dc_constr_nsa"] >= 110
     # quarterly bank-condition series release mid-to-late the following quarter (~193d)
     for code in ("DRCCLACBS", "TDSP", "DRSFRMACBS"):
         assert limits[code] >= 210, f"{code} flaps every quarter at {limits[code]}d"
