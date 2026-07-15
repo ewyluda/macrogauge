@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import dc from "../../../public/data/datacenter.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DcIndexChart } from "@/components/DcIndexChart";
+import { DcConstructionChart } from "@/components/DcConstructionChart";
 import { ParityTable, type ParityRow } from "@/components/ParityTable";
 import { StateTileMap } from "@/components/StateTileMap";
 import { HardwareGapPanel, type GapRow } from "@/components/HardwareGapPanel";
@@ -82,6 +83,7 @@ export default function Datacenter() {
   const build = dc.indexes.build;
   const ops = dc.indexes.ops;
   const hardware = dc.indexes.hardware;
+  const construction = dc.construction;
   const gateFlags = [
     ...(build.gate_flags as string[]),
     ...(ops.gate_flags as string[]),
@@ -136,6 +138,21 @@ export default function Datacenter() {
       <ComponentTable title="DC Ops components" comps={ops.components as Comp[]} />
       <ComponentTable title="DC Hardware components" comps={hardware.components as Comp[]} groupHeaders />
       <HardwareGapPanel rows={dc.hardware_gap as GapRow[]} />
+      {construction && (
+        <>
+          <h2>The construction boom <span className="subtitle">Census C30 · US data-center construction spend</span></h2>
+          <div className="kpi-row">
+            <KpiCard label="Construction spend" value={`$${(construction.latest_saar / 1000).toFixed(1)}B/yr`}
+                     context={`seasonally adjusted annual rate · as of ${construction.as_of}`} accent="sky" />
+            <KpiCard label="Spend YoY" value={fmtSigned(construction.yoy_pct)}
+                     context={`NSA, same month a year ago · as of ${construction.yoy_asof}`} accent="red" />
+            <KpiCard label="vs 2014 average" value={`×${construction.vs_2014_avg.toFixed(1)}`}
+                     context="latest annualized rate vs the 2014 average" accent="violet" />
+          </div>
+          <DcConstructionChart months={construction.months} saar={construction.saar}
+                               real={construction.real} />
+        </>
+      )}
       <h2>State cost parity <span className="subtitle">multipliers vs national average</span></h2>
       <StateTileMap states={states} national={dc.parity.national} />
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, margin: "12px 0" }}>
@@ -162,6 +179,12 @@ export default function Datacenter() {
         nowcast tail is the planned upgrade. Hardware is nationally priced — it does not enter
         the state parity table. Weights are cited in the methodology notes; group shares:
         compute 0.65, storage &amp; memory 0.15, network 0.20.
+        {" "}Construction-boom data is Census C30 value-in-place for data centers (monthly,
+        ~2-month lag; no FRED mirror exists — we parse Census&apos;s published workbook). The
+        level chart is Census&apos;s seasonally adjusted annual rate; YoY is computed on NSA
+        actuals same-month-a-year-ago; the real line deflates nominal spend by our DC Build
+        index to constant 2018-01 dollars — a series that requires a DC-specific input-cost
+        deflator to exist.
       </p>
     </div>
   );
