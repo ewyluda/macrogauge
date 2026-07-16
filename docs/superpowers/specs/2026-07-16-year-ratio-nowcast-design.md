@@ -1,8 +1,8 @@
 # Year-Ratio Power Nowcast — like-month wholesale coupling for DC Ops (Wave 4b)
 
-**Status:** Approved 2026-07-16 (brainstorming session; decisions: backtest gate before any
-index activation; λ seeded from cost structure and validated by the backtest; backtest results
-live offline in this spec + one methodology sentence).
+**Status:** Approved 2026-07-16; implemented same day; **backtest gate FAILED (§10) — index
+tail NOT activated**, machinery + data plumbing + publish/site surfaces shipped config-gated
+per §6's fallback.
 **Follows:** wave 4 (`2026-07-15-power-tail-design.md`), whose §10 recorded the Option-B
 deferral and queued this spec. All wave-4 machinery (connectors, backfill-to-2026-01, blend
 engine, power panel, honest `tail.active=false`) is deployed through `1896974`.
@@ -202,10 +202,43 @@ line gains the outcome.
   published capacity fields (client math deleted) and the nowcast card when present; e2e count
   unchanged (no new routes).
 
-## 10. Backtest results (recorded post-run)
+## 10. Backtest results (recorded 2026-07-16, post-run)
 
-*Filled in by the backtest task before the flip decision: candidate table (λ → MAE, max |err|),
-selected λ + provenance line, pass/fail against §6, and the flip decision taken.*
+**Verdict: FAIL — do not flip.** Every λ > 0 grades WORSE than both naive baselines, and the
+degradation is monotone in λ: the wholesale like-month ratio is pure noise for this series
+pair at monthly granularity. The decision taken is §6's fallback (Task 11-alt): everything
+ships except the config flip; the index stays official-only; the machinery remains
+config-gated and fully tested.
+
+Coverage: 8/10 candidate print months graded (2025-09 → 2026-04) over the common
+intersection across all λ (nothing dropped from the intersection itself); 2025-07/08 were
+ungradeable because their anchors' year-ago W lookups (T0−365d ≈ 2024-04/05) predate the
+2024-07-01 backfill start.
+
+| λ | MAE (YoY pts) | max \|err\| | vs §6 |
+|---|---|---|---|
+| carry-forward (no tail, shipped behavior) | 5.18 | 10.19 | baseline (i) |
+| 0.0 (seasonal repeat) | 2.23 | 5.91 | baseline (ii) |
+| 0.25 | 8.50 | 16.91 | fail |
+| 0.5 | 16.86 | 32.83 | fail |
+| 0.75 | 24.76 | 50.60 | fail |
+| **0.8 (cost-structure seed)** | 26.30 | 54.23 | fail |
+| 1.0 | 32.30 | 69.06 | fail |
+
+Seed provenance: EIA AEO2025 Table 8 (ref2025, 2025), fetched live via api.eia.gov —
+generation 7.687 ¢/kWh vs industrial end-use price 9.064 ¢/kWh → generation share 0.848,
+rounded down to λ=0.8 for the all-sector-average caveat; corroborated by EIA Electricity
+Explained ("the retail price of electricity to industrial customers is generally close to
+the wholesale price of electricity"). The cost-structure argument describes LEVELS;
+the backtest shows it does not transfer to like-month CHANGES — retail industrial YoY
+(±3% band) is driven by tariff cycles, not the hub year-ratio (±70% swings; the 2025-11
+row alone would have injected +69 YoY pts at λ=1).
+
+**Recorded for future work, deliberately NOT shipped in this wave:** λ=0 (repeat last
+year's retail seasonal shape, re-anchored at the latest print — zero wholesale content)
+beats carry-forward 2.23 vs 5.18 MAE. That is a *retail seasonal-repeat nowcast*, a
+different feature with its own spec if ever wanted; §6 requires λ > 0 precisely because
+this wave's stated purpose was wholesale coupling.
 
 ## 11. Risks, ranked
 
