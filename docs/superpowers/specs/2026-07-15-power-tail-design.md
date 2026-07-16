@@ -101,7 +101,6 @@ footer stop, range checks). Current-year file only; history accrues in the store
 | code | candidate hub label | staleness |
 |---|---|---|
 | `ice_pjm_west` | `PJM WH Real Time Peak` | 21 |
-| `ice_ercot_north` | (ERCOT North hub — spike pins exact label) | 21 |
 
 Panel-only: **never a splice proxy** (cadence + product mismatch, §2.1). Pinned: `source_id` =
 the hub label; the connector derives the current-year URL from the run date (year rollover
@@ -111,13 +110,13 @@ already in the store by then).
 ### 3.4 `EIA_SPOT` — Henry Hub daily spot (existing key, zero connector code)
 
 New isolation key mapping to `_eia` (the STEO/EIA_STATE precedent — one bad series id must not
-fail the core `EIA` row): `eia_henry_hub` ← seriesid `RNGWHHD` (research verified the series on
-the v2 natural-gas route with 7 416 obs; the spike confirms the `/v2/seriesid/RNGWHHD` alias
-works through `eia.fetch` like STEO's). Staleness 7 (daily, ~2-day lag + weekends). Panel driver
+fail the core `EIA` row): `eia_henry_hub` ← seriesid `NG.RNGWHHD.D` (spike-corrected: the bare
+`RNGWHHD` id 404s on the seriesid route; the prefixed daily id works through `eia.fetch`). Staleness 7 (daily, ~2-day lag + weekends). Panel driver
 card; also future 3b/4b regressor material.
 
-**Registry arithmetic:** sources 22 → 26 (`CAISO`, `MISO`, `ICE`, `EIA_SPOT`); series 265 → 270
-(5 new: `caiso_sp15_da`, `miso_indiana_da`, `ice_pjm_west`, `ice_ercot_north`, `eia_henry_hub`).
+**Registry arithmetic:** sources 22 → 26 (`CAISO`, `MISO`, `ICE`, `EIA_SPOT`); series 265 → 269
+(4 new: `caiso_sp15_da`, `miso_indiana_da`, `ice_pjm_west`, `eia_henry_hub`; `ice_ercot_north` was
+dropped by the spike — the hub does not exist in the ICE workbook).
 FRED 73 untouched.
 
 ## 4. Engine — blended, smoothed proxy (config-driven, pure)

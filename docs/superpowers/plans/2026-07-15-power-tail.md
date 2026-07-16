@@ -16,7 +16,7 @@
 - Derived values never stored: hub-mean + smoothing are pure engine transforms; raw hub prices stay auditable.
 - Gate/splice/label machinery untouched downstream of the proxy construction; official prints never gated.
 - MISO 404-today = skip (market calendar), any other HTTP error propagates to isolation.
-- Pins that move: sources 22→26, series 265→270; FRED 73 untouched.
+- Pins that move: sources 22→26, series 265→269 (ice_ercot_north DROPPED post-spike: the hub does not exist in the ICE file — no substitute); FRED 73 untouched.
 - Commit per task; `.venv/bin/pytest`. Do NOT push (user approves).
 
 ---
@@ -197,7 +197,7 @@ def fetch(source_ids: list[str], vintage_date: str | None = None,
     return out
 ```
 
-(URL date format `YYYYMMDD` vs ISO is `# SPIKE-FINAL` — adjust to what the spike observed working.)
+(SPIKE-FINAL: the URL takes `<D>T07:00-0000`..`<D+1>T07:00-0000`, but that boundary is only clean in PDT months — the connector MUST also filter rows by the CSV's `OPR_DT` column == trade date, so PST-month fetches and the Jan–Mar backfill stay correct. The spike notes carry the full 16-column header list; add the OPR_DT filter alongside the LMP_TYPE filter, and add a test where the zip carries a stray next-day OPR_DT row that must be excluded.)
 
 - [ ] **Step 4: verify PASS (6 tests).** **Step 5: full suite.** **Step 6: commit** `feat(connectors): CAISO SP15 daily DAM LMP (keyless zip, DST-aware)`.
 
@@ -222,7 +222,7 @@ class _R:
             raise Exception(f"HTTP {self.status_code}")
 ```
 
-- [ ] **Step 2–3: implement** (structure `# SPIKE-FINAL`: preamble line count, hub label, type column, HE columns):
+- [ ] **Step 2–3: implement** (SPIKE-FINAL: preamble is 5 lines; hub label `INDIANA.HUB` exact; the LMP/MCC/MLC discriminator is the THIRD column, header `Value`; fixture expected INDIANA.HUB LMP daily mean = 140.89 $/MWh):
 
 ```python
 """MISO day-ahead ex-post LMP — Indiana Hub, daily average.
@@ -255,7 +255,7 @@ makes single misses harmless)."""
 
 **Files:** Modify `config/series.json`, `pipeline/collect.py`, `tests/test_registry.py`, `tests/test_run_daily.py`.
 
-- [ ] Pins first (FAIL): sources set += {"CAISO","MISO","ICE","EIA_SPOT"}; `len(series)` 265→270; status-row count 22→26.
+- [ ] Pins first (FAIL): sources set += {"CAISO","MISO","ICE","EIA_SPOT"}; `len(series)` 265→269; status-row count 22→26.
 - [ ] `config/series.json` sources:
 
 ```json
@@ -271,8 +271,7 @@ Series (labels `# SPIKE-FINAL`):
 {"code": "caiso_sp15_da", "source": "CAISO", "source_id": "TH_SP15_GEN-APND", "name": "CAISO SP15 day-ahead LMP, daily avg ($/MWh)", "max_staleness_days": 7},
 {"code": "miso_indiana_da", "source": "MISO", "source_id": "INDIANA.HUB", "name": "MISO Indiana Hub DA ex-post LMP, daily avg ($/MWh)", "max_staleness_days": 7},
 {"code": "ice_pjm_west", "source": "ICE", "source_id": "PJM WH Real Time Peak", "name": "PJM Western Hub wtd avg ($/MWh, ICE via EIA)", "max_staleness_days": 21},
-{"code": "ice_ercot_north", "source": "ICE", "source_id": "ERCOT North 345KV Real Time Peak", "name": "ERCOT North wtd avg ($/MWh, ICE via EIA)", "max_staleness_days": 21},
-{"code": "eia_henry_hub", "source": "EIA_SPOT", "source_id": "RNGWHHD", "name": "Henry Hub natural gas spot ($/MMBtu)", "max_staleness_days": 7}
+{"code": "eia_henry_hub", "source": "EIA_SPOT", "source_id": "NG.RNGWHHD.D", "name": "Henry Hub natural gas spot ($/MMBtu)", "max_staleness_days": 7}
 ```
 
 - [ ] `collect.py`: imports (`caiso`, `ice`, `miso` alphabetical); wrappers `_caiso/_miso/_ice` (pass `[s.source_id ...]`, `http_get=http`); FETCHERS += the three + `"EIA_SPOT": _eia` (isolation comment, STEO precedent).
@@ -359,8 +358,7 @@ dcindex component loop — replace the `live = ...` line and the gate's arrived 
 {"hubs": [
    {"code": "caiso_sp15_da", "label": "CAISO SP15 (day-ahead)"},
    {"code": "miso_indiana_da", "label": "MISO Indiana Hub (day-ahead)"},
-   {"code": "ice_pjm_west", "label": "PJM Western Hub (ICE wtd avg)"},
-   {"code": "ice_ercot_north", "label": "ERCOT North (ICE wtd avg)"}],
+   {"code": "ice_pjm_west", "label": "PJM Western Hub (ICE wtd avg)"}],
  "henry_hub": {"code": "eia_henry_hub", "label": "Henry Hub natural gas"},
  "capacity_auction": {
    "source": "PJM RPM Base Residual Auction results (pjm.com); hand-updated after each auction",
@@ -407,4 +405,4 @@ dcindex component loop — replace the `live = ...` line and the gate's arrived 
 - **Spec coverage:** §3.1–3.4 → Tasks 2–5; §4 engine → Task 6; §5 publish → Task 7; §6 site → Task 9; §8 backfill → Task 8; correction re YoY base already in spec.
 - **Type consistency:** `fetch` signatures uniform (+ per-connector date param); `DCComponent` tuple field matches loader construction and dcindex usage; `power_block`'s shape matches writer + schema + PowerPanel.
 - **Known seams:** CAISO URL date format and MISO row-type column are the highest-risk pins — both spike-owned with fixture-shaped tests; the e2e keeps the blend proxy dormant (fixture vintages) so Task 6 can land before the backfill exists, mirroring wave 3a's dormant pattern.
-- **Pin arithmetic:** sources 22+4=26; series 265+5=270.
+- **Pin arithmetic:** sources 22+4=26; series 265+4=269 (ERCOT North dropped by spike).
