@@ -7,6 +7,7 @@ import { DcConstructionChart } from "@/components/DcConstructionChart";
 import { ParityTable, type ParityRow } from "@/components/ParityTable";
 import { StateTileMap } from "@/components/StateTileMap";
 import { HardwareGapPanel, type GapRow } from "@/components/HardwareGapPanel";
+import { PowerPanel, type PowerData } from "@/components/PowerPanel";
 import { fmtSigned, fmtPp } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -62,7 +63,7 @@ function ComponentTable({ title, comps, groupHeaders = false }: {
                          background: (c.contribution_pp ?? 0) >= 0 ? "var(--accent-red)" : "var(--accent-emerald)" }} />
           <span style={{ marginLeft: 6 }}>{fmtPp(c.contribution_pp)}</span>
         </td>
-        <td>{c.mode === "official+proxy" ? "monthly + futures tail" : "monthly official"}</td>
+        <td>{c.mode === "official+proxy" ? "monthly + live tail" : "monthly official"}</td>
         <td>{c.last_obs}</td>
       </tr>
     );
@@ -84,6 +85,7 @@ export default function Datacenter() {
   const ops = dc.indexes.ops;
   const hardware = dc.indexes.hardware;
   const construction = dc.construction;
+  const power = dc.power;
   const gateFlags = [
     ...(build.gate_flags as string[]),
     ...(ops.gate_flags as string[]),
@@ -153,6 +155,7 @@ export default function Datacenter() {
                                real={construction.real} />
         </>
       )}
+      {power && <PowerPanel power={power as PowerData} />}
       <h2>State cost parity <span className="subtitle">multipliers vs national average</span></h2>
       <StateTileMap states={states} national={dc.parity.national} />
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, margin: "12px 0" }}>
@@ -185,6 +188,13 @@ export default function Datacenter() {
         actuals same-month-a-year-ago; the real line deflates nominal spend by our DC Build
         index to constant 2018-01 dollars — a series that requires a DC-specific input-cost
         deflator to exist.
+        {" "}The power bill panel shows wholesale hub prices (CAISO SP15 and MISO Indiana Hub
+        daily day-ahead averages; PJM Western Hub via EIA&apos;s ICE workbook, updated
+        biweekly), Henry Hub gas, and PJM capacity-auction clearing prices — market visibility
+        only. The DC Ops index deliberately stays on official retail data: wholesale swings
+        ~3× seasonally while tariff-smoothed retail is seasonally flat, so a level-spliced
+        wholesale tail would fabricate seasonal inflation (we measured it, then pulled it). A
+        like-month year-ratio nowcast is the planned honest coupling.
       </p>
     </div>
   );
