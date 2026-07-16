@@ -58,6 +58,59 @@ def grade_month(official: dict[str, float], w_smoothed: dict[str, float],
     return err, cf
 
 
+def grade_all(official: dict[str, float], w_smoothed: dict[str, float],
+             targets: list[str], lambdas: tuple[float, ...] = LAMBDAS):
+    """Grade every target month at every lambda, then reduce to the
+    intersection of months EVERY lambda could grade before scoring.
+
+    A λ>0 model can go non-positive on an extreme wholesale ratio
+    (splice_year_ratio's sign guard then skips that tail date entirely,
+    per its docstring), while λ=0's model reduces to official[ob] — always
+    positive whenever coverage exists. So per-λ gradeable month-sets can
+    differ, and comparing MAE across DIFFERENT month subsets per candidate
+    silently drops exactly the volatile months where a bad λ would post its
+    worst errors — biasing the gate toward a false PASS. Scoring only the
+    common intersection, and carry-forward's MAE over that SAME
+    intersection, keeps the three-way comparison (candidate vs carry-fwd vs
+    λ=0) apples-to-apples. No month is silently discarded: callers get back
+    exactly which months were excluded (`dropped`) instead of a truncated
+    row set with no explanation.
+
+    Returns (per_lambda, common, dropped, mae, mx, cf_mae):
+      per_lambda: {lam: {month: (err, cf)}} — grade_month's per-month
+                  output, ungraded (None) months omitted.
+      common:     sorted months present in per_lambda[lam] for EVERY lam.
+      dropped:    sorted months graded by at least one lambda but not all —
+                  the ones `mae`/`mx`/`cf_mae` below exclude.
+      mae, mx:    {lam: float} — MAE / max|err| over `common` only.
+      cf_mae:     float over `common` only, or None when `common` is empty
+                  (carry-forward's error is lambda-invariant per month, so
+                  any lambda's `common`-month cf values agree)."""
+    per_lambda = {}
+    for lam in lambdas:
+        graded = {m: grade_month(official, w_smoothed, m, lam) for m in targets}
+        per_lambda[lam] = {m: g for m, g in graded.items() if g is not None}
+
+    graded_sets = [set(g) for g in per_lambda.values()]
+    common = sorted(set.intersection(*graded_sets)) if graded_sets else []
+    union = sorted(set.union(*graded_sets)) if graded_sets else []
+    dropped = sorted(set(union) - set(common))
+
+    mae, mx = {}, {}
+    if common:
+        for lam, graded in per_lambda.items():
+            errs = [abs(graded[m][0]) for m in common]
+            mae[lam], mx[lam] = sum(errs) / len(errs), max(errs)
+
+    cf_mae = None
+    if common:
+        any_lam = lambdas[0]
+        cfs = [abs(per_lambda[any_lam][m][1]) for m in common]
+        cf_mae = sum(cfs) / len(cfs)
+
+    return per_lambda, common, dropped, mae, mx, cf_mae
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--store", required=True, type=Path)
@@ -71,39 +124,46 @@ def main(argv=None) -> int:
         SMOOTH_DAYS)
     targets = [d for d in sorted(official) if d >= args.first_target]
 
-    rows, mae, mx = {}, {}, {}
+    per_lambda, common, dropped, mae, mx, cf_mae = grade_all(
+        official, w, targets, LAMBDAS)
+
     for lam in LAMBDAS:
-        graded = {m: grade_month(official, w, m, lam) for m in targets}
-        graded = {m: g for m, g in graded.items() if g is not None}
-        if not graded:
-            print(f"lambda={lam}: no gradeable months", file=sys.stderr)
-            continue
-        rows[lam] = graded
-        errs = [abs(g[0]) for g in graded.values()]
-        mae[lam], mx[lam] = sum(errs) / len(errs), max(errs)
-    if not rows:
-        print("no gradeable months at all — check backfill coverage",
-              file=sys.stderr)
+        graded_n = len(per_lambda[lam])
+        print(f"lambda={lam}: graded {graded_n}/{len(targets)} candidate "
+              f"months ({len(targets) - graded_n} skipped)", file=sys.stderr)
+    print("months dropped from the common intersection (ungradeable by at "
+          f"least one lambda, excluded from ALL comparisons): "
+          f"{dropped if dropped else 'none'}", file=sys.stderr)
+
+    if not common:
+        print("no months gradeable by every lambda — check backfill "
+              "coverage (empty common intersection)", file=sys.stderr)
         return 1
 
-    any_lam = next(iter(rows))
-    cfs = [abs(g[1]) for g in rows[any_lam].values()]
-    cf_mae = sum(cfs) / len(cfs)
+    positive = [lam for lam in LAMBDAS if lam > 0]
+    if not positive or not all(lam in mae for lam in positive):
+        # Structurally unreachable once `common` is non-empty (every lambda
+        # in LAMBDAS is scored over `common` by construction) — guarded
+        # anyway so this fails closed with a clear message rather than a
+        # bare min() ValueError, per review.
+        print("no lambda>0 gradeable over the common intersection — cannot "
+              "evaluate a flip candidate", file=sys.stderr)
+        return 1
 
     print("| month | realized_yoy_base | " +
-          " | ".join(f"err λ={lam}" for lam in rows) + " | err carry-fwd |")
-    print("|---|---|" + "---|" * (len(rows) + 1))
-    for m in sorted(rows[any_lam]):
-        cells = " | ".join(f"{rows[lam][m][0]:+.2f}" if m in rows[lam] else "—"
-                           for lam in rows)
-        print(f"| {m} | {official[m]:.2f} | {cells} "
-              f"| {rows[any_lam][m][1]:+.2f} |")
-    print(f"\ncarry-forward MAE: {cf_mae:.3f} pts over {len(cfs)} months")
-    for lam in rows:
+          " | ".join(f"err λ={lam}" for lam in LAMBDAS) + " | err carry-fwd |")
+    print("|---|---|" + "---|" * (len(LAMBDAS) + 1))
+    for m in common:
+        cells = " | ".join(f"{per_lambda[lam][m][0]:+.2f}" for lam in LAMBDAS)
+        cf_val = per_lambda[LAMBDAS[0]][m][1]
+        print(f"| {m} | {official[m]:.2f} | {cells} | {cf_val:+.2f} |")
+    print(f"\ncarry-forward MAE: {cf_mae:.3f} pts over {len(common)} months "
+          f"(common intersection across all lambdas)")
+    for lam in LAMBDAS:
         print(f"lambda={lam}: MAE {mae[lam]:.3f}, max|err| {mx[lam]:.3f}, "
-              f"n={len(rows[lam])}")
+              f"n={len(common)}")
 
-    best = min((lam for lam in rows if lam > 0), key=lambda x: mae[x])
+    best = min(positive, key=lambda x: mae[x])
     ok = mae[best] < cf_mae and mae[best] < mae.get(0.0, float("inf")) \
         and mx[best] <= MAX_ERR_PTS
     print(f"\nselected lambda={best} -> "
