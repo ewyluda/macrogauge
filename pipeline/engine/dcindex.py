@@ -12,6 +12,7 @@ series ValueError): the run_daily datacenter block catches it and surfaces
 datacenter_ok=false rather than publishing a silently mis-weighted index.
 """
 import sqlite3
+from datetime import date
 from pathlib import Path
 
 from pipeline import dc_basket
@@ -37,7 +38,8 @@ def _arrived_today(conn, code: str, obs_date: str, today: str) -> bool:
 
 
 def run(conn: sqlite3.Connection, today: str,
-        basket_path: Path | None = None) -> dict:
+        basket_path: Path | None = None,
+        staleness: dict[str, int] | None = None) -> dict:
     base_month, baskets = dc_basket.load_baskets(basket_path)
     out = {}
     for name, comps in baskets.items():
@@ -109,12 +111,18 @@ def run(conn: sqlite3.Connection, today: str,
                     # raw(T0) x idx(own_end)/idx(T0) — power_block publishes
                     # it as implied ¢/kWh (spec §8)
                     implied = raw[t0] * s[own_end] / s[t0]
+            allow = (staleness or {}).get(c.series)
+            age = (date.fromisoformat(today) - date.fromisoformat(own_end)).days
             components[c.code] = {
                 "label": c.label, "group": c.group, "weight": c.weight,
                 "mode": modes[c.code],
                 "yoy_pct": own_yoy[c.code].get(own_end),
                 "last_obs": own_end,
-                "implied_level": implied}
+                "implied_level": implied,
+                # freshness signal (spec §7.1): stale when the backbone's own
+                # registry allowance is exceeded; False when no map/listing so
+                # existing callers and tests keep current behavior
+                "stale": bool(allow is not None and age > allow)}
         out[name] = {"index": index,
                      "yoy": aggregate.weighted_yoy(own_yoy, weights),
                      "as_of": end, "gate_flags": flags, "components": components}
@@ -159,7 +167,9 @@ def parity_rows(power: dict[str, tuple[str, float]],
         row = {"state": st.upper(), "power_rel": round(power_rel, 4),
                "ops_mult": round(w_power * power_rel + (1 - w_power), 4),
                "power_asof": p_date,
-               "wage_rel": None, "build_mult": None, "wage_asof": None}
+               "power_cents": round(p_val, 2),
+               "wage_rel": None, "build_mult": None, "wage_asof": None,
+               "wage_level": None}
         w = wage.get(st)
         # like-for-like quarters only: a state whose newest quarter is
         # disclosure-suppressed keeps its prior-quarter wage in the store —
@@ -170,6 +180,7 @@ def parity_rows(power: dict[str, tuple[str, float]],
             row["wage_rel"] = round(wage_rel, 4)
             row["build_mult"] = round(w_labor * wage_rel + (1 - w_labor), 4)
             row["wage_asof"] = w[0]
+            row["wage_level"] = round(w[1], 2)
         states.append(row)
     return {"mode": mode, "states": states, **base}
 

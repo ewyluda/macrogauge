@@ -707,3 +707,50 @@ def test_context_block_transformer_passthrough(tmp_path):
     ctx = dcindex.context_block(conn, cfg, {"indexes": {"build": {"yoy": {}}}})
     assert ctx["transformer"] == {"weeks": 128, "asof": "2025-11",
                                    "source": "Wood Mackenzie"}
+
+
+def test_component_stale_flag_boundary(tmp_path):
+    conn = make_conn(tmp_path, [
+        ("ppi_steel", "2017-01-01", 100.0), ("ppi_steel", "2018-01-01", 110.0),
+        ("ppi_concrete", "2017-01-01", 200.0), ("ppi_concrete", "2018-01-01", 210.0),
+    ] + OPS_ROWS)
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    # last obs 2018-01-01; today 2018-02-15 -> age 45 days
+    result = dcindex.run(conn, today="2018-02-15", basket_path=basket,
+                         staleness={"ppi_steel": 45, "ppi_concrete": 44})
+    b = result["indexes"]["build"]
+    assert b["components"]["steel"]["stale"] is False      # age == allowance
+    assert b["components"]["concrete"]["stale"] is True    # age > allowance
+
+
+def test_stale_false_without_map_or_listing(tmp_path):
+    conn = make_conn(tmp_path, [
+        ("ppi_steel", "2017-01-01", 100.0), ("ppi_steel", "2018-01-01", 110.0),
+        ("ppi_concrete", "2017-01-01", 200.0), ("ppi_concrete", "2018-01-01", 210.0),
+    ] + OPS_ROWS)
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    r1 = dcindex.run(conn, today="2030-01-01", basket_path=basket)  # no map
+    assert r1["indexes"]["build"]["components"]["steel"]["stale"] is False
+    r2 = dcindex.run(conn, today="2030-01-01", basket_path=basket,
+                     staleness={"unrelated_series": 5})              # unlisted
+    assert r2["indexes"]["build"]["components"]["steel"]["stale"] is False
+
+
+def test_parity_rows_carry_raw_levels():
+    out = dcindex.parity_rows(
+        power={"ca": ("2026-05-01", 12.0)}, wage={"ca": ("2026-01-01", 2000.0)},
+        nat_power=("2026-05-01", 10.0), nat_wage=("2026-01-01", 1600.0),
+        w_labor=0.30, w_power=0.55)
+    row = out["states"][0]
+    assert row["power_cents"] == pytest.approx(12.0)
+    assert row["wage_level"] == pytest.approx(2000.0)
+
+
+def test_parity_wage_level_null_when_quarter_mismatch():
+    out = dcindex.parity_rows(
+        power={"ca": ("2026-05-01", 12.0)}, wage={"ca": ("2025-10-01", 1900.0)},
+        nat_power=("2026-05-01", 10.0), nat_wage=("2026-01-01", 1600.0),
+        w_labor=0.30, w_power=0.55)
+    row = out["states"][0]
+    assert row["power_cents"] == pytest.approx(12.0)   # power side unaffected
+    assert row["wage_level"] is None                    # like-for-like rule holds
