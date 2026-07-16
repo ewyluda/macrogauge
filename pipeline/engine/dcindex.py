@@ -46,23 +46,27 @@ def run(conn: sqlite3.Connection, today: str,
             official = _series(conn, comp.series)
             idx = rebase.rebase(official, base_month)
             live = _series(conn, comp.live_proxy) if comp.live_proxy else {}
+            tail_active = False
             if live:
                 live_idx = rebase.rebase(live, base_month)
                 official_end = max(idx)
                 idx = blend_mod.splice_anchored(idx, live_idx)
                 last = max(idx)
+                tail_active = last > official_end
                 # Gate only a real proxy tail. When the proxy has no points
                 # past the last official print, `last` IS an official print:
                 # official data is trusted (never held), matching the gauge —
                 # otherwise a proxy vintage correction dated at the print
                 # could hold a legitimate official month-over-month move.
-                if last > official_end:
+                if tail_active:
                     idx, flagged = gate.apply_gate(
                         idx, _arrived_today(conn, comp.live_proxy, last, today))
                     if flagged:
                         flags.append(f"{comp.code}@{last}")
             built[comp.code] = idx
-            modes[comp.code] = "official+proxy" if live else "official"
+            # a proxy that contributes no tail must not advertise one — the
+            # page's "Data" column reflects what today's series actually is
+            modes[comp.code] = "official+proxy" if tail_active else "official"
         end = min(max(max(s) for s in built.values()), today)
         daily = {k: aggregate.fill_daily(s, GRID_START, end)
                  for k, s in built.items()}

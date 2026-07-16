@@ -13,8 +13,9 @@ def test_load_real_baskets():
         assert abs(sum(c.weight for c in comps) - 1.0) <= 1e-9
     proxied = {c.code: c.live_proxy for c in baskets["build"] if c.live_proxy}
     assert proxied == {"copper_wire": "fmp_copper", "alum_shapes": "fmp_alum"}
-    # hardware v1 is official-only: no proxies, and its groups have labels
-    assert not any(c.live_proxy for c in baskets["hardware"])
+    # hardware v1 carried no proxies; wave 3a ships the dormant DRAM tail
+    hw_proxied = {c.code: c.live_proxy for c in baskets["hardware"] if c.live_proxy}
+    assert hw_proxied == {"storage": "dramex_nand_mlc64"}
     labels = dc_basket.load_group_labels()
     assert {c.group for c in baskets["hardware"]} <= set(labels)
     w_labor, w_power = dc_basket.parity_shares(baskets)

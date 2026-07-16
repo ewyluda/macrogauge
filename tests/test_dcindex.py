@@ -131,6 +131,31 @@ def test_official_print_not_gated_when_proxy_tail_is_empty(tmp_path):
     assert b["index"]["2018-02-01"] == pytest.approx(110.0)  # not held at 100
 
 
+def test_dormant_proxy_labels_official_and_changes_nothing(tmp_path):
+    # proxy rows exist but ALL post-date the last official print: splice
+    # returns official-only, mode must NOT advertise a tail, no gate flags.
+    build = [{"code": "copper_wire", "label": "Copper", "group": "materials",
+              "series": "ppi_copper_wire", "weight": 1.0,
+              "live_proxy": "fmp_copper"}]
+    rows = [
+        ("ppi_copper_wire", "2017-01-01", 100.0),
+        ("ppi_copper_wire", "2018-01-01", 100.0),
+        ("fmp_copper", "2018-01-10", 50.0), ("fmp_copper", "2018-01-11", 55.0),
+    ] + OPS_ROWS
+    conn = make_conn(tmp_path, rows)
+    # hardware default (ONE_COMP_HW -> ppi_steel) has no rows in this test;
+    # point it at a series that's already in `rows` so only the "build"
+    # basket under test is exercised, matching the sibling proxy tests above.
+    basket = write_basket(tmp_path, build, ONE_COMP_OPS,
+                          hardware=[{"code": "hw", "label": "HW", "group": "compute",
+                                     "series": "ppi_copper_wire", "weight": 1.0}])
+    result = dcindex.run(conn, today="2018-01-12", basket_path=basket)
+    b = result["indexes"]["build"]
+    assert b["components"]["copper_wire"]["mode"] == "official"
+    assert b["gate_flags"] == []
+    assert max(b["index"]) == "2018-01-01"      # no tail beyond the print
+
+
 def test_component_with_no_grid_observations_raises_named_error(tmp_path):
     # every steel obs predates GRID_START: the daily grid only carries the
     # stale value forward, so there is no obs ON the grid to compute YoY at —

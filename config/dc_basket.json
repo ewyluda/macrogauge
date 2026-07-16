@@ -32,7 +32,7 @@
     {"code": "hw_imported", "label": "Imported hardware ex-semis", "group": "compute", "series": "mxp_computers_exsemi", "weight": 0.38},
     {"code": "semis_components", "label": "Semis & electronic components", "group": "compute", "series": "ppi_semis_components", "weight": 0.16},
     {"code": "imported_semis", "label": "Imported semiconductors", "group": "compute", "series": "mxp_semis", "weight": 0.11},
-    {"code": "storage", "label": "Computer storage devices", "group": "storage", "series": "ppi_storage", "weight": 0.15},
+    {"code": "storage", "label": "Computer storage devices", "group": "storage", "series": "ppi_storage", "weight": 0.15, "live_proxy": "dramex_nand_mlc64"},
     {"code": "network", "label": "Network & telephone apparatus", "group": "network", "series": "ppi_network_equip", "weight": 0.20}
   ],
   "hardware_gap": [
