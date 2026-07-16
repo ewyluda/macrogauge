@@ -100,3 +100,41 @@ def test_he_count_out_of_range_is_structure_drift():
         miso.fetch(["INDIANA.HUB"], vintage_date="2026-07-15",
                    market_date="2026-07-14",
                    http_get=_get(_csv(rows, n_he=10)))
+
+
+def test_default_window_fetches_last_four_days_oldest_first(monkeypatch):
+    # Monday 8:40 ET: the weekday-only bot must catch up Thu..Sun market
+    # days (Fri/Sat files appear on days the bot never runs).
+    urls = []
+    def get(url, timeout=None):
+        urls.append(url)
+        return _R(_csv([_row("INDIANA.HUB", "LMP", [10.0] * 24)]))
+    monkeypatch.setattr(miso, "today_et", lambda: "2026-07-13")  # a Monday
+    obs = miso.fetch(["INDIANA.HUB"], vintage_date="2026-07-13", http_get=get)
+    days = [u.rsplit("/", 1)[1][:8] for u in urls]
+    assert days == ["20260709", "20260710", "20260711", "20260712"]
+    assert [o.obs_date for o in obs] == [
+        "2026-07-09", "2026-07-10", "2026-07-11", "2026-07-12"]
+    assert all(o.value == pytest.approx(10.0) for o in obs)
+
+
+def test_window_404_day_skipped_others_land(monkeypatch):
+    def get(url, timeout=None):
+        if "20260711" in url:
+            return _R("", status_code=404)
+        return _R(_csv([_row("INDIANA.HUB", "LMP", [10.0] * 24)]))
+    monkeypatch.setattr(miso, "today_et", lambda: "2026-07-13")
+    obs = miso.fetch(["INDIANA.HUB"], vintage_date="2026-07-13", http_get=get)
+    assert [o.obs_date for o in obs] == [
+        "2026-07-09", "2026-07-10", "2026-07-12"]
+
+
+def test_explicit_market_date_fetches_exactly_one_day():
+    urls = []
+    def get(url, timeout=None):
+        urls.append(url)
+        return _R(_csv([_row("INDIANA.HUB", "LMP", [10.0] * 24)]))
+    obs = miso.fetch(["INDIANA.HUB"], vintage_date="2026-07-15",
+                     market_date="2026-07-14", http_get=get)
+    assert len(urls) == 1 and "20260714" in urls[0]
+    assert [o.obs_date for o in obs] == ["2026-07-14"]

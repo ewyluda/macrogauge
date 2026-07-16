@@ -39,28 +39,41 @@ PREAMBLE_LINES = 4                                       # SPIKE-FINAL
 NODE_COL, ROWTYPE_COL, ROWTYPE_LMP = "Node", "Value", "LMP"   # SPIKE-FINAL
 PLAUSIBLE = (-100.0, 3000.0)   # $/MWh daily mean; negatives are real
 ROW_RANGE = (20, 28)           # HE columns, incl. DST slop
+CATCHUP_DAYS = 4               # default window: yesterday back 4 market days, so the
+                               # weekday-only 8:40 ET bot picks up Fri/Sat/Sun files on
+                               # Monday — value-dedupe makes the 3 re-fetches no-ops
 
 
 def _default_get(url, timeout=60):
     return requests.get(url, timeout=timeout, headers={"User-Agent": _UA})
 
 
-def _yesterday_et() -> str:
-    return (date.fromisoformat(today_et()) - timedelta(days=1)).isoformat()
-
-
 def fetch(source_ids: list[str], vintage_date: str | None = None,
           http_get=None, market_date: str | None = None) -> list[Observation]:
     """source_id = the exact hub label in the Node column (e.g. INDIANA.HUB).
 
-    market_date defaults to yesterday-ET: today's file is posted the evening
-    before, so yesterday's is the most recent date reliably available at an
-    8:40am ET run."""
+    market_date=None fetches a CATCHUP_DAYS window ending yesterday-ET
+    (oldest first): today's file is posted the evening before, so yesterday
+    is the newest reliably-available date, and the window heals the weekend
+    market days a weekday-only schedule never lands on. An explicit
+    market_date fetches exactly that day (the backfill path)."""
     http_get = http_get or _default_get
     vintage = vintage_date or today_et()
-    day = market_date or _yesterday_et()
-    url = URL.format(d=day.replace("-", ""))
+    if market_date:
+        days = [market_date]
+    else:
+        anchor = date.fromisoformat(today_et())
+        days = [(anchor - timedelta(days=k)).isoformat()
+                for k in range(CATCHUP_DAYS, 0, -1)]
+    out: list[Observation] = []
+    for day in days:
+        out.extend(_fetch_day(source_ids, day, vintage, http_get))
+    return out
 
+
+def _fetch_day(source_ids: list[str], day: str, vintage: str,
+               http_get) -> list[Observation]:
+    url = URL.format(d=day.replace("-", ""))
     resp = http_get(url, timeout=60)
     if getattr(resp, "status_code", 200) == 404:
         return []
