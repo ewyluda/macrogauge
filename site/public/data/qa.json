@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-07-15",
-  "passed": 19,
+  "passed": 18,
   "total": 20,
   "checks": [
     {
@@ -54,14 +54,14 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": true,
-      "detail": "17/17 ok"
+      "pass": false,
+      "detail": "21/22 ok; failed \u2014 BLS: ReadTimeout: HTTPSConnectionPool(host='api.bls.gov', port=443): Read timed out. (read timeout=60)"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "234/242 fresh; stale \u2014 qcew_wage23_ak (never seen), qcew_wage23_dc (never seen), qcew_wage23_la (never seen), qcew_wage23_ma (never seen), qcew_wage23_mo (never seen), qcew_wage23_ri (never seen), qcew_wage23_sd (never seen), qcew_wage23_vt (never seen)"
+      "detail": "256/265 fresh; stale \u2014 vast_b200 (never seen), qcew_wage23_ak (never seen), qcew_wage23_dc (never seen), qcew_wage23_la (never seen), qcew_wage23_ma (never seen), qcew_wage23_mo (never seen), qcew_wage23_ri (never seen), qcew_wage23_sd (never seen), qcew_wage23_vt (never seen)"
     },
     {
       "name": "fuel_sources_agree",
@@ -91,7 +91,7 @@
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=-0.04 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=-0.05 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",

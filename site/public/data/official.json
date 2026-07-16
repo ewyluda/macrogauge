@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-15T22:24:57Z",
+  "published_at": "2026-07-16T00:34:49Z",
   "headline": {
     "cpi": {
       "month": "2026-06-01",
@@ -210,18 +210,18 @@
       "label": "Gold",
       "group": "markets",
       "unit": "$/oz",
-      "latest": 4070.3,
+      "latest": 4062.5,
       "obs_date": "2026-07-15",
-      "yoy_pct": 21.99
+      "yoy_pct": 21.75
     },
     {
       "code": "fmp_wti",
       "label": "WTI crude",
       "group": "markets",
       "unit": "$/bbl",
-      "latest": 80.26,
+      "latest": 80.05,
       "obs_date": "2026-07-15",
-      "yoy_pct": 20.66
+      "yoy_pct": 20.34
     },
     {
       "code": "fiscal_debt_total",

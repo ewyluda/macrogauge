@@ -1,9 +1,9 @@
 {
-  "published_at": "2026-07-15T22:24:57Z",
+  "published_at": "2026-07-16T00:34:49Z",
   "stats": {
-    "series_count": 242,
-    "obs_count": 77889,
-    "source_count": 17,
+    "series_count": 265,
+    "obs_count": 78636,
+    "source_count": 22,
     "tracker_corr": 0.9771,
     "live_coverage_pct": 42.6,
     "engine_version": "1.0",
@@ -214,8 +214,8 @@
     }
   ],
   "freshness": {
-    "fresh_count": 234,
-    "total": 242
+    "fresh_count": 256,
+    "total": 265
   },
   "inventory": [
     {
@@ -1440,6 +1440,213 @@
       "route": "XLSX",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "dramex_nand_mlc64",
+      "name": "NAND flash spot, session avg ($)",
+      "source": "DRAMEX",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "dramex_ddr5_16g",
+      "name": "DDR5 16Gb spot, session avg ($)",
+      "source": "DRAMEX",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "dramex_ddr4_16g",
+      "name": "DDR4 16Gb spot, session avg ($)",
+      "source": "DRAMEX",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "vast_h100_sxm",
+      "name": "vast.ai H100 SXM median ($/GPU-hr)",
+      "source": "VASTAI",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "vast_h200",
+      "name": "vast.ai H200 median ($/GPU-hr)",
+      "source": "VASTAI",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "vast_b200",
+      "name": "vast.ai B200 median ($/GPU-hr)",
+      "source": "VASTAI",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": null,
+      "fresh": false
+    },
+    {
+      "code": "vast_a100_sxm",
+      "name": "vast.ai A100 median ($/GPU-hr)",
+      "source": "VASTAI",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "vast_rtx4090",
+      "name": "vast.ai RTX 4090 median ($/GPU-hr)",
+      "source": "VASTAI",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "sfc_h100",
+      "name": "sfcompute H100 spot avg ($/GPU-hr)",
+      "source": "SFCOMPUTE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-16",
+      "fresh": true
+    },
+    {
+      "code": "or_gpt4o_in",
+      "name": "OpenRouter GPT-4o input ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "or_gpt4o_out",
+      "name": "OpenRouter GPT-4o output ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "or_claude_sonnet_in",
+      "name": "OpenRouter Claude Sonnet input ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "or_claude_sonnet_out",
+      "name": "OpenRouter Claude Sonnet output ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "or_llama70b_in",
+      "name": "OpenRouter Llama 70B input ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "or_llama70b_out",
+      "name": "OpenRouter Llama 70B output ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "or_deepseek_in",
+      "name": "OpenRouter DeepSeek input ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "or_deepseek_out",
+      "name": "OpenRouter DeepSeek output ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "or_gemini_flash_in",
+      "name": "OpenRouter Gemini Flash input ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "or_gemini_flash_out",
+      "name": "OpenRouter Gemini Flash output ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "or_mistral_large_in",
+      "name": "OpenRouter Mistral Large input ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "or_mistral_large_out",
+      "name": "OpenRouter Mistral Large output ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "steo_elec_ind_us",
+      "name": "STEO industrial electricity forecast (c/kWh, vintage-archived)",
+      "source": "STEO",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2027-12-01",
+      "fresh": true
+    },
+    {
+      "code": "steo_power_pj",
+      "name": "STEO PJM wholesale power ($/MWh, vintage-archived)",
+      "source": "STEO",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2027-12-01",
       "fresh": true
     },
     {

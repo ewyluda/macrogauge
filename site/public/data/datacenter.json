@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-15T22:24:57Z",
+  "published_at": "2026-07-16T00:34:49Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -16,7 +16,7 @@
   "indexes": {
     "build": {
       "as_of": "2026-07-15",
-      "headline_yoy_pct": 6.52,
+      "headline_yoy_pct": 6.53,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -6256,7 +6256,7 @@
         165.64,
         165.71,
         165.94,
-        165.89
+        165.9
       ],
       "yoy_pct": [
         3.05,
@@ -9376,7 +9376,7 @@
         6.37,
         6.41,
         6.56,
-        6.52
+        6.53
       ],
       "components": [
         {
@@ -9436,8 +9436,8 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-07-15",
-          "yoy_pct": 13.52,
-          "contribution_pp": 0.74
+          "yoy_pct": 13.62,
+          "contribution_pp": 0.75
         },
         {
           "code": "alum_shapes",
