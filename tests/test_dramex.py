@@ -44,6 +44,21 @@ def test_missing_row_is_structure_drift():
                      http_get=_get(FIXTURE))
 
 
+@pytest.mark.parametrize("label,avg_cell", [
+    # Row-leak shape demonstrated in the collectors spike: blank the target
+    # row's session-average cell and an unbounded cell-scan bleeds past </tr>
+    # into the eTT neighbor row, capturing its Daily High (26.00 / 12.00) —
+    # inside PLAUSIBLE, so the garbage would be ingested silently.
+    ("DDR5 16Gb (2Gx8) 4800/5600", "48.900"),   # leaks DDR5 eTT 26.00
+    ("DDR4 16Gb (2Gx8) 3200", "79.375"),        # leaks DDR4 eTT 12.00
+])
+def test_short_row_must_not_leak_into_neighbor(label, avg_cell):
+    html = FIXTURE.replace(f'">{avg_cell}<', '">-<')
+    assert html != FIXTURE                      # mutation actually applied
+    with pytest.raises(ValueError, match="structure drift"):
+        dramex.fetch([label], vintage_date="2026-07-15", http_get=_get(html))
+
+
 def test_implausible_value_is_structure_drift():
     html = ('<tr><td>MLC 64Gb 8GBx8</td>'
             + '<td class="tab_tr_gray">99999</td>' * 5 + "</tr>")

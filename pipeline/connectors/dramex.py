@@ -25,13 +25,15 @@ from pipeline.models import Observation
 URL = "https://www.dramexchange.com/"
 PLAUSIBLE = (0.5, 1000.0)   # $ per unit — outside this the table has drifted
 AVG_CELL = 5                # SPIKE-FINAL: session average is the Nth gray cell
-_CELL = r'.*?tab_tr_gray">([0-9.]+)<'
+_CELL = r'(?:(?!</tr>).)*?tab_tr_gray">([0-9.]+)<'
 
 
 def _row_re(label: str) -> re.Pattern:
     # Anchored on the exact product label; captures AVG_CELL numeric cells.
-    # DOTALL + non-greedy could in principle leak past a short row into its
-    # neighbor — the fixture pin plus the range check catch that drift.
+    # Each cell-scan is a tempered dot bounded by </tr>, so a short row (e.g.
+    # a blanked session-average cell) raises structure drift instead of
+    # bleeding a neighbor row's plausible values into the capture — the
+    # row-leak demonstrated in the collectors spike (wave-3b hardening).
     return re.compile(re.escape(label) + _CELL * AVG_CELL, re.DOTALL)
 
 
