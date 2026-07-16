@@ -119,3 +119,15 @@ def test_power_null_henry_hub_validates(tmp_path):
     assert payload["power"]["henry_hub"] is None
     path = datacenter.write(payload, tmp_path, published_at="2026-07-15T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "datacenter.schema.json")
+
+
+def test_power_deferred_tail_validates(tmp_path):
+    # wave-4 option B: no live_proxy_blend configured on ops power means
+    # power_block publishes a deferred (inactive, nullable smooth_days,
+    # empty hubs) tail. The panel (hubs/henry_hub/capacity_auction) is
+    # unaffected and keeps publishing.
+    power = {**POWER, "tail": {"active": False, "smooth_days": None, "hubs": []}}
+    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, CONSTRUCTION, power)
+    assert payload["power"]["tail"] == {"active": False, "smooth_days": None, "hubs": []}
+    path = datacenter.write(payload, tmp_path, published_at="2026-07-15T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "datacenter.schema.json")

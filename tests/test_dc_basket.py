@@ -16,12 +16,14 @@ def test_load_real_baskets():
     # hardware v1 carried no proxies; wave 3a ships the dormant DRAM tail
     hw_proxied = {c.code: c.live_proxy for c in baskets["hardware"] if c.live_proxy}
     assert hw_proxied == {"storage": "dramex_nand_mlc64"}
-    # wave 4: ops power carries a blended, smoothed wholesale-hub tail instead
-    # of a single live_proxy
+    # wave-4 option B: the wholesale tail was DEFERRED from the index after a
+    # live run showed the anchored level-splice maps the ~2.8x seasonal
+    # wholesale swing onto the seasonally-flat retail series (ops YoY +52%).
+    # The blend machinery stays, config-gated; a year-ratio nowcast
+    # (retail(t-1y) x W(t)/W(t-1y)) is queued as its own spec.
     power = next(c for c in baskets["ops"] if c.code == "power")
     assert power.live_proxy is None
-    assert power.live_proxy_blend == ("caiso_sp15_da", "miso_indiana_da")
-    assert power.live_proxy_smooth_days == 7
+    assert power.live_proxy_blend is None
     labels = dc_basket.load_group_labels()
     assert {c.group for c in baskets["hardware"]} <= set(labels)
     w_labor, w_power = dc_basket.parity_shares(baskets)

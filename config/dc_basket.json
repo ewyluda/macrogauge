@@ -24,7 +24,7 @@
     {"code": "pumps",                  "label": "Industrial pumps",                "group": "mechanical", "series": "ppi_pumps",       "weight": 0.05}
   ],
   "ops": [
-    {"code": "power",       "label": "Industrial electricity",        "group": "power",       "series": "eia_elec_ind_us", "weight": 0.55, "live_proxy_blend": ["caiso_sp15_da", "miso_indiana_da"], "live_proxy_smooth_days": 7},
+    {"code": "power",       "label": "Industrial electricity",        "group": "power",       "series": "eia_elec_ind_us", "weight": 0.55},
     {"code": "ops_wages",   "label": "Facilities & ops wages",        "group": "ops_labor",   "series": "ces_dp_ahe",      "weight": 0.30},
     {"code": "maintenance", "label": "Machinery repair & maintenance","group": "maintenance", "series": "ppi_mach_repair", "weight": 0.15}
   ],
