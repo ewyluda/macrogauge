@@ -18,7 +18,7 @@
 - Nothing publishes from the new series this wave. `sources_status.json` rows appear automatically.
 - vast.ai thin-market rule: store an observation only when the median rests on ≥3 offers; otherwise skip (never error).
 - STEO series carry future-dated observations (forecast curve) BY DESIGN — never join a basket/panel; wave 4's vintage-slicing accessor is the only sanctioned reader.
-- Pins that move: sources 17→22 (`tests/test_run_daily.py` status-row count, `tests/test_registry.py` sources set), series 242→267. FRED count (73) untouched.
+- Pins that move: sources 17→22 (`tests/test_run_daily.py` status-row count, `tests/test_registry.py` sources set), series 242→265. FRED count (73) untouched.
 - Commit after every task; `.venv/bin/pytest` (system python is 3.9). Do NOT push (push = deploy; user approves).
 
 ---
@@ -623,7 +623,7 @@ git commit -m "feat(connectors): OPENROUTER inference prices ($/Mtok, fixed bask
 - Consumes: Tasks 2–5 connectors; spike-final strings for all source_ids.
 - Produces: 25 registry series across 5 new sources; collection fans out automatically.
 
-- [ ] **Step 1: Update the failing pins first.** `tests/test_registry.py`: sources set gains `"DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO"`; `len(series)` 242 → 267. `tests/test_run_daily.py`: status-row count 17 → 22.
+- [ ] **Step 1: Update the failing pins first.** `tests/test_registry.py`: sources set gains `"DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO"`; `len(series)` 242 → 265. `tests/test_run_daily.py`: status-row count 17 → 22.
 - [ ] **Step 2: Verify failure** — `.venv/bin/pytest tests/test_registry.py -q` → FAIL.
 - [ ] **Step 3: `config/series.json`.** Add to `"sources"` after `"CENSUS"`:
 
@@ -635,7 +635,7 @@ git commit -m "feat(connectors): OPENROUTER inference prices ($/Mtok, fixed bask
 "STEO": {"route": "API", "cadence": "monthly", "secret": "EIA_API_KEY"}
 ```
 
-Append 25 series after the census entries (source_ids are SPIKE-FINAL; the labels below are the candidates):
+Append 23 series (sfc_h200/sfc_b200 DROPPED: those markets show zero trades — spike + Task-4 review — and would sit 'never seen' stale forever; the connector supports them, add the series when they trade) after the census entries (source_ids are SPIKE-FINAL; the labels below are the candidates):
 
 ```json
 {"code": "dramex_nand_mlc64", "source": "DRAMEX", "source_id": "MLC 64Gb 8GBx8", "name": "NAND flash spot, session avg ($)", "max_staleness_days": 21},
@@ -647,8 +647,6 @@ Append 25 series after the census entries (source_ids are SPIKE-FINAL; the label
 {"code": "vast_a100_sxm", "source": "VASTAI", "source_id": "A100 SXM4", "name": "vast.ai A100 median ($/GPU-hr)", "max_staleness_days": 7},
 {"code": "vast_rtx4090", "source": "VASTAI", "source_id": "RTX 4090", "name": "vast.ai RTX 4090 median ($/GPU-hr)", "max_staleness_days": 7},
 {"code": "sfc_h100", "source": "SFCOMPUTE", "source_id": "H100", "name": "sfcompute H100 spot avg ($/GPU-hr)", "max_staleness_days": 7},
-{"code": "sfc_h200", "source": "SFCOMPUTE", "source_id": "H200", "name": "sfcompute H200 spot avg ($/GPU-hr)", "max_staleness_days": 7},
-{"code": "sfc_b200", "source": "SFCOMPUTE", "source_id": "B200", "name": "sfcompute B200 spot avg ($/GPU-hr)", "max_staleness_days": 7},
 {"code": "or_gpt4o_in", "source": "OPENROUTER", "source_id": "openai/gpt-4o:prompt", "name": "OpenRouter GPT-4o input ($/Mtok)", "max_staleness_days": 7},
 {"code": "or_gpt4o_out", "source": "OPENROUTER", "source_id": "openai/gpt-4o:completion", "name": "OpenRouter GPT-4o output ($/Mtok)", "max_staleness_days": 7},
 {"code": "or_claude_sonnet_in", "source": "OPENROUTER", "source_id": "anthropic/claude-3.5-sonnet:prompt", "name": "OpenRouter Claude Sonnet input ($/Mtok)", "max_staleness_days": 7},
@@ -804,7 +802,7 @@ git commit -m "feat(dc): dormant NAND spot proxy on storage + honest official+pr
 
 ### Task 8: Live collection run (CONTROLLER-EXECUTED)
 
-- [ ] Step 1: `set -a; source .env; set +a && .venv/bin/python -m pipeline.run_daily --store store --out site/public/data` — exit 0. All 5 new source rows in `sources_status.json` with `ok: true` and sensible `fetched` counts (DRAMEX 3, VASTAI ≤5, SFCOMPUTE ~90, OPENROUTER 12, STEO ~900). A failed new source here: inspect before committing (drift in the hours since the spike is possible — refresh the fixture/strings if so).
+- [ ] Step 1: `set -a; source .env; set +a && .venv/bin/python -m pipeline.run_daily --store store --out site/public/data` — exit 0. All 5 new source rows in `sources_status.json` with `ok: true` and sensible `fetched` counts (DRAMEX 3, VASTAI ≤5, SFCOMPUTE ~30 for H100 alone, OPENROUTER 12, STEO ~900). A failed new source here: inspect before committing (drift in the hours since the spike is possible — refresh the fixture/strings if so).
 - [ ] Step 2: Sanity: spot values within plausible ranges and consistent with the spike's numbers; `datacenter.json` hardware index BYTE-IDENTICAL in `index`/`yoy_pct` to the prior commit (dormant proxy changed nothing) and storage component `mode` still `"official"`; STEO store rows include future obs_dates.
 - [ ] Step 3: `git add store site/public/data && git commit -m "data: first collection — DRAM/GPU/inference spot + STEO vintages"`.
 
@@ -823,4 +821,4 @@ git commit -m "feat(dc): dormant NAND spot proxy on storage + honest official+pr
 - **Spec coverage:** §3.1–3.5 sources → Tasks 2–6; §4 dormant proxy + label → Task 7; §5 wiring/pins → Task 6; §6 tests → embedded; spike-first honesty rule → Task 1 + SPIKE-FINAL markers throughout; live verification → Task 8.
 - **Type consistency:** all four `fetch(source_ids, vintage_date=None, http_get=None)` signatures match their collect wrappers; `MIN_OFFERS`/`PLAUSIBLE` exports match test imports; `tail_active` replaces the identical `last > official_end` guard so gate semantics are untouched.
 - **Known seams:** the sfcompute `ROW_RE` escaping and the dramex `AVG_CELL` position are the two highest-drift-risk pins — both are explicitly spike-owned, and their tests run against the recorded fixture rather than synthetic HTML precisely so a wrong pin fails loudly in Task 2/4 rather than silently in production.
-- **Pin arithmetic:** 3+5+3+12+2 = 25 series; 242+25 = 267; 17+5 = 22 sources.
+- **Pin arithmetic:** 3+5+1+12+2 = 23 series; 242+23 = 265; 17+5 = 22 sources.

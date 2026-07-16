@@ -22,7 +22,7 @@ generically.
 ## 1. Scope
 
 **In scope:** 4 new connector modules (`dramex`, `vastai`, `sfcompute`, `openrouter`) + 1
-connector-free source key (`STEO` reusing `_eia`); ~25 registry series; the dormant DRAM
+connector-free source key (`STEO` reusing `_eia`); ~23 registry series; the dormant DRAM
 `live_proxy` config + a 3-line engine label fix; tests and pins.
 
 **Out of scope (later waves):** any index construction from the new series (3b), the inference
