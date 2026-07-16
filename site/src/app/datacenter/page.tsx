@@ -193,8 +193,14 @@ export default function Datacenter() {
         biweekly), Henry Hub gas, and PJM capacity-auction clearing prices — market visibility
         only. The DC Ops index deliberately stays on official retail data: wholesale swings
         ~3× seasonally while tariff-smoothed retail is seasonally flat, so a level-spliced
-        wholesale tail would fabricate seasonal inflation (we measured it, then pulled it). A
-        like-month year-ratio nowcast is the planned honest coupling.
+        wholesale tail would fabricate seasonal inflation (we measured it, then pulled it). We
+        then built the honest alternative — a like-month year-ratio nowcast, which cancels
+        seasonality by construction — and backtested it against 8 realized retail prints
+        before letting it touch the index: it lost to simple carry-forward at every
+        pass-through level tested (best MAE 8.5 vs 5.2 YoY pts), so the ops index stays on
+        official retail data and the machinery ships config-gated. Wholesale tells you about
+        the grid; it does not nowcast tariff-cycle retail rates, and we publish it as market
+        visibility only.
       </p>
     </div>
   );
