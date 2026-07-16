@@ -88,8 +88,12 @@ def fetch_dc(source_ids: list[str], vintage_date: str | None = None,
     is a SKIP, never an error: these books are speculative, absence is
     expected, and carry-forward + a render-when-present card absorb it.
     obs_date is the fetch date — standing questions, not monthly references.
-    A ladder (>=2 strike markets) yields its survival-curve expected value;
-    a single priced market is read as a binary probability."""
+    Dispatch is shape-based on whether any priced market carries
+    floor_strike: >=2 such markets is a ladder, yielding its survival-curve
+    expected value; a single floor_strike market is a degraded ladder book
+    (SKIP — its 0-1 price is not a resolvable count); zero floor_strike
+    markets means the priced market is a true binary, read as a
+    probability."""
     http_get = http_get or requests.get
     vintage = vintage_date or today_et()
     out = []
@@ -104,6 +108,15 @@ def fetch_dc(source_ids: list[str], vintage_date: str | None = None,
         if not markets:
             continue
         laddered = [m for m in markets if m.get("floor_strike") is not None]
+        if laddered and len(laddered) < 2:
+            # Degraded ladder book: a market that carries floor_strike is a
+            # ladder-style question, but one priced rung alone can't yield a
+            # survival-curve expected value — and reading its 0-1 price as a
+            # binary probability would publish a probability as a count
+            # (confirmed live for 3 weeks in June 2026; recurs at every
+            # annual event rollover as rungs get added/settled). Treat it
+            # like a thin book: skip, carry-forward absorbs it.
+            continue
         if len(laddered) >= 2:
             points = sorted((float(m["floor_strike"]),
                              min(float(m["last_price_dollars"]), 1.0))
@@ -113,6 +126,7 @@ def fetch_dc(source_ids: list[str], vintage_date: str | None = None,
                 raise ValueError(f"kalshi_dc {ticker}: expected {value} outside "
                                  f"{COUNT_PLAUSIBLE} — structure drift?")
         else:
+            # true binary: no priced market carries floor_strike at all
             value = round(min(float(markets[0]["last_price_dollars"]), 1.0), 4)
         out.append(Observation(series_code=ticker, obs_date=vintage,
                                value=value, vintage_date=vintage,

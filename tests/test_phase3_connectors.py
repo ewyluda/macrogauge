@@ -167,6 +167,17 @@ def test_kalshi_dc_binary_probability():
     assert rows[0].value == pytest.approx(0.61)
 
 
+def test_kalshi_dc_single_rung_ladder_is_skip_not_binary():
+    # A ladder-style book (market carries floor_strike) with exactly ONE
+    # priced rung must SKIP, not fall into the binary branch and publish a
+    # 0-1 probability as a count (confirmed live for 3 weeks in June 2026;
+    # recurs at every annual event rollover).
+    payload = {"markets": [{"floor_strike": 4800, "last_price_dollars": "0.85"}]}
+    rows = kalshi.fetch_dc(["KXUSADATACENTERS"], vintage_date="2026-07-16",
+                           http_get=lambda *a, **k: FakeResponse(payload))
+    assert rows == []
+
+
 def test_kalshi_dc_thin_book_is_skip_not_error():
     # unpriced/empty books are EXPECTED on speculative markets: skip, never
     # raise (contrast the CPI fetch, whose books are always live)

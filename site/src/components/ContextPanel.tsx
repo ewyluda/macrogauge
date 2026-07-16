@@ -31,7 +31,7 @@ export function ContextPanel({ context }: { context: ContextData }) {
                    context={`US retail weekly · as of ${diesel.asof}`} accent="amber" />
         )}
         {water && water.yoy_pct != null && (
-          <KpiCard label="Water & sewer CPI" value={fmtSigned(water.yoy_pct)}
+          <KpiCard label="Water, sewer & trash CPI" value={fmtSigned(water.yoy_pct)}
                    context={`cooling input · as of ${water.asof}`} accent="emerald" />
         )}
         {transformer && (
@@ -48,7 +48,7 @@ export function ContextPanel({ context }: { context: ContextData }) {
           )}
           {kalshi.nuclear_by_2030_prob != null && (
             <span className="badge badge-muted">
-              nuclear-powered DC by 2030: {(kalshi.nuclear_by_2030_prob * 100).toFixed(0)}% odds · Kalshi · {kalshi.nuclear_asof}
+              military-base nuclear DC by 2030: {(kalshi.nuclear_by_2030_prob * 100).toFixed(0)}% odds · Kalshi · {kalshi.nuclear_asof}
             </span>
           )}
         </div>

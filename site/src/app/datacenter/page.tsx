@@ -223,7 +223,7 @@ export default function Datacenter() {
         annual external calibration shown against our daily DC Build index — are hand-updated
         from their cited publications and each card carries its as-of date. Kalshi odds are
         market-implied probabilities from thin books, shown only when a live quote exists.
-        Diesel (genset fuel) and the water &amp; sewer services CPI ride the daily pipeline.
+        Diesel (genset fuel) and the water, sewer &amp; trash collection services CPI ride the daily pipeline.
       </p>
     </div>
   );
