@@ -142,3 +142,69 @@ def test_cleveland_implausible_value_raises_drift():
             "<td>2.60</td><td>2.80</td><td>07/10</td></tr></table>")
     with pytest.raises(ValueError, match="drift"):
         cleveland.fetch("2026-07-10", http_get=lambda *a, **k: TextResponse(html))
+
+
+def test_kalshi_dc_ladder_expected_count():
+    # hand-computed: strikes 1000/2000, probs 0.9/0.4 -> gaps [1000], tail 500
+    # values [500, 1500, 2500]; masses [0.1, 0.5, 0.4]
+    # E = 50 + 750 + 1000 = 1800.0
+    payload = {"markets": [
+        {"floor_strike": 1000, "last_price_dollars": "0.9"},
+        {"floor_strike": 2000, "last_price_dollars": "0.4"}]}
+    rows = kalshi.fetch_dc(["KXUSADATACENTERS"], vintage_date="2026-07-16",
+                           http_get=lambda *a, **k: FakeResponse(payload))
+    assert len(rows) == 1
+    assert rows[0].value == pytest.approx(1800.0)
+    assert rows[0].series_code == "KXUSADATACENTERS"
+    assert rows[0].obs_date == "2026-07-16"        # fetch date, standing question
+    assert (rows[0].source, rows[0].route) == ("KALSHI_DC", "API")
+
+
+def test_kalshi_dc_binary_probability():
+    payload = {"markets": [{"last_price_dollars": "0.61"}]}
+    rows = kalshi.fetch_dc(["KXDATACENTER"], vintage_date="2026-07-16",
+                           http_get=lambda *a, **k: FakeResponse(payload))
+    assert rows[0].value == pytest.approx(0.61)
+
+
+def test_kalshi_dc_thin_book_is_skip_not_error():
+    # unpriced/empty books are EXPECTED on speculative markets: skip, never
+    # raise (contrast the CPI fetch, whose books are always live)
+    empty = {"markets": []}
+    unpriced = {"markets": [{"floor_strike": 1000, "last_price_dollars": "0"}]}
+    for payload in (empty, unpriced):
+        rows = kalshi.fetch_dc(["KXUSADATACENTERS"], vintage_date="2026-07-16",
+                               http_get=lambda *a, **k: FakeResponse(payload))
+        assert rows == []
+
+
+def test_kalshi_dc_one_thin_ticker_does_not_drop_the_other():
+    def get(url, params=None, timeout=None):
+        if params["series_ticker"] == "KXUSADATACENTERS":
+            return FakeResponse({"markets": []})
+        return FakeResponse({"markets": [{"last_price_dollars": "0.61"}]})
+    rows = kalshi.fetch_dc(["KXUSADATACENTERS", "KXDATACENTER"],
+                           vintage_date="2026-07-16", http_get=get)
+    assert [r.series_code for r in rows] == ["KXDATACENTER"]
+
+
+def test_kalshi_dc_implausible_count_is_structure_drift():
+    payload = {"markets": [
+        {"floor_strike": 900000, "last_price_dollars": "0.9"},
+        {"floor_strike": 990000, "last_price_dollars": "0.4"}]}
+    with pytest.raises(ValueError, match="structure drift"):
+        kalshi.fetch_dc(["KXUSADATACENTERS"], vintage_date="2026-07-16",
+                        http_get=lambda *a, **k: FakeResponse(payload))
+
+
+def test_kalshi_dc_fixture_shapes_parse():
+    # the spike-trimmed live payloads must flow through the real code path
+    import json as _json
+    import pathlib
+    fixtures = pathlib.Path(__file__).parent / "fixtures"
+    for ticker, name in (("KXUSADATACENTERS", "kalshi_dc_count.json"),
+                         ("KXDATACENTER", "kalshi_dc_nuclear.json")):
+        payload = _json.loads((fixtures / name).read_text())
+        rows = kalshi.fetch_dc([ticker], vintage_date="2026-07-16",
+                               http_get=lambda *a, **k: FakeResponse(payload))
+        assert len(rows) <= 1   # priced -> one obs; thin fixture -> zero
