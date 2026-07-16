@@ -7,7 +7,7 @@ from pipeline.engine.dcindex import PUBLISH_START
 
 
 def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
-          construction: dict | None, power: dict | None) -> dict:
+          construction: dict | None, power: dict | None, context: dict | None) -> dict:
     out = {"rebase": f"{dc_result['base_month']}=100",
            "group_labels": dc_basket.load_group_labels(),
            "indexes": {}, "parity": parity_result}
@@ -28,8 +28,26 @@ def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
                  "last_obs": e["last_obs"],
                  "yoy_pct": None if e["yoy_pct"] is None else round(e["yoy_pct"], 2),
                  "contribution_pp": None if e["yoy_pct"] is None
-                     else round(e["weight"] * e["yoy_pct"], 2)}
+                     else round(e["weight"] * e["yoy_pct"], 2),
+                 "stale": e["stale"]}
                 for code, e in v["components"].items()]}
+        by_group: dict[str, dict] = {}
+        for code, e in v["components"].items():
+            g = by_group.setdefault(e["group"], {"group": e["group"], "weight": 0.0,
+                                                  "contribution_pp": 0.0,
+                                                  "_null": False})
+            g["weight"] += e["weight"]
+            if e["yoy_pct"] is None:
+                # a single unknowable member makes the group sum unknowable —
+                # never publish a silently-partial sum
+                g["_null"] = True
+            else:
+                g["contribution_pp"] += e["weight"] * e["yoy_pct"]
+        out["indexes"][name]["groups"] = [
+            {"group": g["group"], "weight": round(g["weight"], 4),
+             "contribution_pp": (None if g["_null"]
+                                 else round(g["contribution_pp"], 2))}
+            for g in by_group.values()]
     out["hardware_gap"] = [
         {"code": r["code"], "label": r["label"],
          "source_id": source_ids.get(r["series"], r["series"]),
@@ -53,6 +71,7 @@ def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
         "henry_hub": None if power["henry_hub"] is None else {
             **power["henry_hub"], "latest": round(power["henry_hub"]["latest"], 2)},
         "capacity_auction": power["capacity_auction"]}
+    out["context"] = context
     return out
 
 

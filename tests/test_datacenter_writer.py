@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from pipeline.publish import datacenter, validate
 
 SCHEMAS = Path(__file__).parent.parent / "schemas"
@@ -14,16 +16,18 @@ DC_RESULT = {
             "as_of": "2018-06-01", "gate_flags": [],
             "components": {
                 "steel": {"label": "Steel", "group": "materials", "weight": 0.6,
-                          "mode": "official", "yoy_pct": 5.0, "last_obs": "2018-06-01"},
+                          "mode": "official", "yoy_pct": 5.0, "last_obs": "2018-06-01",
+                          "stale": False},
                 "copper_wire": {"label": "Copper", "group": "materials", "weight": 0.4,
                                 "mode": "official+proxy", "yoy_pct": None,
-                                "last_obs": "2018-06-01"}}},
+                                "last_obs": "2018-06-01", "stale": False}}},
         "ops": {
             "index": {"2018-01-01": 100.0}, "yoy": {"2018-01-01": None},
             "as_of": "2018-01-01", "gate_flags": ["power@2018-01-01"],
             "components": {
                 "power": {"label": "Power", "group": "power", "weight": 1.0,
-                          "mode": "official", "yoy_pct": 3.0, "last_obs": "2018-01-01"}}},
+                          "mode": "official", "yoy_pct": 3.0, "last_obs": "2018-01-01",
+                          "stale": True}}},
         "hardware": {
             "index": {"2018-01-01": 100.0, "2018-06-01": 112.0},
             "yoy": {"2018-01-01": None, "2018-06-01": 12.0},
@@ -31,7 +35,7 @@ DC_RESULT = {
             "components": {
                 "storage": {"label": "Storage", "group": "storage", "weight": 1.0,
                             "mode": "official", "yoy_pct": 12.0,
-                            "last_obs": "2018-06-01"}}},
+                            "last_obs": "2018-06-01", "stale": False}}},
     },
     "hardware_gap": [
         {"code": "storage", "label": "Storage PPI", "series": "ppi_storage",
@@ -44,6 +48,18 @@ PARITY = {"mode": "ops_only", "w_labor": 0.3, "w_power": 0.55,
                       "power_asof": "2026-05-01", "wage_rel": None,
                       "build_mult": None, "wage_asof": None}]}
 SOURCE_IDS = {"ppi_storage": "PCU334112334112", "cpi_computers": "CUUR0000SEEE01"}
+CONTEXT = {
+    "colo": {"rate_kw_mo": 194.95, "yoy_pct": 6.5, "vacancy_pct": 1.4,
+             "under_construction_gw": 6.0, "asof": "H2 2025", "source": "CBRE"},
+    "queue": {"generation_gw": 1400, "storage_gw": 890, "asof": "2025", "source": "LBNL"},
+    "tnt": {"rows": [{"year": 2018, "escalation_pct": 4.0, "build_yoy_pct": 3.46}],
+            "asof": "2025", "source": "T&T DCCI"},
+    "transformer": None,
+    "kalshi": {"dc_count_expected": 1800.0, "count_asof": "2026-07-16",
+               "nuclear_by_2030_prob": 0.61, "nuclear_asof": "2026-07-16"},
+    "diesel": {"latest": 4.8, "asof": "2026-07-13", "unit": "$/gal"},
+    "water": {"yoy_pct": 4.1, "asof": "2018-06-01"},
+}
 CONSTRUCTION = {"as_of": "2026-05-01", "unit": "$M",
                 "latest_saar": 61000.04, "yoy_pct": 30.239, "yoy_asof": "2026-05-01",
                 "vs_2014_avg": 39.812,
@@ -69,7 +85,7 @@ POWER = {"tail": {"active": True, "smooth_days": 7,
 
 
 def test_build_publishes_from_2018_with_contributions():
-    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, CONSTRUCTION, POWER)
+    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, CONSTRUCTION, POWER, CONTEXT)
     b = payload["indexes"]["build"]
     assert b["dates"][0] == "2018-01-01"          # 2017 grid is internal only
     assert b["headline_yoy_pct"] == 4.0
@@ -98,10 +114,21 @@ def test_build_publishes_from_2018_with_contributions():
     assert p["henry_hub"]["latest"] == 2.83                  # rounded 2dp
     assert p["henry_hub"]["code"] == "eia_henry_hub"
     assert p["capacity_auction"] == POWER["capacity_auction"]
+    assert payload["context"] == CONTEXT                      # verbatim passthrough
+    comps = {c["code"]: c for c in payload["indexes"]["build"]["components"]}
+    assert comps["steel"]["stale"] is False
+    ops_comps = {c["code"]: c for c in payload["indexes"]["ops"]["components"]}
+    assert ops_comps["power"]["stale"] is True
+    groups = {g["group"]: g for g in payload["indexes"]["build"]["groups"]}
+    # steel 0.6 w / +5.0 yoy -> 3.0 pp; copper 0.4 w / None yoy -> group sum null
+    assert groups["materials"]["weight"] == pytest.approx(1.0)
+    assert groups["materials"]["contribution_pp"] is None
+    ops_groups = {g["group"]: g for g in payload["indexes"]["ops"]["groups"]}
+    assert ops_groups["power"]["contribution_pp"] == pytest.approx(3.0)  # 1.0 x 3.0
 
 
 def test_written_file_validates_against_schema(tmp_path):
-    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, CONSTRUCTION, POWER)
+    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, CONSTRUCTION, POWER, CONTEXT)
     path = datacenter.write(payload, tmp_path, published_at="2026-07-12T12:00:00Z")
     assert path.name == "datacenter.json"
     validate.validate_file(path, SCHEMAS / "datacenter.schema.json")
@@ -109,7 +136,7 @@ def test_written_file_validates_against_schema(tmp_path):
 
 
 def test_null_construction_validates(tmp_path):
-    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, None, None)
+    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, None, None, CONTEXT)
     assert payload["construction"] is None
     assert payload["power"] is None
     path = datacenter.write(payload, tmp_path, published_at="2026-07-15T12:00:00Z")
@@ -120,7 +147,7 @@ def test_power_null_henry_hub_validates(tmp_path):
     # a hub has data but Henry Hub does not yet (bootstrap): henry_hub must
     # publish as null, not be omitted or coerced to a placeholder object.
     power = {**POWER, "henry_hub": None}
-    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, CONSTRUCTION, power)
+    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, CONSTRUCTION, power, CONTEXT)
     assert payload["power"]["henry_hub"] is None
     path = datacenter.write(payload, tmp_path, published_at="2026-07-15T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "datacenter.schema.json")
@@ -134,7 +161,14 @@ def test_power_deferred_tail_validates(tmp_path):
     power = {**POWER, "tail": {"active": False, "smooth_days": None, "hubs": []},
              "capacity_auction": {**POWER["capacity_auction"],
                                   "multiple": None, "years_span": None}}
-    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, CONSTRUCTION, power)
+    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, CONSTRUCTION, power, CONTEXT)
     assert payload["power"]["tail"] == {"active": False, "smooth_days": None, "hubs": []}
     path = datacenter.write(payload, tmp_path, published_at="2026-07-15T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "datacenter.schema.json")
+
+
+def test_null_context_validates(tmp_path):
+    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, None, None, None)
+    assert payload["context"] is None
+    path = datacenter.write(payload, tmp_path, published_at="2026-07-16T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "datacenter.schema.json")
