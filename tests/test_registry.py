@@ -11,8 +11,9 @@ def test_load_real_registry():
     assert set(sources) == {"FRED", "BLS", "EIA", "FMP", "TREASURY", "ZILLOW", "PMMS",
                             "APTLIST", "USDA", "AAA", "MND", "MANHEIM",
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
-                            "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO"}
-    assert len(series) == 265
+                            "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
+                            "CAISO", "MISO", "ICE", "EIA_SPOT"}
+    assert len(series) == 269
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
@@ -87,6 +88,18 @@ def test_load_real_registry():
     assert sources["EIA_STATE"].secret == "EIA_API_KEY"
     assert sum(1 for s in series if s.source == "EIA_STATE") == 52
     assert sum(1 for s in series if s.source == "QCEW") == 52
+    # Power spike (wave 4): pin the exact source_ids — ice_ercot_north was
+    # dropped from scope (does not exist in the ICE workbook) and Henry Hub
+    # rides the v2 seriesid NG.RNGWHHD.D, not a v1 route.
+    power_ids = {s.code: s.source_id for s in series
+                if s.source in {"CAISO", "MISO", "ICE", "EIA_SPOT"}}
+    assert power_ids == {
+        "caiso_sp15_da": "TH_SP15_GEN-APND",
+        "miso_indiana_da": "INDIANA.HUB",
+        "ice_pjm_west": "PJM WH Real Time Peak",
+        "eia_henry_hub": "NG.RNGWHHD.D",
+    }
+    assert sources["EIA_SPOT"].secret == "EIA_API_KEY"
 
 
 MONTHLY_MID_MONTH_LAG = (

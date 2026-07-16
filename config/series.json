@@ -21,7 +21,11 @@
     "VASTAI": {"route": "API", "cadence": "daily"},
     "SFCOMPUTE": {"route": "SCRAPE", "cadence": "daily"},
     "OPENROUTER": {"route": "API", "cadence": "daily"},
-    "STEO": {"route": "API", "cadence": "monthly", "secret": "EIA_API_KEY"}
+    "STEO": {"route": "API", "cadence": "monthly", "secret": "EIA_API_KEY"},
+    "CAISO": {"route": "API", "cadence": "daily"},
+    "MISO": {"route": "CSV", "cadence": "daily"},
+    "ICE": {"route": "XLSX", "cadence": "biweekly"},
+    "EIA_SPOT": {"route": "API", "cadence": "daily", "secret": "EIA_API_KEY"}
   },
   "series": [
     {"code": "CPIAUCNS",        "source": "FRED",     "source_id": "CPIAUCNS",                     "name": "CPI-U all items (NSA)",              "max_staleness_days": 80},
@@ -288,6 +292,10 @@
     {"code": "qcew_wage23_wa", "source": "QCEW", "source_id": "53000", "name": "QCEW avg weekly wage, construction (WA)", "max_staleness_days": 400},
     {"code": "qcew_wage23_wv", "source": "QCEW", "source_id": "54000", "name": "QCEW avg weekly wage, construction (WV)", "max_staleness_days": 400},
     {"code": "qcew_wage23_wi", "source": "QCEW", "source_id": "55000", "name": "QCEW avg weekly wage, construction (WI)", "max_staleness_days": 400},
-    {"code": "qcew_wage23_wy", "source": "QCEW", "source_id": "56000", "name": "QCEW avg weekly wage, construction (WY)", "max_staleness_days": 400}
+    {"code": "qcew_wage23_wy", "source": "QCEW", "source_id": "56000", "name": "QCEW avg weekly wage, construction (WY)", "max_staleness_days": 400},
+    {"code": "caiso_sp15_da", "source": "CAISO", "source_id": "TH_SP15_GEN-APND", "name": "CAISO SP15 day-ahead LMP, daily avg ($/MWh)", "max_staleness_days": 7},
+    {"code": "miso_indiana_da", "source": "MISO", "source_id": "INDIANA.HUB", "name": "MISO Indiana Hub DA ex-post LMP, daily avg ($/MWh)", "max_staleness_days": 7},
+    {"code": "ice_pjm_west", "source": "ICE", "source_id": "PJM WH Real Time Peak", "name": "PJM Western Hub wtd avg ($/MWh, ICE via EIA)", "max_staleness_days": 21},
+    {"code": "eia_henry_hub", "source": "EIA_SPOT", "source_id": "NG.RNGWHHD.D", "name": "Henry Hub natural gas spot ($/MMBtu)", "max_staleness_days": 7}
   ]
 }

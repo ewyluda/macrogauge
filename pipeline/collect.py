@@ -9,9 +9,9 @@ from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
 
-from pipeline.connectors import (aaa, aptlist, bls, census, cleveland, dramex, eia, fmp, fred,
-                                 kalshi, manheim, mnd, openrouter, pmms, qcew, sfcompute,
-                                 treasury, usda, vastai, zillow)
+from pipeline.connectors import (aaa, aptlist, bls, caiso, census, cleveland, dramex, eia, fmp,
+                                 fred, ice, kalshi, manheim, miso, mnd, openrouter, pmms, qcew,
+                                 sfcompute, treasury, usda, vastai, zillow)
 from pipeline.registry import Series, Source
 from pipeline.store import vintage
 
@@ -117,6 +117,18 @@ def _openrouter(subset, key, http):
     return openrouter.fetch([s.source_id for s in subset], http_get=http)
 
 
+def _caiso(subset, key, http):
+    return caiso.fetch([s.source_id for s in subset], http_get=http)
+
+
+def _miso(subset, key, http):
+    return miso.fetch([s.source_id for s in subset], http_get=http)
+
+
+def _ice(subset, key, http):
+    return ice.fetch([s.source_id for s in subset], http_get=http)
+
+
 FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             "TREASURY": _treasury, "ZILLOW": _zillow, "PMMS": _pmms,
             "APTLIST": _aptlist, "USDA": _usda, "AAA": _aaa, "MND": _mnd,
@@ -129,7 +141,12 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             "OPENROUTER": _openrouter,
             # STEO is a separate source key only for failure isolation — the
             # fetch mechanics are plain EIA (v2 seriesid route), like EIA_STATE.
-            "STEO": _eia}
+            "STEO": _eia,
+            "CAISO": _caiso, "MISO": _miso, "ICE": _ice,
+            # EIA_SPOT is a separate source key only for failure isolation and
+            # its own status row — the fetch mechanics are plain EIA (v2
+            # seriesid route), same precedent as EIA_STATE/STEO above.
+            "EIA_SPOT": _eia}
 
 # BLS posts; everything else gets. collect_all passes the right client through.
 POST_SOURCES = {"BLS"}

@@ -1,11 +1,16 @@
+import csv
 import io
 import json
+import zipfile
+from datetime import datetime
 from pathlib import Path
 
 import jsonschema
+import openpyxl
 import pytest
 
 from pipeline import run_daily
+from pipeline.connectors.fred import today_et
 from pipeline.store import vintage
 from tests.test_fred import FakeResponse
 
@@ -55,6 +60,48 @@ class _BytesResponse:
         pass
 
 
+def _caiso_zip():
+    """24 hourly LMP rows tagged with today's ET date — the collect.py _caiso
+    wrapper passes no trade_date override, so the connector defaults its
+    target trade date to today_et(); OPR_DT must match that for the e2e's
+    fetch to find its rows (SPIKE-FINAL OPR_DT filter)."""
+    day = today_et()
+    buf = io.StringIO()
+    w = csv.writer(buf)
+    w.writerow(("OPR_DT", "LMP_TYPE", "MW"))
+    w.writerows((day, "LMP", 40.0) for _ in range(24))
+    zbuf = io.BytesIO()
+    with zipfile.ZipFile(zbuf, "w") as z:
+        z.writestr("prc_lmp.csv", buf.getvalue())
+    return zbuf.getvalue()
+
+
+_ICE_HEADER = ["Price hub", "Trade date", "Delivery start date", "Delivery \nend date",
+              "High price $/MWh", "Low price $/MWh", "Wtd avg price $/MWh", "Change",
+              "Daily volume MWh", "Number of trades", "Number of counterparties"]
+
+
+def _ice_xlsx():
+    """Two PJM WH Real Time Peak rows in the sheet keyed to the current year —
+    ice.fetch defaults `year` from vintage_date (today_et()) since the
+    collect.py _ice wrapper passes no year override."""
+    year = today_et()[:4]
+    d1, d2 = datetime(int(year), 1, 2), datetime(int(year), 1, 3)
+    rows = [
+        ["PJM WH Real Time Peak", d1, d1, d1, 75.0, 65.0, 70.11, 0.5, 12345, 42, 7],
+        ["PJM WH Real Time Peak", d2, d2, d2, 77.0, 67.0, 72.38, 0.5, 12345, 42, 7],
+    ]
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = year
+    ws.append(_ICE_HEADER)
+    for r in rows:
+        ws.append(r)
+    buf = io.BytesIO()
+    wb.save(buf)
+    return buf.getvalue()
+
+
 def fake_get(url, params=None, timeout=None, **kw):
     if "api.stlouisfed.org" in url:
         # test_fred.fake_get hard-asserts series_id == "CPIAUCNS" (written when
@@ -65,6 +112,12 @@ def fake_get(url, params=None, timeout=None, **kw):
         assert params["api_key"] == "test-key"
         assert params["file_type"] == "json"
         return FakeResponse(json.loads((FIXTURES / "fred_cpiaucns.json").read_text()))
+    if "oasis.caiso.com" in url:
+        return _BytesResponse(_caiso_zip())
+    if "docs.misoenergy.org" in url:
+        return _text(FIXTURES / "miso_da_expost.csv")
+    if "eia.gov/electricity/wholesale" in url:
+        return _BytesResponse(_ice_xlsx())
     if "api.eia.gov" in url:
         name = "eia_weekly.json" if url.endswith(".W") else "eia_monthly.json"
         return FakeResponse(json.loads((FIXTURES / name).read_text()))
@@ -187,7 +240,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "stress.json", "recession.json", "datacenter.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 22
+    assert len(status["sources"]) == 26
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
