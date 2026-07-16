@@ -81,11 +81,23 @@ def test_missing_hub_raises_drift():
                   http_get=_get(_xlsx()), year=2026)
 
 
-def test_missing_value_column_raises_drift():
-    header = ["Price hub", "Trade date", "High price $/MWh"]
-    rows = [[PJM, datetime(2026, 7, 7), 90.0]]
+@pytest.mark.parametrize("header,match", [
+    # Branch 1: Missing "Price hub" anchor row (cannot locate header by name in first 8 rows)
+    (["Trade date", "High price $/MWh", "Low price $/MWh", "Wtd avg price $/MWh"],
+     "structure drift"),
+    # Branch 2: Header present but "Trade date" column missing
+    (["Price hub", "High price $/MWh", "Low price $/MWh", "Wtd avg price $/MWh"],
+     "structure drift"),
+    # Branch 3: Header present but "Wtd avg price $/MWh" column missing
+    (["Price hub", "Trade date", "High price $/MWh", "Low price $/MWh"],
+     "structure drift"),
+])
+def test_header_drift_raises(header, match):
+    """Test all three header-shape drift branches via parametrize (census pattern)."""
+    rows = [[PJM, datetime(2026, 7, 7), 90.0, 80.0, 85.0, 70.0] if len(header) >= 6
+            else [PJM, datetime(2026, 7, 7), 90.0]]
     content = _xlsx(header=header, rows=rows)
-    with pytest.raises(ValueError, match="structure drift"):
+    with pytest.raises(ValueError, match=match):
         ice.fetch([PJM], vintage_date="2026-07-15", http_get=_get(content), year=2026)
 
 
