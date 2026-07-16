@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-15",
+  "generated_at": "2026-07-16",
   "passed": 18,
   "total": 20,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-06-01 is 44d old (limit 80)"
+      "detail": "latest official month 2026-06-01 is 45d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -55,19 +55,19 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": false,
-      "detail": "25/26 ok; failed \u2014 VASTAI: HTTPError: 429 Client Error: Too Many Requests for url: https://console.vast.ai/api/v0/bundles/?q=%7B%22gpu_name%22%3A%20%7B%22eq%22%3A%20%22B200%22%7D%2C%20%22rentable%22%3A%20%7B%22eq%22%3A%20true%7D%2C%20%22gpu_frac%22%3A%20%7B%22eq%22%3A%201%7D%2C%20%22type%22%3A%20%22on-demand%22%2C%20%22limit%22%3A%201000%7D"
+      "detail": "24/26 ok; failed \u2014 BLS: ReadTimeout: HTTPSConnectionPool(host='api.bls.gov', port=443): Read timed out. (read timeout=60); USDA: missing secret USDA_API_KEY"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "261/269 fresh; stale \u2014 qcew_wage23_ak (never seen), qcew_wage23_dc (never seen), qcew_wage23_la (never seen), qcew_wage23_ma (never seen), qcew_wage23_mo (never seen), qcew_wage23_ri (never seen), qcew_wage23_sd (never seen), qcew_wage23_vt (never seen)"
+      "detail": "259/269 fresh; stale \u2014 zori_us (76d > 75d), zhvi_us (76d > 75d), qcew_wage23_ak (never seen), qcew_wage23_dc (never seen), qcew_wage23_la (never seen), qcew_wage23_ma (never seen), qcew_wage23_mo (never seen), qcew_wage23_ri (never seen), qcew_wage23_sd (never seen), qcew_wage23_vt (never seen)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $3.873 vs EIA weekly $3.855 \u2014 relative divergence 0.5% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $3.887 vs EIA weekly $3.855 \u2014 relative divergence 0.8% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -85,19 +85,19 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-07-15"
+      "detail": "CPI nowcast as-of 2026-07-16"
     },
     {
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=-0.03 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=-0.04 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-15 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-16 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",

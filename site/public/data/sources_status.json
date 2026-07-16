@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-16T03:58:04Z",
+  "generated_at": "2026-07-16T14:38:55Z",
   "sources": [
     {
       "name": "AAA",
@@ -7,11 +7,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-16T03:57:22Z",
+      "finished_at": "2026-07-16T14:37:20Z",
       "series_count": 1,
-      "latest_obs": "2026-07-15"
+      "latest_obs": "2026-07-16"
     },
     {
       "name": "APTLIST",
@@ -21,7 +21,7 @@
       "fetched": 114,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T03:56:05Z",
+      "finished_at": "2026-07-16T14:37:20Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -29,11 +29,11 @@
       "name": "BLS",
       "route": "API",
       "cadence": "monthly",
-      "ok": true,
-      "fetched": 3071,
+      "ok": false,
+      "fetched": 0,
       "new_rows": 0,
-      "error": null,
-      "finished_at": "2026-07-16T03:55:59Z",
+      "error": "ReadTimeout: HTTPSConnectionPool(host='api.bls.gov', port=443): Read timed out. (read timeout=60)",
+      "finished_at": "2026-07-16T14:37:07Z",
       "series_count": 28,
       "latest_obs": "2026-06-01"
     },
@@ -43,11 +43,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-16T03:58:02Z",
+      "finished_at": "2026-07-16T14:38:52Z",
       "series_count": 1,
-      "latest_obs": "2026-07-15"
+      "latest_obs": "2026-07-16"
     },
     {
       "name": "CENSUS",
@@ -57,7 +57,7 @@
       "fetched": 298,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T03:57:56Z",
+      "finished_at": "2026-07-16T14:38:44Z",
       "series_count": 2,
       "latest_obs": "2026-05-01"
     },
@@ -69,7 +69,7 @@
       "fetched": 4,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T03:57:23Z",
+      "finished_at": "2026-07-16T14:37:23Z",
       "series_count": 4,
       "latest_obs": "2026-07-01"
     },
@@ -79,11 +79,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 3,
-      "new_rows": 0,
+      "new_rows": 3,
       "error": null,
-      "finished_at": "2026-07-16T03:57:58Z",
+      "finished_at": "2026-07-16T14:38:46Z",
       "series_count": 3,
-      "latest_obs": "2026-07-15"
+      "latest_obs": "2026-07-16"
     },
     {
       "name": "EIA",
@@ -93,7 +93,7 @@
       "fetched": 2716,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T03:56:01Z",
+      "finished_at": "2026-07-16T14:37:15Z",
       "series_count": 3,
       "latest_obs": "2026-07-13"
     },
@@ -105,7 +105,7 @@
       "fetched": 4999,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T03:58:04Z",
+      "finished_at": "2026-07-16T14:38:54Z",
       "series_count": 1,
       "latest_obs": "2026-07-13"
     },
@@ -117,7 +117,7 @@
       "fetched": 15808,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T03:57:52Z",
+      "finished_at": "2026-07-16T14:38:43Z",
       "series_count": 52,
       "latest_obs": "2026-04-01"
     },
@@ -127,21 +127,21 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 14,
-      "new_rows": 6,
+      "new_rows": 14,
       "error": null,
-      "finished_at": "2026-07-16T03:56:02Z",
+      "finished_at": "2026-07-16T14:37:15Z",
       "series_count": 14,
-      "latest_obs": "2026-07-15"
+      "latest_obs": "2026-07-16"
     },
     {
       "name": "FRED",
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 15928,
-      "new_rows": 0,
+      "fetched": 15931,
+      "new_rows": 9,
       "error": null,
-      "finished_at": "2026-07-16T03:55:58Z",
+      "finished_at": "2026-07-16T14:36:07Z",
       "series_count": 73,
       "latest_obs": "2026-07-15"
     },
@@ -153,7 +153,7 @@
       "fetched": 121,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T03:58:03Z",
+      "finished_at": "2026-07-16T14:38:53Z",
       "series_count": 1,
       "latest_obs": "2026-07-07"
     },
@@ -163,9 +163,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-16T03:57:24Z",
+      "finished_at": "2026-07-16T14:37:24Z",
       "series_count": 1,
       "latest_obs": "2026-07-11"
     },
@@ -177,7 +177,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T03:57:22Z",
+      "finished_at": "2026-07-16T14:37:23Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -187,11 +187,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-16T03:58:03Z",
+      "finished_at": "2026-07-16T14:38:53Z",
       "series_count": 1,
-      "latest_obs": "2026-07-14"
+      "latest_obs": "2026-07-15"
     },
     {
       "name": "MND",
@@ -199,11 +199,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-16T03:57:22Z",
+      "finished_at": "2026-07-16T14:37:20Z",
       "series_count": 1,
-      "latest_obs": "2026-07-15"
+      "latest_obs": "2026-07-16"
     },
     {
       "name": "OPENROUTER",
@@ -211,11 +211,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 12,
-      "new_rows": 0,
+      "new_rows": 12,
       "error": null,
-      "finished_at": "2026-07-16T03:57:59Z",
+      "finished_at": "2026-07-16T14:38:49Z",
       "series_count": 12,
-      "latest_obs": "2026-07-15"
+      "latest_obs": "2026-07-16"
     },
     {
       "name": "PMMS",
@@ -225,7 +225,7 @@
       "fetched": 497,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T03:56:05Z",
+      "finished_at": "2026-07-16T14:37:19Z",
       "series_count": 1,
       "latest_obs": "2026-07-09"
     },
@@ -237,7 +237,7 @@
       "fetched": 44,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T03:57:55Z",
+      "finished_at": "2026-07-16T14:38:43Z",
       "series_count": 52,
       "latest_obs": "2025-10-01"
     },
@@ -249,7 +249,7 @@
       "fetched": 31,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T03:57:59Z",
+      "finished_at": "2026-07-16T14:38:48Z",
       "series_count": 1,
       "latest_obs": "2026-07-16"
     },
@@ -261,7 +261,7 @@
       "fetched": 672,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T03:58:00Z",
+      "finished_at": "2026-07-16T14:38:51Z",
       "series_count": 2,
       "latest_obs": "2027-12-01"
     },
@@ -273,7 +273,7 @@
       "fetched": 2392,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T03:56:03Z",
+      "finished_at": "2026-07-16T14:37:16Z",
       "series_count": 1,
       "latest_obs": "2026-07-14"
     },
@@ -281,11 +281,11 @@
       "name": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "ok": true,
-      "fetched": 2158,
+      "ok": false,
+      "fetched": 0,
       "new_rows": 0,
-      "error": null,
-      "finished_at": "2026-07-16T03:57:22Z",
+      "error": "missing secret USDA_API_KEY",
+      "finished_at": "2026-07-16T14:37:20Z",
       "series_count": 5,
       "latest_obs": "2026-07-10"
     },
@@ -293,13 +293,13 @@
       "name": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "ok": false,
-      "fetched": 0,
-      "new_rows": 0,
-      "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://console.vast.ai/api/v0/bundles/?q=%7B%22gpu_name%22%3A%20%7B%22eq%22%3A%20%22B200%22%7D%2C%20%22rentable%22%3A%20%7B%22eq%22%3A%20true%7D%2C%20%22gpu_frac%22%3A%20%7B%22eq%22%3A%201%7D%2C%20%22type%22%3A%20%22on-demand%22%2C%20%22limit%22%3A%201000%7D",
-      "finished_at": "2026-07-16T03:57:59Z",
+      "ok": true,
+      "fetched": 5,
+      "new_rows": 5,
+      "error": null,
+      "finished_at": "2026-07-16T14:38:48Z",
       "series_count": 5,
-      "latest_obs": "2026-07-15"
+      "latest_obs": "2026-07-16"
     },
     {
       "name": "ZILLOW",
@@ -309,7 +309,7 @@
       "fetched": 226,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T03:56:04Z",
+      "finished_at": "2026-07-16T14:37:19Z",
       "series_count": 2,
       "latest_obs": "2026-05-01"
     }

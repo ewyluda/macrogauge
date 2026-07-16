@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-16T03:58:04Z",
+  "published_at": "2026-07-16T14:38:55Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -15,8 +15,8 @@
   },
   "indexes": {
     "build": {
-      "as_of": "2026-07-15",
-      "headline_yoy_pct": 6.55,
+      "as_of": "2026-07-16",
+      "headline_yoy_pct": 6.52,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -3136,7 +3136,8 @@
         "2026-07-12",
         "2026-07-13",
         "2026-07-14",
-        "2026-07-15"
+        "2026-07-15",
+        "2026-07-16"
       ],
       "index": [
         100.0,
@@ -6256,7 +6257,8 @@
         165.64,
         165.71,
         165.94,
-        165.93
+        165.93,
+        165.88
       ],
       "yoy_pct": [
         3.05,
@@ -9376,7 +9378,8 @@
         6.37,
         6.41,
         6.56,
-        6.55
+        6.55,
+        6.52
       ],
       "components": [
         {
@@ -9435,9 +9438,9 @@
           "group": "materials",
           "weight": 0.055,
           "mode": "official+proxy",
-          "last_obs": "2026-07-15",
-          "yoy_pct": 14.0,
-          "contribution_pp": 0.77
+          "last_obs": "2026-07-16",
+          "yoy_pct": 13.18,
+          "contribution_pp": 0.72
         },
         {
           "code": "alum_shapes",
@@ -9445,9 +9448,9 @@
           "group": "materials",
           "weight": 0.03,
           "mode": "official+proxy",
-          "last_obs": "2026-07-15",
-          "yoy_pct": 27.96,
-          "contribution_pp": 0.84
+          "last_obs": "2026-07-16",
+          "yoy_pct": 28.58,
+          "contribution_pp": 0.86
         },
         {
           "code": "switchgear",
@@ -29089,15 +29092,15 @@
       {
         "code": "caiso_sp15_da",
         "label": "CAISO SP15 (day-ahead)",
-        "latest": 44.39,
-        "asof": "2026-07-15",
+        "latest": 41.38,
+        "asof": "2026-07-16",
         "unit": "$/MWh"
       },
       {
         "code": "miso_indiana_da",
         "label": "MISO Indiana Hub (day-ahead)",
-        "latest": 140.89,
-        "asof": "2026-07-14",
+        "latest": 197.94,
+        "asof": "2026-07-15",
         "unit": "$/MWh"
       },
       {
