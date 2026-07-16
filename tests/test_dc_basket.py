@@ -16,6 +16,12 @@ def test_load_real_baskets():
     # hardware v1 carried no proxies; wave 3a ships the dormant DRAM tail
     hw_proxied = {c.code: c.live_proxy for c in baskets["hardware"] if c.live_proxy}
     assert hw_proxied == {"storage": "dramex_nand_mlc64"}
+    # wave 4: ops power carries a blended, smoothed wholesale-hub tail instead
+    # of a single live_proxy
+    power = next(c for c in baskets["ops"] if c.code == "power")
+    assert power.live_proxy is None
+    assert power.live_proxy_blend == ("caiso_sp15_da", "miso_indiana_da")
+    assert power.live_proxy_smooth_days == 7
     labels = dc_basket.load_group_labels()
     assert {c.group for c in baskets["hardware"]} <= set(labels)
     w_labor, w_power = dc_basket.parity_shares(baskets)
@@ -71,6 +77,42 @@ def test_duplicate_component_code_rejected(tmp_path):
                 {"code": "a", "label": "A2", "group": "labor", "series": "s_b", "weight": 0.5}],
                OK_OPS)
     with pytest.raises(ValueError, match="duplicate"):
+        dc_basket.load_baskets(p, registry_codes={"s_a", "s_b", "s_p", "s_h"})
+
+
+def test_live_proxy_and_blend_mutually_exclusive_rejected(tmp_path):
+    p = _write(tmp_path,
+               [{"code": "a", "label": "A", "group": "labor", "series": "s_a",
+                 "weight": 1.0, "live_proxy": "s_b", "live_proxy_blend": ["s_c"]}],
+               OK_OPS)
+    with pytest.raises(ValueError, match="mutually exclusive"):
+        dc_basket.load_baskets(p, registry_codes={"s_a", "s_b", "s_c", "s_p", "s_h"})
+
+
+def test_smooth_days_without_blend_rejected(tmp_path):
+    p = _write(tmp_path,
+               [{"code": "a", "label": "A", "group": "labor", "series": "s_a",
+                 "weight": 1.0, "live_proxy_smooth_days": 7}],
+               OK_OPS)
+    with pytest.raises(ValueError, match="live_proxy_smooth_days"):
+        dc_basket.load_baskets(p, registry_codes={"s_a", "s_p", "s_h"})
+
+
+def test_empty_blend_list_rejected(tmp_path):
+    p = _write(tmp_path,
+               [{"code": "a", "label": "A", "group": "labor", "series": "s_a",
+                 "weight": 1.0, "live_proxy_blend": []}],
+               OK_OPS)
+    with pytest.raises(ValueError, match="non-empty"):
+        dc_basket.load_baskets(p, registry_codes={"s_a", "s_p", "s_h"})
+
+
+def test_unknown_blend_code_rejected(tmp_path):
+    p = _write(tmp_path,
+               [{"code": "a", "label": "A", "group": "labor", "series": "s_a",
+                 "weight": 1.0, "live_proxy_blend": ["s_b", "nope"]}],
+               OK_OPS)
+    with pytest.raises(ValueError, match="unknown series code"):
         dc_basket.load_baskets(p, registry_codes={"s_a", "s_b", "s_p", "s_h"})
 
 

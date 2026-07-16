@@ -156,6 +156,85 @@ def test_dormant_proxy_labels_official_and_changes_nothing(tmp_path):
     assert max(b["index"]) == "2018-01-01"      # no tail beyond the print
 
 
+BLEND_OPS = [
+    {"code": "power", "label": "Power", "group": "power", "series": "eia_elec_ind_us",
+     "weight": 1.0, "live_proxy_blend": ["caiso_sp15_da", "miso_indiana_da"],
+     "live_proxy_smooth_days": 2},
+]
+BUILD_ROWS = [
+    ("ppi_steel", "2017-01-01", 100.0), ("ppi_steel", "2018-01-01", 110.0),
+    ("ppi_concrete", "2017-01-01", 200.0), ("ppi_concrete", "2018-01-01", 210.0),
+]
+
+
+def test_blend_proxy_worked_example_and_smoothed_tail(tmp_path):
+    # two hub series + monthly official: caiso has a point AT the official's
+    # last print (anchors the splice) plus a tail; miso is missing the
+    # middle day (exercises hub_mean's "one hub missing a day carries") and
+    # has no point at the print itself (exercises trailing_mean's gap-shrink
+    # at the first tail date).
+    rows = BUILD_ROWS + [
+        ("eia_elec_ind_us", "2017-01-01", 10.0), ("eia_elec_ind_us", "2018-01-01", 10.5),
+        ("caiso_sp15_da", "2018-01-01", 50.0), ("caiso_sp15_da", "2018-01-02", 52.0),
+        ("caiso_sp15_da", "2018-01-03", 54.0),
+        ("miso_indiana_da", "2018-01-01", 50.0), ("miso_indiana_da", "2018-01-03", 56.0),
+    ]
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, BLEND_OPS)
+    conn = make_conn(tmp_path, rows)
+    result = dcindex.run(conn, today="2018-01-15", basket_path=basket)
+    ops = result["indexes"]["ops"]
+    assert ops["components"]["power"]["mode"] == "official+proxy"
+    # hub_mean: 01-01 -> 50, 01-02 -> 52 (caiso only), 01-03 -> 55
+    # trailing_mean(days=2): 01-01 -> 50, 01-02 -> 51, 01-03 -> 53.5
+    # rebase (base month 2018-01, all 3 pts) anchor = 154.5/3 = 51.5
+    # splice_anchored scale at 01-01 (100/97.0873...) = 1.03
+    assert ops["index"]["2018-01-01"] == pytest.approx(100.0)  # official, unspliced
+    assert ops["index"]["2018-01-02"] == pytest.approx(102.0)  # smoothed tail
+    assert ops["index"]["2018-01-03"] == pytest.approx(107.0)
+    assert ops["gate_flags"] == []
+
+
+def test_blend_gate_triggers_on_any_blend_series_arrival(tmp_path):
+    # only miso is tagged as arriving today; caiso is not. The gate's
+    # arrived-today check must be ANY across the blend, not just the first
+    # configured series, so the >5% jump still gets held one day.
+    rows = BUILD_ROWS + [
+        ("eia_elec_ind_us", "2017-01-01", 100.0), ("eia_elec_ind_us", "2018-01-01", 100.0),
+        ("caiso_sp15_da", "2018-01-01", 50.0), ("caiso_sp15_da", "2018-01-05", 55.0),
+        ("miso_indiana_da", "2018-01-01", 50.0), ("miso_indiana_da", "2018-01-05", 55.0),
+    ]
+    gate_ops = [
+        {"code": "power", "label": "Power", "group": "power", "series": "eia_elec_ind_us",
+         "weight": 1.0, "live_proxy_blend": ["caiso_sp15_da", "miso_indiana_da"],
+         "live_proxy_smooth_days": 1},
+    ]
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, gate_ops)
+    conn = make_conn(tmp_path, rows,
+                     vintages={("miso_indiana_da", "2018-01-05"): "2018-01-05"})
+    result = dcindex.run(conn, today="2018-01-05", basket_path=basket)
+    ops = result["indexes"]["ops"]
+    assert ops["components"]["power"]["mode"] == "official+proxy"
+    assert ops["index"]["2018-01-05"] == pytest.approx(100.0)  # held at prior value
+    assert ops["gate_flags"] == ["power@2018-01-05"]
+
+
+def test_dormant_blend_labels_official_and_changes_nothing(tmp_path):
+    # all blend obs post-date the last official print with NO overlap at or
+    # before it: splice_anchored has nothing to scale on -> official only.
+    rows = BUILD_ROWS + [
+        ("eia_elec_ind_us", "2017-01-01", 100.0), ("eia_elec_ind_us", "2018-01-01", 100.0),
+        ("caiso_sp15_da", "2018-01-10", 50.0), ("caiso_sp15_da", "2018-01-11", 55.0),
+        ("miso_indiana_da", "2018-01-10", 52.0), ("miso_indiana_da", "2018-01-12", 56.0),
+    ]
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, BLEND_OPS)
+    conn = make_conn(tmp_path, rows)
+    result = dcindex.run(conn, today="2018-01-15", basket_path=basket)
+    ops = result["indexes"]["ops"]
+    assert ops["components"]["power"]["mode"] == "official"
+    assert ops["gate_flags"] == []
+    assert max(ops["index"]) == "2018-01-01"  # no tail beyond the print
+
+
 def test_component_with_no_grid_observations_raises_named_error(tmp_path):
     # every steel obs predates GRID_START: the daily grid only carries the
     # stale value forward, so there is no obs ON the grid to compute YoY at —

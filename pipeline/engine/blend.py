@@ -1,4 +1,5 @@
 """Engine stage 2: blend live sources; splice live data onto official history."""
+from datetime import date, timedelta
 
 
 def blend(sources: dict[str, dict[str, float]],
@@ -53,7 +54,6 @@ def shift_days(series: dict[str, float], days: int) -> dict[str, float]:
     observation dates are never rewritten."""
     if not days:
         return dict(series)
-    from datetime import date, timedelta
     return {(date.fromisoformat(d) + timedelta(days=days)).isoformat(): v
             for d, v in series.items()}
 
@@ -94,4 +94,29 @@ def splice_anchored(official: dict[str, float], live: dict[str, float]) -> dict[
     scale = official[t0] / live[max(overlap)]
     out = dict(official)
     out.update({d: v * scale for d, v in live.items() if d > t0})
+    return out
+
+
+def hub_mean(series_list: list[dict[str, float]]) -> dict[str, float]:
+    """Per-date equal-weight mean over the series that HAVE that date — one
+    hub missing a day must not drop the day (same-concept sources; mirrors
+    blend()'s renormalize-on-missing semantics)."""
+    dates = set().union(*(set(s) for s in series_list)) if series_list else set()
+    return {d: sum(s[d] for s in series_list if d in s)
+               / sum(1 for s in series_list if d in s)
+            for d in sorted(dates)}
+
+
+def trailing_mean(series: dict[str, float], days: int) -> dict[str, float]:
+    """Calendar-window trailing mean at each obs date: mean of the values at
+    obs dates within [d-days+1, d] that exist. Gaps shrink the sample —
+    never fabricate. days<=1 is the identity."""
+    if days <= 1:
+        return dict(series)
+    dates = sorted(series)
+    out = {}
+    for d in dates:
+        lo = (date.fromisoformat(d) - timedelta(days=days - 1)).isoformat()
+        window = [series[x] for x in dates if lo <= x <= d]
+        out[d] = sum(window) / len(window)
     return out

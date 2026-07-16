@@ -45,7 +45,13 @@ def run(conn: sqlite3.Connection, today: str,
         for comp in comps:
             official = _series(conn, comp.series)
             idx = rebase.rebase(official, base_month)
-            live = _series(conn, comp.live_proxy) if comp.live_proxy else {}
+            if comp.live_proxy_blend:
+                live = blend_mod.trailing_mean(
+                    blend_mod.hub_mean(
+                        [_series(conn, c) for c in comp.live_proxy_blend]),
+                    comp.live_proxy_smooth_days or 1)
+            else:
+                live = _series(conn, comp.live_proxy) if comp.live_proxy else {}
             tail_active = False
             if live:
                 live_idx = rebase.rebase(live, base_month)
@@ -59,8 +65,10 @@ def run(conn: sqlite3.Connection, today: str,
                 # otherwise a proxy vintage correction dated at the print
                 # could hold a legitimate official month-over-month move.
                 if tail_active:
+                    proxies = comp.live_proxy_blend or (comp.live_proxy,)
                     idx, flagged = gate.apply_gate(
-                        idx, _arrived_today(conn, comp.live_proxy, last, today))
+                        idx, any(_arrived_today(conn, c, last, today)
+                                 for c in proxies))
                     if flagged:
                         flags.append(f"{comp.code}@{last}")
             built[comp.code] = idx

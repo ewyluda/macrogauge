@@ -124,6 +124,53 @@ def test_splice_anchored_reanchors_on_new_print():
     assert "2017-02-10" not in out  # official backbone covers that span now
 
 
+def test_hub_mean_two_present_mean():
+    a = {"2018-01-01": 10.0, "2018-01-02": 20.0}
+    b = {"2018-01-01": 20.0, "2018-01-02": 30.0}
+    out = blend.hub_mean([a, b])
+    assert out == {"2018-01-01": 15.0, "2018-01-02": 25.0}
+
+
+def test_hub_mean_one_missing_carries():
+    # one hub missing a day must not drop the day — the mean is over
+    # whichever hubs actually have that date, not a forward-fill
+    a = {"2018-01-01": 10.0, "2018-01-02": 20.0}
+    b = {"2018-01-01": 10.0}
+    out = blend.hub_mean([a, b])
+    assert out == {"2018-01-01": 10.0, "2018-01-02": 20.0}
+
+
+def test_hub_mean_disjoint_dates_union():
+    a = {"2018-01-01": 10.0}
+    b = {"2018-01-02": 20.0}
+    out = blend.hub_mean([a, b])
+    assert out == {"2018-01-01": 10.0, "2018-01-02": 20.0}
+
+
+def test_hub_mean_empty_list_is_empty_dict():
+    assert blend.hub_mean([]) == {}
+
+
+def test_trailing_mean_worked_example():
+    s = {"2018-01-01": 10.0, "2018-01-02": 20.0, "2018-01-03": 30.0}
+    out = blend.trailing_mean(s, days=2)
+    assert out == {"2018-01-01": 10.0, "2018-01-02": 15.0, "2018-01-03": 25.0}
+
+
+def test_trailing_mean_gap_shrinks_the_window():
+    # missing middle day: the days=3 window at d3 would normally average 3
+    # values, but only 2 exist -> shrink, never fabricate the gap
+    s = {"2018-01-01": 10.0, "2018-01-03": 30.0}
+    out = blend.trailing_mean(s, days=3)
+    assert out["2018-01-01"] == pytest.approx(10.0)
+    assert out["2018-01-03"] == pytest.approx(20.0)
+
+
+def test_trailing_mean_days_one_is_identity():
+    s = {"2018-01-01": 10.0, "2018-01-02": 20.0}
+    assert blend.trailing_mean(s, days=1) == s
+
+
 def test_splice_anchored_edges():
     official = {"2017-01-01": 100.0}
     assert blend.splice_anchored(official, {}) == official
