@@ -1,0 +1,27 @@
+{
+  "colo": {
+    "rate_kw_mo": 194.95,
+    "yoy_pct": 6.5,
+    "vacancy_pct": 1.4,
+    "under_construction_gw": 5.99,
+    "asof": "H2 2025",
+    "source": "CBRE North America Data Center Trends H2 2025 (cbre.com)"
+  },
+  "queue": {
+    "generation_gw": 1400,
+    "storage_gw": 890,
+    "asof": "2025 Edition (data as of end of 2024)",
+    "source": "LBNL Queued Up: 2025 Edition, Dec 2025 (emp.lbl.gov)"
+  },
+  "tnt": {
+    "rows": [
+      {"year": 2022, "escalation_pct": 15.0},
+      {"year": 2023, "escalation_pct": 6.0},
+      {"year": 2024, "escalation_pct": 9.0},
+      {"year": 2025, "escalation_pct": 5.5}
+    ],
+    "asof": "2025-2026 edition",
+    "source": "Turner & Townsend Data Centre Construction Cost Index 2025-2026 (turnerandtownsend.com)"
+  },
+  "transformer": null
+}
