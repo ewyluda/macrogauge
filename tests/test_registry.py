@@ -12,14 +12,14 @@ def test_load_real_registry():
                             "APTLIST", "USDA", "AAA", "MND", "MANHEIM",
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
-                            "CAISO", "MISO", "ICE", "EIA_SPOT"}
-    assert len(series) == 269
+                            "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC"}
+    assert len(series) == 273
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 73
+    assert len(fred) == 74
     # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
     # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
     # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
@@ -83,6 +83,7 @@ def test_load_real_registry():
             "ppi_ic_packages": "WPU117839",
             "ppi_wafers": "PCU334413334413A",
             "cpi_computers": "CUUR0000SEEE01",
+            "cpi_water": "CUSR0000SEHG01",
         }
     assert sources["QCEW"].secret is None and sources["QCEW"].route == "CSV"
     assert sources["EIA_STATE"].secret == "EIA_API_KEY"
@@ -100,6 +101,18 @@ def test_load_real_registry():
         "eia_henry_hub": "NG.RNGWHHD.D",
     }
     assert sources["EIA_SPOT"].secret == "EIA_API_KEY"
+    # DC context spike (wave 5): pin the exact source_ids — diesel seriesid is
+    # SPIKE-FINAL verbatim (PET.EMD_EPD2D_PTE_NUS_DPG.W, confirmed live,
+    # 2026-07-16); KALSHI_DC is keyless like KALSHI, a separate isolation key
+    # only so thin speculative DC books never fail the core KALSHI (CPI) row.
+    dc_ids = {s.code: s.source_id for s in series
+             if s.source in {"KALSHI_DC"} or s.code == "eia_diesel"}
+    assert dc_ids == {
+        "eia_diesel": "PET.EMD_EPD2D_PTE_NUS_DPG.W",
+        "kalshi_dc_count": "KXUSADATACENTERS",
+        "kalshi_dc_nuclear": "KXDATACENTER",
+    }
+    assert sources["KALSHI_DC"].secret is None
 
 
 MONTHLY_MID_MONTH_LAG = (

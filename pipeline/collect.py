@@ -97,6 +97,10 @@ def _kalshi(subset, key, http):
     return kalshi.fetch(subset[0].source_id, http_get=http)
 
 
+def _kalshi_dc(subset, key, http):
+    return kalshi.fetch_dc([s.source_id for s in subset], http_get=http)
+
+
 def _qcew(subset, key, http):
     return qcew.fetch([s.source_id for s in subset], http_get=http)
 
@@ -146,7 +150,11 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             # EIA_SPOT is a separate source key only for failure isolation and
             # its own status row — the fetch mechanics are plain EIA (v2
             # seriesid route), same precedent as EIA_STATE/STEO above.
-            "EIA_SPOT": _eia}
+            "EIA_SPOT": _eia,
+            # KALSHI_DC is a separate source key only for failure isolation —
+            # thin speculative DC books must never fail the core KALSHI (CPI)
+            # row; fetch_dc's skip semantics differ from fetch()'s by design.
+            "KALSHI_DC": _kalshi_dc}
 
 # BLS posts; everything else gets. collect_all passes the right client through.
 POST_SOURCES = {"BLS"}

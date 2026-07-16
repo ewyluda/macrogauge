@@ -119,6 +119,11 @@ def fake_get(url, params=None, timeout=None, **kw):
     if "eia.gov/electricity/wholesale" in url:
         return _BytesResponse(_ice_xlsx())
     if "api.eia.gov" in url:
+        if url.endswith("PET.EMD_EPD2D_PTE_NUS_DPG.W"):
+            return FakeResponse({"response": {"total": 3, "data": [
+                {"period": "2026-07-13", "value": 4.796},
+                {"period": "2026-07-06", "value": 4.578},
+                {"period": "2026-06-29", "value": 4.668}]}})
         name = "eia_weekly.json" if url.endswith(".W") else "eia_monthly.json"
         return FakeResponse(json.loads((FIXTURES / name).read_text()))
     if "financialmodelingprep.com" in url:
@@ -138,6 +143,13 @@ def fake_get(url, params=None, timeout=None, **kw):
             "<tr><td>July 2026</td><td>3.71</td><td>2.81</td>"
             "<td>3.84</td><td>3.47</td><td>07/10</td></tr>")
     if "external-api.kalshi.com" in url:
+        ticker = (params or {}).get("series_ticker", "")
+        if ticker == "KXUSADATACENTERS":
+            return FakeResponse({"markets": [
+                {"floor_strike": 1000, "last_price_dollars": "0.9"},
+                {"floor_strike": 2000, "last_price_dollars": "0.4"}]})
+        if ticker == "KXDATACENTER":
+            return FakeResponse({"markets": [{"last_price_dollars": "0.61"}]})
         return FakeResponse({"markets": [{"floor_strike": 0.2,
                                            "last_price_dollars": "1.0",
                                            "event_ticker": "KXCPI-26JUL",
@@ -240,8 +252,10 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "stress.json", "recession.json", "datacenter.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 26
+    assert len(status["sources"]) == 27
     assert all(s["ok"] for s in status["sources"])
+    kalshi_dc_row = [s for s in status["sources"] if s["name"] == "KALSHI_DC"][0]
+    assert kalshi_dc_row["ok"] is True
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok

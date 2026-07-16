@@ -25,7 +25,8 @@
     "CAISO": {"route": "API", "cadence": "daily"},
     "MISO": {"route": "CSV", "cadence": "daily"},
     "ICE": {"route": "XLSX", "cadence": "biweekly"},
-    "EIA_SPOT": {"route": "API", "cadence": "daily", "secret": "EIA_API_KEY"}
+    "EIA_SPOT": {"route": "API", "cadence": "daily", "secret": "EIA_API_KEY"},
+    "KALSHI_DC": {"route": "API", "cadence": "daily"}
   },
   "series": [
     {"code": "CPIAUCNS",        "source": "FRED",     "source_id": "CPIAUCNS",                     "name": "CPI-U all items (NSA)",              "max_staleness_days": 80},
@@ -296,6 +297,10 @@
     {"code": "caiso_sp15_da", "source": "CAISO", "source_id": "TH_SP15_GEN-APND", "name": "CAISO SP15 day-ahead LMP, daily avg ($/MWh)", "max_staleness_days": 7},
     {"code": "miso_indiana_da", "source": "MISO", "source_id": "INDIANA.HUB", "name": "MISO Indiana Hub DA ex-post LMP, daily avg ($/MWh)", "max_staleness_days": 7},
     {"code": "ice_pjm_west", "source": "ICE", "source_id": "PJM WH Real Time Peak", "name": "PJM Western Hub wtd avg ($/MWh, ICE via EIA)", "max_staleness_days": 21},
-    {"code": "eia_henry_hub", "source": "EIA_SPOT", "source_id": "NG.RNGWHHD.D", "name": "Henry Hub natural gas spot ($/MMBtu)", "max_staleness_days": 7}
+    {"code": "eia_henry_hub", "source": "EIA_SPOT", "source_id": "NG.RNGWHHD.D", "name": "Henry Hub natural gas spot ($/MMBtu)", "max_staleness_days": 7},
+    {"code": "eia_diesel", "source": "EIA", "source_id": "PET.EMD_EPD2D_PTE_NUS_DPG.W", "name": "US No 2 diesel retail $/gal (weekly)", "max_staleness_days": 21},
+    {"code": "cpi_water", "source": "FRED", "source_id": "CUSR0000SEHG01", "name": "CPI water & sewerage (SA)", "max_staleness_days": 80},
+    {"code": "kalshi_dc_count", "source": "KALSHI_DC", "source_id": "KXUSADATACENTERS", "name": "Kalshi market-implied 2026 US data-center count", "max_staleness_days": 30},
+    {"code": "kalshi_dc_nuclear", "source": "KALSHI_DC", "source_id": "KXDATACENTER", "name": "Kalshi P(nuclear-powered DC by 2030)", "max_staleness_days": 30}
   ]
 }
