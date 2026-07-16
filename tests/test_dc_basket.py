@@ -135,3 +135,105 @@ def test_hardware_gap_duplicate_codes_rejected(tmp_path):
                     {"code": "g", "label": "G2", "series": "s_p"}])
     with pytest.raises(ValueError, match="duplicate"):
         dc_basket.load_hardware_gap(p, registry_codes={"s_a", "s_p", "s_h"})
+
+
+def test_year_ratio_requires_blend_rejected(tmp_path):
+    p = _write(tmp_path,
+               [{"code": "a", "label": "A", "group": "labor", "series": "s_a",
+                 "weight": 1.0, "live_proxy_transform": "year_ratio",
+                 "live_proxy_passthrough": 0.5}],
+               OK_OPS)
+    with pytest.raises(ValueError, match="year_ratio"):
+        dc_basket.load_baskets(p, registry_codes={"s_a", "s_p", "s_h"})
+
+
+def test_year_ratio_requires_smooth_days_rejected(tmp_path):
+    p = _write(tmp_path,
+               [{"code": "a", "label": "A", "group": "labor", "series": "s_a",
+                 "weight": 1.0, "live_proxy_blend": ["s_b"],
+                 "live_proxy_transform": "year_ratio",
+                 "live_proxy_passthrough": 0.5}],
+               OK_OPS)
+    with pytest.raises(ValueError, match="live_proxy_smooth_days"):
+        dc_basket.load_baskets(p, registry_codes={"s_a", "s_b", "s_p", "s_h"})
+
+
+def test_year_ratio_requires_passthrough_rejected(tmp_path):
+    p = _write(tmp_path,
+               [{"code": "a", "label": "A", "group": "labor", "series": "s_a",
+                 "weight": 1.0, "live_proxy_blend": ["s_b"],
+                 "live_proxy_smooth_days": 7,
+                 "live_proxy_transform": "year_ratio"}],
+               OK_OPS)
+    with pytest.raises(ValueError, match="live_proxy_passthrough"):
+        dc_basket.load_baskets(p, registry_codes={"s_a", "s_b", "s_p", "s_h"})
+
+
+def test_passthrough_without_year_ratio_rejected(tmp_path):
+    p = _write(tmp_path,
+               [{"code": "a", "label": "A", "group": "labor", "series": "s_a",
+                 "weight": 1.0, "live_proxy_blend": ["s_b"],
+                 "live_proxy_smooth_days": 7,
+                 "live_proxy_passthrough": 0.5}],
+               OK_OPS)
+    with pytest.raises(ValueError, match="live_proxy_passthrough"):
+        dc_basket.load_baskets(p, registry_codes={"s_a", "s_b", "s_p", "s_h"})
+
+
+@pytest.mark.parametrize("lam", [0.0, -0.5, 1.5])
+def test_passthrough_out_of_range_rejected(tmp_path, lam):
+    p = _write(tmp_path,
+               [{"code": "a", "label": "A", "group": "labor", "series": "s_a",
+                 "weight": 1.0, "live_proxy_blend": ["s_b"],
+                 "live_proxy_smooth_days": 7,
+                 "live_proxy_transform": "year_ratio",
+                 "live_proxy_passthrough": lam}],
+               OK_OPS)
+    with pytest.raises(ValueError, match="passthrough"):
+        dc_basket.load_baskets(p, registry_codes={"s_a", "s_b", "s_p", "s_h"})
+
+
+def test_unknown_transform_rejected(tmp_path):
+    p = _write(tmp_path,
+               [{"code": "a", "label": "A", "group": "labor", "series": "s_a",
+                 "weight": 1.0, "live_proxy_blend": ["s_b"],
+                 "live_proxy_smooth_days": 7,
+                 "live_proxy_transform": "sorcery"}],
+               OK_OPS)
+    with pytest.raises(ValueError, match="transform"):
+        dc_basket.load_baskets(p, registry_codes={"s_a", "s_b", "s_p", "s_h"})
+
+
+def test_duplicate_blend_codes_rejected(tmp_path):
+    # wave-4 final-review entry task: dup hubs would double-weight in hub_mean
+    p = _write(tmp_path,
+               [{"code": "a", "label": "A", "group": "labor", "series": "s_a",
+                 "weight": 1.0, "live_proxy_blend": ["s_b", "s_b"]}],
+               OK_OPS)
+    with pytest.raises(ValueError, match="duplicate"):
+        dc_basket.load_baskets(p, registry_codes={"s_a", "s_b", "s_p", "s_h"})
+
+
+def test_year_ratio_valid_config_loads(tmp_path):
+    p = _write(tmp_path,
+               [{"code": "a", "label": "A", "group": "labor", "series": "s_a",
+                 "weight": 1.0, "live_proxy_blend": ["s_b", "s_c"],
+                 "live_proxy_smooth_days": 7,
+                 "live_proxy_transform": "year_ratio",
+                 "live_proxy_passthrough": 0.5}],
+               OK_OPS)
+    _, baskets = dc_basket.load_baskets(
+        p, registry_codes={"s_a", "s_b", "s_c", "s_p", "s_h"})
+    comp = baskets["build"][0]
+    assert comp.live_proxy_transform == "year_ratio"
+    assert comp.live_proxy_passthrough == 0.5
+
+
+def test_default_transform_is_level(tmp_path):
+    p = _write(tmp_path,
+               [{"code": "a", "label": "A", "group": "labor", "series": "s_a",
+                 "weight": 1.0}],
+               OK_OPS)
+    _, baskets = dc_basket.load_baskets(p, registry_codes={"s_a", "s_p", "s_h"})
+    assert baskets["build"][0].live_proxy_transform == "level"
+    assert baskets["build"][0].live_proxy_passthrough is None

@@ -7,7 +7,9 @@ display rollup only. live_proxy marks a genuine same-concept daily proxy
 (futures) grafted via splice_anchored downstream. live_proxy_blend is the
 multi-source variant (e.g. wholesale power hubs): hub_mean's the sources,
 optionally trailing_mean-smooths (live_proxy_smooth_days), then splices the
-result the same way — mutually exclusive with live_proxy."""
+result the same way — mutually exclusive with live_proxy. live_proxy_transform
+selects how the proxy meets the backbone: "level" for splice_anchored or
+"year_ratio" for like-month coupling."""
 import json
 from dataclasses import dataclass
 from pathlib import Path
@@ -28,6 +30,13 @@ class DCComponent:
         # live_proxy — hub_mean'd then trailing-smoothed before splicing
     live_proxy_smooth_days: int | None = None  # trailing_mean window over
         # the blended proxy; only meaningful (and only allowed) with a blend
+    live_proxy_transform: str = "level"  # how the proxy meets the backbone:
+        # "level" = splice_anchored; "year_ratio" = like-month coupling
+        # (wave-4b spec §3) — wholesale seasonality must never enter via a
+        # level splice (the wave-4 +52% incident)
+    live_proxy_passthrough: float | None = None  # λ in (0, 1]: share of the
+        # wholesale like-month move retail inherits; required by and
+        # exclusive to "year_ratio"
 
 
 def load_baskets(path: Path | None = None,
@@ -37,7 +46,9 @@ def load_baskets(path: Path | None = None,
     duplicate codes, that every series/live_proxy/live_proxy_blend code exists
     in the registry (pass registry_codes explicitly in tests), that live_proxy
     and live_proxy_blend are mutually exclusive, that live_proxy_smooth_days
-    requires a blend, and that a configured blend is non-empty."""
+    requires a blend, that a configured blend is non-empty, that live_proxy_transform
+    is valid, that year_ratio requires blend/smooth_days/passthrough, that
+    passthrough is in (0, 1] when set, and that blend has no duplicate codes."""
     raw = json.loads((path or DEFAULT_PATH).read_text())
     if registry_codes is None:
         from pipeline import registry
@@ -62,12 +73,45 @@ def load_baskets(path: Path | None = None,
                 raise ValueError(
                     f"dc_basket {name}/{c['code']}: live_proxy_blend must be "
                     f"non-empty")
+            transform = c.get("live_proxy_transform", "level")
+            passthrough = c.get("live_proxy_passthrough")
+            if transform not in ("level", "year_ratio"):
+                raise ValueError(
+                    f"dc_basket {name}/{c['code']}: unknown "
+                    f"live_proxy_transform {transform!r}")
+            if transform == "year_ratio":
+                if not blend:
+                    raise ValueError(
+                        f"dc_basket {name}/{c['code']}: year_ratio requires "
+                        f"live_proxy_blend")
+                if smooth_days is None:
+                    raise ValueError(
+                        f"dc_basket {name}/{c['code']}: year_ratio requires "
+                        f"live_proxy_smooth_days")
+                if passthrough is None:
+                    raise ValueError(
+                        f"dc_basket {name}/{c['code']}: year_ratio requires "
+                        f"live_proxy_passthrough")
+                if not 0 < passthrough <= 1:
+                    raise ValueError(
+                        f"dc_basket {name}/{c['code']}: live_proxy_passthrough "
+                        f"{passthrough} outside (0, 1]")
+            elif passthrough is not None:
+                raise ValueError(
+                    f"dc_basket {name}/{c['code']}: live_proxy_passthrough "
+                    f"requires live_proxy_transform=year_ratio")
+            if blend and len(set(blend)) != len(blend):
+                raise ValueError(
+                    f"dc_basket {name}/{c['code']}: duplicate codes in "
+                    f"live_proxy_blend")
             comps.append(DCComponent(
                 code=c["code"], label=c["label"], group=c["group"],
                 series=c["series"], weight=c["weight"],
                 live_proxy=live_proxy,
                 live_proxy_blend=tuple(blend) if blend else None,
-                live_proxy_smooth_days=smooth_days))
+                live_proxy_smooth_days=smooth_days,
+                live_proxy_transform=transform,
+                live_proxy_passthrough=passthrough))
         codes = [c.code for c in comps]
         dupes = {c for c in codes if codes.count(c) > 1}
         if dupes:
