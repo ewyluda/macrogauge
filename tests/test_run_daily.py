@@ -273,6 +273,19 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "fmp_wheat", "fmp_soybeans", "fmp_soybean_oil", "fmp_coffee",
                  "fmp_sugar", "fmp_cocoa", "fmp_live_cattle"):
         assert vintage.latest(conn, code), f"no store rows for {code}"
+    # Value-pin the DC-context series, not just presence — a ticker-branch
+    # regression in the Kalshi fake (falling back to the generic KXCPI
+    # single-market payload) would still produce a store row with ok:True,
+    # just the wrong value (1.0, the CPI-fixture binary read), so presence
+    # alone can't catch it.
+    assert vintage.latest(conn, "kalshi_dc_count")[-1][1] == pytest.approx(1800.0)
+    assert vintage.latest(conn, "kalshi_dc_nuclear")[-1][1] == pytest.approx(0.61)
+    # SPIKE-FINAL latest weekly value (2026-07-13), served by the diesel
+    # seriesid branch in the EIA fake above.
+    assert vintage.latest(conn, "eia_diesel")[-1][1] == pytest.approx(4.796)
+    # cpi_water rides the FRED fake generically (fred_cpiaucns.json fixture);
+    # its latest row is the fixture's 2026-04-01 print.
+    assert vintage.latest(conn, "cpi_water")[-1][1] == pytest.approx(320.1)
     checks = {c["name"]: c for c in qa["checks"]}
     assert checks["outlook_ok"]["pass"] is True
 
