@@ -31,7 +31,7 @@ export function ContextPanel({ context }: { context: ContextData }) {
                    context={`US retail weekly · as of ${diesel.asof}`} accent="amber" />
         )}
         {water && water.yoy_pct != null && (
-          <KpiCard label="Water & sewerage CPI" value={fmtSigned(water.yoy_pct)}
+          <KpiCard label="Water & sewer CPI" value={fmtSigned(water.yoy_pct)}
                    context={`cooling input · as of ${water.asof}`} accent="emerald" />
         )}
         {transformer && (

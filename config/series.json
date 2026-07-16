@@ -299,7 +299,7 @@
     {"code": "ice_pjm_west", "source": "ICE", "source_id": "PJM WH Real Time Peak", "name": "PJM Western Hub wtd avg ($/MWh, ICE via EIA)", "max_staleness_days": 21},
     {"code": "eia_henry_hub", "source": "EIA_SPOT", "source_id": "NG.RNGWHHD.D", "name": "Henry Hub natural gas spot ($/MMBtu)", "max_staleness_days": 7},
     {"code": "eia_diesel", "source": "EIA", "source_id": "PET.EMD_EPD2D_PTE_NUS_DPG.W", "name": "US No 2 diesel retail $/gal (weekly)", "max_staleness_days": 21},
-    {"code": "cpi_water", "source": "FRED", "source_id": "CUSR0000SEHG01", "name": "CPI water & sewerage (SA)", "max_staleness_days": 80},
+    {"code": "cpi_water", "source": "FRED", "source_id": "CUSR0000SEHG", "name": "CPI water, sewer & trash collection services (SA)", "max_staleness_days": 80},
     {"code": "kalshi_dc_count", "source": "KALSHI_DC", "source_id": "KXUSADATACENTERS", "name": "Kalshi market-implied 2026 US data-center count", "max_staleness_days": 30},
     {"code": "kalshi_dc_nuclear", "source": "KALSHI_DC", "source_id": "KXDATACENTER", "name": "Kalshi P(nuclear-powered DC by 2030)", "max_staleness_days": 30}
   ]

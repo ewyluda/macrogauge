@@ -362,3 +362,8 @@ Full report: `/Users/ericwyluda/Development/macrogauge/.superpowers/sdd/task-1-r
 (supersedes any wave-4 content previously at that path — this file covers wave 5 task 1 only).
 Fixtures: `tests/fixtures/kalshi_dc_count.json`, `tests/fixtures/kalshi_dc_nuclear.json`.
 Raw evidence tee'd to `/private/tmp/claude-501/-Users-ericwyluda-Development-macrogauge/d9a85bbf-530e-4fbe-837b-90ffd983d619/scratchpad/w5-spike-*`.
+
+**ADDENDUM (post-live-run):** `CUSR0000SEHG01` does not exist on FRED (400) — the wave-5 spike
+verified only the diesel id, a gap; corrected to live-verified `CUSR0000SEHG` (113 obs, latest
+2026-06-01=331.474). One bad FRED id fails the entire FRED source row for the run (all-or-nothing
+fetch) — flagged to final review.

@@ -83,7 +83,7 @@ def test_load_real_registry():
             "ppi_ic_packages": "WPU117839",
             "ppi_wafers": "PCU334413334413A",
             "cpi_computers": "CUUR0000SEEE01",
-            "cpi_water": "CUSR0000SEHG01",
+            "cpi_water": "CUSR0000SEHG",
         }
     assert sources["QCEW"].secret is None and sources["QCEW"].route == "CSV"
     assert sources["EIA_STATE"].secret == "EIA_API_KEY"
