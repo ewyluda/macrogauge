@@ -112,8 +112,9 @@ value-dedupe keeps re-fetched days free, and a missed run self-heals from the ne
 | code | payload key | field | staleness |
 |---|---|---|---|
 | `sfc_h100` | `H100` | `avg` | 7 |
-| `sfc_h200` | `H200` | `avg` | 7 |
-| `sfc_b200` | `B200` | `avg` | 7 |
+
+(`sfc_h200`/`sfc_b200` were cut post-spike: those markets showed zero trades — the connector
+supports their keys; register the series when they trade.)
 
 Drift protection: regex pinned to the fixture's payload shape (the `$D`-prefixed escaped-JSON
 Next.js format); plausible range (0.2, 50) $/GPU-hr; zero parsed rows → drift error.
