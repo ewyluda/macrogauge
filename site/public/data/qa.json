@@ -55,13 +55,13 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": false,
-      "detail": "21/22 ok; failed \u2014 BLS: ReadTimeout: HTTPSConnectionPool(host='api.bls.gov', port=443): Read timed out. (read timeout=60)"
+      "detail": "25/26 ok; failed \u2014 VASTAI: HTTPError: 429 Client Error: Too Many Requests for url: https://console.vast.ai/api/v0/bundles/?q=%7B%22gpu_name%22%3A%20%7B%22eq%22%3A%20%22B200%22%7D%2C%20%22rentable%22%3A%20%7B%22eq%22%3A%20true%7D%2C%20%22gpu_frac%22%3A%20%7B%22eq%22%3A%201%7D%2C%20%22type%22%3A%20%22on-demand%22%2C%20%22limit%22%3A%201000%7D"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "256/265 fresh; stale \u2014 vast_b200 (never seen), qcew_wage23_ak (never seen), qcew_wage23_dc (never seen), qcew_wage23_la (never seen), qcew_wage23_ma (never seen), qcew_wage23_mo (never seen), qcew_wage23_ri (never seen), qcew_wage23_sd (never seen), qcew_wage23_vt (never seen)"
+      "detail": "261/269 fresh; stale \u2014 qcew_wage23_ak (never seen), qcew_wage23_dc (never seen), qcew_wage23_la (never seen), qcew_wage23_ma (never seen), qcew_wage23_mo (never seen), qcew_wage23_ri (never seen), qcew_wage23_sd (never seen), qcew_wage23_vt (never seen)"
     },
     {
       "name": "fuel_sources_agree",
@@ -91,7 +91,7 @@
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=-0.05 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=-0.03 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",

@@ -1,9 +1,9 @@
 {
-  "published_at": "2026-07-16T00:34:49Z",
+  "published_at": "2026-07-16T03:58:04Z",
   "stats": {
-    "series_count": 265,
-    "obs_count": 78636,
-    "source_count": 22,
+    "series_count": 269,
+    "obs_count": 84114,
+    "source_count": 26,
     "tracker_corr": 0.9771,
     "live_coverage_pct": 42.6,
     "engine_version": "1.0",
@@ -214,8 +214,8 @@
     }
   ],
   "freshness": {
-    "fresh_count": 256,
-    "total": 265
+    "fresh_count": 261,
+    "total": 269
   },
   "inventory": [
     {
@@ -1493,8 +1493,8 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": null,
-      "fresh": false
+      "latest_obs": "2026-07-15",
+      "fresh": true
     },
     {
       "code": "vast_a100_sxm",
@@ -2601,6 +2601,42 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2025-10-01",
+      "fresh": true
+    },
+    {
+      "code": "caiso_sp15_da",
+      "name": "CAISO SP15 day-ahead LMP, daily avg ($/MWh)",
+      "source": "CAISO",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "miso_indiana_da",
+      "name": "MISO Indiana Hub DA ex-post LMP, daily avg ($/MWh)",
+      "source": "MISO",
+      "route": "CSV",
+      "cadence": "daily",
+      "latest_obs": "2026-07-14",
+      "fresh": true
+    },
+    {
+      "code": "ice_pjm_west",
+      "name": "PJM Western Hub wtd avg ($/MWh, ICE via EIA)",
+      "source": "ICE",
+      "route": "XLSX",
+      "cadence": "biweekly",
+      "latest_obs": "2026-07-07",
+      "fresh": true
+    },
+    {
+      "code": "eia_henry_hub",
+      "name": "Henry Hub natural gas spot ($/MMBtu)",
+      "source": "EIA_SPOT",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-13",
       "fresh": true
     }
   ],
