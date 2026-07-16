@@ -169,8 +169,8 @@ Nullable top-level `power` (schema-pinned like `construction`; null before first
 
 ## 6. Site page
 
-1. **"The power bill" panel** on `/datacenter`, after the construction section: four hub stat
-   cards (two live daily, two ICE with their as-of dates visibly older — honesty by dates),
+1. **"The power bill" panel** on `/datacenter`, after the construction section: three hub stat
+   cards (two live daily, one ICE with its as-of date visibly older — honesty by dates),
    a Henry Hub card, and the capacity-auction mini-table with its ~800%-in-two-auctions story
    line. Rendered only when `dc.power` is non-null.
 2. **Ops table label fix:** the `ComponentTable` ternary `"monthly + futures tail"` becomes
