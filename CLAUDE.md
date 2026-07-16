@@ -51,7 +51,7 @@ sources, and per-series `max_staleness_days`.
 blocks the run. Carry-forward store semantics make a missed day harmless. Error strings are
 sanitized (API keys redacted) because they get published.
 
-**Scrape connectors (`aaa.py`, `mnd.py`, `manheim.py`) carry drift protection**, not just the
+**Scrape/unofficial-API connectors (`aaa.py`, `mnd.py`, `manheim.py`, `dramex.py`, `sfcompute.py`, `vastai.py`, `openrouter.py`) carry drift protection**, not just the
 generic failure isolation above: a tight regex pinned to a recorded fixture plus a plausible-value
 range check, so a redesigned source page raises a clear "structure drift?" error (caught by the
 same isolation path) instead of silently ingesting garbage.

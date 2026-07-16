@@ -1,7 +1,7 @@
 # Collectors-First Design — DRAM spot, GPU compute, inference prices, STEO vintages (Wave 3a)
 
 **Status:** Approved 2026-07-15 (brainstorming session; breadth decision: broad-but-bounded,
-~25 series / 5 source keys). Follows waves 1–2 (DC Hardware index 9d68daf, construction boom
+23 series / 5 source keys). Follows waves 1–2 (DC Hardware index 9d68daf, construction boom
 53fe47b, both deployed).
 **Inputs:** 2026-07-15 enhancement research (endpoints verified live that day);
 `pipeline/connectors/aaa.py` (drift-protection convention), `pipeline/collect.py` (source-key
@@ -32,7 +32,7 @@ power connectors and backfills (wave 4), accountability_power artifact/page (wav
 
 ## 2. Decisions locked in brainstorming
 
-1. **Broad-but-bounded universe** (~25 series): skipped series have no backfill, so breadth wins
+1. **Broad-but-bounded universe** (23 series): skipped series have no backfill, so breadth wins
    where the marginal cost is a registry row on an already-built connector; extra *scrape*
    surface (RunPod/Lambda posted prices, more DRAMeXchange rows) stays out — drift babysitting is
    the real cost, not storage.
@@ -67,7 +67,7 @@ precedes the 8:40 ET run, so one daily fetch captures the close. Session-average
 
 | code | candidate row label | staleness |
 |---|---|---|
-| `dramex_nand_mlc64` | `MLC 64Gb 8GBx8` (NAND flash) | 7 |
+| `dramex_nand_mlc64` | `MLC 64Gb 8GBx8` (NAND flash) | 21 |
 | `dramex_ddr5_16g` | `DDR5 16Gb (2Gx8) 4800/5600` | 7 |
 | `dramex_ddr4_16g` | `DDR4 16Gb (2Gx8) 3200` | 7 |
 
@@ -187,7 +187,7 @@ wholesale spine.
   `"STEO": {"route": "API", "cadence": "monthly", "secret": "EIA_API_KEY"}`) — plus the 25
   series rows above.
 - Pins: sources 17 → 22 (`test_run_daily.py` status-row count; `test_registry.py` sources set),
-  series 242 → 267. FRED count untouched.
+  series 242 → 265. FRED count untouched.
 - Error strings from all new connectors flow through the existing `_sanitize` (EIA key is the
   only secret involved, on the STEO rows).
 
