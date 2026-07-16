@@ -1,4 +1,5 @@
 """Engine stage 2: blend live sources; splice live data onto official history."""
+import bisect
 from datetime import date, timedelta
 
 
@@ -119,4 +120,72 @@ def trailing_mean(series: dict[str, float], days: int) -> dict[str, float]:
         lo = (date.fromisoformat(d) - timedelta(days=days - 1)).isoformat()
         window = [series[x] for x in dates if lo <= x <= d]
         out[d] = sum(window) / len(window)
+    return out
+
+
+def _at_or_before(dates: list[str], target: str,
+                  tolerance_days: int | None = None) -> str | None:
+    """Latest date in sorted `dates` at/before `target`; None when none
+    exists or the nearest is more than tolerance_days older than target."""
+    i = bisect.bisect_right(dates, target) - 1
+    if i < 0:
+        return None
+    d = dates[i]
+    if tolerance_days is not None:
+        gap = (date.fromisoformat(target) - date.fromisoformat(d)).days
+        if gap > tolerance_days:
+            return None
+    return d
+
+
+def splice_year_ratio(official: dict[str, float], live: dict[str, float],
+                      passthrough: float,
+                      tolerance_days: int = 7) -> dict[str, float]:
+    """Official everywhere it exists; after the last print T0, a like-month
+    year-ratio nowcast tail:
+
+        model(t) = official_ffill(t-365d) * (1 + passthrough*(W(t)/W(t-365d) - 1))
+        tail(t)  = model(t) * official(T0)/model(T0)
+
+    Contrast splice_anchored(): a LEVEL splice imports the proxy's own
+    seasonality into the tail — wholesale power swings ~2.8x spring→summer
+    while tariff-smoothed retail is seasonally flat, which exploded ops YoY
+    +6.2→+52.3% (wave-4 §10). The year ratio compares W to itself a year ago,
+    so seasonality divides out by construction; `passthrough` (λ) states how
+    much of the remaining like-month wholesale move retail inherits. The
+    residual anchor at T0 keeps the tail continuous at the print and
+    re-anchors every print — correcting one month of model error, never a
+    seasonal gap.
+
+    Never fabricate: W lookups take the nearest obs at/before the target
+    within tolerance_days; official year-ago lookups forward-fill the sparse
+    monthly backbone with no tolerance (monthly cadence is that series' own
+    resolution). A tail date whose lookups fail — or whose W denominator or
+    model value is non-positive (negative smoothed wholesale is real) — is
+    skipped; when the anchor itself can't be built, official returns alone."""
+    if not official or not live:
+        return dict(official)
+    t0 = max(official)
+    off_dates, live_dates = sorted(official), sorted(live)
+
+    def model(t: str) -> float | None:
+        base_date = (date.fromisoformat(t) - timedelta(days=365)).isoformat()
+        ob = _at_or_before(off_dates, base_date)
+        wt = _at_or_before(live_dates, t, tolerance_days)
+        wb = _at_or_before(live_dates, base_date, tolerance_days)
+        if ob is None or wt is None or wb is None or live[wb] <= 0:
+            return None
+        return official[ob] * (1.0 + passthrough * (live[wt] / live[wb] - 1.0))
+
+    m0 = model(t0)
+    if m0 is None or m0 <= 0:
+        return dict(official)
+    anchor = official[t0] / m0
+    out = dict(official)
+    for t in live_dates:
+        if t <= t0:
+            continue
+        m = model(t)
+        if m is not None and m > 0:
+            out[t] = m * anchor
     return out
