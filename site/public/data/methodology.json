@@ -1,9 +1,9 @@
 {
-  "published_at": "2026-07-16T16:00:00Z",
+  "published_at": "2026-07-16T23:20:26Z",
   "stats": {
-    "series_count": 269,
-    "obs_count": 85543,
-    "source_count": 26,
+    "series_count": 273,
+    "obs_count": 87435,
+    "source_count": 27,
     "tracker_corr": 0.9771,
     "live_coverage_pct": 42.6,
     "engine_version": "1.0",
@@ -214,8 +214,8 @@
     }
   ],
   "freshness": {
-    "fresh_count": 261,
-    "total": 269
+    "fresh_count": 265,
+    "total": 273
   },
   "inventory": [
     {
@@ -782,7 +782,7 @@
       "source": "TREASURY",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-14",
+      "latest_obs": "2026-07-15",
       "fresh": true
     },
     {
@@ -809,7 +809,7 @@
       "source": "PMMS",
       "route": "CSV",
       "cadence": "weekly",
-      "latest_obs": "2026-07-09",
+      "latest_obs": "2026-07-16",
       "fresh": true
     },
     {
@@ -1016,7 +1016,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-15",
+      "latest_obs": "2026-07-16",
       "fresh": true
     },
     {
@@ -1097,7 +1097,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-15",
+      "latest_obs": "2026-07-16",
       "fresh": true
     },
     {
@@ -1169,7 +1169,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-15",
+      "latest_obs": "2026-07-16",
       "fresh": true
     },
     {
@@ -1484,7 +1484,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-15",
+      "latest_obs": "2026-07-16",
       "fresh": true
     },
     {
@@ -2637,6 +2637,42 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-07-13",
+      "fresh": true
+    },
+    {
+      "code": "eia_diesel",
+      "name": "US No 2 diesel retail $/gal (weekly)",
+      "source": "EIA",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-13",
+      "fresh": true
+    },
+    {
+      "code": "cpi_water",
+      "name": "CPI water, sewer & trash collection services (SA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "kalshi_dc_count",
+      "name": "Kalshi market-implied 2026 US data-center count",
+      "source": "KALSHI_DC",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-16",
+      "fresh": true
+    },
+    {
+      "code": "kalshi_dc_nuclear",
+      "name": "Kalshi P(nuclear-powered DC by 2030)",
+      "source": "KALSHI_DC",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-07-16",
       "fresh": true
     }
   ],

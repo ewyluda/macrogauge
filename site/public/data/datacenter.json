@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-16T16:00:00Z",
+  "published_at": "2026-07-16T23:20:26Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -16,7 +16,7 @@
   "indexes": {
     "build": {
       "as_of": "2026-07-16",
-      "headline_yoy_pct": 6.54,
+      "headline_yoy_pct": 6.45,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -6258,7 +6258,7 @@
         165.71,
         165.94,
         165.93,
-        165.91
+        165.76
       ],
       "yoy_pct": [
         3.05,
@@ -9379,7 +9379,7 @@
         6.41,
         6.56,
         6.55,
-        6.54
+        6.45
       ],
       "components": [
         {
@@ -9390,7 +9390,8 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 4.34,
-          "contribution_pp": 0.65
+          "contribution_pp": 0.65,
+          "stale": false
         },
         {
           "code": "elec_contractors",
@@ -9400,7 +9401,8 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 3.89,
-          "contribution_pp": 0.35
+          "contribution_pp": 0.35,
+          "stale": false
         },
         {
           "code": "plumb_hvac_contractors",
@@ -9410,7 +9412,8 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 1.28,
-          "contribution_pp": 0.08
+          "contribution_pp": 0.08,
+          "stale": false
         },
         {
           "code": "steel",
@@ -9420,7 +9423,8 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 16.88,
-          "contribution_pp": 1.1
+          "contribution_pp": 1.1,
+          "stale": false
         },
         {
           "code": "concrete",
@@ -9430,7 +9434,8 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 1.85,
-          "contribution_pp": 0.09
+          "contribution_pp": 0.09,
+          "stale": false
         },
         {
           "code": "copper_wire",
@@ -9439,8 +9444,9 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-07-16",
-          "yoy_pct": 13.25,
-          "contribution_pp": 0.73
+          "yoy_pct": 11.8,
+          "contribution_pp": 0.65,
+          "stale": false
         },
         {
           "code": "alum_shapes",
@@ -9449,8 +9455,9 @@
           "weight": 0.03,
           "mode": "official+proxy",
           "last_obs": "2026-07-16",
-          "yoy_pct": 28.97,
-          "contribution_pp": 0.87
+          "yoy_pct": 28.59,
+          "contribution_pp": 0.86,
+          "stale": false
         },
         {
           "code": "switchgear",
@@ -9460,7 +9467,8 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 9.02,
-          "contribution_pp": 1.26
+          "contribution_pp": 1.26,
+          "stale": false
         },
         {
           "code": "transformers",
@@ -9470,7 +9478,8 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 3.75,
-          "contribution_pp": 0.45
+          "contribution_pp": 0.45,
+          "stale": false
         },
         {
           "code": "generators",
@@ -9480,7 +9489,8 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 5.36,
-          "contribution_pp": 0.48
+          "contribution_pp": 0.48,
+          "stale": false
         },
         {
           "code": "hvac_equip",
@@ -9490,7 +9500,8 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 3.2,
-          "contribution_pp": 0.32
+          "contribution_pp": 0.32,
+          "stale": false
         },
         {
           "code": "pumps",
@@ -9500,7 +9511,30 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 3.17,
-          "contribution_pp": 0.16
+          "contribution_pp": 0.16,
+          "stale": false
+        }
+      ],
+      "groups": [
+        {
+          "group": "labor",
+          "weight": 0.3,
+          "contribution_pp": 1.08
+        },
+        {
+          "group": "materials",
+          "weight": 0.2,
+          "contribution_pp": 2.7
+        },
+        {
+          "group": "electrical",
+          "weight": 0.35,
+          "contribution_pp": 2.2
+        },
+        {
+          "group": "mechanical",
+          "weight": 0.15,
+          "contribution_pp": 0.48
         }
       ]
     },
@@ -18745,7 +18779,8 @@
           "mode": "official",
           "last_obs": "2026-04-01",
           "yoy_pct": 5.48,
-          "contribution_pp": 3.01
+          "contribution_pp": 3.01,
+          "stale": false
         },
         {
           "code": "ops_wages",
@@ -18755,7 +18790,8 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 5.96,
-          "contribution_pp": 1.79
+          "contribution_pp": 1.79,
+          "stale": false
         },
         {
           "code": "maintenance",
@@ -18765,6 +18801,24 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 9.47,
+          "contribution_pp": 1.42,
+          "stale": false
+        }
+      ],
+      "groups": [
+        {
+          "group": "power",
+          "weight": 0.55,
+          "contribution_pp": 3.01
+        },
+        {
+          "group": "ops_labor",
+          "weight": 0.3,
+          "contribution_pp": 1.79
+        },
+        {
+          "group": "maintenance",
+          "weight": 0.15,
           "contribution_pp": 1.42
         }
       ]
@@ -28010,7 +28064,8 @@
           "mode": "official",
           "last_obs": "2026-05-01",
           "yoy_pct": 18.55,
-          "contribution_pp": 7.05
+          "contribution_pp": 7.05,
+          "stale": false
         },
         {
           "code": "semis_components",
@@ -28020,7 +28075,8 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 26.15,
-          "contribution_pp": 4.18
+          "contribution_pp": 4.18,
+          "stale": false
         },
         {
           "code": "imported_semis",
@@ -28030,7 +28086,8 @@
           "mode": "official",
           "last_obs": "2026-05-01",
           "yoy_pct": 4.02,
-          "contribution_pp": 0.44
+          "contribution_pp": 0.44,
+          "stale": false
         },
         {
           "code": "storage",
@@ -28040,7 +28097,8 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 31.46,
-          "contribution_pp": 4.72
+          "contribution_pp": 4.72,
+          "stale": false
         },
         {
           "code": "network",
@@ -28050,6 +28108,24 @@
           "mode": "official",
           "last_obs": "2026-06-01",
           "yoy_pct": 12.37,
+          "contribution_pp": 2.47,
+          "stale": false
+        }
+      ],
+      "groups": [
+        {
+          "group": "compute",
+          "weight": 0.65,
+          "contribution_pp": 11.68
+        },
+        {
+          "group": "storage",
+          "weight": 0.15,
+          "contribution_pp": 4.72
+        },
+        {
+          "group": "network",
+          "weight": 0.2,
           "contribution_pp": 2.47
         }
       ]
@@ -28063,459 +28139,561 @@
         "power_rel": 2.8718,
         "ops_mult": 2.0295,
         "power_asof": "2026-04-01",
+        "power_cents": 24.87,
         "wage_rel": null,
         "build_mult": null,
-        "wage_asof": null
+        "wage_asof": null,
+        "wage_level": null
       },
       {
         "state": "AL",
         "power_rel": 0.9053,
         "ops_mult": 0.9479,
         "power_asof": "2026-04-01",
+        "power_cents": 7.84,
         "wage_rel": 0.9218,
         "build_mult": 0.9765,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1673.0
       },
       {
         "state": "AR",
         "power_rel": 0.7159,
         "ops_mult": 0.8438,
         "power_asof": "2026-04-01",
+        "power_cents": 6.2,
         "wage_rel": 0.8044,
         "build_mult": 0.9413,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1460.0
       },
       {
         "state": "AZ",
         "power_rel": 0.8349,
         "ops_mult": 0.9092,
         "power_asof": "2026-04-01",
+        "power_cents": 7.23,
         "wage_rel": 0.9598,
         "build_mult": 0.9879,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1742.0
       },
       {
         "state": "CA",
         "power_rel": 2.2945,
         "ops_mult": 1.712,
         "power_asof": "2026-04-01",
+        "power_cents": 19.87,
         "wage_rel": 1.0871,
         "build_mult": 1.0261,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1973.0
       },
       {
         "state": "CO",
         "power_rel": 1.0855,
         "ops_mult": 1.047,
         "power_asof": "2026-04-01",
+        "power_cents": 9.4,
         "wage_rel": 0.9967,
         "build_mult": 0.999,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1809.0
       },
       {
         "state": "CT",
         "power_rel": 2.0704,
         "ops_mult": 1.5887,
         "power_asof": "2026-04-01",
+        "power_cents": 17.93,
         "wage_rel": 1.0915,
         "build_mult": 1.0274,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1981.0
       },
       {
         "state": "DC",
         "power_rel": 2.5855,
         "ops_mult": 1.872,
         "power_asof": "2026-04-01",
+        "power_cents": 22.39,
         "wage_rel": null,
         "build_mult": null,
-        "wage_asof": null
+        "wage_asof": null,
+        "wage_level": null
       },
       {
         "state": "DE",
         "power_rel": 1.1247,
         "ops_mult": 1.0686,
         "power_asof": "2026-04-01",
+        "power_cents": 9.74,
         "wage_rel": 0.9196,
         "build_mult": 0.9759,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1669.0
       },
       {
         "state": "FL",
         "power_rel": 1.0658,
         "ops_mult": 1.0362,
         "power_asof": "2026-04-01",
+        "power_cents": 9.23,
         "wage_rel": 0.8634,
         "build_mult": 0.959,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1567.0
       },
       {
         "state": "GA",
         "power_rel": 0.7898,
         "ops_mult": 0.8844,
         "power_asof": "2026-04-01",
+        "power_cents": 6.84,
         "wage_rel": 1.0121,
         "build_mult": 1.0036,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1837.0
       },
       {
         "state": "HI",
         "power_rel": 4.4215,
         "ops_mult": 2.8818,
         "power_asof": "2026-04-01",
+        "power_cents": 38.29,
         "wage_rel": 1.1218,
         "build_mult": 1.0365,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 2036.0
       },
       {
         "state": "IA",
         "power_rel": 0.7229,
         "ops_mult": 0.8476,
         "power_asof": "2026-04-01",
+        "power_cents": 6.26,
         "wage_rel": 0.9521,
         "build_mult": 0.9856,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1728.0
       },
       {
         "state": "ID",
         "power_rel": 0.8395,
         "ops_mult": 0.9117,
         "power_asof": "2026-04-01",
+        "power_cents": 7.27,
         "wage_rel": 0.8468,
         "build_mult": 0.954,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1537.0
       },
       {
         "state": "IL",
         "power_rel": 1.1247,
         "ops_mult": 1.0686,
         "power_asof": "2026-04-01",
+        "power_cents": 9.74,
         "wage_rel": 1.1295,
         "build_mult": 1.0388,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 2050.0
       },
       {
         "state": "IN",
         "power_rel": 1.0231,
         "ops_mult": 1.0127,
         "power_asof": "2026-04-01",
+        "power_cents": 8.86,
         "wage_rel": 0.9741,
         "build_mult": 0.9922,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1768.0
       },
       {
         "state": "KS",
         "power_rel": 0.948,
         "ops_mult": 0.9714,
         "power_asof": "2026-04-01",
+        "power_cents": 8.21,
         "wage_rel": 0.8948,
         "build_mult": 0.9684,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1624.0
       },
       {
         "state": "KY",
         "power_rel": 0.843,
         "ops_mult": 0.9136,
         "power_asof": "2026-04-01",
+        "power_cents": 7.3,
         "wage_rel": 0.8733,
         "build_mult": 0.962,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1585.0
       },
       {
         "state": "LA",
         "power_rel": 0.8268,
         "ops_mult": 0.9047,
         "power_asof": "2026-04-01",
+        "power_cents": 7.16,
         "wage_rel": null,
         "build_mult": null,
-        "wage_asof": null
+        "wage_asof": null,
+        "wage_level": null
       },
       {
         "state": "MA",
         "power_rel": 2.142,
         "ops_mult": 1.6281,
         "power_asof": "2026-04-01",
+        "power_cents": 18.55,
         "wage_rel": null,
         "build_mult": null,
-        "wage_asof": null
+        "wage_asof": null,
+        "wage_level": null
       },
       {
         "state": "MD",
         "power_rel": 1.6559,
         "ops_mult": 1.3607,
         "power_asof": "2026-04-01",
+        "power_cents": 14.34,
         "wage_rel": 1.0171,
         "build_mult": 1.0051,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1846.0
       },
       {
         "state": "ME",
         "power_rel": 1.7171,
         "ops_mult": 1.3944,
         "power_asof": "2026-04-01",
+        "power_cents": 14.87,
         "wage_rel": 0.9113,
         "build_mult": 0.9734,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1654.0
       },
       {
         "state": "MI",
         "power_rel": 1.0335,
         "ops_mult": 1.0184,
         "power_asof": "2026-04-01",
+        "power_cents": 8.95,
         "wage_rel": 1.0463,
         "build_mult": 1.0139,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1899.0
       },
       {
         "state": "MN",
         "power_rel": 1.1386,
         "ops_mult": 1.0762,
         "power_asof": "2026-04-01",
+        "power_cents": 9.86,
         "wage_rel": 1.0738,
         "build_mult": 1.0221,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1949.0
       },
       {
         "state": "MO",
         "power_rel": 0.9561,
         "ops_mult": 0.9759,
         "power_asof": "2026-04-01",
+        "power_cents": 8.28,
         "wage_rel": null,
         "build_mult": null,
-        "wage_asof": null
+        "wage_asof": null,
+        "wage_level": null
       },
       {
         "state": "MS",
         "power_rel": 0.8614,
         "ops_mult": 0.9238,
         "power_asof": "2026-04-01",
+        "power_cents": 7.46,
         "wage_rel": 0.843,
         "build_mult": 0.9529,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1530.0
       },
       {
         "state": "MT",
         "power_rel": 0.6917,
         "ops_mult": 0.8304,
         "power_asof": "2026-04-01",
+        "power_cents": 5.99,
         "wage_rel": 0.9256,
         "build_mult": 0.9777,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1680.0
       },
       {
         "state": "NC",
         "power_rel": 0.8926,
         "ops_mult": 0.9409,
         "power_asof": "2026-04-01",
+        "power_cents": 7.73,
         "wage_rel": 0.9185,
         "build_mult": 0.9755,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1667.0
       },
       {
         "state": "ND",
         "power_rel": 0.948,
         "ops_mult": 0.9714,
         "power_asof": "2026-04-01",
+        "power_cents": 8.21,
         "wage_rel": 0.9961,
         "build_mult": 0.9988,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1808.0
       },
       {
         "state": "NE",
         "power_rel": 0.9769,
         "ops_mult": 0.9873,
         "power_asof": "2026-04-01",
+        "power_cents": 8.46,
         "wage_rel": 0.8678,
         "build_mult": 0.9603,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1575.0
       },
       {
         "state": "NH",
         "power_rel": 1.9792,
         "ops_mult": 1.5386,
         "power_asof": "2026-04-01",
+        "power_cents": 17.14,
         "wage_rel": 1.1096,
         "build_mult": 1.0329,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 2014.0
       },
       {
         "state": "NJ",
         "power_rel": 1.7575,
         "ops_mult": 1.4166,
         "power_asof": "2026-04-01",
+        "power_cents": 15.22,
         "wage_rel": 1.1096,
         "build_mult": 1.0329,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 2014.0
       },
       {
         "state": "NM",
         "power_rel": 0.724,
         "ops_mult": 0.8482,
         "power_asof": "2026-04-01",
+        "power_cents": 6.27,
         "wage_rel": 0.8468,
         "build_mult": 0.954,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1537.0
       },
       {
         "state": "NV",
         "power_rel": 0.8753,
         "ops_mult": 0.9314,
         "power_asof": "2026-04-01",
+        "power_cents": 7.58,
         "wage_rel": 0.9928,
         "build_mult": 0.9979,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1802.0
       },
       {
         "state": "NY",
         "power_rel": 0.9954,
         "ops_mult": 0.9975,
         "power_asof": "2026-04-01",
+        "power_cents": 8.62,
         "wage_rel": 1.1036,
         "build_mult": 1.0311,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 2003.0
       },
       {
         "state": "OH",
         "power_rel": 1.149,
         "ops_mult": 1.0819,
         "power_asof": "2026-04-01",
+        "power_cents": 9.95,
         "wage_rel": 1.0127,
         "build_mult": 1.0038,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1838.0
       },
       {
         "state": "OK",
         "power_rel": 0.6767,
         "ops_mult": 0.8222,
         "power_asof": "2026-04-01",
+        "power_cents": 5.86,
         "wage_rel": 0.8275,
         "build_mult": 0.9483,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1502.0
       },
       {
         "state": "OR",
         "power_rel": 0.9319,
         "ops_mult": 0.9625,
         "power_asof": "2026-04-01",
+        "power_cents": 8.07,
         "wage_rel": 0.9945,
         "build_mult": 0.9983,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1805.0
       },
       {
         "state": "PA",
         "power_rel": 1.1339,
         "ops_mult": 1.0737,
         "power_asof": "2026-04-01",
+        "power_cents": 9.82,
         "wage_rel": 1.011,
         "build_mult": 1.0033,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1835.0
       },
       {
         "state": "RI",
         "power_rel": 2.3961,
         "ops_mult": 1.7678,
         "power_asof": "2026-04-01",
+        "power_cents": 20.75,
         "wage_rel": null,
         "build_mult": null,
-        "wage_asof": null
+        "wage_asof": null,
+        "wage_level": null
       },
       {
         "state": "SC",
         "power_rel": 0.8603,
         "ops_mult": 0.9232,
         "power_asof": "2026-04-01",
+        "power_cents": 7.45,
         "wage_rel": 0.935,
         "build_mult": 0.9805,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1697.0
       },
       {
         "state": "SD",
         "power_rel": 1.0566,
         "ops_mult": 1.0311,
         "power_asof": "2026-04-01",
+        "power_cents": 9.15,
         "wage_rel": null,
         "build_mult": null,
-        "wage_asof": null
+        "wage_asof": null,
+        "wage_level": null
       },
       {
         "state": "TN",
         "power_rel": 0.8025,
         "ops_mult": 0.8914,
         "power_asof": "2026-04-01",
+        "power_cents": 6.95,
         "wage_rel": 1.0176,
         "build_mult": 1.0053,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1847.0
       },
       {
         "state": "TX",
         "power_rel": 0.7309,
         "ops_mult": 0.852,
         "power_asof": "2026-04-01",
+        "power_cents": 6.33,
         "wage_rel": 1.0198,
         "build_mult": 1.006,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1851.0
       },
       {
         "state": "UT",
         "power_rel": 0.9827,
         "ops_mult": 0.9905,
         "power_asof": "2026-04-01",
+        "power_cents": 8.51,
         "wage_rel": 0.8705,
         "build_mult": 0.9612,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1580.0
       },
       {
         "state": "VA",
         "power_rel": 1.1386,
         "ops_mult": 1.0762,
         "power_asof": "2026-04-01",
+        "power_cents": 9.86,
         "wage_rel": 0.9939,
         "build_mult": 0.9982,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1804.0
       },
       {
         "state": "VT",
         "power_rel": 1.4411,
         "ops_mult": 1.2426,
         "power_asof": "2026-04-01",
+        "power_cents": 12.48,
         "wage_rel": null,
         "build_mult": null,
-        "wage_asof": null
+        "wage_asof": null,
+        "wage_level": null
       },
       {
         "state": "WA",
         "power_rel": 0.8095,
         "ops_mult": 0.8952,
         "power_asof": "2026-04-01",
+        "power_cents": 7.01,
         "wage_rel": 1.0094,
         "build_mult": 1.0028,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1832.0
       },
       {
         "state": "WI",
         "power_rel": 1.0208,
         "ops_mult": 1.0114,
         "power_asof": "2026-04-01",
+        "power_cents": 8.84,
         "wage_rel": 1.0121,
         "build_mult": 1.0036,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1837.0
       },
       {
         "state": "WV",
         "power_rel": 1.0208,
         "ops_mult": 1.0114,
         "power_asof": "2026-04-01",
+        "power_cents": 8.84,
         "wage_rel": 0.8815,
         "build_mult": 0.9645,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1600.0
       },
       {
         "state": "WY",
         "power_rel": 1.0104,
         "ops_mult": 1.0057,
         "power_asof": "2026-04-01",
+        "power_cents": 8.75,
         "wage_rel": 0.8887,
         "build_mult": 0.9666,
-        "wage_asof": "2025-10-01"
+        "wage_asof": "2025-10-01",
+        "wage_level": 1613.0
       }
     ],
     "w_labor": 0.3,
@@ -29141,6 +29319,64 @@
       ],
       "multiple": 11.5,
       "years_span": 3
+    }
+  },
+  "context": {
+    "colo": {
+      "rate_kw_mo": 194.95,
+      "yoy_pct": 6.5,
+      "vacancy_pct": 1.4,
+      "under_construction_gw": 5.99,
+      "asof": "H2 2025",
+      "source": "CBRE North America Data Center Trends H2 2025 (cbre.com)"
+    },
+    "queue": {
+      "generation_gw": 1400,
+      "storage_gw": 890,
+      "asof": "2025 Edition (data as of end of 2024)",
+      "source": "LBNL Queued Up: 2025 Edition, Dec 2025 (emp.lbl.gov)"
+    },
+    "tnt": {
+      "rows": [
+        {
+          "year": 2022,
+          "escalation_pct": 15.0,
+          "build_yoy_pct": 8.94
+        },
+        {
+          "year": 2023,
+          "escalation_pct": 6.0,
+          "build_yoy_pct": 3.64
+        },
+        {
+          "year": 2024,
+          "escalation_pct": 9.0,
+          "build_yoy_pct": 2.74
+        },
+        {
+          "year": 2025,
+          "escalation_pct": 5.5,
+          "build_yoy_pct": 7.71
+        }
+      ],
+      "asof": "2025-2026 edition",
+      "source": "Turner & Townsend Data Centre Construction Cost Index 2025-2026 (turnerandtownsend.com)"
+    },
+    "transformer": null,
+    "kalshi": {
+      "dc_count_expected": 5032.0,
+      "count_asof": "2026-07-16",
+      "nuclear_by_2030_prob": 0.46,
+      "nuclear_asof": "2026-07-16"
+    },
+    "diesel": {
+      "latest": 4.8,
+      "asof": "2026-07-13",
+      "unit": "$/gal"
+    },
+    "water": {
+      "yoy_pct": 4.62,
+      "asof": "2026-06-01"
     }
   }
 }

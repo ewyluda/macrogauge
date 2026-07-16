@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-07-16T16:00:00Z",
-  "score": -6.4,
+  "published_at": "2026-07-16T23:20:26Z",
+  "score": -7.5,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": 0.31974,
+      "z": 0.3015,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -25,14 +25,14 @@
       "active_weight": 20.0
     },
     "housing": {
-      "z": -0.565475,
+      "z": -0.633325,
       "weight": 15,
       "available": 4,
       "expected": 4,
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": -0.6486333333333333,
+      "z": -0.6991999999999999,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-15",
-      "momentum": -0.34,
-      "z": -1.091
+      "as_of": "2026-07-16",
+      "momentum": -0.37,
+      "z": -1.1822
     },
     {
       "code": "PAYEMS",
@@ -188,9 +188,9 @@
       "direction": -1,
       "mode": "diff",
       "periods": 13,
-      "as_of": "2026-07-09",
-      "momentum": 0.12,
-      "z": -0.1246
+      "as_of": "2026-07-16",
+      "momentum": 0.25,
+      "z": -0.396
     },
     {
       "code": "M2SL",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-15",
-      "momentum": -0.08,
-      "z": -0.2244
+      "as_of": "2026-07-16",
+      "momentum": -0.12,
+      "z": -0.3761
     }
   ]
 }
