@@ -258,9 +258,13 @@ def power_block(conn: sqlite3.Connection, dc_result: dict, cfg,
     recomputed here, dc_result's engine run is the single source of truth.
     smooth_days/hubs describe the live splice tail (dc_basket config), which
     may differ from the wider hub list carried in cfg (e.g. ICE is
-    panel-only, never a splice input). Returns None only when NO configured
-    hub has any store rows yet (pre-backfill bootstrap) — Henry Hub alone
-    having data is not enough, this is a wholesale-power panel."""
+    panel-only, never a splice input). transform/passthrough/nowcast appear
+    on the tail only when the ops power mode is official+proxy — an inactive
+    tail stays byte-identical to the wave-4 shape. capacity_auction always
+    gains multiple/years_span; the capacity story math lives here so the site
+    computes nothing. Returns None only when NO configured hub has any store
+    rows yet (pre-backfill bootstrap) — Henry Hub alone having data is not
+    enough, this is a wholesale-power panel."""
     hub_rows = []
     for h in cfg.hubs:
         row = _latest_row(conn, h.code)
@@ -275,10 +279,33 @@ def power_block(conn: sqlite3.Connection, dc_result: dict, cfg,
         "latest": henry_row[1], "asof": henry_row[0], "unit": "$/MMBtu"}
     _, baskets = dc_basket.load_baskets(basket_path)
     power_comp = next(c for c in baskets["ops"] if c.code == "power")
-    active = dc_result["indexes"]["ops"]["components"]["power"]["mode"] == "official+proxy"
-    return {"tail": {"active": active,
-                     "smooth_days": power_comp.live_proxy_smooth_days,
-                     "hubs": list(power_comp.live_proxy_blend or ())},
-           "hubs": hub_rows,
-           "henry_hub": henry,
-           "capacity_auction": cfg.capacity_auction}
+    entry = dc_result["indexes"]["ops"]["components"]["power"]
+    active = entry["mode"] == "official+proxy"
+    tail = {"active": active,
+            "smooth_days": power_comp.live_proxy_smooth_days,
+            "hubs": list(power_comp.live_proxy_blend or ())}
+    if active:
+        # single source of truth: yoy/asof/implied come from the engine run
+        # verbatim (rounded here for publish) — never recomputed
+        tail["transform"] = power_comp.live_proxy_transform
+        tail["passthrough"] = power_comp.live_proxy_passthrough
+        tail["nowcast"] = {
+            "implied_cents_kwh": (None if entry["implied_level"] is None
+                                  else round(entry["implied_level"], 2)),
+            "yoy_pct": (None if entry["yoy_pct"] is None
+                        else round(entry["yoy_pct"], 2)),
+            "asof": entry["last_obs"]}
+    cap_rows = cfg.capacity_auction["rows"]
+    multiple = years_span = None
+    if len(cap_rows) >= 2:
+        first, final = cap_rows[0], cap_rows[-1]
+        if first["price_mw_day"] > 0:
+            multiple = round(final["price_mw_day"] / first["price_mw_day"], 1)
+        years_span = (int(final["delivery_year"][:4])
+                      - int(first["delivery_year"][:4]))
+    return {"tail": tail,
+            "hubs": hub_rows,
+            "henry_hub": henry,
+            "capacity_auction": {**cfg.capacity_auction,
+                                 "multiple": multiple,
+                                 "years_span": years_span}}

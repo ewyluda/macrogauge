@@ -50,7 +50,10 @@ CONSTRUCTION = {"as_of": "2026-05-01", "unit": "$M",
                 "months": ["2014-01-01", "2026-05-01"],
                 "saar": [1500.0, 61000.04], "real": [None, 41200.049]}
 POWER = {"tail": {"active": True, "smooth_days": 7,
-                  "hubs": ["caiso_sp15_da", "miso_indiana_da"]},
+                  "hubs": ["caiso_sp15_da", "miso_indiana_da"],
+                  "transform": "year_ratio", "passthrough": 0.5,
+                  "nowcast": {"implied_cents_kwh": 8.91, "yoy_pct": 4.27,
+                              "asof": "2026-07-14"}},
         "hubs": [{"code": "caiso_sp15_da", "label": "CAISO SP15 (day-ahead)",
                   "latest": 44.749, "asof": "2026-07-14", "unit": "$/MWh"},
                  {"code": "ice_pjm_west", "label": "PJM Western Hub (ICE wtd avg)",
@@ -61,7 +64,8 @@ POWER = {"tail": {"active": True, "smooth_days": 7,
             "source": "PJM RPM Base Residual Auction results (pjm.com)",
             "asof": "2025-12-17",
             "rows": [{"delivery_year": "2024/25", "price_mw_day": 28.92},
-                     {"delivery_year": "2025/26", "price_mw_day": 269.92}]}}
+                     {"delivery_year": "2025/26", "price_mw_day": 269.92}],
+            "multiple": 9.3, "years_span": 1}}
 
 
 def test_build_publishes_from_2018_with_contributions():
@@ -87,6 +91,7 @@ def test_build_publishes_from_2018_with_contributions():
     assert len(c["months"]) == len(c["saar"]) == len(c["real"])
     p = payload["power"]
     assert p["tail"] == POWER["tail"]
+    assert p["tail"]["nowcast"]["implied_cents_kwh"] == 8.91
     hubs = {h["code"]: h for h in p["hubs"]}
     assert hubs["caiso_sp15_da"]["latest"] == 44.75          # rounded 2dp
     assert hubs["ice_pjm_west"]["latest"] == 39.0
@@ -126,7 +131,9 @@ def test_power_deferred_tail_validates(tmp_path):
     # power_block publishes a deferred (inactive, nullable smooth_days,
     # empty hubs) tail. The panel (hubs/henry_hub/capacity_auction) is
     # unaffected and keeps publishing.
-    power = {**POWER, "tail": {"active": False, "smooth_days": None, "hubs": []}}
+    power = {**POWER, "tail": {"active": False, "smooth_days": None, "hubs": []},
+             "capacity_auction": {**POWER["capacity_auction"],
+                                  "multiple": None, "years_span": None}}
     payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, CONSTRUCTION, power)
     assert payload["power"]["tail"] == {"active": False, "smooth_days": None, "hubs": []}
     path = datacenter.write(payload, tmp_path, published_at="2026-07-15T12:00:00Z")

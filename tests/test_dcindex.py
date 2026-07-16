@@ -463,17 +463,26 @@ def test_power_block_shape_with_partial_hub_data(tmp_path):
         ("eia_henry_hub", "2026-07-13", 2.83)])
     ops = [{"code": "power", "label": "Power", "group": "power", "series": "eia_elec_ind_us",
            "weight": 1.0, "live_proxy_blend": ["caiso_sp15_da", "miso_indiana_da"],
-           "live_proxy_smooth_days": 7}]
+           "live_proxy_smooth_days": 7, "live_proxy_transform": "year_ratio",
+           "live_proxy_passthrough": 0.5}]
     basket = write_basket(tmp_path, TWO_COMP_BUILD, ops)
-    dc_result = {"indexes": {"ops": {"components": {"power": {"mode": "official+proxy"}}}}}
+    dc_result = {"indexes": {"ops": {"components": {"power": {
+        "mode": "official+proxy", "implied_level": 8.913,
+        "yoy_pct": 4.267, "last_obs": "2026-07-14"}}}}}
     block = dcindex.power_block(conn, dc_result, _power_cfg(), basket_path=basket)
-    assert block["tail"] == {"active": True, "smooth_days": 7,
-                             "hubs": ["caiso_sp15_da", "miso_indiana_da"]}
+    assert block["tail"] == {
+        "active": True, "smooth_days": 7,
+        "hubs": ["caiso_sp15_da", "miso_indiana_da"],
+        "transform": "year_ratio", "passthrough": 0.5,
+        "nowcast": {"implied_cents_kwh": 8.91, "yoy_pct": 4.27,
+                    "asof": "2026-07-14"}}
     assert block["hubs"] == [{"code": "caiso_sp15_da", "label": "CAISO SP15 (day-ahead)",
                               "latest": 44.7, "asof": "2026-07-14", "unit": "$/MWh"}]
     assert block["henry_hub"] == {"code": "eia_henry_hub", "label": "Henry Hub natural gas",
                                   "latest": 2.83, "asof": "2026-07-13", "unit": "$/MMBtu"}
-    assert block["capacity_auction"] == CAP
+    assert block["capacity_auction"]["multiple"] is None   # single row
+    assert block["capacity_auction"]["years_span"] is None
+    assert block["capacity_auction"]["rows"] == CAP["rows"]
 
 
 def test_power_block_none_when_no_hub_has_data(tmp_path):
@@ -503,9 +512,42 @@ def test_power_block_tail_active_is_pure_passthrough(tmp_path, mode, expected):
     # never recomputed from the hub data present here.
     conn = make_conn(tmp_path, [("caiso_sp15_da", "2026-07-14", 44.7)])
     basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
-    dc_result = {"indexes": {"ops": {"components": {"power": {"mode": mode}}}}}
+    dc_result = {"indexes": {"ops": {"components": {"power": {
+        "mode": mode, "implied_level": None,
+        "yoy_pct": None, "last_obs": "2026-04-01"}}}}}
     block = dcindex.power_block(conn, dc_result, _power_cfg(), basket_path=basket)
     assert block["tail"]["active"] is expected
+
+
+def test_power_block_inactive_tail_shape_unchanged(tmp_path):
+    # Option-B byte-identity: an inactive tail must publish EXACTLY the
+    # wave-4 shape — no transform/passthrough/nowcast keys leak in.
+    conn = make_conn(tmp_path, [("caiso_sp15_da", "2026-07-14", 44.7)])
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    dc_result = {"indexes": {"ops": {"components": {"power": {
+        "mode": "official", "implied_level": None,
+        "yoy_pct": 3.0, "last_obs": "2026-04-01"}}}}}
+    block = dcindex.power_block(conn, dc_result, _power_cfg(), basket_path=basket)
+    assert block["tail"] == {"active": False, "smooth_days": None, "hubs": []}
+
+
+def test_power_block_capacity_story_math(tmp_path):
+    # entry task: the multiple/years_span math moves out of PowerPanel.tsx
+    conn = make_conn(tmp_path, [("caiso_sp15_da", "2026-07-14", 44.7)])
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    cfg = dc_power.PowerConfig(
+        hubs=(dc_power.HubSpec(code="caiso_sp15_da", label="CAISO"),),
+        henry_hub=dc_power.HubSpec(code="eia_henry_hub", label="HH"),
+        capacity_auction={"source": "PJM", "asof": "2025-12-17", "rows": [
+            {"delivery_year": "2024/25", "price_mw_day": 28.92},
+            {"delivery_year": "2027/28", "price_mw_day": 333.44}]})
+    dc_result = {"indexes": {"ops": {"components": {"power": {
+        "mode": "official", "implied_level": None,
+        "yoy_pct": None, "last_obs": "2026-04-01"}}}}}
+    block = dcindex.power_block(conn, dc_result, cfg, basket_path=basket)
+    cap = block["capacity_auction"]
+    assert cap["multiple"] == pytest.approx(11.5)     # 333.44/28.92 → 1dp
+    assert cap["years_span"] == 3                     # 2027 - 2024
 
 
 YR_OPS = [
