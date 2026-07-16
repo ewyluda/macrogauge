@@ -8,10 +8,18 @@ run makes exactly one request; the backfill script sleeps between windows.
 
 SPIKE-FINAL (docs/superpowers/specs/2026-07-15-power-spike-notes.md §1): the
 `T07:00-0000`..`T07:00-0000` window boundary only aligns to exactly one trade
-date during Pacific Daylight Time. In PST months it leaks a handful of the
-prior day's HE24 rows into the response. Rather than compute a DST-aware GMT
-offset, the connector filters unzipped rows by the CSV's own `OPR_DT` column
-against the requested trade date — simpler and robust year-round.
+date during Pacific Daylight Time. In PST months a `T07:00`..`T07:00` window
+closes an hour early in local time and *misses* the target day's HE24 row
+entirely — a silent 23-hour mean indistinguishable from a genuine DST short
+day. Rather than compute a DST-aware GMT offset, the connector widens the
+request window (`T07:00` start .. `T09:00-0000` end on D+1) so it fully
+contains the target trade date under both PST (`T08:00` D .. `T08:00` D+1)
+and PDT (`T07:00` .. `T07:00`) alignments, including genuine 23/25-hour
+DST-transition days, then filters unzipped rows by the CSV's own `OPR_DT`
+column against the requested trade date to extract exactly that day's rows.
+This supersedes the original "T07:00 only clean in PDT" caveat by
+construction: the wide window plus the `OPR_DT` filter is correct
+year-round, not just in PDT months.
 """
 import csv
 import io
@@ -24,7 +32,7 @@ from pipeline.connectors.util import get_bytes
 from pipeline.models import Observation
 
 URL = ("https://oasis.caiso.com/oasisapi/SingleZip?queryname=PRC_LMP"
-       "&startdatetime={d}T07:00-0000&enddatetime={e}T07:00-0000"
+       "&startdatetime={d}T07:00-0000&enddatetime={e}T09:00-0000"
        "&version=1&market_run_id=DAM&node={node}&resultformat=6")
 OPR_DT_COL = "OPR_DT"                                    # SPIKE-FINAL
 LMP_TYPE_COL, LMP_TYPE_VAL, PRICE_COL = "LMP_TYPE", "LMP", "MW"
@@ -61,8 +69,10 @@ def fetch(source_ids: list[str], vintage_date: str | None = None,
             raise ValueError(f"caiso {node}: columns {fieldnames} lack "
                              f"{OPR_DT_COL}/{LMP_TYPE_COL}/{PRICE_COL} "
                              "(structure drift?)")
-        # SPIKE-FINAL: filter by OPR_DT == trade date as well as LMP_TYPE —
-        # the T07:00 window alone leaks neighbor-day rows in PST months.
+        # Wide window (T07:00 D .. T09:00 D+1) guarantees the full target
+        # day is present under both PST and PDT alignments; filter by
+        # OPR_DT == trade date as well as LMP_TYPE to extract exactly that
+        # day's rows and drop the neighbor-day rows the wide window admits.
         prices = [float(r[PRICE_COL]) for r in reader
                   if r.get(OPR_DT_COL) == day
                   and r.get(LMP_TYPE_COL) == LMP_TYPE_VAL]

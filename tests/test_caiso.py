@@ -92,3 +92,19 @@ def test_stray_next_day_opr_dt_rows_excluded():
     obs = caiso.fetch(["TH_SP15_GEN-APND"], vintage_date="2026-07-15",
                       trade_date="2026-07-14", http_get=_get(_zip_bytes(rows)))
     assert obs[0].value == pytest.approx(45.0)
+
+
+def test_pst_window_simulation():
+    # A T07:00-only end boundary closes an hour early in local time during
+    # PST months and MISSES the target day's HE24 entirely — a silent
+    # 23-hour mean indistinguishable from a genuine DST short day. The
+    # widened window (T07:00 start .. T09:00 D+1 end) must pull in the full
+    # 24 target-day hours plus both neighbor days, and the OPR_DT filter
+    # must extract exactly the 24 target rows.
+    rows = (_hours([99.0], day="2026-01-14")           # prior-day straggler
+            + _hours([30.0] * 24, day="2026-01-15")    # full target day
+            + _hours([999.0] * 9, day="2026-01-16"))   # next-day rows
+    obs = caiso.fetch(["TH_SP15_GEN-APND"], vintage_date="2026-01-16",
+                      trade_date="2026-01-15", http_get=_get(_zip_bytes(rows)))
+    assert len(obs) == 1
+    assert obs[0].value == pytest.approx(30.0)
