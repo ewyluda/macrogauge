@@ -1,0 +1,13 @@
+{"hubs": [
+   {"code": "caiso_sp15_da", "label": "CAISO SP15 (day-ahead)"},
+   {"code": "miso_indiana_da", "label": "MISO Indiana Hub (day-ahead)"},
+   {"code": "ice_pjm_west", "label": "PJM Western Hub (ICE wtd avg)"}],
+ "henry_hub": {"code": "eia_henry_hub", "label": "Henry Hub natural gas"},
+ "capacity_auction": {
+   "source": "PJM RPM Base Residual Auction results (pjm.com); hand-updated after each auction",
+   "asof": "2025-12-17",
+   "rows": [
+     {"delivery_year": "2024/25", "price_mw_day": 28.92},
+     {"delivery_year": "2025/26", "price_mw_day": 269.92},
+     {"delivery_year": "2026/27", "price_mw_day": 329.17},
+     {"delivery_year": "2027/28", "price_mw_day": 333.44}]}}

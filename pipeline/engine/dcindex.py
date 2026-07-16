@@ -228,3 +228,38 @@ def construction_from_store(conn: sqlite3.Connection, dc_result: dict) -> dict |
         _series(conn, "census_dc_constr_saar"),
         _series(conn, "census_dc_constr_nsa"),
         dc_result["indexes"]["build"]["index"])
+
+
+def power_block(conn: sqlite3.Connection, dc_result: dict, cfg,
+                basket_path: Path | None = None) -> dict | None:
+    """DC Ops "power bill" panel (spec §5): latest obs for each configured
+    wholesale hub + Henry Hub, plus the smoothed-tail config and the
+    hand-seeded PJM capacity-auction rows. tail.active is the ops power
+    component's mode, passed through from dc_result VERBATIM — never
+    recomputed here, dc_result's engine run is the single source of truth.
+    smooth_days/hubs describe the live splice tail (dc_basket config), which
+    may differ from the wider hub list carried in cfg (e.g. ICE is
+    panel-only, never a splice input). Returns None only when NO configured
+    hub has any store rows yet (pre-backfill bootstrap) — Henry Hub alone
+    having data is not enough, this is a wholesale-power panel."""
+    hub_rows = []
+    for h in cfg.hubs:
+        row = _latest_row(conn, h.code)
+        if row:
+            hub_rows.append({"code": h.code, "label": h.label,
+                             "latest": row[1], "asof": row[0], "unit": "$/MWh"})
+    if not hub_rows:
+        return None
+    henry_row = _latest_row(conn, cfg.henry_hub.code)
+    henry = None if not henry_row else {
+        "code": cfg.henry_hub.code, "label": cfg.henry_hub.label,
+        "latest": henry_row[1], "asof": henry_row[0], "unit": "$/MMBtu"}
+    _, baskets = dc_basket.load_baskets(basket_path)
+    power_comp = next(c for c in baskets["ops"] if c.code == "power")
+    active = dc_result["indexes"]["ops"]["components"]["power"]["mode"] == "official+proxy"
+    return {"tail": {"active": active,
+                     "smooth_days": power_comp.live_proxy_smooth_days,
+                     "hubs": list(power_comp.live_proxy_blend or ())},
+           "hubs": hub_rows,
+           "henry_hub": henry,
+           "capacity_auction": cfg.capacity_auction}

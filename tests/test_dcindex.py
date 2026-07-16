@@ -2,6 +2,7 @@ import json
 
 import pytest
 
+from pipeline import dc_power
 from pipeline.engine import dcindex
 from pipeline.models import Observation
 from pipeline.store import vintage
@@ -440,3 +441,68 @@ def test_construction_from_store_none_before_first_collect(tmp_path):
     basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
     dc_result = dcindex.run(conn, today="2018-01-15", basket_path=basket)
     assert dcindex.construction_from_store(conn, dc_result) is None
+
+
+CAP = {"source": "PJM", "asof": "2025-12-17",
+      "rows": [{"delivery_year": "2024/25", "price_mw_day": 28.92}]}
+
+
+def _power_cfg(hubs=(("caiso_sp15_da", "CAISO SP15 (day-ahead)"),
+                     ("miso_indiana_da", "MISO Indiana Hub (day-ahead)"))):
+    return dc_power.PowerConfig(
+        hubs=tuple(dc_power.HubSpec(code=c, label=l) for c, l in hubs),
+        henry_hub=dc_power.HubSpec(code="eia_henry_hub", label="Henry Hub natural gas"),
+        capacity_auction=CAP)
+
+
+def test_power_block_shape_with_partial_hub_data(tmp_path):
+    # caiso has a row, miso does not (bootstrap: only one hub backfilled so
+    # far) -> miso's row is omitted, never a placeholder/null entry.
+    conn = make_conn(tmp_path, [
+        ("caiso_sp15_da", "2026-07-14", 44.7),
+        ("eia_henry_hub", "2026-07-13", 2.83)])
+    ops = [{"code": "power", "label": "Power", "group": "power", "series": "eia_elec_ind_us",
+           "weight": 1.0, "live_proxy_blend": ["caiso_sp15_da", "miso_indiana_da"],
+           "live_proxy_smooth_days": 7}]
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ops)
+    dc_result = {"indexes": {"ops": {"components": {"power": {"mode": "official+proxy"}}}}}
+    block = dcindex.power_block(conn, dc_result, _power_cfg(), basket_path=basket)
+    assert block["tail"] == {"active": True, "smooth_days": 7,
+                             "hubs": ["caiso_sp15_da", "miso_indiana_da"]}
+    assert block["hubs"] == [{"code": "caiso_sp15_da", "label": "CAISO SP15 (day-ahead)",
+                              "latest": 44.7, "asof": "2026-07-14", "unit": "$/MWh"}]
+    assert block["henry_hub"] == {"code": "eia_henry_hub", "label": "Henry Hub natural gas",
+                                  "latest": 2.83, "asof": "2026-07-13", "unit": "$/MMBtu"}
+    assert block["capacity_auction"] == CAP
+
+
+def test_power_block_none_when_no_hub_has_data(tmp_path):
+    # Henry Hub alone has data; no configured hub does -> bootstrap, None.
+    conn = make_conn(tmp_path, [("eia_henry_hub", "2026-07-13", 2.83)])
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    dc_result = {"indexes": {"ops": {"components": {"power": {"mode": "official"}}}}}
+    assert dcindex.power_block(conn, dc_result, _power_cfg(), basket_path=basket) is None
+
+
+def test_power_block_henry_hub_null_when_absent(tmp_path):
+    # a hub has data but Henry Hub has no store rows yet -> henry_hub is a
+    # nullable object (schema: type ["object", "null"]), never omitted from
+    # the payload and never a placeholder with null fields.
+    conn = make_conn(tmp_path, [("caiso_sp15_da", "2026-07-14", 44.7)])
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    dc_result = {"indexes": {"ops": {"components": {"power": {"mode": "official"}}}}}
+    block = dcindex.power_block(conn, dc_result, _power_cfg(), basket_path=basket)
+    assert block is not None
+    assert block["henry_hub"] is None
+    assert len(block["hubs"]) == 1
+
+
+@pytest.mark.parametrize("mode,expected", [("official+proxy", True), ("official", False)])
+def test_power_block_tail_active_is_pure_passthrough(tmp_path, mode, expected):
+    # tail.active must reflect the ops power component's mode VERBATIM —
+    # never recomputed from the hub data present here.
+    conn = make_conn(tmp_path, [("caiso_sp15_da", "2026-07-14", 44.7)])
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    dc_result = {"indexes": {"ops": {"components": {"power": {"mode": mode}}}}}
+    block = dcindex.power_block(conn, dc_result, _power_cfg(), basket_path=basket)
+    assert block["tail"]["active"] is expected

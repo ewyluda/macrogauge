@@ -7,7 +7,7 @@ from pipeline.engine.dcindex import PUBLISH_START
 
 
 def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
-          construction: dict | None) -> dict:
+          construction: dict | None, power: dict | None) -> dict:
     out = {"rebase": f"{dc_result['base_month']}=100",
            "group_labels": dc_basket.load_group_labels(),
            "indexes": {}, "parity": parity_result}
@@ -47,6 +47,12 @@ def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
         "months": construction["months"],
         "saar": [round(v, 1) for v in construction["saar"]],
         "real": [None if v is None else round(v, 1) for v in construction["real"]]}
+    out["power"] = None if power is None else {
+        "tail": power["tail"],
+        "hubs": [{**h, "latest": round(h["latest"], 2)} for h in power["hubs"]],
+        "henry_hub": None if power["henry_hub"] is None else {
+            **power["henry_hub"], "latest": round(power["henry_hub"]["latest"], 2)},
+        "capacity_auction": power["capacity_auction"]}
     return out
 
 
