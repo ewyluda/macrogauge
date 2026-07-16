@@ -219,3 +219,26 @@ backfill (current-year file carries 2026 history on first fetch).
 5. **ICE hub-label drift** — census-class, drift-checked, panel-only blast radius.
 6. **Capacity-auction staleness** — hand-seeded annual data; the block carries an `asof`/source
    note so a missed update reads as dated, not wrong.
+
+## 10. Post-implementation finding (2026-07-15, recorded before first deploy)
+
+The live activation run FAILED the sanity gate: ops headline YoY jumped +6.2% → +52.3% (power
+component +89%). Root cause is a design flaw in §2's mechanism for THIS series pair, not an
+implementation bug: the smoothed hub composite swings ~2.8× from spring anchor (~18–25 $/MWh)
+to mid-July (~54 $/MWh) on ordinary seasonality plus a heat event, and the anchored LEVEL
+splice maps that swing onto a retail series that is tariff-smoothed and seasonally flat
+(9.29 → 8.66 ¢/kWh over the same months). The copper→PPI analogy does not transfer: those two
+series share (no) seasonality; wholesale and retail power do not. The 7-day smoothing keeps
+daily moves under the 5% gate, so nothing tripped.
+
+**Decision (user-approved): Option B.** The index tail is DEFERRED — `live_proxy_blend` removed
+from the ops power component (commit 09b4c2a); the power panel, capacity table, all four
+connectors, the backfill, and the blend engine machinery (config-gated, fully tested) ship as
+built. `power.tail` publishes `{active: false, smooth_days: null, hubs: []}` honestly.
+
+**Queued as the next spec ("year-ratio nowcast"):** couple wholesale to the index
+like-month-to-like-month — `retail_nowcast(t) = retail_filled(t−365d) × W(t)/W(t−365d)` — the
+house YoY philosophy applied to the proxy transform, which cancels seasonality by construction.
+Requirements already scoped: ~12 further months of hub backfill (both sources' history reaches,
+spike-verified), a new pure engine transform with its own gate semantics and gap handling, and
+honest methodology on partial/lagged wholesale→retail pass-through.
