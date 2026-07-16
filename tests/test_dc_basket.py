@@ -19,8 +19,9 @@ def test_load_real_baskets():
     # wave-4 option B: the wholesale tail was DEFERRED from the index after a
     # live run showed the anchored level-splice maps the ~2.8x seasonal
     # wholesale swing onto the seasonally-flat retail series (ops YoY +52%).
-    # The blend machinery stays, config-gated; a year-ratio nowcast
-    # (retail(t-1y) x W(t)/W(t-1y)) is queued as its own spec.
+    # Wave 4b then built the year-ratio coupling and BACKTESTED it against 8
+    # realized prints: every lambda>0 lost to carry-forward (spec §10), so
+    # the index stays official-only and all tail machinery is config-gated.
     power = next(c for c in baskets["ops"] if c.code == "power")
     assert power.live_proxy is None
     assert power.live_proxy_blend is None

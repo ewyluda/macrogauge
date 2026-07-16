@@ -21,7 +21,9 @@ from pipeline.store import vintage                         # noqa: E402
 
 RETAIL = "eia_elec_ind_us"
 HUBS = ("caiso_sp15_da", "miso_indiana_da")
-LAMBDAS = (0.0, 0.25, 0.5, 0.75, 1.0)
+LAMBDAS = (0.0, 0.25, 0.5, 0.75, 0.8, 1.0)   # 0.8 = cost-structure seed
+    # (AEO2025 Table 8: generation 7.687 / industrial 9.064 ¢/kWh -> 0.848,
+    # rounded down for the all-sector-average caveat; spec §6 grid ∪ seed)
 SMOOTH_DAYS = 7
 AVAIL_LAG_DAYS = 75   # retail print for month M appears ~75d after month start
 GRADE_DAY = 15        # grade the tail value a reader saw mid-month
@@ -170,7 +172,9 @@ def main(argv=None) -> int:
           f"{'PASS: flip approved' if ok else 'FAIL: do not flip'} "
           f"(spec §6: beat carry-fwd {cf_mae:.3f} and λ=0 "
           f"{mae.get(0.0, float('nan')):.3f}; max|err| <= {MAX_ERR_PTS})")
-    return 0
+    # exit code mirrors the verdict so future automation can't read a
+    # FAIL as success; 1 is reserved for no-gradeable-data errors above
+    return 0 if ok else 2
 
 
 if __name__ == "__main__":
