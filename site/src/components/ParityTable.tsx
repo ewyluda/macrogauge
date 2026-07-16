@@ -5,6 +5,7 @@ import { useState } from "react";
 export type ParityRow = {
   state: string; power_rel: number; ops_mult: number; power_asof: string;
   wage_rel: number | null; build_mult: number | null; wage_asof: string | null;
+  power_cents?: number; wage_level?: number | null;
 };
 
 type Key = "state" | "build_mult" | "ops_mult";
@@ -35,12 +36,15 @@ export function ParityTable({ states, mode }: { states: ParityRow[]; mode: strin
       <table className="data-table">
         <thead><tr>
           {th("State", "state")}{th("Build ×", "build_mult")}{th("Ops ×", "ops_mult")}
-          <th>Wage rel</th><th>Power rel</th><th>Wage as-of</th><th>Power as-of</th>
+          <th>Wage rel</th><th>Power rel</th><th>Power ¢/kWh</th><th>QCEW wage</th>
+          <th>Wage as-of</th><th>Power as-of</th>
         </tr></thead>
         <tbody>{rows.map((r) => (
           <tr key={r.state}>
             <td>{r.state}</td><td>{fmt(r.build_mult)}</td><td>{fmt(r.ops_mult)}</td>
             <td>{fmt(r.wage_rel)}</td><td>{fmt(r.power_rel)}</td>
+            <td>{r.power_cents != null ? r.power_cents.toFixed(2) : "—"}</td>
+            <td>{r.wage_level != null ? `$${r.wage_level.toLocaleString()}` : "—"}</td>
             <td>{r.wage_asof ?? "—"}</td><td>{r.power_asof}</td>
           </tr>
         ))}</tbody>

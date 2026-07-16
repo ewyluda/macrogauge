@@ -8,6 +8,7 @@ import { ParityTable, type ParityRow } from "@/components/ParityTable";
 import { StateTileMap } from "@/components/StateTileMap";
 import { HardwareGapPanel, type GapRow } from "@/components/HardwareGapPanel";
 import { PowerPanel, type PowerData } from "@/components/PowerPanel";
+import { ContextPanel, type ContextData } from "@/components/ContextPanel";
 import { fmtSigned, fmtPp } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -18,13 +19,17 @@ export const metadata: Metadata = {
 type Comp = {
   code: string; label: string; group: string; weight: number; mode: string;
   last_obs: string; yoy_pct: number | null; contribution_pp: number | null;
+  stale?: boolean;
 };
+
+type GroupSum = { group: string; weight: number; contribution_pp: number | null };
 
 const GROUPS = dc.group_labels as Record<string, string>;
 
-function ComponentTable({ title, comps, groupHeaders = false }: {
-  title: string; comps: Comp[]; groupHeaders?: boolean;
+function ComponentTable({ title, comps, groupHeaders = false, groups }: {
+  title: string; comps: Comp[]; groupHeaders?: boolean; groups?: GroupSum[];
 }) {
+  const sums = groups ? new Map(groups.map((g) => [g.group, g])) : null;
   const max = Math.max(...comps.map((c) => Math.abs(c.contribution_pp ?? 0)), 0.01);
   // Group header rows are presentation only — published rows rendered in
   // published order, no computed group sums.
@@ -45,6 +50,11 @@ function ComponentTable({ title, comps, groupHeaders = false }: {
                                    fontSize: 11, fontWeight: 600, textTransform: "uppercase",
                                    letterSpacing: "0.08em", paddingTop: 12 }}>
             {GROUPS[group] ?? group}
+            {sums?.get(group) && (
+              <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>
+                {" "}· {(sums.get(group)!.weight * 100).toFixed(0)}% · {fmtPp(sums.get(group)!.contribution_pp)}
+              </span>
+            )}
           </td>
         </tr>
       );
@@ -64,7 +74,9 @@ function ComponentTable({ title, comps, groupHeaders = false }: {
           <span style={{ marginLeft: 6 }}>{fmtPp(c.contribution_pp)}</span>
         </td>
         <td>{c.mode === "official+proxy" ? "monthly + live tail" : "monthly official"}</td>
-        <td>{c.last_obs}</td>
+        <td>{c.last_obs}{c.stale && (
+          <span style={{ color: "var(--muted)", marginLeft: 6, fontSize: 11 }}>stale</span>
+        )}</td>
       </tr>
     );
     }
@@ -86,6 +98,7 @@ export default function Datacenter() {
   const hardware = dc.indexes.hardware;
   const construction = dc.construction;
   const power = dc.power;
+  const context = (dc as { context?: ContextData }).context;
   const gateFlags = [
     ...(build.gate_flags as string[]),
     ...(ops.gate_flags as string[]),
@@ -136,9 +149,12 @@ export default function Datacenter() {
         { key: "ops", label: "DC Ops", dates: ops.dates, index: ops.index, yoy: ops.yoy_pct },
         { key: "hardware", label: "DC Hardware", dates: hardware.dates, index: hardware.index, yoy: hardware.yoy_pct },
       ]} />
-      <ComponentTable title="DC Build components" comps={build.components as Comp[]} groupHeaders />
-      <ComponentTable title="DC Ops components" comps={ops.components as Comp[]} />
-      <ComponentTable title="DC Hardware components" comps={hardware.components as Comp[]} groupHeaders />
+      <ComponentTable title="DC Build components" comps={build.components as Comp[]}
+                      groups={(build as { groups?: GroupSum[] }).groups} groupHeaders />
+      <ComponentTable title="DC Ops components" comps={ops.components as Comp[]}
+                      groups={(ops as { groups?: GroupSum[] }).groups} />
+      <ComponentTable title="DC Hardware components" comps={hardware.components as Comp[]}
+                      groups={(hardware as { groups?: GroupSum[] }).groups} groupHeaders />
       <HardwareGapPanel rows={dc.hardware_gap as GapRow[]} />
       {construction && (
         <>
@@ -156,6 +172,7 @@ export default function Datacenter() {
         </>
       )}
       {power && <PowerPanel power={power as PowerData} />}
+      {context && <ContextPanel context={context} />}
       <h2>State cost parity <span className="subtitle">multipliers vs national average</span></h2>
       <StateTileMap states={states} national={dc.parity.national} />
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, margin: "12px 0" }}>
@@ -201,6 +218,12 @@ export default function Datacenter() {
         official retail data and the machinery ships config-gated. Wholesale tells you about
         the grid; it does not nowcast tariff-cycle retail rates, and we publish it as market
         visibility only.
+        {" "}The bigger-picture cards are context, not index inputs: colo asking rates (CBRE),
+        grid-queue volumes (LBNL), and the Turner &amp; Townsend cost-per-watt escalation — an
+        annual external calibration shown against our daily DC Build index — are hand-updated
+        from their cited publications and each card carries its as-of date. Kalshi odds are
+        market-implied probabilities from thin books, shown only when a live quote exists.
+        Diesel (genset fuel) and the water &amp; sewerage CPI ride the daily pipeline.
       </p>
     </div>
   );
