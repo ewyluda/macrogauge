@@ -9,8 +9,9 @@ from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
 
-from pipeline.connectors import (aaa, aptlist, bls, census, cleveland, eia, fmp, fred, kalshi,
-                                 manheim, mnd, pmms, qcew, treasury, usda, zillow)
+from pipeline.connectors import (aaa, aptlist, bls, census, cleveland, dramex, eia, fmp, fred,
+                                 kalshi, manheim, mnd, openrouter, pmms, qcew, sfcompute,
+                                 treasury, usda, vastai, zillow)
 from pipeline.registry import Series, Source
 from pipeline.store import vintage
 
@@ -100,6 +101,22 @@ def _qcew(subset, key, http):
     return qcew.fetch([s.source_id for s in subset], http_get=http)
 
 
+def _dramex(subset, key, http):
+    return dramex.fetch([s.source_id for s in subset], http_get=http)
+
+
+def _vastai(subset, key, http):
+    return vastai.fetch([s.source_id for s in subset], http_get=http)
+
+
+def _sfcompute(subset, key, http):
+    return sfcompute.fetch([s.source_id for s in subset], http_get=http)
+
+
+def _openrouter(subset, key, http):
+    return openrouter.fetch([s.source_id for s in subset], http_get=http)
+
+
 FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             "TREASURY": _treasury, "ZILLOW": _zillow, "PMMS": _pmms,
             "APTLIST": _aptlist, "USDA": _usda, "AAA": _aaa, "MND": _mnd,
@@ -107,7 +124,12 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             "KALSHI": _kalshi,
             # EIA_STATE is a separate source key only for failure isolation
             # and its own status row — the fetch mechanics are plain EIA.
-            "EIA_STATE": _eia, "QCEW": _qcew, "CENSUS": _census}
+            "EIA_STATE": _eia, "QCEW": _qcew, "CENSUS": _census,
+            "DRAMEX": _dramex, "VASTAI": _vastai, "SFCOMPUTE": _sfcompute,
+            "OPENROUTER": _openrouter,
+            # STEO is a separate source key only for failure isolation — the
+            # fetch mechanics are plain EIA (v2 seriesid route), like EIA_STATE.
+            "STEO": _eia}
 
 # BLS posts; everything else gets. collect_all passes the right client through.
 POST_SOURCES = {"BLS"}

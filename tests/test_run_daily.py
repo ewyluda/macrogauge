@@ -113,6 +113,14 @@ def fake_get(url, params=None, timeout=None, **kw):
         return _text(FIXTURES / "qcew_industry23.csv")
     if "census.gov/construction" in url:
         return _BytesResponse(_CENSUS_XLSX[url.rsplit("/", 1)[1]])
+    if "dramexchange.com" in url:
+        return _text(FIXTURES / "dramex.html")
+    if "console.vast.ai" in url:
+        return FakeResponse(json.loads((FIXTURES / "vastai_bundles.json").read_text()))
+    if "sfcompute.com" in url:
+        return _text(FIXTURES / "sfcompute.html")
+    if "openrouter.ai" in url:
+        return FakeResponse(json.loads((FIXTURES / "openrouter_models.json").read_text()))
     raise AssertionError(f"unexpected url {url}")
 
 
@@ -179,7 +187,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "stress.json", "recession.json", "datacenter.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 17
+    assert len(status["sources"]) == 22
     assert all(s["ok"] for s in status["sources"])
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
