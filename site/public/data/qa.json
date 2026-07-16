@@ -55,13 +55,13 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": false,
-      "detail": "24/26 ok; failed \u2014 BLS: ReadTimeout: HTTPSConnectionPool(host='api.bls.gov', port=443): Read timed out. (read timeout=60); USDA: missing secret USDA_API_KEY"
+      "detail": "25/26 ok; failed \u2014 BLS: ReadTimeout: HTTPSConnectionPool(host='api.bls.gov', port=443): Read timed out. (read timeout=60)"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "259/269 fresh; stale \u2014 zori_us (76d > 75d), zhvi_us (76d > 75d), qcew_wage23_ak (never seen), qcew_wage23_dc (never seen), qcew_wage23_la (never seen), qcew_wage23_ma (never seen), qcew_wage23_mo (never seen), qcew_wage23_ri (never seen), qcew_wage23_sd (never seen), qcew_wage23_vt (never seen)"
+      "detail": "261/269 fresh; stale \u2014 qcew_wage23_ak (never seen), qcew_wage23_dc (never seen), qcew_wage23_la (never seen), qcew_wage23_ma (never seen), qcew_wage23_mo (never seen), qcew_wage23_ri (never seen), qcew_wage23_sd (never seen), qcew_wage23_vt (never seen)"
     },
     {
       "name": "fuel_sources_agree",

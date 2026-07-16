@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-16T14:38:55Z",
+  "published_at": "2026-07-16T16:00:00Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -16,7 +16,7 @@
   "indexes": {
     "build": {
       "as_of": "2026-07-16",
-      "headline_yoy_pct": 6.52,
+      "headline_yoy_pct": 6.54,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -6258,7 +6258,7 @@
         165.71,
         165.94,
         165.93,
-        165.88
+        165.91
       ],
       "yoy_pct": [
         3.05,
@@ -9379,7 +9379,7 @@
         6.41,
         6.56,
         6.55,
-        6.52
+        6.54
       ],
       "components": [
         {
@@ -9439,8 +9439,8 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-07-16",
-          "yoy_pct": 13.18,
-          "contribution_pp": 0.72
+          "yoy_pct": 13.25,
+          "contribution_pp": 0.73
         },
         {
           "code": "alum_shapes",
@@ -9449,8 +9449,8 @@
           "weight": 0.03,
           "mode": "official+proxy",
           "last_obs": "2026-07-16",
-          "yoy_pct": 28.58,
-          "contribution_pp": 0.86
+          "yoy_pct": 28.97,
+          "contribution_pp": 0.87
         },
         {
           "code": "switchgear",
@@ -29138,7 +29138,9 @@
           "delivery_year": "2027/28",
           "price_mw_day": 333.44
         }
-      ]
+      ],
+      "multiple": 11.5,
+      "years_span": 3
     }
   }
 }

@@ -1,21 +1,21 @@
 {
-  "published_at": "2026-07-16T14:38:55Z",
+  "published_at": "2026-07-16T16:00:00Z",
   "target": "CPI",
   "release_date": "2026-08-12",
   "reference_month": "2026-07",
   "cpi": {
     "target_month": "2026-07",
     "mom_pct": -0.13,
-    "yoy_pct": 2.95,
+    "yoy_pct": 3.05,
     "as_of": "2026-07-16",
     "status": "live",
     "parameters": {},
     "components": [
       {
         "component": "shelter_owned",
-        "mom_pct": 0.074,
+        "mom_pct": 0.0678,
         "weight": 0.265,
-        "contribution_pp": 0.0196,
+        "contribution_pp": 0.018,
         "basis": "trend"
       },
       {
@@ -27,11 +27,11 @@
       },
       {
         "component": "food_home",
-        "mom_pct": 0.5422,
+        "mom_pct": 0.5008,
         "weight": 0.082,
-        "contribution_pp": 0.0445,
+        "contribution_pp": 0.0411,
         "basis": "trend+driver",
-        "driver_mom_pct": 0.2366
+        "driver_mom_pct": 0.1951
       },
       {
         "component": "medical",
@@ -42,9 +42,9 @@
       },
       {
         "component": "shelter_rent",
-        "mom_pct": 0.074,
+        "mom_pct": 0.0678,
         "weight": 0.075,
-        "contribution_pp": 0.0055,
+        "contribution_pp": 0.0051,
         "basis": "trend"
       },
       {
@@ -144,7 +144,7 @@
       "as_of": "2026-07-15"
     },
     "kalshi": {
-      "value": 0.027,
+      "value": 0.026,
       "as_of": "2026-07-16"
     }
   },

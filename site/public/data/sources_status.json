@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-16T14:38:55Z",
+  "generated_at": "2026-07-16T16:00:00Z",
   "sources": [
     {
       "name": "AAA",
@@ -9,7 +9,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-16T14:37:20Z",
+      "finished_at": "2026-07-16T15:59:00Z",
       "series_count": 1,
       "latest_obs": "2026-07-16"
     },
@@ -21,7 +21,7 @@
       "fetched": 114,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T14:37:20Z",
+      "finished_at": "2026-07-16T15:57:34Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -33,7 +33,7 @@
       "fetched": 0,
       "new_rows": 0,
       "error": "ReadTimeout: HTTPSConnectionPool(host='api.bls.gov', port=443): Read timed out. (read timeout=60)",
-      "finished_at": "2026-07-16T14:37:07Z",
+      "finished_at": "2026-07-16T15:57:25Z",
       "series_count": 28,
       "latest_obs": "2026-06-01"
     },
@@ -45,7 +45,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-16T14:38:52Z",
+      "finished_at": "2026-07-16T15:59:54Z",
       "series_count": 1,
       "latest_obs": "2026-07-16"
     },
@@ -57,7 +57,7 @@
       "fetched": 298,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T14:38:44Z",
+      "finished_at": "2026-07-16T15:59:45Z",
       "series_count": 2,
       "latest_obs": "2026-05-01"
     },
@@ -69,7 +69,7 @@
       "fetched": 4,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T14:37:23Z",
+      "finished_at": "2026-07-16T15:59:02Z",
       "series_count": 4,
       "latest_obs": "2026-07-01"
     },
@@ -81,7 +81,7 @@
       "fetched": 3,
       "new_rows": 3,
       "error": null,
-      "finished_at": "2026-07-16T14:38:46Z",
+      "finished_at": "2026-07-16T15:59:47Z",
       "series_count": 3,
       "latest_obs": "2026-07-16"
     },
@@ -93,7 +93,7 @@
       "fetched": 2716,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T14:37:15Z",
+      "finished_at": "2026-07-16T15:57:28Z",
       "series_count": 3,
       "latest_obs": "2026-07-13"
     },
@@ -105,7 +105,7 @@
       "fetched": 4999,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T14:38:54Z",
+      "finished_at": "2026-07-16T16:00:00Z",
       "series_count": 1,
       "latest_obs": "2026-07-13"
     },
@@ -117,7 +117,7 @@
       "fetched": 15808,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T14:38:43Z",
+      "finished_at": "2026-07-16T15:59:41Z",
       "series_count": 52,
       "latest_obs": "2026-04-01"
     },
@@ -129,7 +129,7 @@
       "fetched": 14,
       "new_rows": 14,
       "error": null,
-      "finished_at": "2026-07-16T14:37:15Z",
+      "finished_at": "2026-07-16T15:57:29Z",
       "series_count": 14,
       "latest_obs": "2026-07-16"
     },
@@ -141,7 +141,7 @@
       "fetched": 15931,
       "new_rows": 9,
       "error": null,
-      "finished_at": "2026-07-16T14:36:07Z",
+      "finished_at": "2026-07-16T15:56:23Z",
       "series_count": 73,
       "latest_obs": "2026-07-15"
     },
@@ -153,7 +153,7 @@
       "fetched": 121,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T14:38:53Z",
+      "finished_at": "2026-07-16T15:59:58Z",
       "series_count": 1,
       "latest_obs": "2026-07-07"
     },
@@ -165,7 +165,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-16T14:37:24Z",
+      "finished_at": "2026-07-16T15:59:02Z",
       "series_count": 1,
       "latest_obs": "2026-07-11"
     },
@@ -177,7 +177,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T14:37:23Z",
+      "finished_at": "2026-07-16T15:59:01Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -186,10 +186,10 @@
       "route": "CSV",
       "cadence": "daily",
       "ok": true,
-      "fetched": 1,
-      "new_rows": 1,
+      "fetched": 4,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T14:38:53Z",
+      "finished_at": "2026-07-16T15:59:58Z",
       "series_count": 1,
       "latest_obs": "2026-07-15"
     },
@@ -201,7 +201,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-16T14:37:20Z",
+      "finished_at": "2026-07-16T15:59:01Z",
       "series_count": 1,
       "latest_obs": "2026-07-16"
     },
@@ -213,7 +213,7 @@
       "fetched": 12,
       "new_rows": 12,
       "error": null,
-      "finished_at": "2026-07-16T14:38:49Z",
+      "finished_at": "2026-07-16T15:59:52Z",
       "series_count": 12,
       "latest_obs": "2026-07-16"
     },
@@ -225,7 +225,7 @@
       "fetched": 497,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T14:37:19Z",
+      "finished_at": "2026-07-16T15:57:33Z",
       "series_count": 1,
       "latest_obs": "2026-07-09"
     },
@@ -237,7 +237,7 @@
       "fetched": 44,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T14:38:43Z",
+      "finished_at": "2026-07-16T15:59:44Z",
       "series_count": 52,
       "latest_obs": "2025-10-01"
     },
@@ -249,7 +249,7 @@
       "fetched": 31,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T14:38:48Z",
+      "finished_at": "2026-07-16T15:59:50Z",
       "series_count": 1,
       "latest_obs": "2026-07-16"
     },
@@ -261,7 +261,7 @@
       "fetched": 672,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T14:38:51Z",
+      "finished_at": "2026-07-16T15:59:53Z",
       "series_count": 2,
       "latest_obs": "2027-12-01"
     },
@@ -273,7 +273,7 @@
       "fetched": 2392,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-16T14:37:16Z",
+      "finished_at": "2026-07-16T15:57:30Z",
       "series_count": 1,
       "latest_obs": "2026-07-14"
     },
@@ -281,11 +281,11 @@
       "name": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "ok": false,
-      "fetched": 0,
+      "ok": true,
+      "fetched": 2158,
       "new_rows": 0,
-      "error": "missing secret USDA_API_KEY",
-      "finished_at": "2026-07-16T14:37:20Z",
+      "error": null,
+      "finished_at": "2026-07-16T15:59:00Z",
       "series_count": 5,
       "latest_obs": "2026-07-10"
     },
@@ -294,10 +294,10 @@
       "route": "API",
       "cadence": "daily",
       "ok": true,
-      "fetched": 5,
-      "new_rows": 5,
+      "fetched": 4,
+      "new_rows": 4,
       "error": null,
-      "finished_at": "2026-07-16T14:38:48Z",
+      "finished_at": "2026-07-16T15:59:50Z",
       "series_count": 5,
       "latest_obs": "2026-07-16"
     },
@@ -306,12 +306,12 @@
       "route": "CSV",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 226,
-      "new_rows": 0,
+      "fetched": 228,
+      "new_rows": 228,
       "error": null,
-      "finished_at": "2026-07-16T14:37:19Z",
+      "finished_at": "2026-07-16T15:57:32Z",
       "series_count": 2,
-      "latest_obs": "2026-05-01"
+      "latest_obs": "2026-06-01"
     }
   ]
 }
