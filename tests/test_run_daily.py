@@ -288,6 +288,13 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert vintage.latest(conn, "cpi_water")[-1][1] == pytest.approx(320.1)
     checks = {c["name"]: c for c in qa["checks"]}
     assert checks["outlook_ok"]["pass"] is True
+    dc = json.loads((out / "datacenter.json").read_text())
+    assert dc["context"] is not None
+    assert dc["context"]["kalshi"]["dc_count_expected"] == pytest.approx(1800.0)
+    assert dc["context"]["diesel"] is not None
+    assert dc["context"]["colo"]["source"]           # hand-seed provenance present
+    assert all("stale" in c for c in dc["indexes"]["build"]["components"])
+    assert dc["indexes"]["build"]["groups"]
 
 
 def test_engine_failure_still_publishes_status_and_qa(tmp_path, monkeypatch):

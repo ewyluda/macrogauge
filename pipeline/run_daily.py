@@ -28,7 +28,7 @@ from pathlib import Path
 import jsonschema
 
 from pipeline import basket as basket_mod
-from pipeline import collect, dc_power, registry, release_calendar
+from pipeline import collect, dc_context, dc_power, registry, release_calendar
 from pipeline.connectors import fred
 from pipeline.engine import dcindex
 from pipeline.engine import gauge as gauge_engine
@@ -261,14 +261,17 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     # DC cost index (datacenter page): isolated like the three blocks above —
     # a broken PPI/QCEW/state-power series must never touch the core gauge.
     def _datacenter_phase():
-        dc_result = dcindex.run(conn, today=today)
+        dc_result = dcindex.run(
+            conn, today=today,
+            staleness={s.code: s.max_staleness_days for s in series})
         parity_result = dcindex.parity_from_store(conn)
         construction = dcindex.construction_from_store(conn, dc_result)
         power = dcindex.power_block(conn, dc_result, dc_power.load())
+        context = dcindex.context_block(conn, dc_context.load(), dc_result)
         dc_path = datacenter_json.write(
             datacenter_json.build(dc_result, parity_result,
                                   {s.code: s.source_id for s in series},
-                                  construction, power),
+                                  construction, power, context),
             args.out, published_at=published_at)
         validate.validate_file(dc_path, SCHEMAS / "datacenter.schema.json")
         print(f"published: {dc_path}")
