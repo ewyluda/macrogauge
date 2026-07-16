@@ -2,6 +2,7 @@ import json
 
 import pytest
 
+from pipeline import dc_context as dc_context_mod
 from pipeline import dc_power
 from pipeline.engine import dcindex
 from pipeline.models import Observation
@@ -637,3 +638,72 @@ def test_level_components_unchanged_report_no_implied_level(tmp_path):
     assert b["components"]["copper_wire"]["implied_level"] == pytest.approx(110.0)
     # ops power rides official only -> None
     assert result["indexes"]["ops"]["components"]["power"]["implied_level"] is None
+
+
+def _ctx_cfg(transformer=None, tnt_rows=(({"year": 2018, "escalation_pct": 4.0}),)):
+    return dc_context_mod.ContextConfig(
+        colo=dc_context_mod.Card(fields={"rate_kw_mo": 194.95, "yoy_pct": 6.5,
+                                          "vacancy_pct": 1.4,
+                                          "under_construction_gw": 6.0},
+                                 asof="H2 2025", source="CBRE"),
+        queue=dc_context_mod.Card(fields={"generation_gw": 1400, "storage_gw": 890},
+                                  asof="2025", source="LBNL"),
+        tnt_rows=tuple(tnt_rows), tnt_asof="2025", tnt_source="T&T DCCI",
+        transformer=transformer)
+
+
+def test_context_block_populated(tmp_path):
+    conn = make_conn(tmp_path, [
+        ("eia_diesel", "2026-07-13", 4.796),
+        ("cpi_water", "2017-06-01", 100.0), ("cpi_water", "2018-06-01", 104.1),
+        ("kalshi_dc_count", "2026-07-16", 1800.0),
+        ("kalshi_dc_nuclear", "2026-07-16", 0.61),
+    ])
+    # a minimal dc_result: only build.yoy is read (Dec-31 lookups)
+    dc_result = {"indexes": {"build": {"yoy": {"2018-12-31": 3.456}}}}
+    ctx = dcindex.context_block(conn, _ctx_cfg(), dc_result)
+    assert ctx["colo"] == {"rate_kw_mo": 194.95, "yoy_pct": 6.5,
+                           "vacancy_pct": 1.4, "under_construction_gw": 6.0,
+                           "asof": "H2 2025", "source": "CBRE"}
+    assert ctx["queue"]["generation_gw"] == 1400
+    assert ctx["tnt"]["rows"] == [{"year": 2018, "escalation_pct": 4.0,
+                                    "build_yoy_pct": 3.46}]
+    assert ctx["transformer"] is None
+    assert ctx["kalshi"] == {"dc_count_expected": 1800.0, "count_asof": "2026-07-16",
+                              "nuclear_by_2030_prob": 0.61,
+                              "nuclear_asof": "2026-07-16"}
+    assert ctx["diesel"] == {"latest": 4.8, "asof": "2026-07-13", "unit": "$/gal"}
+    assert ctx["water"] == {"yoy_pct": pytest.approx(4.1), "asof": "2018-06-01"}
+
+
+def test_context_block_live_subobjects_independently_null(tmp_path):
+    conn = make_conn(tmp_path, [("ppi_steel", "2018-01-01", 100.0)])  # none of ours
+    dc_result = {"indexes": {"build": {"yoy": {}}}}
+    ctx = dcindex.context_block(conn, _ctx_cfg(), dc_result)
+    assert ctx["kalshi"] is None and ctx["diesel"] is None and ctx["water"] is None
+    assert ctx["colo"]["rate_kw_mo"] == 194.95      # hand-seeds unaffected
+    assert ctx["tnt"]["rows"][0]["build_yoy_pct"] is None  # no Dec-31 on grid
+
+
+def test_context_block_one_kalshi_series_present(tmp_path):
+    conn = make_conn(tmp_path, [("kalshi_dc_nuclear", "2026-07-16", 0.61)])
+    dc_result = {"indexes": {"build": {"yoy": {}}}}
+    ctx = dcindex.context_block(conn, _ctx_cfg(), dc_result)
+    assert ctx["kalshi"]["dc_count_expected"] is None
+    assert ctx["kalshi"]["nuclear_by_2030_prob"] == 0.61
+
+
+def test_context_block_water_missing_base_is_none(tmp_path):
+    conn = make_conn(tmp_path, [("cpi_water", "2018-06-01", 104.1)])  # no year-ago
+    dc_result = {"indexes": {"build": {"yoy": {}}}}
+    ctx = dcindex.context_block(conn, _ctx_cfg(), dc_result)
+    assert ctx["water"] == {"yoy_pct": None, "asof": "2018-06-01"}
+
+
+def test_context_block_transformer_passthrough(tmp_path):
+    conn = make_conn(tmp_path, [("ppi_steel", "2018-01-01", 100.0)])
+    cfg = _ctx_cfg(transformer=dc_context_mod.Card(
+        fields={"weeks": 128}, asof="2025-11", source="Wood Mackenzie"))
+    ctx = dcindex.context_block(conn, cfg, {"indexes": {"build": {"yoy": {}}}})
+    assert ctx["transformer"] == {"weeks": 128, "asof": "2025-11",
+                                   "source": "Wood Mackenzie"}

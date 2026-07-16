@@ -309,3 +309,49 @@ def power_block(conn: sqlite3.Connection, dc_result: dict, cfg,
             "capacity_auction": {**cfg.capacity_auction,
                                  "multiple": multiple,
                                  "years_span": years_span}}
+
+
+def context_block(conn: sqlite3.Connection, cfg, dc_result: dict) -> dict:
+    """Demand-side context (spec §5): hand-seeded cards pass through from
+    config with their asof/source; live sub-objects read the store and are
+    independently nullable — a thin Kalshi book or pre-first-collect diesel
+    hides its card, never blanks the section. T&T rows gain build_yoy_pct
+    (Dec-31 YoY from the already-computed build index) so the site renders
+    the external-calibration table without computing anything."""
+    build_yoy = dc_result["indexes"]["build"]["yoy"]
+    tnt_rows = []
+    for r in cfg.tnt_rows:
+        v = build_yoy.get(f"{r['year']}-12-31")
+        tnt_rows.append({**r, "build_yoy_pct": None if v is None else round(v, 2)})
+
+    count = _latest_row(conn, "kalshi_dc_count")
+    nuclear = _latest_row(conn, "kalshi_dc_nuclear")
+    kalshi = None
+    if count or nuclear:
+        kalshi = {"dc_count_expected": None if not count else round(count[1], 2),
+                  "count_asof": None if not count else count[0],
+                  "nuclear_by_2030_prob": None if not nuclear else round(nuclear[1], 4),
+                  "nuclear_asof": None if not nuclear else nuclear[0]}
+
+    diesel_row = _latest_row(conn, "eia_diesel")
+    diesel = None if not diesel_row else {"latest": round(diesel_row[1], 2),
+                                           "asof": diesel_row[0], "unit": "$/gal"}
+
+    water = None
+    w = _series(conn, "cpi_water")
+    if w:
+        last = max(w)
+        filled = aggregate.fill_daily(w, GRID_START, last)
+        yoy = aggregate.yoy_at_obs(w, filled).get(last)
+        water = {"yoy_pct": None if yoy is None else round(yoy, 2), "asof": last}
+
+    return {
+        "colo": {**cfg.colo.fields, "asof": cfg.colo.asof, "source": cfg.colo.source},
+        "queue": {**cfg.queue.fields, "asof": cfg.queue.asof, "source": cfg.queue.source},
+        "tnt": {"rows": tnt_rows, "asof": cfg.tnt_asof, "source": cfg.tnt_source},
+        "transformer": (None if cfg.transformer is None else
+                        {**cfg.transformer.fields, "asof": cfg.transformer.asof,
+                         "source": cfg.transformer.source}),
+        "kalshi": kalshi,
+        "diesel": diesel,
+        "water": water}
