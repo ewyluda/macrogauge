@@ -41,9 +41,10 @@ def run(conn: sqlite3.Connection, today: str,
     base_month, baskets = dc_basket.load_baskets(basket_path)
     out = {}
     for name, comps in baskets.items():
-        built, flags, modes = {}, [], {}
+        built, flags, modes, officials = {}, [], {}, {}
         for comp in comps:
             official = _series(conn, comp.series)
+            officials[comp.code] = official
             idx = rebase.rebase(official, base_month)
             if comp.live_proxy_blend:
                 live = blend_mod.trailing_mean(
@@ -54,9 +55,16 @@ def run(conn: sqlite3.Connection, today: str,
                 live = _series(conn, comp.live_proxy) if comp.live_proxy else {}
             tail_active = False
             if live:
-                live_idx = rebase.rebase(live, base_month)
                 official_end = max(idx)
-                idx = blend_mod.splice_anchored(idx, live_idx)
+                if comp.live_proxy_transform == "year_ratio":
+                    # the ratio W(t)/W(t-365d) is scale-invariant: W stays
+                    # raw, no rebase — rebasing would change nothing but
+                    # obscure the audit trail
+                    idx = blend_mod.splice_year_ratio(
+                        idx, live, comp.live_proxy_passthrough)
+                else:
+                    live_idx = rebase.rebase(live, base_month)
+                    idx = blend_mod.splice_anchored(idx, live_idx)
                 last = max(idx)
                 tail_active = last > official_end
                 # Gate only a real proxy tail. When the proxy has no points
@@ -91,11 +99,22 @@ def run(conn: sqlite3.Connection, today: str,
         components = {}
         for c in comps:
             own_end = max(d for d in built[c.code] if d <= end)
+            implied = None
+            if modes[c.code] == "official+proxy":
+                raw = officials[c.code]
+                t0 = max(raw)
+                s = built[c.code]
+                if s.get(t0):
+                    # tail nowcast restated in the backbone's own units:
+                    # raw(T0) x idx(own_end)/idx(T0) — power_block publishes
+                    # it as implied ¢/kWh (spec §8)
+                    implied = raw[t0] * s[own_end] / s[t0]
             components[c.code] = {
                 "label": c.label, "group": c.group, "weight": c.weight,
                 "mode": modes[c.code],
                 "yoy_pct": own_yoy[c.code].get(own_end),
-                "last_obs": own_end}
+                "last_obs": own_end,
+                "implied_level": implied}
         out[name] = {"index": index,
                      "yoy": aggregate.weighted_yoy(own_yoy, weights),
                      "as_of": end, "gate_flags": flags, "components": components}

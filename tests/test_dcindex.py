@@ -506,3 +506,92 @@ def test_power_block_tail_active_is_pure_passthrough(tmp_path, mode, expected):
     dc_result = {"indexes": {"ops": {"components": {"power": {"mode": mode}}}}}
     block = dcindex.power_block(conn, dc_result, _power_cfg(), basket_path=basket)
     assert block["tail"]["active"] is expected
+
+
+YR_OPS = [
+    {"code": "power", "label": "Power", "group": "power", "series": "eia_elec_ind_us",
+     "weight": 1.0, "live_proxy_blend": ["caiso_sp15_da", "miso_indiana_da"],
+     "live_proxy_smooth_days": 1, "live_proxy_transform": "year_ratio",
+     "live_proxy_passthrough": 0.5},
+]
+YR_HUB_ROWS = [(h, d, v)
+               for h in ("caiso_sp15_da", "miso_indiana_da")
+               for d, v in [("2016-12-30", 40.0), ("2017-12-30", 40.0),
+                            ("2018-01-03", 44.0)]]
+
+
+def test_year_ratio_component_worked_example(tmp_path):
+    # retail flat at 10.0 (rebased idx 100 everywhere); hubs +10% like-month.
+    # T0=2018-01-01: W(t0)→2017-12-30=40, W(t0-365d)→2016-12-30=40 (leap:
+    # 2018-01-01-365d = 2017-01-01), official_ffill=100 → m0=100, anchor=1.
+    # t=2018-01-03: W=44, W(2017-01-03)→2016-12-30=40, λ=0.5 →
+    # idx = 100*(1+0.5*0.1) = 105; own-obs YoY vs filled 2017-01-03 = +5%.
+    rows = BUILD_ROWS + [
+        ("eia_elec_ind_us", "2017-01-01", 10.0),
+        ("eia_elec_ind_us", "2018-01-01", 10.0),
+    ] + YR_HUB_ROWS
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, YR_OPS)
+    conn = make_conn(tmp_path, rows)
+    result = dcindex.run(conn, today="2018-01-15", basket_path=basket)
+    ops = result["indexes"]["ops"]
+    assert ops["components"]["power"]["mode"] == "official+proxy"
+    assert ops["index"]["2018-01-03"] == pytest.approx(105.0)
+    assert ops["components"]["power"]["yoy_pct"] == pytest.approx(5.0)
+    # implied_level: raw retail at T0 (10.0) x idx(end)/idx(T0) = 10.5 ¢/kWh
+    assert ops["components"]["power"]["implied_level"] == pytest.approx(10.5)
+    assert ops["gate_flags"] == []
+
+
+def test_year_ratio_dormant_without_anchor_coverage(tmp_path):
+    # hubs have no obs within tolerance of T0 -> official only, no tail mode
+    rows = BUILD_ROWS + [
+        ("eia_elec_ind_us", "2017-01-01", 10.0),
+        ("eia_elec_ind_us", "2018-01-01", 10.0),
+        ("caiso_sp15_da", "2018-01-10", 50.0),
+        ("miso_indiana_da", "2018-01-10", 52.0),
+    ]
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, YR_OPS)
+    conn = make_conn(tmp_path, rows)
+    result = dcindex.run(conn, today="2018-01-15", basket_path=basket)
+    ops = result["indexes"]["ops"]
+    assert ops["components"]["power"]["mode"] == "official"
+    assert ops["components"]["power"]["implied_level"] is None
+    assert max(ops["index"]) == "2018-01-01"
+
+
+def test_year_ratio_tail_still_gated_on_arrival(tmp_path):
+    # a just-arrived >5% smoothed-ratio move is held one day, same gate as level
+    rows = BUILD_ROWS + [
+        ("eia_elec_ind_us", "2017-01-01", 10.0),
+        ("eia_elec_ind_us", "2018-01-01", 10.0),
+    ] + [(h, d, v) for h in ("caiso_sp15_da", "miso_indiana_da")
+         for d, v in [("2016-12-30", 40.0), ("2017-12-30", 40.0),
+                      ("2018-01-03", 50.0)]]   # +25% ratio, λ=0.5 → +12.5%
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, YR_OPS)
+    conn = make_conn(tmp_path, rows,
+                     vintages={("caiso_sp15_da", "2018-01-03"): "2018-01-03"})
+    result = dcindex.run(conn, today="2018-01-03", basket_path=basket)
+    ops = result["indexes"]["ops"]
+    assert ops["index"]["2018-01-03"] == pytest.approx(100.0)  # held
+    assert ops["gate_flags"] == ["power@2018-01-03"]
+
+
+def test_level_components_unchanged_report_no_implied_level(tmp_path):
+    # copper's level-splice behavior is untouched; implied_level exists on
+    # every component entry and is populated for an active level tail too
+    build = [{"code": "copper_wire", "label": "Copper", "group": "materials",
+              "series": "ppi_copper_wire", "weight": 1.0, "live_proxy": "fmp_copper"}]
+    rows = [
+        ("ppi_copper_wire", "2017-01-01", 100.0), ("ppi_copper_wire", "2018-01-01", 100.0),
+        ("fmp_copper", "2018-01-01", 50.0), ("fmp_copper", "2018-01-05", 55.0),
+    ] + OPS_ROWS
+    basket = write_basket(tmp_path, build, ONE_COMP_OPS,
+                          hardware=[{"code": "hw", "label": "HW", "group": "compute",
+                                     "series": "ppi_copper_wire", "weight": 1.0}])
+    conn = make_conn(tmp_path, rows)
+    result = dcindex.run(conn, today="2018-01-05", basket_path=basket)
+    b = result["indexes"]["build"]
+    assert b["index"]["2018-01-05"] == pytest.approx(110.0)   # unchanged math
+    assert b["components"]["copper_wire"]["implied_level"] == pytest.approx(110.0)
+    # ops power rides official only -> None
+    assert result["indexes"]["ops"]["components"]["power"]["implied_level"] is None
