@@ -1,4 +1,5 @@
 import { KpiCard, type Accent } from "@/components/KpiCard";
+import { fmtSigned } from "@/lib/format";
 
 export type PowerHub = {
   code: string;
@@ -14,13 +15,19 @@ export type PowerCapacityRow = {
 };
 
 export type PowerData = {
-  tail: { active: boolean; smooth_days: number | null; hubs: string[] };
+  tail: {
+    active: boolean; smooth_days: number | null; hubs: string[];
+    transform?: string; passthrough?: number | null;
+    nowcast?: { implied_cents_kwh: number | null; yoy_pct: number | null; asof: string };
+  };
   hubs: PowerHub[];
   henry_hub: PowerHub | null;
   capacity_auction: {
     source: string;
     asof: string;
     rows: PowerCapacityRow[];
+    multiple?: number | null;
+    years_span?: number | null;
   };
 };
 
@@ -31,17 +38,6 @@ const HUB_ACCENTS: Accent[] = ["sky", "violet", "amber"];
 export function PowerPanel({ power }: { power: PowerData }) {
   const { hubs, henry_hub, capacity_auction } = power;
   const rows = capacity_auction.rows;
-  const first = rows[0];
-  const last = rows[rows.length - 1];
-  const multiple =
-    first && last && first.price_mw_day > 0
-      ? last.price_mw_day / first.price_mw_day
-      : null;
-  const yearsSpan =
-    first && last
-      ? parseInt(last.delivery_year.slice(0, 4), 10) -
-        parseInt(first.delivery_year.slice(0, 4), 10)
-      : null;
   return (
     <>
       <h2>
@@ -66,6 +62,18 @@ export function PowerPanel({ power }: { power: PowerData }) {
             accent="emerald"
           />
         )}
+        {power.tail.nowcast && (
+          <KpiCard
+            label="Wholesale-implied industrial rate"
+            value={
+              power.tail.nowcast.implied_cents_kwh != null
+                ? `${power.tail.nowcast.implied_cents_kwh.toFixed(2)}¢/kWh`
+                : "—"
+            }
+            context={`like-month nowcast ${fmtSigned(power.tail.nowcast.yoy_pct)} YoY · as of ${power.tail.nowcast.asof}`}
+            accent="red"
+          />
+        )}
       </div>
       <div className="table-card">
         <table className="data-table">
@@ -86,11 +94,12 @@ export function PowerPanel({ power }: { power: PowerData }) {
         </table>
         <p className="method">
           {capacity_auction.source} · as of {capacity_auction.asof}
-          {multiple !== null && yearsSpan !== null && (
+          {capacity_auction.multiple != null && capacity_auction.years_span != null && (
             <>
               {" "}
-              — PJM capacity clearing prices rose ~{Math.floor(multiple)}× from{" "}
-              {first.delivery_year} to {last.delivery_year} ({yearsSpan} years).
+              — PJM capacity clearing prices rose ~{Math.floor(capacity_auction.multiple)}× from{" "}
+              {rows[0].delivery_year} to {rows[rows.length - 1].delivery_year} (
+              {capacity_auction.years_span} years).
             </>
           )}
         </p>
