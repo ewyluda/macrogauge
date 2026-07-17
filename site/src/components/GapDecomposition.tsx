@@ -93,7 +93,7 @@ export function GapDecomposition({
           ))}
           <tr>
             <td style={{ ...td, textAlign: "left", fontWeight: 600 }}>
-              Total gap vs official
+              Total gap vs BLS basket (reconstructed)
             </td>
             <td style={td} colSpan={5} />
             <td style={{ ...td, fontWeight: 700, color: yoyColor(totalGapPp) }}>
@@ -104,7 +104,9 @@ export function GapDecomposition({
       </table>
       <div style={{ fontSize: 11, color: "var(--muted)", padding: "8px 12px" }}>
         gap contribution = weight × (ours − BLS) · ours as of {asOf} · BLS-CF rows
-        carry the official print, so their gap is 0 by construction
+        carry the official print, so their gap is 0 by construction · the total is
+        vs our 14-component reconstruction of the BLS basket, so it differs
+        slightly from the headline gap vs the official CPI print
       </div>
     </div>
   );

@@ -99,6 +99,45 @@ def test_supercore_grades_against_core_cpi_pce_tolerates_absent_pcepi(tmp_path):
     assert pce["corr"] is None and pce["mean_abs_gap_pp"] is None
 
 
+def test_variant_sampled_at_month_end_not_month_start(tmp_path):
+    # quilt.py samples the same own-obs YoY at each month's LAST grid date;
+    # compare sampling month-FIRST published a different number for the same
+    # labeled month in the same heatmap column (audit 2026-07-16, ~0.5pp on
+    # volatile months). The two artifacts must agree on the convention.
+    conn = seed(tmp_path)
+    result = {"base_month": "2018-01", "variants": {"gauge": variant(
+        {"2018-01-01": 2.5, "2018-01-31": 2.8,
+         "2018-02-01": 3.0, "2018-02-28": 3.3,
+         "2018-03-01": 4.0, "2018-03-31": 4.4})}}
+    p = compare.build(result, conn)
+    assert p["gauge_yoy_pct"] == [2.8, 3.3, 4.4]
+
+
+def test_lead_lag_pairs_by_calendar_month_across_hole(tmp_path):
+    # Official months have a hole (the never-published 2025-10 shutdown
+    # print, 2018-04 here). Positional shifting paired ours[2018-03] with
+    # official[2018-05] at k=1 — a silent 2-calendar-month jump. Calendar
+    # pairing skips the hole: k=1 pairs (01->02) and (02->03) exactly, so a
+    # 1-month-led series scores corr 1.0.
+    rows = [("2017-01-01", 100.0), ("2017-02-01", 100.0),
+            ("2017-03-01", 100.0), ("2017-05-01", 100.0),
+            ("2018-01-01", 102.0), ("2018-02-01", 102.5),
+            ("2018-03-01", 103.0), ("2018-05-01", 102.0)]
+    obs = [Observation(series_code="CPIAUCNS", obs_date=d, value=v,
+                       vintage_date="2018-06-01", source="FRED", route="API")
+           for d, v in rows]
+    vintage.append(obs, tmp_path)
+    conn = vintage.load(tmp_path)
+    result = {"base_month": "2018-01", "variants": {"gauge": variant(
+        {"2018-01-01": 2.5, "2018-02-01": 3.0,
+         "2018-03-01": 1.5, "2018-05-01": 9.9})}}
+    p = compare.build(result, conn)
+    assert p["months"] == ["2018-01-01", "2018-02-01", "2018-03-01",
+                           "2018-05-01"]
+    assert p["validation"]["gauge"]["lead_lag"] == {
+        "best_shift_months": 1, "corr": 1.0}
+
+
 def test_lead_lag_reports_best_forward_shift(tmp_path):
     conn = seed(tmp_path)
     p = compare.build(RESULT, conn)

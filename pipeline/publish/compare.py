@@ -45,15 +45,23 @@ def _validation(official: list[float | None], ours: list[float | None]) -> dict:
     return {"corr": corr, "mean_abs_gap_pp": mag}
 
 
-def _lead_lag(official: list[float], ours: list[float | None],
+def _month_add(m: str, k: int) -> str:
+    y, mo = int(m[:4]), int(m[5:7]) + k
+    return f"{y + (mo - 1) // 12:04d}-{(mo - 1) % 12 + 1:02d}-01"
+
+
+def _lead_lag(official: dict[str, float], ours: dict[str, float | None],
               max_shift: int = 6) -> dict | None:
-    """Best Pearson corr of ours vs official shifted k months AHEAD (k=0..6).
+    """Best Pearson corr of ours[m] vs official m+k months ahead (k=0..6).
     The gauge sees market prices before they reach the print — this is the
-    hero-callout credibility stat (1c spec §5.2)."""
+    hero-callout credibility stat (1c spec §5.2). Pairing is by CALENDAR
+    month, never list position: the official months list has a hole (the
+    never-published 2025-10 shutdown print), so a positional k=1 silently
+    became a 2-calendar-month shift across it."""
     best = None
     for k in range(max_shift + 1):
-        pairs = [(o, official[i + k]) for i, o in enumerate(ours)
-                 if o is not None and i + k < len(official)]
+        pairs = [(v, official[_month_add(m, k)]) for m, v in ours.items()
+                 if v is not None and _month_add(m, k) in official]
         if len(pairs) < 2:
             continue
         xs, ys = [p[0] for p in pairs], [p[1] for p in pairs]
@@ -79,7 +87,15 @@ def build(gauge_result: dict, conn) -> dict:
     window = f"{months[0][:7]}..{months[-1][:7]}" if months else ""
     ref_yoy_cache: dict[str, dict[str, float]] = {"CPIAUCNS": off}
     for name, v in gauge_result["variants"].items():
-        raw = [v["yoy"].get(m) for m in months]
+        # Sample each month at its LAST grid date — quilt.py's convention.
+        # Month-first sampling published a different number for "our YoY in
+        # month m" than the quilt cells in the same heatmap column (~0.5pp
+        # on volatile months) and fed the month's least-informed value into
+        # the validation stats.
+        last_in_month: dict[str, str] = {}
+        for d in sorted(v["yoy"]):
+            last_in_month[f"{d[:7]}-01"] = d
+        raw = [v["yoy"].get(last_in_month.get(m, m)) for m in months]
         payload[f"{name}_yoy_pct"] = [None if x is None else round(x, 2)
                                       for x in raw]
         # each variant grades against its own reference series (spec §9.7):
@@ -97,7 +113,7 @@ def build(gauge_result: dict, conn) -> dict:
             **_validation(ref_col, raw), "window": window}
         if name == "gauge":
             payload["validation"][name]["lead_lag"] = _lead_lag(
-                [off[m] for m in months], raw)
+                off, dict(zip(months, raw)))
     return payload
 
 
