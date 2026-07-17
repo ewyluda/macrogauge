@@ -107,13 +107,13 @@ six-agent scout (all series ids below LIVE-VERIFIED that day unless marked VERIF
 - [x] **T9 geography-phase**: `_geography_phase` in run_daily + `geography_ok` in qa.py +
   qa.schema.json; ordering pinned by tests (status-first, ValidationError re-raise unchanged);
   test_run_daily e2e asserts the three artifacts land + validate.
-- [ ] **T10 local-run**: real pipeline run (`FRED_API_KEY=... python -m pipeline.run_daily
+- [x] **T10 local-run**: real pipeline run (`FRED_API_KEY=... python -m pipeline.run_daily
   --store store --out site/public/data`) to land real artifacts for the site build. Inspect
   geo/metros/matrix values for sanity (TX gas ≈ $3.57, NY ZORI YoY plausible, matrix rows
   populated). Commit store + data.
-- [ ] **T11 site-metros**: /metros page + nav + e2e + types cast.
-- [ ] **T12 site-states**: /states page (tile map generalization) + nav + e2e.
-- [ ] **T13 site-matrix**: /matrix expansion (marker string in e2e may need updating).
+- [x] **T11 site-metros**: /metros page + nav + e2e + types cast.
+- [x] **T12 site-states**: /states page (tile map generalization) + nav + e2e.
+- [x] **T13 site-matrix**: /matrix expansion (marker string in e2e may need updating).
 - [ ] **T14 gates+review**: full `pytest -q`, `npm test`, `npm run e2e`, `npm run build`,
   multi-angle code review of the whole wave diff, fix findings, final commit.
 

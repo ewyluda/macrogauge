@@ -65,6 +65,67 @@ export type Outlook = {
   disclaimer: string;
 };
 
+// --- P2 geography artifacts (metros.json / geo.json / matrix.json) ----------
+// All fields are legally nullable (a series with no store rows publishes a null
+// block), so pages must cast these imports rather than infer from the sample.
+
+export type MetroBlock = {
+  value: number | null;
+  as_of: string | null;
+  yoy_pct: number | null;
+  yoy_tail: { months: string[]; yoy_pct: (number | null)[] };
+};
+
+export type Metro = {
+  region_id: string;
+  name: string;
+  zori: MetroBlock;
+  zhvi: MetroBlock;
+};
+
+export type Metros = {
+  published_at: string;
+  metros: Metro[];
+  national: { zori: MetroBlock; zhvi: MetroBlock };
+};
+
+export type GeoMeasure = {
+  value: number | null;
+  as_of: string | null;
+  yoy_pct: number | null;
+};
+export type GeoRate = {
+  value: number | null;
+  as_of: string | null;
+  delta_1y_pp: number | null;
+};
+export type GeoPanel = {
+  gas_regular: GeoMeasure;
+  elec_res_cents: GeoMeasure;
+  elec_ind_cents: GeoMeasure;
+  wage_weekly: GeoMeasure;
+  unemployment_pct: GeoRate;
+};
+export type GeoStateRow = { state: string; name: string } & GeoPanel;
+export type Geo = {
+  published_at: string;
+  states: GeoStateRow[];
+  national: GeoPanel;
+};
+
+export type MatrixRow = {
+  code: string;
+  label: string;
+  value: number | null;
+  unit: string;
+  as_of: string | null;
+  cadence: string;
+};
+export type Matrix = {
+  published_at: string;
+  groups: { group: string; rows: MatrixRow[] }[];
+};
+
 export type NowcastComponent = {
   component: string;
   mom_pct: number;

@@ -1,67 +1,75 @@
-// site/src/components/StateTileMap.tsx
 "use client";
 import { useState } from "react";
 import { SegmentedControl } from "./SegmentedControl";
 import { STOPS, ramp, EMPTY_CELL } from "@/lib/heat";
-import { fmtMoney } from "@/lib/format";
 import { TILE_POS } from "@/lib/stateTiles";
+import type { GeoStateRow, GeoPanel } from "@/lib/types";
 
-export type StateParityTile = {
-  state: string;
-  power_rel: number | null;
-  ops_mult: number | null;
-  wage_rel: number | null;
-  build_mult: number | null;
-};
+type MetricKey = "gas" | "elec_res" | "elec_ind" | "wage" | "unemployment";
 
-type MetricKey = "ops_mult" | "build_mult" | "power_rel" | "wage_rel";
-
-// All four published state metrics are ratios vs the national average
-// (multipliers/relatives) — per-state ¢/kWh and $/wk levels are not published.
 const METRICS = [
-  { key: "ops_mult", label: "OPS ×" },
-  { key: "build_mult", label: "BUILD ×" },
-  { key: "power_rel", label: "POWER REL" },
-  { key: "wage_rel", label: "WAGE REL" },
+  { key: "gas", label: "GAS $/gal" },
+  { key: "elec_res", label: "ELEC RES ¢" },
+  { key: "elec_ind", label: "ELEC IND ¢" },
+  { key: "wage", label: "WAGE $/wk" },
+  { key: "unemployment", label: "UNEMP %" },
 ] as const;
+
+function valueOf(panel: GeoPanel, m: MetricKey): number | null {
+  switch (m) {
+    case "gas": return panel.gas_regular.value;
+    case "elec_res": return panel.elec_res_cents.value;
+    case "elec_ind": return panel.elec_ind_cents.value;
+    case "wage": return panel.wage_weekly.value;
+    case "unemployment": return panel.unemployment_pct.value;
+  }
+}
+
+/** Full form for tooltip/legend/national line. */
+function fmtFull(v: number | null, m: MetricKey): string {
+  if (v == null) return "—";
+  switch (m) {
+    case "gas": return `$${v.toFixed(3)}/gal`;
+    case "elec_res":
+    case "elec_ind": return `${v.toFixed(2)}¢/kWh`;
+    case "wage": return `$${Math.round(v).toLocaleString("en-US")}/wk`;
+    case "unemployment": return `${v.toFixed(1)}%`;
+  }
+}
+
+/** Compact form that fits a 30px tile. */
+function fmtTile(v: number | null, m: MetricKey): string {
+  if (v == null) return "—";
+  switch (m) {
+    case "gas": return v.toFixed(2);
+    case "elec_res":
+    case "elec_ind": return v.toFixed(1);
+    case "wage": return `${(v / 1000).toFixed(1)}k`;
+    case "unemployment": return v.toFixed(1);
+  }
+}
 
 const GRADIENT = `linear-gradient(90deg, ${STOPS.map(
   ([t, [r, g, b]]) => `rgb(${r},${g},${b}) ${t * 100}%`
 ).join(", ")})`;
 
-export function StateTileMap({
+export function GeoStateMap({
   states,
   national,
 }: {
-  states: StateParityTile[];
-  // dcindex.py legally publishes either denominator as null (parity.mode
-  // "ops_only" / "unavailable") — never dereference these unguarded
-  national: {
-    power: { value: number; as_of: string } | null;
-    wage: { value: number; as_of: string } | null;
-  };
+  states: GeoStateRow[];
+  national: GeoPanel;
 }) {
-  const [metric, setMetric] = useState<MetricKey>("ops_mult");
+  const [metric, setMetric] = useState<MetricKey>("gas");
   const vals = states
-    .map((s) => s[metric])
+    .map((s) => valueOf(s, metric))
     .filter((v): v is number => v != null);
-  // parity.mode "unavailable" ships states: [] — render an honest empty state
-  if (states.length === 0) {
-    return (
-      <div className="table-card" style={{ padding: 12 }}>
-        <p className="method" style={{ margin: 0 }}>
-          State parity is unavailable this run — no per-state inputs were
-          published. The map returns when the next publish carries state data.
-        </p>
-      </div>
-    );
-  }
   const hasVals = vals.length > 0;
   const min = hasVals ? Math.min(...vals) : 0;
   const max = hasVals ? Math.max(...vals) : 0;
   const span = max - min || 1;
   const suppressed = states
-    .filter((s) => s[metric] == null)
+    .filter((s) => valueOf(s, metric) == null)
     .map((s) => s.state);
 
   return (
@@ -87,7 +95,7 @@ export function StateTileMap({
               color: "var(--muted)",
             }}
           >
-            <span>{min.toFixed(2)}×</span>
+            <span>{fmtFull(min, metric)}</span>
             <span
               style={{
                 display: "inline-block",
@@ -97,7 +105,7 @@ export function StateTileMap({
                 background: GRADIENT,
               }}
             />
-            <span>{max.toFixed(2)}×</span>
+            <span>{fmtFull(max, metric)}</span>
           </div>
         ) : (
           <span style={{ fontSize: 11, color: "var(--muted)" }}>
@@ -116,11 +124,11 @@ export function StateTileMap({
         {states.map((s) => {
           const pos = TILE_POS[s.state];
           if (!pos) return null;
-          const v = s[metric];
+          const v = valueOf(s, metric);
           return (
             <div
               key={s.state}
-              title={`${s.state}: ${v == null ? "no published value" : `${v.toFixed(3)}× national`}`}
+              title={`${s.name}: ${fmtFull(v, metric)}`}
               style={{
                 gridRow: pos[0] + 1,
                 gridColumn: pos[1] + 1,
@@ -135,24 +143,21 @@ export function StateTileMap({
                 {s.state}
               </div>
               <div style={{ fontSize: 10, color: "rgba(230,237,243,0.85)" }}>
-                {v == null ? "—" : v.toFixed(2)}
+                {fmtTile(v, metric)}
               </div>
             </div>
           );
         })}
       </div>
       <p className="method" style={{ marginBottom: 0 }}>
-        multipliers vs national:
-        {national.power
-          ? ` power ${national.power.value.toFixed(2)}¢/kWh (as of ${national.power.as_of})`
-          : " power denominator unavailable this run"}
-        ,{" "}
-        {national.wage
-          ? `construction wage ${fmtMoney(national.wage.value, "$")}/wk (as of ${national.wage.as_of})`
-          : "wage denominator unavailable this run"}
-        .
+        US average: {fmtFull(valueOf(national, metric), metric)}. Colored by each
+        state&apos;s own latest reading (min–max across states); higher = warmer.
         {suppressed.length > 0 &&
-          ` Greyed tiles (${suppressed.join(", ")}): no published value — BLS suppresses small-cell QCEW wages for these states.`}
+          ` Greyed (${suppressed.join(", ")}): no published value${
+            metric === "wage"
+              ? " — BLS suppresses small-cell QCEW construction wages for these states."
+              : "."
+          }`}
       </p>
     </div>
   );
