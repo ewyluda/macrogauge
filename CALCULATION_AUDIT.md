@@ -3,7 +3,9 @@
 **Audit date:** 2026-07-16  
 **Published-data snapshot:** 2026-07-16T23:20:26Z  
 **Scope:** All calculations displayed on the MacroGauge site, traced through Python engines and publishers, published JSON artifacts, and browser-side TypeScript calculations.  
-**Assessment:** Needs revision
+**Assessment:** ~~Needs revision~~ **Closed 2026-07-17** — every finding cross-verified by an independent 80-agent audit (all 8 accurate; #1 reframed as designed, #6a refuted as a bug), then resolved or explicitly accepted in commits `93e3d35..c0d666f`. Per-finding resolution notes inline below. Regenerated data confirms the predicted moves: nowcast −0.13 → −0.03, fuel row −10.17% → −6.71%. Gates after fixes: **509 pytest / 30 vitest / tsc / build / 23 e2e**, QA 19/20 (known QCEW gap only).
+
+> The cross-verification also surfaced issues outside this document's findings — some in areas §"Calculations that reconciled correctly" lists as clean, where the arithmetic was right but the configuration wasn't: PPI-manufacturing entered the heat check with an inverted sign, the stress index scored REVOLSL as a raw level rather than growth, Kalshi `fetch_dc` pooled ladder rungs across event years, and the col payment index merged MND onto PMMS without level scaling (col YoY 2.93 → 2.49 after the fix). All fixed in the same commit range; full report: the 2026-07-16 math-audit artifact.
 
 ## Executive summary
 
@@ -33,6 +35,8 @@ Checks included formula tracing, weight and denominator reconciliation, independ
 ## Material findings
 
 ### 1. High: Headline YoY does not equal the YoY of the published gauge index
+
+> **📌 As designed / labeling fixed (2026-07-17, `3fd68f6`).** The numbers verified exactly, but the dual construction is the documented "Option A" sawtooth fix (CLAUDE.md, `reweight.ts` docstring, pinned by the spec §6 invariant test) — own-obs weighted YoY is the intended headline, not an arithmetic error. What was actionable is the cross-surface labeling: the outlook KPI is renamed **"Now · index-level YoY"** with an explicit note that it differs from the homepage's own-obs headline. The definition split itself stays.
 
 The site creates a daily headline price index as a weighted average of component index levels:
 
@@ -71,6 +75,8 @@ Relevant implementation:
 - Historical and annualized price-level calculations are not directly comparable with the headline YoY without understanding the definition split.
 
 ### 2. High: Measured CPI-nowcast components use the wrong monthly window
+
+> **✅ Fixed (2026-07-17, `93e3d35`).** Confirmed critical — independently found and reproduced by the cross-verification before this document was read. Measured moves now use the **month-average ratio** (partial target-month mean over the full prior-month mean, CPI's own collection convention — this document's third alternative). Live after republish: nowcast **−0.13% → −0.03%**, gasoline row **−10.17% → −6.71%**, both matching the table below. The missing dense-daily-grid test case this section calls out now exists (`test_measured_move_is_month_average_not_first_of_prior_month`).
 
 For a target month such as July, the nowcast sets the comparison start to the first day of June:
 
@@ -114,6 +120,8 @@ Existing tests verify that data after the target month does not leak into the ca
 
 ### 3. Medium: The displayed backtest does not test the live bottom-up model
 
+> **✅ Labeling fixed (2026-07-17, `3fd68f6`).** The scoreboard KPI context now reads "3-month-average benchmark, not the live model," and the BT section's method note states the backtested model is a long-history benchmark distinct from the live bottom-up nowcast graded above it (which is too young to backtest vintage-true). Backtesting the live model itself remains future work once it has real graded history.
+
 The live CPI forecast is a 14-component bottom-up calculation using measured component moves, capped historical trends, and selected futures-driver adjustments.
 
 The published “Vintage-true MAE” instead backtests a three-month moving average of previously known official CPI changes:
@@ -138,6 +146,8 @@ Relevant implementation:
 The arithmetic in the backtest is correct. The issue is model comparability and presentation.
 
 ### 4. Medium: Component gap decomposition does not reconcile to the headline gap
+
+> **✅ Relabeled (2026-07-17, `e9b1bc4`).** The total row now reads **"Total gap vs BLS basket (reconstructed)"**; the table footer and the page lede state it decomposes against our 14-component reconstruction, so it differs from the headline gap by design (−0.62 vs −0.48 at audit time). Row-level as-of dates were not added — the footer's single as-of plus the LIVE/BLS-CF mode badges remain the disclosure; revisit if it confuses in practice.
 
 Current displayed figures:
 
@@ -169,6 +179,8 @@ Relevant implementation:
 
 ### 5. Medium: Real-wage growth mixes June wages with July inflation
 
+> **✅ Qualified (2026-07-17, `3fd68f6`).** The KPI context now says it plainly: "mixed periods: Jun 2026 wages deflated by 2026-07-16 inflation — not a same-month comparison." Aligning the periods (lagging the gauge to the wage month) was considered and deliberately not done: the page's product premise is *today's* inflation against the freshest wage print.
+
 The current real-wage figure is mathematically correct for its inputs:
 
 ```text
@@ -189,6 +201,8 @@ Relevant implementation:
 
 ### 6. Low: Zero-weight missing components can blank “My Inflation”
 
+> **Split. Blanking: 📌 declined as spec-pinned intent** — the null propagation is pinned verbatim by the phase-2b TDD spec (`reweight.test.ts:31`) and can only ever blank the display, never print a wrong number; the current `replay.json` has zero nulls across all 14 components × 3,119 grid dates, so no user-visible effect exists today. **Drivers sort: ✅ fixed (2026-07-17, `2b8fe61`)** — `contributions()` sorts by `|pp|` with a regression test where a large deflating component tops the list.
+
 The personal-inflation calculation returns `null` if any component YoY is unavailable, even when that component has a zero personalized weight.
 
 For example, a user who does not drive can assign zero weight to fuel and vehicles, but missing vehicle history can still blank the entire personal rate. A zero-weight component should not affect the weighted result.
@@ -200,6 +214,8 @@ Relevant implementation:
 - `site/src/lib/reweight.ts`: `weightedYoY()` and `contributions()`
 
 ### 7. Low: Treemap “MoM annualized” is a 30-day approximation
+
+> **📌 Accepted as-is (2026-07-17).** Confirmed real but small, consistent across tiles, and honestly labeled "MoM ann." — a calendar-month convention would add complexity to a comparative color scale without changing any ranking. Revisit only if the tile values are ever presented as precise prints.
 
 The treemap calculates:
 
@@ -214,6 +230,8 @@ Relevant implementation:
 - `site/src/components/Treemap.tsx`: `modeValue()`
 
 ### 8. Low: Daily YoY uses a fixed 365-day offset across leap years
+
+> **📌 Accepted as-is (2026-07-17).** Monthly correctness is already protected by `yoy_at_obs`'s like-month base logic (including the base-month-hole walk-back); the residual effect is a ≤1-day base shift on genuinely daily series around Feb 29 — below display precision everywhere it surfaces.
 
 Daily and component YoYs use `date - 365 days` rather than the same calendar date one year earlier. During periods spanning February 29, this can select a base one day away from the expected calendar anniversary.
 
@@ -266,9 +284,9 @@ The missing QCEW rows reduce state build-parity coverage but do not affect the n
 
 ## Priority order
 
-1. Resolve or clearly distinguish the headline component-weighted YoY from the YoY of the published price index.
-2. Define the CPI-nowcast monthly measurement convention and correct the measured-component window.
-3. Backtest the live bottom-up nowcast or clearly label the existing MAE as belonging to a separate three-month-average benchmark.
-4. Reconcile the component gap table to official CPI or relabel it as a gap versus the reconstructed BLS basket.
-5. Align or more prominently qualify the mixed-period real-wage calculation.
-6. Address the lower-risk personal-inflation, annualization, and leap-year edge cases.
+1. ~~Resolve or clearly distinguish the headline component-weighted YoY from the YoY of the published price index.~~ ✅ Distinguished — outlook KPI relabeled (`3fd68f6`); the dual construction is documented design.
+2. ~~Define the CPI-nowcast monthly measurement convention and correct the measured-component window.~~ ✅ Month-average ratio (`93e3d35`).
+3. ~~Backtest the live bottom-up nowcast or clearly label the existing MAE as belonging to a separate three-month-average benchmark.~~ ✅ Labeled (`3fd68f6`); live-model backtest deferred until it has graded history.
+4. ~~Reconcile the component gap table to official CPI or relabel it as a gap versus the reconstructed BLS basket.~~ ✅ Relabeled (`e9b1bc4`).
+5. ~~Align or more prominently qualify the mixed-period real-wage calculation.~~ ✅ Qualified (`3fd68f6`).
+6. ~~Address the lower-risk personal-inflation, annualization, and leap-year edge cases.~~ ✅ Drivers sort fixed (`2b8fe61`); zero-weight blanking, treemap annualization, and leap-year offset accepted as-is with rationale above.
