@@ -25,6 +25,14 @@ const price = (v: number | null, unit: "$gal" | "cents" | "$wk" | "pct") => {
   }
 };
 
+// Δpp at 1dp — sign from the ROUNDED value (fmtSigned's rule) so +0.04
+// renders "0.0", never "+0.0"
+const signedPp1 = (pp: number, suffix = ""): string => {
+  const r = Number(pp.toFixed(1));
+  const s = r > 0 ? "+" : r < 0 ? "−" : "";
+  return `${s}${Math.abs(r).toFixed(1)}${suffix}`;
+};
+
 export default function States() {
   const rows = [...data.states].sort((a, b) => a.name.localeCompare(b.name));
   return (
@@ -69,7 +77,7 @@ export default function States() {
           context={`${
             nat.unemployment_pct.delta_1y_pp == null
               ? "—"
-              : `${nat.unemployment_pct.delta_1y_pp > 0 ? "+" : ""}${nat.unemployment_pct.delta_1y_pp.toFixed(1)}pp`
+              : signedPp1(nat.unemployment_pct.delta_1y_pp, "pp")
           } vs 1y ago`}
           accent="emerald"
         />
@@ -106,7 +114,7 @@ export default function States() {
                 <td>
                   {s.unemployment_pct.delta_1y_pp == null
                     ? "—"
-                    : `${s.unemployment_pct.delta_1y_pp > 0 ? "+" : ""}${s.unemployment_pct.delta_1y_pp.toFixed(1)}`}
+                    : signedPp1(s.unemployment_pct.delta_1y_pp)}
                 </td>
               </tr>
             ))}

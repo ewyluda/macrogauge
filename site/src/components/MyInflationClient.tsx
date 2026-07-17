@@ -135,7 +135,7 @@ export function MyInflationClient({
         {overrides && (
           <span style={{ fontSize: 12, color: "var(--muted)" }}>
             {Object.keys(overrides).length} of 14 components localized ({Object.keys(overrides).join(", ")})
-            {!overrides.fuel && " · gasoline pending — state history accrues ~2027"}
+            {overrides.fuel == null && " · gasoline pending — state history accrues ~2027"}
           </span>
         )}
       </div>

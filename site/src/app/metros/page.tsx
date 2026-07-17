@@ -51,9 +51,12 @@ function Yoy({ pct }: { pct: number | null }) {
 }
 
 export default function Metros() {
-  const rows: Metro[] = [...data.metros].sort(
-    (a, b) => (b.zori.yoy_pct ?? -Infinity) - (a.zori.yoy_pct ?? -Infinity)
-  );
+  const rows: Metro[] = [...data.metros].sort((a, b) => {
+    // both-null must return 0, not -Infinity - -Infinity = NaN
+    const av = a.zori.yoy_pct ?? -Infinity;
+    const bv = b.zori.yoy_pct ?? -Infinity;
+    return av === bv ? 0 : bv - av;
+  });
   const asOf = data.national.zori.as_of;
   return (
     <div>

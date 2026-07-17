@@ -37,15 +37,26 @@ export function LaborClaimsChart({
   dates: string[];
   initialClaims: (number | null)[];
 }) {
-  const option = useMemo(
-    () => ({
-      ...baseOption(),
+  const option = useMemo(() => {
+    const base = baseOption();
+    return {
+      ...base,
+      // claims are raw counts, not percents — drop baseOption()'s "%" formatters
+      tooltip: {
+        ...base.tooltip,
+        valueFormatter: (v: unknown) =>
+          typeof v === "number" ? `${(v / 1000).toFixed(0)}k` : "—",
+      },
+      yAxis: {
+        ...base.yAxis,
+        scale: true,
+        axisLabel: { color: C.muted, formatter: (v: number) => `${v / 1000}k` },
+      },
       series: [
         { name: "Initial claims", type: "line", showSymbol: false, lineStyle: { width: 1.5 }, color: C.violet,
           data: dates.map((dt, i) => [dt, initialClaims[i]] as [string, number | null]) },
       ],
-    }),
-    [dates, initialClaims],
-  );
+    };
+  }, [dates, initialClaims]);
   return <EChart height={240} option={option} />;
 }

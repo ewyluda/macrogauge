@@ -107,8 +107,8 @@ describe("engine invariant (spec §6, verified against live data)", () => {
 
 describe("overrides", () => {
   const OVR_COMPS = [
-    { code: "electricity", label: "Electricity", yoy: [5.0] },
-    { code: "fuel", label: "Gasoline", yoy: [10.0] },
+    { code: "electricity", label: "Electricity", weight: 0.5, yoy: [5.0] },
+    { code: "fuel", label: "Gasoline", weight: 0.5, yoy: [10.0] },
   ];
   const OVR_W = { electricity: 0.5, fuel: 0.5 };
 
