@@ -22,8 +22,9 @@ def test_load_real_registry():
                             "APTLIST", "USDA", "AAA", "AAA_STATE", "MND", "MANHEIM",
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
-                            "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC"}
-    assert len(series) == 491
+                            "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC",
+                            "EIA_STATE_RES"}
+    assert len(series) == 542
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
@@ -117,6 +118,7 @@ def test_load_real_registry():
     assert sources["QCEW"].secret is None and sources["QCEW"].route == "CSV"
     assert sources["EIA_STATE"].secret == "EIA_API_KEY"
     assert sum(1 for s in series if s.source == "EIA_STATE") == 52
+    assert sum(1 for s in series if s.source == "EIA_STATE_RES") == 51
     # 45 = US total + 44 states: seven areas (AK, DC, MA, MO, RI, SD, VT)
     # are chronically disclosure-suppressed at state level for private NAICS 23
     # in the QCEW files, so they can never produce a row and were dropped.
@@ -172,6 +174,22 @@ def test_aaa_state_family_complete():
     for s in fam:
         assert s.source_id == s.code.removeprefix("aaa_gas_")
         assert s.max_staleness_days == 4
+
+
+def test_eia_state_res_family_complete():
+    # P2 T5: exactly one eia_elec_res_{st} per state + DC — states only, no
+    # _us duplicate (the national series already rides EIA as eia_elec_res).
+    # 150d staleness matches the EIA_STATE industrial family.
+    sources, series = registry.load_registry()
+    assert sources["EIA_STATE_RES"].secret == "EIA_API_KEY"
+    fam = [s for s in series if s.source == "EIA_STATE_RES"]
+    assert sorted(s.code for s in fam) == sorted(
+        f"eia_elec_res_{st.lower()}" for st in STATE_ABBREVS)
+    for s in fam:
+        st = s.code.removeprefix("eia_elec_res_").upper()
+        assert s.source_id == f"ELEC.PRICE.{st}-RES.M"
+        assert s.max_staleness_days == 150
+    assert "eia_elec_res_us" not in {s.code for s in series}
 
 
 def test_zillow_metro_family_consistent():

@@ -94,7 +94,7 @@ six-agent scout (all series ids below LIVE-VERIFIED that day unless marked VERIF
   `tests/fixtures/aaa_states.html` (trimmed live page: sortable table + the national banner to
   pin non-cross-matching); test_run_daily fake splits on `/state-gas-price-averages/`; drift =
   row-count != 51 or price outside (1.5, 7.0).
-- [ ] **T5 eia-state-res**: EIA_STATE_RES source key → `_eia`, 51 `eia_elec_res_{st}` series
+- [x] **T5 eia-state-res**: EIA_STATE_RES source key → `_eia`, 51 `eia_elec_res_{st}` series
   (`ELEC.PRICE.{ST}-RES.M`, 150d), pins bump. Config-mostly.
 - [ ] **T6 publish-metros**: `pipeline/publish/metros.py` (METROS const list of (region_id,
   name) in SizeRank order; consistency test vs registry codes; build(conn)/write;

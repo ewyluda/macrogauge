@@ -259,7 +259,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "stress.json", "recession.json", "datacenter.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 28
+    assert len(status["sources"]) == 29
     assert all(s["ok"] for s in status["sources"])
     kalshi_dc_row = [s for s in status["sources"] if s["name"] == "KALSHI_DC"][0]
     assert kalshi_dc_row["ok"] is True
@@ -294,6 +294,10 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     # the id_map remap ("tx" -> "aaa_gas_tx") through the real collect path.
     assert vintage.latest(conn, "aaa_gas_tx")[-1][1] == pytest.approx(3.568)
     assert vintage.latest(conn, "aaa_gas_dc")[-1][1] == pytest.approx(4.069)
+    # P2 T5: EIA_STATE_RES rides the generic seriesid branch of the EIA fake
+    # (any *.M url -> eia_monthly.json) — a TX row landing under the internal
+    # code pins the id_map remap ("ELEC.PRICE.TX-RES.M" -> "eia_elec_res_tx").
+    assert vintage.latest(conn, "eia_elec_res_tx")[-1][1] == pytest.approx(17.45)
     # Value-pin the DC-context series, not just presence — a ticker-branch
     # regression in the Kalshi fake (falling back to the generic KXCPI
     # single-market payload) would still produce a store row with ok:True,

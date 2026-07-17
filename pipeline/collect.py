@@ -159,6 +159,10 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             # its own status row — the fetch mechanics are plain EIA (v2
             # seriesid route), same precedent as EIA_STATE/STEO above.
             "EIA_SPOT": _eia,
+            # EIA_STATE_RES is a separate source key only for failure isolation
+            # and its own status row — the fetch mechanics are plain EIA (v2
+            # seriesid route), same precedent as EIA_STATE/STEO above.
+            "EIA_STATE_RES": _eia,
             # KALSHI_DC is a separate source key only for failure isolation —
             # thin speculative DC books must never fail the core KALSHI (CPI)
             # row; fetch_dc's skip semantics differ from fetch()'s by design.
