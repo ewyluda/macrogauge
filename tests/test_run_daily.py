@@ -278,6 +278,15 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "fmp_wheat", "fmp_soybeans", "fmp_soybean_oil", "fmp_coffee",
                  "fmp_sugar", "fmp_cocoa", "fmp_live_cattle"):
         assert vintage.latest(conn, code), f"no store rows for {code}"
+    # P2 T3: the zillow fixtures carry one registered metro (New York,
+    # 394913) — its rows landing under the internal codes pins the whole
+    # subset-aware path (collect passes source_ids through, id_map remaps
+    # "zori:394913" -> "zori_394913"); the unregistered Rochester msa row
+    # (395031) must be dropped, and the US codes must survive the remap.
+    assert vintage.latest(conn, "zori_394913")[-1][1] == pytest.approx(3300.2)
+    assert vintage.latest(conn, "zhvi_394913")[-1][1] == pytest.approx(660000.0)
+    assert vintage.latest(conn, "zori_us")[-1][1] == pytest.approx(2105.7)
+    assert not vintage.latest(conn, "zori_395031")
     # Value-pin the DC-context series, not just presence — a ticker-branch
     # regression in the Kalshi fake (falling back to the generic KXCPI
     # single-market payload) would still produce a store row with ok:True,

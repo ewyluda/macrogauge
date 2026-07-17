@@ -62,7 +62,7 @@ def _treasury(subset, key, http):
 
 
 def _zillow(subset, key, http):
-    return zillow.fetch(http_get=http)
+    return zillow.fetch([s.source_id for s in subset], http_get=http)
 
 
 def _pmms(subset, key, http):

@@ -23,7 +23,7 @@ def test_load_real_registry():
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC"}
-    assert len(series) == 340
+    assert len(series) == 440
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
@@ -112,6 +112,8 @@ def test_load_real_registry():
             # live-verified 2026-07-17 (51/51 exist, monthly, latest obs 2026-05)
             **{f"{st}UR": f"{st}UR" for st in STATE_ABBREVS},
         }
+    # P2 T3: 2 US + 100 metro series (top-50 msa by SizeRank, zori+zhvi each)
+    assert sum(1 for s in series if s.source == "ZILLOW") == 102
     assert sources["QCEW"].secret is None and sources["QCEW"].route == "CSV"
     assert sources["EIA_STATE"].secret == "EIA_API_KEY"
     assert sum(1 for s in series if s.source == "EIA_STATE") == 52
@@ -155,6 +157,23 @@ def test_state_unemployment_family_complete():
         assert s.source == "FRED"
         assert s.source_id == s.code
         assert s.max_staleness_days == 80
+
+
+def test_zillow_metro_family_consistent():
+    # P2 T3: zori_{region_id}/zhvi_{region_id} pairs, source_id "zori:{id}"
+    # grammar, 75d staleness per locked decision 4; same 50 RegionIDs in both.
+    _, series = registry.load_registry()
+    metros = [s for s in series
+              if s.source == "ZILLOW" and s.code not in ("zori_us", "zhvi_us")]
+    assert len(metros) == 100
+    for s in metros:
+        prefix, region_id = s.code.split("_", 1)
+        assert prefix in ("zori", "zhvi")
+        assert s.source_id == f"{prefix}:{region_id}"
+        assert s.max_staleness_days == 75
+    zori_ids = {s.code.split("_", 1)[1] for s in metros if s.code.startswith("zori_")}
+    zhvi_ids = {s.code.split("_", 1)[1] for s in metros if s.code.startswith("zhvi_")}
+    assert zori_ids == zhvi_ids and len(zori_ids) == 50
 
 
 MONTHLY_MID_MONTH_LAG = (
