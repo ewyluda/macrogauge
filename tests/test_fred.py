@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from pipeline.connectors import fred
 
 FIXTURE = Path(__file__).parent / "fixtures" / "fred_cpiaucns.json"
@@ -36,6 +38,54 @@ def test_fetch_parses_and_skips_missing():
 
 def test_today_et_format():
     assert len(fred.today_et()) == 10  # YYYY-MM-DD
+
+
+class ErrorResponse:
+    """400/500 response — raise_for_status raises like requests does."""
+
+    def raise_for_status(self):
+        import requests
+        raise requests.HTTPError("400 Client Error: Bad Request for url")
+
+
+def _payload():
+    return json.loads(FIXTURE.read_text())
+
+
+def test_fetch_one_bad_series_does_not_kill_the_rest():
+    # A single bad id (deleted/typo'd series -> 400) must not take the whole
+    # FRED source row down — proven live 2026-07-16 when CUSR0000SEHG01
+    # 400'd and all ~100 FRED series went uncollected for a run.
+    def get(url, params=None, timeout=None):
+        if params["series_id"] == "BADID":
+            return ErrorResponse()
+        return FakeResponse(_payload())
+
+    obs = fred.fetch(["CPIAUCNS", "BADID", "CPIAUCNS"], "test-key",
+                     vintage_date="2026-07-07", http_get=get)
+    assert len(obs) == 12  # both good series parsed, bad one skipped
+    assert {o.series_code for o in obs} == {"CPIAUCNS"}
+
+
+def test_fetch_all_series_failing_raises_summary():
+    def get(url, params=None, timeout=None):
+        return ErrorResponse()
+
+    with pytest.raises(RuntimeError, match=r"FRED: no series loaded.*"
+                                           r"CPIAUCNS: HTTPError.*"
+                                           r"PCEPI: HTTPError"):
+        fred.fetch(["CPIAUCNS", "PCEPI"], "test-key",
+                   vintage_date="2026-07-07", http_get=get)
+
+
+def test_fetch_single_failing_series_reraises_original():
+    # With one registered series there is nothing to isolate — surface the
+    # real exception (its message names the HTTP status) instead of a
+    # one-line summary that hides it.
+    import requests
+    with pytest.raises(requests.HTTPError, match="400 Client Error"):
+        fred.fetch(["CPIAUCNS"], "test-key", vintage_date="2026-07-07",
+                   http_get=lambda url, params=None, timeout=None: ErrorResponse())
 
 
 ALFRED_FIXTURE = Path(__file__).parent / "fixtures" / "alfred_cpiaucns.json"

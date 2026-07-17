@@ -102,52 +102,67 @@ def fetch_dc(source_ids: list[str], vintage_date: str | None = None,
     expected value; a single floor_strike market is a degraded ladder book
     (SKIP — its 0-1 price is not a resolvable count); zero floor_strike
     markets means the priced market is a true binary, read as a
-    probability."""
+    probability. Per-ticker errors (HTTP, drift) are contained the same way
+    partial QCEW quarters are: the other tickers still publish and staleness
+    QA flags the silent one — but every ticker failing raises."""
     http_get = http_get or requests.get
     vintage = vintage_date or today_et()
     out = []
+    errors: list[tuple[str, Exception]] = []
     for ticker in source_ids:
-        response = http_get(URL, params={"series_ticker": ticker,
-                                         "status": "open", "limit": 100},
-                            timeout=30)
-        response.raise_for_status()
-        markets = [m for m in response.json().get("markets", [])
-                   if m.get("last_price_dollars") not in (None, "")
-                   and float(m["last_price_dollars"]) > 0]
-        if not markets:
-            continue
-        # One series ticker spans event years (…-26DEC31, …-27DEC31): pooling
-        # rungs across events would feed two years' ladders to the survival
-        # curve as one book at every annual rollover. Keep only the event
-        # closing next — same rule as fetch().
-        events: dict[str, list[dict]] = {}
-        for market in markets:
-            events.setdefault(market.get("event_ticker", ""), []).append(market)
-        markets = min(events.values(),
-                      key=lambda ms: min(m.get("close_time") or "9999"
-                                         for m in ms))
-        laddered = [m for m in markets if m.get("floor_strike") is not None]
-        if laddered and len(laddered) < 2:
-            # Degraded ladder book: a market that carries floor_strike is a
-            # ladder-style question, but one priced rung alone can't yield a
-            # survival-curve expected value — and reading its 0-1 price as a
-            # binary probability would publish a probability as a count
-            # (confirmed live for 3 weeks in June 2026; recurs at every
-            # annual event rollover as rungs get added/settled). Treat it
-            # like a thin book: skip, carry-forward absorbs it.
-            continue
-        if len(laddered) >= 2:
-            points = sorted((float(m["floor_strike"]),
-                             min(float(m["last_price_dollars"]), 1.0))
-                            for m in laddered)
-            value = round(_expected_from_ladder(points), 2)
-            if not COUNT_PLAUSIBLE[0] < value < COUNT_PLAUSIBLE[1]:
-                raise ValueError(f"kalshi_dc {ticker}: expected {value} outside "
-                                 f"{COUNT_PLAUSIBLE} — structure drift?")
-        else:
-            # true binary: no priced market carries floor_strike at all
-            value = round(min(float(markets[0]["last_price_dollars"]), 1.0), 4)
-        out.append(Observation(series_code=ticker, obs_date=vintage,
-                               value=value, vintage_date=vintage,
-                               source="KALSHI_DC", route="API"))
+        try:
+            out.extend(_fetch_dc_ticker(ticker, vintage, http_get))
+        except Exception as e:  # per-ticker: one bad book must not drop the rest
+            errors.append((ticker, e))
+    if errors and len(errors) == len(source_ids):
+        if len(errors) == 1:  # nothing was isolated — surface the real exception
+            raise errors[0][1]
+        raise RuntimeError("kalshi_dc: all tickers failed — " + "; ".join(
+            f"{t}: {type(e).__name__}" for t, e in errors))
     return out
+
+
+def _fetch_dc_ticker(ticker: str, vintage: str, http_get) -> list[Observation]:
+    response = http_get(URL, params={"series_ticker": ticker,
+                                     "status": "open", "limit": 100},
+                        timeout=30)
+    response.raise_for_status()
+    markets = [m for m in response.json().get("markets", [])
+               if m.get("last_price_dollars") not in (None, "")
+               and float(m["last_price_dollars"]) > 0]
+    if not markets:
+        return []
+    # One series ticker spans event years (…-26DEC31, …-27DEC31): pooling
+    # rungs across events would feed two years' ladders to the survival
+    # curve as one book at every annual rollover. Keep only the event
+    # closing next — same rule as fetch().
+    events: dict[str, list[dict]] = {}
+    for market in markets:
+        events.setdefault(market.get("event_ticker", ""), []).append(market)
+    markets = min(events.values(),
+                  key=lambda ms: min(m.get("close_time") or "9999"
+                                     for m in ms))
+    laddered = [m for m in markets if m.get("floor_strike") is not None]
+    if laddered and len(laddered) < 2:
+        # Degraded ladder book: a market that carries floor_strike is a
+        # ladder-style question, but one priced rung alone can't yield a
+        # survival-curve expected value — and reading its 0-1 price as a
+        # binary probability would publish a probability as a count
+        # (confirmed live for 3 weeks in June 2026; recurs at every
+        # annual event rollover as rungs get added/settled). Treat it
+        # like a thin book: skip, carry-forward absorbs it.
+        return []
+    if len(laddered) >= 2:
+        points = sorted((float(m["floor_strike"]),
+                         min(float(m["last_price_dollars"]), 1.0))
+                        for m in laddered)
+        value = round(_expected_from_ladder(points), 2)
+        if not COUNT_PLAUSIBLE[0] < value < COUNT_PLAUSIBLE[1]:
+            raise ValueError(f"kalshi_dc {ticker}: expected {value} outside "
+                             f"{COUNT_PLAUSIBLE} — structure drift?")
+    else:
+        # true binary: no priced market carries floor_strike at all
+        value = round(min(float(markets[0]["last_price_dollars"]), 1.0), 4)
+    return [Observation(series_code=ticker, obs_date=vintage,
+                        value=value, vintage_date=vintage,
+                        source="KALSHI_DC", route="API")]

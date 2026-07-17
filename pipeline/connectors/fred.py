@@ -39,18 +39,32 @@ def fetch_vintages(series_id: str, api_key: str,
 
 def fetch(series_ids: list[str], api_key: str, observation_start: str = "2017-01-01",
           vintage_date: str | None = None, http_get=None) -> list[Observation]:
+    """Per-series failures are tolerated (a deleted/typo'd id 400s; carry-forward
+    plus the per-series staleness/never-seen QA is the detection channel) —
+    but zero loaded series raises, and collect's isolation surfaces it. Same
+    convention as qcew's per-quarter tolerance."""
     http_get = http_get or requests.get
     vintage = vintage_date or today_et()
     out: list[Observation] = []
+    loaded, errors = 0, []
     for sid in series_ids:
-        resp = http_get(FRED_URL, params={
-            "series_id": sid, "api_key": api_key, "file_type": "json",
-            "observation_start": observation_start}, timeout=30)
-        resp.raise_for_status()
-        for row in resp.json()["observations"]:
-            if row["value"] == ".":
-                continue
-            out.append(Observation(series_code=sid, obs_date=row["date"],
-                                   value=float(row["value"]), vintage_date=vintage,
-                                   source="FRED", route="API"))
+        try:
+            resp = http_get(FRED_URL, params={
+                "series_id": sid, "api_key": api_key, "file_type": "json",
+                "observation_start": observation_start}, timeout=30)
+            resp.raise_for_status()
+            rows = [Observation(series_code=sid, obs_date=row["date"],
+                                value=float(row["value"]), vintage_date=vintage,
+                                source="FRED", route="API")
+                    for row in resp.json()["observations"] if row["value"] != "."]
+        except Exception as e:  # per-series: one bad id must not kill the source row
+            errors.append((sid, e))
+            continue
+        loaded += 1
+        out.extend(rows)
+    if not loaded and errors:
+        if len(errors) == 1:  # nothing was isolated — surface the real exception
+            raise errors[0][1]
+        raise RuntimeError("FRED: no series loaded — " + "; ".join(
+            f"{sid}: {type(e).__name__}" for sid, e in errors))
     return out

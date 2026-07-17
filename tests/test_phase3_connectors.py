@@ -239,6 +239,47 @@ def test_kalshi_dc_one_thin_ticker_does_not_drop_the_other():
     assert [r.series_code for r in rows] == ["KXDATACENTER"]
 
 
+def test_kalshi_dc_one_erroring_ticker_does_not_drop_the_other():
+    # An HTTP failure on one speculative book must not zero out the other
+    # ticker's fresh row — per-ticker isolation, same class as the thin-book
+    # skip above (and the QCEW per-quarter precedent).
+    from tests.test_fred import ErrorResponse
+
+    def get(url, params=None, timeout=None):
+        if params["series_ticker"] == "KXUSADATACENTERS":
+            return ErrorResponse()
+        return FakeResponse({"markets": [{"last_price_dollars": "0.61"}]})
+
+    rows = kalshi.fetch_dc(["KXUSADATACENTERS", "KXDATACENTER"],
+                           vintage_date="2026-07-16", http_get=get)
+    assert [r.series_code for r in rows] == ["KXDATACENTER"]
+
+
+def test_kalshi_dc_drift_in_one_ticker_does_not_drop_the_other():
+    # The implausible-count drift check still keeps garbage out of the store,
+    # but contained to its own ticker: the healthy book publishes.
+    def get(url, params=None, timeout=None):
+        if params["series_ticker"] == "KXUSADATACENTERS":
+            return FakeResponse({"markets": [
+                {"floor_strike": 900000, "last_price_dollars": "0.9"},
+                {"floor_strike": 990000, "last_price_dollars": "0.4"}]})
+        return FakeResponse({"markets": [{"last_price_dollars": "0.61"}]})
+
+    rows = kalshi.fetch_dc(["KXUSADATACENTERS", "KXDATACENTER"],
+                           vintage_date="2026-07-16", http_get=get)
+    assert [r.series_code for r in rows] == ["KXDATACENTER"]
+
+
+def test_kalshi_dc_all_tickers_erroring_raises_summary():
+    from tests.test_fred import ErrorResponse
+    with pytest.raises(RuntimeError, match=r"kalshi_dc: all tickers failed.*"
+                                           r"KXUSADATACENTERS: HTTPError.*"
+                                           r"KXDATACENTER: HTTPError"):
+        kalshi.fetch_dc(["KXUSADATACENTERS", "KXDATACENTER"],
+                        vintage_date="2026-07-16",
+                        http_get=lambda url, params=None, timeout=None: ErrorResponse())
+
+
 def test_kalshi_dc_implausible_count_is_structure_drift():
     payload = {"markets": [
         {"floor_strike": 900000, "last_price_dollars": "0.9"},
