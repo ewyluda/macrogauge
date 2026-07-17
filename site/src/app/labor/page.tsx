@@ -9,7 +9,11 @@ import type { Labor, Nowcast } from "@/lib/types";
 
 const d = laborJson as Labor;
 const nowcast = nowcastJson as Nowcast;
-const nfp = nfpJson as { graded: { mae?: number; bias?: number } | Record<string, unknown> };
+// accountability_nfp.graded is an array of graded prints (error = forecast −
+// actual, thousands); empty until the first NFP print grades after 2026-07.
+const nfp = nfpJson as {
+  graded: { reference_period: string; forecast: number; actual: number | null; error: number | null }[];
+};
 
 export const metadata: Metadata = {
   title: "Labor Market — payrolls, unemployment, claims, wages",
@@ -25,6 +29,13 @@ export default function LaborPage() {
   const m = d.history.monthly;
   const w = d.history.weekly;
   const nfpNow = nowcast.nfp;
+  const graded = nfp.graded.filter((g) => g.error != null);
+  const mae = graded.length
+    ? graded.reduce((s, g) => s + Math.abs(g.error as number), 0) / graded.length
+    : null;
+  const bias = graded.length
+    ? graded.reduce((s, g) => s + (g.error as number), 0) / graded.length
+    : null;
   return (
     <div>
       <h1>
@@ -60,11 +71,18 @@ export default function LaborPage() {
         <div className="kpi-row">
           <KpiCard label="NFP nowcast" value={nfpNow ? `${signedK(nfpNow.change_thousands)}` : "—"}
             context={nfpNow ? `reference ${fmtMonth(nfpNow.reference_month)}` : "awaiting sufficient history"} accent="sky" />
+          <KpiCard label="Grading receipts"
+            value={mae == null ? "—" : `${Math.round(mae)}k MAE`}
+            context={graded.length === 0
+              ? "no graded prints yet — accruing"
+              : `${graded.length} print${graded.length === 1 ? "" : "s"} · bias ${bias! > 0 ? "+" : bias! < 0 ? "−" : ""}${Math.abs(Math.round(bias!))}k (forecast − actual)`}
+            accent="emerald" />
         </div>
         <p className="method">
-          Our nonfarm-payroll nowcast for the next report, graded in public after each print
-          (see the Forecast Scoreboard). Payrolls, claims and wages: BLS/DOL/FRED, monthly and
-          weekly. Unemployment shows the percentage-point change vs a year ago, not a percent change.
+          Our nonfarm-payroll nowcast for the next report, graded in public after each print — the
+          receipts card fills in as prints land (see the Forecast Scoreboard for the full
+          per-print history). Payrolls, claims and wages: BLS/DOL/FRED, monthly and weekly.
+          Unemployment shows the percentage-point change vs a year ago, not a percent change.
         </p>
       </div>
     </div>
