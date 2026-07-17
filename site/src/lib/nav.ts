@@ -61,6 +61,7 @@ export const NAV: NavEntry[] = [
           { href: "/heatcheck", label: "Heat Check", emoji: "🌡️" },
           { href: "/stress", label: "Consumer Stress", emoji: "🩺" },
           { href: "/recession", label: "Recession Risk", emoji: "📉" },
+          { href: "/labor", label: "Labor Market", emoji: "💼" },
           { href: "/states", label: "State Cost Map", emoji: "🗺️" },
           { href: "/metros", label: "Metro Rents", emoji: "🏙️" },
         ],

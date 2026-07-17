@@ -126,6 +126,19 @@ export type Matrix = {
   groups: { group: string; rows: MatrixRow[] }[];
 };
 
+export type LaborBlock = { as_of: string | null };
+export type Labor = {
+  published_at: string;
+  payrolls: { level_k: number | null; mom_change_k: number | null; yoy_pct: number | null; as_of: string | null };
+  unemployment: { rate: number | null; delta_1y_pp: number | null; as_of: string | null };
+  claims: { initial: number | null; initial_4wk_avg: number | null; continued: number | null; as_of: string | null };
+  wages: { ahe_yoy_pct: number | null; atlanta_wgt_pct: number | null; as_of: string | null };
+  history: {
+    monthly: { months: string[]; payrolls_yoy_pct: (number | null)[]; unemployment_rate: (number | null)[] };
+    weekly: { dates: string[]; initial_claims: (number | null)[] };
+  };
+};
+
 export type NowcastComponent = {
   component: string;
   mom_pct: number;
