@@ -5,6 +5,7 @@ import { SegmentedControl } from "./SegmentedControl";
 import { C, baseOption } from "@/lib/chartTheme";
 import { heatColor } from "@/lib/heat";
 import { fmtPct } from "@/lib/format";
+import type { Geo } from "@/lib/types";
 import {
   DEFAULT_ANSWERS,
   MULTIPLIER_NOTES,
@@ -59,14 +60,17 @@ export function MyInflationClient({
   compareGauge,
   gaugeYoy,
   gaugeAsOf,
+  states,
 }: {
   compareMonths: string[];
   compareGauge: (number | null)[];
   gaugeYoy: number;
   gaugeAsOf: string;
+  states: Geo["states"];
 }) {
   const [data, setData] = useState<Replay | null>(null);
   const [answers, setAnswers] = useState<Answers>(DEFAULT_ANSWERS);
+  const [stateSel, setStateSel] = useState("US");
 
   useEffect(() => {
     fetch("/data/replay.json")
@@ -80,6 +84,16 @@ export function MyInflationClient({
     [data, answers]
   );
 
+  const overrides = useMemo(() => {
+    if (stateSel === "US") return undefined;
+    const st = states.find((s) => s.state === stateSel);
+    if (!st) return undefined;
+    const o: Record<string, number> = {};
+    if (st.elec_res_cents.yoy_pct != null) o.electricity = st.elec_res_cents.yoy_pct;
+    if (st.gas_regular.yoy_pct != null) o.fuel = st.gas_regular.yoy_pct;
+    return Object.keys(o).length ? o : undefined;
+  }, [stateSel, states]);
+
   if (!data || !weights) {
     return (
       <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>
@@ -89,7 +103,7 @@ export function MyInflationClient({
   }
 
   const lastIdx = data.dates.length - 1;
-  const mine = weightedYoY(data.components, weights, lastIdx);
+  const mine = weightedYoY(data.components, weights, lastIdx, overrides);
   const diff = mine === null ? null : mine - gaugeYoy;
 
   const personalSeries = compareMonths.map((m) => {
@@ -106,11 +120,26 @@ export function MyInflationClient({
   const top =
     mine === null
       ? []
-      : contributions(data.components, weights, lastIdx).slice(0, 5);
+      : contributions(data.components, weights, lastIdx, overrides).slice(0, 5);
   const maxPp = Math.max(...top.map((t) => Math.abs(t.pp)), 0.01);
 
   return (
     <div>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12, flexWrap: "wrap" }}>
+        <span style={{ fontSize: 13, fontWeight: 600 }}>📍 Your state</span>
+        <select value={stateSel} onChange={(e) => setStateSel(e.target.value)}
+          style={{ background: "var(--chip-bg)", color: "var(--text)", border: "1px solid var(--border)", borderRadius: 8, padding: "4px 10px", fontSize: 13 }}>
+          <option value="US">National (everyone)</option>
+          {states.map((s) => <option key={s.state} value={s.state}>{s.name}</option>)}
+        </select>
+        {overrides && (
+          <span style={{ fontSize: 12, color: "var(--muted)" }}>
+            {Object.keys(overrides).length} of 14 components localized ({Object.keys(overrides).join(", ")})
+            {!overrides.fuel && " · gasoline pending — state history accrues ~2027"}
+          </span>
+        )}
+      </div>
+
       <div style={{ display: "grid", gap: 10 }}>
         {ROWS.map((row) => (
           <div
@@ -249,7 +278,9 @@ export function MyInflationClient({
         100%, and applied to the same published component data behind the treemap
         (own-observation YoY — the gauge&apos;s own construction). Simple, transparent,
         and honest about being an approximation. Multipliers: {MULTIPLIER_NOTES.join(" · ")}.
-        State-level localization arrives with Phase 4.
+        State localization swaps in your state&apos;s own electricity (and, once a year of
+        history accrues, gasoline) inflation for the headline and drivers; the chart stays
+        national.
       </div>
     </div>
   );

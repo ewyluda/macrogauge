@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import compare from "../../../public/data/compare.json";
 import pulse from "../../../public/data/pulse.json";
+import geoJson from "../../../public/data/geo.json";
+import type { Geo } from "@/lib/types";
 import { MyInflationClient } from "@/components/MyInflationClient";
 
 export const metadata: Metadata = {
@@ -23,6 +25,7 @@ export default function MyInflation() {
           compareGauge={compare.gauge_yoy_pct}
           gaugeYoy={pulse.gauge.yoy_pct}
           gaugeAsOf={pulse.gauge.as_of}
+          states={(geoJson as Geo).states}
         />
       </div>
     </div>

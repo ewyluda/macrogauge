@@ -51,6 +51,13 @@ test("quilt module renders month cells and grocery cards render prices", async (
   await expect(page.getByText("Eggs (dozen)")).toBeVisible();
 });
 
+test("my-inflation state selector localizes the headline", async ({ page }) => {
+  await page.goto("/my-inflation");
+  await page.waitForLoadState("networkidle");
+  await page.getByRole("combobox").selectOption("TX");
+  await expect(page.getByText("components localized", { exact: false })).toBeVisible();
+});
+
 test("12-month outlook renders its summary and forward-driver receipts", async ({ page }) => {
   await page.goto("/");
   await page.waitForLoadState("networkidle");
