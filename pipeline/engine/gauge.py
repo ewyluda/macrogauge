@@ -78,8 +78,13 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
             if variant == "col" and comp.code == "shelter_owned":
                 if payment_series is None:
                     zhvi = _series(conn, "zhvi_us")
-                    rate = {**_series(conn, "pmms_30yr"),
-                            **_series(conn, "mnd_30y_d")}
+                    # MND quotes a persistently different survey level than
+                    # PMMS (+13-16bp on overlap Thursdays); a raw dict union
+                    # injected that gap as a spurious +1.67% payment step the
+                    # day MND entered the store. Entry-splice instead: PMMS
+                    # history, MND scaled to be continuous at its first obs.
+                    rate = blend_mod.splice(_series(conn, "pmms_30yr"),
+                                            _series(conn, "mnd_30y_d"))
                     payment_series = payment_mod.payment_index(zhvi, rate)
                 if payment_series:
                     live_sources = {"col_payment": payment_series}

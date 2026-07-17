@@ -93,7 +93,12 @@ def test_gate_protects_col_payment_override(tmp_path):
     shelter_owned's official/live_blend history gives a splice scale of
     exactly 1.0 (OFF_SH and the payment index's own rebase anchor are both
     100.0 at the splice point) -- so the held (pre-spike) value is provably
-    100.0 regardless of the exact payment math, which is what we assert."""
+    100.0 regardless of the exact payment math, which is what we assert.
+
+    MND is entry-spliced onto PMMS (scale anchored at MND's FIRST obs), so
+    the spike must be a later scrape, not the first one -- a first-obs spike
+    is absorbed into the anchor scale by construction. The benign 01-04 obs
+    matches PMMS (scale 1.0), leaving the 01-05 spike fully visible."""
     mini = {"base_month": "2018-01", "supercore_components": ["fuel"], "components": [
         {"code": "shelter_owned", "label": "Shelter (owned)", "weight": 0.6,
          "pce_weight": 0.6, "official_series": "OFF_SH",
@@ -114,9 +119,13 @@ def test_gate_protects_col_payment_override(tmp_path):
     bp = tmp_path / "basket.json"
     bp.write_text(json.dumps(mini))
     today = "2019-01-05"
-    # today's mnd_30y_d scrape: rate more than doubles (6.0 -> 14.0) ->
-    # payment index jumps far more than 5% -- and it just arrived today.
-    spike = [Observation(series_code="mnd_30y_d", obs_date=today, value=14.0,
+    # yesterday's benign MND scrape anchors the entry-splice at scale 1.0;
+    # today's scrape more than doubles the rate (6.0 -> 14.0) -> payment
+    # index jumps far more than 5% -- and it just arrived today.
+    spike = [Observation(series_code="mnd_30y_d", obs_date="2019-01-04",
+                         value=6.0, vintage_date="2019-01-04", source="T",
+                         route="API"),
+             Observation(series_code="mnd_30y_d", obs_date=today, value=14.0,
                          vintage_date=today, source="T", route="API")]
     vintage.append(spike, tmp_path)
     conn = vintage.load(tmp_path)
@@ -124,6 +133,41 @@ def test_gate_protects_col_payment_override(tmp_path):
     col = r["variants"]["col"]
     assert col["gate_flags"] == [f"shelter_owned@{today}"]
     assert col["components"]["shelter_owned"]["end_value"] == pytest.approx(100.0)
+
+
+def test_mnd_entry_splice_removes_survey_level_step(tmp_path):
+    """MND quotes a persistently different survey LEVEL than PMMS (+50bp
+    here, +13-16bp in production) -- a raw dict union published that gap as
+    a spurious payment-index step the day MND entered the store (audit
+    2026-07-16: +1.67% step, ~+0.36pp col YoY). Entry-spliced, a flat rate
+    market must yield a flat payment index: PMMS 6.0 throughout, MND 6.5
+    throughout, scale 6.0/6.5 makes the assembled series constant."""
+    mini = {"base_month": "2018-01", "supercore_components": ["fuel"], "components": [
+        {"code": "shelter_owned", "label": "Shelter (owned)", "weight": 0.6,
+         "pce_weight": 0.6, "official_series": "OFF_SH",
+         "live_blend": {"zori_us": 0.5, "aptlist_us": 0.3},
+         "live_variants": ["col"]},
+        {"code": "fuel", "label": "Fuel", "weight": 0.4, "pce_weight": 0.4,
+         "official_series": "OFF_FU", "live_blend": {"LIVE_FU": 1.0},
+         "live_variants": ["gauge", "tracker"]}]}
+    rows = [
+        ("OFF_SH", "2018-01-01", 100.0), ("OFF_SH", "2019-01-01", 100.0),
+        ("OFF_FU", "2018-01-01", 200.0), ("OFF_FU", "2019-01-01", 200.0),
+        ("zhvi_us", "2018-01-01", 300000.0),
+        ("pmms_30yr", "2018-12-28", 6.0)]
+    rows += [("mnd_30y_d", f"2019-01-{d:02d}", 6.5) for d in range(5, 11)]
+    obs = [Observation(series_code=c, obs_date=d, value=v,
+                       vintage_date="2019-01-10", source="T", route="API")
+           for c, d, v in rows]
+    vintage.append(obs, tmp_path)
+    bp = tmp_path / "basket.json"
+    bp.write_text(json.dumps(mini))
+    conn = vintage.load(tmp_path)
+    r = gauge.run(conn, today="2019-01-10", basket_path=bp)
+    col = r["variants"]["col"]
+    # a 6.0 -> 6.5 union step moves the payment ~+5.4%; spliced it is flat
+    assert col["components"]["shelter_owned"]["end_value"] == pytest.approx(100.0)
+    assert col["gate_flags"] == []
 
 
 def test_component_yoy_at_own_last_obs_not_grid_end(tmp_path):
