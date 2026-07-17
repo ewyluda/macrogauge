@@ -48,6 +48,10 @@ def test_build_and_write_validates(tmp_path):
     q = {q["code"]: q for q in payload["quotes"]}
     assert q["fmp_gold"]["yoy_pct"] == 10.0  # 110/100 - 1
     assert q["fmp_wti"]["yoy_pct"] is None  # single obs: no YoY base
+    # %-unit series also publish the pp delta (a rate's relative %-change
+    # reads as a pp move next to the level); price series must not
+    assert q["pmms_30yr"]["yoy_pp"] == 10.0  # 110 - 100, points
+    assert "yoy_pp" not in q["fmp_gold"]
     assert payload["headline"]["cpi"]["month"] == "2026-05-01"
     assert payload["headline"]["cpi"]["as_of"] == "2026-07-07"  # seed vintage
     path = official_pub.write(payload, tmp_path / "out", "2026-07-07T12:00:00Z")

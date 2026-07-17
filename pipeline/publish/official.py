@@ -57,9 +57,14 @@ def build(conn, series) -> dict:
             q = engine.latest_quote(conn, code)
         except ValueError:
             continue  # series never collected — publish without it
-        quotes.append({"code": code, "label": label, "group": group, "unit": unit,
-                       "latest": round(q["latest"], 2), "obs_date": q["obs_date"],
-                       "yoy_pct": _round(q["yoy_pct"])})
+        row = {"code": code, "label": label, "group": group, "unit": unit,
+               "latest": round(q["latest"], 2), "obs_date": q["obs_date"],
+               "yoy_pct": _round(q["yoy_pct"])}
+        if unit == "%":
+            # a rate's relative %-change reads as a pp move next to the
+            # level — publish the pp delta so the site can say "−0.25pp"
+            row["yoy_pp"] = _round(q["yoy_delta"])
+        quotes.append(row)
 
     cpi_code, core_code = HEADLINE
     return {"headline": {"cpi": headline_row(cpi_code),

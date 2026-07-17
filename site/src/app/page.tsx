@@ -23,7 +23,7 @@ import { SparklineCard } from "@/components/SparklineCard";
 import { OutlookChart } from "@/components/OutlookChart";
 import { Countdown } from "@/components/Countdown";
 import { ForecastNumberLine } from "@/components/ForecastNumberLine";
-import { fmtMonth, fmtPct, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
+import { fmtMonth, fmtPct, fmtPp, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
 
 // Numbers are baked at build time, so the tab title is a live headline —
 // refreshed by the daily publish like everything else.
@@ -187,7 +187,7 @@ export default function Home() {
             Ensemble {nextprint.ensemble.value == null ? "—" : `${nextprint.ensemble.value.toFixed(2)}%`} MoM
             {Object.keys(nextprint.ensemble.weights).length > 0
               ? ` · weights ${Object.entries(nextprint.ensemble.weights)
-                  .map(([n, w]) => `${n} ${(w * 100).toFixed(0)}%`)
+                  .map(([n, w]) => `${n} ${(w * 100).toFixed(1)}%`)
                   .join(" · ")}`
               : " · awaiting forecaster calls"}
           </div>
@@ -197,7 +197,12 @@ export default function Home() {
           <div className="panel-title">▥ Market pulse — live transmission channels</div>
           <div className="market-grid">
             {gas && <div><span>Regular gas</span><strong>{fmtMoney(gas.latest, gas.unit)}</strong><small>{fmtSigned(gas.yoy_pct)} YoY</small></div>}
-            {mortgage && <div><span>30Y mortgage</span><strong>{fmtMoney(mortgage.latest, mortgage.unit)}</strong><small>{fmtSigned(mortgage.yoy_pct)} YoY</small></div>}
+            {mortgage && <div><span>30Y mortgage</span><strong>{fmtMoney(mortgage.latest, mortgage.unit)}</strong><small>{(() => {
+              // rates move in POINTS: render the pp delta once the pipeline
+              // publishes it; %-change fallback for the pre-refresh artifact
+              const pp = (mortgage as { yoy_pp?: number | null }).yoy_pp;
+              return pp != null ? `${fmtPp(pp)} YoY` : `${fmtSigned(mortgage.yoy_pct)} YoY`;
+            })()}</small></div>}
             {gold && <div><span>Gold</span><strong>{fmtMoney(gold.latest, gold.unit)}</strong><small>{fmtSigned(gold.yoy_pct)} YoY</small></div>}
             {debt && <div><span>Public debt</span><strong>${(debt.latest / 1e12).toFixed(2)}T</strong><small>{fmtSigned(debt.yoy_pct)} YoY</small></div>}
           </div>

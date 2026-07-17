@@ -52,8 +52,12 @@ def heat_check(indicators: list[dict], group_weights: dict[str, float]) -> dict:
                              "expected": expected,
                              "active_weight": weight * len(members) / expected}
     active_weight = sum(row["active_weight"] for row in groups.values())
-    score = (0.0 if not active_weight else
-             sum(row["z"] * row["active_weight"] for row in groups.values()) /
+    # No data is not a neutral economy: 0.0 reads as "perfectly balanced",
+    # so a fully dark heat check publishes null (as stress_index does).
+    if not active_weight:
+        return {"score": None, "coverage_pct": 0.0, "groups": groups,
+                "indicators": rows}
+    score = (sum(row["z"] * row["active_weight"] for row in groups.values()) /
              active_weight * 50)
     return {"score": round(max(-100, min(100, score)), 1),
             "coverage_pct": round(active_weight, 1), "groups": groups,

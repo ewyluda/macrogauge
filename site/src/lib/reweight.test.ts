@@ -109,4 +109,15 @@ describe("contributions", () => {
     expect(total).toBeCloseTo(weightedYoY(COMPS, w, 0)!, 10);
     expect(list[0].code).toBe("b"); // 0.4*5=2.0 > 0.6*2=1.2
   });
+
+  it("ranks by magnitude so a big deflating driver tops the list", () => {
+    // deflator: -3.0pp of drag vs +1.2pp — the signed sort dropped it LAST
+    const comps = [
+      { code: "a", label: "A", weight: 0.6, yoy: [2] },
+      { code: "d", label: "D", weight: 0.6, yoy: [-5] },
+    ];
+    const list = contributions(comps, { a: 0.6, d: 0.6 }, 0);
+    expect(list[0].code).toBe("d");
+    expect(list[0].pp).toBeCloseTo(-3.0, 10);
+  });
 });

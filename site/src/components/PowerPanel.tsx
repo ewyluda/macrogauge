@@ -97,7 +97,7 @@ export function PowerPanel({ power }: { power: PowerData }) {
           {capacity_auction.multiple != null && capacity_auction.years_span != null && (
             <>
               {" "}
-              — PJM capacity clearing prices rose ~{Math.floor(capacity_auction.multiple)}× from{" "}
+              — PJM capacity clearing prices rose ~{Math.round(capacity_auction.multiple)}× from{" "}
               {rows[0].delivery_year} to {rows[rows.length - 1].delivery_year} (
               {capacity_auction.years_span} years).
             </>

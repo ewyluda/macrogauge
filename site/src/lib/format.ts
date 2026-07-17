@@ -13,11 +13,13 @@ export function fmtPct(pct: number): string {
   return `${pct.toFixed(1)}%`;
 }
 
-/** +3.1% / −1.2% / — (1dp) */
+/** +3.1% / −1.2% / — (1dp; sign from the ROUNDED value so 0.04 renders
+ *  "0.0%", never "+0.0%") */
 export function fmtSigned(pct: number | null): string {
   if (pct === null || pct === undefined) return "—";
-  const s = pct > 0 ? "+" : pct < 0 ? "−" : "";
-  return `${s}${Math.abs(pct).toFixed(1)}%`;
+  const r = Number(pct.toFixed(1));
+  const s = r > 0 ? "+" : r < 0 ? "−" : "";
+  return `${s}${Math.abs(r).toFixed(1)}%`;
 }
 
 /** $4.13 · $4,141 · 17.4¢/kWh · 6.31% — display-only formatting */
@@ -44,9 +46,10 @@ export function fmtStamp(iso: string): string {
   return `${iso.slice(0, 10)} ${iso.slice(11, 16)} UTC`;
 }
 
-/** +0.30pp / −0.87pp / — (2dp, for gap chips) */
+/** +0.30pp / −0.87pp / — (2dp, for gap chips; sign from the ROUNDED value) */
 export function fmtPp(pp: number | null): string {
   if (pp === null || pp === undefined) return "—";
-  const s = pp > 0 ? "+" : pp < 0 ? "−" : "";
-  return `${s}${Math.abs(pp).toFixed(2)}pp`;
+  const r = Number(pp.toFixed(2));
+  const s = r > 0 ? "+" : r < 0 ? "−" : "";
+  return `${s}${Math.abs(r).toFixed(2)}pp`;
 }

@@ -51,10 +51,14 @@ def latest_quote(conn: sqlite3.Connection, series_code: str) -> dict:
     obs_date, latest = rows[-1]
     target = (date.fromisoformat(obs_date) - timedelta(days=365)).isoformat()
     base = [(d, v) for d, v in rows if d <= target]
-    yoy = None
+    yoy = delta = None
     if base:
         base_date, base_val = base[-1]
         gap = (date.fromisoformat(target) - date.fromisoformat(base_date)).days
         if gap <= QUOTE_BASE_TOLERANCE_DAYS and base_val:
             yoy = (latest / base_val - 1) * 100
-    return {"code": series_code, "latest": latest, "obs_date": obs_date, "yoy_pct": yoy}
+            # for %-denominated series (mortgage rate) the conventional
+            # change metric is percentage POINTS, not a %-of-a-% ratio
+            delta = latest - base_val
+    return {"code": series_code, "latest": latest, "obs_date": obs_date,
+            "yoy_pct": yoy, "yoy_delta": delta}

@@ -49,7 +49,7 @@ export default function Heatcheck() {
     .filter((r) => bucket(r.z) !== "neutral")
     .slice(0, 2);
   return <div><h1>Economy Heat Check <span className="subtitle">−100 cooling · +100 heating</span></h1>
-    <div className="kpi-row"><KpiCard label="Heat score" value={heat.score.toFixed(1)} context={`${heat.coverage_pct.toFixed(1)}% indicator coverage · ${heat.published_at}`} accent={heat.score >= 0 ? "red" : "emerald"} /></div>
+    <div className="kpi-row"><KpiCard label="Heat score" value={heat.score == null ? "—" : heat.score.toFixed(1)} context={`${heat.coverage_pct.toFixed(1)}% indicator coverage · ${heat.published_at}`} accent={(heat.score ?? 0) >= 0 ? "red" : "emerald"} /></div>
     <WhyLine label="Biggest movers:">{movers.length > 0
       ? `${movers.map(row => `${indicatorLabel(row.code)} is ${bucket(row.z)} (z ${signed(row.z)})`).join(" and ")}.`
       : "every indicator is inside the ±0.25 neutral band."}</WhyLine>

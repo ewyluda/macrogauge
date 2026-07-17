@@ -45,5 +45,6 @@ def test_phase4_writers_degrade_cleanly_with_partial_data(tmp_path):
     heat = composites.build_heatcheck(conn)
     recession = composites.build_recession(conn)
     assert heat["coverage_pct"] == 0
+    assert heat["score"] is None  # no data is not a neutral economy
     assert recession["available"] == 1
     assert recession["probability_pct"] == 100

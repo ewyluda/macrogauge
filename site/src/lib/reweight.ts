@@ -104,7 +104,10 @@ export function contributions(
       weightPct: (weights[c.code] ?? 0) * 100,
       yoyPct: c.yoy[i] ?? 0,
     }))
-    .sort((a, b) => b.pp - a.pp);
+    // biggest drivers by MAGNITUDE — a signed sort buried a large
+    // deflating component below +0.03pp noise, so the "biggest drivers"
+    // card omitted the single biggest driver of the number
+    .sort((a, b) => Math.abs(b.pp) - Math.abs(a.pp));
 }
 
 /** Printed verbatim in the page footer — honesty about the approximation. */
