@@ -1,4 +1,5 @@
 """FRED connector — https://fred.stlouisfed.org/docs/api/fred/series_observations.html"""
+import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -43,11 +44,14 @@ def fetch(series_ids: list[str], api_key: str, observation_start: str = "2017-01
     plus the per-series staleness/never-seen QA is the detection channel) —
     but zero loaded series raises, and collect's isolation surfaces it. Same
     convention as qcew's per-quarter tolerance."""
+    throttle = http_get is None  # real network: FRED caps at 120 req/min
     http_get = http_get or requests.get
     vintage = vintage_date or today_et()
     out: list[Observation] = []
     loaded, errors = 0, []
-    for sid in series_ids:
+    for i, sid in enumerate(series_ids):
+        if throttle and i:
+            time.sleep(0.45)
         try:
             resp = http_get(FRED_URL, params={
                 "series_id": sid, "api_key": api_key, "file_type": "json",

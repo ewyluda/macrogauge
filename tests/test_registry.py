@@ -13,13 +13,13 @@ def test_load_real_registry():
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC"}
-    assert len(series) == 266
+    assert len(series) == 289
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 74
+    assert len(fred) == 97
     # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
     # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
     # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
@@ -84,6 +84,20 @@ def test_load_real_registry():
             "ppi_wafers": "PCU334413334413A",
             "cpi_computers": "CUUR0000SEEE01",
             "cpi_water": "CUSR0000SEHG",
+            # P2 geography wave: 23 national measures (matrix.json et al.),
+            # ids LIVE-VERIFIED 2026-07-17 by the six-agent scout
+            "MEDCPIM158SFRBCLE": "MEDCPIM158SFRBCLE",
+            "TRMMEANCPIM158SFRBCLE": "TRMMEANCPIM158SFRBCLE",
+            "CORESTICKM159SFRBATL": "CORESTICKM159SFRBATL",
+            "PCETRIM12M159SFRBDAL": "PCETRIM12M159SFRBDAL",
+            "T10YIE": "T10YIE", "MICH": "MICH",
+            "DGS1MO": "DGS1MO", "DGS3MO": "DGS3MO", "DGS6MO": "DGS6MO",
+            "DGS1": "DGS1", "DGS2": "DGS2", "DGS5": "DGS5",
+            "DGS10": "DGS10", "DGS30": "DGS30",
+            "BAMLH0A0HYM2": "BAMLH0A0HYM2", "DTWEXBGS": "DTWEXBGS",
+            "GDPNOW": "GDPNOW", "WALCL": "WALCL", "WTREGEN": "WTREGEN",
+            "RRPONTSYD": "RRPONTSYD", "EXHOSLUSM495S": "EXHOSLUSM495S",
+            "USSTHPI": "USSTHPI", "RIFLPBCIANM60NM": "RIFLPBCIANM60NM",
         }
     assert sources["QCEW"].secret is None and sources["QCEW"].route == "CSV"
     assert sources["EIA_STATE"].secret == "EIA_API_KEY"

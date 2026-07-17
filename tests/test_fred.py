@@ -88,6 +88,29 @@ def test_fetch_single_failing_series_reraises_original():
                    http_get=lambda url, params=None, timeout=None: ErrorResponse())
 
 
+def test_fetch_throttles_between_series_on_real_network(monkeypatch):
+    # FRED caps at 120 req/min and the batch is ~150 series — pace real
+    # requests, but only between successive series (never before the first).
+    sleeps = []
+    monkeypatch.setattr(fred.time, "sleep", sleeps.append)
+    monkeypatch.setattr(fred.requests, "get",
+                       lambda url, params=None, timeout=None: FakeResponse(_payload()))
+    obs = fred.fetch(["CPIAUCNS", "CPIAUCNS", "CPIAUCNS"], "test-key",
+                     vintage_date="2026-07-07")
+    assert len(obs) == 18
+    assert sleeps == [0.45, 0.45]
+
+
+def test_fetch_never_sleeps_with_injected_http_get(monkeypatch):
+    def raiser(_seconds):
+        raise AssertionError("throttle must not fire when http_get is injected")
+
+    monkeypatch.setattr(fred.time, "sleep", raiser)
+    obs = fred.fetch(["CPIAUCNS", "CPIAUCNS"], "test-key",
+                     vintage_date="2026-07-07", http_get=fake_get)
+    assert len(obs) == 12
+
+
 ALFRED_FIXTURE = Path(__file__).parent / "fixtures" / "alfred_cpiaucns.json"
 
 

@@ -82,7 +82,7 @@ six-agent scout (all series ids below LIVE-VERIFIED that day unless marked VERIF
 
 ## Tasks (sequential — shared files: series.json, collect.py, run_daily.py, qa.py, nav.ts)
 
-- [ ] **T1 fred-adds**: throttle + 23 national ids + registry pins bump. Tests: throttle
+- [x] **T1 fred-adds**: throttle + 23 national ids + registry pins bump. Tests: throttle
   no-sleep pin; registry counts. (fred.py, config/series.json, test_registry.py)
 - [ ] **T2 state-unemployment**: live-verify 51 {ST}UR ids (script, dev-time network OK),
   register (FRED source, 80d), bump pins.
