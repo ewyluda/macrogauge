@@ -96,7 +96,7 @@ six-agent scout (all series ids below LIVE-VERIFIED that day unless marked VERIF
   row-count != 51 or price outside (1.5, 7.0).
 - [x] **T5 eia-state-res**: EIA_STATE_RES source key → `_eia`, 51 `eia_elec_res_{st}` series
   (`ELEC.PRICE.{ST}-RES.M`, 150d), pins bump. Config-mostly.
-- [ ] **T6 publish-metros**: `pipeline/publish/metros.py` (METROS const list of (region_id,
+- [x] **T6 publish-metros**: `pipeline/publish/metros.py` (METROS const list of (region_id,
   name) in SizeRank order; consistency test vs registry codes; build(conn)/write;
   `schemas/metros.schema.json`; degraded = empty metros array legal).
 - [ ] **T7 publish-geo**: `pipeline/publish/geo.py` (STATES const with names incl. dc;
