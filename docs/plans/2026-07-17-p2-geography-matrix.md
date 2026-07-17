@@ -84,7 +84,7 @@ six-agent scout (all series ids below LIVE-VERIFIED that day unless marked VERIF
 
 - [x] **T1 fred-adds**: throttle + 23 national ids + registry pins bump. Tests: throttle
   no-sleep pin; registry counts. (fred.py, config/series.json, test_registry.py)
-- [ ] **T2 state-unemployment**: live-verify 51 {ST}UR ids (script, dev-time network OK),
+- [x] **T2 state-unemployment**: live-verify 51 {ST}UR ids (script, dev-time network OK),
   register (FRED source, 80d), bump pins.
 - [ ] **T3 zillow-metros**: connector parses subset-aware (US + registered RegionIDs across
   both files; restructure the early-return loop), 100 metro series registered, fixtures grow

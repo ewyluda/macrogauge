@@ -1,9 +1,19 @@
 import json
+import re
 from pathlib import Path
 
 import pytest
 
 from pipeline import registry
+
+# 50 states + DC, alphabetical by full name (same order as the EIA_STATE family)
+STATE_ABBREVS = (
+    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
+    "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN",
+    "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH",
+    "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA",
+    "WV", "WI", "WY",
+)
 
 
 def test_load_real_registry():
@@ -13,13 +23,13 @@ def test_load_real_registry():
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC"}
-    assert len(series) == 289
+    assert len(series) == 340
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 97
+    assert len(fred) == 148
     # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
     # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
     # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
@@ -98,6 +108,9 @@ def test_load_real_registry():
             "GDPNOW": "GDPNOW", "WALCL": "WALCL", "WTREGEN": "WTREGEN",
             "RRPONTSYD": "RRPONTSYD", "EXHOSLUSM495S": "EXHOSLUSM495S",
             "USSTHPI": "USSTHPI", "RIFLPBCIANM60NM": "RIFLPBCIANM60NM",
+            # P2 T2: 51 state unemployment rates ({ST}UR incl. DCUR),
+            # live-verified 2026-07-17 (51/51 exist, monthly, latest obs 2026-05)
+            **{f"{st}UR": f"{st}UR" for st in STATE_ABBREVS},
         }
     assert sources["QCEW"].secret is None and sources["QCEW"].route == "CSV"
     assert sources["EIA_STATE"].secret == "EIA_API_KEY"
@@ -130,6 +143,18 @@ def test_load_real_registry():
         "kalshi_dc_nuclear": "KXDATACENTER",
     }
     assert sources["KALSHI_DC"].secret is None
+
+
+def test_state_unemployment_family_complete():
+    # P2 geography wave: exactly one {ST}UR series per state + DC, code ==
+    # source_id (FRED ids verbatim), 80d staleness per locked decision 4.
+    _, series = registry.load_registry()
+    ur = [s for s in series if re.fullmatch(r"[A-Z]{2}UR", s.code)]
+    assert sorted(s.code for s in ur) == sorted(f"{st}UR" for st in STATE_ABBREVS)
+    for s in ur:
+        assert s.source == "FRED"
+        assert s.source_id == s.code
+        assert s.max_staleness_days == 80
 
 
 MONTHLY_MID_MONTH_LAG = (
