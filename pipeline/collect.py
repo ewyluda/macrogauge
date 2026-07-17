@@ -81,6 +81,10 @@ def _aaa(subset, key, http):
     return aaa.fetch(http_get=http)
 
 
+def _aaa_state(subset, key, http):
+    return aaa.fetch_states(http_get=http)
+
+
 def _mnd(subset, key, http):
     return mnd.fetch(http_get=http)
 
@@ -135,7 +139,11 @@ def _ice(subset, key, http):
 
 FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             "TREASURY": _treasury, "ZILLOW": _zillow, "PMMS": _pmms,
-            "APTLIST": _aptlist, "USDA": _usda, "AAA": _aaa, "MND": _mnd,
+            "APTLIST": _aptlist, "USDA": _usda, "AAA": _aaa,
+            # AAA_STATE is a separate source key for failure isolation and its
+            # own status row — a redesigned state-averages page must never take
+            # down the national aaa_gas_d row (or vice versa).
+            "AAA_STATE": _aaa_state, "MND": _mnd,
             "MANHEIM": _manheim, "CLEVELAND": _cleveland,
             "KALSHI": _kalshi,
             # EIA_STATE is a separate source key only for failure isolation

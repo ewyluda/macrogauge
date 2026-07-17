@@ -172,6 +172,8 @@ def fake_get(url, params=None, timeout=None, **kw):
         assert kw.get("auth") == ("test-key", "")
         return FakeResponse(json.loads((FIXTURES / "usda_report.json").read_text()))
     if "gasprices.aaa.com" in url:
+        if "/state-gas-price-averages/" in url:
+            return _text(FIXTURES / "aaa_states.html")
         return _text(FIXTURES / "aaa.html")
     if "mortgagenewsdaily.com" in url:
         return _text(FIXTURES / "mnd.html")
@@ -257,7 +259,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "stress.json", "recession.json", "datacenter.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 27
+    assert len(status["sources"]) == 28
     assert all(s["ok"] for s in status["sources"])
     kalshi_dc_row = [s for s in status["sources"] if s["name"] == "KALSHI_DC"][0]
     assert kalshi_dc_row["ok"] is True
@@ -287,6 +289,11 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert vintage.latest(conn, "zhvi_394913")[-1][1] == pytest.approx(660000.0)
     assert vintage.latest(conn, "zori_us")[-1][1] == pytest.approx(2105.7)
     assert not vintage.latest(conn, "zori_395031")
+    # P2 T4: the state-averages fixture rides the /state-gas-price-averages/
+    # branch of the AAA fake — a TX row landing under the internal code pins
+    # the id_map remap ("tx" -> "aaa_gas_tx") through the real collect path.
+    assert vintage.latest(conn, "aaa_gas_tx")[-1][1] == pytest.approx(3.568)
+    assert vintage.latest(conn, "aaa_gas_dc")[-1][1] == pytest.approx(4.069)
     # Value-pin the DC-context series, not just presence — a ticker-branch
     # regression in the Kalshi fake (falling back to the generic KXCPI
     # single-market payload) would still produce a store row with ok:True,

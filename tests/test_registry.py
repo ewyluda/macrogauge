@@ -19,11 +19,11 @@ STATE_ABBREVS = (
 def test_load_real_registry():
     sources, series = registry.load_registry()
     assert set(sources) == {"FRED", "BLS", "EIA", "FMP", "TREASURY", "ZILLOW", "PMMS",
-                            "APTLIST", "USDA", "AAA", "MND", "MANHEIM",
+                            "APTLIST", "USDA", "AAA", "AAA_STATE", "MND", "MANHEIM",
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC"}
-    assert len(series) == 440
+    assert len(series) == 491
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
@@ -157,6 +157,21 @@ def test_state_unemployment_family_complete():
         assert s.source == "FRED"
         assert s.source_id == s.code
         assert s.max_staleness_days == 80
+
+
+def test_aaa_state_family_complete():
+    # P2 T4: exactly one aaa_gas_{st} per state + DC. source_id is the lowercase
+    # abbrev the connector emits as series_code (collect's id_map remaps it);
+    # 4d staleness matches the national aaa_gas_d daily spot.
+    sources, series = registry.load_registry()
+    assert sources["AAA_STATE"].route == "SCRAPE"
+    assert sources["AAA_STATE"].secret is None
+    fam = [s for s in series if s.source == "AAA_STATE"]
+    assert sorted(s.code for s in fam) == sorted(
+        f"aaa_gas_{st.lower()}" for st in STATE_ABBREVS)
+    for s in fam:
+        assert s.source_id == s.code.removeprefix("aaa_gas_")
+        assert s.max_staleness_days == 4
 
 
 def test_zillow_metro_family_consistent():

@@ -90,7 +90,7 @@ six-agent scout (all series ids below LIVE-VERIFIED that day unless marked VERIF
   both files; restructure the early-return loop), 100 metro series registered, fixtures grow
   metro rows (registered + one unregistered msa to prove filtering), test_run_daily fake serves
   the fixture, pins bump.
-- [ ] **T4 aaa-states**: `aaa.fetch_states` + AAA_STATE source + 51 series; NEW recorded fixture
+- [x] **T4 aaa-states**: `aaa.fetch_states` + AAA_STATE source + 51 series; NEW recorded fixture
   `tests/fixtures/aaa_states.html` (trimmed live page: sortable table + the national banner to
   pin non-cross-matching); test_run_daily fake splits on `/state-gas-price-averages/`; drift =
   row-count != 51 or price outside (1.5, 7.0).
