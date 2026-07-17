@@ -99,7 +99,7 @@ six-agent scout (all series ids below LIVE-VERIFIED that day unless marked VERIF
 - [x] **T6 publish-metros**: `pipeline/publish/metros.py` (METROS const list of (region_id,
   name) in SizeRank order; consistency test vs registry codes; build(conn)/write;
   `schemas/metros.schema.json`; degraded = empty metros array legal).
-- [ ] **T7 publish-geo**: `pipeline/publish/geo.py` (STATES const with names incl. dc;
+- [x] **T7 publish-geo**: `pipeline/publish/geo.py` (STATES const with names incl. dc;
   rows join aaa_gas/eia res/eia ind/qcew wage/UR by state; national block; nullable
   everywhere; `schemas/geo.schema.json`).
 - [ ] **T8 publish-matrix**: `pipeline/publish/matrix.py` + `schemas/matrix.schema.json`

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "geo",
+  "type": "object",
+  "required": ["published_at", "states", "national"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "states": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/panel_with_id"}
+    },
+    "national": {"$ref": "#/$defs/panel"}
+  },
+  "$defs": {
+    "panel_with_id": {
+      "type": "object",
+      "required": ["state", "name", "gas_regular", "elec_res_cents",
+                   "elec_ind_cents", "wage_weekly", "unemployment_pct"],
+      "additionalProperties": false,
+      "properties": {
+        "state": {"type": "string", "pattern": "^[A-Z]{2}$"},
+        "name": {"type": "string"},
+        "gas_regular": {"$ref": "#/$defs/measure"},
+        "elec_res_cents": {"$ref": "#/$defs/measure"},
+        "elec_ind_cents": {"$ref": "#/$defs/measure"},
+        "wage_weekly": {"$ref": "#/$defs/measure"},
+        "unemployment_pct": {"$ref": "#/$defs/rate"}
+      }
+    },
+    "panel": {
+      "type": "object",
+      "required": ["gas_regular", "elec_res_cents", "elec_ind_cents",
+                   "wage_weekly", "unemployment_pct"],
+      "additionalProperties": false,
+      "properties": {
+        "gas_regular": {"$ref": "#/$defs/measure"},
+        "elec_res_cents": {"$ref": "#/$defs/measure"},
+        "elec_ind_cents": {"$ref": "#/$defs/measure"},
+        "wage_weekly": {"$ref": "#/$defs/measure"},
+        "unemployment_pct": {"$ref": "#/$defs/rate"}
+      }
+    },
+    "measure": {
+      "type": "object",
+      "required": ["value", "as_of", "yoy_pct"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {"type": ["number", "null"]},
+        "as_of": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "yoy_pct": {"type": ["number", "null"]}
+      }
+    },
+    "rate": {
+      "type": "object",
+      "required": ["value", "as_of", "delta_1y_pp"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {"type": ["number", "null"]},
+        "as_of": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "delta_1y_pp": {"type": ["number", "null"]}
+      }
+    }
+  }
+}
