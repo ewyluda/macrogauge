@@ -102,7 +102,7 @@ six-agent scout (all series ids below LIVE-VERIFIED that day unless marked VERIF
 - [x] **T7 publish-geo**: `pipeline/publish/geo.py` (STATES const with names incl. dc;
   rows join aaa_gas/eia res/eia ind/qcew wage/UR by state; national block; nullable
   everywhere; `schemas/geo.schema.json`).
-- [ ] **T8 publish-matrix**: `pipeline/publish/matrix.py` + `schemas/matrix.schema.json`
+- [x] **T8 publish-matrix**: `pipeline/publish/matrix.py` + `schemas/matrix.schema.json`
   (grouped rows per decision 6).
 - [ ] **T9 geography-phase**: `_geography_phase` in run_daily + `geography_ok` in qa.py +
   qa.schema.json; ordering pinned by tests (status-first, ValidationError re-raise unchanged);

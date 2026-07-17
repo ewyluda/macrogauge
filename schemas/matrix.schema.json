@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "matrix",
+  "type": "object",
+  "required": ["published_at", "groups"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["group", "rows"],
+        "additionalProperties": false,
+        "properties": {
+          "group": {"type": "string"},
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["code", "label", "value", "unit", "as_of", "cadence"],
+              "additionalProperties": false,
+              "properties": {
+                "code": {"type": "string"},
+                "label": {"type": "string"},
+                "value": {"type": ["number", "null"]},
+                "unit": {"type": "string"},
+                "as_of": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+                "cadence": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
