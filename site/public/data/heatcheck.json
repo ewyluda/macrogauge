@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-07-17T03:56:50Z",
-  "score": -2.6,
+  "published_at": "2026-07-17T14:16:33Z",
+  "score": 2.3,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
@@ -11,7 +11,7 @@
       "active_weight": 25.0
     },
     "real_economy": {
-      "z": -0.09689999999999999,
+      "z": -0.026339999999999985,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -25,7 +25,7 @@
       "active_weight": 20.0
     },
     "housing": {
-      "z": -0.864475,
+      "z": -0.32965,
       "weight": 15,
       "available": 4,
       "expected": 4,
@@ -103,9 +103,9 @@
       "code": "INDPRO",
       "group": "real_economy",
       "direction": 1,
-      "as_of": "2026-05-01",
-      "momentum": 0.6849,
-      "z": 0.7134
+      "as_of": "2026-06-01",
+      "momentum": 1.006,
+      "z": 1.0662
     },
     {
       "code": "RSAFS",
@@ -162,17 +162,17 @@
       "code": "HOUST",
       "group": "housing",
       "direction": 1,
-      "as_of": "2026-05-01",
-      "momentum": -12.5557,
-      "z": -1.5639
+      "as_of": "2026-06-01",
+      "momentum": -6.2418,
+      "z": -0.8361
     },
     {
       "code": "PERMIT",
       "group": "housing",
       "direction": 1,
-      "as_of": "2026-05-01",
-      "momentum": -8.4416,
-      "z": -1.3725
+      "as_of": "2026-06-01",
+      "momentum": 0.2935,
+      "z": 0.039
     },
     {
       "code": "CSUSHPINSA",

@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-07-16",
-  "passed": 19,
+  "generated_at": "2026-07-17",
+  "passed": 18,
   "total": 20,
   "checks": [
     {
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-06-01 is 45d old (limit 80)"
+      "detail": "latest official month 2026-06-01 is 46d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -54,20 +54,20 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": true,
-      "detail": "27/27 ok"
+      "pass": false,
+      "detail": "25/27 ok; failed \u2014 BLS: HTTPError: 500 Server Error: Internal Server Error for url: https://api.bls.gov/publicAPI/v2/timeseries/data/; USDA: missing secret USDA_API_KEY"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "265/273 fresh; stale \u2014 qcew_wage23_ak (never seen), qcew_wage23_dc (never seen), qcew_wage23_la (never seen), qcew_wage23_ma (never seen), qcew_wage23_mo (never seen), qcew_wage23_ri (never seen), qcew_wage23_sd (never seen), qcew_wage23_vt (never seen)"
+      "detail": "259/273 fresh; stale \u2014 PAYEMS (46d > 45d), kalshi_cpi_mom (6d > 5d), UNRATE (46d > 45d), FEDFUNDS (46d > 45d), ces_constr_ahe (46d > 45d), ces_dp_ahe (46d > 45d), qcew_wage23_ak (never seen), qcew_wage23_dc (never seen), qcew_wage23_la (never seen), qcew_wage23_ma (never seen), qcew_wage23_mo (never seen), qcew_wage23_ri (never seen), qcew_wage23_sd (never seen), qcew_wage23_vt (never seen)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $3.887 vs EIA weekly $3.855 \u2014 relative divergence 0.8% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $3.9 vs EIA weekly $3.855 \u2014 relative divergence 1.2% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -85,19 +85,19 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-07-16"
+      "detail": "CPI nowcast as-of 2026-07-17"
     },
     {
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.0 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=0.01 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-16 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-17 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",

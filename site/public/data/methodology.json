@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-07-17T03:56:50Z",
+  "published_at": "2026-07-17T14:16:33Z",
   "stats": {
     "series_count": 273,
-    "obs_count": 87457,
+    "obs_count": 87519,
     "source_count": 27,
     "tracker_corr": 0.9808,
     "live_coverage_pct": 42.6,
@@ -158,7 +158,7 @@
         "eia_gasreg_w"
       ],
       "official_series": "CUUR0000SETB01",
-      "yoy_pct": 23.55
+      "yoy_pct": 24.38
     },
     {
       "code": "electricity",
@@ -214,7 +214,7 @@
     }
   ],
   "freshness": {
-    "fresh_count": 265,
+    "fresh_count": 259,
     "total": 273
   },
   "inventory": [
@@ -674,7 +674,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -683,7 +683,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -692,7 +692,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -701,7 +701,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -710,7 +710,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -719,7 +719,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -728,7 +728,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -737,7 +737,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -746,7 +746,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -755,7 +755,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -764,7 +764,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -773,7 +773,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -872,7 +872,7 @@
       "source": "MND",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -881,7 +881,7 @@
       "source": "AAA",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -890,7 +890,7 @@
       "source": "MANHEIM",
       "route": "SCRAPE",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -900,7 +900,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": false
     },
     {
       "code": "ICSA",
@@ -954,7 +954,7 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-07-11",
-      "fresh": true
+      "fresh": false
     },
     {
       "code": "UNRATE",
@@ -963,7 +963,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": false
     },
     {
       "code": "INDPRO",
@@ -971,7 +971,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1007,7 +1007,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1044,7 +1044,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": false
     },
     {
       "code": "HOUST",
@@ -1052,7 +1052,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1061,7 +1061,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1206,7 +1206,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": false
     },
     {
       "code": "ppi_elec_contr",
@@ -1314,7 +1314,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": false
     },
     {
       "code": "ppi_mach_repair",
@@ -1358,7 +1358,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1367,7 +1367,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1376,7 +1376,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-06-01",
       "fresh": true
     },
     {
@@ -1448,7 +1448,7 @@
       "source": "DRAMEX",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1457,7 +1457,7 @@
       "source": "DRAMEX",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1466,7 +1466,7 @@
       "source": "DRAMEX",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1475,7 +1475,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1484,7 +1484,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1493,7 +1493,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1502,7 +1502,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1511,7 +1511,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1529,7 +1529,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1538,7 +1538,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1547,7 +1547,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1556,7 +1556,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1565,7 +1565,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1574,7 +1574,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1583,7 +1583,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1592,7 +1592,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1601,7 +1601,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1610,7 +1610,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1619,7 +1619,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1628,7 +1628,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1655,7 +1655,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -1664,7 +1664,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -2609,7 +2609,7 @@
       "source": "CAISO",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -2618,7 +2618,7 @@
       "source": "MISO",
       "route": "CSV",
       "cadence": "daily",
-      "latest_obs": "2026-07-15",
+      "latest_obs": "2026-07-16",
       "fresh": true
     },
     {
@@ -2663,7 +2663,7 @@
       "source": "KALSHI_DC",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -2672,7 +2672,7 @@
       "source": "KALSHI_DC",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     }
   ],
