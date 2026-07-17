@@ -29,8 +29,10 @@ export const COMPONENT_ROWS: [string, string][] = [
 ];
 
 /** Which published value array fills the cells: our gauge or the official
- *  BLS print. Both arrays are month-aligned in the artifact; official months
- *  where the print lags are null (rendered as the empty cell style). */
+ *  BLS print. Both arrays are month-aligned in the artifact; official cells
+ *  are forward-filled past the last print, so trailing months carry the
+ *  previous print's YoY under the new month's label (the on-page legend
+ *  says so). Nulls appear only where no print has ever landed. */
 export type QuiltMode = "ours" | "bls";
 
 /** Pinned rows first, in presentation order with display labels; anything the

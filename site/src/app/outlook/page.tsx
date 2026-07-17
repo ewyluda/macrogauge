@@ -118,9 +118,9 @@ export default function OutlookPage() {
 
       <div className="kpi-row">
         <KpiCard
-          label="Now · macrogauge YoY"
+          label="Now · index-level YoY"
           value={`${outlook.latest_complete_month_yoy_pct.toFixed(2)}%`}
-          context={`latest complete month · ${fmtMonth(`${outlook.origin_month}-01`)}`}
+          context={`gauge index ratio, ${fmtMonth(`${outlook.origin_month}-01`)} · differs from the homepage's own-obs headline`}
           accent="sky"
         />
         <KpiCard

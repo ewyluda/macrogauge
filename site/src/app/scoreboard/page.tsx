@@ -48,7 +48,7 @@ export default function Scoreboard() {
   const pce = reconcile(accountabilityPce);
   const nfp = reconcile(accountabilityNfp);
   return <div><h1>Forecast Scoreboard <span className="subtitle">graded in public</span></h1>
-    <div className="kpi-row"><KpiCard label="Vintage-true MAE" value={summary.mae_pp == null ? "—" : `${summary.mae_pp.toFixed(2)}pp`} context={`${summary.observations} BT observations`} accent="sky" />
+    <div className="kpi-row"><KpiCard label="Vintage-true MAE" value={summary.mae_pp == null ? "—" : `${summary.mae_pp.toFixed(2)}pp`} context={`${summary.observations} BT observations · 3-month-average benchmark, not the live model`} accent="sky" />
       <KpiCard label="Naive MAE" value={summary.naive_mae_pp == null ? "—" : `${summary.naive_mae_pp.toFixed(2)}pp`} context="Last known monthly print" accent="amber" />
       <KpiCard label="Live grades" value={String(graded.length)} context={`${pending.length} pending`} accent="emerald" /></div>
     <Section title="Live grades — real-time calls, receipts included">
@@ -60,7 +60,7 @@ export default function Scoreboard() {
     </Section>
     <Section title="Walk-forward backtest — vintage-true history">
       <div className="table-card"><table className="data-table"><thead><tr><th>Month</th><th>Badge</th><th>Forecast</th><th>Actual</th><th>Error</th></tr></thead><tbody>{rows.slice(-24).reverse().map(row => <tr key={row.target_month}><td>{row.target_month}</td><td><span className="badge">{row.badge}</span></td><td>{row.forecast_mom_pct.toFixed(2)}%</td><td>{row.actual_mom_pct.toFixed(2)}%</td><td>{row.error_pp.toFixed(2)}pp</td></tr>)}</tbody></table></div>
-      <p className="method">BT rows are vintage-true walk-forward values frozen the day before each release — the model never sees data it wouldn&apos;t have had.</p>
+      <p className="method">BT rows are vintage-true walk-forward values frozen the day before each release — the model never sees data it wouldn&apos;t have had. The backtested model is a three-month average of previously known official prints — a long-history benchmark, not the live bottom-up nowcast graded in the table above (which is too young to backtest vintage-true).</p>
     </Section>
     <Section title="Also graded — PCE">
       <div className="table-card"><table className="data-table"><thead><tr><th>Print</th><th>Badge</th><th>Forecast MoM</th><th>Actual MoM</th><th>Error</th><th>Called on</th><th>Graded on</th></tr></thead><tbody>

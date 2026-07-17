@@ -40,9 +40,9 @@ export default function RealWages() {
         <KpiCard
           label="Real wage growth"
           value={k.real_wage_growth_pct === null ? "—" : fmtPct(k.real_wage_growth_pct)}
-          context={`typical wage growth minus today's inflation · wage ${
+          context={`mixed periods: ${
             k.wage_as_of ? fmtMonth(k.wage_as_of) : "—"
-          } vs gauge ${pulse.gauge.as_of}`}
+          } wages deflated by ${pulse.gauge.as_of} inflation — not a same-month comparison`}
           accent={
             k.real_wage_growth_pct !== null && k.real_wage_growth_pct < 0
               ? "red"

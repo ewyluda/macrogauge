@@ -223,7 +223,7 @@ export function QuiltHeatmap() {
         Cell ={" "}
         {mode === "ours"
           ? "our component YoY that month (own-observation, like-month honest)"
-          : "official BLS component YoY that month (empty = print not yet published)"}{" "}
+          : "official BLS component YoY that month (trailing months carry the last available print forward)"}{" "}
         · headline rows from compare.json, identical in both modes · empty cells = print
         not yet released or trailing past compare.json&apos;s last graded month · colors:
         −2% blue → +6% red, same scale as the treemap in either mode · as of {asOf}.
