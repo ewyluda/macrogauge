@@ -80,17 +80,21 @@ describe("engine invariant (spec §6, verified against live data)", () => {
     // With the published weights untouched (no answers applied), the client's
     // weighted own-obs YoY IS the engine's Option A headline. Tolerance 0.02:
     // component yoy values are rounded to 2dp in replay.json (±0.005 weighted)
-    // and compare rounds again (±0.005).
+    // and compare rounds again (±0.005). compare.json samples each month at
+    // its LAST grid date (quilt's convention since the 2026-07-16 audit), so
+    // the invariant is evaluated there too.
     const comps = replay.components as {
       code: string; label: string; weight: number; yoy: (number | null)[];
     }[];
     const w = renormalize(
       Object.fromEntries(comps.map((c) => [c.code, c.weight]))
     );
+    const lastInMonth = new Map<string, number>();
+    (replay.dates as string[]).forEach((d, i) => lastInMonth.set(d.slice(0, 7), i));
     let checked = 0;
     compare.months.forEach((m: string, mi: number) => {
       const g = compare.gauge_yoy_pct[mi];
-      const di = (replay.dates as string[]).indexOf(m);
+      const di = lastInMonth.get(m.slice(0, 7)) ?? -1;
       if (g === null || di === -1) return;
       const mine = weightedYoY(comps, w, di);
       if (mine === null) return;
