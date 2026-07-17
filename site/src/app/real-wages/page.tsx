@@ -85,7 +85,8 @@ export default function RealWages() {
           Earnings, total private (YoY computed in the pipeline; FRED CES0500000003),
           and the macrogauge daily gauge. Real change = (1 + raise) ÷ (1 + inflation) − 1.
           The original site&apos;s second wage line (Indeed posted wages) is not publicly
-          feedable — AHE stands in until Phase 4&apos;s labor.json.
+          feedable — see the <a href="/labor">Labor Market</a> dashboard for the
+          full jobs picture (payrolls, claims, wage growth).
         </div>
       </Section>
     </div>
