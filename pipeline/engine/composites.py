@@ -26,8 +26,14 @@ def latest_z(series: list[tuple[str, float]], periods: int = 3,
     if len(changes) < 3:
         return None
     values = [value for _, value in changes]
-    stdev = statistics.stdev(values)
-    z = 0.0 if stdev == 0 else (values[-1] - statistics.mean(values)) / stdev
+    # Robust baseline (median/MAD, 1.4826 = normal-consistency factor so the
+    # ±2.5 clamp keeps its calibration): one outlier era poisons mean/stdev
+    # for the whole history -- March-2020 claims (+2640%) inflated ICSA's
+    # stdev to 249 so flat prints read as mild heating and a real 30% surge
+    # would have scored z ~ 0.
+    center = statistics.median(values)
+    mad = statistics.median(abs(v - center) for v in values)
+    z = 0.0 if mad == 0 else (values[-1] - center) / (1.4826 * mad)
     signed = max(-2.5, min(2.5, z * direction))
     return {"as_of": changes[-1][0], "momentum": round(values[-1], 4),
             "z": round(signed, 4)}

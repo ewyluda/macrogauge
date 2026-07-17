@@ -44,6 +44,41 @@ def test_latest_z_signs_and_clamps_momentum():
     assert result["as_of"] == "2026-09-01"
 
 
+def test_latest_z_formula_is_median_mad_value_pinned():
+    # changes [1, 2, 3, 4, 6]: median 3, MAD 1 -> z = (6-3)/1.4826 = 2.0234.
+    # First value pin on the formula that drives the published heat score.
+    levels, total = [], 0.0
+    for m, ch in enumerate([0, 1, 2, 3, 4, 6], start=1):
+        total += ch
+        levels.append((f"2026-{m:02d}-01", total))
+    result = latest_z(levels, periods=1, percent=False)
+    assert result["z"] == round((6 - 3) / (1.4826 * 1), 4)
+
+
+def test_latest_z_outlier_era_cannot_mask_a_real_surge():
+    # One COVID-sized outlier (+2640, March-2020 claims) in the history:
+    # mean/stdev scored a genuine +30 surge at z = -0.33 -- COOLING. The
+    # median/MAD baseline scores it at the +2.5 clamp.
+    changes = [1, -1, 1, -1, 2640, -1, 1, 30]
+    levels, total = [("2025-01-01", 0.0)], 0.0
+    for m, ch in enumerate(changes, start=2):
+        total += ch
+        levels.append((f"2025-{m:02d}-01", total))
+    result = latest_z(levels, periods=1, percent=False)
+    assert result["z"] == 2.5
+
+
+def test_composites_config_pins_audit_fixes():
+    # audit 2026-07-16: PCUOMFGOMFG carried direction -1 (rising producer
+    # prices scored as cooling); REVOLSL was percentile-scored as a raw
+    # trending LEVEL (pinned ~100 forever) instead of its growth rate.
+    cfg = json.loads(CONFIG.read_text())
+    by_code = {item["code"]: item for item in cfg["heatcheck"]["indicators"]}
+    assert by_code["PCUOMFGOMFG"]["direction"] == 1
+    stress = {item["code"]: item for item in cfg["stress"]}
+    assert stress["REVOLSL"].get("transform") == "yoy"
+
+
 def test_heat_check_renormalizes_available_groups():
     result = heat_check([
         {"code": "a", "group": "prices", "z": 1.0},

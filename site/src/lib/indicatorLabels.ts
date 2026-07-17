@@ -35,7 +35,7 @@ export const INDICATOR_LABELS: Record<string, string> = {
   TERMCBCCALLNS: "Credit card interest rate",
   PSAVERT: "Personal saving rate",
   TDSP: "Debt service ratio",
-  REVOLSL: "Revolving consumer credit",
+  REVOLSL: "Revolving credit growth (YoY %)",
   DRSFRMACBS: "Mortgage delinquency",
 };
 

@@ -14,7 +14,7 @@
       {"code": "DSPIC96", "group": "real_economy", "direction": 1},
       {"code": "ICSA", "group": "pipeline", "direction": -1, "periods": 13},
       {"code": "CCSA", "group": "pipeline", "direction": -1, "periods": 13},
-      {"code": "PCUOMFGOMFG", "group": "pipeline", "direction": -1},
+      {"code": "PCUOMFGOMFG", "group": "pipeline", "direction": 1},
       {"code": "FEDFUNDS", "group": "pipeline", "direction": -1, "mode": "diff"},
       {"code": "HOUST", "group": "housing", "direction": 1},
       {"code": "PERMIT", "group": "housing", "direction": 1},
@@ -30,7 +30,7 @@
     {"code": "TERMCBCCALLNS", "weight": 15, "direction": 1},
     {"code": "PSAVERT", "weight": 15, "direction": -1},
     {"code": "TDSP", "weight": 15, "direction": 1},
-    {"code": "REVOLSL", "weight": 15, "direction": 1},
+    {"code": "REVOLSL", "weight": 15, "direction": 1, "transform": "yoy"},
     {"code": "DRSFRMACBS", "weight": 10, "direction": 1},
     {"code": "CCSA", "weight": 10, "direction": 1}
   ]

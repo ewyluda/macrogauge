@@ -34,12 +34,29 @@ def build_heatcheck(conn, config_path: Path = CONFIG) -> dict:
     return composites.heat_check(indicators, cfg["group_weights"])
 
 
+def _yoy(rows: list[tuple[str, float]]) -> list[tuple[str, float]]:
+    """12-month % change of a monthly level series. A secularly trending
+    nominal aggregate (REVOLSL) percentile-scored as a raw LEVEL sits at
+    ~100 forever; the spec's stress signal is its growth rate."""
+    by_month = {d[:7]: v for d, v in rows}
+    out = []
+    for d, v in rows:
+        base = by_month.get(f"{int(d[:4]) - 1}{d[4:7]}")
+        if base:
+            out.append((d, round((v / base - 1) * 100, 2)))
+    return out
+
+
 def build_stress(conn, config_path: Path = CONFIG) -> dict:
     cfg = json.loads(config_path.read_text())["stress"]
     indicators = []
     for item in cfg:
-        rows = [(d, v) for d, v in vintage.latest(conn, item["code"])
-                if d >= "2019-01-01"]
+        series = vintage.latest(conn, item["code"])
+        if item.get("transform") == "yoy":
+            # transform on the FULL history, then window: the 2019 cut
+            # would otherwise eat the first year of computable changes.
+            series = _yoy(series)
+        rows = [(d, v) for d, v in series if d >= "2019-01-01"]
         if rows:
             indicators.append({**item, "value": rows[-1][1], "as_of": rows[-1][0],
                                "history": [v for _, v in rows]})
