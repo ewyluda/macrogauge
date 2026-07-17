@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-07-17",
-  "passed": 20,
-  "total": 21,
+  "passed": 21,
+  "total": 22,
   "checks": [
     {
       "name": "headline_current",
@@ -52,6 +52,12 @@
       "detail": "geography panel completed"
     },
     {
+      "name": "labor_ok",
+      "critical": false,
+      "pass": true,
+      "detail": "labor panel completed"
+    },
+    {
       "name": "single_run_stamp",
       "critical": false,
       "pass": true,
@@ -97,7 +103,7 @@
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.01 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=0.0 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
