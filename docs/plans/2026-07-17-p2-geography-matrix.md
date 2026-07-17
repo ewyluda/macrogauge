@@ -104,7 +104,7 @@ six-agent scout (all series ids below LIVE-VERIFIED that day unless marked VERIF
   everywhere; `schemas/geo.schema.json`).
 - [x] **T8 publish-matrix**: `pipeline/publish/matrix.py` + `schemas/matrix.schema.json`
   (grouped rows per decision 6).
-- [ ] **T9 geography-phase**: `_geography_phase` in run_daily + `geography_ok` in qa.py +
+- [x] **T9 geography-phase**: `_geography_phase` in run_daily + `geography_ok` in qa.py +
   qa.schema.json; ordering pinned by tests (status-first, ValidationError re-raise unchanged);
   test_run_daily e2e asserts the three artifacts land + validate.
 - [ ] **T10 local-run**: real pipeline run (`FRED_API_KEY=... python -m pipeline.run_daily

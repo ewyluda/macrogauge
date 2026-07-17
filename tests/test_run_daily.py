@@ -256,7 +256,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "nowcast_latest.json", "nextprint.json", "releases.json", "backtest.json",
                  "accountability_cpi.json", "accountability_pce.json",
                  "accountability_nfp.json", "fuel.json", "outlook.json", "heatcheck.json",
-                 "stress.json", "recession.json", "datacenter.json"):
+                 "stress.json", "recession.json", "datacenter.json",
+                 "metros.json", "geo.json", "matrix.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 29
@@ -266,7 +267,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok
-    assert qa["total"] == 20
+    # + geography_ok
+    assert qa["total"] == 21
     stamp = [c for c in qa["checks"] if c["name"] == "single_run_stamp"][0]
     assert stamp["pass"] is True  # a clean full run leaves no stale artifacts
     official = json.loads((out / "official.json").read_text())
@@ -320,6 +322,25 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert dc["context"]["colo"]["source"]           # hand-seed provenance present
     assert all("stale" in c for c in dc["indexes"]["build"]["components"])
     assert dc["indexes"]["build"]["groups"]
+    # P2 T9: the geography phase publishes metros/geo/matrix from the same store
+    # rows pinned above. rc==0 already proves each validated inline; here we pin
+    # that real values flow end-to-end and every artifact shares the run stamp.
+    assert checks["geography_ok"]["pass"] is True
+    run_stamp = pulse["published_at"]
+    metros_out = json.loads((out / "metros.json").read_text())
+    assert metros_out["published_at"] == run_stamp
+    ny = next(m for m in metros_out["metros"] if m["region_id"] == "394913")
+    assert ny["zori"]["value"] == pytest.approx(3300.2)   # from zori_394913
+    geo_out = json.loads((out / "geo.json").read_text())
+    assert geo_out["published_at"] == run_stamp
+    tx = next(s for s in geo_out["states"] if s["state"] == "TX")
+    assert tx["gas_regular"]["value"] == pytest.approx(3.568)      # aaa_gas_tx
+    assert tx["elec_res_cents"]["value"] == pytest.approx(17.45)   # eia_elec_res_tx
+    matrix_out = json.loads((out / "matrix.json").read_text())
+    assert matrix_out["published_at"] == run_stamp
+    med = next(r for g in matrix_out["groups"] for r in g["rows"]
+               if r["code"] == "MEDCPIM158SFRBCLE")
+    assert med["value"] == pytest.approx(320.1)  # FRED fixture latest 2026-04-01
 
 
 def test_engine_failure_still_publishes_status_and_qa(tmp_path, monkeypatch):
@@ -489,6 +510,41 @@ def test_composites_failure_does_not_block_gauge_or_nowcast(tmp_path, monkeypatc
     assert "heatcheck boom" in checks["composites_ok"]["detail"]
     assert checks["engine_ok"]["pass"] is True
     assert checks["nowcast_ok"]["pass"] is True
+
+
+def test_geography_failure_does_not_block_gauge_or_datacenter(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("geo boom")
+
+    monkeypatch.setattr(run_daily.geo_json, "build", boom)
+    store, out = tmp_path / "store", tmp_path / "out"
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    assert (out / "pulse.json").exists()       # core gauge block unaffected
+    assert (out / "datacenter.json").exists()  # DC block unaffected
+    assert (out / "metros.json").exists()      # metros wrote before geo raised
+    assert not (out / "geo.json").exists()     # geo never wrote
+    qa_data = json.loads((out / "qa.json").read_text())
+    checks = {c["name"]: c for c in qa_data["checks"]}
+    assert checks["geography_ok"]["pass"] is False
+    assert "geo boom" in checks["geography_ok"]["detail"]
+    assert checks["engine_ok"]["pass"] is True
+    assert checks["datacenter_ok"]["pass"] is True
+
+
+def test_geography_schema_violation_fails_run(tmp_path, monkeypatch):
+    # A schema-invalid geography artifact must fail the whole run (never deploy),
+    # like every other phase's ValidationError.
+    set_keys(monkeypatch)
+    monkeypatch.setattr(run_daily.metros_json, "build",
+                        lambda conn: {"metros": "not-an-array", "national": {}})
+    store, out = tmp_path / "store", tmp_path / "out"
+    with pytest.raises(jsonschema.ValidationError):
+        run_daily.main(["--store", str(store), "--out", str(out)],
+                       http_get=fake_get, http_post=fake_post)
 
 
 def test_release_calendar_exhausted_degrades_nowcast_instead_of_crashing(tmp_path, monkeypatch):

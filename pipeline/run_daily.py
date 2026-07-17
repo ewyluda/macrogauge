@@ -4,16 +4,17 @@ Connector failures never block publication — they surface in
 sources_status.json and qa.json, and stale series carry forward.
 
 sources_status publishes FIRST (right after collect): a broken engine must
-never hide a broken source. Five independently isolated phases follow, all
+never hide a broken source. Six independently isolated phases follow, all
 running under the same _run_phase isolation contract: (1) the core gauge
 engine + writers (cpi -> gauge -> pulse/gauge_daily/compare/gaptable/official,
 surfaces via engine_ok), (2) the phase-3 nowcast (surfaces via nowcast_ok —
 build_latest degrades to status "unavailable" rather than raising once the
 release calendar is exhausted), (3) the 12-month component outlook
 (outlook_ok), (4) phase-4 composites (surfaces via composites_ok, which
-don't depend on the CPI calendar or gauge engine at all), and (5) the DC cost
-index (surfaces via datacenter_ok). A failure in any one phase still
-publishes status+qa (rc 0) without blocking the others — but a
+don't depend on the CPI calendar or gauge engine at all), (5) the DC cost
+index (surfaces via datacenter_ok), and (6) the geography panel — states/metros
+pages + the every-measure matrix (surfaces via geography_ok). A failure in any
+one phase still publishes status+qa (rc 0) without blocking the others — but a
 jsonschema.ValidationError re-raises and fails the run in every phase:
 a schema-invalid artifact must never deploy.
 """
@@ -37,7 +38,8 @@ from pipeline.engine import outlook as outlook_engine
 from pipeline.engine.nowcast import build_latest as build_nowcast
 from pipeline.publish import official as official_json
 from pipeline.publish import (compare, composites as composite_json, datacenter as datacenter_json, gaptable,
-                              gauge_daily, grocery, methodology, outlook as outlook_json, phase3, pulse, qa, quilt,
+                              gauge_daily, geo as geo_json, grocery, matrix as matrix_json, methodology,
+                              metros as metros_json, outlook as outlook_json, phase3, pulse, qa, quilt,
                               real_wages, replay, sources_status, validate)
 from pipeline.store import vintage
 
@@ -278,6 +280,29 @@ def main(argv=None, http_get=None, http_post=None) -> int:
 
     _, datacenter_error = _run_phase("DATACENTER", _datacenter_phase)
 
+    # Geography panel (states/metros pages + the every-measure matrix): isolated
+    # like the phases above. These are display-only unlocks of already-collected
+    # data — Zillow metros, AAA state gas, EIA state power, state unemployment,
+    # and the FRED underlying/expectations measures — and must never touch the
+    # core gauge.
+    def _geography_phase():
+        metros_path = metros_json.write(metros_json.build(conn), args.out,
+                                        published_at=published_at)
+        validate.validate_file(metros_path, SCHEMAS / "metros.schema.json")
+        print(f"published: {metros_path}")
+
+        geo_path = geo_json.write(geo_json.build(conn), args.out,
+                                  published_at=published_at)
+        validate.validate_file(geo_path, SCHEMAS / "geo.schema.json")
+        print(f"published: {geo_path}")
+
+        matrix_path = matrix_json.write(matrix_json.build(conn), args.out,
+                                        published_at=published_at)
+        validate.validate_file(matrix_path, SCHEMAS / "matrix.schema.json")
+        print(f"published: {matrix_path}")
+
+    _, geography_error = _run_phase("GEOGRAPHY", _geography_phase)
+
     if nowcast_payload is not None:
         artifacts = {**(artifacts or {}), "nowcast": nowcast_payload}
 
@@ -306,6 +331,7 @@ def main(argv=None, http_get=None, http_post=None) -> int:
                                      outlook_error=outlook_error,
                                      composites_error=composites_error,
                                      datacenter_error=datacenter_error,
+                                     geography_error=geography_error,
                                      fuel_divergence=fuel_div,
                                      artifacts=artifacts,
                                      stale_stamps=stale_stamps),

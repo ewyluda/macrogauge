@@ -11,8 +11,8 @@ FRESH = {"series_code": "CPIAUCNS", "month": "2026-05-01",
 def test_all_green_when_fresh():
     r = qa.run_checks(FRESH, today="2026-07-07")
     # headline_current, yoy_finite, engine_ok, nowcast_ok, outlook_ok, composites_ok,
-    # datacenter_ok
-    assert (r["passed"], r["total"]) == (7, 7)
+    # datacenter_ok, geography_ok
+    assert (r["passed"], r["total"]) == (8, 8)
     assert all(c["pass"] for c in r["checks"])
 
 
@@ -20,7 +20,7 @@ def test_stale_headline_fails():
     r = qa.run_checks(FRESH, today="2026-10-01")  # 153 days after 2026-05-01
     by_name = {c["name"]: c for c in r["checks"]}
     assert by_name["headline_current"]["pass"] is False
-    assert r["passed"] == 6
+    assert r["passed"] == 7
 
 
 def test_nan_yoy_fails():
@@ -46,7 +46,7 @@ def test_connector_and_freshness_checks_green():
                       source_results=[_res("FRED", True), _res("EIA", True)],
                       freshness=[{"code": "CPIAUCNS", "latest_obs": "2026-05-01",
                                   "limit_days": 80}])
-    assert (r["passed"], r["total"]) == (9, 9)
+    assert (r["passed"], r["total"]) == (10, 10)
 
 
 def test_connector_failure_flagged_not_critical():
@@ -279,3 +279,16 @@ def test_datacenter_ok_check():
     assert names["datacenter_ok"]["pass"] is False
     assert names["datacenter_ok"]["critical"] is False
     assert "dc boom" in names["datacenter_ok"]["detail"]
+
+
+def test_geography_ok_check():
+    ok = qa.run_checks(None, today="2026-07-12", engine_error="x")
+    names = {c["name"]: c for c in ok["checks"]}
+    assert names["geography_ok"]["pass"] is True
+
+    bad = qa.run_checks(None, today="2026-07-12", engine_error="x",
+                        geography_error="RuntimeError: geo boom")
+    names = {c["name"]: c for c in bad["checks"]}
+    assert names["geography_ok"]["pass"] is False
+    assert names["geography_ok"]["critical"] is False
+    assert "geo boom" in names["geography_ok"]["detail"]
