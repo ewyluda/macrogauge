@@ -257,7 +257,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "accountability_cpi.json", "accountability_pce.json",
                  "accountability_nfp.json", "fuel.json", "outlook.json", "heatcheck.json",
                  "stress.json", "recession.json", "datacenter.json",
-                 "metros.json", "geo.json", "matrix.json"):
+                 "metros.json", "geo.json", "matrix.json", "labor.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 29
@@ -267,8 +267,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok
-    # + geography_ok
-    assert qa["total"] == 21
+    # + geography_ok + labor_ok
+    assert qa["total"] == 22
     stamp = [c for c in qa["checks"] if c["name"] == "single_run_stamp"][0]
     assert stamp["pass"] is True  # a clean full run leaves no stale artifacts
     official = json.loads((out / "official.json").read_text())
@@ -336,6 +336,12 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     tx = next(s for s in geo_out["states"] if s["state"] == "TX")
     assert tx["gas_regular"]["value"] == pytest.approx(3.568)      # aaa_gas_tx
     assert tx["elec_res_cents"]["value"] == pytest.approx(17.45)   # eia_elec_res_tx
+    assert checks["labor_ok"]["pass"] is True
+    labor_out = json.loads((out / "labor.json").read_text())
+    assert labor_out["published_at"] == run_stamp
+    # PAYEMS rides the FRED fake (fred_cpiaucns.json for any series_id); its
+    # latest fixture obs is 2026-04-01 = 320.1 -> level_k rounds to 320.
+    assert labor_out["payrolls"]["level_k"] == 320
     matrix_out = json.loads((out / "matrix.json").read_text())
     assert matrix_out["published_at"] == run_stamp
     med = next(r for g in matrix_out["groups"] for r in g["rows"]
@@ -541,6 +547,36 @@ def test_geography_schema_violation_fails_run(tmp_path, monkeypatch):
     set_keys(monkeypatch)
     monkeypatch.setattr(run_daily.metros_json, "build",
                         lambda conn: {"metros": "not-an-array", "national": {}})
+    store, out = tmp_path / "store", tmp_path / "out"
+    with pytest.raises(jsonschema.ValidationError):
+        run_daily.main(["--store", str(store), "--out", str(out)],
+                       http_get=fake_get, http_post=fake_post)
+
+
+def test_labor_failure_does_not_block_gauge_or_geography(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("labor boom")
+
+    monkeypatch.setattr(run_daily.labor_json, "build", boom)
+    store, out = tmp_path / "store", tmp_path / "out"
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    assert (out / "pulse.json").exists()
+    assert (out / "geo.json").exists()
+    assert not (out / "labor.json").exists()
+    checks = {c["name"]: c for c in json.loads((out / "qa.json").read_text())["checks"]}
+    assert checks["labor_ok"]["pass"] is False
+    assert "labor boom" in checks["labor_ok"]["detail"]
+    assert checks["engine_ok"]["pass"] is True
+
+
+def test_labor_schema_violation_fails_run(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+    monkeypatch.setattr(run_daily.labor_json, "build",
+                        lambda conn: {"payrolls": "nope"})
     store, out = tmp_path / "store", tmp_path / "out"
     with pytest.raises(jsonschema.ValidationError):
         run_daily.main(["--store", str(store), "--out", str(out)],
