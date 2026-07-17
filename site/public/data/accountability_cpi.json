@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-16T23:20:26Z",
+  "published_at": "2026-07-17T03:56:50Z",
   "target": "CPI",
   "graded": [
     {
@@ -16,7 +16,7 @@
     {
       "reference_period": "2026-07",
       "badge": "LIVE",
-      "forecast": -0.13,
+      "forecast": -0.03,
       "as_of": "2026-07-16",
       "actual": null
     }

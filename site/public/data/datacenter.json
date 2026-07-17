@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-16T23:20:26Z",
+  "published_at": "2026-07-17T03:56:50Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -16,7 +16,7 @@
   "indexes": {
     "build": {
       "as_of": "2026-07-16",
-      "headline_yoy_pct": 6.45,
+      "headline_yoy_pct": 6.41,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -6258,7 +6258,7 @@
         165.71,
         165.94,
         165.93,
-        165.76
+        165.69
       ],
       "yoy_pct": [
         3.05,
@@ -9379,7 +9379,7 @@
         6.41,
         6.56,
         6.55,
-        6.45
+        6.41
       ],
       "components": [
         {
@@ -9444,8 +9444,8 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-07-16",
-          "yoy_pct": 11.8,
-          "contribution_pp": 0.65,
+          "yoy_pct": 10.88,
+          "contribution_pp": 0.6,
           "stale": false
         },
         {
@@ -9455,8 +9455,8 @@
           "weight": 0.03,
           "mode": "official+proxy",
           "last_obs": "2026-07-16",
-          "yoy_pct": 28.59,
-          "contribution_pp": 0.86,
+          "yoy_pct": 28.9,
+          "contribution_pp": 0.87,
           "stale": false
         },
         {
@@ -9524,7 +9524,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 2.7
+          "contribution_pp": 2.66
         },
         {
           "group": "electrical",

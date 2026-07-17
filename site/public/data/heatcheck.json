@@ -1,38 +1,38 @@
 {
-  "published_at": "2026-07-16T23:20:26Z",
-  "score": -7.5,
+  "published_at": "2026-07-17T03:56:50Z",
+  "score": -2.6,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": 0.3015,
+      "z": 0.5301600000000001,
       "weight": 25,
       "available": 5,
       "expected": 5,
       "active_weight": 25.0
     },
     "real_economy": {
-      "z": 0.007420000000000001,
+      "z": -0.09689999999999999,
       "weight": 25,
       "available": 5,
       "expected": 5,
       "active_weight": 25.0
     },
     "pipeline": {
-      "z": -0.141125,
+      "z": 0.298425,
       "weight": 20,
       "available": 4,
       "expected": 4,
       "active_weight": 20.0
     },
     "housing": {
-      "z": -0.633325,
+      "z": -0.864475,
       "weight": 15,
       "available": 4,
       "expected": 4,
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": -0.6991999999999999,
+      "z": -0.6024,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -46,7 +46,7 @@
       "direction": 1,
       "as_of": "2026-06-01",
       "momentum": 1.1323,
-      "z": 0.3212
+      "z": 0.5232
     },
     {
       "code": "CPILFENS",
@@ -54,7 +54,7 @@
       "direction": 1,
       "as_of": "2026-06-01",
       "momentum": 0.7449,
-      "z": -0.1148
+      "z": 0.1226
     },
     {
       "code": "PCEPI",
@@ -62,7 +62,7 @@
       "direction": 1,
       "as_of": "2026-05-01",
       "momentum": 1.5347,
-      "z": 1.5321
+      "z": 2.1414
     },
     {
       "code": "PPIACO",
@@ -70,7 +70,7 @@
       "direction": 1,
       "as_of": "2026-06-01",
       "momentum": 3.9055,
-      "z": 0.9512
+      "z": 1.2836
     },
     {
       "code": "T5YIE",
@@ -80,7 +80,7 @@
       "periods": 63,
       "as_of": "2026-07-16",
       "momentum": -0.37,
-      "z": -1.1822
+      "z": -1.42
     },
     {
       "code": "PAYEMS",
@@ -88,7 +88,7 @@
       "direction": 1,
       "as_of": "2026-06-01",
       "momentum": 0.2105,
-      "z": -0.0217
+      "z": -0.6282
     },
     {
       "code": "UNRATE",
@@ -97,7 +97,7 @@
       "mode": "diff",
       "as_of": "2026-06-01",
       "momentum": -0.1,
-      "z": 0.0519
+      "z": -0.0
     },
     {
       "code": "INDPRO",
@@ -105,7 +105,7 @@
       "direction": 1,
       "as_of": "2026-05-01",
       "momentum": 0.6849,
-      "z": 0.183
+      "z": 0.7134
     },
     {
       "code": "RSAFS",
@@ -113,7 +113,7 @@
       "direction": 1,
       "as_of": "2026-06-01",
       "momentum": 1.9283,
-      "z": 0.1042
+      "z": 0.6054
     },
     {
       "code": "DSPIC96",
@@ -121,7 +121,7 @@
       "direction": 1,
       "as_of": "2026-05-01",
       "momentum": -0.3772,
-      "z": -0.2803
+      "z": -1.1751
     },
     {
       "code": "ICSA",
@@ -130,7 +130,7 @@
       "periods": 13,
       "as_of": "2026-07-11",
       "momentum": 0.0,
-      "z": 0.1255
+      "z": -0.1843
     },
     {
       "code": "CCSA",
@@ -139,15 +139,15 @@
       "periods": 13,
       "as_of": "2026-07-04",
       "momentum": -0.2211,
-      "z": 0.1269
+      "z": -0.054
     },
     {
       "code": "PCUOMFGOMFG",
       "group": "pipeline",
-      "direction": -1,
+      "direction": 1,
       "as_of": "2026-06-01",
       "momentum": 3.7429,
-      "z": -0.996
+      "z": 1.3999
     },
     {
       "code": "FEDFUNDS",
@@ -156,7 +156,7 @@
       "mode": "diff",
       "as_of": "2026-06-01",
       "momentum": -0.01,
-      "z": 0.1791
+      "z": 0.0321
     },
     {
       "code": "HOUST",
@@ -164,7 +164,7 @@
       "direction": 1,
       "as_of": "2026-05-01",
       "momentum": -12.5557,
-      "z": -1.1381
+      "z": -1.5639
     },
     {
       "code": "PERMIT",
@@ -172,7 +172,7 @@
       "direction": 1,
       "as_of": "2026-05-01",
       "momentum": -8.4416,
-      "z": -1.1006
+      "z": -1.3725
     },
     {
       "code": "CSUSHPINSA",
@@ -180,7 +180,7 @@
       "direction": 1,
       "as_of": "2026-04-01",
       "momentum": 1.8314,
-      "z": 0.1014
+      "z": 0.207
     },
     {
       "code": "pmms_30yr",
@@ -190,7 +190,7 @@
       "periods": 13,
       "as_of": "2026-07-16",
       "momentum": 0.25,
-      "z": -0.396
+      "z": -0.7285
     },
     {
       "code": "M2SL",
@@ -198,7 +198,7 @@
       "direction": 1,
       "as_of": "2026-05-01",
       "momentum": 1.8801,
-      "z": 0.1589
+      "z": 1.0038
     },
     {
       "code": "UMCSENT",
@@ -206,7 +206,7 @@
       "direction": 1,
       "as_of": "2026-05-01",
       "momentum": -20.8481,
-      "z": -1.8804
+      "z": -2.3894
     },
     {
       "code": "T10Y2Y",
@@ -216,7 +216,7 @@
       "periods": 63,
       "as_of": "2026-07-16",
       "momentum": -0.12,
-      "z": -0.3761
+      "z": -0.4216
     }
   ]
 }

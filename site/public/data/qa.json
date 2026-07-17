@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-07-16",
-  "passed": 18,
+  "passed": 19,
   "total": 20,
   "checks": [
     {
@@ -54,8 +54,8 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": false,
-      "detail": "25/27 ok; failed \u2014 BLS: ReadTimeout: HTTPSConnectionPool(host='api.bls.gov', port=443): Read timed out. (read timeout=60); TREASURY: ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      "pass": true,
+      "detail": "27/27 ok"
     },
     {
       "name": "sources_fresh",
@@ -91,7 +91,7 @@
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=-0.03 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=0.0 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
@@ -121,7 +121,7 @@
       "name": "tracker_corr",
       "critical": false,
       "pass": true,
-      "detail": "tracker monthly-YoY corr vs official = 0.9771 (floor 0.95)"
+      "detail": "tracker monthly-YoY corr vs official = 0.9808 (floor 0.95)"
     }
   ]
 }

@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-07-16T23:20:26Z",
+  "published_at": "2026-07-17T03:56:50Z",
   "stats": {
     "series_count": 273,
-    "obs_count": 87435,
+    "obs_count": 87457,
     "source_count": 27,
-    "tracker_corr": 0.9771,
+    "tracker_corr": 0.9808,
     "live_coverage_pct": 42.6,
     "engine_version": "1.0",
     "rebase": "2018-01=100"
@@ -1520,7 +1520,7 @@
       "source": "SFCOMPUTE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-07-16",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -2678,22 +2678,22 @@
   ],
   "validation": {
     "gauge": {
-      "corr": 0.9239,
-      "mean_abs_gap_pp": 0.91,
+      "corr": 0.924,
+      "mean_abs_gap_pp": 0.89,
       "window": "2018-01..2026-06",
       "lead_lag": {
         "best_shift_months": 1,
-        "corr": 0.9301
+        "corr": 0.939
       }
     },
     "col": {
-      "corr": 0.9072,
-      "mean_abs_gap_pp": 3.47,
+      "corr": 0.9294,
+      "mean_abs_gap_pp": 3.42,
       "window": "2018-01..2026-06"
     },
     "tracker": {
-      "corr": 0.9771,
-      "mean_abs_gap_pp": 0.4,
+      "corr": 0.9808,
+      "mean_abs_gap_pp": 0.41,
       "window": "2018-01..2026-06"
     },
     "supercore": {
@@ -2702,8 +2702,8 @@
       "window": "2018-01..2026-06"
     },
     "pce": {
-      "corr": 0.9493,
-      "mean_abs_gap_pp": 0.56,
+      "corr": 0.954,
+      "mean_abs_gap_pp": 0.53,
       "window": "2018-01..2026-06"
     },
     "bls_reconstruction": {

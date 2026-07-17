@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-07-16T23:20:26Z",
-  "score": 72.7,
+  "published_at": "2026-07-17T03:56:50Z",
+  "score": 64.6,
   "coverage_pct": 100.0,
   "indicators": [
     {
@@ -39,9 +39,10 @@
       "code": "REVOLSL",
       "weight": 15,
       "direction": 1,
-      "value": 1344207.79,
+      "transform": "yoy",
+      "value": 3.42,
       "as_of": "2026-05-01",
-      "score": 97.8
+      "score": 43.8
     },
     {
       "code": "DRSFRMACBS",
