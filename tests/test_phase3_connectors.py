@@ -100,6 +100,8 @@ def test_kalshi_unpriced_markets_raise_cleanly():
 def test_kalshi_obs_date_from_event_ticker():
     payload = {"markets": [
         {"floor_strike": 0.2, "last_price_dollars": "0.5",
+         "event_ticker": "KXCPI-26JUN", "close_time": "2026-07-14T00:00:00Z"},
+        {"floor_strike": 0.3, "last_price_dollars": "0.1",
          "event_ticker": "KXCPI-26JUN", "close_time": "2026-07-14T00:00:00Z"}]}
     rows = kalshi.fetch(http_get=lambda *a, **k: FakeResponse(payload),
                         vintage_date="2026-07-10")
@@ -111,10 +113,24 @@ def test_kalshi_obs_date_falls_back_to_close_time():
     # unparsable ticker: close is release morning -> reference = prior month
     payload = {"markets": [
         {"floor_strike": 0.2, "last_price_dollars": "0.5",
+         "event_ticker": "KXCPI-WEIRD", "close_time": "2026-07-14T00:00:00Z"},
+        {"floor_strike": 0.3, "last_price_dollars": "0.1",
          "event_ticker": "KXCPI-WEIRD", "close_time": "2026-07-14T00:00:00Z"}]}
     rows = kalshi.fetch(http_get=lambda *a, **k: FakeResponse(payload),
                         vintage_date="2026-07-10")
     assert rows[0].obs_date == "2026-06-01"
+
+
+def test_kalshi_single_rung_raises_not_degenerate_ev():
+    # One priced rung clamps the survival-curve EV to strike ± half a
+    # default bracket regardless of the market's true expectation. Error ->
+    # collect isolation + carry-forward, same class as fetch_dc's skip.
+    payload = {"markets": [
+        {"floor_strike": 0.2, "last_price_dollars": "0.5",
+         "event_ticker": "KXCPI-26JUN", "close_time": "2026-07-14T00:00:00Z"}]}
+    with pytest.raises(ValueError, match="single priced rung"):
+        kalshi.fetch(http_get=lambda *a, **k: FakeResponse(payload),
+                     vintage_date="2026-07-10")
 
 
 def test_cleveland_parses_recorded_fixture():
@@ -158,6 +174,30 @@ def test_kalshi_dc_ladder_expected_count():
     assert rows[0].series_code == "KXUSADATACENTERS"
     assert rows[0].obs_date == "2026-07-16"        # fetch date, standing question
     assert (rows[0].source, rows[0].route) == ("KALSHI_DC", "API")
+
+
+def test_kalshi_dc_pools_only_earliest_closing_event():
+    # A series ticker spans event years; at the annual rollover both the
+    # 26DEC31 and 27DEC31 ladders are open at once. Pooling them fed two
+    # survival curves to _expected_from_ladder as one book — the count must
+    # come from the earlier-closing event alone (1800, per the hand-computed
+    # ladder above), untouched by the next year's strikes.
+    payload = {"markets": [
+        {"floor_strike": 1000, "last_price_dollars": "0.9",
+         "event_ticker": "KXUSADATACENTERS-26DEC31",
+         "close_time": "2026-12-31T00:00:00Z"},
+        {"floor_strike": 2000, "last_price_dollars": "0.4",
+         "event_ticker": "KXUSADATACENTERS-26DEC31",
+         "close_time": "2026-12-31T00:00:00Z"},
+        {"floor_strike": 6000, "last_price_dollars": "0.9",
+         "event_ticker": "KXUSADATACENTERS-27DEC31",
+         "close_time": "2027-12-31T00:00:00Z"},
+        {"floor_strike": 7000, "last_price_dollars": "0.4",
+         "event_ticker": "KXUSADATACENTERS-27DEC31",
+         "close_time": "2027-12-31T00:00:00Z"}]}
+    rows = kalshi.fetch_dc(["KXUSADATACENTERS"], vintage_date="2026-07-16",
+                           http_get=lambda *a, **k: FakeResponse(payload))
+    assert rows[0].value == pytest.approx(1800.0)
 
 
 def test_kalshi_dc_binary_probability():

@@ -150,8 +150,13 @@ def fake_get(url, params=None, timeout=None, **kw):
                 {"floor_strike": 2000, "last_price_dollars": "0.4"}]})
         if ticker == "KXDATACENTER":
             return FakeResponse({"markets": [{"last_price_dollars": "0.61"}]})
-        return FakeResponse({"markets": [{"floor_strike": 0.2,
-                                           "last_price_dollars": "1.0",
+        # two rungs: a single priced rung is a degenerate ladder and raises
+        return FakeResponse({"markets": [{"floor_strike": 0.1,
+                                           "last_price_dollars": "0.9",
+                                           "event_ticker": "KXCPI-26JUL",
+                                           "close_time": "2026-08-11T00:00:00Z"},
+                                          {"floor_strike": 0.3,
+                                           "last_price_dollars": "0.5",
                                            "event_ticker": "KXCPI-26JUL",
                                            "close_time": "2026-08-11T00:00:00Z"}]})
     if "fiscaldata.treasury.gov" in url:

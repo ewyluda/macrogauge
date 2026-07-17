@@ -70,6 +70,15 @@ def fetch(series_ticker: str = "KXCPI", vintage_date: str | None = None,
         key=lambda kv: min(m.get("close_time") or "9999" for m in kv[1]))
     points = sorted((float(m["floor_strike"]),
                      min(float(m["last_price_dollars"]), 1.0)) for m in nearest)
+    if len(points) < 2:
+        # One priced rung degenerates the survival curve: the "expected
+        # value" clamps to strike ± half a default bracket no matter where
+        # the market's true expectation sits. Error -> collect isolation
+        # records it and carry-forward keeps yesterday's multi-rung value
+        # (same reasoning as fetch_dc's degraded-ladder skip; here it is an
+        # error because kalshi_cpi_mom feeds the published ensemble).
+        raise ValueError(f"kalshi CPI {ticker}: single priced rung — "
+                         "cannot form an expected value")
     expected = round(_expected_from_ladder(points), 6)
     close = min((m.get("close_time") for m in nearest if m.get("close_time")),
                 default=None)
@@ -107,6 +116,16 @@ def fetch_dc(source_ids: list[str], vintage_date: str | None = None,
                    and float(m["last_price_dollars"]) > 0]
         if not markets:
             continue
+        # One series ticker spans event years (…-26DEC31, …-27DEC31): pooling
+        # rungs across events would feed two years' ladders to the survival
+        # curve as one book at every annual rollover. Keep only the event
+        # closing next — same rule as fetch().
+        events: dict[str, list[dict]] = {}
+        for market in markets:
+            events.setdefault(market.get("event_ticker", ""), []).append(market)
+        markets = min(events.values(),
+                      key=lambda ms: min(m.get("close_time") or "9999"
+                                         for m in ms))
         laddered = [m for m in markets if m.get("floor_strike") is not None]
         if laddered and len(laddered) < 2:
             # Degraded ladder book: a market that carries floor_strike is a
