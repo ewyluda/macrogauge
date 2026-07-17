@@ -13,7 +13,7 @@ def test_load_real_registry():
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC"}
-    assert len(series) == 273
+    assert len(series) == 266
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
@@ -88,7 +88,10 @@ def test_load_real_registry():
     assert sources["QCEW"].secret is None and sources["QCEW"].route == "CSV"
     assert sources["EIA_STATE"].secret == "EIA_API_KEY"
     assert sum(1 for s in series if s.source == "EIA_STATE") == 52
-    assert sum(1 for s in series if s.source == "QCEW") == 52
+    # 45 = US total + 44 states: seven areas (AK, DC, MA, MO, RI, SD, VT)
+    # are chronically disclosure-suppressed at state level for private NAICS 23
+    # in the QCEW files, so they can never produce a row and were dropped.
+    assert sum(1 for s in series if s.source == "QCEW") == 45
     # Power spike (wave 4): pin the exact source_ids — ice_ercot_north was
     # dropped from scope (does not exist in the ICE workbook) and Henry Hub
     # rides the v2 seriesid NG.RNGWHHD.D, not a v1 route.

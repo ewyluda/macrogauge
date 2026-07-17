@@ -24,7 +24,9 @@ from pipeline.models import Observation
 
 QCEW_URL = "https://data.bls.gov/cew/data/api/{year}/{qtr}/industry/{naics}.csv"
 NAICS = "23"
-N_QUARTERS = 4  # publication lag ~2 quarters + revision refresh headroom
+N_QUARTERS = 5  # publication lag ~2 quarters + revision headroom + one extra
+                # published quarter so a state suppressed in the newest quarter
+                # (e.g. LA 2025q4) still contributes its prior-quarter wage
 
 
 def _recent_quarters(today: str, n: int = N_QUARTERS) -> list[tuple[int, int]]:
