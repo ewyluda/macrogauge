@@ -8,6 +8,14 @@ keeping the US row plus every requested RegionID; the emitted series_code is
 the source_id string (collect's id_map remaps to internal codes). URLs move
 occasionally — they live in constants so the fix is a one-liner (the QA
 connector check catches the breakage).
+
+Two reliability tiers, isolated so the speculative one can't take down the
+core one (same convention as fred per-series / qcew per-quarter): the US row
+is the anchor — a missing US row raises (real shape drift) — while the metros
+are a speculative tier whose absence is tolerated and surfaces via the
+per-series staleness QA, never by discarding the US row. fetch() parses each
+file (zori, zhvi) under its own isolation, so a drift in one never skips the
+other; zero files loaded raises so a total breakage still surfaces.
 """
 import csv
 import io
@@ -52,25 +60,41 @@ def _file_series(csv_text: str, prefix: str, wanted: list[str],
             metros_found += 1
             out.extend(_row_obs(row, f"{prefix}:{row['RegionID']}", vintage))
     if want_us and not us_found:
+        # The US row is the anchor: its absence is a real shape drift. Metros
+        # are the speculative tier — every requested metro vanishing at once
+        # is tolerated (surfaces as 50 stale series in the freshness QA), never
+        # discarding the parsed US row along with it.
         raise ValueError(f"United States row not found for {prefix}")
-    if metro_ids and metros_found == 0:
-        # A single registered RegionID absent from the file is tolerated
-        # (metros come and go), but every requested metro vanishing at once
-        # means the file changed shape, not that 50 msas were delisted.
-        raise ValueError(f"no requested metro rows found for {prefix} "
-                         "— structure drift?")
     return out
 
 
 def fetch(source_ids: list[str], vintage_date: str | None = None,
           http_get=None) -> list[Observation]:
+    """Per-file isolation: a drift in the ZORI file must not skip the ZHVI
+    fetch, and a parsed US row must survive a metros-only anomaly. Zero files
+    loaded raises (total breakage surfaces via collect's isolation); a sole
+    failing file re-raises its original error so the drift message stays
+    greppable in sources_status."""
     http_get = http_get or requests.get
     vintage = vintage_date or today_et()
     out: list[Observation] = []
+    errors: list[tuple[str, Exception]] = []
+    loaded = 0
     for prefix, url in (("zori", ZORI_URL), ("zhvi", ZHVI_URL)):
         wanted = [sid for sid in source_ids
                   if sid == prefix or sid.startswith(prefix + ":")]
-        if wanted:
-            out.extend(_file_series(get_text(url, http_get), prefix,
-                                    wanted, vintage))
+        if not wanted:
+            continue
+        try:
+            rows = _file_series(get_text(url, http_get), prefix, wanted, vintage)
+        except Exception as e:  # per-file: one file's drift must not skip the other
+            errors.append((prefix, e))
+            continue
+        loaded += 1
+        out.extend(rows)
+    if not loaded and errors:
+        if len(errors) == 1:  # nothing was isolated — surface the real exception
+            raise errors[0][1]
+        raise RuntimeError("ZILLOW: no file loaded — " + "; ".join(
+            f"{p}: {type(e).__name__}" for p, e in errors))
     return out

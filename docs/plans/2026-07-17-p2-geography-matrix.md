@@ -114,7 +114,7 @@ six-agent scout (all series ids below LIVE-VERIFIED that day unless marked VERIF
 - [x] **T11 site-metros**: /metros page + nav + e2e + types cast.
 - [x] **T12 site-states**: /states page (tile map generalization) + nav + e2e.
 - [x] **T13 site-matrix**: /matrix expansion (marker string in e2e may need updating).
-- [ ] **T14 gates+review**: full `pytest -q`, `npm test`, `npm run e2e`, `npm run build`,
+- [x] **T14 gates+review**: full `pytest -q`, `npm test`, `npm run e2e`, `npm run build`,
   multi-angle code review of the whole wave diff, fix findings, final commit.
 
 ## Reference facts for implementers (from the 2026-07-17 scout — trust these)
