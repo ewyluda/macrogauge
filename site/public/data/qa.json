@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-07-17",
-  "passed": 18,
-  "total": 20,
+  "passed": 20,
+  "total": 21,
   "checks": [
     {
       "name": "headline_current",
@@ -46,6 +46,12 @@
       "detail": "datacenter completed"
     },
     {
+      "name": "geography_ok",
+      "critical": false,
+      "pass": true,
+      "detail": "geography panel completed"
+    },
+    {
       "name": "single_run_stamp",
       "critical": false,
       "pass": true,
@@ -54,14 +60,14 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": false,
-      "detail": "25/27 ok; failed \u2014 BLS: HTTPError: 500 Server Error: Internal Server Error for url: https://api.bls.gov/publicAPI/v2/timeseries/data/; USDA: missing secret USDA_API_KEY"
+      "pass": true,
+      "detail": "29/29 ok"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "259/273 fresh; stale \u2014 PAYEMS (46d > 45d), kalshi_cpi_mom (6d > 5d), UNRATE (46d > 45d), FEDFUNDS (46d > 45d), ces_constr_ahe (46d > 45d), ces_dp_ahe (46d > 45d), qcew_wage23_ak (never seen), qcew_wage23_dc (never seen), qcew_wage23_la (never seen), qcew_wage23_ma (never seen), qcew_wage23_mo (never seen), qcew_wage23_ri (never seen), qcew_wage23_sd (never seen), qcew_wage23_vt (never seen)"
+      "detail": "541/542 fresh; stale \u2014 kalshi_cpi_mom (6d > 5d)"
     },
     {
       "name": "fuel_sources_agree",

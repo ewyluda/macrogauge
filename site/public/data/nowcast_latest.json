@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-17T14:16:33Z",
+  "published_at": "2026-07-17T19:08:24Z",
   "target": "CPI",
   "release_date": "2026-08-12",
   "reference_month": "2026-07",
@@ -27,11 +27,11 @@
       },
       {
         "component": "food_home",
-        "mom_pct": 0.55,
+        "mom_pct": 0.577,
         "weight": 0.082,
-        "contribution_pp": 0.0451,
+        "contribution_pp": 0.0473,
         "basis": "trend+driver",
-        "driver_mom_pct": 0.2443
+        "driver_mom_pct": 0.2714
       },
       {
         "component": "medical",
@@ -144,7 +144,7 @@
       "as_of": "2026-07-15"
     },
     "kalshi": {
-      "value": 0.049,
+      "value": 0.068,
       "as_of": "2026-07-17"
     }
   },

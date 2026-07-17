@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-17T14:16:33Z",
+  "published_at": "2026-07-17T19:08:24Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -16,7 +16,7 @@
   "indexes": {
     "build": {
       "as_of": "2026-07-17",
-      "headline_yoy_pct": 6.42,
+      "headline_yoy_pct": 6.5,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -6260,7 +6260,7 @@
         165.94,
         165.93,
         165.69,
-        165.71
+        165.83
       ],
       "yoy_pct": [
         3.05,
@@ -9382,7 +9382,7 @@
         6.56,
         6.55,
         6.41,
-        6.42
+        6.5
       ],
       "components": [
         {
@@ -9394,7 +9394,7 @@
           "last_obs": "2026-06-01",
           "yoy_pct": 4.34,
           "contribution_pp": 0.65,
-          "stale": true
+          "stale": false
         },
         {
           "code": "elec_contractors",
@@ -9447,8 +9447,8 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-07-17",
-          "yoy_pct": 11.12,
-          "contribution_pp": 0.61,
+          "yoy_pct": 11.4,
+          "contribution_pp": 0.63,
           "stale": false
         },
         {
@@ -9458,8 +9458,8 @@
           "weight": 0.03,
           "mode": "official+proxy",
           "last_obs": "2026-07-17",
-          "yoy_pct": 28.92,
-          "contribution_pp": 0.87,
+          "yoy_pct": 31.03,
+          "contribution_pp": 0.93,
           "stale": false
         },
         {
@@ -9527,7 +9527,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 2.67
+          "contribution_pp": 2.75
         },
         {
           "group": "electrical",
@@ -18794,7 +18794,7 @@
           "last_obs": "2026-06-01",
           "yoy_pct": 5.96,
           "contribution_pp": 1.79,
-          "stale": true
+          "stale": false
         },
         {
           "code": "maintenance",
@@ -29367,7 +29367,7 @@
     },
     "transformer": null,
     "kalshi": {
-      "dc_count_expected": 5047.0,
+      "dc_count_expected": 5053.0,
       "count_asof": "2026-07-17",
       "nuclear_by_2030_prob": 0.46,
       "nuclear_asof": "2026-07-17"

@@ -1,9 +1,9 @@
 {
-  "published_at": "2026-07-17T14:16:33Z",
+  "published_at": "2026-07-17T19:08:24Z",
   "stats": {
-    "series_count": 273,
-    "obs_count": 87519,
-    "source_count": 27,
+    "series_count": 542,
+    "obs_count": 148935,
+    "source_count": 29,
     "tracker_corr": 0.9808,
     "live_coverage_pct": 42.6,
     "engine_version": "1.0",
@@ -214,8 +214,8 @@
     }
   ],
   "freshness": {
-    "fresh_count": 259,
-    "total": 273
+    "fresh_count": 541,
+    "total": 542
   },
   "inventory": [
     {
@@ -804,6 +804,906 @@
       "fresh": true
     },
     {
+      "code": "zori_394913",
+      "name": "ZORI rent index (New York, NY)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_753899",
+      "name": "ZORI rent index (Los Angeles, CA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394463",
+      "name": "ZORI rent index (Chicago, IL)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394514",
+      "name": "ZORI rent index (Dallas, TX)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394692",
+      "name": "ZORI rent index (Houston, TX)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395209",
+      "name": "ZORI rent index (Washington, DC)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394974",
+      "name": "ZORI rent index (Philadelphia, PA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394856",
+      "name": "ZORI rent index (Miami, FL)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394347",
+      "name": "ZORI rent index (Atlanta, GA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394404",
+      "name": "ZORI rent index (Boston, MA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394976",
+      "name": "ZORI rent index (Phoenix, AZ)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395057",
+      "name": "ZORI rent index (San Francisco, CA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395025",
+      "name": "ZORI rent index (Riverside, CA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394532",
+      "name": "ZORI rent index (Detroit, MI)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395078",
+      "name": "ZORI rent index (Seattle, WA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394865",
+      "name": "ZORI rent index (Minneapolis, MN)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395056",
+      "name": "ZORI rent index (San Diego, CA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395148",
+      "name": "ZORI rent index (Tampa, FL)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394530",
+      "name": "ZORI rent index (Denver, CO)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394358",
+      "name": "ZORI rent index (Baltimore, MD)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395121",
+      "name": "ZORI rent index (St. Louis, MO)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394943",
+      "name": "ZORI rent index (Orlando, FL)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394458",
+      "name": "ZORI rent index (Charlotte, NC)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395055",
+      "name": "ZORI rent index (San Antonio, TX)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394998",
+      "name": "ZORI rent index (Portland, OR)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395045",
+      "name": "ZORI rent index (Sacramento, CA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394982",
+      "name": "ZORI rent index (Pittsburgh, PA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394466",
+      "name": "ZORI rent index (Cincinnati, OH)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394355",
+      "name": "ZORI rent index (Austin, TX)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394775",
+      "name": "ZORI rent index (Las Vegas, NV)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394735",
+      "name": "ZORI rent index (Kansas City, MO)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394492",
+      "name": "ZORI rent index (Columbus, OH)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394705",
+      "name": "ZORI rent index (Indianapolis, IN)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394475",
+      "name": "ZORI rent index (Cleveland, OH)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395059",
+      "name": "ZORI rent index (San Jose, CA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394902",
+      "name": "ZORI rent index (Nashville, TN)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395194",
+      "name": "ZORI rent index (Virginia Beach, VA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395005",
+      "name": "ZORI rent index (Providence, RI)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394714",
+      "name": "ZORI rent index (Jacksonville, FL)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394862",
+      "name": "ZORI rent index (Milwaukee, WI)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394935",
+      "name": "ZORI rent index (Oklahoma City, OK)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395012",
+      "name": "ZORI rent index (Raleigh, NC)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394849",
+      "name": "ZORI rent index (Memphis, TN)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395022",
+      "name": "ZORI rent index (Richmond, VA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394807",
+      "name": "ZORI rent index (Louisville, KY)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394910",
+      "name": "ZORI rent index (New Orleans, LA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_395053",
+      "name": "ZORI rent index (Salt Lake City, UT)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394669",
+      "name": "ZORI rent index (Hartford, CT)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394425",
+      "name": "ZORI rent index (Buffalo, NY)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zori_394388",
+      "name": "ZORI rent index (Birmingham, AL)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394913",
+      "name": "ZHVI home value (New York, NY)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_753899",
+      "name": "ZHVI home value (Los Angeles, CA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394463",
+      "name": "ZHVI home value (Chicago, IL)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394514",
+      "name": "ZHVI home value (Dallas, TX)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394692",
+      "name": "ZHVI home value (Houston, TX)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395209",
+      "name": "ZHVI home value (Washington, DC)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394974",
+      "name": "ZHVI home value (Philadelphia, PA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394856",
+      "name": "ZHVI home value (Miami, FL)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394347",
+      "name": "ZHVI home value (Atlanta, GA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394404",
+      "name": "ZHVI home value (Boston, MA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394976",
+      "name": "ZHVI home value (Phoenix, AZ)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395057",
+      "name": "ZHVI home value (San Francisco, CA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395025",
+      "name": "ZHVI home value (Riverside, CA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394532",
+      "name": "ZHVI home value (Detroit, MI)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395078",
+      "name": "ZHVI home value (Seattle, WA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394865",
+      "name": "ZHVI home value (Minneapolis, MN)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395056",
+      "name": "ZHVI home value (San Diego, CA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395148",
+      "name": "ZHVI home value (Tampa, FL)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394530",
+      "name": "ZHVI home value (Denver, CO)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394358",
+      "name": "ZHVI home value (Baltimore, MD)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395121",
+      "name": "ZHVI home value (St. Louis, MO)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394943",
+      "name": "ZHVI home value (Orlando, FL)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394458",
+      "name": "ZHVI home value (Charlotte, NC)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395055",
+      "name": "ZHVI home value (San Antonio, TX)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394998",
+      "name": "ZHVI home value (Portland, OR)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395045",
+      "name": "ZHVI home value (Sacramento, CA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394982",
+      "name": "ZHVI home value (Pittsburgh, PA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394466",
+      "name": "ZHVI home value (Cincinnati, OH)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394355",
+      "name": "ZHVI home value (Austin, TX)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394775",
+      "name": "ZHVI home value (Las Vegas, NV)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394735",
+      "name": "ZHVI home value (Kansas City, MO)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394492",
+      "name": "ZHVI home value (Columbus, OH)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394705",
+      "name": "ZHVI home value (Indianapolis, IN)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394475",
+      "name": "ZHVI home value (Cleveland, OH)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395059",
+      "name": "ZHVI home value (San Jose, CA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394902",
+      "name": "ZHVI home value (Nashville, TN)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395194",
+      "name": "ZHVI home value (Virginia Beach, VA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395005",
+      "name": "ZHVI home value (Providence, RI)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394714",
+      "name": "ZHVI home value (Jacksonville, FL)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394862",
+      "name": "ZHVI home value (Milwaukee, WI)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394935",
+      "name": "ZHVI home value (Oklahoma City, OK)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395012",
+      "name": "ZHVI home value (Raleigh, NC)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394849",
+      "name": "ZHVI home value (Memphis, TN)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395022",
+      "name": "ZHVI home value (Richmond, VA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394807",
+      "name": "ZHVI home value (Louisville, KY)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394910",
+      "name": "ZHVI home value (New Orleans, LA)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_395053",
+      "name": "ZHVI home value (Salt Lake City, UT)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394669",
+      "name": "ZHVI home value (Hartford, CT)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394425",
+      "name": "ZHVI home value (Buffalo, NY)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "zhvi_394388",
+      "name": "ZHVI home value (Birmingham, AL)",
+      "source": "ZILLOW",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
       "code": "pmms_30yr",
       "name": "Freddie Mac 30yr fixed mortgage %",
       "source": "PMMS",
@@ -827,7 +1727,7 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-07-06",
+      "latest_obs": "2026-07-13",
       "fresh": true
     },
     {
@@ -836,7 +1736,7 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-07-10",
+      "latest_obs": "2026-07-17",
       "fresh": true
     },
     {
@@ -845,7 +1745,7 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-07-06",
+      "latest_obs": "2026-07-13",
       "fresh": true
     },
     {
@@ -854,7 +1754,7 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-07-06",
+      "latest_obs": "2026-07-13",
       "fresh": true
     },
     {
@@ -885,6 +1785,465 @@
       "fresh": true
     },
     {
+      "code": "aaa_gas_al",
+      "name": "AAA regular gasoline $/gal (AL)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ak",
+      "name": "AAA regular gasoline $/gal (AK)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_az",
+      "name": "AAA regular gasoline $/gal (AZ)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ar",
+      "name": "AAA regular gasoline $/gal (AR)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ca",
+      "name": "AAA regular gasoline $/gal (CA)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_co",
+      "name": "AAA regular gasoline $/gal (CO)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ct",
+      "name": "AAA regular gasoline $/gal (CT)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_de",
+      "name": "AAA regular gasoline $/gal (DE)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_dc",
+      "name": "AAA regular gasoline $/gal (DC)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_fl",
+      "name": "AAA regular gasoline $/gal (FL)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ga",
+      "name": "AAA regular gasoline $/gal (GA)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_hi",
+      "name": "AAA regular gasoline $/gal (HI)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_id",
+      "name": "AAA regular gasoline $/gal (ID)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_il",
+      "name": "AAA regular gasoline $/gal (IL)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_in",
+      "name": "AAA regular gasoline $/gal (IN)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ia",
+      "name": "AAA regular gasoline $/gal (IA)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ks",
+      "name": "AAA regular gasoline $/gal (KS)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ky",
+      "name": "AAA regular gasoline $/gal (KY)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_la",
+      "name": "AAA regular gasoline $/gal (LA)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_me",
+      "name": "AAA regular gasoline $/gal (ME)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_md",
+      "name": "AAA regular gasoline $/gal (MD)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ma",
+      "name": "AAA regular gasoline $/gal (MA)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_mi",
+      "name": "AAA regular gasoline $/gal (MI)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_mn",
+      "name": "AAA regular gasoline $/gal (MN)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ms",
+      "name": "AAA regular gasoline $/gal (MS)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_mo",
+      "name": "AAA regular gasoline $/gal (MO)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_mt",
+      "name": "AAA regular gasoline $/gal (MT)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ne",
+      "name": "AAA regular gasoline $/gal (NE)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_nv",
+      "name": "AAA regular gasoline $/gal (NV)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_nh",
+      "name": "AAA regular gasoline $/gal (NH)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_nj",
+      "name": "AAA regular gasoline $/gal (NJ)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_nm",
+      "name": "AAA regular gasoline $/gal (NM)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ny",
+      "name": "AAA regular gasoline $/gal (NY)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_nc",
+      "name": "AAA regular gasoline $/gal (NC)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_nd",
+      "name": "AAA regular gasoline $/gal (ND)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_oh",
+      "name": "AAA regular gasoline $/gal (OH)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ok",
+      "name": "AAA regular gasoline $/gal (OK)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_or",
+      "name": "AAA regular gasoline $/gal (OR)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_pa",
+      "name": "AAA regular gasoline $/gal (PA)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ri",
+      "name": "AAA regular gasoline $/gal (RI)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_sc",
+      "name": "AAA regular gasoline $/gal (SC)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_sd",
+      "name": "AAA regular gasoline $/gal (SD)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_tn",
+      "name": "AAA regular gasoline $/gal (TN)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_tx",
+      "name": "AAA regular gasoline $/gal (TX)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_ut",
+      "name": "AAA regular gasoline $/gal (UT)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_vt",
+      "name": "AAA regular gasoline $/gal (VT)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_va",
+      "name": "AAA regular gasoline $/gal (VA)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_wa",
+      "name": "AAA regular gasoline $/gal (WA)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_wv",
+      "name": "AAA regular gasoline $/gal (WV)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_wi",
+      "name": "AAA regular gasoline $/gal (WI)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "aaa_gas_wy",
+      "name": "AAA regular gasoline $/gal (WY)",
+      "source": "AAA_STATE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
       "code": "manheim_uvvi_m",
       "name": "Manheim Used Vehicle Value Index",
       "source": "MANHEIM",
@@ -900,7 +2259,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ICSA",
@@ -963,7 +2322,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "INDPRO",
@@ -1044,7 +2403,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "HOUST",
@@ -1200,13 +2559,679 @@
       "fresh": true
     },
     {
+      "code": "MEDCPIM158SFRBCLE",
+      "name": "Median CPI, MoM annualized (Cleveland Fed)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "TRMMEANCPIM158SFRBCLE",
+      "name": "16% trimmed-mean CPI, MoM annualized (Cleveland Fed)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "CORESTICKM159SFRBATL",
+      "name": "Sticky-price core CPI YoY (Atlanta Fed)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "PCETRIM12M159SFRBDAL",
+      "name": "Trimmed-mean PCE, 12-month (Dallas Fed)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "T10YIE",
+      "name": "10-year breakeven inflation",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-16",
+      "fresh": true
+    },
+    {
+      "code": "MICH",
+      "name": "Michigan 1-year inflation expectations",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "DGS1MO",
+      "name": "1-month Treasury yield",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "DGS3MO",
+      "name": "3-month Treasury yield",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "DGS6MO",
+      "name": "6-month Treasury yield",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "DGS1",
+      "name": "1-year Treasury yield",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "DGS2",
+      "name": "2-year Treasury yield",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "DGS5",
+      "name": "5-year Treasury yield",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "DGS10",
+      "name": "10-year Treasury yield",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "DGS30",
+      "name": "30-year Treasury yield",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "BAMLH0A0HYM2",
+      "name": "ICE BofA US high yield OAS",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-16",
+      "fresh": true
+    },
+    {
+      "code": "DTWEXBGS",
+      "name": "Broad trade-weighted dollar index",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-10",
+      "fresh": true
+    },
+    {
+      "code": "GDPNOW",
+      "name": "Atlanta Fed GDPNow estimate",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "WALCL",
+      "name": "Fed balance sheet total assets",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "WTREGEN",
+      "name": "Treasury General Account balance",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-15",
+      "fresh": true
+    },
+    {
+      "code": "RRPONTSYD",
+      "name": "Overnight reverse repo balance",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-07-17",
+      "fresh": true
+    },
+    {
+      "code": "EXHOSLUSM495S",
+      "name": "Existing home sales (SAAR)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-06-01",
+      "fresh": true
+    },
+    {
+      "code": "USSTHPI",
+      "name": "FHFA US house price index (quarterly)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-01-01",
+      "fresh": true
+    },
+    {
+      "code": "RIFLPBCIANM60NM",
+      "name": "60-month new car loan rate",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "ALUR",
+      "name": "Unemployment rate (AL)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "AKUR",
+      "name": "Unemployment rate (AK)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "AZUR",
+      "name": "Unemployment rate (AZ)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "ARUR",
+      "name": "Unemployment rate (AR)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CAUR",
+      "name": "Unemployment rate (CA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "COUR",
+      "name": "Unemployment rate (CO)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "CTUR",
+      "name": "Unemployment rate (CT)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "DEUR",
+      "name": "Unemployment rate (DE)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "DCUR",
+      "name": "Unemployment rate (DC)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "FLUR",
+      "name": "Unemployment rate (FL)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "GAUR",
+      "name": "Unemployment rate (GA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "HIUR",
+      "name": "Unemployment rate (HI)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "IDUR",
+      "name": "Unemployment rate (ID)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "ILUR",
+      "name": "Unemployment rate (IL)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "INUR",
+      "name": "Unemployment rate (IN)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "IAUR",
+      "name": "Unemployment rate (IA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "KSUR",
+      "name": "Unemployment rate (KS)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "KYUR",
+      "name": "Unemployment rate (KY)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "LAUR",
+      "name": "Unemployment rate (LA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "MEUR",
+      "name": "Unemployment rate (ME)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "MDUR",
+      "name": "Unemployment rate (MD)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "MAUR",
+      "name": "Unemployment rate (MA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "MIUR",
+      "name": "Unemployment rate (MI)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "MNUR",
+      "name": "Unemployment rate (MN)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "MSUR",
+      "name": "Unemployment rate (MS)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "MOUR",
+      "name": "Unemployment rate (MO)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "MTUR",
+      "name": "Unemployment rate (MT)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "NEUR",
+      "name": "Unemployment rate (NE)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "NVUR",
+      "name": "Unemployment rate (NV)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "NHUR",
+      "name": "Unemployment rate (NH)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "NJUR",
+      "name": "Unemployment rate (NJ)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "NMUR",
+      "name": "Unemployment rate (NM)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "NYUR",
+      "name": "Unemployment rate (NY)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "NCUR",
+      "name": "Unemployment rate (NC)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "NDUR",
+      "name": "Unemployment rate (ND)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "OHUR",
+      "name": "Unemployment rate (OH)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "OKUR",
+      "name": "Unemployment rate (OK)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "ORUR",
+      "name": "Unemployment rate (OR)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "PAUR",
+      "name": "Unemployment rate (PA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "RIUR",
+      "name": "Unemployment rate (RI)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "SCUR",
+      "name": "Unemployment rate (SC)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "SDUR",
+      "name": "Unemployment rate (SD)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "TNUR",
+      "name": "Unemployment rate (TN)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "TXUR",
+      "name": "Unemployment rate (TX)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "UTUR",
+      "name": "Unemployment rate (UT)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "VTUR",
+      "name": "Unemployment rate (VT)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "VAUR",
+      "name": "Unemployment rate (VA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "WAUR",
+      "name": "Unemployment rate (WA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "WVUR",
+      "name": "Unemployment rate (WV)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "WIUR",
+      "name": "Unemployment rate (WI)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
+      "code": "WYUR",
+      "name": "Unemployment rate (WY)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-05-01",
+      "fresh": true
+    },
+    {
       "code": "ces_constr_ahe",
       "name": "Avg hourly earnings, construction ($/hr)",
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ppi_elec_contr",
@@ -1314,7 +3339,7 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": false
+      "fresh": true
     },
     {
       "code": "ppi_mach_repair",
@@ -2136,6 +4161,465 @@
       "fresh": true
     },
     {
+      "code": "eia_elec_res_al",
+      "name": "Residential electricity \u00a2/kWh (AL)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ak",
+      "name": "Residential electricity \u00a2/kWh (AK)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_az",
+      "name": "Residential electricity \u00a2/kWh (AZ)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ar",
+      "name": "Residential electricity \u00a2/kWh (AR)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ca",
+      "name": "Residential electricity \u00a2/kWh (CA)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_co",
+      "name": "Residential electricity \u00a2/kWh (CO)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ct",
+      "name": "Residential electricity \u00a2/kWh (CT)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_de",
+      "name": "Residential electricity \u00a2/kWh (DE)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_dc",
+      "name": "Residential electricity \u00a2/kWh (DC)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_fl",
+      "name": "Residential electricity \u00a2/kWh (FL)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ga",
+      "name": "Residential electricity \u00a2/kWh (GA)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_hi",
+      "name": "Residential electricity \u00a2/kWh (HI)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_id",
+      "name": "Residential electricity \u00a2/kWh (ID)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_il",
+      "name": "Residential electricity \u00a2/kWh (IL)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_in",
+      "name": "Residential electricity \u00a2/kWh (IN)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ia",
+      "name": "Residential electricity \u00a2/kWh (IA)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ks",
+      "name": "Residential electricity \u00a2/kWh (KS)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ky",
+      "name": "Residential electricity \u00a2/kWh (KY)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_la",
+      "name": "Residential electricity \u00a2/kWh (LA)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_me",
+      "name": "Residential electricity \u00a2/kWh (ME)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_md",
+      "name": "Residential electricity \u00a2/kWh (MD)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ma",
+      "name": "Residential electricity \u00a2/kWh (MA)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_mi",
+      "name": "Residential electricity \u00a2/kWh (MI)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_mn",
+      "name": "Residential electricity \u00a2/kWh (MN)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ms",
+      "name": "Residential electricity \u00a2/kWh (MS)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_mo",
+      "name": "Residential electricity \u00a2/kWh (MO)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_mt",
+      "name": "Residential electricity \u00a2/kWh (MT)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ne",
+      "name": "Residential electricity \u00a2/kWh (NE)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_nv",
+      "name": "Residential electricity \u00a2/kWh (NV)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_nh",
+      "name": "Residential electricity \u00a2/kWh (NH)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_nj",
+      "name": "Residential electricity \u00a2/kWh (NJ)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_nm",
+      "name": "Residential electricity \u00a2/kWh (NM)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ny",
+      "name": "Residential electricity \u00a2/kWh (NY)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_nc",
+      "name": "Residential electricity \u00a2/kWh (NC)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_nd",
+      "name": "Residential electricity \u00a2/kWh (ND)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_oh",
+      "name": "Residential electricity \u00a2/kWh (OH)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ok",
+      "name": "Residential electricity \u00a2/kWh (OK)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_or",
+      "name": "Residential electricity \u00a2/kWh (OR)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_pa",
+      "name": "Residential electricity \u00a2/kWh (PA)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ri",
+      "name": "Residential electricity \u00a2/kWh (RI)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_sc",
+      "name": "Residential electricity \u00a2/kWh (SC)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_sd",
+      "name": "Residential electricity \u00a2/kWh (SD)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_tn",
+      "name": "Residential electricity \u00a2/kWh (TN)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_tx",
+      "name": "Residential electricity \u00a2/kWh (TX)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_ut",
+      "name": "Residential electricity \u00a2/kWh (UT)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_vt",
+      "name": "Residential electricity \u00a2/kWh (VT)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_va",
+      "name": "Residential electricity \u00a2/kWh (VA)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_wa",
+      "name": "Residential electricity \u00a2/kWh (WA)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_wv",
+      "name": "Residential electricity \u00a2/kWh (WV)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_wi",
+      "name": "Residential electricity \u00a2/kWh (WI)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
+      "code": "eia_elec_res_wy",
+      "name": "Residential electricity \u00a2/kWh (WY)",
+      "source": "EIA_STATE_RES",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-04-01",
+      "fresh": true
+    },
+    {
       "code": "qcew_wage23_us",
       "name": "QCEW avg weekly wage, construction (US)",
       "source": "QCEW",
@@ -2152,15 +4636,6 @@
       "cadence": "quarterly",
       "latest_obs": "2025-10-01",
       "fresh": true
-    },
-    {
-      "code": "qcew_wage23_ak",
-      "name": "QCEW avg weekly wage, construction (AK)",
-      "source": "QCEW",
-      "route": "CSV",
-      "cadence": "quarterly",
-      "latest_obs": null,
-      "fresh": false
     },
     {
       "code": "qcew_wage23_az",
@@ -2215,15 +4690,6 @@
       "cadence": "quarterly",
       "latest_obs": "2025-10-01",
       "fresh": true
-    },
-    {
-      "code": "qcew_wage23_dc",
-      "name": "QCEW avg weekly wage, construction (DC)",
-      "source": "QCEW",
-      "route": "CSV",
-      "cadence": "quarterly",
-      "latest_obs": null,
-      "fresh": false
     },
     {
       "code": "qcew_wage23_fl",
@@ -2312,8 +4778,8 @@
       "source": "QCEW",
       "route": "CSV",
       "cadence": "quarterly",
-      "latest_obs": null,
-      "fresh": false
+      "latest_obs": "2025-07-01",
+      "fresh": true
     },
     {
       "code": "qcew_wage23_me",
@@ -2332,15 +4798,6 @@
       "cadence": "quarterly",
       "latest_obs": "2025-10-01",
       "fresh": true
-    },
-    {
-      "code": "qcew_wage23_ma",
-      "name": "QCEW avg weekly wage, construction (MA)",
-      "source": "QCEW",
-      "route": "CSV",
-      "cadence": "quarterly",
-      "latest_obs": null,
-      "fresh": false
     },
     {
       "code": "qcew_wage23_mi",
@@ -2368,15 +4825,6 @@
       "cadence": "quarterly",
       "latest_obs": "2025-10-01",
       "fresh": true
-    },
-    {
-      "code": "qcew_wage23_mo",
-      "name": "QCEW avg weekly wage, construction (MO)",
-      "source": "QCEW",
-      "route": "CSV",
-      "cadence": "quarterly",
-      "latest_obs": null,
-      "fresh": false
     },
     {
       "code": "qcew_wage23_mt",
@@ -2496,15 +4944,6 @@
       "fresh": true
     },
     {
-      "code": "qcew_wage23_ri",
-      "name": "QCEW avg weekly wage, construction (RI)",
-      "source": "QCEW",
-      "route": "CSV",
-      "cadence": "quarterly",
-      "latest_obs": null,
-      "fresh": false
-    },
-    {
       "code": "qcew_wage23_sc",
       "name": "QCEW avg weekly wage, construction (SC)",
       "source": "QCEW",
@@ -2512,15 +4951,6 @@
       "cadence": "quarterly",
       "latest_obs": "2025-10-01",
       "fresh": true
-    },
-    {
-      "code": "qcew_wage23_sd",
-      "name": "QCEW avg weekly wage, construction (SD)",
-      "source": "QCEW",
-      "route": "CSV",
-      "cadence": "quarterly",
-      "latest_obs": null,
-      "fresh": false
     },
     {
       "code": "qcew_wage23_tn",
@@ -2548,15 +4978,6 @@
       "cadence": "quarterly",
       "latest_obs": "2025-10-01",
       "fresh": true
-    },
-    {
-      "code": "qcew_wage23_vt",
-      "name": "QCEW avg weekly wage, construction (VT)",
-      "source": "QCEW",
-      "route": "CSV",
-      "cadence": "quarterly",
-      "latest_obs": null,
-      "fresh": false
     },
     {
       "code": "qcew_wage23_va",

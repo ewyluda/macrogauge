@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-17T14:16:33Z",
+  "published_at": "2026-07-17T19:08:24Z",
   "target": "CPI MoM",
   "release_date": "2026-08-12",
   "reference_month": "2026-07",
@@ -26,7 +26,7 @@
     },
     {
       "name": "Kalshi",
-      "value": 0.049,
+      "value": 0.068,
       "kind": "benchmark",
       "as_of": "2026-07-17"
     }
