@@ -70,11 +70,13 @@ export function renormalize(w: Record<string, number>): Record<string, number> {
 export function weightedYoY(
   components: Comp[],
   weights: Record<string, number>,
-  i: number
+  i: number,
+  overrides?: Record<string, number>
 ): number | null {
   let sum = 0;
   for (const c of components) {
-    const v = c.yoy[i];
+    const o = overrides?.[c.code];
+    const v = o ?? c.yoy[i];
     if (v === null || v === undefined) return null;
     sum += (weights[c.code] ?? 0) * v;
   }
@@ -94,16 +96,20 @@ export type Contribution = {
 export function contributions(
   components: Comp[],
   weights: Record<string, number>,
-  i: number
+  i: number,
+  overrides?: Record<string, number>
 ): Contribution[] {
   return components
-    .map((c) => ({
-      code: c.code,
-      label: c.label,
-      pp: (weights[c.code] ?? 0) * (c.yoy[i] ?? 0),
-      weightPct: (weights[c.code] ?? 0) * 100,
-      yoyPct: c.yoy[i] ?? 0,
-    }))
+    .map((c) => {
+      const y = overrides?.[c.code] ?? c.yoy[i] ?? 0;
+      return {
+        code: c.code,
+        label: c.label,
+        pp: (weights[c.code] ?? 0) * y,
+        weightPct: (weights[c.code] ?? 0) * 100,
+        yoyPct: y,
+      };
+    })
     // biggest drivers by MAGNITUDE — a signed sort buried a large
     // deflating component below +0.03pp noise, so the "biggest drivers"
     // card omitted the single biggest driver of the number
