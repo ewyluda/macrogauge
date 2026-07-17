@@ -16,10 +16,19 @@ from pipeline.engine.outlook import DEFAULT_CONFIG
 from pipeline.store import vintage
 
 
-def _pct_change(values: dict[str, float], end: str, start: str) -> float | None:
-    if end not in values or start not in values or values[start] == 0:
+def _month_avg_change(series: dict[str, float], prior: str, target: str,
+                      end: str) -> float | None:
+    """Partial target-month mean (days through `end`) over the full
+    prior-month mean, in percent — the CPI's own month-average collection
+    convention. None when either month has no days on the grid."""
+    prior_days = [v for d, v in series.items() if prior <= d < target]
+    target_days = [v for d, v in series.items() if target <= d <= end]
+    if not prior_days or not target_days:
         return None
-    return (values[end] / values[start] - 1) * 100
+    base = sum(prior_days) / len(prior_days)
+    if base == 0:
+        return None
+    return (sum(target_days) / len(target_days) / base - 1) * 100
 
 
 def _driver_slice(code: str, conn, config: dict, through_month: str,
@@ -51,7 +60,7 @@ def cpi_nowcast(gauge_result: dict, target_month: str, conn=None,
                 config: dict | None = None,
                 staleness: dict[str, int] | None = None,
                 today: str | None = None) -> dict:
-    """Bottom-up CPI forecast: measured intra-month moves where the target
+    """Bottom-up CPI forecast: measured month-average moves where the target
     month has real data; capped trailing-median trend (+ one-month driver
     slice, Task 3) where it does not. Modeled rows are labeled -- a modeled
     MoM is never presented as an observed one."""
@@ -70,11 +79,14 @@ def cpi_nowcast(gauge_result: dict, target_month: str, conn=None,
         if component["last_obs"] >= target:
             # Measured: never read past the target month -- once it is over,
             # later moves belong to the NEXT print, and this forecast gets
-            # graded against a one-month actual.
+            # graded against a one-month actual. Month-average ratio, not
+            # point-to-point: an endpoint anchored at the first of the prior
+            # month spans up to two months of movement on the dense daily
+            # grid (the 2026-07 gasoline row published -10.17% for what was
+            # a +0.94% June-end-to-date move).
             end = min(variant["as_of"],
                       max((d for d in series if d < after), default=max(series)))
-            start = prior if prior in series else max(d for d in series if d < end)
-            move = _pct_change(series, end, start) or 0.0
+            move = _month_avg_change(series, prior, target, end) or 0.0
             basis = "measured"
         else:
             # Modeled: the component's grid is pure forward-fill inside the

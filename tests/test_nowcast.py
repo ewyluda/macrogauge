@@ -37,6 +37,23 @@ def test_cpi_nowcast_clamps_window_to_target_month():
     assert result["components"][0]["mom_pct"] == 2.0
 
 
+def test_measured_move_is_month_average_not_first_of_prior_month():
+    # Dense daily grid: June days 1-15 at 100, days 16-30 at 110 (mean 105);
+    # July days 1-10 flat at 105. Month-average move is exactly 0.0. The old
+    # point-to-point window anchored at Jun-01 published +5% — a ~6-week
+    # change sold as a monthly move (the 2026-07 gasoline bug).
+    daily = {f"2026-06-{d:02d}": (100.0 if d <= 15 else 110.0) for d in range(1, 31)}
+    daily.update({f"2026-07-{d:02d}": 105.0 for d in range(1, 11)})
+    gauge_result = {"variants": {"gauge": {
+        "as_of": "2026-07-10", "yoy": {"2026-07-10": 3.1},
+        "components": {"fuel": {"weight": 1.0, "last_obs": "2026-07-10",
+                                "daily_index": daily}}}}}
+    result = cpi_nowcast(gauge_result, "2026-07", config=TREND_CONFIG)
+    row = result["components"][0]
+    assert row["basis"] == "measured"
+    assert row["mom_pct"] == 0.0
+
+
 def test_nfp_ols_actually_fits_momentum_coefficient():
     # Payroll changes double each month, so next_change = (24/7) × momentum
     # exactly, with zero intercept — a real fit must recover both.
