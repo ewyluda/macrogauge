@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-07-17T21:19:49Z",
-  "as_of": "2026-07-17",
+  "published_at": "2026-07-20T14:55:55Z",
+  "as_of": "2026-07-20",
   "official_month": "2026-06-01",
   "rows": [
     {
@@ -34,16 +34,6 @@
       "contribution_pp": 0.09
     },
     {
-      "component": "fuel",
-      "label": "Gasoline",
-      "weight": 0.03,
-      "mode": "live",
-      "ours_yoy_pct": 24.38,
-      "bls_yoy_pct": 26.72,
-      "gap_pp": -2.34,
-      "contribution_pp": -0.07
-    },
-    {
       "component": "nat_gas",
       "label": "Piped gas",
       "weight": 0.007,
@@ -52,6 +42,16 @@
       "bls_yoy_pct": 3.03,
       "gap_pp": 9.34,
       "contribution_pp": 0.07
+    },
+    {
+      "component": "fuel",
+      "label": "Gasoline",
+      "weight": 0.03,
+      "mode": "live",
+      "ours_yoy_pct": 24.87,
+      "bls_yoy_pct": 26.72,
+      "gap_pp": -1.86,
+      "contribution_pp": -0.06
     },
     {
       "component": "used_vehicles",
@@ -144,21 +144,21 @@
       "contribution_pp": 0.0
     }
   ],
-  "total_gap_pp": -0.59,
+  "total_gap_pp": -0.58,
   "variants": {
     "gauge": {
-      "yoy_pct": 3.07,
-      "as_of": "2026-07-17",
+      "yoy_pct": 3.09,
+      "as_of": "2026-07-20",
       "coverage_pct": 42.6
     },
     "col": {
-      "yoy_pct": 2.3,
-      "as_of": "2026-07-17",
+      "yoy_pct": 2.31,
+      "as_of": "2026-07-20",
       "coverage_pct": 42.6
     },
     "tracker": {
-      "yoy_pct": 3.75,
-      "as_of": "2026-07-17",
+      "yoy_pct": 3.77,
+      "as_of": "2026-07-20",
       "coverage_pct": 6.5
     },
     "supercore": {
@@ -167,8 +167,8 @@
       "coverage_pct": 0.0
     },
     "pce": {
-      "yoy_pct": 3.38,
-      "as_of": "2026-07-17",
+      "yoy_pct": 3.39,
+      "as_of": "2026-07-20",
       "coverage_pct": 21.7
     }
   }
