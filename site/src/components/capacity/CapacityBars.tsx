@@ -9,7 +9,9 @@ const money = (b: number | null | undefined) =>
 
 function Detail({ c }: { c: CapacityCompany }) {
   const kv: [string, string][] = [
-    ["Market cap", c.private ? `${money(c.valuation_b)} (last round, private)` : money(c.cap)],
+    ["Market cap", c.private ? `${money(c.valuation_b)} (last round, private)`
+      : c.stale && c.cap != null ? `${money(c.cap)} (stale — priced ${c.priced_date})`
+      : money(c.cap)],
     ["EV", money(c.ev)],
     ["EV / weighted MW", c.ev_per_mw != null ? `$${c.ev_per_mw.toFixed(1)}M` :
       c.private ? "— (private)" : c.role === "hyperscaler" ? "— (conglomerate EV; not meaningful per AI MW)" : "—"],
@@ -96,9 +98,15 @@ export function CapacityBars({ rows }: { rows: CapacityCompany[] }) {
                 <div style={{ textAlign: "right" }}>
                   <div style={{ fontSize: 13, fontWeight: 700 }}>{fmtMW(total)}</div>
                   <div style={{ fontSize: 10.5, color: "var(--muted)" }}>
-                    {c.ev_per_mw != null ? `$${c.ev_per_mw.toFixed(0)}M/MW`
-                      : c.stale ? "unpriced"
-                      : <span title={c.private ? "Private — EV/MW not comparable" : "Conglomerate EV — not meaningful per AI MW"}>—</span>}
+                    {c.ev_per_mw != null ? (
+                      c.stale
+                        ? <span title={`Stale quote — last priced ${c.priced_date}`}>${c.ev_per_mw.toFixed(0)}M/MW*</span>
+                        : `$${c.ev_per_mw.toFixed(0)}M/MW`
+                    ) : c.stale ? (
+                      c.cap != null
+                        ? <span title={`Stale quote — last priced ${c.priced_date}`}>stale</span>
+                        : "unpriced"
+                    ) : <span title={c.private ? "Private — EV/MW not comparable" : "Conglomerate EV — not meaningful per AI MW"}>—</span>}
                   </div>
                 </div>
               </div>

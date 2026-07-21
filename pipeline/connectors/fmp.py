@@ -64,8 +64,10 @@ def fetch_equity(source_ids: list[str], api_key: str,
                  vintage_date: str | None = None, http_get=None) -> list[Observation]:
     """Equity price + market cap for /capacity. source_ids are "SYM:px" /
     "SYM:cap" (collect_all remaps to fmp_px_* / fmp_cap_*). Cap lands in $B.
-    Implausible or missing quotes surface via warn_partial — one bad ticker
-    never drops the batch."""
+    Implausible, missing, or malformed quotes surface via warn_partial — one
+    bad ticker never drops the batch — but every quote failing raises (same
+    convention as kalshi/eia: a fully-failed source must read ok=False, not
+    ok=True with zero rows)."""
     http_get = http_get or requests.get
     vintage = vintage_date or today_et()
     wanted = set(source_ids)
@@ -78,27 +80,33 @@ def fetch_equity(source_ids: list[str], api_key: str,
     seen: set[str] = set()
     for row in resp.json():
         sym = row.get("symbol")
-        seen.add(sym)
-        obs_date = datetime.fromtimestamp(
-            row["timestamp"], ZoneInfo("America/New_York")).strftime("%Y-%m-%d")
-        if f"{sym}:px" in wanted:
-            px = row.get("price")
-            if isinstance(px, (int, float)) and 0 < px < PX_MAX:
-                out.append(Observation(series_code=f"{sym}:px", obs_date=obs_date,
-                                       value=float(px), vintage_date=vintage,
-                                       source="FMP_EQ", route="API"))
-            else:
-                errors.append((f"{sym}:px", ValueError(f"implausible price {px!r}")))
-        if f"{sym}:cap" in wanted:
-            cap_b = (row.get("marketCap") or 0) / 1e9
-            if 0 < cap_b < CAP_MAX_B:
-                out.append(Observation(series_code=f"{sym}:cap", obs_date=obs_date,
-                                       value=round(cap_b, 2), vintage_date=vintage,
-                                       source="FMP_EQ", route="API"))
-            else:
-                errors.append((f"{sym}:cap",
-                               ValueError(f"implausible marketCap {row.get('marketCap')!r}")))
+        try:  # per-row: one malformed quote must never drop the batch
+            seen.add(sym)
+            obs_date = datetime.fromtimestamp(
+                row["timestamp"], ZoneInfo("America/New_York")).strftime("%Y-%m-%d")
+            if f"{sym}:px" in wanted:
+                px = row.get("price")
+                if isinstance(px, (int, float)) and 0 < px < PX_MAX:
+                    out.append(Observation(series_code=f"{sym}:px", obs_date=obs_date,
+                                           value=float(px), vintage_date=vintage,
+                                           source="FMP_EQ", route="API"))
+                else:
+                    errors.append((f"{sym}:px", ValueError(f"implausible price {px!r}")))
+            if f"{sym}:cap" in wanted:
+                cap_b = (row.get("marketCap") or 0) / 1e9
+                if 0 < cap_b < CAP_MAX_B:
+                    out.append(Observation(series_code=f"{sym}:cap", obs_date=obs_date,
+                                           value=round(cap_b, 2), vintage_date=vintage,
+                                           source="FMP_EQ", route="API"))
+                else:
+                    errors.append((f"{sym}:cap",
+                                   ValueError(f"implausible marketCap {row.get('marketCap')!r}")))
+        except Exception as e:
+            errors.append((str(sym), e))
     errors.extend((s, ValueError("no quote in batch response"))
                   for s in symbols if s not in seen)
+    if errors and not out:
+        raise RuntimeError("FMP_EQ: every quote failed — " + "; ".join(
+            f"{item}: {type(e).__name__}" for item, e in errors))
     warn_partial("FMP_EQ", errors)
     return out

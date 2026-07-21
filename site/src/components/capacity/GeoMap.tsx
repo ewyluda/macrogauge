@@ -27,12 +27,15 @@ export function GeoMap({ data, visible }: { data: Capacity; visible: Set<string>
             <div key={key} className="dashboard-panel" style={{ flex: "1 1 420px", minWidth: 0 }}>
               <svg viewBox={`0 0 ${p.W} ${p.H}`} role="img" aria-label={`Site map — ${key}`}>
                 <path d={p.d} fill="var(--chip-bg)" stroke="var(--border)" strokeWidth="0.7" />
-                {here.sort((a, b) => b.mw - a.mw).map((s, i) => {
+                {here.sort((a, b) => (b.mw ?? -1) - (a.mw ?? -1)).map((s, i) => {
                   const [cx, cy] = proj(p, s.lng, s.lat);
+                  // Null MW = undisclosed: a fixed hollow marker, never a
+                  // quantitative dot that reads as a tiny disclosed site.
                   return (
-                    <circle key={i} cx={cx} cy={cy} r={R(s.mw)} fill={ST[s.st]} fillOpacity={s.st === "o" ? 0.4 : 0.2}
+                    <circle key={i} cx={cx} cy={cy} r={s.mw == null ? 4 : R(s.mw)}
+                      fill={ST[s.st]} fillOpacity={s.mw == null ? 0 : s.st === "o" ? 0.4 : 0.2}
                       stroke={ST[s.st]} strokeWidth="1.5" strokeDasharray={s.approx ? "5 3" : undefined}>
-                      <title>{`${s.t} — ${s.site}\n${Math.round(s.mw)} MW · ${STLABEL[s.st] ?? s.st}${s.when ? ` · ${s.when}` : ""}${s.approx ? " · approx location" : ""}`}</title>
+                      <title>{`${s.t} — ${s.site}\n${s.mw == null ? "MW undisclosed" : `${Math.round(s.mw)} MW`} · ${STLABEL[s.st] ?? s.st}${s.when ? ` · ${s.when}` : ""}${s.approx ? " · approx location" : ""}`}</title>
                     </circle>
                   );
                 })}
@@ -41,7 +44,7 @@ export function GeoMap({ data, visible }: { data: Capacity; visible: Set<string>
           );
         })}
       </div>
-      <p style={{ fontSize: 11.5, color: "var(--muted)", margin: "8px 2px" }}>{data.geo_note} Dashed = approximate location.</p>
+      <p style={{ fontSize: 11.5, color: "var(--muted)", margin: "8px 2px" }}>{data.geo_note} Dashed = approximate location. Hollow = MW undisclosed.</p>
       {unmapped.length > 0 && (
         <div className="dashboard-panel" style={{ marginTop: 8 }}>
           <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--muted)", marginBottom: 6 }}>
@@ -50,7 +53,7 @@ export function GeoMap({ data, visible }: { data: Capacity; visible: Set<string>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
             {unmapped.map((s, i) => (
               <span key={i} title={s.why} style={{ fontSize: 11, border: "1px solid var(--border)", borderRadius: 6, padding: "2px 8px", color: "var(--muted)" }}>
-                <b style={{ color: "var(--text)" }}>{s.t}</b> {s.site} · {Math.round(s.mw)} MW
+                <b style={{ color: "var(--text)" }}>{s.t}</b> {s.site} · {s.mw == null ? "MW undisclosed" : `${Math.round(s.mw)} MW`}
               </span>
             ))}
           </div>

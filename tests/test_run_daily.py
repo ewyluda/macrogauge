@@ -786,3 +786,17 @@ def test_capacity_failure_does_not_block_publish(tmp_path, monkeypatch):
     assert checks["engine_ok"]["pass"] is True
     assert checks["commodities_ok"]["pass"] is True
     assert not (out / "capacity.json").exists()
+
+
+def test_capacity_schema_violation_fails_run(tmp_path, monkeypatch):
+    # The capacity block's ValidationError re-raise must stay ahead of its
+    # generic except (same contract every other isolated phase pins): a
+    # schema-invalid capacity.json must crash the run, never deploy.
+    set_keys(monkeypatch)
+    monkeypatch.setattr(run_daily.capacity_json, "build",
+                        lambda *a, **k: {"bogus": True})
+    store, out = tmp_path / "store", tmp_path / "out"
+    with pytest.raises(jsonschema.ValidationError):
+        run_daily.main(["--store", str(store), "--out", str(out)],
+                       http_get=fake_get, http_post=fake_post)
+    assert not (out / "qa.json").exists()  # run died before qa

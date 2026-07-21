@@ -6,8 +6,11 @@ net debt; weighted MW = op + 0.5*con + 0.25*plan; EV/MW in $M/MW — published
 null for hyperscaler-role and private rows where a conglomerate EV over an
 AI-DC slice would mislead; %energized; coverage = backlog / EV. The notebook
 tracker's render-time quarter parsing (energization timeline) is ported here.
-A missing quote degrades the row (cap null, stale true) — never drops it."""
+A missing quote degrades the row (cap null, stale true) — never drops it; a
+carried-forward quote older than the registry staleness limit keeps its value
+(and priced_date) but flags stale so the page can label it."""
 import re
+from datetime import date
 from pathlib import Path
 
 from pipeline.capacity import cap_series, px_series
@@ -50,7 +53,8 @@ _PASSTHROUGH = ("t", "n", "role", "dupe", "private", "confidence", "flag",
                 "valuation_b", "econ", "sites", "src")
 
 
-def _company_row(conn, c: dict) -> dict:
+def _company_row(conn, c: dict, today: str | None = None,
+                 staleness: dict[str, int] | None = None) -> dict:
     private = c["private"]
     cap_date = cap = px = None
     if not private:
@@ -60,10 +64,18 @@ def _company_row(conn, c: dict) -> dict:
     wmw = c["op"] + 0.5 * c["con"] + 0.25 * c["plan"]
     ev = round(cap + (c.get("nd") or 0), 2) if cap is not None else None
     suppress = private or c["role"] == "hyperscaler"
+    # Carry-forward semantics make an old quote harmless, but never fresh:
+    # the row keeps its value + priced_date and flags stale once the quote
+    # ages past the registry limit for its fmp_cap_* series.
+    aged = (today is not None and cap_date is not None and
+            (date.fromisoformat(today) - date.fromisoformat(cap_date)).days
+            > (staleness or {}).get(cap_series(c["t"]), 7))
     return {**{k: c.get(k) for k in _PASSTHROUGH},
             "cap": round(cap, 2) if cap is not None else None,
             "px": px, "priced_date": cap_date,
-            "stale": not private and cap is None,
+            "stale": not private and (cap is None or aged),
+            "tl": [[_quarter_label(o), name, mw]
+                   for o, name, mw in _events(c["sites"])],
             "ev": ev, "wmw": round(wmw, 1),
             "ev_per_mw": (round(ev * 1000 / wmw, 1)
                           if ev is not None and wmw > 0 and not suppress else None),
@@ -84,8 +96,24 @@ def _totals(rows: list[dict]) -> dict:
 
 
 # The original tracker's timeline window opens at 2026Q2; earlier or undated
-# construction sites fold into the operational base rather than the curve.
+# construction sites are excluded from the curve entirely (they are NOT folded
+# into base_mw, which is operational MW only — the on-site caption flags the
+# resulting understatement).
 _QMIN = 2026 * 4 + 1
+
+
+def _events(sites: list) -> list[tuple[int, str, float]]:
+    """Dated construction events inside the timeline window: (ordinal, site,
+    mw). Single source of the st/mw/window filter for both the per-company
+    `tl` field (client-side filtered timelines) and the cohort `timeline`."""
+    out = []
+    for name, mw, st, when in sites:
+        if st != "c" or not mw:
+            continue
+        o = parse_quarter(when)
+        if o is not None and o >= _QMIN:
+            out.append((o, name, mw))
+    return out
 
 
 def _timeline(rows: list[dict]) -> dict:
@@ -94,12 +122,7 @@ def _timeline(rows: list[dict]) -> dict:
     adds: dict[int, float] = {}
     miles: dict[int, list] = {}
     for r in live:
-        for name, mw, st, when in r["sites"]:
-            if st != "c" or not mw:
-                continue
-            o = parse_quarter(when)
-            if o is None or o < _QMIN:
-                continue
+        for o, name, mw in _events(r["sites"]):
             adds[o] = adds.get(o, 0) + mw
             miles.setdefault(o, []).append([r["t"], name, mw])
     if not adds:
@@ -113,8 +136,9 @@ def _timeline(rows: list[dict]) -> dict:
             "milestones": {_quarter_label(o): m for o, m in sorted(miles.items())}}
 
 
-def build(conn, cfg: dict) -> dict:
-    rows = [_company_row(conn, c) for c in cfg["companies"]]
+def build(conn, cfg: dict, today: str | None = None,
+          staleness: dict[str, int] | None = None) -> dict:
+    rows = [_company_row(conn, c, today, staleness) for c in cfg["companies"]]
     neo = [r for r in rows if _cohort(r) == "neocloud"]
     hyp = [r for r in rows if _cohort(r) == "hyperscaler"]
     priced = [r["priced_date"] for r in rows if r["priced_date"]]
