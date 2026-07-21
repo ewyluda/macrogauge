@@ -1,8 +1,8 @@
 """QA self-test v0 — results are published, never block publication."""
-import json
 import math
 from datetime import date
 from pathlib import Path
+from pipeline.publish.util import write_json
 
 STALE_DAYS = 80  # ~1 CPI cycle + release slip headroom (final-review calibration)
 FUEL_DIVERGENCE_MAX = 0.075  # AAA (daily pump) vs EIA (weekly survey) — same-day gap
@@ -182,7 +182,4 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
 
 
 def write(result: dict, out_dir: Path) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "qa.json"
-    path.write_text(json.dumps(result, indent=2) + "\n")
-    return path
+    return write_json(result, out_dir, "qa.json")

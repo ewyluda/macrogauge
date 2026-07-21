@@ -1,9 +1,9 @@
 """Writer for datacenter.json — DC Build/Ops/Hardware cost indexes, hedonic-gap panel, state parity."""
-import json
 from pathlib import Path
 
 from pipeline import dc_basket
 from pipeline.engine.dcindex import PUBLISH_START
+from pipeline.publish.util import write_json
 
 
 def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
@@ -76,8 +76,5 @@ def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "datacenter.json"
-    path.write_text(json.dumps({"published_at": published_at, **payload},
-                               indent=2) + "\n")
-    return path
+    return write_json({"published_at": published_at, **payload}, out_dir,
+                      "datacenter.json")

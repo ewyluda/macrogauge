@@ -25,7 +25,11 @@ export default function MyInflation() {
           compareGauge={compare.gauge_yoy_pct}
           gaugeYoy={pulse.gauge.yoy_pct}
           gaugeAsOf={pulse.gauge.as_of}
-          states={(geoJson as Geo).states}
+          states={(geoJson as Geo).states.map((s) => ({
+            state: s.state, name: s.name,
+            gas_regular: { yoy_pct: s.gas_regular.yoy_pct },
+            elec_res_cents: { yoy_pct: s.elec_res_cents.yoy_pct },
+          }))}
         />
       </div>
     </div>

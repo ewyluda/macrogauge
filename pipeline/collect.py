@@ -182,6 +182,9 @@ def collect_all(sources: dict[str, Source], series: list[Series],
                 secrets: dict[str, str], store_dir: Path,
                 http_get=None, http_post=None) -> list[SourceResult]:
     results: list[SourceResult] = []
+    # One latest-values read for the whole run — append() would otherwise
+    # re-read every store partition once per source (~30x).
+    latest_cache = vintage.latest_values(store_dir)
     for name, source in sources.items():
         subset = [s for s in series if s.source == name]
         if not subset:
@@ -199,7 +202,7 @@ def collect_all(sources: dict[str, Source], series: list[Series],
             id_map = {s.source_id: s.code for s in subset}
             obs = [replace(o, series_code=id_map.get(o.series_code, o.series_code))
                    for o in obs]
-            new = vintage.append(obs, store_dir)
+            new = vintage.append(obs, store_dir, latest=latest_cache)
             # Tolerated per-item failures publish alongside ok=True — partial
             # success is not a broken source, but the detail must not vanish.
             partial = "; ".join(str(w.message) for w in caught

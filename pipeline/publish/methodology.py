@@ -4,11 +4,11 @@ Everything derives from config + the store + live validation stats so the
 methodology page cannot drift from code (1c spec §8). STAGES prose and
 LIMITATIONS are the two hand-authored blocks, kept here so review catches
 drift when the engine changes."""
-import json
 from datetime import date
 from pathlib import Path
 
 from pipeline.engine.gauge import ENGINE_VERSION
+from pipeline.publish.util import write_json
 from pipeline.store import vintage
 
 STAGES = [
@@ -123,8 +123,5 @@ def build(gauge_result: dict, conn, sources: dict, series: list, comps,
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "methodology.json"
-    path.write_text(json.dumps({"published_at": published_at, **payload},
-                               indent=2) + "\n")
-    return path
+    return write_json({"published_at": published_at, **payload}, out_dir,
+                      "methodology.json")

@@ -12,11 +12,11 @@ suppresses 7 states (ak/dc/ma/mo/ri/sd/vt) for private NAICS 23, so their wage
 block is null. A series with no store rows publishes a null block: a new writer
 must never be able to take down the publish block.
 """
-import json
 from datetime import date, timedelta
 from pathlib import Path
 
 from pipeline.dates import months_back
+from pipeline.publish.util import write_json, yoy_pct
 from pipeline.store import vintage
 
 # (abbrev, full name) alphabetical by full state name — mirrors
@@ -52,9 +52,8 @@ def _measure(conn, code: str, digits: int) -> dict:
     if not obs:
         return {"value": None, "as_of": None, "yoy_pct": None}
     as_of = max(obs)
-    base = obs.get(months_back(as_of, 12))
-    yoy = None if not base else round((obs[as_of] / base - 1) * 100, 2)
-    return {"value": _round(obs[as_of], digits), "as_of": as_of, "yoy_pct": yoy}
+    return {"value": _round(obs[as_of], digits), "as_of": as_of,
+            "yoy_pct": yoy_pct(obs, as_of)}
 
 
 def _gas_measure(conn, code: str) -> dict:
@@ -109,8 +108,5 @@ def build(conn) -> dict:
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "geo.json"
-    path.write_text(json.dumps({"published_at": published_at, **payload},
-                               indent=2) + "\n")
-    return path
+    return write_json({"published_at": published_at, **payload}, out_dir,
+                      "geo.json")

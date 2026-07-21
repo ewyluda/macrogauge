@@ -5,10 +5,9 @@ computed own-obs like-month YoY off the index level (locked decision 6). Fixed
 shape: groups and rows are always present, values null when the store lacks
 them — a new writer must never take down the publish block.
 """
-import json
 from pathlib import Path
 
-from pipeline.dates import months_back
+from pipeline.publish.util import write_json, yoy_pct
 from pipeline.store import vintage
 
 # (code, label, unit, cadence, computed_yoy). computed_yoy rows publish the
@@ -40,11 +39,7 @@ def _row(conn, code: str, label: str, unit: str, cadence: str,
         return {"code": code, "label": label, "value": None,
                 "unit": unit, "as_of": None, "cadence": cadence}
     as_of = max(obs)
-    if computed_yoy:
-        base = obs.get(months_back(as_of, 12))
-        value = None if not base else round((obs[as_of] / base - 1) * 100, 2)
-    else:
-        value = round(obs[as_of], 2)
+    value = yoy_pct(obs, as_of) if computed_yoy else round(obs[as_of], 2)
     return {"code": code, "label": label, "value": value,
             "unit": unit, "as_of": as_of, "cadence": cadence}
 
@@ -55,8 +50,5 @@ def build(conn) -> dict:
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "matrix.json"
-    path.write_text(json.dumps({"published_at": published_at, **payload},
-                               indent=2) + "\n")
-    return path
+    return write_json({"published_at": published_at, **payload}, out_dir,
+                      "matrix.json")

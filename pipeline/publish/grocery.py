@@ -4,10 +4,10 @@ Price + m/m + y/y per item off the latest computable month, plus each item's ful
 monthly price series since 2018 — the 2b sparkline cards render it directly. Items
 whose YoY base is missing (new series, shutdown holes) are skipped and listed — the
 grocery card never shows a fake change."""
-import json
 from pathlib import Path
 
 from pipeline.engine import official, gauge
+from pipeline.publish.util import write_json
 from pipeline.store import vintage
 
 
@@ -37,8 +37,5 @@ def build(conn, series) -> dict:
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "grocery_basket.json"
-    path.write_text(json.dumps({"published_at": published_at, **payload},
-                               indent=2) + "\n")
-    return path
+    return write_json({"published_at": published_at, **payload}, out_dir,
+                      "grocery_basket.json")

@@ -6,10 +6,10 @@ the page also shows come from pulse.json/compare.json — one published source
 per number, nothing duplicated here. Missing wage data publishes null kpis and
 empty series (a new writer must never be able to take down the publish block).
 """
-import json
 from pathlib import Path
 
 from pipeline.engine.gauge import PUBLISH_START
+from pipeline.publish.util import write_json
 from pipeline.store import vintage
 
 WGT = "FRBATLWGT3MMAUMHWGO"  # already a 12-mo growth rate (%), 3mo MA median
@@ -45,8 +45,5 @@ def build(conn, gauge_result) -> dict:
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "real_wages.json"
-    path.write_text(json.dumps({"published_at": published_at, **payload},
-                               indent=2) + "\n")
-    return path
+    return write_json({"published_at": published_at, **payload}, out_dir,
+                      "real_wages.json")

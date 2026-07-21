@@ -34,7 +34,8 @@ const signedPp1 = (pp: number, suffix = ""): string => {
 };
 
 export default function States() {
-  const rows = [...data.states].sort((a, b) => a.name.localeCompare(b.name));
+  // geo.json states are published alphabetical by full name already
+  const rows = data.states;
   return (
     <div>
       <h1>

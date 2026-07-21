@@ -11,10 +11,10 @@ The component decomposition above stays gauge-only; `variants` (added Task
 all five published cuts — the 2b page chips consume it directly rather than
 re-deriving it from gauge_daily.json.
 """
-import json
 from pathlib import Path
 
 from pipeline.engine import official as official_engine
+from pipeline.publish.util import write_json
 
 
 def _round(x, nd=2):
@@ -48,8 +48,5 @@ def build(gauge_result: dict, conn, comps, official_month: str) -> dict:
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "gaptable.json"
-    path.write_text(json.dumps({"published_at": published_at, **payload},
-                               indent=2) + "\n")
-    return path
+    return write_json({"published_at": published_at, **payload}, out_dir,
+                      "gaptable.json")

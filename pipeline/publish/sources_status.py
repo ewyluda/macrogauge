@@ -1,9 +1,9 @@
 """Writer for sources_status.json — per-connector health, in public."""
-import json
 from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
 
+from pipeline.publish.util import write_json
 from pipeline.store import vintage
 
 
@@ -26,7 +26,4 @@ def build(results, sources, series, conn) -> dict:
 
 
 def write(status: dict, out_dir: Path) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "sources_status.json"
-    path.write_text(json.dumps(status, indent=2) + "\n")
-    return path
+    return write_json(status, out_dir, "sources_status.json")

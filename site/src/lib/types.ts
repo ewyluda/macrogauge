@@ -126,7 +126,6 @@ export type Matrix = {
   groups: { group: string; rows: MatrixRow[] }[];
 };
 
-export type LaborBlock = { as_of: string | null };
 export type Labor = {
   published_at: string;
   payrolls: { level_k: number | null; mom_change_k: number | null; yoy_pct: number | null; as_of: string | null };

@@ -38,9 +38,22 @@ def _latest_values(store_dir: Path) -> dict[tuple[str, str], float]:
     return latest
 
 
-def append(observations: list[Observation], store_dir: Path) -> int:
-    """Append observations whose value differs from the latest stored one."""
-    latest = _latest_values(store_dir)
+def latest_values(store_dir: Path) -> dict[tuple[str, str], float]:
+    """Public seed for append()'s latest cache — build once, share across the
+    per-source append calls in collect_all instead of re-reading every
+    partition for each of the ~30 sources."""
+    return _latest_values(store_dir)
+
+
+def append(observations: list[Observation], store_dir: Path,
+           latest: dict[tuple[str, str], float] | None = None) -> int:
+    """Append observations whose value differs from the latest stored one.
+
+    A caller-provided `latest` cache (from latest_values) is used AND
+    updated in place, so successive appends against one cache stay
+    consistent without re-reading the store each time."""
+    if latest is None:
+        latest = _latest_values(store_dir)
     written = 0
     for o in observations:
         if latest.get((o.series_code, o.obs_date)) == o.value:

@@ -1,11 +1,11 @@
 """Phase-3 receipts writers: forecasts, releases, grades and backtests."""
-import json
 from pathlib import Path
 
 from pipeline.dates import prior_month
 from pipeline.engine import backtest
 from pipeline.models import Observation
 from pipeline.publish import validate
+from pipeline.publish.util import write_json
 from pipeline.store import vintage
 
 SCHEMAS = Path(__file__).parent.parent.parent / "schemas"
@@ -15,9 +15,7 @@ ACCOUNTABILITY_SCHEMA = "accountability.schema.json"
 
 
 def _write(name: str, payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / name
-    path.write_text(json.dumps({"published_at": published_at, **payload}, indent=2) + "\n")
+    path = write_json({"published_at": published_at, **payload}, out_dir, name)
     # Validate immediately, one file at a time — a mid-batch failure must never
     # leave a later file written-but-unvalidated on disk (see
     # docs/plans/2026-07-11-phase-3-4-structural-risks.md, Risk 3).

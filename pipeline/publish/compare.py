@@ -4,11 +4,11 @@ The validation block carries the Phase-1 exit criterion (tracker Pearson corr
 vs official >= 0.95 on the 2018-now backfill); 1c's methodology page reads it
 from here.
 """
-import json
 import statistics
 from pathlib import Path
 
 from pipeline.engine.gauge import PUBLISH_START
+from pipeline.publish.util import write_json
 from pipeline.store import vintage
 
 
@@ -118,8 +118,5 @@ def build(gauge_result: dict, conn) -> dict:
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "compare.json"
-    path.write_text(json.dumps({"published_at": published_at, **payload},
-                               indent=2) + "\n")
-    return path
+    return write_json({"published_at": published_at, **payload}, out_dir,
+                      "compare.json")

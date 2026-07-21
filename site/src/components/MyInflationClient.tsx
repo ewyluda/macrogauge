@@ -5,7 +5,7 @@ import { SegmentedControl } from "./SegmentedControl";
 import { C, baseOption } from "@/lib/chartTheme";
 import { heatColor } from "@/lib/heat";
 import { fmtPct } from "@/lib/format";
-import type { Geo } from "@/lib/types";
+
 import {
   DEFAULT_ANSWERS,
   MULTIPLIER_NOTES,
@@ -55,6 +55,13 @@ const ROWS: {
     ] },
 ];
 
+export type StateOption = {
+  state: string;
+  name: string;
+  gas_regular: { yoy_pct: number | null };
+  elec_res_cents: { yoy_pct: number | null };
+};
+
 export function MyInflationClient({
   compareMonths,
   compareGauge,
@@ -66,7 +73,9 @@ export function MyInflationClient({
   compareGauge: (number | null)[];
   gaugeYoy: number;
   gaugeAsOf: string;
-  states: Geo["states"];
+  // trimmed at the server boundary to what the selector uses — the full geo
+  // panel (5 measure blocks × 51 states) has no business in the RSC payload
+  states: StateOption[];
 }) {
   const [data, setData] = useState<Replay | null>(null);
   const [answers, setAnswers] = useState<Answers>(DEFAULT_ANSWERS);

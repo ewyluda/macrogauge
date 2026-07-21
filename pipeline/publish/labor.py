@@ -7,18 +7,18 @@ graded accountability are already published (nowcast_latest.json / accountabilit
 and are NOT duplicated here — the page imports them directly. Missing data publishes null
 blocks: a new writer must never be able to take down the publish block.
 """
-import json
 from pathlib import Path
 
 from pipeline.dates import months_back, prior_month
+from pipeline.publish.real_wages import AHE, WGT
+from pipeline.publish.util import write_json, yoy_pct
 from pipeline.store import vintage
 
 PAYEMS = "PAYEMS"
 UNRATE = "UNRATE"
 ICSA = "ICSA"
 CCSA = "CCSA"
-AHE = "CES0500000003"       # avg hourly earnings, total private ($/hr) — YoY computed here
-WGT = "FRBATLWGT3MMAUMHWGO"  # Atlanta Fed wage growth — already a 12-mo growth %
+# wage series codes are shared with the real-wages writer — one definition
 MONTHLY_TAIL = 36
 WEEKLY_TAIL = 52
 
@@ -32,10 +32,9 @@ def _payrolls(payems):
         return {"level_k": None, "mom_change_k": None, "yoy_pct": None, "as_of": None}
     as_of = max(payems)
     prior = payems.get(prior_month(as_of))
-    base = payems.get(months_back(as_of, 12))
     return {"level_k": round(payems[as_of]),
             "mom_change_k": None if prior is None else round(payems[as_of] - prior),
-            "yoy_pct": None if not base else round((payems[as_of] / base - 1) * 100, 2),
+            "yoy_pct": yoy_pct(payems, as_of),
             "as_of": as_of}
 
 
@@ -70,8 +69,7 @@ def _wages(ahe, wgt):
     as_ofs = []
     if ahe:
         a = max(ahe)
-        base = ahe.get(months_back(a, 12))
-        ahe_yoy = None if not base else round((ahe[a] / base - 1) * 100, 2)
+        ahe_yoy = yoy_pct(ahe, a)
         as_ofs.append(a)
     if wgt:
         w = max(wgt)
@@ -84,15 +82,9 @@ def _wages(ahe, wgt):
 def _history(payems, unrate, icsa):
     months = sorted(set(payems) | set(unrate))[-MONTHLY_TAIL:]
 
-    def p_yoy(m):
-        base = payems.get(months_back(m, 12))
-        if m not in payems or not base:
-            return None
-        return round((payems[m] / base - 1) * 100, 2)
-
     weeks = sorted(icsa)[-WEEKLY_TAIL:]
     return {"monthly": {"months": months,
-                        "payrolls_yoy_pct": [p_yoy(m) for m in months],
+                        "payrolls_yoy_pct": [yoy_pct(payems, m) for m in months],
                         "unemployment_rate": [None if m not in unrate
                                               else round(unrate[m], 1) for m in months]},
             "weekly": {"dates": weeks,
@@ -111,8 +103,5 @@ def build(conn) -> dict:
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "labor.json"
-    path.write_text(json.dumps({"published_at": published_at, **payload},
-                               indent=2) + "\n")
-    return path
+    return write_json({"published_at": published_at, **payload}, out_dir,
+                      "labor.json")

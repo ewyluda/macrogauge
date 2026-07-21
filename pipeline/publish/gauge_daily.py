@@ -1,8 +1,8 @@
 """Writer for gauge_daily.json — daily index + YoY per variant (1c hero chart)."""
-import json
 from pathlib import Path
 
 from pipeline.engine.gauge import PUBLISH_START
+from pipeline.publish.util import write_json
 
 
 def build(gauge_result: dict) -> dict:
@@ -18,8 +18,5 @@ def build(gauge_result: dict) -> dict:
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "gauge_daily.json"
-    path.write_text(json.dumps({"published_at": published_at, **payload},
-                               indent=2) + "\n")
-    return path
+    return write_json({"published_at": published_at, **payload}, out_dir,
+                      "gauge_daily.json")

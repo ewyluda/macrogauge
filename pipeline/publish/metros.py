@@ -7,10 +7,9 @@ month has no obs) — the same rule the gauge component loop uses. A metro with
 no store rows publishes null value/as_of/yoy and an empty tail: a new writer
 must never be able to take down the publish block.
 """
-import json
 from pathlib import Path
 
-from pipeline.dates import months_back
+from pipeline.publish.util import write_json, yoy_pct
 from pipeline.store import vintage
 
 TAIL_MONTHS = 24
@@ -79,16 +78,12 @@ def _block(conn, code: str, digits: int) -> dict:
     months = sorted(obs)
     as_of = months[-1]
 
-    def yoy(month):
-        base = obs.get(months_back(month, 12))
-        return None if not base else round((obs[month] / base - 1) * 100, 2)
-
     tail = months[-TAIL_MONTHS:]
     return {"value": round(obs[as_of], digits) if digits else round(obs[as_of]),
             "as_of": as_of,
-            "yoy_pct": yoy(as_of),
+            "yoy_pct": yoy_pct(obs, as_of),
             "yoy_tail": {"months": tail,
-                         "yoy_pct": [yoy(m) for m in tail]}}
+                         "yoy_pct": [yoy_pct(obs, m) for m in tail]}}
 
 
 def build(conn) -> dict:
@@ -102,8 +97,5 @@ def build(conn) -> dict:
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "metros.json"
-    path.write_text(json.dumps({"published_at": published_at, **payload},
-                               indent=2) + "\n")
-    return path
+    return write_json({"published_at": published_at, **payload}, out_dir,
+                      "metros.json")

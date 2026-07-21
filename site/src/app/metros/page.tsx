@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import metrosJson from "../../../public/data/metros.json";
 import { KpiCard } from "@/components/KpiCard";
-import { fmtSigned, fmtMonth, yoyColor } from "@/lib/format";
+import { fmtMoney, fmtSigned, fmtMonth, yoyColor } from "@/lib/format";
 import type { Metros, Metro } from "@/lib/types";
 
 const data = metrosJson as Metros;
@@ -12,8 +12,7 @@ export const metadata: Metadata = {
     "Zillow observed rent (ZORI) and home value (ZHVI) for the 50 largest US metros, ranked by rent inflation — the metro rows nowflation keeps national-only.",
 };
 
-const dollars = (v: number | null) =>
-  v == null ? "—" : `$${Math.round(v).toLocaleString("en-US")}`;
+const dollars = (v: number | null) => (v == null ? "—" : fmtMoney(v, "$"));
 
 /** Static SVG sparkline of a 24-month YoY trail (nulls skipped). Server-safe. */
 function TailSpark({ tail }: { tail: (number | null)[] }) {

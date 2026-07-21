@@ -97,3 +97,23 @@ def test_max_obs_date(tmp_path):
     conn = vintage.load(tmp_path)
     assert vintage.max_obs_date(conn, "CPIAUCNS") == "2026-05-01"
     assert vintage.max_obs_date(conn, "NO_SUCH_SERIES") is None
+
+
+def test_append_with_shared_cache_skips_store_reread(tmp_path, monkeypatch):
+    # collect_all appends once per source (~30x/run); a shared latest-values
+    # cache means the store's partitions are read once, not once per source.
+    o1 = obs("cpi", "2026-06-01", 100.0, "2026-07-01")
+    o2 = obs("cpi", "2026-06-01", 100.0, "2026-07-02")  # same value — dedupe
+    o3 = obs("gas", "2026-07-01", 3.5, "2026-07-02")
+    cache = vintage.latest_values(tmp_path)
+
+    def boom(_):
+        raise AssertionError("append must not re-read the store when given a cache")
+
+    monkeypatch.setattr(vintage, "_latest_values", boom)
+    assert vintage.append([o1], tmp_path, latest=cache) == 1
+    assert vintage.append([o2, o3], tmp_path, latest=cache) == 1  # o2 deduped via cache
+    monkeypatch.undo()
+    conn = vintage.load(tmp_path)
+    assert vintage.latest(conn, "cpi") == [("2026-06-01", 100.0)]
+    assert vintage.latest(conn, "gas") == [("2026-07-01", 3.5)]

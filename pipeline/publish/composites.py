@@ -4,6 +4,7 @@ from pathlib import Path
 
 from pipeline.engine import composites
 from pipeline.publish import validate
+from pipeline.publish.util import write_json
 from pipeline.store import vintage
 
 CONFIG = Path(__file__).parent.parent.parent / "config" / "composites.json"
@@ -11,9 +12,7 @@ SCHEMAS = Path(__file__).parent.parent.parent / "schemas"
 
 
 def _write(name: str, payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / name
-    path.write_text(json.dumps({"published_at": published_at, **payload}, indent=2) + "\n")
+    path = write_json({"published_at": published_at, **payload}, out_dir, name)
     # Validate immediately, one file at a time — see phase3._write for why.
     validate.validate_file(path, SCHEMAS / f"{path.stem}.schema.json")
     return path

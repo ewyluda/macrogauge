@@ -1,6 +1,6 @@
 """Writer for pulse.json — the homepage KPI feed (gauge + official headline)."""
-import json
 from pathlib import Path
+from pipeline.publish.util import write_json
 
 
 def build(gauge_result: dict, cpi: dict, next_print: dict | None = None) -> dict:
@@ -21,8 +21,5 @@ def build(gauge_result: dict, cpi: dict, next_print: dict | None = None) -> dict
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "pulse.json"
-    path.write_text(json.dumps({"published_at": published_at, **payload},
-                               indent=2) + "\n")
-    return path
+    return write_json({"published_at": published_at, **payload}, out_dir,
+                      "pulse.json")

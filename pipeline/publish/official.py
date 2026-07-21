@@ -1,8 +1,8 @@
 """Writer for official.json — the interim dashboard's data (no gauge yet)."""
-import json
 from pathlib import Path
 
 from pipeline.engine import official as engine
+from pipeline.publish.util import write_json
 
 HEADLINE = ("CPIAUCNS", "CPILFENS")
 
@@ -73,7 +73,5 @@ def build(conn, series) -> dict:
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "official.json"
-    path.write_text(json.dumps({"published_at": published_at, **payload}, indent=2) + "\n")
-    return path
+    return write_json({"published_at": published_at, **payload}, out_dir,
+                      "official.json")
