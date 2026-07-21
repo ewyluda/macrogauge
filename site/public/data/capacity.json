@@ -83,6 +83,18 @@
       "px": 79.07,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2026Q4",
+          "Helios (Galaxy) \u2014 anchor",
+          800
+        ],
+        [
+          "2026Q4",
+          "Applied Digital \u2014 Ellendale",
+          400
+        ]
+      ],
       "ev": 75.24,
       "wmw": 1800.0,
       "ev_per_mw": 41.8,
@@ -160,6 +172,13 @@
       "px": 126.86,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2026Q4",
+          "Abilene TX (Stargate I)",
+          1200
+        ]
+      ],
       "ev": 463.62,
       "wmw": 2025.0,
       "ev_per_mw": null,
@@ -255,6 +274,18 @@
       "px": 212.52,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2026Q4",
+          "Vineland NJ (Microsoft)",
+          300
+        ],
+        [
+          "2027Q4",
+          "Independence MO (owned)",
+          1200
+        ]
+      ],
       "ev": 55.6,
       "wmw": 1210.0,
       "ev_per_mw": 46.0,
@@ -346,6 +377,28 @@
       "px": 30.3051,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2026Q3",
+          "PF1 \u2014 Bldg 2/3 (ELN-03)",
+          150
+        ],
+        [
+          "2027Q4",
+          "PF1 \u2014 Bldg 4 (ELN-04)",
+          150
+        ],
+        [
+          "2026Q3",
+          "Polaris Forge 2 (Harwood)",
+          200
+        ],
+        [
+          "2027Q2",
+          "Delta Forge 1",
+          300
+        ]
+      ],
       "ev": 11.16,
       "wmw": 677.5,
       "ev_per_mw": 16.5,
@@ -437,6 +490,18 @@
       "px": 24.15,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2026Q2",
+          "Denton, TX",
+          260
+        ],
+        [
+          "2026Q2",
+          "Muskogee, OK",
+          70
+        ]
+      ],
       "ev": 10.68,
       "wmw": 700.2,
       "ev_per_mw": 15.3,
@@ -520,6 +585,7 @@
       "px": 25.57,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [],
       "ev": 12.38,
       "wmw": 537.0,
       "ev_per_mw": 23.1,
@@ -611,6 +677,33 @@
       "px": 19.91,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2026Q2",
+          "Lake Mariner \u2014 CB-3 (Fluidstack)",
+          42
+        ],
+        [
+          "2026Q3",
+          "Lake Mariner \u2014 CB-4",
+          168
+        ],
+        [
+          "2026Q4",
+          "Lake Mariner \u2014 CB-5",
+          168
+        ],
+        [
+          "2027Q2",
+          "Abernathy JV \u2014 sale to Fluidstack agreed 7/06",
+          84
+        ],
+        [
+          "2028Q1",
+          "Justified Data \u2014 Hawesville KY (Anthropic)",
+          401
+        ]
+      ],
       "ev": 12.37,
       "wmw": 786.8,
       "ev_per_mw": 15.7,
@@ -680,6 +773,18 @@
       "px": 109.09,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2027Q2",
+          "River Bend Campus (Fluidstack)",
+          245
+        ],
+        [
+          "2027Q1",
+          "Beacon Point Campus (IG hyperscaler)",
+          352
+        ]
+      ],
       "ev": 12.68,
       "wmw": 298.5,
       "ev_per_mw": 42.5,
@@ -761,6 +866,23 @@
       "px": 23.535,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2026Q3",
+          "Barber Lake (Fluidstack)",
+          207
+        ],
+        [
+          "2026Q3",
+          "Black Pearl (AWS)",
+          216
+        ],
+        [
+          "2026Q4",
+          "Stingray (AWS)",
+          70
+        ]
+      ],
       "ev": 11.77,
       "wmw": 314.0,
       "ev_per_mw": 37.5,
@@ -842,6 +964,18 @@
       "px": 40.945,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2026Q4",
+          "Childress Horizon 1\u20134 (Microsoft)",
+          200
+        ],
+        [
+          "2027Q1",
+          "Childress \u2014 NVIDIA air-cooled",
+          60
+        ]
+      ],
       "ev": 16.36,
       "wmw": 372.5,
       "ev_per_mw": 43.9,
@@ -917,6 +1051,13 @@
       "px": 4.6,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2026Q4",
+          "Panther Creek PA",
+          350
+        ]
+      ],
       "ev": 3.38,
       "wmw": 231.2,
       "ev_per_mw": 14.6,
@@ -980,6 +1121,7 @@
       "px": 21.375,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [],
       "ev": 8.71,
       "wmw": 65.0,
       "ev_per_mw": 134.0,
@@ -1055,6 +1197,18 @@
       "px": 12.695,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2026Q4",
+          "Tydal Norway \u2014 Ph1",
+          50
+        ],
+        [
+          "2026Q4",
+          "Knoxville TN",
+          37
+        ]
+      ],
       "ev": 3.98,
       "wmw": 289.5,
       "ev_per_mw": 13.7,
@@ -1130,6 +1284,13 @@
       "px": 27.65,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2026Q2",
+          "NC-1 (Madison NC, Nscale)",
+          40
+        ]
+      ],
       "ev": 1.22,
       "wmw": 47.0,
       "ev_per_mw": 26.0,
@@ -1181,6 +1342,7 @@
       "px": 1.58,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [],
       "ev": 0.56,
       "wmw": 43.8,
       "ev_per_mw": 12.8,
@@ -1248,6 +1410,7 @@
       "px": 12.3126,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [],
       "ev": 7.79,
       "wmw": 25.0,
       "ev_per_mw": 311.6,
@@ -1321,6 +1484,7 @@
       "px": 134.36,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [],
       "ev": 14.18,
       "wmw": 107.5,
       "ev_per_mw": 131.9,
@@ -1382,6 +1546,7 @@
       "px": 124.99,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [],
       "ev": 23.42,
       "wmw": 47.5,
       "ev_per_mw": 493.1,
@@ -1513,6 +1678,7 @@
       "px": 398.61499,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [],
       "ev": 2923.08,
       "wmw": 6425.0,
       "ev_per_mw": null,
@@ -1658,6 +1824,13 @@
       "px": 248.5,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2027Q4",
+          "Madison County / Canton, MS (Madison Co.)",
+          1034
+        ]
+      ],
       "ev": 2653.14,
       "wmw": 21500.0,
       "ev_per_mw": null,
@@ -1807,6 +1980,18 @@
       "px": 348.76,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2026Q4",
+          "Chesterfield, VA (Bermuda Hundred)",
+          900
+        ],
+        [
+          "2026Q4",
+          "Jackson Co. AL (Widows Creek/Bridgeport)",
+          300
+        ]
+      ],
       "ev": 4168.91,
       "wmw": 10125.0,
       "ev_per_mw": null,
@@ -1952,6 +2137,18 @@
       "px": 647.15,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2028Q4",
+          "Hyperion - Richland Parish, LA",
+          1440
+        ],
+        [
+          "2028Q4",
+          "El Paso, TX",
+          720
+        ]
+      ],
       "ev": 1620.34,
       "wmw": 7875.0,
       "ev_per_mw": null,
@@ -2040,6 +2237,7 @@
       "px": 117.87,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [],
       "ev": 244.52,
       "wmw": 3000.0,
       "ev_per_mw": null,
@@ -2118,6 +2316,7 @@
       "px": 59.12,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [],
       "ev": 512.36,
       "wmw": 1875.0,
       "ev_per_mw": null,
@@ -2190,6 +2389,7 @@
       "px": 108.51,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [],
       "ev": 12.91,
       "wmw": 1000.0,
       "ev_per_mw": null,
@@ -2270,6 +2470,7 @@
       "px": 1025.528,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [],
       "ev": 121.84,
       "wmw": 1000.0,
       "ev_per_mw": 121.8,
@@ -2363,6 +2564,13 @@
       "px": 179.55,
       "priced_date": "2026-07-21",
       "stale": false,
+      "tl": [
+        [
+          "2028Q4",
+          "Charlotte, NC - 200MW AI-inference (AA hyperscaler)",
+          200
+        ]
+      ],
       "ev": 78.82,
       "wmw": 2850.0,
       "ev_per_mw": 27.7,
@@ -2440,6 +2648,13 @@
       "px": null,
       "priced_date": null,
       "stale": false,
+      "tl": [
+        [
+          "2026Q4",
+          "Colossus 2 - Memphis TN (Tulane Rd)",
+          1000
+        ]
+      ],
       "ev": null,
       "wmw": 1050.0,
       "ev_per_mw": null,
@@ -2517,6 +2732,18 @@
       "px": null,
       "priced_date": null,
       "stale": false,
+      "tl": [
+        [
+          "2028Q4",
+          "Milam County TX (SB Energy / SoftBank)",
+          1200
+        ],
+        [
+          "2027Q4",
+          "Lordstown OH (SoftBank/Foxconn, ex-GM/Foxconn plant)",
+          300
+        ]
+      ],
       "ev": null,
       "wmw": 1125.0,
       "ev_per_mw": null,

@@ -1,6 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import type { Capacity, CapacityCompany, CapacityCohortKey } from "@/lib/types";
+import { buildTimeline } from "@/lib/capacityTimeline";
 import { CapacityBars } from "./CapacityBars";
 import { ValuationScatter } from "./ValuationScatter";
 import { DemandMap } from "./DemandMap";
@@ -84,7 +85,7 @@ export function CapacityClient({ data }: { data: Capacity }) {
       {tab === "Capacity" && <CapacityBars rows={rows} />}
       {tab === "Valuation × Execution" && <ValuationScatter rows={rows} />}
       {tab === "Demand map" && <DemandMap data={data} visible={new Set(rows.map((r) => r.t))} />}
-      {tab === "Timeline" && <TimelineChart timeline={data.timeline[cohort]} />}
+      {tab === "Timeline" && <TimelineChart timeline={buildTimeline(rows)} />}
       {tab === "Geo map" && <GeoMap data={data} visible={new Set(rows.map((r) => r.t))} />}
     </div>
   );

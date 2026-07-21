@@ -200,6 +200,7 @@ export type CapacityCompany = {
   econ: Record<string, string> | null;
   sites: [string, number | null, string, string][];
   src: [string, string][];
+  tl: [string, string, number][];
 };
 
 export type CapacityTimeline = {
@@ -216,9 +217,9 @@ export type Capacity = {
   companies: CapacityCompany[];
   cohorts: Record<CapacityCohortKey, { companies: number; op: number; con: number; plan: number }>;
   timeline: Record<CapacityCohortKey, CapacityTimeline>;
-  tenants: [string, string, number, string][];
-  geo: { t: string; site: string; mw: number; st: string; lat: number; lng: number; when?: string; approx: boolean }[];
-  geo_unmapped: { t: string; site: string; mw: number; st: string; why: string }[];
+  tenants: [string, string, number | null, string][];
+  geo: { t: string; site: string; mw: number | null; st: string; lat: number; lng: number; when?: string; approx: boolean }[];
+  geo_unmapped: { t: string; site: string; mw: number | null; st: string; why: string }[];
   geo_note: string;
   reference: { nvda_cap_b: number | null; cohort_ev_b: number | null };
 };

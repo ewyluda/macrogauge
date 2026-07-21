@@ -72,6 +72,34 @@ def test_missing_cap_degrades_not_drops(tmp_path):
     assert row["pct_energized"] is not None        # MW math never needs a quote
 
 
+def test_carried_forward_cap_flags_stale(tmp_path):
+    # An old quote keeps its value + priced_date (carry-forward is harmless)
+    # but must flag stale once it ages past the registry limit — never
+    # publish a weeks-old cap as fresh.
+    conn = _conn(tmp_path, [("fmp_cap_aaa", "2026-06-01", 90.0)])
+    row = writer.build(conn, _cfg([_co()]), today="2026-07-21",
+                       staleness={"fmp_cap_aaa": 7})["companies"][0]
+    assert row["stale"] is True
+    assert row["cap"] == 90.0 and row["priced_date"] == "2026-06-01"
+    assert row["ev"] == 100.0
+    conn2 = _conn(tmp_path / "fresh", [("fmp_cap_aaa", "2026-07-20", 90.0)])
+    row2 = writer.build(conn2, _cfg([_co()]), today="2026-07-21",
+                        staleness={"fmp_cap_aaa": 7})["companies"][0]
+    assert row2["stale"] is False
+
+
+def test_company_tl_lists_dated_construction_events(tmp_path):
+    # Per-company parsed events power client-side filtered timelines; same
+    # st/mw/window filter as the cohort timeline (shared _events helper).
+    conn = _conn(tmp_path, [])
+    cfg = _cfg([_co(sites=[["S1", 50, "c", "Q3 2026"],
+                           ["S2", 20, "c", "2027 Q1"],
+                           ["S3", 99, "p", "Q3 2026"],
+                           ["S4", 99, "c", "undated"]])])
+    row = writer.build(conn, cfg)["companies"][0]
+    assert row["tl"] == [["2026Q3", "S1", 50], ["2027Q1", "S2", 20]]
+
+
 def test_cohort_totals_dedupe_and_split(tmp_path):
     conn = _conn(tmp_path, [])
     cfg = _cfg([_co(t="AAA", op=100, con=0, plan=0),

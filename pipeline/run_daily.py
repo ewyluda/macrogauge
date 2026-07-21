@@ -345,8 +345,9 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     def _capacity_phase():
         cap_cfg = capacity_cfg.load_capacity(
             registry_codes={s.code for s in series})
-        cap_path = capacity_json.write(capacity_json.build(conn, cap_cfg),
-                                       args.out, published_at=published_at)
+        cap_path = capacity_json.write(
+            capacity_json.build(conn, cap_cfg, today=today, staleness=staleness),
+            args.out, published_at=published_at)
         validate.validate_file(cap_path, SCHEMAS / "capacity.schema.json")
         print(f"published: {cap_path}")
 

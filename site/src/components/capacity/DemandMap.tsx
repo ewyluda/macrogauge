@@ -2,7 +2,8 @@
 import type { Capacity } from "@/lib/types";
 
 const W = 1000, ROW = 46, PAD = 30;
-const fmtMW = (mw: number) => `${Math.round(mw).toLocaleString("en-US")} MW`;
+const fmtMW = (mw: number | null) =>
+  mw == null ? "MW undisclosed" : `${Math.round(mw).toLocaleString("en-US")} MW`;
 
 export function DemandMap({ data, visible }: { data: Capacity; visible: Set<string> }) {
   const edges = data.tenants.filter(([, landlord]) => visible.has(landlord));
@@ -12,7 +13,7 @@ export function DemandMap({ data, visible }: { data: Capacity; visible: Set<stri
   const H = PAD * 2 + Math.max(tenants.length, landlords.length) * ROW;
   const ty = (t: string) => PAD + tenants.indexOf(t) * ROW + ROW / 2;
   const ly = (l: string) => PAD + landlords.indexOf(l) * ROW + ROW / 2;
-  const maxMW = Math.max(...edges.map((e) => e[2]), 1);
+  const maxMW = Math.max(...edges.map((e) => e[2] ?? 0), 1);
   const xL = 250, xR = W - 190;
   return (
     <div className="dashboard-panel" style={{ overflowX: "auto" }}>
@@ -23,7 +24,8 @@ export function DemandMap({ data, visible }: { data: Capacity; visible: Set<stri
           <path key={i}
             d={`M ${xL} ${ty(tenant)} C ${xL + 180} ${ty(tenant)}, ${xR - 180} ${ly(landlord)}, ${xR} ${ly(landlord)}`}
             fill="none" stroke="var(--accent-sky, #5eb0ef)" strokeOpacity="0.45"
-            strokeWidth={Math.max(1.5, (mw / maxMW) * 14)}>
+            strokeWidth={mw == null ? 1.5 : Math.max(1.5, (mw / maxMW) * 14)}
+            strokeDasharray={mw == null ? "6 5" : undefined}>
             <title>{`${tenant} → ${landlord}: ${fmtMW(mw)}${terms ? ` · ${terms}` : ""}`}</title>
           </path>
         ))}
@@ -35,7 +37,8 @@ export function DemandMap({ data, visible }: { data: Capacity; visible: Set<stri
         ))}
       </svg>
       <p style={{ fontSize: 11.5, color: "var(--muted)", margin: "6px 8px" }}>
-        Edge width = committed critical-IT MW. Hover an edge for lease terms. Disclosed deals only.
+        Edge width = committed critical-IT MW; dashed = deal disclosed, MW undisclosed.
+        Hover an edge for lease terms. Disclosed deals only.
       </p>
     </div>
   );
