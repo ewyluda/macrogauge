@@ -348,7 +348,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert all("stale" in c for c in dc["indexes"]["build"]["components"])
     assert dc["indexes"]["build"]["groups"]
     capacity = json.loads((out / "capacity.json").read_text())
-    assert len(capacity["companies"]) == 18
+    assert len(capacity["companies"]) == 29
     crwv = next(c for c in capacity["companies"] if c["t"] == "CRWV")
     # fake FMP_EQ cap (39.78) + config nd flows through to EV
     assert crwv["cap"] == pytest.approx(39.78)
