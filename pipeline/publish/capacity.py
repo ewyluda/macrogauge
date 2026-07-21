@@ -68,7 +68,7 @@ def _company_row(conn, c: dict) -> dict:
             "ev_per_mw": (round(ev * 1000 / wmw, 1)
                           if ev is not None and wmw > 0 and not suppress else None),
             "pct_energized": round(100 * c["op"] / total, 1) if total > 0 else None,
-            "coverage": round(c["bk"] / ev, 2) if c.get("bk") and ev else None}
+            "coverage": (round(c["bk"] / ev, 2) if c.get("bk") is not None and ev else None)}
 
 
 def _cohort(row: dict) -> str:

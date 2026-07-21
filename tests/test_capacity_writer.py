@@ -128,3 +128,9 @@ def test_write_validates_against_schema(tmp_path):
     conn2 = _conn(tmp_path / "empty", [])
     p2 = writer.write(writer.build(conn2, _cfg([_co()])), tmp_path, "2026-07-21T12:00:00Z")
     jsonschema.validate(json.loads(p2.read_text()), SCHEMA)
+
+
+def test_zero_backlog_publishes_zero_coverage(tmp_path):
+    conn = _conn(tmp_path, [("fmp_cap_aaa", "2026-07-20", 90.0)])
+    row = writer.build(conn, _cfg([_co(bk=0.0)]))["companies"][0]
+    assert row["coverage"] == 0.0
