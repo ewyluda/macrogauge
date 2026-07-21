@@ -45,6 +45,9 @@ export default function Page() {
       <p style={{ fontSize: 12, color: "var(--muted)", margin: "4px 0 0" }}>
         MW data as of <b>{data.as_of_curated}</b>
         {data.priced_date ? <> · priced <b>{data.priced_date}</b></> : <> · awaiting first repricing run</>}
+        {" "}Hyperscaler net debt is funded-debt basis (most run net cash; finance leases and
+        off-balance-sheet SPV debt excluded — see each row&apos;s note); neocloud net debt
+        includes finance leases where disclosed.
       </p>
       <CapacityClient data={data} />
     </div>
