@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install -e ".[dev]"                      # setuptools; installs pytest
-pytest -q                                     # full suite (598 tests)
+pytest -q                                     # full suite (630 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -28,7 +28,7 @@ cd site && npm ci
 npm run dev        # local dev server
 npm run build      # static export (must pass in CI)
 npm test           # vitest — client math (since/reweight/realwage/quiltRows)
-npm run e2e        # Playwright smoke — 25 pages render, zero console errors
+npm run e2e        # Playwright smoke — 29 pages render, zero console errors
 ```
 
 CI (`.github/workflows/ci.yml`) runs two independent jobs on every push/PR: `pipeline` (`pytest -q`)
@@ -94,13 +94,14 @@ weights that **must sum to 1.0** (validated on load). Grid start is 2017-01 inte
 YoY bases); writers publish from 2018-01.
 
 ### 4. Publish (`pipeline/publish/`) + orchestration (`pipeline/run_daily.py`)
-31 published files, each with a JSON Schema in `schemas/` validated inline as it lands:
+32 published files, each with a JSON Schema in `schemas/` validated inline as it lands:
 `sources_status`, `pulse`, `gauge_daily`, `replay`, `quilt_months_24`, `quilt_months_48`,
 `quilt_months_all`, `grocery_basket`, `compare`, `gaptable`, `methodology`, `official`,
 `real_wages`, `qa`, plus phase 3 (`nowcast_latest`, `nextprint`, `releases`, `backtest`,
 `fuel`, `accountability_{cpi,pce,nfp}`) and phase 4 composites (`heatcheck`, `stress`,
 `recession`), plus the DC cost index (`datacenter`), the geography panel (`metros`, `geo`,
-`matrix`), the labor dashboard (`labor`), and the commodities grid (`commodities`).
+`matrix`), the labor dashboard (`labor`), the commodities grid (`commodities`), and the
+AI capacity tracker (`capacity` — hand-curated MW × daily FMP_EQ market caps).
 The three `quilt_months_*` files share one schema (a window-months slice of the same
 month × component YoY grid), as do the three `accountability_*` files; `grocery_basket`
 is BLS average-price staples.
@@ -109,9 +110,9 @@ is BLS average-price staples.
 - **`sources_status` publishes FIRST**, right after collect — a broken engine must never hide a
   broken source.
 - The gauge engine, nowcast, outlook, composites, DC cost index, geography panel, labor
-  dashboard, and commodities grid run in eight ISOLATED `try/except` blocks — a failure in any one still publishes
+  dashboard, commodities grid, and AI capacity tracker run in nine ISOLATED `try/except` blocks — a failure in any one still publishes
   status + qa (exit 0, visible on-site via `engine_ok` / `nowcast_ok` / `outlook_ok` /
-  `composites_ok` / `datacenter_ok` / `geography_ok` / `labor_ok` / `commodities_ok`) instead of a hard crash or
+  `composites_ok` / `datacenter_ok` / `geography_ok` / `labor_ok` / `commodities_ok` / `capacity_ok`) instead of a hard crash or
   suppressing the other phases.
 - **`jsonschema.ValidationError` re-raises and fails the run** (caught *before* the generic
   `Exception`) — a schema-invalid artifact must never deploy. This ordering is pinned by tests.
