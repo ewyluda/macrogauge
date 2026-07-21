@@ -1,0 +1,5 @@
+[
+  {"symbol": "MSFT", "price": 512.3, "marketCap": 3807000000000, "timestamp": 1783440000},
+  {"symbol": "CRWV", "price": 72.91, "marketCap": 39780000000, "timestamp": 1783440000},
+  {"symbol": "JUNK", "price": -3.0, "marketCap": 0, "timestamp": 1783440000}
+]
