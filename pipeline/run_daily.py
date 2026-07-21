@@ -4,7 +4,7 @@ Connector failures never block publication — they surface in
 sources_status.json and qa.json, and stale series carry forward.
 
 sources_status publishes FIRST (right after collect): a broken engine must
-never hide a broken source. Eight independently isolated phases follow, all
+never hide a broken source. Nine independently isolated phases follow, all
 running under the same _run_phase isolation contract: (1) the core gauge
 engine + writers (cpi -> gauge -> pulse/gauge_daily/compare/gaptable/official,
 surfaces via engine_ok), (2) the phase-3 nowcast (surfaces via nowcast_ok —
@@ -13,12 +13,12 @@ release calendar is exhausted), (3) the 12-month component outlook
 (outlook_ok), (4) phase-4 composites (surfaces via composites_ok, which
 don't depend on the CPI calendar or gauge engine at all), (5) the DC cost
 index (surfaces via datacenter_ok), (6) the geography panel — states/metros
-pages + the every-measure matrix (surfaces via geography_ok), and (7) the
-labor jobs dashboard (surfaces via labor_ok), and (8) the commodities grid
-(commodities_ok). A failure in any one phase
-still publishes status+qa (rc 0) without blocking the others — but a
-jsonschema.ValidationError re-raises and fails the run in every phase:
-a schema-invalid artifact must never deploy.
+pages + the every-measure matrix (surfaces via geography_ok), (7) the
+labor jobs dashboard (surfaces via labor_ok), (8) the commodities grid
+(commodities_ok), and (9) the AI capacity tracker (capacity_ok). A failure
+in any one phase still publishes status+qa (rc 0) without blocking the
+others — but a jsonschema.ValidationError re-raises and fails the run in
+every phase: a schema-invalid artifact must never deploy.
 """
 import argparse
 import json
@@ -31,6 +31,7 @@ from pathlib import Path
 import jsonschema
 
 from pipeline import basket as basket_mod
+from pipeline import capacity as capacity_cfg
 from pipeline import collect, dc_context, dc_power, registry, release_calendar
 from pipeline.connectors import fred
 from pipeline.engine import dcindex
@@ -39,7 +40,8 @@ from pipeline.engine import official
 from pipeline.engine import outlook as outlook_engine
 from pipeline.engine.nowcast import build_latest as build_nowcast
 from pipeline.publish import official as official_json
-from pipeline.publish import (commodities as commodities_json, compare, composites as composite_json,
+from pipeline.publish import (capacity as capacity_json, commodities as commodities_json, compare,
+                              composites as composite_json,
                               datacenter as datacenter_json, gaptable,
                               gauge_daily, geo as geo_json, grocery, labor as labor_json, matrix as matrix_json,
                               methodology, metros as metros_json, outlook as outlook_json, phase3, pulse, qa,
@@ -336,6 +338,19 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         print(f"published: {c_path}")
 
     _run_phase("COMMODITIES", _commodities_phase, phase_errors, "commodities")
+
+    # AI capacity tracker (/capacity page): isolated like the phases above —
+    # hand-curated MW config x daily FMP_EQ market caps; a bad config edit or
+    # a missing quote must never touch the core gauge.
+    def _capacity_phase():
+        cap_cfg = capacity_cfg.load_capacity(
+            registry_codes={s.code for s in series})
+        cap_path = capacity_json.write(capacity_json.build(conn, cap_cfg),
+                                       args.out, published_at=published_at)
+        validate.validate_file(cap_path, SCHEMAS / "capacity.schema.json")
+        print(f"published: {cap_path}")
+
+    _run_phase("CAPACITY", _capacity_phase, phase_errors, "capacity")
 
     if nowcast_payload is not None:
         artifacts = {**(artifacts or {}), "nowcast": nowcast_payload}

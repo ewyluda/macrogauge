@@ -20,14 +20,15 @@ GAUGE_COVERAGE_FLOOR = 40.0
 # phase that is wired but never reported — or reported but never pinned
 # here — fails its check instead of silently reading "completed".
 PHASES = ("nowcast", "outlook", "composites", "datacenter", "geography",
-          "labor", "commodities")
+          "labor", "commodities", "capacity")
 _PHASE_DONE = {"nowcast": "nowcast completed",
                "outlook": "12-month outlook completed",
                "composites": "composites completed",
                "datacenter": "datacenter completed",
                "geography": "geography panel completed",
                "labor": "labor panel completed",
-               "commodities": "commodities grid completed"}
+               "commodities": "commodities grid completed",
+               "capacity": "capacity tracker completed"}
 
 
 def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
