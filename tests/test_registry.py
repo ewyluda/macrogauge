@@ -18,13 +18,13 @@ STATE_ABBREVS = (
 
 def test_load_real_registry():
     sources, series = registry.load_registry()
-    assert set(sources) == {"FRED", "BLS", "EIA", "FMP", "TREASURY", "ZILLOW", "PMMS",
+    assert set(sources) == {"FRED", "BLS", "EIA", "FMP", "FMP_EQ", "TREASURY", "ZILLOW", "PMMS",
                             "APTLIST", "USDA", "AAA", "AAA_STATE", "MND", "MANHEIM",
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC",
                             "EIA_STATE_RES"}
-    assert len(series) == 542
+    assert len(series) == 598
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]

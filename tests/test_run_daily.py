@@ -26,6 +26,20 @@ FMP_QUOTES = {
     "KCUSX": 334.25, "SBUSD": 223.43, "CCUSD": 8200.0, "LEUSX": 230.55,
 }
 
+# Equity quotes for the FMP_EQ /capacity batch: (price $, market cap $B).
+FMP_EQUITY = {
+    "CRWV": (72.91, 39.78), "ORCL": (192.64, 554.0), "NBIS": (170.0, 41.2),
+    "APLD": (30.0, 8.1), "CORZ": (18.0, 6.7), "GLXY": (20.0, 7.4),
+    "WULF": (22.0, 8.9), "HUT": (60.0, 11.1), "CIFR": (10.0, 7.3),
+    "IREN": (55.0, 12.4), "KEEL": (4.0, 2.4), "RIOT": (23.0, 7.6),
+    "BTDR": (14.0, 2.9), "WYFI": (25.0, 1.0), "BTBT": (3.0, 0.6),
+    "MARA": (14.0, 4.6), "DOCN": (130.0, 12.2), "AKAM": (115.0, 17.3),
+    "MSFT": (505.0, 3750.0), "AMZN": (230.0, 2400.0), "GOOGL": (185.0, 2250.0),
+    "META": (720.0, 1820.0), "BABA": (110.0, 262.0), "TCEHY": (62.0, 570.0),
+    "BIDU": (90.0, 31.0), "EQIX": (780.0, 76.0), "DLR": (160.0, 54.0),
+    "NVDA": (170.0, 4150.0),
+}
+
 
 def _census_wb(sheet, rows):
     import openpyxl
@@ -128,10 +142,16 @@ def fake_get(url, params=None, timeout=None, **kw):
         return FakeResponse(json.loads((FIXTURES / name).read_text()))
     if "financialmodelingprep.com" in url:
         requested = (params or {}).get("symbols", "").split(",")
-        return FakeResponse([
-            {"symbol": s, "price": FMP_QUOTES[s], "timestamp": 1783440000}
-            for s in requested if s in FMP_QUOTES
-        ])
+        rows = []
+        for s in requested:
+            if s in FMP_QUOTES:
+                rows.append({"symbol": s, "price": FMP_QUOTES[s],
+                             "timestamp": 1783440000})
+            elif s in FMP_EQUITY:
+                px, cap_b = FMP_EQUITY[s]
+                rows.append({"symbol": s, "price": px, "marketCap": cap_b * 1e9,
+                             "timestamp": 1783440000})
+        return FakeResponse(rows)
     if "clevelandfed.org" in url:
         return _TextResponse(
             "<h2>Inflation, month-over-month percent change</h2>"
@@ -261,7 +281,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "commodities.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 29
+    assert len(status["sources"]) == 30
     assert all(s["ok"] for s in status["sources"])
     kalshi_dc_row = [s for s in status["sources"] if s["name"] == "KALSHI_DC"][0]
     assert kalshi_dc_row["ok"] is True
@@ -283,6 +303,10 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "fmp_wheat", "fmp_soybeans", "fmp_soybean_oil", "fmp_coffee",
                  "fmp_sugar", "fmp_cocoa", "fmp_live_cattle"):
         assert vintage.latest(conn, code), f"no store rows for {code}"
+    # FMP_EQ equity batch: cap lands in $B under the remapped internal codes.
+    assert vintage.latest(conn, "fmp_cap_msft")[-1][1] == pytest.approx(3750.0)
+    assert vintage.latest(conn, "fmp_px_crwv")[-1][1] == pytest.approx(72.91)
+    assert vintage.latest(conn, "fmp_cap_nvda")[-1][1] == pytest.approx(4150.0)
     # P2 T3: the zillow fixtures carry one registered metro (New York,
     # 394913) — its rows landing under the internal codes pins the whole
     # subset-aware path (collect passes source_ids through, id_map remaps
