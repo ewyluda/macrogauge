@@ -20,6 +20,7 @@ from datetime import date
 import requests
 
 from pipeline.connectors.fred import today_et
+from pipeline.connectors.util import warn_partial
 from pipeline.models import Observation
 
 QCEW_URL = "https://data.bls.gov/cew/data/api/{year}/{qtr}/industry/{naics}.csv"
@@ -81,10 +82,12 @@ def fetch(area_fips: list[str], vintage_date: str | None = None,
             resp.raise_for_status()
             rows = _parse_quarter(resp.text, wanted, vintage)
         except Exception as e:  # per-quarter: never discard the other quarters
-            errors.append(f"{year}q{q}: {type(e).__name__}")
+            errors.append((f"{year}q{q}", e))
             continue
         loaded += 1
         out.extend(rows)
     if not loaded:
-        raise RuntimeError(f"QCEW: no quarter loaded — {'; '.join(errors)}")
+        raise RuntimeError("QCEW: no quarter loaded — " + "; ".join(
+            f"{q}: {type(e).__name__}" for q, e in errors))
+    warn_partial("QCEW", errors)
     return out

@@ -85,3 +85,22 @@ def test_error_messages_redact_secret_values(tmp_path, monkeypatch):
                                   {"A_KEY": "VALSECRET99"}, tmp_path)
     assert "VALSECRET99" not in results[0].error
     assert "REDACTED" in results[0].error
+
+
+def test_partial_connector_warning_surfaces_in_result(tmp_path, monkeypatch):
+    # A connector that tolerated per-item failures warns; the source stays ok
+    # but the sanitized detail is published instead of silently discarded.
+    import warnings as _warnings
+
+    def partial_fetcher(subset, key, http):
+        _warnings.warn("2 series failed — X: HTTPError url apikey=SECRETX; Y: ValueError",
+                       collect.PartialFetchWarning)
+        return ok_fetcher(subset, key, http)
+
+    monkeypatch.setattr(collect, "FETCHERS", {"A": partial_fetcher})
+    results = collect.collect_all({"A": src("A")}, [ser("a1", "A")], {}, tmp_path)
+    r = results[0]
+    assert r.ok and r.new_rows == 1
+    assert r.error is not None and r.error.startswith("partial: ")
+    assert "X: HTTPError" in r.error
+    assert "SECRETX" not in r.error and "apikey=REDACTED" in r.error

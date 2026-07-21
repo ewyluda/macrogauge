@@ -5,6 +5,7 @@ sources_status.json and QA) and lowers freshness — it never blocks the run.
 The store's carry-forward semantics make a missed day harmless.
 """
 import re
+import warnings
 from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
@@ -12,6 +13,7 @@ from pathlib import Path
 from pipeline.connectors import (aaa, aptlist, bls, caiso, census, cleveland, dramex, eia, fmp,
                                  fred, ice, kalshi, manheim, miso, mnd, openrouter, pmms, qcew,
                                  sfcompute, treasury, usda, vastai, zillow)
+from pipeline.connectors.util import PartialFetchWarning
 from pipeline.registry import Series, Source
 from pipeline.store import vintage
 
@@ -191,12 +193,20 @@ def collect_all(sources: dict[str, Source], series: list[Series],
             continue
         http = http_post if name in POST_SOURCES else http_get
         try:
-            obs = FETCHERS[name](subset, key, http)
+            with warnings.catch_warnings(record=True) as caught:
+                warnings.simplefilter("always", PartialFetchWarning)
+                obs = FETCHERS[name](subset, key, http)
             id_map = {s.source_id: s.code for s in subset}
             obs = [replace(o, series_code=id_map.get(o.series_code, o.series_code))
                    for o in obs]
             new = vintage.append(obs, store_dir)
-            results.append(SourceResult(name, True, len(obs), new, None, _now()))
+            # Tolerated per-item failures publish alongside ok=True — partial
+            # success is not a broken source, but the detail must not vanish.
+            partial = "; ".join(str(w.message) for w in caught
+                                if issubclass(w.category, PartialFetchWarning))
+            error = (f"partial: {_sanitize(partial, secrets.values())}"
+                     if partial else None)
+            results.append(SourceResult(name, True, len(obs), new, error, _now()))
         except Exception as e:  # isolation boundary: any connector error is contained
             results.append(SourceResult(name, False, 0, 0,
                                         f"{type(e).__name__}: {_sanitize(str(e), secrets.values())}",

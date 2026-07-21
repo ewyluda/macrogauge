@@ -17,3 +17,8 @@ include = ["pipeline*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+filterwarnings = [
+    # partial-tolerance tests intentionally trigger these; pytest.warns
+    # assertions still see them (filters don't affect warns() capture)
+    "ignore::pipeline.connectors.util.PartialFetchWarning",
+]

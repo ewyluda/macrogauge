@@ -23,7 +23,7 @@ import io
 import requests
 
 from pipeline.connectors.fred import today_et
-from pipeline.connectors.util import get_text, month_first
+from pipeline.connectors.util import get_text, month_first, warn_partial
 from pipeline.models import Observation
 
 ZORI_URL = ("https://files.zillowstatic.com/research/public_csvs/zori/"
@@ -57,8 +57,12 @@ def _file_series(csv_text: str, prefix: str, wanted: list[str],
             if want_us:
                 out.extend(_row_obs(row, prefix, vintage))
         elif row["RegionType"] == "msa" and row["RegionID"] in metro_ids:
+            try:  # per-row: a garbage metro cell must not discard the US row
+                rows = _row_obs(row, f"{prefix}:{row['RegionID']}", vintage)
+            except (TypeError, ValueError):
+                continue
             metros_found += 1
-            out.extend(_row_obs(row, f"{prefix}:{row['RegionID']}", vintage))
+            out.extend(rows)
     if want_us and not us_found:
         # The US row is the anchor: its absence is a real shape drift. Metros
         # are the speculative tier — every requested metro vanishing at once
@@ -97,4 +101,5 @@ def fetch(source_ids: list[str], vintage_date: str | None = None,
             raise errors[0][1]
         raise RuntimeError("ZILLOW: no file loaded — " + "; ".join(
             f"{p}: {type(e).__name__}" for p, e in errors))
+    warn_partial("ZILLOW", errors)
     return out

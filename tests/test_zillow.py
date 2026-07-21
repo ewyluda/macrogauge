@@ -114,3 +114,32 @@ def test_fetch_all_files_failing_raises():
     with pytest.raises((ValueError, RuntimeError)):
         zillow.fetch(["zori", "zhvi"], vintage_date="2026-07-07",
                      http_get=both_broken)
+
+
+def test_fetch_malformed_metro_cell_keeps_us_row():
+    # Per-row isolation inside a file: a garbage cell in one metro row must
+    # drop only that metro, never the already-parsed US row or other metros.
+    def zori_bad_metro(url, timeout=None):
+        if url == zillow.ZORI_URL:
+            text = (FIXTURES / "zillow_zori.csv").read_text()
+            return FakeResponse(text.replace("2400.0", "N/A"))  # NY 2017-01 cell
+        return FakeResponse((FIXTURES / "zillow_zhvi.csv").read_text())
+
+    obs = zillow.fetch(["zori", "zori:394913", "zhvi"], vintage_date="2026-07-07",
+                       http_get=zori_bad_metro)
+    assert any(o.series_code == "zori" for o in obs)          # US row survives
+    assert not any(o.series_code == "zori:394913" for o in obs)  # bad metro dropped
+    assert any(o.series_code == "zhvi" for o in obs)
+
+
+def test_fetch_partial_file_failure_emits_warning():
+    from pipeline.connectors.util import PartialFetchWarning
+
+    def zori_broken(url, timeout=None):
+        if url == zillow.ZORI_URL:
+            return FakeResponse(_strip_us("zillow_zori.csv"))
+        return FakeResponse((FIXTURES / "zillow_zhvi.csv").read_text())
+
+    with pytest.warns(PartialFetchWarning, match="zori: ValueError"):
+        zillow.fetch(["zori", "zhvi"], vintage_date="2026-07-07",
+                     http_get=zori_broken)

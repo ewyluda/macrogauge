@@ -4,6 +4,7 @@ import re
 import requests
 
 from pipeline.connectors.fred import today_et
+from pipeline.connectors.util import warn_partial
 from pipeline.dates import month_first, prior_month
 from pipeline.models import Observation
 
@@ -119,6 +120,7 @@ def fetch_dc(source_ids: list[str], vintage_date: str | None = None,
             raise errors[0][1]
         raise RuntimeError("kalshi_dc: all tickers failed — " + "; ".join(
             f"{t}: {type(e).__name__}" for t, e in errors))
+    warn_partial("KALSHI_DC", errors)
     return out
 
 

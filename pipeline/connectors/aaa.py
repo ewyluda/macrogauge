@@ -21,7 +21,7 @@ import re
 import requests
 
 from pipeline.connectors.fred import today_et
-from pipeline.connectors.util import get_text
+from pipeline.connectors.util import get_text, warn_partial
 from pipeline.models import Observation
 
 URL = "https://gasprices.aaa.com/"
@@ -40,6 +40,7 @@ STATE_ROW_RE = re.compile(
     r'[A-Za-z .]+?\s*</a>\s*</td>\s*'
     r'<td class="regular"[^>]*>\$(\d\.\d{4})')
 STATE_COUNT = 51  # 50 states + DC
+MAX_IMPLAUSIBLE_STATES = 3  # more than this outside PLAUSIBLE = structure drift
 
 
 def fetch(vintage_date: str | None = None, http_get=None) -> list[Observation]:
@@ -78,13 +79,22 @@ def fetch_states(vintage_date: str | None = None, http_get=None) -> list[Observa
     if len(rows) != STATE_COUNT:
         raise ValueError(f"AAA state page: parsed {len(rows)} state rows, "
                          f"expected {STATE_COUNT} (structure drift?)")
-    out = []
+    out, implausible = [], []
     for abbrev, price in rows:
         value = float(price)
         if not (PLAUSIBLE[0] <= value <= PLAUSIBLE[1]):
-            raise ValueError(f"AAA state {abbrev} price {value} implausible "
-                             f"(range {PLAUSIBLE}) — structure drift?")
+            implausible.append(f"{abbrev}={value}")
+            continue
         out.append(Observation(series_code=abbrev.lower(), obs_date=vintage,
                                value=value, vintage_date=vintage,
                                source="AAA_STATE", route="SCRAPE"))
+    # A lone outlier is a price extreme or one bad cell — drop it and let
+    # carry-forward cover the day. Widespread outliers mean the table drifted.
+    if len(implausible) > MAX_IMPLAUSIBLE_STATES:
+        raise ValueError(f"AAA state page: {len(implausible)} prices implausible "
+                         f"(range {PLAUSIBLE}): {', '.join(implausible)} — "
+                         f"structure drift?")
+    warn_partial("AAA_STATE",
+                 [(s, ValueError(f"implausible (range {PLAUSIBLE})"))
+                  for s in implausible])
     return out

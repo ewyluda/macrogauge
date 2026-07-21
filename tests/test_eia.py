@@ -26,6 +26,43 @@ def fake_get(url, params=None, timeout=None):
     raise AssertionError(f"unexpected url {url}")
 
 
+def test_fetch_tolerates_one_bad_series_keeps_rest():
+    # per-series isolation, same convention as fred.fetch: one 500ing/removed
+    # id must not kill the whole source (51 EIA_STATE_RES ids ride one call)
+    def flaky_get(url, params=None, timeout=None):
+        if "BAD.SERIES.M" in url:
+            raise RuntimeError("500 server error")
+        return fake_get(url, params=params, timeout=timeout)
+
+    obs = eia.fetch(["BAD.SERIES.M", "ELEC.PRICE.US-RES.M"], "eia-key",
+                    vintage_date="2026-07-07", http_get=flaky_get)
+    assert {o.series_code for o in obs} == {"ELEC.PRICE.US-RES.M"}
+    assert len(obs) == 2
+
+
+def test_fetch_raises_when_all_series_fail():
+    def dead_get(url, params=None, timeout=None):
+        raise RuntimeError("500 server error")
+
+    try:
+        eia.fetch(["A.M", "B.M"], "eia-key", vintage_date="2026-07-07",
+                  http_get=dead_get)
+        assert False, "expected RuntimeError"
+    except RuntimeError as e:
+        assert "no series loaded" in str(e)
+
+
+def test_fetch_single_series_failure_surfaces_original_error():
+    def dead_get(url, params=None, timeout=None):
+        raise ValueError("boom")
+
+    try:
+        eia.fetch(["A.M"], "eia-key", vintage_date="2026-07-07", http_get=dead_get)
+        assert False, "expected ValueError"
+    except ValueError as e:
+        assert "boom" in str(e)
+
+
 def test_fetch_normalizes_monthly_and_keeps_weekly():
     obs = eia.fetch(["ELEC.PRICE.US-RES.M", "PET.EMM_EPMR_PTE_NUS_DPG.W"], "eia-key",
                     vintage_date="2026-07-07", http_get=fake_get)
@@ -37,3 +74,17 @@ def test_fetch_normalizes_monthly_and_keeps_weekly():
                                                        ("2026-06-22", 3.388)]
     assert len(obs) == 4  # the null 2026-03 monthly row is skipped
     assert obs[0].source == "EIA" and obs[0].route == "API"
+
+
+def test_fetch_partial_failure_emits_warning():
+    import pytest
+    from pipeline.connectors.util import PartialFetchWarning
+
+    def flaky_get(url, params=None, timeout=None):
+        if "BAD.SERIES.M" in url:
+            raise RuntimeError("500 server error")
+        return fake_get(url, params=params, timeout=timeout)
+
+    with pytest.warns(PartialFetchWarning, match="BAD.SERIES.M: RuntimeError"):
+        eia.fetch(["BAD.SERIES.M", "ELEC.PRICE.US-RES.M"], "eia-key",
+                  vintage_date="2026-07-07", http_get=flaky_get)

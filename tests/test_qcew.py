@@ -98,3 +98,17 @@ def test_missing_quarters_tolerated_but_all_missing_raises():
 
     with pytest.raises(RuntimeError, match="no quarter loaded"):
         qcew.fetch(["US000"], vintage_date="2026-07-12", http_get=dead_get)
+
+
+def test_fetch_partial_quarter_failure_emits_warning():
+    from pipeline.connectors.util import PartialFetchWarning
+    calls = []
+
+    def wobbly_get(url, timeout=None, **kw):
+        calls.append(url)
+        if len(calls) == 1:
+            return _Resp("<html><body>scheduled maintenance</body></html>")
+        return _Resp(FIXTURE.read_text())
+
+    with pytest.warns(PartialFetchWarning):
+        qcew.fetch(["US000"], vintage_date="2026-07-12", http_get=wobbly_get)

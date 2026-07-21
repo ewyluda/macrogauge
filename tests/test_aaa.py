@@ -111,10 +111,34 @@ def test_fetch_states_raises_on_row_count_drift():
         assert "50" in str(e) and "structure drift" in str(e)
 
 
-def test_fetch_states_raises_on_implausible_price():
+def test_fetch_states_drops_single_implausible_state_keeps_rest():
+    # one outlier state is a price extreme (or a one-off bad cell), not page
+    # drift — the row-count contract already guards structure. Drop just that
+    # state; carry-forward covers the gap.
     drifted = _states_html().replace("$4.6780", "$9.9990")  # AK regular
+    obs = aaa.fetch_states(vintage_date="2026-07-17", http_get=_fake_get_for(drifted))
+    codes = {o.series_code for o in obs}
+    assert len(obs) == 50
+    assert "ak" not in codes
+    assert "ca" in codes and "tx" in codes
+
+
+def test_fetch_states_raises_when_many_states_implausible():
+    # widespread implausible prices mean the page structure drifted
+    drifted = _states_html()
+    for price in ("$4.6780", "$5.4300", "$3.5680", "$4.1180"):  # AK CA TX NY
+        drifted = drifted.replace(price, "$9.9990")
     try:
         aaa.fetch_states(vintage_date="2026-07-17", http_get=_fake_get_for(drifted))
         assert False, "expected ValueError"
     except ValueError as e:
-        assert "implausible" in str(e)
+        assert "implausible" in str(e) and "structure drift" in str(e)
+
+
+def test_fetch_states_dropped_state_emits_warning():
+    import pytest
+    from pipeline.connectors.util import PartialFetchWarning
+
+    drifted = _states_html().replace("$4.6780", "$9.9990")  # AK regular
+    with pytest.warns(PartialFetchWarning, match="AK"):
+        aaa.fetch_states(vintage_date="2026-07-17", http_get=_fake_get_for(drifted))

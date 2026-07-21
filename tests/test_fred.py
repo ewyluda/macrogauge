@@ -98,7 +98,7 @@ def test_fetch_throttles_between_series_on_real_network(monkeypatch):
     obs = fred.fetch(["CPIAUCNS", "CPIAUCNS", "CPIAUCNS"], "test-key",
                      vintage_date="2026-07-07")
     assert len(obs) == 18
-    assert sleeps == [0.45, 0.45]
+    assert sleeps == [0.5, 0.5]  # 120 req/min cap exactly; 0.45 ran ~133/min
 
 
 def test_fetch_never_sleeps_with_injected_http_get(monkeypatch):
@@ -135,3 +135,18 @@ def test_fetch_vintages_stamps_each_window_with_its_release_date():
     # a revised obs_date keeps BOTH windows, each under its own vintage
     march = [(o.vintage_date, o.value) for o in obs if o.obs_date == "2025-03-01"]
     assert march == [("2025-04-10", 312.4), ("2025-05-13", 312.5)]
+
+
+def test_fetch_partial_failure_emits_warning():
+    # Tolerated per-series failures must surface (via PartialFetchWarning →
+    # sources_status "partial:" detail), not silently wait for staleness QA.
+    from pipeline.connectors.util import PartialFetchWarning
+
+    def get(url, params=None, timeout=None):
+        if params["series_id"] == "BADID":
+            return ErrorResponse()
+        return FakeResponse(_payload())
+
+    with pytest.warns(PartialFetchWarning, match="BADID: HTTPError"):
+        fred.fetch(["CPIAUCNS", "BADID"], "test-key",
+                   vintage_date="2026-07-07", http_get=get)

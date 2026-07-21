@@ -300,3 +300,17 @@ def test_kalshi_dc_fixture_shapes_parse():
         rows = kalshi.fetch_dc([ticker], vintage_date="2026-07-16",
                                http_get=lambda *a, **k: FakeResponse(payload))
         assert len(rows) <= 1   # priced -> one obs; thin fixture -> zero
+
+
+def test_kalshi_dc_partial_ticker_failure_emits_warning():
+    from pipeline.connectors.util import PartialFetchWarning
+    good = {"markets": [{"last_price_dollars": "0.61"}]}
+
+    def get(url, params=None, timeout=None):
+        if params["series_ticker"] == "KXBROKEN":
+            raise RuntimeError("500")
+        return FakeResponse(good)
+
+    with pytest.warns(PartialFetchWarning, match="KXBROKEN: RuntimeError"):
+        kalshi.fetch_dc(["KXBROKEN", "KXDATACENTER"], vintage_date="2026-07-16",
+                        http_get=get)

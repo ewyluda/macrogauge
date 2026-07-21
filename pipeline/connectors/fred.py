@@ -5,6 +5,7 @@ from zoneinfo import ZoneInfo
 
 import requests
 
+from pipeline.connectors.util import warn_partial
 from pipeline.models import Observation
 
 FRED_URL = "https://api.stlouisfed.org/fred/series/observations"
@@ -51,7 +52,7 @@ def fetch(series_ids: list[str], api_key: str, observation_start: str = "2017-01
     loaded, errors = 0, []
     for i, sid in enumerate(series_ids):
         if throttle and i:
-            time.sleep(0.45)
+            time.sleep(0.5)  # FRED caps at 120 req/min; 0.45 paced ~133/min
         try:
             resp = http_get(FRED_URL, params={
                 "series_id": sid, "api_key": api_key, "file_type": "json",
@@ -71,4 +72,5 @@ def fetch(series_ids: list[str], api_key: str, observation_start: str = "2017-01
             raise errors[0][1]
         raise RuntimeError("FRED: no series loaded — " + "; ".join(
             f"{sid}: {type(e).__name__}" for sid, e in errors))
+    warn_partial("FRED", errors)
     return out
