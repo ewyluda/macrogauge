@@ -765,3 +765,24 @@ def test_commodities_failure_does_not_block_gauge_or_labor(tmp_path, monkeypatch
     assert checks["engine_ok"]["pass"] is True
     assert checks["labor_ok"]["pass"] is True
     assert not (out / "commodities.json").exists()
+
+
+def test_capacity_failure_does_not_block_publish(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("capacity boom")
+
+    monkeypatch.setattr(run_daily.capacity_json, "build", boom)
+    out = tmp_path / "out"
+    rc = run_daily.main(["--store", str(tmp_path / "store"), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    assert (out / "sources_status.json").exists()
+    qa = json.loads((out / "qa.json").read_text())
+    checks = {c["name"]: c for c in qa["checks"]}
+    assert checks["capacity_ok"]["pass"] is False
+    assert "capacity boom" in checks["capacity_ok"]["detail"]
+    assert checks["engine_ok"]["pass"] is True
+    assert checks["commodities_ok"]["pass"] is True
+    assert not (out / "capacity.json").exists()
