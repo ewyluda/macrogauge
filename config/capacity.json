@@ -570,13 +570,13 @@
    "plan": 0,
    "pipe": "~8,375 (gross)",
    "nd": 0.4,
-   "bk": 16.8,
+   "bk": 26.6,
    "ndflag": "corporate only; large non-recourse SPV project debt excluded",
    "note": null,
    "dom": "hut8.com",
    "flag": "both AI campuses energize 2027",
    "econ": {
-    "backlog": "$16.8B ($42.8B w/ renewals)",
+    "backlog": "$26.6B incl. Beacon Ph2 $9.8B (Jul 2026); $42.8B w/ renewals pre-Ph2",
     "revmw": "~$1.86–1.9M",
     "capexmw": "~$10B / 245 MW project",
     "anchor": "Fluidstack/Google · IG hyperscaler",
@@ -599,6 +599,12 @@
      "energize Q1 2027"
     ],
     [
+     "Beacon Point Phase 2 (IG hyperscaler)",
+     352,
+     "s",
+     "initial data hall Q2 2028"
+    ],
+    [
      "Highrise AI GPU cloud",
      null,
      "o",
@@ -615,6 +621,10 @@
     [
      "Q1'26 PRs — River Bend / Beacon Point ($16.8B)",
      "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=HUT"
+    ],
+    [
+     "Jul 2026 PR — Beacon Ph2 $9.8B, campus $19.6B",
+     "https://www.prnewswire.com/news-releases/hut-8-fully-commercializes-1-gw-beacon-point-ai-data-center-campus-with-second-352-mw-it-lease-bringing-campus-level-base-term-contract-value-to-19-6-billion-302829514.html"
     ]
    ],
    "private": false,
@@ -657,7 +667,7 @@
      "Black Pearl (AWS)",
      216,
      "c",
-     "Phase I rent ~Aug 2026"
+     "go-live from July 2026; Phase I rent Aug 2026"
     ],
     [
      "Stingray (AWS)",
@@ -704,13 +714,13 @@
    "plan": 730,
    "pipe": "~5,000",
    "nd": 1.75,
-   "bk": 13.7,
+   "bk": 16.5,
    "ndflag": null,
    "note": "../markets/companies/powered-shell/iren-iris-energy.md",
    "dom": "iren.com",
    "flag": "Horizon 1 (~50 MW) commissioning; MSFT handoff Q3 2026",
    "econ": {
-    "backlog": "$3.1B ARR ($3.7B target)",
+    "backlog": "$3.1B ARR (>$4B YE26 target, ~85% contracted); +$2.8B TCV Jul 2026",
     "revmw": "~$9.7M (bundles GPUs)",
     "capexmw": "~$25–35M+ (GPU-incl.)",
     "anchor": "Microsoft ~$9.7B · NVIDIA $3.54B",
@@ -761,6 +771,10 @@
     [
      "Q3 FY26 results + call (Horizon 1, $3.1B ARR)",
      "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=IREN"
+    ],
+    [
+     "Jul 2026 PR — $2.8B contracts, ARR target >$4B",
+     "https://www.globenewswire.com/news-release/2026/07/20/3329624/0/en/iren-signs-2-8bn-in-new-customer-contracts-with-leading-ai-developers-raises-2026-arr-target-to-over-4bn.html"
     ]
    ],
    "private": false,
@@ -2387,7 +2401,7 @@
    "Amazon (AWS)",
    "CIFR",
    286,
-   "Black Pearl + Stingray; IG"
+   "Black Pearl + Stingray; IG; go-live from Jul 2026"
   ],
   [
    "AMD",
@@ -2428,8 +2442,8 @@
   [
    "IG hyperscaler",
    "HUT",
-   352,
-   "Beacon Point"
+   704,
+   "Beacon Point Ph1+Ph2; $19.6B campus base-term (Ph2 $9.8B Jul 2026)"
   ]
  ],
  "geo": [
@@ -2654,6 +2668,26 @@
    "approx": false
   },
   {
+   "t": "HUT",
+   "site": "Beacon Point — Nueces County, TX",
+   "mw": 352,
+   "st": "c",
+   "lat": 27.8,
+   "lng": -97.6,
+   "when": "energize Q1 2027 (IG hyperscaler)",
+   "approx": true
+  },
+  {
+   "t": "HUT",
+   "site": "Beacon Point Phase 2 — Nueces County, TX",
+   "mw": 352,
+   "st": "s",
+   "lat": 27.8,
+   "lng": -97.6,
+   "when": "initial data hall Q2 2028",
+   "approx": true
+  },
+  {
    "t": "CIFR",
    "site": "Barber Lake — Colorado City, TX",
    "mw": 207,
@@ -2670,7 +2704,7 @@
    "st": "c",
    "lat": 31.9,
    "lng": -102.2,
-   "when": "Phase I rent ~Aug 2026 (AWS)",
+   "when": "go-live from July 2026; Phase I rent Aug 2026 (AWS)",
    "approx": true
   },
   {
@@ -3535,13 +3569,6 @@
   }
  ],
  "geo_unmapped": [
-  {
-   "t": "HUT",
-   "site": "Beacon Point Campus (IG hyperscaler)",
-   "mw": 352,
-   "st": "c",
-   "why": "location undisclosed"
-  },
   {
    "t": "APLD",
    "site": "Delta Forge 1",
