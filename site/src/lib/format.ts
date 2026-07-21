@@ -8,6 +8,11 @@ export function fmtMonth(isoDate: string): string {
   return `${MONTHS[Number(isoDate.slice(5, 7)) - 1]} ${isoDate.slice(0, 4)}`;
 }
 
+/** "2026-07-20" -> "Jul 20, 2026" — daily-cadence as-of dates keep the day */
+export function fmtDay(isoDate: string): string {
+  return `${MONTHS[Number(isoDate.slice(5, 7)) - 1]} ${Number(isoDate.slice(8, 10))}, ${isoDate.slice(0, 4)}`;
+}
+
 /** 2.69 -> "2.7%" (one decimal, as prints are quoted) */
 export function fmtPct(pct: number): string {
   return `${pct.toFixed(1)}%`;

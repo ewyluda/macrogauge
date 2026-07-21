@@ -6,7 +6,7 @@ import officialJson from "../../../public/data/official.json";
 import matrixJson from "../../../public/data/matrix.json";
 import { KpiCard } from "@/components/KpiCard";
 import { ForecastHero } from "@/components/ForecastHero";
-import { fmtMonth } from "@/lib/format";
+import { fmtDay, fmtMonth } from "@/lib/format";
 import type { Nowcast, Matrix } from "@/lib/types";
 
 export const metadata: Metadata = {
@@ -23,8 +23,8 @@ const pulse = pulseJson as {
 };
 const official = officialJson as {
   headline: {
-    cpi: { yoy_pct: number; as_of: string };
-    core: { yoy_pct: number; as_of: string };
+    cpi: { yoy_pct: number; month: string };
+    core: { yoy_pct: number; month: string };
   };
 };
 const matrix = matrixJson as Matrix;
@@ -51,10 +51,12 @@ const SECTIONS: Section[] = [
   {
     group: "OFFICIAL",
     rows: [
+      // "As of" is the reference month, matching every other row — the BLS
+      // release date (headline.*.as_of) reads a month late in this column
       { label: "CPI-U (headline)", value: official.headline.cpi.yoy_pct,
-        unit: "% YoY", as_of: official.headline.cpi.as_of, cadence: "monthly" },
+        unit: "% YoY", as_of: official.headline.cpi.month, cadence: "monthly" },
       { label: "Core CPI (ex food & energy)", value: official.headline.core.yoy_pct,
-        unit: "% YoY", as_of: official.headline.core.as_of, cadence: "monthly" },
+        unit: "% YoY", as_of: official.headline.core.month, cadence: "monthly" },
     ],
   },
   ...matrix.groups.map((g) => ({
@@ -89,7 +91,7 @@ function MeasureRows({ section }: { section: Section }) {
           {r.value == null ? "—" : r.value.toFixed(2)}{" "}
           <span style={{ color: "var(--muted)", fontSize: 11 }}>{r.unit}</span>
         </td>
-        <td>{r.as_of ? fmtMonth(r.as_of) : "—"}</td>
+        <td>{r.as_of ? (r.cadence === "daily" ? fmtDay(r.as_of) : fmtMonth(r.as_of)) : "—"}</td>
         <td>{r.cadence}</td>
       </tr>
     );
