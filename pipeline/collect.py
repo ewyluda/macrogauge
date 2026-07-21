@@ -59,6 +59,10 @@ def _fmp(subset, key, http):
     return fmp.fetch([s.source_id for s in subset], key, http_get=http)
 
 
+def _fmp_eq(subset, key, http):
+    return fmp.fetch_equity([s.source_id for s in subset], key, http_get=http)
+
+
 def _treasury(subset, key, http):
     return treasury.fetch(http_get=http)
 
@@ -140,6 +144,10 @@ def _ice(subset, key, http):
 
 
 FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
+            # FMP_EQ is a separate source key for failure isolation and its
+            # own status row — a broken equity batch (/capacity tracker) must
+            # never take down the commodity-futures FMP row (or vice versa).
+            "FMP_EQ": _fmp_eq,
             "TREASURY": _treasury, "ZILLOW": _zillow, "PMMS": _pmms,
             "APTLIST": _aptlist, "USDA": _usda, "AAA": _aaa,
             # AAA_STATE is a separate source key for failure isolation and its
