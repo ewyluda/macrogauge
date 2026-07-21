@@ -69,7 +69,18 @@ export const NAV: NavEntry[] = [
       },
     ],
   },
-  { kind: "link", href: "/datacenter", label: "Data Centers" },
+  {
+    kind: "group",
+    label: "AI Infra",
+    sections: [
+      {
+        items: [
+          { href: "/datacenter", label: "Data Centers", emoji: "🏭" },
+          { href: "/capacity", label: "AI Capacity", emoji: "⚡" },
+        ],
+      },
+    ],
+  },
   {
     kind: "group",
     label: "Data",

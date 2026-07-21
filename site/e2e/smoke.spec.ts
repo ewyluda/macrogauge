@@ -29,6 +29,7 @@ const ROUTES: [string, string][] = [
   ["/metros", "the 50 largest metros, ranked by rent inflation"],
   ["/labor", "the jobs market, in receipts"],
   ["/commodities", "the AI build-out basket, priced daily"],
+  ["/capacity", "the gap is the whole point"],
 ];
 
 for (const [path, text] of ROUTES) {
