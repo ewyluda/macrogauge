@@ -47,21 +47,28 @@ from pipeline.store import vintage
 SCHEMAS = Path(__file__).parent.parent / "schemas"
 
 
-def _run_phase(label, fn):
+def _run_phase(label, fn, phase_errors=None, phase=None):
     """The isolation contract every publish phase runs under: a failure
     surfaces as (None, "Type: msg") for qa.json and never blocks the phases
     after it, but a jsonschema.ValidationError re-raises and fails the run —
     a schema-invalid artifact must never deploy. Phase functions that build
     up partial state (the engine's cpi, the nowcast payload) write it into a
-    dict as they go, so qa still sees whatever was computed before a failure."""
+    dict as they go, so qa still sees whatever was computed before a failure.
+
+    When phase_errors/phase are given the outcome is recorded there for
+    qa.run_checks — recording rides the same call that runs the phase, so a
+    wired phase can never silently go unreported (qa cross-checks the dict
+    against qa.PHASES in both directions)."""
     try:
-        return fn(), None
+        result, error = fn(), None
     except jsonschema.ValidationError:
         raise  # contract violation must fail the run — never deploy invalid JSON
     except Exception as e:  # phase isolation: failure surfaces in qa, never blocks
-        error = f"{type(e).__name__}: {e}"
+        result, error = None, f"{type(e).__name__}: {e}"
         print(f"{label} FAILED — {error}")
-        return None, error
+    if phase_errors is not None:
+        phase_errors[phase] = error
+    return result, error
 
 
 def main(argv=None, http_get=None, http_post=None) -> int:
@@ -205,6 +212,7 @@ def main(argv=None, http_get=None, http_post=None) -> int:
                                      "grocery_items": len(grocery_payload["items"]),
                                      "grocery_skipped": len(grocery_payload["skipped"])}
 
+    phase_errors: dict[str, str | None] = {}
     _, engine_error = _run_phase("ENGINE/PUBLISH", _engine_phase)
     cpi = engine_state.get("cpi")
     gauge_result = engine_state.get("gauge_result")
@@ -234,7 +242,7 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         for path in phase3_paths:
             print(f"published: {path}")
 
-    _, nowcast_error = _run_phase("NOWCAST", _nowcast_phase)
+    _run_phase("NOWCAST", _nowcast_phase, phase_errors, "nowcast")
     nowcast_payload = nowcast_state.get("payload")
 
     # Twelve-month outlook: depends on the gauge's component levels but is
@@ -248,7 +256,7 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         validate.validate_file(outlook_path, SCHEMAS / "outlook.schema.json")
         print(f"published: {outlook_path}")
 
-    _, outlook_error = _run_phase("OUTLOOK", _outlook_phase)
+    _run_phase("OUTLOOK", _outlook_phase, phase_errors, "outlook")
 
     # Phase-4 composites: isolated from both blocks above — heatcheck/stress/
     # recession don't depend on the CPI release calendar or the gauge engine
@@ -259,7 +267,7 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         for path in composite_paths:
             print(f"published: {path}")
 
-    _, composites_error = _run_phase("COMPOSITES", _composites_phase)
+    _run_phase("COMPOSITES", _composites_phase, phase_errors, "composites")
 
     # DC cost index (datacenter page): isolated like the three blocks above —
     # a broken PPI/QCEW/state-power series must never touch the core gauge.
@@ -279,7 +287,7 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         validate.validate_file(dc_path, SCHEMAS / "datacenter.schema.json")
         print(f"published: {dc_path}")
 
-    _, datacenter_error = _run_phase("DATACENTER", _datacenter_phase)
+    _run_phase("DATACENTER", _datacenter_phase, phase_errors, "datacenter")
 
     # Geography panel (states/metros pages + the every-measure matrix): isolated
     # like the phases above. These are display-only unlocks of already-collected
@@ -302,7 +310,7 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         validate.validate_file(matrix_path, SCHEMAS / "matrix.schema.json")
         print(f"published: {matrix_path}")
 
-    _, geography_error = _run_phase("GEOGRAPHY", _geography_phase)
+    _run_phase("GEOGRAPHY", _geography_phase, phase_errors, "geography")
 
     # Labor jobs dashboard: isolated like the phases above — pure store reads
     # (payrolls/unemployment/claims/wages), display-only, never touches the
@@ -313,7 +321,7 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         validate.validate_file(labor_path, SCHEMAS / "labor.schema.json")
         print(f"published: {labor_path}")
 
-    _, labor_error = _run_phase("LABOR", _labor_phase)
+    _run_phase("LABOR", _labor_phase, phase_errors, "labor")
 
     if nowcast_payload is not None:
         artifacts = {**(artifacts or {}), "nowcast": nowcast_payload}
@@ -339,12 +347,7 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     qa_path = qa.write(qa.run_checks(cpi, today=today, source_results=results,
                                      freshness=freshness, gauge=gauge_qa,
                                      engine_error=engine_error,
-                                     nowcast_error=nowcast_error,
-                                     outlook_error=outlook_error,
-                                     composites_error=composites_error,
-                                     datacenter_error=datacenter_error,
-                                     geography_error=geography_error,
-                                     labor_error=labor_error,
+                                     phase_errors=phase_errors,
                                      fuel_divergence=fuel_div,
                                      artifacts=artifacts,
                                      stale_stamps=stale_stamps),

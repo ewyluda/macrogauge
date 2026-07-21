@@ -14,16 +14,25 @@ GROCERY_ITEMS_MIN = 20
 # BLS-CF (official-only, no live blend) per the 2a deviation.
 GAUGE_COVERAGE_FLOOR = 40.0
 
+# Every isolated publish phase in run_daily.py except the core engine (which
+# has its own cpi-fallback handling above). run_checks cross-checks the
+# reported phase_errors dict against this tuple in BOTH directions, so a
+# phase that is wired but never reported — or reported but never pinned
+# here — fails its check instead of silently reading "completed".
+PHASES = ("nowcast", "outlook", "composites", "datacenter", "geography", "labor")
+_PHASE_DONE = {"nowcast": "nowcast completed",
+               "outlook": "12-month outlook completed",
+               "composites": "composites completed",
+               "datacenter": "datacenter completed",
+               "geography": "geography panel completed",
+               "labor": "labor panel completed"}
+
 
 def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                freshness: list[dict] | None = None, gauge: dict | None = None,
                engine_error: str | None = None, fuel_divergence: dict | None = None,
-               artifacts: dict | None = None, nowcast_error: str | None = None,
-               outlook_error: str | None = None,
-               composites_error: str | None = None,
-               datacenter_error: str | None = None,
-               geography_error: str | None = None,
-               labor_error: str | None = None,
+               artifacts: dict | None = None,
+               phase_errors: dict[str, str | None] | None = None,
                stale_stamps: list[str] | None = None) -> dict:
     if cpi is not None:
         age = (date.fromisoformat(today) - date.fromisoformat(cpi["month"])).days
@@ -49,27 +58,27 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
     checks.append({"name": "engine_ok", "critical": True,
                    "pass": engine_error is None,
                    "detail": engine_error or "engine and writers completed"})
-    # These checks mirror engine_ok for the isolated forecast/composites
-    # blocks in run_daily.py. Their failures surface distinctly and never
-    # suppress the core gauge's critical checks below.
-    checks.append({"name": "nowcast_ok", "critical": False,
-                   "pass": nowcast_error is None,
-                   "detail": nowcast_error or "nowcast completed"})
-    checks.append({"name": "outlook_ok", "critical": False,
-                   "pass": outlook_error is None,
-                   "detail": outlook_error or "12-month outlook completed"})
-    checks.append({"name": "composites_ok", "critical": False,
-                   "pass": composites_error is None,
-                   "detail": composites_error or "composites completed"})
-    checks.append({"name": "datacenter_ok", "critical": False,
-                   "pass": datacenter_error is None,
-                   "detail": datacenter_error or "datacenter completed"})
-    checks.append({"name": "geography_ok", "critical": False,
-                   "pass": geography_error is None,
-                   "detail": geography_error or "geography panel completed"})
-    checks.append({"name": "labor_ok", "critical": False,
-                   "pass": labor_error is None,
-                   "detail": labor_error or "labor panel completed"})
+    # These checks mirror engine_ok for the isolated publish phases in
+    # run_daily.py. Their failures surface distinctly and never suppress the
+    # core gauge's critical checks below.
+    if phase_errors is not None:
+        for phase in PHASES:
+            if phase not in phase_errors:
+                checks.append({"name": f"{phase}_ok", "critical": False,
+                               "pass": False,
+                               "detail": f"{phase} phase never reported an "
+                                         f"outcome — run_daily wiring gap"})
+            else:
+                err = phase_errors[phase]
+                checks.append({"name": f"{phase}_ok", "critical": False,
+                               "pass": err is None,
+                               "detail": err or _PHASE_DONE[phase]})
+        for phase in phase_errors:
+            if phase not in PHASES:
+                checks.append({"name": f"{phase}_ok", "critical": False,
+                               "pass": False,
+                               "detail": f"unknown phase '{phase}' — add it "
+                                         f"to qa.PHASES"})
     if stale_stamps is not None:
         # Files in the out dir whose published_at differs from this run's —
         # leftovers from a prior partial/manual run about to deploy alongside

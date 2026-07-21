@@ -8,8 +8,12 @@ FRESH = {"series_code": "CPIAUCNS", "month": "2026-05-01",
          "yoy_pct": 2.69, "prev_yoy_pct": 2.5, "as_of": "2026-07-07"}
 
 
+def _all_ok():
+    return {p: None for p in qa.PHASES}
+
+
 def test_all_green_when_fresh():
-    r = qa.run_checks(FRESH, today="2026-07-07")
+    r = qa.run_checks(FRESH, today="2026-07-07", phase_errors=_all_ok())
     # headline_current, yoy_finite, engine_ok, nowcast_ok, outlook_ok, composites_ok,
     # datacenter_ok, geography_ok, labor_ok
     assert (r["passed"], r["total"]) == (9, 9)
@@ -17,7 +21,8 @@ def test_all_green_when_fresh():
 
 
 def test_stale_headline_fails():
-    r = qa.run_checks(FRESH, today="2026-10-01")  # 153 days after 2026-05-01
+    r = qa.run_checks(FRESH, today="2026-10-01",  # 153 days after 2026-05-01
+                      phase_errors=_all_ok())
     by_name = {c["name"]: c for c in r["checks"]}
     assert by_name["headline_current"]["pass"] is False
     assert r["passed"] == 8
@@ -42,7 +47,7 @@ def _res(name, ok, err=None):
 
 
 def test_connector_and_freshness_checks_green():
-    r = qa.run_checks(FRESH, today="2026-07-07",
+    r = qa.run_checks(FRESH, today="2026-07-07", phase_errors=_all_ok(),
                       source_results=[_res("FRED", True), _res("EIA", True)],
                       freshness=[{"code": "CPIAUCNS", "latest_obs": "2026-05-01",
                                   "limit_days": 80}])
@@ -145,7 +150,7 @@ def _by_name(result, name):
 
 
 def test_nowcast_ok_and_composites_ok_pass_when_no_error():
-    r = qa.run_checks(FRESH, today="2026-07-08")
+    r = qa.run_checks(FRESH, today="2026-07-08", phase_errors=_all_ok())
     now = [c for c in r["checks"] if c["name"] == "nowcast_ok"][0]
     comp = [c for c in r["checks"] if c["name"] == "composites_ok"][0]
     assert now["pass"] is True and now["critical"] is False
@@ -154,7 +159,7 @@ def test_nowcast_ok_and_composites_ok_pass_when_no_error():
 
 def test_nowcast_error_fails_nowcast_ok_without_touching_engine_ok():
     r = qa.run_checks(FRESH, today="2026-07-08", gauge=GAUGE_OK,
-                      nowcast_error="ValueError: release calendar has no future CPI print")
+                      phase_errors={**_all_ok(), "nowcast": "ValueError: release calendar has no future CPI print"})
     now = [c for c in r["checks"] if c["name"] == "nowcast_ok"][0]
     eng = [c for c in r["checks"] if c["name"] == "engine_ok"][0]
     assert now["pass"] is False and "release calendar" in now["detail"]
@@ -163,7 +168,7 @@ def test_nowcast_error_fails_nowcast_ok_without_touching_engine_ok():
 
 def test_outlook_error_fails_outlook_ok_without_touching_engine_ok():
     r = qa.run_checks(FRESH, today="2026-07-08", gauge=GAUGE_OK,
-                      outlook_error="RuntimeError: forecast base missing")
+                      phase_errors={**_all_ok(), "outlook": "RuntimeError: forecast base missing"})
     outlook = _by_name(r, "outlook_ok")
     eng = _by_name(r, "engine_ok")
     assert outlook["pass"] is False and "forecast base" in outlook["detail"]
@@ -173,7 +178,7 @@ def test_outlook_error_fails_outlook_ok_without_touching_engine_ok():
 
 def test_composites_error_fails_composites_ok_without_touching_engine_ok():
     r = qa.run_checks(FRESH, today="2026-07-08", gauge=GAUGE_OK,
-                      composites_error="RuntimeError: heatcheck boom")
+                      phase_errors={**_all_ok(), "composites": "RuntimeError: heatcheck boom"})
     comp = [c for c in r["checks"] if c["name"] == "composites_ok"][0]
     eng = [c for c in r["checks"] if c["name"] == "engine_ok"][0]
     assert comp["pass"] is False and "heatcheck boom" in comp["detail"]
@@ -269,12 +274,13 @@ def test_coverage_just_below_new_floor_fails():
 
 
 def test_datacenter_ok_check():
-    ok = qa.run_checks(None, today="2026-07-12", engine_error="x")
+    ok = qa.run_checks(None, today="2026-07-12", engine_error="x",
+                       phase_errors=_all_ok())
     names = {c["name"]: c for c in ok["checks"]}
     assert names["datacenter_ok"]["pass"] is True
 
     bad = qa.run_checks(None, today="2026-07-12", engine_error="x",
-                        datacenter_error="RuntimeError: dc boom")
+                        phase_errors={**_all_ok(), "datacenter": "RuntimeError: dc boom"})
     names = {c["name"]: c for c in bad["checks"]}
     assert names["datacenter_ok"]["pass"] is False
     assert names["datacenter_ok"]["critical"] is False
@@ -282,12 +288,13 @@ def test_datacenter_ok_check():
 
 
 def test_geography_ok_check():
-    ok = qa.run_checks(None, today="2026-07-12", engine_error="x")
+    ok = qa.run_checks(None, today="2026-07-12", engine_error="x",
+                       phase_errors=_all_ok())
     names = {c["name"]: c for c in ok["checks"]}
     assert names["geography_ok"]["pass"] is True
 
     bad = qa.run_checks(None, today="2026-07-12", engine_error="x",
-                        geography_error="RuntimeError: geo boom")
+                        phase_errors={**_all_ok(), "geography": "RuntimeError: geo boom"})
     names = {c["name"]: c for c in bad["checks"]}
     assert names["geography_ok"]["pass"] is False
     assert names["geography_ok"]["critical"] is False
@@ -295,13 +302,45 @@ def test_geography_ok_check():
 
 
 def test_labor_ok_check():
-    ok = qa.run_checks(None, today="2026-07-12", engine_error="x")
+    ok = qa.run_checks(None, today="2026-07-12", engine_error="x",
+                       phase_errors=_all_ok())
     names = {c["name"]: c for c in ok["checks"]}
     assert names["labor_ok"]["pass"] is True
 
     bad = qa.run_checks(None, today="2026-07-12", engine_error="x",
-                        labor_error="RuntimeError: labor boom")
+                        phase_errors={**_all_ok(), "labor": "RuntimeError: labor boom"})
     names = {c["name"]: c for c in bad["checks"]}
     assert names["labor_ok"]["pass"] is False
     assert names["labor_ok"]["critical"] is False
     assert "labor boom" in names["labor_ok"]["detail"]
+
+
+# --- phase_errors dict (robustness refactor: unwired phases must be loud) ---
+
+def test_phase_errors_dict_drives_all_phase_checks():
+    r = qa.run_checks(FRESH, today="2026-07-08", gauge=GAUGE_OK,
+                      phase_errors={p: None for p in qa.PHASES})
+    by = {c["name"]: c for c in r["checks"]}
+    for p in qa.PHASES:
+        assert by[f"{p}_ok"]["pass"] is True and by[f"{p}_ok"]["critical"] is False
+
+
+def test_phase_missing_from_dict_fails_loudly():
+    # a phase wired into run_daily but never reported must FAIL its check,
+    # not silently read "completed" forever (deferred review finding)
+    errs = {p: None for p in qa.PHASES if p != "labor"}
+    r = qa.run_checks(FRESH, today="2026-07-08", phase_errors=errs)
+    labor = [c for c in r["checks"] if c["name"] == "labor_ok"][0]
+    assert labor["pass"] is False
+    assert "never reported" in labor["detail"]
+
+
+def test_unknown_phase_key_fails_loudly():
+    # a new phase reported by run_daily but absent from qa.PHASES is a
+    # wiring gap in the other direction — surface it, don't drop it
+    errs = {p: None for p in qa.PHASES}
+    errs["compute"] = None
+    r = qa.run_checks(FRESH, today="2026-07-08", phase_errors=errs)
+    unknown = [c for c in r["checks"] if c["name"] == "compute_ok"][0]
+    assert unknown["pass"] is False
+    assert "qa.PHASES" in unknown["detail"]

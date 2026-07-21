@@ -58,13 +58,21 @@ def _measure(conn, code: str, digits: int) -> dict:
 
 
 def _gas_measure(conn, code: str) -> dict:
-    """Daily spot gas: base is the obs exactly 365 days before as_of."""
+    """Daily spot gas: base is the obs nearest 365 days before as_of (±3d).
+
+    AAA collection is weekday-only, so an exact as_of−365 lands on an
+    obs-less weekend for part of every week; the small window bridges
+    weekends and holiday gaps without reaching a different price regime."""
     obs = dict(vintage.latest(conn, code))
     if not obs:
         return {"value": None, "as_of": None, "yoy_pct": None}
     as_of = max(obs)
-    year_ago = (date.fromisoformat(as_of) - timedelta(days=365)).isoformat()
-    base = obs.get(year_ago)
+    target = date.fromisoformat(as_of) - timedelta(days=365)
+    base = None
+    for offset in (0, -1, 1, -2, 2, -3, 3):  # exact first, then nearest
+        base = obs.get((target + timedelta(days=offset)).isoformat())
+        if base is not None:
+            break
     yoy = None if not base else round((obs[as_of] / base - 1) * 100, 2)
     return {"value": round(obs[as_of], 3), "as_of": as_of, "yoy_pct": yoy}
 

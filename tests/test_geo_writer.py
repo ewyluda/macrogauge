@@ -100,13 +100,35 @@ def test_rows_in_state_abbrevs_order(tmp_path):
     assert [r["name"] for r in p["states"]] == [n for _, n in geo.STATES]
 
 
-def test_gas_yoy_null_without_exact_365d_base(tmp_path):
-    # nearby-but-not-exact old obs must NOT be used as a base
+def test_gas_yoy_null_when_base_beyond_tolerance(tmp_path):
+    # an old obs more than ±3 days from as_of−365 must NOT be used as a base
     conn = _store_with(tmp_path, {
         "aaa_gas_ca": {"2025-07-20": 4.0, "2026-07-15": 4.6, "2026-07-16": 4.5}})
     ca = next(r for r in geo.build(conn)["states"] if r["state"] == "CA")
     assert ca["gas_regular"] == {"value": 4.5, "as_of": "2026-07-16",
                                  "yoy_pct": None}
+
+
+def test_gas_yoy_uses_nearest_base_within_weekend_gap(tmp_path):
+    # AAA states collect weekdays only: a Monday as_of minus 365 lands on a
+    # weekend with no obs. The nearest obs within ±3 days serves as the base
+    # so gas yoy_pct doesn't go null every Monday once a year of history
+    # accrues (deferred review finding, 2026-07-17).
+    conn = _store_with(tmp_path, {
+        # 2026-07-20 is a Monday; 2025-07-20 (Sun) has no obs; 2025-07-18 (Fri)
+        # is 2 days earlier and must be picked up as the base
+        "aaa_gas_tx": {"2025-07-18": 3.0, "2026-07-20": 3.3}})
+    tx = next(r for r in geo.build(conn)["states"] if r["state"] == "TX")
+    assert tx["gas_regular"] == {"value": 3.3, "as_of": "2026-07-20",
+                                 "yoy_pct": 10.0}
+
+
+def test_gas_yoy_prefers_exact_365d_base_over_neighbors(tmp_path):
+    conn = _store_with(tmp_path, {
+        "aaa_gas_tx": {"2025-07-15": 9.9, "2025-07-16": 3.25, "2025-07-17": 9.9,
+                       "2026-07-16": 3.575}})
+    tx = next(r for r in geo.build(conn)["states"] if r["state"] == "TX")
+    assert tx["gas_regular"]["yoy_pct"] == 10.0
 
 
 def test_zero_base_yields_null_yoy_not_crash(tmp_path):
