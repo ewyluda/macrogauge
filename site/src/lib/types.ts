@@ -186,3 +186,39 @@ export type Nowcast = {
   ensemble: { value: number | null; weights: Record<string, number> };
   generated_on: string;
 };
+
+export type CapacityCompany = {
+  t: string; n: string; role: "neocloud" | "landlord" | "operator" | "hyperscaler" | "exploratory";
+  dupe: string | null; private: boolean; confidence: "filed" | "estimate";
+  flag?: string | null; dom?: string | null; pipe?: string | null;
+  op: number; con: number; plan: number;
+  nd?: number | null; ndflag?: string | null; bk?: number | null;
+  valuation_b: number | null;
+  cap: number | null; px: number | null; priced_date: string | null; stale: boolean;
+  ev: number | null; wmw: number; ev_per_mw: number | null;
+  pct_energized: number | null; coverage: number | null;
+  econ: Record<string, string> | null;
+  sites: [string, number | null, string, string][];
+  src: [string, string][];
+};
+
+export type CapacityTimeline = {
+  base_mw: number;
+  points: { q: string; add_mw: number; cum_mw: number }[];
+  milestones: Record<string, [string, string, number][]>;
+};
+
+export type CapacityCohortKey = "all" | "neocloud" | "hyperscaler";
+
+export type Capacity = {
+  published_at: string; as_of_curated: string; priced_date: string | null;
+  note: string; basis: Record<string, string>;
+  companies: CapacityCompany[];
+  cohorts: Record<CapacityCohortKey, { companies: number; op: number; con: number; plan: number }>;
+  timeline: Record<CapacityCohortKey, CapacityTimeline>;
+  tenants: [string, string, number, string][];
+  geo: { t: string; site: string; mw: number; st: string; lat: number; lng: number; when?: string; approx: boolean }[];
+  geo_unmapped: { t: string; site: string; mw: number; st: string; why: string }[];
+  geo_note: string;
+  reference: { nvda_cap_b: number | null; cohort_ev_b: number | null };
+};
