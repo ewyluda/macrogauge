@@ -8,7 +8,7 @@ from pipeline import capacity
 
 def test_real_config_loads_and_orcl_is_hyperscaler():
     cfg = capacity.load_capacity()
-    assert len(cfg["companies"]) == 18
+    assert len(cfg["companies"]) == 29
     orcl = next(c for c in cfg["companies"] if c["t"] == "ORCL")
     assert orcl["role"] == "hyperscaler" and orcl["dupe"] is None
     assert all("px" not in c and "cap" not in c for c in cfg["companies"])

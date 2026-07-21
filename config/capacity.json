@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
- "as_of_curated": "2026-07-09",
- "note": "Sellable AI critical-IT MW + unit economics for the neocloud / ex-BTC-miner cohort. Canonical source for neocloud-capacity-tracker.{md,html}. op/con/plan = verify-adjusted critical-IT AI MW. cap/nd/bk in $B. Derived analytics (EV, weighted MW, EV/MW, coverage, %energized) are computed at render time, not stored. dupe!=null => excluded from de-duped cohort totals.",
+ "as_of_curated": "2026-07-21",
+ "note": "AI critical-IT MW + unit economics across the AI build-out cohort: neoclouds, powered-shell landlords, operators, and hyperscalers (incl. private builders xAI and OpenAI/Stargate). Spec: docs/superpowers/specs/2026-07-21-capacity-tracker-design.md. op/con/plan = verify-adjusted critical-IT AI MW; hyperscaler MW are estimates (no filing-grade critical-IT split is disclosed). cap/nd/bk in $B. Derived analytics (EV, weighted MW, EV/MW, coverage, %energized) are computed at render time, not stored. dupe!=null => excluded from de-duped cohort totals.",
  "basis": {
   "weighted_mw": "op + 0.5*con + 0.25*plan",
   "ev": "market cap + net debt",
@@ -89,20 +89,20 @@
    "con": 750,
    "plan": 3000,
    "pipe": "~10,000",
-   "nd": 124.9,
+   "nd": 98.2,
    "bk": 638,
-   "ndflag": null,
+   "ndflag": "FY26 Q4 (5/31/26): total debt $129.5B − cash $31.3B ≈ $98.2B net; not lease-inclusive (corrects prior 124.9, which was ~total-debt basis)",
    "note": null,
    "dom": "oracle.com",
-   "flag": "hyperscaler benchmark — scale calibration only",
+   "flag": "hyperscaler benchmark — scale calibration only; op/con/plan MW split is a curated estimate (Epoch: Abilene alone 300 op / 900 con); bk 638 = cloud-wide RPO (mostly OCI/AI), NOT a capacity-specific leasing backlog",
    "econ": {
-    "backlog": "$638B RPO (+363% YoY)",
-    "revmw": "~$19M (OCI IaaS, crude)",
-    "capexmw": "$55.7B FY26 capex",
+    "backlog": "$638B RPO (+363% YoY, +$85B QoQ); prepaid+customer-supplied GPU portion now $75B — cloud-wide RPO (mostly OCI/AI), NOT a capacity-specific leasing backlog; bk carries it for scale calibration only",
+    "revmw": "~$19M (OCI IaaS, crude; OCI Q4 rev $5.8B +93% YoY)",
+    "capexmw": "$55.7B FY26 capex (vs $50.9B est); reported capex $20–25B higher on customer prepayments",
     "anchor": "OpenAI/Stargate (~47% RPO est.)",
-    "contract": "long take-or-pay",
-    "margin": "OCI 30–40% target; dilutive now",
-    "power": "Abilene clean campus + Bloom",
+    "contract": "long take-or-pay; many prepaid or customer-supplied-GPU AI contracts",
+    "margin": "OCI 30–40% target; dilutive now (negative FCF)",
+    "power": "Abilene + fuel-cell/natural-gas clean-energy DCs",
     "pricing": "BYO-hardware + Oracle-capital GPU mix"
    },
    "sites": [
@@ -110,22 +110,22 @@
      "Abilene TX (Stargate I)",
      1200,
      "c",
-     "~42% delivered Q4 FY26"
+     "300 MW op / 900 MW con; full Q4 2026"
     ],
     [
-     "Shackelford County TX",
-     115,
-     "c",
-     "online"
+     "Shackelford County TX (Vantage)",
+     2000,
+     "p",
+     "Q4 2028"
     ],
     [
-     "Dona Ana NM / Saline MI / Port Washington WI",
-     null,
-     "c",
-     "2026–27"
+     "Doña Ana NM (STACK) / Saline MI (Related) / Port Washington WI (Vantage)",
+     4900,
+     "p",
+     "2026–28"
     ],
     [
-     "OpenAI add'l Stargate",
+     "OpenAI add'l Stargate (Oracle ~$300B/5yr)",
      4500,
      "p",
      "~$300B / 5 yr"
@@ -133,8 +133,16 @@
    ],
    "src": [
     [
-     "Q4 FY26 transcript + cash-flow (>1.2 GW, $638B RPO)",
-     "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=ORCL"
+     "Oracle Q4 & FY26 8-K ex-99.1 (RPO $638B, capex $55.7B, balance sheet)",
+     "https://www.sec.gov/Archives/edgar/data/0001341439/000119312526265848/orcl-ex99_1.htm"
+    ],
+    [
+     "Oracle FY26 Q4 press release",
+     "https://investor.oracle.com/investor-news/news-details/2026/Oracle-Announces-Record-Q4-and-FY-2026-Results-Driven-by-Cloud-Infrastructure--Cloud-Applications/default.aspx"
+    ],
+    [
+     "Epoch AI — Abilene 300 op / 900 con",
+     "https://epoch.ai/publications/openai-stargate-where-the-us-sites-stand"
     ]
    ],
    "private": false,
@@ -1234,6 +1242,1042 @@
    "private": false,
    "valuation_b": null,
    "confidence": "filed"
+  },
+  {
+   "t": "MSFT",
+   "n": "Microsoft",
+   "role": "hyperscaler",
+   "dupe": null,
+   "private": false,
+   "valuation_b": null,
+   "confidence": "estimate",
+   "op": 3800,
+   "con": 3000,
+   "plan": 4500,
+   "pipe": ">12 GW total datacenter footprint by ~2028 implied by 'double in 2 years' + >80% AI-capacity growth in 2026 (est.)",
+   "nd": -38.0,
+   "ndflag": "Q3 FY26 balance sheet (Mar-31-2026): total debt $40.26B - (cash $32.1B + ST investments $46.2B) = net CASH ~$38B. Excludes $16.7B operating-lease liabilities + large (unitemized) finance-lease obligations for DC shells.",
+   "bk": null,
+   "flag": "op/con/plan estimates: MSFT discloses only total 'GW capacity' (gross), so critical-IT (x0.72) and the tracked-lease carve-out (CRWV/NBIS/EQIX/DLR ~0.8-1.0 GW) are analyst judgment. Total-fleet anchor (~6 GW op gross Mar-2026, +~1 GW/qtr) is filed; the split is not.",
+   "dom": "microsoft.com",
+   "econ": {
+    "backlog": "Microsoft Cloud RPO cloud-wide (~$400B+ incl OpenAI $250B Azure commitment) -> NOT capacity-specific; bk null",
+    "revmw": "$6.2B annualized revenue per GW of DC capacity (Q3 FY26 run-rate, up from $4.8B yr-ago)",
+    "capexmw": "no clean disclosure; CY2026 capex ~$190B (+61% y/y, ~$25B of raise = memory-price spike) vs ~9 GW gross adds -> very high GPU-inclusive $/MW",
+    "anchor": "OpenAI (27% MSFT stake, $250B incremental Azure commitment post Oct-2025 restructuring; Azure exclusive for OpenAI stateless APIs; MSFT lost compute right-of-first-refusal)",
+    "contract": "Azure consumption + multi-yr enterprise; neocloud leases 5-yr take-or-pay (CRWV thru 2030, NBIS thru Oct-2031)",
+    "margin": "Azure & other cloud +39-40% y/y (Q2/Q3 FY26); Microsoft Cloud GM pressured by AI-capex depreciation",
+    "power": "MSFT discloses total 'GW capacity' = gross facility power, NOT critical-IT; critical-IT assumed ~72% of gross. Nuclear: 20-yr 835 MW PPA w/ Constellation, Three Mile Island Unit-1 restart (Crane Clean Energy Center), online ~2028. Pecos TX = behind-the-meter natural gas.",
+    "pricing": "Azure metered consumption; no per-MW list price"
+   },
+   "sites": [
+    [
+     "Fairwater 1 - Mount Pleasant, WI (Racine Co.)",
+     400,
+     "o",
+     "Phase-1 live Apr 2026; campus ->3.3 GW peak by late 2027"
+    ],
+    [
+     "Fairwater 2 bldg - Mount Pleasant, WI",
+     null,
+     "c",
+     "2028"
+    ],
+    [
+     "Fairwater Atlanta - Fayetteville, GA (Fayette Co., QTS)",
+     433,
+     "o",
+     "live Oct 2025; campus ->~1,500 MW / 13 bldgs"
+    ],
+    [
+     "San Antonio / Castroville, TX (SAT, Medina Co.)",
+     null,
+     "c",
+     "Jun 2027"
+    ],
+    [
+     "Pecos, TX (Reeves Co.)",
+     2000,
+     "p",
+     "2026-31; behind-the-meter natural gas"
+    ],
+    [
+     "Cheyenne, WY (Laramie Co.)",
+     null,
+     "p",
+     "2026+; 3,200 acres, +$274M"
+    ],
+    [
+     "Quincy, WA (Grant Co.)",
+     null,
+     "o",
+     "legacy, operating"
+    ]
+   ],
+   "src": [
+    [
+     "Q3 FY26 capacity/rev-per-GW (windowsnews.ai, 2026-04-29)",
+     "https://windowsnews.ai/article/microsoft-adds-1-gw-of-datacenter-capacity-in-q3-fy2026-revenue-hits-829-billion.416504"
+    ],
+    [
+     "Q3 FY26 balance sheet (Microsoft IR)",
+     "https://www.microsoft.com/en-us/investor/earnings/fy-2026-q3/balance-sheets"
+    ],
+    [
+     "$190B 2026 capex (CNBC 2026-04-29)",
+     "https://www.cnbc.com/2026/04/29/microsoft-msft-q3-earnings-report-2026.html"
+    ],
+    [
+     "OpenAI 27% stake + $250B Azure (DCD)",
+     "https://www.datacenterdynamics.com/en/news/openai-completes-for-profit-move-microsoft-given-27-stake-and-250bn-azure-contract-but-no-longer-has-cloud-right-of-first-refusal/"
+    ],
+    [
+     "Fairwater WI power/scale (Epoch AI)",
+     "https://epoch.ai/data/ai-data-centers/directory/microsoft-fairwater-wisconsin"
+    ],
+    [
+     "Fairwater 1 complete (Microsoft Source 2026-06-23)",
+     "https://news.microsoft.com/source/2026/06/23/microsoft-completes-construction-on-first-datacenter-facility-in-mount-pleasant-wisconsin/"
+    ],
+    [
+     "Pecos TX ~2GW (Microsoft blog 2026-06-22)",
+     "https://blogs.microsoft.com/blog/2026/06/22/powering-the-next-wave-of-ai-expanding-capacity-with-our-new-datacenter-in-pecos/"
+    ],
+    [
+     "Cheyenne WY (Microsoft Source 2026-04-14)",
+     "https://news.microsoft.com/source/2026/04/14/microsoft-announces-intent-to-expand-datacenter-operations-in-cheyenne-accelerating-innovation-and-economic-growth/"
+    ],
+    [
+     "CoreWeave $10B (DCD)",
+     "https://www.datacenterdynamics.com/en/news/microsoft-to-invest-10bn-in-coreweave-by-end-of-decade/"
+    ],
+    [
+     "Nebius $17.4-19.4B (DCD)",
+     "https://www.datacenterdynamics.com/en/news/microsoft-to-use-nebius-gpu-data-centers-in-deal-worth-174bn-over-five-years/"
+    ],
+    [
+     "Three Mile Island 835MW PPA (DCD)",
+     "https://www.datacenterdynamics.com/en/news/three-mile-island-nuclear-power-plant-to-return-as-microsoft-signs-20-year-835mw-ai-data-center-ppa/"
+    ],
+    [
+     "SemiAnalysis MSFT datacenter freeze (estimate)",
+     "https://newsletter.semianalysis.com/p/microsofts-datacenter-freeze"
+    ]
+   ]
+  },
+  {
+   "t": "AMZN",
+   "n": "Amazon (AWS)",
+   "role": "hyperscaler",
+   "dupe": null,
+   "private": false,
+   "valuation_b": null,
+   "confidence": "estimate",
+   "op": 15000,
+   "con": 7000,
+   "plan": 12000,
+   "pipe": "'Double total capacity again by end-2027' off a base adding ~3.9 GW/yr (Jassy, Q4-2025). Named planned mega-campuses: Hobart IN 2,400, NE Creek VA 2,700, Birchwood VA 2,175, PA $20B ~1.9 GW, US-gov 1.3 GW.",
+   "nd": -20.0,
+   "ndflag": "Q1 FY26 10-Q (Mar-31-2026): funded debt ~$122.6B - (cash $101.8B + marketable securities $41.3B = $143.1B) = net CASH ~$20B. Adding $13.3B finance leases -> ~-$7B (~neutral); adding $91.6B operating leases -> ~+$84B all-in. Debt rising fast (~$53.8B issued Mar-2026, 2026 issuance >$72B).",
+   "bk": null,
+   "flag": "op/con/plan WEAK: Amazon discloses no total critical-IT split. op~15 GW (range 12-20) triangulated from undercounted US tracker (dcmap 18.4 GW gross, only 35/211 sized) + '+3.9 GW/yr, doubled since 2022' + x0.72 crit-IT + intl. Direction/magnitude solid (largest single-operator buildout), precise split soft. TENANTS empty - Amazon is self-build/owned/PPA, not a neocloud tenant.",
+   "dom": "aws.amazon.com",
+   "econ": {
+    "backlog": "AWS RPO ~$364B (Q1-2026, incl >$225B Trainium commitments + >$100B Anthropic) is cloud-wide, NOT capacity-specific -> bk null",
+    "revmw": "AWS AI run-rate >$15B (Q1-2026), 'demand outstrips capacity'; AWS rev $37.6B Q1-2026 (+28% y/y)",
+    "capexmw": "Rainier ~$11B for ~1.7-2.0 GW gross ~= $5.5-6.5M/MW gross (chips-incl, derived); 2026 co-wide capex ~$200B not cleanly MW-attributable",
+    "anchor": "Anthropic - >$100B over 10 yr, up to 5 GW Trainium reserved, ~1 GW live end-2026; Amazon +up-to-$25B into Anthropic (2026-04-20). Also $50B US federal cloud + internal.",
+    "contract": "long-dated cloud + custom-silicon (Trainium2 sold out, Trainium3 nearly fully subscribed)",
+    "margin": "AWS op margin expansion expected from Trainium cost advantage vs 3rd-party inference chips",
+    "power": "Table MW mostly gross facility -> critical-IT ~0.72. Talen/Susquehanna nuclear PPA up to 1,920 MW (17-yr, ~$18B) + AWS bought adjacent campus; X-energy SMR (early); MS 616 MW renewables.",
+    "pricing": "AWS metered; no per-MW list price"
+   },
+   "sites": [
+    [
+     "Project Rainier - New Carlisle, IN (St. Joseph Co.)",
+     1725,
+     "o",
+     "Ph1 open Oct-2025; 345kV Dec-2026; full build (1.96 GW IT) ~2027+"
+    ],
+    [
+     "Hobart / NW Indiana (Lake Co.)",
+     2400,
+     "p",
+     "Ph2 +$15B ann. Nov-2025"
+    ],
+    [
+     "Madison County / Canton, MS (Madison Co.)",
+     1034,
+     "c",
+     "build to 2027; MS statewide +$12B ann. 2026-04-09"
+    ],
+    [
+     "Salem Township Innovation Campus, PA (Luzerne Co.)",
+     960,
+     "c",
+     "Susquehanna nuclear-adjacent; part of $20B PA"
+    ],
+    [
+     "Northeast Creek / North Creek Tech, VA (Louisa Co.)",
+     2700,
+     "p",
+     ">=770 MW op by 2027"
+    ],
+    [
+     "Richmond County, NC",
+     1000,
+     "c",
+     "construction began Oct-2025"
+    ],
+    [
+     "New Albany, OH (Licking Co.)",
+     400,
+     "o",
+     "2 bldgs open 2025; 5-bldg $3.5B by 2030"
+    ],
+    [
+     "US Government / federal cloud (site TBD)",
+     1300,
+     "p",
+     "up to $50B; breaks ground 2026"
+    ]
+   ],
+   "src": [
+    [
+     "Amazon Q4-2025 earnings, +3.9 GW/'double by 2027' (The Register 2026-02-06)",
+     "https://www.theregister.com/2026/02/06/amazon_earnings_q4_2025/"
+    ],
+    [
+     "AWS +3.8GW in last year (DCD)",
+     "https://www.datacenterdynamics.com/en/news/aws-added-38gw-of-data-center-capacity-in-the-last-year/"
+    ],
+    [
+     "Amazon capex $200B 2026 (DCD)",
+     "https://www.datacenterdynamics.com/en/news/amazon-capex-to-hit-200bn-in-2026-will-mostly-fund-aws-data-centers/"
+    ],
+    [
+     "dcmap.us Amazon tracker (Jul-2026, undercounted)",
+     "https://dcmap.us/companies/amazon/"
+    ],
+    [
+     "Amazon Q1-2026 10-Q (EDGAR 2026-04-30)",
+     "https://www.sec.gov/Archives/edgar/data/0001018724/000101872426000014/amzn-20260331.htm"
+    ],
+    [
+     "2026 bond issuance >$72B (MLQ)",
+     "https://mlq.ai/news/amazon-raises-25-billion-in-bond-sale-bringing-2026-debt-issuance-past-72-billion/"
+    ],
+    [
+     "Project Rainier opens $11B (CNBC 2025-10-29)",
+     "https://www.cnbc.com/2025/10/29/amazon-opens-11-billion-ai-data-center-project-rainier-in-indiana.html"
+    ],
+    [
+     "New Carlisle deep-dive (measuredai)",
+     "https://measuredai.substack.com/p/aws-new-carlisle-data-center-campus"
+    ],
+    [
+     "Anthropic up-to-5GW compute (Anthropic 2026-04-20)",
+     "https://www.anthropic.com/news/anthropic-amazon-compute"
+    ],
+    [
+     "Amazon +$25B Anthropic (CNBC 2026-04-20)",
+     "https://www.cnbc.com/2026/04/20/amazon-invest-up-to-25-billion-in-anthropic-part-of-ai-infrastructure.html"
+    ],
+    [
+     "Talen 1.9GW Susquehanna PPA (UtilityDive)",
+     "https://www.utilitydive.com/news/talen-amazon-aws-susquehanna-nuclear-data-centert/750440/"
+    ],
+    [
+     "MS $25B / +$12B (aboutamazon)",
+     "https://www.aboutamazon.com/news/company-news/amazon-25-billion-mississippi-data-centers"
+    ],
+    [
+     "Amazon up-to-$50B US gov AI, 1.3GW (CNBC 2025-11-24)",
+     "https://www.cnbc.com/2025/11/24/amazon-to-spend-up-to-50-billion-on-ai-services-for-us-government.html"
+    ],
+    [
+     "$200B capex / $15B AI rev / backlog (NextBigFuture)",
+     "https://www.nextbigfuture.com/2026/04/amazon-investing-200-billion-into-ai-capex-in-2026-and-making-15-billion-in-ai-revenue.html"
+    ]
+   ]
+  },
+  {
+   "t": "GOOGL",
+   "n": "Alphabet (Google)",
+   "role": "hyperscaler",
+   "dupe": null,
+   "private": false,
+   "valuation_b": null,
+   "confidence": "estimate",
+   "op": 6000,
+   "con": 5000,
+   "plan": 6500,
+   "pipe": "TX $40B (Armstrong+2x Haskell), MO New Florence >1GW, India Vizag 1GW->multi-GW, OK $9B (Pryor/Stillwater/Muskogee), VA Chesterfield 900MW phased to 2032, SC/IA/AL later phases.",
+   "nd": -49.3,
+   "ndflag": "Net CASH ~$49.3B at Q1'26 (cash+mkt securities $126.8B - LT debt $77.5B). Issued ~$31B notes Q1'26 (funding Wiz + Intersect acquisitions + AI build); still net-cash. Excludes operating-lease liabilities. filed (10-Q 2026-04-29).",
+   "bk": null,
+   "flag": "MW estimate-only: Google discloses no total MW. op derived from ~42 TWh 2025 DC electricity (~4.8 GW avg draw -> ~5.5-7 GW provisioned crit-IT); con/plan from capex split + announced campuses. Fluidstack/WULF/CIFR capacity excluded -> TENANTS edges. The '508 MW active IT' tracker figure = colo-leased only, not the self-build fleet.",
+   "dom": "datacenters.google",
+   "econ": {
+    "backlog": "Google Cloud RPO ~$462B Q1'26 is cloud-wide, NOT capacity-specific -> bk null",
+    "revmw": "Google Cloud rev +63% y/y to ~$20B Q1'26; no per-MW disclosure",
+    "capexmw": "~$10-15M/critical-IT MW shell+power derived from ~$74B 2026 DC-portion capex vs multi-GW adds (low conf)",
+    "anchor": "Internal (Gemini/Search/YouTube) + Cloud; marquee external = Anthropic up to 1M Ironwood TPUs / >1 GW online 2026 / 5 GW over 5 yr / ~$40B",
+    "contract": "Anthropic deal tens-of-$B; Broadcom ~$21B TPU supply (v8)",
+    "margin": "Google Cloud profitable and scaling; no per-MW pricing disclosed",
+    "power": "crit-IT est ~70-75% of gross; op derived from 42 TWh/yr. Kairos SMR up to 500 MW, Fervo geothermal, Intersect co-located clean GW, Xcel ~2 GW, DTE 2.7 GW, >22 GW lifetime clean PPAs, exploring gas+CCS",
+    "pricing": "not disclosed per-MW"
+   },
+   "sites": [
+    [
+     "New Albany / Columbus Cluster, OH (Licking Co.)",
+     350,
+     "o",
+     "operating, expanding ('largest AI supercomputer' early 2026)"
+    ],
+    [
+     "Council Bluffs, IA (Pottawattamie Co.)",
+     500,
+     "o",
+     "expanding, $7B 2026 IA plan"
+    ],
+    [
+     "Chesterfield, VA (Bermuda Hundred)",
+     900,
+     "c",
+     "constr. late 2026, phased to 2032"
+    ],
+    [
+     "Ridgeville / St George, SC (Dorchester Co.)",
+     null,
+     "c",
+     "2026-27 ($9B SC)"
+    ],
+    [
+     "Jackson Co. AL (Widows Creek/Bridgeport)",
+     300,
+     "c",
+     "$1.5B 2026-27; Kairos 50MW nuclear"
+    ],
+    [
+     "Texas 3 hubs (Armstrong/Haskell/Midlothian)",
+     null,
+     "p",
+     "$40B through 2027"
+    ],
+    [
+     "New Florence, MO (Montgomery Co.)",
+     1000,
+     "p",
+     "$15B, announced May 2026"
+    ],
+    [
+     "Cedar Rapids, IA (Big Cedar Ind. Ctr)",
+     null,
+     "c",
+     "1st bldg 2026"
+    ]
+   ],
+   "src": [
+    [
+     "Q1 2026 earnings release (SEC)",
+     "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000043/googexhibit991q12026.htm"
+    ],
+    [
+     "Q1 2026 10-Q (SEC)",
+     "https://www.sec.gov/Archives/edgar/data/0001652044/000165204426000048/goog-20260331.htm"
+    ],
+    [
+     "CNBC Q1 2026 earnings",
+     "https://www.cnbc.com/2026/04/29/alphabet-googl-q1-2026-earnings.html"
+    ],
+    [
+     "Google 2026 Environmental Report / 42 TWh DC electricity (TechTimes 2026-07-04)",
+     "https://www.techtimes.com/articles/319712/20260704/google-ai-electricity-37-renewable-certificates-cannot-cover-supply-chain-carbon.htm"
+    ],
+    [
+     "Cleanview Google power strategy (2024 30.8M MWh base)",
+     "https://cleanview.co/reports/google-power-strategy"
+    ],
+    [
+     "Texas $40B (DCD)",
+     "https://www.datacenterdynamics.com/en/news/google-commits-40bn-to-expand-cloud-and-ai-infrastructure-in-texas-through-2027/"
+    ],
+    [
+     "Virginia $9B / 900MW (DCD)",
+     "https://www.datacenterdynamics.com/en/news/google-to-invest-9bn-in-virginia-data-centers-plans-new-campus-in-chesterfield-county/"
+    ],
+    [
+     "SC $9B (DCD)",
+     "https://www.datacenterdynamics.com/en/news/google-to-invest-9bn-in-south-carolina-data-centers/"
+    ],
+    [
+     "Iowa $7B (blog.google)",
+     "https://blog.google/feed/new-7-billion-investment-iowa/"
+    ],
+    [
+     "Missouri $15B (Fox2Now)",
+     "https://fox2now.com/news/missouri/google-secures-15b-data-center-project-in-mid-missouri/"
+    ],
+    [
+     "Alabama $1.5B (blog.google 2026-06)",
+     "https://blog.google/innovation-and-ai/infrastructure-and-cloud/global-network/alabama-investment-june-2026/"
+    ],
+    [
+     "Anthropic 1M TPUs / >1GW (DCD)",
+     "https://www.datacenterdynamics.com/en/news/google-and-anthropic-confirm-massive-1gw-cloud-deal-with-up-to-one-million-google-tpus/"
+    ],
+    [
+     "Kairos SMR deal (DCD)",
+     "https://www.datacenterdynamics.com/en/news/google-signs-nuclear-smr-deal-with-kairos-for-data-center-power/"
+    ],
+    [
+     "TeraWulf/Fluidstack $9.5B Google-backed (CoinDesk)",
+     "https://www.coindesk.com/business/2025/10/28/terawulf-stock-surges-22-after-usd9-5b-google-backed-ai-compute-deal-with-fluidstack"
+    ],
+    [
+     "Cipher/Fluidstack $3B Google backstop (Blockspace)",
+     "https://blockspace.media/insight/cipher-mining-signs-3-billion-ai-hosting-deal-with-fluidstack-google-to-backstop-1-4-billion/"
+    ]
+   ]
+  },
+  {
+   "t": "META",
+   "n": "Meta Platforms",
+   "role": "hyperscaler",
+   "dupe": null,
+   "private": false,
+   "valuation_b": null,
+   "confidence": "estimate",
+   "op": 5500,
+   "con": 3000,
+   "plan": 3500,
+   "pipe": "Hyperion 2 GW -> 5 GW gross (+~2,160 MW IT); Zuckerberg 'tens of GW this decade, hundreds of GW or more over time'; SemiAnalysis: ~10 GW contracted since 2024, most third-party.",
+   "nd": -22.4,
+   "ndflag": "Net cash ~$22B (Q1'26 10-Q, Mar-31-2026: $81.18B cash+mkt securities vs $58.75B LT debt, no ST debt). CRITICAL: Hyperion ~$27-30B Blue Owl/PIMCO SPV debt (2049) is OFF balance sheet (Meta owns 20% of JV) -> on-b/s net cash understates true AI leverage.",
+   "bk": null,
+   "flag": "op/con/plan estimate-only: Meta discloses no consolidated fleet MW. op~5,500 = derived legacy-fleet (~4-5 GW from ~30 TWh/yr electricity math) + Prometheus ~700 MW IT (Epoch est); con/plan = named campuses gross x0.72. Meta is END USER (bk null). Large third-party leased compute (CRWV/NBIS) excluded -> TENANTS edges.",
+   "dom": "meta.com",
+   "econ": {
+    "backlog": "null - Meta is the end user of its own capacity, no external leasing RPO",
+    "revmw": "n/a (internal use; no external per-MW pricing)",
+    "capexmw": "derived: Prometheus ~$32.4B / 854 MW IT ~= $38M/MW (GPU-incl); El Paso $10B / ~720 MW IT ~= $14M/MW (facility-heavier)",
+    "anchor": "Internal - Llama / Meta AI / Superintelligence Labs. No external tenant. (Meta Compute launched Jul 2026 to resell surplus.)",
+    "contract": "Hyperion via off-b/s SPV/JV: Blue Owl 80% / Meta 20%; ~$27B 144A debt (2049) + ~$2.5B equity; PIMCO ~$18B anchor, BlackRock ~$3B; priced 2025-10-16",
+    "margin": "n/a (internal)",
+    "power": "crit-IT ~0.72 of gross. On-site natural gas: Hyperion (Entergy ~2.26 GW approved, up to 10 plants ~7.5 GW ordered), El Paso 366 MW modular gas. Nuclear RFP + TerraPower/Oklo/Vistra (~6.6 GW clean by 2035). PUE ~1.08-1.1.",
+    "pricing": "n/a"
+   },
+   "sites": [
+    [
+     "Prometheus - New Albany, OH (Licking Co.)",
+     700,
+     "o",
+     "world's first ~1 GW AI supercluster; 631 MW IT live May-2026, ->854 MW Q4 2026 w/ Socrates gas turbines"
+    ],
+    [
+     "Hyperion - Richland Parish, LA",
+     1440,
+     "c",
+     "2 GW gross Ph1 ~summer 2028; scales to 5 GW; Blue Owl JV; Entergy gas"
+    ],
+    [
+     "El Paso, TX",
+     720,
+     "c",
+     "1 GW gross by 2028, $10B, 366 MW on-site modular gas"
+    ],
+    [
+     "Montgomery, IN",
+     null,
+     "c",
+     "$1.5B+ ($10B Indiana program reported)"
+    ],
+    [
+     "Rosemount, MN",
+     null,
+     "c",
+     "expected 2026, $800M+"
+    ],
+    [
+     "Cheyenne, WY (Laramie Co.)",
+     null,
+     "c",
+     "broke ground 2024, 715k sq ft"
+    ],
+    [
+     "Prineville, OR (Crook Co.)",
+     250,
+     "o",
+     "legacy op since 2011, $800M+"
+    ],
+    [
+     "Fort Worth, TX (Tarrant Co.)",
+     250,
+     "o",
+     "legacy op since 2017, 2.6M sq ft, 5 bldgs"
+    ]
+   ],
+   "src": [
+    [
+     "Meta Q1 2026 press release PDF (FILED)",
+     "https://s21.q4cdn.com/399680738/files/doc_financials/2026/q1/Meta-03-31-2026-Exhibit-99-1_final.pdf"
+    ],
+    [
+     "Meta Q1 2026 10-Q balance sheet (StockTitan)",
+     "https://www.stocktitan.net/sec-filings/META/10-q-meta-platforms-inc-quarterly-earnings-report-3bd7ce5dd651.html"
+    ],
+    [
+     "Meta bumps 2026 capex to $125-145B (Fortune 2026-04-29)",
+     "https://fortune.com/2026/04/29/meta-zuckerberg-145-billion-ai-spending-roi/"
+    ],
+    [
+     "Meta-Blue Owl JV for Hyperion (Meta PR 2025-10, FILED)",
+     "https://about.fb.com/news/2025/10/meta-blue-owl-capital-develop-hyperion-data-center/"
+    ],
+    [
+     "Blue Owl/Meta ~$30B Louisiana financing close (DCD)",
+     "https://www.datacenterdynamics.com/en/news/meta-secures-30bn-blue-owl-finance-package-for-louisiana-data-center-report/"
+    ],
+    [
+     "Why Meta owns just 20% of Hyperion (Data Centre Magazine)",
+     "https://datacentremagazine.com/news/hyperscale-strategy-meta-hyperion-data-centre-blue-owl-venture"
+    ],
+    [
+     "Hyperion expands to 5 GW / LA reaches $50B (CNBC + US News 2026-07-13)",
+     "https://www.cnbc.com/2026/07/13/meta-louisiana-data-center-investment-reaches-50-billion-amid-ai-push.html"
+    ],
+    [
+     "Prometheus energization ladder (Epoch AI, estimate)",
+     "https://epoch.ai/data/ai-data-centers/directory/meta-prometheus"
+    ],
+    [
+     "Meta $10B El Paso DC, 1GW by 2028 (CNBC 2026-03-26)",
+     "https://www.cnbc.com/2026/03/26/meta-to-spend-10-billion-on-ai-data-center-in-el-paso-1gw-by-2028.html"
+    ],
+    [
+     "Entergy approval 3 gas facilities 2GW Meta LA (DCD)",
+     "https://www.datacenterdynamics.com/en/news/entergy-obtains-approval-to-construct-three-gas-facilities-to-serve-metas-2gw-data-center-in-louisiana/"
+    ],
+    [
+     "CoreWeave $21B expanded Meta agreement (CoreWeave PR, Apr 2026)",
+     "https://www.coreweave.com/news/coreweave-and-meta-announce-21-billion-expanded-ai-infrastructure-agreement"
+    ],
+    [
+     "Nebius $3bn Meta deal / 2.5GW by end-2026 (DCD)",
+     "https://www.datacenterdynamics.com/en/news/nebius-signs-3bn-deal-with-meta-says-current-available-capacity-is-sold-out-as-it-targets-25gw-by-end-of-2026/"
+    ],
+    [
+     "SemiAnalysis: Meta >5GW H1-2026, ~10GW since 2024, mostly third-party (est.)",
+     "https://www.odaily.news/en/post/5211715"
+    ],
+    [
+     "Meta 6GW nuclear (TerraPower/Oklo/Vistra) (Tom's Hardware)",
+     "https://www.tomshardware.com/tech-industry/artificial-intelligence/meta-inks-deals-to-supply-a-staggering-6-gigawatts-in-nuclear-power-for-data-center-ambitions-enough-wattage-to-supply-5-million-homes"
+    ]
+   ]
+  },
+  {
+   "t": "BABA",
+   "n": "Alibaba (Alibaba Cloud)",
+   "role": "hyperscaler",
+   "dupe": null,
+   "private": false,
+   "valuation_b": null,
+   "confidence": "estimate",
+   "op": 2000,
+   "con": 1000,
+   "plan": 2000,
+   "pipe": "RMB380B (~$53B) AI+cloud infra over FY26-FY28; mgmt guided to 'overshoot'; 30 regions / 95 AZs by 2H26",
+   "nd": -38,
+   "ndflag": "NET CASH ~$38B at 2026-03-31 (FYE); RMB520.8B cash & liquid investments per FY26 Q4 6-K. Negative nd = net cash.",
+   "bk": null,
+   "flag": "⚠ ESTIMATE - domestic-China capacity, opaque disclosure; no facility-level critical-IT MW published. op/con/plan triangulated from named super-campuses + $53B capex program.",
+   "dom": "alibabacloud.com",
+   "econ": {
+    "backlog": "no capacity backlog disclosed; cloud RPO not broken out",
+    "capexmw": "RMB38.6B AI+cloud capex in Q1 FY26 alone (record); RMB380B/~$53B over 3 yrs",
+    "anchor": "Alibaba Cloud internal + external AI/cloud tenants; AI revenue triple-digit growth 11 straight quarters",
+    "power": "critical-IT MW estimated; assumes self-built super-campuses run ~70-75% of gross facility power",
+    "pricing": "not disclosed"
+   },
+   "sites": [
+    [
+     "Zhangbei super DC (Zhangjiakou, Hebei)",
+     500,
+     "o",
+     "operating"
+    ],
+    [
+     "Ulanqab campus (Inner Mongolia)",
+     300,
+     "o",
+     "operating"
+    ],
+    [
+     "Hangzhou / Zhenwu AI DC (Zhejiang)",
+     null,
+     "o",
+     "10,000 in-house chips live Apr 2026"
+    ],
+    [
+     "Heyuan campus (Guangdong)",
+     null,
+     "o",
+     "operating"
+    ],
+    [
+     "Nantong campus (Jiangsu)",
+     null,
+     "c",
+     "expanding 2026-27"
+    ]
+   ],
+   "src": [
+    [
+     "Alibaba RMB380B AI+cloud PR",
+     "https://www.alibabagroup.com/en-US/document-1830678592242057216"
+    ],
+    [
+     "SCMP - capex boost / full-stack AI (Q1 FY26 RMB38.6B; overshoot)",
+     "https://www.scmp.com/tech/big-tech/article/3353451/alibaba-ai-revenue-logs-triple-digit-growth-11th-quarter-amid-strategic-reshuffle"
+    ],
+    [
+     "Alibaba FY26 Q4 6-K (net cash ~$38B; RMB520.8B cash)",
+     "https://www.sec.gov/Archives/edgar/data/0001577552/000110465926060224/tm2614494d1_ex99-1.htm"
+    ],
+    [
+     "CNBC - Alibaba Zhenwu DC 10,000 own chips",
+     "https://www.cnbc.com/2026/04/08/china-alibaba-data-center-ai-chips-zhenwu.html"
+    ],
+    [
+     "Baxtel - Alibaba Cloud DCs (Zhangbei 500MW; 89 DCs)",
+     "https://baxtel.com/data-centers/alibaba-cloud"
+    ]
+   ]
+  },
+  {
+   "t": "TCEHY",
+   "n": "Tencent (Tencent Cloud)",
+   "role": "hyperscaler",
+   "dupe": null,
+   "private": false,
+   "valuation_b": null,
+   "confidence": "estimate",
+   "op": 1200,
+   "con": 600,
+   "plan": 1500,
+   "pipe": "RMB500B (~$70B) 5-yr new-infra plan (AI-prioritized); 2H26 the buildout inflection as China-designed chips ramp",
+   "nd": -20.4,
+   "ndflag": "NET CASH RMB146.9B (~$20.4B) at 2026-03-31, up 63%; total cash RMB533.7B per Q1'26 results. Negative nd = net cash.",
+   "bk": null,
+   "flag": "⚠ ESTIMATE - domestic-China capacity, opaque disclosure; GPU-supply-constrained through 2025-26. MW triangulated from named campuses + RMB500B infra program; no facility-level critical-IT MW published.",
+   "dom": "cloud.tencent.com",
+   "econ": {
+    "backlog": "no capacity backlog disclosed",
+    "capexmw": "Q1'26 capex RMB31.2B (+18% YoY, +84% QoQ); 2026 AI product spend guided >RMB36B (>2x); RMB500B/5yr infra",
+    "anchor": "Tencent internal (WeChat/gaming/ads AI) + Tencent Cloud external tenants",
+    "power": "critical-IT MW estimated; GPU access is the binding constraint, not power/shell",
+    "pricing": "not disclosed"
+   },
+   "sites": [
+    [
+     "Gui'an super DC (Guizhou)",
+     null,
+     "o",
+     "operating; >1M-server ambition"
+    ],
+    [
+     "Qingyuan campus (Guangdong)",
+     null,
+     "o",
+     "operating"
+    ],
+    [
+     "Ulanqab campus (Inner Mongolia)",
+     null,
+     "o",
+     "operating"
+    ],
+    [
+     "Tianjin campus",
+     null,
+     "c",
+     "expanding 2026-27"
+    ]
+   ],
+   "src": [
+    [
+     "Yicai - Tencent Q1'26 capex >$4.4B on AI",
+     "https://www.yicaiglobal.com/news/tencents-first-quarter-profit-jumps-21-while-ai-spending-exceeds-usd44-billion"
+    ],
+    [
+     "DCD - Tencent $70B / RMB500B 5-yr infra plan, giant DCs >1M servers",
+     "https://www.datacenterdynamics.com/en/news/tencent-plans-70bn-spree-giant-data-centers-and-infrastructure-cloud-and-ai/"
+    ],
+    [
+     "Tencent Q1'26 results (net cash RMB146.9B; total cash RMB533.7B)",
+     "https://static.www.tencent.com/uploads/2026/05/13/47382ae415a209fd161bc19a1f9b3704.pdf"
+    ],
+    [
+     "SCMP - Alibaba/Tencent AI-spend surge, China chips ramp",
+     "https://www.scmp.com/tech/big-tech/article/3353573/alibaba-tencent-signal-ai-spending-surge-despite-earnings-pressure-china-chips-ramp"
+    ]
+   ]
+  },
+  {
+   "t": "BIDU",
+   "n": "Baidu (Baidu AI Cloud)",
+   "role": "hyperscaler",
+   "dupe": null,
+   "private": false,
+   "valuation_b": null,
+   "confidence": "estimate",
+   "op": 600,
+   "con": 400,
+   "plan": 800,
+   "pipe": "Kunlun M100 (2026) / M300 (2027) in-house chips; Tianchi 256/512 supernodes; 1M-card single Kunlun cluster targeted 2030",
+   "nd": -24,
+   "ndflag": "NET CASH RMB170.5B (~$24B) per Q1'26. Negative nd = net cash.",
+   "bk": null,
+   "flag": "⚠ ESTIMATE - smallest of the three Chinese clouds by footprint; opaque disclosure. Differentiated by in-house Kunlun silicon (reduces Nvidia dependence). MW triangulated; no facility-level critical-IT MW published.",
+   "dom": "cloud.baidu.com",
+   "econ": {
+    "backlog": "no capacity backlog disclosed",
+    "capexmw": "AI Cloud Infra revenue RMB8.8B in Q1'26 (+79% YoY); Kunlun chip sales est. ~RMB8B/$1.1B 2026 (JPM)",
+    "anchor": "Baidu internal (ERNIE, Baige platform) + AI Cloud external tenants; also sells Kunlun chips to 3rd-party DCs (incl. Tencent)",
+    "power": "critical-IT MW estimated; vertically integrated Kunlun silicon + Baige compute-rental",
+    "pricing": "rents compute via cloud; sells Kunlun M100/M300 to third parties"
+   },
+   "sites": [
+    [
+     "Yangquan super DC (Shanxi)",
+     null,
+     "o",
+     "operating; one of Asia's largest"
+    ],
+    [
+     "Baoding / Dingxing DC (Hebei)",
+     null,
+     "o",
+     "operating"
+    ],
+    [
+     "Baidu Yunzhou (Ulanqab, Inner Mongolia)",
+     null,
+     "c",
+     "expanding 2026-27"
+    ]
+   ],
+   "src": [
+    [
+     "Baidu Q1'26 6-K (AI Cloud Infra RMB8.8B +79%; AI >50% of core)",
+     "https://www.stocktitan.net/sec-filings/BIDU/6-k-baidu-inc-current-report-foreign-issuer-5645f6a0e8de.html"
+    ],
+    [
+     "TrendForce - Baidu Kunlun M100/M300 roadmap 2026-27, Tianchi supernodes, 1M-card 2030",
+     "https://www.trendforce.com/news/2025/11/13/news-baidu-rolls-out-kunlun-roadmap-m100-m300-ai-chips-arrive-2026-2027/"
+    ],
+    [
+     "CNBC - Baidu major AI chip player filling Nvidia gap",
+     "https://www.cnbc.com/2025/11/28/baidu-is-major-ai-chip-player-in-china-to-fill-nvidia-gap.html"
+    ],
+    [
+     "Zacks/Nasdaq - Baidu net cash RMB170.5B (~$24B)",
+     "https://www.nasdaq.com/articles/zacks-analyst-blog-highlights-baidu-tencent-and-alibaba"
+    ]
+   ]
+  },
+  {
+   "t": "EQIX",
+   "n": "Equinix",
+   "role": "landlord",
+   "dupe": null,
+   "private": false,
+   "valuation_b": null,
+   "confidence": "estimate",
+   "op": 450,
+   "con": 350,
+   "plan": 1500,
+   "pipe": ">725 MW xScale at full buildout across 35+ facilities; +>1.5 GW planned via >$15B US xScale JV; +~800 MW via atNorth acquisition over 5 yrs",
+   "nd": 20.7,
+   "ndflag": "Q1'26 10-Q: $22.084B total debt principal (incl $2.299B finance leases) less $1.362B cash = ~$20.7B net debt.",
+   "bk": null,
+   "flag": "⚠ op/con/plan are the hyperscale/AI-attributable slice (xScale + neocloud/AI deployments); the ~270-IBX retail-colo portfolio is EXCLUDED. Equinix does not publish a single AI-MW figure - split is an estimate off filed xScale/JV/atNorth totals.",
+   "dom": "equinix.com",
+   "econ": {
+    "backlog": "no capacity leasing backlog line; Q1'26 record $378M annualized gross bookings; xScale pre-commits ~60% of new capacity to named tenants",
+    "revmw": "not broken out at MW level",
+    "capexmw": "2026 total capex ~$4.1B (~$3.8B non-recurring ex on-BS xScale)",
+    "anchor": "8/10 top AI providers + 4/5 neoclouds deploy on Equinix; xScale tenants are named hyperscalers (undisclosed individually)",
+    "contract": "xScale = long-term pre-committed hyperscale leases",
+    "power": "AI-attributable critical-IT MW estimated from xScale (>725MW buildout) + atNorth (~800MW) + US JV (>1.5GW)",
+    "pricing": "retail colo per-cabinet + interconnection; xScale wholesale hyperscale"
+   },
+   "sites": [
+    [
+     "Madrid MD4x / MD5 xScale (Alcobendas, Spain)",
+     null,
+     "o",
+     "inaugurated May 2026"
+    ],
+    [
+     "atNorth (Nordics - Iceland/Sweden/Finland)",
+     800,
+     "p",
+     "~800MW over 5 yrs; JV/acq pending"
+    ],
+    [
+     "US xScale JV campuses (>1.5GW)",
+     1500,
+     "p",
+     "land acquisition; 100MW+ each"
+    ],
+    [
+     "Global xScale portfolio (35+ facilities)",
+     725,
+     "c",
+     ">725MW at full buildout"
+    ]
+   ],
+   "src": [
+    [
+     "Equinix Q1'26 8-K/PR (record bookings, xScale, atNorth ~800MW)",
+     "https://www.sec.gov/Archives/edgar/data/0001101239/000110123926000089/eqix-q126xpr.htm"
+    ],
+    [
+     "Equinix Q1'26 10-Q ($22.084B debt; $1.362B cash)",
+     "https://www.sec.gov/Archives/edgar/data/0001101239/000110123926000091/eqix-20260331.htm"
+    ],
+    [
+     "Equinix >$15B US xScale JV, +>1.5GW",
+     "https://investor.equinix.com/news-events/press-releases/detail/1053/equinix-agrees-to-form-greater-than-15b-jv-to-expand"
+    ],
+    [
+     "Equinix/GIC xScale >725MW / 35 facilities",
+     "https://investor.equinix.com/news-events/press-releases/detail/48/equinix-and-gic-to-add-3-9b-to-expand-xscale-data-center"
+    ]
+   ]
+  },
+  {
+   "t": "DLR",
+   "n": "Digital Realty",
+   "role": "landlord",
+   "dupe": null,
+   "private": false,
+   "valuation_b": null,
+   "confidence": "estimate",
+   "op": 2000,
+   "con": 1200,
+   "plan": 1000,
+   "pipe": "1.2 GW under construction (61% pre-leased); $3.25B US hyperscale fund + ~$10B available dev capital; 310 DCs / 50+ metros",
+   "nd": 14.6,
+   "ndflag": "Q1'26: $18.0B total debt ($17.2B unsecured + $0.8B secured); net debt derived from 4.7x net-debt/adj-EBITDA (~$3B cash) = ~$14.6B.",
+   "bk": 1.8,
+   "flag": "op is AI/hyperscale-attributable slice (~2.0GW) of the 2.7GW total operating IT capacity; con=under-construction pipeline (filed). bk is 100%-share backlog ($1.0B at DLR share). confidence=estimate: op is an analyst attribution of the filed 2.7GW.",
+   "dom": "digitalrealty.com",
+   "econ": {
+    "backlog": "$1.8B record backlog (100% share) / $1.0B DLR share - signed-not-commenced; visibility into 2027-28",
+    "revmw": "not disclosed per-MW; 21% of Q1 signings AI-oriented",
+    "capexmw": "$3.25B US hyperscale fund finalized; ~$10B dev capital available",
+    "anchor": "Q1'26 largest-ever lease: 200MW AI-inference deal w/ AA-rated hyperscaler (Charlotte), phasing through 2028",
+    "contract": "hyperscale long-term; record $700M new leases ($423M DLR share), 116 new logos",
+    "margin": "leverage 4.7x (multi-year low); FFO payout 64%; Core FFO $2.04 (+15% YoY)",
+    "power": "2.7GW total operating IT capacity; transitioned reporting to power-based occupancy metrics",
+    "pricing": "wholesale hyperscale + interconnection colo (0-1MW+ bookings $98M, +40% YoY)"
+   },
+   "sites": [
+    [
+     "Charlotte, NC - 200MW AI-inference (AA hyperscaler)",
+     200,
+     "c",
+     "phasing through 2028; new market"
+    ],
+    [
+     "Charlotte, NC - 2nd 200MW building",
+     200,
+     "p",
+     "follows building 1"
+    ],
+    [
+     "Atlanta, GA - 200MW development",
+     200,
+     "c",
+     "construction launched Q1'26"
+    ],
+    [
+     "Ashburn / Northern Virginia hub",
+     null,
+     "o",
+     "largest DLR hyperscale hub"
+    ],
+    [
+     "Chicago (Franklin Park), IL",
+     null,
+     "o",
+     "operating; 10MW+ signings"
+    ],
+    [
+     "Dallas, TX",
+     null,
+     "o",
+     "10MW+ signings Q1'26"
+    ]
+   ],
+   "src": [
+    [
+     "DLR Q1'26 results PR (backlog $1.8B/$1.0B; 1.2GW UC 61% pre-leased; $18.0B debt; 4.7x)",
+     "https://www.globenewswire.com/news-release/2026/04/23/3280372/0/en/digital-realty-reports-first-quarter-2026-results.html"
+    ],
+    [
+     "MLQ - Charlotte 200MW AI lease detail",
+     "https://mlq.ai/earnings/highlight/DLR-historic-200-megawatt-ai-lease-ushers-in-03e4a2/"
+    ],
+    [
+     "DLR Q1'26 transcript (Atlanta 200MW; Dallas/SP/Tokyo 10MW+)",
+     "https://www.fool.com/earnings/call-transcripts/2026/04/23/digital-realty-dlr-q1-2026-earnings-transcript/"
+    ],
+    [
+     "Alphastreet - 2.7GW portfolio power capacity",
+     "https://news.alphastreet.com/digital-realty-dlr-has-a-power-constrained-capacity-and-backlog-engine-bigger-than-a-rate-sensitive-reit-trade/amp/"
+    ]
+   ]
+  },
+  {
+   "t": "XAI",
+   "n": "xAI (Colossus)",
+   "role": "hyperscaler",
+   "dupe": null,
+   "private": true,
+   "valuation_b": 230,
+   "confidence": "estimate",
+   "op": 500,
+   "con": 750,
+   "plan": 700,
+   "pipe": "~2,000 gross by late 2026; ~1M GPUs; Solaris 1.1 GW turbines by Q2 2027",
+   "nd": null,
+   "ndflag": "private - no public balance sheet; $20B Series E (Jan 2026) + prior rounds fund build",
+   "bk": null,
+   "flag": "⚠ est. critical-IT MW - public figures are power/turbine capacity; op = Colossus 1 (~300 MW) + Colossus 2 partial (~200 MW live), con/plan = Colossus 2 ramp + Bldg 3 toward ~2 GW gross. Self-build (no tracked-company colo). Range: op 400-600 / total ~1.4-1.5 GW critical-IT of ~2 GW gross.",
+   "dom": "x.ai",
+   "econ": {
+    "backlog": "no external backlog - captive training compute for Grok",
+    "capexmw": "~$18B for 555k GPUs on Colossus 2 (~$32M/MW-equiv, GPU-incl.)",
+    "anchor": "captive (xAI/Grok); merged with X",
+    "power": "Southaven gas JV w/ Solaris (50.1/49.9); 7x35 MW turbines live, 1.1 GW by Q2'27; MLGW grid + on-site gas",
+    "pricing": "n/a - internal; not sold as neocloud",
+    "margin": "n/a (private)"
+   },
+   "sites": [
+    [
+     "Colossus 1 - Memphis TN (Riverport Rd)",
+     300,
+     "o",
+     "operational since 2024, expanded"
+    ],
+    [
+     "Colossus 2 - Memphis TN (Tulane Rd)",
+     1000,
+     "c",
+     "ramping to ~1 GW through 2026"
+    ],
+    [
+     "Building 3 / MACROHARDRR - Southaven MS",
+     500,
+     "p",
+     "conversion begun Q1 2026"
+    ]
+   ],
+   "src": [
+    [
+     "SemiAnalysis - Colossus 2 first-gigawatt DC (300 MW C1, 200 MW C2 cooling, Solaris JV)",
+     "https://newsletter.semianalysis.com/p/xais-colossus-2-first-gigawatt-datacenter"
+    ],
+    [
+     "Introl - Colossus hits 2 GW / 555k GPUs / $18B",
+     "https://introl.com/blog/xai-colossus-2-gigawatt-expansion-555k-gpus-january-2026"
+    ],
+    [
+     "ActionNews5 - $659M Colossus 2 permit (Tulane Rd, 2026-03-03)",
+     "https://www.actionnews5.com/2026/03/03/xai-files-permit-659m-expansion-colossus-2-site/"
+    ],
+    [
+     "x.ai - Series E $20B (Jan 2026)",
+     "https://x.ai/news/series-e"
+    ],
+    [
+     "CNBC - xAI raises $20B at $230B valuation",
+     "https://www.cnbc.com/2026/01/06/elon-musk-xai-raises-20-billion-from-nvidia-cisco-investors.html"
+    ]
+   ]
+  },
+  {
+   "t": "STARGATE",
+   "n": "OpenAI / Stargate",
+   "role": "hyperscaler",
+   "dupe": null,
+   "private": true,
+   "valuation_b": 852,
+   "confidence": "estimate",
+   "op": 0,
+   "con": 1500,
+   "plan": 1500,
+   "pipe": "program headline ~7-10 GW / >$400B - but the bulk is Oracle-owned (counted under ORCL as tenant edges); STARGATE self = SoftBank-owned Milam+Lordstown builds only",
+   "nd": null,
+   "ndflag": "private JV (OpenAI + SoftBank + Oracle + MGX); no consolidated balance sheet",
+   "bk": null,
+   "flag": "⚠ self-program only. Oracle-owned Stargate sites (Abilene/Shackelford/Dona Ana/Port Washington/Saline) EXCLUDED here - they are ORCL capacity + OpenAI->ORCL tenant edges (avoid double-count). op/con = SoftBank-owned Milam (1,200) + Lordstown (~300). valuation_b is OpenAI's $852B (Mar'26), used as the JV anchor.",
+   "dom": "openai.com",
+   "econ": {
+    "backlog": "no standalone backlog - offtake flows to OpenAI; RPO sits on Oracle's books",
+    "anchor": "OpenAI (captive compute); SoftBank + MGX capital; Oracle + Crusoe + Vantage build",
+    "capexmw": "program ~$400B+ over 3 yrs across all sites (most = Oracle)",
+    "power": ">= 3 of 7 sites use on-site natural gas to bypass grid-interconnect delays",
+    "contract": "OpenAI 5-yr take-or-pay offtake; Oracle deal ~$300B/5yr (that portion = ORCL)",
+    "pricing": "n/a - captive"
+   },
+   "sites": [
+    [
+     "Milam County TX (SB Energy / SoftBank)",
+     1200,
+     "c",
+     "Q4 2028; scales to multi-GW"
+    ],
+    [
+     "Lordstown OH (SoftBank/Foxconn, ex-GM/Foxconn plant)",
+     300,
+     "c",
+     "2027-28 (timing TBD)"
+    ],
+    [
+     "[Oracle-owned Stargate sites - see TENANTS/ORCL, NOT counted here]",
+     null,
+     "p",
+     "Q4 2026-28"
+    ]
+   ],
+   "src": [
+    [
+     "Epoch AI - Stargate US sites (per-site MW, owner, target)",
+     "https://epoch.ai/publications/openai-stargate-where-the-us-sites-stand"
+    ],
+    [
+     "OpenAI - five new Stargate sites",
+     "https://openai.com/index/five-new-stargate-sites/"
+    ],
+    [
+     "OpenAI - Stargate advances (4.5 GW Oracle partnership)",
+     "https://openai.com/index/stargate-advances-with-partnership-with-oracle/"
+    ],
+    [
+     "CNBC - OpenAI $852B round (Mar 31 2026)",
+     "https://www.cnbc.com/2026/03/31/openai-funding-round-ipo.html"
+    ],
+    [
+     "Data Center Frontier - 5 new sites toward 10 GW",
+     "https://www.datacenterfrontier.com/machine-learning/article/55319132/scaling-stargate-openais-five-new-us-data-centers-push-toward-10-gw-ai-infrastructure"
+    ]
+   ]
   }
  ],
  "tenants": [
@@ -1295,13 +2339,13 @@
    "Microsoft",
    "NBIS",
    300,
-   "Vineland NJ, ~$17–19B"
+   "$17.4-19.4B over 5 yr thru Oct-2031; Vineland NJ; 300 MW initial, expandable to 700 MW; ~$6.96B upfront."
   ],
   [
    "Microsoft",
    "CRWV",
-   null,
-   "~45% of 2025 rev"
+   500,
+   "$10B total thru 2030 across >=5 contracts; MSFT is CoreWeave's largest customer (~45% of CRWV rev). ~500 MW = est. MSFT operational share of CRWV's ~1,000 MW op; MW inferred."
   ],
   [
    "Microsoft",
@@ -1312,14 +2356,14 @@
   [
    "Meta",
    "NBIS",
-   null,
-   "$27B 5-yr"
+   400,
+   "$3B five-year (Nov-2025); up-to-$27B framing reported; Vera Rubin capacity; MW not disclosed, ~300-700 MW est. · MW inferred"
   ],
   [
    "Meta",
    "CRWV",
-   null,
-   "~$21B"
+   500,
+   "$35B total: $14.2B (Sep-2025) + $21B expansion (2026-04-09) thru Dec-2032; MW not disclosed, ~400-600 MW est. · MW inferred"
   ],
   [
    "NVIDIA",
@@ -1366,8 +2410,8 @@
   [
    "OpenAI",
    "ORCL",
-   null,
-   "Stargate, ~47% RPO est."
+   4500,
+   "Stargate: ~$300B/5yr Oracle offtake (Abilene+Shackelford+Dona Ana+Port Washington+Saline); Oracle-owned, already in ORCL op/con/plan · MW = announced 4.5 GW"
   ],
   [
    "OpenAI",
@@ -1878,6 +2922,616 @@
    "lng": -3.73,
    "when": "REPORTED El Mundo 7/04 — unconfirmed",
    "approx": false
+  },
+  {
+   "t": "MSFT",
+   "site": "Fairwater 1 Mount Pleasant WI",
+   "mw": 400,
+   "st": "o",
+   "lat": 42.71,
+   "lng": -87.9,
+   "when": "Apr 2026",
+   "approx": true
+  },
+  {
+   "t": "MSFT",
+   "site": "Fairwater Atlanta Fayetteville GA",
+   "mw": 433,
+   "st": "o",
+   "lat": 33.45,
+   "lng": -84.46,
+   "when": "Oct 2025",
+   "approx": true
+  },
+  {
+   "t": "MSFT",
+   "site": "San Antonio/Castroville TX (SAT)",
+   "mw": null,
+   "st": "c",
+   "lat": 29.36,
+   "lng": -98.88,
+   "when": "Jun 2027",
+   "approx": true
+  },
+  {
+   "t": "MSFT",
+   "site": "Pecos TX (Reeves Co.)",
+   "mw": 2000,
+   "st": "p",
+   "lat": 31.42,
+   "lng": -103.49,
+   "when": "2026-31",
+   "approx": true
+  },
+  {
+   "t": "MSFT",
+   "site": "Cheyenne WY (Laramie Co.)",
+   "mw": null,
+   "st": "p",
+   "lat": 41.14,
+   "lng": -104.82,
+   "when": "2026+",
+   "approx": true
+  },
+  {
+   "t": "MSFT",
+   "site": "Quincy WA (Grant Co.)",
+   "mw": null,
+   "st": "o",
+   "lat": 47.23,
+   "lng": -119.85,
+   "when": "operating",
+   "approx": true
+  },
+  {
+   "t": "AMZN",
+   "site": "Project Rainier - New Carlisle IN",
+   "mw": 1725,
+   "st": "o",
+   "lat": 41.7,
+   "lng": -86.51,
+   "when": "Ph1 Oct-2025; 345kV Dec-2026",
+   "approx": true
+  },
+  {
+   "t": "AMZN",
+   "site": "Hobart / NW Indiana (Lake Co.)",
+   "mw": 2400,
+   "st": "p",
+   "lat": 41.53,
+   "lng": -87.25,
+   "when": "Ph2 +$15B Nov-2025",
+   "approx": true
+  },
+  {
+   "t": "AMZN",
+   "site": "Madison County / Canton MS",
+   "mw": 1034,
+   "st": "c",
+   "lat": 32.61,
+   "lng": -90.03,
+   "when": "to 2027",
+   "approx": true
+  },
+  {
+   "t": "AMZN",
+   "site": "Salem Township PA (Luzerne Co.)",
+   "mw": 960,
+   "st": "c",
+   "lat": 41.09,
+   "lng": -76.14,
+   "when": "Susquehanna-adjacent",
+   "approx": true
+  },
+  {
+   "t": "AMZN",
+   "site": "Northeast Creek VA (Louisa Co.)",
+   "mw": 2700,
+   "st": "p",
+   "lat": 37.98,
+   "lng": -78.0,
+   "when": ">=770 MW op 2027",
+   "approx": true
+  },
+  {
+   "t": "AMZN",
+   "site": "Richmond County NC",
+   "mw": 1000,
+   "st": "c",
+   "lat": 34.94,
+   "lng": -79.76,
+   "when": "constr. Oct-2025",
+   "approx": true
+  },
+  {
+   "t": "AMZN",
+   "site": "New Albany OH (Licking Co.)",
+   "mw": 400,
+   "st": "o",
+   "lat": 40.08,
+   "lng": -82.81,
+   "when": "open 2025; $3.5B by 2030",
+   "approx": true
+  },
+  {
+   "t": "GOOGL",
+   "site": "New Albany/Columbus OH",
+   "mw": 350,
+   "st": "o",
+   "lat": 40.08,
+   "lng": -82.81,
+   "when": "operating, expanding",
+   "approx": true
+  },
+  {
+   "t": "GOOGL",
+   "site": "Council Bluffs IA",
+   "mw": 500,
+   "st": "o",
+   "lat": 41.26,
+   "lng": -95.86,
+   "when": "expanding $7B",
+   "approx": true
+  },
+  {
+   "t": "GOOGL",
+   "site": "Cedar Rapids IA (Big Cedar)",
+   "mw": null,
+   "st": "c",
+   "lat": 41.98,
+   "lng": -91.67,
+   "when": "1st bldg 2026",
+   "approx": true
+  },
+  {
+   "t": "GOOGL",
+   "site": "The Dalles OR",
+   "mw": 300,
+   "st": "o",
+   "lat": 45.59,
+   "lng": -121.18,
+   "when": "operating",
+   "approx": true
+  },
+  {
+   "t": "GOOGL",
+   "site": "Mesa AZ",
+   "mw": 200,
+   "st": "o",
+   "lat": 33.42,
+   "lng": -111.83,
+   "when": "operating",
+   "approx": true
+  },
+  {
+   "t": "GOOGL",
+   "site": "Chesterfield VA (Bermuda Hundred)",
+   "mw": 900,
+   "st": "c",
+   "lat": 37.38,
+   "lng": -77.51,
+   "when": "constr late 2026, phased to 2032",
+   "approx": true
+  },
+  {
+   "t": "GOOGL",
+   "site": "Ridgeville SC (Dorchester Co.)",
+   "mw": null,
+   "st": "c",
+   "lat": 33.1,
+   "lng": -80.32,
+   "when": "2026-27",
+   "approx": true
+  },
+  {
+   "t": "GOOGL",
+   "site": "Bridgeport/Widows Creek AL (Jackson Co.)",
+   "mw": 300,
+   "st": "c",
+   "lat": 34.95,
+   "lng": -85.73,
+   "when": "$1.5B 2026-27",
+   "approx": true
+  },
+  {
+   "t": "GOOGL",
+   "site": "New Florence MO (Montgomery Co.)",
+   "mw": 1000,
+   "st": "p",
+   "lat": 38.92,
+   "lng": -91.45,
+   "when": "$15B May 2026",
+   "approx": true
+  },
+  {
+   "t": "GOOGL",
+   "site": "Armstrong Co TX",
+   "mw": null,
+   "st": "p",
+   "lat": 34.96,
+   "lng": -101.37,
+   "when": "$40B thru 2027",
+   "approx": true
+  },
+  {
+   "t": "GOOGL",
+   "site": "Midlothian TX",
+   "mw": null,
+   "st": "o",
+   "lat": 32.48,
+   "lng": -96.99,
+   "when": "expanding $40B",
+   "approx": true
+  },
+  {
+   "t": "GOOGL",
+   "site": "Pryor OK",
+   "mw": null,
+   "st": "c",
+   "lat": 36.31,
+   "lng": -95.32,
+   "when": "$9B OK",
+   "approx": true
+  },
+  {
+   "t": "META",
+   "site": "Prometheus - New Albany OH (Licking Co.)",
+   "mw": 700,
+   "st": "o",
+   "lat": 40.08,
+   "lng": -82.81,
+   "when": "631 MW IT live May-2026 -> 854 Q4-2026",
+   "approx": true
+  },
+  {
+   "t": "META",
+   "site": "Hyperion - Richland Parish LA",
+   "mw": 1440,
+   "st": "c",
+   "lat": 32.42,
+   "lng": -91.6,
+   "when": "2 GW Ph1 ~summer 2028 -> 5 GW",
+   "approx": true
+  },
+  {
+   "t": "META",
+   "site": "El Paso TX",
+   "mw": 720,
+   "st": "c",
+   "lat": 31.76,
+   "lng": -106.49,
+   "when": "1 GW gross by 2028",
+   "approx": true
+  },
+  {
+   "t": "META",
+   "site": "Montgomery IN",
+   "mw": null,
+   "st": "c",
+   "lat": 40.04,
+   "lng": -86.89,
+   "when": "$1.5B+",
+   "approx": true
+  },
+  {
+   "t": "META",
+   "site": "Rosemount MN",
+   "mw": null,
+   "st": "c",
+   "lat": 44.74,
+   "lng": -93.13,
+   "when": "expected 2026",
+   "approx": true
+  },
+  {
+   "t": "META",
+   "site": "Cheyenne WY (Laramie Co.)",
+   "mw": null,
+   "st": "c",
+   "lat": 41.14,
+   "lng": -104.82,
+   "when": "broke ground 2024",
+   "approx": true
+  },
+  {
+   "t": "META",
+   "site": "Prineville OR (Crook Co.)",
+   "mw": 250,
+   "st": "o",
+   "lat": 44.3,
+   "lng": -120.83,
+   "when": "legacy op since 2011",
+   "approx": true
+  },
+  {
+   "t": "META",
+   "site": "Fort Worth TX (Tarrant Co.)",
+   "mw": 250,
+   "st": "o",
+   "lat": 32.76,
+   "lng": -97.33,
+   "when": "legacy op since 2017",
+   "approx": true
+  },
+  {
+   "t": "BABA",
+   "site": "Zhangbei super DC (Zhangjiakou, Hebei)",
+   "mw": 500,
+   "st": "o",
+   "lat": 41.16,
+   "lng": 114.71,
+   "when": "operating",
+   "approx": true
+  },
+  {
+   "t": "BABA",
+   "site": "Ulanqab campus (Inner Mongolia)",
+   "mw": 300,
+   "st": "o",
+   "lat": 41.03,
+   "lng": 113.14,
+   "when": "operating",
+   "approx": true
+  },
+  {
+   "t": "BABA",
+   "site": "Hangzhou / Zhenwu AI DC (Zhejiang)",
+   "mw": null,
+   "st": "o",
+   "lat": 30.29,
+   "lng": 120.16,
+   "when": "2026",
+   "approx": true
+  },
+  {
+   "t": "BABA",
+   "site": "Heyuan campus (Guangdong)",
+   "mw": null,
+   "st": "o",
+   "lat": 23.74,
+   "lng": 114.7,
+   "when": "operating",
+   "approx": true
+  },
+  {
+   "t": "TCEHY",
+   "site": "Gui'an super DC (Guizhou)",
+   "mw": null,
+   "st": "o",
+   "lat": 26.36,
+   "lng": 106.3,
+   "when": "operating",
+   "approx": true
+  },
+  {
+   "t": "TCEHY",
+   "site": "Qingyuan campus (Guangdong)",
+   "mw": null,
+   "st": "o",
+   "lat": 23.68,
+   "lng": 113.06,
+   "when": "operating",
+   "approx": true
+  },
+  {
+   "t": "TCEHY",
+   "site": "Ulanqab campus (Inner Mongolia)",
+   "mw": null,
+   "st": "o",
+   "lat": 41.03,
+   "lng": 113.14,
+   "when": "operating",
+   "approx": true
+  },
+  {
+   "t": "TCEHY",
+   "site": "Tianjin campus",
+   "mw": null,
+   "st": "c",
+   "lat": 39.13,
+   "lng": 117.2,
+   "when": "2026-27",
+   "approx": true
+  },
+  {
+   "t": "BIDU",
+   "site": "Yangquan super DC (Shanxi)",
+   "mw": null,
+   "st": "o",
+   "lat": 37.86,
+   "lng": 113.58,
+   "when": "operating",
+   "approx": true
+  },
+  {
+   "t": "BIDU",
+   "site": "Baoding / Dingxing DC (Hebei)",
+   "mw": null,
+   "st": "o",
+   "lat": 39.26,
+   "lng": 115.83,
+   "when": "operating",
+   "approx": true
+  },
+  {
+   "t": "BIDU",
+   "site": "Baidu Yunzhou (Ulanqab, Inner Mongolia)",
+   "mw": null,
+   "st": "c",
+   "lat": 41.03,
+   "lng": 113.14,
+   "when": "2026-27",
+   "approx": true
+  },
+  {
+   "t": "EQIX",
+   "site": "Madrid MD4x/MD5 xScale (Alcobendas, Spain)",
+   "mw": null,
+   "st": "o",
+   "lat": 40.53,
+   "lng": -3.64,
+   "when": "May 2026",
+   "approx": true
+  },
+  {
+   "t": "EQIX",
+   "site": "atNorth (Iceland anchor)",
+   "mw": 800,
+   "st": "p",
+   "lat": 64.03,
+   "lng": -21.98,
+   "when": "5-yr",
+   "approx": true
+  },
+  {
+   "t": "DLR",
+   "site": "Charlotte, NC - 200MW AI-inference",
+   "mw": 200,
+   "st": "c",
+   "lat": 35.23,
+   "lng": -80.84,
+   "when": "through 2028",
+   "approx": true
+  },
+  {
+   "t": "DLR",
+   "site": "Atlanta, GA - 200MW development",
+   "mw": 200,
+   "st": "c",
+   "lat": 33.75,
+   "lng": -84.39,
+   "when": "under construction",
+   "approx": true
+  },
+  {
+   "t": "DLR",
+   "site": "Ashburn / Northern Virginia hub",
+   "mw": null,
+   "st": "o",
+   "lat": 39.02,
+   "lng": -77.46,
+   "when": "operating",
+   "approx": true
+  },
+  {
+   "t": "DLR",
+   "site": "Chicago (Franklin Park), IL",
+   "mw": null,
+   "st": "o",
+   "lat": 41.93,
+   "lng": -87.87,
+   "when": "operating",
+   "approx": true
+  },
+  {
+   "t": "XAI",
+   "site": "Colossus 1 - Memphis TN (Riverport Rd)",
+   "mw": 300,
+   "st": "o",
+   "lat": 35.06,
+   "lng": -90.15,
+   "when": "operational, expanded",
+   "approx": true
+  },
+  {
+   "t": "XAI",
+   "site": "Colossus 2 - Memphis TN (Tulane Rd)",
+   "mw": 1000,
+   "st": "c",
+   "lat": 35.02,
+   "lng": -90.06,
+   "when": "ramping to ~1 GW 2026",
+   "approx": true
+  },
+  {
+   "t": "XAI",
+   "site": "Building 3 / MACROHARDRR - Southaven MS",
+   "mw": 500,
+   "st": "p",
+   "lat": 34.99,
+   "lng": -89.99,
+   "when": "conversion begun Q1 2026",
+   "approx": true
+  },
+  {
+   "t": "STARGATE",
+   "site": "Milam County TX (SB Energy / SoftBank)",
+   "mw": 1200,
+   "st": "c",
+   "lat": 30.65,
+   "lng": -96.97,
+   "when": "Q4 2028",
+   "approx": true
+  },
+  {
+   "t": "STARGATE",
+   "site": "Lordstown OH (SoftBank/Foxconn)",
+   "mw": 300,
+   "st": "c",
+   "lat": 41.16,
+   "lng": -80.85,
+   "when": "2027-28 (TBD)",
+   "approx": true
+  },
+  {
+   "t": "ORCL",
+   "site": "Abilene TX (Stargate I, Crusoe) — operational",
+   "mw": 300,
+   "st": "o",
+   "lat": 32.45,
+   "lng": -99.73,
+   "when": "live",
+   "approx": true
+  },
+  {
+   "t": "ORCL",
+   "site": "Abilene TX (Stargate I, Crusoe) — under construction",
+   "mw": 900,
+   "st": "c",
+   "lat": 32.45,
+   "lng": -99.73,
+   "when": "full Q4 2026",
+   "approx": true
+  },
+  {
+   "t": "ORCL",
+   "site": "Shackelford County TX (Vantage)",
+   "mw": 2000,
+   "st": "c",
+   "lat": 32.74,
+   "lng": -99.35,
+   "when": "Q4 2028",
+   "approx": true
+  },
+  {
+   "t": "ORCL",
+   "site": "Doña Ana County NM (STACK)",
+   "mw": 2200,
+   "st": "c",
+   "lat": 32.0,
+   "lng": -106.7,
+   "when": "Q4 2028",
+   "approx": true
+  },
+  {
+   "t": "ORCL",
+   "site": "Port Washington WI (Vantage)",
+   "mw": 1300,
+   "st": "c",
+   "lat": 43.39,
+   "lng": -87.87,
+   "when": "Q4 2028",
+   "approx": true
+  },
+  {
+   "t": "ORCL",
+   "site": "Saline Township MI (Related Digital)",
+   "mw": 1400,
+   "st": "c",
+   "lat": 42.17,
+   "lng": -83.78,
+   "when": "Q4 2028",
+   "approx": true
   }
  ],
  "geo_unmapped": [
@@ -1978,6 +3632,55 @@
    "mw": null,
    "st": "s",
    "why": "gross grid MW only (up to 2 GW); critical-IT MW n/d, no tenant"
+  },
+  {
+   "t": "AMZN",
+   "site": "US Government / federal cloud campus",
+   "mw": 1300,
+   "st": "p",
+   "why": "site not disclosed; up to $50B, breaks ground 2026"
+  },
+  {
+   "t": "MSFT",
+   "site": "undisclosed additional Fairwater network nodes",
+   "mw": null,
+   "st": "p",
+   "why": "'double footprint in 2 yrs' gap not tied to named sites"
+  },
+  {
+   "t": "GOOGL",
+   "site": "India Visakhapatnam ($15B, 1 GW->multi-GW)",
+   "mw": 1000,
+   "st": "p",
+   "why": "foreign (excluded from US map); listed for completeness"
+  },
+  {
+   "t": "META",
+   "site": "additional announced multi-GW 'titan' clusters",
+   "mw": null,
+   "st": "p",
+   "why": "unsited; Zuckerberg 'tens of GW this decade'"
+  },
+  {
+   "t": "EQIX",
+   "site": "US xScale JV campuses (>1.5GW)",
+   "mw": 1500,
+   "st": "p",
+   "why": "land acquisition in progress; specific US metros/parcels not yet disclosed"
+  },
+  {
+   "t": "EQIX",
+   "site": "Global xScale portfolio (35+ facilities)",
+   "mw": 725,
+   "st": "c",
+   "why": "aggregate figure across 35+ facilities in EU/APAC/Americas; per-site MW not individually broken out"
+  },
+  {
+   "t": "BABA",
+   "site": "Nantong campus (Jiangsu)",
+   "mw": null,
+   "st": "c",
+   "why": "expansion confirmed but MW/timing not disclosed"
   }
  ],
  "geo_note": "Campus-level site map, added 2026-07-09. lat/lng are town/county centroids, NOT parcel coordinates. approx=true => only the state/country is public (placed at a state-level position; dashed on the map). Sites with undisclosed locations or n/d MW live in geo_unmapped. DOCN (leased colo, locations undisclosed) and AKAM (distributed edge PoPs) are excluded by construction."
