@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-20T14:55:55Z",
+  "generated_at": "2026-07-21T14:51:02Z",
   "sources": [
     {
       "name": "AAA",
@@ -9,9 +9,9 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-20T14:54:45Z",
+      "finished_at": "2026-07-21T14:39:20Z",
       "series_count": 1,
-      "latest_obs": "2026-07-20"
+      "latest_obs": "2026-07-21"
     },
     {
       "name": "AAA_STATE",
@@ -21,9 +21,9 @@
       "fetched": 51,
       "new_rows": 51,
       "error": null,
-      "finished_at": "2026-07-20T14:54:45Z",
+      "finished_at": "2026-07-21T14:39:20Z",
       "series_count": 51,
-      "latest_obs": "2026-07-20"
+      "latest_obs": "2026-07-21"
     },
     {
       "name": "APTLIST",
@@ -33,7 +33,7 @@
       "fetched": 114,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-20T14:54:44Z",
+      "finished_at": "2026-07-21T14:39:20Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -41,11 +41,11 @@
       "name": "BLS",
       "route": "API",
       "cadence": "monthly",
-      "ok": false,
-      "fetched": 0,
+      "ok": true,
+      "fetched": 3071,
       "new_rows": 0,
-      "error": "ReadTimeout: HTTPSConnectionPool(host='api.bls.gov', port=443): Read timed out. (read timeout=60)",
-      "finished_at": "2026-07-20T14:54:35Z",
+      "error": null,
+      "finished_at": "2026-07-21T14:39:01Z",
       "series_count": 28,
       "latest_obs": "2026-06-01"
     },
@@ -57,9 +57,9 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-20T14:55:50Z",
+      "finished_at": "2026-07-21T14:50:55Z",
       "series_count": 1,
-      "latest_obs": "2026-07-20"
+      "latest_obs": "2026-07-21"
     },
     {
       "name": "CENSUS",
@@ -69,7 +69,7 @@
       "fetched": 298,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-20T14:55:42Z",
+      "finished_at": "2026-07-21T14:50:49Z",
       "series_count": 2,
       "latest_obs": "2026-05-01"
     },
@@ -81,7 +81,7 @@
       "fetched": 4,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-20T14:54:48Z",
+      "finished_at": "2026-07-21T14:39:21Z",
       "series_count": 4,
       "latest_obs": "2026-07-01"
     },
@@ -93,21 +93,21 @@
       "fetched": 3,
       "new_rows": 3,
       "error": null,
-      "finished_at": "2026-07-20T14:55:44Z",
+      "finished_at": "2026-07-21T14:50:50Z",
       "series_count": 3,
-      "latest_obs": "2026-07-20"
+      "latest_obs": "2026-07-21"
     },
     {
       "name": "EIA",
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 4403,
-      "new_rows": 0,
+      "fetched": 4405,
+      "new_rows": 2,
       "error": null,
-      "finished_at": "2026-07-20T14:54:39Z",
+      "finished_at": "2026-07-21T14:39:17Z",
       "series_count": 4,
-      "latest_obs": "2026-07-13"
+      "latest_obs": "2026-07-20"
     },
     {
       "name": "EIA_SPOT",
@@ -117,7 +117,7 @@
       "fetched": 4999,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-20T14:55:54Z",
+      "finished_at": "2026-07-21T14:51:00Z",
       "series_count": 1,
       "latest_obs": "2026-07-13"
     },
@@ -126,10 +126,10 @@
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 15808,
+      "fetched": 11552,
       "new_rows": 0,
-      "error": null,
-      "finished_at": "2026-07-20T14:55:12Z",
+      "error": "partial: EIA: 14 item(s) failed \u2014 ELEC.PRICE.MO-IND.M: HTTPError: 502 Server Error: Bad Gateway for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.MO-IND.M?api_key=REDACTED ELEC.PRICE.MT-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.MT-IND.M?api_key=REDACTED ELEC.PRICE.NE-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.NE-IND.M?api_key=REDACTED ELEC.PRICE.NH-IND.M: HTTPError: 502 Server Error: Bad Gateway for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.NH-IND.M?api_key=REDACTED ELEC.PRICE.NJ-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.NJ-IND.M?api_key=REDACTED ELEC.PRICE.NM-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.NM-IND.M?api_key=REDACTED ELEC.PRICE.NC-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.NC-IND.M?api_key=REDACTED ELEC.PRICE.OH-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.OH-IND.M?api_key=REDACTED ELEC.PRICE.OK-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.OK-IND.M?api_key=REDACTED ELEC.PRICE.OR-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.OR-IND.M?api_key=REDACTED ELEC.PRICE.TN-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.TN-IND.M?api_key=REDACTED ELEC.PRICE.VA-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.VA-IND.M?api_key=REDACTED ELEC.PRICE.WV-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.WV-IND.M?api_key=REDACTED ELEC.PRICE.WY-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.WY-IND.M?api_key=REDACTED",
+      "finished_at": "2026-07-21T14:44:21Z",
       "series_count": 52,
       "latest_obs": "2026-04-01"
     },
@@ -138,10 +138,10 @@
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 15504,
+      "fetched": 11856,
       "new_rows": 0,
-      "error": null,
-      "finished_at": "2026-07-20T14:55:38Z",
+      "error": "partial: EIA: 12 item(s) failed \u2014 ELEC.PRICE.AL-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.AL-RES.M?api_key=REDACTED ELEC.PRICE.AK-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.AK-RES.M?api_key=REDACTED ELEC.PRICE.CA-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.CA-RES.M?api_key=REDACTED ELEC.PRICE.CO-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.CO-RES.M?api_key=REDACTED ELEC.PRICE.CT-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.CT-RES.M?api_key=REDACTED ELEC.PRICE.DE-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.DE-RES.M?api_key=REDACTED ELEC.PRICE.DC-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.DC-RES.M?api_key=REDACTED ELEC.PRICE.FL-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.FL-RES.M?api_key=REDACTED ELEC.PRICE.GA-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.GA-RES.M?api_key=REDACTED ELEC.PRICE.HI-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.HI-RES.M?api_key=REDACTED ELEC.PRICE.ID-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.ID-RES.M?api_key=REDACTED ELEC.PRICE.KY-RES.M: HTTPError: 502 Server Error: Bad Gateway for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.KY-RES.M?api_key=REDACTED",
+      "finished_at": "2026-07-21T14:50:42Z",
       "series_count": 51,
       "latest_obs": "2026-04-01"
     },
@@ -153,21 +153,21 @@
       "fetched": 14,
       "new_rows": 14,
       "error": null,
-      "finished_at": "2026-07-20T14:54:40Z",
+      "finished_at": "2026-07-21T14:39:18Z",
       "series_count": 14,
-      "latest_obs": "2026-07-20"
+      "latest_obs": "2026-07-21"
     },
     {
       "name": "FRED",
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 50456,
-      "new_rows": 0,
+      "fetched": 50472,
+      "new_rows": 20,
       "error": null,
-      "finished_at": "2026-07-20T14:53:35Z",
+      "finished_at": "2026-07-21T14:39:00Z",
       "series_count": 148,
-      "latest_obs": "2026-07-17"
+      "latest_obs": "2026-07-20"
     },
     {
       "name": "ICE",
@@ -177,7 +177,7 @@
       "fetched": 121,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-20T14:55:52Z",
+      "finished_at": "2026-07-21T14:50:56Z",
       "series_count": 1,
       "latest_obs": "2026-07-07"
     },
@@ -189,7 +189,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-20T14:54:49Z",
+      "finished_at": "2026-07-21T14:39:22Z",
       "series_count": 1,
       "latest_obs": "2026-07-11"
     },
@@ -201,9 +201,9 @@
       "fetched": 2,
       "new_rows": 2,
       "error": null,
-      "finished_at": "2026-07-20T14:55:54Z",
+      "finished_at": "2026-07-21T14:51:01Z",
       "series_count": 2,
-      "latest_obs": "2026-07-20"
+      "latest_obs": "2026-07-21"
     },
     {
       "name": "MANHEIM",
@@ -213,7 +213,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-20T14:54:47Z",
+      "finished_at": "2026-07-21T14:39:20Z",
       "series_count": 1,
       "latest_obs": "2026-07-01"
     },
@@ -223,11 +223,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 4,
-      "new_rows": 3,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-20T14:55:51Z",
+      "finished_at": "2026-07-21T14:50:56Z",
       "series_count": 1,
-      "latest_obs": "2026-07-19"
+      "latest_obs": "2026-07-20"
     },
     {
       "name": "MND",
@@ -237,9 +237,9 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-20T14:54:46Z",
+      "finished_at": "2026-07-21T14:39:20Z",
       "series_count": 1,
-      "latest_obs": "2026-07-20"
+      "latest_obs": "2026-07-21"
     },
     {
       "name": "OPENROUTER",
@@ -249,9 +249,9 @@
       "fetched": 12,
       "new_rows": 12,
       "error": null,
-      "finished_at": "2026-07-20T14:55:48Z",
+      "finished_at": "2026-07-21T14:50:51Z",
       "series_count": 12,
-      "latest_obs": "2026-07-20"
+      "latest_obs": "2026-07-21"
     },
     {
       "name": "PMMS",
@@ -261,7 +261,7 @@
       "fetched": 498,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-20T14:54:44Z",
+      "finished_at": "2026-07-21T14:39:20Z",
       "series_count": 1,
       "latest_obs": "2026-07-16"
     },
@@ -272,8 +272,8 @@
       "ok": true,
       "fetched": 88,
       "new_rows": 0,
-      "error": null,
-      "finished_at": "2026-07-20T14:55:41Z",
+      "error": "partial: QCEW: 3 item(s) failed \u2014 2026q1: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/1/industry/23.csv; 2026q2: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/2/industry/23.csv; 2026q3: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/3/industry/23.csv",
+      "finished_at": "2026-07-21T14:50:47Z",
       "series_count": 45,
       "latest_obs": "2025-10-01"
     },
@@ -283,11 +283,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 31,
-      "new_rows": 4,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-20T14:55:47Z",
+      "finished_at": "2026-07-21T14:50:51Z",
       "series_count": 1,
-      "latest_obs": "2026-07-20"
+      "latest_obs": "2026-07-21"
     },
     {
       "name": "STEO",
@@ -297,7 +297,7 @@
       "fetched": 672,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-20T14:55:49Z",
+      "finished_at": "2026-07-21T14:50:55Z",
       "series_count": 2,
       "latest_obs": "2027-12-01"
     },
@@ -306,12 +306,12 @@
       "route": "API",
       "cadence": "daily",
       "ok": true,
-      "fetched": 2394,
-      "new_rows": 0,
+      "fetched": 2395,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-20T14:54:41Z",
+      "finished_at": "2026-07-21T14:39:19Z",
       "series_count": 1,
-      "latest_obs": "2026-07-16"
+      "latest_obs": "2026-07-17"
     },
     {
       "name": "USDA",
@@ -321,7 +321,7 @@
       "fetched": 0,
       "new_rows": 0,
       "error": "missing secret USDA_API_KEY",
-      "finished_at": "2026-07-20T14:54:44Z",
+      "finished_at": "2026-07-21T14:39:20Z",
       "series_count": 5,
       "latest_obs": "2026-07-17"
     },
@@ -329,11 +329,11 @@
       "name": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "ok": true,
-      "fetched": 3,
-      "new_rows": 3,
-      "error": null,
-      "finished_at": "2026-07-20T14:55:46Z",
+      "ok": false,
+      "fetched": 0,
+      "new_rows": 0,
+      "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://console.vast.ai/api/v0/bundles/?q=%7B%22gpu_name%22%3A%20%7B%22eq%22%3A%20%22H200%22%7D%2C%20%22rentable%22%3A%20%7B%22eq%22%3A%20true%7D%2C%20%22gpu_frac%22%3A%20%7B%22eq%22%3A%201%7D%2C%20%22type%22%3A%20%22on-demand%22%2C%20%22limit%22%3A%201000%7D",
+      "finished_at": "2026-07-21T14:50:50Z",
       "series_count": 5,
       "latest_obs": "2026-07-20"
     },
@@ -345,7 +345,7 @@
       "fetched": 11627,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-20T14:54:43Z",
+      "finished_at": "2026-07-21T14:39:19Z",
       "series_count": 102,
       "latest_obs": "2026-06-01"
     }

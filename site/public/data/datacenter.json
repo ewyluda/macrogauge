@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-20T14:55:55Z",
+  "published_at": "2026-07-21T14:51:02Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -15,8 +15,8 @@
   },
   "indexes": {
     "build": {
-      "as_of": "2026-07-20",
-      "headline_yoy_pct": 6.58,
+      "as_of": "2026-07-21",
+      "headline_yoy_pct": 6.81,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -3141,7 +3141,8 @@
         "2026-07-17",
         "2026-07-18",
         "2026-07-19",
-        "2026-07-20"
+        "2026-07-20",
+        "2026-07-21"
       ],
       "index": [
         100.0,
@@ -6266,7 +6267,8 @@
         165.9,
         165.9,
         165.9,
-        165.96
+        165.96,
+        166.33
       ],
       "yoy_pct": [
         3.05,
@@ -9391,7 +9393,8 @@
         6.54,
         6.54,
         6.54,
-        6.58
+        6.58,
+        6.81
       ],
       "components": [
         {
@@ -9455,9 +9458,9 @@
           "group": "materials",
           "weight": 0.055,
           "mode": "official+proxy",
-          "last_obs": "2026-07-20",
-          "yoy_pct": 12.93,
-          "contribution_pp": 0.71,
+          "last_obs": "2026-07-21",
+          "yoy_pct": 15.85,
+          "contribution_pp": 0.87,
           "stale": false
         },
         {
@@ -9466,9 +9469,9 @@
           "group": "materials",
           "weight": 0.03,
           "mode": "official+proxy",
-          "last_obs": "2026-07-20",
-          "yoy_pct": 30.81,
-          "contribution_pp": 0.92,
+          "last_obs": "2026-07-21",
+          "yoy_pct": 33.25,
+          "contribution_pp": 1.0,
           "stale": false
         },
         {
@@ -9536,7 +9539,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 2.83
+          "contribution_pp": 3.06
         },
         {
           "group": "electrical",
@@ -29282,15 +29285,15 @@
       {
         "code": "caiso_sp15_da",
         "label": "CAISO SP15 (day-ahead)",
-        "latest": 45.64,
-        "asof": "2026-07-20",
+        "latest": 48.98,
+        "asof": "2026-07-21",
         "unit": "$/MWh"
       },
       {
         "code": "miso_indiana_da",
         "label": "MISO Indiana Hub (day-ahead)",
-        "latest": 40.06,
-        "asof": "2026-07-19",
+        "latest": 45.96,
+        "asof": "2026-07-20",
         "unit": "$/MWh"
       },
       {
@@ -29376,14 +29379,14 @@
     },
     "transformer": null,
     "kalshi": {
-      "dc_count_expected": 5045.0,
-      "count_asof": "2026-07-20",
-      "nuclear_by_2030_prob": 0.53,
-      "nuclear_asof": "2026-07-20"
+      "dc_count_expected": 5037.0,
+      "count_asof": "2026-07-21",
+      "nuclear_by_2030_prob": 0.46,
+      "nuclear_asof": "2026-07-21"
     },
     "diesel": {
-      "latest": 4.8,
-      "asof": "2026-07-13",
+      "latest": 5.13,
+      "asof": "2026-07-20",
       "unit": "$/gal"
     },
     "water": {

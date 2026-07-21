@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-07-20T14:55:55Z",
-  "score": 2.1,
+  "published_at": "2026-07-21T14:51:02Z",
+  "score": 2.7,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": 0.5585600000000001,
+      "z": 0.59406,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -32,7 +32,7 @@
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": -0.6726333333333333,
+      "z": -0.6586,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-17",
-      "momentum": -0.33,
-      "z": -1.278
+      "as_of": "2026-07-20",
+      "momentum": -0.28,
+      "z": -1.1005
     },
     {
       "code": "PAYEMS",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-17",
-      "momentum": -0.17,
-      "z": -0.6323
+      "as_of": "2026-07-20",
+      "momentum": -0.16,
+      "z": -0.5902
     }
   ]
 }
