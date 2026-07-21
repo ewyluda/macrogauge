@@ -56,10 +56,10 @@ export function CapacityClient({ data }: { data: Capacity }) {
 
   return (
     <div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, margin: "18px 0 6px" }} role="tablist">
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, margin: "18px 0 6px" }}>
         {TABS.map((t) => (
-          <button key={t} style={btn(tab === t)} role="tab"
-            aria-selected={tab === t} onClick={() => setTab(t)}>{t}</button>
+          <button key={t} style={btn(tab === t)}
+            aria-pressed={tab === t} onClick={() => setTab(t)}>{t}</button>
         ))}
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", margin: "8px 0 14px" }}>
