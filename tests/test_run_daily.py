@@ -278,7 +278,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "accountability_nfp.json", "fuel.json", "outlook.json", "heatcheck.json",
                  "stress.json", "recession.json", "datacenter.json",
                  "metros.json", "geo.json", "matrix.json", "labor.json",
-                 "commodities.json"):
+                 "commodities.json", "capacity.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 30
@@ -288,8 +288,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok
-    # + geography_ok + labor_ok + commodities_ok
-    assert qa["total"] == 23
+    # + geography_ok + labor_ok + commodities_ok + capacity_ok
+    assert qa["total"] == 24
     stamp = [c for c in qa["checks"] if c["name"] == "single_run_stamp"][0]
     assert stamp["pass"] is True  # a clean full run leaves no stale artifacts
     official = json.loads((out / "official.json").read_text())
@@ -347,6 +347,15 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert dc["context"]["colo"]["source"]           # hand-seed provenance present
     assert all("stale" in c for c in dc["indexes"]["build"]["components"])
     assert dc["indexes"]["build"]["groups"]
+    capacity = json.loads((out / "capacity.json").read_text())
+    assert len(capacity["companies"]) == 18
+    crwv = next(c for c in capacity["companies"] if c["t"] == "CRWV")
+    # fake FMP_EQ cap (39.78) + config nd flows through to EV
+    assert crwv["cap"] == pytest.approx(39.78)
+    assert crwv["ev"] == pytest.approx(39.78 + crwv["nd"])
+    orcl = next(c for c in capacity["companies"] if c["t"] == "ORCL")
+    assert orcl["role"] == "hyperscaler" and orcl["ev_per_mw"] is None
+    assert checks["capacity_ok"]["pass"] is True
     # P2 T9: the geography phase publishes metros/geo/matrix from the same store
     # rows pinned above. rc==0 already proves each validated inline; here we pin
     # that real values flow end-to-end and every artifact shares the run stamp.
