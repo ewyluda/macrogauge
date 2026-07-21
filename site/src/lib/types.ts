@@ -126,6 +126,21 @@ export type Matrix = {
   groups: { group: string; rows: MatrixRow[] }[];
 };
 
+export type CommodityRow = {
+  code: string;
+  label: string;
+  unit: string;
+  value: number | null;
+  as_of: string | null;
+  yoy_pct: number | null;
+  chg_30d_pct: number | null;
+  spark: number[];
+};
+export type Commodities = {
+  published_at: string;
+  groups: { group: string; rows: CommodityRow[] }[];
+};
+
 export type Labor = {
   published_at: string;
   payrolls: { level_k: number | null; mom_change_k: number | null; yoy_pct: number | null; as_of: string | null };

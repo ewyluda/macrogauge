@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "commodities",
+  "type": "object",
+  "required": ["published_at", "groups"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["group", "rows"],
+        "additionalProperties": false,
+        "properties": {
+          "group": {"type": "string"},
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["code", "label", "unit", "value", "as_of",
+                           "yoy_pct", "chg_30d_pct", "spark"],
+              "additionalProperties": false,
+              "properties": {
+                "code": {"type": "string"},
+                "label": {"type": "string"},
+                "unit": {"type": "string"},
+                "value": {"type": ["number", "null"]},
+                "as_of": {"type": ["string", "null"]},
+                "yoy_pct": {"type": ["number", "null"]},
+                "chg_30d_pct": {"type": ["number", "null"]},
+                "spark": {"type": "array", "items": {"type": "number"}}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

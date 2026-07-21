@@ -257,7 +257,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "accountability_cpi.json", "accountability_pce.json",
                  "accountability_nfp.json", "fuel.json", "outlook.json", "heatcheck.json",
                  "stress.json", "recession.json", "datacenter.json",
-                 "metros.json", "geo.json", "matrix.json", "labor.json"):
+                 "metros.json", "geo.json", "matrix.json", "labor.json",
+                 "commodities.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 29
@@ -267,8 +268,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok
-    # + geography_ok + labor_ok
-    assert qa["total"] == 22
+    # + geography_ok + labor_ok + commodities_ok
+    assert qa["total"] == 23
     stamp = [c for c in qa["checks"] if c["name"] == "single_run_stamp"][0]
     assert stamp["pass"] is True  # a clean full run leaves no stale artifacts
     official = json.loads((out / "official.json").read_text())
@@ -711,3 +712,23 @@ def test_datacenter_schema_violation_fails_run(tmp_path, monkeypatch):
         run_daily.main(["--store", str(store), "--out", str(out)],
                        http_get=fake_get, http_post=fake_post)
     assert not (out / "qa.json").exists()  # run died before qa
+
+
+def test_commodities_failure_does_not_block_gauge_or_labor(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("commodities boom")
+
+    monkeypatch.setattr(run_daily.commodities_json, "build", boom)
+    out = tmp_path / "out"
+    rc = run_daily.main(["--store", str(tmp_path / "store"), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    qa = json.loads((out / "qa.json").read_text())
+    checks = {c["name"]: c for c in qa["checks"]}
+    assert checks["commodities_ok"]["pass"] is False
+    assert "commodities boom" in checks["commodities_ok"]["detail"]
+    assert checks["engine_ok"]["pass"] is True
+    assert checks["labor_ok"]["pass"] is True
+    assert not (out / "commodities.json").exists()

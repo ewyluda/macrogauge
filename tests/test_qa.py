@@ -14,9 +14,8 @@ def _all_ok():
 
 def test_all_green_when_fresh():
     r = qa.run_checks(FRESH, today="2026-07-07", phase_errors=_all_ok())
-    # headline_current, yoy_finite, engine_ok, nowcast_ok, outlook_ok, composites_ok,
-    # datacenter_ok, geography_ok, labor_ok
-    assert (r["passed"], r["total"]) == (9, 9)
+    # headline_current, yoy_finite, engine_ok + the 7 qa.PHASES checks
+    assert (r["passed"], r["total"]) == (10, 10)
     assert all(c["pass"] for c in r["checks"])
 
 
@@ -25,7 +24,7 @@ def test_stale_headline_fails():
                       phase_errors=_all_ok())
     by_name = {c["name"]: c for c in r["checks"]}
     assert by_name["headline_current"]["pass"] is False
-    assert r["passed"] == 8
+    assert r["passed"] == 9
 
 
 def test_nan_yoy_fails():
@@ -51,7 +50,7 @@ def test_connector_and_freshness_checks_green():
                       source_results=[_res("FRED", True), _res("EIA", True)],
                       freshness=[{"code": "CPIAUCNS", "latest_obs": "2026-05-01",
                                   "limit_days": 80}])
-    assert (r["passed"], r["total"]) == (11, 11)
+    assert (r["passed"], r["total"]) == (12, 12)
 
 
 def test_connector_failure_flagged_not_critical():

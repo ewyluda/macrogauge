@@ -12,11 +12,10 @@ suppresses 7 states (ak/dc/ma/mo/ri/sd/vt) for private NAICS 23, so their wage
 block is null. A series with no store rows publishes a null block: a new writer
 must never be able to take down the publish block.
 """
-from datetime import date, timedelta
 from pathlib import Path
 
 from pipeline.dates import months_back
-from pipeline.publish.util import write_json, yoy_pct
+from pipeline.publish.util import pct_change_daily, write_json, yoy_pct
 from pipeline.store import vintage
 
 # (abbrev, full name) alphabetical by full state name — mirrors
@@ -66,14 +65,8 @@ def _gas_measure(conn, code: str) -> dict:
     if not obs:
         return {"value": None, "as_of": None, "yoy_pct": None}
     as_of = max(obs)
-    target = date.fromisoformat(as_of) - timedelta(days=365)
-    base = None
-    for offset in (0, -1, 1, -2, 2, -3, 3):  # exact first, then nearest
-        base = obs.get((target + timedelta(days=offset)).isoformat())
-        if base is not None:
-            break
-    yoy = None if not base else round((obs[as_of] / base - 1) * 100, 2)
-    return {"value": round(obs[as_of], 3), "as_of": as_of, "yoy_pct": yoy}
+    return {"value": round(obs[as_of], 3), "as_of": as_of,
+            "yoy_pct": pct_change_daily(obs, as_of, 365)}
 
 
 def _rate(conn, code: str) -> dict:

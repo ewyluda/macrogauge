@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import metrosJson from "../../../public/data/metros.json";
 import { KpiCard } from "@/components/KpiCard";
+import { TailSpark } from "@/components/TailSpark";
 import { fmtMoney, fmtSigned, fmtMonth, yoyColor } from "@/lib/format";
 import type { Metros, Metro } from "@/lib/types";
 
@@ -13,37 +14,6 @@ export const metadata: Metadata = {
 };
 
 const dollars = (v: number | null) => (v == null ? "—" : fmtMoney(v, "$"));
-
-/** Static SVG sparkline of a 24-month YoY trail (nulls skipped). Server-safe. */
-function TailSpark({ tail }: { tail: (number | null)[] }) {
-  const pts = tail
-    .map((v, i) => [i, v] as const)
-    .filter((p): p is readonly [number, number] => p[1] != null);
-  if (pts.length < 2) return <span style={{ color: "var(--muted)" }}>—</span>;
-  const w = 96;
-  const h = 22;
-  const ys = pts.map((p) => p[1]);
-  const min = Math.min(...ys);
-  const span = Math.max(...ys) - min || 1;
-  const n = tail.length - 1 || 1;
-  const line = pts
-    .map(
-      ([i, v]) =>
-        `${((i / n) * w).toFixed(1)},${(h - 2 - ((v - min) / span) * (h - 4)).toFixed(1)}`
-    )
-    .join(" ");
-  const last = ys[ys.length - 1];
-  return (
-    <svg width={w} height={h} style={{ display: "block" }}>
-      <polyline
-        points={line}
-        fill="none"
-        stroke={yoyColor(last)}
-        strokeWidth={1.5}
-      />
-    </svg>
-  );
-}
 
 function Yoy({ pct }: { pct: number | null }) {
   return <span style={{ color: yoyColor(pct) }}>{fmtSigned(pct)}</span>;

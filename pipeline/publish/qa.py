@@ -19,13 +19,15 @@ GAUGE_COVERAGE_FLOOR = 40.0
 # reported phase_errors dict against this tuple in BOTH directions, so a
 # phase that is wired but never reported — or reported but never pinned
 # here — fails its check instead of silently reading "completed".
-PHASES = ("nowcast", "outlook", "composites", "datacenter", "geography", "labor")
+PHASES = ("nowcast", "outlook", "composites", "datacenter", "geography",
+          "labor", "commodities")
 _PHASE_DONE = {"nowcast": "nowcast completed",
                "outlook": "12-month outlook completed",
                "composites": "composites completed",
                "datacenter": "datacenter completed",
                "geography": "geography panel completed",
-               "labor": "labor panel completed"}
+               "labor": "labor panel completed",
+               "commodities": "commodities grid completed"}
 
 
 def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
