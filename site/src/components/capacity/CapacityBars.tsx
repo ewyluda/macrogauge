@@ -72,6 +72,8 @@ export function CapacityBars({ rows }: { rows: CapacityCompany[] }) {
           return (
             <div key={c.t} className="dashboard-panel" style={{ padding: 0 }}>
               <div onClick={() => setOpen(open === c.t ? null : c.t)}
+                role="button" tabIndex={0} aria-expanded={open === c.t}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOpen(open === c.t ? null : c.t); } }}
                 style={{ display: "grid", gridTemplateColumns: "230px 1fr 110px", gap: 12,
                          alignItems: "center", padding: "9px 14px", cursor: "pointer" }}>
                 <div style={{ minWidth: 0 }}>
@@ -94,7 +96,9 @@ export function CapacityBars({ rows }: { rows: CapacityCompany[] }) {
                 <div style={{ textAlign: "right" }}>
                   <div style={{ fontSize: 13, fontWeight: 700 }}>{fmtMW(total)}</div>
                   <div style={{ fontSize: 10.5, color: "var(--muted)" }}>
-                    {c.ev_per_mw != null ? `$${c.ev_per_mw.toFixed(0)}M/MW` : c.stale ? "unpriced" : " "}
+                    {c.ev_per_mw != null ? `$${c.ev_per_mw.toFixed(0)}M/MW`
+                      : c.stale ? "unpriced"
+                      : <span title={c.private ? "Private — EV/MW not comparable" : "Conglomerate EV — not meaningful per AI MW"}>—</span>}
                   </div>
                 </div>
               </div>
