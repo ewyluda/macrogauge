@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-07-21",
-  "passed": 21,
-  "total": 23,
+  "generated_at": "2026-07-22",
+  "passed": 22,
+  "total": 24,
   "checks": [
     {
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-06-01 is 50d old (limit 80)"
+      "detail": "latest official month 2026-06-01 is 51d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -64,6 +64,12 @@
       "detail": "commodities grid completed"
     },
     {
+      "name": "capacity_ok",
+      "critical": false,
+      "pass": true,
+      "detail": "capacity tracker completed"
+    },
+    {
       "name": "single_run_stamp",
       "critical": false,
       "pass": true,
@@ -73,19 +79,19 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": false,
-      "detail": "27/29 ok; failed \u2014 USDA: missing secret USDA_API_KEY; VASTAI: HTTPError: 429 Client Error: Too Many Requests for url: https://console.vast.ai/api/v0/bundles/?q=%7B%22gpu_name%22%3A%20%7B%22eq%22%3A%20%22H200%22%7D%2C%20%22rentable%22%3A%20%7B%22eq%22%3A%20true%7D%2C%20%22gpu_frac%22%3A%20%7B%22eq%22%3A%201%7D%2C%20%22type%22%3A%20%22on-demand%22%2C%20%22limit%22%3A%201000%7D"
+      "detail": "29/30 ok; failed \u2014 USDA: missing secret USDA_API_KEY"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "476/542 fresh; stale \u2014 PCEPI (81d > 80d), APU0000702212 (81d > 80d), APU0000704211 (81d > 80d), kalshi_cpi_mom (10d > 5d), DSPIC96 (81d > 80d), CSUSHPINSA (111d > 110d), M2SL (81d > 80d), UMCSENT (81d > 80d), PSAVERT (81d > 80d), REVOLSL (81d > 80d), CFNAIMA3 (81d > 80d), RECPROUSM156N (81d > 80d), PCETRIM12M159SFRBDAL (81d > 80d), MICH (81d > 80d), ALUR (81d > 80d), AKUR (81d > 80d), AZUR (81d > 80d), ARUR (81d > 80d), CAUR (81d > 80d), COUR (81d > 80d), CTUR (81d > 80d), DEUR (81d > 80d), DCUR (81d > 80d), FLUR (81d > 80d), GAUR (81d > 80d), HIUR (81d > 80d), IDUR (81d > 80d), ILUR (81d > 80d), INUR (81d > 80d), IAUR (81d > 80d), KSUR (81d > 80d), KYUR (81d > 80d), LAUR (81d > 80d), MEUR (81d > 80d), MDUR (81d > 80d), MAUR (81d > 80d), MIUR (81d > 80d), MNUR (81d > 80d), MSUR (81d > 80d), MOUR (81d > 80d), MTUR (81d > 80d), NEUR (81d > 80d), NVUR (81d > 80d), NHUR (81d > 80d), NJUR (81d > 80d), NMUR (81d > 80d), NYUR (81d > 80d), NCUR (81d > 80d), NDUR (81d > 80d), OHUR (81d > 80d), OKUR (81d > 80d), ORUR (81d > 80d), PAUR (81d > 80d), RIUR (81d > 80d), SCUR (81d > 80d), SDUR (81d > 80d), TNUR (81d > 80d), TXUR (81d > 80d), UTUR (81d > 80d), VTUR (81d > 80d), VAUR (81d > 80d), WAUR (81d > 80d), WVUR (81d > 80d), WIUR (81d > 80d), WYUR (81d > 80d), eia_henry_hub (8d > 7d)"
+      "detail": "532/598 fresh; stale \u2014 PCEPI (82d > 80d), APU0000702212 (82d > 80d), APU0000704211 (82d > 80d), kalshi_cpi_mom (11d > 5d), DSPIC96 (82d > 80d), CSUSHPINSA (112d > 110d), M2SL (82d > 80d), UMCSENT (82d > 80d), PSAVERT (82d > 80d), REVOLSL (82d > 80d), CFNAIMA3 (82d > 80d), RECPROUSM156N (82d > 80d), PCETRIM12M159SFRBDAL (82d > 80d), MICH (82d > 80d), ALUR (82d > 80d), AKUR (82d > 80d), AZUR (82d > 80d), ARUR (82d > 80d), CAUR (82d > 80d), COUR (82d > 80d), CTUR (82d > 80d), DEUR (82d > 80d), DCUR (82d > 80d), FLUR (82d > 80d), GAUR (82d > 80d), HIUR (82d > 80d), IDUR (82d > 80d), ILUR (82d > 80d), INUR (82d > 80d), IAUR (82d > 80d), KSUR (82d > 80d), KYUR (82d > 80d), LAUR (82d > 80d), MEUR (82d > 80d), MDUR (82d > 80d), MAUR (82d > 80d), MIUR (82d > 80d), MNUR (82d > 80d), MSUR (82d > 80d), MOUR (82d > 80d), MTUR (82d > 80d), NEUR (82d > 80d), NVUR (82d > 80d), NHUR (82d > 80d), NJUR (82d > 80d), NMUR (82d > 80d), NYUR (82d > 80d), NCUR (82d > 80d), NDUR (82d > 80d), OHUR (82d > 80d), OKUR (82d > 80d), ORUR (82d > 80d), PAUR (82d > 80d), RIUR (82d > 80d), SCUR (82d > 80d), SDUR (82d > 80d), TNUR (82d > 80d), TXUR (82d > 80d), UTUR (82d > 80d), VTUR (82d > 80d), VAUR (82d > 80d), WAUR (82d > 80d), WVUR (82d > 80d), WIUR (82d > 80d), WYUR (82d > 80d), eia_henry_hub (9d > 7d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $3.938 vs EIA weekly $4.001 \u2014 relative divergence 1.6% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $3.965 vs EIA weekly $4.001 \u2014 relative divergence 0.9% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -103,19 +109,19 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-07-21"
+      "detail": "CPI nowcast as-of 2026-07-22"
     },
     {
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.01 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=0.03 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-21 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-22 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
