@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-07-22T14:39:54Z",
-  "score": 2.6,
+  "published_at": "2026-07-23T14:54:39Z",
+  "score": 6.1,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": 0.5962400000000001,
+      "z": 0.58696,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -18,7 +18,7 @@
       "active_weight": 25.0
     },
     "pipeline": {
-      "z": 0.298425,
+      "z": 0.645825,
       "weight": 20,
       "available": 4,
       "expected": 4,
@@ -32,7 +32,7 @@
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": -0.6726333333333333,
+      "z": -0.6586,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-21",
-      "momentum": -0.29,
-      "z": -1.0896
+      "as_of": "2026-07-22",
+      "momentum": -0.3,
+      "z": -1.136
     },
     {
       "code": "PAYEMS",
@@ -128,18 +128,18 @@
       "group": "pipeline",
       "direction": -1,
       "periods": 13,
-      "as_of": "2026-07-11",
-      "momentum": 0.0,
-      "z": -0.1843
+      "as_of": "2026-07-18",
+      "momentum": -13.0233,
+      "z": 1.1476
     },
     {
       "code": "CCSA",
       "group": "pipeline",
       "direction": -1,
       "periods": 13,
-      "as_of": "2026-07-04",
-      "momentum": -0.2211,
-      "z": -0.054
+      "as_of": "2026-07-11",
+      "momentum": -0.6637,
+      "z": 0.0037
     },
     {
       "code": "PCUOMFGOMFG",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-21",
-      "momentum": -0.17,
-      "z": -0.6323
+      "as_of": "2026-07-22",
+      "momentum": -0.16,
+      "z": -0.5902
     }
   ]
 }

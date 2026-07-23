@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-22",
+  "generated_at": "2026-07-23",
   "passed": 22,
   "total": 24,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-06-01 is 51d old (limit 80)"
+      "detail": "latest official month 2026-06-01 is 52d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -85,13 +85,13 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "532/598 fresh; stale \u2014 PCEPI (82d > 80d), APU0000702212 (82d > 80d), APU0000704211 (82d > 80d), kalshi_cpi_mom (11d > 5d), DSPIC96 (82d > 80d), CSUSHPINSA (112d > 110d), M2SL (82d > 80d), UMCSENT (82d > 80d), PSAVERT (82d > 80d), REVOLSL (82d > 80d), CFNAIMA3 (82d > 80d), RECPROUSM156N (82d > 80d), PCETRIM12M159SFRBDAL (82d > 80d), MICH (82d > 80d), ALUR (82d > 80d), AKUR (82d > 80d), AZUR (82d > 80d), ARUR (82d > 80d), CAUR (82d > 80d), COUR (82d > 80d), CTUR (82d > 80d), DEUR (82d > 80d), DCUR (82d > 80d), FLUR (82d > 80d), GAUR (82d > 80d), HIUR (82d > 80d), IDUR (82d > 80d), ILUR (82d > 80d), INUR (82d > 80d), IAUR (82d > 80d), KSUR (82d > 80d), KYUR (82d > 80d), LAUR (82d > 80d), MEUR (82d > 80d), MDUR (82d > 80d), MAUR (82d > 80d), MIUR (82d > 80d), MNUR (82d > 80d), MSUR (82d > 80d), MOUR (82d > 80d), MTUR (82d > 80d), NEUR (82d > 80d), NVUR (82d > 80d), NHUR (82d > 80d), NJUR (82d > 80d), NMUR (82d > 80d), NYUR (82d > 80d), NCUR (82d > 80d), NDUR (82d > 80d), OHUR (82d > 80d), OKUR (82d > 80d), ORUR (82d > 80d), PAUR (82d > 80d), RIUR (82d > 80d), SCUR (82d > 80d), SDUR (82d > 80d), TNUR (82d > 80d), TXUR (82d > 80d), UTUR (82d > 80d), VTUR (82d > 80d), VAUR (82d > 80d), WAUR (82d > 80d), WVUR (82d > 80d), WIUR (82d > 80d), WYUR (82d > 80d), eia_henry_hub (9d > 7d)"
+      "detail": "585/598 fresh; stale \u2014 PCEPI (83d > 80d), APU0000702212 (83d > 80d), APU0000704211 (83d > 80d), kalshi_cpi_mom (12d > 5d), DSPIC96 (83d > 80d), CSUSHPINSA (113d > 110d), M2SL (83d > 80d), UMCSENT (83d > 80d), PSAVERT (83d > 80d), REVOLSL (83d > 80d), RECPROUSM156N (83d > 80d), PCETRIM12M159SFRBDAL (83d > 80d), MICH (83d > 80d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $3.965 vs EIA weekly $4.001 \u2014 relative divergence 0.9% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $3.998 vs EIA weekly $4.001 \u2014 relative divergence 0.1% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -109,7 +109,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-07-22"
+      "detail": "CPI nowcast as-of 2026-07-23"
     },
     {
       "name": "ensemble_computed",
@@ -121,7 +121,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-22 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-23 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
