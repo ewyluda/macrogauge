@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-07-23T14:54:39Z",
-  "score": 6.1,
+  "published_at": "2026-07-24T14:26:05Z",
+  "score": 5.4,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": 0.58696,
+      "z": 0.5727599999999999,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -25,14 +25,14 @@
       "active_weight": 20.0
     },
     "housing": {
-      "z": -0.32965,
+      "z": -0.37587499999999996,
       "weight": 15,
       "available": 4,
       "expected": 4,
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": -0.6586,
+      "z": -0.6726333333333333,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-22",
-      "momentum": -0.3,
-      "z": -1.136
+      "as_of": "2026-07-23",
+      "momentum": -0.32,
+      "z": -1.207
     },
     {
       "code": "PAYEMS",
@@ -171,8 +171,8 @@
       "group": "housing",
       "direction": 1,
       "as_of": "2026-06-01",
-      "momentum": 0.2935,
-      "z": 0.039
+      "momentum": 0.807,
+      "z": 0.1238
     },
     {
       "code": "CSUSHPINSA",
@@ -188,9 +188,9 @@
       "direction": -1,
       "mode": "diff",
       "periods": 13,
-      "as_of": "2026-07-16",
-      "momentum": 0.25,
-      "z": -0.7285
+      "as_of": "2026-07-23",
+      "momentum": 0.35,
+      "z": -0.9982
     },
     {
       "code": "M2SL",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-22",
-      "momentum": -0.16,
-      "z": -0.5902
+      "as_of": "2026-07-23",
+      "momentum": -0.17,
+      "z": -0.6323
     }
   ]
 }

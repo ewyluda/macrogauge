@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-23",
+  "generated_at": "2026-07-24",
   "passed": 22,
   "total": 24,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-06-01 is 52d old (limit 80)"
+      "detail": "latest official month 2026-06-01 is 53d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -85,13 +85,13 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "585/598 fresh; stale \u2014 PCEPI (83d > 80d), APU0000702212 (83d > 80d), APU0000704211 (83d > 80d), kalshi_cpi_mom (12d > 5d), DSPIC96 (83d > 80d), CSUSHPINSA (113d > 110d), M2SL (83d > 80d), UMCSENT (83d > 80d), PSAVERT (83d > 80d), REVOLSL (83d > 80d), RECPROUSM156N (83d > 80d), PCETRIM12M159SFRBDAL (83d > 80d), MICH (83d > 80d)"
+      "detail": "585/598 fresh; stale \u2014 PCEPI (84d > 80d), APU0000702212 (84d > 80d), APU0000704211 (84d > 80d), kalshi_cpi_mom (13d > 5d), DSPIC96 (84d > 80d), CSUSHPINSA (114d > 110d), M2SL (84d > 80d), UMCSENT (84d > 80d), PSAVERT (84d > 80d), REVOLSL (84d > 80d), RECPROUSM156N (84d > 80d), PCETRIM12M159SFRBDAL (84d > 80d), MICH (84d > 80d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $3.998 vs EIA weekly $4.001 \u2014 relative divergence 0.1% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.029 vs EIA weekly $4.001 \u2014 relative divergence 0.7% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -109,7 +109,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-07-23"
+      "detail": "CPI nowcast as-of 2026-07-24"
     },
     {
       "name": "ensemble_computed",
@@ -121,7 +121,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-23 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-24 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
