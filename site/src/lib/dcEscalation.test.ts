@@ -64,6 +64,22 @@ describe("bridge", () => {
     expect(steel.contributionCost).toBeCloseTo(150_000, 0);  // 1M * .6 * 25 / 100
   });
 
+  it("exposes the component's own base/end index levels, distinct from the headline's", () => {
+    // This is what makes the published contribution formula evaluable on screen:
+    // weight (from BridgeComponent) x (componentEndIndex - componentBaseIndex) / headlineBase.
+    const rows = bridge(B_MONTHS, B_INDEX, B_COMPONENTS, "2024-03", 1_000_000);
+    const steel = rows.find((r) => r.code === "steel")!;
+    const switchgear = rows.find((r) => r.code === "switchgear")!;
+    expect(steel.componentBaseIndex).toBe(100);
+    expect(steel.componentEndIndex).toBe(125);
+    expect(switchgear.componentBaseIndex).toBe(100);
+    expect(switchgear.componentEndIndex).toBe(105);
+    // and weight * componentPct is NOT contributionPp except when every
+    // component starts at 100 (which this fixture happens to do at "2024-03" —
+    // the mismatch only shows up once components diverge from a common base,
+    // exercised on live data rather than this synthetic fixture).
+  });
+
   it("sorts by absolute contribution, largest first", () => {
     const rows = bridge(B_MONTHS, B_INDEX, B_COMPONENTS, "2024-03", 1_000_000);
     expect(rows.map((r) => r.code)).toEqual(["steel", "switchgear"]);

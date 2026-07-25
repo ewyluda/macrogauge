@@ -61,7 +61,9 @@ export type BridgeComponent = {
 };
 
 export type BridgeRow = BridgeComponent & {
-  componentPct: number;      // the component's own escalation over the window
+  componentPct: number;        // the component's own escalation over the window
+  componentBaseIndex: number;  // the component's own index level at the base month
+  componentEndIndex: number;   // the component's own index level at the end month
   contributionPp: number;    // its share of the headline escalation, in pp
   contributionCost: number;  // its share of the dollar delta
 };
@@ -74,8 +76,22 @@ export type BridgeRow = BridgeComponent & {
  *  and the contributions sum to the headline escalation with no residual.
  *  Weights are fixed (Laspeyres), so there is no weight-drift term.
  *
+ *  NOTE — denominator: I(b) above is the HEADLINE's base index, not the
+ *  component's own (componentBaseIndex). contributionPp and componentPct are
+ *  deliberately denominated differently and only coincide when every
+ *  component equals 100 at the base month. Callers must not present
+ *  `weight * componentPct` as if it were contributionPp — see the on-page
+ *  note this powers in DcEscalationClient.tsx.
+ *
  *  I(b) is rebuilt from the components rather than read from the published
- *  headline so the identity survives the two arrays being rounded independently. */
+ *  headline so the identity survives the two arrays being rounded independently.
+ *
+ *  componentIndex[c.code] assumes every components[].code has a matching key —
+ *  true by construction, because both are sliced from the same datacenter.json
+ *  `indexes.build` object and the publisher pins set(monthly.components) ==
+ *  set(weights) at publish time (tests/test_publish_datacenter.py). An
+ *  unmatched code would throw a TypeError here rather than silently drop a
+ *  component. */
 export function bridge(
   months: string[],
   componentIndex: Record<string, number[]>,
@@ -98,6 +114,8 @@ export function bridge(
       return {
         ...c,
         componentPct: (series[last] / series[i] - 1) * 100,
+        componentBaseIndex: series[i],
+        componentEndIndex: series[last],
         contributionPp: (100 * c.weight * delta) / headlineBase,
         contributionCost: (baseCost * c.weight * delta) / headlineBase,
       };

@@ -139,7 +139,7 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
             <KpiCard
               label="Total escalation"
               value={fmtSigned(result.pct)}
-              context={`${result.monthsElapsed} months · index ${result.baseIndex.toFixed(1)} → ${result.endIndex.toFixed(1)}`}
+              context={`${result.monthsElapsed} months · index ${result.baseIndex.toFixed(4)} → ${result.endIndex.toFixed(4)}`}
               accent={result.pct >= 0 ? "red" : "emerald"}
             />
             <KpiCard
@@ -163,12 +163,24 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
                 rows rounded to 2dp for display — compare TOTAL to Headline below
               </span>
             </h2>
+            <div style={{ fontSize: 12, color: "var(--muted)", padding: "0 12px 8px" }}>
+              Contribution is priced against the headline&apos;s base index (the KPI card
+              above) — not each component&apos;s own. So weight × &quot;Its own
+              escalation&quot; will not reproduce Contribution, except where every component
+              happens to start at 100 — the Index column below lets you verify Contribution
+              directly: 100 × weight × (end − base) ÷ headline base index. That is a
+              different formula from <code>contribution_pp</code> on{" "}
+              <a href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</a>{" "}
+              (weight × the component&apos;s own YoY) — don&apos;t carry that shortcut over
+              here.
+            </div>
             <table className="data-table">
               <thead>
                 <tr>
                   <th>Component</th>
                   <th>Weight</th>
                   <th>Its own escalation</th>
+                  <th>Index (base → end)</th>
                   <th>Contribution</th>
                   <th>Of your delta</th>
                 </tr>
@@ -179,6 +191,9 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
                     <td>{r.label}</td>
                     <td>{(r.weight * 100).toFixed(1)}%</td>
                     <td>{fmtSigned(r.componentPct)}</td>
+                    <td>
+                      {r.componentBaseIndex.toFixed(4)} → {r.componentEndIndex.toFixed(4)}
+                    </td>
                     <td>
                       <span
                         style={{
@@ -204,6 +219,7 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
                   <td>TOTAL</td>
                   <td>{(totalWeight * 100).toFixed(1)}%</td>
                   <td>—</td>
+                  <td>—</td>
                   <td>{fmtPp(displayedTotalPp)}</td>
                   <td>—</td>
                 </tr>
@@ -211,6 +227,9 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
                   <td>Headline</td>
                   <td>—</td>
                   <td>—</td>
+                  <td>
+                    {result.baseIndex.toFixed(4)} → {result.endIndex.toFixed(4)}
+                  </td>
                   <td>{fmtSigned(result.pct)}</td>
                   <td>—</td>
                 </tr>
