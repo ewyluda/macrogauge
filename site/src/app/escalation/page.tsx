@@ -9,7 +9,7 @@ import {
 export const metadata: Metadata = {
   title: "DC Escalation Calculator",
   description:
-    "Escalate your own data-center cost basis by the DC Build index, with a component bridge that sums exactly to the headline.",
+    "Escalate your own data-center cost basis by the DC Build index, with a per-component bridge showing what drove the change.",
 };
 
 const build = dc.indexes.build;
@@ -48,10 +48,14 @@ export default function Escalation() {
           This escalates <em>your</em> number. We publish an input-price index
           ({data.rebase}), not a turnkey $/MW quote — so the base cost is yours to supply,
           and the calculator only applies the ratio between two months of the DC Build
-          index. Because the index is a fixed-weight Laspeyres aggregate, it is exactly
-          linear in its components: each row&apos;s contribution is{" "}
-          <code>weight × (component index change) ÷ base index</code>, and the rows sum to
-          the headline escalation with no residual.
+          index. Because the index is a fixed-weight Laspeyres aggregate, it is linear in
+          its components: each row&apos;s contribution is{" "}
+          <code>weight × (component index change) ÷ base index</code>. In the underlying
+          numbers, the contributions sum to the headline escalation with no residual —
+          but each row in the table is rounded to 2 decimal places for display, so the
+          printed rows can land a few hundredths of a point away from the headline. The
+          TOTAL row under the table adds up what&apos;s printed; Headline shows the real
+          figure — the difference between them is that rounding, nothing more.
           {" "}The window runs to the index&apos;s latest observation ({data.asOf}).
           Escalation is national — state parity multipliers on{" "}
           <a href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</a> are{" "}
@@ -59,9 +63,9 @@ export default function Escalation() {
           rates; your base cost for a real site already embeds its location, so applying them
           here would count location twice.
           {" "}This is history, not a forecast: it measures what input prices have already
-          done, and stops at the last print. See{" "}
-          <a href="/methodology" style={{ color: "var(--accent-sky)" }}>methodology</a> for
-          component sources and weights.
+          done, and stops at the last print. Component sources and weights are documented
+          on{" "}
+          <a href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</a>.
         </div>
       </Section>
     </div>

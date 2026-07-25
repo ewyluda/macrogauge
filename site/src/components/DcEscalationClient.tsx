@@ -13,10 +13,13 @@ export type EscalationData = {
   rebase: string;
 };
 
-const usd = (v: number) =>
-  v >= 1_000_000
-    ? `$${(v / 1_000_000).toFixed(2)}M`
-    : `$${Math.round(v).toLocaleString("en-US")}`;
+const usd = (v: number) => {
+  const sign = v < 0 ? "−" : "";
+  const abs = Math.abs(v);
+  return abs >= 1_000_000
+    ? `${sign}$${(abs / 1_000_000).toFixed(2)}M`
+    : `${sign}$${Math.round(abs).toLocaleString("en-US")}`;
+};
 
 export function DcEscalationClient({ data }: { data: EscalationData }) {
   const firstMonth = data.months[0];
@@ -35,6 +38,24 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
     baseCost
   );
   const maxAbs = Math.max(...rows.map((r) => Math.abs(r.contributionPp)), 0.01);
+
+  // A cost of $0 or less is not a real answer to "what does this cost" — it's
+  // an unset/invalid input wearing the KPI cards' clothes. Gate the computed
+  // view on a genuinely positive, finite cost so an empty or bad field shows
+  // an honest prompt instead of a confident "$0" everywhere.
+  const validBaseCost = Number.isFinite(baseCost) && baseCost > 0;
+
+  // The table rounds each row's contribution to 2dp for display. Summing
+  // those DISPLAYED values (not bridge()'s raw floats) is what lets the
+  // TOTAL row reconcile with what a reader can see and re-add by hand — and
+  // it's also why TOTAL can land a hair off Headline, which is rounded
+  // independently to 1dp. Both figures are correct; they're two different,
+  // honestly-labeled roundings of the same (exact, residual-free) sum.
+  const displayedTotalPp = rows.reduce(
+    (sum, r) => sum + Number(r.contributionPp.toFixed(2)),
+    0
+  );
+  const totalWeight = rows.reduce((sum, r) => sum + r.weight, 0);
 
   const input: React.CSSProperties = {
     background: "var(--bg)",
@@ -100,7 +121,13 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
         </div>
       )}
 
-      {result && (
+      {result && !validBaseCost && (
+        <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>
+          Enter a base cost greater than $0 to see the escalation.
+        </div>
+      )}
+
+      {result && validBaseCost && (
         <>
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 16 }}>
             <KpiCard
@@ -133,7 +160,7 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
             <h2>
               What drove it{" "}
               <span className="subtitle">
-                contributions sum to {fmtSigned(result.pct)} — the headline, exactly
+                rows rounded to 2dp for display — compare TOTAL to Headline below
               </span>
             </h2>
             <table className="data-table">
@@ -172,7 +199,29 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
                   </tr>
                 ))}
               </tbody>
+              <tfoot>
+                <tr style={{ fontWeight: 600, background: "var(--bg)" }}>
+                  <td>TOTAL</td>
+                  <td>{(totalWeight * 100).toFixed(1)}%</td>
+                  <td>—</td>
+                  <td>{fmtPp(displayedTotalPp)}</td>
+                  <td>—</td>
+                </tr>
+                <tr style={{ color: "var(--muted)", background: "var(--bg)" }}>
+                  <td>Headline</td>
+                  <td>—</td>
+                  <td>—</td>
+                  <td>{fmtSigned(result.pct)}</td>
+                  <td>—</td>
+                </tr>
+              </tfoot>
             </table>
+            <div style={{ fontSize: 12, color: "var(--muted)", padding: "8px 12px" }}>
+              TOTAL adds up the rows above as printed (each rounded to 2dp); Headline is
+              the true figure, rounded to 1dp. The gap between the two is that
+              rounding — nothing is missing; the underlying, unrounded numbers already
+              sum with no residual.
+            </div>
           </div>
         </>
       )}
