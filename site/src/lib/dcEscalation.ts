@@ -52,3 +52,55 @@ export function escalate(
     deltaCost: baseCost * (ratio - 1),
   };
 }
+
+export type BridgeComponent = {
+  code: string;
+  label: string;
+  group: string;
+  weight: number;
+};
+
+export type BridgeRow = BridgeComponent & {
+  componentPct: number;      // the component's own escalation over the window
+  contributionPp: number;    // its share of the headline escalation, in pp
+  contributionCost: number;  // its share of the dollar delta
+};
+
+/** Decompose the headline escalation into per-component contributions.
+ *
+ *  The index is exactly linear in its components — aggregate.headline() is
+ *  sum(w_c * i_c) with weights summing to 1 — so:
+ *      contribution_c = 100 * w_c * (i_c(T) - i_c(b)) / I(b)
+ *  and the contributions sum to the headline escalation with no residual.
+ *  Weights are fixed (Laspeyres), so there is no weight-drift term.
+ *
+ *  I(b) is rebuilt from the components rather than read from the published
+ *  headline so the identity survives the two arrays being rounded independently. */
+export function bridge(
+  months: string[],
+  componentIndex: Record<string, number[]>,
+  components: BridgeComponent[],
+  baseMonth: string,
+  baseCost: number
+): BridgeRow[] {
+  const i = monthIndexAtOrBefore(months, baseMonth);
+  if (i < 0) return [];
+  const last = months.length - 1;
+  const headlineBase = components.reduce(
+    (acc, c) => acc + c.weight * componentIndex[c.code][i],
+    0
+  );
+  if (headlineBase === 0) return [];
+  return components
+    .map((c) => {
+      const series = componentIndex[c.code];
+      const delta = series[last] - series[i];
+      return {
+        ...c,
+        componentPct: (series[last] / series[i] - 1) * 100,
+        contributionPp: (100 * c.weight * delta) / headlineBase,
+        contributionCost: (baseCost * c.weight * delta) / headlineBase,
+      };
+    })
+    .sort((a, b) => Math.abs(b.contributionPp) - Math.abs(a.contributionPp));
+}
