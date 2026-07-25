@@ -122,3 +122,42 @@ def test_window_reaches_the_year_ago_base_of_the_newest_published_quarter():
     window = qcew._recent_quarters("2026-07-25")
     assert (2025, 4) in window, "newest published quarter missing"
     assert (2024, 4) in window, "year-ago base missing — YoY impossible"
+
+
+def test_emits_employment_as_its_own_series():
+    # month3_emplvl rides in the same rows we already download. It becomes a
+    # separate series code so store rows stay append-only and
+    # schema-versionless — no Observation field is added.
+    obs = qcew.fetch(["51107", "51107~emp"], vintage_date="2026-07-12",
+                     http_get=fake_get)
+    by_code = {o.series_code: o for o in obs}
+    assert set(by_code) == {"51107", "51107~emp"}
+    assert by_code["51107"].value == 2264.0        # avg_wkly_wage
+    assert by_code["51107~emp"].value == 26151.0   # month3_emplvl
+    assert by_code["51107~emp"].obs_date == "2025-10-01"
+    assert by_code["51107~emp"].source == "QCEW"
+    assert by_code["51107~emp"].route == "CSV"
+
+
+def test_county_fips_flow_through_unchanged():
+    # The industry endpoint returns every area in one file; area is a
+    # client-side row filter with no agglvl check, so a 5-digit county FIPS
+    # needs no connector change. Verified live 2026-07-25: 3,707 private
+    # areas, each at exactly one agglvl_code.
+    obs = qcew.fetch(["51107", "48441"], vintage_date="2026-07-12",
+                     http_get=fake_get)
+    assert {o.series_code for o in obs} == {"51107", "48441"}
+
+
+def test_suppressed_county_yields_neither_wage_nor_employment():
+    # Washington Co. OR (41067) is disclosure_code "N". A suppressed row must
+    # produce no observation at all — not a 0 wage, and not a 0 headcount.
+    obs = qcew.fetch(["41067", "41067~emp"], vintage_date="2026-07-12",
+                     http_get=fake_get)
+    assert obs == []
+
+
+def test_employment_requested_alone_does_not_emit_the_wage_series():
+    obs = qcew.fetch(["48441~emp"], vintage_date="2026-07-12", http_get=fake_get)
+    assert {o.series_code for o in obs} == {"48441~emp"}
+    assert obs[0].value == 4106.0
