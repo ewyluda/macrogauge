@@ -26,9 +26,9 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["key", "name", "state", "iso", "grid", "utility",
-                     "available", "thin_base", "wage", "wage_cur",
-                     "wage_yoy_pct", "wage_spread_pp", "emp",
+        "required": ["key", "name", "state", "iso", "grid", "utility", "note",
+                     "as_of", "base_date", "available", "thin_base", "wage",
+                     "wage_cur", "wage_yoy_pct", "wage_spread_pp", "emp",
                      "emp_cur_total", "emp_yoy_pct", "emp_spread_pp",
                      "yoy_basis", "counties", "counties_total",
                      "counties_used", "counties_suppressed", "sites",

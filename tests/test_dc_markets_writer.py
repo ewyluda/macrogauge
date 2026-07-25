@@ -108,11 +108,13 @@ def test_new_fields_populate_for_a_like_for_like_market():
     assert nova["emp_cur_total"] == nova["emp"] == 26151
 
 
-def test_emp_cur_total_present_even_when_like_for_like_set_is_empty():
+def test_emp_cur_total_present_even_when_market_is_fully_suppressed():
     # Hillsboro's only county never appears in the store at all (disclosure
-    # suppressed), so BOTH the like-for-like set and the current-quarter-only
-    # set are empty. wage_cur/emp_cur_total must still be present KEYS on the
-    # row -- null, not missing -- so a consumer never has to special-case a
+    # suppressed), so BOTH the like-for-like set AND the current-quarter-only
+    # set are empty (contrast test_fallback_regime_validates_and_leaves_
+    # yoy_basis_null below, where cur_usable is non-empty but yoy_usable
+    # isn't). wage_cur/emp_cur_total must still be present KEYS on the row --
+    # null, not missing -- so a consumer never has to special-case a
     # KeyError for the fully-suppressed regime.
     payload = writer.build(_conn(), MARKETS, CAP_CFG, META)
     hillsboro = {m["key"]: m for m in payload["markets"]}["hillsboro"]
@@ -149,3 +151,28 @@ def test_fallback_regime_validates_and_leaves_yoy_basis_null():
     assert nova["wage_yoy_pct"] is None
     assert nova["wage"] == nova["wage_cur"] == 2264.0
     assert nova["emp"] == nova["emp_cur_total"] == 26151
+
+
+def test_series_resolves_to_the_latest_vintage_not_the_first_appended():
+    # Store rows are append-only and immutable -- a re-published value for
+    # the same (series_code, obs_date) appends a NEW vintage row rather than
+    # overwriting the old one. _series() must resolve to the latest
+    # vintage_date, not whatever SQLite's unindexed ORDER BY happens to
+    # return first.
+    conn = sqlite3.connect(":memory:")
+    conn.execute("CREATE TABLE observations (series_code TEXT, obs_date TEXT, "
+                 "value REAL, vintage_date TEXT)")
+    rows = [
+        ("qcew_wage23_us", "2024-10-01", 1727.0, "2026-07-25"),
+        ("qcew_wage23_us", "2025-10-01", 1800.0, "2026-07-01"),  # stale vintage
+        ("qcew_wage23_us", "2025-10-01", 1815.0, "2026-07-25"),  # latest vintage wins
+        ("qcew_emp23_us", "2024-10-01", 8117805.0, "2026-07-25"),
+        ("qcew_emp23_us", "2025-10-01", 8195199.0, "2026-07-25"),
+        ("qcew_wage23_c51107", "2024-10-01", 2001.0, "2026-07-25"),
+        ("qcew_wage23_c51107", "2025-10-01", 2264.0, "2026-07-25"),
+        ("qcew_emp23_c51107", "2024-10-01", 22372.0, "2026-07-25"),
+        ("qcew_emp23_c51107", "2025-10-01", 26151.0, "2026-07-25"),
+    ]
+    conn.executemany("INSERT INTO observations VALUES (?,?,?,?)", rows)
+    payload = writer.build(conn, (MARKETS[0],), CAP_CFG, META)
+    assert payload["national"]["wage"] == 1815.0  # not the stale 1800.0

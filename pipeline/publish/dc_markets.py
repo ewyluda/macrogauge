@@ -4,7 +4,7 @@ County QCEW wage + employment (tight core counties per market) against the
 national NAICS-23 baseline, plus a DENOMINATED capacity-competition column.
 
 The capacity join publishes four numbers, never one: sites, disclosed MW,
-sites whose MW is undisclosed, and (site-wide) the geo_unmapped total. A bare
+sites whose MW is undisclosed, and (site-wide) the coverage_note. A bare
 MW figure would read as authoritative when capacity.json is a 29-public-
 company roster covering ~40% of its own tracked MW — private operators and
 hyperscaler leased space are not in it. Membership is by hand-assigned market
@@ -17,6 +17,7 @@ from pathlib import Path
 
 from pipeline.engine import dcmarkets
 from pipeline.publish.util import write_json
+from pipeline.store import vintage
 
 COVERAGE_NOTE = (
     "Competition MW is drawn from the /capacity tracker: 29 public companies, "
@@ -27,11 +28,13 @@ COVERAGE_NOTE = (
 
 
 def _series(conn, code: str) -> dict[str, float]:
-    """{obs_date: value} for one series, latest vintage wins."""
-    rows = conn.execute(
-        "SELECT obs_date, value FROM observations WHERE series_code = ? "
-        "ORDER BY vintage_date", (code,)).fetchall()
-    return {d: v for d, v in rows}
+    """{obs_date: value} for one series, latest vintage wins.
+
+    Built on vintage.latest() (the same helper capacity.py's _latest() uses)
+    rather than reimplementing the ORDER BY: latest() breaks same-vintage
+    ties by rowid explicitly, which a bare `ORDER BY vintage_date` does not
+    guarantee for two rows sharing a (series_code, obs_date, vintage_date)."""
+    return dict(vintage.latest(conn, code))
 
 
 def build(conn, markets, cap_cfg: dict, meta: dict) -> dict:
@@ -54,8 +57,10 @@ def build(conn, markets, cap_cfg: dict, meta: dict) -> dict:
     for row in payload["markets"]:
         sites = tagged.get(row["key"], [])
         row["sites"] = len(sites)
-        row["mw_disclosed"] = int(sum(g["mw"] for g in sites if g.get("mw")))
-        row["sites_mw_undisclosed"] = sum(1 for g in sites if not g.get("mw"))
+        row["mw_disclosed"] = int(sum(g["mw"] for g in sites
+                                      if g.get("mw") is not None))
+        row["sites_mw_undisclosed"] = sum(1 for g in sites
+                                          if g.get("mw") is None)
 
     return {**payload, "as_of_curated": meta["as_of_curated"],
             "note": meta["note"], "coverage_note": COVERAGE_NOTE}
