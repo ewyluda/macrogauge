@@ -31,6 +31,17 @@ def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
                      else round(e["weight"] * e["yoy_pct"], 2),
                  "stale": e["stale"]}
                 for code, e in v["components"].items()]}
+        # Monthly grid for /escalation. PUBLISH_START is a date ("2018-01-01");
+        # compare on its month prefix. 4dp keeps the Laspeyres identity within
+        # 0.01 index points across 12 components — the bridge tolerance.
+        mo = v["monthly"]
+        keep = [i for i, m in enumerate(mo["months"]) if m >= PUBLISH_START[:7]]
+        out["indexes"][name]["monthly"] = {
+            "months": [mo["months"][i] for i in keep],
+            "index": [round(mo["index"][i], 4) for i in keep],
+            "components": {code: [round(vals[i], 4) for i in keep]
+                           for code, vals in mo["components"].items()},
+        }
         by_group: dict[str, dict] = {}
         for code, e in v["components"].items():
             g = by_group.setdefault(e["group"], {"group": e["group"], "weight": 0.0,
