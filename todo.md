@@ -132,6 +132,28 @@ since shipped (2026-07-25)** — P3 or P7 is the next pick.
 30. **`site/` has no ESLint config at all**, so no `jsx-a11y` gate exists to catch either of the
     two items above recurring, or to prevent the next one.
 
+31. **Schema tightening pass (capacity + dc_markets).** `additionalProperties` is unset on
+    `capacity.schema.json`'s `geo.items`, so it defaults to true — that is the mechanism that let
+    `when` ship on all 112 entries while appearing nowhere in the schema. The 2026-07-25 branch
+    declared `when`/`market` but did not close the class of gap. Also: `market` is validated by the
+    loader on `geo_unmapped` entries but never declared on `geo_unmapped.items`, so tagging one is a
+    silent no-op; and `dc_markets.schema.json` omits `additionalProperties: false` even though its
+    `required` list already enumerates every key (9 of 30 repo schemas also omit it, so this is a
+    convention gap, not a violation).
+
+32. **`dc_markets` loader + phase polish.** `load_capacity` now transitively loads the market roster
+    by default, so a malformed `config/dc_markets.json` degrades both `capacity_ok` and `markets_ok`
+    and the markets phase reads config three times per run — pass `market_keys` explicitly from
+    `_capacity_phase` to decouple both. Also: the `state` 2-alpha check in `pipeline/dc_markets.py`
+    has zero test coverage; `note=m.get("note","")` silently defaults while every sibling field
+    raises `KeyError`; and `int(sum(mw))` in the writer truncates fractional MW (none curated today).
+
+33. **No automated test covers `/markets` rendered output.** vitest covers only `dcMarkets.ts` client
+    math by project convention, and the e2e smoke test asserts one body marker plus zero console
+    errors. The MW-cell defects found in the 2026-07-25 whole-branch review (a site count labelled
+    "MW", and a hard "0 MW" where MW was merely undisclosed) were caught by review, not by a test,
+    and nothing would catch a recurrence.
+
 ## Done (one-liners; details in git log)
 
 - 2026-07-13: ALFRED backtest seeding; STREET → Cleveland ensemble; Manheim → Cox
