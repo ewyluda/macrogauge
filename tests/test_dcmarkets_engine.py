@@ -115,3 +115,62 @@ def test_no_national_data_degrades_whole_payload():
     assert out["as_of"] is None
     assert out["national"]["wage"] is None
     assert out["markets"][0]["available"] is False
+
+
+def test_thin_base_uses_true_current_size_not_the_yoy_truncated_set():
+    # Loudoun (51107) is the dominant county but base-quarter-suppressed;
+    # only the small county (51153) has both quarters, so the like-for-like
+    # `emp` is a tiny 950 -- well under thin_base on its own. The market's
+    # TRUE current size (both counties, 27101) must drive thin_base, or the
+    # tightest market in the country reads as thin merely because its
+    # biggest county was suppressed a year ago.
+    wage = {"51107": {CUR: 2500.0},
+            "51153": {BASE: 1800.0, CUR: 1900.0}}
+    emp = {"51107": {CUR: 26151.0},
+           "51153": {BASE: 900.0, CUR: 950.0}}
+    out = dcmarkets.market_rows(
+        wage, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
+    row = out["markets"][0]
+    assert row["counties_used"] == 1
+    assert row["counties_suppressed"] == ["51107"]
+    assert row["wage"] == 1900.0            # like-for-like: 51153 alone
+    assert row["emp"] == 950
+    assert row["emp_cur_total"] == 27101    # true current size: both counties
+    assert row["wage_cur"] == 2478.97
+    assert row["thin_base"] is False        # NOT thin -- 27101, not 950
+
+
+def test_fallback_regime_flags_missing_yoy_explicitly():
+    # Same fixture as the employment-weighting test above (neither county
+    # has ever reported a base quarter), but here we pin the OTHER fields a
+    # consumer needs to tell "no YoY exists yet" apart from "YoY exists but
+    # came out None" (e.g. a zero-weight base quarter).
+    wage = {"51107": {CUR: 2000.0}, "51153": {CUR: 1000.0}}
+    emp = {"51107": {CUR: 9000.0}, "51153": {CUR: 1000.0}}
+    out = dcmarkets.market_rows(
+        wage, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
+    row = out["markets"][0]
+    assert row["wage_yoy_pct"] is None
+    assert row["available"] is True
+    assert row["counties_used"] == 2
+    assert row["yoy_basis"] is None
+
+
+def test_multi_county_like_for_like_wage_is_weighted_each_quarter_by_its_own_emp():
+    # Employment WEIGHTS shift between quarters -- county 51107's workforce
+    # quadruples while 51153's shrinks by 4x. A base-quarter weighted mean
+    # that (bug) reused the current quarter's weights would compute
+    # wage_yoy_pct == 10.0 instead of the correct 65.0 -- this pins w_base
+    # as genuinely weighted by ITS OWN quarter's employment, over more than
+    # one county (test_yoy_uses_a_like_for_like_county_set collapses to a
+    # single surviving county and never exercises this).
+    wage = {"51107": {BASE: 2000.0, CUR: 2200.0},
+            "51153": {BASE: 1000.0, CUR: 1100.0}}
+    emp = {"51107": {BASE: 2000.0, CUR: 8000.0},
+           "51153": {BASE: 8000.0, CUR: 2000.0}}
+    out = dcmarkets.market_rows(
+        wage, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
+    row = out["markets"][0]
+    assert row["wage"] == 1980.0          # (2200*8000 + 1100*2000) / 10000
+    assert row["wage_yoy_pct"] == 65.0    # 1980/1200 - 1; base weighted 1200
+    assert row["emp_yoy_pct"] == 0.0

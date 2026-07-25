@@ -14,8 +14,41 @@ Two rules make this correct, and both are load-bearing:
    there is no ratio left to contaminate, so a market with full current
    data still publishes a level instead of reading as unavailable.
 
+Two regimes, and the payload says which one it's in, per row:
+
+- `yoy_basis == "like_for_like"`: `counties_used`/`counties`/`wage`/`emp`
+  cover the subset with BOTH quarters present -- the set the YoY ratio is
+  computed over. `wage_yoy_pct`/`emp_yoy_pct` may still be None (e.g. a
+  zero-weight base quarter), but the counties they WOULD be computed over
+  are the ones counted here.
+- `yoy_basis is None`: no county cleared the like-for-like bar, so
+  `counties_used`/`counties`/`wage`/`emp` fall back to covering the
+  current-quarter-only set instead. There is no ratio in this regime, ever.
+
+`counties_used` and `counties_suppressed` change which set they're counting
+across these two regimes -- `yoy_basis` is the explicit marker a consumer
+(Task 7's writer, the site) must check before interpreting them, since
+`wage_yoy_pct is None` alone is ambiguous (it's also what a zero-weight
+denominator inside the like-for-like regime looks like).
+
+`wage_cur`/`emp_cur_total` are additive, NOT regime-dependent: they are
+always the employment-weighted wage and total employment across every
+county with CURRENT-quarter data (`cur_usable`), independent of whether
+those counties survived last year's disclosure. `thin_base` is evaluated
+against `emp_cur_total`, never against the (possibly like-for-like-
+truncated) `emp` -- a market must never read as thin merely because its
+biggest county happened to be base-quarter-suppressed, and must never
+read as NOT thin because a truncated survivor set looked big enough.
+
+`counties_suppressed` covers any county that isn't in the regime's `usable`
+set for any reason -- genuinely disclosure-suppressed, present in only one
+of the two quarters, or missing entirely. It does not distinguish why.
+
 Markets whose counties are all suppressed degrade to available=False and
-stay in the roster — a visible hole, never a silent drop or a 0."""
+stay in the roster — a visible hole, never a silent drop or a 0.
+`available` is only set True once a wage level actually resolves (a
+zero-total-employment county set still has `usable` counties but no
+computable weighted mean, and must not be reported as available)."""
 
 from pipeline.dc_markets import MarketSpec
 
@@ -60,15 +93,17 @@ def market_rows(wage: dict[str, dict[str, float]],
     rows = []
     for m in markets:
         # a county needs both wage and emp for the CURRENT quarter just to
-        # be counted at all
+        # be counted at all -- this is the true, undiscounted current
+        # market: wage_cur/emp_cur_total below are computed over this set,
+        # never the (possibly YoY-truncated) usable set.
         cur_usable = [f for f in m.counties
                       if as_of and wage.get(f, {}).get(as_of) is not None
                       and emp.get(f, {}).get(as_of) is not None]
         # like-for-like: prefer the subset that ALSO has both series in the
-        # BASE quarter, so the level we publish shares its composition with
-        # the YoY ratio (a county present only in the current quarter would
-        # otherwise inflate the level without inflating the comparison base).
-        # If no county in the market clears that bar there is no ratio to
+        # BASE quarter, so the reported level/YoY share one composition (a
+        # county present only in the current quarter would otherwise
+        # inflate the level without inflating the comparison base). If no
+        # county in the market clears that bar there is no ratio to
         # contaminate -- YoY degrades to None rather than nuking a market
         # that has full current-quarter data down to unavailable.
         yoy_usable = [f for f in cur_usable
@@ -76,6 +111,11 @@ def market_rows(wage: dict[str, dict[str, float]],
                       and emp.get(f, {}).get(base_date) is not None]
         usable = yoy_usable if yoy_usable else cur_usable
         have_yoy = bool(yoy_usable)
+        # a county not in `usable` is "suppressed" here whether it's
+        # genuinely disclosure-suppressed, present in only one of the two
+        # quarters, or missing entirely -- this field doesn't distinguish
+        # why, only that it can't contribute to whichever regime `usable`
+        # landed on.
         suppressed = [f for f in m.counties if f not in usable]
 
         row = {"key": m.key, "name": m.name, "state": m.state, "iso": m.iso,
@@ -83,9 +123,11 @@ def market_rows(wage: dict[str, dict[str, float]],
                "counties_total": len(m.counties), "counties_used": len(usable),
                "counties_suppressed": suppressed,
                "as_of": as_of, "base_date": base_date,
-               "available": bool(usable), "thin_base": False,
+               "yoy_basis": "like_for_like" if have_yoy else None,
+               "available": False, "thin_base": False,
                "wage": None, "wage_yoy_pct": None, "wage_spread_pp": None,
                "emp": None, "emp_yoy_pct": None, "emp_spread_pp": None,
+               "wage_cur": None, "emp_cur_total": None,
                "counties": []}
 
         for f in usable:
@@ -98,13 +140,25 @@ def market_rows(wage: dict[str, dict[str, float]],
                 "emp_yoy_pct": _pct(emp[f][as_of], emp[f].get(base_date))
                                if have_yoy else None})
 
+        # true current-quarter market size, independent of whether last
+        # year's data survived disclosure -- thin_base MUST use this, never
+        # the (possibly like-for-like-truncated) usable-set employment.
+        if cur_usable:
+            w_cur_total = _weighted(
+                [(wage[f][as_of], emp[f][as_of]) for f in cur_usable])
+            e_cur_total = sum(emp[f][as_of] for f in cur_usable)
+            if w_cur_total is not None:
+                row["wage_cur"] = round(w_cur_total, 2)
+            row["emp_cur_total"] = int(e_cur_total)
+            row["thin_base"] = row["emp_cur_total"] < thin_base
+
         if usable:
             w_cur = _weighted([(wage[f][as_of], emp[f][as_of]) for f in usable])
             e_cur = sum(emp[f][as_of] for f in usable)
             if w_cur is not None:
                 row["wage"] = round(w_cur, 2)
                 row["emp"] = int(e_cur)
-                row["thin_base"] = e_cur < thin_base
+                row["available"] = True
             if have_yoy and w_cur is not None:
                 w_base = _weighted([(wage[f][base_date], emp[f][base_date])
                                     for f in usable])
