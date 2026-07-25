@@ -69,6 +69,24 @@ def test_malformed_fips_raises(tmp_path):
         dc_markets.load(p, registry_codes=set())
 
 
+def test_duplicate_county_within_market_raises(tmp_path):
+    # A duplicate FIPS inside one market's counties list must be rejected
+    # even when the rest of the set is complete and correct — appending a
+    # redundant duplicate alongside otherwise-valid counties doesn't change
+    # the distinct-county count, so test_roster_is_pinned's `len({...}) ==
+    # 30` check would not catch this. Left unchecked it would silently
+    # double-weight the county in downstream employment-weighted
+    # aggregation, which iterates MarketSpec.counties.
+    p = tmp_path / "m.json"
+    p.write_text(json.dumps({"as_of_curated": "x", "note": "x", "markets": [
+        {"key": "k", "name": "K", "counties": ["51107", "51153", "51107"],
+         "state": "VA", "iso": "PJM", "grid": None, "utility": "U", "note": ""}]}))
+    with pytest.raises(ValueError, match="duplicate county"):
+        dc_markets.load(p, registry_codes={
+            "qcew_wage23_c51107", "qcew_emp23_c51107",
+            "qcew_wage23_c51153", "qcew_emp23_c51153"})
+
+
 def test_empty_counties_raise(tmp_path):
     p = tmp_path / "m.json"
     p.write_text(json.dumps({"as_of_curated": "x", "note": "x", "markets": [

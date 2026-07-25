@@ -50,6 +50,10 @@ def load(path: Path | None = None,
         counties = tuple(m["counties"])
         if not counties:
             raise ValueError(f"dc_markets: {key} must have non-empty counties")
+        dupes = {f for f in counties if counties.count(f) > 1}
+        if dupes:
+            raise ValueError(
+                f"dc_markets: {key} has duplicate county FIPS {sorted(dupes)}")
         for f in counties:
             if not _FIPS.match(f):
                 raise ValueError(
