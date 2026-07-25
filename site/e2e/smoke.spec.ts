@@ -30,6 +30,7 @@ const ROUTES: [string, string][] = [
   ["/labor", "the jobs market, in receipts"],
   ["/commodities", "the AI build-out basket, priced daily"],
   ["/capacity", "the gap is the whole point"],
+  ["/escalation", "the math is a ratio, so the unit is yours"],
 ];
 
 for (const [path, text] of ROUTES) {
@@ -67,4 +68,42 @@ test("12-month outlook renders its summary and forward-driver receipts", async (
   await expect(page.getByText("latest complete month", { exact: false })).toBeVisible();
   await expect(page.getByText("Fuel futures", { exact: false })).toBeVisible();
   await expect(page.getByText("realized-volatility band", { exact: false })).toBeVisible();
+});
+
+test("escalation calculator responds to a new base month", async ({ page }) => {
+  await page.goto("/escalation");
+  await page.waitForLoadState("networkidle");
+  await expect(page.getByText("Total escalation")).toBeVisible();
+  await expect(page.getByText("What drove it")).toBeVisible();
+
+  const before = await page.getByText("Total escalation").locator("..").innerText();
+  await page.locator('input[type="month"]').fill("2019-01");
+  const after = await page.getByText("Total escalation").locator("..").innerText();
+  expect(after).not.toEqual(before);
+
+  // Task 5's fix round added a TOTAL/Headline reconciliation footer to the
+  // bridge table — the label "TOTAL" also appears (as a substring) in the
+  // table's own subtitle and in the methodology copy below it, so scope to
+  // the tfoot and require an exact match to avoid a strict-mode violation.
+  await expect(
+    page.locator("tfoot").getByText("TOTAL", { exact: true })
+  ).toBeVisible();
+});
+
+test("escalation calculator prompts instead of showing $0 when base cost is cleared", async ({ page }) => {
+  await page.goto("/escalation");
+  await page.waitForLoadState("networkidle");
+  await expect(page.getByText("Total escalation")).toBeVisible();
+
+  const costInput = page.locator('input[type="number"]');
+  await costInput.fill("0");
+  await expect(
+    page.getByText("Enter a base cost greater than $0 to see the escalation.")
+  ).toBeVisible();
+
+  await costInput.fill("9000000");
+  await expect(
+    page.getByText("Enter a base cost greater than $0 to see the escalation.")
+  ).not.toBeVisible();
+  await expect(page.getByText("Total escalation")).toBeVisible();
 });
