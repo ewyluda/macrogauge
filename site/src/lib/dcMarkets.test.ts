@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { fmtSpread, sortMarkets, tightness } from "./dcMarkets";
 import type { MarketRow } from "./types";
 
@@ -53,13 +53,49 @@ describe("sortMarkets", () => {
     // documented fallback regime where no county clears the like-for-like
     // bar but a level still resolves (pipeline/engine/dcmarkets.py). Two
     // such rows must compare equal (cmp === 0) so the comparator stays a
-    // valid total order; a comparator that returns 1 from both directions
-    // is asymmetric and forces a JS engine into undefined behavior — for a
-    // 2-element array that surfaces as an unconditional, direction-blind
-    // swap rather than the stable order below.
+    // valid total order.
+    //
+    // NOTE: this pins the *output* order going forward (a forward contract),
+    // it does not reproduce the pre-fix regression. V8's sort never queries
+    // both cmp(a,b) and cmp(b,a) for a 2-element array, so a comparator
+    // that returns 1 both ways is never exercised as a contradiction here —
+    // the asymmetry is real (see the "is antisymmetric" test below) but not
+    // observable through this array's output order.
     const rows = [row({ key: "a", wage_yoy_pct: null }), row({ key: "b", wage_yoy_pct: null })];
     expect(sortMarkets(rows, "wageYoy", true).map((r) => r.key)).toEqual(["a", "b"]);
     expect(sortMarkets(rows, "wageYoy", false).map((r) => r.key)).toEqual(["a", "b"]);
+  });
+
+  it("the comparator sortMarkets hands to Array.prototype.sort is antisymmetric for tied (both-null) rows", () => {
+    // This is the test that actually reproduces the pre-fix regression: a
+    // comparator returning 1 from both cmp(a,b) and cmp(b,a) violates the
+    // total order Array.prototype.sort's spec requires, but (per the note
+    // above) that violation doesn't surface through sortMarkets' output for
+    // a 2-row array — V8 only ever queries one direction. So spy on
+    // Array.prototype.sort, capture the actual comparator sortMarkets
+    // builds, and call it both ways directly.
+    const a = row({ key: "a", wage_yoy_pct: null });
+    const b = row({ key: "b", wage_yoy_pct: null });
+    let cmp: ((x: MarketRow, y: MarketRow) => number) | undefined;
+    const spy = vi
+      .spyOn(Array.prototype, "sort")
+      .mockImplementation(function (
+        this: MarketRow[],
+        compareFn?: (x: MarketRow, y: MarketRow) => number
+      ) {
+        cmp = compareFn;
+        return this;
+      });
+    sortMarkets([a, b], "wageYoy", true);
+    spy.mockRestore();
+
+    expect(cmp).toBeDefined();
+    const forward = cmp!(a, b);
+    const backward = cmp!(b, a);
+    // Antisymmetry: forward === -backward. Compared as a plain number
+    // equality (not `.toBe`) because the tied case is 0 === -0, and
+    // `.toBe`'s Object.is semantics treat +0 and -0 as distinct.
+    expect(forward === -backward).toBe(true);
   });
 });
 
