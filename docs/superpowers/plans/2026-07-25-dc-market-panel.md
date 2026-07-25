@@ -840,6 +840,14 @@ Expected: FAIL — `ImportError: cannot import name 'dcmarkets' from 'pipeline.e
 
 - [ ] **Step 3: Write the engine**
 
+> ⚠ **Corrected during execution.** The reference impl below fails the plan's own Step-1 test:
+> `usable` requires base-quarter data for every county, so `usable == []` when a market has no
+> base-quarter data at all, and `wage` resolves to `None` instead of the test's asserted `1900.0`.
+> It's also missing `wage_cur`/`emp_cur_total`/`yoy_basis`, and `int(nat_e) if nat_e else None` is
+> a falsy check that emits `None` for a genuine 0 rather than 0 itself. See
+> `.superpowers/sdd/2026-07-25-dc-market-panel/progress.md` (Task 5) for what actually shipped and
+> why.
+
 Create `pipeline/engine/dcmarkets.py`:
 
 ```python
@@ -1126,6 +1134,13 @@ schema) and bounds lat/lng, which accepted any number."
   - `write(payload: dict, out_dir: Path, published_at: str) -> Path` → `dc_markets.json`
 
 - [ ] **Step 1: Write the schema**
+
+> ⚠ **Corrected during execution.** The schema block below is stale — it's missing `wage_cur`,
+> `emp_cur_total`, and `yoy_basis`, all three added to the engine's row shape during Task 5's fix
+> round (the human ruling that kept `wage`/`emp` on the like-for-like basis and added these as
+> additive current-market-size fields). See
+> `.superpowers/sdd/2026-07-25-dc-market-panel/progress.md` (Task 7) for the schema that actually
+> shipped.
 
 Create `schemas/dc_markets.schema.json`. Every derived field is nullable because a fully suppressed
 market must legally validate:
@@ -1681,6 +1696,14 @@ Run (from `site/`): `npm test -- dcMarkets`
 Expected: FAIL — cannot resolve `./dcMarkets`.
 
 - [ ] **Step 3: Write the module**
+
+> ⚠ **Corrected during execution.** The `sortMarkets` comparator below has no both-null guard.
+> When both `av` and `bv` are null, `cmp(a,b)` hits the `av === null` branch and returns `1` — and
+> so does `cmp(b,a)`, since it hits the same branch with the arguments swapped. Two nulls compare
+> greater-than in both directions at once, violating `Array.prototype.sort`'s antisymmetry
+> contract — undefined behavior a sort implementation is free to exploit. See
+> `.superpowers/sdd/2026-07-25-dc-market-panel/progress.md` (Task 9) for the fix (a `both-null ->
+> 0` guard ahead of the single-null checks).
 
 Create `site/src/lib/dcMarkets.ts`:
 
