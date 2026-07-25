@@ -24,7 +24,7 @@ def test_load_real_registry():
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC",
                             "EIA_STATE_RES"}
-    assert len(series) == 598
+    assert len(series) == 659
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
@@ -122,7 +122,15 @@ def test_load_real_registry():
     # 45 = US total + 44 states: seven areas (AK, DC, MA, MO, RI, SD, VT)
     # are chronically disclosure-suppressed at state level for private NAICS 23
     # in the QCEW files, so they can never produce a row and were dropped.
-    assert sum(1 for s in series if s.source == "QCEW") == 45
+    # 106 = 45 state-level series + 61 county-level series (30 DC-market
+    # counties x wage+employment, plus the qcew_emp23_us national baseline)
+    # added for the DC market panel. County series are purely additive —
+    # unlike the state drops above, none are omitted for suppression: even
+    # Washington Co. OR (41067), disclosure-suppressed as of 2026-07-25, is
+    # registered, because BLS suppression flickers quarter to quarter and the
+    # downstream market row is designed to render an explicit "unavailable"
+    # state rather than disappear.
+    assert sum(1 for s in series if s.source == "QCEW") == 106
     # Power spike (wave 4): pin the exact source_ids — ice_ercot_north was
     # dropped from scope (does not exist in the ICE workbook) and Henry Hub
     # rides the v2 seriesid NG.RNGWHHD.D, not a v1 route.
