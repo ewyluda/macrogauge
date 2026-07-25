@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-25T19:46:21Z",
+  "published_at": "2026-07-25T22:46:21Z",
   "as_of": "2025-10-01",
   "base_date": "2024-10-01",
   "national": {
@@ -26,13 +26,13 @@
       "yoy_basis": "like_for_like",
       "available": true,
       "thin_base": false,
-      "wage": 2030.84,
+      "wage": 2027.99,
       "wage_yoy_pct": 9.9,
       "wage_spread_pp": 4.8,
       "emp": 43680,
       "emp_yoy_pct": 12.5,
       "emp_spread_pp": 11.5,
-      "wage_cur": 2030.84,
+      "wage_cur": 2027.99,
       "emp_cur_total": 43680,
       "counties": [
         {
@@ -52,7 +52,11 @@
       ],
       "sites": 1,
       "mw_disclosed": 0,
-      "sites_mw_undisclosed": 1
+      "sites_mw_undisclosed": 1,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 0
     },
     {
       "key": "dfw",
@@ -70,13 +74,13 @@
       "yoy_basis": "like_for_like",
       "available": true,
       "thin_base": false,
-      "wage": 2011.69,
+      "wage": 2011.37,
       "wage_yoy_pct": 5.2,
       "wage_spread_pp": 0.1,
       "emp": 174996,
       "emp_yoy_pct": 1.9,
       "emp_spread_pp": 0.9,
-      "wage_cur": 2011.69,
+      "wage_cur": 2011.37,
       "emp_cur_total": 174996,
       "counties": [
         {
@@ -103,7 +107,11 @@
       ],
       "sites": 2,
       "mw_disclosed": 250,
-      "sites_mw_undisclosed": 1
+      "sites_mw_undisclosed": 1,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 250
     },
     {
       "key": "chicago",
@@ -147,7 +155,11 @@
       ],
       "sites": 1,
       "mw_disclosed": 0,
-      "sites_mw_undisclosed": 1
+      "sites_mw_undisclosed": 1,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 0
     },
     {
       "key": "phoenix",
@@ -165,13 +177,13 @@
       "yoy_basis": "like_for_like",
       "available": true,
       "thin_base": false,
-      "wage": 1833.25,
+      "wage": 1833.05,
       "wage_yoy_pct": 3.7,
       "wage_spread_pp": -1.4,
       "emp": 174037,
       "emp_yoy_pct": -2.8,
       "emp_spread_pp": -3.8,
-      "wage_cur": 1833.25,
+      "wage_cur": 1833.05,
       "emp_cur_total": 174037,
       "counties": [
         {
@@ -191,7 +203,11 @@
       ],
       "sites": 1,
       "mw_disclosed": 200,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 200
     },
     {
       "key": "atlanta",
@@ -209,13 +225,13 @@
       "yoy_basis": "like_for_like",
       "available": true,
       "thin_base": false,
-      "wage": 2272.99,
+      "wage": 2272.5,
       "wage_yoy_pct": 5.0,
       "wage_spread_pp": -0.1,
       "emp": 27022,
       "emp_yoy_pct": 1.5,
       "emp_spread_pp": 0.5,
-      "wage_cur": 2272.99,
+      "wage_cur": 2272.5,
       "emp_cur_total": 27022,
       "counties": [
         {
@@ -235,7 +251,11 @@
       ],
       "sites": 1,
       "mw_disclosed": 200,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 200,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 0
     },
     {
       "key": "svl",
@@ -272,7 +292,11 @@
       ],
       "sites": 0,
       "mw_disclosed": 0,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 0
     },
     {
       "key": "columbus",
@@ -290,13 +314,13 @@
       "yoy_basis": "like_for_like",
       "available": true,
       "thin_base": false,
-      "wage": 2089.22,
-      "wage_yoy_pct": 5.5,
-      "wage_spread_pp": 0.4,
+      "wage": 2089.86,
+      "wage_yoy_pct": 5.6,
+      "wage_spread_pp": 0.5,
       "emp": 45274,
       "emp_yoy_pct": 5.4,
       "emp_spread_pp": 4.4,
-      "wage_cur": 2089.22,
+      "wage_cur": 2089.86,
       "emp_cur_total": 45274,
       "counties": [
         {
@@ -316,7 +340,11 @@
       ],
       "sites": 3,
       "mw_disclosed": 1450,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 1450
     },
     {
       "key": "slc",
@@ -334,13 +362,13 @@
       "yoy_basis": "like_for_like",
       "available": true,
       "thin_base": false,
-      "wage": 1695.37,
+      "wage": 1695.86,
       "wage_yoy_pct": 7.4,
       "wage_spread_pp": 2.3,
       "emp": 85496,
       "emp_yoy_pct": -0.2,
       "emp_spread_pp": -1.2,
-      "wage_cur": 1695.37,
+      "wage_cur": 1695.86,
       "emp_cur_total": 85496,
       "counties": [
         {
@@ -360,7 +388,11 @@
       ],
       "sites": 0,
       "mw_disclosed": 0,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 0
     },
     {
       "key": "abilene",
@@ -397,7 +429,11 @@
       ],
       "sites": 2,
       "mw_disclosed": 1200,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 900,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 300
     },
     {
       "key": "newcarlisle",
@@ -434,7 +470,11 @@
       ],
       "sites": 1,
       "mw_disclosed": 1725,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 1725
     },
     {
       "key": "mtpleasant",
@@ -471,7 +511,11 @@
       ],
       "sites": 1,
       "mw_disclosed": 400,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 400
     },
     {
       "key": "richland",
@@ -508,7 +552,11 @@
       ],
       "sites": 1,
       "mw_disclosed": 1440,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 1440,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 0
     },
     {
       "key": "memphis",
@@ -545,7 +593,11 @@
       ],
       "sites": 2,
       "mw_disclosed": 1300,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 1000,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 300
     },
     {
       "key": "councilbluffs",
@@ -582,7 +634,11 @@
       ],
       "sites": 1,
       "mw_disclosed": 500,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 500
     },
     {
       "key": "desmoines",
@@ -600,13 +656,13 @@
       "yoy_basis": "like_for_like",
       "available": true,
       "thin_base": false,
-      "wage": 1830.22,
+      "wage": 1830.52,
       "wage_yoy_pct": 6.2,
       "wage_spread_pp": 1.1,
       "emp": 22859,
       "emp_yoy_pct": 4.8,
       "emp_spread_pp": 3.8,
-      "wage_cur": 1830.22,
+      "wage_cur": 1830.52,
       "emp_cur_total": 22859,
       "counties": [
         {
@@ -626,7 +682,11 @@
       ],
       "sites": 0,
       "mw_disclosed": 0,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 0
     },
     {
       "key": "cheyenne",
@@ -663,7 +723,11 @@
       ],
       "sites": 2,
       "mw_disclosed": 0,
-      "sites_mw_undisclosed": 2
+      "sites_mw_undisclosed": 2,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 0
     },
     {
       "key": "reno",
@@ -681,13 +745,13 @@
       "yoy_basis": "like_for_like",
       "available": true,
       "thin_base": false,
-      "wage": 1888.92,
-      "wage_yoy_pct": 9.6,
-      "wage_spread_pp": 4.5,
+      "wage": 1887.53,
+      "wage_yoy_pct": 9.5,
+      "wage_spread_pp": 4.4,
       "emp": 24502,
       "emp_yoy_pct": 8.0,
       "emp_spread_pp": 7.0,
-      "wage_cur": 1888.92,
+      "wage_cur": 1887.53,
       "emp_cur_total": 24502,
       "counties": [
         {
@@ -707,7 +771,11 @@
       ],
       "sites": 0,
       "mw_disclosed": 0,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 0
     },
     {
       "key": "quincy",
@@ -744,7 +812,11 @@
       ],
       "sites": 2,
       "mw_disclosed": 18,
-      "sites_mw_undisclosed": 1
+      "sites_mw_undisclosed": 1,
+      "mw_construction": 0,
+      "mw_planned": 18,
+      "mw_secured": 0,
+      "mw_operating": 0
     },
     {
       "key": "sanantonio",
@@ -781,7 +853,11 @@
       ],
       "sites": 0,
       "mw_disclosed": 0,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 0
     },
     {
       "key": "hillsboro",
@@ -812,10 +888,14 @@
       "counties": [],
       "sites": 0,
       "mw_disclosed": 0,
-      "sites_mw_undisclosed": 0
+      "sites_mw_undisclosed": 0,
+      "mw_construction": 0,
+      "mw_planned": 0,
+      "mw_secured": 0,
+      "mw_operating": 0
     }
   ],
   "as_of_curated": "2026-07-25",
   "note": "Tight core counties \u2014 the counties where data centers actually are, not the MSA. Broader metro definitions dilute the signal: Northern Virginia reads +9.9% wage YoY tight vs +7.7% across the 11-county metro, because Arlington and Alexandria average in mature non-DC construction.",
-  "coverage_note": "Competition MW is drawn from the /capacity tracker: 29 public companies, hand-curated from filings. Private operators (CyrusOne, Vantage, Aligned, STACK, QTS, EdgeConneX) and hyperscaler leased space inside their shells are not tracked, and sites with undisclosed locations carry no market. Treat it as a floor on what is in flight, never a census."
+  "coverage_note": "Competition MW is drawn from the /capacity tracker: 29 public companies, hand-curated from filings. Private operators (CyrusOne, Vantage, Aligned, STACK, QTS, EdgeConneX) and hyperscaler leased space inside their shells are not tracked, and sites with undisclosed locations carry no market. MW under construction counts only sites tagged st=\"c\" -- operating, planned and secured MW are published separately, never folded in -- so treat it as a floor on what is actually being built, never a census."
 }
