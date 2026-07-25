@@ -27,6 +27,12 @@ export function sortMarkets(rows: MarketRow[], key: SortKey, desc: boolean): Mar
     if (a.available !== b.available) return a.available ? -1 : 1;
     const av = get(a);
     const bv = get(b);
+    // Both null must compare equal (0), not "a after b" from both sides —
+    // returning 1 for both cmp(a,b) and cmp(b,a) violates the antisymmetry
+    // Array.prototype.sort requires and is undefined behavior. This regime
+    // is real: an available market can have a null wageYoy/empYoy when no
+    // county cleared the like-for-like bar (pipeline/engine/dcmarkets.py).
+    if (av === null && bv === null) return 0;
     if (av === null) return 1;
     if (bv === null) return -1;
     const cmp = typeof av === "string" && typeof bv === "string"

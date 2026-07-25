@@ -47,6 +47,20 @@ describe("sortMarkets", () => {
     expect(sortMarkets(rows, "emp", true).map((r) => r.key))
       .toEqual(["big-cur-small-lfl", "small-cur-big-lfl"]);
   });
+
+  it("treats two equal-availability rows with a null sort value as equal, not an arbitrary swap", () => {
+    // An AVAILABLE market can have a null wageYoy/empYoy: the pipeline's
+    // documented fallback regime where no county clears the like-for-like
+    // bar but a level still resolves (pipeline/engine/dcmarkets.py). Two
+    // such rows must compare equal (cmp === 0) so the comparator stays a
+    // valid total order; a comparator that returns 1 from both directions
+    // is asymmetric and forces a JS engine into undefined behavior — for a
+    // 2-element array that surfaces as an unconditional, direction-blind
+    // swap rather than the stable order below.
+    const rows = [row({ key: "a", wage_yoy_pct: null }), row({ key: "b", wage_yoy_pct: null })];
+    expect(sortMarkets(rows, "wageYoy", true).map((r) => r.key)).toEqual(["a", "b"]);
+    expect(sortMarkets(rows, "wageYoy", false).map((r) => r.key)).toEqual(["a", "b"]);
+  });
 });
 
 describe("tightness", () => {
@@ -64,10 +78,14 @@ describe("tightness", () => {
       .toBe("na");
   });
 
-  it("returns na when yoy_basis is null even if available", () => {
-    // No YoY basis means no spread to key off — must not silently fall
-    // through to "neutral".
-    expect(tightness(row({ yoy_basis: null, wage_spread_pp: null, emp_spread_pp: null })))
+  it("returns na for an available market with a null wage_spread_pp", () => {
+    // tightness() itself never reads yoy_basis — it keys off wage_spread_pp,
+    // which the pipeline (pipeline/engine/dcmarkets.py) guarantees is null
+    // in exactly the same cases yoy_basis is null. This test covers the
+    // available:true side of that null check; it cannot exercise the
+    // yoy_basis correlation itself, which is the pipeline's invariant, not
+    // this module's.
+    expect(tightness(row({ available: true, wage_spread_pp: null, emp_spread_pp: null })))
       .toBe("na");
   });
 });
