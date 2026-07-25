@@ -76,10 +76,14 @@ test("escalation calculator responds to a new base month", async ({ page }) => {
   await expect(page.getByText("Total escalation")).toBeVisible();
   await expect(page.getByText("What drove it")).toBeVisible();
 
-  const before = await page.getByText("Total escalation").locator("..").innerText();
+  const card = page.getByText("Total escalation").locator("..");
+  const before = await card.innerText();
   await page.locator('input[type="month"]').fill("2019-01");
-  const after = await page.getByText("Total escalation").locator("..").innerText();
-  expect(after).not.toEqual(before);
+  // toHaveText auto-retries until the assertion passes or times out, so it
+  // rides out the React re-render triggered by fill() instead of racing it
+  // with a single innerText() snapshot (CI flake risk on a route the daily
+  // bot's commits exercise every morning).
+  await expect(card).not.toHaveText(before);
 
   // Task 5's fix round added a TOTAL/Headline reconciliation footer to the
   // bridge table — the label "TOTAL" also appears (as a substring) in the
