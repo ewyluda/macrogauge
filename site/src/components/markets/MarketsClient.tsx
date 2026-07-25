@@ -92,7 +92,10 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
   }
   return (
     <>
-      <tr onClick={onToggle} style={{ cursor: "pointer" }}>
+      <tr onClick={onToggle}
+        role="button" tabIndex={0} aria-expanded={open}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onToggle(); } }}
+        style={{ cursor: "pointer" }}>
         <td>
           {m.name}{m.thin_base ? " ⚠" : ""}
           <div style={{ fontSize: 11, color: "var(--muted)" }}>
