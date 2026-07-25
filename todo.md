@@ -154,6 +154,15 @@ since shipped (2026-07-25)** — P3 or P7 is the next pick.
     "MW", and a hard "0 MW" where MW was merely undisclosed) were caught by review, not by a test,
     and nothing would catch a recurrence.
 
+34. **`st` cannot express "operating campus with active expansion"** (found fixing the /markets
+    MW-in-flight defect, 2026-07-25). Seven operating-tagged sites carry 3,975 disclosed MW with
+    explicit expansion language in `when` — AMZN Project Rainier 1,725 MW ("Ph1 Oct-2025; 345kV
+    Dec-2026"), META Prometheus 700 MW ("631 MW IT live May-2026 → 854 Q4-2026"), GOOGL Council
+    Bluffs 500 MW ("expanding $7B"), and four others — and land entirely in the operating bucket,
+    understating real construction. Fix is curation, following the ORCL Abilene precedent (the
+    only site of 112 already split into a 300 MW `o` row + a 900 MW `c` row): split each such site
+    into its operating and under-construction MW rather than changing the schema.
+
 ## Done (one-liners; details in git log)
 
 - 2026-07-13: ALFRED backtest seeding; STREET → Cleveland ensemble; Manheim → Cox
