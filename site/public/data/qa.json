@@ -79,7 +79,7 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": false,
-      "detail": "29/30 ok; failed \u2014 USDA: missing secret USDA_API_KEY"
+      "detail": "29/30 ok; failed \u2014 USDA: ConnectionError: HTTPSConnectionPool(host='marsapi.ams.usda.gov', port=443): Max retries exceeded with url: /services/v1.2/reports/2757/Report%20Details?q=report_begin_date%3D01%2F01%2F2017%3A07%2F24%2F2026%3Btype%3DWHITE+LARGE%3Benvironment%3DConventional%3Bcondition%3DFresh (Caused by NameResolutionError(\"HTTPSConnection(host='marsapi.ams.usda.gov', port=443): Failed to resolve 'marsapi.ams.usda.gov' ([Errno 8] nodename nor servname provided, or not known)\"))"
     },
     {
       "name": "sources_fresh",

@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-07-24T14:26:05Z",
+  "published_at": "2026-07-25T03:55:37Z",
   "stats": {
     "series_count": 598,
-    "obs_count": 149951,
+    "obs_count": 150045,
     "source_count": 30,
     "tracker_corr": 0.9808,
     "live_coverage_pct": 42.6,
@@ -782,7 +782,7 @@
       "source": "TREASURY",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-07-22",
+      "latest_obs": "2026-07-23",
       "fresh": true
     },
     {
@@ -2375,7 +2375,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-23",
+      "latest_obs": "2026-07-24",
       "fresh": true
     },
     {
@@ -2456,7 +2456,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-23",
+      "latest_obs": "2026-07-24",
       "fresh": true
     },
     {
@@ -2528,7 +2528,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-23",
+      "latest_obs": "2026-07-24",
       "fresh": true
     },
     {
@@ -2600,7 +2600,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-23",
+      "latest_obs": "2026-07-24",
       "fresh": true
     },
     {
@@ -2618,7 +2618,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-22",
+      "latest_obs": "2026-07-23",
       "fresh": true
     },
     {
@@ -2627,7 +2627,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-22",
+      "latest_obs": "2026-07-23",
       "fresh": true
     },
     {
@@ -2636,7 +2636,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-22",
+      "latest_obs": "2026-07-23",
       "fresh": true
     },
     {
@@ -2645,7 +2645,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-22",
+      "latest_obs": "2026-07-23",
       "fresh": true
     },
     {
@@ -2654,7 +2654,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-22",
+      "latest_obs": "2026-07-23",
       "fresh": true
     },
     {
@@ -2663,7 +2663,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-22",
+      "latest_obs": "2026-07-23",
       "fresh": true
     },
     {
@@ -2672,7 +2672,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-22",
+      "latest_obs": "2026-07-23",
       "fresh": true
     },
     {
@@ -2681,7 +2681,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-22",
+      "latest_obs": "2026-07-23",
       "fresh": true
     },
     {
@@ -2735,7 +2735,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-23",
+      "latest_obs": "2026-07-24",
       "fresh": true
     },
     {
@@ -3545,7 +3545,7 @@
       "source": "SFCOMPUTE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-07-24",
+      "latest_obs": "2026-07-25",
       "fresh": true
     },
     {
