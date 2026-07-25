@@ -112,3 +112,13 @@ def test_fetch_partial_quarter_failure_emits_warning():
 
     with pytest.warns(PartialFetchWarning):
         qcew.fetch(["US000"], vintage_date="2026-07-12", http_get=wobbly_get)
+
+
+def test_window_reaches_the_year_ago_base_of_the_newest_published_quarter():
+    # QCEW publishes ~2 quarters behind, so on 2026-07-25 the newest published
+    # quarter is 2025q4. Its YoY base is 2024q4. A window that stops short of
+    # that base can never compute a wage YoY — which is exactly why geo.json
+    # shipped yoy_pct: null for all 51 states before this fix.
+    window = qcew._recent_quarters("2026-07-25")
+    assert (2025, 4) in window, "newest published quarter missing"
+    assert (2024, 4) in window, "year-ago base missing — YoY impossible"

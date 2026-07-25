@@ -25,9 +25,12 @@ from pipeline.models import Observation
 
 QCEW_URL = "https://data.bls.gov/cew/data/api/{year}/{qtr}/industry/{naics}.csv"
 NAICS = "23"
-N_QUARTERS = 5  # publication lag ~2 quarters + revision headroom + one extra
-                # published quarter so a state suppressed in the newest quarter
-                # (e.g. LA 2025q4) still contributes its prior-quarter wage
+N_QUARTERS = 8  # must span the newest PUBLISHED quarter (q0-3 at a ~2-quarter
+                # lag) AND its year-ago base (q0-7), or wage YoY is
+                # uncomputable — geo.json shipped yoy_pct: null for all 51
+                # states until this was widened. Unpublished quarters 404 and
+                # are tolerated per-quarter; refetching unchanged quarters is
+                # free thanks to the store's value-dedupe.
 
 
 def _recent_quarters(today: str, n: int = N_QUARTERS) -> list[tuple[int, int]]:
