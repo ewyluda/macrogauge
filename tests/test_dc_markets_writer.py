@@ -153,12 +153,17 @@ def test_fallback_regime_validates_and_leaves_yoy_basis_null():
     assert nova["emp"] == nova["emp_cur_total"] == 26151
 
 
-def test_series_resolves_to_the_latest_vintage_not_the_first_appended():
+def test_series_resolves_latest_vintage_and_breaks_same_vintage_ties_by_rowid():
     # Store rows are append-only and immutable -- a re-published value for
     # the same (series_code, obs_date) appends a NEW vintage row rather than
     # overwriting the old one. _series() must resolve to the latest
     # vintage_date, not whatever SQLite's unindexed ORDER BY happens to
-    # return first.
+    # return first -- covered below by qcew_wage23_us's distinct-vintage
+    # pair. That alone doesn't exercise vintage.latest()'s documented
+    # rowid-DESC tie-break, since a bare `ORDER BY vintage_date` resolves a
+    # distinct-vintage case identically. qcew_wage23_c51107's two 2025-10-01
+    # rows share the SAME vintage_date, so only the rowid tie-break
+    # distinguishes them: the later-inserted (higher-rowid) row must win.
     conn = sqlite3.connect(":memory:")
     conn.execute("CREATE TABLE observations (series_code TEXT, obs_date TEXT, "
                  "value REAL, vintage_date TEXT)")
@@ -169,10 +174,14 @@ def test_series_resolves_to_the_latest_vintage_not_the_first_appended():
         ("qcew_emp23_us", "2024-10-01", 8117805.0, "2026-07-25"),
         ("qcew_emp23_us", "2025-10-01", 8195199.0, "2026-07-25"),
         ("qcew_wage23_c51107", "2024-10-01", 2001.0, "2026-07-25"),
-        ("qcew_wage23_c51107", "2025-10-01", 2264.0, "2026-07-25"),
+        ("qcew_wage23_c51107", "2025-10-01", 2200.0, "2026-07-25"),  # same vintage, inserted first
+        ("qcew_wage23_c51107", "2025-10-01", 2264.0, "2026-07-25"),  # same vintage, inserted last -- rowid tie-break wins
         ("qcew_emp23_c51107", "2024-10-01", 22372.0, "2026-07-25"),
         ("qcew_emp23_c51107", "2025-10-01", 26151.0, "2026-07-25"),
     ]
     conn.executemany("INSERT INTO observations VALUES (?,?,?,?)", rows)
     payload = writer.build(conn, (MARKETS[0],), CAP_CFG, META)
     assert payload["national"]["wage"] == 1815.0  # not the stale 1800.0
+    nova = payload["markets"][0]
+    assert nova["wage"] == 2264.0  # not 2200.0 -- the same-vintage tie
+    assert nova["counties"][0]["wage"] == 2264.0

@@ -60,7 +60,8 @@ def load(path: Path | None = None,
                     f"dc_markets: {key} county {f!r} is not a 5-digit county FIPS")
             for code in (f"qcew_wage23_c{f}", f"qcew_emp23_c{f}"):
                 if code not in registry_codes:
-                    raise ValueError(f"dc_markets: unknown series code {code}")
+                    raise ValueError(
+                        f"dc_markets: {key} unknown series code {code}")
         iso, grid = m["iso"], m["grid"]
         if bool(iso) == bool(grid):
             raise ValueError(

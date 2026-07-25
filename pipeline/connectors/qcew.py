@@ -32,7 +32,7 @@ EMP_SUFFIX = "~emp"  # employment rides as its own series code rather than a
                      # new Observation field: store rows are append-only and
                      # schema-versionless, and collect.py's id_map is a plain
                      # string map so it needs no change.
-N_QUARTERS = 8  # must span the newest PUBLISHED quarter (q0-3 at a ~2-quarter
+N_QUARTERS = 8  # must span the newest PUBLISHED quarter (q0-3 at a ~3-quarter
                 # lag) AND its year-ago base (q0-7), or wage YoY is
                 # uncomputable — geo.json shipped yoy_pct: null for all 51
                 # states until this was widened. Unpublished quarters 404 and

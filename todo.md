@@ -122,6 +122,16 @@ since shipped (2026-07-25)** — P3 or P7 is the next pick.
 27. **`tests/test_published_data.py` covers only 18 of 34 artifacts.** `/markets` (`dc_markets`) is
     one of the 18; 16 gaps remain.
 
+28. **Sortable `<th>` headers are mouse-only** across `MarketsClient.tsx`, `ParityTable.tsx`, and
+    `QuiltHeatmap.tsx` — `onClick` with no keyboard equivalent, sitewide.
+
+29. **`role="button"` on a `<tr>` overrides its implicit `row` role** (affects `/markets` and
+    `/capacity`) — AT table-navigation commands may not treat the row as part of the table. A
+    `<button>` scoped inside the market-name cell would preserve native row/cell semantics.
+
+30. **`site/` has no ESLint config at all**, so no `jsx-a11y` gate exists to catch either of the
+    two items above recurring, or to prevent the next one.
+
 ## Done (one-liners; details in git log)
 
 - 2026-07-13: ALFRED backtest seeding; STREET → Cleveland ensemble; Manheim → Cox

@@ -835,3 +835,4 @@ def test_markets_schema_violation_fails_run(tmp_path, monkeypatch):
     with pytest.raises(jsonschema.ValidationError):
         run_daily.main(["--store", str(store), "--out", str(out)],
                        http_get=fake_get, http_post=fake_post)
+    assert not (out / "qa.json").exists()  # run died before qa
