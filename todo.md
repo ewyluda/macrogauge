@@ -53,9 +53,10 @@ Full gap register, rationale, data paths, and invariants:
 plan doc before implementing). One line each here so nothing falls off this list.
 Suggested order P1→P7; P7 and the item-6 CSV export are pullable forward anytime.
 
-11. **P2 — DC market panel + capacity-competition join.** ~15–20 real DC markets at county-QCEW
-    resolution, plus announced MW within ~60mi from `capacity.json` `geo[]`. The join exists nowhere
-    else. (`metros.json` is Zillow consumer shelter — does not serve this.)
+11. ~~**P2 — DC market panel + capacity-competition join.**~~ **DONE 2026-07-25** — shipped as
+    `/markets` on `feat/dc-market-panel` (see Done section below); the capacity-radius join and ISO
+    column were refuted by measurement and dropped, see
+    `docs/plans/2026-07-24-project-controls-gaps.md` §P2.
 
 12. **P3 — Forward DC escalation curve (12–36mo).** Point the `/outlook` engine at DC Build/Ops;
     publish as an **annual factor table**. Do not ship an unbacktested 36mo horizon.
@@ -96,6 +97,29 @@ Suggested order P1→P7; P7 and the item-6 CSV export are pullable forward anyti
     the ~58KB added to `datacenter.json`) have no consumer — deliberate, since the publisher is
     one unparametrized path, but worth documenting at the next schema rev alongside item 5.
 
+## /markets follow-ups (deferred at the 2026-07-25 final review — none block merge)
+
+22. **`geo_note` overstates what `approx: true` means.** It says state-centroid placement, but many
+    entries are town/county centroids. Correct at the next capacity schema rev — alongside items
+    5 and 21.
+
+23. **`pipeline/publish/capacity.py:20`'s `_YEAR = re.compile(r"20(2[5-9])")` expires in 2030.**
+
+24. **`when` is not `required` in `capacity.schema.json`** — this plan declares it but does not make
+    it mandatory, which is a separate and riskier change.
+
+25. **`qtrly_estabs` is available in the rows we download and is not ingested.** No column needs
+    it yet; revisit if an establishment-count column earns its place.
+
+26. **The power/ops columns are state-resolution and are not on the `/markets` panel.**
+    `dcindex.parity_rows()` is key-agnostic and could be re-resolved to market keys, but EIA
+    industrial power has no sub-state series, so two markets in one state would share an identical
+    `ops_mult`. Adding it needs the resolution label designed first — deferred rather than shipped
+    mislabelled.
+
+27. **`tests/test_published_data.py` covers only 18 of 34 artifacts.** `/markets` (`dc_markets`) is
+    one of the 18; 16 gaps remain.
+
 ## Done (one-liners; details in git log)
 
 - 2026-07-13: ALFRED backtest seeding; STREET → Cleveland ensemble; Manheim → Cox
@@ -108,3 +132,9 @@ Suggested order P1→P7; P7 and the item-6 CSV export are pullable forward anyti
   6 TDD tasks + a final-review fix wave (honest KPI precision, contribution-basis
   disclosure, base-month convention; plan:
   docs/superpowers/plans/2026-07-24-dc-escalation-calculator.md). Not yet merged to main.
+- 2026-07-25: P2 DC market panel (`/markets`, item 11) shipped on `feat/dc-market-panel` — 20-market
+  config-driven roster, county-QCEW construction wage + employment aggregation engine,
+  `dc_markets.json` + schema, tenth isolated pipeline phase; the register's capacity-radius join and
+  ISO column were refuted by measurement and dropped (see
+  `docs/superpowers/specs/2026-07-25-dc-market-panel-design.md` and
+  `docs/plans/2026-07-24-project-controls-gaps.md` §P2). Not yet merged to main.

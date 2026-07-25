@@ -92,7 +92,9 @@ reuse the client-side patterns in `site/src/components/CalculatorClient.tsx` (si
 
 ## P2 — DC market panel (metro resolution) + capacity-competition join
 
-**Status:** not started · **Grades:** forecast accuracy, energization date · **Effort:** medium
+**Status:** shipped 2026-07-25 on `feat/dc-market-panel` (Task 11 of
+`docs/superpowers/plans/2026-07-25-dc-market-panel.md`) · **Grades:** forecast accuracy,
+energization date · **Effort:** medium
 
 **Gap.** State resolution is too coarse for site work — Virginia averages Loudoun with Bristol. The real
 markets are ~15–20 named places: Northern Virginia, Columbus, Phoenix, Dallas, Atlanta, Des Moines,
@@ -101,20 +103,37 @@ Council Bluffs, Salt Lake, Abilene, New Carlisle, Mt Pleasant, Richland Parish, 
 `metros.json` exists but is **50 metros of Zillow ZORI/ZHVI — consumer shelter, not construction.**
 It does not serve this purpose.
 
-**Build.** A panel keyed to actual DC markets, each row carrying:
-- county construction wage level + YoY (QCEW NAICS-23 — **county-level is available**; connector exists)
-- industrial power ¢/kWh (EIA state — best available resolution)
-- ISO / utility and capacity-market exposure (PJM / ERCOT / MISO)
-- **announced MW within ~60 miles**, joined from `capacity.json` `geo[]` (112 sites, each with
-  `lat`/`lng`/`mw`/`st`)
+**⚠ SUPERSEDED (measured 2026-07-25, before implementation) — do not re-derive.** This entry originally
+asked for a panel joining ISO/utility and **announced MW within ~60 miles** from `capacity.json` `geo[]`.
+Recon for the design spec refuted both the radius join and the ISO column; full measurements are in
+`docs/superpowers/specs/2026-07-25-dc-market-panel-design.md` ("What recon established"). Summary:
 
-**Why this one is strategically important.** That last join is a craft-labor-tightness and
-subcontractor-availability signal that **exists nowhere else**, and it falls out of two datasets we
-already publish. "Your Columbus estimate competes with N GW in flight within 60 miles" is a genuinely
-new Project Controls instrument.
+- **The 60-mile capacity-radius join is not buildable.** Northern Virginia returns 1 site / 0 MW at 60mi
+  (nearest MW-bearing site is 73.3mi out); Des Moines, Salt Lake City, and Reno return 0 sites even at
+  150mi. `geo[]` is a 40% census of `companies[]` MW (private, non-filing operators — CyrusOne, Vantage,
+  Aligned, STACK, QTS, EdgeConneX — own most of Loudoun's capacity and file nothing), and coordinate
+  precision (`approx: true` on 70/112 entries) cannot support a defensible distance computation regardless
+  of MW coverage. Structural, not curatable — same primary-source wall that nulled `context.transformer`.
+- **No ISO column exists at state resolution.** There is no state→ISO map anywhere in the repo; ERCOT is
+  energy-only with no capacity-auction analogue collected, nothing collects MISO's PRA, and PJM zonal
+  pricing would require a paid Associate Membership to redistribute.
+- **What shipped instead:** county-QCEW construction wage + employment (level and YoY, like-for-like
+  county sets) is the headline — a *direct* craft-labor-tightness measurement, not a proxy — for a
+  20-market, config-driven roster (`config/dc_markets.json`), each market a tight core-county list (not
+  the MSA) with per-county receipts. `iso`/`utility`/`grid` are published as hand-curated market
+  attributes (not derived from a radius join). The capacity join was **demoted, not dropped**: it
+  ships as a denominated supporting column (sites / disclosed MW / undisclosed-MW sites, never a bare
+  MW figure) keyed by hand-assigned market tag on each `capacity.json` `geo[]` entry — never a
+  coordinate radius.
 
-**Open question.** Market definition list needs to be config-driven (`config/dc_markets.json`), not
-hardcoded — same pattern as `config/basket.json` / `config/capacity.json`.
+**Build (as shipped).** A panel keyed to 20 real DC markets, each row carrying:
+- county construction wage level + YoY (QCEW NAICS-23, county resolution, like-for-like YoY)
+- county construction headcount level + YoY
+- spread vs the national rate for both (the tightness signal)
+- hand-curated ISO/grid + utility, published as market metadata, not derived
+- a denominated capacity-competition column (sites / disclosed MW / undisclosed-MW sites), joined by
+  hand-assigned market tag, not radius
+- per-county receipts so the market-level aggregation is checkable
 
 ---
 
