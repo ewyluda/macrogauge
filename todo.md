@@ -163,6 +163,21 @@ since shipped (2026-07-25)** — P3 or P7 is the next pick.
     only site of 112 already split into a 300 MW `o` row + a 900 MW `c` row): split each such site
     into its operating and under-construction MW rather than changing the schema.
 
+35. **`/states` mixes QCEW quarters in one column and one choropleth.** `pipeline/publish/geo.py`'s
+    `_measure()` anchors on `as_of = max(obs)` — each series' OWN latest observation — so a state
+    whose newest quarter is BLS-disclosure-suppressed reports an older quarter beside everyone
+    else's newest, with no per-row as-of rendered. Live today: Louisiana shows its 2025Q3 level
+    ($1,585) next to 43 states' 2025Q4 levels, reading **~12.7% low** and ranking 35/44 instead of
+    ~18/44 in both `site/src/app/states/page.tsx`'s table and `GeoStateMap`. This is the only
+    user-visible wrongness in the QCEW area — it predates the 2026-07-25 `/markets` work and is
+    **not** fixed by the `N_QUARTERS` 8→10 widening (that fixed the YoY, which no page renders).
+    Three options: surface `as_of` per row; flag off-quarter states visually; or adopt the
+    shared-as-of like-for-like discipline `pipeline/engine/dcmarkets.py` and
+    `pipeline/engine/dcindex.py:193` already use, so every state reports the same quarter and a
+    suppressed state degrades to null rather than to a stale level. The third is the most
+    consistent with the rest of the codebase but drops LA's level entirely — decide which failure
+    mode is more honest for a choropleth before implementing.
+
 ## Done (one-liners; details in git log)
 
 - 2026-07-13: ALFRED backtest seeding; STREET → Cleveland ensemble; Manheim → Cox
