@@ -32,12 +32,41 @@ EMP_SUFFIX = "~emp"  # employment rides as its own series code rather than a
                      # new Observation field: store rows are append-only and
                      # schema-versionless, and collect.py's id_map is a plain
                      # string map so it needs no change.
-N_QUARTERS = 8  # must span the newest PUBLISHED quarter (q0-3 at a ~3-quarter
-                # lag) AND its year-ago base (q0-7), or wage YoY is
-                # uncomputable — geo.json shipped yoy_pct: null for all 51
-                # states until this was widened. Unpublished quarters 404 and
-                # are tolerated per-quarter; refetching unchanged quarters is
-                # free thanks to the store's value-dedupe.
+N_QUARTERS = 10  # N = 8 + k, where k is the number of consecutive
+                # disclosure-suppressed LATEST quarters a series must
+                # tolerate before its own year-ago base falls outside the
+                # window. Downstream, a series' "as_of" is its OWN latest
+                # observation (geo.py/dc_markets.py take max(obs), not
+                # wall-clock "today"), and the YoY base is looked up at
+                # exactly as_of-12mo with no tolerance (util.py) -- so the
+                # window must reach 12 months behind whatever quarter a
+                # series actually last published, not just behind the
+                # newest quarter BLS published for anyone.
+                #
+                # k=0 (a series' latest obs IS the newest BLS-published
+                # quarter, q0-3 at the ~5-month lag) needs exactly 8: q0-7
+                # (the year-ago base) .. q0. That's how 8 was chosen, and it
+                # shipped with ZERO slack -- geo.json's yoy_pct was null for
+                # all 51 states until N=8 first landed, then broke again on
+                # the first state (Louisiana) whose latest quarter flickered
+                # suppressed (k=1, latest=q0-4, base=q0-8 -- one past the
+                # N=8 window). qcew_wage23_c41067 (Washington Co. OR /
+                # Hillsboro) is suppressed TWO consecutive quarters (k=2,
+                # base=q0-9) -- hence 10. Widen N by 1 for every additional
+                # consecutive suppression this basket needs to tolerate.
+                #
+                # Rejected alternative: re-anchor the window at q0-1 with
+                # N=9 -- same coverage, one fewer request/day -- by betting
+                # that q0-1/q0/q0+1 (2026Q1-Q3, from "today") are guaranteed
+                # 404s at BLS's ~5-month lag. Do NOT do this: it bets on
+                # that lag never shortening, and if it did, this basket
+                # would silently sit a quarter behind for months with no
+                # visible symptom. Two extra requests/day is the right price
+                # for not making that bet.
+                #
+                # Unpublished quarters 404 and are tolerated per-quarter;
+                # refetching unchanged quarters is free thanks to the
+                # store's value-dedupe.
 
 
 def _recent_quarters(today: str, n: int = N_QUARTERS) -> list[tuple[int, int]]:
