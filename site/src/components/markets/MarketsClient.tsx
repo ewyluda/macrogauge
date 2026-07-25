@@ -23,7 +23,7 @@ const SORT_COLS: [SortKey, string][] = [
 const COL_BASIS: Partial<Record<SortKey, string>> = {
   wage: "Like-for-like basis: counties present in both quarters.",
   wageYoy: "Like-for-like basis: counties present in both quarters.",
-  emp: "Current-quarter basis: every county with current data, independent of last year's disclosure.",
+  emp: "Current-quarter basis: every county with current data, independent of last year's disclosure. Third-month (point-in-time) level — the wage above is weighted by each county's quarterly-average level instead, so the two don't share a denominator.",
   empYoy: "Like-for-like basis: counties present in both quarters.",
 };
 

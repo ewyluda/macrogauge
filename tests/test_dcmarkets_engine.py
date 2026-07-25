@@ -17,10 +17,14 @@ NAT_EMP = {BASE: 8117805.0, CUR: 8195199.0}  # +1.0%
 def test_wage_is_employment_weighted_not_a_simple_mean():
     # Two counties, wildly different sizes. A simple mean would give 1500;
     # the employment-weighted answer is dominated by the large county.
+    # aemp mirrors emp here -- this test is about weighted-vs-simple-mean in
+    # general, not about the aemp/emp distinction (see
+    # test_wage_weighted_by_avg_monthly_emp_not_month3_across_quarters below
+    # for that).
     wage = {"51107": {CUR: 2000.0}, "51153": {CUR: 1000.0}}
     emp = {"51107": {CUR: 9000.0}, "51153": {CUR: 1000.0}}
     out = dcmarkets.market_rows(
-        wage, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
+        wage, emp, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
     row = out["markets"][0]
     assert row["wage"] == 1900.0          # (2000*9000 + 1000*1000) / 10000
     assert row["emp"] == 10000
@@ -35,7 +39,7 @@ def test_yoy_uses_a_like_for_like_county_set():
     emp = {"51107": {BASE: 1000.0, CUR: 1000.0},
            "51153": {CUR: 1000.0}}
     out = dcmarkets.market_rows(
-        wage, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
+        wage, emp, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
     row = out["markets"][0]
     assert row["counties_used"] == 1
     assert row["counties_suppressed"] == ["51153"]
@@ -47,7 +51,7 @@ def test_spread_is_market_yoy_minus_national_yoy_in_pp():
     wage = {"51107": {BASE: 2000.0, CUR: 2200.0}}
     emp = {"51107": {BASE: 1000.0, CUR: 1200.0}}
     out = dcmarkets.market_rows(
-        wage, emp, (_mkt("nova", ["51107"]),), NAT_WAGE, NAT_EMP)
+        wage, emp, emp, (_mkt("nova", ["51107"]),), NAT_WAGE, NAT_EMP)
     row = out["markets"][0]
     assert out["national"]["wage_yoy_pct"] == 5.1
     assert out["national"]["emp_yoy_pct"] == 1.0
@@ -61,8 +65,8 @@ def test_fully_suppressed_market_degrades_to_unavailable_not_zero():
     # Hillsboro's only core county is disclosure-suppressed. The row must
     # render as unavailable — never as a 0 wage or a silent drop.
     out = dcmarkets.market_rows(
-        {}, {}, (_mkt("hillsboro", ["41067"], state="OR", iso=None,
-                      grid="WECC"),), NAT_WAGE, NAT_EMP)
+        {}, {}, {}, (_mkt("hillsboro", ["41067"], state="OR", iso=None,
+                         grid="WECC"),), NAT_WAGE, NAT_EMP)
     row = out["markets"][0]
     assert row["available"] is False
     assert row["wage"] is None and row["wage_yoy_pct"] is None
@@ -80,7 +84,7 @@ def test_thin_base_is_flagged():
     emp = {"22083": {BASE: 274.0, CUR: 563.0},
            "51107": {BASE: 22372.0, CUR: 26151.0}}
     out = dcmarkets.market_rows(
-        wage, emp,
+        wage, emp, emp,
         (_mkt("richland", ["22083"], state="LA", iso="MISO"),
          _mkt("nova", ["51107"])),
         NAT_WAGE, NAT_EMP)
@@ -95,7 +99,7 @@ def test_county_receipts_are_published_per_market():
     emp = {"51107": {BASE: 22372.0, CUR: 26151.0},
            "51153": {BASE: 9000.0, CUR: 9900.0}}
     out = dcmarkets.market_rows(
-        wage, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
+        wage, emp, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
     counties = out["markets"][0]["counties"]
     assert [c["fips"] for c in counties] == ["51107", "51153"]
     assert counties[0]["wage"] == 2264.0
@@ -105,13 +109,13 @@ def test_county_receipts_are_published_per_market():
 
 
 def test_as_of_and_base_date_come_from_the_national_anchor():
-    out = dcmarkets.market_rows({}, {}, (), NAT_WAGE, NAT_EMP)
+    out = dcmarkets.market_rows({}, {}, {}, (), NAT_WAGE, NAT_EMP)
     assert out["as_of"] == CUR
     assert out["base_date"] == BASE
 
 
 def test_no_national_data_degrades_whole_payload():
-    out = dcmarkets.market_rows({}, {}, (_mkt("nova", ["51107"]),), {}, {})
+    out = dcmarkets.market_rows({}, {}, {}, (_mkt("nova", ["51107"]),), {}, {})
     assert out["as_of"] is None
     assert out["national"]["wage"] is None
     assert out["markets"][0]["available"] is False
@@ -129,7 +133,7 @@ def test_thin_base_uses_true_current_size_not_the_yoy_truncated_set():
     emp = {"51107": {CUR: 26151.0},
            "51153": {BASE: 900.0, CUR: 950.0}}
     out = dcmarkets.market_rows(
-        wage, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
+        wage, emp, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
     row = out["markets"][0]
     assert row["counties_used"] == 1
     assert row["counties_suppressed"] == ["51107"]
@@ -148,7 +152,7 @@ def test_fallback_regime_flags_missing_yoy_explicitly():
     wage = {"51107": {CUR: 2000.0}, "51153": {CUR: 1000.0}}
     emp = {"51107": {CUR: 9000.0}, "51153": {CUR: 1000.0}}
     out = dcmarkets.market_rows(
-        wage, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
+        wage, emp, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
     row = out["markets"][0]
     assert row["wage_yoy_pct"] is None
     assert row["available"] is True
@@ -156,21 +160,49 @@ def test_fallback_regime_flags_missing_yoy_explicitly():
     assert row["yoy_basis"] is None
 
 
-def test_multi_county_like_for_like_wage_is_weighted_each_quarter_by_its_own_emp():
-    # Employment WEIGHTS shift between quarters -- county 51107's workforce
-    # quadruples while 51153's shrinks by 4x. A base-quarter weighted mean
-    # that (bug) reused the current quarter's weights would compute
+def test_multi_county_like_for_like_wage_is_weighted_each_quarter_by_its_own_aemp():
+    # Employment WEIGHTS (aemp) shift between quarters -- county 51107's
+    # aemp quadruples while 51153's shrinks by 4x. A base-quarter weighted
+    # mean that (bug) reused the current quarter's weights would compute
     # wage_yoy_pct == 10.0 instead of the correct 65.0 -- this pins w_base
-    # as genuinely weighted by ITS OWN quarter's employment, over more than
-    # one county (test_yoy_uses_a_like_for_like_county_set collapses to a
+    # as genuinely weighted by ITS OWN quarter's aemp, over more than one
+    # county (test_yoy_uses_a_like_for_like_county_set collapses to a
     # single surviving county and never exercises this).
     wage = {"51107": {BASE: 2000.0, CUR: 2200.0},
             "51153": {BASE: 1000.0, CUR: 1100.0}}
     emp = {"51107": {BASE: 2000.0, CUR: 8000.0},
            "51153": {BASE: 8000.0, CUR: 2000.0}}
     out = dcmarkets.market_rows(
-        wage, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
+        wage, emp, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
     row = out["markets"][0]
     assert row["wage"] == 1980.0          # (2200*8000 + 1100*2000) / 10000
     assert row["wage_yoy_pct"] == 65.0    # 1980/1200 - 1; base weighted 1200
+    assert row["emp_yoy_pct"] == 0.0
+
+
+def test_wage_weighted_by_avg_monthly_emp_not_month3_across_quarters():
+    # Regression for the reweighting fix: county employment WEIGHTS (aemp)
+    # shift materially between quarters -- 51107's aemp quadruples while
+    # 51153's shrinks 4x -- while month3 (emp) stays FLAT and EQUAL across
+    # both counties in BOTH quarters (a decoy). If the engine mistakenly
+    # weighted wage by month3 emp instead of aemp, equal month3 weights
+    # would collapse the market wage to a simple mean every quarter (1650
+    # cur / 1500 base -> +10.0% YoY). Weighting by aemp instead -- each
+    # quarter by ITS OWN aemp -- gives materially different numbers (1980
+    # cur / 1200 base -> +65.0% YoY). This "pins" that the wage weight is
+    # genuinely aemp, not incidentally correct because aemp happened to
+    # equal emp in every other test in this file.
+    wage = {"51107": {BASE: 2000.0, CUR: 2200.0},
+            "51153": {BASE: 1000.0, CUR: 1100.0}}
+    emp = {"51107": {BASE: 5000.0, CUR: 5000.0},     # month3: flat decoy
+           "51153": {BASE: 5000.0, CUR: 5000.0}}
+    aemp = {"51107": {BASE: 2000.0, CUR: 8000.0},    # avg-monthly: shifts
+            "51153": {BASE: 8000.0, CUR: 2000.0}}
+    out = dcmarkets.market_rows(
+        wage, emp, aemp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
+    row = out["markets"][0]
+    assert row["wage"] == 1980.0          # aemp-weighted, NOT the 1650 month3-weighted mean
+    assert row["wage_yoy_pct"] == 65.0    # NOT the 10.0 a month3-weighted calc would give
+    # emp / emp_yoy_pct stay on month3 -- untouched by the aemp reweighting.
+    assert row["emp"] == 10000
     assert row["emp_yoy_pct"] == 0.0

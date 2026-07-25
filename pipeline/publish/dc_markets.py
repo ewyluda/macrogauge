@@ -41,11 +41,15 @@ def build(conn, markets, cap_cfg: dict, meta: dict) -> dict:
     counties = {f for m in markets for f in m.counties}
     wage = {f: _series(conn, f"qcew_wage23_c{f}") for f in counties}
     emp = {f: _series(conn, f"qcew_emp23_c{f}") for f in counties}
+    # average monthly employment ((m1+m2+m3)/3) -- the wage weight
+    # (dcmarkets.py), never the displayed headcount, which stays month3.
+    aemp = {f: _series(conn, f"qcew_aemp23_c{f}") for f in counties}
     wage = {f: v for f, v in wage.items() if v}
     emp = {f: v for f, v in emp.items() if v}
+    aemp = {f: v for f, v in aemp.items() if v}
 
     payload = dcmarkets.market_rows(
-        wage, emp, markets,
+        wage, emp, aemp, markets,
         _series(conn, "qcew_wage23_us"), _series(conn, "qcew_emp23_us"))
 
     # capacity join by hand-assigned tag

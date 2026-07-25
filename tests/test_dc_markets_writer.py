@@ -40,6 +40,11 @@ def _conn():
         ("qcew_wage23_c51107", "2025-10-01", 2264.0),
         ("qcew_emp23_c51107", "2024-10-01", 22372.0),
         ("qcew_emp23_c51107", "2025-10-01", 26151.0),
+        # aemp (average monthly employment): a single-county market's
+        # weighted wage doesn't depend on the weight's magnitude, so any
+        # positive value would do -- these mirror month3 for clarity.
+        ("qcew_aemp23_c51107", "2024-10-01", 22372.0),
+        ("qcew_aemp23_c51107", "2025-10-01", 26151.0),
         # 41067 (Hillsboro) intentionally absent — disclosure-suppressed
     ]
     conn.executemany(
@@ -140,6 +145,7 @@ def test_fallback_regime_validates_and_leaves_yoy_basis_null():
         # 51107 has ONLY the current quarter -- no 2024-10-01 row at all
         ("qcew_wage23_c51107", "2025-10-01", 2264.0),
         ("qcew_emp23_c51107", "2025-10-01", 26151.0),
+        ("qcew_aemp23_c51107", "2025-10-01", 26151.0),
     ]
     conn.executemany(
         "INSERT INTO observations VALUES (?,?,?,'2026-07-25')", rows)
@@ -178,6 +184,8 @@ def test_series_resolves_latest_vintage_and_breaks_same_vintage_ties_by_rowid():
         ("qcew_wage23_c51107", "2025-10-01", 2264.0, "2026-07-25"),  # same vintage, inserted last -- rowid tie-break wins
         ("qcew_emp23_c51107", "2024-10-01", 22372.0, "2026-07-25"),
         ("qcew_emp23_c51107", "2025-10-01", 26151.0, "2026-07-25"),
+        ("qcew_aemp23_c51107", "2024-10-01", 22372.0, "2026-07-25"),
+        ("qcew_aemp23_c51107", "2025-10-01", 26151.0, "2026-07-25"),
     ]
     conn.executemany("INSERT INTO observations VALUES (?,?,?,?)", rows)
     payload = writer.build(conn, (MARKETS[0],), CAP_CFG, META)

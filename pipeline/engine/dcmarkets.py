@@ -1,11 +1,19 @@
 """Market-resolution construction labor — pure aggregation stage.
 
-Two rules make this correct, and both are load-bearing:
+Three rules make this correct, and all three are load-bearing:
 
 1. Wage is EMPLOYMENT-WEIGHTED across a market's counties, never a simple
    mean — Loudoun (26k construction workers) must not be averaged 50/50 with
    a 500-worker neighbour.
-2. YoY uses a LIKE-FOR-LIKE county set: a county missing or disclosure-
+2. The wage weight is AVERAGE MONTHLY employment (`aemp`, (m1+m2+m3)/3),
+   never the month3 point-in-time headcount (`emp`) — established
+   empirically: total_qtrly_wages/aemp/13 reproduces BLS's own published
+   avg_wkly_wage within integer rounding for 100% of county-quarters, vs
+   ~2-3% for a month3 denominator. `emp` (month3) is kept ONLY for the
+   displayed headcount: `emp`, `emp_yoy_pct`, and `emp_cur_total` are month3
+   sums and never touch `aemp` — the two employment bases are deliberately
+   different numbers serving different roles, not a rounding nuance.
+3. YoY uses a LIKE-FOR-LIKE county set: a county missing or disclosure-
    suppressed in either quarter is excluded from BOTH sides of the ratio,
    or composition change contaminates the rate. Same discipline as
    dcindex.py:192-195 for Louisiana's flickering state-level suppression.
@@ -76,6 +84,7 @@ def _weighted(pairs: list[tuple[float, float]]) -> float | None:
 
 def market_rows(wage: dict[str, dict[str, float]],
                 emp: dict[str, dict[str, float]],
+                aemp: dict[str, dict[str, float]],
                 markets: tuple[MarketSpec, ...],
                 national_wage: dict[str, float],
                 national_emp: dict[str, float],
@@ -92,23 +101,28 @@ def market_rows(wage: dict[str, dict[str, float]],
 
     rows = []
     for m in markets:
-        # a county needs both wage and emp for the CURRENT quarter just to
+        # a county needs wage, emp, AND aemp for the CURRENT quarter just to
         # be counted at all -- this is the true, undiscounted current
         # market: wage_cur/emp_cur_total below are computed over this set,
-        # never the (possibly YoY-truncated) usable set.
+        # never the (possibly YoY-truncated) usable set. In practice aemp's
+        # presence always mirrors emp's (the connector emits both from the
+        # same row under the same suppression gate), but the check is
+        # explicit rather than assumed.
         cur_usable = [f for f in m.counties
                       if as_of and wage.get(f, {}).get(as_of) is not None
-                      and emp.get(f, {}).get(as_of) is not None]
-        # like-for-like: prefer the subset that ALSO has both series in the
-        # BASE quarter, so the reported level/YoY share one composition (a
-        # county present only in the current quarter would otherwise
+                      and emp.get(f, {}).get(as_of) is not None
+                      and aemp.get(f, {}).get(as_of) is not None]
+        # like-for-like: prefer the subset that ALSO has all three series in
+        # the BASE quarter, so the reported level/YoY share one composition
+        # (a county present only in the current quarter would otherwise
         # inflate the level without inflating the comparison base). If no
         # county in the market clears that bar there is no ratio to
         # contaminate -- YoY degrades to None rather than nuking a market
         # that has full current-quarter data down to unavailable.
         yoy_usable = [f for f in cur_usable
                       if base_date and wage.get(f, {}).get(base_date) is not None
-                      and emp.get(f, {}).get(base_date) is not None]
+                      and emp.get(f, {}).get(base_date) is not None
+                      and aemp.get(f, {}).get(base_date) is not None]
         usable = yoy_usable if yoy_usable else cur_usable
         have_yoy = bool(yoy_usable)
         # a county not in `usable` is "suppressed" here whether it's
@@ -143,9 +157,12 @@ def market_rows(wage: dict[str, dict[str, float]],
         # true current-quarter market size, independent of whether last
         # year's data survived disclosure -- thin_base MUST use this, never
         # the (possibly like-for-like-truncated) usable-set employment.
+        # wage_cur is weighted by aemp (average monthly employment);
+        # emp_cur_total stays a month3 sum -- the two employment bases are
+        # deliberately different (see the module docstring).
         if cur_usable:
             w_cur_total = _weighted(
-                [(wage[f][as_of], emp[f][as_of]) for f in cur_usable])
+                [(wage[f][as_of], aemp[f][as_of]) for f in cur_usable])
             e_cur_total = sum(emp[f][as_of] for f in cur_usable)
             if w_cur_total is not None:
                 row["wage_cur"] = round(w_cur_total, 2)
@@ -153,14 +170,14 @@ def market_rows(wage: dict[str, dict[str, float]],
             row["thin_base"] = row["emp_cur_total"] < thin_base
 
         if usable:
-            w_cur = _weighted([(wage[f][as_of], emp[f][as_of]) for f in usable])
+            w_cur = _weighted([(wage[f][as_of], aemp[f][as_of]) for f in usable])
             e_cur = sum(emp[f][as_of] for f in usable)
             if w_cur is not None:
                 row["wage"] = round(w_cur, 2)
                 row["emp"] = int(e_cur)
                 row["available"] = True
             if have_yoy and w_cur is not None:
-                w_base = _weighted([(wage[f][base_date], emp[f][base_date])
+                w_base = _weighted([(wage[f][base_date], aemp[f][base_date])
                                     for f in usable])
                 e_base = sum(emp[f][base_date] for f in usable)
                 row["wage_yoy_pct"] = _pct(w_cur, w_base)

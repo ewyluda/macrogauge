@@ -2,11 +2,14 @@
 
 https://data.bls.gov/cew/data/api/{year}/{qtr}/industry/{naics}.csv returns one
 row per area x ownership for that quarter. We keep own_code 5 (private) rows
-whose area_fips is registered, reading avg_wkly_wage and month3_emplvl (the
-latter under the "{fips}~emp" series code); disclosure-suppressed rows
-(small-cell values BLS zeroes out and flags via disclosure_code) are dropped
-whole — neither a real 0 wage nor a real 0 headcount. Area is a plain row
-filter with no agglvl check, so county FIPS work with no code change.
+whose area_fips is registered, reading avg_wkly_wage, month3_emplvl (under
+the "{fips}~emp" series code) and average monthly employment — (month1 +
+month2 + month3) / 3, under "{fips}~aemp" — BLS's own denominator for
+avg_wkly_wage, and the correct wage weight for multi-county aggregation
+(dcmarkets.py); disclosure-suppressed rows (small-cell values BLS zeroes out
+and flags via disclosure_code) are dropped whole — neither a real 0 wage nor
+a real 0 headcount. Area is a plain row filter with no agglvl check, so
+county FIPS work with no code change.
 Quarterly observations are dated at the quarter's first month. Keyless.
 QCEW publishes with a ~5-month lag
 and revises prior quarters, so each run walks the last N_QUARTERS quarters:
@@ -32,6 +35,17 @@ EMP_SUFFIX = "~emp"  # employment rides as its own series code rather than a
                      # new Observation field: store rows are append-only and
                      # schema-versionless, and collect.py's id_map is a plain
                      # string map so it needs no change.
+AEMP_SUFFIX = "~aemp"  # average MONTHLY employment ((m1+m2+m3)/3) -- BLS's
+                     # own denominator for avg_wkly_wage, established
+                     # empirically: total_qtrly_wages/((m1+m2+m3)/3)/13
+                     # reproduces published avg_wkly_wage within integer
+                     # rounding for 100% of rows, vs ~2-3% for a month3
+                     # denominator. Weighting county avg_wkly_wage by this
+                     # average is algebraically the wage-weighted mean BLS
+                     # itself would publish for the combined area, so no
+                     # need to also ingest total_qtrly_wages. Same evolution
+                     # path as ~emp: a new series code, not a new
+                     # Observation field.
 N_QUARTERS = 10  # N = 8 + k, where k is the number of consecutive
                 # disclosure-suppressed LATEST quarters a series must
                 # tolerate before its own year-ago base falls outside the
@@ -90,22 +104,23 @@ def _parse_quarter(text: str, wanted: set[str], vintage: str) -> list[Observatio
         fips = row["area_fips"]
         if row["own_code"] != "5":
             continue
-        wage_code, emp_code = fips, f"{fips}{EMP_SUFFIX}"
-        if wage_code not in wanted and emp_code not in wanted:
+        wage_code = fips
+        emp_code = f"{fips}{EMP_SUFFIX}"
+        aemp_code = f"{fips}{AEMP_SUFFIX}"
+        if wage_code not in wanted and emp_code not in wanted and aemp_code not in wanted:
             continue
         # BLS suppresses small cells by zeroing the value and setting
         # disclosure_code (e.g. "N") rather than omitting the row — a
         # suppressed 0 is not a real wage OR a real headcount, and must not be
         # ingested as one. Checked BEFORE float(): a suppressed row may carry
         # a blank field. Suppression is all-or-nothing per row, so this gates
-        # both metrics.
+        # all three metrics.
         if row["disclosure_code"]:
             continue
         month = (int(row["qtr"]) - 1) * 3 + 1
         obs_date = f"{row['year']}-{month:02d}-01"
 
-        def _emit(code: str, raw: str) -> None:
-            value = float(raw)
+        def _emit(code: str, value: float) -> None:
             if value <= 0:
                 return
             out.append(Observation(
@@ -113,9 +128,13 @@ def _parse_quarter(text: str, wanted: set[str], vintage: str) -> list[Observatio
                 vintage_date=vintage, source="QCEW", route="CSV"))
 
         if wage_code in wanted:
-            _emit(wage_code, row["avg_wkly_wage"])
+            _emit(wage_code, float(row["avg_wkly_wage"]))
         if emp_code in wanted:
-            _emit(emp_code, row["month3_emplvl"])
+            _emit(emp_code, float(row["month3_emplvl"]))
+        if aemp_code in wanted:
+            avg_emp = (float(row["month1_emplvl"]) + float(row["month2_emplvl"])
+                      + float(row["month3_emplvl"])) / 3
+            _emit(aemp_code, avg_emp)
     return out
 
 

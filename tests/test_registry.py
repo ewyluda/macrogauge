@@ -24,7 +24,7 @@ def test_load_real_registry():
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC",
                             "EIA_STATE_RES"}
-    assert len(series) == 659
+    assert len(series) == 690
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
@@ -130,7 +130,11 @@ def test_load_real_registry():
     # registered, because BLS suppression flickers quarter to quarter and the
     # downstream market row is designed to render an explicit "unavailable"
     # state rather than disappear.
-    assert sum(1 for s in series if s.source == "QCEW") == 106
+    # 137 = 106 + 31: qcew_aemp23_c{fips} for the same 30 roster counties
+    # plus qcew_aemp23_us -- average MONTHLY employment ((m1+m2+m3)/3), the
+    # correct wage weight for multi-county aggregation in dcmarkets.py.
+    # month3 (~emp) is unchanged and still backs the displayed headcount.
+    assert sum(1 for s in series if s.source == "QCEW") == 137
     # Power spike (wave 4): pin the exact source_ids — ice_ercot_north was
     # dropped from scope (does not exist in the ICE workbook) and Henry Hub
     # rides the v2 seriesid NG.RNGWHHD.D, not a v1 route.

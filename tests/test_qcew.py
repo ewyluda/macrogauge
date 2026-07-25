@@ -210,7 +210,7 @@ def test_county_fips_flow_through_unchanged():
 def test_suppressed_county_yields_neither_wage_nor_employment():
     # Washington Co. OR (41067) is disclosure_code "N". A suppressed row must
     # produce no observation at all — not a 0 wage, and not a 0 headcount.
-    obs = qcew.fetch(["41067", "41067~emp"], vintage_date="2026-07-12",
+    obs = qcew.fetch(["41067", "41067~emp", "41067~aemp"], vintage_date="2026-07-12",
                      http_get=fake_get)
     assert obs == []
 
@@ -219,3 +219,30 @@ def test_employment_requested_alone_does_not_emit_the_wage_series():
     obs = qcew.fetch(["48441~emp"], vintage_date="2026-07-12", http_get=fake_get)
     assert {o.series_code for o in obs} == {"48441~emp"}
     assert obs[0].value == 4106.0
+
+
+def test_emits_average_monthly_employment_as_its_own_series():
+    # BLS's own denominator for avg_wkly_wage is AVERAGE monthly employment
+    # ((m1+m2+m3)/3), not the point-in-time month3 headcount ~emp already
+    # rides — empirically, total_qtrly_wages/((m1+m2+m3)/3)/13 reproduces
+    # published avg_wkly_wage within integer rounding for 100% of rows,
+    # while a month3 denominator does so for ~2-3%. It becomes its OWN
+    # series code (not a new Observation field), same evolution path as
+    # ~emp: store rows are append-only and schema-versionless.
+    obs = qcew.fetch(["51107", "51107~emp", "51107~aemp"],
+                     vintage_date="2026-07-12", http_get=fake_get)
+    by_code = {o.series_code: o for o in obs}
+    assert set(by_code) == {"51107", "51107~emp", "51107~aemp"}
+    assert by_code["51107~aemp"].value == pytest.approx((25980 + 26050 + 26151) / 3)
+    assert by_code["51107~aemp"].obs_date == "2025-10-01"
+    assert by_code["51107~aemp"].source == "QCEW"
+    assert by_code["51107~aemp"].route == "CSV"
+    # month3 (~emp) stays exactly what it already was -- this is additive,
+    # not a replacement.
+    assert by_code["51107~emp"].value == 26151.0
+
+
+def test_average_employment_requested_alone_does_not_emit_wage_or_month3():
+    obs = qcew.fetch(["48441~aemp"], vintage_date="2026-07-12", http_get=fake_get)
+    assert {o.series_code for o in obs} == {"48441~aemp"}
+    assert obs[0].value == pytest.approx((4050 + 4080 + 4106) / 3)
