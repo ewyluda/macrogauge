@@ -1,0 +1,26 @@
+{
+  "as_of_curated": "2026-07-25",
+  "note": "Tight core counties — the counties where data centers actually are, not the MSA. Broader metro definitions dilute the signal: Northern Virginia reads +9.9% wage YoY tight vs +7.7% across the 11-county metro, because Arlington and Alexandria average in mature non-DC construction.",
+  "markets": [
+    {"key": "nova", "name": "Northern Virginia", "counties": ["51107", "51153"], "state": "VA", "iso": "PJM", "grid": null, "utility": "Dominion Energy Virginia", "note": "Loudoun + Prince William; Ashburn / Data Center Alley"},
+    {"key": "dfw", "name": "Dallas–Fort Worth", "counties": ["48113", "48439", "48139"], "state": "TX", "iso": "ERCOT", "grid": null, "utility": "Oncor", "note": "Dallas + Tarrant + Ellis"},
+    {"key": "chicago", "name": "Chicago", "counties": ["17031", "17043"], "state": "IL", "iso": "PJM", "grid": null, "utility": "ComEd", "note": "Cook + DuPage; Elk Grove Village corridor"},
+    {"key": "phoenix", "name": "Phoenix", "counties": ["04013", "04021"], "state": "AZ", "iso": null, "grid": "WECC", "utility": "APS / SRP", "note": "Maricopa + Pinal (Mesa, Goodyear, Casa Grande)"},
+    {"key": "atlanta", "name": "Atlanta", "counties": ["13097", "13121"], "state": "GA", "iso": null, "grid": "SERC", "utility": "Georgia Power", "note": "Douglas + Fulton (Douglasville, Atlanta)"},
+    {"key": "svl", "name": "Silicon Valley", "counties": ["06085"], "state": "CA", "iso": "CAISO", "grid": null, "utility": "PG&E / Silicon Valley Power", "note": "Santa Clara"},
+    {"key": "columbus", "name": "Columbus OH", "counties": ["39049", "39089"], "state": "OH", "iso": "PJM", "grid": null, "utility": "AEP Ohio", "note": "Franklin + Licking (New Albany)"},
+    {"key": "slc", "name": "Salt Lake City", "counties": ["49035", "49049"], "state": "UT", "iso": null, "grid": "WECC", "utility": "Rocky Mountain Power", "note": "Salt Lake + Utah County"},
+    {"key": "abilene", "name": "Abilene TX", "counties": ["48441"], "state": "TX", "iso": "ERCOT", "grid": null, "utility": "AEP Texas", "note": "Taylor County; Stargate"},
+    {"key": "newcarlisle", "name": "New Carlisle IN", "counties": ["18141"], "state": "IN", "iso": "MISO", "grid": null, "utility": "AEP Indiana Michigan", "note": "St. Joseph County; AWS"},
+    {"key": "mtpleasant", "name": "Mt Pleasant WI", "counties": ["55101"], "state": "WI", "iso": "MISO", "grid": null, "utility": "We Energies", "note": "Racine County; Microsoft"},
+    {"key": "richland", "name": "Richland Parish LA", "counties": ["22083"], "state": "LA", "iso": "MISO", "grid": null, "utility": "Entergy Louisiana", "note": "Meta Hyperion"},
+    {"key": "memphis", "name": "Memphis", "counties": ["47157"], "state": "TN", "iso": null, "grid": "TVA", "utility": "MLGW", "note": "Shelby County; xAI Colossus"},
+    {"key": "councilbluffs", "name": "Council Bluffs IA", "counties": ["19155"], "state": "IA", "iso": "MISO", "grid": null, "utility": "MidAmerican Energy", "note": "Pottawattamie County"},
+    {"key": "desmoines", "name": "Des Moines IA", "counties": ["19153", "19049"], "state": "IA", "iso": "MISO", "grid": null, "utility": "MidAmerican Energy", "note": "Polk + Dallas County IA (West Des Moines, Altoona)"},
+    {"key": "cheyenne", "name": "Cheyenne WY", "counties": ["56021"], "state": "WY", "iso": null, "grid": "WECC", "utility": "Black Hills Energy", "note": "Laramie County"},
+    {"key": "reno", "name": "Reno / Storey NV", "counties": ["32029", "32031"], "state": "NV", "iso": null, "grid": "WECC", "utility": "NV Energy", "note": "Storey + Washoe; Tahoe Reno Industrial Center"},
+    {"key": "quincy", "name": "Quincy WA", "counties": ["53025"], "state": "WA", "iso": null, "grid": "WECC", "utility": "Grant County PUD", "note": "Grant County"},
+    {"key": "sanantonio", "name": "San Antonio TX", "counties": ["48029"], "state": "TX", "iso": "ERCOT", "grid": null, "utility": "CPS Energy", "note": "Bexar County"},
+    {"key": "hillsboro", "name": "Hillsboro OR", "counties": ["41067"], "state": "OR", "iso": null, "grid": "WECC", "utility": "Portland General Electric", "note": "Washington County — BLS disclosure-suppressed for private NAICS 23; retained so the suppression is visible rather than silently backfilled from Multnomah, which is a different labor market"}
+  ]
+}
