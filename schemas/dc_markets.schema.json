@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "dc_markets.json — /markets DC market panel",
+  "type": "object",
+  "required": ["published_at", "as_of", "base_date", "as_of_curated", "note",
+               "national", "markets", "coverage_note"],
+  "properties": {
+    "published_at": {"type": "string"},
+    "as_of": {"type": ["string", "null"]},
+    "base_date": {"type": ["string", "null"]},
+    "as_of_curated": {"type": "string"},
+    "note": {"type": "string"},
+    "coverage_note": {"type": "string"},
+    "national": {
+      "type": "object",
+      "required": ["wage", "wage_yoy_pct", "emp", "emp_yoy_pct", "as_of"],
+      "properties": {
+        "wage": {"type": ["number", "null"]},
+        "wage_yoy_pct": {"type": ["number", "null"]},
+        "emp": {"type": ["integer", "null"]},
+        "emp_yoy_pct": {"type": ["number", "null"]},
+        "as_of": {"type": ["string", "null"]}
+      }
+    },
+    "markets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "name", "state", "iso", "grid", "utility",
+                     "available", "thin_base", "wage", "wage_cur",
+                     "wage_yoy_pct", "wage_spread_pp", "emp",
+                     "emp_cur_total", "emp_yoy_pct", "emp_spread_pp",
+                     "yoy_basis", "counties", "counties_total",
+                     "counties_used", "counties_suppressed", "sites",
+                     "mw_disclosed", "sites_mw_undisclosed"],
+        "properties": {
+          "key": {"type": "string"},
+          "name": {"type": "string"},
+          "state": {"type": "string"},
+          "iso": {"type": ["string", "null"]},
+          "grid": {"type": ["string", "null"]},
+          "utility": {"type": "string"},
+          "note": {"type": "string"},
+          "as_of": {"type": ["string", "null"]},
+          "base_date": {"type": ["string", "null"]},
+          "available": {"type": "boolean"},
+          "thin_base": {"type": "boolean"},
+          "wage": {"type": ["number", "null"]},
+          "wage_cur": {"type": ["number", "null"]},
+          "wage_yoy_pct": {"type": ["number", "null"]},
+          "wage_spread_pp": {"type": ["number", "null"]},
+          "emp": {"type": ["integer", "null"]},
+          "emp_cur_total": {"type": ["integer", "null"]},
+          "emp_yoy_pct": {"type": ["number", "null"]},
+          "emp_spread_pp": {"type": ["number", "null"]},
+          "yoy_basis": {"type": ["string", "null"], "enum": ["like_for_like", null]},
+          "counties_total": {"type": "integer"},
+          "counties_used": {"type": "integer"},
+          "counties_suppressed": {"type": "array", "items": {"type": "string"}},
+          "sites": {"type": "integer"},
+          "mw_disclosed": {"type": "integer"},
+          "sites_mw_undisclosed": {"type": "integer"},
+          "counties": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["fips", "wage", "emp", "wage_yoy_pct", "emp_yoy_pct"],
+              "properties": {
+                "fips": {"type": "string"},
+                "wage": {"type": ["number", "null"]},
+                "emp": {"type": ["integer", "null"]},
+                "wage_yoy_pct": {"type": ["number", "null"]},
+                "emp_yoy_pct": {"type": ["number", "null"]}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
