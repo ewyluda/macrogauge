@@ -90,6 +90,22 @@ def run(conn: sqlite3.Connection, today: str,
                  for k, s in built.items()}
         weights = {c.code: c.weight for c in comps}
         index = aggregate.headline(daily, weights)
+        # Monthly sample grid for the escalation calculator. The headline and every
+        # component are sampled on the SAME day (the last daily-grid date in each
+        # month), which is what keeps the Laspeyres identity exact:
+        #   monthly.index[m] == sum(w_c * monthly.components[c][m])
+        # The escalation bridge's per-component contributions sum to the headline
+        # escalation only because of that. Sampling them independently would break it.
+        month_days: dict[str, str] = {}
+        for d in sorted(index):      # index keys are the all-components-present grid
+            month_days[d[:7]] = d    # later date within the month wins
+        months_sorted = sorted(month_days)
+        monthly = {
+            "months": months_sorted,
+            "index": [index[month_days[m]] for m in months_sorted],
+            "components": {code: [daily[code][month_days[m]] for m in months_sorted]
+                           for code in daily},
+        }
         own_yoy = {}
         for code, s in built.items():
             at_obs = aggregate.yoy_at_obs(s, daily[code])
@@ -125,7 +141,8 @@ def run(conn: sqlite3.Connection, today: str,
                 "stale": bool(allow is not None and age > allow)}
         out[name] = {"index": index,
                      "yoy": aggregate.weighted_yoy(own_yoy, weights),
-                     "as_of": end, "gate_flags": flags, "components": components}
+                     "as_of": end, "gate_flags": flags, "components": components,
+                     "monthly": monthly}
     # Hedonic-gap panel: YoY at each series' OWN last observation, same
     # like-month honesty as basket components (yoy_at_obs omits month-hole
     # bases). A panel-only series with no store rows degrades to a missing

@@ -1,6 +1,6 @@
 # TODO — recommended enhancements (ranked)
 
-Backlog last groomed 2026-07-21 (after /capacity PR #3 merge + news-flag curation).
+Backlog last groomed 2026-07-24 (Project Controls gap register added).
 Full narratives for completed items live in the commit history.
 
 ## Analytics / correctness
@@ -29,6 +29,8 @@ Full narratives for completed items live in the commit history.
 
 6. **Exports:** headline/components CSV, `feed.xml` RSS daily brief, open-data page
    documenting all published JSONs (sketched in docs/macrogauge-design.md §6/§8).
+   → **re-ranked by item 14 (P5):** for the Project Controls audience the CSV export is not
+   hygiene, it's the use case. Build them together.
 
 7. **Scoreboard empty/degraded state copy** explaining vintage-true grading — the BT
    vs LIVE distinction deserves one sentence on-page.
@@ -44,6 +46,56 @@ Full narratives for completed items live in the commit history.
     never-seen series read as failures in `sources_status` — mark them expected-absent so
     real regressions stand out.
 
+## Project Controls audience — DC campaign (added 2026-07-24)
+
+Full gap register, rationale, data paths, and invariants:
+**`docs/plans/2026-07-24-project-controls-gaps.md`** (register only — promote an item to its own
+plan doc before implementing). One line each here so nothing falls off this list.
+Suggested order P1→P7; P7 and the item-6 CSV export are pullable forward anytime.
+
+11. **P2 — DC market panel + capacity-competition join.** ~15–20 real DC markets at county-QCEW
+    resolution, plus announced MW within ~60mi from `capacity.json` `geo[]`. The join exists nowhere
+    else. (`metros.json` is Zillow consumer shelter — does not serve this.)
+
+12. **P3 — Forward DC escalation curve (12–36mo).** Point the `/outlook` engine at DC Build/Ops;
+    publish as an **annual factor table**. Do not ship an unbacktested 36mo horizon.
+
+13. **P4 — Long-lead equipment board.** Vendor backlog / book-to-bill (Eaton, Schneider, ABB, Vertiv,
+    Cummins, GE Vernova…) as a *directional* lead-time proxy via the existing FMP connector. The
+    primary-source standard that nulled `context.transformer` stands — see the plan doc before restarting.
+
+14. **P5 — Claims-grade artifacts.** Extends item 6: CSV + citation string + monthly PDF +
+    a **point-in-time page** (vintage store proves the index was never restated — the claims use case).
+
+15. **P6 — Portfolio/program view.** localStorage projects → escalation exposure. Depends on P1/P3.
+
+16. **P7 — Audience landing page + vocabulary.** Their words (escalation, contingency, long-lead,
+    $/MW, energization), not CPI words. Independent and cheap.
+
+17. **P8 — Named contract-reference index (strategic).** Needs a methodology-freeze + versioning policy
+    before an index can be named in an escalation clause. Flagged so P1–P7 don't foreclose it.
+
+## /escalation follow-ups (deferred at the 2026-07-25 final review — none block merge)
+
+18. **Strengthen two pipeline fixtures.** `tests/test_dcindex.py`'s monthly-grid fixture is flat
+    across interior months, so it pins the Laspeyres identity but not the "last day of month"
+    sampling for those months; `tests/test_datacenter_writer.py`'s values are all ≤1dp, so
+    `round(x, 4)` is a no-op and a precision regression wouldn't trip. One mid-2017 value change
+    and one 6-decimal value close both.
+
+19. **`usd()` polish in `DcEscalationClient.tsx`:** mixes `$X.XXM` with exact dollars across
+    adjacent cards (they don't visibly reconcile), and `usd(-0.4)` renders `−$0` — reachable in
+    the "Of your delta" column at base costs of a few dollars. Cosmetic.
+
+20. **`<input type="month">` degrades to a text field in Safari** — `min`/`max` stop constraining
+    and an unparseable string falls through to the "index starts in 2018-01" message, which is
+    misleading on that path. Functional everywhere else.
+
+21. **Unused payload/publish surface:** `asOf`/`rebase` are serialized into the `/escalation`
+    client payload but only used server-side; the `ops` and `hardware` `monthly` grids (~11KB of
+    the ~58KB added to `datacenter.json`) have no consumer — deliberate, since the publisher is
+    one unparametrized path, but worth documenting at the next schema rev alongside item 5.
+
 ## Done (one-liners; details in git log)
 
 - 2026-07-13: ALFRED backtest seeding; STREET → Cleveland ensemble; Manheim → Cox
@@ -52,3 +104,7 @@ Full narratives for completed items live in the commit history.
 - 2026-07-20: labor.json + /states state-level My Inflation shipped (old item 6).
 - 2026-07-21: /capacity tracker merged (PR #3, e7d46e9) + HUT/IREN/CIFR news flags
   applied (5044714).
+- 2026-07-25: P1 escalation calculator (`/escalation`) shipped on `feat/dc-escalation` —
+  6 TDD tasks + a final-review fix wave (honest KPI precision, contribution-basis
+  disclosure, base-month convention; plan:
+  docs/superpowers/plans/2026-07-24-dc-escalation-calculator.md). Not yet merged to main.

@@ -61,6 +61,37 @@ def test_headline_yoy_is_weighted_own_obs_yoy(tmp_path):
     assert ops["yoy"]["2018-01-01"] == pytest.approx(5.0)
 
 
+def test_monthly_grid_samples_last_grid_day_and_preserves_laspeyres_identity(tmp_path):
+    """monthly.index[m] must equal the weighted mean of monthly.components[*][m] —
+    the escalation bridge's contributions only sum to the headline because of this."""
+    conn = make_conn(tmp_path, [
+        ("ppi_steel", "2017-01-01", 100.0), ("ppi_steel", "2018-01-01", 110.0),
+        ("ppi_concrete", "2017-01-01", 200.0), ("ppi_concrete", "2018-01-01", 210.0),
+    ] + OPS_ROWS)
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    result = dcindex.run(conn, today="2018-01-15", basket_path=basket)
+    build = result["indexes"]["build"]
+    mo = build["monthly"]
+
+    assert mo["months"] == sorted(mo["months"])
+    assert mo["months"][0] == "2017-01"          # GRID_START; publisher filters later
+    assert len(mo["index"]) == len(mo["months"])
+    for code, vals in mo["components"].items():
+        assert len(vals) == len(mo["months"]), f"{code} length mismatch"
+
+    weights = {code: c["weight"] for code, c in build["components"].items()}
+    assert set(mo["components"]) == set(weights)
+    total = sum(weights.values())
+    for i, month in enumerate(mo["months"]):
+        recomputed = sum(weights[c] * mo["components"][c][i] for c in weights) / total
+        assert recomputed == pytest.approx(mo["index"][i], abs=1e-9), (
+            f"Laspeyres identity broken at {month}")
+
+    # the sample day is the LAST daily-grid date within each month
+    assert build["as_of"][:7] == mo["months"][-1]
+    assert mo["index"][-1] == pytest.approx(build["index"][build["as_of"]], abs=1e-9)
+
+
 def test_stale_series_carries_forward_no_weight_shift(tmp_path):
     # concrete stops in 2017-06; its last value must carry forward into the
     # headline at the grid end — NOT be dropped or renormalized away.

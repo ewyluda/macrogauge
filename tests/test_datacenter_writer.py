@@ -20,14 +20,21 @@ DC_RESULT = {
                           "stale": False},
                 "copper_wire": {"label": "Copper", "group": "materials", "weight": 0.4,
                                 "mode": "official+proxy", "yoy_pct": None,
-                                "last_obs": "2018-06-01", "stale": False}}},
+                                "last_obs": "2018-06-01", "stale": False}},
+            "monthly": {
+                "months": ["2017-06", "2018-01", "2018-06"],
+                "index": [99.0, 100.0, 104.0],
+                "components": {"steel": [98.0, 100.0, 106.0],
+                               "copper_wire": [100.5, 100.0, 101.0]}}},
         "ops": {
             "index": {"2018-01-01": 100.0}, "yoy": {"2018-01-01": None},
             "as_of": "2018-01-01", "gate_flags": ["power@2018-01-01"],
             "components": {
                 "power": {"label": "Power", "group": "power", "weight": 1.0,
                           "mode": "official", "yoy_pct": 3.0, "last_obs": "2018-01-01",
-                          "stale": True}}},
+                          "stale": True}},
+            "monthly": {"months": ["2018-01"], "index": [100.0],
+                        "components": {"power": [100.0]}}},
         "hardware": {
             "index": {"2018-01-01": 100.0, "2018-06-01": 112.0},
             "yoy": {"2018-01-01": None, "2018-06-01": 12.0},
@@ -35,7 +42,9 @@ DC_RESULT = {
             "components": {
                 "storage": {"label": "Storage", "group": "storage", "weight": 1.0,
                             "mode": "official", "yoy_pct": 12.0,
-                            "last_obs": "2018-06-01", "stale": False}}},
+                            "last_obs": "2018-06-01", "stale": False}},
+            "monthly": {"months": ["2018-01", "2018-06"], "index": [100.0, 112.0],
+                        "components": {"storage": [100.0, 112.0]}}},
     },
     "hardware_gap": [
         {"code": "storage", "label": "Storage PPI", "series": "ppi_storage",
@@ -172,3 +181,27 @@ def test_null_context_validates(tmp_path):
     assert payload["context"] is None
     path = datacenter.write(payload, tmp_path, published_at="2026-07-16T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "datacenter.schema.json")
+
+
+def test_publishes_monthly_grid_filtered_and_rounded():
+    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, CONSTRUCTION, POWER, CONTEXT)
+    mo = payload["indexes"]["build"]["monthly"]
+
+    assert mo["months"] == ["2018-01", "2018-06"]   # 2017-06 filtered, matches dates[0]
+    assert len(mo["index"]) == len(mo["months"])
+    for vals in mo["components"].values():
+        assert len(vals) == len(mo["months"])
+
+    weights = {c["code"]: c["weight"] for c in payload["indexes"]["build"]["components"]}
+    assert set(mo["components"]) == set(weights)
+    total = sum(weights.values())
+    for i in range(len(mo["months"])):
+        recomputed = sum(weights[c] * mo["components"][c][i] for c in weights) / total
+        assert recomputed == pytest.approx(mo["index"][i], abs=0.01)
+
+
+def test_monthly_grid_validates_against_schema(tmp_path):
+    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, CONSTRUCTION, POWER, CONTEXT)
+    path = datacenter.write(payload, tmp_path, published_at="2026-07-24T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "datacenter.schema.json")
+    assert json.loads(path.read_text())["indexes"]["ops"]["monthly"]["months"] == ["2018-01"]
