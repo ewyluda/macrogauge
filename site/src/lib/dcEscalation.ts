@@ -17,8 +17,9 @@ function monthDiff(a: string, b: string): number {
   return (by - ay) * 12 + (bm - am);
 }
 
-/** Index of the nearest month at or before `target`; -1 if target predates the series. */
-export function monthIndexAtOrBefore(months: string[], target: string): number {
+/** Index of the nearest month at or before `target`; -1 if target predates the series.
+ *  Module-private: only escalate() and bridge() below call it. */
+function monthIndexAtOrBefore(months: string[], target: string): number {
   let i = -1;
   for (let j = 0; j < months.length; j++) {
     if (months[j] <= target) i = j;
@@ -37,7 +38,10 @@ export function escalate(
 ): EscalationResult | null {
   const i = monthIndexAtOrBefore(months, baseMonth);
   if (i < 0) return null;
-  const last = index.length - 1;
+  // months/index are always equal length — the monthly grid publishes them
+  // together and pins it at publish time (tests/test_publish_datacenter.py).
+  // Deriving `last` from `months` here matches bridge()'s convention below.
+  const last = months.length - 1;
   const ratio = index[last] / index[i];
   const monthsElapsed = monthDiff(months[i], months[last]);
   return {
