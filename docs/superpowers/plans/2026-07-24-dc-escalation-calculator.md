@@ -641,6 +641,17 @@ DC index is linear in its components with fixed Laspeyres weights."
 
 - [ ] **Step 1: Create the client component**
 
+> **⚠ OVERRULED — final whole-branch review, 2026-07-25.** Further down in the code below
+> (in the bridge table's `<h2>` subtitle), this mandated copy prints
+> `contributions sum to {fmtSigned(result.pct)} — the headline, exactly`. Live-data
+> verification found the underlying MATH is exact, but per-row 2dp *display* rounding
+> drifts the printed rows up to ~0.07pp from the headline in 13/102 base months —
+> "exactly" is false at what actually renders.
+> USER RULING 2026-07-25: add a TOTAL row that sums the *displayed* values (reconciles by
+> hand) and reword the copy to say rows are rounded. See the shipped
+> `site/src/components/DcEscalationClient.tsx` for what actually rendered.
+> **Do not copy the "exactly" phrasing below into new work.**
+
 Create `site/src/components/DcEscalationClient.tsx`:
 
 ```tsx
@@ -820,6 +831,16 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
 ```
 
 - [ ] **Step 2: Create the page**
+
+> **⚠ OVERRULED — final whole-branch review, 2026-07-25.** Two claims in the code below
+> were overruled after the same live-data verification noted at Step 1: the
+> `metadata.description` says "sums exactly to the headline", and further down the
+> methodology paragraph says "the rows sum to the headline escalation with no residual"
+> (just before the `{data.asOf}` mention). Both are false once the bridge
+> table's per-row 2dp display rounding is accounted for. USER RULING 2026-07-25: reword
+> both to disclose the rounding and point to the TOTAL/Headline reconciliation row added
+> to the table. See the shipped `site/src/app/escalation/page.tsx` for what actually
+> rendered. **Do not copy the "exactly"/"no residual" phrasing below into new work.**
 
 Create `site/src/app/escalation/page.tsx`:
 

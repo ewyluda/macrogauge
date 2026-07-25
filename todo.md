@@ -29,7 +29,7 @@ Full narratives for completed items live in the commit history.
 
 6. **Exports:** headline/components CSV, `feed.xml` RSS daily brief, open-data page
    documenting all published JSONs (sketched in docs/macrogauge-design.md §6/§8).
-   → **re-ranked by item 15 (P5):** for the Project Controls audience the CSV export is not
+   → **re-ranked by item 14 (P5):** for the Project Controls audience the CSV export is not
    hygiene, it's the use case. Build them together.
 
 7. **Scoreboard empty/degraded state copy** explaining vintage-true grading — the BT
@@ -53,32 +53,26 @@ Full gap register, rationale, data paths, and invariants:
 plan doc before implementing). One line each here so nothing falls off this list.
 Suggested order P1→P7; P7 and the item-6 CSV export are pullable forward anytime.
 
-11. **P1 — Escalation calculator ($/MW bridge).** User supplies the base; we escalate it and show a
-    component-level bridge. **PLANNED 2026-07-24 →
-    `docs/superpowers/plans/2026-07-24-dc-escalation-calculator.md`** (6 TDD tasks, ready to execute).
-    Scope locked: Build only, historical only, no location input. Note it is *not* pure client-side —
-    the bridge needs a monthly component grid added to `datacenter.json` (2 small pipeline tasks).
-
-12. **P2 — DC market panel + capacity-competition join.** ~15–20 real DC markets at county-QCEW
+11. **P2 — DC market panel + capacity-competition join.** ~15–20 real DC markets at county-QCEW
     resolution, plus announced MW within ~60mi from `capacity.json` `geo[]`. The join exists nowhere
     else. (`metros.json` is Zillow consumer shelter — does not serve this.)
 
-13. **P3 — Forward DC escalation curve (12–36mo).** Point the `/outlook` engine at DC Build/Ops;
+12. **P3 — Forward DC escalation curve (12–36mo).** Point the `/outlook` engine at DC Build/Ops;
     publish as an **annual factor table**. Do not ship an unbacktested 36mo horizon.
 
-14. **P4 — Long-lead equipment board.** Vendor backlog / book-to-bill (Eaton, Schneider, ABB, Vertiv,
+13. **P4 — Long-lead equipment board.** Vendor backlog / book-to-bill (Eaton, Schneider, ABB, Vertiv,
     Cummins, GE Vernova…) as a *directional* lead-time proxy via the existing FMP connector. The
     primary-source standard that nulled `context.transformer` stands — see the plan doc before restarting.
 
-15. **P5 — Claims-grade artifacts.** Extends item 6: CSV + citation string + monthly PDF +
+14. **P5 — Claims-grade artifacts.** Extends item 6: CSV + citation string + monthly PDF +
     a **point-in-time page** (vintage store proves the index was never restated — the claims use case).
 
-16. **P6 — Portfolio/program view.** localStorage projects → escalation exposure. Depends on P1/P3.
+15. **P6 — Portfolio/program view.** localStorage projects → escalation exposure. Depends on P1/P3.
 
-17. **P7 — Audience landing page + vocabulary.** Their words (escalation, contingency, long-lead,
+16. **P7 — Audience landing page + vocabulary.** Their words (escalation, contingency, long-lead,
     $/MW, energization), not CPI words. Independent and cheap.
 
-18. **P8 — Named contract-reference index (strategic).** Needs a methodology-freeze + versioning policy
+17. **P8 — Named contract-reference index (strategic).** Needs a methodology-freeze + versioning policy
     before an index can be named in an escalation clause. Flagged so P1–P7 don't foreclose it.
 
 ## Done (one-liners; details in git log)
@@ -89,3 +83,7 @@ Suggested order P1→P7; P7 and the item-6 CSV export are pullable forward anyti
 - 2026-07-20: labor.json + /states state-level My Inflation shipped (old item 6).
 - 2026-07-21: /capacity tracker merged (PR #3, e7d46e9) + HUT/IREN/CIFR news flags
   applied (5044714).
+- 2026-07-25: P1 escalation calculator (`/escalation`) shipped on `feat/dc-escalation` —
+  6 TDD tasks + a final-review fix wave (honest KPI precision, contribution-basis
+  disclosure, base-month convention; plan:
+  docs/superpowers/plans/2026-07-24-dc-escalation-calculator.md). Not yet merged to main.

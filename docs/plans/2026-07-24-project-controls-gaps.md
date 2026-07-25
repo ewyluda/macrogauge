@@ -51,7 +51,8 @@ Live in `site/public/data/datacenter.json` and `capacity.json` as of 2026-07-21:
 
 ## P1 — Escalation calculator ($/MW bridge)
 
-**Status:** not started · **Grades:** forecast accuracy, defensibility · **Effort:** low
+**Status:** shipped 2026-07-25 on `feat/dc-escalation` (historical-only; not yet merged to
+main) · **Grades:** forecast accuracy, defensibility · **Effort:** low
 
 **Gap.** We publish index points (`2018-01=100`) and YoY %. They estimate in **$/MW critical IT load**.
 A reader sees "+6.81%" and asks "escalated against what base?" The index is deliberately *not* a
@@ -63,25 +64,29 @@ escalated cost, a **component-level bridge** showing which packages drove it, an
 **Key design constraint:** *the user supplies the base.* We never publish a $/MW benchmark we can't
 defend. This keeps the honest "index, not quote" position while still landing in their workflow.
 
-**Data path.** All present. Reuse the client-side patterns in `site/src/components/CalculatorClient.tsx`
-(since-date) and `MyInflationClient.tsx` (user-weighted basket).
+**Data path.** Needed two small pipeline changes, not zero: `dcindex.py` and `datacenter.py` gained a
+monthly sample grid (`indexes.*.monthly.{months,index,components}`), because the point-in-time
+`contribution_pp` snapshot cannot support a bridge over an arbitrary base month. Site-side, it did
+reuse the client-side patterns in `site/src/components/CalculatorClient.tsx` (since-date) and
+`MyInflationClient.tsx` (user-weighted basket). Full path:
+`docs/superpowers/plans/2026-07-24-dc-escalation-calculator.md`.
 
 **Acceptance.** A user can reproduce, by hand, any number the tool outputs from published
 `datacenter.json` values. Bridge rows sum to the headline delta.
 
-**Decisions locked 2026-07-24:**
+**Decisions locked 2026-07-24, time scope resolved 2026-07-25:**
 - **Index scope: DC Build only.** Not Ops (monthly, lags 7wk behind Build), not Hardware (OEM story).
 - **No location input.** Escalation is national. State parity multipliers are *level* multipliers
   (cost vs national), not escalation rates — a user's base cost for a real site already embeds local
   pricing, so applying `build_mult` on top would double-count location. Market translation, if ever
   wanted, is a visually separate second operation, never silently folded into the escalation.
-- **Time scope: DEFERRED PENDING RE-DECISION.** Originally chosen as "wait for P3, build together"
-  (one UI build). That choice rested on P3 being a medium-effort re-point of the outlook engine —
-  which the correction under P3 shows it is not. Open question: ship historical-only now (base date →
-  latest publish; pure client-side, zero pipeline work, fully defensible today) and add the forward
-  leg to the same UI when/if P3 clears its backtest gate, or continue to hold P1 behind P3.
-  **Note the historical calculator is a strict subset of the combined one — building it first does not
-  cause a second UI build, only an additive one.**
+- **Time scope: DECIDED — historical-only, no forward leg.** Was deferred pending a choice between
+  "wait for P3, build together" and shipping historical-only now. Resolved in favor of
+  historical-only: base month → latest publish, plus the two pipeline tasks noted above (not the
+  "zero pipeline work" originally assumed, but still no forward-looking claim). Fully defensible
+  today. The forward leg stays behind P3's own backtest gate and, when/if it clears, extends this
+  same UI. **The historical calculator was built as a strict subset of the combined one — this did
+  not cause a second UI build, only an additive one.**
 
 ---
 
