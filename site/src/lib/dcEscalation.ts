@@ -39,7 +39,7 @@ export function escalate(
   const i = monthIndexAtOrBefore(months, baseMonth);
   if (i < 0) return null;
   // months/index are always equal length — the monthly grid publishes them
-  // together and pins it at publish time (tests/test_publish_datacenter.py).
+  // together and pins it at publish time (tests/test_datacenter_writer.py).
   // Deriving `last` from `months` here matches bridge()'s convention below.
   const last = months.length - 1;
   const ratio = index[last] / index[i];
@@ -93,7 +93,7 @@ export type BridgeRow = BridgeComponent & {
  *  componentIndex[c.code] assumes every components[].code has a matching key —
  *  true by construction, because both are sliced from the same datacenter.json
  *  `indexes.build` object and the publisher pins set(monthly.components) ==
- *  set(weights) at publish time (tests/test_publish_datacenter.py). An
+ *  set(weights) at publish time (tests/test_datacenter_writer.py). An
  *  unmatched code would throw a TypeError here rather than silently drop a
  *  component. */
 export function bridge(

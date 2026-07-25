@@ -75,6 +75,27 @@ Suggested order P1→P7; P7 and the item-6 CSV export are pullable forward anyti
 17. **P8 — Named contract-reference index (strategic).** Needs a methodology-freeze + versioning policy
     before an index can be named in an escalation clause. Flagged so P1–P7 don't foreclose it.
 
+## /escalation follow-ups (deferred at the 2026-07-25 final review — none block merge)
+
+18. **Strengthen two pipeline fixtures.** `tests/test_dcindex.py`'s monthly-grid fixture is flat
+    across interior months, so it pins the Laspeyres identity but not the "last day of month"
+    sampling for those months; `tests/test_datacenter_writer.py`'s values are all ≤1dp, so
+    `round(x, 4)` is a no-op and a precision regression wouldn't trip. One mid-2017 value change
+    and one 6-decimal value close both.
+
+19. **`usd()` polish in `DcEscalationClient.tsx`:** mixes `$X.XXM` with exact dollars across
+    adjacent cards (they don't visibly reconcile), and `usd(-0.4)` renders `−$0` — reachable in
+    the "Of your delta" column at base costs of a few dollars. Cosmetic.
+
+20. **`<input type="month">` degrades to a text field in Safari** — `min`/`max` stop constraining
+    and an unparseable string falls through to the "index starts in 2018-01" message, which is
+    misleading on that path. Functional everywhere else.
+
+21. **Unused payload/publish surface:** `asOf`/`rebase` are serialized into the `/escalation`
+    client payload but only used server-side; the `ops` and `hardware` `monthly` grids (~11KB of
+    the ~58KB added to `datacenter.json`) have no consumer — deliberate, since the publisher is
+    one unparametrized path, but worth documenting at the next schema rev alongside item 5.
+
 ## Done (one-liners; details in git log)
 
 - 2026-07-13: ALFRED backtest seeding; STREET → Cleveland ensemble; Manheim → Cox
