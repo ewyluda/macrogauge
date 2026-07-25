@@ -278,8 +278,9 @@ now so P1–P7 don't accidentally foreclose it.
 `P1 → P2 → P3 → P4 → P5 → P6 → P7`, with **P7 pullable forward at any time** (it's independent and cheap)
 and **P5's CSV export pullable forward** (already backlogged, unblocks the claims story early).
 
-P1 and P2 are the recommended start: highest value per unit effort, and both are pure assembly over data
-already published.
+**P1 and P2 have shipped (2026-07-25, `feat/dc-escalation` and `feat/dc-market-panel`).** They were the
+recommended start — highest value per unit effort, both pure assembly over data already published — and
+that's done. Whoever picks this up next should start at **P3 or P7**.
 
 ## Deliberately not doing
 

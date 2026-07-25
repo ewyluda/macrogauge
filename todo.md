@@ -51,11 +51,13 @@ Full narratives for completed items live in the commit history.
 Full gap register, rationale, data paths, and invariants:
 **`docs/plans/2026-07-24-project-controls-gaps.md`** (register only — promote an item to its own
 plan doc before implementing). One line each here so nothing falls off this list.
-Suggested order P1→P7; P7 and the item-6 CSV export are pullable forward anytime.
+Suggested order P1→P7; P7 and the item-6 CSV export are pullable forward anytime. **P1 and P2 have
+since shipped (2026-07-25)** — P3 or P7 is the next pick.
 
 11. ~~**P2 — DC market panel + capacity-competition join.**~~ **DONE 2026-07-25** — shipped as
-    `/markets` on `feat/dc-market-panel` (see Done section below); the capacity-radius join and ISO
-    column were refuted by measurement and dropped, see
+    `/markets` on `feat/dc-market-panel` (see Done section below); the register's **radius-based**
+    capacity join and **derived** ISO column were refuted by measurement — both ship instead as
+    hand-curated/denominated fields (demoted, not dropped), see
     `docs/plans/2026-07-24-project-controls-gaps.md` §P2.
 
 12. **P3 — Forward DC escalation curve (12–36mo).** Point the `/outlook` engine at DC Build/Ops;
@@ -134,7 +136,8 @@ Suggested order P1→P7; P7 and the item-6 CSV export are pullable forward anyti
   docs/superpowers/plans/2026-07-24-dc-escalation-calculator.md). Not yet merged to main.
 - 2026-07-25: P2 DC market panel (`/markets`, item 11) shipped on `feat/dc-market-panel` — 20-market
   config-driven roster, county-QCEW construction wage + employment aggregation engine,
-  `dc_markets.json` + schema, tenth isolated pipeline phase; the register's capacity-radius join and
-  ISO column were refuted by measurement and dropped (see
+  `dc_markets.json` + schema, tenth isolated pipeline phase; the register's **radius-based** capacity
+  join and **derived** ISO column were refuted by measurement — both ship instead as
+  hand-curated/denominated fields (demoted, not dropped; see
   `docs/superpowers/specs/2026-07-25-dc-market-panel-design.md` and
   `docs/plans/2026-07-24-project-controls-gaps.md` §P2). Not yet merged to main.
