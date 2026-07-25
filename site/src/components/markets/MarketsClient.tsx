@@ -13,6 +13,20 @@ const SORT_COLS: [SortKey, string][] = [
   ["emp", "Constr. workers"], ["empYoy", "Headcount YoY"], ["mw", "MW in flight"],
 ];
 
+// Which basis each level column uses (dcmarkets.py's two-basis design):
+// wage/wageYoy/empYoy stay on the like-for-like county set so the rate
+// reconciles with its own base; emp (Constr. workers) is emp_cur_total, the
+// market's true current size across every county with current-quarter data,
+// independent of whether a county cleared last year's disclosure bar. Shown
+// as a header tooltip; restated in the method paragraph and per-row in the
+// expanded panel for readers who don't hover.
+const COL_BASIS: Partial<Record<SortKey, string>> = {
+  wage: "Like-for-like basis: counties present in both quarters.",
+  wageYoy: "Like-for-like basis: counties present in both quarters.",
+  emp: "Current-quarter basis: every county with current data, independent of last year's disclosure.",
+  empYoy: "Like-for-like basis: counties present in both quarters.",
+};
+
 // One row per tightness() outcome, mapped to a ToneBadge tone + label. All
 // four thresholds and the "na" (unavailable / no YoY basis) case live in
 // dcMarkets.ts — this is presentation only.
@@ -45,8 +59,8 @@ export function MarketsClient({ data }: { data: DcMarkets }) {
     else { setKey(k); setDesc(true); }
   };
 
-  const th = (k: SortKey, label: string) => (
-    <th key={k} onClick={() => click(k)} style={{ cursor: "pointer" }}>
+  const th = (k: SortKey, label: string, title?: string) => (
+    <th key={k} onClick={() => click(k)} style={{ cursor: "pointer" }} title={title}>
       {label}{key === k ? (desc ? " ▾" : " ▴") : ""}
     </th>
   );
@@ -58,7 +72,7 @@ export function MarketsClient({ data }: { data: DcMarkets }) {
           <tr>
             {th(...SORT_COLS[0])}
             <th>Tightness</th>
-            {SORT_COLS.slice(1).map(([k, label]) => th(k, label))}
+            {SORT_COLS.slice(1).map(([k, label]) => th(k, label, COL_BASIS[k]))}
           </tr>
         </thead>
         <tbody>
@@ -98,6 +112,9 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
         style={{ cursor: "pointer" }}>
         <td>
           {m.name}{m.thin_base ? " ⚠" : ""}
+          {(m.counties_used < m.counties_total || m.yoy_basis === null) && (
+            <span title="Partial county coverage this quarter — expand for the basis"> †</span>
+          )}
           <div style={{ fontSize: 11, color: "var(--muted)" }}>
             {m.iso ?? m.grid ?? "—"} · {m.utility}
           </div>
@@ -110,11 +127,17 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
         <td>{m.emp_cur_total != null ? m.emp_cur_total.toLocaleString() : "—"}</td>
         <td>{pct(m.emp_yoy_pct)} <small>{fmtSpread(m.emp_spread_pp)}</small></td>
         <td>
-          {m.sites === 0 ? "—" : `${m.mw_disclosed.toLocaleString()} MW`}
+          {m.sites === 0
+            ? "—"
+            : m.mw_disclosed === 0
+            ? "not disclosed"
+            : `${m.mw_disclosed.toLocaleString()} MW`}
           <div style={{ fontSize: 11, color: "var(--muted)" }}>
             {m.sites} tracked site{m.sites === 1 ? "" : "s"}
             {m.sites_mw_undisclosed
-              ? ` · ${m.sites_mw_undisclosed} MW undisclosed` : ""}
+              ? ` · MW not disclosed at ${m.sites_mw_undisclosed} site${
+                  m.sites_mw_undisclosed === 1 ? "" : "s"}`
+              : ""}
           </div>
         </td>
       </tr>
@@ -126,10 +149,19 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
             </p>
             <p style={{ fontSize: 12, color: "var(--muted)", margin: "0 0 8px" }}>
               {m.yoy_basis === "like_for_like"
-                ? `${m.counties_used} of ${m.counties_total} counties counted in both quarters (like-for-like YoY basis).`
+                ? `${m.counties_used} of ${m.counties_total} counties counted in both quarters (like-for-like basis — Wage $/wk, Wage YoY and Headcount YoY above).`
                 : `${m.counties_used} of ${m.counties_total} counties counted in the current quarter only — no year-over-year basis available.`}
               {m.counties_suppressed.length
-                ? ` Suppressed: ${m.counties_suppressed.join(", ")}.` : ""}
+                ? m.yoy_basis === "like_for_like"
+                  ? ` ${m.counties_suppressed.length} more excluded from that basis and from the receipts below (${m.counties_suppressed.join(", ")}); any current-quarter data they have is folded into the current-quarter total below, not broken out per county.`
+                  : ` ${m.counties_suppressed.length} more (${m.counties_suppressed.join(", ")}) have no current-quarter data.`
+                : ""}
+            </p>
+            <p style={{ fontSize: 12, color: "var(--muted)", margin: "0 0 8px" }}>
+              Current-quarter total (the basis for Constr. workers above):{" "}
+              {money(m.wage_cur)} wage ·{" "}
+              {m.emp_cur_total != null ? m.emp_cur_total.toLocaleString() : "—"}{" "}
+              workers, across every county with current-quarter data.
             </p>
             <table className="data-table">
               <thead>
@@ -138,6 +170,16 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
               </thead>
               <tbody>
                 {m.counties.map((c) => <CountyRow key={c.fips} c={c} />)}
+                {m.counties_suppressed.map((fips) => (
+                  <tr key={fips} style={{ color: "var(--muted)" }}>
+                    <td>{fips}</td>
+                    <td colSpan={4}>
+                      {m.yoy_basis === "like_for_like"
+                        ? "excluded from the like-for-like basis — see current-quarter total above"
+                        : "no current-quarter data"}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
             {m.thin_base && (

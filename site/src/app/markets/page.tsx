@@ -65,7 +65,16 @@ export default function Page() {
         composition change can&apos;t contaminate the rate. Markets are{" "}
         <b>tight core counties</b> — where data centers actually are, not the
         metro area; per-county receipts expand on every row so the aggregation
-        is checkable. {data.coverage_note}{" "}
+        is checkable. <b>Wage $/wk, Wage YoY and Headcount YoY stay on that
+        like-for-like basis; Constr. workers is the market&apos;s full
+        current-quarter headcount</b> (<code>emp_cur_total</code>), independent
+        of whether a county cleared last year&apos;s disclosure bar — expand a
+        row for the reconciling current-quarter total and any counties the
+        like-for-like receipts exclude (marked <b>†</b> when partial). <b>
+        Tightness</b> buckets a composite score — the wage spread in
+        percentage points plus half the employment spread — at <b>≥10 Hot</b>,{" "}
+        <b>≥3 Warm</b>, and <b>above −3 Neutral</b>; <b>−3 or below is Slack</b>.
+        {" "}{data.coverage_note}{" "}
         Utility and ISO are hand-curated attributes of the market, not derived.
       </p>
     </div>
