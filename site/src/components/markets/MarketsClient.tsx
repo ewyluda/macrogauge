@@ -10,7 +10,7 @@ import { ToneBadge, type Tone } from "@/components/ToneBadge";
 // it isn't offered as a sort.
 const SORT_COLS: [SortKey, string][] = [
   ["name", "Market"], ["wage", "Wage $/wk"], ["wageYoy", "Wage YoY"],
-  ["emp", "Constr. workers"], ["empYoy", "Headcount YoY"], ["mw", "MW in flight"],
+  ["emp", "Constr. workers"], ["empYoy", "Headcount YoY"], ["mw", "MW under constr."],
 ];
 
 // Which basis each level column uses (dcmarkets.py's two-basis design):
@@ -129,11 +129,12 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
         <td>
           {m.sites === 0
             ? "—"
-            : m.mw_disclosed === 0
-            ? "not disclosed"
-            : `${m.mw_disclosed.toLocaleString()} MW`}
+            : `${m.mw_construction.toLocaleString()} MW under constr.`}
           <div style={{ fontSize: 11, color: "var(--muted)" }}>
             {m.sites} tracked site{m.sites === 1 ? "" : "s"}
+            {m.mw_operating
+              ? ` · ${m.mw_operating.toLocaleString()} MW operating`
+              : ""}
             {m.sites_mw_undisclosed
               ? ` · MW not disclosed at ${m.sites_mw_undisclosed} site${
                   m.sites_mw_undisclosed === 1 ? "" : "s"}`

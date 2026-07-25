@@ -24,7 +24,17 @@ COVERAGE_NOTE = (
     "hand-curated from filings. Private operators (CyrusOne, Vantage, Aligned, "
     "STACK, QTS, EdgeConneX) and hyperscaler leased space inside their shells "
     "are not tracked, and sites with undisclosed locations carry no market. "
-    "Treat it as a floor on what is in flight, never a census.")
+    "MW under construction counts only sites tagged st=\"c\" -- operating, "
+    "planned and secured MW are published separately, never folded in -- so "
+    "treat it as a floor on what is actually being built, never a census.")
+
+# Per-status MW buckets, keyed the same way GeoMap.tsx's legend is: o =
+# operational, c = construction, p = planned, s = secured. "In flight" means
+# c only (pipeline/publish/capacity.py's _events() uses the same filter) --
+# an operating campus is a completed draw on the labor pool, not a live one,
+# and neither planned nor secured sites have crews on site yet either.
+_STATUS_FIELD = {"c": "mw_construction", "p": "mw_planned",
+                  "s": "mw_secured", "o": "mw_operating"}
 
 
 def _series(conn, code: str) -> dict[str, float]:
@@ -65,6 +75,15 @@ def build(conn, markets, cap_cfg: dict, meta: dict) -> dict:
                                       if g.get("mw") is not None))
         row["sites_mw_undisclosed"] = sum(1 for g in sites
                                           if g.get("mw") is None)
+        buckets = {f: 0 for f in _STATUS_FIELD.values()}
+        for g in sites:
+            mw = g.get("mw")
+            if mw is None:
+                continue
+            field = _STATUS_FIELD.get(g["st"])
+            if field:
+                buckets[field] += mw
+        row.update({f: int(v) for f, v in buckets.items()})
 
     return {**payload, "as_of_curated": meta["as_of_curated"],
             "note": meta["note"], "coverage_note": COVERAGE_NOTE}

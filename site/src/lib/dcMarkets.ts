@@ -16,7 +16,15 @@ const VALUE: Record<SortKey, (r: MarketRow) => number | string | null> = {
   // smaller than it is whenever Loudoun is base-suppressed.
   emp: (r) => r.emp_cur_total,
   empYoy: (r) => r.emp_yoy_pct,
-  mw: (r) => r.mw_disclosed,
+  // Same rule as `emp` above, extended to this column: the panel displays
+  // mw_construction (MarketsClient.tsx, "MW under constr."), NOT
+  // mw_disclosed (the all-status total across operating/construction/
+  // planned/secured sites), so the sort key must match what's on screen.
+  // Sorting on mw_disclosed would rank a fully-built, zero-construction
+  // market (e.g. New Carlisle, 1,725 MW operational) above a market with
+  // real construction underway (e.g. Richland Parish, 1,440 MW under
+  // construction) -- inverting the column's whole purpose.
+  mw: (r) => r.mw_construction,
 };
 
 /** Sort a copy. Unavailable markets always sink to the bottom — a suppressed

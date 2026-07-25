@@ -32,7 +32,8 @@
                      "emp_cur_total", "emp_yoy_pct", "emp_spread_pp",
                      "yoy_basis", "counties", "counties_total",
                      "counties_used", "counties_suppressed", "sites",
-                     "mw_disclosed", "sites_mw_undisclosed"],
+                     "mw_disclosed", "sites_mw_undisclosed", "mw_construction",
+                     "mw_planned", "mw_secured", "mw_operating"],
         "properties": {
           "key": {"type": "string"},
           "name": {"type": "string"},
@@ -60,6 +61,10 @@
           "sites": {"type": "integer"},
           "mw_disclosed": {"type": "integer"},
           "sites_mw_undisclosed": {"type": "integer"},
+          "mw_construction": {"type": "integer"},
+          "mw_planned": {"type": "integer"},
+          "mw_secured": {"type": "integer"},
+          "mw_operating": {"type": "integer"},
           "counties": {
             "type": "array",
             "items": {

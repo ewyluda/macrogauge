@@ -12,6 +12,7 @@ const row = (over: Partial<MarketRow>): MarketRow =>
     wage_cur: 2000, emp_cur_total: 10000, yoy_basis: "like_for_like",
     counties: [], counties_total: 1, counties_used: 1, counties_suppressed: [],
     sites: 0, mw_disclosed: 0, sites_mw_undisclosed: 0,
+    mw_construction: 0, mw_planned: 0, mw_secured: 0, mw_operating: 0,
     ...over,
   }) as MarketRow;
 
@@ -46,6 +47,21 @@ describe("sortMarkets", () => {
     ];
     expect(sortMarkets(rows, "emp", true).map((r) => r.key))
       .toEqual(["big-cur-small-lfl", "small-cur-big-lfl"]);
+  });
+
+  it("sorts mw on mw_construction (the displayed column), not mw_disclosed (all-status total)", () => {
+    // The review finding this fixes: mw_disclosed sums every status
+    // (operating + construction + planned + secured), so a fully-built,
+    // zero-construction site (e.g. New Carlisle, 1,725 MW operational) would
+    // outrank a real construction site (e.g. Richland Parish, 1,440 MW under
+    // construction) if the sort key stayed on the all-status total. This
+    // test would fail against the old `mw: (r) => r.mw_disclosed` mapping.
+    const rows = [
+      row({ key: "all-operating", mw_disclosed: 1725, mw_construction: 0, mw_operating: 1725 }),
+      row({ key: "under-construction", mw_disclosed: 1440, mw_construction: 1440, mw_operating: 0 }),
+    ];
+    expect(sortMarkets(rows, "mw", true).map((r) => r.key))
+      .toEqual(["under-construction", "all-operating"]);
   });
 
   it("treats two equal-availability rows with a null sort value as equal, not an arbitrary swap", () => {

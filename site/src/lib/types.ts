@@ -270,6 +270,15 @@ export type MarketRow = {
   sites: number;
   mw_disclosed: number;
   sites_mw_undisclosed: number;
+  // Per-status split of mw_disclosed (pipeline/publish/dc_markets.py), keyed
+  // to GeoMap.tsx's legend: o/c/p/s. "In flight" means mw_construction ONLY
+  // (st="c") -- the same definition capacity.py's _events() uses -- because
+  // operating, planned and secured sites have no crews on site. The four
+  // buckets sum to mw_disclosed.
+  mw_construction: number;
+  mw_planned: number;
+  mw_secured: number;
+  mw_operating: number;
 };
 
 export type DcMarkets = {

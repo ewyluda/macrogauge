@@ -26,6 +26,11 @@ CAP_CFG = {"geo": [
      "lng": -77.6, "approx": True, "when": "2027", "market": "nova"},
     {"t": "META", "site": "Elsewhere", "mw": 900, "st": "c", "lat": 33.0,
      "lng": -84.0, "approx": True, "when": "2027"},
+    # Hillsboro's only tagged site is 100% operational -- the fixture case
+    # that exercises the zero-construction path (the defect this fix
+    # corrects: operational MW must never inflate the construction bucket).
+    {"t": "XYZ", "site": "HillsboroCampus", "mw": 300, "st": "o", "lat": 45.5,
+     "lng": -122.9, "approx": True, "when": "operating", "market": "hillsboro"},
 ]}
 
 
@@ -90,7 +95,40 @@ def test_capacity_join_publishes_four_numbers_not_one():
 
 def test_untagged_geo_entries_are_not_joined_to_any_market():
     payload = writer.build(_conn(), MARKETS, CAP_CFG, META)
-    assert sum(m["sites"] for m in payload["markets"]) == 2  # the META site is untagged
+    assert sum(m["sites"] for m in payload["markets"]) == 3  # the META site is untagged
+
+
+def test_per_status_mw_buckets_split_construction_from_operating():
+    # nova mixes an operational site with undisclosed MW (DLR, st="o",
+    # mw=None) and a construction site with disclosed MW (AMZN, st="c",
+    # mw=500). mw_construction must count only the construction-tagged MW;
+    # mw_operating must stay 0 since the only "o" site has no disclosed MW.
+    # This is the split the "MW in flight" defect skipped entirely -- the
+    # old single mw_disclosed sum ignored st and mixed built MW into a
+    # column read as "in flight".
+    payload = writer.build(_conn(), MARKETS, CAP_CFG, META)
+    nova = {m["key"]: m for m in payload["markets"]}["nova"]
+    assert nova["mw_construction"] == 500
+    assert nova["mw_operating"] == 0
+    assert nova["mw_planned"] == 0
+    assert nova["mw_secured"] == 0
+    assert nova["mw_disclosed"] == 500  # all-status total, unchanged definition
+
+
+def test_all_operational_market_reports_zero_construction_not_missing():
+    # Hillsboro's tagged site is 100% operational (300 MW, st="o"). This is
+    # exactly the "6 of 11 markets are 100% operational" regime from the
+    # review finding: mw_construction must be an explicit 0 -- present and
+    # zero -- never absent or coerced into a truthy/"not disclosed" branch,
+    # so the market never reads as having no capacity coverage.
+    payload = writer.build(_conn(), MARKETS, CAP_CFG, META)
+    hillsboro = {m["key"]: m for m in payload["markets"]}["hillsboro"]
+    assert hillsboro["sites"] == 1
+    assert hillsboro["mw_construction"] == 0
+    assert hillsboro["mw_operating"] == 300
+    assert hillsboro["mw_planned"] == 0
+    assert hillsboro["mw_secured"] == 0
+    assert hillsboro["mw_disclosed"] == 300
 
 
 def test_write_lands_the_file(tmp_path):

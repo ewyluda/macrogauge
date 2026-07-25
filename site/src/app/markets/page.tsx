@@ -74,6 +74,10 @@ export default function Page() {
         Tightness</b> buckets a composite score — the wage spread in
         percentage points plus half the employment spread — at <b>≥10 Hot</b>,{" "}
         <b>≥3 Warm</b>, and <b>above −3 Neutral</b>; <b>−3 or below is Slack</b>.
+        {" "}<b>MW under constr.</b> counts only capacity tagged under
+        construction at hand-curated sites; operating capacity is shown
+        separately, beside the tracked-site count, because an energized
+        campus is a completed draw on the labor pool, not a live one.
         {" "}{data.coverage_note}{" "}
         Utility and ISO are hand-curated attributes of the market, not derived.
       </p>
