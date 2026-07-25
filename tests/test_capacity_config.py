@@ -72,13 +72,37 @@ def test_unknown_tenant_or_geo_ticker_raises(tmp_path):
 
 
 def test_registry_cross_check(tmp_path):
+    # market_keys is stubbed out here: this test's fake registry_codes covers
+    # only the fmp_cap_* cross-check, not the qcew_* codes dc_markets.load
+    # would otherwise demand — and _mini()'s geo is empty, so no market
+    # lookup is needed anyway.
     p = _mini(tmp_path)
     with pytest.raises(ValueError, match="fmp_cap"):
-        capacity.load_capacity(p, registry_codes={"something_else"})
-    capacity.load_capacity(p, registry_codes={"fmp_cap_aaa", "fmp_px_aaa"})
+        capacity.load_capacity(p, registry_codes={"something_else"}, market_keys=set())
+    capacity.load_capacity(p, registry_codes={"fmp_cap_aaa", "fmp_px_aaa"}, market_keys=set())
 
 
 def test_real_config_passes_registry_cross_check():
     from pipeline import registry
     _, series = registry.load_registry()
     capacity.load_capacity(registry_codes={s.code for s in series})
+
+
+def test_geo_market_tags_reference_known_markets():
+    from pipeline import capacity as capacity_cfg, dc_markets, registry
+    _, series = registry.load_registry()
+    cfg = capacity_cfg.load_capacity(registry_codes={s.code for s in series})
+    keys = {m.key for m in dc_markets.load()}
+    tagged = [g for g in cfg["geo"] if g.get("market")]
+    assert tagged, "no geo entries tagged to a market"
+    for g in tagged:
+        assert g["market"] in keys, f"{g['site']}: unknown market {g['market']}"
+
+
+def test_untagged_geo_entries_are_allowed():
+    # ~80 of 112 sites sit outside the 20-market roster (plus 20 non-US
+    # sites). Absence of a tag is the correct outcome, not an error.
+    from pipeline import capacity as capacity_cfg, registry
+    _, series = registry.load_registry()
+    cfg = capacity_cfg.load_capacity(registry_codes={s.code for s in series})
+    assert any("market" not in g for g in cfg["geo"])

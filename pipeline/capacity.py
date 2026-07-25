@@ -23,7 +23,11 @@ def px_series(ticker: str) -> str:
 
 
 def load_capacity(path: Path | None = None,
-                  registry_codes: set[str] | None = None) -> dict:
+                  registry_codes: set[str] | None = None,
+                  market_keys: set[str] | None = None) -> dict:
+    if market_keys is None:
+        from pipeline import dc_markets
+        market_keys = {m.key for m in dc_markets.load(registry_codes=registry_codes)}
     raw = json.loads((path or DEFAULT_PATH).read_text())
     comps = raw["companies"]
     tickers = [c["t"] for c in comps]
@@ -48,6 +52,9 @@ def load_capacity(path: Path | None = None,
     for g in list(raw["geo"]) + list(raw["geo_unmapped"]):
         if g["t"] not in known:
             raise ValueError(f"geo references unknown ticker {g['t']}")
+        m = g.get("market")
+        if m is not None and m not in market_keys:
+            raise ValueError(f"geo references unknown market {m}")
     if registry_codes is not None:
         missing = [c["t"] for c in comps if not c["private"]
                    and cap_series(c["t"]) not in registry_codes]

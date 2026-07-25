@@ -223,3 +223,77 @@ export type Capacity = {
   geo_note: string;
   reference: { nvda_cap_b: number | null; cohort_ev_b: number | null };
 };
+
+// Keep in sync with schemas/dc_markets.schema.json.
+export type MarketCounty = {
+  fips: string;
+  wage: number | null;
+  emp: number | null;
+  wage_yoy_pct: number | null;
+  emp_yoy_pct: number | null;
+};
+
+export type MarketRow = {
+  key: string;
+  name: string;
+  state: string;
+  iso: string | null;
+  grid: string | null;
+  utility: string;
+  note: string;
+  as_of: string | null;
+  base_date: string | null;
+  available: boolean;
+  thin_base: boolean;
+  // wage/emp are the like-for-like basis (counties present in both quarters)
+  // so they reconcile arithmetically with the YoY computed from them.
+  wage: number | null;
+  wage_yoy_pct: number | null;
+  wage_spread_pp: number | null;
+  emp: number | null;
+  emp_yoy_pct: number | null;
+  emp_spread_pp: number | null;
+  // wage_cur/emp_cur_total are the market's TRUE current size, computed over
+  // all counties with current-quarter data. The panel displays
+  // emp_cur_total (not emp) so a market's published size never depends on
+  // whether a county was disclosed a year ago.
+  wage_cur: number | null;
+  emp_cur_total: number | null;
+  // yoy_basis is the regime marker for the YoY figures above: "like_for_like"
+  // or null when there is no YoY at all (e.g. a newly-tracked or fully
+  // suppressed market).
+  yoy_basis: "like_for_like" | null;
+  counties: MarketCounty[];
+  counties_total: number;
+  counties_used: number;
+  counties_suppressed: string[];
+  sites: number;
+  mw_disclosed: number;
+  sites_mw_undisclosed: number;
+  // Per-status split of mw_disclosed (pipeline/publish/dc_markets.py), keyed
+  // to GeoMap.tsx's legend: o/c/p/s. "In flight" means mw_construction ONLY
+  // (st="c") -- the same definition capacity.py's _events() uses -- because
+  // operating, planned and secured sites have no crews on site. The four
+  // buckets sum to mw_disclosed.
+  mw_construction: number;
+  mw_planned: number;
+  mw_secured: number;
+  mw_operating: number;
+};
+
+export type DcMarkets = {
+  published_at: string;
+  as_of: string | null;
+  base_date: string | null;
+  as_of_curated: string;
+  note: string;
+  coverage_note: string;
+  national: {
+    wage: number | null;
+    wage_yoy_pct: number | null;
+    emp: number | null;
+    emp_yoy_pct: number | null;
+    as_of: string | null;
+  };
+  markets: MarketRow[];
+};

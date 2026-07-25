@@ -4,7 +4,7 @@ Connector failures never block publication — they surface in
 sources_status.json and qa.json, and stale series carry forward.
 
 sources_status publishes FIRST (right after collect): a broken engine must
-never hide a broken source. Nine independently isolated phases follow, all
+never hide a broken source. Ten independently isolated phases follow, all
 running under the same _run_phase isolation contract: (1) the core gauge
 engine + writers (cpi -> gauge -> pulse/gauge_daily/compare/gaptable/official,
 surfaces via engine_ok), (2) the phase-3 nowcast (surfaces via nowcast_ok —
@@ -15,10 +15,12 @@ don't depend on the CPI calendar or gauge engine at all), (5) the DC cost
 index (surfaces via datacenter_ok), (6) the geography panel — states/metros
 pages + the every-measure matrix (surfaces via geography_ok), (7) the
 labor jobs dashboard (surfaces via labor_ok), (8) the commodities grid
-(commodities_ok), and (9) the AI capacity tracker (capacity_ok). A failure
-in any one phase still publishes status+qa (rc 0) without blocking the
-others — but a jsonschema.ValidationError re-raises and fails the run in
-every phase: a schema-invalid artifact must never deploy.
+(commodities_ok), (9) the AI capacity tracker (capacity_ok), and (10) the
+DC market panel — county QCEW labor x the hand-tagged capacity roster
+(surfaces via markets_ok). A failure in any one phase still publishes
+status+qa (rc 0) without blocking the others — but a jsonschema.ValidationError
+re-raises and fails the run in every phase: a schema-invalid artifact must
+never deploy.
 """
 import argparse
 import json
@@ -33,6 +35,7 @@ import jsonschema
 from pipeline import basket as basket_mod
 from pipeline import capacity as capacity_cfg
 from pipeline import collect, dc_context, dc_power, registry, release_calendar
+from pipeline import dc_markets as dc_markets_cfg
 from pipeline.connectors import fred
 from pipeline.engine import dcindex
 from pipeline.engine import gauge as gauge_engine
@@ -42,7 +45,7 @@ from pipeline.engine.nowcast import build_latest as build_nowcast
 from pipeline.publish import official as official_json
 from pipeline.publish import (capacity as capacity_json, commodities as commodities_json, compare,
                               composites as composite_json,
-                              datacenter as datacenter_json, gaptable,
+                              datacenter as datacenter_json, dc_markets as dc_markets_json, gaptable,
                               gauge_daily, geo as geo_json, grocery, labor as labor_json, matrix as matrix_json,
                               methodology, metros as metros_json, outlook as outlook_json, phase3, pulse, qa,
                               quilt, real_wages, replay, sources_status, validate)
@@ -352,6 +355,22 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         print(f"published: {cap_path}")
 
     _run_phase("CAPACITY", _capacity_phase, phase_errors, "capacity")
+
+    # DC market panel (/markets page): isolated like the phases above —
+    # county QCEW labor x the hand-tagged capacity roster. A bad market
+    # config or a suppressed county must never touch the core gauge.
+    def _markets_phase():
+        registry_codes = {s.code for s in series}
+        markets = dc_markets_cfg.load(registry_codes=registry_codes)
+        mkt_cfg = capacity_cfg.load_capacity(registry_codes=registry_codes)
+        mkt_path = dc_markets_json.write(
+            dc_markets_json.build(conn, markets, mkt_cfg,
+                                  dc_markets_cfg.meta()),
+            args.out, published_at=published_at)
+        validate.validate_file(mkt_path, SCHEMAS / "dc_markets.schema.json")
+        print(f"published: {mkt_path}")
+
+    _run_phase("MARKETS", _markets_phase, phase_errors, "markets")
 
     if nowcast_payload is not None:
         artifacts = {**(artifacts or {}), "nowcast": nowcast_payload}

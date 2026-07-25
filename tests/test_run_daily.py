@@ -278,7 +278,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "accountability_nfp.json", "fuel.json", "outlook.json", "heatcheck.json",
                  "stress.json", "recession.json", "datacenter.json",
                  "metros.json", "geo.json", "matrix.json", "labor.json",
-                 "commodities.json", "capacity.json"):
+                 "commodities.json", "capacity.json", "dc_markets.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 30
@@ -288,8 +288,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok
-    # + geography_ok + labor_ok + commodities_ok + capacity_ok
-    assert qa["total"] == 24
+    # + geography_ok + labor_ok + commodities_ok + capacity_ok + markets_ok
+    assert qa["total"] == 25
     stamp = [c for c in qa["checks"] if c["name"] == "single_run_stamp"][0]
     assert stamp["pass"] is True  # a clean full run leaves no stale artifacts
     official = json.loads((out / "official.json").read_text())
@@ -356,6 +356,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     orcl = next(c for c in capacity["companies"] if c["t"] == "ORCL")
     assert orcl["role"] == "hyperscaler" and orcl["ev_per_mw"] is None
     assert checks["capacity_ok"]["pass"] is True
+    assert checks["markets_ok"]["pass"] is True
     # P2 T9: the geography phase publishes metros/geo/matrix from the same store
     # rows pinned above. rc==0 already proves each validated inline; here we pin
     # that real values flow end-to-end and every artifact shares the run stamp.
@@ -796,6 +797,41 @@ def test_capacity_schema_violation_fails_run(tmp_path, monkeypatch):
     monkeypatch.setattr(run_daily.capacity_json, "build",
                         lambda *a, **k: {"bogus": True})
     store, out = tmp_path / "store", tmp_path / "out"
+    with pytest.raises(jsonschema.ValidationError):
+        run_daily.main(["--store", str(store), "--out", str(out)],
+                       http_get=fake_get, http_post=fake_post)
+    assert not (out / "qa.json").exists()  # run died before qa
+
+
+def test_markets_failure_does_not_block_publish(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+    store, out = tmp_path / "s", tmp_path / "o"
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("markets boom")
+
+    monkeypatch.setattr(run_daily.dc_markets_json, "build", boom)
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    checks = {c["name"]: c for c in json.loads((out / "qa.json").read_text())["checks"]}
+    assert checks["markets_ok"]["pass"] is False
+    assert "markets boom" in checks["markets_ok"]["detail"]
+    # phase isolation: the artifact is not written, and neighbours still are
+    assert not (out / "dc_markets.json").exists()
+    assert (out / "capacity.json").exists()
+    assert (out / "qa.json").exists()
+
+
+def test_markets_schema_violation_fails_run(tmp_path, monkeypatch):
+    # The markets block's ValidationError re-raise must stay ahead of its
+    # generic Exception handler — a schema-invalid dc_markets.json must crash
+    # the run, never deploy. todo.md item 2 exists because commodities lacks
+    # this pin; do not add a tenth phase without it.
+    set_keys(monkeypatch)
+    store, out = tmp_path / "s", tmp_path / "o"
+    monkeypatch.setattr(run_daily.dc_markets_json, "build",
+                        lambda *a, **kw: {"as_of": 123})  # wrong type, keys missing
     with pytest.raises(jsonschema.ValidationError):
         run_daily.main(["--store", str(store), "--out", str(out)],
                        http_get=fake_get, http_post=fake_post)

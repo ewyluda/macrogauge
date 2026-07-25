@@ -90,8 +90,11 @@
       "properties": {"t": {"type": "string"}, "site": {"type": "string"},
                      "mw": {"type": ["number", "null"]},
                      "st": {"enum": ["o", "c", "p", "s"]},
-                     "lat": {"type": "number"}, "lng": {"type": "number"},
-                     "approx": {"type": "boolean"}}}},
+                     "lat": {"type": "number", "minimum": -90, "maximum": 90},
+                     "lng": {"type": "number", "minimum": -180, "maximum": 180},
+                     "approx": {"type": "boolean"},
+                     "when": {"type": "string"},
+                     "market": {"type": "string"}}}},
     "geo_unmapped": {"type": "array", "items": {
       "type": "object",
       "required": ["t", "site", "mw", "st", "why"],
