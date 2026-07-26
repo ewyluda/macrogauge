@@ -380,8 +380,19 @@ For basis `b`, anchor month `m`, horizon `h`:
 carried    = b's annualized rate at m
 realized   = (I_final[m+h] / I_final[m]) ** (12/h) − 1
 error      = carried − realized          # +ve = carried more than needed
-shortfall  = −error where error < 0      # under-provisioned
+shortfall  = −error where error < −ε     # under-provisioned; ε = 1e-9 pp
 ```
+
+**Amendment, 2026-07-26 (Task 4 implementation): the comparison carries an epsilon, and it must.**
+The idealized `error < 0` cannot survive float64 `pow()` over windows of differing length. Measured on
+a constant-rate fixture where carried and realized are equal by construction, **13 of 116 anchors came
+back negative by chance**, with a maximum magnitude of `4.44e-14` pp. That is noise being counted as
+under-provisioning.
+
+`ε = 1e-9` pp sits roughly five orders of magnitude above the measured noise floor and seven below the
+two-decimal precision every published statistic rounds to, so it cannot mask a shortfall any reader
+could see: a genuine 0.0001pp shortfall still clears it and is still counted. The constant lives at
+`dcgrade._SHORTFALL_EPS_PP` with the same reasoning recorded beside it.
 
 Published per (leg × basis × horizon): `shortfall_rate` (share of anchors with `error < 0`),
 `mean_shortfall` and `worst_shortfall` (conditional on shortfall — a mean over all anchors would
