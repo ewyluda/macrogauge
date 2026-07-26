@@ -1,3 +1,14 @@
+export type ForwardSegment = {
+  /** Always the historical leg's end month — the two segments are contiguous. */
+  fromMonth: string;
+  deliveryMonth: string;
+  monthsAhead: number;
+  /** The basis rate the reader chose to carry. */
+  annualizedPct: number;
+  factor: number;
+  pct: number;
+};
+
 export type EscalationResult = {
   baseMonth: string;
   endMonth: string;
@@ -8,6 +19,12 @@ export type EscalationResult = {
   annualizedPct: number;
   escalatedCost: number;
   deltaCost: number;
+  /** null unless the caller supplied a forward leg. */
+  forward: ForwardSegment | null;
+  /** Historical ratio x forward factor. Equals 1 + pct/100 when forward is null. */
+  totalFactor: number;
+  totalPct: number;
+  totalCost: number;
 };
 
 /** Whole months between two "YYYY-MM" strings. */
@@ -29,21 +46,46 @@ export function monthIndexAtOrBefore(months: string[], target: string): number {
 }
 
 /** Escalate a base cost by the index ratio. Unit-agnostic — the caller's $/MW,
- *  total project $, or any other denomination all ride the same ratio. */
+ *  total project $, or any other denomination all ride the same ratio.
+ *
+ *  The optional `forward` leg compounds a chosen annual rate from the END of
+ *  the measured history to a delivery month. The two segments are contiguous
+ *  by construction (forward.fromMonth === endMonth), so nothing is double
+ *  counted and nothing is skipped. The rate is the caller's choice of basis —
+ *  this function asserts nothing about which regime will obtain. */
 export function escalate(
   months: string[],
   index: number[],
   baseMonth: string,
-  baseCost: number
+  baseCost: number,
+  forward?: { deliveryMonth: string; annualizedPct: number } | null
 ): EscalationResult | null {
   const i = monthIndexAtOrBefore(months, baseMonth);
   if (i < 0) return null;
   // months/index are always equal length — the monthly grid publishes them
   // together and pins it at publish time (tests/test_datacenter_writer.py).
-  // Deriving `last` from `months` here matches bridge()'s convention below.
+  // Deriving `last` from `months` here matches bridgeWindow()'s convention.
   const last = months.length - 1;
   const ratio = index[last] / index[i];
   const monthsElapsed = monthDiff(months[i], months[last]);
+
+  let fwd: ForwardSegment | null = null;
+  if (forward) {
+    const monthsAhead = monthDiff(months[last], forward.deliveryMonth);
+    if (monthsAhead > 0) {
+      const factor = Math.pow(1 + forward.annualizedPct / 100, monthsAhead / 12);
+      fwd = {
+        fromMonth: months[last],
+        deliveryMonth: forward.deliveryMonth,
+        monthsAhead,
+        annualizedPct: forward.annualizedPct,
+        factor,
+        pct: (factor - 1) * 100,
+      };
+    }
+  }
+  const totalFactor = ratio * (fwd ? fwd.factor : 1);
+
   return {
     baseMonth: months[i],
     endMonth: months[last],
@@ -54,6 +96,10 @@ export function escalate(
     annualizedPct: monthsElapsed > 0 ? (Math.pow(ratio, 12 / monthsElapsed) - 1) * 100 : 0,
     escalatedCost: baseCost * ratio,
     deltaCost: baseCost * (ratio - 1),
+    forward: fwd,
+    totalFactor,
+    totalPct: (totalFactor - 1) * 100,
+    totalCost: baseCost * totalFactor,
   };
 }
 
@@ -95,17 +141,28 @@ export type BridgeRow = BridgeComponent & {
  *  `indexes.build` object and the publisher pins set(monthly.components) ==
  *  set(weights) at publish time (tests/test_datacenter_writer.py). An
  *  unmatched code would throw a TypeError here rather than silently drop a
- *  component. */
-export function bridge(
+ *  component.
+ *
+ *  `endMonth` need not be the grid end — bridgeWindow() decomposes an
+ *  arbitrary [baseMonth, endMonth] window, which is what lets `bridge()`
+ *  below stay a thin wrapper over "base month to grid end" while the same
+ *  math also answers "what changed between any two months." When endMonth
+ *  resolves to the same month index as baseMonth (a user-selected base equal
+ *  to the last available month), this deliberately falls through to a full
+ *  row set with zero contributions rather than returning [] — DcEscalationClient.tsx
+ *  renders bridge()'s rows without a length guard, and an empty array would
+ *  silently blank the table body while leaving its headers and TOTAL row. */
+export function bridgeWindow(
   months: string[],
   componentIndex: Record<string, number[]>,
   components: BridgeComponent[],
   baseMonth: string,
+  endMonth: string,
   baseCost: number
 ): BridgeRow[] {
   const i = monthIndexAtOrBefore(months, baseMonth);
-  if (i < 0) return [];
-  const last = months.length - 1;
+  const last = monthIndexAtOrBefore(months, endMonth);
+  if (i < 0 || last < 0 || last < i) return [];
   const headlineBase = components.reduce(
     (acc, c) => acc + c.weight * componentIndex[c.code][i],
     0
@@ -125,4 +182,20 @@ export function bridge(
       };
     })
     .sort((a, b) => Math.abs(b.contributionPp) - Math.abs(a.contributionPp));
+}
+
+/** Decompose the headline escalation from `baseMonth` to the end of the
+ *  published grid. Thin wrapper over bridgeWindow() — kept so existing call
+ *  sites are untouched. */
+export function bridge(
+  months: string[],
+  componentIndex: Record<string, number[]>,
+  components: BridgeComponent[],
+  baseMonth: string,
+  baseCost: number
+): BridgeRow[] {
+  return bridgeWindow(
+    months, componentIndex, components, baseMonth,
+    months[months.length - 1], baseCost
+  );
 }
