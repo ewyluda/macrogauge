@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { BASES, bases, lastCompleteMonth } from "./dcContingency";
+import {
+  band,
+  BASES,
+  bases,
+  lastCompleteMonth,
+  MAX_HORIZON_MONTHS,
+  MIN_HORIZON_MONTHS,
+} from "./dcContingency";
 
 // A 4-year monthly grid compounding at exactly 5%/yr from 100.
 // 2022-01 .. 2026-01 inclusive = 49 months.
@@ -109,5 +116,79 @@ describe("bases", () => {
     const covid = BASES.find((b) => b.key === "covid")!;
     expect(covid.startMonth).toBe("2021-04");
     expect(covid.endMonth).toBe("2023-12");
+  });
+});
+
+describe("band", () => {
+  it("returns the constant rate for a constant-growth grid", () => {
+    const b = band(MONTHS, INDEX, 12, "2026-01")!;
+    expect(b.p10).toBeCloseTo(5.0, 6);
+    expect(b.p50).toBeCloseTo(5.0, 6);
+    expect(b.p90).toBeCloseTo(5.0, 6);
+  });
+
+  it("counts windows and independent draws", () => {
+    // 49 months, anchor at index 48, h=12 -> windows i=0..36 inclusive = 37
+    const b = band(MONTHS, INDEX, 12, "2026-01")!;
+    expect(b.windows).toBe(37);
+    expect(b.independentDraws).toBeCloseTo(37 / 12, 6);
+  });
+
+  it("reports the sample span it actually used", () => {
+    const b = band(MONTHS, INDEX, 12, "2026-01")!;
+    expect(b.sampleStartMonth).toBe("2022-01");
+    expect(b.sampleEndMonth).toBe("2026-01");
+  });
+
+  it("interpolates percentiles linearly, matching the reference method", () => {
+    // 17 CONTIGUOUS months (2020-01..2021-05) engineered to give exactly five
+    // 12-month windows with rates 0,1,2,3,4% — so p50 = 2 and p10 = 0.4 by hand.
+    // The grid MUST be contiguous monthly: band() steps by array position, which
+    // is only equal to calendar months because dcindex emits one entry per month
+    // with no gaps.
+    const m = [
+      "2020-01", "2020-02", "2020-03", "2020-04", "2020-05", "2020-06",
+      "2020-07", "2020-08", "2020-09", "2020-10", "2020-11", "2020-12",
+      "2021-01", "2021-02", "2021-03", "2021-04", "2021-05",
+    ];
+    const i = [
+      100, 100, 100, 100, 100, 100,
+      100, 100, 100, 100, 100, 100,
+      100, 101, 102, 103, 104,
+    ];
+    const b = band(m, i, 12, "2021-05")!;
+    expect(b.windows).toBe(5);
+    expect(b.p10).toBeCloseTo(0.4, 6);
+    expect(b.p50).toBeCloseTo(2.0, 6);
+    expect(b.p90).toBeCloseTo(3.6, 6);
+  });
+
+  it("returns null when the horizon exceeds the sample", () => {
+    expect(band(MONTHS, INDEX, 60, "2026-01")).toBeNull();
+  });
+
+  it("returns null when fewer than two windows exist", () => {
+    const m = ["2024-01", "2025-01"];
+    const i = [100, 105];
+    expect(band(m, i, 12, "2025-01")).toBeNull();
+  });
+
+  it("anchors on the month given, never past it", () => {
+    const b = band(MONTHS, INDEX, 12, "2024-01")!;
+    expect(b.sampleEndMonth).toBe("2024-01");
+    expect(b.windows).toBe(13); // i = 0..12
+  });
+
+  it("reports spike overlap as a share of contributing windows", () => {
+    // grid starts 2022-01, so every window touches the 2021-04..2022-12 spike
+    // window until it clears 2022-12
+    const b = band(MONTHS, INDEX, 12, "2026-01")!;
+    expect(b.spikeOverlapPct).toBeGreaterThan(0);
+    expect(b.spikeOverlapPct).toBeLessThanOrEqual(100);
+  });
+
+  it("exposes the horizon bounds the UI caps on", () => {
+    expect(MIN_HORIZON_MONTHS).toBe(12);
+    expect(MAX_HORIZON_MONTHS).toBe(48);
   });
 });

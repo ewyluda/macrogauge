@@ -156,3 +156,92 @@ export function bases(
   }
   return out;
 }
+
+/** Band horizons. The cap is applied to the delivery-date INPUT, not just the
+ *  band, so every basis and band the reader sees covers the same window.
+ *  48 months is where the sample stops supporting a distribution: at h=48 it
+ *  gives ~174 windows but only ~3.6 independent draws, and beyond that the
+ *  count falls under 3. */
+export const MIN_HORIZON_MONTHS = 12;
+export const MAX_HORIZON_MONTHS = 48;
+
+/** The 2021-23 escalation spike, as a stated constant. Published alongside every
+ *  band so the reader knows how much of the sample is one episode. */
+export const SPIKE_START = "2021-04";
+export const SPIKE_END = "2022-12";
+
+export type Band = {
+  horizonMonths: number;
+  windows: number;
+  /** (windows / horizon) — how many NON-overlapping windows the sample could
+   *  have supported. Published because overlapping windows make a small sample
+   *  look like a large one. */
+  independentDraws: number;
+  spikeOverlapPct: number;
+  p10: number;
+  p25: number;
+  p50: number;
+  p75: number;
+  p90: number;
+  sampleStartMonth: string;
+  sampleEndMonth: string;
+};
+
+/** Linear-interpolated percentile on (n-1), matching numpy's default and
+ *  Python's statistics.quantiles(method="inclusive") — the method used to
+ *  produce the reference figures in the measurements doc. */
+function percentile(sorted: number[], p: number): number {
+  if (sorted.length === 1) return sorted[0];
+  const pos = (p / 100) * (sorted.length - 1);
+  const lo = Math.floor(pos);
+  const hi = Math.min(lo + 1, sorted.length - 1);
+  return lo === hi ? sorted[lo] : sorted[lo] + (pos - lo) * (sorted[hi] - sorted[lo]);
+}
+
+/** Empirical distribution of realized annualized escalation over windows of
+ *  exactly `horizonMonths`, ending at or before `anchorMonth`.
+ *
+ *  ASSUMES A CONTIGUOUS MONTHLY GRID — one entry per calendar month, no gaps —
+ *  because it steps by array position (`index[i + horizonMonths]`) rather than
+ *  by calendar arithmetic. That holds by construction: dcindex builds the
+ *  monthly grid by bucketing every day of the daily index into its month
+ *  (pipeline/engine/dcindex.py:99-108), so every month between the first and
+ *  last has exactly one entry. `bases()`'s rolling lookback relies on the same
+ *  property.
+ *
+ *  Horizon-matched deliberately: it is a literal statement the reader can
+ *  check ("of the N realized 36-month windows since 2007-12, the median was
+ *  X"), and it imposes no distributional assumption. The cost is that n falls
+ *  as the horizon grows, which is why `windows` and `independentDraws` are
+ *  part of the return value rather than an implementation detail. */
+export function band(
+  months: string[],
+  index: number[],
+  horizonMonths: number,
+  anchorMonth: string
+): Band | null {
+  const anchorIdx = monthIndexAtOrBefore(months, anchorMonth);
+  if (anchorIdx < 0 || horizonMonths <= 0) return null;
+  const rates: number[] = [];
+  let overlap = 0;
+  for (let i = 0; i + horizonMonths <= anchorIdx; i++) {
+    const j = i + horizonMonths;
+    rates.push((Math.pow(index[j] / index[i], 12 / horizonMonths) - 1) * 100);
+    if (months[i] <= SPIKE_END && months[j] >= SPIKE_START) overlap++;
+  }
+  if (rates.length < 2) return null;
+  const sorted = [...rates].sort((a, b) => a - b);
+  return {
+    horizonMonths,
+    windows: rates.length,
+    independentDraws: rates.length / horizonMonths,
+    spikeOverlapPct: (100 * overlap) / rates.length,
+    p10: percentile(sorted, 10),
+    p25: percentile(sorted, 25),
+    p50: percentile(sorted, 50),
+    p75: percentile(sorted, 75),
+    p90: percentile(sorted, 90),
+    sampleStartMonth: months[0],
+    sampleEndMonth: months[anchorIdx],
+  };
+}
