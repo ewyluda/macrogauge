@@ -446,6 +446,43 @@ publishes lead structure and nothing downstream of it.
 `concrete`, `constr_wages`, `elec_contractors` and `plumb_hvac_contractors` — 0.35 of Build weight —
 have no forward market of any kind and are out of scope for any lead-lag treatment.
 
+### 6.1 RESULT, measured 2026-07-26 — and why "1 of 4 stable" must never be published bare
+
+The study ran twice. Both runs are recorded because the difference between them *is* the finding.
+
+| sample | months | span | mappings clearing the gate | `weight_stable` |
+|---|---|---|---|---|
+| targets at store depth | 222 | 2008-01 → 2026-06 | **0 of 4** | 0.00 |
+| targets backfilled to 1992 | **402** | 1993-01 → 2026-06 | **1 of 4** (`U35CUO` → `transformers`) | 0.12 |
+
+**Two caveats must travel with that "1 of 4" everywhere it appears — page, artifact, and summary.**
+
+**(a) The recovered lag is 0–2 months. That is contemporaneous, not a lead.** First-half best lag 2
+months, second-half 0 months, both positive at ~0.7. This study exists to decide whether a forward
+model is buildable at **12–48 month** horizons. A same-month correlation does not support that at any
+gate strictness, and it is equally consistent with both series responding simultaneously to a shared
+shock (commodity input costs, a supply-chain disruption) as with backlog→price transmission.
+
+**(b) The flip is a split-half midpoint artifact, not a relationship that became stable.** On the
+222-month sample the midpoint fell around 2017-03 and the pairing failed *because* its two halves
+genuinely disagreed — 2008–2017 peaked at lag 24 (r=0.327), 2017–2026 at lag 0 (r=0.784). Deepening
+the sample moved the midpoint to roughly 2009-09, which folds that entire conflicting window into a
+single half where the disagreement is no longer exercised; the reported second-half r=0.658 sits
+almost exactly between the two previously-conflicting sub-period values, consistent with pooling
+them. The "first half" it is now compared against is a different, previously-untested 1993–2009 era.
+**The specific instability that failed the gate was not resolved. It was moved out of view.**
+
+**The gate was deliberately NOT changed after seeing this.** A sub-period robustness check would
+catch the artifact, and adding one now — after the pre-registered test produced a positive — would be
+tuning the instrument to the answer, which is the exact failure mode stating the gate up front was
+meant to prevent. The pre-registered gate's literal outcome publishes as-is, with these caveats
+beside it. `first_half` and `second_half` lags and correlations publish per mapping so a reader can
+see the disagreement directly rather than take our word for it.
+
+**Standing conclusion for P3c: no forward model is warranted on this evidence.** One near-contemporaneous
+correlation covering 0.12 of Build weight, whose stability is sensitive to where the sample is cut,
+is not a forecasting input.
+
 ---
 
 ## 7. The stale power-nowcast MAE string
