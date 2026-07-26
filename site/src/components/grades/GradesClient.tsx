@@ -31,6 +31,17 @@ import type { DcGrades, GradeStat, Leg } from "@/lib/types";
 
 const BASIS_KEYS = Object.keys(BASIS_LABELS);
 
+// ALFRED's raw release history for the 12 DC Build components reaches back to
+// 2015-03 (pipeline/engine/dcgrade.py's module docstring, backing
+// scripts/backfill_dc_vintages.py). This is a fixed property of the upstream
+// source -- not a per-publish measurement -- so, like the "nine historical
+// anchors" figure in the revision-disclosure paragraph below, it is a
+// deliberate literal rather than a read off dc_grades.json: the artifact has
+// no field for it, and it will not change on a future publish the way a
+// shortfall rate or anchor count would. Named here (never inlined) so a
+// change to the upstream backfill only needs one edit.
+const ALFRED_RAW_HISTORY_START = "2015-03";
+
 function pct(n: number | null | undefined, digits = 1): string {
   return n == null ? "—" : `${n.toFixed(digits)}%`;
 }
@@ -444,11 +455,14 @@ function MethodologySection({ data, strict, extended }: { data: DcGrades; strict
   return (
     <Section title="Methodology">
       <p className="method">
-        Both legs price the DC Build index off ALFRED point-in-time vintages.{" "}
-        {strict ? <>The strict leg is {strict.provenance}. </> : null}
-        Its anchors cannot start before <b>{strict?.span?.[0] ?? "—"}</b>: the index is based to that month, and an
-        index based at its own base month cannot be reconstructed at a vintage that predates the base observation
-        itself — a principled floor, not a data gap. Grading at a different base month would also grade a
+        Both legs price the DC Build index off ALFRED point-in-time vintages, whose raw release history for these
+        twelve components reaches back to <b>{ALFRED_RAW_HISTORY_START}</b>.{" "}
+        {strict ? <>The strict leg is {strict.provenance}, </> : null}
+        but its anchors cannot start before <b>{strict?.span?.[0] ?? "—"}</b> regardless — a second, additional
+        floor on top of that raw history, not a sign the underlying data runs out there: the index is based to
+        that month, and an index based at its own base month cannot be reconstructed at a vintage that predates
+        the base observation itself, however far back the raw releases go. So the strict leg's start is a
+        conceptual constraint, not a data accident. Grading at a different base month would also grade a
         materially different index: this is a Laspeyres sum of separately rebased components, so its effective
         per-component weight is <code>weight ÷ index-at-base</code>, and that base constant does not cancel out of
         a weighted sum the way it would for a single series.
