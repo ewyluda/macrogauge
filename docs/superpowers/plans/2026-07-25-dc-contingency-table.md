@@ -669,10 +669,13 @@ describe("bases", () => {
   });
 
   it("omits absolute bases whose window predates the sample", () => {
-    // this grid starts 2022-01, so the GFC window cannot be computed
+    // This grid starts 2022-01. Both absolute windows begin before it
+    // (2008-12 and 2021-04), so monthIndexAtOrBefore returns -1 for each
+    // start and both are omitted rather than silently clamped forward.
     const keys = bases(MONTHS, INDEX, "2026-01").map((b) => b.key);
     expect(keys).not.toContain("gfc");
-    expect(keys).toContain("covid"); // 2021-04 .. 2023-12 -> start clamps out
+    expect(keys).not.toContain("covid");
+    expect(keys).toEqual(["longrun", "trailing3y", "momentum"]);
   });
 
   it("omits a rolling basis whose lookback predates the sample", () => {
@@ -688,9 +691,11 @@ describe("bases", () => {
     expect(out.every((b) => b.endMonth <= "2025-01")).toBe(true);
   });
 
-  it("never returns a zero-length window", () => {
+  it("emits nothing rather than a zero-length window at the sample start", () => {
+    // anchor == months[0]: longrun's window would be 2022-01 -> 2022-01 (j <= i),
+    // both rolling lookbacks go negative, both absolutes predate the grid.
     const out = bases(MONTHS, INDEX, "2022-01");
-    expect(out.every((b) => b.months > 0)).toBe(true);
+    expect(out).toEqual([]);
   });
 
   it("declares two absolute bases whose windows are fixed constants", () => {
@@ -940,12 +945,26 @@ describe("band", () => {
   });
 
   it("interpolates percentiles linearly, matching the reference method", () => {
-    // 5 windows with rates 0,1,2,3,4 -> p50 = 2, p10 = 0.4
-    const m = ["2020-01", "2021-01", "2022-01", "2023-01", "2024-01", "2025-01"];
-    const i = [100, 100, 101, 103, 106, 110];
-    const b = band(m, i, 12, "2025-01")!;
+    // 17 CONTIGUOUS months (2020-01..2021-05) engineered to give exactly five
+    // 12-month windows with rates 0,1,2,3,4% — so p50 = 2 and p10 = 0.4 by hand.
+    // The grid MUST be contiguous monthly: band() steps by array position, which
+    // is only equal to calendar months because dcindex emits one entry per month
+    // with no gaps.
+    const m = [
+      "2020-01", "2020-02", "2020-03", "2020-04", "2020-05", "2020-06",
+      "2020-07", "2020-08", "2020-09", "2020-10", "2020-11", "2020-12",
+      "2021-01", "2021-02", "2021-03", "2021-04", "2021-05",
+    ];
+    const i = [
+      100, 100, 100, 100, 100, 100,
+      100, 100, 100, 100, 100, 100,
+      100, 101, 102, 103, 104,
+    ];
+    const b = band(m, i, 12, "2021-05")!;
     expect(b.windows).toBe(5);
-    expect(b.p50).toBeCloseTo(2.0, 1);
+    expect(b.p10).toBeCloseTo(0.4, 6);
+    expect(b.p50).toBeCloseTo(2.0, 6);
+    expect(b.p90).toBeCloseTo(3.6, 6);
   });
 
   it("returns null when the horizon exceeds the sample", () => {
@@ -1032,6 +1051,14 @@ function percentile(sorted: number[], p: number): number {
 
 /** Empirical distribution of realized annualized escalation over windows of
  *  exactly `horizonMonths`, ending at or before `anchorMonth`.
+ *
+ *  ASSUMES A CONTIGUOUS MONTHLY GRID — one entry per calendar month, no gaps —
+ *  because it steps by array position (`index[i + horizonMonths]`) rather than
+ *  by calendar arithmetic. That holds by construction: dcindex builds the
+ *  monthly grid by bucketing every day of the daily index into its month
+ *  (pipeline/engine/dcindex.py:99-108), so every month between the first and
+ *  last has exactly one entry. `bases()`'s rolling lookback relies on the same
+ *  property.
  *
  *  Horizon-matched deliberately: it is a literal statement the reader can
  *  check ("of the N realized 36-month windows since 2007-12, the median was
@@ -1431,9 +1458,12 @@ Add state and derived values after the existing `baseCost` state (around line 30
 
 ```ts
   const anchor = lastCompleteMonth(data.months, data.componentLastObs);
-  // Cap: 48 months past the last COMPLETE month. Applied to the input itself so
-  // every basis and band the reader sees covers the same window.
-  const maxDelivery = anchor ? addMonths(anchor, MAX_HORIZON_MONTHS) : lastMonth;
+  // Cap the input at MAX_HORIZON_MONTHS past the month the forward leg actually
+  // STARTS from (lastMonth, the grid end) — not past `anchor`. Anchoring the cap
+  // on `anchor` would allow a 49-month carry whenever the grid carries a partial
+  // trailing month, so the on-page "we cap at 48 months" claim would be false by
+  // one. This is a deliberate one-month tightening of the spec's phrasing.
+  const maxDelivery = addMonths(lastMonth, MAX_HORIZON_MONTHS);
   const [deliveryMonth, setDeliveryMonth] = useState("");
   const [basisKey, setBasisKey] = useState("trailing3y");
 
