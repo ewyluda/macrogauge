@@ -209,28 +209,45 @@ def grade(anchor_bases, realized_index: dict[str, float],
     The conditional shortfall statistics (mean_shortfall_pp, worst_shortfall_pp)
     are means over the SHORT windows only, not all windows: averaging in the
     windows that were fine would dilute the number a reader relying on this
-    for contingency sizing actually needs."""
+    for contingency sizing actually needs.
+
+    "Realized" is computed by calling `realized_at` -- once per anchor, for
+    every horizon at once -- rather than re-deriving the same annualized()
+    call inline. There must be exactly one definition of what "realized"
+    means: it is the number every published shortfall is measured against,
+    and a second, drifted copy could disagree with it silently."""
+    keys = [f"h{h}" for h in horizons]
+    errors: dict[str, dict[str, list[float]]] = {
+        basis: {k: [] for k in keys} for basis in ROLLING_BASES}
+    shorts: dict[str, dict[str, list[float]]] = {
+        basis: {k: [] for k in keys} for basis in ROLLING_BASES}
+
+    for anchor_month, bases in anchor_bases:
+        realized = realized_at(realized_index, anchor_month, horizons)
+        for k in keys:
+            r = realized[k]
+            if r is None:
+                continue
+            for basis in ROLLING_BASES:
+                carried = bases.get(basis)
+                if carried is None:
+                    continue
+                err = carried - r              # +ve = carried more than needed
+                errors[basis][k].append(err)
+                if err < -_SHORTFALL_EPS_PP:
+                    shorts[basis][k].append(-err)
+
     out: dict[str, dict[str, dict | None]] = {}
     for basis in ROLLING_BASES:
         out[basis] = {}
-        for h in horizons:
-            errors: list[float] = []
-            shorts: list[float] = []
-            for anchor_month, bases in anchor_bases:
-                carried = bases.get(basis)
-                realized = annualized(realized_index, anchor_month,
-                                      months_back(anchor_month, -h))
-                if carried is None or realized is None:
-                    continue
-                err = carried - realized      # +ve = carried more than needed
-                errors.append(err)
-                if err < -_SHORTFALL_EPS_PP:
-                    shorts.append(-err)
-            if not errors:
-                out[basis][f"h{h}"] = None
+        for k in keys:
+            errs, shs = errors[basis][k], shorts[basis][k]
+            if not errs:
+                out[basis][k] = None
                 continue
-            n = len(errors)
-            out[basis][f"h{h}"] = {
+            n = len(errs)
+            h = int(k[1:])
+            out[basis][k] = {
                 "n": n,
                 # Deliberately NOT rounded: it is a diagnostic ratio (roughly
                 # how many independent draws n data points represent, since
@@ -238,11 +255,11 @@ def grade(anchor_bases, realized_index: dict[str, float],
                 # published headline figure, so there is no reason to trade
                 # precision for cosmetics here.
                 "independent_draws": n / h,
-                "shortfall_rate_pct": round(len(shorts) / n * 100, 1),
-                "mean_shortfall_pp": round(sum(shorts) / len(shorts), 2)
-                                     if shorts else 0.0,
-                "worst_shortfall_pp": round(max(shorts), 2) if shorts else 0.0,
-                "bias_pp": round(sum(errors) / n, 2),
-                "mae_pp": round(sum(abs(e) for e in errors) / n, 2),
+                "shortfall_rate_pct": round(len(shs) / n * 100, 1),
+                "mean_shortfall_pp": round(sum(shs) / len(shs), 2)
+                                     if shs else 0.0,
+                "worst_shortfall_pp": round(max(shs), 2) if shs else 0.0,
+                "bias_pp": round(sum(errs) / n, 2),
+                "mae_pp": round(sum(abs(e) for e in errs) / n, 2),
             }
     return out

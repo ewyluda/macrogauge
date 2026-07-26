@@ -408,3 +408,52 @@ def test_realized_at_annualizes_forward_from_the_anchor():
     m = sorted(idx)[0]
     r = dcgrade.realized_at(idx, m, (12,))
     assert r["h12"] == pytest.approx(((1.005 ** 12) - 1) * 100)
+
+
+def test_grade_honours_a_reduced_horizon_tuple_passed_positionally():
+    """A later task publishes a reduced horizon set for one of the two
+    samples by calling grade(anchor_bases, realized_index, horizons)
+    positionally with e.g. (12, 24). Output must carry exactly those
+    horizons for every basis -- no silent fallback to the full HORIZONS,
+    and no requirement that the caller pass all four to get a usable
+    result. Built from SAMPLE_START (like the independent-draws test) so
+    long_run resolves too, not just the two lookback-bounded bases."""
+    idx = _flat_index(start=dcgrade.SAMPLE_START, monthly=1.005)
+    ab = [(m, dcgrade.bases_at(idx, m)) for m in sorted(idx)[36:-48]]
+    out = dcgrade.grade(ab, idx, (12, 24))
+    for basis in dcgrade.ROLLING_BASES:
+        assert set(out[basis]) == {"h12", "h24"}
+        assert out[basis]["h12"] is not None
+        assert out[basis]["h24"] is not None
+        assert out[basis]["h12"]["independent_draws"] == \
+            pytest.approx(out[basis]["h12"]["n"] / 12)
+        assert out[basis]["h24"]["independent_draws"] == \
+            pytest.approx(out[basis]["h24"]["n"] / 24)
+
+
+def test_grade_computes_realized_via_realized_at_not_a_second_formula():
+    """grade()'s realized side must be realized_at()'s output, not a
+    re-derived duplicate -- otherwise the two definitions of "realized"
+    could silently diverge. Verified by monkeypatching realized_at to a
+    stub that returns an obviously-wrong constant: if grade() actually
+    calls it, every carried rate reads as short against that constant."""
+    idx = _flat_index(monthly=1.005)
+    ab = [(m, dcgrade.bases_at(idx, m)) for m in sorted(idx)[36:-48]]
+
+    real_realized_at = dcgrade.realized_at
+    calls = []
+
+    def fake_realized_at(realized_index, anchor_month, horizons=dcgrade.HORIZONS):
+        calls.append((anchor_month, tuple(horizons)))
+        return {f"h{h}": 10_000.0 for h in horizons}   # absurdly high "realized"
+
+    dcgrade.realized_at = fake_realized_at
+    try:
+        out = dcgrade.grade(ab, idx, (12,))
+    finally:
+        dcgrade.realized_at = real_realized_at
+
+    assert calls, "grade() never called realized_at()"
+    st = out["trailing_3yr"]["h12"]
+    # against a realized of 10,000%, every real carried rate is a shortfall
+    assert st["shortfall_rate_pct"] == pytest.approx(100.0)
