@@ -14,8 +14,9 @@ export const metadata: Metadata = {
 
 const build = dc.indexes.build;
 
-// Slice only what the calculator needs — the monthly grid, not the 3,124-point
-// daily series — so the page ships ~14.2KB instead of fetching the ~575KB artifact.
+// Slice only what the calculator needs — the monthly grid (224 months, 2007-12
+// through 2026-07, ~29.5KB), not the 3,127-point daily series — so the page
+// ships a fraction of the ~614KB artifact.
 const data: EscalationData = {
   months: build.monthly.months,
   index: build.monthly.index,
@@ -71,9 +72,18 @@ export default function Escalation() {
           <em>level</em> multipliers (cost relative to the national average), not escalation
           rates; your base cost for a real site already embeds its location, so applying them
           here would count location twice.
-          {" "}This is history, not a forecast: it measures what input prices have already
-          done, and stops at the last print. Component sources and weights are documented
-          on{" "}
+          {" "}The measured leg above is history: it stops at the index&apos;s last print,
+          and nothing past that print is asserted. The <em>deliver by</em> leg is not a
+          forecast either — it carries forward a rate you choose from regimes that have
+          actually occurred (the long-run average, the post-2008 downturn, the last three
+          years, the latest twelve months, or the 2021–23 spike), each shown with the exact
+          window it was measured over. We do not predict which regime will obtain, and we
+          publish no central path. The realized band underneath the table is a count of
+          what happened across overlapping historical windows of the same length as yours,
+          reported alongside the number of independent draws behind it — a small number,
+          over a sample containing one downturn and one spike, best read as a range of
+          precedents rather than a probability. Component sources and weights are
+          documented on{" "}
           <a href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</a>.
         </div>
       </Section>
