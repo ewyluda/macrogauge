@@ -53,8 +53,9 @@ export default function Escalation() {
         <div style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.6 }}>
           This escalates <em>your</em> number. We publish an input-price index
           ({data.rebase}), not a turnkey $/MW quote — so the base cost is yours to supply,
-          and the calculator only applies the ratio between two months of the DC Build
-          index. Because the index is a fixed-weight Laspeyres aggregate, it is linear in
+          and the calculator applies the ratio between two months of the DC Build index,
+          and optionally carries a rate you choose past the last print. Because the index
+          is a fixed-weight Laspeyres aggregate, it is linear in
           its components: each row&apos;s contribution is{" "}
           <code>weight × (component index change) ÷ the headline&apos;s base index</code> —
           not the component&apos;s own base index (see the note above the bridge table). In
@@ -77,7 +78,12 @@ export default function Escalation() {
           forecast either — it carries forward a rate you choose from regimes that have
           actually occurred (the long-run average, the post-2008 downturn, the last three
           years, the latest twelve months, or the 2021–23 spike), each shown with the exact
-          window it was measured over. We do not predict which regime will obtain, and we
+          window it was measured over. Those windows measure to the last month every Build
+          component actually reports a full print for — not to the partial month noted
+          above — because only two of the twelve components (copper wire and aluminum
+          shapes, 8.5% of the index&apos;s weight) have moved since then; anchoring a rate
+          on a two-component move would misstate it as a basket-wide one. We do not predict
+          which regime will obtain, and we
           publish no central path. The realized band underneath the table is a count of
           what happened across overlapping historical windows of the same length as yours,
           reported alongside the number of independent draws behind it — a small number,

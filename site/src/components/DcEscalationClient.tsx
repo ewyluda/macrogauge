@@ -76,6 +76,14 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
       ? band(data.months, data.index, Math.min(horizon, MAX_HORIZON_MONTHS), anchor)
       : null;
 
+  // Same computation as bandRow, but fixed at the cap itself rather than the
+  // reader's chosen horizon. Backs the out-of-range message below with a live
+  // independentDraws figure instead of a hardcoded crossover claim — the
+  // horizon at which independent draws fall under 3 DRIFTS LATER every month
+  // the sample grows (it is not 48; see the comment on MAX_HORIZON_MONTHS in
+  // dcContingency.ts), so the message must not assert one.
+  const capBand = anchor ? band(data.months, data.index, MAX_HORIZON_MONTHS, anchor) : null;
+
   const rows = bridgeWindow(
     data.months, data.componentIndex, data.components,
     baseMonth, lastMonth, baseCost
@@ -202,9 +210,12 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
       {deliveryMonth && !deliveryValid && (
         <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>
           Pick a delivery month after {lastMonth} and no later than {maxDelivery}.
-          We cap the forward leg at {MAX_HORIZON_MONTHS} months because that is
-          where the realized sample stops supporting a range — beyond it there
-          are fewer than three independent windows to draw on.
+          We cap the forward leg at {MAX_HORIZON_MONTHS} months because the
+          realized sample is already thin there
+          {capBand ? ` (about ${capBand.independentDraws.toFixed(1)} independent windows)` : ""}{" "}
+          and keeps thinning the longer the horizon runs. Forty-eight months still
+          covers the 12–36 month range this tool targets, plus a mid-2026 base
+          carried to a 2029–2030 energization.
         </div>
       )}
 
@@ -398,8 +409,9 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
                 <div
                   style={{ fontSize: 12, color: "var(--muted)", padding: "8px 12px" }}
                 >
-                  Across every realized {bandRow.horizonMonths}-month window since{" "}
-                  {bandRow.sampleStartMonth}, annualized DC Build escalation ran{" "}
+                  Across every realized {bandRow.horizonMonths}-month window in the{" "}
+                  {bandRow.sampleStartMonth}–{bandRow.sampleEndMonth} sample, annualized
+                  DC Build escalation ran{" "}
                   <strong>
                     {bandRow.p10.toFixed(2)}% (p10) → {bandRow.p50.toFixed(2)}% (p50) →{" "}
                     {bandRow.p90.toFixed(2)}% (p90)
@@ -407,8 +419,10 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
                   . That is {bandRow.windows} overlapping windows —{" "}
                   <strong>≈{bandRow.independentDraws.toFixed(1)} independent</strong>{" "}
                   draws — and {bandRow.spikeOverlapPct.toFixed(0)}% of them touch the
-                  2021–22 spike. It is a range of what has happened, not a probability
-                  distribution over what will.
+                  2021–22 overlap window (narrower than the 2021–23 span the Peak-regime
+                  basis above carries — the two are measured for different purposes). It
+                  is a range of what has happened, not a probability distribution over
+                  what will.
                 </div>
               )}
               {!bandRow && deliveryValid && (
