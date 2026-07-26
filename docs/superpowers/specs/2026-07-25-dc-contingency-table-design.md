@@ -61,6 +61,19 @@ several counts; these corrections supersede it. Do not re-derive.**
    mid-2027 grades against final-revision values that were not knowable at forecast time. **This is
    the reason P3a makes no forecast claim** — and the reason P3c's ship decision cannot be made yet.
 
+   **Correction, 2026-07-26 (P3b/P3c recon):** this item is refuted. ALFRED has real vintages for
+   all 12 Build components (weight 1.000), so a vintage-true backtest **is possible today** — the
+   claim above was true of the *store*, which was backfilled in single sweeps, not of the
+   *available data*. The reconstruction floor is **2018-01, not ALFRED's 2015-03/04 raw vintage
+   start**: a Laspeyres sum of separately-rebased components cannot be reconstructed at a vintage
+   predating its own base month (`H_b(t) = Σ w_i·I_i(t)/I_i(b)` reweights the basket when `b`
+   changes). That gives 99 strict anchors (2018-01 → 2026-06) at independent draws of
+   7.33/3.17/1.78/1.08 (h=12/24/36/48), so the strict leg publishes only h=12/24; an extended leg
+   (187 anchors from 2010-12, final-revision, justified by ±0.27pp measured revision distortion)
+   carries all four horizons. P3b's grading harness shipped on this basis, and P3c's lead-lag study
+   concluded no forward model is warranted. See
+   `docs/superpowers/specs/2026-07-26-dc-grading-harness-design.md` §2.1, §2.1a, §6.1.
+
 5. **The published negative result is a hardcoded, now-stale React string.**
    `site/src/app/datacenter/page.tsx:211-220` states "best MAE 8.5 vs 5.2 YoY pts." Re-running
    `scripts/backtest_power_yearratio.py` against the current store still FAILs (exit 2) but now reads

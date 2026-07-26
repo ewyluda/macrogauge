@@ -51,8 +51,8 @@ Full narratives for completed items live in the commit history.
 Full gap register, rationale, data paths, and invariants:
 **`docs/plans/2026-07-24-project-controls-gaps.md`** (register only — promote an item to its own
 plan doc before implementing). One line each here so nothing falls off this list.
-Suggested order P1→P7; P7 and the item-6 CSV export are pullable forward anytime. **P1 and P2 have
-since shipped (2026-07-25)** — P3 or P7 is the next pick.
+Suggested order P1→P7; P7 and the item-6 CSV export are pullable forward anytime. **P1, P2, and now
+P3 (all of P3a/P3b/P3c) have shipped or concluded (2026-07-25/26)** — P4 or P7 is the next pick.
 
 11. ~~**P2 — DC market panel + capacity-competition join.**~~ **DONE 2026-07-25** — shipped as
     `/markets` on `feat/dc-market-panel` (see Done section below); the register's **radius-based**
@@ -60,8 +60,18 @@ since shipped (2026-07-25)** — P3 or P7 is the next pick.
     hand-curated/denominated fields (demoted, not dropped), see
     `docs/plans/2026-07-24-project-controls-gaps.md` §P2.
 
-12. **P3 — Forward DC escalation curve (12–36mo).** Point the `/outlook` engine at DC Build/Ops;
-    publish as an **annual factor table**. Do not ship an unbacktested 36mo horizon.
+12. ~~**P3 — Forward DC escalation curve (12–36mo).**~~ **DONE 2026-07-26** — P3a (contingency
+    table, `feat/dc-contingency`) and **P3b (grading harness) both shipped** on
+    `feat/dc-grading-harness`: `dc_grades.json` + `/dc-scoreboard` back-test the three rule-based
+    carry bases against realized DC Build escalation on two labelled samples (strict: 99
+    vintage-true anchors, 2018-01→2026-06, publishes h=12/24 only; extended: 187 final-revision
+    anchors, 2010-12→2026-06, all four horizons). **P3c is now a published measurement, not a
+    build item**: the unfilled-orders lead-lag study ran on 402 months and returned a negative
+    verdict — the one mapping that clears its pre-registered stability gate does so at a 0-month
+    (contemporaneous, not forward) lag that is itself a sample-split artifact, so **no forward
+    model is warranted on this evidence**. See
+    `docs/plans/2026-07-24-project-controls-gaps.md` §P3 and
+    `docs/superpowers/specs/2026-07-26-dc-grading-harness-design.md` §2.1a, §6.1.
 
 13. **P4 — Long-lead equipment board.** Vendor backlog / book-to-bill (Eaton, Schneider, ABB, Vertiv,
     Cummins, GE Vernova…) as a *directional* lead-time proxy via the existing FMP connector. The
