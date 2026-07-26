@@ -20,8 +20,14 @@ from pipeline.engine import aggregate, gate, rebase
 from pipeline.engine import blend as blend_mod
 from pipeline.store import vintage
 
-GRID_START = "2017-01-01"    # internal grid start: feeds 365d YoY bases for 2018
-PUBLISH_START = "2018-01-01"  # writers publish from here
+# The daily grid starts where the DEEPEST component reaches; fill_daily clamps
+# each component to max(GRID_START, its own first obs) and headline() intersects
+# component dates, so each index's real start is data-determined. Build reaches
+# 2007-12 (the two contractor PPIs' BLS base month); Ops and Hardware still
+# start 2017-01 because that is where their store data starts.
+GRID_START = "2007-12-01"
+PUBLISH_START = "2018-01-01"       # writers publish DAILY arrays from here
+MONTHLY_PUBLISH_START = "2007-12"  # ...and MONTHLY arrays from here
 
 
 def _series(conn: sqlite3.Connection, code: str) -> dict[str, float]:
