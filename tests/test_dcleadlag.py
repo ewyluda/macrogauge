@@ -183,7 +183,8 @@ def test_study_wires_correlate_and_stable_together_end_to_end():
 
     result = dcleadlag.study(conn, components, mappings=mapping)
 
-    assert set(result) == {"mappings", "weight_covered", "weight_stable", "verdict", "gate"}
+    assert set(result) == {"mappings", "weight_covered", "weight_stable", "verdict",
+                           "gate", "caveats", "conclusion"}
     assert result["weight_covered"] == pytest.approx(0.14)
     assert len(result["mappings"]) == 1
     row = result["mappings"][0]
@@ -220,3 +221,86 @@ def test_study_skips_a_mapping_component_absent_from_the_basket():
     result = dcleadlag.study(conn, components=[], mappings=mapping)
     assert result["mappings"] == []
     assert "No mapping showed a lead stable" in result["verdict"]
+
+
+# --- caveats / conclusion (spec 6.1: a positive gate result must not -------
+# publish bare) -------------------------------------------------------------
+#
+# The real store's one stable mapping (U35CUO -> transformers) recovers a
+# 0-2 month lag and its stability is a split-midpoint artifact (spec 6.1a/b).
+# These tests plant a DELIBERATE, controlled lag -- not the arbitrary levels
+# `test_study_wires_correlate_and_stable_together_end_to_end` uses above --
+# so the caveat-triggering condition (a near-zero recovered lag) is pinned by
+# construction rather than incidental to unrelated fixture data.
+
+def test_caveats_flag_a_stable_near_contemporaneous_mapping():
+    """A planted lag=0 lead, stable across both halves by construction (the
+    driver and target series are identical, so every split of the sample
+    still peaks at lag 0): must produce BOTH the contemporaneous-lag caveat
+    and the split-artifact caveat, plus the standing no-forward-model
+    conclusion -- none of these may be silently omitted."""
+    import math
+    n = 30 * 12  # 30yr: each split half comfortably clears MIN_OVERLAP (36)
+    same = [100 + 6 * math.sin(i / 5.0) + i * 0.01 for i in range(n)]
+    driver = _series(same)
+    target = _series(same)  # identical series -> lag 0, r=1.0, in both halves
+
+    conn = _conn_with({"fred_uo_electrical": driver, "some_component": target})
+    components = [_Comp("some_component", "some_component", "Some component", 0.14)]
+    mapping = [{"series": "fred_uo_electrical", "label": "Electrical equipment",
+               "components": ["some_component"], "weight": 0.14}]
+
+    result = dcleadlag.study(conn, components, mappings=mapping)
+    row = result["mappings"][0]
+    assert row["stable"] is True
+    assert row["best_lag_months"] == 0
+
+    keys = {c["key"] for c in result["caveats"]}
+    assert keys == {"contemporaneous_not_lead", "split_artifact"}
+    for c in result["caveats"]:
+        assert set(c) == {"key", "text"}
+        assert isinstance(c["text"], str) and c["text"]
+    contemporaneous = next(c for c in result["caveats"]
+                           if c["key"] == "contemporaneous_not_lead")
+    assert "Electrical equipment" in contemporaneous["text"]
+    assert "Some component" in contemporaneous["text"]
+    assert result["conclusion"] == "No forward model is warranted on this evidence."
+
+
+def test_caveats_omit_the_contemporaneous_flag_for_a_genuine_multi_month_lag():
+    """A planted 6-month lead (well past CONTEMPORANEOUS_LAG_MAX=2), stable
+    across both halves by construction: the contemporaneous-lag caveat must
+    NOT fire for this mapping -- it would misreport a genuine multi-month
+    lead as contemporaneous. The split-artifact caveat still applies: it is
+    a caution about the GATE's method (any positive result may be an
+    artifact of where the sample was split), not specific to which pairing
+    passed, so it accompanies every positive result."""
+    import math
+    n = 30 * 12
+    base = [math.sin(i / 6.0) for i in range(n)]
+    driver = _series(base)
+    target = _series([0.0] * 6 + base[:-6])  # target lags driver by 6 months
+
+    conn = _conn_with({"fred_uo_electrical": driver, "some_component": target})
+    components = [_Comp("some_component", "some_component", "Some component", 0.14)]
+    mapping = [{"series": "fred_uo_electrical", "label": "Electrical equipment",
+               "components": ["some_component"], "weight": 0.14}]
+
+    result = dcleadlag.study(conn, components, mappings=mapping)
+    row = result["mappings"][0]
+    assert row["stable"] is True
+    assert row["best_lag_months"] == 6
+
+    keys = {c["key"] for c in result["caveats"]}
+    assert keys == {"split_artifact"}
+
+
+def test_caveats_are_empty_when_no_mapping_clears_the_gate():
+    """No positive result -> nothing to caveat. The negative branch of
+    `verdict` already states the standing conclusion in full, and the
+    standing `conclusion` field still publishes -- it is not conditioned on
+    the gate's outcome (spec 6.1)."""
+    conn = _conn_with({})
+    result = dcleadlag.study(conn, components=[], mappings=[])
+    assert result["caveats"] == []
+    assert result["conclusion"] == "No forward model is warranted on this evidence."

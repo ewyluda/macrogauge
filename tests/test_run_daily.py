@@ -278,7 +278,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "accountability_nfp.json", "fuel.json", "outlook.json", "heatcheck.json",
                  "stress.json", "recession.json", "datacenter.json",
                  "metros.json", "geo.json", "matrix.json", "labor.json",
-                 "commodities.json", "capacity.json", "dc_markets.json"):
+                 "commodities.json", "capacity.json", "dc_markets.json",
+                 "dc_grades.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 30
@@ -288,8 +289,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok
-    # + geography_ok + labor_ok + commodities_ok + capacity_ok + markets_ok
-    assert qa["total"] == 25
+    # + geography_ok + labor_ok + commodities_ok + capacity_ok + markets_ok + grades_ok
+    assert qa["total"] == 26
     stamp = [c for c in qa["checks"] if c["name"] == "single_run_stamp"][0]
     assert stamp["pass"] is True  # a clean full run leaves no stale artifacts
     official = json.loads((out / "official.json").read_text())
@@ -357,6 +358,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert orcl["role"] == "hyperscaler" and orcl["ev_per_mw"] is None
     assert checks["capacity_ok"]["pass"] is True
     assert checks["markets_ok"]["pass"] is True
+    assert checks["grades_ok"]["pass"] is True
     # P2 T9: the geography phase publishes metros/geo/matrix from the same store
     # rows pinned above. rc==0 already proves each validated inline; here we pin
     # that real values flow end-to-end and every artifact shares the run stamp.
@@ -382,6 +384,21 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     med = next(r for g in matrix_out["groups"] for r in g["rows"]
                if r["code"] == "MEDCPIM158SFRBCLE")
     assert med["value"] == pytest.approx(320.1)  # FRED fixture latest 2026-04-01
+    # GRADES phase (/dc-scoreboard): the fake store's fixtures span only a
+    # couple of months (this suite never backfills ALFRED vintage history --
+    # scripts/backfill_dc_vintages.py is a one-off, run once against the
+    # real store, see docs/superpowers/specs/2026-07-26-dc-grading-harness-
+    # design.md 4.1), so dcgrade's reconstruction correctly degrades to no
+    # legs and powergrade correctly reads INSUFFICIENT rather than raising --
+    # this pins that the wiring survives a thin store, not that it produces
+    # a non-degraded grade (real-store content is exercised by
+    # tests/test_dc_grades_publish.py's synthetic fixture instead).
+    grades_out = json.loads((out / "dc_grades.json").read_text())
+    assert grades_out["published_at"] == run_stamp
+    assert grades_out["leadlag"]["gate"]
+    assert grades_out["leadlag"]["conclusion"] == \
+        "No forward model is warranted on this evidence."
+    assert grades_out["power_nowcast"]["verdict"] in {"PASS", "FAIL", "INSUFFICIENT"}
 
 
 def test_engine_failure_still_publishes_status_and_qa(tmp_path, monkeypatch):
@@ -858,6 +875,45 @@ def test_markets_schema_violation_fails_run(tmp_path, monkeypatch):
     set_keys(monkeypatch)
     store, out = tmp_path / "s", tmp_path / "o"
     monkeypatch.setattr(run_daily.dc_markets_json, "build",
+                        lambda *a, **kw: {"as_of": 123})  # wrong type, keys missing
+    with pytest.raises(jsonschema.ValidationError):
+        run_daily.main(["--store", str(store), "--out", str(out)],
+                       http_get=fake_get, http_post=fake_post)
+    assert not (out / "qa.json").exists()  # run died before qa
+
+
+def test_grades_failure_does_not_block_publish(tmp_path, monkeypatch):
+    """GRADES is isolated like every other phase above: a failure surfaces
+    as grades_ok:false and never blocks a neighbouring artifact -- the DC
+    index above all, since this phase's whole reason for isolation is that
+    it reads ALFRED vintages the daily run never writes."""
+    set_keys(monkeypatch)
+    store, out = tmp_path / "s", tmp_path / "o"
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("grades boom")
+
+    monkeypatch.setattr(run_daily.dc_grades_json, "build", boom)
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    checks = {c["name"]: c for c in json.loads((out / "qa.json").read_text())["checks"]}
+    assert checks["grades_ok"]["pass"] is False
+    assert "grades boom" in checks["grades_ok"]["detail"]
+    # phase isolation: the artifact is not written, and neighbours still are
+    assert not (out / "dc_grades.json").exists()
+    assert (out / "dc_markets.json").exists()
+    assert (out / "datacenter.json").exists()
+    assert (out / "qa.json").exists()
+
+
+def test_grades_schema_violation_fails_run(tmp_path, monkeypatch):
+    # Same pin as markets/capacity: the GRADES block's ValidationError
+    # re-raise must stay ahead of its generic Exception handler -- a
+    # schema-invalid dc_grades.json must crash the run, never deploy.
+    set_keys(monkeypatch)
+    store, out = tmp_path / "s", tmp_path / "o"
+    monkeypatch.setattr(run_daily.dc_grades_json, "build",
                         lambda *a, **kw: {"as_of": 123})  # wrong type, keys missing
     with pytest.raises(jsonschema.ValidationError):
         run_daily.main(["--store", str(store), "--out", str(out)],
