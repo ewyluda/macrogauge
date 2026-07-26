@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-25T03:55:37Z",
+  "published_at": "2026-07-26T00:31:01Z",
   "as_of_curated": "2026-07-21",
   "priced_date": "2026-07-24",
   "note": "AI critical-IT MW + unit economics across the AI build-out cohort: neoclouds, powered-shell landlords, operators, and hyperscalers (incl. private builders xAI and OpenAI/Stargate). Spec: docs/superpowers/specs/2026-07-21-capacity-tracker-design.md. op/con/plan = verify-adjusted critical-IT AI MW; hyperscaler MW are estimates (no filing-grade critical-IT split is disclosed). cap/nd/bk in $B. Derived analytics (EV, weighted MW, EV/MW, coverage, %energized) are computed at render time, not stored. dupe!=null => excluded from de-duped cohort totals.",
@@ -3862,7 +3862,8 @@
       "lat": 47.13,
       "lng": -119.28,
       "when": "lease target 2026",
-      "approx": false
+      "approx": false,
+      "market": "quincy"
     },
     {
       "t": "KEEL",
@@ -4022,7 +4023,8 @@
       "lat": 42.71,
       "lng": -87.9,
       "when": "Apr 2026",
-      "approx": true
+      "approx": true,
+      "market": "mtpleasant"
     },
     {
       "t": "MSFT",
@@ -4062,7 +4064,8 @@
       "lat": 41.14,
       "lng": -104.82,
       "when": "2026+",
-      "approx": true
+      "approx": true,
+      "market": "cheyenne"
     },
     {
       "t": "MSFT",
@@ -4072,7 +4075,8 @@
       "lat": 47.23,
       "lng": -119.85,
       "when": "operating",
-      "approx": true
+      "approx": true,
+      "market": "quincy"
     },
     {
       "t": "AMZN",
@@ -4082,7 +4086,8 @@
       "lat": 41.7,
       "lng": -86.51,
       "when": "Ph1 Oct-2025; 345kV Dec-2026",
-      "approx": true
+      "approx": true,
+      "market": "newcarlisle"
     },
     {
       "t": "AMZN",
@@ -4142,7 +4147,8 @@
       "lat": 40.08,
       "lng": -82.81,
       "when": "open 2025; $3.5B by 2030",
-      "approx": true
+      "approx": true,
+      "market": "columbus"
     },
     {
       "t": "GOOGL",
@@ -4152,7 +4158,8 @@
       "lat": 40.08,
       "lng": -82.81,
       "when": "operating, expanding",
-      "approx": true
+      "approx": true,
+      "market": "columbus"
     },
     {
       "t": "GOOGL",
@@ -4162,7 +4169,8 @@
       "lat": 41.26,
       "lng": -95.86,
       "when": "expanding $7B",
-      "approx": true
+      "approx": true,
+      "market": "councilbluffs"
     },
     {
       "t": "GOOGL",
@@ -4192,7 +4200,8 @@
       "lat": 33.42,
       "lng": -111.83,
       "when": "operating",
-      "approx": true
+      "approx": true,
+      "market": "phoenix"
     },
     {
       "t": "GOOGL",
@@ -4252,7 +4261,8 @@
       "lat": 32.48,
       "lng": -96.99,
       "when": "expanding $40B",
-      "approx": true
+      "approx": true,
+      "market": "dfw"
     },
     {
       "t": "GOOGL",
@@ -4272,7 +4282,8 @@
       "lat": 40.08,
       "lng": -82.81,
       "when": "631 MW IT live May-2026 -> 854 Q4-2026",
-      "approx": true
+      "approx": true,
+      "market": "columbus"
     },
     {
       "t": "META",
@@ -4282,7 +4293,8 @@
       "lat": 32.42,
       "lng": -91.6,
       "when": "2 GW Ph1 ~summer 2028 -> 5 GW",
-      "approx": true
+      "approx": true,
+      "market": "richland"
     },
     {
       "t": "META",
@@ -4322,7 +4334,8 @@
       "lat": 41.14,
       "lng": -104.82,
       "when": "broke ground 2024",
-      "approx": true
+      "approx": true,
+      "market": "cheyenne"
     },
     {
       "t": "META",
@@ -4342,7 +4355,8 @@
       "lat": 32.76,
       "lng": -97.33,
       "when": "legacy op since 2017",
-      "approx": true
+      "approx": true,
+      "market": "dfw"
     },
     {
       "t": "BABA",
@@ -4492,7 +4506,8 @@
       "lat": 33.75,
       "lng": -84.39,
       "when": "under construction",
-      "approx": true
+      "approx": true,
+      "market": "atlanta"
     },
     {
       "t": "DLR",
@@ -4502,7 +4517,8 @@
       "lat": 39.02,
       "lng": -77.46,
       "when": "operating",
-      "approx": true
+      "approx": true,
+      "market": "nova"
     },
     {
       "t": "DLR",
@@ -4512,7 +4528,8 @@
       "lat": 41.93,
       "lng": -87.87,
       "when": "operating",
-      "approx": true
+      "approx": true,
+      "market": "chicago"
     },
     {
       "t": "XAI",
@@ -4522,7 +4539,8 @@
       "lat": 35.06,
       "lng": -90.15,
       "when": "operational, expanded",
-      "approx": true
+      "approx": true,
+      "market": "memphis"
     },
     {
       "t": "XAI",
@@ -4532,7 +4550,8 @@
       "lat": 35.02,
       "lng": -90.06,
       "when": "ramping to ~1 GW 2026",
-      "approx": true
+      "approx": true,
+      "market": "memphis"
     },
     {
       "t": "XAI",
@@ -4572,7 +4591,8 @@
       "lat": 32.45,
       "lng": -99.73,
       "when": "live",
-      "approx": true
+      "approx": true,
+      "market": "abilene"
     },
     {
       "t": "ORCL",
@@ -4582,7 +4602,8 @@
       "lat": 32.45,
       "lng": -99.73,
       "when": "full Q4 2026",
-      "approx": true
+      "approx": true,
+      "market": "abilene"
     },
     {
       "t": "ORCL",
