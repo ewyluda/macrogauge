@@ -13,7 +13,15 @@
 `/escalation` gains a **"deliver by"** input and a **contingency basis table**. The reader enters a
 base cost, a base date, and a delivery date; the page returns a cumulative escalation factor under
 each of five named bases, an empirical percentile band matched to their exact window length, and a
-component bridge for the basis they select.
+component bridge for the window they measured (their own chosen base month through the last complete
+month).
+
+**Amendment, 2026-07-26 post-ship review:** that last clause originally read "a component bridge for
+the basis they select." That is not what shipped, and never was implemented that way — the bridge
+renders the reader's own `[baseMonth, lastMonth]` window via `bridgeWindow()` (P1's bridge,
+unconditional on which of the five bases is selected in the CARRY control), not a bridge for whichever
+basis the reader picks. See §5.2's amendment for the worked-example implication and why the shipped
+choice is defensible.
 
 **P3a makes no forecast.** Every published number is a stated, checkable claim about what has already
 happened. That is what makes it shippable today — see §2, which establishes that a defensible
@@ -190,7 +198,7 @@ reasons:
 | `config/series.json` | **none** — all 12 Build components already defined |
 | `scripts/backfill_dc_history.py` | new one-shot backfill, follows `scripts/backfill_alfred.py`. Fetches the 12 Build components from 2007-12. Append-only; **no committed partition is rewritten**. The daily run is unchanged — it continues to fetch recent observations only, and carry-forward store semantics make the deeper history permanent once written |
 | `pipeline/engine/dcindex.py:23` | `GRID_START` becomes per-index, derived from each index's own components' common first observation. **Ops and Hardware stay at 2017-01, untouched** |
-| `pipeline/publish/datacenter.py` | published **daily** arrays keep their 2018-01 start; published **monthly** arrays extend to 2007-12 |
+| `pipeline/publish/datacenter.py` | published **daily** arrays keep their 2018-01 start; published **monthly** arrays extend to 2007-12 (a single floor constant applied to every index — Build's own data actually reaches that far back, so its array grows to the full span; Ops's and Hardware's monthly arrays also stop being trimmed at 2018-01, so they grow too, but only up to their own 2017-01 data start, per §7's correction — not down to 2007-12) |
 
 That last row is load-bearing for payload. Measured: the daily `dates` array for Build is 3,127
 points today and would roughly double; `datacenter.json` is 575KB on disk. The monthly block is
@@ -297,6 +305,16 @@ computed from the published component grid:
 Switchgear alone is 27% of the last three years' escalation. That single row is the thing this
 audience uses to adjudicate a claim, and it is why the bridge has to sum.
 
+**Amendment, 2026-07-26 post-ship review:** the worked numbers above are correct — verified against
+the published component grid — but describe a **basis-window bridge** (base month → end of the
+trailing-3yr basis's own window), which is not what `/escalation` renders. What shipped is P1's
+bridge unconditionally decomposing the reader's own `[baseMonth, lastMonth]` window via
+`bridgeWindow()`, regardless of which basis is selected in the CARRY control — the more useful
+decomposition for a reader who is checking their own inputs, and what acceptance criterion 2 was
+verified against. Rendering a basis-selected bridge (calling `bridgeWindow()` with a chosen basis's
+own `startMonth`/`endMonth` instead of the reader's `baseMonth`/`lastMonth`) is possible later work,
+not built here.
+
 ### 5.3 Percentile band
 
 Horizon-matched over realized windows of the reader's exact window length. Every displayed band
@@ -308,20 +326,41 @@ carries:
   the spike episode; this window is a stated constant, not derived
 - the sample span and the two episodes it is made of
 
-**Horizon cap: 48 months**, applied to the delivery-date input itself — not to the band alone. At
-h=48 the sample gives 174 windows and 3.6 independent draws; beyond it the count falls below 3 and
-the band stops being a distribution. Capping the whole input rather than degrading one row keeps a
-single rule on the page: **every basis and every band the reader sees covers the same window.** The
-UI states the cap and its reason rather than silently clamping.
+**Horizon cap: 48 months**, applied to the delivery-date input itself — not to the band alone.
 
-Forty-eight months covers the register's stated 12–36 month range with headroom, and covers a
-mid-2026 base against a 2029-2030 energization.
+**Correction, 2026-07-26 post-ship review:** the original text here claimed "beyond it the count
+falls below 3" at h=48. That is false and was refuted by a reviewer in one line:
+`independentDraws(h) = (anchorIdx − h + 1) / h` (`anchorIdx` = 222 on the current grid) is
+monotonically decreasing, and it does not cross 3 until **h=56** (indep 2.98) — at h=49, one month
+past the cap, it is still 3.55, essentially unchanged from h=48's 3.65 (175 windows). Worse, that
+crossover **drifts later every month the sample grows** (`anchorIdx` grows by ~1/month), so hardcoding
+any specific crossover month — 56 included — becomes a new staleness bug the next time the sample
+extends. No fixed-h "falls under 3" claim is stated anywhere in the shipped copy or code comments for
+this reason; the page renders its own live `independentDraws` figure instead (§5.3's `Band` type,
+`dcContingency.ts`).
+
+The actual, stable reasons for 48: the sample is **already** thin there — ~3.6 independent draws,
+~175 overlapping windows on the current grid — and keeps thinning as the horizon grows; and 48 months
+covers the register's stated 12–36 month range with headroom, plus a mid-2026 base against a
+2029-2030 energization. Capping the whole input rather than degrading one row keeps a single rule on
+the page: **every basis and every band the reader sees covers the same window.** The UI states the
+cap and leans on its own live `independentDraws` render to make the "already thin" claim concrete,
+rather than asserting a static threshold or silently clamping.
 
 ### 5.3.1 Input edge cases
 
 - **Base date before 2007-12** — reject with the sample start named. There is no index before it.
-- **Base date after the last complete month** — reject; a base cannot be in the stub month or the
-  future.
+- ~~**Base date after the last complete month** — reject; a base cannot be in the stub month or the
+  future.~~ **Ruling, 2026-07-26 post-ship review: this is a spec defect, not a code defect. NOT
+  MET, and will not be retrofitted.** `/escalation` has always allowed the reader to pick the
+  trailing (partial) month as a base — the base-month input's `max` is the grid's last month, not
+  the last COMPLETE one. This was never a silent bug: `escalate()` handles `baseMonth === lastMonth`
+  correctly and on purpose (`monthsElapsed === 0` yields a 1.0 ratio, not a divide-by-zero or `NaN`;
+  unit-tested as "does not divide by zero when base is the last month" in `dcEscalation.test.ts`),
+  the methodology copy on `page.tsx` already discloses that the trailing month is partial, and no
+  `NaN` or silent clamp occurs anywhere on this path. Rejecting it would be *more* restrictive than
+  P1 ever was, for no correctness gain — so this requirement is retired rather than implemented. See
+  §9 acceptance criterion 5.
 - **Delivery date at or before the last complete month** — this is P1's pure-historical case. Fall
   through to `escalate()` unchanged, show no forward segment and no band.
 - **Delivery date more than 48 months past the last complete month** — reject per the cap above.
@@ -366,10 +405,21 @@ to carry it.
 - **A Turner & Townsend anchor row.** `config/dc_context.json` `tnt.rows` is retrospective only
   (2022 +15.0%, 2023 +6.0%, 2024 +9.0%, 2025 +5.5%). Their forward figures exist but are
   PDF/hand-curated and add a recurring maintenance burden for a number that is not ours.
-- **Ops and Hardware.** Both indexes untouched, at their current 2017-01 grid start. (Noted for
-  later: Hardware's 15% proxy coverage is *inactive as published* — `blend.py:78` `splice_anchored`
-  returns official-only because `ppi_storage` ends 2026-06-01 while `dramex_nand_mlc64` rows start
-  2026-07-15, so the overlap is empty. It self-heals when the July PPI print lands ~2026-08-14.)
+- **Ops and Hardware.** Both indexes' *values* untouched, at their current 2017-01 data start — the
+  reviewer confirmed zero previously-published value moved anywhere for either index.
+
+  **Correction, 2026-07-26 post-ship review:** "untouched" as written here implied their published
+  *shape* didn't change either. It did: `MONTHLY_PUBLISH_START` (§4.1) is one constant applied
+  uniformly to every index's published monthly array, not a Build-specific gate — moving it from
+  `PUBLISH_START` (2018-01) to 2007-12 stopped trimming Ops's and Hardware's published monthly
+  arrays at 2018-01 too, so both grew from 102 to 114 months (now starting 2017-01, their genuine
+  data start). The values in those 12 extra months were already being computed internally; they were
+  just previously cut before publish. Payload cost ~1.5 KB; only `/escalation` reads `.monthly`, and
+  only `indexes.build`'s. Nothing needs reverting.
+  (Noted for later: Hardware's 15% proxy coverage is *inactive as published* — `blend.py:78`
+  `splice_anchored` returns official-only because `ppi_storage` ends 2026-06-01 while
+  `dramex_nand_mlc64` rows start 2026-07-15, so the overlap is empty. It self-heals when the July PPI
+  print lands ~2026-08-14.)
 - **Backfilling beyond 2007-12.** Ten of twelve components reach back decades, but the two contractor
   PPIs do not, and splicing a 10-component basket onto a 12-component one would break the weight sum
   invariant.
@@ -393,6 +443,16 @@ to carry it.
    103 to 222 points. Any consumer that assumes the arrays start at 2018-01 needs checking — the
    daily arrays are unchanged, which limits but does not eliminate the blast radius.
 
+   **Addendum, 2026-07-26 post-ship review:** the blast radius is one surface wider than this risk
+   named. `construction_block`'s deflator (`dcindex.py`'s `construction_from_store`) reads
+   `dc_result["indexes"]["build"]["index"]` — the **internal** daily grid built from `GRID_START`,
+   not the published daily/monthly slice — so it also reaches the deeper history. `construction.real`
+   (rendered on `/datacenter`) gained 36 previously-null values (2014-01 through 2016-12), now that
+   the deflator is available that far back. Verified correct (implied deflators 96.979 / 97.228 /
+   97.082 at 2014-01/02/03, matching `monthly.index`, continuous across the 2016-12 → 2017-01
+   boundary) and pinned by a regression test in `tests/test_dcindex.py`. This is an intentional
+   coverage improvement, not something to revert.
+
 ---
 
 ## 9. Acceptance criteria
@@ -407,6 +467,12 @@ to carry it.
 5. The delivery-date input is capped at 48 months past the last complete month, with an on-page
    reason, and every §5.3.1 edge case is handled explicitly rather than producing `NaN` or a silent
    clamp.
+
+   **Status, 2026-07-26 post-ship review: PARTIAL / NOT MET.** The cap, its on-page reason, and every
+   edge case *except one* are met. The one exception — "base date after the last complete month —
+   reject" (§5.3.1) — was never implemented and is ruled a spec defect, not a code defect: see the
+   struck-through bullet and ruling in §5.3.1. No `NaN` or silent clamp occurs on that path either;
+   the requirement itself is simply retired.
 6. The two absolute-window bases (GFC, COVID peak) are pinned by test and do not move between
    publishes; the three rolling bases are not pinned.
 7. Every basis anchors on the last complete month; a test proves the trailing stub month is excluded.
