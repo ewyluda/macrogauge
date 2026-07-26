@@ -24,13 +24,13 @@ def test_load_real_registry():
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC",
                             "EIA_STATE_RES"}
-    assert len(series) == 690
+    assert len(series) == 693
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 148
+    assert len(fred) == 151
     # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
     # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
     # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
@@ -81,6 +81,9 @@ def test_load_real_registry():
             "ppi_genset": "PCU333611333611",
             "ppi_hvac_equip": "PCU333415333415",
             "ppi_pumps": "WPU1141",
+            "fred_uo_electrical": "U35CUO",
+            "fred_uo_hvac": "U33HUO",
+            "fred_uo_turbines": "UTGPUO",
             "ces_dp_ahe": "CES5000000003",
             "ppi_mach_repair": "PCU811310811310",
             "ppi_storage": "PCU334112334112",
