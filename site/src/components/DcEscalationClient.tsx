@@ -411,6 +411,17 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
                   distribution over what will.
                 </div>
               )}
+              {!bandRow && deliveryValid && (
+                <div
+                  style={{ fontSize: 12, color: "var(--muted)", padding: "8px 12px" }}
+                >
+                  No realized band here — it needs a window of at least{" "}
+                  {MIN_HORIZON_MONTHS} months to compare like-length history, and your{" "}
+                  {horizon}-month delivery window is shorter. The bases above still
+                  apply — they&apos;re rates, not tied to any one window length — there
+                  just isn&apos;t enough same-length history to bound them with a band.
+                </div>
+              )}
             </div>
           )}
         </>

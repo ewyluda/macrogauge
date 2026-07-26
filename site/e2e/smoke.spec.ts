@@ -169,3 +169,28 @@ test("escalation basis table lists a downturn regime", async ({ page }) => {
     page.locator("td", { hasText: "Downturn regime (GFC)" })
   ).toBeVisible();
 });
+
+test("escalation says why there's no band under a sub-12-month delivery window", async ({
+  page,
+}) => {
+  await page.goto("/escalation");
+  const deliver = page.locator('input[type="month"]').nth(1);
+  const min = await deliver.getAttribute("min"); // == lastMonth, e.g. "2026-07"
+  expect(min).toBeTruthy();
+  const [y, m] = min!.split("-").map(Number);
+  const t = y * 12 + (m - 1) + 6; // 6 months ahead of lastMonth: horizon 6 < MIN_HORIZON_MONTHS (12)
+  const shortDelivery = `${Math.floor(t / 12)}-${String((t % 12) + 1).padStart(2, "0")}`;
+  await deliver.fill(shortDelivery);
+
+  // Bases still apply at a short horizon; the band does not, and the page
+  // must say so rather than silently omitting it (spec §5.3.1's last bullet).
+  await expect(page.getByText("No realized band here")).toBeVisible();
+  await expect(page.getByText("overlapping windows")).toHaveCount(0);
+
+  // A longer delivery (the input's own max) gets the band instead of the
+  // explanation — the two are mutually exclusive, not both/neither.
+  const max = await deliver.getAttribute("max");
+  await deliver.fill(max!);
+  await expect(page.getByText("overlapping windows")).toBeVisible();
+  await expect(page.getByText("No realized band here")).toHaveCount(0);
+});
