@@ -150,8 +150,8 @@ export type BridgeRow = BridgeComponent & {
  *  resolves to the same month index as baseMonth (a user-selected base equal
  *  to the last available month), this deliberately falls through to a full
  *  row set with zero contributions rather than returning [] — DcEscalationClient.tsx
- *  renders bridge()'s rows without a length guard, and an empty array would
- *  silently blank the table body while leaving its headers and TOTAL row. */
+ *  renders bridgeWindow()'s rows without a length guard, and an empty array
+ *  would silently blank the table body while leaving its headers and TOTAL row. */
 export function bridgeWindow(
   months: string[],
   componentIndex: Record<string, number[]>,
@@ -185,8 +185,14 @@ export function bridgeWindow(
 }
 
 /** Decompose the headline escalation from `baseMonth` to the end of the
- *  published grid. Thin wrapper over bridgeWindow() — kept so existing call
- *  sites are untouched. */
+ *  published grid. Thin wrapper over bridgeWindow() for the "base month to
+ *  grid end" case. DcEscalationClient.tsx now calls bridgeWindow() directly
+ *  with its own [baseMonth, lastMonth] window (P3a's forward-leg UI needs the
+ *  more general signature), so this wrapper has NO production call site
+ *  today — it is exercised only by dcEscalation.test.ts. Kept, not deleted:
+ *  it is still the right shape for any future caller that only ever wants
+ *  "base month to grid end," and deleting it or re-pointing the client
+ *  carries regression risk for no gain. */
 export function bridge(
   months: string[],
   componentIndex: Record<string, number[]>,

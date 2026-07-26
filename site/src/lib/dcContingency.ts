@@ -159,9 +159,20 @@ export function bases(
 
 /** Band horizons. The cap is applied to the delivery-date INPUT, not just the
  *  band, so every basis and band the reader sees covers the same window.
- *  48 months is where the sample stops supporting a distribution: at h=48 it
- *  gives ~174 windows but only ~3.6 independent draws, and beyond that the
- *  count falls under 3. */
+ *
+ *  48 is NOT the horizon where independent draws first fall under 3.
+ *  indep(h) = (anchorIdx - h + 1) / h is monotonically decreasing in h, and
+ *  the horizon where it crosses 3 drifts later every month the sample grows
+ *  (anchorIdx grows ~1/month) — on the grid as of the 2026-07 backfill it was
+ *  h=56 (indep 2.98), not 48 (indep 3.65, ~175 windows). A hardcoded
+ *  crossover month would silently go stale the next time the sample grows,
+ *  which is why one is not asserted here or on the page.
+ *
+ *  48 is chosen because the sample is ALREADY thin there (~3.6 independent
+ *  draws currently — see band()'s live `independentDraws` output, which is
+ *  what the page renders rather than this comment's snapshot) and keeps
+ *  thinning as h grows, and because it covers this tool's intended 12-36
+ *  month use case plus a mid-2026 base carried to a 2029-2030 energization. */
 export const MIN_HORIZON_MONTHS = 12;
 export const MAX_HORIZON_MONTHS = 48;
 
