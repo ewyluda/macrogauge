@@ -12,6 +12,7 @@ series ValueError): the run_daily datacenter block catches it and surfaces
 datacenter_ok=false rather than publishing a silently mis-weighted index.
 """
 import sqlite3
+from dataclasses import asdict
 from datetime import date
 from pathlib import Path
 
@@ -360,14 +361,19 @@ def context_block(conn: sqlite3.Connection, cfg, dc_result: dict) -> dict:
     """Demand-side context (spec §5): hand-seeded cards pass through from
     config with their asof/source; live sub-objects read the store and are
     independently nullable — a thin Kalshi book or pre-first-collect diesel
-    hides its card, never blanks the section. T&T rows gain build_yoy_pct
-    (Dec-31 YoY from the already-computed build index) so the site renders
-    the external-calibration table without computing anything."""
+    hides its card, never blanks the section. Every peer's rows gain
+    build_yoy_pct (Dec-31 YoY from the already-computed build index) so the
+    site renders the external-calibration table without computing anything;
+    a year the build index cannot reach yet yields None, which the panel
+    renders as an em dash rather than back-filling."""
     build_yoy = dc_result["indexes"]["build"]["yoy"]
-    tnt_rows = []
-    for r in cfg.tnt_rows:
-        v = build_yoy.get(f"{r['year']}-12-31")
-        tnt_rows.append({**r, "build_yoy_pct": None if v is None else round(v, 2)})
+    peers = []
+    for p in cfg.peers:
+        rows = []
+        for r in p.rows:
+            v = build_yoy.get(f"{r['year']}-12-31")
+            rows.append({**r, "build_yoy_pct": None if v is None else round(v, 2)})
+        peers.append({**asdict(p), "rows": rows})
 
     count = _latest_row(conn, "kalshi_dc_count")
     nuclear = _latest_row(conn, "kalshi_dc_nuclear")
@@ -393,7 +399,7 @@ def context_block(conn: sqlite3.Connection, cfg, dc_result: dict) -> dict:
     return {
         "colo": {**cfg.colo.fields, "asof": cfg.colo.asof, "source": cfg.colo.source},
         "queue": {**cfg.queue.fields, "asof": cfg.queue.asof, "source": cfg.queue.source},
-        "tnt": {"rows": tnt_rows, "asof": cfg.tnt_asof, "source": cfg.tnt_source},
+        "peers": peers,
         "transformer": (None if cfg.transformer is None else
                         {**cfg.transformer.fields, "asof": cfg.transformer.asof,
                          "source": cfg.transformer.source}),

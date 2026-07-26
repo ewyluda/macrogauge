@@ -1,12 +1,14 @@
 import { KpiCard } from "@/components/KpiCard";
 import { fmtSigned } from "@/lib/format";
+import {
+  BASIS_LABEL, PERIOD_LABEL, SCOPE_LABEL, label, peerMatrix, type Peer,
+} from "@/lib/peerRows";
 
 export type ContextData = {
   colo: { rate_kw_mo: number; yoy_pct: number; vacancy_pct: number;
           under_construction_gw: number; asof: string; source: string };
   queue: { generation_gw: number; storage_gw: number; asof: string; source: string };
-  tnt: { rows: { year: number; escalation_pct: number; build_yoy_pct: number | null }[];
-         asof: string; source: string };
+  peers: Peer[];
   transformer: { weeks: number; asof: string; source: string } | null;
   kalshi: { dc_count_expected: number | null; count_asof: string | null;
             nuclear_by_2030_prob: number | null; nuclear_asof: string | null } | null;
@@ -15,7 +17,8 @@ export type ContextData = {
 };
 
 export function ContextPanel({ context }: { context: ContextData }) {
-  const { colo, queue, tnt, transformer, kalshi, diesel, water } = context;
+  const { colo, queue, peers, transformer, kalshi, diesel, water } = context;
+  const { years, cells, ours } = peerMatrix(peers);
   return (
     <>
       <h2>The bigger picture <span className="subtitle">demand, scarcity & external checks</span></h2>
@@ -55,19 +58,65 @@ export function ContextPanel({ context }: { context: ContextData }) {
       )}
       <div className="table-card">
         <table className="data-table">
-          <thead><tr><th>Year</th><th>T&T $/W escalation</th><th>Our DC Build YoY</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Year</th>
+              {peers.map((p) => (
+                <th key={p.key} title={p.caveat}>
+                  <span style={headerStack}>
+                    <span>{p.short}</span>
+                    <span style={badgeRow}>
+                      <span className="badge badge-muted">{label(BASIS_LABEL, p.basis)}</span>
+                      <span className="badge badge-muted">{label(SCOPE_LABEL, p.scope)}</span>
+                      {p.derived && <span className="badge badge-muted">computed by us</span>}
+                    </span>
+                  </span>
+                </th>
+              ))}
+              <th>
+                <span style={headerStack}>
+                  <span>Our DC Build</span>
+                  <span style={badgeRow}>
+                    <span className="badge">input cost</span>
+                    <span className="badge">US data centres</span>
+                  </span>
+                </span>
+              </th>
+            </tr>
+          </thead>
           <tbody>
-            {tnt.rows.map((r) => (
-              <tr key={r.year}>
-                <td>{r.year}</td>
-                <td>{fmtSigned(r.escalation_pct)}</td>
-                <td>{r.build_yoy_pct != null ? fmtSigned(r.build_yoy_pct) : "—"}</td>
+            {years.map((year, i) => (
+              <tr key={year}>
+                <td>{year}</td>
+                {cells[i].map((v, j) => (
+                  <td key={peers[j].key}>{v != null ? fmtSigned(v) : "—"}</td>
+                ))}
+                <td>{ours[i] != null ? fmtSigned(ours[i] as number) : "—"}</td>
               </tr>
             ))}
           </tbody>
         </table>
-        <p className="method">{tnt.source} · as of {tnt.asof} — annual external calibration for a daily index.</p>
+        <p className="method">
+          Annual external calibration for a daily index. These peers do not measure the same
+          thing we do — an em dash means the publisher printed no figure for that year, never a
+          value we filled in. No forecasts: every row is a realised, backward-looking print.
+        </p>
+        {peers.map((p) => (
+          <p className="method" key={p.key}>
+            <strong>{p.short}</strong> — {p.firm}, {p.publication} · {p.geography === "us" ? "US" : "global"}
+            {" · "}{label(PERIOD_LABEL, p.period_basis)} basis · as of {p.asof}. {p.caveat}
+            {" "}<span className="badge badge-muted">{p.source}</span>
+          </p>
+        ))}
       </div>
     </>
   );
 }
+
+const headerStack: React.CSSProperties = {
+  display: "flex", flexDirection: "column", gap: 4, alignItems: "flex-end",
+};
+const badgeRow: React.CSSProperties = {
+  display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "flex-end",
+  textTransform: "none", letterSpacing: 0,
+};

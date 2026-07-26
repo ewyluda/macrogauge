@@ -701,7 +701,17 @@ def test_level_components_unchanged_report_no_implied_level(tmp_path):
     assert result["indexes"]["ops"]["components"]["power"]["implied_level"] is None
 
 
-def _ctx_cfg(transformer=None, tnt_rows=(({"year": 2018, "escalation_pct": 4.0}),)):
+def _peer(key="tnt_dcci", rows=({"year": 2018, "escalation_pct": 4.0},), **over):
+    kw = dict(key=key, firm="Turner & Townsend", short="T&T DCCI",
+              publication="DCCI 2025-2026", source="T&T DCCI", asof="2025",
+              scope="dc", basis="cost_model", period_basis="calendar_year",
+              geography="global", derived=False, caveat="global, not US",
+              quote="five point five percent", rows=tuple(rows))
+    kw.update(over)
+    return dc_context_mod.Peer(**kw)
+
+
+def _ctx_cfg(transformer=None, peers=None):
     return dc_context_mod.ContextConfig(
         colo=dc_context_mod.Card(fields={"rate_kw_mo": 194.95, "yoy_pct": 6.5,
                                           "vacancy_pct": 1.4,
@@ -709,7 +719,7 @@ def _ctx_cfg(transformer=None, tnt_rows=(({"year": 2018, "escalation_pct": 4.0})
                                  asof="H2 2025", source="CBRE"),
         queue=dc_context_mod.Card(fields={"generation_gw": 1400, "storage_gw": 890},
                                   asof="2025", source="LBNL"),
-        tnt_rows=tuple(tnt_rows), tnt_asof="2025", tnt_source="T&T DCCI",
+        peers=tuple(peers if peers is not None else (_peer(),)),
         transformer=transformer)
 
 
@@ -727,8 +737,11 @@ def test_context_block_populated(tmp_path):
                            "vacancy_pct": 1.4, "under_construction_gw": 6.0,
                            "asof": "H2 2025", "source": "CBRE"}
     assert ctx["queue"]["generation_gw"] == 1400
-    assert ctx["tnt"]["rows"] == [{"year": 2018, "escalation_pct": 4.0,
-                                    "build_yoy_pct": 3.46}]
+    assert len(ctx["peers"]) == 1
+    assert ctx["peers"][0]["key"] == "tnt_dcci"
+    assert ctx["peers"][0]["basis"] == "cost_model"
+    assert ctx["peers"][0]["rows"] == [{"year": 2018, "escalation_pct": 4.0,
+                                        "build_yoy_pct": 3.46}]
     assert ctx["transformer"] is None
     assert ctx["kalshi"] == {"dc_count_expected": 1800.0, "count_asof": "2026-07-16",
                               "nuclear_by_2030_prob": 0.61,
@@ -743,7 +756,25 @@ def test_context_block_live_subobjects_independently_null(tmp_path):
     ctx = dcindex.context_block(conn, _ctx_cfg(), dc_result)
     assert ctx["kalshi"] is None and ctx["diesel"] is None and ctx["water"] is None
     assert ctx["colo"]["rate_kw_mo"] == 194.95      # hand-seeds unaffected
-    assert ctx["tnt"]["rows"][0]["build_yoy_pct"] is None  # no Dec-31 on grid
+    assert ctx["peers"][0]["rows"][0]["build_yoy_pct"] is None  # no Dec-31 on grid
+
+
+def test_context_block_each_peer_gets_own_build_yoy(tmp_path):
+    """Every peer's rows are joined independently — a peer reaching a year the
+    build index cannot yet cover gets None there, not its neighbour's value."""
+    conn = make_conn(tmp_path, [("ppi_steel", "2018-01-01", 100.0)])
+    dc_result = {"indexes": {"build": {"yoy": {"2018-12-31": 3.456}}}}
+    cfg = _ctx_cfg(peers=(
+        _peer(),
+        _peer(key="turner_tbci", short="Turner BCI", basis="bid_price",
+              scope="nonres_building", period_basis="annual_average",
+              geography="us", rows=({"year": 2017, "escalation_pct": 5.0},
+                                    {"year": 2018, "escalation_pct": 5.6})),
+    ))
+    ctx = dcindex.context_block(conn, cfg, dc_result)
+    assert [p["key"] for p in ctx["peers"]] == ["tnt_dcci", "turner_tbci"]
+    assert ctx["peers"][0]["rows"][0]["build_yoy_pct"] == 3.46
+    assert [r["build_yoy_pct"] for r in ctx["peers"][1]["rows"]] == [None, 3.46]
 
 
 def test_context_block_one_kalshi_series_present(tmp_path):

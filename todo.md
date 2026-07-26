@@ -226,6 +226,49 @@ since shipped (2026-07-25)** — P3 or P7 is the next pick.
     end, no `NaN` or silent clamp occurs, and `escalate()` handles `base === last` correctly with a
     unit test. Revisit only if the disclosure stops being adequate.
 
+## DC peer panel follow-ups (added 2026-07-26 with the 3-peer panel)
+
+43. **Second peer wave: RLB and Mortenson.** Deferred deliberately from the first PR.
+    **RLB North America NCCI** publishes a quarterly *level* series (Q1-23 247.49 → Q1-26 285.47),
+    so we choose the basis instead of accepting the publisher's — needs a `kind: index_level` row
+    type plus a `derive` field (`annual_average` | `dec_over_dec`) on the peer, and the engine
+    computing `escalation_pct` from consecutive levels. That same PDF is also the only free route
+    to ENR's BCI, which it reprints (+4.2% Q1 2026) and which is otherwise hard-paywalled.
+    **Mortenson** is the only peer publishing a labor / materials / trade-partner split
+    (Q4-25: +5.6 / +9.1 / +6.2) and needs a **blank 2023 cell** — the Q4-2023 edition publishes no
+    annual figure, and blank is not zero. Two traps recorded during research: Mortenson's per-metro
+    figures are quarterly-only (do not annualize them; the publisher does not), and **RLB per-city
+    must not ship** — "Washington, DC 3.98%" is offices and hotels in the District, not Loudoun,
+    and its Chicago print moved 2.89% → 1.42% in one quarter. Evidence and URLs:
+    `docs/plans/2026-07-26-dc-peer-panel.md`.
+
+44. **Promote BLS `PCU236223236223` to a real registry connector.** The office-PPI peer is currently
+    hand-seeded: eight Dec/Dec rows computed from levels quoted in the spike note. It is the one
+    peer that could refresh itself — free keyless API (`api.bls.gov/publicAPI/v1/timeseries/data/`,
+    verified 2026-07-26), monthly, with a `max_staleness_days` like any other series. Doing so also
+    removes the only *derived* column from the hand-seeded set. Gotcha for whoever picks this up:
+    `download.bls.gov` 403s browser user-agents and BLS policy wants a User-Agent carrying a contact
+    email; the API host itself does not. Recent months carry footnote **P** and revise for four
+    months, so the connector should publish levels and let the site compute YoY rather than freezing
+    a print.
+
+45. **Two tier-2 peer spikes worth a human hour each.** (a) **Cushman & Wakefield US Data Center
+    Development Cost Guide** — the only known path to a US, DC-specific, *multi-market* $/MW peer.
+    Blocked because the build content sits in a JS flipbook that returned no body text across three
+    retrieval routes; the free page carries land costs only. Extract cost-to-develop per MW by market
+    **and its stated exclusions** — if those are no land / no soft costs / no OFCI, it becomes the
+    best-aligned peer in the dossier. (b) **T&T's own DCCI microsite** (`reports.turnerandtownsend.com`)
+    carries a per-market US$/W table — Silicon Valley 13.3, New Jersey 12.9, Portland 10.9, Atlanta 9.9,
+    Phoenix 9.8, Columbus 9.8, Charlotte 9.5 — seven US markets that map onto `/dc-markets`, plus
+    "seven to ten percent higher" for liquid-cooled. Belongs to a peer we already cite and was never
+    fetched by the peer sweep.
+
+46. **`quote` is a plain string carrying multiple evidence sentences joined by `|`.** It renders
+    nowhere on-site today (it exists so a reviewer can diff a figure against its source inside the
+    repo). If the panel ever surfaces evidence in a disclosure, this wants to become a list rather
+    than a delimiter-joined string — the Turner quote already contains `|` characters from the
+    source table itself, so the delimiter is not safely splittable.
+
 ## Done (one-liners; details in git log)
 
 - 2026-07-13: ALFRED backtest seeding; STREET → Cleveland ensemble; Manheim → Cox
