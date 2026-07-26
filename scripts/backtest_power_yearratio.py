@@ -8,109 +8,30 @@ newest retail print available then (AVAIL_LAG_DAYS embargo, replicating the
 ~75-day publication lag). Errors are in YoY points against the realized
 print. Flip condition (spec §6): the selected λ>0 must beat BOTH naive
 baselines (carry-forward AND λ=0) on MAE with max |err| <= 3.0 YoY pts.
-Results land in the spec's §10; this script publishes nothing."""
+Results land in the spec's §10; this script publishes nothing.
+
+The grading math (constants, month_shift, grade_month, grade_all) lives in
+`pipeline.engine.powergrade` so a later task can publish the same verdict
+under a schema with an as-of instead of it only existing as this script's
+console output (spec 7) -- this file is now just the CLI: load the store,
+call the engine, print the table, exit on the verdict."""
 import argparse
 import sys
-from datetime import date, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from pipeline.engine import blend                          # noqa: E402
+from pipeline.engine.powergrade import (                    # noqa: E402,F401
+    RETAIL, HUBS, LAMBDAS, SMOOTH_DAYS, AVAIL_LAG_DAYS, GRADE_DAY,
+    MAX_ERR_PTS, month_shift, grade_month, grade_all,
+)
 from pipeline.store import vintage                         # noqa: E402
 
-RETAIL = "eia_elec_ind_us"
-HUBS = ("caiso_sp15_da", "miso_indiana_da")
-LAMBDAS = (0.0, 0.25, 0.5, 0.75, 0.8, 1.0)   # 0.8 = cost-structure seed
-    # (AEO2025 Table 8: generation 7.687 / industrial 9.064 ¢/kWh -> 0.848,
-    # rounded down for the all-sector-average caveat; spec §6 grid ∪ seed)
-SMOOTH_DAYS = 7
-AVAIL_LAG_DAYS = 75   # retail print for month M appears ~75d after month start
-GRADE_DAY = 15        # grade the tail value a reader saw mid-month
-MAX_ERR_PTS = 3.0     # spec §6(b)
-
-
-def month_shift(d: str, months: int) -> str:
-    y, m = int(d[:4]), int(d[5:7]) + months
-    y += (m - 1) // 12
-    m = (m - 1) % 12 + 1
-    return f"{y:04d}-{m:02d}-01"
-
-
-def grade_month(official: dict[str, float], w_smoothed: dict[str, float],
-                target: str, lam: float) -> tuple[float, float] | None:
-    """(nowcast_err, carry_forward_err) in YoY points for print month
-    `target`, or None when coverage is missing. Both errors share the
-    realized YoY's base month, so err = (estimate - realized)/base * 100."""
-    t = target[:8] + f"{GRADE_DAY:02d}"
-    cutoff = (date.fromisoformat(t) - timedelta(days=AVAIL_LAG_DAYS)).isoformat()
-    off_asof = {d: v for d, v in official.items() if d <= cutoff}
-    live_asof = {d: v for d, v in w_smoothed.items() if d <= t}
-    base_m = month_shift(target, -12)
-    if target not in official or base_m not in official or not off_asof:
-        return None
-    spliced = blend.splice_year_ratio(off_asof, live_asof, lam)
-    t0 = max(off_asof)
-    tail_dates = [d for d in spliced if t0 < d <= t]
-    if not tail_dates:
-        return None
-    base, realized = official[base_m], official[target]
-    err = (spliced[max(tail_dates)] - realized) / base * 100.0
-    cf = (off_asof[t0] - realized) / base * 100.0
-    return err, cf
-
-
-def grade_all(official: dict[str, float], w_smoothed: dict[str, float],
-             targets: list[str], lambdas: tuple[float, ...] = LAMBDAS):
-    """Grade every target month at every lambda, then reduce to the
-    intersection of months EVERY lambda could grade before scoring.
-
-    A λ>0 model can go non-positive on an extreme wholesale ratio
-    (splice_year_ratio's sign guard then skips that tail date entirely,
-    per its docstring), while λ=0's model reduces to official[ob] — always
-    positive whenever coverage exists. So per-λ gradeable month-sets can
-    differ, and comparing MAE across DIFFERENT month subsets per candidate
-    silently drops exactly the volatile months where a bad λ would post its
-    worst errors — biasing the gate toward a false PASS. Scoring only the
-    common intersection, and carry-forward's MAE over that SAME
-    intersection, keeps the three-way comparison (candidate vs carry-fwd vs
-    λ=0) apples-to-apples. No month is silently discarded: callers get back
-    exactly which months were excluded (`dropped`) instead of a truncated
-    row set with no explanation.
-
-    Returns (per_lambda, common, dropped, mae, mx, cf_mae):
-      per_lambda: {lam: {month: (err, cf)}} — grade_month's per-month
-                  output, ungraded (None) months omitted.
-      common:     sorted months present in per_lambda[lam] for EVERY lam.
-      dropped:    sorted months graded by at least one lambda but not all —
-                  the ones `mae`/`mx`/`cf_mae` below exclude.
-      mae, mx:    {lam: float} — MAE / max|err| over `common` only.
-      cf_mae:     float over `common` only, or None when `common` is empty
-                  (carry-forward's error is lambda-invariant per month, so
-                  any lambda's `common`-month cf values agree)."""
-    per_lambda = {}
-    for lam in lambdas:
-        graded = {m: grade_month(official, w_smoothed, m, lam) for m in targets}
-        per_lambda[lam] = {m: g for m, g in graded.items() if g is not None}
-
-    graded_sets = [set(g) for g in per_lambda.values()]
-    common = sorted(set.intersection(*graded_sets)) if graded_sets else []
-    union = sorted(set.union(*graded_sets)) if graded_sets else []
-    dropped = sorted(set(union) - set(common))
-
-    mae, mx = {}, {}
-    if common:
-        for lam, graded in per_lambda.items():
-            errs = [abs(graded[m][0]) for m in common]
-            mae[lam], mx[lam] = sum(errs) / len(errs), max(errs)
-
-    cf_mae = None
-    if common:
-        any_lam = lambdas[0]
-        cfs = [abs(per_lambda[any_lam][m][1]) for m in common]
-        cf_mae = sum(cfs) / len(cfs)
-
-    return per_lambda, common, dropped, mae, mx, cf_mae
+# month_shift, grade_month, and grade_all are re-exported above (not called
+# directly by this module) so tests/test_backtest_power.py -- which loads
+# this script as a module and exercises the grading math on it -- keeps
+# working unchanged against the moved engine functions.
 
 
 def main(argv=None) -> int:
