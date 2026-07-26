@@ -1,9 +1,85 @@
 """The grading engine is a pure function of dicts -- no store, no I/O."""
+import sqlite3
+from collections import namedtuple
+
 import pytest
 
 from pipeline.engine import dcgrade
 
 W = {"a": 0.6, "b": 0.4}
+
+# Mock component class for testing
+Component = namedtuple("Component", ["code", "series"])
+
+
+def test_load_component_versions_reads_by_series_and_keys_by_code():
+    """load_component_versions must read from comp.series (store code) but
+    key its output by comp.code (component id). Swapping them is the standing
+    trap this test guards against."""
+    conn = sqlite3.connect(":memory:")
+    conn.execute("""CREATE TABLE observations (
+        series_code TEXT, obs_date TEXT, value REAL,
+        vintage_date TEXT, source TEXT, route TEXT)""")
+
+    # Insert test data under a STORE SERIES CODE ("ppi_steel")
+    rows = [
+        ("ppi_steel", "2015-03-01", 100.0, "2015-03-13", "fred", "api"),
+        ("ppi_steel", "2015-03-01", 101.0, "2015-04-14", "fred", "api"),  # revision
+        ("ppi_steel", "2015-04-01", 102.0, "2015-04-14", "fred", "api"),
+    ]
+    conn.executemany(
+        "INSERT INTO observations VALUES (?, ?, ?, ?, ?, ?)", rows)
+    conn.commit()
+
+    # Create a component with different .code and .series
+    comp = Component(code="steel", series="ppi_steel")
+    components = [comp]
+
+    result = dcgrade.load_component_versions(conn, components)
+
+    # Output must be keyed by comp.code ("steel"), not comp.series ("ppi_steel")
+    assert "steel" in result
+    assert "ppi_steel" not in result
+
+    # Verify rows from the store series code were found
+    assert "2015-03-01" in result["steel"]
+    assert "2015-04-01" in result["steel"]
+
+    # Verify the ordering guarantee: vintages must be ascending by vintage_date
+    # so that downstream code can take known[-1] to get the latest value
+    versions_mar = result["steel"]["2015-03-01"]
+    assert versions_mar == [("2015-03-13", 100.0), ("2015-04-14", 101.0)]
+
+    versions_apr = result["steel"]["2015-04-01"]
+    assert versions_apr == [("2015-04-14", 102.0)]
+
+    conn.close()
+
+
+def test_load_component_versions_detects_swapped_series_and_code():
+    """Verify that if code/series were swapped in the implementation,
+    the test would catch it."""
+    conn = sqlite3.connect(":memory:")
+    conn.execute("""CREATE TABLE observations (
+        series_code TEXT, obs_date TEXT, value REAL,
+        vintage_date TEXT, source TEXT, route TEXT)""")
+
+    # Insert data under "ppi_steel" (the store series code)
+    conn.execute(
+        "INSERT INTO observations VALUES (?, ?, ?, ?, ?, ?)",
+        ("ppi_steel", "2015-03-01", 100.0, "2015-03-13", "fred", "api"))
+    conn.commit()
+
+    # Component with code="steel" and series="ppi_steel"
+    comp = Component(code="steel", series="ppi_steel")
+    result = dcgrade.load_component_versions(conn, [comp])
+
+    # If the implementation mistakenly used comp.code to query,
+    # it would find nothing (no rows with series_code="steel")
+    # This confirms we're checking the right thing
+    assert result["steel"] == {"2015-03-01": [("2015-03-13", 100.0)]}
+
+    conn.close()
 
 
 def _versions():
