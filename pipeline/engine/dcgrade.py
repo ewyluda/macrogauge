@@ -16,11 +16,23 @@ import sqlite3
 
 from pipeline.dates import months_back
 
-# Rebase anchor. IMMATERIAL to every published number: each basis and each
-# realized value is a ratio, so the rebase constant cancels exactly. It is
-# deliberately NOT 2018-01 -- requiring that base would floor the earliest
-# anchor at 2018-06 and discard three years of usable vintages (spec 5.1).
-BASE_MONTH = "2008-01-01"
+# Rebase anchor. MUST match config/dc_basket.json's base_month and rebase.py's
+# stage-1 contract: this index is a Laspeyres SUM of separately rebased
+# components,
+#   H_b(t) = sum_i w_i * I_i(t) / I_i(b)
+# so the effective weight of component i is w_i / I_i(b) -- changing b
+# reweights the basket and changes GROWTH RATES, not just the level. "The
+# rebase constant cancels" is true for one series and false for this sum; a
+# different base grades a genuinely different index than the one published on
+# the site (measured: basing at 2008-01 diverged from the published grid by
+# >1 index point across most months; 2018-01 by ~0.1 at a single month).
+#
+# This floors the earliest vintage `anchors()` can produce at 2018-01: an
+# index based at 2018-01 cannot be reconstructed at a vintage predating its
+# own base month's observation. That floor is PRINCIPLED, not a data
+# accident -- it isn't usable vintage history being discarded, it's the base
+# month simply not existing yet at an earlier vintage.
+BASE_MONTH = "2018-01-01"
 
 # First month of the Build sample, set by the two contractor PPIs. The
 # long-run basis measures from here.
