@@ -55,6 +55,28 @@ test("quilt module renders month cells and grocery cards render prices", async (
   await expect(page.getByText("Eggs (dozen)")).toBeVisible();
 });
 
+test("peer calibration panel labels every column's basis", async ({ page }) => {
+  await page.goto("/datacenter");
+  await page.waitForLoadState("networkidle");
+  // the basis badge is the load-bearing label, and it has to live in the COLUMN
+  // HEADER — a peer column without one reads as a like-for-like comparison,
+  // which it is not. Scoping to the thead is the assertion that matters.
+  const header = page.locator("thead", { hasText: "Our DC Build" });
+  await expect(header.getByText("T&T DCCI", { exact: true })).toBeVisible();
+  await expect(header.getByText("Turner BCI", { exact: true })).toBeVisible();
+  await expect(header.getByText("BLS office PPI", { exact: true })).toBeVisible();
+  await expect(header.getByText("cost model", { exact: true })).toBeVisible();
+  await expect(header.getByText("bid-price proxy", { exact: true })).toBeVisible();
+  await expect(header.getByText("output price", { exact: true })).toBeVisible();
+  await expect(header.getByText("input cost", { exact: true })).toBeVisible();
+  // only the BLS column is our own arithmetic off published levels
+  await expect(header.getByText("computed by us", { exact: true })).toHaveCount(1);
+  // Turner Construction and Turner & Townsend are unrelated firms; both peers
+  // must carry the full firm name somewhere on the page
+  await expect(page.getByText("Turner Construction", { exact: false }).first())
+    .toBeVisible();
+});
+
 test("my-inflation state selector localizes the headline", async ({ page }) => {
   await page.goto("/my-inflation");
   await page.waitForLoadState("networkidle");

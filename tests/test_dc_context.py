@@ -5,15 +5,27 @@ import pytest
 from pipeline import dc_context
 
 
+def _peer(**over):
+    p = {"key": "tnt_dcci", "firm": "Turner & Townsend", "short": "T&T DCCI",
+         "publication": "Data Centre Construction Cost Index 2025-2026",
+         "source": "T&T DCCI 2025-2026 (turnerandtownsend.com)",
+         "asof": "2025-2026 edition", "scope": "dc", "basis": "cost_model",
+         "period_basis": "calendar_year", "geography": "global", "derived": False,
+         "caveat": "Data-centre specific, but global rather than US.",
+         "quote": "5.5 percent increase in the cost per watt (2025)",
+         "rows": [{"year": 2023, "escalation_pct": 8.0},
+                  {"year": 2024, "escalation_pct": 5.5}]}
+    p.update(over)
+    return p
+
+
 def _write(tmp_path, overrides=None):
     raw = {
         "colo": {"rate_kw_mo": 194.95, "yoy_pct": 6.5, "vacancy_pct": 1.4,
                  "under_construction_gw": 6.0, "asof": "H2 2025", "source": "CBRE"},
         "queue": {"generation_gw": 1400, "storage_gw": 890,
                   "asof": "2025", "source": "LBNL Queued Up 2025"},
-        "tnt": {"rows": [{"year": 2023, "escalation_pct": 8.0},
-                          {"year": 2024, "escalation_pct": 5.5}],
-                "asof": "2025", "source": "Turner & Townsend DCCI"},
+        "peers": [_peer()],
         "transformer": None,
     }
     raw.update(overrides or {})
@@ -27,8 +39,22 @@ def test_load_happy_path(tmp_path):
     assert cfg.colo.fields["rate_kw_mo"] == 194.95
     assert cfg.colo.asof == "H2 2025" and cfg.colo.source == "CBRE"
     assert cfg.queue.fields == {"generation_gw": 1400, "storage_gw": 890}
-    assert [r["year"] for r in cfg.tnt_rows] == [2023, 2024]
+    assert len(cfg.peers) == 1
+    peer = cfg.peers[0]
+    assert peer.key == "tnt_dcci" and peer.basis == "cost_model"
+    assert peer.derived is False
+    assert [r["year"] for r in peer.rows] == [2023, 2024]
     assert cfg.transformer is None
+
+
+def test_multiple_peers_load_in_config_order(tmp_path):
+    p = _write(tmp_path, {"peers": [
+        _peer(),
+        _peer(key="turner_tbci", short="Turner BCI", scope="nonres_building",
+              basis="bid_price", period_basis="annual_average", geography="us"),
+    ]})
+    cfg = dc_context.load(p)
+    assert [x.key for x in cfg.peers] == ["tnt_dcci", "turner_tbci"]
 
 
 def test_transformer_present_loads(tmp_path):
@@ -43,7 +69,55 @@ def test_load_real_config():
     # every card carries provenance; values are spike-verified, not asserted here
     for card in (cfg.colo, cfg.queue):
         assert card.asof and card.source
-    assert cfg.tnt_rows and cfg.tnt_asof and cfg.tnt_source
+    assert len(cfg.peers) == 3
+    for peer in cfg.peers:
+        assert peer.quote and peer.source and peer.asof and peer.caveat
+
+
+def test_real_config_peer_values_pinned():
+    """Value-pin the seeded panel — every row, not just the latest. Each figure
+    traces to a verbatim quote in docs/plans/2026-07-26-dc-peer-panel.md; a
+    silent edit to ANY year in config should fail here rather than ship an
+    unevidenced number."""
+    by_key = {p.key: p for p in dc_context.load().peers}
+    assert set(by_key) == {"tnt_dcci", "turner_tbci", "bls_ppi_office"}
+    assert list(by_key["tnt_dcci"].rows) == [
+        {"year": 2022, "escalation_pct": 15.0},
+        {"year": 2023, "escalation_pct": 6.0},
+        {"year": 2024, "escalation_pct": 9.0},
+        {"year": 2025, "escalation_pct": 5.5},
+    ]
+    assert list(by_key["turner_tbci"].rows) == [
+        {"year": 2018, "escalation_pct": 5.6},
+        {"year": 2019, "escalation_pct": 5.5},
+        {"year": 2020, "escalation_pct": 1.8},
+        {"year": 2021, "escalation_pct": 1.9},
+        {"year": 2022, "escalation_pct": 8.0},
+        {"year": 2023, "escalation_pct": 6.0},
+        {"year": 2024, "escalation_pct": 3.9},
+        {"year": 2025, "escalation_pct": 4.1},
+    ]
+    # The BLS rows are our own Dec/Dec arithmetic off published December index
+    # levels — recompute them from the levels rather than restating the
+    # percentages, and require each level to appear verbatim in the peer's own
+    # `quote`, so the pins cannot drift from the in-config evidence.
+    levels = {2017: "132.3", 2018: "139.7", 2019: "144.7", 2020: "146.9",
+              2021: "167.361", 2022: "200.106", 2023: "204.580",
+              2024: "210.225", 2025: "216.724"}
+    for year, level in levels.items():
+        assert f"{year} {level}" in by_key["bls_ppi_office"].quote
+    assert list(by_key["bls_ppi_office"].rows) == [
+        {"year": y, "escalation_pct":
+         round((float(levels[y]) / float(levels[y - 1]) - 1) * 100, 2)}
+        for y in range(2018, 2026)]
+    # BLS PPI industry series measure the price contractors RECEIVE. An earlier
+    # draft classified this as an input index and grouped it on our side of the
+    # contract; that was wrong, and mislabelling it is the regression this pins.
+    assert by_key["bls_ppi_office"].basis == "output_price"
+    assert by_key["turner_tbci"].basis == "bid_price"
+    assert by_key["tnt_dcci"].scope == "dc"
+    # only the BLS rows are our own arithmetic off published levels
+    assert [p.key for p in dc_context.load().peers if p.derived] == ["bls_ppi_office"]
 
 
 @pytest.mark.parametrize("overrides,match", [
@@ -52,14 +126,21 @@ def test_load_real_config():
     ({"colo": {"rate_kw_mo": 1, "yoy_pct": 1, "vacancy_pct": 1,
                "under_construction_gw": 1, "asof": "", "source": "y"}}, "non-empty"),
     ({"queue": {"generation_gw": 1400, "asof": "x", "source": "y"}}, "numeric"),
-    ({"tnt": {"rows": [], "asof": "x", "source": "y"}}, "non-empty"),
-    ({"tnt": {"rows": [{"year": 2024, "escalation_pct": 5.5},
-               {"year": 2023, "escalation_pct": 8.0}],
-      "asof": "x", "source": "y"}}, "ascending"),
-    ({"tnt": {"rows": [{"year": 2024, "escalation_pct": "high"}],
-      "asof": "x", "source": "y"}}, "numeric"),
-    ({"tnt": {"rows": [{"year": 2024, "escalation_pct": 5.5}],
-      "asof": "", "source": "y"}}, "asof"),
+    ({"peers": []}, "non-empty"),
+    ({"peers": [_peer(rows=[])]}, "non-empty"),
+    ({"peers": [_peer(rows=[{"year": 2024, "escalation_pct": 5.5},
+                            {"year": 2023, "escalation_pct": 8.0}])]}, "ascending"),
+    ({"peers": [_peer(rows=[{"year": 2024, "escalation_pct": 5.5},
+                            {"year": 2024, "escalation_pct": 8.0}])]}, "ascending"),
+    ({"peers": [_peer(rows=[{"year": 2024, "escalation_pct": "high"}])]}, "numeric"),
+    ({"peers": [_peer(quote="")]}, "non-empty"),
+    ({"peers": [_peer(asof="")]}, "non-empty"),
+    ({"peers": [_peer(basis="vibes")]}, "basis"),
+    ({"peers": [_peer(scope="datacenter")]}, "scope"),
+    ({"peers": [_peer(period_basis="q4_over_q4")]}, "period_basis"),
+    ({"peers": [_peer(geography="emea")]}, "geography"),
+    ({"peers": [_peer(derived="yes")]}, "bool"),
+    ({"peers": [_peer(), _peer()]}, "unique"),
     ({"transformer": {"weeks": "long", "asof": "x", "source": "y"}}, "numeric"),
 ])
 def test_garbled_config_rejected(tmp_path, overrides, match):

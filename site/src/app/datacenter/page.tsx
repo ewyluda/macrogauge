@@ -219,9 +219,14 @@ export default function Datacenter() {
         the grid; it does not nowcast tariff-cycle retail rates, and we publish it as market
         visibility only.
         {" "}The bigger-picture cards are context, not index inputs: colo asking rates (CBRE),
-        grid-queue volumes (LBNL), and the Turner &amp; Townsend cost-per-watt escalation — an
-        annual external calibration shown against our daily DC Build index — are hand-updated
-        from their cited publications and each card carries its as-of date. Kalshi odds are
+        grid-queue volumes (LBNL), and the external calibration panel — annual escalation from
+        Turner &amp; Townsend, Turner Construction and BLS shown against our daily DC Build
+        index — are hand-updated from their cited publications and each card carries its as-of
+        date. Those three peers do not measure the same thing we do, and the panel says so in
+        every column header: we price construction inputs; a bid-price proxy like Turner&apos;s
+        folds the competitive condition of the marketplace — bid climate and contractor margin —
+        into the owner&apos;s cost; and a PPI prices what a contractor receives.
+        The gap between them is the point of showing them. Kalshi odds are
         market-implied probabilities from thin books, shown only when a live quote exists.
         Diesel (genset fuel) and the water, sewer &amp; trash collection services CPI ride the daily pipeline.
       </p>

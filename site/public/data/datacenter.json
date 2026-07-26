@@ -33928,32 +33928,159 @@
       "asof": "2025 Edition (data as of end of 2024)",
       "source": "LBNL Queued Up: 2025 Edition, Dec 2025 (emp.lbl.gov)"
     },
-    "tnt": {
-      "rows": [
-        {
-          "year": 2022,
-          "escalation_pct": 15.0,
-          "build_yoy_pct": 8.94
-        },
-        {
-          "year": 2023,
-          "escalation_pct": 6.0,
-          "build_yoy_pct": 3.64
-        },
-        {
-          "year": 2024,
-          "escalation_pct": 9.0,
-          "build_yoy_pct": 2.74
-        },
-        {
-          "year": 2025,
-          "escalation_pct": 5.5,
-          "build_yoy_pct": 7.71
-        }
-      ],
-      "asof": "2025-2026 edition",
-      "source": "Turner & Townsend Data Centre Construction Cost Index 2025-2026 (turnerandtownsend.com)"
-    },
+    "peers": [
+      {
+        "key": "tnt_dcci",
+        "firm": "Turner & Townsend",
+        "short": "T&T DCCI",
+        "publication": "Data Centre Construction Cost Index 2025-2026",
+        "source": "Turner & Townsend Data Centre Construction Cost Index 2025-2026 (turnerandtownsend.com)",
+        "asof": "2025-2026 edition",
+        "scope": "dc",
+        "basis": "cost_model",
+        "period_basis": "calendar_year",
+        "geography": "global",
+        "derived": false,
+        "caveat": "Data-centre specific, but global rather than US. This is T&T's cost-index headline, not their separate tender price inflation metric.",
+        "quote": "an average 15 percent uplift in local currency construction costs (2022) | the overall average year-on-year cost increase across the index from 2022-2023 is six percent | the overall average year-on-year cost increase across the 2024 index is nine percent, compared to six percent in 2023 | 5.5 percent increase in the cost per watt (2025)",
+        "rows": [
+          {
+            "year": 2022,
+            "escalation_pct": 15.0,
+            "build_yoy_pct": 8.94
+          },
+          {
+            "year": 2023,
+            "escalation_pct": 6.0,
+            "build_yoy_pct": 3.64
+          },
+          {
+            "year": 2024,
+            "escalation_pct": 9.0,
+            "build_yoy_pct": 2.74
+          },
+          {
+            "year": 2025,
+            "escalation_pct": 5.5,
+            "build_yoy_pct": 7.71
+          }
+        ]
+      },
+      {
+        "key": "turner_tbci",
+        "firm": "Turner Construction",
+        "short": "Turner BCI",
+        "publication": "Turner Building Cost Index, 2026 2nd quarter",
+        "source": "Turner Building Cost Index Q2 2026 (turnerconstruction.com)",
+        "asof": "Q2 2026",
+        "scope": "nonres_building",
+        "basis": "bid_price",
+        "period_basis": "annual_average",
+        "geography": "us",
+        "derived": false,
+        "caveat": "US non-residential building of every type, not data centres. A bid-price proxy: Turner's published method includes the competitive condition of the marketplace, so bid climate and contractor margin sit inside the number \u2014 though Turner stops short of saying the series prices accepted tenders.",
+        "quote": "The Turner Building Cost Index is determined by the following factors considered on a nationwide basis: labor rates and productivity, material prices and the competitive condition of the marketplace. | YEAR / AVERAGE INDEX / % \u2014 2025 1485 4.1 | 2024 1426 3.9 | 2023 1373 6.0 | 2022 1295 8.0 | 2021 1199 1.9 | 2020 1177 1.8 | 2019 1156 5.5 | 2018 1096 5.6",
+        "rows": [
+          {
+            "year": 2018,
+            "escalation_pct": 5.6,
+            "build_yoy_pct": 5.38
+          },
+          {
+            "year": 2019,
+            "escalation_pct": 5.5,
+            "build_yoy_pct": 1.22
+          },
+          {
+            "year": 2020,
+            "escalation_pct": 1.8,
+            "build_yoy_pct": 2.6
+          },
+          {
+            "year": 2021,
+            "escalation_pct": 1.9,
+            "build_yoy_pct": 20.48
+          },
+          {
+            "year": 2022,
+            "escalation_pct": 8.0,
+            "build_yoy_pct": 8.94
+          },
+          {
+            "year": 2023,
+            "escalation_pct": 6.0,
+            "build_yoy_pct": 3.64
+          },
+          {
+            "year": 2024,
+            "escalation_pct": 3.9,
+            "build_yoy_pct": 2.74
+          },
+          {
+            "year": 2025,
+            "escalation_pct": 4.1,
+            "build_yoy_pct": 7.71
+          }
+        ]
+      },
+      {
+        "key": "bls_ppi_office",
+        "firm": "US Bureau of Labor Statistics",
+        "short": "BLS office PPI",
+        "publication": "PPI by industry: new office building construction (PCU236223236223)",
+        "source": "BLS PPI series PCU236223236223 (api.bls.gov)",
+        "asof": "December 2025 final; series runs to June 2026, preliminary",
+        "scope": "office_building",
+        "basis": "output_price",
+        "period_basis": "dec_over_dec",
+        "geography": "us",
+        "derived": true,
+        "caveat": "Office buildings, not data centres \u2014 the de facto deflator for DC capital plans because BLS publishes no data-centre construction PPI. An output-price index: it measures what contractors receive, not what inputs cost. Dec-over-Dec computed by us from the published index levels.",
+        "quote": "December index levels, BLS series PCU236223236223: 2017 132.3 | 2018 139.7 | 2019 144.7 | 2020 146.9 | 2021 167.361 | 2022 200.106 | 2023 204.580 | 2024 210.225 | 2025 216.724",
+        "rows": [
+          {
+            "year": 2018,
+            "escalation_pct": 5.59,
+            "build_yoy_pct": 5.38
+          },
+          {
+            "year": 2019,
+            "escalation_pct": 3.58,
+            "build_yoy_pct": 1.22
+          },
+          {
+            "year": 2020,
+            "escalation_pct": 1.52,
+            "build_yoy_pct": 2.6
+          },
+          {
+            "year": 2021,
+            "escalation_pct": 13.93,
+            "build_yoy_pct": 20.48
+          },
+          {
+            "year": 2022,
+            "escalation_pct": 19.57,
+            "build_yoy_pct": 8.94
+          },
+          {
+            "year": 2023,
+            "escalation_pct": 2.24,
+            "build_yoy_pct": 3.64
+          },
+          {
+            "year": 2024,
+            "escalation_pct": 2.76,
+            "build_yoy_pct": 2.74
+          },
+          {
+            "year": 2025,
+            "escalation_pct": 3.09,
+            "build_yoy_pct": 7.71
+          }
+        ]
+      }
+    ],
     "transformer": null,
     "kalshi": {
       "dc_count_expected": 5057.0,
