@@ -20,8 +20,25 @@ from pipeline.engine import aggregate, gate, rebase
 from pipeline.engine import blend as blend_mod
 from pipeline.store import vintage
 
-GRID_START = "2017-01-01"    # internal grid start: feeds 365d YoY bases for 2018
-PUBLISH_START = "2018-01-01"  # writers publish from here
+# The daily grid starts where the DEEPEST component reaches; fill_daily clamps
+# each component to max(GRID_START, its own first obs) and headline() intersects
+# component dates, so each index's real start is data-determined. Build reaches
+# 2007-12 (the two contractor PPIs' BLS base month); Ops and Hardware still
+# start 2017-01 because that is where their store data starts.
+GRID_START = "2007-12-01"
+PUBLISH_START = "2018-01-01"       # writers publish DAILY arrays from here
+# Floor for every index's published MONTHLY array — applied uniformly by
+# pipeline/publish/datacenter.py, NOT a Build-specific "deep history" gate.
+# It is set below the earliest any index's own data can start (even the two
+# 2007-12 contractor PPIs), so in practice it publishes each index's FULL
+# monthly history rather than trimming it: Build's own data genuinely reaches
+# back to 2007-12, so its published monthly array grows to that full span.
+# Ops and Hardware's own data still starts 2017-01 regardless of this
+# constant — this floor is a no-op for them, not a gate holding them at
+# 2017-01 — so their published monthly arrays also grow (a prior 2018-01
+# publish-start cutoff had been trimming 12 months of already-computed
+# 2017-01..2017-12 history off both of them; that cutoff is gone).
+MONTHLY_PUBLISH_START = "2007-12"
 
 
 def _series(conn: sqlite3.Connection, code: str) -> dict[str, float]:

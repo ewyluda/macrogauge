@@ -2,7 +2,7 @@
 from pathlib import Path
 
 from pipeline import dc_basket
-from pipeline.engine.dcindex import PUBLISH_START
+from pipeline.engine.dcindex import MONTHLY_PUBLISH_START, PUBLISH_START
 from pipeline.publish.util import write_json
 
 
@@ -31,11 +31,15 @@ def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
                      else round(e["weight"] * e["yoy_pct"], 2),
                  "stale": e["stale"]}
                 for code, e in v["components"].items()]}
-        # Monthly grid for /escalation. PUBLISH_START is a date ("2018-01-01");
-        # compare on its month prefix. 4dp keeps the Laspeyres identity within
-        # 0.01 index points across 12 components — the bridge tolerance.
+        # Monthly grid for /escalation. Sliced on MONTHLY_PUBLISH_START, not
+        # PUBLISH_START: the contingency table needs the deep history (222
+        # months for Build, spanning the GFC downturn), while the DAILY arrays
+        # stay at 2018-01 because Build's daily grid is ~3,100 points and
+        # doubling it would double a 575KB artifact for no reader benefit.
+        # 4dp keeps the Laspeyres identity within 0.01 index points across 12
+        # components — the bridge tolerance.
         mo = v["monthly"]
-        keep = [i for i, m in enumerate(mo["months"]) if m >= PUBLISH_START[:7]]
+        keep = [i for i, m in enumerate(mo["months"]) if m >= MONTHLY_PUBLISH_START]
         out["indexes"][name]["monthly"] = {
             "months": [mo["months"][i] for i in keep],
             "index": [round(mo["index"][i], 4) for i in keep],

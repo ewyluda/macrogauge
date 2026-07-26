@@ -79,7 +79,10 @@ test("escalation calculator responds to a new base month", async ({ page }) => {
 
   const card = page.getByText("Total escalation").locator("..");
   const before = await card.innerText();
-  await page.locator('input[type="month"]').fill("2019-01");
+  // Task 7 added a second month input (DELIVER BY), so the bare locator is
+  // no longer unique — scope to the first one (BASE MONTH) to preserve this
+  // test's original behavior.
+  await page.locator('input[type="month"]').first().fill("2019-01");
   // toHaveText auto-retries until the assertion passes or times out, so it
   // rides out the React re-render triggered by fill() instead of racing it
   // with a single innerText() snapshot (CI flake risk on a route the daily
@@ -111,4 +114,101 @@ test("escalation calculator prompts instead of showing $0 when base cost is clea
     page.getByText("Enter a base cost greater than $0 to see the escalation.")
   ).not.toBeVisible();
   await expect(page.getByText("Total escalation")).toBeVisible();
+});
+
+test("escalation calculator projects forward when a delivery month is set", async ({
+  page,
+}) => {
+  await page.goto("/escalation");
+  await expect(page.getByText("Total escalation")).toBeVisible();
+
+  // The basis table is visible from the start — the five realized regimes are
+  // informative on their own, and Task 7 gates it on `anchor`, not on a
+  // delivery month. What must NOT be present yet is the forward leg itself:
+  // the per-window factor column and the band sentence both need a horizon.
+  //
+  // NOTE: page.getByText(/independent/) is unusable as the gating signal —
+  // it always matches at least two elements regardless of calculator state:
+  // the site-wide header tagline ("An independent daily gauge...") and the
+  // static Methodology copy below the calculator ("...number of independent
+  // draws behind it..."), both present on first load. "overlapping windows"
+  // (no "historical" in between) is unique to the band sentence itself — the
+  // Methodology copy's parallel phrase is "overlapping historical windows".
+  await expect(page.getByText("What you could carry")).toBeVisible();
+  await expect(page.getByText("overlapping windows")).toHaveCount(0);
+
+  const deliver = page.locator('input[type="month"]').nth(1);
+  const max = await deliver.getAttribute("max");
+  expect(max).toBeTruthy();
+  await deliver.fill(max!);
+
+  await expect(page.getByText("What you could carry")).toBeVisible();
+  await expect(page.getByText("overlapping windows")).toBeVisible();
+  await expect(page.getByText(/Escalated to /).last()).toBeVisible();
+});
+
+test("escalation calculator refuses a delivery month past the cap", async ({ page }) => {
+  await page.goto("/escalation");
+  const deliver = page.locator('input[type="month"]').nth(1);
+  await deliver.fill("2099-01");
+  await expect(
+    page.getByText(/Pick a delivery month between/)
+  ).toBeVisible();
+});
+
+test("escalation delivery picker's own minimum is accepted, not rejected", async ({
+  page,
+}) => {
+  await page.goto("/escalation");
+  const deliver = page.locator('input[type="month"]').nth(1);
+  // The native picker offers `min` as a selectable value, so `min` must itself
+  // be valid. It used to be `lastMonth`, which deliveryValid rejects (it
+  // requires a strictly later month), so choosing the picker's own minimum
+  // produced the out-of-range error.
+  const min = await deliver.getAttribute("min");
+  expect(min).toBeTruthy();
+  await deliver.fill(min!);
+  await expect(page.getByText(/Pick a delivery month between/)).toHaveCount(0);
+  await expect(page.getByText("What you could carry")).toBeVisible();
+  await expect(page.getByText(/Escalated to /).last()).toBeVisible();
+});
+
+test("escalation basis table lists a downturn regime", async ({ page }) => {
+  await page.goto("/escalation");
+  const deliver = page.locator('input[type="month"]').nth(1);
+  const max = await deliver.getAttribute("max");
+  await deliver.fill(max!);
+  // the 2008-12 -> 2011-12 window only resolves because of the deep backfill.
+  // Scope to the basis table's own cell — the same label text also appears
+  // (as an <option>) in the CARRY <select>, a strict-mode violation for a
+  // bare getByText.
+  await expect(
+    page.locator("td", { hasText: "Downturn regime (GFC)" })
+  ).toBeVisible();
+});
+
+test("escalation says why there's no band under a sub-12-month delivery window", async ({
+  page,
+}) => {
+  await page.goto("/escalation");
+  const deliver = page.locator('input[type="month"]').nth(1);
+  // The input's own `min` is one month past the grid end, i.e. horizon 1 —
+  // the shortest window there is, and well inside MIN_HORIZON_MONTHS (12).
+  // Using it directly avoids reimplementing month arithmetic here (that
+  // arithmetic now lives, tested, in lib/dcEscalation.ts as addMonths).
+  const min = await deliver.getAttribute("min");
+  expect(min).toBeTruthy();
+  await deliver.fill(min!);
+
+  // Bases still apply at a short horizon; the band does not, and the page
+  // must say so rather than silently omitting it (spec §5.3.1's last bullet).
+  await expect(page.getByText("No realized band here")).toBeVisible();
+  await expect(page.getByText("overlapping windows")).toHaveCount(0);
+
+  // A longer delivery (the input's own max) gets the band instead of the
+  // explanation — the two are mutually exclusive, not both/neither.
+  const max = await deliver.getAttribute("max");
+  await deliver.fill(max!);
+  await expect(page.getByText("overlapping windows")).toBeVisible();
+  await expect(page.getByText("No realized band here")).toHaveCount(0);
 });

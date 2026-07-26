@@ -7,50 +7,59 @@ from pipeline.publish import datacenter, validate
 
 SCHEMAS = Path(__file__).parent.parent / "schemas"
 
-DC_RESULT = {
-    "base_month": "2018-01",
-    "indexes": {
-        "build": {
-            "index": {"2017-06-01": 99.0, "2018-01-01": 100.0, "2018-06-01": 104.0},
-            "yoy": {"2017-06-01": None, "2018-01-01": 2.0, "2018-06-01": 4.0},
-            "as_of": "2018-06-01", "gate_flags": [],
-            "components": {
-                "steel": {"label": "Steel", "group": "materials", "weight": 0.6,
-                          "mode": "official", "yoy_pct": 5.0, "last_obs": "2018-06-01",
-                          "stale": False},
-                "copper_wire": {"label": "Copper", "group": "materials", "weight": 0.4,
-                                "mode": "official+proxy", "yoy_pct": None,
+def _dc_result(build_monthly_start="2017-06"):
+    """Builds the dc_result fixture shared by the writer tests below.
+    build_monthly_start relabels the Build index's earliest monthly sample so
+    tests can exercise MONTHLY_PUBLISH_START filtering (or its absence)
+    without duplicating the whole fixture — the default reproduces the
+    original fixture values byte-for-byte."""
+    return {
+        "base_month": "2018-01",
+        "indexes": {
+            "build": {
+                "index": {"2017-06-01": 99.0, "2018-01-01": 100.0, "2018-06-01": 104.0},
+                "yoy": {"2017-06-01": None, "2018-01-01": 2.0, "2018-06-01": 4.0},
+                "as_of": "2018-06-01", "gate_flags": [],
+                "components": {
+                    "steel": {"label": "Steel", "group": "materials", "weight": 0.6,
+                              "mode": "official", "yoy_pct": 5.0, "last_obs": "2018-06-01",
+                              "stale": False},
+                    "copper_wire": {"label": "Copper", "group": "materials", "weight": 0.4,
+                                    "mode": "official+proxy", "yoy_pct": None,
+                                    "last_obs": "2018-06-01", "stale": False}},
+                "monthly": {
+                    "months": [build_monthly_start, "2018-01", "2018-06"],
+                    "index": [99.0, 100.0, 104.0],
+                    "components": {"steel": [98.0, 100.0, 106.0],
+                                   "copper_wire": [100.5, 100.0, 101.0]}}},
+            "ops": {
+                "index": {"2018-01-01": 100.0}, "yoy": {"2018-01-01": None},
+                "as_of": "2018-01-01", "gate_flags": ["power@2018-01-01"],
+                "components": {
+                    "power": {"label": "Power", "group": "power", "weight": 1.0,
+                              "mode": "official", "yoy_pct": 3.0, "last_obs": "2018-01-01",
+                              "stale": True}},
+                "monthly": {"months": ["2018-01"], "index": [100.0],
+                            "components": {"power": [100.0]}}},
+            "hardware": {
+                "index": {"2018-01-01": 100.0, "2018-06-01": 112.0},
+                "yoy": {"2018-01-01": None, "2018-06-01": 12.0},
+                "as_of": "2018-06-01", "gate_flags": [],
+                "components": {
+                    "storage": {"label": "Storage", "group": "storage", "weight": 1.0,
+                                "mode": "official", "yoy_pct": 12.0,
                                 "last_obs": "2018-06-01", "stale": False}},
-            "monthly": {
-                "months": ["2017-06", "2018-01", "2018-06"],
-                "index": [99.0, 100.0, 104.0],
-                "components": {"steel": [98.0, 100.0, 106.0],
-                               "copper_wire": [100.5, 100.0, 101.0]}}},
-        "ops": {
-            "index": {"2018-01-01": 100.0}, "yoy": {"2018-01-01": None},
-            "as_of": "2018-01-01", "gate_flags": ["power@2018-01-01"],
-            "components": {
-                "power": {"label": "Power", "group": "power", "weight": 1.0,
-                          "mode": "official", "yoy_pct": 3.0, "last_obs": "2018-01-01",
-                          "stale": True}},
-            "monthly": {"months": ["2018-01"], "index": [100.0],
-                        "components": {"power": [100.0]}}},
-        "hardware": {
-            "index": {"2018-01-01": 100.0, "2018-06-01": 112.0},
-            "yoy": {"2018-01-01": None, "2018-06-01": 12.0},
-            "as_of": "2018-06-01", "gate_flags": [],
-            "components": {
-                "storage": {"label": "Storage", "group": "storage", "weight": 1.0,
-                            "mode": "official", "yoy_pct": 12.0,
-                            "last_obs": "2018-06-01", "stale": False}},
-            "monthly": {"months": ["2018-01", "2018-06"], "index": [100.0, 112.0],
-                        "components": {"storage": [100.0, 112.0]}}},
-    },
-    "hardware_gap": [
-        {"code": "storage", "label": "Storage PPI", "series": "ppi_storage",
-         "in_basket": True, "yoy_pct": 12.345, "last_obs": "2018-06-01"},
-        {"code": "cpi_computers", "label": "CPI computers", "series": "cpi_computers",
-         "in_basket": False, "yoy_pct": None, "last_obs": "2018-05-01"}]}
+                "monthly": {"months": ["2018-01", "2018-06"], "index": [100.0, 112.0],
+                            "components": {"storage": [100.0, 112.0]}}},
+        },
+        "hardware_gap": [
+            {"code": "storage", "label": "Storage PPI", "series": "ppi_storage",
+             "in_basket": True, "yoy_pct": 12.345, "last_obs": "2018-06-01"},
+            {"code": "cpi_computers", "label": "CPI computers", "series": "cpi_computers",
+             "in_basket": False, "yoy_pct": None, "last_obs": "2018-05-01"}]}
+
+
+DC_RESULT = _dc_result()
 PARITY = {"mode": "ops_only", "w_labor": 0.3, "w_power": 0.55,
           "national": {"power": {"value": 10.0, "as_of": "2026-05-01"}, "wage": None},
           "states": [{"state": "CA", "power_rel": 1.2, "ops_mult": 1.11,
@@ -184,10 +193,15 @@ def test_null_context_validates(tmp_path):
 
 
 def test_publishes_monthly_grid_filtered_and_rounded():
-    payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, CONSTRUCTION, POWER, CONTEXT)
+    # use a month before MONTHLY_PUBLISH_START ("2007-12") so this fixture
+    # still exercises the filter — the shared DC_RESULT default ("2017-06")
+    # is deep history now (kept, not filtered); see
+    # test_monthly_publishes_deeper_than_daily for that behavior.
+    dc_result = _dc_result(build_monthly_start="2000-01")
+    payload = datacenter.build(dc_result, PARITY, SOURCE_IDS, CONSTRUCTION, POWER, CONTEXT)
     mo = payload["indexes"]["build"]["monthly"]
 
-    assert mo["months"] == ["2018-01", "2018-06"]   # 2017-06 filtered, matches dates[0]
+    assert mo["months"] == ["2018-01", "2018-06"]   # 2000-01 filtered, matches dates[0]
     assert len(mo["index"]) == len(mo["months"])
     for vals in mo["components"].values():
         assert len(vals) == len(mo["months"])
@@ -205,3 +219,15 @@ def test_monthly_grid_validates_against_schema(tmp_path):
     path = datacenter.write(payload, tmp_path, published_at="2026-07-24T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "datacenter.schema.json")
     assert json.loads(path.read_text())["indexes"]["ops"]["monthly"]["months"] == ["2018-01"]
+
+
+def test_monthly_publishes_deeper_than_daily(tmp_path):
+    """Daily arrays stay at 2018-01 for payload; monthly runs to the data start."""
+    dc_result = _dc_result(build_monthly_start="2010-01")
+    out = datacenter.build(dc_result, PARITY, SOURCE_IDS, None, None, None)
+    build = out["indexes"]["build"]
+    assert build["dates"][0] >= "2018-01-01"
+    assert build["monthly"]["months"][0] == "2010-01"
+    assert len(build["monthly"]["index"]) == len(build["monthly"]["months"])
+    for code, vals in build["monthly"]["components"].items():
+        assert len(vals) == len(build["monthly"]["months"]), code

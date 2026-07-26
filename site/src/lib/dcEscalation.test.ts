@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { escalate, bridge } from "./dcEscalation";
+import {
+  addMonths,
+  bridge,
+  bridgeWindow,
+  escalate,
+  monthDiff,
+  monthIndexAtOrBefore,
+} from "./dcEscalation";
 
 // 2 years, index 100 -> 114.49 (a plausible DC Build path)
 const MONTHS = ["2024-03", "2025-03", "2026-03"];
@@ -87,5 +94,139 @@ describe("bridge", () => {
 
   it("returns an empty array before the series starts", () => {
     expect(bridge(B_MONTHS, B_INDEX, B_COMPONENTS, "2024-02", 100)).toEqual([]);
+  });
+});
+
+describe("bridgeWindow", () => {
+  it("decomposes an arbitrary window, not just to the grid end", () => {
+    const rows = bridgeWindow(
+      B_MONTHS, B_INDEX, B_COMPONENTS, "2024-03", "2025-03", 1_000_000
+    );
+    const total = rows.reduce((s, r) => s + r.contributionPp, 0);
+    const headlineBase = B_COMPONENTS.reduce(
+      (a, c) => a + c.weight * B_INDEX[c.code as keyof typeof B_INDEX][0], 0);
+    const headlineEnd = B_COMPONENTS.reduce(
+      (a, c) => a + c.weight * B_INDEX[c.code as keyof typeof B_INDEX][1], 0);
+    expect(total).toBeCloseTo((headlineEnd / headlineBase - 1) * 100, 10);
+  });
+
+  it("is what bridge() delegates to", () => {
+    const viaBridge = bridge(B_MONTHS, B_INDEX, B_COMPONENTS, "2024-03", 1000);
+    const viaWindow = bridgeWindow(
+      B_MONTHS, B_INDEX, B_COMPONENTS, "2024-03",
+      B_MONTHS[B_MONTHS.length - 1], 1000);
+    expect(viaWindow).toEqual(viaBridge);
+  });
+
+  it("returns [] for an end month before the base", () => {
+    expect(bridgeWindow(
+      B_MONTHS, B_INDEX, B_COMPONENTS, "2026-03", "2024-03", 1000
+    )).toEqual([]);
+  });
+
+  it("falls through to zero-contribution rows (not []) when the end month equals the base month", () => {
+    // Guards a deliberate decision: DcEscalationClient.tsx calls bridge() with a
+    // user-controlled base month and does not guard on rows.length. If the user
+    // selects the final month, they should still see a full row set with
+    // 0.00pp contributions, not an emptied table body.
+    const rows = bridgeWindow(
+      B_MONTHS, B_INDEX, B_COMPONENTS, "2026-03", "2026-03", 1000
+    );
+    expect(rows).toHaveLength(B_COMPONENTS.length);
+    rows.forEach((r) => {
+      expect(r.componentPct).toBeCloseTo(0, 10);
+      expect(r.contributionPp).toBeCloseTo(0, 10);
+      expect(r.contributionCost).toBeCloseTo(0, 10);
+    });
+  });
+});
+
+describe("escalate with a forward segment", () => {
+  it("is unchanged when no forward is supplied", () => {
+    const r = escalate(MONTHS, INDEX, "2024-03", 9_000_000)!;
+    expect(r.forward).toBeNull();
+    expect(r.totalCost).toBeCloseTo(r.escalatedCost, 6);
+    expect(r.totalPct).toBeCloseTo(r.pct, 10);
+    expect(r.totalFactor).toBeCloseTo(1 + r.pct / 100, 10);
+  });
+
+  it("compounds the forward leg from the historical end month", () => {
+    const r = escalate(MONTHS, INDEX, "2024-03", 1_000_000, {
+      deliveryMonth: "2028-03",
+      annualizedPct: 5,
+    })!;
+    expect(r.forward!.fromMonth).toBe("2026-03");
+    expect(r.forward!.monthsAhead).toBe(24);
+    expect(r.forward!.factor).toBeCloseTo(1.1025, 6);   // 1.05^2
+    expect(r.forward!.pct).toBeCloseTo(10.25, 6);
+    // total = historical 1.1449 x forward 1.1025
+    expect(r.totalFactor).toBeCloseTo(1.1449 * 1.1025, 6);
+    expect(r.totalCost).toBeCloseTo(1_000_000 * 1.1449 * 1.1025, 2);
+  });
+
+  it("handles a negative carry rate", () => {
+    const r = escalate(MONTHS, INDEX, "2024-03", 1_000_000, {
+      deliveryMonth: "2027-03",
+      annualizedPct: -3,
+    })!;
+    expect(r.forward!.factor).toBeCloseTo(0.97, 6);
+    expect(r.totalFactor).toBeLessThan(1.1449);
+  });
+
+  it("ignores a delivery month at or before the historical end", () => {
+    const r = escalate(MONTHS, INDEX, "2024-03", 1_000_000, {
+      deliveryMonth: "2026-03",
+      annualizedPct: 5,
+    })!;
+    expect(r.forward).toBeNull();
+    expect(r.totalCost).toBeCloseTo(r.escalatedCost, 6);
+  });
+});
+
+describe("month helpers are exported for dcContingency", () => {
+  it("monthDiff counts whole months", () => {
+    expect(monthDiff("2024-03", "2026-03")).toBe(24);
+    expect(monthDiff("2026-03", "2024-03")).toBe(-24);
+  });
+  it("monthIndexAtOrBefore finds the nearest earlier month", () => {
+    expect(monthIndexAtOrBefore(MONTHS, "2025-11")).toBe(1);
+    expect(monthIndexAtOrBefore(MONTHS, "2024-02")).toBe(-1);
+  });
+});
+
+describe("addMonths", () => {
+  it("advances within a year", () => {
+    expect(addMonths("2026-01", 5)).toBe("2026-06");
+  });
+
+  it("advances the cap window used by the delivery input", () => {
+    expect(addMonths("2026-07", 48)).toBe("2030-07");
+  });
+
+  it("rolls December into the next January", () => {
+    expect(addMonths("2026-12", 1)).toBe("2027-01");
+  });
+
+  it("lands on December without producing month 00 or 13", () => {
+    expect(addMonths("2026-11", 1)).toBe("2026-12");
+    expect(addMonths("2026-12", 12)).toBe("2027-12");
+  });
+
+  it("is the identity at n = 0", () => {
+    expect(addMonths("2026-07", 0)).toBe("2026-07");
+  });
+
+  it("goes backwards across a year boundary", () => {
+    // NOTE: these do NOT distinguish the floored remainder from JS's `%` —
+    // both forms agree for every non-negative `t`, and `t` here is ~24311.
+    // They pin correct backward behaviour; they are not a regression guard.
+    expect(addMonths("2026-01", -1)).toBe("2025-12");
+    expect(addMonths("2026-01", -13)).toBe("2024-12");
+    expect(addMonths("2026-06", -6)).toBe("2025-12");
+  });
+
+  it("round-trips against monthDiff", () => {
+    expect(monthDiff("2026-07", addMonths("2026-07", 48))).toBe(48);
+    expect(monthDiff("2026-07", addMonths("2026-07", 1))).toBe(1);
   });
 });

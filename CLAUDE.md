@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install -e ".[dev]"                      # setuptools; installs pytest
-pytest -q                                     # full suite (674 tests)
+pytest -q                                     # full suite (696 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -28,7 +28,7 @@ cd site && npm ci
 npm run dev        # local dev server
 npm run build      # static export (must pass in CI)
 npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcMarkets)
-npm run e2e        # Playwright smoke — 28 routes / 33 e2e tests, zero console errors
+npm run e2e        # Playwright smoke — 28 routes / 38 e2e tests, zero console errors
 ```
 
 CI (`.github/workflows/ci.yml`) runs two independent jobs on every push/PR: `pipeline` (`pytest -q`)

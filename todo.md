@@ -178,6 +178,54 @@ since shipped (2026-07-25)** — P3 or P7 is the next pick.
     consistent with the rest of the codebase but drops LA's level entirely — decide which failure
     mode is more honest for a choropleth before implementing.
 
+## /escalation P3a follow-ups (triaged FINE TO DEFER at the 2026-07-26 final review — none block merge)
+
+36. **`bridgeWindow`'s `endMonth` generality is production-dead.** `DcEscalationClient.tsx` only ever
+    passes `[baseMonth, lastMonth]` — the reader's own measured window — so no basis-window bridge
+    exists in the UI, and `bridge()` itself now has no production call site (tests only). The spec was
+    amended to describe what shipped rather than the reverse. The obvious use for the generality is a
+    bridge decomposing whichever basis the reader selects in CARRY ("the COVID-regime carry is
+    +8.61%/yr, of which switchgear +2.4pp") — a real product idea, not just dead-code cleanup.
+    Either build that or drop the wrapper and re-point its tests.
+
+37. **`DcEscalationClient.tsx` is ~460 lines.** Natural seam: the "What you could carry" block (basis
+    table + band sentence + short-window caption) has no dependency on the bridge table above it and
+    would take `basisRows`, `chosen`, `bandRow`, `deliveryValid`, `horizon`, `anchor` as props.
+    Deliberately not done on a copy-critical branch.
+
+38. ~~**`addMonths` is pure calendar logic living in a UI file with no unit test.**~~ **RESOLVED
+    2026-07-26** — moved to `site/src/lib/dcEscalation.ts` with 7 colocated tests, and made total for
+    negative shifts (the original `(t % 12) + 1` returned `"2025-00"` for `addMonths("2026-01", -1)`,
+    since JS `%` is sign-preserving; now a floored remainder). Promoted because the DELIVER BY `min`
+    bound now depends on it.
+
+39. **`capBand` recomputes `band()` on every render** (`DcEscalationClient.tsx:85`) though it is only
+    read inside the out-of-range branch. O(n) over ~220 months; correctness is fine.
+
+40. **Small test-tightening set on the P3a libs.** The spike-overlap test asserts only
+    `> 0 && <= 100` rather than the exact share; `"handles a negative carry rate"` asserts
+    `toBeLessThan` while its positive sibling pins exact values; no test exercises the grid-gap case
+    the `months[i] !== w.start` guard exists for (the contiguity invariant it relies on is itself
+    pinned elsewhere); the absolute-**end**-month guard is asymmetric with the start guard and
+    unreachable under that invariant. Also: `annualize(ratio, months)` is written out in both
+    `band()` and `bases()`.
+
+41. **Backfill-script polish** (`scripts/backfill_dc_history.py`, one-shot): `build_series_codes()`'s
+    docstring promises "in basket order" but `main()` `set()`s it away; the `missing`/`non_fred`
+    registry fail-fast guards are still untested (the new coverage guard *is* tested). The unused
+    test imports and the dead `sid` local were removed 2026-07-26 while adding coverage validation.
+    Also: `coverage()` validates *depth* (each series' earliest returned date) and prints row counts
+    for eyeballing, but does not enforce *contiguity* — a series present at 2007-12, absent for a
+    stretch, and resuming later would pass. Not a realistic FRED failure mode for official series,
+    but "coverage verified" should not be read as "no interior gaps".
+
+42. **`/escalation` still permits the trailing stub month as a base** (`max={lastMonth}`), so spec
+    §5.3.1's "reject a base date after the last complete month" is not enforced — acceptance
+    criterion 5 is recorded PARTIAL / NOT MET for that reason. **Ruled a spec defect, not a code
+    defect** (2026-07-26): P1 shipped this, the methodology copy discloses the partial-month window
+    end, no `NaN` or silent clamp occurs, and `escalate()` handles `base === last` correctly with a
+    unit test. Revisit only if the disclosure stops being adequate.
+
 ## Done (one-liners; details in git log)
 
 - 2026-07-13: ALFRED backtest seeding; STREET → Cleveland ensemble; Manheim → Cox

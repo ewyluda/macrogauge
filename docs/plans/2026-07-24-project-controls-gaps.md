@@ -139,13 +139,43 @@ Recon for the design spec refuted both the radius join and the ISO column; full 
 
 ## P3 — Forward DC escalation curve (12–36 months)
 
-**Status:** not started · **Grades:** forecast accuracy, contingency adequacy · **Effort:** medium
+**Status:** **P3a shipped** 2026-07-26 on `feat/dc-contingency` (backfill to 2007-12 + a five-basis
+realized-regime contingency table + a calculator forward leg — the reader picks a delivery month and
+carries a *historical* regime's rate; no forecast is made). **P3b (grading harness) and P3c (forward
+engine) remain, not started.** Full design: `docs/superpowers/specs/2026-07-25-dc-contingency-table-design.md`;
+implementation plan: `docs/superpowers/plans/2026-07-25-dc-contingency-table.md`.
+**Grades:** forecast accuracy, contingency adequacy · **Effort:** medium (P3a, done) / TBD (P3b, P3c)
 
 **Gap.** Trailing YoY doesn't help someone budgeting a 2029 energization. They need "what factor do I
-carry for a project breaking ground Q2 2027, energizing Q4 2029?"
+carry for a project breaking ground Q2 2027, energizing Q4 2029?" **P3a answers this with realized
+history** (five named regimes — long-run, GFC downturn, trailing 3yr, current momentum, COVID peak —
+each carried forward at its own annualized rate, plus a horizon-matched empirical percentile band).
+**It does not forecast which regime will obtain** — that is P3c's problem, and per below it is not yet
+buildable defensibly.
 
 **Have.** `/outlook` does 12-month forward for the CPI basket — 14 component paths, 8 forward drivers,
 87.5% driver coverage, realized-volatility bands (`outlook.json`, `macrogauge_outlook_v1`).
+
+**⚠ SECOND CORRECTION (P3a recon, verified 2026-07-25 —
+`docs/superpowers/specs/2026-07-25-dc-contingency-table-design.md` §2.1). Do not re-derive either
+figure below; the recon corrected both, and this register's numbers were wrong.**
+
+- The **"8.5%"** figure in the first correction below is not "forward-driver coverage" — it is
+  **daily market-priced input coverage**. `fmp_copper`/`fmp_alum` are FMP *continuous front-month*
+  symbols (one price, no expiry chain); a dated-contract probe returns `not_found` at every FMP tier.
+  DC Build's true forward-curve coverage is **0.0%**, not 8.5%.
+- The CPI outlook's **"87.5%"** just above is not weight coverage and must never again be set against
+  DC's figure — it is a driver-*status* score over 8 config blocks (`live=1.0/partial=0.5/fallback=0.0`,
+  7 live + 1 fallback = 87.5%, pinned at `tests/test_outlook.py:77`). Weight-denominated, CPI is
+  **97.2%** with ≥1 driver and **51.6%** with a *dedicated* component-specific driver.
+- `/outlook` is itself a spot-momentum extrapolator (`signals.lookback_return` over a front-month
+  series × a hand-set `pass_through` constant — no regression, fitted beta, or estimated elasticity
+  anywhere in the repo). The "trailing extrapolation wearing a forecast's clothes" critique in the
+  first correction below describes the shipped CPI engine too — the gap is degree, not kind.
+- **A vintage-true DC backtest is impossible before roughly mid-2027** — the entire 2017–2026 DC
+  history was backfilled in single sweeps (`ppi_steel` has exactly two vintage dates); `CPIAUCNS` is
+  the only series in the store with real point-in-time release history. **This — not the coverage
+  percentage — is why P3a makes no forecast claim, and why P3c's ship decision still can't be made.**
 
 **⚠ CORRECTION (verified 2026-07-24, after this register was first written).** The original entry said
 "the engine exists; it has never been pointed at the DC indexes," implying a re-point. **That was wrong
@@ -172,13 +202,38 @@ a curve ships.
 **Implication for P1.** P1 was made dependent on P3 on 2026-07-24 under the assumption P3 was a
 medium-effort re-point. Given the above, **that dependency should be revisited** — see the P1 entry.
 
-**Build.** 12–36 month forward path for DC Build and DC Ops, published **as an annual escalation factor
-table** (2026: x%, 2027: y%, 2028: z%). That table format is literally the cell they paste into the
-capital plan — ship the shape they consume, not just a chart.
+**Build — P3a (shipped, `feat/dc-contingency`).** Not the annual-factor-table forecast originally
+scoped above — that's P3c, and per the recon it isn't buildable defensibly yet (no vintage-true DC
+backtest before ~mid-2027, see the correction above). Instead: (1) backfilled all 12 DC Build
+components to their common 2007-12 start (was 2018-01), giving the sample its first real downturn —
+40/211 negative YoY months (19%) where before there was 1/90 (1%), and a percentile band whose h=12
+p10 flips to **−0.88%** once the GFC is in-sample, vs. +1.26% on the pre-backfill 2018+ sample —
+independently re-verified against the published `datacenter.json` (h=12: 211 windows/17.6 independent
+draws; h=48: 175/3.65); (2) a five-basis contingency table (long-run, GFC downturn 2008-12→2011-12, trailing 3yr,
+current momentum, COVID peak 2021-04→2023-12), each an annualized index ratio over a *named, stated*
+historical window, decomposable through the same per-component bridge P1 shipped; (3) a horizon-matched
+empirical percentile band (12–48 months, capped where independent draws fall below ~3.6) for whichever
+window length the reader's delivery date implies. Every number traces to published `datacenter.json`
+values — **P3a makes no forecast and asserts nothing about which regime will obtain**, which is exactly
+what makes it shippable ahead of P3c's backtest gate. Full math: spec §5; acceptance criteria walked
+and verified end-to-end in spec §9.
 
-**Risk.** Horizon >12mo exceeds what the outlook model was validated for. Either extend the volatility
-band honestly or cap the published horizon. **Do not ship an unbacktested 36-month curve** — that would
-contradict the power-tail precedent, which is the most credible thing we have.
+**Build — P3b/P3c (remaining, not started).** **P3b** is the grading harness: back-test each named
+basis (and, eventually, any P3c model) against realized DC Build prints as they arrive, plus fix the
+stale hardcoded power-nowcast MAE string flagged in spec §2.1 item 5
+(`site/src/app/datacenter/page.tsx:211-220` — still reads "8.5 vs 5.2 YoY pts"; a live re-run reads
+carry-forward 4.778 / best λ=0.25 MAE 8.452, verdict unchanged but the site number is one print stale
+and unvalidated by CI). **P3c** is the actual forward *model* — a fitted regime-probability or
+elasticity engine, which the recon found is not buildable on a defensible vintage-true backtest before
+roughly mid-2027. Recon also flagged four FRED unfilled-orders series (`A35CUO`/`U35CUO`,
+`A33HUO`/`U33HUO`, `ATGPUO`/`UTGPUO`) as exact-or-near NAICS matches to 45% of Build weight at zero
+connector cost, should P3c restart — see spec §11. Neither is scheduled.
+
+**Risk (P3c, still open).** Horizon >12mo exceeds what the outlook model pattern was validated for.
+Either extend the volatility band honestly or cap the published horizon. **Do not ship an unbacktested
+forward *model*** — that would contradict the power-tail precedent, which is the most credible thing we
+have. (P3a sidesteps this entirely by carrying a chosen *historical* rate rather than predicting one —
+the risk applies to P3c, not to what shipped.)
 
 ---
 
@@ -280,7 +335,10 @@ and **P5's CSV export pullable forward** (already backlogged, unblocks the claim
 
 **P1 and P2 have shipped (2026-07-25, `feat/dc-escalation` and `feat/dc-market-panel`).** They were the
 recommended start — highest value per unit effort, both pure assembly over data already published — and
-that's done. Whoever picks this up next should start at **P3 or P7**.
+that's done. **P3a has since shipped too (2026-07-26, `feat/dc-contingency`)** — see the P3 entry above;
+it is the realized-regime contingency table and calculator forward leg, not the P3c forecast model the
+build order below still refers to as "P3." Whoever picks this up next should start at **P3b/P3c, P4, or
+P7**.
 
 ## Deliberately not doing
 

@@ -74,7 +74,7 @@ def test_monthly_grid_samples_last_grid_day_and_preserves_laspeyres_identity(tmp
     mo = build["monthly"]
 
     assert mo["months"] == sorted(mo["months"])
-    assert mo["months"][0] == "2017-01"          # GRID_START; publisher filters later
+    assert mo["months"][0] == "2017-01"   # this fixture's data start, not GRID_START
     assert len(mo["index"]) == len(mo["months"])
     for code, vals in mo["components"].items():
         assert len(vals) == len(mo["months"]), f"{code} length mismatch"
@@ -269,11 +269,12 @@ def test_dormant_blend_labels_official_and_changes_nothing(tmp_path):
 
 
 def test_component_with_no_grid_observations_raises_named_error(tmp_path):
-    # every steel obs predates GRID_START: the daily grid only carries the
-    # stale value forward, so there is no obs ON the grid to compute YoY at —
-    # must raise a clear error naming the component, not a bare IndexError.
+    # every steel obs predates GRID_START (2007-12-01): the daily grid only
+    # carries the stale value forward, so there is no obs ON the grid to
+    # compute YoY at — must raise a clear error naming the component, not a
+    # bare IndexError.
     conn = make_conn(tmp_path, [
-        ("ppi_steel", "2015-01-01", 100.0), ("ppi_steel", "2016-06-01", 105.0),
+        ("ppi_steel", "2004-01-01", 100.0), ("ppi_steel", "2005-06-01", 105.0),
         ("ppi_concrete", "2017-01-01", 200.0), ("ppi_concrete", "2018-01-01", 210.0),
     ] + OPS_ROWS)
     basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
@@ -473,6 +474,35 @@ def test_construction_from_store_none_before_first_collect(tmp_path):
     basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
     dc_result = dcindex.run(conn, today="2018-01-15", basket_path=basket)
     assert dcindex.construction_from_store(conn, dc_result) is None
+
+
+def test_construction_real_has_no_nulls_once_deep_grid_present(tmp_path):
+    """Regression pin for the GRID_START backfill's blast radius (2026-07-26
+    review, FIX 4): construction_from_store's deflator is
+    dc_result["indexes"]["build"]["index"] — the INTERNAL daily grid built
+    from GRID_START (now 2007-12-01), not the published 2018-01 daily slice.
+    Before the backfill, a build component that only had data from 2017-01
+    forward meant the deflator was unavailable (None) for any Census month
+    earlier than that, so `real` carried nulls there. With components that
+    reach back to 2014-01 (still well inside the now-deeper GRID_START), the
+    deflator is available for every Census month and `real` must carry no
+    nulls — this was verified correct against the live 2014-01/02/03 backfill
+    (implied deflators matching monthly.index, continuous across the
+    2016-12 -> 2017-01 boundary) and is an intentional coverage improvement,
+    not something to revert."""
+    conn = make_conn(tmp_path, [
+        ("ppi_steel", "2014-01-01", 90.0), ("ppi_steel", "2018-01-01", 110.0),
+        ("ppi_concrete", "2014-01-01", 180.0), ("ppi_concrete", "2018-01-01", 210.0),
+        ("census_dc_constr_saar", "2014-01-01", 1500.0),
+        ("census_dc_constr_saar", "2018-01-01", 20000.0),
+        ("census_dc_constr_nsa", "2014-01-01", 1400.0),
+        ("census_dc_constr_nsa", "2018-01-01", 1600.0),
+    ] + OPS_ROWS)
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    dc_result = dcindex.run(conn, today="2018-01-15", basket_path=basket)
+    out = dcindex.construction_from_store(conn, dc_result)
+    assert out["months"] == ["2014-01-01", "2018-01-01"]
+    assert None not in out["real"]
 
 
 CAP = {"source": "PJM", "asof": "2025-12-17",
@@ -785,3 +815,36 @@ def test_parity_wage_level_null_when_quarter_mismatch():
     row = out["states"][0]
     assert row["power_cents"] == pytest.approx(12.0)   # power side unaffected
     assert row["wage_level"] is None                    # like-for-like rule holds
+
+
+def test_grid_start_predates_publish_start_so_monthly_can_run_deeper():
+    """The daily grid runs from 2007-12 internally; writers slice it two ways."""
+    assert dcindex.GRID_START == "2007-12-01"
+    assert dcindex.MONTHLY_PUBLISH_START == "2007-12"
+    assert dcindex.PUBLISH_START == "2018-01-01"
+
+
+def test_index_start_is_data_determined_not_grid_determined(tmp_path):
+    """A component whose data starts late must not back-fill to GRID_START —
+    fill_daily clamps to max(start, first obs), so moving GRID_START earlier
+    leaves an index whose inputs start in 2017 exactly where it was."""
+    conn = make_conn(tmp_path, [
+        ("ppi_steel", "2017-01-01", 100.0), ("ppi_steel", "2018-01-01", 110.0),
+        ("ppi_concrete", "2017-01-01", 200.0), ("ppi_concrete", "2018-01-01", 210.0),
+    ] + OPS_ROWS)
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    result = dcindex.run(conn, today="2018-01-15", basket_path=basket)
+    assert result["indexes"]["build"]["monthly"]["months"][0] == "2017-01"
+
+
+def test_index_start_follows_deeper_data_when_present(tmp_path):
+    """With components that reach back before 2017, the grid actually uses them."""
+    conn = make_conn(tmp_path, [
+        ("ppi_steel", "2010-01-01", 80.0), ("ppi_steel", "2017-01-01", 100.0),
+        ("ppi_steel", "2018-01-01", 110.0),
+        ("ppi_concrete", "2010-01-01", 160.0), ("ppi_concrete", "2017-01-01", 200.0),
+        ("ppi_concrete", "2018-01-01", 210.0),
+    ] + OPS_ROWS)
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    result = dcindex.run(conn, today="2018-01-15", basket_path=basket)
+    assert result["indexes"]["build"]["monthly"]["months"][0] == "2010-01"
