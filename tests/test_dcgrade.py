@@ -21,10 +21,12 @@ def test_load_component_versions_reads_by_series_and_keys_by_code():
         series_code TEXT, obs_date TEXT, value REAL,
         vintage_date TEXT, source TEXT, route TEXT)""")
 
-    # Insert test data under a STORE SERIES CODE ("ppi_steel")
+    # Insert test data DELIBERATELY OUT OF VINTAGE ORDER to verify the
+    # ORDER BY vintage_date clause does the work (not just SQLite rowid ordering).
+    # Newest vintage first, then older -- this forces the sort.
     rows = [
-        ("ppi_steel", "2015-03-01", 100.0, "2015-03-13", "fred", "api"),
-        ("ppi_steel", "2015-03-01", 101.0, "2015-04-14", "fred", "api"),  # revision
+        ("ppi_steel", "2015-03-01", 101.0, "2015-04-14", "fred", "api"),  # newer vintage first
+        ("ppi_steel", "2015-03-01", 100.0, "2015-03-13", "fred", "api"),  # older vintage second
         ("ppi_steel", "2015-04-01", 102.0, "2015-04-14", "fred", "api"),
     ]
     conn.executemany(
@@ -46,7 +48,10 @@ def test_load_component_versions_reads_by_series_and_keys_by_code():
     assert "2015-04-01" in result["steel"]
 
     # Verify the ordering guarantee: vintages must be ascending by vintage_date
-    # so that downstream code can take known[-1] to get the latest value
+    # even though we inserted them in REVERSE order. Downstream code takes
+    # known[-1] to get the latest vintage at or before a cutoff, so this must
+    # hold: if this assertion passes but ORDER BY vintage_date is removed from
+    # load_component_versions, the test fails (verified below).
     versions_mar = result["steel"]["2015-03-01"]
     assert versions_mar == [("2015-03-13", 100.0), ("2015-04-14", 101.0)]
 
