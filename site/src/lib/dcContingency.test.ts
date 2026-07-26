@@ -95,4 +95,19 @@ describe("bases", () => {
     expect(abs.map((b) => b.key).sort()).toEqual(["covid", "gfc"]);
     expect(abs.every((b) => !!b.startMonth && !!b.endMonth)).toBe(true);
   });
+
+  // Regression guard for the "must not move between publishes" claim in
+  // dcContingency.ts's BASES doc comment. The test above only checks shape
+  // (kind, truthy bounds); it would still pass if a window's literal month
+  // were typo'd. Pin the four literal strings so a silent edit to either
+  // absolute window fails here.
+  it("pins the two absolute windows to their exact literal months", () => {
+    const gfc = BASES.find((b) => b.key === "gfc")!;
+    expect(gfc.startMonth).toBe("2008-12");
+    expect(gfc.endMonth).toBe("2011-12");
+
+    const covid = BASES.find((b) => b.key === "covid")!;
+    expect(covid.startMonth).toBe("2021-04");
+    expect(covid.endMonth).toBe("2023-12");
+  });
 });
