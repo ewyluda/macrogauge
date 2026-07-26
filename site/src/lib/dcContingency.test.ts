@@ -163,13 +163,34 @@ describe("band", () => {
     expect(b.p90).toBeCloseTo(3.6, 6);
   });
 
-  it("returns null when the horizon exceeds the sample", () => {
+  it("returns null when the horizon exceeds the sample (zero windows: h > anchorIdx)", () => {
+    // h=60 > anchorIdx=48 over the full 49-month grid -> 0 windows possible at all.
     expect(band(MONTHS, INDEX, 60, "2026-01")).toBeNull();
   });
 
-  it("returns null when fewer than two windows exist", () => {
+  it("returns null when the sample itself is too short (zero windows: anchorIdx < h)", () => {
+    // Only 2 months of history and h=12: anchorIdx=1, so even i=0 fails i+h<=anchorIdx.
+    // This is still the 0-window branch, distinct from the "horizon exceeds sample"
+    // case above only in which side is undersized — neither exercises the guard at
+    // exactly 1 window (see the next test, which is the edge the guard exists for).
     const m = ["2024-01", "2025-01"];
     const i = [100, 105];
+    expect(band(m, i, 12, "2025-01")).toBeNull();
+  });
+
+  it("returns null when exactly ONE window exists, not just zero", () => {
+    // windows = anchorIdx - h + 1, so windows=1 needs anchorIdx = h = 12: 13
+    // contiguous months (indices 0..12), anchor on the last (index 12). This is
+    // the boundary the `rates.length < 2` guard actually protects — with exactly
+    // one window, percentile() would otherwise fall into its n===1 branch and
+    // hand back a degenerate band where p10 === p50 === p90, not a real
+    // distribution. The two tests above only ever hit the guard at 0 windows.
+    const m = [
+      "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06",
+      "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12",
+      "2025-01",
+    ];
+    const i = [100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 105];
     expect(band(m, i, 12, "2025-01")).toBeNull();
   });
 
