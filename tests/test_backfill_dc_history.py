@@ -1,9 +1,20 @@
 """Injected-HTTP test for the one-shot DC history backfill."""
-import json
-from pathlib import Path
+import pytest
 
 from scripts import backfill_dc_history
 from pipeline.store import vintage
+
+DEEP = [
+    {"date": "2007-12-01", "value": "100.0"},
+    {"date": "2008-01-01", "value": "101.0"},
+    {"date": "2026-06-01", "value": "150.0"},
+]
+# starts 2017-01 instead of 2007-12: a plausible-looking response that would
+# silently shorten the whole Build index (headline intersects component dates)
+SHALLOW = [
+    {"date": "2017-01-01", "value": "120.0"},
+    {"date": "2026-06-01", "value": "150.0"},
+]
 
 
 class FakeResp:
@@ -17,15 +28,19 @@ class FakeResp:
         return self._payload
 
 
-def make_get(seen: list):
+def make_get(seen: list, fail=(), empty=(), shallow=()):
+    """Fake FRED. `fail`/`empty`/`shallow` are sets of FRED source_ids to
+    degrade — the three ways fred.fetch can come back short without raising."""
     def fake_get(url, params=None, timeout=None):
         seen.append(params)
         sid = params["series_id"]
-        return FakeResp({"observations": [
-            {"date": "2007-12-01", "value": "100.0"},
-            {"date": "2008-01-01", "value": "101.0"},
-            {"date": "2026-06-01", "value": "150.0"},
-        ]})
+        if sid in fail:
+            raise RuntimeError(f"simulated FRED failure for {sid}")
+        if sid in empty:
+            return FakeResp({"observations": []})
+        if sid in shallow:
+            return FakeResp({"observations": list(SHALLOW)})
+        return FakeResp({"observations": list(DEEP)})
     return fake_get
 
 
@@ -69,3 +84,75 @@ def test_backfill_is_idempotent(tmp_path, monkeypatch):
     backfill_dc_history.main(["--store", str(tmp_path)], http_get=make_get([]))
     after = sorted(p.read_text() for p in (tmp_path / "obs").glob("*.jsonl"))
     assert before == after, "re-running the backfill must be a no-op"
+
+
+# --- coverage validation -------------------------------------------------
+# fred.fetch tolerates per-series failures by design: it collects errors and
+# only raises when EVERY series failed. So 11 of 12 succeeding returns
+# normally. That must not read as success here — the Build headline is the
+# intersection of its components' dates, so one short component silently
+# drags the whole index back to a 2017 start and the GFC basis disappears
+# from /escalation while the script exits 0.
+
+def test_backfill_fails_when_one_series_request_fails(tmp_path, monkeypatch):
+    monkeypatch.setenv("FRED_API_KEY", "test-key")
+    with pytest.raises(SystemExit) as e:
+        backfill_dc_history.main(["--store", str(tmp_path)],
+                                 http_get=make_get([], fail={"WPU1017"}))
+    msg = str(e.value)
+    assert "ppi_steel" in msg, msg
+    assert "no rows" in msg, msg
+
+
+def test_backfill_fails_when_one_series_returns_no_rows(tmp_path, monkeypatch):
+    monkeypatch.setenv("FRED_API_KEY", "test-key")
+    with pytest.raises(SystemExit) as e:
+        backfill_dc_history.main(["--store", str(tmp_path)],
+                                 http_get=make_get([], empty={"WPU1174"}))
+    assert "ppi_transformer" in str(e.value)
+
+
+def test_backfill_fails_when_one_series_lacks_the_requested_depth(
+        tmp_path, monkeypatch):
+    monkeypatch.setenv("FRED_API_KEY", "test-key")
+    with pytest.raises(SystemExit) as e:
+        backfill_dc_history.main(
+            ["--store", str(tmp_path)],
+            http_get=make_get([], shallow={"PCU23821X23821X"}))
+    msg = str(e.value)
+    # the SERIES code (ppi_elec_contr), not the basket component code
+    assert "ppi_elec_contr" in msg, msg
+    assert "2017-01-01" in msg and "2007-12-01" in msg, msg
+
+
+def test_backfill_writes_nothing_when_coverage_is_incomplete(
+        tmp_path, monkeypatch):
+    """Validation must run BEFORE the append — a partial backfill in the
+    store is worse than none, because the store is append-only."""
+    monkeypatch.setenv("FRED_API_KEY", "test-key")
+    with pytest.raises(SystemExit):
+        backfill_dc_history.main(["--store", str(tmp_path)],
+                                 http_get=make_get([], fail={"WPU1017"}))
+    assert not list((tmp_path / "obs").glob("*.jsonl")), (
+        "store was written despite incomplete coverage")
+
+
+def test_backfill_honours_a_custom_observation_start(tmp_path, monkeypatch):
+    """The depth requirement tracks --observation-start, not a hardcoded date:
+    the SHALLOW fixture starts 2017-01, so asking for 2017-01 must pass."""
+    monkeypatch.setenv("FRED_API_KEY", "test-key")
+    rc = backfill_dc_history.main(
+        ["--store", str(tmp_path), "--observation-start", "2017-01-01"],
+        http_get=make_get([], shallow={"PCU23821X23821X"}))
+    assert rc == 0
+
+
+def test_backfill_reports_per_series_coverage_on_success(
+        tmp_path, monkeypatch, capsys):
+    monkeypatch.setenv("FRED_API_KEY", "test-key")
+    backfill_dc_history.main(["--store", str(tmp_path)], http_get=make_get([]))
+    out = capsys.readouterr().out
+    # all twelve series named, each with the earliest date it actually returned
+    for code in backfill_dc_history.build_series_codes():
+        assert code in out, f"{code} missing from coverage report:\n{out}"
+    assert out.count("2007-12-01") >= 12, out

@@ -193,9 +193,11 @@ since shipped (2026-07-25)** — P3 or P7 is the next pick.
     would take `basisRows`, `chosen`, `bandRow`, `deliveryValid`, `horizon`, `anchor` as props.
     Deliberately not done on a copy-critical branch.
 
-38. **`addMonths` is pure calendar logic living in a UI file with no unit test.** Hand-verified correct
-    including the December rollover (`("2026-12", 1) → "2027-01"`) and exercised indirectly by three
-    e2e tests that read the input's `max`, but it belongs in `site/src/lib/` with a colocated test.
+38. ~~**`addMonths` is pure calendar logic living in a UI file with no unit test.**~~ **RESOLVED
+    2026-07-26** — moved to `site/src/lib/dcEscalation.ts` with 7 colocated tests, and made total for
+    negative shifts (the original `(t % 12) + 1` returned `"2025-00"` for `addMonths("2026-01", -1)`,
+    since JS `%` is sign-preserving; now a floored remainder). Promoted because the DELIVER BY `min`
+    bound now depends on it.
 
 39. **`capBand` recomputes `band()` on every render** (`DcEscalationClient.tsx:85`) though it is only
     read inside the out-of-range branch. O(n) over ~220 months; correctness is fine.
@@ -208,10 +210,10 @@ since shipped (2026-07-25)** — P3 or P7 is the next pick.
     unreachable under that invariant. Also: `annualize(ratio, months)` is written out in both
     `band()` and `bases()`.
 
-41. **Backfill-script polish** (`scripts/backfill_dc_history.py`, one-shot): unused `import json` /
-    `from pathlib import Path` and an unused `sid` local in its test; `build_series_codes()`'s
+41. **Backfill-script polish** (`scripts/backfill_dc_history.py`, one-shot): `build_series_codes()`'s
     docstring promises "in basket order" but `main()` `set()`s it away; the `missing`/`non_fred`
-    fail-fast guards are untested.
+    registry fail-fast guards are still untested (the new coverage guard *is* tested). The unused
+    test imports and the dead `sid` local were removed 2026-07-26 while adding coverage validation.
 
 42. **`/escalation` still permits the trailing stub month as a base** (`max={lastMonth}`), so spec
     §5.3.1's "reject a base date after the last complete month" is not enforced — acceptance
