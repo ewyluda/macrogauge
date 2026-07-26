@@ -33978,7 +33978,7 @@
         "period_basis": "annual_average",
         "geography": "us",
         "derived": false,
-        "caveat": "US non-residential building of every type, not data centres. A bid index: Turner's published method includes the competitive condition of the marketplace, so contractor margin sits inside the number.",
+        "caveat": "US non-residential building of every type, not data centres. A bid-price proxy: Turner's published method includes the competitive condition of the marketplace, so bid climate and contractor margin sit inside the number \u2014 though Turner stops short of saying the series prices accepted tenders.",
         "quote": "The Turner Building Cost Index is determined by the following factors considered on a nationwide basis: labor rates and productivity, material prices and the competitive condition of the marketplace. | YEAR / AVERAGE INDEX / % \u2014 2025 1485 4.1 | 2024 1426 3.9 | 2023 1373 6.0 | 2022 1295 8.0 | 2021 1199 1.9 | 2020 1177 1.8 | 2019 1156 5.5 | 2018 1096 5.6",
         "rows": [
           {

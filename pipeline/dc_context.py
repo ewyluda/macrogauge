@@ -2,7 +2,11 @@
 
 Loader precedent: pipeline/dc_power.py. Every card carries asof + source so
 staleness stays visible on-site; a typo'd or emptied config must fail loudly
-at load time, never publish a blank or garbled card. The transformer card is
+at load time, never publish a blank or garbled card. Fail-loud means a
+ValueError here: in the daily run that is confined to the datacenter phase
+(datacenter_ok=false in qa, exit 0 — run_daily's isolation contract, same as
+a bad basket or capacity config), and the gate that actually keeps a bad
+config off main is CI, where test_load_real_config loads this very file. The transformer card is
 OPTIONAL end-to-end: it ships only when a primary source confirmed it
 (spike-gated, spec §2).
 

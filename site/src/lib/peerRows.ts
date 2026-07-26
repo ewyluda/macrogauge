@@ -48,7 +48,10 @@ export type PeerMatrix = {
 
 export const BASIS_LABEL: Record<string, string> = {
   input_cost: "input cost",
-  bid_price: "bid price",
+  // "proxy" is deliberate: Turner's method statement supports margin-inside
+  // (bid climate included) but never says the series prices accepted tenders.
+  // A peer that explicitly prices tenders (RLB TPI) should get its own enum.
+  bid_price: "bid-price proxy",
   output_price: "output price",
   cost_model: "cost model",
 };

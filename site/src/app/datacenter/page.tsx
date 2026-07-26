@@ -223,8 +223,9 @@ export default function Datacenter() {
         Turner &amp; Townsend, Turner Construction and BLS shown against our daily DC Build
         index — are hand-updated from their cited publications and each card carries its as-of
         date. Those three peers do not measure the same thing we do, and the panel says so in
-        every column header: we price construction inputs, a bid index prices what an owner pays
-        at tender with contractor margin inside it, and a PPI prices what a contractor receives.
+        every column header: we price construction inputs; a bid-price proxy like Turner&apos;s
+        folds the competitive condition of the marketplace — bid climate and contractor margin —
+        into the owner&apos;s cost; and a PPI prices what a contractor receives.
         The gap between them is the point of showing them. Kalshi odds are
         market-implied probabilities from thin books, shown only when a live quote exists.
         Diesel (genset fuel) and the water, sewer &amp; trash collection services CPI ride the daily pipeline.

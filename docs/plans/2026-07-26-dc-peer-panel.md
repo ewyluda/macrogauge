@@ -77,6 +77,11 @@ base date. The 2013–2017 values are recorded above if a longer table is ever w
 
 **Basis: `bid_price`.** "The competitive condition of the marketplace" is contractor margin and bid
 climate, inside the number. We price inputs. This is the single most important label on the panel.
+The classification is inferential, and the UI says so: Turner's method statement supports
+margin-inside, but nowhere states that the series prices accepted tenders, so the badge renders as
+"bid-price proxy" rather than a definitive bid index (PR #7 review, 2026-07-26). A peer that
+explicitly prices tenders (RLB TPI, second wave) should get its own enum instead of inheriting
+this one.
 
 **Period basis: `annual_average`** — the `%` column is change in the *annual average* index, which
 is roughly six months phase-lagged from a point-in-time 365-day YoY.

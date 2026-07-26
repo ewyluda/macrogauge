@@ -92,7 +92,7 @@ describe("peerMatrix", () => {
 
 describe("label", () => {
   it("maps a known code", () => {
-    expect(label(BASIS_LABEL, "bid_price")).toBe("bid price");
+    expect(label(BASIS_LABEL, "bid_price")).toBe("bid-price proxy");
   });
 
   it("falls through to the raw code so a new enum never renders blank", () => {

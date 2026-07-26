@@ -66,7 +66,7 @@ test("peer calibration panel labels every column's basis", async ({ page }) => {
   await expect(header.getByText("Turner BCI", { exact: true })).toBeVisible();
   await expect(header.getByText("BLS office PPI", { exact: true })).toBeVisible();
   await expect(header.getByText("cost model", { exact: true })).toBeVisible();
-  await expect(header.getByText("bid price", { exact: true })).toBeVisible();
+  await expect(header.getByText("bid-price proxy", { exact: true })).toBeVisible();
   await expect(header.getByText("output price", { exact: true })).toBeVisible();
   await expect(header.getByText("input cost", { exact: true })).toBeVisible();
   // only the BLS column is our own arithmetic off published levels

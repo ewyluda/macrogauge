@@ -75,15 +75,41 @@ def test_load_real_config():
 
 
 def test_real_config_peer_values_pinned():
-    """Value-pin the seeded panel. Each figure below traces to a verbatim quote
-    in docs/plans/2026-07-26-dc-peer-panel.md; a silent edit to config should
-    fail here rather than ship an unevidenced number."""
+    """Value-pin the seeded panel — every row, not just the latest. Each figure
+    traces to a verbatim quote in docs/plans/2026-07-26-dc-peer-panel.md; a
+    silent edit to ANY year in config should fail here rather than ship an
+    unevidenced number."""
     by_key = {p.key: p for p in dc_context.load().peers}
     assert set(by_key) == {"tnt_dcci", "turner_tbci", "bls_ppi_office"}
-    latest = {k: p.rows[-1] for k, p in by_key.items()}
-    assert latest["tnt_dcci"] == {"year": 2025, "escalation_pct": 5.5}
-    assert latest["turner_tbci"] == {"year": 2025, "escalation_pct": 4.1}
-    assert latest["bls_ppi_office"] == {"year": 2025, "escalation_pct": 3.09}
+    assert list(by_key["tnt_dcci"].rows) == [
+        {"year": 2022, "escalation_pct": 15.0},
+        {"year": 2023, "escalation_pct": 6.0},
+        {"year": 2024, "escalation_pct": 9.0},
+        {"year": 2025, "escalation_pct": 5.5},
+    ]
+    assert list(by_key["turner_tbci"].rows) == [
+        {"year": 2018, "escalation_pct": 5.6},
+        {"year": 2019, "escalation_pct": 5.5},
+        {"year": 2020, "escalation_pct": 1.8},
+        {"year": 2021, "escalation_pct": 1.9},
+        {"year": 2022, "escalation_pct": 8.0},
+        {"year": 2023, "escalation_pct": 6.0},
+        {"year": 2024, "escalation_pct": 3.9},
+        {"year": 2025, "escalation_pct": 4.1},
+    ]
+    # The BLS rows are our own Dec/Dec arithmetic off published December index
+    # levels — recompute them from the levels rather than restating the
+    # percentages, and require each level to appear verbatim in the peer's own
+    # `quote`, so the pins cannot drift from the in-config evidence.
+    levels = {2017: "132.3", 2018: "139.7", 2019: "144.7", 2020: "146.9",
+              2021: "167.361", 2022: "200.106", 2023: "204.580",
+              2024: "210.225", 2025: "216.724"}
+    for year, level in levels.items():
+        assert f"{year} {level}" in by_key["bls_ppi_office"].quote
+    assert list(by_key["bls_ppi_office"].rows) == [
+        {"year": y, "escalation_pct":
+         round((float(levels[y]) / float(levels[y - 1]) - 1) * 100, 2)}
+        for y in range(2018, 2026)]
     # BLS PPI industry series measure the price contractors RECEIVE. An earlier
     # draft classified this as an input index and grouped it on our side of the
     # contract; that was wrong, and mislabelling it is the regression this pins.

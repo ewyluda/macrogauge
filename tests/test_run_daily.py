@@ -748,6 +748,33 @@ def test_datacenter_schema_violation_fails_run(tmp_path, monkeypatch):
     assert not (out / "qa.json").exists()  # run died before qa
 
 
+def test_datacenter_config_error_soft_fails_and_surfaces_in_qa(tmp_path, monkeypatch):
+    # An invalid dc_context config publishes nothing garbled — the loader's
+    # ValueError kills the datacenter phase before any artifact is built — but
+    # it must NOT kill the run: config errors ride the same isolation contract
+    # as a bad basket or capacity config (exit 0, datacenter_ok=false in qa,
+    # yesterday's artifact carries forward). The gate that actually blocks a
+    # bad config from merging is CI, where test_load_real_config loads the
+    # real file on every push.
+    set_keys(monkeypatch)
+    bad = json.loads(run_daily.dc_context.DEFAULT_PATH.read_text())
+    bad["peers"][0]["basis"] = "vibes"
+    bad_path = tmp_path / "dc_context.json"
+    bad_path.write_text(json.dumps(bad))
+    monkeypatch.setattr(run_daily.dc_context, "DEFAULT_PATH", bad_path)
+    store, out = tmp_path / "store", tmp_path / "out"
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    assert not (out / "datacenter.json").exists()  # nothing garbled deploys
+    qa_data = json.loads((out / "qa.json").read_text())
+    checks = {c["name"]: c for c in qa_data["checks"]}
+    assert checks["datacenter_ok"]["pass"] is False
+    assert "basis" in checks["datacenter_ok"]["detail"]
+    assert checks["engine_ok"]["pass"] is True
+    assert (out / "pulse.json").exists()  # the rest of the publish is unharmed
+
+
 def test_commodities_failure_does_not_block_gauge_or_labor(tmp_path, monkeypatch):
     set_keys(monkeypatch)
 
