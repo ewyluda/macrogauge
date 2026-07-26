@@ -286,3 +286,17 @@ test("escalation renders the ungradeable note for a hindsight-selected regime", 
   await expect(page.getByRole("link", { name: /the bases that do/i }))
     .toBeVisible();
 });
+
+test("datacenter renders the power-nowcast grade from the artifact", async ({
+  page,
+}) => {
+  await page.goto("/datacenter");
+  await expect(page.getByText(/like-month year-ratio nowcast/)).toBeVisible();
+  // the stale hardcoded pair must be gone, from anywhere on the page
+  await expect(page.getByText("best MAE 8.5 vs 5.2 YoY pts")).toHaveCount(0);
+  // and the live figures must be present with an as-of
+  const grade = page.getByTestId("power-nowcast-grade");
+  await expect(grade).toBeVisible();
+  await expect(grade).toContainText("MAE");
+  await expect(grade).toContainText("as of");
+});
