@@ -306,3 +306,105 @@ def test_reconstruction_matches_the_published_build_index():
     assert over_tolerance <= 1, (
         f"{over_tolerance} months diverge by more than 0.05 index points "
         "-- a real regression moves many months, not one")
+
+
+def _flat_index(start="2010-01-01", n=200, monthly=1.0):
+    from pipeline.dates import months_back
+    return {months_back(start, -i): 100.0 * (monthly ** i) for i in range(n)}
+
+
+def test_grade_reports_zero_shortfall_when_carried_matches_realized():
+    """A constant-rate index: every basis carries exactly what happens."""
+    idx = _flat_index(monthly=1.005)
+    ab = [(m, dcgrade.bases_at(idx, m)) for m in sorted(idx)[36:-48]]
+    out = dcgrade.grade(ab, idx, horizons=(12,))
+    st = out["trailing_3yr"]["h12"]
+    assert st["shortfall_rate_pct"] == pytest.approx(0.0)
+    assert st["mae_pp"] == pytest.approx(0.0, abs=1e-9)
+    assert st["worst_shortfall_pp"] == pytest.approx(0.0)
+
+
+def test_grade_counts_a_shortfall_when_realized_exceeds_carried():
+    """Escalation accelerates after the anchor, so every carry is short.
+
+    Graded anchors are indices 48-58 (2014-01 through 2014-11 in this
+    fixture), not the full 36:59 slice the original draft used. The fixture
+    breaks into the fast regime at index 60: current_momentum's 12-month
+    lookback from an anchor at index a reaches back to a-12, so as long as
+    a >= 48 that lookback window (a-12 .. a) sits entirely inside the slow
+    0.1%/month regime, while the target a+12 (60..70) sits entirely inside
+    the accelerated 2%/month regime. That makes every graded anchor's carry
+    a genuine underestimate of what followed -- not a coin-flip around zero.
+    Anchors 36-47 were excluded because their targets (48-59) are STILL in
+    the slow regime, so carried ~= realized there and the sign of the
+    (near-zero) error is floating-point noise, not signal -- that made the
+    original 100% assertion land near 50% and flap."""
+    from pipeline.dates import months_back
+    idx = {months_back("2010-01-01", -i): 100.0 * (1.001 ** i) for i in range(60)}
+    for i in range(60, 120):                      # regime shift upward
+        idx[months_back("2010-01-01", -i)] = idx[months_back("2010-01-01", -59)] \
+            * (1.02 ** (i - 59))
+    ab = [(m, dcgrade.bases_at(idx, m)) for m in sorted(idx)[48:59]]
+    out = dcgrade.grade(ab, idx, horizons=(12,))
+    st = out["current_momentum"]["h12"]
+    assert st["shortfall_rate_pct"] == pytest.approx(100.0)
+    assert st["bias_pp"] < 0          # carried less than realized
+    assert st["mean_shortfall_pp"] > 0
+
+
+def test_grade_reports_independent_draws_as_n_over_h():
+    """independent_draws must equal n/h at every horizon, for every basis --
+    including long_run.
+
+    The original fixture started at 2010-01-01, but long_run measures from
+    SAMPLE_START (2007-12-01). Since that date was absent from the index,
+    bases_at returned None for long_run at every anchor, grade() emitted
+    None for every long_run horizon, and this test's `st["n"]` subscripted
+    None -- a TypeError, not a real check of long_run's behaviour. Building
+    the fixture from SAMPLE_START instead makes long_run resolve like the
+    other two bases, so the n/h invariant is actually exercised for all
+    three ROLLING_BASES this test claims to cover, not just two of them."""
+    idx = _flat_index(start=dcgrade.SAMPLE_START, monthly=1.005)
+    ab = [(m, dcgrade.bases_at(idx, m)) for m in sorted(idx)[36:-48]]
+    out = dcgrade.grade(ab, idx, horizons=(12, 48))
+    checked = 0
+    for basis in dcgrade.ROLLING_BASES:
+        for h in (12, 48):
+            st = out[basis][f"h{h}"]
+            assert st is not None, (
+                f"{basis} h{h} graded no anchors -- fixture regressed")
+            assert st["independent_draws"] == pytest.approx(st["n"] / h)
+            checked += 1
+    assert checked == 6, "expected all 3 bases x 2 horizons to be gradeable"
+
+
+def test_grade_skips_anchors_with_no_realized_value_at_the_horizon():
+    """Anchors within h months of the sample end are not gradeable."""
+    idx = _flat_index(n=60, monthly=1.005)
+    ab = [(m, dcgrade.bases_at(idx, m)) for m in sorted(idx)[36:]]
+    out = dcgrade.grade(ab, idx, horizons=(12,))
+    assert out["trailing_3yr"]["h12"]["n"] == len(ab) - 12
+
+
+def test_grade_emits_no_row_for_a_horizon_with_no_gradeable_anchors():
+    idx = _flat_index(n=40, monthly=1.005)
+    ab = [(m, dcgrade.bases_at(idx, m)) for m in sorted(idx)[36:]]
+    out = dcgrade.grade(ab, idx, horizons=(48,))
+    assert out["trailing_3yr"]["h48"] is None
+
+
+def test_grade_never_emits_a_scenario_key():
+    """The two hindsight-selected regimes carry no grading statistic
+    anywhere (spec 5.3, acceptance criterion 4)."""
+    idx = _flat_index(monthly=1.005)
+    ab = [(m, dcgrade.bases_at(idx, m)) for m in sorted(idx)[36:-48]]
+    out = dcgrade.grade(ab, idx)
+    assert set(out) == set(dcgrade.ROLLING_BASES)
+    assert "gfc" not in out and "covid_peak" not in out
+
+
+def test_realized_at_annualizes_forward_from_the_anchor():
+    idx = _flat_index(monthly=1.005)
+    m = sorted(idx)[0]
+    r = dcgrade.realized_at(idx, m, (12,))
+    assert r["h12"] == pytest.approx(((1.005 ** 12) - 1) * 100)

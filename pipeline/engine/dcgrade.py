@@ -148,3 +148,101 @@ def bases_at(index: dict[str, float], anchor_month: str,
             else months_back(anchor_month, lookback)
         out[key] = annualized(index, start, anchor_month)
     return out
+
+
+# Matches /escalation's 48-month delivery cap, so every horizon a reader can
+# select is gradeable.
+HORIZONS = (12, 24, 36, 48)
+
+# A floating-point guard, not a materiality threshold. annualized() reaches
+# carried and realized rates through pow() over windows of different lengths
+# (e.g. a 36-month carried rate vs. a 12-month realized rate); when the
+# underlying index is a genuinely constant rate the two are mathematically
+# identical but land a few ulps apart with an essentially coin-flip sign
+# (measured: 13/116 anchors negative under a perfectly flat fixture, ~1e-14pp
+# each). Classifying that noise as a "shortfall" would make a should-be-zero
+# fixture read as an ~11% shortfall rate. Real shortfalls are many orders of
+# magnitude larger than this, so the guard never hides an actual one.
+_SHORTFALL_EPS_PP = 1e-9
+
+
+def realized_at(realized_index: dict[str, float], anchor_month: str,
+                horizons=HORIZONS) -> dict[str, float | None]:
+    """What escalation actually did over each horizon from `anchor_month`.
+
+    Always the final-revision index, in BOTH legs of the caller's comparison.
+    Only the CARRIED side needs to be vintage-true -- that is what the reader
+    knew when deciding what to hold in contingency. What happened is what
+    happened, so realized is never reconstructed from an old vintage (spec
+    5.4)."""
+    return {f"h{h}": annualized(realized_index, anchor_month,
+                                months_back(anchor_month, -h))
+            for h in horizons}
+
+
+def grade(anchor_bases, realized_index: dict[str, float],
+          horizons=HORIZONS) -> dict[str, dict[str, dict | None]]:
+    """Grade each live-computable basis, at each horizon, against what
+    escalation actually did.
+
+    `anchor_bases` is `[(anchor_month, {basis_key: rate | None}), ...]` --
+    typically `[(m, bases_at(vintage_index, m)) for m in ...]`, so the
+    carried side is whatever a reader standing at that vintage could have
+    computed, and the realized side (below) is read off the final-revision
+    index regardless of vintage.
+
+    SHORTFALL RATE IS THE HEADLINE, not MAE. This measures contingency
+    adequacy, and a contingency budget is not a symmetric loss function: a
+    dollar carried short is a change order, a dollar carried extra is slack.
+    Measured on the real sample, the basis with the best MAE is the worst
+    contingency -- long_run wins symmetric error at every horizon and still
+    under-provisions the majority of windows. MAE and bias still publish
+    beside the shortfall rate so the inversion is visible (spec 3).
+
+    Only the three ROLLING_BASES are graded here -- the two hindsight-picked
+    absolute regimes (GFC, COVID peak) could not have been selected by a
+    reader standing at any of these anchors, so grading them would be scoring
+    hindsight against itself (spec 5.3). A horizon with no gradeable anchors
+    emits None, not a zero-filled row -- a zero row reads as "graded, and it
+    was fine," which is a different claim than "never graded."
+
+    The conditional shortfall statistics (mean_shortfall_pp, worst_shortfall_pp)
+    are means over the SHORT windows only, not all windows: averaging in the
+    windows that were fine would dilute the number a reader relying on this
+    for contingency sizing actually needs."""
+    out: dict[str, dict[str, dict | None]] = {}
+    for basis in ROLLING_BASES:
+        out[basis] = {}
+        for h in horizons:
+            errors: list[float] = []
+            shorts: list[float] = []
+            for anchor_month, bases in anchor_bases:
+                carried = bases.get(basis)
+                realized = annualized(realized_index, anchor_month,
+                                      months_back(anchor_month, -h))
+                if carried is None or realized is None:
+                    continue
+                err = carried - realized      # +ve = carried more than needed
+                errors.append(err)
+                if err < -_SHORTFALL_EPS_PP:
+                    shorts.append(-err)
+            if not errors:
+                out[basis][f"h{h}"] = None
+                continue
+            n = len(errors)
+            out[basis][f"h{h}"] = {
+                "n": n,
+                # Deliberately NOT rounded: it is a diagnostic ratio (roughly
+                # how many independent draws n data points represent, since
+                # consecutive monthly anchors h months apart overlap), not a
+                # published headline figure, so there is no reason to trade
+                # precision for cosmetics here.
+                "independent_draws": n / h,
+                "shortfall_rate_pct": round(len(shorts) / n * 100, 1),
+                "mean_shortfall_pp": round(sum(shorts) / len(shorts), 2)
+                                     if shorts else 0.0,
+                "worst_shortfall_pp": round(max(shorts), 2) if shorts else 0.0,
+                "bias_pp": round(sum(errors) / n, 2),
+                "mae_pp": round(sum(abs(e) for e in errors) / n, 2),
+            }
+    return out
