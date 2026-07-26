@@ -11,15 +11,15 @@ export type EscalationResult = {
 };
 
 /** Whole months between two "YYYY-MM" strings. */
-function monthDiff(a: string, b: string): number {
+export function monthDiff(a: string, b: string): number {
   const [ay, am] = a.split("-").map(Number);
   const [by, bm] = b.split("-").map(Number);
   return (by - ay) * 12 + (bm - am);
 }
 
 /** Index of the nearest month at or before `target`; -1 if target predates the series.
- *  Module-private: only escalate() and bridge() below call it. */
-function monthIndexAtOrBefore(months: string[], target: string): number {
+ *  Shared with dcContingency.ts, which resolves the same "YYYY-MM" grid. */
+export function monthIndexAtOrBefore(months: string[], target: string): number {
   let i = -1;
   for (let j = 0; j < months.length; j++) {
     if (months[j] <= target) i = j;
