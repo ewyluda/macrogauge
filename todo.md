@@ -214,6 +214,10 @@ since shipped (2026-07-25)** — P3 or P7 is the next pick.
     docstring promises "in basket order" but `main()` `set()`s it away; the `missing`/`non_fred`
     registry fail-fast guards are still untested (the new coverage guard *is* tested). The unused
     test imports and the dead `sid` local were removed 2026-07-26 while adding coverage validation.
+    Also: `coverage()` validates *depth* (each series' earliest returned date) and prints row counts
+    for eyeballing, but does not enforce *contiguity* — a series present at 2007-12, absent for a
+    stretch, and resuming later would pass. Not a realistic FRED failure mode for official series,
+    but "coverage verified" should not be read as "no interior gaps".
 
 42. **`/escalation` still permits the trailing stub month as a base** (`max={lastMonth}`), so spec
     §5.3.1's "reject a base date after the last complete month" is not enforced — acceptance

@@ -216,8 +216,10 @@ describe("addMonths", () => {
     expect(addMonths("2026-07", 0)).toBe("2026-07");
   });
 
-  it("goes backwards across a year boundary without breaking the modulo", () => {
-    // JS % is sign-preserving, so a naive (t % 12) + 1 yields "2025-00" here
+  it("goes backwards across a year boundary", () => {
+    // NOTE: these do NOT distinguish the floored remainder from JS's `%` —
+    // both forms agree for every non-negative `t`, and `t` here is ~24311.
+    // They pin correct backward behaviour; they are not a regression guard.
     expect(addMonths("2026-01", -1)).toBe("2025-12");
     expect(addMonths("2026-01", -13)).toBe("2024-12");
     expect(addMonths("2026-06", -6)).toBe("2025-12");

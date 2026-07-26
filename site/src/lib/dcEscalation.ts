@@ -36,10 +36,13 @@ export function monthDiff(a: string, b: string): number {
 
 /** Shift a "YYYY-MM" string by `n` whole months. "2026-12" + 1 -> "2027-01".
  *
- *  Uses a floored modulo rather than JS's `%`, which is sign-preserving: a
- *  naive `(t % 12) + 1` yields "2025-00" for addMonths("2026-01", -1).
- *  Negative shifts are not used by the UI today, but the function is exported
- *  and cheap to make total. */
+ *  Uses a floored remainder rather than JS's sign-preserving `%`. To be exact
+ *  about what that buys: the two agree for every non-negative `t`, and `t` is
+ *  `year*12 + (month-1) + n`, so with 4-digit years it only goes negative for
+ *  shifts of tens of thousands of months. **This is a totality fix, not a
+ *  live-bug fix** — no reachable input distinguishes the two forms, and the
+ *  tests below therefore pin correct behaviour rather than guarding a
+ *  regression. Production calls this with n ∈ {1, MAX_HORIZON_MONTHS}. */
 export function addMonths(month: string, n: number): string {
   const [y, m] = month.split("-").map(Number);
   const t = y * 12 + (m - 1) + n;

@@ -28,9 +28,12 @@ class FakeResp:
         return self._payload
 
 
-def make_get(seen: list, fail=(), empty=(), shallow=()):
-    """Fake FRED. `fail`/`empty`/`shallow` are sets of FRED source_ids to
-    degrade — the three ways fred.fetch can come back short without raising."""
+def make_get(seen: list, fail=(), empty=(), shallow=(), dotted=()):
+    """Fake FRED. Each set names FRED source_ids to degrade one of the four
+    ways fred.fetch can come back short WITHOUT raising: a failed request, an
+    empty observations list, rows whose values are all "." (fetch filters
+    them, so the series yields nothing), and history that starts later than
+    asked for."""
     def fake_get(url, params=None, timeout=None):
         seen.append(params)
         sid = params["series_id"]
@@ -38,6 +41,9 @@ def make_get(seen: list, fail=(), empty=(), shallow=()):
             raise RuntimeError(f"simulated FRED failure for {sid}")
         if sid in empty:
             return FakeResp({"observations": []})
+        if sid in dotted:
+            return FakeResp({"observations": [
+                {"date": d["date"], "value": "."} for d in DEEP]})
         if sid in shallow:
             return FakeResp({"observations": list(SHALLOW)})
         return FakeResp({"observations": list(DEEP)})
@@ -110,6 +116,17 @@ def test_backfill_fails_when_one_series_returns_no_rows(tmp_path, monkeypatch):
         backfill_dc_history.main(["--store", str(tmp_path)],
                                  http_get=make_get([], empty={"WPU1174"}))
     assert "ppi_transformer" in str(e.value)
+
+
+def test_backfill_fails_when_every_row_is_a_dot(tmp_path, monkeypatch):
+    """FRED marks unavailable observations "."; fred.fetch filters them, so a
+    series can return HTTP 200 with rows and still yield nothing."""
+    monkeypatch.setenv("FRED_API_KEY", "test-key")
+    with pytest.raises(SystemExit) as e:
+        backfill_dc_history.main(["--store", str(tmp_path)],
+                                 http_get=make_get([], dotted={"WPU1141"}))
+    assert "ppi_pumps" in str(e.value)
+    assert not list((tmp_path / "obs").glob("*.jsonl"))
 
 
 def test_backfill_fails_when_one_series_lacks_the_requested_depth(

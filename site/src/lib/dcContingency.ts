@@ -171,8 +171,11 @@ export function bases(
  *  48 is chosen because the sample is ALREADY thin there (~3.6 independent
  *  draws currently — see band()'s live `independentDraws` output, which is
  *  what the page renders rather than this comment's snapshot) and keeps
- *  thinning as h grows, and because it covers this tool's intended 12-36
- *  month use case plus a mid-2026 base carried to a 2029-2030 energization. */
+ *  thinning as h grows, and because it spans this tool's intended 12-36 month
+ *  use case with room for a base at the grid's end carried to a delivery four
+ *  years out. (An earlier version of this comment named specific years; they
+ *  went stale within the month, which is the same trap the crossover note
+ *  above warns about.) */
 export const MIN_HORIZON_MONTHS = 12;
 export const MAX_HORIZON_MONTHS = 48;
 

@@ -192,15 +192,13 @@ test("escalation says why there's no band under a sub-12-month delivery window",
 }) => {
   await page.goto("/escalation");
   const deliver = page.locator('input[type="month"]').nth(1);
-  // `min` is the month AFTER the grid end (the smallest month that carries at
-  // all), so this lands 7 months past the grid end — comfortably inside
-  // MIN_HORIZON_MONTHS (12), which is all this test needs.
+  // The input's own `min` is one month past the grid end, i.e. horizon 1 —
+  // the shortest window there is, and well inside MIN_HORIZON_MONTHS (12).
+  // Using it directly avoids reimplementing month arithmetic here (that
+  // arithmetic now lives, tested, in lib/dcEscalation.ts as addMonths).
   const min = await deliver.getAttribute("min");
   expect(min).toBeTruthy();
-  const [y, m] = min!.split("-").map(Number);
-  const t = y * 12 + (m - 1) + 6;
-  const shortDelivery = `${Math.floor(t / 12)}-${String((t % 12) + 1).padStart(2, "0")}`;
-  await deliver.fill(shortDelivery);
+  await deliver.fill(min!);
 
   // Bases still apply at a short horizon; the band does not, and the page
   // must say so rather than silently omitting it (spec §5.3.1's last bullet).
