@@ -457,3 +457,219 @@ def test_grade_computes_realized_via_realized_at_not_a_second_formula():
     st = out["trailing_3yr"]["h12"]
     # against a realized of 10,000%, every real carried rate is a shortfall
     assert st["shortfall_rate_pct"] == pytest.approx(100.0)
+
+
+# ---------------------------------------------------------------------------
+# build(): both legs, scenarios, the re-derivable anchor array.
+#
+# This repo permits exactly ONE live-data test in the whole suite --
+# test_reconstruction_matches_the_published_build_index above. Every other
+# test, including everything below, builds a synthetic store: real config
+# (dc_basket.json, series.json) but fabricated observations, so the fixture
+# never drifts with a daily bot commit and never disagrees with a change to
+# the live store.
+# ---------------------------------------------------------------------------
+
+from pipeline.dates import months_back as _months_back
+from pipeline.models import Observation
+
+# The 12 real Build components' STORE series codes (config, not data --
+# reading these off dc_basket.json's own component list would be circular
+# with what this fixture is trying to independently exercise).
+DC_BUILD_SERIES = (
+    "ces_constr_ahe", "ppi_elec_contr", "ppi_plumb_hvac", "ppi_steel",
+    "ppi_concrete", "ppi_copper_wire", "ppi_alum_shapes", "ppi_switchgear",
+    "ppi_transformer", "ppi_genset", "ppi_hvac_equip", "ppi_pumps",
+)
+
+SCENARIOS = [
+    {"key": "gfc", "label": "GFC downturn",
+     "start_month": "2008-12-01", "end_month": "2011-12-01"},
+    {"key": "covid_peak", "label": "COVID peak",
+     "start_month": "2021-04-01", "end_month": "2023-12-01"},
+]
+
+
+def _regime_rate(month: str) -> float:
+    """Monthly growth rate for one shared synthetic DC-index trajectory,
+    2007-12 through 2026-06.
+
+    Piecewise, not constant, and not deliberately: a flat-rate fixture makes
+    long_run/trailing_3yr/current_momentum agree at every anchor (the exact
+    trap `test_bases_at_computes_the_three_rolling_bases_from_their_own_windows`
+    above was written to avoid), and it would make the GFC/COVID scenario
+    reads indistinguishable from the surrounding trend. The regimes below
+    give both a real decline (2008-12..2009-12, so the extended leg's
+    long-run basis and the 'gfc' scenario read as genuinely negative and the
+    leg legitimately 'contains a downturn') and a real acceleration
+    (2021-05..2022-06, so 'covid_peak' reads as genuinely elevated)."""
+    if month < "2008-12-01":
+        return 0.0030            # pre-GFC rise
+    if month < "2010-01-01":
+        return -0.0100           # GFC decline
+    if month < "2012-01-01":
+        return 0.0020            # recovery
+    if month < "2021-05-01":
+        return 0.0025            # steady mid-cycle (spans BASE_MONTH 2018-01)
+    if month < "2022-07-01":
+        return 0.0080            # COVID-era acceleration
+    if month < "2024-01-01":
+        return 0.0020            # cooldown
+    return 0.0025                # steady
+
+
+def _monthly_index_levels(start="2007-12-01", end="2026-06-01") -> dict[str, float]:
+    """{month: level}, monthly, compounding _regime_rate from 100.0 at start."""
+    months = []
+    m = start
+    while m <= end:
+        months.append(m)
+        m = _months_back(m, -1)
+    levels = {months[0]: 100.0}
+    for prev, cur in zip(months, months[1:]):
+        levels[cur] = levels[prev] * (1 + _regime_rate(cur))
+    return levels
+
+
+def _write_synthetic_dc_store(store_dir) -> None:
+    """A synthetic vintage store for the 12 real Build components: monthly
+    observations 2007-12 through 2026-06, each carrying TWO vintages -- a
+    provisional first release one month after the observation month, and a
+    (slightly higher) revision three months after that -- so the strict leg
+    has vintage history to walk and the anchors() dedupe-by-last-month logic
+    has real month-by-month vintage arrivals to exercise, not one big vintage
+    dump. Every one of the 12 series shares the same growth trajectory
+    (scaled by an arbitrary per-series level that cancels on rebase), which
+    keeps the fixture's arithmetic hand-checkable while still varying over
+    time -- see `_regime_rate`.
+
+    Written directly as store-format JSONL (bypassing vintage.append_vintages,
+    which opens each partition file once per observation) because this
+    fixture is ~5,300 rows; the module-scoped `dc_built` fixture below still
+    pays this cost only once for the whole test module.
+    """
+    import json
+    from dataclasses import asdict
+
+    levels = _monthly_index_levels()
+    by_vintage_month: dict[str, list[dict]] = {}
+    for i, code in enumerate(DC_BUILD_SERIES):
+        scale = 1.0 + i * 0.1        # arbitrary per-series level; cancels on rebase
+        for month, level in levels.items():
+            final_value = level * scale
+            provisional_value = final_value * 0.998   # small systematic revision
+            for value, vintage_date in (
+                (provisional_value, _months_back(month, -1)),
+                (final_value, _months_back(month, -4)),
+            ):
+                o = Observation(series_code=code, obs_date=month, value=value,
+                                vintage_date=vintage_date, source="test",
+                                route="synthetic")
+                by_vintage_month.setdefault(vintage_date[:7], []).append(asdict(o))
+
+    obs_dir = Path(store_dir) / "obs"
+    obs_dir.mkdir(parents=True, exist_ok=True)
+    for ym, rows in by_vintage_month.items():
+        (obs_dir / f"{ym}.jsonl").write_text(
+            "\n".join(json.dumps(r, sort_keys=True) for r in rows) + "\n")
+
+
+@pytest.fixture(scope="module")
+def dc_built(tmp_path_factory):
+    """build() run once against the synthetic store above, reused read-only
+    across every test below -- build() and its inputs are pure functions of
+    the store's contents, so re-writing ~5,300 rows and re-loading the store
+    per test would only slow the suite without exercising anything new."""
+    store_dir = tmp_path_factory.mktemp("dc_grade_store")
+    _write_synthetic_dc_store(store_dir)
+    conn = vintage.load(store_dir)
+    _, series = registry.load_registry()
+    _, baskets = dc_basket.load_baskets(registry_codes={s.code for s in series})
+    return dcgrade.build(conn, baskets["build"], dcgrade.BASE_MONTH, SCENARIOS)
+
+
+def test_build_emits_both_legs_with_spans_and_anchor_counts(dc_built):
+    out = dc_built
+    assert set(out["legs"]) == {"strict", "extended"}
+    for leg in out["legs"].values():
+        assert leg["anchors_n"] > 50
+        assert leg["span"][0] < leg["span"][1]
+        assert leg["grades"]
+        # A bare truthiness check on the outer dict would pass even if every
+        # basis/horizon graded to None (e.g. a wiring bug that fed grade()
+        # anchors with no realized future) -- assert something actually
+        # graded.
+        assert any(stat is not None
+                  for basis_grades in leg["grades"].values()
+                  for stat in basis_grades.values())
+
+
+def test_strict_leg_is_vintage_true_and_cannot_predate_its_own_base_month(dc_built):
+    """Renamed from a stale assertion (`span[0] >= '2015-03'`) inherited from
+    before the base-month correction (spec 2.1a): the real floor is 2018-01,
+    BASE_MONTH itself -- an index based at 2018-01 cannot be reconstructed at
+    a vintage that predates its own base month's observation. On a synthetic
+    store the exact span is a fixture detail, so this asserts the PROPERTY
+    (no anchor before the base month) rather than a hardcoded calendar date."""
+    strict = dc_built["legs"]["strict"]
+    assert "vintage-true" in strict["provenance"]
+    assert strict["span"][0] >= dcgrade.BASE_MONTH[:7]
+    assert strict["contains_downturn"] is False
+
+
+def test_extended_leg_reaches_further_back_and_holds_a_downturn(dc_built):
+    ext, strict = dc_built["legs"]["extended"], dc_built["legs"]["strict"]
+    assert ext["span"][0] < strict["span"][0]
+    assert ext["span"][0] == "2010-12"      # SAMPLE_START + 36mo of history
+    assert ext["contains_downturn"] is True
+    assert ext["anchors_n"] > strict["anchors_n"]
+
+
+def test_scenarios_publish_rates_and_windows_but_no_grading_statistic(dc_built):
+    """Spec 5.3: a grade on ~1.5 independent draws is not a measurement, and
+    publishing one invites exactly the over-reading it cannot support."""
+    out = dc_built
+    keys = {s["key"] for s in out["scenarios"]}
+    assert keys == {"gfc", "covid_peak"}
+    banned = {"shortfall_rate_pct", "mae_pp", "bias_pp", "n",
+              "mean_shortfall_pp", "worst_shortfall_pp", "independent_draws"}
+    for s in out["scenarios"]:
+        assert s["hindsight_selected"] is True
+        assert s["annualized_pct"] is not None
+        assert not (banned & set(s)), f"scenario {s['key']} carries a grade"
+    # The two scenarios must read as genuinely different regimes -- not both
+    # incidentally landing near the fixture's steady-state rate, which would
+    # let a swapped start/end month or a broken window slice pass unnoticed.
+    by_key = {s["key"]: s["annualized_pct"] for s in out["scenarios"]}
+    assert by_key["gfc"] < 0 < by_key["covid_peak"]
+
+
+def test_anchors_array_lets_a_reader_rederive_every_statistic(dc_built):
+    out = dc_built
+    assert out["anchors"]
+    row = out["anchors"][0]
+    assert set(row) == {"m", "leg", "bases", "realized"}
+    assert set(row["bases"]) == set(dcgrade.ROLLING_BASES)
+    assert set(row["realized"]) == {f"h{h}" for h in dcgrade.HORIZONS}
+
+
+def test_build_publishes_the_revision_disclosure(dc_built):
+    """The extended leg's justification is the measured revision distortion.
+    Without it the leg is just a looser standard (spec 5.2)."""
+    assert dc_built["revision_disclosure_pp"] == 0.27
+
+
+def test_strict_leg_never_publishes_h36_or_h48(dc_built):
+    """Correction: independent draws at h36/h48 measure ~1.78 and ~1.08 on
+    the real vintage sample -- roughly ONE draw -- so the strict leg must
+    carry only h12/h24. This is the ONLY stated exception to the paired-leg
+    rule (every other published shortfall figure has a counterpart leg
+    beside it), and it must never silently regress to publishing all four
+    horizons the way the extended leg does."""
+    strict = dc_built["legs"]["strict"]
+    extended = dc_built["legs"]["extended"]
+    assert strict["published_horizons"] == [12, 24]
+    assert extended["published_horizons"] == list(dcgrade.HORIZONS)
+    for basis in dcgrade.ROLLING_BASES:
+        assert set(strict["grades"][basis]) == {"h12", "h24"}
+        assert set(extended["grades"][basis]) == {"h12", "h24", "h36", "h48"}

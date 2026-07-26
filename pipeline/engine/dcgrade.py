@@ -263,3 +263,111 @@ def grade(anchor_bases, realized_index: dict[str, float],
                 "mae_pp": round(sum(abs(e) for e in errs) / n, 2),
             }
     return out
+
+
+# Measured 2026-07-26 across nine historical anchors: reconstructing at a past
+# vintage vs the final-revision index moves the annualized trailing-12m rate
+# by at most this much. It is what makes the extended leg defensible rather
+# than a looser standard, so it PUBLISHES alongside that leg (spec 2.3, 5.2).
+REVISION_DISCLOSURE_PP = 0.27
+
+_STRICT_NOTE = ("vintage-true (ALFRED as-of): each component takes its latest "
+                "release known at the anchor date")
+_EXTENDED_NOTE = ("final-revision throughout: deeper sample, at a measured "
+                  f"{REVISION_DISCLOSURE_PP}pp maximum distortion")
+
+
+# The strict leg publishes only h=12 and h=24. Measured on the real vintage
+# sample, its independent draws at h=36 and h=48 are 1.78 and 1.08 -- roughly
+# ONE -- and a "100.0%" shortfall resting on one draw is exactly the claim
+# this spec's standard rejects elsewhere (spec 5.3's own reasoning about the
+# scenarios applies just as hard here). Those two horizons are carried by the
+# extended leg alone; each leg's `published_horizons` field lets a consumer
+# tell which horizons it actually has rather than guessing from HORIZONS.
+# This is the ONLY stated exception to the paired-leg rule (spec 5.2).
+STRICT_HORIZONS = (12, 24)
+
+
+def _leg(anchor_bases, realized_index, provenance, contains_downturn,
+         horizons=HORIZONS):
+    """One leg's publishable summary: provenance, span, anchor count, which
+    horizons it grades, and the grades themselves."""
+    months = [m for m, _ in anchor_bases]
+    return {
+        "provenance": provenance,
+        "span": [months[0][:7], months[-1][:7]] if months else [None, None],
+        "anchors_n": len(months),
+        "contains_downturn": contains_downturn,
+        "published_horizons": list(horizons),
+        "grades": grade(anchor_bases, realized_index, horizons),
+    }
+
+
+def build(conn: sqlite3.Connection, components, base_month_cfg: str,
+          scenarios: list[dict]) -> dict:
+    """Both legs, the ungraded hindsight scenarios, and the re-derivable
+    anchor array -- the one artifact the publisher calls.
+
+    Two samples of the SAME measurement, published together by design. The
+    strict leg is genuinely vintage-true but its anchors cannot start before
+    BASE_MONTH (2018-01 -- see the comment on BASE_MONTH for why that floor
+    is principled, not a data accident) and so its 99 anchors contain the
+    2021-22 spike and NO downturn: measured 2026-07-26, its long_run basis
+    reads a 96.9% shortfall rate at 36 months. The extended leg reads the
+    SAME bases off the final-revision index back to SAMPLE_START + 36 months
+    (2010-12, 187 anchors), which DOES reach the 2008-09 downturn, and
+    long_run's 36-month shortfall there falls to 64.2%. That ~33pp spread is
+    itself the finding -- how much the answer depends on whether the sample
+    happens to contain a downturn -- so neither leg may publish without the
+    other (spec 3.1, 5.2).
+    """
+    weights = {c.code: c.weight for c in components}
+    versions = load_component_versions(conn, components)
+
+    latest_vintage = max(vd for v in versions.values() for rows in v.values()
+                         for vd, _ in rows)
+    realized = index_asof(versions, latest_vintage, weights, base_month_cfg)
+    if not realized:
+        return {"as_of": None, "legs": {}, "anchors": [], "scenarios": [],
+                "revision_disclosure_pp": REVISION_DISCLOSURE_PP}
+
+    strict_anchors = [(m, bases_at(idx, m))
+                      for m, idx in anchors(versions, weights, base_month_cfg)]
+    # Extended: the same bases read off the final-revision index. First anchor
+    # is SAMPLE_START + 36 months -- trailing_3yr needs that much history.
+    ext_start = months_back(SAMPLE_START, -36)
+    extended_anchors = [(m, bases_at(realized, m))
+                        for m in sorted(realized) if m >= ext_start]
+
+    rows = []
+    for leg_key, ab in (("strict", strict_anchors), ("extended", extended_anchors)):
+        for m, bases in ab:
+            rows.append({
+                "m": m[:7], "leg": leg_key,
+                "bases": {k: None if v is None else round(v, 3)
+                          for k, v in bases.items()},
+                "realized": {k: None if v is None else round(v, 3)
+                             for k, v in realized_at(realized, m).items()},
+            })
+
+    return {
+        "as_of": max(realized)[:7],
+        "legs": {
+            "strict": _leg(strict_anchors, realized, _STRICT_NOTE, False,
+                           STRICT_HORIZONS),
+            "extended": _leg(extended_anchors, realized, _EXTENDED_NOTE, True),
+        },
+        "anchors": rows,
+        "scenarios": [{
+            "key": s["key"], "label": s["label"],
+            "start_month": s["start_month"][:7], "end_month": s["end_month"][:7],
+            "annualized_pct": (lambda v: None if v is None else round(v, 2))(
+                annualized(realized, s["start_month"], s["end_month"])),
+            "hindsight_selected": True,
+            "note": ("Window hand-picked in 2026 from realized history. "
+                     "Ungradeable: selecting it required hindsight, and "
+                     "restricting to anchors where the window had closed "
+                     "leaves too few independent draws to measure."),
+        } for s in scenarios],
+        "revision_disclosure_pp": REVISION_DISCLOSURE_PP,
+    }
