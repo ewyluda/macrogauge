@@ -477,11 +477,18 @@ import sqlite3
 
 from pipeline.dates import months_back
 
-# Rebase anchor. IMMATERIAL to every published number: each basis and each
-# realized value is a ratio, so the rebase constant cancels exactly. It is
-# deliberately NOT 2018-01 -- requiring that base would floor the earliest
-# anchor at 2018-06 and discard three years of usable vintages (spec 5.1).
-BASE_MONTH = "2008-01-01"
+# Rebase anchor. MUST match config/dc_basket.json's base_month and rebase.py's
+# stage-1 contract. NOT immaterial, despite an earlier claim: this index is a
+# Laspeyres sum of SEPARATELY REBASED components, so H_b(t) = sum w_i*I_i(t)/I_i(b)
+# gives component i an effective weight of w_i/I_i(b) -- changing b reweights the
+# basket and changes its growth rates. Measured: a 2008-01 base diverges from the
+# published index by up to 1.0029 index points across 199 of 222 months, vs
+# 0.1081 at one month for 2018-01 (spec 2.1a).
+#
+# This floors the earliest anchor at 2018-01, and that floor is principled: an
+# index based at 2018-01 cannot be reconstructed at a vintage predating its own
+# base month. The strict leg has 99 anchors, not 132.
+BASE_MONTH = "2018-01-01"
 
 # First month of the Build sample, set by the two contractor PPIs. The
 # long-run basis measures from here.
@@ -1048,14 +1055,26 @@ _EXTENDED_NOTE = ("final-revision throughout: deeper sample, at a measured "
                   f"{REVISION_DISCLOSURE_PP}pp maximum distortion")
 
 
-def _leg(anchor_bases, realized_index, provenance, contains_downturn):
+# The strict leg publishes only h=12 and h=24. Corrected measurement (spec
+# §2.1a) puts its independent draws at 1.78 and 1.08 for h=36 and h=48 --
+# roughly ONE draw -- and a "100.0%" shortfall resting on one draw is the
+# exact claim this spec's standard rejects elsewhere. Those horizons are
+# carried by the extended leg alone; the strict column renders a
+# "vintage-true sample too thin at this horizon" note instead of a figure.
+# This is the ONLY stated exception to the paired-leg rule.
+STRICT_HORIZONS = (12, 24)
+
+
+def _leg(anchor_bases, realized_index, provenance, contains_downturn,
+         horizons=HORIZONS):
     months = [m for m, _ in anchor_bases]
     return {
         "provenance": provenance,
         "span": [months[0][:7], months[-1][:7]] if months else [None, None],
         "anchors_n": len(months),
         "contains_downturn": contains_downturn,
-        "grades": grade(anchor_bases, realized_index),
+        "published_horizons": list(horizons),
+        "grades": grade(anchor_bases, realized_index, horizons),
     }
 
 
@@ -1101,7 +1120,8 @@ def build(conn: sqlite3.Connection, components, base_month_cfg: str,
     return {
         "as_of": max(realized)[:7],
         "legs": {
-            "strict": _leg(strict_anchors, realized, _STRICT_NOTE, False),
+            "strict": _leg(strict_anchors, realized, _STRICT_NOTE, False,
+                           STRICT_HORIZONS),
             "extended": _leg(extended_anchors, realized, _EXTENDED_NOTE, True),
         },
         "anchors": rows,

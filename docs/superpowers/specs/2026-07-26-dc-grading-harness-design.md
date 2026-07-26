@@ -68,7 +68,73 @@ and computing P3a's rolling bases reproduces **trailing-3yr +5.02%** and **curre
 bit-matching the raw-FRED figures stated in P3a spec §5.1. The reconstruction is not a new
 methodology; it is the published one, run against a vintage filter.
 
+### 2.1a ⚠ CORRECTION, 2026-07-26 (Task 3 implementation) — the rebase month is NOT immaterial
+
+**§5.1's claim that the rebase base month "cancels exactly" is wrong, and every strict-leg figure
+in §2.2 and §3 below is superseded by this block. Do not re-derive them.**
+
+The claim holds for a single series. It fails for a **Laspeyres sum of separately-rebased
+components**, which is what this index is:
+
+```
+H_b(t) = Σ w_i · I_i(t) / I_i(b)      →  effective weight of component i is  w_i / I_i(b)
+```
+
+Changing `b` reweights the basket, so the aggregate's *growth rates* change too. Measured against
+the published monthly grid at today's vintage:
+
+| rebase base | worst divergence vs published | months diverging >0.05 pts | strict anchors |
+|---|---|---|---|
+| 2008-01 (as originally specced) | **1.0029 index pts** | 199 of 222 | 132, from 2015-03 |
+| **2018-01 (the published base)** | **0.1081 index pts** | **1** of 222 | **99, from 2018-01** |
+
+`BASE_MONTH` is therefore **2018-01-01**, matching `config/dc_basket.json`'s `base_month` and
+`rebase.py`'s stage-1 contract. Any other base grades a different index than the one on the site.
+
+**The honest floor is the index's own base month, not ALFRED's vintage start.** A reader standing in
+2016 could not have computed an index whose base is 2018-01 — it had no base yet. This is a
+conceptual limit, not a data accident, and it is a cleaner claim than the original.
+
+**Corrected sample depth.** The extended leg is essentially unchanged; only the strict leg shrinks:
+
+| | strict | extended |
+|---|---|---|
+| anchors | **99**, 2018-01 → 2026-06 | 187, 2010-12 → 2026-06 |
+| gradeable n, h=12/24/36/48 | 88 / 76 / 64 / 52 | 175 / 163 / 151 / 139 |
+| independent draws | **7.33 / 3.17 / 1.78 / 1.08** | 14.58 / 6.79 / 4.19 / 2.90 |
+
+**Corrected shortfall rates** (§3 and §3.1's tables are superseded by these):
+
+| h | basis | strict | extended |
+|---|---|---|---|
+| 12 | Long-run | 61.4% | 46.3% |
+| 12 | Trailing 3yr | **39.8%** | **40.6%** |
+| 12 | Current momentum | 48.9% | 53.7% |
+| 24 | Long-run | 75.0% | 53.4% |
+| 24 | Trailing 3yr | **44.7%** | **42.9%** |
+| 24 | Current momentum | 50.0% | 53.4% |
+| 36 | Long-run | 96.9% | 64.2% |
+| 36 | Trailing 3yr | 65.6% | 56.3% |
+| 36 | Current momentum | **60.9%** | **55.0%** |
+| 48 | Long-run | 100.0% | 64.7% |
+| 48 | Trailing 3yr | 80.8% | 66.9% |
+| 48 | Current momentum | **71.2%** | **71.2%** |
+
+**The headline finding survives and sharpens**: Long-run still under-provisions 96.9% of 36-month and
+100% of 48-month windows on the vintage-true sample while winning symmetric error, and the
+strict-vs-extended spread (§3.1) is wider than before, not narrower.
+
+**Ruling, 2026-07-26 (human): the strict leg publishes only h=12 and h=24.** At h=36 and h=48 it
+carries 1.78 and 1.08 independent draws — roughly one — and a "100.0%" resting on one draw is exactly
+the claim this spec's own standard rejects elsewhere. Those two horizons are carried by the extended
+leg alone, and the strict column renders an explicit "vintage-true sample too thin at this horizon"
+note rather than a figure. This is a stated exception to §9 criterion 3's paired-leg rule, and the
+only one.
+
 ### 2.2 The replacement constraint is sample depth, not vintage availability
+
+> **Superseded by §2.1a for every strict-leg figure.** The table below reflects the original
+> 2008-01 rebase and is retained only as the record of what was measured before the correction.
 
 Reconstructing the index at each ALFRED vintage yields **132 distinct vintage-true anchors,
 2015-03 → 2026-06** (one per distinct last-observation month). Graded against realized escalation:
@@ -253,11 +319,19 @@ observation months present across all 12 is intersected, and the index is the La
 over the 12 published weights, each component rebased to a base month inside the always-available
 history.
 
-**The rebase month is immaterial and must be stated as such.** Every basis and every realized value
+~~**The rebase month is immaterial and must be stated as such.** Every basis and every realized value
 is a ratio, so the rebase constant cancels exactly. It is *not* 2018-01 for this computation:
 requiring a 2018-01 base would falsely floor the earliest anchor at 2018-06, discarding 3 years of
-usable vintages. Measured: with an early base the earliest complete 12-component vintage index is
-**2015-04-14**, reaching observations back to 2007-12.
+usable vintages.~~
+
+**⚠ REFUTED, 2026-07-26 — see §2.1a.** The cancellation argument holds for a single series and fails
+for a Laspeyres sum of separately-rebased components: `H_b(t) = Σ w_i·I_i(t)/I_i(b)` makes the
+effective weight `w_i/I_i(b)`, so the base month reweights the basket and changes its growth rates.
+Measured, a 2008-01 base diverges from the published index by up to **1.0029 index points across 199
+of 222 months**; the published 2018-01 base diverges by 0.1081 at one month. **`BASE_MONTH` is
+`2018-01-01`.** The earliest anchor is 2018-01 and the strict leg has 99 anchors, not 132 — and that
+floor is principled, since an index based at 2018-01 cannot be reconstructed at a vintage that
+predates its own base.
 
 An **anchor** is one distinct last-observation-month across all vintages. 132 in the strict leg.
 Multiple ALFRED vintages mapping to the same last-observation month collapse to one anchor — grading
