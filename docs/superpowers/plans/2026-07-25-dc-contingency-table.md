@@ -1781,8 +1781,12 @@ test("escalation calculator projects forward when a delivery month is set", asyn
   await page.goto("/escalation");
   await expect(page.getByText("Total escalation")).toBeVisible();
 
-  // no forward leg until a delivery month is chosen
-  await expect(page.getByText("What you could carry")).toHaveCount(0);
+  // The basis table is visible from the start — the five realized regimes are
+  // informative on their own, and Task 7 gates it on `anchor`, not on a
+  // delivery month. What must NOT be present yet is the forward leg itself:
+  // the per-window factor column and the band sentence both need a horizon.
+  await expect(page.getByText("What you could carry")).toBeVisible();
+  await expect(page.getByText(/independent/)).toHaveCount(0);
 
   const deliver = page.locator('input[type="month"]').nth(1);
   const max = await deliver.getAttribute("max");
