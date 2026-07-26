@@ -34,6 +34,20 @@ export function monthDiff(a: string, b: string): number {
   return (by - ay) * 12 + (bm - am);
 }
 
+/** Shift a "YYYY-MM" string by `n` whole months. "2026-12" + 1 -> "2027-01".
+ *
+ *  Uses a floored modulo rather than JS's `%`, which is sign-preserving: a
+ *  naive `(t % 12) + 1` yields "2025-00" for addMonths("2026-01", -1).
+ *  Negative shifts are not used by the UI today, but the function is exported
+ *  and cheap to make total. */
+export function addMonths(month: string, n: number): string {
+  const [y, m] = month.split("-").map(Number);
+  const t = y * 12 + (m - 1) + n;
+  const year = Math.floor(t / 12);
+  const mo = t - year * 12; // floored remainder: always 0..11
+  return `${year}-${String(mo + 1).padStart(2, "0")}`;
+}
+
 /** Index of the nearest month at or before `target`; -1 if target predates the series.
  *  Shared with dcContingency.ts, which resolves the same "YYYY-MM" grid. */
 export function monthIndexAtOrBefore(months: string[], target: string): number {

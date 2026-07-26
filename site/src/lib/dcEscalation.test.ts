@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  addMonths,
   bridge,
   bridgeWindow,
   escalate,
@@ -190,5 +191,40 @@ describe("month helpers are exported for dcContingency", () => {
   it("monthIndexAtOrBefore finds the nearest earlier month", () => {
     expect(monthIndexAtOrBefore(MONTHS, "2025-11")).toBe(1);
     expect(monthIndexAtOrBefore(MONTHS, "2024-02")).toBe(-1);
+  });
+});
+
+describe("addMonths", () => {
+  it("advances within a year", () => {
+    expect(addMonths("2026-01", 5)).toBe("2026-06");
+  });
+
+  it("advances the cap window used by the delivery input", () => {
+    expect(addMonths("2026-07", 48)).toBe("2030-07");
+  });
+
+  it("rolls December into the next January", () => {
+    expect(addMonths("2026-12", 1)).toBe("2027-01");
+  });
+
+  it("lands on December without producing month 00 or 13", () => {
+    expect(addMonths("2026-11", 1)).toBe("2026-12");
+    expect(addMonths("2026-12", 12)).toBe("2027-12");
+  });
+
+  it("is the identity at n = 0", () => {
+    expect(addMonths("2026-07", 0)).toBe("2026-07");
+  });
+
+  it("goes backwards across a year boundary without breaking the modulo", () => {
+    // JS % is sign-preserving, so a naive (t % 12) + 1 yields "2025-00" here
+    expect(addMonths("2026-01", -1)).toBe("2025-12");
+    expect(addMonths("2026-01", -13)).toBe("2024-12");
+    expect(addMonths("2026-06", -6)).toBe("2025-12");
+  });
+
+  it("round-trips against monthDiff", () => {
+    expect(monthDiff("2026-07", addMonths("2026-07", 48))).toBe(48);
+    expect(monthDiff("2026-07", addMonths("2026-07", 1))).toBe(1);
   });
 });

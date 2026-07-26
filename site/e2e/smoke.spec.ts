@@ -152,8 +152,25 @@ test("escalation calculator refuses a delivery month past the cap", async ({ pag
   const deliver = page.locator('input[type="month"]').nth(1);
   await deliver.fill("2099-01");
   await expect(
-    page.getByText(/Pick a delivery month after/)
+    page.getByText(/Pick a delivery month between/)
   ).toBeVisible();
+});
+
+test("escalation delivery picker's own minimum is accepted, not rejected", async ({
+  page,
+}) => {
+  await page.goto("/escalation");
+  const deliver = page.locator('input[type="month"]').nth(1);
+  // The native picker offers `min` as a selectable value, so `min` must itself
+  // be valid. It used to be `lastMonth`, which deliveryValid rejects (it
+  // requires a strictly later month), so choosing the picker's own minimum
+  // produced the out-of-range error.
+  const min = await deliver.getAttribute("min");
+  expect(min).toBeTruthy();
+  await deliver.fill(min!);
+  await expect(page.getByText(/Pick a delivery month between/)).toHaveCount(0);
+  await expect(page.getByText("What you could carry")).toBeVisible();
+  await expect(page.getByText(/Escalated to /).last()).toBeVisible();
 });
 
 test("escalation basis table lists a downturn regime", async ({ page }) => {
@@ -175,10 +192,13 @@ test("escalation says why there's no band under a sub-12-month delivery window",
 }) => {
   await page.goto("/escalation");
   const deliver = page.locator('input[type="month"]').nth(1);
-  const min = await deliver.getAttribute("min"); // == lastMonth, e.g. "2026-07"
+  // `min` is the month AFTER the grid end (the smallest month that carries at
+  // all), so this lands 7 months past the grid end — comfortably inside
+  // MIN_HORIZON_MONTHS (12), which is all this test needs.
+  const min = await deliver.getAttribute("min");
   expect(min).toBeTruthy();
   const [y, m] = min!.split("-").map(Number);
-  const t = y * 12 + (m - 1) + 6; // 6 months ahead of lastMonth: horizon 6 < MIN_HORIZON_MONTHS (12)
+  const t = y * 12 + (m - 1) + 6;
   const shortDelivery = `${Math.floor(t / 12)}-${String((t % 12) + 1).padStart(2, "0")}`;
   await deliver.fill(shortDelivery);
 
