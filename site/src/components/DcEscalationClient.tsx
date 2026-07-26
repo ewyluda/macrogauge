@@ -15,7 +15,26 @@ import {
   MAX_HORIZON_MONTHS,
   MIN_HORIZON_MONTHS,
 } from "@/lib/dcContingency";
+import { formatPairedVerdict, pairedShortfall } from "@/lib/dcGrades";
+import type { DcGrades } from "@/lib/types";
 import { fmtPp, fmtSigned } from "@/lib/format";
+
+// /escalation's basis keys (dcContingency.ts's BASES) and the grading
+// harness's basis keys (dcGrades.ts's BASIS_LABELS) are two different
+// vocabularies for an overlapping set of concepts — passing one straight
+// into the other's accessors silently returns nothing. This mapping is
+// total over /escalation's five keys: `gfc` and `covid` map to `null` on
+// purpose. They are hindsight-selected historical episodes, not rules, and
+// carry no grade anywhere in this feature (see /dc-scoreboard's Scenario
+// section) — a `null` here means "render the ungradeable note", not "grade
+// unavailable this publish".
+const GRADE_BASIS_KEY: Record<string, string | null> = {
+  longrun: "long_run",
+  trailing3y: "trailing_3yr",
+  momentum: "current_momentum",
+  gfc: null,
+  covid: null,
+};
 
 export type EscalationData = {
   months: string[];
@@ -37,7 +56,13 @@ const usd = (v: number) => {
     : `${sign}$${Math.round(abs).toLocaleString("en-US")}`;
 };
 
-export function DcEscalationClient({ data }: { data: EscalationData }) {
+export function DcEscalationClient({
+  data,
+  grades,
+}: {
+  data: EscalationData;
+  grades: DcGrades | null;
+}) {
   const firstMonth = data.months[0];
   const lastMonth = data.months[data.months.length - 1];
   const [baseMonth, setBaseMonth] = useState(
@@ -63,6 +88,11 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
 
   const basisRows = anchor ? bases(data.months, data.index, anchor) : [];
   const chosen = basisRows.find((b) => b.key === basisKey) ?? basisRows[0] ?? null;
+  // `?? null` collapses "key absent from the map" and "key maps to null"
+  // (gfc/covid) into the same value on purpose — GRADE_BASIS_KEY is total
+  // over every key `chosen.key` can hold, so the two cases can't actually
+  // diverge; this just keeps the lookup itself total against a wider type.
+  const gradeBasisKey = chosen ? GRADE_BASIS_KEY[chosen.key] ?? null : null;
 
   const deliveryValid =
     !!deliveryMonth && !!anchor &&
@@ -199,6 +229,34 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
           your own $/MW, or the whole project — the math is a ratio, so the unit is yours
         </span>
       </div>
+
+      {grades && deliveryValid && chosen && (
+        <p
+          data-testid="basis-grade"
+          style={{ color: "var(--muted)", fontSize: 12, padding: "8px 4px 0" }}
+        >
+          {gradeBasisKey ? (
+            <>
+              {formatPairedVerdict(
+                gradeBasisKey,
+                horizon,
+                pairedShortfall(grades, gradeBasisKey, horizon)
+              )}{" "}
+              <a href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
+                See how each basis has held up →
+              </a>
+            </>
+          ) : (
+            <>
+              This is a hindsight-selected historical episode, not a rule — it
+              carries no grade.{" "}
+              <a href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
+                See the bases that do →
+              </a>
+            </>
+          )}
+        </p>
+      )}
 
       {!result && (
         <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>

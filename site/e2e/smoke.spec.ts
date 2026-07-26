@@ -234,3 +234,55 @@ test("escalation says why there's no band under a sub-12-month delivery window",
   await expect(page.getByText("overlapping windows")).toBeVisible();
   await expect(page.getByText("No realized band here")).toHaveCount(0);
 });
+
+test("escalation shows a paired-leg grade for the selected basis", async ({
+  page,
+}) => {
+  await page.goto("/escalation");
+  await expect(page.getByText("Total escalation")).toBeVisible();
+
+  // Set a delivery month far enough out (~35mo from the grid end as of this
+  // writing) to land on the 36-month graded horizon, where the strict leg
+  // withholds (published_horizons is [12, 24] only) and the extended leg
+  // grades — exercising the paired withheld/graded render in one shot.
+  const delivery = page.locator('input[type="month"]').last();
+  await delivery.fill("2029-06");
+  await delivery.blur();
+
+  // The verdict must name BOTH samples — never one alone. Default CARRY
+  // selection on load is "Trailing 3yr", which has a grading counterpart
+  // (trailing_3yr), so this exercises the graded/withheld paired render,
+  // not the ungradeable-scenario note.
+  const verdict = page.getByTestId("basis-grade");
+  await expect(verdict).toBeVisible();
+  await expect(verdict).toContainText("vintage-true sample");
+  await expect(verdict).toContainText("deeper sample");
+  await expect(page.getByRole("link", { name: /how each basis has held up/i }))
+    .toBeVisible();
+});
+
+test("escalation renders the ungradeable note for a hindsight-selected regime", async ({
+  page,
+}) => {
+  await page.goto("/escalation");
+  await expect(page.getByText("Total escalation")).toBeVisible();
+
+  const delivery = page.locator('input[type="month"]').last();
+  await delivery.fill("2029-06");
+  await delivery.blur();
+
+  // Switch CARRY to one of the two absolute, hand-picked historical windows
+  // (GFC / COVID) — dcContingency.ts's BASES — which have no counterpart in
+  // dcGrades.ts's rule vocabulary by design. Selecting one must swap the
+  // paired verdict for the ungradeable note, never leave a verdict or a
+  // blank behind.
+  await page.locator("select").selectOption("gfc");
+
+  const verdict = page.getByTestId("basis-grade");
+  await expect(verdict).toBeVisible();
+  await expect(verdict).toContainText("hindsight-selected historical episode");
+  await expect(verdict).not.toContainText("vintage-true sample");
+  await expect(verdict).not.toContainText("deeper sample");
+  await expect(page.getByRole("link", { name: /the bases that do/i }))
+    .toBeVisible();
+});

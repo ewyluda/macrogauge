@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import dc from "../../../public/data/datacenter.json";
+import gradesJson from "../../../public/data/dc_grades.json";
 import { Section } from "@/components/Section";
 import {
   DcEscalationClient,
   type EscalationData,
 } from "@/components/DcEscalationClient";
+import type { DcGrades } from "@/lib/types";
 
 export const metadata: Metadata = {
   title: "DC Escalation Calculator",
@@ -13,6 +15,7 @@ export const metadata: Metadata = {
 };
 
 const build = dc.indexes.build;
+const grades = gradesJson as unknown as DcGrades;
 
 // Slice only what the calculator needs — the monthly grid (224 months, 2007-12
 // through 2026-07, ~29.5KB), not the 3,127-point daily series — so the page
@@ -47,7 +50,7 @@ export default function Escalation() {
         </span>
       </h1>
       <div style={{ marginTop: 24 }}>
-        <DcEscalationClient data={data} />
+        <DcEscalationClient data={data} grades={grades} />
       </div>
       <Section title="Methodology">
         <div style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.6 }}>
