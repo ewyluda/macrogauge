@@ -156,3 +156,140 @@ def test_anchors_returns_one_entry_per_new_last_month_in_order():
                "2008-03-01": [("2015-05-14", 214.0)]}}
     out = dcgrade.anchors(v, W, base_month="2008-01-01")
     assert [m for m, _ in out] == ["2008-01-01", "2008-02-01", "2008-03-01"]
+
+
+import json
+from datetime import date
+from pathlib import Path
+
+from pipeline import dc_basket, registry
+from pipeline.engine import dcindex
+from pipeline.store import vintage
+
+REPO = Path(__file__).parent.parent
+
+
+def test_annualized_is_a_ratio_over_the_window_not_a_mean_of_yoy():
+    idx = {"2020-01-01": 100.0, "2023-01-01": 133.1}
+    # 1.331 ** (1/3) = 1.10 exactly
+    assert dcgrade.annualized(idx, "2020-01-01", "2023-01-01") == pytest.approx(10.0)
+
+
+def test_annualized_returns_none_when_an_endpoint_is_missing():
+    idx = {"2020-01-01": 100.0}
+    assert dcgrade.annualized(idx, "2020-01-01", "2023-01-01") is None
+    assert dcgrade.annualized(idx, "2019-01-01", "2020-01-01") is None
+
+
+def test_annualized_returns_none_for_a_zero_length_window():
+    idx = {"2020-01-01": 100.0}
+    assert dcgrade.annualized(idx, "2020-01-01", "2020-01-01") is None
+
+
+def test_bases_at_computes_the_three_rolling_bases_from_their_own_windows():
+    idx = {dcgrade.SAMPLE_START: 100.0}
+    for n in range(1, 200):
+        m = months_back_forward(dcgrade.SAMPLE_START, n)
+        idx[m] = 100.0 * (1.005 ** n)      # +0.5%/mo everywhere
+    anchor = max(idx)
+    b = dcgrade.bases_at(idx, anchor)
+    # a constant monthly rate makes all three windows agree
+    expected = ((1.005 ** 12) - 1) * 100
+    assert b["long_run"] == pytest.approx(expected)
+    assert b["trailing_3yr"] == pytest.approx(expected)
+    assert b["current_momentum"] == pytest.approx(expected)
+
+
+def test_bases_at_returns_none_when_the_lookback_predates_the_sample():
+    idx = {"2020-01-01": 100.0, "2020-02-01": 101.0}
+    b = dcgrade.bases_at(idx, "2020-02-01")
+    assert b["trailing_3yr"] is None
+    assert b["current_momentum"] is None
+
+
+def months_back_forward(d, n):
+    from pipeline.dates import months_back
+    return months_back(d, -n)
+
+
+def test_reconstruction_matches_the_published_build_index():
+    """The harness must grade the PUBLISHED index, not a parallel one
+    (spec 9 criterion 5). Compared as agreement between two computations
+    rather than a pinned constant: the rolling bases drift every publish, so
+    a hardcoded +5.02% would be a fresh staleness bug.
+
+    The trailing two months are excluded: the published index splices the
+    copper/aluminium live proxies there and this reconstruction is PPI-only.
+    P3a spec 3.1 measured that difference at 1.241 index points in the splice
+    month and 0.000 everywhere else.
+
+    This is the ONE live-data test in this suite (every other test in this
+    file builds a synthetic store). It must skip, not fail, when the
+    precondition it needs can't be met honestly:
+      - the store hasn't been vintage-backfilled at all (idx comes back empty)
+      - too little history overlaps the published file to say anything
+      - site/public/data/datacenter.json is a COMMITTED artifact that is only
+        as fresh as its last regenerate. A store-only data commit (e.g. an
+        ALFRED vintage backfill correcting historical PPI prints) can revise
+        history without a paired site republish. Comparing dcgrade's fresh
+        reconstruction against a stale file would then fail for a reason that
+        has nothing to do with dcgrade -- so before trusting the file as
+        ground truth, re-run the actual production engine (dcindex.run) over
+        the SAME store and confirm it still agrees with what's on disk.
+    """
+    _, series = registry.load_registry()
+    _, baskets = dc_basket.load_baskets(registry_codes={s.code for s in series})
+    build = baskets["build"]
+    weights = {c.code: c.weight for c in build}
+
+    conn = vintage.load(REPO / "store")
+    versions = dcgrade.load_component_versions(conn, build)
+    vintage_dates = {vd for v in versions.values() for rows in v.values()
+                     for vd, _ in rows}
+    if len(vintage_dates) < len(build):
+        pytest.skip(
+            f"store carries only {len(vintage_dates)} distinct vintage dates "
+            "for the Build components -- no ALFRED point-in-time history to "
+            "reconstruct from (run scripts/backfill_dc_vintages.py)")
+
+    latest = max(vintage_dates)
+    idx = dcgrade.index_asof(versions, latest, weights)
+    if not idx:
+        pytest.skip("reconstruction produced no index -- store lacks the "
+                    f"base month ({dcgrade.BASE_MONTH}) for one or more "
+                    "Build components")
+
+    published = json.loads(
+        (REPO / "site/public/data/datacenter.json").read_text())
+    monthly = published["indexes"]["build"]["monthly"]
+    pub = dict(zip(monthly["months"], monthly["index"]))
+
+    common = sorted(set(m[:7] for m in idx) & set(pub))[:-2]
+    if len(common) <= 150:
+        pytest.skip(f"only {len(common)} overlapping months -- too little "
+                    "shared history between the reconstruction and the "
+                    "published file to compare meaningfully")
+
+    # Honest staleness gate (see docstring): re-run the production engine
+    # over the CURRENT store and require it still matches the committed
+    # file, on the same base month, before using the file as ground truth.
+    today = date.today().isoformat()
+    fresh_monthly = dcindex.run(conn, today)["indexes"]["build"]["monthly"]
+    fresh = dict(zip(fresh_monthly["months"], fresh_monthly["index"]))
+    fresh_common = sorted(set(fresh) & set(pub))[:-2]
+    if not fresh_common:
+        pytest.skip("fresh production-engine run shares no months with the "
+                    "published file -- can't establish it as ground truth")
+    staleness = max(abs(fresh[m] - pub[m]) for m in fresh_common)
+    if staleness > 0.05:
+        pytest.skip(
+            "site/public/data/datacenter.json no longer matches a fresh run "
+            f"of the production engine over the current store (diverges by "
+            f"{staleness:.4f} index points) -- regenerate the site data "
+            "before this comparison is meaningful")
+
+    # both are 2018-01=100 up to a constant; rescale ours onto theirs
+    ours = {m[:7]: v for m, v in idx.items()}
+    k = pub[common[0]] / ours[common[0]]
+    worst = max(abs(ours[m] * k - pub[m]) for m in common)
+    assert worst < 0.05, f"reconstruction diverges by {worst:.4f} index points"

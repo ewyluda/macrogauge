@@ -96,3 +96,43 @@ def anchors(comp_versions, weights: dict[str, float],
         seen.add(last)
         out.append((last, idx))
     return out
+
+
+# Rolling bases only -- the three that are LIVE-COMPUTABLE RULES: standing at
+# any anchor you could have computed them with no knowledge of the future.
+# The two absolute regimes (GFC, COVID peak) are hindsight-selected windows
+# and are deliberately NOT graded anywhere in this module (spec 5.3).
+# {key: months of lookback; None means "from SAMPLE_START"}
+ROLLING_BASES: dict[str, int | None] = {
+    "long_run": None,
+    "trailing_3yr": 36,
+    "current_momentum": 12,
+}
+
+
+def annualized(index: dict[str, float], start_month: str,
+               end_month: str) -> float | None:
+    """Annualized % change of an index ratio over [start, end].
+
+    An index RATIO, never a median or mean of YoY prints: only the ratio
+    decomposes additively into per-component contributions, which is what
+    preserves P1's bridge identity (P3a spec 5.1)."""
+    a, b = index.get(start_month), index.get(end_month)
+    if a is None or b is None or a <= 0:
+        return None
+    months = (int(end_month[:4]) - int(start_month[:4])) * 12 + \
+             int(end_month[5:7]) - int(start_month[5:7])
+    if months <= 0:
+        return None
+    return ((b / a) ** (12.0 / months) - 1) * 100.0
+
+
+def bases_at(index: dict[str, float], anchor_month: str,
+             sample_start: str = SAMPLE_START) -> dict[str, float | None]:
+    """What each live-computable basis said at `anchor_month`."""
+    out = {}
+    for key, lookback in ROLLING_BASES.items():
+        start = sample_start if lookback is None \
+            else months_back(anchor_month, lookback)
+        out[key] = annualized(index, start, anchor_month)
+    return out
