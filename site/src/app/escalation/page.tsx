@@ -26,6 +26,11 @@ const data: EscalationData = {
     group: c.group,
     weight: c.weight,
   })),
+  // The client derives the last COMPLETE month via min() of these — the
+  // published grid's trailing month is a partial stub (only the two
+  // live-proxy components move in it), so the raw grid end is unsafe to
+  // anchor a rate on. See lastCompleteMonth() in dcContingency.ts.
+  componentLastObs: build.components.map((c) => c.last_obs),
   asOf: build.as_of,
   rebase: dc.rebase,
 };
