@@ -1,7 +1,13 @@
 "use client";
 import { useState } from "react";
 import { KpiCard } from "./KpiCard";
-import { bridgeWindow, escalate, monthDiff, type BridgeComponent } from "@/lib/dcEscalation";
+import {
+  addMonths,
+  bridgeWindow,
+  escalate,
+  monthDiff,
+  type BridgeComponent,
+} from "@/lib/dcEscalation";
 import {
   band,
   bases,
@@ -31,13 +37,6 @@ const usd = (v: number) => {
     : `${sign}$${Math.round(abs).toLocaleString("en-US")}`;
 };
 
-/** "2026-06" + 48 -> "2030-06". Local to the UI's input cap. */
-function addMonths(month: string, n: number): string {
-  const [y, m] = month.split("-").map(Number);
-  const t = (y * 12 + (m - 1)) + n;
-  return `${Math.floor(t / 12)}-${String((t % 12) + 1).padStart(2, "0")}`;
-}
-
 export function DcEscalationClient({ data }: { data: EscalationData }) {
   const firstMonth = data.months[0];
   const lastMonth = data.months[data.months.length - 1];
@@ -53,6 +52,12 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
   // trailing month, so the on-page "we cap at 48 months" claim would be false by
   // one. This is a deliberate one-month tightening of the spec's phrasing.
   const maxDelivery = addMonths(lastMonth, MAX_HORIZON_MONTHS);
+  // The smallest delivery month that produces a forward leg at all. `lastMonth`
+  // itself is NOT valid — deliveryValid requires a strictly later month, since
+  // delivering in the month history already ends in carries nothing — so the
+  // picker's own minimum must be the month after it. Offering `lastMonth` as the
+  // min let the native picker propose a value the page then rejected.
+  const minDelivery = addMonths(lastMonth, 1);
   const [deliveryMonth, setDeliveryMonth] = useState("");
   const [basisKey, setBasisKey] = useState("trailing3y");
 
@@ -165,7 +170,7 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
           DELIVER BY{" "}
           <input
             type="month"
-            min={lastMonth}
+            min={minDelivery}
             max={maxDelivery}
             value={deliveryMonth}
             onChange={(e) => setDeliveryMonth(e.target.value)}
@@ -209,13 +214,13 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
 
       {deliveryMonth && !deliveryValid && (
         <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>
-          Pick a delivery month after {lastMonth} and no later than {maxDelivery}.
-          We cap the forward leg at {MAX_HORIZON_MONTHS} months because the
-          realized sample is already thin there
+          Pick a delivery month between {minDelivery} and {maxDelivery}. We cap the
+          forward leg at {MAX_HORIZON_MONTHS} months because the realized sample is
+          already thin there
           {capBand ? ` (about ${capBand.independentDraws.toFixed(1)} independent windows)` : ""}{" "}
-          and keeps thinning the longer the horizon runs. Forty-eight months still
-          covers the 12–36 month range this tool targets, plus a mid-2026 base
-          carried to a 2029–2030 energization.
+          and keeps thinning the longer the horizon runs. That still spans the 12–36
+          month range this tool targets, and carries a basis measured to{" "}
+          {anchor ?? lastMonth} as far out as {maxDelivery}.
         </div>
       )}
 
