@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-26T21:54:03Z",
+  "published_at": "2026-07-27T12:55:46Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -15,8 +15,8 @@
   },
   "indexes": {
     "build": {
-      "as_of": "2026-07-24",
-      "headline_yoy_pct": 6.61,
+      "as_of": "2026-07-27",
+      "headline_yoy_pct": 6.68,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -3145,7 +3145,10 @@
         "2026-07-21",
         "2026-07-22",
         "2026-07-23",
-        "2026-07-24"
+        "2026-07-24",
+        "2026-07-25",
+        "2026-07-26",
+        "2026-07-27"
       ],
       "index": [
         100.0,
@@ -6274,7 +6277,10 @@
         166.33,
         166.31,
         166.09,
-        166.01
+        166.01,
+        166.01,
+        166.01,
+        166.12
       ],
       "yoy_pct": [
         3.05,
@@ -9403,7 +9409,10 @@
         6.81,
         6.79,
         6.66,
-        6.61
+        6.61,
+        6.61,
+        6.61,
+        6.68
       ],
       "components": [
         {
@@ -9467,9 +9476,9 @@
           "group": "materials",
           "weight": 0.055,
           "mode": "official+proxy",
-          "last_obs": "2026-07-24",
-          "yoy_pct": 13.07,
-          "contribution_pp": 0.72,
+          "last_obs": "2026-07-27",
+          "yoy_pct": 13.7,
+          "contribution_pp": 0.75,
           "stale": false
         },
         {
@@ -9478,9 +9487,9 @@
           "group": "materials",
           "weight": 0.03,
           "mode": "official+proxy",
-          "last_obs": "2026-07-24",
-          "yoy_pct": 31.74,
-          "contribution_pp": 0.95,
+          "last_obs": "2026-07-27",
+          "yoy_pct": 32.94,
+          "contribution_pp": 0.99,
           "stale": false
         },
         {
@@ -9990,7 +9999,7 @@
           164.2274,
           165.8128,
           165.5258,
-          166.0132
+          166.1232
         ],
         "components": {
           "constr_wages": [
@@ -11347,7 +11356,7 @@
             179.7795,
             190.3774,
             184.7132,
-            187.7701
+            188.8186
           ],
           "alum_shapes": [
             96.7196,
@@ -11573,7 +11582,7 @@
             194.3323,
             202.4524,
             181.8105,
-            192.4552
+            194.1991
           ],
           "switchgear": [
             85.7335,
@@ -12716,7 +12725,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 2.86
+          "contribution_pp": 2.93
         },
         {
           "group": "electrical",
@@ -33862,15 +33871,15 @@
       {
         "code": "caiso_sp15_da",
         "label": "CAISO SP15 (day-ahead)",
-        "latest": 51.85,
-        "asof": "2026-07-26",
+        "latest": 52.36,
+        "asof": "2026-07-27",
         "unit": "$/MWh"
       },
       {
         "code": "miso_indiana_da",
         "label": "MISO Indiana Hub (day-ahead)",
-        "latest": 41.04,
-        "asof": "2026-07-25",
+        "latest": 47.07,
+        "asof": "2026-07-26",
         "unit": "$/MWh"
       },
       {
@@ -34084,9 +34093,9 @@
     "transformer": null,
     "kalshi": {
       "dc_count_expected": 5080.0,
-      "count_asof": "2026-07-26",
+      "count_asof": "2026-07-27",
       "nuclear_by_2030_prob": 0.46,
-      "nuclear_asof": "2026-07-26"
+      "nuclear_asof": "2026-07-27"
     },
     "diesel": {
       "latest": 5.13,

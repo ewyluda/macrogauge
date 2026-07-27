@@ -4,7 +4,7 @@ Connector failures never block publication — they surface in
 sources_status.json and qa.json, and stale series carry forward.
 
 sources_status publishes FIRST (right after collect): a broken engine must
-never hide a broken source. Eleven independently isolated phases follow, all
+never hide a broken source. Twelve independently isolated phases follow, all
 running under the same _run_phase isolation contract: (1) the core gauge
 engine + writers (cpi -> gauge -> pulse/gauge_daily/compare/gaptable/official,
 surfaces via engine_ok), (2) the phase-3 nowcast (surfaces via nowcast_ok —
@@ -17,9 +17,11 @@ pages + the every-measure matrix (surfaces via geography_ok), (7) the
 labor jobs dashboard (surfaces via labor_ok), (8) the commodities grid
 (commodities_ok), (9) the AI capacity tracker (capacity_ok), (10) the
 DC market panel — county QCEW labor x the hand-tagged capacity roster
-(surfaces via markets_ok), and (11) the escalation grading harness — vintage-
+(surfaces via markets_ok), (11) the escalation grading harness — vintage-
 true DC contingency-basis grading plus the P3c lead-lag study (surfaces via
-grades_ok). A failure in any one phase still publishes status+qa (rc 0)
+grades_ok), and (12) the long-lead equipment board — hand-curated vendor
+order-book figures joined to the DC engine's price legs (surfaces via
+longlead_ok). A failure in any one phase still publishes status+qa (rc 0)
 without blocking the others — but a jsonschema.ValidationError re-raises and
 fails the run in every phase: a schema-invalid artifact must never deploy.
 """
@@ -35,7 +37,7 @@ import jsonschema
 
 from pipeline import basket as basket_mod
 from pipeline import capacity as capacity_cfg
-from pipeline import collect, dc_basket, dc_context, dc_power, registry, release_calendar
+from pipeline import collect, dc_basket, dc_context, dc_longlead, dc_power, registry, release_calendar
 from pipeline import dc_markets as dc_markets_cfg
 from pipeline.connectors import fred
 from pipeline.engine import dcindex
@@ -48,7 +50,8 @@ from pipeline.publish import (capacity as capacity_json, commodities as commodit
                               composites as composite_json,
                               datacenter as datacenter_json, dc_grades as dc_grades_json,
                               dc_markets as dc_markets_json, gaptable,
-                              gauge_daily, geo as geo_json, grocery, labor as labor_json, matrix as matrix_json,
+                              gauge_daily, geo as geo_json, grocery, labor as labor_json,
+                              longlead as longlead_json, matrix as matrix_json,
                               methodology, metros as metros_json, outlook as outlook_json, phase3, pulse, qa,
                               quilt, real_wages, replay, sources_status, validate)
 from pipeline.store import vintage
@@ -387,6 +390,32 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         print(f"published: {grades_path}")
 
     _run_phase("GRADES", _grades_phase, phase_errors, "grades")
+
+    # Long-lead equipment board (/longlead): isolated like the phases above.
+    # Config-only and stated-only -- a curation typo must degrade this
+    # artifact alone. It re-runs the DC engine off the same conn rather than
+    # sharing another phase's local result (the _grades_phase precedent): a
+    # broken engine nulls the board's price legs without blanking the
+    # hand-curated vendor rows.
+    def _longlead_phase():
+        registry_codes = {s.code for s in series}
+        _, baskets = dc_basket.load_baskets(registry_codes=registry_codes)
+        build_components = baskets["build"]
+        cfg = dc_longlead.load(
+            build_codes={c.code for c in build_components})
+        try:
+            dc_result = dcindex.run(
+                conn, today=today,
+                staleness={s.code: s.max_staleness_days for s in series})
+        except Exception:
+            dc_result = None  # price legs go null; vendor rows still publish
+        ll_path = longlead_json.write(
+            longlead_json.build(cfg, build_components, dc_result, today=today),
+            args.out, published_at=published_at)
+        validate.validate_file(ll_path, SCHEMAS / "longlead.schema.json")
+        print(f"published: {ll_path}")
+
+    _run_phase("LONGLEAD", _longlead_phase, phase_errors, "longlead")
 
     if nowcast_payload is not None:
         artifacts = {**(artifacts or {}), "nowcast": nowcast_payload}

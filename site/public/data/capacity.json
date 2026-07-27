@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-26T21:54:03Z",
+  "published_at": "2026-07-27T12:55:46Z",
   "as_of_curated": "2026-07-21",
   "priced_date": "2026-07-24",
   "note": "AI critical-IT MW + unit economics across the AI build-out cohort: neoclouds, powered-shell landlords, operators, and hyperscalers (incl. private builders xAI and OpenAI/Stargate). Spec: docs/superpowers/specs/2026-07-21-capacity-tracker-design.md. op/con/plan = verify-adjusted critical-IT AI MW; hyperscaler MW are estimates (no filing-grade critical-IT split is disclosed). cap/nd/bk in $B. Derived analytics (EV, weighted MW, EV/MW, coverage, %energized) are computed at render time, not stored. dupe!=null => excluded from de-duped cohort totals.",
@@ -1494,16 +1494,16 @@
           "https://www.datacenterdynamics.com/en/news/digitalocean-signs-multiple-nine-figure-customer-agreements-for-inference-and-cloud-services/"
         ]
       ],
-      "cap": 12.89,
+      "cap": 14.44,
       "px": 123.54,
       "priced_date": "2026-07-24",
       "stale": false,
       "tl": [],
-      "ev": 13.05,
+      "ev": 14.6,
       "wmw": 107.5,
-      "ev_per_mw": 121.4,
+      "ev_per_mw": 135.8,
       "pct_energized": 45.2,
-      "coverage": 0.06
+      "coverage": 0.05
     },
     {
       "t": "AKAM",
@@ -4791,6 +4791,6 @@
   "geo_note": "Campus-level site map, added 2026-07-09. lat/lng are town/county centroids, NOT parcel coordinates. approx=true => only the state/country is public (placed at a state-level position; dashed on the map). Sites with undisclosed locations or n/d MW live in geo_unmapped. DOCN (leased colo, locations undisclosed) and AKAM (distributed edge PoPs) are excluded by construction.",
   "reference": {
     "nvda_cap_b": 5009.9,
-    "cohort_ev_b": 12121.8
+    "cohort_ev_b": 12123.3
   }
 }

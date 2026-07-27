@@ -49,6 +49,7 @@ const ROUTES: [string, string][] = [
   ["/escalation", "the math is a ratio, so the unit is yours"],
   ["/markets", "construction wages and headcount where the shovels are"],
   ["/dc-scoreboard", "did the basis you carried hold?"],
+  ["/longlead", "not a lead-time quote in weeks"],
 ];
 
 for (const [path, text] of ROUTES) {
@@ -370,4 +371,12 @@ test("dc-scoreboard's cross-horizon means name the horizons they cover", async (
   // "of that weight" would make the cleared share read ~2.2x too small.
   await expect(page.getByText(/of Build weight cleared the pre-registered gate/))
     .toBeVisible();
+});
+
+test("datacenter long-lead strip links to the board", async ({ page }) => {
+  await page.goto("/datacenter");
+  const strip = page.getByTestId("longlead-strip");
+  await expect(strip).toBeVisible();
+  await strip.getByRole("link", { name: /long-lead board/i }).click();
+  await expect(page).toHaveURL(/\/longlead\/?$/);
 });

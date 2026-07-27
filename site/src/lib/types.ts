@@ -410,3 +410,47 @@ export type DcGrades = {
   leadlag: LeadLag | null;
   power_nowcast: PowerNowcast | null;
 };
+
+export type LongLeadFigure = {
+  metric: string;
+  kind: "backlog" | "orders" | "book_to_bill" | "backlog_growth";
+  basis: "rpo" | "order-backlog" | "mdna-backlog";
+  scope: "group" | "segment" | "product-line";
+  value: number;
+  unit: "usd_b" | "eur_b" | "jpy_tn" | "pct_yoy" | "ratio";
+  period: string;
+  asof: string;
+  quote: string;
+  src: { label: string; url: string };
+};
+
+export type LongLeadVendor = {
+  key: string;
+  name: string;
+  ticker: string;
+  listed: string;
+  dc_segment: string;
+  cadence: "quarterly" | "annual";
+  stale: boolean;
+  figures: LongLeadFigure[];
+  null_note: string | null;
+};
+
+export type LongLeadPackage = {
+  code: string;
+  label: string;
+  weight: number;
+  price_yoy_pct: number | null;
+  price_last_obs: string | null;
+  contribution_pp: number | null;
+  null_note: string | null;
+  vendors: LongLeadVendor[];
+};
+
+export type LongLead = {
+  published_at: string;
+  as_of_curated: string;
+  build_weight_covered: number;
+  teaser: { vendor: string; name: string; stale: boolean; figure: LongLeadFigure }[];
+  packages: LongLeadPackage[];
+};

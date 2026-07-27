@@ -279,7 +279,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "stress.json", "recession.json", "datacenter.json",
                  "metros.json", "geo.json", "matrix.json", "labor.json",
                  "commodities.json", "capacity.json", "dc_markets.json",
-                 "dc_grades.json"):
+                 "dc_grades.json", "longlead.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 30
@@ -290,7 +290,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok
     # + geography_ok + labor_ok + commodities_ok + capacity_ok + markets_ok + grades_ok
-    assert qa["total"] == 26
+    # + longlead_ok
+    assert qa["total"] == 27
     stamp = [c for c in qa["checks"] if c["name"] == "single_run_stamp"][0]
     assert stamp["pass"] is True  # a clean full run leaves no stale artifacts
     official = json.loads((out / "official.json").read_text())
@@ -359,6 +360,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert checks["capacity_ok"]["pass"] is True
     assert checks["markets_ok"]["pass"] is True
     assert checks["grades_ok"]["pass"] is True
+    assert checks["longlead_ok"]["pass"] is True
     # P2 T9: the geography phase publishes metros/geo/matrix from the same store
     # rows pinned above. rc==0 already proves each validated inline; here we pin
     # that real values flow end-to-end and every artifact shares the run stamp.
@@ -399,6 +401,20 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert grades_out["leadlag"]["conclusion"] == \
         "No forward model is warranted on this evidence."
     assert grades_out["power_nowcast"]["verdict"] in {"PASS", "FAIL", "INSUFFICIENT"}
+    # LONGLEAD phase (/longlead): the hand-curated config publishes stated-only
+    # vendor rows, and the price legs join the same DC engine result the
+    # DATACENTER phase above already exercised against this store.
+    ll_out = json.loads((out / "longlead.json").read_text())
+    assert ll_out["published_at"] == run_stamp
+    assert ll_out["build_weight_covered"] == pytest.approx(0.50)
+    codes = [p["code"] for p in ll_out["packages"]]
+    assert codes == ["switchgear", "transformers", "hvac_equip",
+                     "generators", "pumps"]
+    pumps = ll_out["packages"][codes.index("pumps")]
+    assert pumps["vendors"] == [] and pumps["null_note"]
+    for pkg in ll_out["packages"]:
+        for vendor in pkg["vendors"]:
+            assert bool(vendor["figures"]) != bool(vendor["null_note"])
 
 
 def test_engine_failure_still_publishes_status_and_qa(tmp_path, monkeypatch):
@@ -915,6 +931,44 @@ def test_grades_schema_violation_fails_run(tmp_path, monkeypatch):
     store, out = tmp_path / "s", tmp_path / "o"
     monkeypatch.setattr(run_daily.dc_grades_json, "build",
                         lambda *a, **kw: {"as_of": 123})  # wrong type, keys missing
+    with pytest.raises(jsonschema.ValidationError):
+        run_daily.main(["--store", str(store), "--out", str(out)],
+                       http_get=fake_get, http_post=fake_post)
+    assert not (out / "qa.json").exists()  # run died before qa
+
+
+def test_longlead_failure_does_not_block_publish(tmp_path, monkeypatch):
+    """LONGLEAD is isolated like every other phase above: a failure surfaces
+    as longlead_ok:false and never blocks a neighbouring artifact -- the DC
+    index above all, since this phase re-runs the DC engine off the same
+    conn rather than sharing another phase's local result."""
+    set_keys(monkeypatch)
+    store, out = tmp_path / "s", tmp_path / "o"
+
+    def boom(*a, **kw):
+        raise RuntimeError("longlead boom")
+
+    monkeypatch.setattr(run_daily.longlead_json, "build", boom)
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    qa = json.loads((out / "qa.json").read_text())
+    checks = {c["name"]: c for c in qa["checks"]}
+    assert checks["longlead_ok"]["pass"] is False
+    assert "longlead boom" in checks["longlead_ok"]["detail"]
+    assert not (out / "longlead.json").exists()
+    for name in ("dc_grades.json", "datacenter.json", "qa.json"):
+        assert (out / name).exists(), name
+
+
+def test_longlead_schema_violation_fails_run(tmp_path, monkeypatch):
+    # the LONGLEAD block's ValidationError re-raise must stay ahead of its
+    # generic Exception handler -- a schema-invalid longlead.json must crash
+    # the run, never deploy
+    set_keys(monkeypatch)
+    store, out = tmp_path / "s", tmp_path / "o"
+    monkeypatch.setattr(run_daily.longlead_json, "build",
+                        lambda *a, **kw: {"as_of_curated": 123})
     with pytest.raises(jsonschema.ValidationError):
         run_daily.main(["--store", str(store), "--out", str(out)],
                        http_get=fake_get, http_post=fake_post)

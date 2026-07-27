@@ -299,7 +299,7 @@ subject to this risk — it carries a chosen *historical* rate rather than predi
 
 ## P4 — Long-lead equipment board (vendor backlog as lead-time proxy)
 
-**Status:** not started · **Grades:** energization date, contingency adequacy · **Effort:** medium
+**Status:** shipped 2026-07-27 on `feat/dc-longlead` · **Grades:** energization date, contingency adequacy · **Effort:** medium
 
 **Gap.** The binding constraint in DC delivery right now is not transformer *price*, it's transformer
 *availability*. We track price (PPI) for switchgear, transformers, generators, HVAC, pumps. We track
@@ -315,6 +315,20 @@ not the standard.
 Eaton, Schneider, ABB, Hitachi Energy, Vertiv, Cummins, Caterpillar, GE Vernova. Backlog growth against
 revenue is a defensible, machine-readable *proxy for lead-time direction*, sourced to an 8-K/10-Q rather
 than a trade rag. The FMP connector already exists — this is a new endpoint, not a new integration.
+
+**⚠ CORRECTION (P4 recon, verified 2026-07-26 —
+`docs/superpowers/specs/2026-07-26-dc-longlead-board-design.md` §2). The "FMP connector, new
+endpoint" premise above is overstated — do not re-derive.** FMP has no orders/backlog/book-to-bill
+endpoint (docs grep: zero matches; guessed route 404s); its as-reported XBRL feed returns
+per-ticker-untrustworthy values (Vertiv: $24.5M RPO against its own $10.23B revenue in the same
+response). SEC EDGAR's XBRL API is clean for only GEV/CAT and silently truncates ETN/CMI when
+filers move the RPO total onto a typed dimension. What shipped instead: hand-curated stated-only
+figures (`config/dc_longlead.json` → `longlead.json` → `/longlead` + a `/datacenter` strip),
+basis-badged (RPO / order-backlog / MD&A-backlog are three different accounting objects — CAT
+carries $62.7B and $37.1B simultaneously), with published nulls for Cummins (zero order-book
+disclosure) and pumps (no roster vendor at standard). Derivation was dropped entirely: FX, M&A,
+and tag-scope drift live exactly where the register's "backlog growth against revenue" idea
+would compute.
 
 **Build.** Per critical package: price YoY (have) + backlog / book-to-bill trend (new) + source link.
 

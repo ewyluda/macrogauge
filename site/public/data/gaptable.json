@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-07-26T21:54:03Z",
-  "as_of": "2026-07-26",
+  "published_at": "2026-07-27T12:55:46Z",
+  "as_of": "2026-07-27",
   "official_month": "2026-06-01",
   "rows": [
     {
@@ -148,17 +148,17 @@
   "variants": {
     "gauge": {
       "yoy_pct": 3.18,
-      "as_of": "2026-07-26",
+      "as_of": "2026-07-27",
       "coverage_pct": 42.6
     },
     "col": {
       "yoy_pct": 2.91,
-      "as_of": "2026-07-26",
+      "as_of": "2026-07-27",
       "coverage_pct": 42.6
     },
     "tracker": {
       "yoy_pct": 3.86,
-      "as_of": "2026-07-26",
+      "as_of": "2026-07-27",
       "coverage_pct": 6.5
     },
     "supercore": {
@@ -168,7 +168,7 @@
     },
     "pce": {
       "yoy_pct": 3.46,
-      "as_of": "2026-07-26",
+      "as_of": "2026-07-27",
       "coverage_pct": 21.7
     }
   }

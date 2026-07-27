@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import dc from "../../../public/data/datacenter.json";
 import gradesJson from "../../../public/data/dc_grades.json";
+import llJson from "../../../public/data/longlead.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DcIndexChart } from "@/components/DcIndexChart";
 import { DcConstructionChart } from "@/components/DcConstructionChart";
@@ -10,8 +11,9 @@ import { StateTileMap } from "@/components/StateTileMap";
 import { HardwareGapPanel, type GapRow } from "@/components/HardwareGapPanel";
 import { PowerPanel, type PowerData } from "@/components/PowerPanel";
 import { ContextPanel, type ContextData } from "@/components/ContextPanel";
+import { LongLeadStrip } from "@/components/LongLeadStrip";
 import { fmtSigned, fmtPp } from "@/lib/format";
-import type { DcGrades } from "@/lib/types";
+import type { DcGrades, LongLead } from "@/lib/types";
 
 export const metadata: Metadata = {
   title: `Data Center Cost Index: build ${fmtSigned(dc.indexes.build.headline_yoy_pct)} · ops ${fmtSigned(dc.indexes.ops.headline_yoy_pct)} · hardware ${fmtSigned(dc.indexes.hardware.headline_yoy_pct)} YoY`,
@@ -31,6 +33,7 @@ const GROUPS = dc.group_labels as Record<string, string>;
 // null on a degraded run) — the methodology paragraph below reads as a
 // complete sentence with or without it.
 const pn = (gradesJson as unknown as DcGrades).power_nowcast;
+const longlead = llJson as unknown as LongLead;
 
 // What the backtest DECIDED, in English, derived from the verdict the gate
 // recomputes every run. The page used to assert "it lost to simple
@@ -203,6 +206,9 @@ export default function Datacenter() {
       )}
       {power && <PowerPanel power={power as PowerData} />}
       {context && <ContextPanel context={context} />}
+      {longlead && longlead.teaser.length > 0 && (
+        <LongLeadStrip longlead={longlead} />
+      )}
       <h2>State cost parity <span className="subtitle">multipliers vs national average</span></h2>
       <StateTileMap states={states} national={dc.parity.national} />
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, margin: "12px 0" }}>
