@@ -165,6 +165,7 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
 .lede, .method { font-size: 13px; line-height: 1.55; }
 .kpi-row { display: flex; gap: 16px; flex-wrap: wrap; margin: 24px 0; }
 .table-card, .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: auto; margin: 16px 0; }
+.strip-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; padding: 12px 16px; font-size: 13px; }
 .chart-card { padding: 12px 8px 4px; }
 .data-table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
 .data-table th, .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: right; }

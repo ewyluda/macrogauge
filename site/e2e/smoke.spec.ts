@@ -372,3 +372,11 @@ test("dc-scoreboard's cross-horizon means name the horizons they cover", async (
   await expect(page.getByText(/of Build weight cleared the pre-registered gate/))
     .toBeVisible();
 });
+
+test("datacenter long-lead strip links to the board", async ({ page }) => {
+  await page.goto("/datacenter");
+  const strip = page.getByTestId("longlead-strip");
+  await expect(strip).toBeVisible();
+  await strip.getByRole("link", { name: /long-lead board/i }).click();
+  await expect(page).toHaveURL(/\/longlead\/?$/);
+});
