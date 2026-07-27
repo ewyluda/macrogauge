@@ -12,10 +12,20 @@
  *      caveats and conclusion in the same visual block -- a reader must not
  *      be able to screenshot the positive alone.
  *
- *  All math already happened in the pipeline (pipeline/engine/dcgrade.py).
- *  The only derivation here is picking argmin/argmax over numbers the
- *  artifact already published (the inversion, the weakest-draws horizon) --
- *  never a new statistic.
+ *  Nearly all math already happened in the pipeline
+ *  (pipeline/engine/dcgrade.py); this file mostly picks argmin/argmax over
+ *  numbers the artifact already published (the inversion, the weakest-draws
+ *  horizon).
+ *
+ *  ONE class of figure is computed here and appears nowhere in
+ *  dc_grades.json: the per-basis MEAN MAE and MEAN SHORTFALL across
+ *  horizons, in the inversion section. They are page-level aggregates —
+ *  plain unweighted averages of the per-horizon figures the artifact
+ *  publishes and the table above them renders — taken over the horizons BOTH
+ *  legs publish, which the section names on the page. A reader can reproduce
+ *  either by averaging the cells directly above. `pairedBasisMeans()` in
+ *  lib/dcGrades.ts is the only supported way to take them; see its docstring
+ *  for why aggregating each leg over its own horizon set is wrong.
  */
 import { Section } from "@/components/Section";
 import { ToneBadge } from "@/components/ToneBadge";
@@ -23,11 +33,31 @@ import {
   BASIS_LABELS,
   HORIZONS,
   WITHHELD_REASON,
+  formatHorizonList,
   formatPairedVerdict,
   horizonKey,
+  pairedBasisMeans,
   pairedShortfall,
+  type PairedBasisMeans,
 } from "@/lib/dcGrades";
 import type { DcGrades, GradeStat, Leg } from "@/lib/types";
+
+/** Everything /dc-scoreboard renders, minus the 286-row `anchors` array
+ *  (47KB) it does not: the receipts are linked from the methodology section
+ *  as the raw artifact instead of being serialized a second time into this
+ *  page's HTML. See the page component for the deliberate slice. */
+export type GradesPageData = Omit<DcGrades, "anchors">;
+
+/** The graded reconstruction vs. the published index, measured live on the
+ *  server from the two artifacts (dc_grades.json + datacenter.json) — see
+ *  MethodologySection and the page component. */
+export type ReconstructionNote = {
+  month: string;
+  proxyLabels: string[];
+  proxyWeightPct: number;
+  /** The rolling basis where the two indexes disagree most at `month`. */
+  worst: { basis: string; graded: number; published: number } | null;
+};
 
 const BASIS_KEYS = Object.keys(BASIS_LABELS);
 
@@ -68,34 +98,20 @@ function legCellState(leg: Leg | undefined, basis: string, h: number): LegCellSt
   return stat == null ? { status: "not_gradeable" } : { status: "graded", stat };
 }
 
-type BasisAgg = { basis: string; meanMae: number; meanShortfall: number };
+type LegPick = (r: PairedBasisMeans) => { meanMae: number; meanShortfall: number } | null;
 
-/** Mean MAE and mean shortfall per basis, over whichever horizons THIS leg
- *  actually publishes (leg.published_horizons) -- so the strict leg's mean is
- *  taken over h12/h24 only, never silently padded with horizons it withholds. */
-function summarizeLeg(leg: Leg | undefined): BasisAgg[] | null {
-  if (!leg) return null;
-  const rows: BasisAgg[] = [];
-  for (const basis of BASIS_KEYS) {
-    const stats = leg.published_horizons
-      .map((h) => leg.grades?.[basis]?.[horizonKey(h)])
-      .filter((s): s is GradeStat => s != null);
-    if (!stats.length) continue;
-    rows.push({
-      basis,
-      meanMae: stats.reduce((a, s) => a + s.mae_pp, 0) / stats.length,
-      meanShortfall: stats.reduce((a, s) => a + s.shortfall_rate_pct, 0) / stats.length,
-    });
-  }
-  return rows.length ? rows : null;
+function pickBestMae(rows: PairedBasisMeans[], leg: LegPick): PairedBasisMeans | null {
+  const scored = rows.filter((r) => leg(r) != null);
+  if (!scored.length) return null;
+  return scored.reduce((best, r) => (leg(r)!.meanMae < leg(best)!.meanMae ? r : best));
 }
 
-function pickBestMae(rows: BasisAgg[]): BasisAgg {
-  return rows.reduce((best, r) => (r.meanMae < best.meanMae ? r : best));
-}
-
-function pickWorstShortfall(rows: BasisAgg[]): BasisAgg {
-  return rows.reduce((worst, r) => (r.meanShortfall > worst.meanShortfall ? r : worst));
+function pickWorstShortfall(rows: PairedBasisMeans[], leg: LegPick): PairedBasisMeans | null {
+  const scored = rows.filter((r) => leg(r) != null);
+  if (!scored.length) return null;
+  return scored.reduce((worst, r) =>
+    leg(r)!.meanShortfall > leg(worst)!.meanShortfall ? r : worst,
+  );
 }
 
 /** Which of this leg's published horizons has the lowest mean independent-
@@ -171,7 +187,15 @@ function GradeRow({
   );
 }
 
-function PairedGradingSection({ data, strict, extended }: { data: DcGrades; strict?: Leg; extended?: Leg }) {
+function PairedGradingSection({
+  data,
+  strict,
+  extended,
+}: {
+  data: GradesPageData;
+  strict?: Leg;
+  extended?: Leg;
+}) {
   const weakestExt = weakestHorizon(extended);
   return (
     <Section title={`Paired grading: ${BASIS_KEYS.length} rules × ${HORIZONS.length} horizons`}>
@@ -224,29 +248,37 @@ function PairedGradingSection({ data, strict, extended }: { data: DcGrades; stri
 // The inversion
 // ---------------------------------------------------------------------------
 
-function findBasisRow(rows: BasisAgg[] | null, basis: string): BasisAgg | null {
-  return rows?.find((r) => r.basis === basis) ?? null;
-}
-
 /** Names exactly ONE basis throughout (the lowest-mean-MAE basis on the
  *  primary sample) so that every shortfall figure quoted here is that same
  *  basis's own strict-vs-extended pair -- never a different basis's number
  *  quoted from a single leg. Rank comparisons ("the highest of the three")
  *  are stated without printing another basis's figure, which is how the
- *  paired-legs rule stays intact even when discussing relative standing. */
-function InversionSection({ strict, extended }: { strict?: Leg; extended?: Leg }) {
-  const strictAgg = summarizeLeg(strict);
-  const extendedAgg = summarizeLeg(extended);
-  if (!strictAgg && !extendedAgg) return null;
+ *  paired-legs rule stays intact even when discussing relative standing.
+ *
+ *  Every mean below comes from pairedBasisMeans(), i.e. BOTH legs averaged
+ *  over the SAME horizons (the intersection of what they publish), and the
+ *  paragraph names that horizon set. Aggregating each leg over its own
+ *  published horizons instead would print the strict leg's h12/h24 mean
+ *  beside the extended leg's h12/h24/h36/h48 mean as though the two were
+ *  comparable, understating exactly the spread this section is about. */
+function InversionSection({ data }: { data: GradesPageData }) {
+  const rows = pairedBasisMeans(data);
+  if (!rows.length) return null;
 
-  const primaryAgg = strictAgg ?? extendedAgg!;
-  const primaryIsStrict = !!strictAgg;
-  const bm = pickBestMae(primaryAgg);
+  const strictOf: LegPick = (r) => r.strict;
+  const extendedOf: LegPick = (r) => r.extended;
+  const hasStrict = rows.some((r) => r.strict);
+  const hasExtended = rows.some((r) => r.extended);
+  const primary: LegPick = hasStrict ? strictOf : extendedOf;
 
-  const strictRow = findBasisRow(strictAgg, bm.basis);
-  const extendedRow = findBasisRow(extendedAgg, bm.basis);
-  const strictWorstBasis = strictAgg ? pickWorstShortfall(strictAgg).basis : null;
-  const extWorstBasis = extendedAgg ? pickWorstShortfall(extendedAgg).basis : null;
+  const bm = pickBestMae(rows, primary);
+  if (!bm) return null;
+
+  const strictRow = bm.strict;
+  const extendedRow = bm.extended;
+  const strictWorst = hasStrict ? pickWorstShortfall(rows, strictOf) : null;
+  const extWorst = hasExtended ? pickWorstShortfall(rows, extendedOf) : null;
+  const horizons = formatHorizonList(bm.horizons);
 
   return (
     <Section title="The inversion">
@@ -258,25 +290,41 @@ function InversionSection({ strict, extended }: { strict?: Leg; extended?: Leg }
             on the extended sample.
           </>
         ) : (
-          <>on the {primaryIsStrict ? "strict, vintage-true" : "extended"} sample ({pp(bm.meanMae)}).</>
+          <>
+            on the {hasStrict ? "strict, vintage-true" : "extended"} sample ({pp(primary(bm)?.meanMae)}).
+          </>
         )}{" "}
         That is also the basis most likely to leave a reader short — a symmetric error metric rewards centering the
         error, not skewing it toward safety.{" "}
         {strictRow && (
           <>
             Its mean shortfall rate on the strict sample is {pct(strictRow.meanShortfall)}
-            {strictWorstBasis === bm.basis ? ", the highest of the three rolling bases there." : "."}
+            {strictWorst?.basis === bm.basis ? ", the highest of the three rolling bases there." : "."}
           </>
         )}{" "}
         {extendedRow && (
           <>
             On the extended sample — deeper, and the one that actually contains a downturn — its mean shortfall
             rate is {pct(extendedRow.meanShortfall)},{" "}
-            {extWorstBasis === bm.basis
+            {extWorst?.basis === bm.basis
               ? "still the highest of the three: the inversion holds even once the sample includes a period escalation actually cooled."
               : "no longer the highest of the three (a different basis now is): the inversion attenuates once the sample includes a period escalation actually cooled."}
           </>
         )}
+      </p>
+      <p style={{ fontSize: 12, color: "var(--muted)", margin: "8px 0 0" }}>
+        Every mean in this section covers the {horizons} horizons — the horizons{" "}
+        {hasStrict && hasExtended ? "both legs publish" : "this leg publishes"}, and the only ones on which the two
+        samples can be compared like for like (the strict leg withholds the longer ones as too thin). They are plain
+        averages of the per-horizon figures in the table above, taken over that same set for each leg, so a reader can
+        re-derive them from those cells by hand.
+        {hasStrict && hasExtended && bm.horizons.length < HORIZONS.length ? (
+          <>
+            {" "}
+            The extended leg&apos;s longer horizons are graded in that table and deliberately left out of these means:
+            averaging them in on one side only would flatter whichever leg reaches further.
+          </>
+        ) : null}
       </p>
     </Section>
   );
@@ -367,10 +415,20 @@ function LeadLagSection({ leadlag }: { leadlag: DcGrades["leadlag"] }) {
             <p style={{ margin: "8px 0 0" }}>
               <b>Conclusion:</b> {leadlag.conclusion}
             </p>
+            {/* Both shares are of BUILD WEIGHT — the same denominator — and
+                say so explicitly. `weight_stable` is NOT a share of
+                `weight_covered`: reading "12% of that weight" as 12% of the
+                mapped 45% gives 5.4%, understating the cleared share by a
+                factor of ~2.2. The share-of-mapped ratio is stated too, but
+                DERIVED from the two published weights rather than written
+                down. */}
             <p style={{ fontSize: 12, color: "var(--muted)", margin: "10px 0 0" }}>
               {(leadlag.weight_covered * 100).toFixed(0)}% of Build weight has a mapped input-price driver;{" "}
-              {(leadlag.weight_stable * 100).toFixed(0)}% of that weight cleared the pre-registered gate above —
-              read the caveats before treating that as a usable lead.
+              {(leadlag.weight_stable * 100).toFixed(0)}% of Build weight cleared the pre-registered gate above
+              {leadlag.weight_covered > 0
+                ? ` (${((leadlag.weight_stable / leadlag.weight_covered) * 100).toFixed(0)}% of the mapped set)`
+                : ""}{" "}
+              — read the caveats before treating that as a usable lead.
             </p>
           </div>
           <div className="table-card">
@@ -380,6 +438,11 @@ function LeadLagSection({ leadlag }: { leadlag: DcGrades["leadlag"] }) {
                   <th>Driver</th>
                   <th>Component</th>
                   <th>Weight</th>
+                  {/* The live sample behind every correlation in the row. The
+                      split-artifact caveat above talks about sample DEPTH
+                      moving the midpoint; without this column a reader has no
+                      way to see what depth this run actually ran on. */}
+                  <th>Sample</th>
                   <th>Best lag</th>
                   <th>Correlation</th>
                   <th>Split-half lag (1st → 2nd)</th>
@@ -392,6 +455,12 @@ function LeadLagSection({ leadlag }: { leadlag: DcGrades["leadlag"] }) {
                     <td>{m.driver_label}</td>
                     <td>{m.component_label}</td>
                     <td>{(m.weight * 100).toFixed(0)}%</td>
+                    <td>
+                      {m.months} mo
+                      <div style={{ fontSize: 11, color: "var(--muted)" }}>
+                        {m.span?.[0] ?? "—"} – {m.span?.[1] ?? "—"}
+                      </div>
+                    </td>
                     <td>{m.best_lag_months != null ? `${m.best_lag_months}mo` : "—"}</td>
                     <td>{m.best_correlation != null ? m.best_correlation.toFixed(3) : "—"}</td>
                     <td>
@@ -451,7 +520,19 @@ function PowerNowcastSection({ nowcast }: { nowcast: DcGrades["power_nowcast"] }
 // Methodology
 // ---------------------------------------------------------------------------
 
-function MethodologySection({ data, strict, extended }: { data: DcGrades; strict?: Leg; extended?: Leg }) {
+function MethodologySection({
+  data,
+  strict,
+  extended,
+  reconstruction,
+  anchorsN,
+}: {
+  data: GradesPageData;
+  strict?: Leg;
+  extended?: Leg;
+  reconstruction: ReconstructionNote | null;
+  anchorsN: number;
+}) {
   return (
     <Section title="Methodology">
       <p className="method">
@@ -485,24 +566,72 @@ function MethodologySection({ data, strict, extended }: { data: DcGrades; strict
         distinct last-observation month — the earliest vintage to reach it, since that is the first date a reader
         could actually have stood there.
       </p>
+      {reconstruction && (
+        <p className="method">
+          <b>The index graded here is reconstructed from official releases only.</b> Every component is read from its
+          published PPI/CES series and nothing else. The DC Build index on{" "}
+          <a href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</a> and{" "}
+          <a href="/escalation" style={{ color: "var(--accent-sky)" }}>/escalation</a> additionally splices a live
+          futures tail onto {reconstruction.proxyLabels.join(" and ")} ({reconstruction.proxyWeightPct.toFixed(1)}% of
+          Build weight) past their last official print, so the two indexes agree in every month where that splice is
+          inactive and differ where it is not — and the latest anchor, the month every basis above is read at, is such
+          a month.
+          {reconstruction.worst ? (
+            <>
+              {" "}
+              Measured at {reconstruction.month}, the widest gap is{" "}
+              {BASIS_LABELS[reconstruction.worst.basis] ?? reconstruction.worst.basis}, which grades here at{" "}
+              {reconstruction.worst.graded.toFixed(2)}%/yr against the {reconstruction.worst.published.toFixed(2)}%/yr
+              /escalation shows for the same rule.
+            </>
+          ) : null}{" "}
+          The statistics above are barely touched — only the handful of anchor-horizon pairs whose anchor falls in a
+          splice month can differ at all — but the two numbers are not identical, and this page says so rather than
+          leaving a reader to find it.
+        </p>
+      )}
+      <p className="method">
+        <b>Receipts.</b> Every figure on this page is re-derivable from the published artifact:{" "}
+        <a href="/data/dc_grades.json" style={{ color: "var(--accent-sky)" }}>
+          /data/dc_grades.json
+        </a>{" "}
+        carries all {anchorsN} anchor rows — for each anchor month and leg, what every basis said to carry and what
+        escalation actually did over each horizon next. The array is deliberately not rendered here (it is a
+        re-derivation dataset, not a reading experience) and deliberately not serialized into this page either; it is
+        linked so the underlying rows stay one click away instead of shipping unread in every page load.
+      </p>
     </Section>
   );
 }
 
 // ---------------------------------------------------------------------------
 
-export function GradesClient({ data }: { data: DcGrades }) {
+export function GradesClient({
+  data,
+  reconstruction = null,
+  anchorsN,
+}: {
+  data: GradesPageData;
+  reconstruction?: ReconstructionNote | null;
+  anchorsN: number;
+}) {
   const strict = data.legs?.strict;
   const extended = data.legs?.extended;
 
   return (
     <>
       <PairedGradingSection data={data} strict={strict} extended={extended} />
-      <InversionSection strict={strict} extended={extended} />
+      <InversionSection data={data} />
       <ScenarioSection scenarios={data.scenarios} />
       <LeadLagSection leadlag={data.leadlag} />
       <PowerNowcastSection nowcast={data.power_nowcast} />
-      <MethodologySection data={data} strict={strict} extended={extended} />
+      <MethodologySection
+        data={data}
+        strict={strict}
+        extended={extended}
+        reconstruction={reconstruction}
+        anchorsN={anchorsN}
+      />
     </>
   );
 }

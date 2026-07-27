@@ -295,6 +295,45 @@ def test_caveats_omit_the_contemporaneous_flag_for_a_genuine_multi_month_lag():
     assert keys == {"split_artifact"}
 
 
+def test_caveats_never_repeat_a_key_when_two_mappings_clear_at_a_short_lag():
+    """Caveat keys are identity: the site renders the list keyed on them.
+
+    Two mappings clearing the gate at a contemporaneous lag used to emit two
+    entries BOTH keyed "contemporaneous_not_lead" -- a duplicate React key,
+    and the same paragraph printed twice but for the pairing name. Exactly
+    one mapping clears today, so this is latent; the gate is re-run every
+    publish and nothing pins that count, so it is pinned here instead. Both
+    pairings must still be NAMED in the single entry: deduping the key must
+    not lose which mappings it is about."""
+    import math
+    n = 30 * 12
+    same = [100 + 6 * math.sin(i / 5.0) + i * 0.01 for i in range(n)]
+    conn = _conn_with({"fred_uo_electrical": _series(same),
+                       "fred_uo_hvac": _series(same),
+                       "comp_a": _series(same), "comp_b": _series(same)})
+    components = [_Comp("comp_a", "comp_a", "Component A", 0.14),
+                  _Comp("comp_b", "comp_b", "Component B", 0.10)]
+    mappings = [
+        {"series": "fred_uo_electrical", "label": "Electrical equipment",
+         "components": ["comp_a"], "weight": 0.14},
+        {"series": "fred_uo_hvac", "label": "Ventilation, heating & AC",
+         "components": ["comp_b"], "weight": 0.10},
+    ]
+
+    result = dcleadlag.study(conn, components, mappings=mappings)
+    assert [r["stable"] for r in result["mappings"]] == [True, True]
+    assert all(r["best_lag_months"] == 0 for r in result["mappings"])
+
+    keys = [c["key"] for c in result["caveats"]]
+    assert len(keys) == len(set(keys)), keys
+    assert set(keys) == {"contemporaneous_not_lead", "split_artifact"}
+    text = next(c["text"] for c in result["caveats"]
+                if c["key"] == "contemporaneous_not_lead")
+    for name in ("Component A", "Component B", "Electrical equipment",
+                 "Ventilation, heating & AC"):
+        assert name in text
+
+
 def test_caveats_are_empty_when_no_mapping_clears_the_gate():
     """No positive result -> nothing to caveat. The negative branch of
     `verdict` already states the standing conclusion in full, and the

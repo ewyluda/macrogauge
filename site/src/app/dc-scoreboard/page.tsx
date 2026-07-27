@@ -1,15 +1,84 @@
 import type { Metadata } from "next";
+import dcJson from "../../../public/data/datacenter.json";
 import gradesJson from "../../../public/data/dc_grades.json";
 import { KpiCard } from "@/components/KpiCard";
-import { GradesClient } from "@/components/grades/GradesClient";
-import { BASES } from "@/lib/dcContingency";
-import { BASIS_LABELS } from "@/lib/dcGrades";
+import {
+  GradesClient,
+  type GradesPageData,
+  type ReconstructionNote,
+} from "@/components/grades/GradesClient";
+import { BASES, bases, lastCompleteMonth } from "@/lib/dcContingency";
+import { BASIS_LABELS, ESCALATION_BASIS_TO_GRADE } from "@/lib/dcGrades";
 import type { DcGrades } from "@/lib/types";
 
 const data = gradesJson as unknown as DcGrades;
 const strict = data.legs?.strict;
 const extended = data.legs?.extended;
 const ruleCount = Object.keys(BASIS_LABELS).length;
+
+// Everything the client renders — deliberately WITHOUT `anchors`. That array
+// is 286 rows / 47KB of re-derivation receipts this page shows nowhere; left
+// on `data` it would be serialized into dc-scoreboard.html on every publish
+// and read by nobody. The methodology section links /data/dc_grades.json
+// instead, so the receipts stay one click away at zero page cost.
+const clientData: GradesPageData = {
+  published_at: data.published_at,
+  as_of: data.as_of,
+  paired_legs_note: data.paired_legs_note,
+  revision_disclosure_pp: data.revision_disclosure_pp,
+  legs: data.legs,
+  scenarios: data.scenarios,
+  leadlag: data.leadlag,
+  power_nowcast: data.power_nowcast,
+};
+
+/** How far the PPI-only reconstruction graded here sits from the index the
+ *  site actually displays — measured live, on the server, from the two
+ *  published artifacts rather than asserted.
+ *
+ *  dcgrade.load_component_versions reads each component's official series and
+ *  nothing else, so the graded index carries no live futures tail. The
+ *  published index splices one onto the copper/aluminium components past
+ *  their last official print. The two therefore agree everywhere the splice
+ *  is inactive and diverge in the splice month — which happens to be the
+ *  anchor every basis is read at. Rather than restate a measured constant
+ *  that would go stale as futures move, this reads both numbers out of the
+ *  artifacts on every build: the graded side from `anchors` (the extended
+ *  leg's row at the shared anchor month), the published side from
+ *  dcContingency's `bases()` over datacenter.json's monthly grid — the same
+ *  function /escalation itself uses, so the "displayed" figure quoted really
+ *  is the figure displayed. */
+function measureReconstruction(): ReconstructionNote | null {
+  const build = dcJson.indexes.build;
+  const comps = build.components;
+  const proxies = comps.filter((c) => c.mode !== "official");
+  const month = lastCompleteMonth(
+    build.monthly.months,
+    comps.map((c) => c.last_obs),
+  );
+  if (!month) return null;
+  const graded = data.anchors.find((a) => a.leg === "extended" && a.m === month);
+  if (!graded) return null;
+
+  const published = bases(build.monthly.months, build.monthly.index, month);
+  let worst: ReconstructionNote["worst"] = null;
+  for (const row of published) {
+    const key = ESCALATION_BASIS_TO_GRADE[row.key];
+    const g = key ? graded.bases[key] : null;
+    if (key == null || g == null) continue;
+    if (!worst || Math.abs(g - row.annualizedPct) > Math.abs(worst.graded - worst.published)) {
+      worst = { basis: key, graded: g, published: row.annualizedPct };
+    }
+  }
+  return {
+    month,
+    proxyLabels: proxies.map((c) => c.label),
+    proxyWeightPct: proxies.reduce((a, c) => a + c.weight, 0) * 100,
+    worst,
+  };
+}
+
+const reconstruction = measureReconstruction();
 
 export const metadata: Metadata = {
   title: "DC Escalation Scoreboard: did each contingency basis carry enough?",
@@ -84,7 +153,11 @@ export default function Page() {
           accent="amber"
         />
       </div>
-      <GradesClient data={data} />
+      <GradesClient
+        data={clientData}
+        reconstruction={reconstruction}
+        anchorsN={data.anchors.length}
+      />
     </div>
   );
 }

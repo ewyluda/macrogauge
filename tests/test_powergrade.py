@@ -30,6 +30,35 @@ def test_run_reports_the_verdict_and_both_maes(monkeypatch):
     assert out["best_mae"] > out["carry_forward_mae"]
 
 
+def test_note_is_derived_from_the_verdict_not_asserted():
+    """The published sentence must follow the gate, not outlive it.
+
+    The page used to assert "it lost to simple carry-forward" beside numbers
+    that were recomputed every run: a flip to PASS would have printed a
+    falsehood next to correct figures. Every verdict must therefore map to a
+    DIFFERENT sentence, and no sentence may claim the loss under a verdict
+    that isn't FAIL."""
+    notes = {v: powergrade.note(v)
+             for v in ("FAIL", "PASS", "INSUFFICIENT")}
+    assert len(set(notes.values())) == 3
+    assert "lost to simple carry-forward" in notes["FAIL"]
+    for v in ("PASS", "INSUFFICIENT"):
+        assert "lost to" not in notes[v]
+    # The standing position (index unchanged, machinery config-gated) holds
+    # under every outcome -- clearing the backtest is a precondition for
+    # changing the index, not the change itself.
+    for text in notes.values():
+        assert "config-gated" in text
+    # An unknown verdict must not fall through to the FAIL claim.
+    assert "lost to" not in powergrade.note("SOMETHING_NEW")
+
+
+def test_run_publishes_the_note_that_matches_its_own_verdict():
+    conn = _store_where_nowcast_loses()
+    out = powergrade.run(conn)
+    assert out["note"] == powergrade.note(out["verdict"])
+
+
 def test_run_degrades_to_nulls_rather_than_raising_on_an_empty_store():
     """The schema must accept a degraded shape; the engine must produce one."""
     import sqlite3

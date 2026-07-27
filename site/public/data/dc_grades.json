@@ -5033,7 +5033,7 @@
     "caveats": [
       {
         "key": "contemporaneous_not_lead",
-        "text": "Electrical equipment -> Power & distribution transformers: the recovered best lag is 0 month(s) -- contemporaneous, not a lead. This study exists to decide whether a forward model is buildable at 12-48 month horizons; a same-month correlation cannot support that at any gate strictness, and is equally consistent with both series reacting to a shared shock as with backlog-to-price transmission."
+        "text": "The recovered best lag is contemporaneous, not a lead (Electrical equipment -> Power & distribution transformers at 0 month(s)). This study exists to decide whether a forward model is buildable at 12-48 month horizons; a same-month correlation cannot support that at any gate strictness, and is equally consistent with both series reacting to a shared shock as with backlog-to-price transmission."
       },
       {
         "key": "split_artifact",

@@ -32,6 +32,26 @@ const GROUPS = dc.group_labels as Record<string, string>;
 // complete sentence with or without it.
 const pn = (gradesJson as unknown as DcGrades).power_nowcast;
 
+// What the backtest DECIDED, in English, derived from the verdict the gate
+// recomputes every run. The page used to assert "it lost to simple
+// carry-forward at every pass-through level tested" unconditionally while the
+// numbers beside it came from the artifact: a flip to PASS would have printed
+// a falsehood next to correct figures, which is precisely the defect this
+// branch exists to remove. Prose and figures now come from the same object.
+const NOWCAST_CLAUSE: Record<string, string> = {
+  FAIL: "it lost to simple carry-forward at every pass-through level tested",
+  PASS:
+    "it beat both naive baselines — carry-forward and zero pass-through — inside " +
+    "the pre-registered error bound, a result still under review",
+  INSUFFICIENT:
+    "the backtest could not be graded on this publish, so nothing is claimed either way",
+};
+// True under every verdict: clearing the backtest is a precondition for
+// changing the index, not the change itself. Stated separately from the
+// clause above so it never reads as a consequence of a specific outcome.
+const NOWCAST_STANDING =
+  "the ops index stays on official retail data and the machinery ships config-gated";
+
 function ComponentTable({ title, comps, groupHeaders = false, groups }: {
   title: string; comps: Comp[]; groupHeaders?: boolean; groups?: GroupSum[];
 }) {
@@ -219,12 +239,12 @@ export default function Datacenter() {
         wholesale tail would fabricate seasonal inflation (we measured it, then pulled it). We
         then built the honest alternative — a like-month year-ratio nowcast, which cancels
         seasonality by construction — and backtested it against realized retail prints
-        before letting it touch the index: <span data-testid="power-nowcast-grade">it lost to
-        simple carry-forward at every pass-through level tested
+        before letting it touch the index: <span data-testid="power-nowcast-grade">
+        {pn ? NOWCAST_CLAUSE[pn.verdict] ?? NOWCAST_CLAUSE.INSUFFICIENT : "the backtest result is unavailable in this publish"}
+        {pn ? ` — ${pn.verdict}` : ""}
         {pn && pn.best_mae != null && pn.carry_forward_mae != null && pn.as_of != null
           ? ` (best MAE ${pn.best_mae.toFixed(3)} vs ${pn.carry_forward_mae.toFixed(3)} YoY pts over ${pn.months_graded} months, as of ${pn.as_of})`
-          : ""}</span>, so the ops index stays on
-        official retail data and the machinery ships config-gated. Wholesale tells you about
+          : ""}</span>. Either way {NOWCAST_STANDING}. Wholesale tells you about
         the grid; it does not nowcast tariff-cycle retail rates, and we publish it as market
         visibility only.
         {" "}The bigger-picture cards are context, not index inputs: colo asking rates (CBRE),

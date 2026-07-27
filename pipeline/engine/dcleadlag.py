@@ -115,20 +115,29 @@ def _caveats(supported: list[dict]) -> list[dict]:
     and the negative branch of `verdict` already states the standing
     conclusion in full."""
     out = []
-    for r in supported:
-        lag = r["best_lag_months"]
-        if lag is not None and abs(lag) <= CONTEMPORANEOUS_LAG_MAX:
-            out.append({
-                "key": "contemporaneous_not_lead",
-                "text": (
-                    f"{r['driver_label']} -> {r['component_label']}: the "
-                    f"recovered best lag is {lag} month(s) -- contemporaneous, "
-                    "not a lead. This study exists to decide whether a "
-                    "forward model is buildable at 12-48 month horizons; a "
-                    "same-month correlation cannot support that at any gate "
-                    "strictness, and is equally consistent with both series "
-                    "reacting to a shared shock as with backlog-to-price "
-                    "transmission.")})
+    # ONE entry, however many mappings qualify. Keys are identity here: a
+    # consumer keys a rendered list on them (the site does), and two entries
+    # sharing "contemporaneous_not_lead" would be a duplicate key plus a
+    # paragraph repeated verbatim but for the pairing name. Latent while
+    # exactly one mapping clears the gate -- but the gate is re-run every
+    # publish and nothing pins that count, so the list is built to hold any
+    # number from the start.
+    near = [r for r in supported
+            if r["best_lag_months"] is not None
+            and abs(r["best_lag_months"]) <= CONTEMPORANEOUS_LAG_MAX]
+    if near:
+        pairs = "; ".join(
+            f"{r['driver_label']} -> {r['component_label']} at "
+            f"{r['best_lag_months']} month(s)" for r in near)
+        out.append({
+            "key": "contemporaneous_not_lead",
+            "text": (
+                f"The recovered best lag is contemporaneous, not a lead "
+                f"({pairs}). This study exists to decide whether a forward "
+                "model is buildable at 12-48 month horizons; a same-month "
+                "correlation cannot support that at any gate strictness, and "
+                "is equally consistent with both series reacting to a shared "
+                "shock as with backlog-to-price transmission.")})
     if supported:
         out.append({"key": "split_artifact", "text": _SPLIT_ARTIFACT_CAVEAT})
     return out

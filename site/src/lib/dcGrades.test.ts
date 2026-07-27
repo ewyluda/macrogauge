@@ -1,9 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
+  escalationGradeSlice,
+  formatHorizonList,
   formatPairedVerdict,
   horizonKey,
   nearestHorizon,
+  pairedBasisMeans,
   pairedShortfall,
+  sharedHorizons,
   WITHHELD_REASON,
 } from "./dcGrades";
 import type { DcGrades, GradeStat } from "./types";
@@ -183,5 +187,133 @@ describe("formatPairedVerdict", () => {
     expect(s).toContain("64.2%");
     expect(s).toContain(WITHHELD_REASON);
     expect(s).not.toContain("not gradeable");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Cross-horizon means -- the paired-legs rule applied to AGGREGATES
+// ---------------------------------------------------------------------------
+
+function statMS(shortfall: number, mae: number): GradeStat {
+  return { ...stat(shortfall), mae_pp: mae };
+}
+
+describe("sharedHorizons", () => {
+  it("intersects published_horizons rather than assuming the strict pair", () => {
+    expect(sharedHorizons([data.legs.strict, data.legs.extended])).toEqual([12, 24]);
+    // computed, not hardcoded: widen the strict leg and the shared set widens
+    const wide = { ...data.legs.strict, published_horizons: [12, 24, 36, 48] };
+    expect(sharedHorizons([wide, data.legs.extended])).toEqual([12, 24, 36, 48]);
+  });
+
+  it("falls back to the single leg's own horizons when only one is present", () => {
+    expect(sharedHorizons([data.legs.extended])).toEqual([12, 24, 36, 48]);
+    expect(sharedHorizons([])).toEqual([]);
+  });
+});
+
+describe("pairedBasisMeans", () => {
+  // The defect this exists to prevent: the strict leg averaged over h12/h24
+  // while the extended leg averaged over h12/h24/h36/h48, printed side by
+  // side as though comparable. Constructed so the two disagree loudly --
+  // extended h36/h48 are far below its h12/h24 -- so a regression cannot
+  // hide inside rounding.
+  const legs = {
+    strict: {
+      ...data.legs.strict,
+      grades: { long_run: { h12: statMS(60, 4), h24: statMS(80, 6) } },
+    },
+    extended: {
+      ...data.legs.extended,
+      grades: {
+        long_run: {
+          h12: statMS(40, 3),
+          h24: statMS(60, 5),
+          h36: statMS(0, 1),
+          h48: statMS(0, 1),
+        },
+      },
+    },
+  };
+  const paired = { legs } as unknown as DcGrades;
+
+  it("averages BOTH legs over the intersection of their published horizons", () => {
+    const [row] = pairedBasisMeans(paired);
+    expect(row.horizons).toEqual([12, 24]);
+    expect(row.strict).toEqual({ meanShortfall: 70, meanMae: 5 });
+    // 50, not (40+60+0+0)/4 = 25: the extended leg's h36/h48 are excluded
+    // because the strict leg has no counterpart there.
+    expect(row.extended).toEqual({ meanShortfall: 50, meanMae: 4 });
+  });
+
+  it("drops a horizon where either leg has no stat, on both sides at once", () => {
+    const holed = {
+      legs: {
+        strict: legs.strict,
+        extended: {
+          ...legs.extended,
+          grades: { long_run: { ...legs.extended.grades.long_run, h24: null } },
+        },
+      },
+    } as unknown as DcGrades;
+    const [row] = pairedBasisMeans(holed);
+    expect(row.horizons).toEqual([12]);
+    expect(row.strict).toEqual({ meanShortfall: 60, meanMae: 4 });
+    expect(row.extended).toEqual({ meanShortfall: 40, meanMae: 3 });
+  });
+
+  it("reports the single present leg, and nulls the absent one", () => {
+    const only = { legs: { extended: legs.extended } } as unknown as DcGrades;
+    const [row] = pairedBasisMeans(only);
+    expect(row.horizons).toEqual([12, 24, 36, 48]);
+    expect(row.strict).toBeNull();
+    expect(row.extended?.meanShortfall).toBe(25);
+  });
+
+  it("returns nothing rather than throwing on a degraded artifact", () => {
+    expect(pairedBasisMeans({ legs: {} } as unknown as DcGrades)).toEqual([]);
+  });
+
+  it("agrees with the real fixture's h12/h24 figures for every basis", () => {
+    const rows = pairedBasisMeans(data);
+    expect(rows.map((r) => r.basis)).toEqual([
+      "long_run",
+      "trailing_3yr",
+      "current_momentum",
+    ]);
+    const longRun = rows[0];
+    expect(longRun.horizons).toEqual([12, 24]);
+    expect(longRun.strict?.meanShortfall).toBeCloseTo((61.4 + 75.0) / 2, 6);
+    expect(longRun.extended?.meanShortfall).toBeCloseTo((46.3 + 53.4) / 2, 6);
+  });
+});
+
+describe("formatHorizonList", () => {
+  it("spells out the horizon set a mean covers", () => {
+    expect(formatHorizonList([12, 24])).toBe("12- and 24-month");
+    expect(formatHorizonList([12])).toBe("12-month");
+    expect(formatHorizonList([12, 24, 36, 48])).toBe("12-, 24-, 36- and 48-month");
+  });
+});
+
+describe("escalationGradeSlice", () => {
+  // /escalation is a static page: whatever crosses into its client component
+  // is serialized into escalation.html. The slice must carry the legs and
+  // NOTHING else -- notably not the 286-row anchors array.
+  it("carries the legs and drops everything else", () => {
+    const slice = escalationGradeSlice({
+      ...data,
+      anchors: [{ m: "2026-06", leg: "extended", bases: {}, realized: {} }],
+    } as unknown as DcGrades);
+    expect(Object.keys(slice)).toEqual(["legs"]);
+    expect(slice.legs).toBe(data.legs);
+  });
+
+  it("still satisfies pairedShortfall, the only accessor it feeds", () => {
+    const slice = escalationGradeSlice(data);
+    expect(pairedShortfall(slice, "long_run", 24)).toEqual({
+      strict: { status: "graded", shortfallPct: 75.0 },
+      extended: { status: "graded", shortfallPct: 53.4 },
+    });
   });
 });

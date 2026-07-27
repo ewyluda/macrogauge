@@ -15,26 +15,13 @@ import {
   MAX_HORIZON_MONTHS,
   MIN_HORIZON_MONTHS,
 } from "@/lib/dcContingency";
-import { formatPairedVerdict, pairedShortfall } from "@/lib/dcGrades";
-import type { DcGrades } from "@/lib/types";
+import {
+  ESCALATION_BASIS_TO_GRADE as GRADE_BASIS_KEY,
+  formatPairedVerdict,
+  pairedShortfall,
+  type GradeLegs,
+} from "@/lib/dcGrades";
 import { fmtPp, fmtSigned } from "@/lib/format";
-
-// /escalation's basis keys (dcContingency.ts's BASES) and the grading
-// harness's basis keys (dcGrades.ts's BASIS_LABELS) are two different
-// vocabularies for an overlapping set of concepts — passing one straight
-// into the other's accessors silently returns nothing. This mapping is
-// total over /escalation's five keys: `gfc` and `covid` map to `null` on
-// purpose. They are hindsight-selected historical episodes, not rules, and
-// carry no grade anywhere in this feature (see /dc-scoreboard's Scenario
-// section) — a `null` here means "render the ungradeable note", not "grade
-// unavailable this publish".
-const GRADE_BASIS_KEY: Record<string, string | null> = {
-  longrun: "long_run",
-  trailing3y: "trailing_3yr",
-  momentum: "current_momentum",
-  gfc: null,
-  covid: null,
-};
 
 export type EscalationData = {
   months: string[];
@@ -61,7 +48,9 @@ export function DcEscalationClient({
   grades,
 }: {
   data: EscalationData;
-  grades: DcGrades | null;
+  // The legs slice of dc_grades.json, never the whole artifact — see
+  // escalationGradeSlice() and this page's server component.
+  grades: GradeLegs | null;
 }) {
   const firstMonth = data.months[0];
   const lastMonth = data.months[data.months.length - 1];
@@ -242,6 +231,15 @@ export function DcEscalationClient({
                 horizon,
                 pairedShortfall(grades, gradeBasisKey, horizon)
               )}{" "}
+              {/* The grading harness reconstructs this index from official
+                  releases only, with no live futures tail — so the rate it
+                  grades and the rate shown above can differ slightly in the
+                  months where that tail is spliced in. A one-clause flag
+                  here, with the measured gap on /dc-scoreboard's methodology,
+                  rather than either a silent difference or a paragraph of
+                  arithmetic inside a one-line verdict. */}
+              Graded on a reconstruction from official prints only, which can differ
+              slightly in months carrying a live futures tail.{" "}
               <a href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
                 See how each basis has held up →
               </a>

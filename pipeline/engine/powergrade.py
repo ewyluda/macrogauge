@@ -1,13 +1,21 @@
 """Engine: the power-nowcast backtest gate (spec §6).
 
-A like-month year-ratio nowcast for wholesale-to-retail power was backtested
-against realized retail prints and lost to simple carry-forward at every
-pass-through level tested, so the DC Ops index stays on official retail data
-and the nowcast machinery ships config-gated. That verdict used to live only
-as a hardcoded string in the DC page (`site/src/app/datacenter/page.tsx`) --
-no as-of, no schema, nothing in CI to catch it drifting from a re-run. It
-already had: a live re-run reads carry-forward 4.778 and best lambda=0.25
-MAE 8.452, while the page still said "8.5 vs 5.2".
+A like-month year-ratio nowcast for wholesale-to-retail power is backtested
+against realized retail prints here, every run. As measured to date it loses
+to simple carry-forward at every pass-through level tested -- but that is an
+OUTCOME this module computes (`_verdict`), never a premise: nothing in this
+file, the schema, or the site may assert it independently of what the gate
+returns on the day. `note()` below therefore derives its prose from the
+verdict, so a flip to PASS cannot leave a stale "it lost" sentence standing
+beside a passing grade. The DC Ops index stays on official retail data and
+the nowcast machinery ships config-gated regardless -- a passing backtest is
+a precondition for changing the index, not the change itself.
+
+That verdict used to live only as a hardcoded string in the DC page
+(`site/src/app/datacenter/page.tsx`) -- no as-of, no schema, nothing in CI to
+catch it drifting from a re-run. It already had: a live re-run reads
+carry-forward 4.778 and best lambda=0.25 MAE 8.452, while the page still said
+"8.5 vs 5.2".
 
 This module is the one computation. `scripts/backtest_power_yearratio.py`
 calls it (via `grade_all`) for its printed table and exit code; a later task
@@ -152,19 +160,46 @@ def run(conn) -> dict:
     best_mae = scored.get(best_lambda)
     best_max_err = mx.get(best_lambda) if best_lambda is not None else None
 
+    verdict = _verdict(cf_mae, best_mae, mae.get(0.0), best_max_err)
     return {
         "as_of": max(official) if official else None,
         "months_graded": len(common),
         "carry_forward_mae": round(cf_mae, 3) if cf_mae is not None else None,
         "best_lambda": best_lambda,
         "best_mae": round(best_mae, 3) if best_mae is not None else None,
-        "verdict": _verdict(cf_mae, best_mae, mae.get(0.0), best_max_err),
-        "note": ("A like-month year-ratio nowcast, backtested against realized "
-                 "retail prints before letting it touch the index. It lost to "
-                 "simple carry-forward at every pass-through level tested, so "
-                 "the ops index stays on official retail data and the "
-                 "machinery ships config-gated."),
+        "verdict": verdict,
+        "note": note(verdict),
     }
+
+
+# The one place the gate's outcome is turned into English. Keyed by the
+# verdict `_verdict` actually returned, so the sentence cannot outlive the
+# result it describes -- the failure mode this whole branch exists to remove
+# (the numbers were freed from the page; the CLAIM was left hardcoded beside
+# them). Every consumer -- the published `note`, the DC page's inline clause,
+# the scoreboard -- must derive from `verdict`, never restate an outcome.
+_NOTES = {
+    "FAIL": ("It lost to simple carry-forward at every pass-through level "
+             "tested, so the ops index stays on official retail data and the "
+             "machinery ships config-gated."),
+    "PASS": ("It beat both naive baselines -- carry-forward and the "
+             "zero-pass-through model -- inside the pre-registered error "
+             "bound. The ops index nonetheless stays on official retail data "
+             "and the machinery ships config-gated until that result is "
+             "reviewed: clearing the backtest is a precondition for changing "
+             "the index, not the change itself."),
+    "INSUFFICIENT": ("The backtest could not be graded on this publish "
+                     "(no month had both retail and hub coverage), so nothing "
+                     "is claimed either way; the ops index stays on official "
+                     "retail data and the machinery ships config-gated."),
+}
+
+
+def note(verdict: str) -> str:
+    """The published sentence, derived from `verdict` and nothing else."""
+    return ("A like-month year-ratio nowcast, backtested against realized "
+            "retail prints before letting it touch the index. "
+            + _NOTES.get(verdict, _NOTES["INSUFFICIENT"]))
 
 
 def _verdict(cf: float | None, best: float | None,
