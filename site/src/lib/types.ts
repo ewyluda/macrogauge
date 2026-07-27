@@ -451,6 +451,6 @@ export type LongLead = {
   published_at: string;
   as_of_curated: string;
   build_weight_covered: number;
-  teaser: { vendor: string; name: string; figure: LongLeadFigure }[];
+  teaser: { vendor: string; name: string; stale: boolean; figure: LongLeadFigure }[];
   packages: LongLeadPackage[];
 };

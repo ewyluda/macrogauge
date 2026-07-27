@@ -70,6 +70,25 @@ def test_build_joins_price_legs():
     assert fig["quote"] == "With a backlog of $176 billion..."
 
 
+def test_price_yoy_pct_rounds_2dp_but_contribution_uses_unrounded_yoy():
+    # publish/datacenter.py rounds yoy_pct to 2dp for display but computes
+    # contribution_pp from the UNROUNDED engine value -- longlead.py must
+    # mirror that exactly so the two artifacts can never disagree on the same
+    # series (review recommendation). 5.035 is chosen because it's a case
+    # where round(w*yoy,2) genuinely differs from round(w*round(yoy,2),2) --
+    # a weaker test could pass by accident on a value where they coincide.
+    dc_result = {"indexes": {"build": {"components": {
+        "switchgear": {**DC_RESULT["indexes"]["build"]["components"]["switchgear"],
+                       "yoy_pct": 5.035},
+        "pumps": DC_RESULT["indexes"]["build"]["components"]["pumps"],
+    }}}}
+    out = longlead.build(_cfg(), COMPONENTS, dc_result, today="2026-07-27")
+    sw = out["packages"][0]
+    assert sw["price_yoy_pct"] == 5.04                    # round(5.035, 2)
+    assert sw["contribution_pp"] == 0.7                   # round(0.14 * 5.035, 2)
+    assert sw["contribution_pp"] != round(0.14 * 5.04, 2)  # not derived from the rounded field
+
+
 def test_build_degrades_without_dc_result():
     out = longlead.build(_cfg(), COMPONENTS, None, today="2026-07-27")
     sw = out["packages"][0]
@@ -109,8 +128,19 @@ def test_null_note_vendor_is_never_stale():
 def test_teaser_passthrough():
     out = longlead.build(_cfg(teaser=(("gev", "backlog"),)), COMPONENTS,
                          DC_RESULT, today="2026-07-27")
-    assert out["teaser"] == [{"vendor": "gev", "name": "GE Vernova",
+    assert out["teaser"] == [{"vendor": "gev", "name": "GE Vernova", "stale": False,
                               "figure": out["packages"][0]["vendors"][0]["figures"][0]}]
+
+
+def test_teaser_carries_vendor_staleness():
+    # The /datacenter strip is the most prominent surface for a discontinued
+    # disclosure (spec finding: Vertiv's book-to-bill went stale but the
+    # strip showed the bare number) -- teaser stale must track the vendor's
+    # own _stale computation, not always publish False.
+    out = longlead.build(_cfg(teaser=(("gev", "backlog"),)), COMPONENTS,
+                         DC_RESULT, today="2030-01-01")
+    assert out["teaser"][0]["stale"] is True
+    assert out["packages"][0]["vendors"][0]["stale"] is True
 
 
 def test_written_file_validates_against_schema(tmp_path):

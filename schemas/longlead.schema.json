@@ -12,10 +12,11 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["vendor", "name", "figure"],
+        "required": ["vendor", "name", "stale", "figure"],
         "properties": {
           "vendor": {"type": "string", "minLength": 1},
           "name": {"type": "string", "minLength": 1},
+          "stale": {"type": "boolean"},
           "figure": {"$ref": "#/$defs/figure"}
         }
       }

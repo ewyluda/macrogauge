@@ -17,7 +17,7 @@
       "cadence": "quarterly",
       "figures": [
         {
-          "metric": "group_backlog_rpo",
+          "metric": "RPO, total company",
           "kind": "backlog",
           "basis": "rpo",
           "scope": "group",
@@ -29,7 +29,7 @@
           "src": ["GE Vernova Q2 2026 10-Q (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000148/gev-20260630.htm"]
         },
         {
-          "metric": "electrification_book_to_bill",
+          "metric": "Book-to-bill, Electrification segment",
           "kind": "book_to_bill",
           "basis": "order-backlog",
           "scope": "segment",
@@ -51,7 +51,7 @@
       "cadence": "quarterly",
       "figures": [
         {
-          "metric": "group_backlog",
+          "metric": "Backlog, total company",
           "kind": "backlog",
           "basis": "order-backlog",
           "scope": "group",
@@ -63,7 +63,7 @@
           "src": ["Vertiv Q4 2025 8-K exhibit 99.1 (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1674101/000167410126000006/exhibit991vrt02112026.htm"]
         },
         {
-          "metric": "group_book_to_bill",
+          "metric": "Book-to-bill, total company",
           "kind": "book_to_bill",
           "basis": "order-backlog",
           "scope": "group",
@@ -85,7 +85,7 @@
       "cadence": "quarterly",
       "figures": [
         {
-          "metric": "electrification_order_backlog",
+          "metric": "Order backlog, Electrification segment",
           "kind": "backlog",
           "basis": "order-backlog",
           "scope": "segment",
@@ -97,7 +97,7 @@
           "src": ["ABB Q2 2026 results (news center)", "https://new.abb.com/news/detail/137496/q2-2026-results"]
         },
         {
-          "metric": "group_order_backlog",
+          "metric": "Order backlog, total company",
           "kind": "backlog",
           "basis": "order-backlog",
           "scope": "group",
@@ -109,7 +109,7 @@
           "src": ["ABB Q2 2026 results (news center)", "https://new.abb.com/news/detail/137496/q2-2026-results"]
         },
         {
-          "metric": "group_book_to_bill",
+          "metric": "Book-to-bill, total company",
           "kind": "book_to_bill",
           "basis": "order-backlog",
           "scope": "group",
@@ -131,7 +131,7 @@
       "cadence": "quarterly",
       "figures": [
         {
-          "metric": "order_backlog",
+          "metric": "Order backlog, Hitachi Energy segment",
           "kind": "backlog",
           "basis": "order-backlog",
           "scope": "segment",
@@ -149,11 +149,11 @@
       "name": "Eaton",
       "ticker": "ETN",
       "listed": "NYSE",
-      "dc_segment": "Electrical",
+      "dc_segment": "Electrical Americas & combined Electrical businesses",
       "cadence": "quarterly",
       "figures": [
         {
-          "metric": "electrical_americas_backlog_growth",
+          "metric": "Backlog growth, Electrical Americas",
           "kind": "backlog_growth",
           "basis": "order-backlog",
           "scope": "segment",
@@ -165,7 +165,7 @@
           "src": ["Eaton Q1 2026 8-K exhibit 99 (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1551182/000155118226000010/etn03312026exhibit99.htm"]
         },
         {
-          "metric": "electrical_book_to_bill_ltm",
+          "metric": "Book-to-bill, Electrical (rolling 12-mo)",
           "kind": "book_to_bill",
           "basis": "order-backlog",
           "scope": "segment",
@@ -187,7 +187,7 @@
       "cadence": "annual",
       "figures": [
         {
-          "metric": "group_backlog",
+          "metric": "Backlog, Group (whole company)",
           "kind": "backlog",
           "basis": "order-backlog",
           "scope": "group",
@@ -199,7 +199,7 @@
           "src": ["Schneider Electric FY2025 Results release (se.com)", "https://www.se.com/ww/en/assets/564/document/528237/release-fy-results-2025.pdf"]
         },
         {
-          "metric": "energy_management_backlog",
+          "metric": "Backlog, Energy Management segment",
           "kind": "backlog",
           "basis": "order-backlog",
           "scope": "segment",
@@ -221,7 +221,7 @@
       "cadence": "quarterly",
       "figures": [
         {
-          "metric": "group_order_backlog",
+          "metric": "MD&A backlog, total company",
           "kind": "backlog",
           "basis": "mdna-backlog",
           "scope": "group",

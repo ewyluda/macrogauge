@@ -1,13 +1,14 @@
 {
-  "published_at": "2026-07-27T03:46:02Z",
+  "published_at": "2026-07-27T04:27:20Z",
   "as_of_curated": "2026-07-26",
   "build_weight_covered": 0.5,
   "teaser": [
     {
       "vendor": "gev",
       "name": "GE Vernova",
+      "stale": false,
       "figure": {
-        "metric": "group_backlog_rpo",
+        "metric": "RPO, total company",
         "kind": "backlog",
         "basis": "rpo",
         "scope": "group",
@@ -25,8 +26,9 @@
     {
       "vendor": "vrt",
       "name": "Vertiv",
+      "stale": true,
       "figure": {
-        "metric": "group_book_to_bill",
+        "metric": "Book-to-bill, total company",
         "kind": "book_to_bill",
         "basis": "order-backlog",
         "scope": "group",
@@ -47,7 +49,7 @@
       "code": "switchgear",
       "label": "Switchgear & switchboard",
       "weight": 0.14,
-      "price_yoy_pct": 9.02214976151281,
+      "price_yoy_pct": 9.02,
       "price_last_obs": "2026-06-01",
       "contribution_pp": 1.26,
       "null_note": null,
@@ -57,12 +59,12 @@
           "name": "Eaton",
           "ticker": "ETN",
           "listed": "NYSE",
-          "dc_segment": "Electrical",
+          "dc_segment": "Electrical Americas & combined Electrical businesses",
           "cadence": "quarterly",
           "stale": false,
           "figures": [
             {
-              "metric": "electrical_americas_backlog_growth",
+              "metric": "Backlog growth, Electrical Americas",
               "kind": "backlog_growth",
               "basis": "order-backlog",
               "scope": "segment",
@@ -77,7 +79,7 @@
               }
             },
             {
-              "metric": "electrical_book_to_bill_ltm",
+              "metric": "Book-to-bill, Electrical (rolling 12-mo)",
               "kind": "book_to_bill",
               "basis": "order-backlog",
               "scope": "segment",
@@ -104,7 +106,7 @@
           "stale": false,
           "figures": [
             {
-              "metric": "electrification_order_backlog",
+              "metric": "Order backlog, Electrification segment",
               "kind": "backlog",
               "basis": "order-backlog",
               "scope": "segment",
@@ -119,7 +121,7 @@
               }
             },
             {
-              "metric": "group_order_backlog",
+              "metric": "Order backlog, total company",
               "kind": "backlog",
               "basis": "order-backlog",
               "scope": "group",
@@ -134,7 +136,7 @@
               }
             },
             {
-              "metric": "group_book_to_bill",
+              "metric": "Book-to-bill, total company",
               "kind": "book_to_bill",
               "basis": "order-backlog",
               "scope": "group",
@@ -161,7 +163,7 @@
           "stale": false,
           "figures": [
             {
-              "metric": "group_backlog",
+              "metric": "Backlog, Group (whole company)",
               "kind": "backlog",
               "basis": "order-backlog",
               "scope": "group",
@@ -176,7 +178,7 @@
               }
             },
             {
-              "metric": "energy_management_backlog",
+              "metric": "Backlog, Energy Management segment",
               "kind": "backlog",
               "basis": "order-backlog",
               "scope": "segment",
@@ -203,7 +205,7 @@
           "stale": false,
           "figures": [
             {
-              "metric": "group_backlog_rpo",
+              "metric": "RPO, total company",
               "kind": "backlog",
               "basis": "rpo",
               "scope": "group",
@@ -218,7 +220,7 @@
               }
             },
             {
-              "metric": "electrification_book_to_bill",
+              "metric": "Book-to-bill, Electrification segment",
               "kind": "book_to_bill",
               "basis": "order-backlog",
               "scope": "segment",
@@ -241,7 +243,7 @@
       "code": "transformers",
       "label": "Power & distribution transformers",
       "weight": 0.12,
-      "price_yoy_pct": 3.748695003728564,
+      "price_yoy_pct": 3.75,
       "price_last_obs": "2026-06-01",
       "contribution_pp": 0.45,
       "null_note": null,
@@ -256,7 +258,7 @@
           "stale": false,
           "figures": [
             {
-              "metric": "order_backlog",
+              "metric": "Order backlog, Hitachi Energy segment",
               "kind": "backlog",
               "basis": "order-backlog",
               "scope": "segment",
@@ -283,7 +285,7 @@
           "stale": false,
           "figures": [
             {
-              "metric": "group_backlog_rpo",
+              "metric": "RPO, total company",
               "kind": "backlog",
               "basis": "rpo",
               "scope": "group",
@@ -298,7 +300,7 @@
               }
             },
             {
-              "metric": "electrification_book_to_bill",
+              "metric": "Book-to-bill, Electrification segment",
               "kind": "book_to_bill",
               "basis": "order-backlog",
               "scope": "segment",
@@ -321,7 +323,7 @@
       "code": "hvac_equip",
       "label": "AC & refrigeration equipment",
       "weight": 0.1,
-      "price_yoy_pct": 3.2045485155753894,
+      "price_yoy_pct": 3.2,
       "price_last_obs": "2026-06-01",
       "contribution_pp": 0.32,
       "null_note": null,
@@ -336,7 +338,7 @@
           "stale": true,
           "figures": [
             {
-              "metric": "group_backlog",
+              "metric": "Backlog, total company",
               "kind": "backlog",
               "basis": "order-backlog",
               "scope": "group",
@@ -351,7 +353,7 @@
               }
             },
             {
-              "metric": "group_book_to_bill",
+              "metric": "Book-to-bill, total company",
               "kind": "book_to_bill",
               "basis": "order-backlog",
               "scope": "group",
@@ -374,7 +376,7 @@
       "code": "generators",
       "label": "Generator sets & turbines",
       "weight": 0.09,
-      "price_yoy_pct": 5.357648134309412,
+      "price_yoy_pct": 5.36,
       "price_last_obs": "2026-06-01",
       "contribution_pp": 0.48,
       "null_note": null,
@@ -389,7 +391,7 @@
           "stale": false,
           "figures": [
             {
-              "metric": "group_order_backlog",
+              "metric": "MD&A backlog, total company",
               "kind": "backlog",
               "basis": "mdna-backlog",
               "scope": "group",
@@ -423,7 +425,7 @@
       "code": "pumps",
       "label": "Industrial pumps",
       "weight": 0.05,
-      "price_yoy_pct": 3.1714293648809955,
+      "price_yoy_pct": 3.17,
       "price_last_obs": "2026-06-01",
       "contribution_pp": 0.16,
       "null_note": "One search pass across Flowserve, Xylem, and Grundfos (2026-07-26) found no primary-source pump order-backlog metric with data-center relevance. Flowserve's Q1 2026 10-Q (SEC EDGAR, period ended 2026-03-31, https://www.sec.gov/Archives/edgar/data/30625/000003062526000012/fls-20260331.htm) reports one company-wide backlog of $2.9 billion, broken out only by aftermarket share and four generic end-market categories (energy, chemical, power generation, general industries) \u2014 \"data center\" appears zero times in the filing. Xylem and Grundfos publish narrative data-center-cooling product marketing but no order-backlog figure segmented (or even unsegmented, in Grundfos's case as a private foundation-owned company with no 10-K/10-Q) at a level meeting this board's primary-source bar. No pump maker is added to the long-lead board.",

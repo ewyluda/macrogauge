@@ -11,7 +11,9 @@ export function LongLeadStrip({ longlead }: { longlead: LongLead }) {
       {longlead.teaser.map((t) => (
         <span key={`${t.vendor}:${t.figure.kind}`}>
           {t.name} {KIND_LABELS[t.figure.kind].toLowerCase()}{" "}
-          <strong>{fmtFigure(t.figure.value, t.figure.unit)}</strong>
+          <strong>{fmtFigure(t.figure.value, t.figure.unit)}</strong>{" "}
+          <span className="subtitle">{t.figure.period}</span>{" "}
+          {t.stale && <span className="badge">stale</span>}
         </span>
       ))}
       <span className="subtitle">

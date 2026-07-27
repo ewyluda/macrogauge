@@ -47,10 +47,12 @@ def build(cfg, build_components, dc_result: dict | None, today: str) -> dict:
         yoy = None if e is None else e["yoy_pct"]
         packages.append({
             "code": p.code, "label": comp.label, "weight": comp.weight,
-            "price_yoy_pct": yoy,
+            # rounded to 2dp to match publish/datacenter.py's yoy_pct field
+            # exactly, so the two artifacts can't disagree on the same series
+            "price_yoy_pct": None if yoy is None else round(yoy, 2),
             "price_last_obs": None if e is None else e["last_obs"],
-            # same rule as publish/datacenter.py: contribution is weight x yoy,
-            # unknowable when yoy is
+            # same rule as publish/datacenter.py's contribution_pp: weight x
+            # the UNROUNDED engine yoy (never the rounded price_yoy_pct above)
             "contribution_pp": None if yoy is None else round(comp.weight * yoy, 2),
             "null_note": p.null_note,
             "vendors": [_vendor_dict(k, cfg.vendors[k], today)
@@ -60,6 +62,7 @@ def build(cfg, build_components, dc_result: dict | None, today: str) -> dict:
         vendor = cfg.vendors[vkey]
         fig = next(f for f in vendor.figures if f.kind == kind)  # loader-validated
         teaser.append({"vendor": vkey, "name": vendor.name,
+                       "stale": _stale(vendor, today),
                        "figure": _figure_dict(fig)})
     return {"as_of_curated": cfg.as_of_curated,
             "build_weight_covered": round(

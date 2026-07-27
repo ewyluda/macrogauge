@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import llJson from "../../../public/data/longlead.json";
 import { KpiCard } from "@/components/KpiCard";
 import { fmtSigned } from "@/lib/format";
-import { BASIS_LABELS, KIND_LABELS, fmtFigure } from "@/lib/longLead";
+import { BASIS_LABELS, fmtFigure } from "@/lib/longLead";
 import type { LongLead, LongLeadPackage, LongLeadVendor } from "@/lib/types";
 
 const data = llJson as unknown as LongLead;
@@ -32,7 +32,7 @@ function VendorRow({ vendor }: { vendor: LongLeadVendor }) {
           vendor.figures.map((f) => (
             <div key={`${f.kind}:${f.metric}`} style={{ marginBottom: 6 }}>
               <strong>{fmtFigure(f.value, f.unit)}</strong>{" "}
-              {KIND_LABELS[f.kind]}{" "}
+              {f.metric}{" "}
               <span className="badge badge-muted">{BASIS_LABELS[f.basis]}</span>{" "}
               <span className="badge badge-muted">{f.scope}</span>{" "}
               <span className="subtitle">
@@ -86,6 +86,12 @@ function PackageSection({ pkg }: { pkg: LongLeadPackage }) {
 
 export default function Page() {
   const priced = data.packages.filter((p) => p.price_yoy_pct !== null);
+  // Same source document as Caterpillar's stated MD&A backlog figure below —
+  // the RPO figure quoted in prose links to it directly (acceptance §10.1:
+  // every number on this page traces to a company document via a link).
+  const catRpo = data.packages
+    .flatMap((p) => p.vendors)
+    .find((v) => v.ticker === "CAT")?.figures[0];
   return (
     <main>
       <h1>Long-Lead Board</h1>
@@ -126,7 +132,12 @@ export default function Page() {
         <strong>Order backlog</strong> is the company&apos;s own orders-based
         order book. <strong>MD&amp;A backlog</strong> is a
         believed-to-be-firm management figure. Caterpillar&apos;s Q1 2026
-        filings carry a $62.7B MD&amp;A backlog and a $37.1B RPO
+        filings carry a $62.7B MD&amp;A backlog and a{" "}
+        {catRpo ? (
+          <a href={catRpo.src.url}>$37.1B RPO</a>
+        ) : (
+          "$37.1B RPO"
+        )}{" "}
         simultaneously — same company, same quarter, different accounting
         objects. That is why every figure here carries a basis badge, and why
         figures with different bases are never summed and never share an
