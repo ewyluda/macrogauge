@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import llJson from "../../../public/data/longlead.json";
 import { KpiCard } from "@/components/KpiCard";
 import { fmtSigned } from "@/lib/format";
-import { BASIS_LABELS, fmtFigure } from "@/lib/longLead";
+import { BASIS_LABELS, fmtFigure, noteSegments } from "@/lib/longLead";
 import type { LongLead, LongLeadPackage, LongLeadVendor } from "@/lib/types";
 
 const data = llJson as unknown as LongLead;
@@ -12,6 +12,24 @@ export const metadata: Metadata = {
   description:
     "Switchgear, transformers, generators, HVAC, pumps — the PPI YoY we already publish beside what each vendor's own filings say about its order book.",
 };
+
+// A null note is a finding with receipts: its inline SEC citations must be
+// clickable, same traceability bar as a figure's source link (spec §10.1).
+function NullNote({ note }: { note: string }) {
+  return (
+    <span className="method">
+      {noteSegments(note).map((s, i) =>
+        s.kind === "link" ? (
+          <a key={i} href={s.url}>
+            {s.url}
+          </a>
+        ) : (
+          <span key={i}>{s.text}</span>
+        ),
+      )}
+    </span>
+  );
+}
 
 function VendorRow({ vendor }: { vendor: LongLeadVendor }) {
   return (
@@ -27,7 +45,7 @@ function VendorRow({ vendor }: { vendor: LongLeadVendor }) {
       </td>
       <td style={{ textAlign: "left" }}>
         {vendor.null_note ? (
-          <span className="method">{vendor.null_note}</span>
+          <NullNote note={vendor.null_note} />
         ) : (
           vendor.figures.map((f) => (
             <div key={`${f.kind}:${f.metric}`} style={{ marginBottom: 6 }}>
@@ -36,7 +54,8 @@ function VendorRow({ vendor }: { vendor: LongLeadVendor }) {
               <span className="badge badge-muted">{BASIS_LABELS[f.basis]}</span>{" "}
               <span className="badge badge-muted">{f.scope}</span>{" "}
               <span className="subtitle">
-                {f.period} · <a href={f.src.url}>{f.src.label}</a>
+                {f.period} · stated {f.asof} ·{" "}
+                <a href={f.src.url}>{f.src.label}</a>
               </span>
               <div className="method">“{f.quote}”</div>
             </div>
@@ -71,7 +90,7 @@ function PackageSection({ pkg }: { pkg: LongLeadPackage }) {
             {pkg.vendors.length === 0 ? (
               <tr>
                 <td colSpan={2} style={{ textAlign: "left" }}>
-                  <span className="method">{pkg.null_note}</span>
+                  {pkg.null_note && <NullNote note={pkg.null_note} />}
                 </td>
               </tr>
             ) : (
@@ -84,14 +103,17 @@ function PackageSection({ pkg }: { pkg: LongLeadPackage }) {
   );
 }
 
+// Caterpillar's Q1 2026 10-Q — the pinned source for the fixed historical
+// claim in the basis-disambiguation prose below (both the $62.7B MD&A
+// backlog and the $37.1B RPO live in this one filing). Deliberately NOT
+// derived from the CAT vendor row: that row is re-curated every earnings
+// season, while this sentence permanently describes Q1 2026 (§10.1: every
+// number traces to a company document via a link).
+const CAT_Q1_2026_10Q =
+  "https://www.sec.gov/Archives/edgar/data/18230/000001823026000021/cat-20260331.htm";
+
 export default function Page() {
   const priced = data.packages.filter((p) => p.price_yoy_pct !== null);
-  // Same source document as Caterpillar's stated MD&A backlog figure below —
-  // the RPO figure quoted in prose links to it directly (acceptance §10.1:
-  // every number on this page traces to a company document via a link).
-  const catRpo = data.packages
-    .flatMap((p) => p.vendors)
-    .find((v) => v.ticker === "CAT")?.figures[0];
   return (
     <main>
       <h1>Long-Lead Board</h1>
@@ -133,11 +155,7 @@ export default function Page() {
         order book. <strong>MD&amp;A backlog</strong> is a
         believed-to-be-firm management figure. Caterpillar&apos;s Q1 2026
         filings carry a $62.7B MD&amp;A backlog and a{" "}
-        {catRpo ? (
-          <a href={catRpo.src.url}>$37.1B RPO</a>
-        ) : (
-          "$37.1B RPO"
-        )}{" "}
+        <a href={CAT_Q1_2026_10Q}>$37.1B RPO</a>{" "}
         simultaneously — same company, same quarter, different accounting
         objects. That is why every figure here carries a basis badge, and why
         figures with different bases are never summed and never share an

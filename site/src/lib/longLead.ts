@@ -36,3 +36,23 @@ export const KIND_LABELS: Record<LongLeadFigure["kind"], string> = {
   book_to_bill: "Book-to-bill",
   backlog_growth: "Backlog growth",
 };
+
+// Null notes are prose receipts that cite SEC URLs inline; the page renders
+// those citations as anchors so a null finding is as traceable by click as a
+// figure's source link (spec acceptance §10.1). Pure split, prose untouched.
+export type NoteSegment =
+  | { kind: "text"; text: string }
+  | { kind: "link"; url: string };
+
+export function noteSegments(note: string): NoteSegment[] {
+  const out: NoteSegment[] = [];
+  let last = 0;
+  // stop before whitespace and the ")," that closes an inline citation
+  for (const m of note.matchAll(/https:\/\/[^\s),]+/g)) {
+    if (m.index > last) out.push({ kind: "text", text: note.slice(last, m.index) });
+    out.push({ kind: "link", url: m[0] });
+    last = m.index + m[0].length;
+  }
+  if (last < note.length) out.push({ kind: "text", text: note.slice(last) });
+  return out;
+}

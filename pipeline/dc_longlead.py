@@ -160,6 +160,9 @@ def load(path: Path | None = None,
         if bool(keys) == bool(null_note):
             raise ValueError(
                 f"dc_longlead package {code}: exactly one of vendors or null_note")
+        if null_note is not None and not isinstance(null_note, str):
+            raise ValueError(
+                f"dc_longlead package {code}: null_note must be a string")
         for k in keys:
             if k not in vendors:
                 raise ValueError(

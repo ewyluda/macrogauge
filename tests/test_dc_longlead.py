@@ -144,6 +144,14 @@ def test_load_real_config():
     (lambda t: _write(t, packages=[
         {"code": "switchgear", "vendors": [], "null_note": None}]),
      "exactly one"),
+    # a truthy non-string (123) satisfies the XOR above but must still be
+    # rejected HERE, in the phase-isolated loader — leaking it to JSON Schema
+    # validation at write time would abort the entire daily run instead of
+    # degrading to longlead_ok=false
+    (lambda t: _write(t, packages=[
+        {"code": "switchgear", "vendors": ["gev"], "null_note": None},
+        {"code": "pumps", "vendors": [], "null_note": 123}]),
+     "null_note must be a string"),
     (lambda t: _write(t, packages=[
         {"code": "pumps", "vendors": [], "null_note": "No roster vendor."}]),
      "unreferenced"),
