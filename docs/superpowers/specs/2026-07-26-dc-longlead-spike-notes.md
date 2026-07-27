@@ -361,28 +361,22 @@ repeated on each figure). Task 2 copies this section verbatim into the config.
     "period": "2026-06-30",
     "asof": "2026-07-22",
     "quote": "RPO was $176.3 billion and $128.7 billion as of June 30, 2026 and 2025, respectively.",
-    "src": {
-      "label": "GE Vernova Q2 2026 10-Q (SEC EDGAR)",
-      "url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000148/gev-20260630.htm"
-    },
+    "src": ["GE Vernova Q2 2026 10-Q (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000148/gev-20260630.htm"],
     "notes": "Press release (src2) rounds to the same figure: \"With a backlog of $176 billion...\" — CEO Scott Strazik, GE Vernova Q2 2026 8-K press release, https://www.sec.gov/Archives/edgar/data/1996810/000199681026000147/gevpressrelease2q26.htm. Footnote defines backlog ≡ RPO (\"Defined as remaining performance obligation (RPO)\"). Tee: task1-spike-gev-q2-10q.log, task1-spike-gev-q2-8k.log."
   },
   {
     "vendor": "GE Vernova",
     "metric": "electrification_book_to_bill",
     "kind": "book_to_bill",
-    "basis": "quarterly-book-to-bill",
+    "basis": "order-backlog",
     "scope": "segment",
     "value": 1.7,
     "unit": "ratio",
     "period": "2026-06-30",
     "asof": "2026-07-22",
     "quote": "Orders of $6.3 billion increased +66% organically, driving a book-to-bill ratio of approximately 1.7, with continued strong demand for...",
-    "src": {
-      "label": "GE Vernova Q2 2026 8-K press release, Electrification segment (SEC EDGAR)",
-      "url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000147/gevpressrelease2q26.htm"
-    },
-    "notes": "metric scoped to the Electrification segment specifically. Tee: task1-spike-gev-q2-8k.log."
+    "src": ["GE Vernova Q2 2026 8-K press release, Electrification segment (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000147/gevpressrelease2q26.htm"],
+    "notes": "metric scoped to the Electrification segment specifically. basis normalized to the config's fixed enum value \"order-backlog\" (all book_to_bill/backlog_growth figures use this basis per the plan's config template — a same-quarter ratio derived from the underlying order book, not RPO or MD&A-backlog). Tee: task1-spike-gev-q2-8k.log."
   },
   {
     "vendor": "Vertiv",
@@ -395,28 +389,22 @@ repeated on each figure). Task 2 copies this section verbatim into the config.
     "period": "2025-12-31",
     "asof": "2026-02-11",
     "quote": "Fourth quarter 2025 book-to-bill ratio was ~2.9x and backlog increased to $15.0 billion, up 109% compared to the same period last year.",
-    "src": {
-      "label": "Vertiv Q4 2025 8-K exhibit 99.1 (SEC EDGAR)",
-      "url": "https://www.sec.gov/Archives/edgar/data/1674101/000167410126000006/exhibit991vrt02112026.htm"
-    },
+    "src": ["Vertiv Q4 2025 8-K exhibit 99.1 (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1674101/000167410126000006/exhibit991vrt02112026.htm"],
     "notes": "GENUINE FINDING: this is still the newest AVAILABLE figure, not merely the newest checked. Vertiv's Q1 2026 8-K (https://www.sec.gov/Archives/edgar/data/1674101/000162828026026379/q12026exhibit991vrt04222026.htm) and matching 10-Q (https://www.sec.gov/Archives/edgar/data/1674101/000162828026026556/vrt-20260331.htm), both filed 2026-04-22, were fetched and checked directly — both contain zero numeric backlog/book-to-bill disclosure (only generic risk-factor boilerplate). No Q2 2026 filing exists yet as of 2026-07-26. Tee: task1-spike-vrt-q4-8k.log, task1-spike-vrt-q1-8k.log, task1-spike-vrt-q1-10q.log."
   },
   {
     "vendor": "Vertiv",
     "metric": "group_book_to_bill",
     "kind": "book_to_bill",
-    "basis": "quarterly-book-to-bill",
+    "basis": "order-backlog",
     "scope": "group",
     "value": 2.9,
     "unit": "ratio",
     "period": "2025-12-31",
     "asof": "2026-02-11",
     "quote": "Fourth quarter 2025 book-to-bill ratio was ~2.9x and backlog increased to $15.0 billion, up 109% compared to the same period last year.",
-    "src": {
-      "label": "Vertiv Q4 2025 8-K exhibit 99.1 (SEC EDGAR)",
-      "url": "https://www.sec.gov/Archives/edgar/data/1674101/000167410126000006/exhibit991vrt02112026.htm"
-    },
-    "notes": "Same discontinuation finding as group_backlog above applies to this metric too. Tee: task1-spike-vrt-q4-8k.log."
+    "src": ["Vertiv Q4 2025 8-K exhibit 99.1 (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1674101/000167410126000006/exhibit991vrt02112026.htm"],
+    "notes": "Same discontinuation finding as group_backlog above applies to this metric too. basis normalized to \"order-backlog\" per the config enum. Tee: task1-spike-vrt-q4-8k.log."
   },
   {
     "vendor": "ABB",
@@ -424,16 +412,13 @@ repeated on each figure). Task 2 copies this section verbatim into the config.
     "kind": "backlog",
     "basis": "order-backlog",
     "scope": "segment",
-    "value": 13676,
-    "unit": "usd_m",
+    "value": 13.676,
+    "unit": "usd_b",
     "period": "2026-06-30",
     "asof": "2026-07-16",
     "quote": "Order backlog (end June) ... Electrification 13,676 8,685 57% 59% 59%",
-    "src": {
-      "label": "ABB Q2 2026 results (news center)",
-      "url": "https://new.abb.com/news/detail/137496/q2-2026-results"
-    },
-    "notes": "Table columns (Financial Information supplement, p.3): Q2 2026 / Q2 2025 / US$ change / Local change / Comparable change. Verified against ABB_Q2_2026_Press_release_English.pdf (line 352, same numbers) and Q2 2026 Financial Information supplement (fetched via tokenized library.e.abb.com link for verification only, never cited as src per the brief's hazard note). Matches brief's expected $13,676M vs $8,685M, +57% exactly. Tee: task1-spike-abb-q2-pressrelease.txt, task1-spike-abb-q2-fininfo.txt."
+    "src": ["ABB Q2 2026 results (news center)", "https://new.abb.com/news/detail/137496/q2-2026-results"],
+    "notes": "Table columns (Financial Information supplement, p.3): Q2 2026 / Q2 2025 / US$ change / Local change / Comparable change. Verified against ABB_Q2_2026_Press_release_English.pdf (line 352, same numbers) and Q2 2026 Financial Information supplement (fetched via tokenized library.e.abb.com link for verification only, never cited as src per the brief's hazard note). Matches brief's expected $13,676M vs $8,685M, +57% exactly. value/unit rescaled from the company's reported $13,676 million to 13.676 usd_b per the config's billions-scale enum — a display-scale conversion of the company's own number, not a derivation; quote is left verbatim in the source's millions. Tee: task1-spike-abb-q2-pressrelease.txt, task1-spike-abb-q2-fininfo.txt."
   },
   {
     "vendor": "ABB",
@@ -441,33 +426,27 @@ repeated on each figure). Task 2 copies this section verbatim into the config.
     "kind": "backlog",
     "basis": "order-backlog",
     "scope": "group",
-    "value": 30007,
-    "unit": "usd_m",
+    "value": 30.007,
+    "unit": "usd_b",
     "period": "2026-06-30",
     "asof": "2026-07-16",
     "quote": "The order backlog amounted to $30,007 million, up 27% (28% comparable) year-on-year.",
-    "src": {
-      "label": "ABB Q2 2026 results (news center)",
-      "url": "https://new.abb.com/news/detail/137496/q2-2026-results"
-    },
-    "notes": "Order-backlog definition note (verified against Financial Information supplement): \"The Company considers its order backlog to represent its unsatisfied performance obligations. At June 30, 2026, the Company had unsatisfied performance obligations totaling $30,007 million and, of this amount, the Company expects to fulfill approximately 47 percent of the obligations in 2026, approximately 33 percent of the obligations in 2027 and the balance thereafter.\" Tee: task1-spike-abb-q2-pressrelease.txt, task1-spike-abb-q2-fininfo.txt."
+    "src": ["ABB Q2 2026 results (news center)", "https://new.abb.com/news/detail/137496/q2-2026-results"],
+    "notes": "Order-backlog definition note (verified against Financial Information supplement): \"The Company considers its order backlog to represent its unsatisfied performance obligations. At June 30, 2026, the Company had unsatisfied performance obligations totaling $30,007 million and, of this amount, the Company expects to fulfill approximately 47 percent of the obligations in 2026, approximately 33 percent of the obligations in 2027 and the balance thereafter.\" value/unit rescaled from $30,007 million to 30.007 usd_b per the config's billions-scale enum — display-scale conversion only, quote left verbatim in the source's millions. Tee: task1-spike-abb-q2-pressrelease.txt, task1-spike-abb-q2-fininfo.txt."
   },
   {
     "vendor": "ABB",
     "metric": "group_book_to_bill",
     "kind": "book_to_bill",
-    "basis": "quarterly-book-to-bill",
+    "basis": "order-backlog",
     "scope": "group",
     "value": 1.27,
     "unit": "ratio",
     "period": "2026-06-30",
     "asof": "2026-07-16",
     "quote": "Revenues were record-high but orders even stronger, leaving the book-to-bill at 1.27, supported by a positive development in all three business areas.",
-    "src": {
-      "label": "ABB Q2 2026 results (news center)",
-      "url": "https://new.abb.com/news/detail/137496/q2-2026-results"
-    },
-    "notes": "SUPERSEDES the brief-cited Q1 2026 CEO quote of 1.29 (\"We achieved book-to-bill of 1.29...\", ABB Q1 2026 results, https://new.abb.com/news/detail/135137/q1-2026-results, tee task1-spike-abb-q1-news.log) — both are real and verbatim; this figure uses the newer Q2 print per the brief's newest-wins rule. Tee: task1-spike-abb-q2-pressrelease.txt."
+    "src": ["ABB Q2 2026 results (news center)", "https://new.abb.com/news/detail/137496/q2-2026-results"],
+    "notes": "SUPERSEDES the brief-cited Q1 2026 CEO quote of 1.29 (\"We achieved book-to-bill of 1.29...\", ABB Q1 2026 results, https://new.abb.com/news/detail/135137/q1-2026-results, tee task1-spike-abb-q1-news.log) — both are real and verbatim; this figure uses the newer Q2 print per the brief's newest-wins rule. basis normalized to \"order-backlog\" per the config enum. Tee: task1-spike-abb-q2-pressrelease.txt."
   },
   {
     "vendor": "Hitachi Energy",
@@ -480,45 +459,36 @@ repeated on each figure). Task 2 copies this section verbatim into the config.
     "period": "2026-03-31",
     "asof": "2026-04-27",
     "quote": "Order Backlog (as of FY2025-end) ... Hitachi Energy : 9.2 tn yen (+42% vs end-FY2024) 57.9 bn USD (+33% vs end-FY2024)",
-    "src": {
-      "label": "Hitachi FY2025 (year ended March 2026) results presentation",
-      "url": "https://www.hitachi.com/content/dam/hitachi/global/en/press/files/2026/04/260427/2025_Anpre.pdf"
-    },
+    "src": ["Hitachi FY2025 (year ended March 2026) results presentation", "https://www.hitachi.com/content/dam/hitachi/global/en/press/files/2026/04/260427/2025_Anpre.pdf"],
     "notes": "Both currency figures recorded per brief instruction (9.2 tn yen, +42% YoY; 57.9 bn USD, +33% YoY); config value uses the company-stated USD figure. No FY2026 Q1 deck exists yet on hitachi.com IR as of 2026-07-26 (checked: task1-spike-hitachi-ir-index.log). Tee: task1-spike-hitachi-fy2025-pres.txt."
   },
   {
     "vendor": "Eaton",
     "metric": "electrical_americas_backlog_growth",
     "kind": "backlog_growth",
-    "basis": "yoy-backlog-growth",
+    "basis": "order-backlog",
     "scope": "segment",
     "value": 44,
     "unit": "pct_yoy",
     "period": "2026-03-31",
     "asof": "2026-05-05",
     "quote": "The twelve-month rolling average of orders in the first quarter was up 42% organically. Total backlog at the end of March remained strong and was up 44% over March 2025.",
-    "src": {
-      "label": "Eaton Q1 2026 8-K exhibit 99 (SEC EDGAR)",
-      "url": "https://www.sec.gov/Archives/edgar/data/1551182/000155118226000010/etn03312026exhibit99.htm"
-    },
-    "notes": "GENUINE FINDING: this sentence is from the Electrical AMERICAS segment paragraph specifically, not a blanket 'Electrical' figure. The release's own headline bullet states a different, blended company-wide figure: \"Strong year-over-year total backlog growth of 48% in Electrical sector and 28% in Aerospace segment.\" The Electrical GLOBAL segment paragraph separately states: \"Total backlog at the end of March was up 73% over March 2025.\" All three numbers are real and verbatim; 44% matches the brief's expected value and is the most granular (segment-level) reading. Tee: task1-spike-etn-q1-8k.txt (see task1-spike-etn-q1-8k-clean.txt)."
+    "src": ["Eaton Q1 2026 8-K exhibit 99 (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1551182/000155118226000010/etn03312026exhibit99.htm"],
+    "notes": "GENUINE FINDING: this sentence is from the Electrical AMERICAS segment paragraph specifically, not a blanket 'Electrical' figure. The release's own headline bullet states a different, blended company-wide figure: \"Strong year-over-year total backlog growth of 48% in Electrical sector and 28% in Aerospace segment.\" The Electrical GLOBAL segment paragraph separately states: \"Total backlog at the end of March was up 73% over March 2025.\" All three numbers are real and verbatim; 44% matches the brief's expected value and is the most granular (segment-level) reading. basis normalized to \"order-backlog\" per the config enum. Tee: task1-spike-etn-q1-8k.txt (see task1-spike-etn-q1-8k-clean.txt)."
   },
   {
     "vendor": "Eaton",
     "metric": "electrical_book_to_bill_ltm",
     "kind": "book_to_bill",
-    "basis": "ltm-book-to-bill",
+    "basis": "order-backlog",
     "scope": "segment",
     "value": 1.2,
     "unit": "ratio",
     "period": "2026-03-31",
     "asof": "2026-05-05",
     "quote": "On a rolling twelve-month basis, the book-to-bill ratio for the Electrical businesses increased to 1.2.",
-    "src": {
-      "label": "Eaton Q1 2026 8-K exhibit 99 (SEC EDGAR)",
-      "url": "https://www.sec.gov/Archives/edgar/data/1551182/000155118226000010/etn03312026exhibit99.htm"
-    },
-    "notes": "Scope = combined Electrical businesses (Americas + Global), rolling 12 months. Matches brief's expected 1.2 exactly. Tee: task1-spike-etn-q1-8k-clean.txt."
+    "src": ["Eaton Q1 2026 8-K exhibit 99 (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1551182/000155118226000010/etn03312026exhibit99.htm"],
+    "notes": "Scope = combined Electrical businesses (Americas + Global), rolling 12 months. Matches brief's expected 1.2 exactly. basis normalized to \"order-backlog\" per the config enum. Tee: task1-spike-etn-q1-8k-clean.txt."
   },
   {
     "vendor": "Caterpillar",
@@ -531,28 +501,8 @@ repeated on each figure). Task 2 copies this section verbatim into the config.
     "period": "2026-03-31",
     "asof": "2026-05-06",
     "quote": "At the end of the first quarter of 2026, the dollar amount of backlog believed to be firm was approximately $62.7 billion, about $11.5 billion higher than the fourth quarter of 2025. The order backlog increased across the three primary segments, with the largest increase in Power & Energy.",
-    "src": {
-      "label": "Caterpillar Q1 2026 10-Q, MD&A Order Backlog (SEC EDGAR)",
-      "url": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000021/cat-20260331.htm"
-    },
-    "notes": "dc_segment confirmed as \"Power & Energy\" (current name, per this same sentence). Tee: task1-spike-cat-q1-10q-clean.txt."
-  },
-  {
-    "vendor": "Caterpillar",
-    "metric": "group_backlog_beyond_12mo",
-    "kind": "backlog_split",
-    "basis": "mdna-backlog",
-    "scope": "group",
-    "value": 24.8,
-    "unit": "usd_b",
-    "period": "2026-03-31",
-    "asof": "2026-05-06",
-    "quote": "Of the total backlog at March 31, 2026, approximately $24.8 billion was not expected to be filled in the following twelve months.",
-    "src": {
-      "label": "Caterpillar Q1 2026 10-Q, MD&A Order Backlog (SEC EDGAR)",
-      "url": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000021/cat-20260331.htm"
-    },
-    "notes": "Tee: task1-spike-cat-q1-10q-clean.txt."
+    "src": ["Caterpillar Q1 2026 10-Q, MD&A Order Backlog (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/18230/000001823026000021/cat-20260331.htm"],
+    "notes": "dc_segment confirmed as \"Power & Energy\" (current name, per this same sentence). The plan scopes CAT to exactly this one figure; the beyond-12-months split is kept as context here rather than as a standalone config figure (its `kind` would be \"backlog_split\", not a member of the fixed kind enum {backlog, orders, book_to_bill, backlog_growth}): of the same $62.7B total, approximately $24.8 billion was not expected to be filled in the following twelve months (same MD&A paragraph, quoted in full in section 6 above). Tee: task1-spike-cat-q1-10q-clean.txt."
   },
   {
     "vendor": "Schneider Electric",
@@ -560,16 +510,13 @@ repeated on each figure). Task 2 copies this section verbatim into the config.
     "kind": "backlog",
     "basis": "order-backlog",
     "scope": "group",
-    "value": 25362,
-    "unit": "eur_m",
+    "value": 25.362,
+    "unit": "eur_b",
     "period": "2025-12-31",
     "asof": "2026-02-26",
     "quote": "The Group closed the year with backlog of €25,362 million (2024: €21,420 million), up +18%.",
-    "src": {
-      "label": "Schneider Electric FY2025 Results release (se.com)",
-      "url": "https://www.se.com/ww/en/assets/564/document/528237/release-fy-results-2025.pdf"
-    },
-    "notes": "Canonical URL loaded cleanly (HTTP 200) for this run's curl UA, contradicting the brief's stated 403-Akamai hazard (a different UA did 403 earlier the same day — both outcomes on record, hazard is real but UA-sensitive). Verified-against document = the same canonical URL (no fallback republication needed). H1 2026 results scheduled 2026-07-30, not yet published as of 2026-07-26 (checked: task1-spike-se-financialresults-page.log). Tee: task1-spike-se-fy2025-canonical.txt."
+    "src": ["Schneider Electric FY2025 Results release (se.com)", "https://www.se.com/ww/en/assets/564/document/528237/release-fy-results-2025.pdf"],
+    "notes": "Canonical URL loaded cleanly (HTTP 200) for this run's curl UA, contradicting the brief's stated 403-Akamai hazard (a different UA did 403 earlier the same day — both outcomes on record, hazard is real but UA-sensitive). Verified-against document = the same canonical URL (no fallback republication needed). H1 2026 results scheduled 2026-07-30, not yet published as of 2026-07-26 (checked: task1-spike-se-financialresults-page.log). value/unit rescaled from €25,362 million to 25.362 eur_b per the config's billions-scale enum — display-scale conversion only, quote left verbatim in the source's millions. Tee: task1-spike-se-fy2025-canonical.txt."
   },
   {
     "vendor": "Schneider Electric",
@@ -577,16 +524,13 @@ repeated on each figure). Task 2 copies this section verbatim into the config.
     "kind": "backlog",
     "basis": "order-backlog",
     "scope": "segment",
-    "value": 21340,
-    "unit": "eur_m",
+    "value": 21.34,
+    "unit": "eur_b",
     "period": "2025-12-31",
     "asof": "2026-02-26",
     "quote": "Backlog grew across both businesses, with Energy Management at €21,340 million, up +21%, and Industrial Automation at €4,022 million, up +8%.",
-    "src": {
-      "label": "Schneider Electric FY2025 Results release (se.com)",
-      "url": "https://www.se.com/ww/en/assets/564/document/528237/release-fy-results-2025.pdf"
-    },
-    "notes": "Tee: task1-spike-se-fy2025-canonical.txt."
+    "src": ["Schneider Electric FY2025 Results release (se.com)", "https://www.se.com/ww/en/assets/564/document/528237/release-fy-results-2025.pdf"],
+    "notes": "value/unit rescaled from €21,340 million to 21.34 eur_b per the config's billions-scale enum — display-scale conversion only, quote left verbatim in the source's millions. Tee: task1-spike-se-fy2025-canonical.txt."
   }
 ]
 ```
