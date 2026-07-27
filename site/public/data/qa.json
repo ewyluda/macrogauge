@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-07-27",
-  "passed": 26,
+  "passed": 25,
   "total": 27,
   "checks": [
     {
@@ -96,8 +96,8 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": true,
-      "detail": "30/30 ok"
+      "pass": false,
+      "detail": "29/30 ok; failed \u2014 USDA: missing secret USDA_API_KEY"
     },
     {
       "name": "sources_fresh",

@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-27T12:55:46Z",
+  "published_at": "2026-07-27T15:29:36Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -16,7 +16,7 @@
   "indexes": {
     "build": {
       "as_of": "2026-07-27",
-      "headline_yoy_pct": 6.68,
+      "headline_yoy_pct": 6.66,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -6280,7 +6280,7 @@
         166.01,
         166.01,
         166.01,
-        166.12
+        166.09
       ],
       "yoy_pct": [
         3.05,
@@ -9412,7 +9412,7 @@
         6.61,
         6.61,
         6.61,
-        6.68
+        6.66
       ],
       "components": [
         {
@@ -9477,7 +9477,7 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-07-27",
-          "yoy_pct": 13.7,
+          "yoy_pct": 13.59,
           "contribution_pp": 0.75,
           "stale": false
         },
@@ -9488,8 +9488,8 @@
           "weight": 0.03,
           "mode": "official+proxy",
           "last_obs": "2026-07-27",
-          "yoy_pct": 32.94,
-          "contribution_pp": 0.99,
+          "yoy_pct": 32.38,
+          "contribution_pp": 0.97,
           "stale": false
         },
         {
@@ -9999,7 +9999,7 @@
           164.2274,
           165.8128,
           165.5258,
-          166.1232
+          166.0889
         ],
         "components": {
           "constr_wages": [
@@ -11356,7 +11356,7 @@
             179.7795,
             190.3774,
             184.7132,
-            188.8186
+            188.6355
           ],
           "alum_shapes": [
             96.7196,
@@ -11582,7 +11582,7 @@
             194.3323,
             202.4524,
             181.8105,
-            194.1991
+            193.3899
           ],
           "switchgear": [
             85.7335,
@@ -12725,7 +12725,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 2.93
+          "contribution_pp": 2.91
         },
         {
           "group": "electrical",
@@ -34092,7 +34092,7 @@
     ],
     "transformer": null,
     "kalshi": {
-      "dc_count_expected": 5080.0,
+      "dc_count_expected": 5074.0,
       "count_asof": "2026-07-27",
       "nuclear_by_2030_prob": 0.46,
       "nuclear_asof": "2026-07-27"
