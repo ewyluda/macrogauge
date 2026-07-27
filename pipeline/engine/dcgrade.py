@@ -265,16 +265,52 @@ def grade(anchor_bases, realized_index: dict[str, float],
     return out
 
 
-# Measured 2026-07-26 across nine historical anchors: reconstructing at a past
-# vintage vs the final-revision index moves the annualized trailing-12m rate
-# by at most this much. It is what makes the extended leg defensible rather
-# than a looser standard, so it PUBLISHES alongside that leg (spec 2.3, 5.2).
-REVISION_DISCLOSURE_PP = 0.27
+def _revision_disclosure_pp(strict_anchors, extended_anchors) -> float | None:
+    """Max |vintage-true - final-revision| carried rate, over every basis at
+    every anchor month both legs share -- the measured distortion that makes
+    the extended leg defensible rather than a looser standard, published
+    alongside that leg (spec 2.3, 5.2).
+
+    DERIVED from the same anchors the artifact publishes, every build. Its
+    predecessor was a hand-measured constant (0.27pp, from nine pre-backfill
+    anchors, 2026-07-26) -- and the first fully backfilled artifact exceeded
+    it 2.5x over (0.672pp at 2022-04, current_momentum), i.e. the artifact's
+    own anchor rows contradicted the "maximum" published beside them.
+    Differences are taken over values rounded exactly as the anchors array
+    rounds them, so a reader can re-derive this bound to the digit from the
+    published rows. None when the legs share no comparable anchor -- a bound
+    nothing was measured for must not be invented."""
+    ext = dict(extended_anchors)
+    worst = None
+    for m, bases in strict_anchors:
+        other = ext.get(m)
+        if not other:
+            continue
+        for k, v in bases.items():
+            o = other.get(k)
+            if v is None or o is None:
+                continue
+            d = abs(round(v, 3) - round(o, 3))
+            if worst is None or d > worst:
+                worst = d
+    return None if worst is None else round(worst, 3)
+
 
 _STRICT_NOTE = ("vintage-true (ALFRED as-of): each component takes its latest "
                 "release known at the anchor date")
-_EXTENDED_NOTE = ("final-revision throughout: deeper sample, at a measured "
-                  f"{REVISION_DISCLOSURE_PP}pp maximum distortion")
+
+
+def _extended_note(revision_pp: float | None) -> str:
+    """The extended leg's provenance, quoting the measured distortion bound
+    -- built from the same derivation the artifact publishes, so the prose
+    cannot drift from the number the way a fixed literal can."""
+    if revision_pp is None:
+        return ("final-revision throughout: deeper sample; revision "
+                "distortion unmeasured this publish (no overlapping "
+                "vintage-true anchor to compare against)")
+    return (f"final-revision throughout: deeper sample, at a measured "
+            f"{revision_pp}pp maximum distortion across every anchor month "
+            "both legs share")
 
 
 # The strict leg publishes only h=12 and h=24. Measured on the real vintage
@@ -329,7 +365,7 @@ def build(conn: sqlite3.Connection, components, base_month_cfg: str,
     realized = index_asof(versions, latest_vintage, weights, base_month_cfg)
     if not realized:
         return {"as_of": None, "legs": {}, "anchors": [], "scenarios": [],
-                "revision_disclosure_pp": REVISION_DISCLOSURE_PP}
+                "revision_disclosure_pp": None}
 
     strict_anchors = [(m, bases_at(idx, m))
                       for m, idx in anchors(versions, weights, base_month_cfg)]
@@ -338,6 +374,7 @@ def build(conn: sqlite3.Connection, components, base_month_cfg: str,
     ext_start = months_back(SAMPLE_START, -36)
     extended_anchors = [(m, bases_at(realized, m))
                         for m in sorted(realized) if m >= ext_start]
+    revision_pp = _revision_disclosure_pp(strict_anchors, extended_anchors)
 
     rows = []
     for leg_key, ab in (("strict", strict_anchors), ("extended", extended_anchors)):
@@ -355,7 +392,8 @@ def build(conn: sqlite3.Connection, components, base_month_cfg: str,
         "legs": {
             "strict": _leg(strict_anchors, realized, _STRICT_NOTE, False,
                            STRICT_HORIZONS),
-            "extended": _leg(extended_anchors, realized, _EXTENDED_NOTE, True),
+            "extended": _leg(extended_anchors, realized,
+                             _extended_note(revision_pp), True),
         },
         "anchors": rows,
         "scenarios": [{
@@ -369,5 +407,5 @@ def build(conn: sqlite3.Connection, components, base_month_cfg: str,
                      "restricting to anchors where the window had closed "
                      "leaves too few independent draws to measure."),
         } for s in scenarios],
-        "revision_disclosure_pp": REVISION_DISCLOSURE_PP,
+        "revision_disclosure_pp": revision_pp,
     }

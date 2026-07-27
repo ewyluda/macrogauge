@@ -655,8 +655,31 @@ def test_anchors_array_lets_a_reader_rederive_every_statistic(dc_built):
 
 def test_build_publishes_the_revision_disclosure(dc_built):
     """The extended leg's justification is the measured revision distortion.
-    Without it the leg is just a looser standard (spec 5.2)."""
-    assert dc_built["revision_disclosure_pp"] == 0.27
+    Without it the leg is just a looser standard (spec 5.2).
+
+    The bound is DERIVED from the artifact's own anchor rows on every build
+    -- max |vintage-true - final-revision| carried rate over every basis at
+    every anchor month both legs share -- so it can never again contradict
+    the rows published beside it. (Its predecessor, a hand-measured 0.27
+    constant from nine pre-backfill anchors, was exceeded 2.5x -- 0.672pp at
+    2022-04, current_momentum -- by the first fully backfilled artifact.)"""
+    strict = {r["m"]: r["bases"] for r in dc_built["anchors"]
+              if r["leg"] == "strict"}
+    ext = {r["m"]: r["bases"] for r in dc_built["anchors"]
+           if r["leg"] == "extended"}
+    diffs = [abs(s - e)
+             for m in set(strict) & set(ext)
+             for k in dcgrade.ROLLING_BASES
+             if (s := strict[m][k]) is not None
+             and (e := ext[m].get(k)) is not None]
+    assert diffs, "no overlapping anchors -- the assertion below is vacuous"
+    assert dc_built["revision_disclosure_pp"] == \
+        pytest.approx(round(max(diffs), 3))
+    # The extended leg's provenance note quotes the same measured figure --
+    # prose and number publish from one derivation, or the note drifts the
+    # way the hardcoded power-nowcast string once did.
+    assert f'{dc_built["revision_disclosure_pp"]}pp' \
+        in dc_built["legs"]["extended"]["provenance"]
 
 
 def test_strict_leg_never_publishes_h36_or_h48(dc_built):

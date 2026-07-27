@@ -7,8 +7,12 @@ import {
   nearestHorizon,
   pairedBasisMeans,
   pairedShortfall,
+  pickBestMae,
+  pickWorstShortfall,
   sharedHorizons,
   WITHHELD_REASON,
+  type LegPick,
+  type PairedBasisMeans,
 } from "./dcGrades";
 import type { DcGrades, GradeStat } from "./types";
 
@@ -315,5 +319,60 @@ describe("escalationGradeSlice", () => {
       strict: { status: "graded", shortfallPct: 75.0 },
       extended: { status: "graded", shortfallPct: 53.4 },
     });
+  });
+});
+
+describe("pickBestMae / pickWorstShortfall", () => {
+  // Rankings are PER LEG: the two legs can crown different bases, and a
+  // "both samples" claim is only honest when both legs' own picks agree.
+  // The inversion section once derived exactly that claim from the strict
+  // leg's pick alone -- true on the day's data, computed on neither.
+  const rows: PairedBasisMeans[] = [
+    {
+      basis: "long_run",
+      horizons: [12, 24],
+      strict: { meanMae: 1.0, meanShortfall: 70 },
+      extended: { meanMae: 3.0, meanShortfall: 50 },
+    },
+    {
+      basis: "trailing_3yr",
+      horizons: [12, 24],
+      strict: { meanMae: 2.0, meanShortfall: 40 },
+      extended: { meanMae: 2.5, meanShortfall: 60 },
+    },
+  ];
+  const strictOf: LegPick = (r) => r.strict;
+  const extendedOf: LegPick = (r) => r.extended;
+
+  it("ranks each leg independently -- the legs can disagree", () => {
+    expect(pickBestMae(rows, strictOf)?.basis).toBe("long_run");
+    expect(pickBestMae(rows, extendedOf)?.basis).toBe("trailing_3yr");
+    expect(pickWorstShortfall(rows, strictOf)?.basis).toBe("long_run");
+    expect(pickWorstShortfall(rows, extendedOf)?.basis).toBe("trailing_3yr");
+  });
+
+  it("agrees across legs only when both legs' own picks agree", () => {
+    // Same fixture, extended flipped so both legs crown long_run: only now
+    // may a caller render a claim that spans both samples.
+    const agreeing = rows.map((r) =>
+      r.basis === "long_run"
+        ? { ...r, extended: { meanMae: 2.0, meanShortfall: 50 } }
+        : r,
+    );
+    expect(pickBestMae(agreeing, strictOf)?.basis).toBe(
+      pickBestMae(agreeing, extendedOf)?.basis,
+    );
+    expect(pickBestMae(rows, strictOf)?.basis).not.toBe(
+      pickBestMae(rows, extendedOf)?.basis,
+    );
+  });
+
+  it("skips rows that do not carry the leg, and returns null when none do", () => {
+    const oneLegged: PairedBasisMeans[] = [
+      { basis: "long_run", horizons: [12], strict: null, extended: { meanMae: 1, meanShortfall: 10 } },
+    ];
+    expect(pickBestMae(oneLegged, strictOf)).toBeNull();
+    expect(pickBestMae(oneLegged, extendedOf)?.basis).toBe("long_run");
+    expect(pickWorstShortfall([], strictOf)).toBeNull();
   });
 });

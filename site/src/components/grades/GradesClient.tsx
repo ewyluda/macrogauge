@@ -38,6 +38,9 @@ import {
   horizonKey,
   pairedBasisMeans,
   pairedShortfall,
+  pickBestMae,
+  pickWorstShortfall,
+  type LegPick,
   type PairedBasisMeans,
 } from "@/lib/dcGrades";
 import type { DcGrades, GradeStat, Leg } from "@/lib/types";
@@ -64,12 +67,13 @@ const BASIS_KEYS = Object.keys(BASIS_LABELS);
 // ALFRED's raw release history for the 12 DC Build components reaches back to
 // 2015-03 (pipeline/engine/dcgrade.py's module docstring, backing
 // scripts/backfill_dc_vintages.py). This is a fixed property of the upstream
-// source -- not a per-publish measurement -- so, like the "nine historical
-// anchors" figure in the revision-disclosure paragraph below, it is a
-// deliberate literal rather than a read off dc_grades.json: the artifact has
-// no field for it, and it will not change on a future publish the way a
-// shortfall rate or anchor count would. Named here (never inlined) so a
-// change to the upstream backfill only needs one edit.
+// source -- not a per-publish measurement -- so it is a deliberate literal
+// rather than a read off dc_grades.json: the artifact has no field for it,
+// and it will not change on a future publish the way a shortfall rate or
+// anchor count would. (The revision-disclosure figure below is the opposite
+// case -- measured fresh each publish -- and reads off the artifact.) Named
+// here (never inlined) so a change to the upstream backfill only needs one
+// edit.
 const ALFRED_RAW_HISTORY_START = "2015-03";
 
 function pct(n: number | null | undefined, digits = 1): string {
@@ -96,22 +100,6 @@ function legCellState(leg: Leg | undefined, basis: string, h: number): LegCellSt
   if (!leg.published_horizons.includes(h)) return { status: "withheld" };
   const stat = leg.grades?.[basis]?.[horizonKey(h)];
   return stat == null ? { status: "not_gradeable" } : { status: "graded", stat };
-}
-
-type LegPick = (r: PairedBasisMeans) => { meanMae: number; meanShortfall: number } | null;
-
-function pickBestMae(rows: PairedBasisMeans[], leg: LegPick): PairedBasisMeans | null {
-  const scored = rows.filter((r) => leg(r) != null);
-  if (!scored.length) return null;
-  return scored.reduce((best, r) => (leg(r)!.meanMae < leg(best)!.meanMae ? r : best));
-}
-
-function pickWorstShortfall(rows: PairedBasisMeans[], leg: LegPick): PairedBasisMeans | null {
-  const scored = rows.filter((r) => leg(r) != null);
-  if (!scored.length) return null;
-  return scored.reduce((worst, r) =>
-    leg(r)!.meanShortfall > leg(worst)!.meanShortfall ? r : worst,
-  );
 }
 
 /** Which of this leg's published horizons has the lowest mean independent-
@@ -255,6 +243,13 @@ function PairedGradingSection({
  *  are stated without printing another basis's figure, which is how the
  *  paired-legs rule stays intact even when discussing relative standing.
  *
+ *  Every RANKING here is computed on the leg it is claimed for -- the
+ *  best-MAE pick per leg, the worst-shortfall pick per leg -- and a claim
+ *  spans both samples only when both legs' own picks agree. This paragraph
+ *  once derived "lowest error on both samples" and "most likely to leave a
+ *  reader short" from the strict leg's pick alone; both held on the data of
+ *  the day, but neither had been computed on the leg it spoke for.
+ *
  *  Every mean below comes from pairedBasisMeans(), i.e. BOTH legs averaged
  *  over the SAME horizons (the intersection of what they publish), and the
  *  paragraph names that horizon set. Aggregating each leg over its own
@@ -269,46 +264,65 @@ function InversionSection({ data }: { data: GradesPageData }) {
   const extendedOf: LegPick = (r) => r.extended;
   const hasStrict = rows.some((r) => r.strict);
   const hasExtended = rows.some((r) => r.extended);
-  const primary: LegPick = hasStrict ? strictOf : extendedOf;
 
-  const bm = pickBestMae(rows, primary);
+  const bmStrict = hasStrict ? pickBestMae(rows, strictOf) : null;
+  const bmExtended = hasExtended ? pickBestMae(rows, extendedOf) : null;
+  const bm = bmStrict ?? bmExtended;
   if (!bm) return null;
+  const maeAgreesAcrossLegs =
+    bmStrict != null && bmExtended != null && bmStrict.basis === bmExtended.basis;
 
   const strictRow = bm.strict;
   const extendedRow = bm.extended;
   const strictWorst = hasStrict ? pickWorstShortfall(rows, strictOf) : null;
   const extWorst = hasExtended ? pickWorstShortfall(rows, extendedOf) : null;
+  const shortOnStrict = strictWorst?.basis === bm.basis;
+  const shortOnExtended = extWorst?.basis === bm.basis;
   const horizons = formatHorizonList(bm.horizons);
 
   return (
     <Section title="The inversion">
       <p className="lede">
         Of the three rolling bases, <b>{BASIS_LABELS[bm.basis]}</b> has the lowest mean absolute error{" "}
-        {strictRow && extendedRow ? (
+        {maeAgreesAcrossLegs && strictRow && extendedRow ? (
           <>
             on both samples — {pp(strictRow.meanMae)} on the strict, vintage-true sample and {pp(extendedRow.meanMae)}{" "}
             on the extended sample.
           </>
+        ) : bmStrict && bmExtended ? (
+          <>
+            on the strict, vintage-true sample ({pp(strictRow?.meanMae)}) — though not on the extended sample,
+            where {BASIS_LABELS[bmExtended.basis]} takes the lowest error instead.
+          </>
         ) : (
           <>
-            on the {hasStrict ? "strict, vintage-true" : "extended"} sample ({pp(primary(bm)?.meanMae)}).
+            on the {hasStrict ? "strict, vintage-true" : "extended"} sample ({pp((hasStrict ? strictRow : extendedRow)?.meanMae)}).
           </>
         )}{" "}
-        That is also the basis most likely to leave a reader short — a symmetric error metric rewards centering the
-        error, not skewing it toward safety.{" "}
         {strictRow && (
           <>
-            Its mean shortfall rate on the strict sample is {pct(strictRow.meanShortfall)}
-            {strictWorst?.basis === bm.basis ? ", the highest of the three rolling bases there." : "."}
+            {shortOnStrict ? (
+              <>
+                On the strict sample it is also the basis most likely to leave a reader short — a symmetric error
+                metric rewards centering the error, not skewing it toward safety: its mean shortfall rate there is{" "}
+                {pct(strictRow.meanShortfall)}, the highest of the three rolling bases.
+              </>
+            ) : (
+              <>Its mean shortfall rate on the strict sample is {pct(strictRow.meanShortfall)} — not the highest of the three there.</>
+            )}
           </>
         )}{" "}
         {extendedRow && (
           <>
             On the extended sample — deeper, and the one that actually contains a downturn — its mean shortfall
             rate is {pct(extendedRow.meanShortfall)},{" "}
-            {extWorst?.basis === bm.basis
-              ? "still the highest of the three: the inversion holds even once the sample includes a period escalation actually cooled."
-              : "no longer the highest of the three (a different basis now is): the inversion attenuates once the sample includes a period escalation actually cooled."}
+            {shortOnExtended
+              ? shortOnStrict
+                ? "still the highest of the three: the inversion holds even once the sample includes a period escalation actually cooled."
+                : "the highest of the three there."
+              : shortOnStrict
+                ? "no longer the highest of the three (a different basis now is): the inversion attenuates once the sample includes a period escalation actually cooled."
+                : "not the highest of the three there."}
           </>
         )}
       </p>
@@ -509,6 +523,15 @@ function PowerNowcastSection({ nowcast }: { nowcast: DcGrades["power_nowcast"] }
             {nowcast.best_lambda != null ? ` (λ=${nowcast.best_lambda})` : ""} vs. carry-forward MAE{" "}
             {nowcast.carry_forward_mae != null ? nowcast.carry_forward_mae.toFixed(3) : "—"}pp.
           </p>
+          {nowcast.dropped_months.length > 0 && (
+            <p style={{ fontSize: 12, color: "var(--muted)", margin: "8px 0 0" }}>
+              {nowcast.dropped_months.length} month{nowcast.dropped_months.length === 1 ? "" : "s"} graded by at
+              least one candidate ({nowcast.dropped_months.join(", ")}) fell outside the common comparison set —
+              a pass-through level's sign guard could not grade {nowcast.dropped_months.length === 1 ? "it" : "them"} —
+              and {nowcast.dropped_months.length === 1 ? "is" : "are"} excluded from every MAE above, so the
+              three-way comparison stays apples-to-apples.
+            </p>
+          )}
           <p style={{ fontSize: 12, color: "var(--muted)", margin: "8px 0 0" }}>{nowcast.note}</p>
         </div>
       )}
@@ -555,9 +578,21 @@ function MethodologySection({
           </>
         ) : null}
         Substituting final-revision data for a real-time read understates how much a reader actually knew at the
-        time — measured across nine historical anchors, at most <b>{data.revision_disclosure_pp}pp</b> of
-        distortion in the annualized rate. That is small enough that the deeper sample publishes alongside the
-        strict one rather than being withheld outright, with the distortion disclosed here rather than hidden.
+        time
+        {data.revision_disclosure_pp != null ? (
+          <>
+            {" "}
+            — measured on this publish across every anchor month the two legs share, at most{" "}
+            <b>{data.revision_disclosure_pp}pp</b> of distortion in a carried annualized rate, a figure re-derivable
+            from the anchor rows in the raw artifact linked below. The deeper sample therefore publishes alongside
+            the strict one rather than replacing it, with the distortion disclosed here rather than hidden.
+          </>
+        ) : (
+          <>
+            ; on this publish the two legs shared no anchor month to measure that distortion against, so no bound
+            is claimed.
+          </>
+        )}
       </p>
       <p className="method">
         Anchors dedupe by last-observation month: several ALFRED vintages can share one, when a release revises an

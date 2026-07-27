@@ -214,6 +214,34 @@ export function pairedBasisMeans(data: GradeLegs): PairedBasisMeans[] {
   return out;
 }
 
+/** Selects one leg's means off a PairedBasisMeans row — `(r) => r.strict` or
+ *  `(r) => r.extended`. The pickers below take one of these, which makes
+ *  every ranking PER LEG by construction. */
+export type LegPick = (r: PairedBasisMeans) => LegMeans | null;
+
+/** Lowest-mean-MAE basis ON THE GIVEN LEG, or null when no row carries it.
+ *
+ *  Rankings are per leg on purpose: the two legs can crown different bases,
+ *  and a claim spanning both samples must compare two picks — one per leg —
+ *  and only speak for both when they agree. Deriving a "both samples" claim
+ *  from a single leg's pick is how the inversion section once asserted
+ *  "lowest error on both samples" it had computed on only one of them. */
+export function pickBestMae(rows: PairedBasisMeans[], leg: LegPick): PairedBasisMeans | null {
+  const scored = rows.filter((r) => leg(r) != null);
+  if (!scored.length) return null;
+  return scored.reduce((best, r) => (leg(r)!.meanMae < leg(best)!.meanMae ? r : best));
+}
+
+/** Highest-mean-shortfall basis ON THE GIVEN LEG — same per-leg contract as
+ *  pickBestMae. */
+export function pickWorstShortfall(rows: PairedBasisMeans[], leg: LegPick): PairedBasisMeans | null {
+  const scored = rows.filter((r) => leg(r) != null);
+  if (!scored.length) return null;
+  return scored.reduce((worst, r) =>
+    leg(r)!.meanShortfall > leg(worst)!.meanShortfall ? r : worst,
+  );
+}
+
 /** "12- and 24-month" — the horizon set spelled out for prose, so a mean
  *  never renders without naming what it covers. */
 export function formatHorizonList(horizons: number[]): string {

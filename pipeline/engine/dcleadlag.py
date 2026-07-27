@@ -82,9 +82,10 @@ CONTEMPORANEOUS_LAG_MAX = 2  # months; spec 6.1(a)'s measured 0-2mo finding
 # pre-registered test produced a positive -- would be tuning the instrument
 # to the answer, the exact failure mode stating the gate up front exists to
 # prevent. This is a measured historical fact about the METHOD, hardcoded
-# with its reasoning exactly the way dcgrade.REVISION_DISCLOSURE_PP is, not a
-# live computation -- there is no second sample depth available at runtime
-# to re-derive it from.
+# with its reasoning, not a live computation -- unlike the revision
+# disclosure in dcgrade (derived from the artifact's own anchors every
+# publish), there is no second sample depth available at runtime to
+# re-derive this comparison from.
 _SPLIT_ARTIFACT_CAVEAT = (
     "A positive result under this gate is not guaranteed stable to where the "
     "sample happens to be split in half. Measured 2026-07-26: on a shallower "

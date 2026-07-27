@@ -383,6 +383,11 @@ export type LeadLag = {
 export type PowerNowcast = {
   as_of: string | null;
   months_graded: number;
+  /** Audit trail for the common-intersection reduction: months graded by at
+   *  least one λ but excluded from every MAE (the sign guard makes per-λ
+   *  gradeable sets differ). [] when nothing was dropped. */
+  months_dropped: number;
+  dropped_months: string[];
   carry_forward_mae: number | null;
   best_lambda: number | null;
   best_mae: number | null;
@@ -394,7 +399,10 @@ export type DcGrades = {
   published_at: string;
   as_of: string | null;
   paired_legs_note: string;
-  revision_disclosure_pp: number;
+  /** Max |vintage-true − final-revision| carried rate across every basis at
+   *  every anchor month both legs share — derived from this artifact's own
+   *  anchors each publish; null when the legs share no comparable anchor. */
+  revision_disclosure_pp: number | null;
   // Keyed by leg name ("strict"/"extended" normally; {} when degraded).
   legs: Record<string, Leg>;
   anchors: DcGradesAnchor[];

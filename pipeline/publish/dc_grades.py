@@ -30,12 +30,23 @@ SCENARIOS = [
      "start_month": "2021-04-01", "end_month": "2023-12-01"},
 ]
 
-PAIRED_LEGS_NOTE = (
-    "Two legs, always shown together. The strict leg is vintage-true but its "
-    "anchors begin 2018-01 and contain the 2021-22 spike with no downturn; "
-    "the extended leg reaches back to 2010-12 on final-revision data, at a "
-    "measured 0.27pp maximum distortion. Quoting either leg alone overstates "
-    "how much the answer is known.")
+def paired_legs_note(revision_disclosure_pp: float | None) -> str:
+    """Built from the measured bound the artifact itself publishes, never a
+    fixed literal: the note used to hardcode "0.27pp" as prose, and the first
+    fully backfilled artifact's own anchor rows exceeded that figure 2.5x
+    over while the sentence beside them still claimed it as the maximum --
+    the same claim-outlives-the-number failure powergrade.note() exists to
+    prevent."""
+    distortion = ("at a distortion unmeasured this publish (no overlapping "
+                  "vintage-true anchor to compare against)"
+                  if revision_disclosure_pp is None else
+                  f"at a measured {revision_disclosure_pp}pp maximum "
+                  "distortion")
+    return ("Two legs, always shown together. The strict leg is vintage-true "
+            "but its anchors begin 2018-01 and contain the 2021-22 spike "
+            "with no downturn; the extended leg reaches back to 2010-12 on "
+            f"final-revision data, {distortion}. Quoting either leg alone "
+            "overstates how much the answer is known.")
 
 
 def build(conn, components) -> dict:
@@ -43,7 +54,8 @@ def build(conn, components) -> dict:
     the ungraded scenario windows, the lead-lag study (with its required
     caveats/conclusion), and the power-nowcast negative result."""
     payload = dcgrade.build(conn, components, dcgrade.BASE_MONTH, SCENARIOS)
-    payload["paired_legs_note"] = PAIRED_LEGS_NOTE
+    payload["paired_legs_note"] = paired_legs_note(
+        payload["revision_disclosure_pp"])
     payload["leadlag"] = dcleadlag.study(conn, components)
     payload["power_nowcast"] = powergrade.run(conn)
     return payload

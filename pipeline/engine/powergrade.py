@@ -164,6 +164,13 @@ def run(conn) -> dict:
     return {
         "as_of": max(official) if official else None,
         "months_graded": len(common),
+        # grade_all's contract is that no month is silently discarded -- the
+        # CLI prints `dropped` to stderr on every run, and the published
+        # artifact must keep the same audit trail: a month the sign guard
+        # priced out of the common comparison set has to surface here, not
+        # vanish into a smaller months_graded that reads as full coverage.
+        "months_dropped": len(dropped),
+        "dropped_months": [m[:7] for m in dropped],
         "carry_forward_mae": round(cf_mae, 3) if cf_mae is not None else None,
         "best_lambda": best_lambda,
         "best_mae": round(best_mae, 3) if best_mae is not None else None,

@@ -174,6 +174,19 @@ observation months:
 annualized rate.** Against carried rates of 2.5–8.6%/yr this is small — which is what makes §5.2's
 extended leg defensible rather than a shortcut.
 
+> **Amended 2026-07-26 (PR #8 review).** The ±0.27pp above was measured on the nine pre-backfill
+> anchors in this table and did not survive the full ALFRED backfill: across all 99 overlapping
+> anchor months the maximum strict-vs-extended divergence in a carried rate is **0.672pp**
+> (current_momentum at 2022-04 — the 2021–22 spike amplifies index-level revisions into larger
+> rate-level moves than any June anchor showed). A hardcoded bound the artifact's own anchor rows
+> contradict is the same claim-outlives-the-number failure §7 exists to prevent, so
+> `revision_disclosure_pp` is now **derived from the artifact's own overlapping anchors on every
+> publish** (`dcgrade._revision_disclosure_pp`), and every sentence quoting it (`paired_legs_note`,
+> the extended leg's provenance, the methodology paragraph) builds from that derived value. Nothing
+> hardcodes the figure anymore. The §5.2 conclusion is unchanged in kind — the distortion remains
+> an order of magnitude smaller than the strict-vs-extended spreads the legs exist to show — but
+> the published number is now the measured one.
+
 ### 2.4 P3c's candidate inputs exist
 
 All six FRED M3 unfilled-orders series named in P3a spec §11 were probed and resolve, monthly,

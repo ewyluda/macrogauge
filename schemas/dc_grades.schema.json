@@ -8,7 +8,10 @@
     "published_at": {"type": "string"},
     "as_of": {"type": ["string", "null"]},
     "paired_legs_note": {"type": "string"},
-    "revision_disclosure_pp": {"type": "number"},
+    "revision_disclosure_pp": {
+      "type": ["number", "null"],
+      "description": "Max |vintage-true − final-revision| carried rate across every basis at every anchor month both legs share — DERIVED from this artifact's own anchors on each publish, so it cannot contradict them (its hand-measured 0.27 predecessor did, 2.5x over). null when the legs share no comparable anchor."
+    },
     "legs": {
       "type": "object",
       "description": "Keyed by leg name (\"strict\"/\"extended\" in the normal case; {} when degraded). Leg objects legally carry DIFFERENT horizon key sets under `grades` -- the strict leg publishes only h12/h24 (spec 2.1a) -- so no leg schema below requires a fixed set of horizon keys.",
@@ -96,6 +99,18 @@
       "description": "P3c's lead-lag study, or null on a fully degraded run. A positive gate result (weight_stable > 0) must NEVER be rendered without `caveats` and `conclusion` alongside it -- spec 6.1 requires both to travel with the gate's literal outcome everywhere it appears, structurally, not as prose a reader can skip.",
       "required": ["mappings", "weight_covered", "weight_stable", "verdict",
                    "gate", "caveats", "conclusion"],
+      "if": {
+        "required": ["weight_stable"],
+        "properties": {"weight_stable": {"exclusiveMinimum": 0}}
+      },
+      "then": {
+        "properties": {
+          "caveats": {
+            "minItems": 1,
+            "description": "Spec 6.1 enforced STRUCTURALLY, not just at the Python layer: a positive gate result (weight_stable > 0) with no caveats is exactly the misleading payload the rule exists to prevent, and a schema-conforming third producer must not be able to emit one."
+          }
+        }
+      },
       "properties": {
         "weight_covered": {"type": "number"},
         "weight_stable": {"type": "number"},
@@ -103,7 +118,8 @@
         "gate": {"type": "string"},
         "conclusion": {
           "type": "string",
-          "description": "The standing finding -- independent of the literal gate outcome -- that no forward model is warranted on this evidence (spec 6.1)."
+          "minLength": 1,
+          "description": "The standing finding -- independent of the literal gate outcome -- that no forward model is warranted on this evidence (spec 6.1). Non-empty by construction: an empty string is a missing conclusion that happens to satisfy a bare type check."
         },
         "caveats": {
           "type": "array",
@@ -171,11 +187,18 @@
     },
     "power_nowcast": {
       "type": ["object", "null"],
-      "required": ["as_of", "months_graded", "carry_forward_mae",
+      "required": ["as_of", "months_graded", "months_dropped",
+                   "dropped_months", "carry_forward_mae",
                    "best_lambda", "best_mae", "verdict", "note"],
       "properties": {
         "as_of": {"type": ["string", "null"]},
         "months_graded": {"type": "integer"},
+        "months_dropped": {"type": "integer"},
+        "dropped_months": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Audit trail for grade_all's common-intersection reduction: months graded by at least one lambda but excluded from every MAE above (the sign guard makes per-lambda gradeable sets differ). [] when nothing was dropped. A bare count would say something was removed without saying what."
+        },
         "carry_forward_mae": {"type": ["number", "null"]},
         "best_lambda": {"type": ["number", "null"]},
         "best_mae": {"type": ["number", "null"]},

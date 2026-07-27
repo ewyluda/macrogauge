@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-26T21:54:03Z",
+  "published_at": "2026-07-27T01:07:19Z",
   "as_of": "2026-06",
   "legs": {
     "strict": {
@@ -78,7 +78,7 @@
       }
     },
     "extended": {
-      "provenance": "final-revision throughout: deeper sample, at a measured 0.27pp maximum distortion",
+      "provenance": "final-revision throughout: deeper sample, at a measured 0.672pp maximum distortion across every anchor month both legs share",
       "span": [
         "2010-12",
         "2026-06"
@@ -4521,8 +4521,8 @@
       "note": "Window hand-picked in 2026 from realized history. Ungradeable: selecting it required hindsight, and restricting to anchors where the window had closed leaves too few independent draws to measure."
     }
   ],
-  "revision_disclosure_pp": 0.27,
-  "paired_legs_note": "Two legs, always shown together. The strict leg is vintage-true but its anchors begin 2018-01 and contain the 2021-22 spike with no downturn; the extended leg reaches back to 2010-12 on final-revision data, at a measured 0.27pp maximum distortion. Quoting either leg alone overstates how much the answer is known.",
+  "revision_disclosure_pp": 0.672,
+  "paired_legs_note": "Two legs, always shown together. The strict leg is vintage-true but its anchors begin 2018-01 and contain the 2021-22 spike with no downturn; the extended leg reaches back to 2010-12 on final-revision data, at a measured 0.672pp maximum distortion. Quoting either leg alone overstates how much the answer is known.",
   "leadlag": {
     "mappings": [
       {
@@ -5045,6 +5045,8 @@
   "power_nowcast": {
     "as_of": "2026-05-01",
     "months_graded": 9,
+    "months_dropped": 0,
+    "dropped_months": [],
     "carry_forward_mae": 4.778,
     "best_lambda": 0.25,
     "best_mae": 8.452,

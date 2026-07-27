@@ -97,17 +97,82 @@ def test_payload_validates_against_the_schema(payload, tmp_path):
 
 
 def test_schema_accepts_a_fully_degraded_payload():
-    """A grades_ok:false run must still validate (global constraint)."""
+    """A grades_ok:false run must still validate (global constraint). The
+    revision disclosure is None here, not a number: with no anchors there is
+    nothing to measure it from, and a schema that demanded a number would
+    force a degraded run to invent one."""
     degraded = {"published_at": "2026-07-26T00:00:00Z", "as_of": None,
                 "legs": {}, "anchors": [], "scenarios": [],
-                "revision_disclosure_pp": 0.27,
+                "revision_disclosure_pp": None,
                 "leadlag": None, "power_nowcast": None}
     jsonschema.validate(degraded, json.loads(SCHEMA.read_text()))
 
 
+def _minimal_leadlag(weight_stable, caveats, conclusion):
+    """The smallest leadlag block the schema accepts, for the conditional
+    tests below -- everything except the three fields under test is inert."""
+    return {"mappings": [], "weight_covered": 0.45,
+            "weight_stable": weight_stable, "verdict": "v", "gate": "g",
+            "caveats": caveats, "conclusion": conclusion}
+
+
+def _payload_with_leadlag(leadlag):
+    return {"published_at": "2026-07-26T00:00:00Z", "as_of": None,
+            "legs": {}, "anchors": [], "scenarios": [],
+            "revision_disclosure_pp": None,
+            "leadlag": leadlag, "power_nowcast": None}
+
+
+def test_schema_rejects_a_positive_gate_with_empty_caveats():
+    """Spec 6.1: a positive gate result must never travel without its
+    caveats. dcleadlag._caveats() enforces that at the Python layer, but the
+    schema is what constrains any OTHER producer of this artifact -- and it
+    used to accept weight_stable > 0 with caveats: [], which is exactly the
+    misleading payload the spec rule exists to prevent."""
+    bad = _payload_with_leadlag(_minimal_leadlag(
+        weight_stable=0.12, caveats=[], conclusion="No forward model."))
+    with pytest.raises(jsonschema.ValidationError):
+        jsonschema.validate(bad, json.loads(SCHEMA.read_text()))
+
+
+def test_schema_rejects_an_empty_conclusion():
+    """The conclusion is the standing finding, independent of the literal
+    gate outcome (spec 6.1) -- an empty string is a missing conclusion that
+    happens to satisfy a bare type check."""
+    bad = _payload_with_leadlag(_minimal_leadlag(
+        weight_stable=0.0, caveats=[], conclusion=""))
+    with pytest.raises(jsonschema.ValidationError):
+        jsonschema.validate(bad, json.loads(SCHEMA.read_text()))
+
+
+def test_schema_accepts_a_negative_gate_with_empty_caveats():
+    """Empty caveats are legal exactly when nothing cleared the gate: there
+    is no positive result to caveat (dcleadlag._caveats's own contract)."""
+    ok = _payload_with_leadlag(_minimal_leadlag(
+        weight_stable=0.0, caveats=[], conclusion="No forward model."))
+    jsonschema.validate(ok, json.loads(SCHEMA.read_text()))
+
+
 def test_payload_carries_both_legs_and_the_revision_disclosure(payload):
+    """The disclosure must be measured from this payload's own anchors --
+    not asserted -- and the paired-legs note must quote the same number, so
+    neither can contradict the anchor rows published beside them (the fixed
+    0.27 literal both used to carry was exceeded 2.5x by the first fully
+    backfilled artifact)."""
     assert set(payload["legs"]) == {"strict", "extended"}
-    assert payload["revision_disclosure_pp"] == 0.27
+    strict = {r["m"]: r["bases"] for r in payload["anchors"]
+              if r["leg"] == "strict"}
+    ext = {r["m"]: r["bases"] for r in payload["anchors"]
+           if r["leg"] == "extended"}
+    diffs = [abs(s - e)
+             for m in set(strict) & set(ext)
+             for k in strict[m]
+             if (s := strict[m][k]) is not None
+             and (e := ext[m].get(k)) is not None]
+    assert diffs, "no overlapping anchors -- the assertions below are vacuous"
+    assert payload["revision_disclosure_pp"] == \
+        pytest.approx(round(max(diffs), 3))
+    assert f'{payload["revision_disclosure_pp"]}pp' in payload["paired_legs_note"]
 
 
 def test_payload_strict_leg_publishes_only_h12_and_h24(payload):
