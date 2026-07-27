@@ -1,0 +1,3 @@
+{"obs_date": "2012-12-01", "route": "API", "series_code": "ces_constr_ahe", "source": "ALFRED", "value": 25.97, "vintage_date": "2013-03-08"}
+{"obs_date": "2013-01-01", "route": "API", "series_code": "ces_constr_ahe", "source": "ALFRED", "value": 26.02, "vintage_date": "2013-03-08"}
+{"obs_date": "2013-02-01", "route": "API", "series_code": "ces_constr_ahe", "source": "ALFRED", "value": 26.04, "vintage_date": "2013-03-08"}

@@ -15,6 +15,12 @@ import {
   MAX_HORIZON_MONTHS,
   MIN_HORIZON_MONTHS,
 } from "@/lib/dcContingency";
+import {
+  ESCALATION_BASIS_TO_GRADE as GRADE_BASIS_KEY,
+  formatPairedVerdict,
+  pairedShortfall,
+  type GradeLegs,
+} from "@/lib/dcGrades";
 import { fmtPp, fmtSigned } from "@/lib/format";
 
 export type EscalationData = {
@@ -37,7 +43,15 @@ const usd = (v: number) => {
     : `${sign}$${Math.round(abs).toLocaleString("en-US")}`;
 };
 
-export function DcEscalationClient({ data }: { data: EscalationData }) {
+export function DcEscalationClient({
+  data,
+  grades,
+}: {
+  data: EscalationData;
+  // The legs slice of dc_grades.json, never the whole artifact — see
+  // escalationGradeSlice() and this page's server component.
+  grades: GradeLegs | null;
+}) {
   const firstMonth = data.months[0];
   const lastMonth = data.months[data.months.length - 1];
   const [baseMonth, setBaseMonth] = useState(
@@ -63,6 +77,11 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
 
   const basisRows = anchor ? bases(data.months, data.index, anchor) : [];
   const chosen = basisRows.find((b) => b.key === basisKey) ?? basisRows[0] ?? null;
+  // `?? null` collapses "key absent from the map" and "key maps to null"
+  // (gfc/covid) into the same value on purpose — GRADE_BASIS_KEY is total
+  // over every key `chosen.key` can hold, so the two cases can't actually
+  // diverge; this just keeps the lookup itself total against a wider type.
+  const gradeBasisKey = chosen ? GRADE_BASIS_KEY[chosen.key] ?? null : null;
 
   const deliveryValid =
     !!deliveryMonth && !!anchor &&
@@ -199,6 +218,43 @@ export function DcEscalationClient({ data }: { data: EscalationData }) {
           your own $/MW, or the whole project — the math is a ratio, so the unit is yours
         </span>
       </div>
+
+      {grades && deliveryValid && chosen && (
+        <p
+          data-testid="basis-grade"
+          style={{ color: "var(--muted)", fontSize: 12, padding: "8px 4px 0" }}
+        >
+          {gradeBasisKey ? (
+            <>
+              {formatPairedVerdict(
+                gradeBasisKey,
+                horizon,
+                pairedShortfall(grades, gradeBasisKey, horizon)
+              )}{" "}
+              {/* The grading harness reconstructs this index from official
+                  releases only, with no live futures tail — so the rate it
+                  grades and the rate shown above can differ slightly in the
+                  months where that tail is spliced in. A one-clause flag
+                  here, with the measured gap on /dc-scoreboard's methodology,
+                  rather than either a silent difference or a paragraph of
+                  arithmetic inside a one-line verdict. */}
+              Graded on a reconstruction from official prints only, which can differ
+              slightly in months carrying a live futures tail.{" "}
+              <a href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
+                See how each basis has held up →
+              </a>
+            </>
+          ) : (
+            <>
+              This is a hindsight-selected historical episode, not a rule — it
+              carries no grade.{" "}
+              <a href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
+                See the bases that do →
+              </a>
+            </>
+          )}
+        </p>
+      )}
 
       {!result && (
         <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>

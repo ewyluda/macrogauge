@@ -1,4 +1,20 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
+
+/** A delivery month `horizon` months past the END OF THE GRID, read off the
+ *  picker's own `min` (which the page sets to grid-end + 1 month).
+ *
+ *  Never a literal like "2029-06": the grid advances every publish, so a
+ *  fixed month silently drifts to a shorter horizon each month and breaks
+ *  outright once the grid passes it. This repo has been bitten by dated test
+ *  fixtures before. */
+async function deliveryAtHorizon(input: Locator, horizon: number): Promise<string> {
+  const min = await input.getAttribute("min");
+  expect(min).toBeTruthy();
+  const [y, m] = min!.split("-").map(Number);
+  // `min` is grid-end + 1 month, i.e. horizon 1 — so horizon N is N-1 further.
+  const total = y * 12 + (m - 1) + (horizon - 1);
+  return `${String(Math.floor(total / 12)).padStart(4, "0")}-${String((total % 12) + 1).padStart(2, "0")}`;
+}
 
 // (route, text that proves the page's own content rendered)
 const ROUTES: [string, string][] = [
@@ -32,6 +48,7 @@ const ROUTES: [string, string][] = [
   ["/capacity", "the gap is the whole point"],
   ["/escalation", "the math is a ratio, so the unit is yours"],
   ["/markets", "construction wages and headcount where the shovels are"],
+  ["/dc-scoreboard", "did the basis you carried hold?"],
 ];
 
 for (const [path, text] of ROUTES) {
@@ -233,4 +250,124 @@ test("escalation says why there's no band under a sub-12-month delivery window",
   await deliver.fill(max!);
   await expect(page.getByText("overlapping windows")).toBeVisible();
   await expect(page.getByText("No realized band here")).toHaveCount(0);
+});
+
+test("escalation shows a paired-leg grade for the selected basis", async ({
+  page,
+}) => {
+  await page.goto("/escalation");
+  await expect(page.getByText("Total escalation")).toBeVisible();
+
+  // Set a delivery month 36 months past the grid end — the 36-month graded
+  // horizon, where the strict leg withholds (published_horizons is [12, 24]
+  // only) and the extended leg grades, exercising the paired withheld/graded
+  // render in one shot. Derived from the picker's own min, not a fixed month:
+  // the intent is "36 months out", and that must survive the grid advancing.
+  const delivery = page.locator('input[type="month"]').last();
+  await delivery.fill(await deliveryAtHorizon(delivery, 36));
+  await delivery.blur();
+
+  // The verdict must name BOTH samples — never one alone. Default CARRY
+  // selection on load is "Trailing 3yr", which has a grading counterpart
+  // (trailing_3yr), so this exercises the graded/withheld paired render,
+  // not the ungradeable-scenario note.
+  const verdict = page.getByTestId("basis-grade");
+  await expect(verdict).toBeVisible();
+  await expect(verdict).toContainText("vintage-true sample");
+  await expect(verdict).toContainText("deeper sample");
+  await expect(page.getByRole("link", { name: /how each basis has held up/i }))
+    .toBeVisible();
+});
+
+test("escalation renders the ungradeable note for a hindsight-selected regime", async ({
+  page,
+}) => {
+  await page.goto("/escalation");
+  await expect(page.getByText("Total escalation")).toBeVisible();
+
+  const delivery = page.locator('input[type="month"]').last();
+  await delivery.fill(await deliveryAtHorizon(delivery, 36));
+  await delivery.blur();
+
+  // Switch CARRY to one of the two absolute, hand-picked historical windows
+  // (GFC / COVID) — dcContingency.ts's BASES — which have no counterpart in
+  // dcGrades.ts's rule vocabulary by design. Selecting one must swap the
+  // paired verdict for the ungradeable note, never leave a verdict or a
+  // blank behind.
+  await page.locator("select").selectOption("gfc");
+
+  const verdict = page.getByTestId("basis-grade");
+  await expect(verdict).toBeVisible();
+  await expect(verdict).toContainText("hindsight-selected historical episode");
+  await expect(verdict).not.toContainText("vintage-true sample");
+  await expect(verdict).not.toContainText("deeper sample");
+  await expect(page.getByRole("link", { name: /the bases that do/i }))
+    .toBeVisible();
+});
+
+test("datacenter renders the power-nowcast grade from the artifact", async ({
+  page,
+}) => {
+  await page.goto("/datacenter");
+  await expect(page.getByText(/like-month year-ratio nowcast/)).toBeVisible();
+  // the stale hardcoded pair must be gone, from anywhere on the page
+  await expect(page.getByText("best MAE 8.5 vs 5.2 YoY pts")).toHaveCount(0);
+  // and the live figures must be present with an as-of
+  const grade = page.getByTestId("power-nowcast-grade");
+  await expect(grade).toBeVisible();
+  await expect(grade).toContainText("MAE");
+  await expect(grade).toContainText("as of");
+  // The verdict itself must be on the page, and the English beside it must be
+  // the clause for THAT verdict — the claim used to be a hardcoded "it lost",
+  // which a flip to PASS would have left standing next to correct numbers.
+  await expect(grade).toContainText(/FAIL|PASS|INSUFFICIENT/);
+  const text = (await grade.textContent()) ?? "";
+  if (text.includes("FAIL")) {
+    expect(text).toContain("failed the pre-registered backtest gate");
+  } else {
+    expect(text).not.toContain("failed the pre-registered backtest gate");
+  }
+  // No verdict may claim a specific losing comparison -- FAIL does not
+  // guarantee which of the gate's three conditions missed.
+  expect(text).not.toContain("lost to simple carry-forward");
+});
+
+test("dc-scoreboard never renders the lead-lag verdict without its caveats and conclusion", async ({
+  page,
+}) => {
+  await page.goto("/dc-scoreboard");
+  // Rule 2 of the grades feature: the verdict / weight_stable figure and the
+  // gate's caveats + standing conclusion live in ONE visual block -- a reader
+  // must not be able to screenshot the positive alone. Pin the adjacency by
+  // asserting all three render inside the same featured container.
+  const block = page
+    .locator(".section-featured")
+    .filter({ hasText: "Verdict:" });
+  await expect(block).toBeVisible();
+  await expect(block).toContainText("Conclusion:");
+  await expect(block).toContainText("No forward model is warranted");
+  // A positive verdict must carry at least one caveat list item beside it.
+  const verdictText = (await block.textContent()) ?? "";
+  if (verdictText.includes("stable lead was found")) {
+    await expect(block.locator("li").first()).toBeVisible();
+  }
+});
+
+test("dc-scoreboard's cross-horizon means name the horizons they cover", async ({
+  page,
+}) => {
+  await page.goto("/dc-scoreboard");
+  // The inversion's means are page-level aggregates, so the page must say
+  // which horizons they span — and they must span the SAME set on both legs.
+  const inversion = page.getByText(/Every mean in this section covers/);
+  await expect(inversion).toBeVisible();
+  await expect(inversion).toContainText("both legs publish");
+  // The 286 anchor rows are not serialized into this page; they are linked.
+  await expect(
+    page.getByRole("link", { name: "/data/dc_grades.json" })
+  ).toBeVisible();
+  // The lead-lag coverage sentence states BOTH shares against Build weight —
+  // "of that weight" would make the cleared share read ~2.2x too small.
+  await expect(page.getByText(/of Build weight cleared the pre-registered gate/))
+    .toBeVisible();
 });

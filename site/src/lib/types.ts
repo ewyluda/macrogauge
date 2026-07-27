@@ -297,3 +297,116 @@ export type DcMarkets = {
   };
   markets: MarketRow[];
 };
+
+// dc_grades.json -- the escalation grading harness behind /dc-scoreboard.
+// Keep in sync with schemas/dc_grades.schema.json.
+
+export type GradeStat = {
+  n: number;
+  independent_draws: number;
+  shortfall_rate_pct: number;
+  mean_shortfall_pp: number;
+  worst_shortfall_pp: number;
+  bias_pp: number;
+  mae_pp: number;
+};
+
+export type Leg = {
+  provenance: string;
+  span: [string | null, string | null];
+  anchors_n: number;
+  contains_downturn: boolean;
+  // Which horizons THIS leg actually grades -- the strict leg publishes only
+  // [12, 24] (schema description, spec §2.1a's human ruling). Read this,
+  // never assume every leg carries all four HORIZONS.
+  published_horizons: number[];
+  // basis_key -> horizon_key -> stats, or null when the horizon nominally
+  // publishes (per published_horizons) but no anchor reached that far.
+  grades: Record<string, Record<string, GradeStat | null>>;
+};
+
+export type DcGradesAnchor = {
+  m: string;
+  leg: string;
+  bases: Record<string, number | null>;
+  realized: Record<string, number | null>;
+};
+
+// Hindsight-selected regimes (GFC, COVID peak): rate + window only, never a
+// grading statistic -- the schema structurally forbids shortfall/mae/bias/n
+// fields on these (schemas/dc_grades.schema.json).
+export type DcGradesScenario = {
+  key: string;
+  label: string;
+  start_month: string;
+  end_month: string;
+  annualized_pct: number | null;
+  hindsight_selected: true;
+  note: string;
+};
+
+export type LeadLagHalf = {
+  best_lag_months: number | null;
+  best_correlation: number | null;
+};
+
+export type LeadLagMapping = {
+  driver: string;
+  driver_label: string;
+  component: string;
+  component_label: string;
+  weight: number;
+  months: number;
+  span: [string | null, string | null];
+  best_lag_months: number | null;
+  best_correlation: number | null;
+  stable: boolean;
+  first_half: LeadLagHalf;
+  second_half: LeadLagHalf;
+  profile: { lag: number; corr: number | null }[];
+};
+
+export type LeadLagCaveat = { key: string; text: string };
+
+export type LeadLag = {
+  mappings: LeadLagMapping[];
+  weight_covered: number;
+  weight_stable: number;
+  verdict: string;
+  gate: string;
+  // A positive gate result (weight_stable > 0) must never be rendered
+  // without these alongside it -- schema requires both structurally.
+  caveats: LeadLagCaveat[];
+  conclusion: string;
+};
+
+export type PowerNowcast = {
+  as_of: string | null;
+  months_graded: number;
+  /** Audit trail for the common-intersection reduction: months graded by at
+   *  least one λ but excluded from every MAE (the sign guard makes per-λ
+   *  gradeable sets differ). [] when nothing was dropped. */
+  months_dropped: number;
+  dropped_months: string[];
+  carry_forward_mae: number | null;
+  best_lambda: number | null;
+  best_mae: number | null;
+  verdict: "PASS" | "FAIL" | "INSUFFICIENT";
+  note: string;
+};
+
+export type DcGrades = {
+  published_at: string;
+  as_of: string | null;
+  paired_legs_note: string;
+  /** Max |vintage-true − final-revision| carried rate across every basis at
+   *  every anchor month both legs share — derived from this artifact's own
+   *  anchors each publish; null when the legs share no comparable anchor. */
+  revision_disclosure_pp: number | null;
+  // Keyed by leg name ("strict"/"extended" normally; {} when degraded).
+  legs: Record<string, Leg>;
+  anchors: DcGradesAnchor[];
+  scenarios: DcGradesScenario[];
+  leadlag: LeadLag | null;
+  power_nowcast: PowerNowcast | null;
+};

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import dc from "../../../public/data/datacenter.json";
+import gradesJson from "../../../public/data/dc_grades.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DcIndexChart } from "@/components/DcIndexChart";
 import { DcConstructionChart } from "@/components/DcConstructionChart";
@@ -10,6 +11,7 @@ import { HardwareGapPanel, type GapRow } from "@/components/HardwareGapPanel";
 import { PowerPanel, type PowerData } from "@/components/PowerPanel";
 import { ContextPanel, type ContextData } from "@/components/ContextPanel";
 import { fmtSigned, fmtPp } from "@/lib/format";
+import type { DcGrades } from "@/lib/types";
 
 export const metadata: Metadata = {
   title: `Data Center Cost Index: build ${fmtSigned(dc.indexes.build.headline_yoy_pct)} · ops ${fmtSigned(dc.indexes.ops.headline_yoy_pct)} · hardware ${fmtSigned(dc.indexes.hardware.headline_yoy_pct)} YoY`,
@@ -25,6 +27,34 @@ type Comp = {
 type GroupSum = { group: string; weight: number; contribution_pp: number | null };
 
 const GROUPS = dc.group_labels as Record<string, string>;
+// power_nowcast is nullable in the schema (and its numeric fields can be
+// null on a degraded run) — the methodology paragraph below reads as a
+// complete sentence with or without it.
+const pn = (gradesJson as unknown as DcGrades).power_nowcast;
+
+// What the backtest DECIDED, in English, derived from the verdict the gate
+// recomputes every run. The page used to assert "it lost to simple
+// carry-forward at every pass-through level tested" unconditionally while the
+// numbers beside it came from the artifact: a flip to PASS would have printed
+// a falsehood next to correct figures, which is precisely the defect this
+// branch exists to remove. Prose and figures now come from the same object.
+// FAIL states the GATE, not a specific comparison: the verdict fires when the
+// selected candidate misses any of its three conditions (beat carry-forward,
+// beat zero pass-through, error inside the bound), so naming one loss would
+// be false whenever a different condition missed.
+const NOWCAST_CLAUSE: Record<string, string> = {
+  FAIL: "its best pass-through candidate failed the pre-registered backtest gate",
+  PASS:
+    "it beat both naive baselines — carry-forward and zero pass-through — inside " +
+    "the pre-registered error bound, a result still under review",
+  INSUFFICIENT:
+    "the backtest could not be graded on this publish, so nothing is claimed either way",
+};
+// True under every verdict: clearing the backtest is a precondition for
+// changing the index, not the change itself. Stated separately from the
+// clause above so it never reads as a consequence of a specific outcome.
+const NOWCAST_STANDING =
+  "the ops index stays on official retail data and the machinery ships config-gated";
 
 function ComponentTable({ title, comps, groupHeaders = false, groups }: {
   title: string; comps: Comp[]; groupHeaders?: boolean; groups?: GroupSum[];
@@ -212,10 +242,13 @@ export default function Datacenter() {
         ~3× seasonally while tariff-smoothed retail is seasonally flat, so a level-spliced
         wholesale tail would fabricate seasonal inflation (we measured it, then pulled it). We
         then built the honest alternative — a like-month year-ratio nowcast, which cancels
-        seasonality by construction — and backtested it against 8 realized retail prints
-        before letting it touch the index: it lost to simple carry-forward at every
-        pass-through level tested (best MAE 8.5 vs 5.2 YoY pts), so the ops index stays on
-        official retail data and the machinery ships config-gated. Wholesale tells you about
+        seasonality by construction — and backtested it against realized retail prints
+        before letting it touch the index: <span data-testid="power-nowcast-grade">
+        {pn ? NOWCAST_CLAUSE[pn.verdict] ?? NOWCAST_CLAUSE.INSUFFICIENT : "the backtest result is unavailable in this publish"}
+        {pn ? ` — ${pn.verdict}` : ""}
+        {pn && pn.best_mae != null && pn.carry_forward_mae != null && pn.as_of != null
+          ? ` (best MAE ${pn.best_mae.toFixed(3)} vs ${pn.carry_forward_mae.toFixed(3)} YoY pts over ${pn.months_graded} months, as of ${pn.as_of})`
+          : ""}</span>. Either way {NOWCAST_STANDING}. Wholesale tells you about
         the grid; it does not nowcast tariff-cycle retail rates, and we publish it as market
         visibility only.
         {" "}The bigger-picture cards are context, not index inputs: colo asking rates (CBRE),

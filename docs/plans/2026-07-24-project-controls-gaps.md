@@ -141,10 +141,16 @@ Recon for the design spec refuted both the radius join and the ISO column; full 
 
 **Status:** **P3a shipped** 2026-07-26 on `feat/dc-contingency` (backfill to 2007-12 + a five-basis
 realized-regime contingency table + a calculator forward leg — the reader picks a delivery month and
-carries a *historical* regime's rate; no forecast is made). **P3b (grading harness) and P3c (forward
-engine) remain, not started.** Full design: `docs/superpowers/specs/2026-07-25-dc-contingency-table-design.md`;
-implementation plan: `docs/superpowers/plans/2026-07-25-dc-contingency-table.md`.
-**Grades:** forecast accuracy, contingency adequacy · **Effort:** medium (P3a, done) / TBD (P3b, P3c)
+carries a *historical* regime's rate; no forecast is made). **P3b (grading harness) shipped**
+2026-07-26 on `feat/dc-grading-harness` — `dc_grades.json` + `/dc-scoreboard`, both legs, never a
+single-leg figure alone. **P3c (lead-lag study) is also complete and closed negative** — no forward
+model is warranted on the evidence; see the THIRD CORRECTION below and
+`docs/superpowers/specs/2026-07-26-dc-grading-harness-design.md` §6.1. Full design:
+`docs/superpowers/specs/2026-07-25-dc-contingency-table-design.md` (P3a) and
+`docs/superpowers/specs/2026-07-26-dc-grading-harness-design.md` (P3b/P3c); implementation plan:
+`docs/superpowers/plans/2026-07-25-dc-contingency-table.md`.
+**Grades:** forecast accuracy, contingency adequacy · **Effort:** medium (P3a, P3b — both done);
+P3c closed, no further effort planned
 
 **Gap.** Trailing YoY doesn't help someone budgeting a 2029 energization. They need "what factor do I
 carry for a project breaking ground Q2 2027, energizing Q4 2029?" **P3a answers this with realized
@@ -172,10 +178,47 @@ figure below; the recon corrected both, and this register's numbers were wrong.*
   series × a hand-set `pass_through` constant — no regression, fitted beta, or estimated elasticity
   anywhere in the repo). The "trailing extrapolation wearing a forecast's clothes" critique in the
   first correction below describes the shipped CPI engine too — the gap is degree, not kind.
-- **A vintage-true DC backtest is impossible before roughly mid-2027** — the entire 2017–2026 DC
-  history was backfilled in single sweeps (`ppi_steel` has exactly two vintage dates); `CPIAUCNS` is
-  the only series in the store with real point-in-time release history. **This — not the coverage
-  percentage — is why P3a makes no forecast claim, and why P3c's ship decision still can't be made.**
+- **⚠ THIRD CORRECTION (P3b/P3c recon, verified 2026-07-26 —
+  `docs/superpowers/specs/2026-07-26-dc-grading-harness-design.md` §2.1, §2.1a, §6.1). The
+  "vintage-true backtest impossible before mid-2027" claim above is REFUTED and must not be
+  re-derived.** It was inferred from the store, which was backfilled in single sweeps — but ALFRED
+  carries real release history for all 12 Build components (weight 1.000: `fred.fetch_vintages()`
+  already existed, and the reconstruction bit-matches the published index at today's vintage). A
+  vintage-true backtest **is possible today.**
+
+  The real constraint is narrower and conceptual, not a data-availability wall: the index is
+  rebased at **2018-01** (`config/dc_basket.json`'s own base month), and a Laspeyres sum of
+  separately-rebased components cannot be reconstructed at a vintage that predates its own base —
+  `H_b(t) = Σ w_i·I_i(t)/I_i(b)` makes the effective weight `w_i/I_i(b)`, so changing the base
+  reweights the basket and changes its growth rates (measured: a 2008-01 base diverges from the
+  published index by up to 1.0029 index points across 199 of 222 months; the published 2018-01
+  base diverges by 0.1081 index points at just one month). That floor gives **99 strict anchors,
+  2018-01 → 2026-06** — not 132: ALFRED's raw PPI vintage history reaches back to 2015-03/04, but
+  an index based at 2018-01 has no value to reconstruct at a vintage that predates its own base.
+
+  **Sample depth, not availability, is what gates the horizon.** Strict-leg independent draws:
+  **7.33 / 3.17 / 1.78 / 1.08** at h=12/24/36/48 — thin enough that the strict leg publishes only
+  h=12 and h=24; h=36/48 render a "vintage-true sample too thin at this horizon" note instead of a
+  figure. The extended leg (187 anchors, final-revision, 2010-12 → 2026-06, draws
+  14.58/6.79/4.19/2.90) carries all four horizons, justified by the measured revision distortion —
+  **derived from the artifact's own overlapping anchors on every publish** (0.672pp on the
+  2026-07-26 artifact; the ±0.27pp originally recorded here was a nine-anchor pre-backfill
+  measurement the full artifact exceeded 2.5x, corrected in the PR #8 review). **P3b shipped this
+  as a published grading harness
+  (`dc_grades.json`, `/dc-scoreboard`) — both legs render adjacent by construction, never a
+  single-leg figure alone.**
+
+  **P3c concluded negative, and that verdict is published, not withheld.** The lead-lag study (six
+  FRED unfilled-orders series against three Build components, 0.45 of Build weight in the mapped
+  set) ran on the deepened 402-month sample (1993–2026). One of four mappings (`U35CUO` →
+  `transformers`) clears the pre-registered split-half stability gate, but at a **0-month lag —
+  contemporaneous, not a lead** — and that stability is a sample-split artifact: deepening the
+  sample moved the midpoint from ~2017-03 to ~2009-09, folding a genuine first/second-half
+  disagreement (lag 24 vs lag 0) inside a single half rather than resolving it. The gate was
+  deliberately **not** re-tightened after seeing this, because changing a pre-registered test once
+  it produces a positive is tuning the instrument to the answer. **Standing conclusion: no forward
+  model is warranted on this evidence.** P3c is closed as a measurement, not left open as a
+  deferred build.
 
 **⚠ CORRECTION (verified 2026-07-24, after this register was first written).** The original entry said
 "the engine exists; it has never been pointed at the DC indexes," implying a re-point. **That was wrong
@@ -218,22 +261,39 @@ values — **P3a makes no forecast and asserts nothing about which regime will o
 what makes it shippable ahead of P3c's backtest gate. Full math: spec §5; acceptance criteria walked
 and verified end-to-end in spec §9.
 
-**Build — P3b/P3c (remaining, not started).** **P3b** is the grading harness: back-test each named
-basis (and, eventually, any P3c model) against realized DC Build prints as they arrive, plus fix the
-stale hardcoded power-nowcast MAE string flagged in spec §2.1 item 5
-(`site/src/app/datacenter/page.tsx:211-220` — still reads "8.5 vs 5.2 YoY pts"; a live re-run reads
-carry-forward 4.778 / best λ=0.25 MAE 8.452, verdict unchanged but the site number is one print stale
-and unvalidated by CI). **P3c** is the actual forward *model* — a fitted regime-probability or
-elasticity engine, which the recon found is not buildable on a defensible vintage-true backtest before
-roughly mid-2027. Recon also flagged four FRED unfilled-orders series (`A35CUO`/`U35CUO`,
-`A33HUO`/`U33HUO`, `ATGPUO`/`UTGPUO`) as exact-or-near NAICS matches to 45% of Build weight at zero
-connector cost, should P3c restart — see spec §11. Neither is scheduled.
+**Build — P3b (shipped, `feat/dc-grading-harness`).** The grading harness: for every reconstructable
+vintage-true anchor, computes what each of the three rule-based bases (long-run, trailing 3yr,
+current momentum) would have told a reader to carry, and grades it against realized DC Build
+escalation — shortfall rate (headline), mean/worst conditional shortfall, bias, MAE, independent
+draws — on two labelled samples (strict: 99 anchors, 2018-01 → 2026-06, vintage-true, no downturn,
+publishes h=12/24 only; extended: 187 anchors, 2010-12 → 2026-06, final-revision, all four
+horizons, justified by the per-publish derived revision distortion — 0.672pp on the 2026-07-26
+artifact, superseding the ±0.27pp first recorded here). The two hindsight-selected scenarios
+(GFC, COVID) publish as reference rates with their windows stated and carry **no grading statistic
+of any kind** — grading a hindsight-selected window is lookahead twice over. Also fixed the stale
+hardcoded power-nowcast MAE string (spec §2.1 item 5; `site/src/app/datacenter/page.tsx` now
+renders the grade from `dc_grades.json` with an as-of, no literal remains). Ships as
+`dc_grades.json` + `/dc-scoreboard`, an eleventh isolated pipeline phase (`grades_ok`). Full math
+and the corrected sample-depth constraint:
+`docs/superpowers/specs/2026-07-26-dc-grading-harness-design.md` §2, §5.
 
-**Risk (P3c, still open).** Horizon >12mo exceeds what the outlook model pattern was validated for.
-Either extend the volatility band honestly or cap the published horizon. **Do not ship an unbacktested
-forward *model*** — that would contradict the power-tail precedent, which is the most credible thing we
-have. (P3a sidesteps this entirely by carrying a chosen *historical* rate rather than predicting one —
-the risk applies to P3c, not to what shipped.)
+**Build — P3c (measured and closed, not scheduled to become a model).** The lead-lag study: does
+manufacturers' unfilled-orders backlog lead DC input prices, and does that lead survive a
+pre-registered split-half stability gate? Six FRED unfilled-orders series (`A35CUO`/`U35CUO`,
+`A33HUO`/`U33HUO`, `ATGPUO`/`UTGPUO`, backfilled to 1992-01) mapped to 0.45 of Build weight. Run on
+402 months (1993–2026): one of four mappings clears the gate, at a 0-month (contemporaneous, not
+forward) lag, and that pass is a sample-split artifact rather than a real stabilization — full
+accounting in `docs/superpowers/specs/2026-07-26-dc-grading-harness-design.md` §6.1. **Standing
+conclusion: no forward model is warranted on this evidence.** No transfer coefficient or elasticity
+was estimated or published. This closes P3c as a published measurement with a negative result — it
+does not remain open, and should not be restarted on this same evidence.
+
+**Risk (P3c) — resolved 2026-07-26, not by building safely but by deciding not to build.** The
+lead-lag study found no lead-lag relationship that survives its own pre-registered stability gate
+(see P3c above); the standing conclusion is that **no forward model is warranted on this
+evidence.** The original risk — that shipping an unbacktested forward *model* would contradict the
+power-tail precedent — is avoided by not shipping one. (P3a's historical-carry table was never
+subject to this risk — it carries a chosen *historical* rate rather than predicting one.)
 
 ---
 
@@ -335,10 +395,11 @@ and **P5's CSV export pullable forward** (already backlogged, unblocks the claim
 
 **P1 and P2 have shipped (2026-07-25, `feat/dc-escalation` and `feat/dc-market-panel`).** They were the
 recommended start — highest value per unit effort, both pure assembly over data already published — and
-that's done. **P3a has since shipped too (2026-07-26, `feat/dc-contingency`)** — see the P3 entry above;
-it is the realized-regime contingency table and calculator forward leg, not the P3c forecast model the
-build order below still refers to as "P3." Whoever picks this up next should start at **P3b/P3c, P4, or
-P7**.
+that's done. **P3 is now fully done (2026-07-26).** P3a (`feat/dc-contingency`, the realized-regime
+contingency table and calculator forward leg), P3b (`feat/dc-grading-harness`, the grading harness that
+scores those bases against realized escalation on two labelled samples), and P3c (the lead-lag
+measurement, closed negative — no forward model is warranted on the evidence) have all shipped or
+concluded. **Whoever picks this up next should start at P4 or P7.**
 
 ## Deliberately not doing
 

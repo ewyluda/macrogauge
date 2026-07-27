@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-07-25",
-  "passed": 24,
-  "total": 25,
+  "generated_at": "2026-07-26",
+  "passed": 25,
+  "total": 26,
   "checks": [
     {
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-06-01 is 54d old (limit 80)"
+      "detail": "latest official month 2026-06-01 is 55d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -76,6 +76,12 @@
       "detail": "DC market panel completed"
     },
     {
+      "name": "grades_ok",
+      "critical": false,
+      "pass": true,
+      "detail": "escalation grading harness completed"
+    },
+    {
       "name": "single_run_stamp",
       "critical": false,
       "pass": true,
@@ -91,13 +97,13 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "676/690 fresh; stale \u2014 PCEPI (85d > 80d), APU0000702212 (85d > 80d), APU0000704211 (85d > 80d), kalshi_cpi_mom (14d > 5d), DSPIC96 (85d > 80d), CSUSHPINSA (115d > 110d), M2SL (85d > 80d), UMCSENT (85d > 80d), PSAVERT (85d > 80d), REVOLSL (85d > 80d), RECPROUSM156N (85d > 80d), PCETRIM12M159SFRBDAL (85d > 80d), MICH (85d > 80d), qcew_aemp23_c41067 (480d > 400d)"
+      "detail": "676/693 fresh; stale \u2014 PCEPI (86d > 80d), APU0000702212 (86d > 80d), APU0000704211 (86d > 80d), kalshi_cpi_mom (15d > 5d), DSPIC96 (86d > 80d), CSUSHPINSA (116d > 110d), M2SL (86d > 80d), UMCSENT (86d > 80d), PSAVERT (86d > 80d), REVOLSL (86d > 80d), RECPROUSM156N (86d > 80d), PCETRIM12M159SFRBDAL (86d > 80d), MICH (86d > 80d), fred_uo_electrical (86d > 80d), fred_uo_hvac (86d > 80d), fred_uo_turbines (86d > 80d), qcew_aemp23_c41067 (481d > 400d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.053 vs EIA weekly $4.001 \u2014 relative divergence 1.3% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.071 vs EIA weekly $4.001 \u2014 relative divergence 1.8% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -115,7 +121,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-07-25"
+      "detail": "CPI nowcast as-of 2026-07-26"
     },
     {
       "name": "ensemble_computed",
@@ -127,7 +133,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-25 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-26 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",

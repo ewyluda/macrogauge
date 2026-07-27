@@ -78,6 +78,7 @@ export const NAV: NavEntry[] = [
           { href: "/datacenter", label: "Data Centers", emoji: "🏭" },
           { href: "/capacity", label: "AI Capacity", emoji: "⚡" },
           { href: "/escalation", label: "Escalation", emoji: "🪜" },
+          { href: "/dc-scoreboard", label: "Escalation Grades", emoji: "🎯" },
           { href: "/markets", label: "DC Markets", emoji: "🏗️" },
         ],
       },
