@@ -1,0 +1,249 @@
+{
+  "schema_version": 1,
+  "as_of_curated": "2026-07-26",
+  "packages": [
+    {"code": "switchgear", "vendors": ["etn", "abb", "schneider", "gev"], "null_note": null},
+    {"code": "transformers", "vendors": ["hitachi_energy", "gev"], "null_note": null},
+    {"code": "hvac_equip", "vendors": ["vrt"], "null_note": null},
+    {"code": "generators", "vendors": ["cat", "cmi"], "null_note": null},
+    {"code": "pumps", "vendors": [], "null_note": "One search pass across Flowserve, Xylem, and Grundfos (2026-07-26) found no primary-source pump order-backlog metric with data-center relevance. Flowserve's Q1 2026 10-Q (SEC EDGAR, period ended 2026-03-31, https://www.sec.gov/Archives/edgar/data/30625/000003062526000012/fls-20260331.htm) reports one company-wide backlog of $2.9 billion, broken out only by aftermarket share and four generic end-market categories (energy, chemical, power generation, general industries) — \"data center\" appears zero times in the filing. Xylem and Grundfos publish narrative data-center-cooling product marketing but no order-backlog figure segmented (or even unsegmented, in Grundfos's case as a private foundation-owned company with no 10-K/10-Q) at a level meeting this board's primary-source bar. No pump maker is added to the long-lead board."}
+  ],
+  "vendors": {
+    "gev": {
+      "name": "GE Vernova",
+      "ticker": "GEV",
+      "listed": "NYSE",
+      "dc_segment": "Electrification",
+      "cadence": "quarterly",
+      "figures": [
+        {
+          "metric": "group_backlog_rpo",
+          "kind": "backlog",
+          "basis": "rpo",
+          "scope": "group",
+          "value": 176.3,
+          "unit": "usd_b",
+          "period": "2026-06-30",
+          "asof": "2026-07-22",
+          "quote": "RPO was $176.3 billion and $128.7 billion as of June 30, 2026 and 2025, respectively.",
+          "src": ["GE Vernova Q2 2026 10-Q (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000148/gev-20260630.htm"]
+        },
+        {
+          "metric": "electrification_book_to_bill",
+          "kind": "book_to_bill",
+          "basis": "order-backlog",
+          "scope": "segment",
+          "value": 1.7,
+          "unit": "ratio",
+          "period": "2026-06-30",
+          "asof": "2026-07-22",
+          "quote": "Orders of $6.3 billion increased +66% organically, driving a book-to-bill ratio of approximately 1.7, with continued strong demand for...",
+          "src": ["GE Vernova Q2 2026 8-K press release, Electrification segment (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000147/gevpressrelease2q26.htm"]
+        }
+      ],
+      "null_note": null
+    },
+    "vrt": {
+      "name": "Vertiv",
+      "ticker": "VRT",
+      "listed": "NYSE",
+      "dc_segment": "Infrastructure",
+      "cadence": "quarterly",
+      "figures": [
+        {
+          "metric": "group_backlog",
+          "kind": "backlog",
+          "basis": "order-backlog",
+          "scope": "group",
+          "value": 15.0,
+          "unit": "usd_b",
+          "period": "2025-12-31",
+          "asof": "2026-02-11",
+          "quote": "Fourth quarter 2025 book-to-bill ratio was ~2.9x and backlog increased to $15.0 billion, up 109% compared to the same period last year.",
+          "src": ["Vertiv Q4 2025 8-K exhibit 99.1 (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1674101/000167410126000006/exhibit991vrt02112026.htm"]
+        },
+        {
+          "metric": "group_book_to_bill",
+          "kind": "book_to_bill",
+          "basis": "order-backlog",
+          "scope": "group",
+          "value": 2.9,
+          "unit": "ratio",
+          "period": "2025-12-31",
+          "asof": "2026-02-11",
+          "quote": "Fourth quarter 2025 book-to-bill ratio was ~2.9x and backlog increased to $15.0 billion, up 109% compared to the same period last year.",
+          "src": ["Vertiv Q4 2025 8-K exhibit 99.1 (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1674101/000167410126000006/exhibit991vrt02112026.htm"]
+        }
+      ],
+      "null_note": null
+    },
+    "abb": {
+      "name": "ABB",
+      "ticker": "ABBN.SW",
+      "listed": "SIX / NYSE",
+      "dc_segment": "Electrification",
+      "cadence": "quarterly",
+      "figures": [
+        {
+          "metric": "electrification_order_backlog",
+          "kind": "backlog",
+          "basis": "order-backlog",
+          "scope": "segment",
+          "value": 13.676,
+          "unit": "usd_b",
+          "period": "2026-06-30",
+          "asof": "2026-07-16",
+          "quote": "Order backlog (end June) ... Electrification 13,676 8,685 57% 59% 59%",
+          "src": ["ABB Q2 2026 results (news center)", "https://new.abb.com/news/detail/137496/q2-2026-results"]
+        },
+        {
+          "metric": "group_order_backlog",
+          "kind": "backlog",
+          "basis": "order-backlog",
+          "scope": "group",
+          "value": 30.007,
+          "unit": "usd_b",
+          "period": "2026-06-30",
+          "asof": "2026-07-16",
+          "quote": "The order backlog amounted to $30,007 million, up 27% (28% comparable) year-on-year.",
+          "src": ["ABB Q2 2026 results (news center)", "https://new.abb.com/news/detail/137496/q2-2026-results"]
+        },
+        {
+          "metric": "group_book_to_bill",
+          "kind": "book_to_bill",
+          "basis": "order-backlog",
+          "scope": "group",
+          "value": 1.27,
+          "unit": "ratio",
+          "period": "2026-06-30",
+          "asof": "2026-07-16",
+          "quote": "Revenues were record-high but orders even stronger, leaving the book-to-bill at 1.27, supported by a positive development in all three business areas.",
+          "src": ["ABB Q2 2026 results (news center)", "https://new.abb.com/news/detail/137496/q2-2026-results"]
+        }
+      ],
+      "null_note": null
+    },
+    "hitachi_energy": {
+      "name": "Hitachi Energy",
+      "ticker": "6501.T (Hitachi Ltd)",
+      "listed": "TSE",
+      "dc_segment": "Hitachi Energy",
+      "cadence": "quarterly",
+      "figures": [
+        {
+          "metric": "order_backlog",
+          "kind": "backlog",
+          "basis": "order-backlog",
+          "scope": "segment",
+          "value": 57.9,
+          "unit": "usd_b",
+          "period": "2026-03-31",
+          "asof": "2026-04-27",
+          "quote": "Order Backlog (as of FY2025-end) ... Hitachi Energy : 9.2 tn yen (+42% vs end-FY2024) 57.9 bn USD (+33% vs end-FY2024)",
+          "src": ["Hitachi FY2025 (year ended March 2026) results presentation", "https://www.hitachi.com/content/dam/hitachi/global/en/press/files/2026/04/260427/2025_Anpre.pdf"]
+        }
+      ],
+      "null_note": null
+    },
+    "etn": {
+      "name": "Eaton",
+      "ticker": "ETN",
+      "listed": "NYSE",
+      "dc_segment": "Electrical",
+      "cadence": "quarterly",
+      "figures": [
+        {
+          "metric": "electrical_americas_backlog_growth",
+          "kind": "backlog_growth",
+          "basis": "order-backlog",
+          "scope": "segment",
+          "value": 44,
+          "unit": "pct_yoy",
+          "period": "2026-03-31",
+          "asof": "2026-05-05",
+          "quote": "The twelve-month rolling average of orders in the first quarter was up 42% organically. Total backlog at the end of March remained strong and was up 44% over March 2025.",
+          "src": ["Eaton Q1 2026 8-K exhibit 99 (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1551182/000155118226000010/etn03312026exhibit99.htm"]
+        },
+        {
+          "metric": "electrical_book_to_bill_ltm",
+          "kind": "book_to_bill",
+          "basis": "order-backlog",
+          "scope": "segment",
+          "value": 1.2,
+          "unit": "ratio",
+          "period": "2026-03-31",
+          "asof": "2026-05-05",
+          "quote": "On a rolling twelve-month basis, the book-to-bill ratio for the Electrical businesses increased to 1.2.",
+          "src": ["Eaton Q1 2026 8-K exhibit 99 (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1551182/000155118226000010/etn03312026exhibit99.htm"]
+        }
+      ],
+      "null_note": null
+    },
+    "schneider": {
+      "name": "Schneider Electric",
+      "ticker": "SU.PA",
+      "listed": "Euronext Paris",
+      "dc_segment": "Energy Management",
+      "cadence": "annual",
+      "figures": [
+        {
+          "metric": "group_backlog",
+          "kind": "backlog",
+          "basis": "order-backlog",
+          "scope": "group",
+          "value": 25.362,
+          "unit": "eur_b",
+          "period": "2025-12-31",
+          "asof": "2026-02-26",
+          "quote": "The Group closed the year with backlog of €25,362 million (2024: €21,420 million), up +18%.",
+          "src": ["Schneider Electric FY2025 Results release (se.com)", "https://www.se.com/ww/en/assets/564/document/528237/release-fy-results-2025.pdf"]
+        },
+        {
+          "metric": "energy_management_backlog",
+          "kind": "backlog",
+          "basis": "order-backlog",
+          "scope": "segment",
+          "value": 21.34,
+          "unit": "eur_b",
+          "period": "2025-12-31",
+          "asof": "2026-02-26",
+          "quote": "Backlog grew across both businesses, with Energy Management at €21,340 million, up +21%, and Industrial Automation at €4,022 million, up +8%.",
+          "src": ["Schneider Electric FY2025 Results release (se.com)", "https://www.se.com/ww/en/assets/564/document/528237/release-fy-results-2025.pdf"]
+        }
+      ],
+      "null_note": null
+    },
+    "cat": {
+      "name": "Caterpillar",
+      "ticker": "CAT",
+      "listed": "NYSE",
+      "dc_segment": "Power & Energy",
+      "cadence": "quarterly",
+      "figures": [
+        {
+          "metric": "group_order_backlog",
+          "kind": "backlog",
+          "basis": "mdna-backlog",
+          "scope": "group",
+          "value": 62.7,
+          "unit": "usd_b",
+          "period": "2026-03-31",
+          "asof": "2026-05-06",
+          "quote": "At the end of the first quarter of 2026, the dollar amount of backlog believed to be firm was approximately $62.7 billion, about $11.5 billion higher than the fourth quarter of 2025. The order backlog increased across the three primary segments, with the largest increase in Power & Energy.",
+          "src": ["Caterpillar Q1 2026 10-Q, MD&A Order Backlog (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/18230/000001823026000021/cat-20260331.htm"]
+        }
+      ],
+      "null_note": null
+    },
+    "cmi": {
+      "name": "Cummins",
+      "ticker": "CMI",
+      "listed": "NYSE",
+      "dc_segment": "Power Systems",
+      "cadence": "quarterly",
+      "figures": [],
+      "null_note": "Cummins discloses no backlog, order-backlog, orders, or book-to-bill metric in either its Q1 2026 10-Q (SEC EDGAR, filed 2026-05-05, accession 0000026172-26-000016, https://www.sec.gov/Archives/edgar/data/26172/000002617226000016/cmi-20260331.htm) or its matching Q1 2026 earnings release (8-K Ex-99, filed 2026-05-05, accession 0000026172-26-000013, https://www.sec.gov/Archives/edgar/data/26172/000002617226000013/cmi2026q18-kex99.htm) — both checked live 2026-07-26, zero hits for \"backlog\" or \"book-to-bill\" in either document. The only comparable aggregate is a Topic 606 remaining-transaction-price note in the 10-Q (\"NOTE 2. REVENUE FROM CONTRACTS WITH CUSTOMERS\"), which states $6.9 billion at March 31, 2026 for long-term arrangements the note itself describes as \"primarily long-term maintenance agreements, construction contracts, product sales with associated performance obligations extending beyond a year...\" — a maintenance-dominated aggregate, not an industrial equipment order-backlog metric comparable to peers on this board. Cummins is excluded on this basis."
+    }
+  },
+  "teaser": ["gev:backlog", "vrt:book_to_bill"]
+}
