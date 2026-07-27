@@ -80,6 +80,7 @@ export const NAV: NavEntry[] = [
           { href: "/escalation", label: "Escalation", emoji: "🪜" },
           { href: "/dc-scoreboard", label: "Escalation Grades", emoji: "🎯" },
           { href: "/markets", label: "DC Markets", emoji: "🏗️" },
+          { href: "/longlead", label: "Long-Lead Board", emoji: "⏳" },
         ],
       },
     ],

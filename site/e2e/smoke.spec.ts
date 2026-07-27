@@ -49,6 +49,7 @@ const ROUTES: [string, string][] = [
   ["/escalation", "the math is a ratio, so the unit is yours"],
   ["/markets", "construction wages and headcount where the shovels are"],
   ["/dc-scoreboard", "did the basis you carried hold?"],
+  ["/longlead", "not a lead-time quote in weeks"],
 ];
 
 for (const [path, text] of ROUTES) {
