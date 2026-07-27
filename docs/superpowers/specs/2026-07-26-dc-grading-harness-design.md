@@ -186,6 +186,13 @@ extended leg defensible rather than a shortcut.
 > hardcodes the figure anymore. The §5.2 conclusion is unchanged in kind — the distortion remains
 > an order of magnitude smaller than the strict-vs-extended spreads the legs exist to show — but
 > the published number is now the measured one.
+>
+> One further disclosure from the same review: the ALFRED backfill resurrected one print the
+> agency later retracted (ppi_copper_wire 2020-07, 292.9, vintage 2020-08-11 — the daily snapshot
+> skips that month), and because latest-vintage-wins has nothing later for that cell, the
+> published Build index at 2020-07 moved 106.4733 → 106.5814 (+0.1081) when the artifact was
+> regenerated. See scripts/backfill_dc_vintages.py's docstring for the mechanism and why the
+> value stands.
 
 ### 2.4 P3c's candidate inputs exist
 
@@ -253,6 +260,12 @@ Extended-leg gradeable counts: **175 / 163 / 151 / 139** anchors at h=12/24/36/4
 the post-GFC disinflation is in the anchor set, and the MAE-vs-shortfall inversion, while still
 present at h=36, is much weaker. Publishing the strict leg alone would have shipped a frightening
 number that the deeper sample does not support.
+
+> **Amended 2026-07-26 (PR #8 review).** The table above and this paragraph predate the §2.1a
+> base-month correction. On the corrected sample the committed artifact reads: strict long_run
+> h=36/h=48 at **96.9% / 100%** (measured, unpublished — the strict leg withholds those horizons as
+> too thin), falling to **64.2% / 64.7%** on the extended leg. The composition argument is
+> unchanged; `dc_grades.json` is authoritative for every current figure.
 
 **This is the single most important honesty constraint in the build.** Copy must present the two legs
 as a range whose spread is itself the finding — *how much the answer depends on whether your sample
@@ -346,9 +359,10 @@ of 222 months**; the published 2018-01 base diverges by 0.1081 at one month. **`
 floor is principled, since an index based at 2018-01 cannot be reconstructed at a vintage that
 predates its own base.
 
-An **anchor** is one distinct last-observation-month across all vintages. 132 in the strict leg.
-Multiple ALFRED vintages mapping to the same last-observation month collapse to one anchor — grading
-the same month twice would inflate the sample without adding information.
+An **anchor** is one distinct last-observation-month across all vintages. 99 in the strict leg
+(the §2.1a correction above; this sentence originally said 132). Multiple ALFRED vintages mapping
+to the same last-observation month collapse to one anchor — grading the same month twice would
+inflate the sample without adding information.
 
 ### 5.2 The two legs
 
@@ -358,8 +372,14 @@ the same month twice would inflate the sample without adding information.
 | **Extended** | final-revision throughout | 187 | 2010-12 → 2026-06 | yes (post-GFC) |
 
 Both publish, labelled distinctly, following the `BT`/`LIVE` badge precedent in `backtest.json`. The
-extended leg's justification is §2.3's measured ±0.27pp, which must be published alongside it — it is
-the reason the leg is defensible, and without it the leg is just a looser standard.
+extended leg's justification is §2.3's measured revision distortion, which must be published
+alongside it — it is the reason the leg is defensible, and without it the leg is just a looser
+standard.
+
+> **Amended 2026-07-26 (PR #8 review).** The table above predates §2.1a: strict = **99** anchors,
+> **2018-01 → 2026-06**. And per §2.3's amendment the distortion bound is no longer the
+> hand-measured ±0.27pp this section originally cited — it is derived from the artifact's own
+> overlapping anchors on every publish (0.672pp on the 2026-07-26 artifact).
 
 The extended leg starts **2010-12**, not 2007-12: the trailing-3yr basis needs 36 months of history
 before the first anchor can carry all three rolling bases.

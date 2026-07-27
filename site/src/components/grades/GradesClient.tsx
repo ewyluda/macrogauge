@@ -36,6 +36,7 @@ import {
   formatHorizonList,
   formatPairedVerdict,
   horizonKey,
+  maeClaim,
   pairedBasisMeans,
   pairedShortfall,
   pickBestMae,
@@ -268,9 +269,8 @@ function InversionSection({ data }: { data: GradesPageData }) {
   const bmStrict = hasStrict ? pickBestMae(rows, strictOf) : null;
   const bmExtended = hasExtended ? pickBestMae(rows, extendedOf) : null;
   const bm = bmStrict ?? bmExtended;
-  if (!bm) return null;
-  const maeAgreesAcrossLegs =
-    bmStrict != null && bmExtended != null && bmStrict.basis === bmExtended.basis;
+  const claim = maeClaim(bmStrict, bmExtended);
+  if (!bm || !claim) return null;
 
   const strictRow = bm.strict;
   const extendedRow = bm.extended;
@@ -284,15 +284,15 @@ function InversionSection({ data }: { data: GradesPageData }) {
     <Section title="The inversion">
       <p className="lede">
         Of the three rolling bases, <b>{BASIS_LABELS[bm.basis]}</b> has the lowest mean absolute error{" "}
-        {maeAgreesAcrossLegs && strictRow && extendedRow ? (
+        {claim.scope === "both" && strictRow && extendedRow ? (
           <>
             on both samples — {pp(strictRow.meanMae)} on the strict, vintage-true sample and {pp(extendedRow.meanMae)}{" "}
             on the extended sample.
           </>
-        ) : bmStrict && bmExtended ? (
+        ) : claim.scope === "primary_only" ? (
           <>
             on the strict, vintage-true sample ({pp(strictRow?.meanMae)}) — though not on the extended sample,
-            where {BASIS_LABELS[bmExtended.basis]} takes the lowest error instead.
+            where {BASIS_LABELS[claim.otherBasis]} takes the lowest error instead.
           </>
         ) : (
           <>

@@ -3,11 +3,16 @@
   "title": "dc_grades.json — /dc-scoreboard escalation grading harness",
   "type": "object",
   "required": ["published_at", "as_of", "legs", "anchors", "scenarios",
-               "revision_disclosure_pp", "leadlag", "power_nowcast"],
+               "paired_legs_note", "revision_disclosure_pp", "leadlag",
+               "power_nowcast"],
   "properties": {
     "published_at": {"type": "string"},
     "as_of": {"type": ["string", "null"]},
-    "paired_legs_note": {"type": "string"},
+    "paired_legs_note": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The artifact's own statement of the paired-legs rule. Required and non-empty: the TS type treats it as always present and /dc-scoreboard renders it as the section lede, so an artifact omitting it would silently drop the rule's central explanation with nothing in CI to catch it."
+    },
     "revision_disclosure_pp": {
       "type": ["number", "null"],
       "description": "Max |vintage-true − final-revision| carried rate across every basis at every anchor month both legs share — DERIVED from this artifact's own anchors on each publish, so it cannot contradict them (its hand-measured 0.27 predecessor did, 2.5x over). null when the legs share no comparable anchor."

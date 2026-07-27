@@ -38,8 +38,12 @@ const pn = (gradesJson as unknown as DcGrades).power_nowcast;
 // numbers beside it came from the artifact: a flip to PASS would have printed
 // a falsehood next to correct figures, which is precisely the defect this
 // branch exists to remove. Prose and figures now come from the same object.
+// FAIL states the GATE, not a specific comparison: the verdict fires when the
+// selected candidate misses any of its three conditions (beat carry-forward,
+// beat zero pass-through, error inside the bound), so naming one loss would
+// be false whenever a different condition missed.
 const NOWCAST_CLAUSE: Record<string, string> = {
-  FAIL: "it lost to simple carry-forward at every pass-through level tested",
+  FAIL: "its best pass-through candidate failed the pre-registered backtest gate",
   PASS:
     "it beat both naive baselines — carry-forward and zero pass-through — inside " +
     "the pre-registered error bound, a result still under review",

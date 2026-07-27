@@ -36,21 +36,32 @@ def test_note_is_derived_from_the_verdict_not_asserted():
     The page used to assert "it lost to simple carry-forward" beside numbers
     that were recomputed every run: a flip to PASS would have printed a
     falsehood next to correct figures. Every verdict must therefore map to a
-    DIFFERENT sentence, and no sentence may claim the loss under a verdict
-    that isn't FAIL."""
+    DIFFERENT sentence, and no sentence may claim the failure under a verdict
+    that isn't FAIL.
+
+    The FAIL sentence itself may state only what FAIL guarantees -- the gate
+    was missed -- never a specific comparison: _verdict returns FAIL when ANY
+    of its three conditions misses, so "lost to carry-forward" would be false
+    in the beats-carry-forward-but-blows-the-error-ceiling case (the exact
+    case test_verdict_fails_when_beats_both_baselines_but_exceeds_max_error
+    pins)."""
     notes = {v: powergrade.note(v)
              for v in ("FAIL", "PASS", "INSUFFICIENT")}
     assert len(set(notes.values())) == 3
-    assert "lost to simple carry-forward" in notes["FAIL"]
+    assert "failed the pre-registered backtest gate" in notes["FAIL"]
+    # No comparison-specific loss claim under ANY verdict: FAIL does not
+    # guarantee which condition missed.
+    for text in notes.values():
+        assert "lost to" not in text
     for v in ("PASS", "INSUFFICIENT"):
-        assert "lost to" not in notes[v]
+        assert "failed the pre-registered" not in notes[v]
     # The standing position (index unchanged, machinery config-gated) holds
     # under every outcome -- clearing the backtest is a precondition for
     # changing the index, not the change itself.
     for text in notes.values():
         assert "config-gated" in text
     # An unknown verdict must not fall through to the FAIL claim.
-    assert "lost to" not in powergrade.note("SOMETHING_NEW")
+    assert "failed the pre-registered" not in powergrade.note("SOMETHING_NEW")
 
 
 def test_run_publishes_the_note_that_matches_its_own_verdict():

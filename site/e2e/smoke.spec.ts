@@ -323,9 +323,33 @@ test("datacenter renders the power-nowcast grade from the artifact", async ({
   await expect(grade).toContainText(/FAIL|PASS|INSUFFICIENT/);
   const text = (await grade.textContent()) ?? "";
   if (text.includes("FAIL")) {
-    expect(text).toContain("lost to simple carry-forward");
+    expect(text).toContain("failed the pre-registered backtest gate");
   } else {
-    expect(text).not.toContain("lost to simple carry-forward");
+    expect(text).not.toContain("failed the pre-registered backtest gate");
+  }
+  // No verdict may claim a specific losing comparison -- FAIL does not
+  // guarantee which of the gate's three conditions missed.
+  expect(text).not.toContain("lost to simple carry-forward");
+});
+
+test("dc-scoreboard never renders the lead-lag verdict without its caveats and conclusion", async ({
+  page,
+}) => {
+  await page.goto("/dc-scoreboard");
+  // Rule 2 of the grades feature: the verdict / weight_stable figure and the
+  // gate's caveats + standing conclusion live in ONE visual block -- a reader
+  // must not be able to screenshot the positive alone. Pin the adjacency by
+  // asserting all three render inside the same featured container.
+  const block = page
+    .locator(".section-featured")
+    .filter({ hasText: "Verdict:" });
+  await expect(block).toBeVisible();
+  await expect(block).toContainText("Conclusion:");
+  await expect(block).toContainText("No forward model is warranted");
+  // A positive verdict must carry at least one caveat list item beside it.
+  const verdictText = (await block.textContent()) ?? "";
+  if (verdictText.includes("stable lead was found")) {
+    await expect(block.locator("li").first()).toBeVisible();
   }
 });
 

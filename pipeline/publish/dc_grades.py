@@ -6,9 +6,11 @@ nowcast's published negative result.
 
 The two hindsight-selected regimes publish their rates and windows and NO
 grading statistic. Neither leg may be rendered without the other: the strict
-leg's 99%/100% shortfall rates at 36/48 months fall to 65.6%/64.7% once the
-extended leg puts a downturn back in the sample, and that spread is itself the
-finding (spec 3.1).
+leg's long_run shortfall rates at 36/48 months (96.9%/100% measured
+2026-07-26 -- unpublished, the strict leg withholds those horizons as too
+thin) fall to 64.2%/64.7% once the extended leg puts a downturn back in the
+sample, and that spread is itself the finding (spec 3.1). The artifact is
+authoritative for the current figures; numbers here are dated context.
 
 The lead-lag study's `caveats`/`conclusion` fields carry the same discipline:
 a "1 of 4 mappings stable" result must never be rendered without them (spec

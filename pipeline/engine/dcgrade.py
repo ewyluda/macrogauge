@@ -194,8 +194,9 @@ def grade(anchor_bases, realized_index: dict[str, float],
     SHORTFALL RATE IS THE HEADLINE, not MAE. This measures contingency
     adequacy, and a contingency budget is not a symmetric loss function: a
     dollar carried short is a change order, a dollar carried extra is slack.
-    Measured on the real sample, the basis with the best MAE is the worst
-    contingency -- long_run wins symmetric error at every horizon and still
+    Measured on the real sample (2026-07-26), the basis with the best MAE is
+    the worst contingency -- long_run wins symmetric error at every published
+    horizon but one (extended h=48, where trailing_3yr edges it) and still
     under-provisions the majority of windows. MAE and bias still publish
     beside the shortfall rate so the inversion is visible (spec 3).
 
@@ -360,8 +361,16 @@ def build(conn: sqlite3.Connection, components, base_month_cfg: str,
     weights = {c.code: c.weight for c in components}
     versions = load_component_versions(conn, components)
 
-    latest_vintage = max(vd for v in versions.values() for rows in v.values()
-                         for vd, _ in rows)
+    vints = [vd for v in versions.values() for rows in v.values()
+             for vd, _ in rows]
+    if not vints:
+        # A store with zero DC-component rows (fresh --store dir, collection
+        # down) must reach the same degraded return as a store missing the
+        # base month -- not die in max() below and turn the designed
+        # degrade-to-null artifact into a cryptic phase error.
+        return {"as_of": None, "legs": {}, "anchors": [], "scenarios": [],
+                "revision_disclosure_pp": None}
+    latest_vintage = max(vints)
     realized = index_asof(versions, latest_vintage, weights, base_month_cfg)
     if not realized:
         return {"as_of": None, "legs": {}, "anchors": [], "scenarios": [],

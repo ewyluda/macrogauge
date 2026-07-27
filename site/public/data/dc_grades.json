@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-27T01:07:19Z",
+  "published_at": "2026-07-27T01:36:57Z",
   "as_of": "2026-06",
   "legs": {
     "strict": {
@@ -5051,6 +5051,6 @@
     "best_lambda": 0.25,
     "best_mae": 8.452,
     "verdict": "FAIL",
-    "note": "A like-month year-ratio nowcast, backtested against realized retail prints before letting it touch the index. It lost to simple carry-forward at every pass-through level tested, so the ops index stays on official retail data and the machinery ships config-gated."
+    "note": "A like-month year-ratio nowcast, backtested against realized retail prints before letting it touch the index. It failed the pre-registered backtest gate -- the selected pass-through candidate must beat both naive baselines (simple carry-forward and zero pass-through) on MAE with every month's error inside the bound, and it did not -- so the ops index stays on official retail data and the machinery ships config-gated."
   }
 }

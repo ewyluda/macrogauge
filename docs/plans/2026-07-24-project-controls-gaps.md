@@ -200,8 +200,11 @@ figure below; the recon corrected both, and this register's numbers were wrong.*
   **7.33 / 3.17 / 1.78 / 1.08** at h=12/24/36/48 — thin enough that the strict leg publishes only
   h=12 and h=24; h=36/48 render a "vintage-true sample too thin at this horizon" note instead of a
   figure. The extended leg (187 anchors, final-revision, 2010-12 → 2026-06, draws
-  14.58/6.79/4.19/2.90) carries all four horizons, justified by revision distortion measured at
-  only **±0.27pp** on the annualized rate. **P3b shipped this as a published grading harness
+  14.58/6.79/4.19/2.90) carries all four horizons, justified by the measured revision distortion —
+  **derived from the artifact's own overlapping anchors on every publish** (0.672pp on the
+  2026-07-26 artifact; the ±0.27pp originally recorded here was a nine-anchor pre-backfill
+  measurement the full artifact exceeded 2.5x, corrected in the PR #8 review). **P3b shipped this
+  as a published grading harness
   (`dc_grades.json`, `/dc-scoreboard`) — both legs render adjacent by construction, never a
   single-leg figure alone.**
 
@@ -264,7 +267,8 @@ current momentum) would have told a reader to carry, and grades it against reali
 escalation — shortfall rate (headline), mean/worst conditional shortfall, bias, MAE, independent
 draws — on two labelled samples (strict: 99 anchors, 2018-01 → 2026-06, vintage-true, no downturn,
 publishes h=12/24 only; extended: 187 anchors, 2010-12 → 2026-06, final-revision, all four
-horizons, justified by ±0.27pp measured revision distortion). The two hindsight-selected scenarios
+horizons, justified by the per-publish derived revision distortion — 0.672pp on the 2026-07-26
+artifact, superseding the ±0.27pp first recorded here). The two hindsight-selected scenarios
 (GFC, COVID) publish as reference rates with their windows stated and carry **no grading statistic
 of any kind** — grading a hindsight-selected window is lookahead twice over. Also fixed the stale
 hardcoded power-nowcast MAE string (spec §2.1 item 5; `site/src/app/datacenter/page.tsx` now

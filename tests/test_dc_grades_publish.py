@@ -103,6 +103,7 @@ def test_schema_accepts_a_fully_degraded_payload():
     force a degraded run to invent one."""
     degraded = {"published_at": "2026-07-26T00:00:00Z", "as_of": None,
                 "legs": {}, "anchors": [], "scenarios": [],
+                "paired_legs_note": "Two legs, always shown together.",
                 "revision_disclosure_pp": None,
                 "leadlag": None, "power_nowcast": None}
     jsonschema.validate(degraded, json.loads(SCHEMA.read_text()))
@@ -119,6 +120,7 @@ def _minimal_leadlag(weight_stable, caveats, conclusion):
 def _payload_with_leadlag(leadlag):
     return {"published_at": "2026-07-26T00:00:00Z", "as_of": None,
             "legs": {}, "anchors": [], "scenarios": [],
+            "paired_legs_note": "Two legs, always shown together.",
             "revision_disclosure_pp": None,
             "leadlag": leadlag, "power_nowcast": None}
 

@@ -4,6 +4,7 @@ import {
   formatHorizonList,
   formatPairedVerdict,
   horizonKey,
+  maeClaim,
   nearestHorizon,
   pairedBasisMeans,
   pairedShortfall,
@@ -374,5 +375,40 @@ describe("pickBestMae / pickWorstShortfall", () => {
     expect(pickBestMae(oneLegged, strictOf)).toBeNull();
     expect(pickBestMae(oneLegged, extendedOf)?.basis).toBe("long_run");
     expect(pickWorstShortfall([], strictOf)).toBeNull();
+  });
+});
+
+describe("maeClaim", () => {
+  // The regression this gate prevents renders IDENTICALLY to correct code on
+  // any publish where both legs crown the same basis -- only the
+  // disagreement case can distinguish them, so it is pinned here.
+  const strictPick: PairedBasisMeans = {
+    basis: "long_run",
+    horizons: [12, 24],
+    strict: { meanMae: 1, meanShortfall: 70 },
+    extended: { meanMae: 3, meanShortfall: 50 },
+  };
+  const extendedAgrees: PairedBasisMeans = { ...strictPick };
+  const extendedDisagrees: PairedBasisMeans = { ...strictPick, basis: "trailing_3yr" };
+
+  it("spans both samples only when both legs' own picks agree", () => {
+    expect(maeClaim(strictPick, extendedAgrees)).toEqual({
+      scope: "both",
+      basis: "long_run",
+    });
+  });
+
+  it("scopes to the primary sample and names the other winner when the legs disagree", () => {
+    expect(maeClaim(strictPick, extendedDisagrees)).toEqual({
+      scope: "primary_only",
+      basis: "long_run",
+      otherBasis: "trailing_3yr",
+    });
+  });
+
+  it("claims a single sample when only one leg exists, and nothing when none do", () => {
+    expect(maeClaim(strictPick, null)).toEqual({ scope: "single", basis: "long_run" });
+    expect(maeClaim(null, extendedDisagrees)).toEqual({ scope: "single", basis: "trailing_3yr" });
+    expect(maeClaim(null, null)).toBeNull();
   });
 });

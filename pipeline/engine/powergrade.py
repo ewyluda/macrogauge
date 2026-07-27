@@ -185,10 +185,19 @@ def run(conn) -> dict:
 # (the numbers were freed from the page; the CLAIM was left hardcoded beside
 # them). Every consumer -- the published `note`, the DC page's inline clause,
 # the scoreboard -- must derive from `verdict`, never restate an outcome.
+# The FAIL sentence states the GATE, not a specific loss: _verdict returns
+# FAIL when the selected candidate misses ANY of its three conditions (beat
+# carry-forward on MAE, beat lambda=0 on MAE, max|err| inside the bound), so
+# prose claiming "it lost to carry-forward" would be false in the
+# beats-carry-forward-but-blows-the-error-ceiling case -- a false sentence
+# beside correct figures, the exact defect class note() exists to remove.
 _NOTES = {
-    "FAIL": ("It lost to simple carry-forward at every pass-through level "
-             "tested, so the ops index stays on official retail data and the "
-             "machinery ships config-gated."),
+    "FAIL": ("It failed the pre-registered backtest gate -- the selected "
+             "pass-through candidate must beat both naive baselines (simple "
+             "carry-forward and zero pass-through) on MAE with every month's "
+             "error inside the bound, and it did not -- so the ops index "
+             "stays on official retail data and the machinery ships "
+             "config-gated."),
     "PASS": ("It beat both naive baselines -- carry-forward and the "
              "zero-pass-through model -- inside the pre-registered error "
              "bound. The ops index nonetheless stays on official retail data "

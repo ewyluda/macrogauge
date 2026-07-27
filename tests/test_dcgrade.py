@@ -138,13 +138,29 @@ def test_index_asof_ignores_observations_dated_after_the_cutoff():
 def test_anchors_dedupe_by_last_observation_month():
     """Multiple ALFRED vintages can share a last-observation month. Grading
     each would inflate n and the independent-draw estimate without adding
-    information (spec 5.1)."""
+    information (spec 5.1).
+
+    The EARLIEST vintage reaching the month must win -- it is the first date
+    a reader could have stood there. This is the harness's central
+    vintage-true invariant, so the snapshot's VALUES are asserted, not just
+    the anchor month: a keep-latest regression returns the same month list
+    (this test's month assertion alone passed under exactly that mutation)
+    while silently absorbing revisions a reader at the first vintage could
+    not have known -- measured on the real store, that flip moves published
+    strict-leg grades at published precision."""
     v = {"a": {"2008-01-01": [("2015-03-13", 100.0)],
                "2008-02-01": [("2015-03-13", 102.0), ("2015-04-14", 104.0)]},
          "b": {"2008-01-01": [("2015-03-13", 200.0)],
                "2008-02-01": [("2015-03-13", 210.0), ("2015-04-14", 211.0)]}}
     out = dcgrade.anchors(v, W, base_month="2008-01-01")
     assert [m for m, _ in out] == ["2008-02-01"]
+    # The captured index must be the 2015-03-13 read (a: 102/100, b: 210/200
+    # rebased and weighted), not the 2015-04-14 revision (104, 211).
+    idx = out[0][1]
+    expected_earliest = W["a"] * 102.0 / 100.0 * 100 + W["b"] * 210.0 / 200.0 * 100
+    revised_latest = W["a"] * 104.0 / 100.0 * 100 + W["b"] * 211.0 / 200.0 * 100
+    assert idx["2008-02-01"] == pytest.approx(expected_earliest)
+    assert idx["2008-02-01"] != pytest.approx(revised_latest)
 
 
 def test_anchors_returns_one_entry_per_new_last_month_in_order():
@@ -252,10 +268,17 @@ def test_reconstruction_matches_the_published_build_index():
     than 0.15, and at most one month may diverge by more than 0.05. A wrong
     rebase base month (this module's own Task 3 defect: grading at 2008-01
     against a basket published at 2018-01) moves MANY months by >1 point --
-    that is what this test exists to catch. It tolerates exactly one small
-    residual (~0.11 at 2020-07 as of this writing) that a single-component
-    data revision landing after the committed file's last regenerate can
-    explain, without loosening the bound enough to hide a real regression.
+    that is what this test exists to catch.
+
+    The one-month allowance is headroom for a real, observed mechanism, not
+    slack: an ALFRED vintage can carry a print the agency later retracted
+    (copper wire's 2020-07 release, retracted upstream, moved this exact
+    comparison by 0.1081 until the published artifact was regenerated from
+    the backfilled store -- see scripts/backfill_dc_vintages.py's revision
+    disclosure). Measured at HEAD the two indexes agree to 0.0000 everywhere
+    outside the excluded splice months, but the same class of
+    single-component divergence can reopen whenever a backfill and the
+    published file's regenerate land in different commits.
 
     This is the ONE live-data test in this suite (every other test in this
     file builds a synthetic store). It must skip, not fail, when the
@@ -696,3 +719,31 @@ def test_strict_leg_never_publishes_h36_or_h48(dc_built):
     for basis in dcgrade.ROLLING_BASES:
         assert set(strict["grades"][basis]) == {"h12", "h24"}
         assert set(extended["grades"][basis]) == {"h12", "h24", "h36", "h48"}
+
+
+def test_base_month_matches_the_published_basket_config():
+    """BASE_MONTH's own comment says it MUST match config/dc_basket.json --
+    dcindex.py (the engine behind /datacenter) reads the config knob while
+    this module hardcodes it, so a config rebase would silently leave
+    /dc-scoreboard grading a different index than the site renders (the
+    module's own comment measures that divergence at >1 index point for a
+    wrong base). This is the one place the two are pinned together."""
+    cfg_base, _ = dc_basket.load_baskets(
+        registry_codes={s.code for s in registry.load_registry()[1]})
+    assert dcgrade.BASE_MONTH[:7] == cfg_base
+
+
+def test_build_degrades_on_a_store_with_no_dc_rows_at_all():
+    """A fresh --store dir with collection down must reach the same
+    degrade-to-null artifact as a store missing the base month -- not die in
+    max() over zero vintages and turn the designed degraded path (which the
+    schema and its test exist to accept) into a cryptic phase error."""
+    conn = sqlite3.connect(":memory:")
+    conn.execute("""CREATE TABLE observations (
+        series_code TEXT, obs_date TEXT, value REAL,
+        vintage_date TEXT, source TEXT, route TEXT)""")
+    _, series = registry.load_registry()
+    _, baskets = dc_basket.load_baskets(registry_codes={s.code for s in series})
+    out = dcgrade.build(conn, baskets["build"], dcgrade.BASE_MONTH, [])
+    assert out == {"as_of": None, "legs": {}, "anchors": [], "scenarios": [],
+                   "revision_disclosure_pp": None}

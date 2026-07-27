@@ -242,6 +242,39 @@ export function pickWorstShortfall(rows: PairedBasisMeans[], leg: LegPick): Pair
   );
 }
 
+/** The scope an MAE-ranking claim is allowed to take, derived from BOTH
+ *  legs' own picks — the only way to decide whether "lowest error on both
+ *  samples" may render.
+ *
+ *  - "both": both legs' best-MAE picks name the same basis.
+ *  - "primary_only": the legs disagree; the claim may cover the strict
+ *    (primary) sample only, and `otherBasis` names the extended leg's own
+ *    winner so the disagreement is stated, not hidden.
+ *  - "single": only one leg exists to rank.
+ *
+ *  Kept here rather than inline in the component so the gate is pinned by
+ *  unit tests: the regression this prevents (a both-samples claim derived
+ *  from one leg's pick) renders identically to the correct code on any
+ *  publish where the legs happen to agree, so only a test on the
+ *  disagreement case can catch it. */
+export type MaeClaim =
+  | { scope: "both"; basis: string }
+  | { scope: "primary_only"; basis: string; otherBasis: string }
+  | { scope: "single"; basis: string };
+
+export function maeClaim(
+  bmStrict: PairedBasisMeans | null,
+  bmExtended: PairedBasisMeans | null,
+): MaeClaim | null {
+  if (bmStrict && bmExtended) {
+    return bmStrict.basis === bmExtended.basis
+      ? { scope: "both", basis: bmStrict.basis }
+      : { scope: "primary_only", basis: bmStrict.basis, otherBasis: bmExtended.basis };
+  }
+  const only = bmStrict ?? bmExtended;
+  return only ? { scope: "single", basis: only.basis } : null;
+}
+
 /** "12- and 24-month" — the horizon set spelled out for prose, so a mean
  *  never renders without naming what it covers. */
 export function formatHorizonList(horizons: number[]): string {
