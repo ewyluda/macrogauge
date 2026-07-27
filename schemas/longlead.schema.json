@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "longlead.json — /longlead vendor order-book board (P4)",
+  "type": "object",
+  "required": ["published_at", "as_of_curated", "build_weight_covered",
+               "teaser", "packages"],
+  "properties": {
+    "published_at": {"type": "string"},
+    "as_of_curated": {"type": "string", "minLength": 1},
+    "build_weight_covered": {"type": "number"},
+    "teaser": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["vendor", "name", "figure"],
+        "properties": {
+          "vendor": {"type": "string", "minLength": 1},
+          "name": {"type": "string", "minLength": 1},
+          "figure": {"$ref": "#/$defs/figure"}
+        }
+      }
+    },
+    "packages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["code", "label", "weight", "price_yoy_pct",
+                     "price_last_obs", "contribution_pp", "null_note",
+                     "vendors"],
+        "properties": {
+          "code": {"type": "string", "minLength": 1},
+          "label": {"type": "string", "minLength": 1},
+          "weight": {"type": "number"},
+          "price_yoy_pct": {"type": ["number", "null"]},
+          "price_last_obs": {"type": ["string", "null"]},
+          "contribution_pp": {"type": ["number", "null"]},
+          "null_note": {"type": ["string", "null"]},
+          "vendors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["key", "name", "ticker", "listed", "dc_segment",
+                           "cadence", "stale", "figures", "null_note"],
+              "properties": {
+                "key": {"type": "string", "minLength": 1},
+                "name": {"type": "string", "minLength": 1},
+                "ticker": {"type": "string", "minLength": 1},
+                "listed": {"type": "string", "minLength": 1},
+                "dc_segment": {"type": "string", "minLength": 1},
+                "cadence": {"type": "string", "enum": ["quarterly", "annual"]},
+                "stale": {"type": "boolean"},
+                "figures": {"type": "array",
+                            "items": {"$ref": "#/$defs/figure"}},
+                "null_note": {"type": ["string", "null"]}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "figure": {
+      "type": "object",
+      "required": ["metric", "kind", "basis", "scope", "value", "unit",
+                   "period", "asof", "quote", "src"],
+      "properties": {
+        "metric": {"type": "string", "minLength": 1},
+        "kind": {"type": "string",
+                 "enum": ["backlog", "orders", "book_to_bill",
+                          "backlog_growth"]},
+        "basis": {"type": "string",
+                  "enum": ["rpo", "order-backlog", "mdna-backlog"],
+                  "description": "Three different accounting objects — never sum figures across bases, never share an axis (spec §2.4)"},
+        "scope": {"type": "string",
+                  "enum": ["group", "segment", "product-line"]},
+        "value": {"type": "number"},
+        "unit": {"type": "string",
+                 "enum": ["usd_b", "eur_b", "jpy_tn", "pct_yoy", "ratio"]},
+        "period": {"type": "string", "minLength": 1},
+        "asof": {"type": "string", "minLength": 1},
+        "quote": {"type": "string", "minLength": 1},
+        "src": {
+          "type": "object",
+          "required": ["label", "url"],
+          "properties": {
+            "label": {"type": "string", "minLength": 1},
+            "url": {"type": "string", "pattern": "^https://"}
+          }
+        }
+      }
+    }
+  }
+}
