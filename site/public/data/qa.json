@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-27",
+  "generated_at": "2026-07-28",
   "passed": 25,
   "total": 27,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-06-01 is 56d old (limit 80)"
+      "detail": "latest official month 2026-06-01 is 57d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -97,19 +97,19 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": false,
-      "detail": "29/30 ok; failed \u2014 USDA: missing secret USDA_API_KEY"
+      "detail": "28/30 ok; failed \u2014 USDA: missing secret USDA_API_KEY; MANHEIM: HTTPError: 404 Client Error: Not Found for url: https://www.coxautoinc.com/insights/feed/"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "679/693 fresh; stale \u2014 PCEPI (87d > 80d), APU0000702212 (87d > 80d), APU0000704211 (87d > 80d), kalshi_cpi_mom (16d > 5d), DSPIC96 (87d > 80d), CSUSHPINSA (117d > 110d), M2SL (87d > 80d), UMCSENT (87d > 80d), PSAVERT (87d > 80d), REVOLSL (87d > 80d), RECPROUSM156N (87d > 80d), PCETRIM12M159SFRBDAL (87d > 80d), MICH (87d > 80d), qcew_aemp23_c41067 (482d > 400d)"
+      "detail": "678/693 fresh; stale \u2014 PCEPI (88d > 80d), APU0000702212 (88d > 80d), APU0000704211 (88d > 80d), kalshi_cpi_mom (17d > 5d), DSPIC96 (88d > 80d), CSUSHPINSA (118d > 110d), M2SL (88d > 80d), UMCSENT (88d > 80d), PSAVERT (88d > 80d), REVOLSL (88d > 80d), RECPROUSM156N (88d > 80d), PCETRIM12M159SFRBDAL (88d > 80d), MICH (88d > 80d), qcew_aemp23_c41067 (483d > 400d), eia_henry_hub (8d > 7d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.087 vs EIA weekly $4.001 \u2014 relative divergence 2.1% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.098 vs EIA weekly $4.096 \u2014 relative divergence 0.0% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -127,7 +127,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-07-27"
+      "detail": "CPI nowcast as-of 2026-07-28"
     },
     {
       "name": "ensemble_computed",
@@ -139,7 +139,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-27 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-28 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",

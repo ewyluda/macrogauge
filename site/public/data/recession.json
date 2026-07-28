@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-07-27T15:29:36Z",
+  "published_at": "2026-07-28T15:06:30Z",
   "probability_pct": 0.0,
   "triggered": 0,
   "available": 6,
@@ -15,7 +15,7 @@
       "name": "10Y\u20133M",
       "code": "T10Y3M",
       "rule": "< 0",
-      "value": 0.73,
+      "value": 0.69,
       "triggered": false
     },
     {
