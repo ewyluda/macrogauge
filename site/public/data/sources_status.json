@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-28T15:06:30Z",
+  "generated_at": "2026-07-29T14:59:54Z",
   "sources": [
     {
       "name": "AAA",
@@ -9,9 +9,9 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-28T15:05:24Z",
+      "finished_at": "2026-07-29T14:57:51Z",
       "series_count": 1,
-      "latest_obs": "2026-07-28"
+      "latest_obs": "2026-07-29"
     },
     {
       "name": "AAA_STATE",
@@ -21,9 +21,9 @@
       "fetched": 51,
       "new_rows": 51,
       "error": null,
-      "finished_at": "2026-07-28T15:05:24Z",
+      "finished_at": "2026-07-29T14:57:51Z",
       "series_count": 51,
-      "latest_obs": "2026-07-28"
+      "latest_obs": "2026-07-29"
     },
     {
       "name": "APTLIST",
@@ -33,7 +33,7 @@
       "fetched": 114,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-28T15:05:24Z",
+      "finished_at": "2026-07-29T14:57:51Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -45,7 +45,7 @@
       "fetched": 3071,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-28T15:05:18Z",
+      "finished_at": "2026-07-29T14:57:44Z",
       "series_count": 28,
       "latest_obs": "2026-06-01"
     },
@@ -53,11 +53,11 @@
       "name": "CAISO",
       "route": "API",
       "cadence": "daily",
-      "ok": true,
-      "fetched": 1,
-      "new_rows": 1,
-      "error": null,
-      "finished_at": "2026-07-28T15:06:27Z",
+      "ok": false,
+      "fetched": 0,
+      "new_rows": 0,
+      "error": "ConnectTimeout: HTTPSConnectionPool(host='oasis.caiso.com', port=443): Max retries exceeded with url: /oasisapi/SingleZip?queryname=PRC_LMP&startdatetime=20260729T07:00-0000&enddatetime=20260730T09:00-0000&version=1&market_run_id=DAM&node=TH_SP15_GEN-APND&resultformat=6 (Caused by ConnectTimeoutError(<HTTPSConnection(host='oasis.caiso.com', port=443) at 0x7f3328632cc0>, 'Connection to oasis.caiso.com timed out. (connect timeout=60)'))",
+      "finished_at": "2026-07-29T14:59:50Z",
       "series_count": 1,
       "latest_obs": "2026-07-28"
     },
@@ -69,7 +69,7 @@
       "fetched": 298,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-28T15:06:21Z",
+      "finished_at": "2026-07-29T14:58:45Z",
       "series_count": 2,
       "latest_obs": "2026-05-01"
     },
@@ -79,9 +79,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 4,
-      "new_rows": 0,
+      "new_rows": 2,
       "error": null,
-      "finished_at": "2026-07-28T15:05:26Z",
+      "finished_at": "2026-07-29T14:57:53Z",
       "series_count": 4,
       "latest_obs": "2026-07-01"
     },
@@ -93,9 +93,9 @@
       "fetched": 3,
       "new_rows": 3,
       "error": null,
-      "finished_at": "2026-07-28T15:06:23Z",
+      "finished_at": "2026-07-29T14:58:47Z",
       "series_count": 3,
-      "latest_obs": "2026-07-28"
+      "latest_obs": "2026-07-29"
     },
     {
       "name": "EIA",
@@ -103,9 +103,9 @@
       "cadence": "monthly",
       "ok": true,
       "fetched": 4408,
-      "new_rows": 2,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-28T15:05:21Z",
+      "finished_at": "2026-07-29T14:57:48Z",
       "series_count": 4,
       "latest_obs": "2026-07-27"
     },
@@ -117,7 +117,7 @@
       "fetched": 4999,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-28T15:06:29Z",
+      "finished_at": "2026-07-29T14:59:52Z",
       "series_count": 1,
       "latest_obs": "2026-07-20"
     },
@@ -126,10 +126,10 @@
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 14945,
+      "fetched": 15860,
       "new_rows": 0,
-      "error": "partial: EIA: 3 item(s) failed \u2014 ELEC.PRICE.CT-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.CT-IND.M?api_key=REDACTED ELEC.PRICE.HI-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.HI-IND.M?api_key=REDACTED ELEC.PRICE.KS-IND.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.KS-IND.M?api_key=REDACTED",
-      "finished_at": "2026-07-28T15:05:47Z",
+      "error": null,
+      "finished_at": "2026-07-29T14:58:17Z",
       "series_count": 52,
       "latest_obs": "2026-05-01"
     },
@@ -138,10 +138,10 @@
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 14335,
+      "fetched": 15555,
       "new_rows": 0,
-      "error": "partial: EIA: 4 item(s) failed \u2014 ELEC.PRICE.CO-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.CO-RES.M?api_key=REDACTED ELEC.PRICE.LA-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.LA-RES.M?api_key=REDACTED ELEC.PRICE.NE-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.NE-RES.M?api_key=REDACTED ELEC.PRICE.RI-RES.M: HTTPError: 500 Server Error: Internal Server Error for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.RI-RES.M?api_key=REDACTED",
-      "finished_at": "2026-07-28T15:06:03Z",
+      "error": null,
+      "finished_at": "2026-07-29T14:58:41Z",
       "series_count": 51,
       "latest_obs": "2026-05-01"
     },
@@ -153,9 +153,9 @@
       "fetched": 14,
       "new_rows": 14,
       "error": null,
-      "finished_at": "2026-07-28T15:05:21Z",
+      "finished_at": "2026-07-29T14:57:48Z",
       "series_count": 14,
-      "latest_obs": "2026-07-28"
+      "latest_obs": "2026-07-29"
     },
     {
       "name": "FMP_EQ",
@@ -165,21 +165,21 @@
       "fetched": 56,
       "new_rows": 56,
       "error": null,
-      "finished_at": "2026-07-28T15:05:22Z",
+      "finished_at": "2026-07-29T14:57:48Z",
       "series_count": 56,
-      "latest_obs": "2026-07-28"
+      "latest_obs": "2026-07-29"
     },
     {
       "name": "FRED",
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 50825,
-      "new_rows": 20,
-      "error": "partial: FRED: 1 item(s) failed \u2014 CPILFENS: HTTPError: 500 Server Error: Internal Server Error for url: https://api.stlouisfed.org/fred/series/observations?series_id=CPILFENS&api_key=REDACTED&file_type=json&observation_start=2017-01-01",
-      "finished_at": "2026-07-28T15:05:16Z",
+      "fetched": 50955,
+      "new_rows": 191,
+      "error": null,
+      "finished_at": "2026-07-29T14:57:43Z",
       "series_count": 151,
-      "latest_obs": "2026-07-27"
+      "latest_obs": "2026-07-28"
     },
     {
       "name": "ICE",
@@ -189,7 +189,7 @@
       "fetched": 130,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-28T15:06:28Z",
+      "finished_at": "2026-07-29T14:59:52Z",
       "series_count": 1,
       "latest_obs": "2026-07-21"
     },
@@ -201,7 +201,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-28T15:05:26Z",
+      "finished_at": "2026-07-29T14:57:53Z",
       "series_count": 1,
       "latest_obs": "2026-07-11"
     },
@@ -213,9 +213,9 @@
       "fetched": 2,
       "new_rows": 2,
       "error": null,
-      "finished_at": "2026-07-28T15:06:29Z",
+      "finished_at": "2026-07-29T14:59:53Z",
       "series_count": 2,
-      "latest_obs": "2026-07-28"
+      "latest_obs": "2026-07-29"
     },
     {
       "name": "MANHEIM",
@@ -225,7 +225,7 @@
       "fetched": 0,
       "new_rows": 0,
       "error": "HTTPError: 404 Client Error: Not Found for url: https://www.coxautoinc.com/insights/feed/",
-      "finished_at": "2026-07-28T15:05:25Z",
+      "finished_at": "2026-07-29T14:57:52Z",
       "series_count": 1,
       "latest_obs": "2026-07-01"
     },
@@ -237,9 +237,9 @@
       "fetched": 4,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-28T15:06:28Z",
+      "finished_at": "2026-07-29T14:59:51Z",
       "series_count": 1,
-      "latest_obs": "2026-07-27"
+      "latest_obs": "2026-07-28"
     },
     {
       "name": "MND",
@@ -249,9 +249,9 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-28T15:05:24Z",
+      "finished_at": "2026-07-29T14:57:51Z",
       "series_count": 1,
-      "latest_obs": "2026-07-28"
+      "latest_obs": "2026-07-29"
     },
     {
       "name": "OPENROUTER",
@@ -261,9 +261,9 @@
       "fetched": 12,
       "new_rows": 12,
       "error": null,
-      "finished_at": "2026-07-28T15:06:26Z",
+      "finished_at": "2026-07-29T14:58:49Z",
       "series_count": 12,
-      "latest_obs": "2026-07-28"
+      "latest_obs": "2026-07-29"
     },
     {
       "name": "PMMS",
@@ -273,7 +273,7 @@
       "fetched": 499,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-28T15:05:23Z",
+      "finished_at": "2026-07-29T14:57:51Z",
       "series_count": 1,
       "latest_obs": "2026-07-23"
     },
@@ -285,7 +285,7 @@
       "fetched": 941,
       "new_rows": 0,
       "error": "partial: QCEW: 3 item(s) failed \u2014 2026q1: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/1/industry/23.csv; 2026q2: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/2/industry/23.csv; 2026q3: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/3/industry/23.csv",
-      "finished_at": "2026-07-28T15:06:20Z",
+      "finished_at": "2026-07-29T14:58:45Z",
       "series_count": 137,
       "latest_obs": "2025-10-01"
     },
@@ -295,11 +295,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 31,
-      "new_rows": 1,
+      "new_rows": 2,
       "error": null,
-      "finished_at": "2026-07-28T15:06:26Z",
+      "finished_at": "2026-07-29T14:58:49Z",
       "series_count": 1,
-      "latest_obs": "2026-07-28"
+      "latest_obs": "2026-07-29"
     },
     {
       "name": "STEO",
@@ -309,7 +309,7 @@
       "fetched": 672,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-28T15:06:27Z",
+      "finished_at": "2026-07-29T14:58:50Z",
       "series_count": 2,
       "latest_obs": "2027-12-01"
     },
@@ -318,12 +318,12 @@
       "route": "API",
       "cadence": "daily",
       "ok": true,
-      "fetched": 2400,
+      "fetched": 2401,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-28T15:05:22Z",
+      "finished_at": "2026-07-29T14:57:49Z",
       "series_count": 1,
-      "latest_obs": "2026-07-24"
+      "latest_obs": "2026-07-27"
     },
     {
       "name": "USDA",
@@ -333,7 +333,7 @@
       "fetched": 0,
       "new_rows": 0,
       "error": "missing secret USDA_API_KEY",
-      "finished_at": "2026-07-28T15:05:24Z",
+      "finished_at": "2026-07-29T14:57:51Z",
       "series_count": 5,
       "latest_obs": "2026-07-24"
     },
@@ -345,9 +345,9 @@
       "fetched": 4,
       "new_rows": 4,
       "error": null,
-      "finished_at": "2026-07-28T15:06:25Z",
+      "finished_at": "2026-07-29T14:58:48Z",
       "series_count": 5,
-      "latest_obs": "2026-07-28"
+      "latest_obs": "2026-07-29"
     },
     {
       "name": "ZILLOW",
@@ -357,7 +357,7 @@
       "fetched": 11627,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-28T15:05:23Z",
+      "finished_at": "2026-07-29T14:57:50Z",
       "series_count": 102,
       "latest_obs": "2026-06-01"
     }

@@ -1,12 +1,12 @@
 {
-  "published_at": "2026-07-28T15:06:30Z",
+  "published_at": "2026-07-29T14:59:54Z",
   "states": [
     {
       "state": "AL",
       "name": "Alabama",
       "gas_regular": {
-        "value": 3.772,
-        "as_of": "2026-07-28",
+        "value": 3.767,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -34,8 +34,8 @@
       "state": "AK",
       "name": "Alaska",
       "gas_regular": {
-        "value": 4.727,
-        "as_of": "2026-07-28",
+        "value": 4.722,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -63,8 +63,8 @@
       "state": "AZ",
       "name": "Arizona",
       "gas_regular": {
-        "value": 4.41,
-        "as_of": "2026-07-28",
+        "value": 4.401,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -92,8 +92,8 @@
       "state": "AR",
       "name": "Arkansas",
       "gas_regular": {
-        "value": 3.798,
-        "as_of": "2026-07-28",
+        "value": 3.788,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -121,8 +121,8 @@
       "state": "CA",
       "name": "California",
       "gas_regular": {
-        "value": 5.647,
-        "as_of": "2026-07-28",
+        "value": 5.646,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -151,7 +151,7 @@
       "name": "Colorado",
       "gas_regular": {
         "value": 4.067,
-        "as_of": "2026-07-28",
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -180,7 +180,7 @@
       "name": "Connecticut",
       "gas_regular": {
         "value": 4.215,
-        "as_of": "2026-07-28",
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -208,8 +208,8 @@
       "state": "DE",
       "name": "Delaware",
       "gas_regular": {
-        "value": 4.162,
-        "as_of": "2026-07-28",
+        "value": 4.156,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -237,8 +237,8 @@
       "state": "DC",
       "name": "District of Columbia",
       "gas_regular": {
-        "value": 4.237,
-        "as_of": "2026-07-28",
+        "value": 4.229,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -266,8 +266,8 @@
       "state": "FL",
       "name": "Florida",
       "gas_regular": {
-        "value": 3.942,
-        "as_of": "2026-07-28",
+        "value": 3.921,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -295,8 +295,8 @@
       "state": "GA",
       "name": "Georgia",
       "gas_regular": {
-        "value": 3.914,
-        "as_of": "2026-07-28",
+        "value": 3.904,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -324,8 +324,8 @@
       "state": "HI",
       "name": "Hawaii",
       "gas_regular": {
-        "value": 5.447,
-        "as_of": "2026-07-28",
+        "value": 5.458,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -353,8 +353,8 @@
       "state": "ID",
       "name": "Idaho",
       "gas_regular": {
-        "value": 4.288,
-        "as_of": "2026-07-28",
+        "value": 4.305,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -382,8 +382,8 @@
       "state": "IL",
       "name": "Illinois",
       "gas_regular": {
-        "value": 4.28,
-        "as_of": "2026-07-28",
+        "value": 4.317,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -411,8 +411,8 @@
       "state": "IN",
       "name": "Indiana",
       "gas_regular": {
-        "value": 3.474,
-        "as_of": "2026-07-28",
+        "value": 3.472,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -440,8 +440,8 @@
       "state": "IA",
       "name": "Iowa",
       "gas_regular": {
-        "value": 3.758,
-        "as_of": "2026-07-28",
+        "value": 3.747,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -469,8 +469,8 @@
       "state": "KS",
       "name": "Kansas",
       "gas_regular": {
-        "value": 3.761,
-        "as_of": "2026-07-28",
+        "value": 3.769,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -498,8 +498,8 @@
       "state": "KY",
       "name": "Kentucky",
       "gas_regular": {
-        "value": 3.725,
-        "as_of": "2026-07-28",
+        "value": 3.713,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -527,8 +527,8 @@
       "state": "LA",
       "name": "Louisiana",
       "gas_regular": {
-        "value": 3.694,
-        "as_of": "2026-07-28",
+        "value": 3.689,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -556,8 +556,8 @@
       "state": "ME",
       "name": "Maine",
       "gas_regular": {
-        "value": 4.131,
-        "as_of": "2026-07-28",
+        "value": 4.144,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -585,8 +585,8 @@
       "state": "MD",
       "name": "Maryland",
       "gas_regular": {
-        "value": 4.176,
-        "as_of": "2026-07-28",
+        "value": 4.168,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -614,8 +614,8 @@
       "state": "MA",
       "name": "Massachusetts",
       "gas_regular": {
-        "value": 4.137,
-        "as_of": "2026-07-28",
+        "value": 4.136,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -643,8 +643,8 @@
       "state": "MI",
       "name": "Michigan",
       "gas_regular": {
-        "value": 4.196,
-        "as_of": "2026-07-28",
+        "value": 4.176,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -672,8 +672,8 @@
       "state": "MN",
       "name": "Minnesota",
       "gas_regular": {
-        "value": 4.019,
-        "as_of": "2026-07-28",
+        "value": 4.002,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -701,8 +701,8 @@
       "state": "MS",
       "name": "Mississippi",
       "gas_regular": {
-        "value": 3.671,
-        "as_of": "2026-07-28",
+        "value": 3.675,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -730,8 +730,8 @@
       "state": "MO",
       "name": "Missouri",
       "gas_regular": {
-        "value": 3.849,
-        "as_of": "2026-07-28",
+        "value": 3.831,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -759,8 +759,8 @@
       "state": "MT",
       "name": "Montana",
       "gas_regular": {
-        "value": 4.289,
-        "as_of": "2026-07-28",
+        "value": 4.284,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -788,8 +788,8 @@
       "state": "NE",
       "name": "Nebraska",
       "gas_regular": {
-        "value": 3.975,
-        "as_of": "2026-07-28",
+        "value": 3.968,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -817,8 +817,8 @@
       "state": "NV",
       "name": "Nevada",
       "gas_regular": {
-        "value": 4.799,
-        "as_of": "2026-07-28",
+        "value": 4.807,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -846,8 +846,8 @@
       "state": "NH",
       "name": "New Hampshire",
       "gas_regular": {
-        "value": 4.089,
-        "as_of": "2026-07-28",
+        "value": 4.095,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -875,8 +875,8 @@
       "state": "NJ",
       "name": "New Jersey",
       "gas_regular": {
-        "value": 4.178,
-        "as_of": "2026-07-28",
+        "value": 4.169,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -904,8 +904,8 @@
       "state": "NM",
       "name": "New Mexico",
       "gas_regular": {
-        "value": 3.979,
-        "as_of": "2026-07-28",
+        "value": 4.023,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -933,8 +933,8 @@
       "state": "NY",
       "name": "New York",
       "gas_regular": {
-        "value": 4.236,
-        "as_of": "2026-07-28",
+        "value": 4.234,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -962,8 +962,8 @@
       "state": "NC",
       "name": "North Carolina",
       "gas_regular": {
-        "value": 3.791,
-        "as_of": "2026-07-28",
+        "value": 3.773,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -991,8 +991,8 @@
       "state": "ND",
       "name": "North Dakota",
       "gas_regular": {
-        "value": 3.916,
-        "as_of": "2026-07-28",
+        "value": 3.909,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1020,8 +1020,8 @@
       "state": "OH",
       "name": "Ohio",
       "gas_regular": {
-        "value": 3.861,
-        "as_of": "2026-07-28",
+        "value": 3.857,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1049,8 +1049,8 @@
       "state": "OK",
       "name": "Oklahoma",
       "gas_regular": {
-        "value": 3.76,
-        "as_of": "2026-07-28",
+        "value": 3.757,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1079,7 +1079,7 @@
       "name": "Oregon",
       "gas_regular": {
         "value": 4.64,
-        "as_of": "2026-07-28",
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1107,8 +1107,8 @@
       "state": "PA",
       "name": "Pennsylvania",
       "gas_regular": {
-        "value": 4.223,
-        "as_of": "2026-07-28",
+        "value": 4.213,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1136,8 +1136,8 @@
       "state": "RI",
       "name": "Rhode Island",
       "gas_regular": {
-        "value": 4.128,
-        "as_of": "2026-07-28",
+        "value": 4.117,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1165,8 +1165,8 @@
       "state": "SC",
       "name": "South Carolina",
       "gas_regular": {
-        "value": 3.748,
-        "as_of": "2026-07-28",
+        "value": 3.725,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1194,8 +1194,8 @@
       "state": "SD",
       "name": "South Dakota",
       "gas_regular": {
-        "value": 4.019,
-        "as_of": "2026-07-28",
+        "value": 4.015,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1223,8 +1223,8 @@
       "state": "TN",
       "name": "Tennessee",
       "gas_regular": {
-        "value": 3.694,
-        "as_of": "2026-07-28",
+        "value": 3.683,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1252,8 +1252,8 @@
       "state": "TX",
       "name": "Texas",
       "gas_regular": {
-        "value": 3.672,
-        "as_of": "2026-07-28",
+        "value": 3.655,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1281,8 +1281,8 @@
       "state": "UT",
       "name": "Utah",
       "gas_regular": {
-        "value": 4.267,
-        "as_of": "2026-07-28",
+        "value": 4.279,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1310,8 +1310,8 @@
       "state": "VT",
       "name": "Vermont",
       "gas_regular": {
-        "value": 4.222,
-        "as_of": "2026-07-28",
+        "value": 4.217,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1339,8 +1339,8 @@
       "state": "VA",
       "name": "Virginia",
       "gas_regular": {
-        "value": 3.972,
-        "as_of": "2026-07-28",
+        "value": 3.958,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1368,8 +1368,8 @@
       "state": "WA",
       "name": "Washington",
       "gas_regular": {
-        "value": 5.115,
-        "as_of": "2026-07-28",
+        "value": 5.119,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1398,7 +1398,7 @@
       "name": "West Virginia",
       "gas_regular": {
         "value": 3.877,
-        "as_of": "2026-07-28",
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1426,8 +1426,8 @@
       "state": "WI",
       "name": "Wisconsin",
       "gas_regular": {
-        "value": 3.878,
-        "as_of": "2026-07-28",
+        "value": 3.872,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1455,8 +1455,8 @@
       "state": "WY",
       "name": "Wyoming",
       "gas_regular": {
-        "value": 4.165,
-        "as_of": "2026-07-28",
+        "value": 4.151,
+        "as_of": "2026-07-29",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1483,8 +1483,8 @@
   ],
   "national": {
     "gas_regular": {
-      "value": 4.099,
-      "as_of": "2026-07-28",
+      "value": 4.091,
+      "as_of": "2026-07-29",
       "yoy_pct": null
     },
     "elec_res_cents": {

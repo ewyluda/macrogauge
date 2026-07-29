@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-07-28T15:06:30Z",
-  "score": 4.2,
+  "published_at": "2026-07-29T14:59:54Z",
+  "score": 4.6,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": 0.49466,
+      "z": 0.47336,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -25,14 +25,14 @@
       "active_weight": 20.0
     },
     "housing": {
-      "z": -0.37587499999999996,
+      "z": -0.32694999999999996,
       "weight": 15,
       "available": 4,
       "expected": 4,
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": -0.7007333333333334,
+      "z": -0.6719666666666667,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-27",
-      "momentum": -0.43,
-      "z": -1.5975
+      "as_of": "2026-07-28",
+      "momentum": -0.46,
+      "z": -1.704
     },
     {
       "code": "PAYEMS",
@@ -178,9 +178,9 @@
       "code": "CSUSHPINSA",
       "group": "housing",
       "direction": 1,
-      "as_of": "2026-04-01",
-      "momentum": 1.8314,
-      "z": 0.207
+      "as_of": "2026-05-01",
+      "momentum": 2.241,
+      "z": 0.4027
     },
     {
       "code": "pmms_30yr",
@@ -196,9 +196,9 @@
       "code": "M2SL",
       "group": "money_expectations",
       "direction": 1,
-      "as_of": "2026-05-01",
-      "momentum": 1.8801,
-      "z": 1.0038
+      "as_of": "2026-06-01",
+      "momentum": 2.1128,
+      "z": 1.2166
     },
     {
       "code": "UMCSENT",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-27",
-      "momentum": -0.19,
-      "z": -0.7166
+      "as_of": "2026-07-28",
+      "momentum": -0.22,
+      "z": -0.8431
     }
   ]
 }
