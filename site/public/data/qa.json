@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-29",
+  "generated_at": "2026-07-30",
   "passed": 25,
   "total": 27,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-06-01 is 58d old (limit 80)"
+      "detail": "latest official month 2026-06-01 is 59d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -97,19 +97,19 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": false,
-      "detail": "27/30 ok; failed \u2014 USDA: missing secret USDA_API_KEY; MANHEIM: HTTPError: 404 Client Error: Not Found for url: https://www.coxautoinc.com/insights/feed/; CAISO: ConnectTimeout: HTTPSConnectionPool(host='oasis.caiso.com', port=443): Max retries exceeded with url: /oasisapi/SingleZip?queryname=PRC_LMP&startdatetime=20260729T07:00-0000&enddatetime=20260730T09:00-0000&version=1&market_run_id=DAM&node=TH_SP15_GEN-APND&resultformat=6 (Caused by ConnectTimeoutError(<HTTPSConnection(host='oasis.caiso.com', port=443) at 0x7f3328632cc0>, 'Connection to oasis.caiso.com timed out. (connect timeout=60)'))"
+      "detail": "27/30 ok; failed \u2014 EIA: RuntimeError: EIA: no series loaded \u2014 ELEC.PRICE.US-RES.M: HTTPError; NG.N3010US3.M: HTTPError; PET.EMM_EPMR_PTE_NUS_DPG.W: HTTPError; PET.EMD_EPD2D_PTE_NUS_DPG.W: HTTPError; USDA: missing secret USDA_API_KEY; MANHEIM: HTTPError: 404 Client Error: Not Found for url: https://www.coxautoinc.com/insights/feed/"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "680/693 fresh; stale \u2014 PCEPI (89d > 80d), APU0000702212 (89d > 80d), APU0000704211 (89d > 80d), kalshi_cpi_mom (18d > 5d), DSPIC96 (89d > 80d), UMCSENT (89d > 80d), PSAVERT (89d > 80d), REVOLSL (89d > 80d), RECPROUSM156N (89d > 80d), PCETRIM12M159SFRBDAL (89d > 80d), MICH (89d > 80d), qcew_aemp23_c41067 (484d > 400d), eia_henry_hub (9d > 7d)"
+      "detail": "683/693 fresh; stale \u2014 PCEPI (90d > 80d), APU0000702212 (90d > 80d), APU0000704211 (90d > 80d), kalshi_cpi_mom (19d > 5d), UMCSENT (90d > 80d), REVOLSL (90d > 80d), RECPROUSM156N (90d > 80d), PCETRIM12M159SFRBDAL (90d > 80d), MICH (90d > 80d), qcew_aemp23_c41067 (485d > 400d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.102 vs EIA weekly $4.096 \u2014 relative divergence 0.2% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.103 vs EIA weekly $4.096 \u2014 relative divergence 0.2% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -127,7 +127,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-07-29"
+      "detail": "CPI nowcast as-of 2026-07-30"
     },
     {
       "name": "ensemble_computed",
@@ -139,7 +139,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-29 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-30 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",

@@ -1,24 +1,24 @@
 {
-  "published_at": "2026-07-29T14:59:54Z",
-  "score": 4.6,
+  "published_at": "2026-07-30T14:56:14Z",
+  "score": 3.7,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": 0.47336,
+      "z": 0.52306,
       "weight": 25,
       "available": 5,
       "expected": 5,
       "active_weight": 25.0
     },
     "real_economy": {
-      "z": -0.026339999999999985,
+      "z": 0.09848000000000001,
       "weight": 25,
       "available": 5,
       "expected": 5,
       "active_weight": 25.0
     },
     "pipeline": {
-      "z": 0.645825,
+      "z": 0.184275,
       "weight": 20,
       "available": 4,
       "expected": 4,
@@ -32,7 +32,7 @@
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": -0.6719666666666667,
+      "z": -0.4612000000000001,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-28",
-      "momentum": -0.46,
-      "z": -1.704
+      "as_of": "2026-07-29",
+      "momentum": -0.39,
+      "z": -1.4555
     },
     {
       "code": "PAYEMS",
@@ -119,27 +119,27 @@
       "code": "DSPIC96",
       "group": "real_economy",
       "direction": 1,
-      "as_of": "2026-05-01",
-      "momentum": -0.3772,
-      "z": -1.1751
+      "as_of": "2026-06-01",
+      "momentum": 0.142,
+      "z": -0.551
     },
     {
       "code": "ICSA",
       "group": "pipeline",
       "direction": -1,
       "periods": 13,
-      "as_of": "2026-07-18",
-      "momentum": -13.0233,
-      "z": 1.1476
+      "as_of": "2026-07-25",
+      "momentum": 3.6842,
+      "z": -0.5629
     },
     {
       "code": "CCSA",
       "group": "pipeline",
       "direction": -1,
       "periods": 13,
-      "as_of": "2026-07-11",
-      "momentum": -0.6637,
-      "z": 0.0037
+      "as_of": "2026-07-18",
+      "momentum": 0.3378,
+      "z": -0.132
     },
     {
       "code": "PCUOMFGOMFG",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-28",
-      "momentum": -0.22,
-      "z": -0.8431
+      "as_of": "2026-07-29",
+      "momentum": -0.07,
+      "z": -0.2108
     }
   ]
 }

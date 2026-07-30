@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-29T14:59:54Z",
+  "generated_at": "2026-07-30T14:56:14Z",
   "sources": [
     {
       "name": "AAA",
@@ -9,9 +9,9 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-29T14:57:51Z",
+      "finished_at": "2026-07-30T14:54:54Z",
       "series_count": 1,
-      "latest_obs": "2026-07-29"
+      "latest_obs": "2026-07-30"
     },
     {
       "name": "AAA_STATE",
@@ -21,9 +21,9 @@
       "fetched": 51,
       "new_rows": 51,
       "error": null,
-      "finished_at": "2026-07-29T14:57:51Z",
+      "finished_at": "2026-07-30T14:54:55Z",
       "series_count": 51,
-      "latest_obs": "2026-07-29"
+      "latest_obs": "2026-07-30"
     },
     {
       "name": "APTLIST",
@@ -33,7 +33,7 @@
       "fetched": 114,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-29T14:57:51Z",
+      "finished_at": "2026-07-30T14:54:54Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -45,7 +45,7 @@
       "fetched": 3071,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-29T14:57:44Z",
+      "finished_at": "2026-07-30T14:54:46Z",
       "series_count": 28,
       "latest_obs": "2026-06-01"
     },
@@ -53,13 +53,13 @@
       "name": "CAISO",
       "route": "API",
       "cadence": "daily",
-      "ok": false,
-      "fetched": 0,
-      "new_rows": 0,
-      "error": "ConnectTimeout: HTTPSConnectionPool(host='oasis.caiso.com', port=443): Max retries exceeded with url: /oasisapi/SingleZip?queryname=PRC_LMP&startdatetime=20260729T07:00-0000&enddatetime=20260730T09:00-0000&version=1&market_run_id=DAM&node=TH_SP15_GEN-APND&resultformat=6 (Caused by ConnectTimeoutError(<HTTPSConnection(host='oasis.caiso.com', port=443) at 0x7f3328632cc0>, 'Connection to oasis.caiso.com timed out. (connect timeout=60)'))",
-      "finished_at": "2026-07-29T14:59:50Z",
+      "ok": true,
+      "fetched": 1,
+      "new_rows": 1,
+      "error": null,
+      "finished_at": "2026-07-30T14:56:08Z",
       "series_count": 1,
-      "latest_obs": "2026-07-28"
+      "latest_obs": "2026-07-30"
     },
     {
       "name": "CENSUS",
@@ -69,7 +69,7 @@
       "fetched": 298,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-29T14:58:45Z",
+      "finished_at": "2026-07-30T14:56:03Z",
       "series_count": 2,
       "latest_obs": "2026-05-01"
     },
@@ -79,9 +79,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 4,
-      "new_rows": 2,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-29T14:57:53Z",
+      "finished_at": "2026-07-30T14:54:57Z",
       "series_count": 4,
       "latest_obs": "2026-07-01"
     },
@@ -93,19 +93,19 @@
       "fetched": 3,
       "new_rows": 3,
       "error": null,
-      "finished_at": "2026-07-29T14:58:47Z",
+      "finished_at": "2026-07-30T14:56:04Z",
       "series_count": 3,
-      "latest_obs": "2026-07-29"
+      "latest_obs": "2026-07-30"
     },
     {
       "name": "EIA",
       "route": "API",
       "cadence": "monthly",
-      "ok": true,
-      "fetched": 4408,
+      "ok": false,
+      "fetched": 0,
       "new_rows": 0,
-      "error": null,
-      "finished_at": "2026-07-29T14:57:48Z",
+      "error": "RuntimeError: EIA: no series loaded \u2014 ELEC.PRICE.US-RES.M: HTTPError; NG.N3010US3.M: HTTPError; PET.EMM_EPMR_PTE_NUS_DPG.W: HTTPError; PET.EMD_EPD2D_PTE_NUS_DPG.W: HTTPError",
+      "finished_at": "2026-07-30T14:54:49Z",
       "series_count": 4,
       "latest_obs": "2026-07-27"
     },
@@ -115,21 +115,21 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 4999,
-      "new_rows": 0,
+      "new_rows": 5,
       "error": null,
-      "finished_at": "2026-07-29T14:59:52Z",
+      "finished_at": "2026-07-30T14:56:13Z",
       "series_count": 1,
-      "latest_obs": "2026-07-20"
+      "latest_obs": "2026-07-27"
     },
     {
       "name": "EIA_STATE",
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 15860,
+      "fetched": 11895,
       "new_rows": 0,
-      "error": null,
-      "finished_at": "2026-07-29T14:58:17Z",
+      "error": "partial: EIA: 13 item(s) failed \u2014 ELEC.PRICE.US-IND.M: HTTPError: 503 Server Error: Service Unavailable for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.US-IND.M?api_key=REDACTED ELEC.PRICE.AL-IND.M: HTTPError: 503 Server Error: Service Unavailable for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.AL-IND.M?api_key=REDACTED ELEC.PRICE.AK-IND.M: HTTPError: 503 Server Error: Service Unavailable for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.AK-IND.M?api_key=REDACTED ELEC.PRICE.AZ-IND.M: HTTPError: 503 Server Error: Service Unavailable for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.AZ-IND.M?api_key=REDACTED ELEC.PRICE.AR-IND.M: HTTPError: 503 Server Error: Service Unavailable for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.AR-IND.M?api_key=REDACTED ELEC.PRICE.CA-IND.M: HTTPError: 503 Server Error: Service Unavailable for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.CA-IND.M?api_key=REDACTED ELEC.PRICE.CO-IND.M: HTTPError: 503 Server Error: Service Unavailable for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.CO-IND.M?api_key=REDACTED ELEC.PRICE.CT-IND.M: HTTPError: 503 Server Error: Service Unavailable for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.CT-IND.M?api_key=REDACTED ELEC.PRICE.DE-IND.M: HTTPError: 503 Server Error: Service Unavailable for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.DE-IND.M?api_key=REDACTED ELEC.PRICE.DC-IND.M: HTTPError: 503 Server Error: Service Unavailable for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.DC-IND.M?api_key=REDACTED ELEC.PRICE.FL-IND.M: HTTPError: 503 Server Error: Service Unavailable for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.FL-IND.M?api_key=REDACTED ELEC.PRICE.GA-IND.M: HTTPError: 503 Server Error: Service Unavailable for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.GA-IND.M?api_key=REDACTED ELEC.PRICE.HI-IND.M: HTTPError: 503 Server Error: Service Unavailable for url: https://api.eia.gov/v2/seriesid/ELEC.PRICE.HI-IND.M?api_key=REDACTED",
+      "finished_at": "2026-07-30T14:55:29Z",
       "series_count": 52,
       "latest_obs": "2026-05-01"
     },
@@ -141,7 +141,7 @@
       "fetched": 15555,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-29T14:58:41Z",
+      "finished_at": "2026-07-30T14:55:47Z",
       "series_count": 51,
       "latest_obs": "2026-05-01"
     },
@@ -153,9 +153,9 @@
       "fetched": 14,
       "new_rows": 14,
       "error": null,
-      "finished_at": "2026-07-29T14:57:48Z",
+      "finished_at": "2026-07-30T14:54:50Z",
       "series_count": 14,
-      "latest_obs": "2026-07-29"
+      "latest_obs": "2026-07-30"
     },
     {
       "name": "FMP_EQ",
@@ -165,21 +165,21 @@
       "fetched": 56,
       "new_rows": 56,
       "error": null,
-      "finished_at": "2026-07-29T14:57:48Z",
+      "finished_at": "2026-07-30T14:54:50Z",
       "series_count": 56,
-      "latest_obs": "2026-07-29"
+      "latest_obs": "2026-07-30"
     },
     {
       "name": "FRED",
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 50955,
-      "new_rows": 191,
+      "fetched": 50974,
+      "new_rows": 24,
       "error": null,
-      "finished_at": "2026-07-29T14:57:43Z",
+      "finished_at": "2026-07-30T14:54:45Z",
       "series_count": 151,
-      "latest_obs": "2026-07-28"
+      "latest_obs": "2026-07-29"
     },
     {
       "name": "ICE",
@@ -189,7 +189,7 @@
       "fetched": 130,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-29T14:59:52Z",
+      "finished_at": "2026-07-30T14:56:11Z",
       "series_count": 1,
       "latest_obs": "2026-07-21"
     },
@@ -201,7 +201,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-29T14:57:53Z",
+      "finished_at": "2026-07-30T14:54:57Z",
       "series_count": 1,
       "latest_obs": "2026-07-11"
     },
@@ -213,9 +213,9 @@
       "fetched": 2,
       "new_rows": 2,
       "error": null,
-      "finished_at": "2026-07-29T14:59:53Z",
+      "finished_at": "2026-07-30T14:56:13Z",
       "series_count": 2,
-      "latest_obs": "2026-07-29"
+      "latest_obs": "2026-07-30"
     },
     {
       "name": "MANHEIM",
@@ -225,7 +225,7 @@
       "fetched": 0,
       "new_rows": 0,
       "error": "HTTPError: 404 Client Error: Not Found for url: https://www.coxautoinc.com/insights/feed/",
-      "finished_at": "2026-07-29T14:57:52Z",
+      "finished_at": "2026-07-30T14:54:56Z",
       "series_count": 1,
       "latest_obs": "2026-07-01"
     },
@@ -237,9 +237,9 @@
       "fetched": 4,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-29T14:59:51Z",
+      "finished_at": "2026-07-30T14:56:11Z",
       "series_count": 1,
-      "latest_obs": "2026-07-28"
+      "latest_obs": "2026-07-29"
     },
     {
       "name": "MND",
@@ -249,9 +249,9 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-29T14:57:51Z",
+      "finished_at": "2026-07-30T14:54:55Z",
       "series_count": 1,
-      "latest_obs": "2026-07-29"
+      "latest_obs": "2026-07-30"
     },
     {
       "name": "OPENROUTER",
@@ -261,9 +261,9 @@
       "fetched": 12,
       "new_rows": 12,
       "error": null,
-      "finished_at": "2026-07-29T14:58:49Z",
+      "finished_at": "2026-07-30T14:56:07Z",
       "series_count": 12,
-      "latest_obs": "2026-07-29"
+      "latest_obs": "2026-07-30"
     },
     {
       "name": "PMMS",
@@ -273,7 +273,7 @@
       "fetched": 499,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-29T14:57:51Z",
+      "finished_at": "2026-07-30T14:54:53Z",
       "series_count": 1,
       "latest_obs": "2026-07-23"
     },
@@ -285,7 +285,7 @@
       "fetched": 941,
       "new_rows": 0,
       "error": "partial: QCEW: 3 item(s) failed \u2014 2026q1: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/1/industry/23.csv; 2026q2: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/2/industry/23.csv; 2026q3: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/3/industry/23.csv",
-      "finished_at": "2026-07-29T14:58:45Z",
+      "finished_at": "2026-07-30T14:56:01Z",
       "series_count": 137,
       "latest_obs": "2025-10-01"
     },
@@ -297,9 +297,9 @@
       "fetched": 31,
       "new_rows": 2,
       "error": null,
-      "finished_at": "2026-07-29T14:58:49Z",
+      "finished_at": "2026-07-30T14:56:07Z",
       "series_count": 1,
-      "latest_obs": "2026-07-29"
+      "latest_obs": "2026-07-30"
     },
     {
       "name": "STEO",
@@ -309,7 +309,7 @@
       "fetched": 672,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-29T14:58:50Z",
+      "finished_at": "2026-07-30T14:56:08Z",
       "series_count": 2,
       "latest_obs": "2027-12-01"
     },
@@ -318,12 +318,12 @@
       "route": "API",
       "cadence": "daily",
       "ok": true,
-      "fetched": 2401,
+      "fetched": 2402,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-07-29T14:57:49Z",
+      "finished_at": "2026-07-30T14:54:51Z",
       "series_count": 1,
-      "latest_obs": "2026-07-27"
+      "latest_obs": "2026-07-28"
     },
     {
       "name": "USDA",
@@ -333,7 +333,7 @@
       "fetched": 0,
       "new_rows": 0,
       "error": "missing secret USDA_API_KEY",
-      "finished_at": "2026-07-29T14:57:51Z",
+      "finished_at": "2026-07-30T14:54:54Z",
       "series_count": 5,
       "latest_obs": "2026-07-24"
     },
@@ -342,12 +342,12 @@
       "route": "API",
       "cadence": "daily",
       "ok": true,
-      "fetched": 4,
-      "new_rows": 4,
+      "fetched": 5,
+      "new_rows": 5,
       "error": null,
-      "finished_at": "2026-07-29T14:58:48Z",
+      "finished_at": "2026-07-30T14:56:06Z",
       "series_count": 5,
-      "latest_obs": "2026-07-29"
+      "latest_obs": "2026-07-30"
     },
     {
       "name": "ZILLOW",
@@ -357,7 +357,7 @@
       "fetched": 11627,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-07-29T14:57:50Z",
+      "finished_at": "2026-07-30T14:54:52Z",
       "series_count": 102,
       "latest_obs": "2026-06-01"
     }
