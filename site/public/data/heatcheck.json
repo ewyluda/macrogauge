@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-07-30T14:56:14Z",
-  "score": 3.7,
+  "published_at": "2026-07-31T15:08:44Z",
+  "score": 2.8,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": 0.52306,
+      "z": 0.11376000000000004,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -25,14 +25,14 @@
       "active_weight": 20.0
     },
     "housing": {
-      "z": -0.32694999999999996,
+      "z": -0.33369999999999994,
       "weight": 15,
       "available": 4,
       "expected": 4,
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": -0.4612000000000001,
+      "z": 0.10113333333333331,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -60,9 +60,9 @@
       "code": "PCEPI",
       "group": "prices",
       "direction": 1,
-      "as_of": "2026-05-01",
-      "momentum": 1.5347,
-      "z": 2.1414
+      "as_of": "2026-06-01",
+      "momentum": 0.7584,
+      "z": 0.2369
     },
     {
       "code": "PPIACO",
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-29",
-      "momentum": -0.39,
-      "z": -1.4555
+      "as_of": "2026-07-30",
+      "momentum": -0.43,
+      "z": -1.5975
     },
     {
       "code": "PAYEMS",
@@ -188,9 +188,9 @@
       "direction": -1,
       "mode": "diff",
       "periods": 13,
-      "as_of": "2026-07-23",
-      "momentum": 0.35,
-      "z": -0.9982
+      "as_of": "2026-07-30",
+      "momentum": 0.36,
+      "z": -1.0252
     },
     {
       "code": "M2SL",
@@ -204,9 +204,9 @@
       "code": "UMCSENT",
       "group": "money_expectations",
       "direction": 1,
-      "as_of": "2026-05-01",
-      "momentum": -20.8481,
-      "z": -2.3894
+      "as_of": "2026-06-01",
+      "momentum": -7.1295,
+      "z": -0.7867
     },
     {
       "code": "T10Y2Y",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-29",
-      "momentum": -0.07,
-      "z": -0.2108
+      "as_of": "2026-07-30",
+      "momentum": -0.05,
+      "z": -0.1265
     }
   ]
 }

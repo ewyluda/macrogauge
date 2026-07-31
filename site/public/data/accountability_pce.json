@@ -1,13 +1,23 @@
 {
-  "published_at": "2026-07-30T14:56:14Z",
+  "published_at": "2026-07-31T15:08:44Z",
   "target": "PCE",
-  "graded": [],
+  "graded": [
+    {
+      "reference_period": "2026-06",
+      "badge": "LIVE",
+      "forecast": 0.08,
+      "as_of": "2026-07-14",
+      "actual": -0.1,
+      "error": 0.18,
+      "release_date": "2026-07-31"
+    }
+  ],
   "pending": [
     {
       "reference_period": "2026-07",
       "badge": "LIVE",
-      "forecast": 0.15,
-      "as_of": "2026-07-30",
+      "forecast": 0.14,
+      "as_of": "2026-07-31",
       "actual": null
     }
   ]

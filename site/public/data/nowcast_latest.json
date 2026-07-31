@@ -1,13 +1,13 @@
 {
-  "published_at": "2026-07-30T14:56:14Z",
+  "published_at": "2026-07-31T15:08:44Z",
   "target": "CPI",
   "release_date": "2026-08-12",
   "reference_month": "2026-07",
   "cpi": {
     "target_month": "2026-07",
-    "mom_pct": 0.03,
-    "yoy_pct": 3.2,
-    "as_of": "2026-07-30",
+    "mom_pct": 0.04,
+    "yoy_pct": 3.06,
+    "as_of": "2026-07-31",
     "status": "live",
     "parameters": {},
     "components": [
@@ -27,11 +27,11 @@
       },
       {
         "component": "food_home",
-        "mom_pct": 0.5155,
+        "mom_pct": 0.5224,
         "weight": 0.082,
-        "contribution_pp": 0.0423,
+        "contribution_pp": 0.0428,
         "basis": "trend+driver",
-        "driver_mom_pct": 0.2098
+        "driver_mom_pct": 0.2168
       },
       {
         "component": "medical",
@@ -77,9 +77,9 @@
       },
       {
         "component": "fuel",
-        "mom_pct": -4.6738,
+        "mom_pct": -4.5503,
         "weight": 0.03,
-        "contribution_pp": -0.1402,
+        "contribution_pp": -0.1365,
         "basis": "measured"
       },
       {
@@ -98,9 +98,9 @@
       },
       {
         "component": "used_vehicles",
-        "mom_pct": 0.1411,
+        "mom_pct": 0.1199,
         "weight": 0.021,
-        "contribution_pp": 0.003,
+        "contribution_pp": 0.0025,
         "basis": "measured"
       },
       {
@@ -113,15 +113,15 @@
     ]
   },
   "pce": {
-    "mom_pct": 0.15,
+    "mom_pct": 0.14,
     "parameters": {
-      "intercept": 0.136577,
-      "cpi_beta": 0.411546,
+      "intercept": 0.125696,
+      "cpi_beta": 0.444657,
       "window_months": 24,
       "observations": 24
     },
     "status": "live",
-    "as_of": "2026-07-30"
+    "as_of": "2026-07-31"
   },
   "nfp": {
     "change_thousands": 137,
@@ -144,8 +144,8 @@
       "as_of": "2026-07-29"
     },
     "kalshi": {
-      "value": 0.028,
-      "as_of": "2026-07-30"
+      "value": 0.02,
+      "as_of": "2026-07-31"
     }
   },
   "ensemble": {
@@ -156,5 +156,5 @@
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-07-30"
+  "generated_on": "2026-07-31"
 }

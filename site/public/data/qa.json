@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-30",
+  "generated_at": "2026-07-31",
   "passed": 25,
   "total": 27,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-06-01 is 59d old (limit 80)"
+      "detail": "latest official month 2026-06-01 is 60d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -97,19 +97,19 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": false,
-      "detail": "27/30 ok; failed \u2014 EIA: RuntimeError: EIA: no series loaded \u2014 ELEC.PRICE.US-RES.M: HTTPError; NG.N3010US3.M: HTTPError; PET.EMM_EPMR_PTE_NUS_DPG.W: HTTPError; PET.EMD_EPD2D_PTE_NUS_DPG.W: HTTPError; USDA: missing secret USDA_API_KEY; MANHEIM: HTTPError: 404 Client Error: Not Found for url: https://www.coxautoinc.com/insights/feed/"
+      "detail": "28/30 ok; failed \u2014 USDA: missing secret USDA_API_KEY; MANHEIM: HTTPError: 404 Client Error: Not Found for url: https://www.coxautoinc.com/insights/feed/"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "683/693 fresh; stale \u2014 PCEPI (90d > 80d), APU0000702212 (90d > 80d), APU0000704211 (90d > 80d), kalshi_cpi_mom (19d > 5d), UMCSENT (90d > 80d), REVOLSL (90d > 80d), RECPROUSM156N (90d > 80d), PCETRIM12M159SFRBDAL (90d > 80d), MICH (90d > 80d), qcew_aemp23_c41067 (485d > 400d)"
+      "detail": "683/693 fresh; stale \u2014 APU0000702212 (91d > 80d), APU0000704211 (91d > 80d), kalshi_cpi_mom (20d > 5d), DRCCLACBS (211d > 210d), TDSP (211d > 210d), REVOLSL (91d > 80d), DRSFRMACBS (211d > 210d), RECPROUSM156N (91d > 80d), USSTHPI (211d > 210d), qcew_aemp23_c41067 (486d > 400d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.103 vs EIA weekly $4.096 \u2014 relative divergence 0.2% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.104 vs EIA weekly $4.096 \u2014 relative divergence 0.2% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -127,7 +127,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-07-30"
+      "detail": "CPI nowcast as-of 2026-07-31"
     },
     {
       "name": "ensemble_computed",
@@ -139,13 +139,13 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-07-30 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-07-31 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
       "critical": true,
       "pass": true,
-      "detail": "all components present at grid end"
+      "detail": "all components present at grid end; gated today \u2014 nat_gas@2026-05-01"
     },
     {
       "name": "basket_weights_sum",

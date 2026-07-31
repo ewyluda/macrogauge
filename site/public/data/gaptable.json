@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-07-30T14:56:14Z",
-  "as_of": "2026-07-30",
+  "published_at": "2026-07-31T15:08:44Z",
+  "as_of": "2026-07-31",
   "official_month": "2026-06-01",
   "rows": [
     {
@@ -28,20 +28,10 @@
       "label": "Gasoline",
       "weight": 0.03,
       "mode": "live",
-      "ours_yoy_pct": 29.55,
+      "ours_yoy_pct": 29.73,
       "bls_yoy_pct": 26.72,
-      "gap_pp": 2.83,
-      "contribution_pp": 0.08
-    },
-    {
-      "component": "nat_gas",
-      "label": "Piped gas",
-      "weight": 0.007,
-      "mode": "live",
-      "ours_yoy_pct": 12.37,
-      "bls_yoy_pct": 3.03,
-      "gap_pp": 9.34,
-      "contribution_pp": 0.07
+      "gap_pp": 3.01,
+      "contribution_pp": 0.09
     },
     {
       "component": "electricity",
@@ -54,14 +44,24 @@
       "contribution_pp": 0.06
     },
     {
+      "component": "nat_gas",
+      "label": "Piped gas",
+      "weight": 0.007,
+      "mode": "live",
+      "ours_yoy_pct": -5.56,
+      "bls_yoy_pct": 3.03,
+      "gap_pp": -8.59,
+      "contribution_pp": -0.06
+    },
+    {
       "component": "used_vehicles",
       "label": "Used cars & trucks",
       "weight": 0.021,
       "mode": "live",
-      "ours_yoy_pct": 0.89,
+      "ours_yoy_pct": 0.23,
       "bls_yoy_pct": -1.77,
-      "gap_pp": 2.67,
-      "contribution_pp": 0.06
+      "gap_pp": 2.0,
+      "contribution_pp": 0.04
     },
     {
       "component": "other",
@@ -144,21 +144,21 @@
       "contribution_pp": 0.0
     }
   ],
-  "total_gap_pp": -0.47,
+  "total_gap_pp": -0.6,
   "variants": {
     "gauge": {
-      "yoy_pct": 3.2,
-      "as_of": "2026-07-30",
+      "yoy_pct": 3.06,
+      "as_of": "2026-07-31",
       "coverage_pct": 42.6
     },
     "col": {
-      "yoy_pct": 2.85,
-      "as_of": "2026-07-30",
+      "yoy_pct": 2.74,
+      "as_of": "2026-07-31",
       "coverage_pct": 42.6
     },
     "tracker": {
-      "yoy_pct": 3.88,
-      "as_of": "2026-07-30",
+      "yoy_pct": 3.75,
+      "as_of": "2026-07-31",
       "coverage_pct": 6.5
     },
     "supercore": {
@@ -167,8 +167,8 @@
       "coverage_pct": 0.0
     },
     "pce": {
-      "yoy_pct": 3.47,
-      "as_of": "2026-07-30",
+      "yoy_pct": 3.33,
+      "as_of": "2026-07-31",
       "coverage_pct": 21.7
     }
   }
