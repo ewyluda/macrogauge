@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-07-31T15:08:44Z",
-  "as_of": "2026-07-31",
+  "published_at": "2026-08-03T15:30:55Z",
+  "as_of": "2026-08-03",
   "official_month": "2026-06-01",
   "rows": [
     {
@@ -28,10 +28,10 @@
       "label": "Gasoline",
       "weight": 0.03,
       "mode": "live",
-      "ours_yoy_pct": 29.73,
+      "ours_yoy_pct": 29.49,
       "bls_yoy_pct": 26.72,
-      "gap_pp": 3.01,
-      "contribution_pp": 0.09
+      "gap_pp": 2.76,
+      "contribution_pp": 0.08
     },
     {
       "component": "electricity",
@@ -42,16 +42,6 @@
       "bls_yoy_pct": 4.03,
       "gap_pp": 2.13,
       "contribution_pp": 0.06
-    },
-    {
-      "component": "nat_gas",
-      "label": "Piped gas",
-      "weight": 0.007,
-      "mode": "live",
-      "ours_yoy_pct": -5.56,
-      "bls_yoy_pct": 3.03,
-      "gap_pp": -8.59,
-      "contribution_pp": -0.06
     },
     {
       "component": "used_vehicles",
@@ -142,23 +132,33 @@
       "bls_yoy_pct": 3.88,
       "gap_pp": 0.0,
       "contribution_pp": 0.0
+    },
+    {
+      "component": "nat_gas",
+      "label": "Piped gas",
+      "weight": 0.007,
+      "mode": "live",
+      "ours_yoy_pct": 3.07,
+      "bls_yoy_pct": 3.03,
+      "gap_pp": 0.03,
+      "contribution_pp": 0.0
     }
   ],
-  "total_gap_pp": -0.6,
+  "total_gap_pp": -0.55,
   "variants": {
     "gauge": {
-      "yoy_pct": 3.06,
-      "as_of": "2026-07-31",
+      "yoy_pct": 3.12,
+      "as_of": "2026-08-03",
       "coverage_pct": 42.6
     },
     "col": {
-      "yoy_pct": 2.74,
-      "as_of": "2026-07-31",
+      "yoy_pct": 2.96,
+      "as_of": "2026-08-03",
       "coverage_pct": 42.6
     },
     "tracker": {
-      "yoy_pct": 3.75,
-      "as_of": "2026-07-31",
+      "yoy_pct": 3.81,
+      "as_of": "2026-08-03",
       "coverage_pct": 6.5
     },
     "supercore": {
@@ -167,8 +167,8 @@
       "coverage_pct": 0.0
     },
     "pce": {
-      "yoy_pct": 3.33,
-      "as_of": "2026-07-31",
+      "yoy_pct": 3.39,
+      "as_of": "2026-08-03",
       "coverage_pct": 21.7
     }
   }
