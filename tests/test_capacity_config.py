@@ -65,6 +65,90 @@ def test_private_without_valuation_raises(tmp_path):
         capacity.load_capacity(p)
 
 
+# The hardening below exists because tenants/geo/geo_unmapped and several
+# company fields pass through build() verbatim into schema-constrained
+# artifact fields: a curation typo that only JSON Schema catches at write
+# time aborts the ENTIRE daily run (run_daily re-raises ValidationError by
+# design) instead of degrading the isolated capacity phase. The loader must
+# reject it first — same principle test_dc_longlead.py pins for longlead.
+
+def test_missing_schema_version_raises(tmp_path):
+    p = _mini(tmp_path, schema_version=2)
+    with pytest.raises(ValueError, match="schema_version"):
+        capacity.load_capacity(p, market_keys=set())
+
+
+def test_malformed_as_of_curated_raises(tmp_path):
+    p = _mini(tmp_path, as_of_curated="July 21, 2026")
+    with pytest.raises(ValueError, match="as_of_curated"):
+        capacity.load_capacity(p, market_keys=set())
+
+
+def test_non_numeric_nd_raises(tmp_path):
+    cfg = json.loads(_mini(tmp_path).read_text())
+    cfg["companies"][0]["nd"] = "32.1"
+    p = tmp_path / "nd.json"
+    p.write_text(json.dumps(cfg))
+    with pytest.raises(ValueError, match="nd"):
+        capacity.load_capacity(p, market_keys=set())
+
+
+def test_short_sites_row_raises(tmp_path):
+    # publish/capacity._events unpacks sites rows positionally — a 3-element
+    # row must die here with the row in the message, not as an opaque
+    # unpack error mid-publish.
+    cfg = json.loads(_mini(tmp_path).read_text())
+    cfg["companies"][0]["sites"] = [["Helios", 800, "c"]]
+    p = tmp_path / "sites.json"
+    p.write_text(json.dumps(cfg))
+    with pytest.raises(ValueError, match="sites rows"):
+        capacity.load_capacity(p, market_keys=set())
+
+
+def test_bad_site_status_raises(tmp_path):
+    cfg = json.loads(_mini(tmp_path).read_text())
+    cfg["companies"][0]["sites"] = [["Helios", 800, "x", "2026"]]
+    p = tmp_path / "st.json"
+    p.write_text(json.dumps(cfg))
+    with pytest.raises(ValueError, match="o\\|c\\|p\\|s"):
+        capacity.load_capacity(p, market_keys=set())
+
+
+def test_short_tenants_row_raises(tmp_path):
+    p = _mini(tmp_path, tenants=[["Someone", "AAA", 100]])
+    with pytest.raises(ValueError, match="tenants rows"):
+        capacity.load_capacity(p, market_keys=set())
+
+
+def test_string_tenant_mw_raises(tmp_path):
+    p = _mini(tmp_path, tenants=[["Someone", "AAA", "100", "terms"]])
+    with pytest.raises(ValueError, match="mw"):
+        capacity.load_capacity(p, market_keys=set())
+
+
+def test_string_lat_raises(tmp_path):
+    # The exact scenario from the review: "lat": "33.4" loads fine today,
+    # builds fine, then dies in schema validation as the artifact is written.
+    p = _mini(tmp_path, geo=[{"t": "AAA", "site": "S", "mw": 100, "st": "o",
+                              "lat": "33.4", "lng": -112.0, "approx": False}])
+    with pytest.raises(ValueError, match="lat"):
+        capacity.load_capacity(p, market_keys=set())
+
+
+def test_out_of_range_lng_raises(tmp_path):
+    p = _mini(tmp_path, geo=[{"t": "AAA", "site": "S", "mw": 100, "st": "o",
+                              "lat": 33.4, "lng": -212.0, "approx": False}])
+    with pytest.raises(ValueError, match="lng"):
+        capacity.load_capacity(p, market_keys=set())
+
+
+def test_geo_unmapped_missing_why_raises(tmp_path):
+    p = _mini(tmp_path, geo_unmapped=[{"t": "AAA", "site": "S", "mw": None,
+                                       "st": "c"}])
+    with pytest.raises(ValueError, match="why"):
+        capacity.load_capacity(p, market_keys=set())
+
+
 def test_unknown_tenant_or_geo_ticker_raises(tmp_path):
     p = _mini(tmp_path, tenants=[["Someone", "ZZZ", 100, "terms"]])
     with pytest.raises(ValueError, match="ZZZ"):
