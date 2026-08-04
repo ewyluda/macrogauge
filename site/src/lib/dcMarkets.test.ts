@@ -64,6 +64,23 @@ describe("sortMarkets", () => {
       .toEqual(["under-construction", "all-operating"]);
   });
 
+  it("sorts an undisclosed-MW zero as null (sinks), a fully-disclosed zero as a real 0", () => {
+    // A market whose only tracked sites don't state MW (e.g. Northern
+    // Virginia: sites 1, mw_construction 0, sites_mw_undisclosed 1) is an
+    // unknown, not a measured zero — it must sink below genuine zeros in
+    // both directions instead of ranking beside them, mirroring the "—"
+    // the panel renders for it.
+    const rows = [
+      row({ key: "undisclosed", sites: 1, mw_construction: 0, sites_mw_undisclosed: 1 }),
+      row({ key: "real-zero", sites: 1, mw_construction: 0, sites_mw_undisclosed: 0 }),
+      row({ key: "building", sites: 1, mw_construction: 300 }),
+    ];
+    expect(sortMarkets(rows, "mw", true).map((r) => r.key))
+      .toEqual(["building", "real-zero", "undisclosed"]);
+    expect(sortMarkets(rows, "mw", false).map((r) => r.key))
+      .toEqual(["real-zero", "building", "undisclosed"]);
+  });
+
   it("treats two equal-availability rows with a null sort value as equal, not an arbitrary swap", () => {
     // An AVAILABLE market can have a null wageYoy/empYoy: the pipeline's
     // documented fallback regime where no county clears the like-for-like

@@ -52,6 +52,17 @@ def load(path: Path | None = None,
             raise ValueError(
                 f"dc_power: capacity_auction row {r.get('delivery_year')} "
                 f"price_mw_day must be numeric")
+    # dcindex.power_block reads rows[0]/rows[-1] for the headline "×" multiple
+    # and years_span — a hand-added BRA row inserted out of order would publish
+    # a schema-valid nonsense multiple, so ordering is a load-time invariant.
+    # Lexicographic order matches chronology for the "2024/25" year format.
+    dys = [r.get("delivery_year") for r in rows]
+    if not all(isinstance(d, str) and d for d in dys):
+        raise ValueError("dc_power: capacity_auction delivery_year must be a "
+                         "non-empty string")
+    if dys != sorted(dys) or len(set(dys)) != len(dys):
+        raise ValueError("dc_power: capacity_auction rows must be strictly "
+                         f"ascending by delivery_year, got {dys}")
     return PowerConfig(hubs=hubs, henry_hub=henry_hub,
                        capacity_auction={"source": cap["source"], "asof": cap["asof"],
                                           "rows": rows})

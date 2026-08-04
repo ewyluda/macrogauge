@@ -127,7 +127,12 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
         <td>{m.emp_cur_total != null ? m.emp_cur_total.toLocaleString() : "—"}</td>
         <td>{pct(m.emp_yoy_pct)} <small>{fmtSpread(m.emp_spread_pp)}</small></td>
         <td>
-          {m.sites === 0
+          {/* A zero with undisclosed-MW sites is an unknown, not a measured
+              absence — Northern Virginia must never read "0 MW under constr."
+              because its tracked site doesn't state a figure. The sub-line
+              below carries the disclosure receipt. */}
+          {m.sites === 0 ||
+          (m.mw_construction === 0 && m.sites_mw_undisclosed > 0)
             ? "—"
             : `${m.mw_construction.toLocaleString()} MW under constr.`}
           <div style={{ fontSize: 11, color: "var(--muted)" }}>
