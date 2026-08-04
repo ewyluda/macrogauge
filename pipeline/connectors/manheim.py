@@ -10,14 +10,27 @@ site.manheim.com/en/services/consulting/used-vehicle-value-index.html, froze
 at the Mid-December 2025 report (verified live 2026-07-13: page still serves
 "Mid-December 2025 Trends" / 206.0) while Cox kept publishing elsewhere — the
 scrape stayed green for 7 months, silently re-fetching the same stale value
-into carry-forward. The live channel is the Cox Automotive Insights hub: the
-WordPress feed at coxautoinc.com/insights/feed/ lists ~50 posts newest-first,
-and the monthly report is the item titled "Manheim Used Vehicle Value Index:
-(Mid-)<Month> <Year> Trends" (no filtered per-series feed exists — the
-insight_series query param is ignored on the feed endpoint). Title anchoring
-matters: the same feed carries other MUVVI-titled items ("Replay Available:
-... Index Call", quarterly commentary) that must not be selected. Feed bodies
-are excerpt-only — no index value — so a second GET fetches the linked post.
+into carry-forward. The live channel is the Cox Automotive Insights hub: a
+WordPress feed listing ~50 posts newest-first, where the monthly report is
+the item titled "Manheim Used Vehicle Value Index: (Mid-)<Month> <Year>
+Trends" (no filtered per-series feed exists — the insight_series query param
+is ignored on the feed endpoint, and /insight_series/<slug>/feed/ 404s).
+Title anchoring matters: the same feed carries other MUVVI-titled items
+("Replay Available: ... Index Call", quarterly commentary) that must not be
+selected — and the replay item's LINK also contains the
+manheim-used-vehicle-value-index slug, so link-pattern matching is not a
+safe substitute. Feed bodies are excerpt-only — no index value — so a
+second GET fetches the linked post.
+
+Re-point #2 (2026-08-04): coxautoinc.com/insights/feed/ started returning
+404 sometime after ~2026-07-17 (the mid-July post was the last ingested).
+The same feed — identical item structure, same UVVI titles, same
+/insights/<slug>/ post URLs, decoy replay item still present — now serves
+at coxautoinc.com/explore-insights/feed/ (the /explore-insights/ listing
+page's feed; /market-insights/feed/ 301s to the DEAD /insights/feed/ URL,
+and /feed/ + /newsroom/feed/ are near-empty stubs — verified live
+2026-08-04). Post pages are unchanged; parse_post and its traps coverage
+carry over as-is.
 
 Post-page traps (all recorded live 2026-07-13, pinned in fixtures): the
 report heading appears many times in <head> (title tag, og:title, JSON-LD),
@@ -43,7 +56,7 @@ from pipeline.connectors.fred import today_et
 from pipeline.connectors.util import get_text
 from pipeline.models import Observation
 
-FEED_URL = "https://www.coxautoinc.com/insights/feed/"
+FEED_URL = "https://www.coxautoinc.com/explore-insights/feed/"
 ITEM_RE = re.compile(r"<item>(.*?)</item>", re.DOTALL)
 # Item-scoped title match keeps channel-level <title> and excerpt text out.
 FEED_TITLE_RE = re.compile(

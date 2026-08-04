@@ -197,7 +197,7 @@ def fake_get(url, params=None, timeout=None, **kw):
         return _text(FIXTURES / "aaa.html")
     if "mortgagenewsdaily.com" in url:
         return _text(FIXTURES / "mnd.html")
-    if "coxautoinc.com/insights/feed" in url:
+    if "coxautoinc.com/explore-insights/feed" in url:
         return _text(FIXTURES / "manheim_feed.xml")
     if "coxautoinc.com/insights/manheim-used-vehicle-value-index" in url:
         return _text(FIXTURES / "manheim_post.html")
