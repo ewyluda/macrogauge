@@ -24,7 +24,15 @@ const VALUE: Record<SortKey, (r: MarketRow) => number | string | null> = {
   // market (e.g. New Carlisle, 1,725 MW operational) above a market with
   // real construction underway (e.g. Richland Parish, 1,440 MW under
   // construction) -- inverting the column's whole purpose.
-  mw: (r) => r.mw_construction,
+  // A zero with undisclosed-MW sites is an unknown, not a measured zero
+  // (Northern Virginia tracks a site with no stated figure) -- it sorts as
+  // null and sinks with the other unknowns, mirroring the "—" the panel
+  // renders for it. A zero with all sites disclosed is a real zero and
+  // still sorts as 0.
+  mw: (r) =>
+    r.mw_construction === 0 && r.sites_mw_undisclosed > 0
+      ? null
+      : r.mw_construction,
 };
 
 /** Sort a copy. Unavailable markets always sink to the bottom — a suppressed

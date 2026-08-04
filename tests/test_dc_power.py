@@ -59,6 +59,29 @@ def test_non_numeric_price_rejected(tmp_path):
         dc_power.load(p, registry_codes=REGISTRY_CODES)
 
 
+def test_out_of_order_delivery_years_rejected(tmp_path):
+    p = _write(tmp_path, capacity={"source": "PJM", "asof": "2025-12-17",
+                                   "rows": [{"delivery_year": "2026/27", "price_mw_day": 333.44},
+                                            {"delivery_year": "2024/25", "price_mw_day": 28.92}]})
+    with pytest.raises(ValueError, match="ascending"):
+        dc_power.load(p, registry_codes=REGISTRY_CODES)
+
+
+def test_duplicate_delivery_years_rejected(tmp_path):
+    p = _write(tmp_path, capacity={"source": "PJM", "asof": "2025-12-17",
+                                   "rows": [{"delivery_year": "2024/25", "price_mw_day": 28.92},
+                                            {"delivery_year": "2024/25", "price_mw_day": 269.92}]})
+    with pytest.raises(ValueError, match="ascending"):
+        dc_power.load(p, registry_codes=REGISTRY_CODES)
+
+
+def test_non_string_delivery_year_rejected(tmp_path):
+    p = _write(tmp_path, capacity={"source": "PJM", "asof": "2025-12-17",
+                                   "rows": [{"delivery_year": 2024, "price_mw_day": 28.92}]})
+    with pytest.raises(ValueError, match="delivery_year"):
+        dc_power.load(p, registry_codes=REGISTRY_CODES)
+
+
 def test_duplicate_hub_codes_rejected(tmp_path):
     p = _write(tmp_path, hubs=[{"code": "caiso_sp15_da", "label": "A"},
                                {"code": "caiso_sp15_da", "label": "B"}])
