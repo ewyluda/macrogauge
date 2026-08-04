@@ -63,14 +63,20 @@ export function sortMarkets(rows: MarketRow[], key: SortKey, desc: boolean): Mar
  *  whenever there is no spread to key off — an unavailable market, or one
  *  with no YoY basis (wage_spread_pp is null in both cases). */
 export function tightness(r: MarketRow): "hot" | "warm" | "neutral" | "slack" | "na" {
-  if (!r.available || r.wage_spread_pp === null) return "na";
-  const w = r.wage_spread_pp;
-  const e = r.emp_spread_pp ?? 0;
-  const score = w + e / 2;
+  const score = tightnessScore(r);
+  if (score === null) return "na";
   if (score >= 10) return "hot";
   if (score >= 3) return "warm";
   if (score > -3) return "neutral";
   return "slack";
+}
+
+/** The composite behind the tightness badge, exported so the page's
+ *  "Tightest market" KPI ranks by the SAME metric the table badges with —
+ *  ranking by wage spread alone can crown a different market. */
+export function tightnessScore(r: MarketRow): number | null {
+  if (!r.available || r.wage_spread_pp === null) return null;
+  return r.wage_spread_pp + (r.emp_spread_pp ?? 0) / 2;
 }
 
 export function fmtSpread(pp: number | null): string {

@@ -2,13 +2,17 @@ import type { Metadata } from "next";
 import marketsJson from "../../../public/data/dc_markets.json";
 import { KpiCard } from "@/components/KpiCard";
 import { MarketsClient } from "@/components/markets/MarketsClient";
+import { tightnessScore } from "@/lib/dcMarkets";
 import type { DcMarkets } from "@/lib/types";
 
 const data = marketsJson as unknown as DcMarkets;
 const nat = data.national;
 const live = data.markets.filter((m) => m.available);
-const hottest = [...live].sort(
-  (a, b) => (b.wage_spread_pp ?? 0) - (a.wage_spread_pp ?? 0))[0];
+// Ranked by the same composite the table's tightness badge uses — wage
+// spread alone can crown a different market than the hottest badge.
+const hottest = live
+  .filter((m) => tightnessScore(m) !== null)
+  .sort((a, b) => tightnessScore(b)! - tightnessScore(a)!)[0];
 
 export const metadata: Metadata = {
   title: `DC Market Panel: construction labor across ${live.length} data-center markets`,

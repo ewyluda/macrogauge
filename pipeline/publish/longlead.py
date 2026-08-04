@@ -13,12 +13,16 @@ from pipeline.publish.util import write_json
 ALLOWANCE_DAYS = {"quarterly": 120, "annual": 430}
 
 
+def _aged(asof: str, cadence: str, today: str) -> bool:
+    age = (date.fromisoformat(today) - date.fromisoformat(asof)).days
+    return age > ALLOWANCE_DAYS[cadence]
+
+
 def _stale(vendor, today: str) -> bool:
     if not vendor.figures:
         return False  # a null_note has nothing to age
     newest = max(f.asof for f in vendor.figures)
-    age = (date.fromisoformat(today) - date.fromisoformat(newest)).days
-    return age > ALLOWANCE_DAYS[vendor.cadence]
+    return _aged(newest, vendor.cadence, today)
 
 
 def _figure_dict(f) -> dict:
@@ -60,9 +64,13 @@ def build(cfg, build_components, dc_result: dict | None, today: str) -> dict:
     teaser = []
     for vkey, kind in cfg.teaser:
         vendor = cfg.vendors[vkey]
-        fig = next(f for f in vendor.figures if f.kind == kind)  # loader-validated
+        fig = next(f for f in vendor.figures if f.kind == kind)  # loader-validated (unique)
+        # The teaser ages on ITS OWN figure's asof, not the vendor max: a
+        # refreshed sibling figure must not keep a discontinued teaser pick
+        # looking fresh on the /datacenter strip — the bare-number surface
+        # the stale flag exists for.
         teaser.append({"vendor": vkey, "name": vendor.name,
-                       "stale": _stale(vendor, today),
+                       "stale": _aged(fig.asof, vendor.cadence, today),
                        "figure": _figure_dict(fig)})
     return {"as_of_curated": cfg.as_of_curated,
             "build_weight_covered": round(

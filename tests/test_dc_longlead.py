@@ -49,6 +49,30 @@ def test_load_happy_path(tmp_path):
     assert cfg.teaser == (("gev", "backlog"),)
 
 
+def test_compact_iso_date_rejected(tmp_path):
+    # date.fromisoformat accepts "20260201", but a compact asof would outrank
+    # every dashed date in the publisher's lexicographic max(), aging
+    # staleness from the wrong figure. Dashed form only.
+    vendors = {"gev": {"name": "GE Vernova", "ticker": "GEV", "listed": "NYSE",
+                       "dc_segment": "Electrification", "cadence": "quarterly",
+                       "figures": [_figure(asof="20260723")], "null_note": None}}
+    with pytest.raises(ValueError, match="YYYY-MM-DD"):
+        dc_longlead.load(_write(tmp_path, vendors=vendors))
+
+
+def test_ambiguous_teaser_kind_rejected(tmp_path):
+    # Two figures of one kind (the ABB segment+group backlog shape): the
+    # publisher's first-match resolution would be silently order-dependent,
+    # so the loader refuses the pick.
+    vendors = {"gev": {"name": "GE Vernova", "ticker": "GEV", "listed": "NYSE",
+                       "dc_segment": "Electrification", "cadence": "quarterly",
+                       "figures": [_figure(scope="segment", value=13.7),
+                                   _figure(scope="group", value=30.0)],
+                       "null_note": None}}
+    with pytest.raises(ValueError, match="ambiguous"):
+        dc_longlead.load(_write(tmp_path, vendors=vendors))
+
+
 def test_load_without_build_codes_skips_membership_check(tmp_path):
     # publisher tests and ad-hoc loads may not have a registry at hand
     cfg = dc_longlead.load(_write(tmp_path))
@@ -75,7 +99,7 @@ def test_load_real_config():
 
 @pytest.mark.parametrize("mutate,match", [
     (lambda t: _write(t, top={"schema_version": 2}), "schema_version"),
-    (lambda t: _write(t, top={"as_of_curated": "27-07-2026"}), "ISO date"),
+    (lambda t: _write(t, top={"as_of_curated": "27-07-2026"}), "YYYY-MM-DD"),
     (lambda t: _write(t, vendors={"gev": {
         "name": "GE Vernova", "ticker": "GEV", "listed": "NYSE",
         "dc_segment": "Electrification", "cadence": "monthly",
@@ -111,7 +135,7 @@ def test_load_real_config():
     (lambda t: _write(t, vendors={"gev": {
         "name": "GE Vernova", "ticker": "GEV", "listed": "NYSE",
         "dc_segment": "Electrification", "cadence": "quarterly",
-        "figures": [_figure(period="Q2 2026")], "null_note": None}}), "ISO date"),
+        "figures": [_figure(period="Q2 2026")], "null_note": None}}), "YYYY-MM-DD"),
     (lambda t: _write(t, vendors={"gev": {
         "name": "GE Vernova", "ticker": "GEV", "listed": "NYSE",
         "dc_segment": "Electrification", "cadence": "quarterly",

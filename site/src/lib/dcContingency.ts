@@ -138,7 +138,11 @@ export function bases(
     const i = monthIndexAtOrBefore(months, w.start);
     const j = monthIndexAtOrBefore(months, w.end);
     if (i < 0 || j < 0 || j <= i) continue;
-    if (months[i] !== w.start && def.kind === "absolute") continue;
+    // BOTH endpoints: a grid that starts after w.start OR ends before w.end
+    // would otherwise silently truncate an absolute window (e.g. the COVID
+    // spike computed over 14 months) — the exact "different statistic
+    // wearing the same label" the docblock above prohibits.
+    if (def.kind === "absolute" && (months[i] !== w.start || months[j] !== w.end)) continue;
     if (months[j] > anchorMonth) continue;
     const ratio = index[j] / index[i];
     const n = monthDiff(months[i], months[j]);

@@ -19,9 +19,11 @@ export function HardwareGapPanel({ rows }: { rows: GapRow[] }) {
   const max = Math.max(...rows.map((r) => Math.abs(r.yoy_pct ?? 0)), 0.01);
   return (
     <div className="table-card">
-      <h2>Same hardware, eleven official answers <span className="subtitle">why the index uses transaction-sensitive series</span></h2>
+      <h2>Same hardware, {rows.length} official answers <span className="subtitle">why the index uses transaction-sensitive series</span></h2>
       <table className="data-table">
-        <thead><tr><th>Official series</th><th>ID</th><th></th><th>YoY</th><th>Last obs</th><th></th></tr></thead>
+        <thead><tr><th>Official series</th><th>ID</th>
+          <th aria-label="YoY magnitude bar" /><th>YoY</th><th>Last obs</th>
+          <th aria-label="Index membership" /></tr></thead>
         <tbody>
           {sorted.map((r) => {
             const v = r.yoy_pct;

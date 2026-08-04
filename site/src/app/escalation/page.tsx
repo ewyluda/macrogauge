@@ -16,6 +16,15 @@ export const metadata: Metadata = {
 };
 
 const build = dc.indexes.build;
+// Derived from the artifact on every build, NOT hand-written: which
+// components carry a proxy tail past the last basket-wide print, and their
+// combined weight. /dc-scoreboard derives the identical fact live
+// (measureReconstruction); a hardcoded copy here would silently go stale on
+// the next proxy or weight change.
+const movers = build.components.filter((c) => c.mode !== "official");
+const moverWeightPct = Number(
+  (movers.reduce((a, c) => a + c.weight, 0) * 100).toFixed(1));
+const moverLabels = movers.map((c) => c.label).join(" and ");
 // The inline paired verdict reads `legs` and nothing else. Passing the whole
 // artifact would serialize its 286-row `anchors` array (~47KB of the ~58KB
 // file) into escalation.html for a component that never touches it — the load
@@ -88,9 +97,10 @@ export default function Escalation() {
           years, the latest twelve months, or the 2021–23 spike), each shown with the exact
           window it was measured over. Those windows measure to the last month every Build
           component actually reports a full print for — not to the partial month noted
-          above — because only two of the twelve components (copper wire and aluminum
-          shapes, 8.5% of the index&apos;s weight) have moved since then; anchoring a rate
-          on a two-component move would misstate it as a basket-wide one. We do not predict
+          above — because only {movers.length} of the {build.components.length}{" "}
+          components ({moverLabels}, {moverWeightPct}% of the index&apos;s weight) have
+          moved since then; anchoring a rate
+          on a {movers.length}-component move would misstate it as a basket-wide one. We do not predict
           which regime will obtain, and we
           publish no central path. The realized band underneath the table is a count of
           what happened across overlapping historical windows of the same length as yours,

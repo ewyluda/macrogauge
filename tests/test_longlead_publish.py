@@ -125,6 +125,21 @@ def test_null_note_vendor_is_never_stale():
     assert vendor["stale"] is False and vendor["null_note"]
 
 
+def test_teaser_stale_tracks_its_own_figure_not_the_vendor_max():
+    # A refreshed sibling figure must not keep a discontinued teaser pick
+    # looking fresh on the /datacenter strip: the vendor row ages on the
+    # newest figure, the teaser on the figure it actually shows.
+    figures = [_fig(kind="book_to_bill", unit="ratio", value=1.2,
+                    asof="2026-02-11"),
+               _fig(kind="backlog", asof="2026-07-01")]
+    out = longlead.build(_cfg(figures=figures,
+                              teaser=(("gev", "book_to_bill"),)),
+                         COMPONENTS, DC_RESULT, today="2026-07-27")
+    assert out["teaser"][0]["stale"] is True          # 166d > 120 on ITS asof
+    vendor = out["packages"][0]["vendors"][0]
+    assert vendor["stale"] is False                   # vendor max is 26d old
+
+
 def test_teaser_passthrough():
     out = longlead.build(_cfg(teaser=(("gev", "backlog"),)), COMPONENTS,
                          DC_RESULT, today="2026-07-27")
