@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-08-03T15:30:55Z",
-  "score": 2.9,
+  "published_at": "2026-08-04T15:11:05Z",
+  "score": 2.4,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": 0.12796000000000002,
+      "z": 0.09246000000000001,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -18,7 +18,7 @@
       "active_weight": 25.0
     },
     "pipeline": {
-      "z": 0.184275,
+      "z": 0.184475,
       "weight": 20,
       "available": 4,
       "expected": 4,
@@ -32,7 +32,7 @@
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": 0.10113333333333331,
+      "z": 0.0871,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-31",
-      "momentum": -0.41,
-      "z": -1.5265
+      "as_of": "2026-08-03",
+      "momentum": -0.46,
+      "z": -1.704
     },
     {
       "code": "PAYEMS",
@@ -154,9 +154,9 @@
       "group": "pipeline",
       "direction": -1,
       "mode": "diff",
-      "as_of": "2026-06-01",
+      "as_of": "2026-07-01",
       "momentum": -0.01,
-      "z": 0.0321
+      "z": 0.0329
     },
     {
       "code": "HOUST",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-07-31",
-      "momentum": -0.05,
-      "z": -0.1265
+      "as_of": "2026-08-03",
+      "momentum": -0.06,
+      "z": -0.1686
     }
   ]
 }

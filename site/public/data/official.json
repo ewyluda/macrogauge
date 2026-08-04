@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-03T15:30:55Z",
+  "published_at": "2026-08-04T15:11:05Z",
   "headline": {
     "cpi": {
       "month": "2026-06-01",
@@ -174,9 +174,9 @@
       "label": "Gas, regular",
       "group": "energy",
       "unit": "$/gal",
-      "latest": 4.1,
-      "obs_date": "2026-07-27",
-      "yoy_pct": 31.24
+      "latest": 4.08,
+      "obs_date": "2026-08-03",
+      "yoy_pct": 30.61
     },
     {
       "code": "eia_elec_res",
@@ -211,27 +211,27 @@
       "label": "Gold",
       "group": "markets",
       "unit": "$/oz",
-      "latest": 4092.1,
-      "obs_date": "2026-08-03",
-      "yoy_pct": 20.36
+      "latest": 4141.0,
+      "obs_date": "2026-08-04",
+      "yoy_pct": 20.86
     },
     {
       "code": "fmp_wti",
       "label": "WTI crude",
       "group": "markets",
       "unit": "$/bbl",
-      "latest": 80.15,
-      "obs_date": "2026-08-03",
-      "yoy_pct": 19.04
+      "latest": 76.94,
+      "obs_date": "2026-08-04",
+      "yoy_pct": 16.07
     },
     {
       "code": "fiscal_debt_total",
       "label": "Total public debt",
       "group": "fiscal",
       "unit": "$",
-      "latest": 39841114561022.68,
-      "obs_date": "2026-07-30",
-      "yoy_pct": 8.26
+      "latest": 39771617162466.97,
+      "obs_date": "2026-07-31",
+      "yoy_pct": 7.73
     }
   ]
 }
