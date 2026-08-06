@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-05T15:03:54Z",
+  "published_at": "2026-08-06T15:01:20Z",
   "probability_pct": 0.0,
   "triggered": 0,
   "available": 6,
@@ -29,7 +29,7 @@
       "name": "Claims",
       "code": "ICSA",
       "rule": "3m avg > 110% of 12m avg",
-      "value": 197000.0,
+      "value": 199000.0,
       "triggered": false
     },
     {

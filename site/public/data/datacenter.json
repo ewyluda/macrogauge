@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-05T15:03:54Z",
+  "published_at": "2026-08-06T15:01:20Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -15,8 +15,8 @@
   },
   "indexes": {
     "build": {
-      "as_of": "2026-08-05",
-      "headline_yoy_pct": 6.91,
+      "as_of": "2026-08-06",
+      "headline_yoy_pct": 7.01,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -3157,7 +3157,8 @@
         "2026-08-02",
         "2026-08-03",
         "2026-08-04",
-        "2026-08-05"
+        "2026-08-05",
+        "2026-08-06"
       ],
       "index": [
         100.0,
@@ -6298,7 +6299,8 @@
         166.08,
         166.2,
         166.48,
-        166.46
+        166.46,
+        166.63
       ],
       "yoy_pct": [
         3.05,
@@ -9439,7 +9441,8 @@
         6.64,
         6.74,
         6.91,
-        6.91
+        6.91,
+        7.01
       ],
       "components": [
         {
@@ -9503,9 +9506,9 @@
           "group": "materials",
           "weight": 0.055,
           "mode": "official+proxy",
-          "last_obs": "2026-08-05",
-          "yoy_pct": 23.03,
-          "contribution_pp": 1.27,
+          "last_obs": "2026-08-06",
+          "yoy_pct": 24.27,
+          "contribution_pp": 1.34,
           "stale": false
         },
         {
@@ -9514,9 +9517,9 @@
           "group": "materials",
           "weight": 0.03,
           "mode": "official+proxy",
-          "last_obs": "2026-08-05",
-          "yoy_pct": 23.25,
-          "contribution_pp": 0.7,
+          "last_obs": "2026-08-06",
+          "yoy_pct": 24.55,
+          "contribution_pp": 0.74,
           "stale": false
         },
         {
@@ -10028,7 +10031,7 @@
           165.8128,
           165.5258,
           166.0837,
-          166.4635
+          166.6334
         ],
         "components": {
           "constr_wages": [
@@ -11391,7 +11394,7 @@
             190.3774,
             184.7132,
             191.7219,
-            197.3336
+            199.3272
           ],
           "alum_shapes": [
             96.7196,
@@ -11618,7 +11621,7 @@
             202.4524,
             181.8105,
             187.5583,
-            189.93
+            191.939
           ],
           "switchgear": [
             85.7335,
@@ -12766,7 +12769,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 3.15
+          "contribution_pp": 3.26
         },
         {
           "group": "electrical",
@@ -33915,30 +33918,30 @@
       {
         "code": "caiso_sp15_da",
         "label": "CAISO SP15 (day-ahead)",
-        "latest": 48.28,
-        "asof": "2026-08-05",
+        "latest": 44.24,
+        "asof": "2026-08-06",
         "unit": "$/MWh"
       },
       {
         "code": "miso_indiana_da",
         "label": "MISO Indiana Hub (day-ahead)",
-        "latest": 42.89,
-        "asof": "2026-08-04",
+        "latest": 47.24,
+        "asof": "2026-08-05",
         "unit": "$/MWh"
       },
       {
         "code": "ice_pjm_west",
         "label": "PJM Western Hub (ICE wtd avg)",
-        "latest": 62.49,
-        "asof": "2026-07-21",
+        "latest": 78.03,
+        "asof": "2026-08-04",
         "unit": "$/MWh"
       }
     ],
     "henry_hub": {
       "code": "eia_henry_hub",
       "label": "Henry Hub natural gas",
-      "latest": 2.63,
-      "asof": "2026-07-27",
+      "latest": 2.81,
+      "asof": "2026-08-03",
       "unit": "$/MMBtu"
     },
     "capacity_auction": {
@@ -34137,9 +34140,9 @@
     "transformer": null,
     "kalshi": {
       "dc_count_expected": 5158.0,
-      "count_asof": "2026-08-05",
+      "count_asof": "2026-08-06",
       "nuclear_by_2030_prob": 0.53,
-      "nuclear_asof": "2026-08-05"
+      "nuclear_asof": "2026-08-06"
     },
     "diesel": {
       "latest": 5.35,
