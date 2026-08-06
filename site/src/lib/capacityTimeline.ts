@@ -17,6 +17,11 @@ export function buildTimeline(rows: CapacityCompany[]): CapacityTimeline {
   for (const r of live) {
     for (const [q, site, mw] of r.tl ?? []) {
       const o = ord(q);
+      // Mirror _events()'s window filter, not just its aggregation: the
+      // publisher filters pre-2026Q2 quarters out of `tl` today, but if one
+      // ever ships, it must not become a milestone card whose MW never
+      // enters the curve (the loop below starts at QMIN).
+      if (o < QMIN) continue;
       adds.set(o, (adds.get(o) ?? 0) + mw);
       if (!miles.has(o)) miles.set(o, []);
       miles.get(o)!.push([r.t, site, mw]);

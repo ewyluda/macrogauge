@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { fmtSpread, sortMarkets, tightness } from "./dcMarkets";
+import { fmtSpread, sortMarkets, tightness, tightnessScore } from "./dcMarkets";
 import type { MarketRow } from "./types";
 
 const row = (over: Partial<MarketRow>): MarketRow =>
@@ -79,6 +79,15 @@ describe("sortMarkets", () => {
       .toEqual(["building", "real-zero", "undisclosed"]);
     expect(sortMarkets(rows, "mw", false).map((r) => r.key))
       .toEqual(["real-zero", "building", "undisclosed"]);
+  });
+
+  it("tightnessScore is the badge composite (wage + emp/2), null without a wage spread", () => {
+    // The "Tightest market" KPI ranks by this exported score so it can never
+    // crown a different market than the table's hottest badge.
+    expect(tightnessScore(row({ wage_spread_pp: 8, emp_spread_pp: 6 }))).toBe(11);
+    expect(tightnessScore(row({ wage_spread_pp: 8, emp_spread_pp: null }))).toBe(8);
+    expect(tightnessScore(row({ wage_spread_pp: null }))).toBeNull();
+    expect(tightnessScore(row({ available: false, wage_spread_pp: 8 }))).toBeNull();
   });
 
   it("treats two equal-availability rows with a null sort value as equal, not an arbitrary swap", () => {

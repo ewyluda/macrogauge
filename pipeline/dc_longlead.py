@@ -14,11 +14,17 @@ confined to the longlead phase (longlead_ok=false, exit 0), and the gate that
 keeps a bad config off main is CI, where test_load_real_config loads this
 very file."""
 import json
+import re
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 
 DEFAULT_PATH = Path(__file__).parent.parent / "config" / "dc_longlead.json"
+
+# Dashed form only: date.fromisoformat also accepts "20260201" and week
+# dates, and a compact asof would outrank every dashed date in the publisher's
+# lexicographic max(), aging staleness from the wrong figure.
+_DASHED_ISO = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 KINDS = frozenset({"backlog", "orders", "book_to_bill", "backlog_growth"})
 BASES = frozenset({"rpo", "order-backlog", "mdna-backlog"})
@@ -70,8 +76,9 @@ class LongLeadConfig:
 
 
 def _iso(raw, where: str) -> str:
-    if not isinstance(raw, str):
-        raise ValueError(f"dc_longlead {where}: must be an ISO date string")
+    if not isinstance(raw, str) or not _DASHED_ISO.match(raw):
+        raise ValueError(
+            f"dc_longlead {where}: must be a YYYY-MM-DD date string, got {raw!r}")
     try:
         date.fromisoformat(raw)
     except ValueError:
@@ -183,8 +190,17 @@ def load(path: Path | None = None,
         vendor = vendors.get(vkey)
         if vendor is None:
             raise ValueError(f"dc_longlead teaser: unknown vendor {vkey!r}")
-        if not any(f.kind == kind for f in vendor.figures):
+        matches = [f for f in vendor.figures if f.kind == kind]
+        if not matches:
             raise ValueError(f"dc_longlead teaser: {vkey} has no {kind!r} figure")
+        # The publisher resolves a teaser by first kind match — with two
+        # figures of one kind (ABB carries segment AND group backlog) the
+        # pick would be silently order-dependent. Force the curator to a
+        # vendor whose kind is unambiguous.
+        if len(matches) > 1:
+            raise ValueError(
+                f"dc_longlead teaser: {vkey} has {len(matches)} {kind!r} figures "
+                f"({', '.join(f.scope for f in matches)}) — teaser pick is ambiguous")
         teaser.append((vkey, kind))
     return LongLeadConfig(as_of_curated=as_of, packages=tuple(packages),
                           vendors=vendors, teaser=tuple(teaser))

@@ -65,13 +65,15 @@ export function CapacityClient({ data }: { data: Capacity }) {
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", margin: "8px 0 14px" }}>
         {COHORTS.map(([k, label]) => (
-          <button key={k} style={btn(cohort === k)} onClick={() => setCohort(k)}>{label}</button>
+          <button key={k} style={btn(cohort === k)}
+            aria-pressed={cohort === k} onClick={() => setCohort(k)}>{label}</button>
         ))}
         {tab === "Capacity" && (
           <>
             <span style={{ color: "var(--muted)", fontSize: 12, marginLeft: 8 }}>sort</span>
             {SORTS.map(([k, label]) => (
-              <button key={k} style={btn(sort === k)} onClick={() => setSort(k)}>{label}</button>
+              <button key={k} style={btn(sort === k)}
+                aria-pressed={sort === k} onClick={() => setSort(k)}>{label}</button>
             ))}
           </>
         )}

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import llJson from "../../../public/data/longlead.json";
 import { KpiCard } from "@/components/KpiCard";
 import { fmtSigned } from "@/lib/format";
-import { BASIS_LABELS, fmtFigure, noteSegments } from "@/lib/longLead";
+import { BASIS_LABELS, fmtFigure, fmtWeightPct, noteSegments } from "@/lib/longLead";
 import type { LongLead, LongLeadPackage, LongLeadVendor } from "@/lib/types";
 
 const data = llJson as unknown as LongLead;
@@ -72,7 +72,7 @@ function PackageSection({ pkg }: { pkg: LongLeadPackage }) {
       <h2>
         {pkg.label}{" "}
         <span className="subtitle">
-          weight {pkg.weight} ·{" "}
+          {fmtWeightPct(pkg.weight)} of Build weight ·{" "}
           {pkg.price_yoy_pct === null
             ? "price YoY unavailable"
             : `PPI ${fmtSigned(pkg.price_yoy_pct)} YoY as of ${pkg.price_last_obs}`}
@@ -114,8 +114,10 @@ const CAT_Q1_2026_10Q =
 
 export default function Page() {
   const priced = data.packages.filter((p) => p.price_yoy_pct !== null);
+  // PageShell already renders the page's <main> landmark (layout.tsx) — a
+  // second one here is invalid HTML; the other DC pages use a plain div.
   return (
-    <main>
+    <div>
       <h1>Long-Lead Board</h1>
       <p className="lede">
         The binding constraint in DC delivery is availability, not just price.
@@ -129,7 +131,7 @@ export default function Page() {
         <KpiCard
           label="Packages tracked"
           value={`${data.packages.length}`}
-          context={`${data.build_weight_covered} of DC Build weight`}
+          context={`${fmtWeightPct(data.build_weight_covered)} of DC Build weight`}
         />
         <KpiCard
           label="Price legs live"
@@ -171,6 +173,6 @@ export default function Page() {
         knowing. Quarterly figures flag stale after 120 days, annual after
         430. Curated {data.as_of_curated}.
       </p>
-    </main>
+    </div>
   );
 }

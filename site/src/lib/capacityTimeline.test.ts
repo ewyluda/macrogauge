@@ -36,6 +36,17 @@ describe("buildTimeline", () => {
     expect(only.milestones["2026Q4"]).toBeUndefined();
   });
 
+  it("drops a pre-window quarter entirely — no milestone card without curve MW", () => {
+    // The publisher filters pre-2026Q2 quarters out of `tl`; if one ever
+    // ships anyway, the client must mirror that window, not render a 2025Q4
+    // milestone whose MW never enters the cumulative curve.
+    const tl = buildTimeline([
+      co({ tl: [["2025Q4", "Early", 500], ["2026Q3", "S1", 50]] }),
+    ]);
+    expect(Object.keys(tl.milestones)).toEqual(["2026Q3"]);
+    expect(tl.points.at(-1)).toEqual({ q: "2026Q3", add_mw: 50, cum_mw: 150 });
+  });
+
   it("excludes dupe rows and returns no points when nothing is dated", () => {
     const tl = buildTimeline([
       co({ t: "AAA", op: 100 }),

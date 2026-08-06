@@ -59,9 +59,18 @@ export function MarketsClient({ data }: { data: DcMarkets }) {
     else { setKey(k); setDesc(true); }
   };
 
+  // Same keyboard affordance the expandable rows below already carry —
+  // sortable headers must not be mouse-only, and aria-sort tells AT which
+  // column drives the current order.
   const th = (k: SortKey, label: string, title?: string) => (
-    <th key={k} onClick={() => click(k)} style={{ cursor: "pointer" }} title={title}>
-      {label}{key === k ? (desc ? " ▾" : " ▴") : ""}
+    <th key={k}
+      aria-sort={key === k ? (desc ? "descending" : "ascending") : undefined}>
+      <button type="button" onClick={() => click(k)} title={title}
+        style={{ background: "none", border: 0, padding: 0, width: "100%",
+                 color: "inherit", cursor: "pointer", font: "inherit",
+                 textAlign: "inherit" }}>
+        {label}{key === k ? (desc ? " ▾" : " ▴") : ""}
+      </button>
     </th>
   );
 

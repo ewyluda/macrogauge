@@ -66,6 +66,26 @@ for (const [path, text] of ROUTES) {
   });
 }
 
+test("markets sortable controls preserve column-header semantics", async ({ page }) => {
+  await page.goto("/markets");
+  const head = page.locator("table.data-table thead");
+
+  // The interactive control belongs INSIDE the th: putting role="button" on
+  // the th itself removes its columnheader role and breaks data-cell/header
+  // associations for screen-reader table navigation.
+  await expect(head.getByRole("columnheader")).toHaveCount(7);
+  await expect(head.getByRole("button")).toHaveCount(6);
+
+  const wageYoy = head.getByRole("columnheader", { name: /^Wage YoY/ });
+  await expect(wageYoy).toHaveAttribute("aria-sort", "descending");
+
+  await head.getByRole("button", { name: /^Market/ }).click();
+  await expect(
+    head.getByRole("columnheader", { name: /^Market/ })
+  ).toHaveAttribute("aria-sort", "descending");
+  await expect(wageYoy).not.toHaveAttribute("aria-sort");
+});
+
 test("quilt module renders month cells and grocery cards render prices", async ({ page }) => {
   await page.goto("/");
   await page.waitForLoadState("networkidle");

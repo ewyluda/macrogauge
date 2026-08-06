@@ -184,8 +184,10 @@ export default function Datacenter() {
       ]} />
       <ComponentTable title="DC Build components" comps={build.components as Comp[]}
                       groups={(build as { groups?: GroupSum[] }).groups} groupHeaders />
-      <ComponentTable title="DC Ops components" comps={ops.components as Comp[]}
-                      groups={(ops as { groups?: GroupSum[] }).groups} />
+      {/* No groupHeaders (and no groups prop — sums only render under
+          headers): ops maps its 3 components 1:1 onto its 3 groups, so
+          header rows would restate every component line verbatim. */}
+      <ComponentTable title="DC Ops components" comps={ops.components as Comp[]} />
       <ComponentTable title="DC Hardware components" comps={hardware.components as Comp[]}
                       groups={(hardware as { groups?: GroupSum[] }).groups} groupHeaders />
       <HardwareGapPanel rows={dc.hardware_gap as GapRow[]} />

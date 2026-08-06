@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BASIS_LABELS, KIND_LABELS, fmtFigure } from "@/lib/longLead";
+import { BASIS_LABELS, KIND_LABELS, fmtFigure, fmtWeightPct } from "@/lib/longLead";
 import type { LongLead } from "@/lib/types";
 
 // Chips are the config-curated `teaser` picks (spec §5) — the site never
@@ -21,8 +21,8 @@ export function LongLeadStrip({ longlead }: { longlead: LongLead }) {
         </span>
       ))}
       <span className="subtitle">
-        {longlead.packages.length} packages · {longlead.build_weight_covered}{" "}
-        of Build weight
+        {longlead.packages.length} packages ·{" "}
+        {fmtWeightPct(longlead.build_weight_covered)} of Build weight
       </span>
       <Link href="/longlead">Long-Lead Board →</Link>
     </div>

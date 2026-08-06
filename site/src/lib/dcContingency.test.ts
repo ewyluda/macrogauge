@@ -77,6 +77,23 @@ describe("bases", () => {
     expect(keys).toEqual(["longrun", "trailing3y", "momentum"]);
   });
 
+  it("omits an absolute basis whose window OUTLIVES the sample, never clamps the end", () => {
+    // Grid 2021-01..2022-06 contains the COVID window's start (2021-04) but
+    // ends before its end (2023-12). Pre-fix, monthIndexAtOrBefore clamped
+    // the end to 2022-06 and published a 14-month statistic under the
+    // "Peak regime (COVID)" label — the truncation the docblock prohibits.
+    const months: string[] = [];
+    const index: number[] = [];
+    for (let k = 0; k <= 17; k++) {
+      const y = 2021 + Math.floor(k / 12);
+      const mo = (k % 12) + 1;
+      months.push(`${y}-${String(mo).padStart(2, "0")}`);
+      index.push(100 * Math.pow(1.05, k / 12));
+    }
+    const keys = bases(months, index, "2022-06").map((b) => b.key);
+    expect(keys).not.toContain("covid");
+  });
+
   it("omits a rolling basis whose lookback predates the sample", () => {
     const shortMonths = MONTHS.slice(0, 6);
     const shortIndex = INDEX.slice(0, 6);
