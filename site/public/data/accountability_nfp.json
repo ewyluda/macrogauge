@@ -1,13 +1,23 @@
 {
-  "published_at": "2026-08-06T15:01:20Z",
+  "published_at": "2026-08-07T13:57:17Z",
   "target": "NFP",
-  "graded": [],
-  "pending": [
+  "graded": [
     {
       "reference_period": "2026-07",
       "badge": "LIVE",
-      "forecast": 137,
-      "as_of": "2026-08-06",
+      "forecast": 137.0,
+      "as_of": "2026-07-30",
+      "actual": -126.0,
+      "error": 263.0,
+      "release_date": "2026-08-07"
+    }
+  ],
+  "pending": [
+    {
+      "reference_period": "2026-08",
+      "badge": "LIVE",
+      "forecast": 60,
+      "as_of": "2026-08-07",
       "actual": null
     }
   ]

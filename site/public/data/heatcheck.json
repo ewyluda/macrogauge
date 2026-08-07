@@ -1,17 +1,17 @@
 {
-  "published_at": "2026-08-06T15:01:20Z",
-  "score": 2.4,
+  "published_at": "2026-08-07T13:57:17Z",
+  "score": 3.8,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": 0.07116000000000001,
+      "z": 0.17056000000000004,
       "weight": 25,
       "available": 5,
       "expected": 5,
       "active_weight": 25.0
     },
     "real_economy": {
-      "z": 0.09848000000000001,
+      "z": 0.08936,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -25,7 +25,7 @@
       "active_weight": 20.0
     },
     "housing": {
-      "z": -0.33369999999999994,
+      "z": -0.30672499999999997,
       "weight": 15,
       "available": 4,
       "expected": 4,
@@ -78,26 +78,26 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-08-05",
-      "momentum": -0.49,
-      "z": -1.8105
+      "as_of": "2026-08-06",
+      "momentum": -0.35,
+      "z": -1.3135
     },
     {
       "code": "PAYEMS",
       "group": "real_economy",
       "direction": 1,
-      "as_of": "2026-06-01",
-      "momentum": 0.2105,
-      "z": -0.6282
+      "as_of": "2026-07-01",
+      "momentum": 0.0378,
+      "z": -1.3483
     },
     {
       "code": "UNRATE",
       "group": "real_economy",
       "direction": -1,
       "mode": "diff",
-      "as_of": "2026-06-01",
-      "momentum": -0.1,
-      "z": -0.0
+      "as_of": "2026-07-01",
+      "momentum": -0.2,
+      "z": 0.6745
     },
     {
       "code": "INDPRO",
@@ -188,9 +188,9 @@
       "direction": -1,
       "mode": "diff",
       "periods": 13,
-      "as_of": "2026-07-30",
-      "momentum": 0.36,
-      "z": -1.0252
+      "as_of": "2026-08-06",
+      "momentum": 0.32,
+      "z": -0.9173
     },
     {
       "code": "M2SL",
@@ -214,7 +214,7 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-08-05",
+      "as_of": "2026-08-06",
       "momentum": -0.05,
       "z": -0.1265
     }

@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-06T15:01:20Z",
+  "published_at": "2026-08-07T13:57:17Z",
   "releases": [
     {
       "target": "cpi",
@@ -291,12 +291,6 @@
     },
     {
       "target": "nfp",
-      "reference_period": "2024-07",
-      "value": 157748.0,
-      "first_release_date": "2026-07-11"
-    },
-    {
-      "target": "nfp",
       "reference_period": "2024-08",
       "value": 157757.0,
       "first_release_date": "2026-07-11"
@@ -432,6 +426,12 @@
       "reference_period": "2026-06",
       "value": 158984.0,
       "first_release_date": "2026-07-11"
+    },
+    {
+      "target": "nfp",
+      "reference_period": "2026-07",
+      "value": 158858.0,
+      "first_release_date": "2026-08-07"
     }
   ]
 }

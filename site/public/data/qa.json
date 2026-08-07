@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-06",
+  "generated_at": "2026-08-07",
   "passed": 25,
   "total": 27,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-06-01 is 66d old (limit 80)"
+      "detail": "latest official month 2026-06-01 is 67d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -97,19 +97,19 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": false,
-      "detail": "29/30 ok; failed \u2014 USDA: missing secret USDA_API_KEY"
+      "detail": "28/30 ok; failed \u2014 USDA: missing secret USDA_API_KEY; MANHEIM: ValueError: Cox UVVI post: value not found (structure drift?)"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "682/693 fresh; stale \u2014 APU0000702212 (97d > 80d), APU0000704211 (97d > 80d), kalshi_cpi_mom (26d > 5d), DRCCLACBS (217d > 210d), TDSP (217d > 210d), REVOLSL (97d > 80d), DRSFRMACBS (217d > 210d), SAHMREALTIME (66d > 60d), USSTHPI (217d > 210d), qcew_wage23_la (401d > 400d), qcew_aemp23_c41067 (492d > 400d)"
+      "detail": "683/693 fresh; stale \u2014 APU0000702212 (98d > 80d), APU0000704211 (98d > 80d), kalshi_cpi_mom (27d > 5d), DRCCLACBS (218d > 210d), TDSP (218d > 210d), REVOLSL (98d > 80d), DRSFRMACBS (218d > 210d), USSTHPI (218d > 210d), qcew_wage23_la (402d > 400d), qcew_aemp23_c41067 (493d > 400d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.089 vs EIA weekly $4.079 \u2014 relative divergence 0.2% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.082 vs EIA weekly $4.079 \u2014 relative divergence 0.1% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -127,19 +127,19 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-08-06"
+      "detail": "CPI nowcast as-of 2026-08-07"
     },
     {
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.06 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=0.05 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-08-06 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-08-07 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
