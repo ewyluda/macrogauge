@@ -96,6 +96,23 @@ def test_fetch_reads_h1_anchored_value_not_head_metadata_decoy():
     assert obs[0].value != pytest.approx(209.2)
 
 
+def test_parse_post_accepts_integer_index_value_from_july_2026_layout():
+    # Live regression, captured 2026-08-10: the July report kept the same
+    # heading + prose anchors but printed the index as `210`, not `210.0`.
+    # Requiring exactly one decimal made the scheduled connector fail even
+    # though the official value was present in the body.
+    html = """
+    <h1 class="heading">
+      Manheim Used Vehicle Value Index: July 2026 Trends
+    </h1>
+    <ul><li>The <strong>Manheim Used Vehicle Value Index</strong>
+      (MUVVI) fell to 210, reflecting a 1.3% increase year over year.</li></ul>
+    """
+    obs_date, value = manheim.parse_post(html)
+    assert obs_date == "2026-07-01"
+    assert value == pytest.approx(210.0)
+
+
 def test_march_fixture_still_carries_both_traps():
     # Guard the recorded fixture: if a refresh ever loses the <head> decoy
     # sentence or the &nbsp;-encoded prose clause, the test above stops

@@ -1,300 +1,186 @@
-# TODO — recommended enhancements (ranked)
+# TODO — active backlog
 
-Backlog last groomed 2026-07-24 (Project Controls gap register added).
-Full narratives for completed items live in the commit history.
+Last audited **2026-08-10** against `main` (`c49b3ca`) and the current working tree.
+Only actionable work remains in the active sections. Completed, superseded, deprecated, and
+declined items are recorded once in the disposition ledger at the end; full implementation
+narratives belong in the linked plans and git history.
 
-## Analytics / correctness
+For the Project Controls roadmap, P1–P4 have shipped or concluded. The next product pick is
+**P5 (claims-grade artifacts)** or **P7 (audience landing page)**. The full gap register and
+methodology constraints remain in
+[`docs/plans/2026-07-24-project-controls-gaps.md`](docs/plans/2026-07-24-project-controls-gaps.md).
 
-1. **Gaptable base-hole fix — HARD DEADLINE 2026-11-12.** The 2018 YoY base window
-   runs out; fix the base-month derivation before then (tracked since 2026-07-11).
+## Correctness and operations
 
-2. **Commodities phase ValidationError test pin** (found in PR #3 review, 2026-07-21):
-   every isolated `run_daily` phase pins that a schema-invalid artifact fails the run —
-   except commodities. One test, mirrors `test_capacity_schema_violation_fails_run`.
+- [ ] **#2 — Pin commodities-schema failures at the orchestration boundary.** Every other
+  isolated `run_daily` phase proves that `jsonschema.ValidationError` aborts the run rather than
+  degrading into an `*_ok: false` QA result. Add the commodities equivalent of
+  `test_capacity_schema_violation_fails_run`; the generic commodities-failure test does not cover
+  this contract.
 
-## /capacity curation follow-ups
+- [ ] **#4 — Refresh Cipher Digital milestones, then wait for filed operating evidence.**
+  `config/capacity.json` still says Black Pearl Phase I rent starts in August 2026. Cipher's 2025
+  10-K superseded that target: initial Phase I rent is targeted for **Q4 2026**, initial Phase II
+  rent for **Q1 2027**, and full ramp for **Q1 2027**. Update the curation text now, but keep the
+  MW in construction until a filing confirms rent actually commenced. Evidence:
+  [2025 10-K](https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm)
+  and [Q1 2026 10-Q](https://www.sec.gov/Archives/edgar/data/1819989/000181998926000028/cifr-20260331.htm).
 
-3. **CIFR Barber Lake +39 MW Fluidstack expansion** (critical IT, to 246 MW / full
-   300 MW site) — surfaced in the 2026-07-21 news sweep but not date-verified, so
-   deliberately not applied with the HUT/IREN/CIFR flags. Verify the 8-K, then apply.
+- [ ] **#9 — Move GitHub Actions off the Node 20 action runtime.** Upgrade
+  `actions/checkout@v4` and `actions/setup-node@v4` to current supported majors (both are v6 as of
+  this audit), confirming the GitHub-hosted runner satisfies their minimum runner versions.
+  `actions/setup-python@v5` is a separate action and is not part of this item.
 
-4. **CIFR Black Pearl AWS phase 1 con→op** once rent commences (Aug 2026) or the next
-   filing discloses the phase split — go-live wording applied 2026-07-21, MW not moved.
+- [ ] **#10 — Model expected absence separately from real staleness.** `sources_fresh` still mixes
+  disclosure-suppressed QCEW rows and structurally absent series with genuine regressions. Add an
+  explicit registry/status policy for expected absence; do not hardcode the old “8 states” count,
+  which has already drifted.
 
-5. **capacity.json top-level `timeline` is now client-unused** (the page aggregates
-   per-company `tl` since e7d46e9) — kept for API consumers; drop or document at the
-   next schema rev.
+- [ ] **#23 — Remove the 2030 capacity-timeline time bomb.**
+  `pipeline/publish/capacity.py` only recognizes years 2025–2029 via
+  `_YEAR = re.compile(r"20(2[5-9])")`. Accept valid four-digit years (with a bounded policy if
+  needed) and pin 2030+ parsing.
 
-## Product / coverage (phase 5 candidates)
+- [ ] **#27 — Validate every committed published artifact in CI.**
+  `tests/test_published_data.py` currently covers **19 of 36** committed JSON files; 17 artifacts
+  still rely only on phase/writer tests. Build the contract list from explicit data→schema pairs
+  (including the three accountability files and three quilt files) so new artifacts cannot silently
+  fall out of the committed-data guard.
 
-6. **Exports:** headline/components CSV, `feed.xml` RSS daily brief, open-data page
-   documenting all published JSONs (sketched in docs/macrogauge-design.md §6/§8).
-   → **re-ranked by item 14 (P5):** for the Project Controls audience the CSV export is not
-   hygiene, it's the use case. Build them together.
+- [ ] **#32 — Decouple capacity and markets config loading.** `_capacity_phase` transitively loads
+  the market roster, while `_markets_phase` loads the market config and capacity config again.
+  Resolve `market_keys` once and pass them explicitly so malformed market config does not degrade
+  `capacity_ok` and the markets phase does not parse config three times. While there, pin the
+  two-letter state validation, require `note` instead of defaulting it, and preserve fractional MW
+  instead of truncating with `int(sum(...))`.
 
-7. **Scoreboard empty/degraded state copy** explaining vintage-true grading — the BT
-   vs LIVE distinction deserves one sentence on-page.
+## Contract and payload cleanup
 
-## Hygiene (quick wins)
+- [ ] **#5 / #21 / #24 / #31 — Make one versioned capacity/DC payload cleanup pass.** Treat these
+  as one contract change instead of four independent chores:
 
-8. **Add a favicon** to `site/src/app` or `site/public` — kills the 404 on every page load.
+  - decide whether `capacity.json.timeline` remains a public compatibility field or is removed;
+    the site now builds filtered timelines from per-company `tl`;
+  - stop serializing unused `asOf`/`rebase` fields into the `/escalation` client payload, and decide
+    whether the unconsumed Ops/Hardware monthly grids remain public API surface;
+  - require `when` where the capacity contract promises it, declare `market` on
+    `geo_unmapped.items`, and add `additionalProperties: false` at the capacity/DC-markets object
+    boundaries that are intended to be closed;
+  - document compatibility/migration decisions before deleting any field that an external JSON
+    consumer could use.
 
-9. **daily.yml/ci.yml action bumps:** `actions/checkout@v4` / `actions/setup-node@v4`
-   ride the deprecated Node 20 runtime (the weekday cron gate itself is done).
+- [ ] **#22 — Correct `geo_note`'s meaning of `approx`.** Many `approx: true` rows use known
+  town/county centroids, not state-only placement. Define it as approximate/centroid coordinates
+  rather than “only the state/country is public,” and keep the dashed-map legend aligned.
 
-10. **Silence expected staleness noise:** the 8 disclosure-suppressed QCEW states and
-    never-seen series read as failures in `sources_status` — mark them expected-absent so
-    real regressions stand out.
+## Product and coverage roadmap
 
-## Project Controls audience — DC campaign (added 2026-07-24)
+- [ ] **#14 (absorbs #6) — P5 claims-grade artifacts.** Ship CSV/Excel export, a stable citation
+  string, a monthly one-page PDF, and a point-in-time page backed by the append-only vintage store.
+  Treat export as the claims workflow, not a standalone hygiene task.
 
-Full gap register, rationale, data paths, and invariants:
-**`docs/plans/2026-07-24-project-controls-gaps.md`** (register only — promote an item to its own
-plan doc before implementing). One line each here so nothing falls off this list.
-Suggested order P1→P7; P7 and the item-6 CSV export are pullable forward anytime. **P1, P2, and now
-P3 (all of P3a/P3b/P3c) have shipped or concluded (2026-07-25/26)** — P4 or P7 is the next pick.
+- [ ] **#15 — P6 portfolio/program view.** Let readers define local projects (market, MW, base
+  estimate/date, delivery date) and aggregate escalation exposure in localStorage/URL state. P1 and
+  P3 are now complete; the forward leg must remain a reader-selected historical contingency basis,
+  not an unstated forecast.
 
-11. ~~**P2 — DC market panel + capacity-competition join.**~~ **DONE 2026-07-25** — shipped as
-    `/markets` on `feat/dc-market-panel` (see Done section below); the register's **radius-based**
-    capacity join and **derived** ISO column were refuted by measurement — both ship instead as
-    hand-curated/denominated fields (demoted, not dropped), see
-    `docs/plans/2026-07-24-project-controls-gaps.md` §P2.
+- [ ] **#16 — P7 Project Controls landing page and vocabulary.** Create a dedicated entry surface
+  using escalation, basis of estimate, contingency, long-lead, $/MW, and energization language;
+  route into `/datacenter`, `/escalation`, `/markets`, `/longlead`, and `/capacity`.
 
-12. ~~**P3 — Forward DC escalation curve (12–36mo).**~~ **DONE 2026-07-26** — P3a (contingency
-    table, `feat/dc-contingency`) and **P3b (grading harness) both shipped** on
-    `feat/dc-grading-harness`: `dc_grades.json` + `/dc-scoreboard` back-test the three rule-based
-    carry bases against realized DC Build escalation on two labelled samples (strict: 99
-    vintage-true anchors, 2018-01→2026-06, publishes h=12/24 only; extended: 187 final-revision
-    anchors, 2010-12→2026-06, all four horizons). **P3c is now a published measurement, not a
-    build item**: the unfilled-orders lead-lag study ran on 402 months and returned a negative
-    verdict — the one mapping that clears its pre-registered stability gate does so at a 0-month
-    (contemporaneous, not forward) lag that is itself a sample-split artifact, so **no forward
-    model is warranted on this evidence**. See
-    `docs/plans/2026-07-24-project-controls-gaps.md` §P3 and
-    `docs/superpowers/specs/2026-07-26-dc-grading-harness-design.md` §2.1a, §6.1.
+- [ ] **#17 — P8 named contract-reference index decision.** Do not schedule product work until a
+  methodology-freeze, versioning, correction, and compliance policy is explicitly approved.
 
-13. **P4 — Long-lead equipment board.** Vendor backlog / book-to-bill (Eaton, Schneider, ABB, Vertiv,
-    Cummins, GE Vernova…) as a *directional* lead-time proxy via the existing FMP connector. The
-    primary-source standard that nulled `context.transformer` stands — see the plan doc before restarting.
+- [ ] **#26 — Decide whether market-level power/ops belongs on `/markets`.** EIA power is only
+  state-resolution, so multiple markets in one state would share an identical `ops_mult`. Design
+  and display the resolution label before re-keying `dcindex.parity_rows()` to markets.
 
-14. **P5 — Claims-grade artifacts.** Extends item 6: CSV + citation string + monthly PDF +
-    a **point-in-time page** (vintage store proves the index was never restated — the claims use case).
+## Capacity curation
 
-15. **P6 — Portfolio/program view.** localStorage projects → escalation exposure. Depends on P1/P3.
+- [ ] **#34 — Split operating campuses with active expansions.** Curate operating and
+  under-construction MW as separate rows, following the ORCL Abilene precedent. The known review
+  set includes Project Rainier, Prometheus, Council Bluffs, and four other operating-tagged sites
+  whose `when` text describes active expansion. Do not change the status schema to encode two states
+  in one row.
 
-16. **P7 — Audience landing page + vocabulary.** Their words (escalation, contingency, long-lead,
-    $/MW, energization), not CPI words. Independent and cheap.
+## UX and accessibility
 
-17. **P8 — Named contract-reference index (strategic).** Needs a methodology-freeze + versioning policy
-    before an index can be named in an escalation clause. Flagged so P1–P7 don't foreclose it.
+- [ ] **#7 — Add explicit scoreboard empty/degraded states.** The page now explains BT versus LIVE,
+  so that half of the old item is complete. What remains is visible copy when any graded/pending or
+  backtest collection is empty instead of rendering a blank table body.
 
-## /escalation follow-ups (deferred at the 2026-07-25 final review — none block merge)
+- [ ] **#19 — Normalize escalation currency formatting.** Reconcile `$X.XXM` with adjacent exact
+  dollars and prevent small negative amounts from rendering as `−$0`.
 
-18. **Strengthen two pipeline fixtures.** `tests/test_dcindex.py`'s monthly-grid fixture is flat
-    across interior months, so it pins the Laspeyres identity but not the "last day of month"
-    sampling for those months; `tests/test_datacenter_writer.py`'s values are all ≤1dp, so
-    `round(x, 4)` is a no-op and a precision regression wouldn't trip. One mid-2017 value change
-    and one 6-decimal value close both.
+- [ ] **#20 — Validate month inputs independently of native browser support.** Safari may render
+  `<input type="month">` as text and ignore `min`/`max`; invalid text currently falls through to a
+  misleading “index starts in 2018-01” message. Parse and report invalid/out-of-range values in the
+  client.
 
-19. **`usd()` polish in `DcEscalationClient.tsx`:** mixes `$X.XXM` with exact dollars across
-    adjacent cards (they don't visibly reconcile), and `usd(-0.4)` renders `−$0` — reachable in
-    the "Of your delta" column at base costs of a few dollars. Cosmetic.
+- [ ] **#28 — Finish sortable-header accessibility in `ParityTable.tsx`.** `/markets` was fixed in
+  `982d0a8` with a native button inside each `<th>` plus `aria-sort`. `QuiltHeatmap` has no sortable
+  `<th>` and was incorrectly named in the original item. Apply the proven pattern to the one real
+  remaining table.
 
-20. **`<input type="month">` degrades to a text field in Safari** — `min`/`max` stop constraining
-    and an unparseable string falls through to the "index starts in 2018-01" message, which is
-    misleading on that path. Functional everywhere else.
+- [ ] **#29 — Preserve native row semantics on expandable tables.** `/markets` and `/capacity`
+  still put `role="button"` on `<tr>`, which removes its implicit row role. Move the interactive
+  control into a button in the identifying cell while retaining keyboard and expanded-state
+  behavior.
 
-21. **Unused payload/publish surface:** `asOf`/`rebase` are serialized into the `/escalation`
-    client payload but only used server-side; the `ops` and `hardware` `monthly` grids (~11KB of
-    the ~58KB added to `datacenter.json`) have no consumer — deliberate, since the publisher is
-    one unparametrized path, but worth documenting at the next schema rev alongside item 5.
+- [ ] **#30 — Add an actual ESLint/a11y gate.** `site/` has no ESLint config or ESLint dependencies,
+  while `npm run lint` still invokes `next lint`. Install/configure the supported Next/ESLint path
+  and `jsx-a11y` rules so #28/#29 cannot recur.
 
-## /markets follow-ups (deferred at the 2026-07-25 final review — none block merge)
+- [ ] **#33 — Add `/markets` rendered-value regression coverage.** Playwright now covers route
+  smoke and sortable-header semantics, while unit tests cover the sort keys. It still does not pin
+  the two review failures at the rendered-cell boundary: site count mislabeled as MW and undisclosed
+  MW rendered as an affirmative `0 MW`.
 
-22. **`geo_note` overstates what `approx: true` means.** It says state-centroid placement, but many
-    entries are town/county centroids. Correct at the next capacity schema rev — alongside items
-    5 and 21.
+## Focused engineering follow-ups
 
-23. **`pipeline/publish/capacity.py:20`'s `_YEAR = re.compile(r"20(2[5-9])")` expires in 2030.**
+- [ ] **#18 — Strengthen two DC index fixtures.** Give `tests/test_dcindex.py` an interior-month
+  value change so last-day-of-month sampling is observable, and give
+  `tests/test_datacenter_writer.py` a six-decimal value so the 4dp publishing contract can fail.
 
-24. **`when` is not `required` in `capacity.schema.json`** — this plan declares it but does not make
-    it mandatory, which is a separate and riskier change.
+- [ ] **#37 — Extract the “What you could carry” block from `DcEscalationClient.tsx`.** The file is
+  still roughly 460 lines; the basis table/band section remains a clean, copy-stable component seam.
 
-25. **`qtrly_estabs` is available in the rows we download and is not ingested.** No column needs
-    it yet; revisit if an establishment-count column earns its place.
+- [ ] **#40 — Finish the useful P3a test tightening.** The absolute-end guard now has a regression
+  test. Remaining useful pins are the exact spike-overlap share, exact negative-carry math, and a
+  shared annualization helper for `band()`/`bases()`. Do not add a synthetic grid-gap test unless the
+  production contiguity invariant stops being guaranteed by construction.
 
-26. **The power/ops columns are state-resolution and are not on the `/markets` panel.**
-    `dcindex.parity_rows()` is key-agnostic and could be re-resolved to market keys, but EIA
-    industrial power has no sub-state series, so two markets in one state would share an identical
-    `ops_mult`. Adding it needs the resolution label designed first — deferred rather than shipped
-    mislabelled.
+## Peer-panel follow-ups
 
-27. **`tests/test_published_data.py` covers only 18 of 34 artifacts.** `/markets` (`dc_markets`) is
-    one of the 18; 16 gaps remain.
+- [ ] **#43 — Second peer wave: RLB and Mortenson.** RLB requires an `index_level` row type plus an
+  explicit derivation basis; Mortenson requires honest blank-year handling and must not annualize
+  quarterly metro prints. Preserve the traps and evidence in
+  `docs/plans/2026-07-26-dc-peer-panel.md`.
 
-28. **Sortable `<th>` headers are mouse-only** across `MarketsClient.tsx`, `ParityTable.tsx`, and
-    `QuiltHeatmap.tsx` — `onClick` with no keyboard equivalent, sitewide.
+- [ ] **#44 — Promote BLS `PCU236223236223` to a registry connector.** Publish revisable monthly
+  levels from the keyless BLS API and derive YoY at the site/publisher boundary, replacing the only
+  hand-seeded derived peer column.
 
-29. **`role="button"` on a `<tr>` overrides its implicit `row` role** (affects `/markets` and
-    `/capacity`) — AT table-navigation commands may not treat the row as part of the table. A
-    `<button>` scoped inside the market-name cell would preserve native row/cell semantics.
+- [ ] **#45 — Run the two bounded peer spikes.** Spend at most one human-hour each on (a) Cushman &
+  Wakefield's US Data Center Development Cost Guide, including stated exclusions, and (b) T&T's DCCI
+  per-market US$/W table. Stop rather than laundering inaccessible or scope-mismatched numbers.
 
-30. **`site/` has no ESLint config at all**, so no `jsx-a11y` gate exists to catch either of the
-    two items above recurring, or to prevent the next one.
+## Disposition ledger from the 2026-08-10 audit
 
-31. **Schema tightening pass (capacity + dc_markets).** `additionalProperties` is unset on
-    `capacity.schema.json`'s `geo.items`, so it defaults to true — that is the mechanism that let
-    `when` ship on all 112 entries while appearing nowhere in the schema. The 2026-07-25 branch
-    declared `when`/`market` but did not close the class of gap. Also: `market` is validated by the
-    loader on `geo_unmapped` entries but never declared on `geo_unmapped.items`, so tagging one is a
-    silent no-op; and `dc_markets.schema.json` omits `additionalProperties: false` even though its
-    `required` list already enumerates every key (9 of 30 repo schemas also omit it, so this is a
-    convention gap, not a violation).
-
-32. **`dc_markets` loader + phase polish.** `load_capacity` now transitively loads the market roster
-    by default, so a malformed `config/dc_markets.json` degrades both `capacity_ok` and `markets_ok`
-    and the markets phase reads config three times per run — pass `market_keys` explicitly from
-    `_capacity_phase` to decouple both. Also: the `state` 2-alpha check in `pipeline/dc_markets.py`
-    has zero test coverage; `note=m.get("note","")` silently defaults while every sibling field
-    raises `KeyError`; and `int(sum(mw))` in the writer truncates fractional MW (none curated today).
-
-33. **No automated test covers `/markets` rendered output.** vitest covers only `dcMarkets.ts` client
-    math by project convention, and the e2e smoke test asserts one body marker plus zero console
-    errors. The MW-cell defects found in the 2026-07-25 whole-branch review (a site count labelled
-    "MW", and a hard "0 MW" where MW was merely undisclosed) were caught by review, not by a test,
-    and nothing would catch a recurrence.
-
-34. **`st` cannot express "operating campus with active expansion"** (found fixing the /markets
-    MW-in-flight defect, 2026-07-25). Seven operating-tagged sites carry 3,975 disclosed MW with
-    explicit expansion language in `when` — AMZN Project Rainier 1,725 MW ("Ph1 Oct-2025; 345kV
-    Dec-2026"), META Prometheus 700 MW ("631 MW IT live May-2026 → 854 Q4-2026"), GOOGL Council
-    Bluffs 500 MW ("expanding $7B"), and four others — and land entirely in the operating bucket,
-    understating real construction. Fix is curation, following the ORCL Abilene precedent (the
-    only site of 112 already split into a 300 MW `o` row + a 900 MW `c` row): split each such site
-    into its operating and under-construction MW rather than changing the schema.
-
-35. **`/states` mixes QCEW quarters in one column and one choropleth.** `pipeline/publish/geo.py`'s
-    `_measure()` anchors on `as_of = max(obs)` — each series' OWN latest observation — so a state
-    whose newest quarter is BLS-disclosure-suppressed reports an older quarter beside everyone
-    else's newest, with no per-row as-of rendered. Live today: Louisiana shows its 2025Q3 level
-    ($1,585) next to 43 states' 2025Q4 levels, reading **~12.7% low** and ranking 35/44 instead of
-    ~18/44 in both `site/src/app/states/page.tsx`'s table and `GeoStateMap`. This is the only
-    user-visible wrongness in the QCEW area — it predates the 2026-07-25 `/markets` work and is
-    **not** fixed by the `N_QUARTERS` 8→10 widening (that fixed the YoY, which no page renders).
-    Three options: surface `as_of` per row; flag off-quarter states visually; or adopt the
-    shared-as-of like-for-like discipline `pipeline/engine/dcmarkets.py` and
-    `pipeline/engine/dcindex.py:193` already use, so every state reports the same quarter and a
-    suppressed state degrades to null rather than to a stale level. The third is the most
-    consistent with the rest of the codebase but drops LA's level entirely — decide which failure
-    mode is more honest for a choropleth before implementing.
-
-## /escalation P3a follow-ups (triaged FINE TO DEFER at the 2026-07-26 final review — none block merge)
-
-36. **`bridgeWindow`'s `endMonth` generality is production-dead.** `DcEscalationClient.tsx` only ever
-    passes `[baseMonth, lastMonth]` — the reader's own measured window — so no basis-window bridge
-    exists in the UI, and `bridge()` itself now has no production call site (tests only). The spec was
-    amended to describe what shipped rather than the reverse. The obvious use for the generality is a
-    bridge decomposing whichever basis the reader selects in CARRY ("the COVID-regime carry is
-    +8.61%/yr, of which switchgear +2.4pp") — a real product idea, not just dead-code cleanup.
-    Either build that or drop the wrapper and re-point its tests.
-
-37. **`DcEscalationClient.tsx` is ~460 lines.** Natural seam: the "What you could carry" block (basis
-    table + band sentence + short-window caption) has no dependency on the bridge table above it and
-    would take `basisRows`, `chosen`, `bandRow`, `deliveryValid`, `horizon`, `anchor` as props.
-    Deliberately not done on a copy-critical branch.
-
-38. ~~**`addMonths` is pure calendar logic living in a UI file with no unit test.**~~ **RESOLVED
-    2026-07-26** — moved to `site/src/lib/dcEscalation.ts` with 7 colocated tests, and made total for
-    negative shifts (the original `(t % 12) + 1` returned `"2025-00"` for `addMonths("2026-01", -1)`,
-    since JS `%` is sign-preserving; now a floored remainder). Promoted because the DELIVER BY `min`
-    bound now depends on it.
-
-39. **`capBand` recomputes `band()` on every render** (`DcEscalationClient.tsx:85`) though it is only
-    read inside the out-of-range branch. O(n) over ~220 months; correctness is fine.
-
-40. **Small test-tightening set on the P3a libs.** The spike-overlap test asserts only
-    `> 0 && <= 100` rather than the exact share; `"handles a negative carry rate"` asserts
-    `toBeLessThan` while its positive sibling pins exact values; no test exercises the grid-gap case
-    the `months[i] !== w.start` guard exists for (the contiguity invariant it relies on is itself
-    pinned elsewhere); the absolute-**end**-month guard is asymmetric with the start guard and
-    unreachable under that invariant. Also: `annualize(ratio, months)` is written out in both
-    `band()` and `bases()`.
-
-41. **Backfill-script polish** (`scripts/backfill_dc_history.py`, one-shot): `build_series_codes()`'s
-    docstring promises "in basket order" but `main()` `set()`s it away; the `missing`/`non_fred`
-    registry fail-fast guards are still untested (the new coverage guard *is* tested). The unused
-    test imports and the dead `sid` local were removed 2026-07-26 while adding coverage validation.
-    Also: `coverage()` validates *depth* (each series' earliest returned date) and prints row counts
-    for eyeballing, but does not enforce *contiguity* — a series present at 2007-12, absent for a
-    stretch, and resuming later would pass. Not a realistic FRED failure mode for official series,
-    but "coverage verified" should not be read as "no interior gaps".
-
-42. **`/escalation` still permits the trailing stub month as a base** (`max={lastMonth}`), so spec
-    §5.3.1's "reject a base date after the last complete month" is not enforced — acceptance
-    criterion 5 is recorded PARTIAL / NOT MET for that reason. **Ruled a spec defect, not a code
-    defect** (2026-07-26): P1 shipped this, the methodology copy discloses the partial-month window
-    end, no `NaN` or silent clamp occurs, and `escalate()` handles `base === last` correctly with a
-    unit test. Revisit only if the disclosure stops being adequate.
-
-## DC peer panel follow-ups (added 2026-07-26 with the 3-peer panel)
-
-43. **Second peer wave: RLB and Mortenson.** Deferred deliberately from the first PR.
-    **RLB North America NCCI** publishes a quarterly *level* series (Q1-23 247.49 → Q1-26 285.47),
-    so we choose the basis instead of accepting the publisher's — needs a `kind: index_level` row
-    type plus a `derive` field (`annual_average` | `dec_over_dec`) on the peer, and the engine
-    computing `escalation_pct` from consecutive levels. That same PDF is also the only free route
-    to ENR's BCI, which it reprints (+4.2% Q1 2026) and which is otherwise hard-paywalled.
-    **Mortenson** is the only peer publishing a labor / materials / trade-partner split
-    (Q4-25: +5.6 / +9.1 / +6.2) and needs a **blank 2023 cell** — the Q4-2023 edition publishes no
-    annual figure, and blank is not zero. Two traps recorded during research: Mortenson's per-metro
-    figures are quarterly-only (do not annualize them; the publisher does not), and **RLB per-city
-    must not ship** — "Washington, DC 3.98%" is offices and hotels in the District, not Loudoun,
-    and its Chicago print moved 2.89% → 1.42% in one quarter. Evidence and URLs:
-    `docs/plans/2026-07-26-dc-peer-panel.md`.
-
-44. **Promote BLS `PCU236223236223` to a real registry connector.** The office-PPI peer is currently
-    hand-seeded: eight Dec/Dec rows computed from levels quoted in the spike note. It is the one
-    peer that could refresh itself — free keyless API (`api.bls.gov/publicAPI/v1/timeseries/data/`,
-    verified 2026-07-26), monthly, with a `max_staleness_days` like any other series. Doing so also
-    removes the only *derived* column from the hand-seeded set. Gotcha for whoever picks this up:
-    `download.bls.gov` 403s browser user-agents and BLS policy wants a User-Agent carrying a contact
-    email; the API host itself does not. Recent months carry footnote **P** and revise for four
-    months, so the connector should publish levels and let the site compute YoY rather than freezing
-    a print.
-
-45. **Two tier-2 peer spikes worth a human hour each.** (a) **Cushman & Wakefield US Data Center
-    Development Cost Guide** — the only known path to a US, DC-specific, *multi-market* $/MW peer.
-    Blocked because the build content sits in a JS flipbook that returned no body text across three
-    retrieval routes; the free page carries land costs only. Extract cost-to-develop per MW by market
-    **and its stated exclusions** — if those are no land / no soft costs / no OFCI, it becomes the
-    best-aligned peer in the dossier. (b) **T&T's own DCCI microsite** (`reports.turnerandtownsend.com`)
-    carries a per-market US$/W table — Silicon Valley 13.3, New Jersey 12.9, Portland 10.9, Atlanta 9.9,
-    Phoenix 9.8, Columbus 9.8, Charlotte 9.5 — seven US markets that map onto `/dc-markets`, plus
-    "seven to ten percent higher" for liquid-cooled. Belongs to a peer we already cite and was never
-    fetched by the peer sweep.
-
-46. **`quote` is a plain string carrying multiple evidence sentences joined by `|`.** It renders
-    nowhere on-site today (it exists so a reviewer can diff a figure against its source inside the
-    repo). If the panel ever surfaces evidence in a disclosure, this wants to become a list rather
-    than a delimiter-joined string — the Turner quote already contains `|` characters from the
-    source table itself, so the delimiter is not safely splittable.
-
-## Done (one-liners; details in git log)
-
-- 2026-07-13: ALFRED backtest seeding; STREET → Cleveland ensemble; Manheim → Cox
-  Insights re-point (+ Dec 2025–May 2026 backfill).
-- 2026-07-14: nowcast component coverage widened (trend + futures-driver slices).
-- 2026-07-20: labor.json + /states state-level My Inflation shipped (old item 6).
-- 2026-07-21: /capacity tracker merged (PR #3, e7d46e9) + HUT/IREN/CIFR news flags
-  applied (5044714).
-- 2026-07-25: P1 escalation calculator (`/escalation`) shipped on `feat/dc-escalation` —
-  6 TDD tasks + a final-review fix wave (honest KPI precision, contribution-basis
-  disclosure, base-month convention; plan:
-  docs/superpowers/plans/2026-07-24-dc-escalation-calculator.md). Not yet merged to main.
-- 2026-07-25: P2 DC market panel (`/markets`, item 11) shipped on `feat/dc-market-panel` — 20-market
-  config-driven roster, county-QCEW construction wage + employment aggregation engine,
-  `dc_markets.json` + schema, tenth isolated pipeline phase; the register's **radius-based** capacity
-  join and **derived** ISO column were refuted by measurement — both ship instead as
-  hand-curated/denominated fields (demoted, not dropped; see
-  `docs/superpowers/specs/2026-07-25-dc-market-panel-design.md` and
-  `docs/plans/2026-07-24-project-controls-gaps.md` §P2). Not yet merged to main.
+| Old item | Disposition | Reason / evidence |
+|---|---|---|
+| #1 | **Completed 2026-07-11** | `2ac79f4` added honest base-hole walk-back plus engine→gaptable regression coverage, well before the November deadline. |
+| #3 | **Superseded / invalid** | The proposed Barber Lake “+39 MW to 246” double-counted Phase II. The current 207 critical-IT estimate already combines 168 MW IT for the 244 MW-gross Phase I with ~39 MW estimated IT for the remaining 56 MW-gross Phase II; the 2025 10-K pins the gross split at 244 + 56 = 300 MW. |
+| #6 | **Superseded by #14** | CSV/export is part of the P5 claims-grade workflow, not a separate product item. |
+| #8 | **Completed** | `site/src/app/icon.svg` has existed since `603cf92`; App Router metadata serves it as the site icon. |
+| #11 | **Completed 2026-07-25** | P2 shipped as `/markets`; radius join and derived ISO were replaced by measured, denominated alternatives. |
+| #12 | **Completed/concluded 2026-07-26** | P3a and P3b shipped; P3c published a negative result and correctly did not become a forecast model. |
+| #13 | **Completed 2026-07-27** | P4 shipped in PR #9 as `longlead.json`, `/longlead`, and the `/datacenter` teaser strip. |
+| #25 | **Removed until demanded** | `qtrly_estabs` has no product consumer. Re-open only when an establishment-count column has an approved use. |
+| #35 | **Completed 2026-08-10 (current working tree)** | `/states` now uses the national QCEW latest quarter as the shared comparison date; missing-state quarters degrade to null and the production-shaped regression is pinned. |
+| #36 | **Closed — keep by design** | `bridge()` is a harmless compatibility wrapper over `bridgeWindow()` with tests and an explicit code comment; deleting it creates churn without product value. |
+| #38 | **Completed 2026-07-26** | `addMonths` moved to `site/src/lib/dcEscalation.ts`, handles negative shifts, and has colocated tests. |
+| #39 | **Declined** | Recomputing one `band()` over roughly 220 months per render is immaterial; memoization would add state complexity without a measured user impact. |
+| #41 | **Deprecated / no further polish** | `backfill_dc_history.py` was a completed one-shot migration. Its depth guard is tested; ordering, interior-gap, and dead-guard polish should not compete with production work unless a new backfill is authorized. |
+| #42 | **Closed — accepted behavior** | Allowing the disclosed trailing stub month as a base was ruled a spec defect, not a code defect; the math is defined and tested. |
+| #46 | **Removed until evidence is surfaced** | `quote` is review-only and does not render. Design a structured evidence list if/when the UI exposes it; a speculative schema migration has no current consumer. |

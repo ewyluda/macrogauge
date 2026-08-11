@@ -4,13 +4,16 @@ electricity, private construction wage, and unemployment.
 Display-only (never touches the gauge engine); follows the real_wages/metros
 writer contract. Change is own-obs like-month for the monthly series (locked
 decision 7: latest obs vs the obs 12 months earlier, null if that base is
-absent). Gas is a daily spot graded against the obs exactly 365 days earlier —
-so it stays null until a year of AAA_STATE history accrues. Unemployment reports
-a percentage-POINT difference (delta_1y_pp), not a percent change: a rate's
+absent), except QCEW wages: every state is pinned to the national series' latest
+quarter so the table and choropleth never compare different periods. A state
+missing that shared quarter publishes a null wage instead of silently falling
+back. Gas is a daily spot graded against the obs exactly 365 days earlier — so
+it stays null until a year of AAA_STATE history accrues. Unemployment reports a
+percentage-POINT difference (delta_1y_pp), not a percent change: a rate's
 year-ago move is a subtraction, and a percent change would mislead. QCEW
-suppresses 7 states (ak/dc/ma/mo/ri/sd/vt) for private NAICS 23, so their wage
-block is null. A series with no store rows publishes a null block: a new writer
-must never be able to take down the publish block.
+permanently suppresses 7 states (ak/dc/ma/mo/ri/sd/vt) for private NAICS 23;
+occasional state-quarter suppression can add temporary nulls. A series with no
+store rows publishes a null block: a new writer must never take down publish.
 """
 from pathlib import Path
 
@@ -44,15 +47,24 @@ def _round(value: float, digits: int):
     return round(value) if digits == 0 else round(value, digits)
 
 
-def _measure(conn, code: str, digits: int) -> dict:
+_LATEST = object()
+
+
+def _measure(conn, code: str, digits: int, as_of=_LATEST) -> dict:
     """{value, as_of, yoy_pct} — like-month YoY off the obs 12 months earlier;
-    null when that base is absent or zero (a zero base can't yield a ratio)."""
+    null when that base is absent or zero (a zero base can't yield a ratio).
+
+    By default the series' own latest observation is used. Passing an explicit
+    date pins the measure to a shared comparison period; a missing explicit
+    date (or ``None``) returns a null block rather than falling back."""
     obs = dict(vintage.latest(conn, code))
     if not obs:
         return {"value": None, "as_of": None, "yoy_pct": None}
-    as_of = max(obs)
-    return {"value": _round(obs[as_of], digits), "as_of": as_of,
-            "yoy_pct": yoy_pct(obs, as_of)}
+    selected = max(obs) if as_of is _LATEST else as_of
+    if selected is None or selected not in obs:
+        return {"value": None, "as_of": None, "yoy_pct": None}
+    return {"value": _round(obs[selected], digits), "as_of": selected,
+            "yoy_pct": yoy_pct(obs, selected)}
 
 
 def _gas_measure(conn, code: str) -> dict:
@@ -81,22 +93,25 @@ def _rate(conn, code: str) -> dict:
     return {"value": round(obs[as_of], 1), "as_of": as_of, "delta_1y_pp": delta}
 
 
-def _panel(conn, gas: str, res: str, ind: str, wage: str, ur: str) -> dict:
+def _panel(conn, gas: str, res: str, ind: str, wage: str, ur: str,
+           wage_as_of: str | None) -> dict:
     return {"gas_regular": _gas_measure(conn, gas),
             "elec_res_cents": _measure(conn, res, 2),
             "elec_ind_cents": _measure(conn, ind, 2),
-            "wage_weekly": _measure(conn, wage, 0),
+            "wage_weekly": _measure(conn, wage, 0, wage_as_of),
             "unemployment_pct": _rate(conn, ur)}
 
 
 def build(conn) -> dict:
+    national_wage = vintage.latest(conn, "qcew_wage23_us")
+    wage_as_of = national_wage[-1][0] if national_wage else None
     states = [{"state": ab, "name": name,
                **_panel(conn, f"aaa_gas_{ab.lower()}", f"eia_elec_res_{ab.lower()}",
                         f"eia_elec_ind_{ab.lower()}", f"qcew_wage23_{ab.lower()}",
-                        f"{ab}UR")}
+                        f"{ab}UR", wage_as_of)}
               for ab, name in STATES]
     national = _panel(conn, "aaa_gas_d", "eia_elec_res", "eia_elec_ind_us",
-                      "qcew_wage23_us", "UNRATE")
+                      "qcew_wage23_us", "UNRATE", wage_as_of)
     return {"states": states, "national": national}
 
 

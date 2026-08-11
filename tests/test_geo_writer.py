@@ -148,6 +148,26 @@ def test_qcew_suppressed_state_publishes_null_wage(tmp_path):
                                       "delta_1y_pp": None}
 
 
+def test_qcew_wages_use_one_shared_national_quarter(tmp_path):
+    # Production regression (2026-08-10): 43 states published 2025Q4 while
+    # Louisiana silently fell back to its own 2025Q3 value. A choropleth and
+    # ranking must compare one quarter; a state missing that shared quarter
+    # degrades to null rather than looking artificially cheap.
+    conn = _store_with(tmp_path, {
+        "qcew_wage23_us": {"2024-10-01": 1700.0, "2025-10-01": 1800.0},
+        "qcew_wage23_tx": {"2024-10-01": 1800.0, "2025-10-01": 1900.0},
+        "qcew_wage23_la": {"2024-07-01": 1500.0, "2025-07-01": 1585.0},
+    })
+    payload = geo.build(conn)
+    tx = next(r for r in payload["states"] if r["state"] == "TX")
+    la = next(r for r in payload["states"] if r["state"] == "LA")
+
+    assert payload["national"]["wage_weekly"]["as_of"] == "2025-10-01"
+    assert tx["wage_weekly"] == {"value": 1900, "as_of": "2025-10-01",
+                                  "yoy_pct": 5.56}
+    assert la["wage_weekly"] == NULL_MEASURE
+
+
 # --- write() + schema -------------------------------------------------------
 
 def test_written_file_validates_against_schema(tmp_path):

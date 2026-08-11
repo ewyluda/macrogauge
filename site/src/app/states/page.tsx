@@ -129,8 +129,11 @@ export default function States() {
         weekly wage, quarterly), FRED (state unemployment rate). Electricity
         year-over-year is each state&apos;s own latest month vs. a year earlier;
         unemployment shows the percentage-point change, not a percent change.
-        Seven states have no QCEW construction wage — BLS suppresses those
-        small-cell figures. Gas year-over-year is blank until a year of daily
+        Construction wages use one shared quarter: the latest quarter in the
+        national QCEW series. A state missing that quarter is blank rather than
+        silently showing an older, non-comparable wage; seven states are
+        structurally suppressed by BLS, and occasional state-quarter gaps can
+        add temporary blanks. Gas year-over-year is blank until a year of daily
         state history accrues.
       </p>
     </div>
