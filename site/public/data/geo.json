@@ -542,9 +542,9 @@
         "yoy_pct": 1.33
       },
       "wage_weekly": {
-        "value": 1585,
-        "as_of": "2025-07-01",
-        "yoy_pct": 5.39
+        "value": null,
+        "as_of": null,
+        "yoy_pct": null
       },
       "unemployment_pct": {
         "value": 4.4,

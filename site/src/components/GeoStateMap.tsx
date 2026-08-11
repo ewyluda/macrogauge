@@ -150,12 +150,13 @@ export function GeoStateMap({
         })}
       </div>
       <p className="method" style={{ marginBottom: 0 }}>
-        US average: {fmtFull(valueOf(national, metric), metric)}. Colored by each
-        state&apos;s own latest reading (min–max across states); higher = warmer.
+        US average: {fmtFull(valueOf(national, metric), metric)}. Colored by {metric === "wage"
+          ? "the latest shared national QCEW quarter"
+          : "each state’s own latest reading"} (min–max across states); higher = warmer.
         {suppressed.length > 0 &&
           ` Greyed (${suppressed.join(", ")}): no published value${
             metric === "wage"
-              ? " — BLS suppresses small-cell QCEW construction wages for these states."
+              ? " in the shared QCEW quarter — BLS suppresses these small-cell construction wages."
               : "."
           }`}
       </p>
