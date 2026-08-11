@@ -32,6 +32,11 @@ and /feed/ + /newsroom/feed/ are near-empty stubs — verified live
 2026-08-04). Post pages are unchanged; parse_post and its traps coverage
 carry over as-is.
 
+Format drift (2026-08-07): the July full-month post printed the index as the
+integer ``210`` instead of the prior one-decimal form (for example ``212.9``).
+The heading and prose anchors were unchanged, so the value capture accepts
+either an integer or a decimal while the plausibility guard remains the same.
+
 Post-page traps (all recorded live 2026-07-13, pinned in fixtures): the
 report heading appears many times in <head> (title tag, og:title, JSON-LD),
 and on some months the JSON-LD description ALSO carries a full "(MUVVI)
@@ -67,7 +72,7 @@ LINK_RE = re.compile(r"<link>\s*(\S+?)\s*</link>")
 INDEX_RE = re.compile(
     r"<h1[^>]*>\s*Manheim\s+Used Vehicle Value Index:\s*(?:Mid-)?(\w+)\s+(\d{4})\s+Trends\s*</h1>"
     r".*?\(MUVVI\)\s+(?:increased|decreased|rose|fell|climbed|declined|dropped)"
-    r"\s+to\s+(\d{3}\.\d)",
+    r"\s+to\s+(\d{3}(?:\.\d+)?)",
     re.DOTALL,
 )
 PLAUSIBLE = (100.0, 350.0)  # index points (base Jan 1997 = 100) — outside this, structure drift
