@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-08-10",
-  "passed": 25,
+  "generated_at": "2026-08-11",
+  "passed": 26,
   "total": 27,
   "checks": [
     {
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-06-01 is 70d old (limit 80)"
+      "detail": "latest official month 2026-06-01 is 71d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -96,20 +96,20 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": false,
-      "detail": "28/30 ok; failed \u2014 USDA: missing secret USDA_API_KEY; MANHEIM: ValueError: Cox UVVI post: value not found (structure drift?)"
+      "pass": true,
+      "detail": "30/30 ok"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "684/693 fresh; stale \u2014 APU0000702212 (101d > 80d), APU0000704211 (101d > 80d), kalshi_cpi_mom (30d > 5d), DRCCLACBS (221d > 210d), TDSP (221d > 210d), DRSFRMACBS (221d > 210d), USSTHPI (221d > 210d), qcew_wage23_la (405d > 400d), qcew_aemp23_c41067 (496d > 400d)"
+      "detail": "683/693 fresh; stale \u2014 APU0000702212 (102d > 80d), APU0000704211 (102d > 80d), kalshi_cpi_mom (31d > 5d), DRCCLACBS (222d > 210d), TDSP (222d > 210d), DRSFRMACBS (222d > 210d), USSTHPI (222d > 210d), qcew_wage23_la (406d > 400d), qcew_aemp23_c41067 (497d > 400d), eia_henry_hub (8d > 7d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.069 vs EIA weekly $4.079 \u2014 relative divergence 0.2% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.056 vs EIA weekly $4.006 \u2014 relative divergence 1.2% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -127,7 +127,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-08-10"
+      "detail": "CPI nowcast as-of 2026-08-11"
     },
     {
       "name": "ensemble_computed",
@@ -139,7 +139,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-08-10 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-08-11 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",

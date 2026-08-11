@@ -1,9 +1,9 @@
 {
-  "published_at": "2026-08-10T14:11:13Z",
+  "published_at": "2026-08-11T14:12:36Z",
   "kpis": {
     "wage_growth_pct": 3.6,
     "wage_as_of": "2026-06-01",
-    "real_wage_growth_pct": 0.55
+    "real_wage_growth_pct": 0.56
   },
   "series": {
     "months": [

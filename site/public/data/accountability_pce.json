@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-10T14:11:13Z",
+  "published_at": "2026-08-11T14:12:36Z",
   "target": "PCE",
   "graded": [
     {
@@ -17,7 +17,7 @@
       "reference_period": "2026-07",
       "badge": "LIVE",
       "forecast": 0.14,
-      "as_of": "2026-08-10",
+      "as_of": "2026-08-11",
       "actual": null
     }
   ]
