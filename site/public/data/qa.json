@@ -7,13 +7,13 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-06-01 is 72d old (limit 80)"
+      "detail": "latest official month 2026-07-01 is 42d old (limit 80)"
     },
     {
       "name": "yoy_finite",
       "critical": true,
       "pass": true,
-      "detail": "yoy=3.5314250637863864 prev=4.248674039164446"
+      "detail": "yoy=3.364825041479902 prev=3.5314250637863864"
     },
     {
       "name": "engine_ok",
@@ -133,7 +133,7 @@
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.05 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=0.03 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
@@ -163,7 +163,7 @@
       "name": "tracker_corr",
       "critical": false,
       "pass": true,
-      "detail": "tracker monthly-YoY corr vs official = 0.9808 (floor 0.95)"
+      "detail": "tracker monthly-YoY corr vs official = 0.9807 (floor 0.95)"
     }
   ]
 }

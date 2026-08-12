@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-08-12T14:11:08Z",
+  "published_at": "2026-08-12T15:43:29Z",
   "stats": {
     "series_count": 693,
-    "obs_count": 163688,
+    "obs_count": 163783,
     "source_count": 30,
-    "tracker_corr": 0.9808,
+    "tracker_corr": 0.9807,
     "live_coverage_pct": 42.6,
     "engine_version": "1.0",
     "rebase": "2018-01=100"
@@ -66,7 +66,7 @@
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SAG",
-      "yoy_pct": 4.59
+      "yoy_pct": 4.3
     },
     {
       "code": "food_home",
@@ -76,7 +76,7 @@
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SAF11",
-      "yoy_pct": 2.75
+      "yoy_pct": 2.68
     },
     {
       "code": "medical",
@@ -86,7 +86,7 @@
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SAM",
-      "yoy_pct": 2.03
+      "yoy_pct": 1.7
     },
     {
       "code": "shelter_rent",
@@ -112,7 +112,7 @@
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SEFV",
-      "yoy_pct": 3.37
+      "yoy_pct": 3.4
     },
     {
       "code": "education_comm",
@@ -122,7 +122,7 @@
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SAE",
-      "yoy_pct": -0.06
+      "yoy_pct": 0.55
     },
     {
       "code": "recreation",
@@ -132,7 +132,7 @@
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SAR",
-      "yoy_pct": 2.83
+      "yoy_pct": 2.58
     },
     {
       "code": "new_vehicles",
@@ -142,7 +142,7 @@
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SETA01",
-      "yoy_pct": 0.5
+      "yoy_pct": 0.54
     },
     {
       "code": "fuel",
@@ -182,7 +182,7 @@
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SAA",
-      "yoy_pct": 3.88
+      "yoy_pct": 3.86
     },
     {
       "code": "used_vehicles",
@@ -224,7 +224,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -233,7 +233,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -251,7 +251,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -260,7 +260,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -269,7 +269,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -278,7 +278,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -287,7 +287,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -296,7 +296,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -305,7 +305,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -314,7 +314,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -323,7 +323,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -332,7 +332,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -341,7 +341,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -350,7 +350,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -359,7 +359,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -368,7 +368,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -2564,7 +2564,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -2573,7 +2573,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -3473,7 +3473,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -5930,7 +5930,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-06-01",
+      "latest_obs": "2026-07-01",
       "fresh": true
     },
     {
@@ -6458,37 +6458,37 @@
   ],
   "validation": {
     "gauge": {
-      "corr": 0.9239,
+      "corr": 0.9238,
       "mean_abs_gap_pp": 0.89,
-      "window": "2018-01..2026-06",
+      "window": "2018-01..2026-07",
       "lead_lag": {
         "best_shift_months": 1,
-        "corr": 0.939
+        "corr": 0.9388
       }
     },
     "col": {
-      "corr": 0.9293,
-      "mean_abs_gap_pp": 3.43,
-      "window": "2018-01..2026-06"
+      "corr": 0.9287,
+      "mean_abs_gap_pp": 3.4,
+      "window": "2018-01..2026-07"
     },
     "tracker": {
-      "corr": 0.9808,
+      "corr": 0.9807,
       "mean_abs_gap_pp": 0.41,
-      "window": "2018-01..2026-06"
+      "window": "2018-01..2026-07"
     },
     "supercore": {
-      "corr": 0.8221,
+      "corr": 0.8204,
       "mean_abs_gap_pp": 0.8,
-      "window": "2018-01..2026-06"
+      "window": "2018-01..2026-07"
     },
     "pce": {
       "corr": 0.953,
       "mean_abs_gap_pp": 0.53,
-      "window": "2018-01..2026-06"
+      "window": "2018-01..2026-07"
     },
     "bls_reconstruction": {
-      "weighted_bls_yoy_pct": 3.67,
-      "official_yoy_pct": 3.53
+      "weighted_bls_yoy_pct": 3.55,
+      "official_yoy_pct": 3.36
     }
   },
   "variants": {

@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-08-12T14:11:08Z",
-  "score": 3.6,
+  "published_at": "2026-08-12T15:43:29Z",
+  "score": -1.2,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": 0.10666000000000002,
+      "z": -0.27375999999999995,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -44,17 +44,17 @@
       "code": "CPIAUCNS",
       "group": "prices",
       "direction": 1,
-      "as_of": "2026-06-01",
-      "momentum": 1.1323,
-      "z": 0.5232
+      "as_of": "2026-07-01",
+      "momentum": 0.2697,
+      "z": -0.6674
     },
     {
       "code": "CPILFENS",
       "group": "prices",
       "direction": 1,
-      "as_of": "2026-06-01",
-      "momentum": 0.7449,
-      "z": 0.1226
+      "as_of": "2026-07-01",
+      "momentum": 0.3961,
+      "z": -0.5889
     },
     {
       "code": "PCEPI",

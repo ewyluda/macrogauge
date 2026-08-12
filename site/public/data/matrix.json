@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-12T14:11:08Z",
+  "published_at": "2026-08-12T15:43:29Z",
   "groups": [
     {
       "group": "UNDERLYING",
@@ -7,17 +7,17 @@
         {
           "code": "MEDCPIM158SFRBCLE",
           "label": "Median CPI",
-          "value": 2.11,
+          "value": 3.11,
           "unit": "% ann. rate (MoM)",
-          "as_of": "2026-06-01",
+          "as_of": "2026-07-01",
           "cadence": "monthly"
         },
         {
           "code": "TRMMEANCPIM158SFRBCLE",
           "label": "16% trimmed-mean CPI",
-          "value": 0.13,
+          "value": 2.71,
           "unit": "% ann. rate (MoM)",
-          "as_of": "2026-06-01",
+          "as_of": "2026-07-01",
           "cadence": "monthly"
         },
         {

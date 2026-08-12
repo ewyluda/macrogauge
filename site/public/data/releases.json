@@ -1,12 +1,6 @@
 {
-  "published_at": "2026-08-12T14:11:08Z",
+  "published_at": "2026-08-12T15:43:29Z",
   "releases": [
-    {
-      "target": "cpi",
-      "reference_period": "2024-06",
-      "value": 314.175,
-      "first_release_date": "2024-07-11"
-    },
     {
       "target": "cpi",
       "reference_period": "2024-07",
@@ -144,6 +138,12 @@
       "reference_period": "2026-06",
       "value": 333.952,
       "first_release_date": "2026-07-14"
+    },
+    {
+      "target": "cpi",
+      "reference_period": "2026-07",
+      "value": 333.918,
+      "first_release_date": "2026-08-12"
     },
     {
       "target": "pce",
