@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-11",
+  "generated_at": "2026-08-12",
   "passed": 26,
   "total": 27,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-06-01 is 71d old (limit 80)"
+      "detail": "latest official month 2026-06-01 is 72d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -103,13 +103,13 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "683/693 fresh; stale \u2014 APU0000702212 (102d > 80d), APU0000704211 (102d > 80d), kalshi_cpi_mom (31d > 5d), DRCCLACBS (222d > 210d), TDSP (222d > 210d), DRSFRMACBS (222d > 210d), USSTHPI (222d > 210d), qcew_wage23_la (406d > 400d), qcew_aemp23_c41067 (497d > 400d), eia_henry_hub (8d > 7d)"
+      "detail": "683/693 fresh; stale \u2014 APU0000702212 (103d > 80d), APU0000704211 (103d > 80d), kalshi_cpi_mom (11d > 5d), DRCCLACBS (223d > 210d), TDSP (223d > 210d), DRSFRMACBS (223d > 210d), USSTHPI (223d > 210d), qcew_wage23_la (407d > 400d), qcew_aemp23_c41067 (498d > 400d), eia_henry_hub (9d > 7d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.056 vs EIA weekly $4.006 \u2014 relative divergence 1.2% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.047 vs EIA weekly $4.006 \u2014 relative divergence 1.0% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -127,7 +127,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-08-11"
+      "detail": "CPI nowcast as-of 2026-08-12"
     },
     {
       "name": "ensemble_computed",
@@ -139,7 +139,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-08-11 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-08-12 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",

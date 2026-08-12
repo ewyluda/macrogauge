@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-11T14:12:36Z",
+  "published_at": "2026-08-12T14:11:08Z",
   "headline": {
     "cpi": {
       "month": "2026-06-01",
@@ -120,45 +120,45 @@
       "label": "Eggs, dozen",
       "group": "grocery",
       "unit": "$",
-      "latest": 2.14,
-      "obs_date": "2026-06-01",
-      "yoy_pct": -43.28
+      "latest": 2.19,
+      "obs_date": "2026-07-01",
+      "yoy_pct": -39.18
     },
     {
       "code": "APU0000709112",
       "label": "Milk, gallon",
       "group": "grocery",
       "unit": "$",
-      "latest": 4.32,
-      "obs_date": "2026-06-01",
-      "yoy_pct": 7.15
+      "latest": 4.31,
+      "obs_date": "2026-07-01",
+      "yoy_pct": 3.63
     },
     {
       "code": "APU0000702111",
       "label": "Bread, lb",
       "group": "grocery",
       "unit": "$",
-      "latest": 1.81,
-      "obs_date": "2026-06-01",
-      "yoy_pct": -2.68
+      "latest": 1.82,
+      "obs_date": "2026-07-01",
+      "yoy_pct": -1.67
     },
     {
       "code": "APU0000703112",
       "label": "Ground beef (100%), lb",
       "group": "grocery",
       "unit": "$",
-      "latest": 6.83,
-      "obs_date": "2026-06-01",
-      "yoy_pct": 11.52
+      "latest": 6.88,
+      "obs_date": "2026-07-01",
+      "yoy_pct": 10.09
     },
     {
       "code": "APU0000706111",
       "label": "Chicken, lb",
       "group": "grocery",
       "unit": "$",
-      "latest": 2.04,
-      "obs_date": "2026-06-01",
-      "yoy_pct": -2.01
+      "latest": 2.0,
+      "obs_date": "2026-07-01",
+      "yoy_pct": -3.51
     },
     {
       "code": "APU0000711211",
@@ -166,8 +166,8 @@
       "group": "grocery",
       "unit": "$",
       "latest": 0.65,
-      "obs_date": "2026-06-01",
-      "yoy_pct": -1.38
+      "obs_date": "2026-07-01",
+      "yoy_pct": -1.07
     },
     {
       "code": "eia_gasreg_w",
@@ -211,27 +211,27 @@
       "label": "Gold",
       "group": "markets",
       "unit": "$/oz",
-      "latest": 4448.0,
-      "obs_date": "2026-08-11",
-      "yoy_pct": 30.64
+      "latest": 4490.1,
+      "obs_date": "2026-08-12",
+      "yoy_pct": 32.1
     },
     {
       "code": "fmp_wti",
       "label": "WTI crude",
       "group": "markets",
       "unit": "$/bbl",
-      "latest": 81.99,
-      "obs_date": "2026-08-11",
-      "yoy_pct": 28.19
+      "latest": 82.49,
+      "obs_date": "2026-08-12",
+      "yoy_pct": 30.58
     },
     {
       "code": "fiscal_debt_total",
       "label": "Total public debt",
       "group": "fiscal",
       "unit": "$",
-      "latest": 39885247772395.56,
-      "obs_date": "2026-08-07",
-      "yoy_pct": 7.81
+      "latest": 39891773994021.93,
+      "obs_date": "2026-08-10",
+      "yoy_pct": 7.82
     }
   ]
 }
