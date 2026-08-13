@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-13T14:11:00Z",
+  "published_at": "2026-08-13T21:52:18Z",
   "as_of_curated": "2026-07-26",
   "build_weight_covered": 0.5,
   "teaser": [
@@ -49,9 +49,9 @@
       "code": "switchgear",
       "label": "Switchgear & switchboard",
       "weight": 0.14,
-      "price_yoy_pct": 9.02,
-      "price_last_obs": "2026-06-01",
-      "contribution_pp": 1.26,
+      "price_yoy_pct": 9.3,
+      "price_last_obs": "2026-07-01",
+      "contribution_pp": 1.3,
       "null_note": null,
       "vendors": [
         {
@@ -243,9 +243,9 @@
       "code": "transformers",
       "label": "Power & distribution transformers",
       "weight": 0.12,
-      "price_yoy_pct": 3.75,
-      "price_last_obs": "2026-06-01",
-      "contribution_pp": 0.45,
+      "price_yoy_pct": 7.57,
+      "price_last_obs": "2026-07-01",
+      "contribution_pp": 0.91,
       "null_note": null,
       "vendors": [
         {
@@ -323,9 +323,9 @@
       "code": "hvac_equip",
       "label": "AC & refrigeration equipment",
       "weight": 0.1,
-      "price_yoy_pct": 3.2,
-      "price_last_obs": "2026-06-01",
-      "contribution_pp": 0.32,
+      "price_yoy_pct": 4.37,
+      "price_last_obs": "2026-07-01",
+      "contribution_pp": 0.44,
       "null_note": null,
       "vendors": [
         {
@@ -376,9 +376,9 @@
       "code": "generators",
       "label": "Generator sets & turbines",
       "weight": 0.09,
-      "price_yoy_pct": 5.36,
-      "price_last_obs": "2026-06-01",
-      "contribution_pp": 0.48,
+      "price_yoy_pct": 5.18,
+      "price_last_obs": "2026-07-01",
+      "contribution_pp": 0.47,
       "null_note": null,
       "vendors": [
         {
@@ -425,9 +425,9 @@
       "code": "pumps",
       "label": "Industrial pumps",
       "weight": 0.05,
-      "price_yoy_pct": 3.17,
-      "price_last_obs": "2026-06-01",
-      "contribution_pp": 0.16,
+      "price_yoy_pct": 3.93,
+      "price_last_obs": "2026-07-01",
+      "contribution_pp": 0.2,
       "null_note": "One search pass across Flowserve, Xylem, and Grundfos (2026-07-26) found no primary-source pump order-backlog metric with data-center relevance. Flowserve's Q1 2026 10-Q (SEC EDGAR, period ended 2026-03-31, https://www.sec.gov/Archives/edgar/data/30625/000003062526000012/fls-20260331.htm) reports one company-wide backlog of $2.9 billion, broken out only by aftermarket share and four generic end-market categories (energy, chemical, power generation, general industries) \u2014 \"data center\" appears zero times in the filing. Xylem and Grundfos publish narrative data-center-cooling product marketing but no order-backlog figure segmented (or even unsegmented, in Grundfos's case as a private foundation-owned company with no 10-K/10-Q) at a level meeting this board's primary-source bar. No pump maker is added to the long-lead board.",
       "vendors": []
     }

@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-08-13T14:11:00Z",
-  "score": 0.1,
+  "published_at": "2026-08-13T21:52:18Z",
+  "score": -7.9,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": -0.28086,
+      "z": -0.58402,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -18,21 +18,21 @@
       "active_weight": 25.0
     },
     "pipeline": {
-      "z": 0.32635,
+      "z": -0.07317499999999999,
       "weight": 20,
       "available": 4,
       "expected": 4,
       "active_weight": 20.0
     },
     "housing": {
-      "z": -0.30672499999999997,
+      "z": -0.299975,
       "weight": 15,
       "available": 4,
       "expected": 4,
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": 0.19949999999999998,
+      "z": 0.1714,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -68,9 +68,9 @@
       "code": "PPIACO",
       "group": "prices",
       "direction": 1,
-      "as_of": "2026-06-01",
-      "momentum": 3.9055,
-      "z": 1.2836
+      "as_of": "2026-07-01",
+      "momentum": 0.4605,
+      "z": -0.0902
     },
     {
       "code": "T5YIE",
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-08-12",
-      "momentum": -0.45,
-      "z": -1.6685
+      "as_of": "2026-08-13",
+      "momentum": -0.49,
+      "z": -1.8105
     },
     {
       "code": "PAYEMS",
@@ -145,9 +145,9 @@
       "code": "PCUOMFGOMFG",
       "group": "pipeline",
       "direction": 1,
-      "as_of": "2026-06-01",
-      "momentum": 3.7429,
-      "z": 1.3999
+      "as_of": "2026-07-01",
+      "momentum": 0.4361,
+      "z": -0.1982
     },
     {
       "code": "FEDFUNDS",
@@ -188,9 +188,9 @@
       "direction": -1,
       "mode": "diff",
       "periods": 13,
-      "as_of": "2026-08-06",
-      "momentum": 0.32,
-      "z": -0.9173
+      "as_of": "2026-08-13",
+      "momentum": 0.31,
+      "z": -0.8903
     },
     {
       "code": "M2SL",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-08-12",
-      "momentum": 0.02,
-      "z": 0.1686
+      "as_of": "2026-08-13",
+      "momentum": 0.0,
+      "z": 0.0843
     }
   ]
 }
