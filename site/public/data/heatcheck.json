@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-08-13T21:52:18Z",
-  "score": -7.9,
+  "published_at": "2026-08-14T14:06:53Z",
+  "score": -10.4,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
@@ -11,7 +11,7 @@
       "active_weight": 25.0
     },
     "real_economy": {
-      "z": 0.08936,
+      "z": -0.10866000000000002,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -111,9 +111,9 @@
       "code": "RSAFS",
       "group": "real_economy",
       "direction": 1,
-      "as_of": "2026-06-01",
-      "momentum": 1.9283,
-      "z": 0.6054
+      "as_of": "2026-07-01",
+      "momentum": 0.5935,
+      "z": -0.3847
     },
     {
       "code": "DSPIC96",
