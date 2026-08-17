@@ -1,21 +1,21 @@
 {
-  "published_at": "2026-08-14T14:06:53Z",
+  "published_at": "2026-08-17T13:28:04Z",
   "target": "CPI",
   "release_date": "2026-09-11",
   "reference_month": "2026-08",
   "cpi": {
     "target_month": "2026-08",
-    "mom_pct": 0.24,
-    "yoy_pct": 3.01,
-    "as_of": "2026-08-14",
+    "mom_pct": 0.26,
+    "yoy_pct": 3.02,
+    "as_of": "2026-08-17",
     "status": "live",
     "parameters": {},
     "components": [
       {
         "component": "shelter_owned",
-        "mom_pct": 0.0678,
+        "mom_pct": 0.0965,
         "weight": 0.265,
-        "contribution_pp": 0.018,
+        "contribution_pp": 0.0256,
         "basis": "trend"
       },
       {
@@ -27,11 +27,11 @@
       },
       {
         "component": "food_home",
-        "mom_pct": 0.6266,
+        "mom_pct": 0.6681,
         "weight": 0.082,
-        "contribution_pp": 0.0514,
+        "contribution_pp": 0.0548,
         "basis": "trend+driver",
-        "driver_mom_pct": 0.321
+        "driver_mom_pct": 0.3624
       },
       {
         "component": "medical",
@@ -42,9 +42,9 @@
       },
       {
         "component": "shelter_rent",
-        "mom_pct": 0.0678,
+        "mom_pct": 0.0965,
         "weight": 0.075,
-        "contribution_pp": 0.0051,
+        "contribution_pp": 0.0072,
         "basis": "trend"
       },
       {
@@ -77,9 +77,9 @@
       },
       {
         "component": "fuel",
-        "mom_pct": 2.7968,
+        "mom_pct": 2.7629,
         "weight": 0.03,
-        "contribution_pp": 0.0839,
+        "contribution_pp": 0.0829,
         "basis": "measured"
       },
       {
@@ -98,11 +98,10 @@
       },
       {
         "component": "used_vehicles",
-        "mom_pct": -0.2521,
+        "mom_pct": -0.0425,
         "weight": 0.021,
-        "contribution_pp": -0.0053,
-        "basis": "trend+driver",
-        "driver_mom_pct": -0.2097
+        "contribution_pp": -0.0009,
+        "basis": "trend"
       },
       {
         "component": "nat_gas",
@@ -114,7 +113,7 @@
     ]
   },
   "pce": {
-    "mom_pct": 0.23,
+    "mom_pct": 0.24,
     "parameters": {
       "intercept": 0.125696,
       "cpi_beta": 0.444657,
@@ -122,7 +121,7 @@
       "observations": 24
     },
     "status": "live",
-    "as_of": "2026-08-14"
+    "as_of": "2026-08-17"
   },
   "nfp": {
     "change_thousands": 55,
@@ -145,8 +144,8 @@
       "as_of": "2026-08-11"
     },
     "kalshi": {
-      "value": 0.312,
-      "as_of": "2026-08-14"
+      "value": 0.295,
+      "as_of": "2026-08-17"
     }
   },
   "ensemble": {
@@ -157,5 +156,5 @@
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-08-14"
+  "generated_on": "2026-08-17"
 }

@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-08-14T14:06:53Z",
-  "as_of": "2026-08-14",
+  "published_at": "2026-08-17T13:28:04Z",
+  "as_of": "2026-08-17",
   "official_month": "2026-07-01",
   "rows": [
     {
@@ -8,30 +8,30 @@
       "label": "Shelter (owned)",
       "weight": 0.265,
       "mode": "live",
-      "ours_yoy_pct": 1.0,
+      "ours_yoy_pct": 1.07,
       "bls_yoy_pct": 3.23,
-      "gap_pp": -2.23,
-      "contribution_pp": -0.59
+      "gap_pp": -2.16,
+      "contribution_pp": -0.57
     },
     {
       "component": "shelter_rent",
       "label": "Rent",
       "weight": 0.075,
       "mode": "live",
-      "ours_yoy_pct": 1.0,
+      "ours_yoy_pct": 1.07,
       "bls_yoy_pct": 2.86,
-      "gap_pp": -1.86,
-      "contribution_pp": -0.14
+      "gap_pp": -1.79,
+      "contribution_pp": -0.13
     },
     {
       "component": "fuel",
       "label": "Gasoline",
       "weight": 0.03,
       "mode": "live",
-      "ours_yoy_pct": 28.44,
+      "ours_yoy_pct": 28.14,
       "bls_yoy_pct": 24.64,
-      "gap_pp": 3.81,
-      "contribution_pp": 0.11
+      "gap_pp": 3.5,
+      "contribution_pp": 0.1
     },
     {
       "component": "electricity",
@@ -144,21 +144,21 @@
       "contribution_pp": 0.0
     }
   ],
-  "total_gap_pp": -0.54,
+  "total_gap_pp": -0.53,
   "variants": {
     "gauge": {
-      "yoy_pct": 3.01,
-      "as_of": "2026-08-14",
-      "coverage_pct": 42.6
+      "yoy_pct": 3.02,
+      "as_of": "2026-08-17",
+      "coverage_pct": 40.5
     },
     "col": {
-      "yoy_pct": 2.87,
-      "as_of": "2026-08-14",
-      "coverage_pct": 42.6
+      "yoy_pct": 2.93,
+      "as_of": "2026-08-17",
+      "coverage_pct": 40.5
     },
     "tracker": {
-      "yoy_pct": 3.71,
-      "as_of": "2026-08-14",
+      "yoy_pct": 3.7,
+      "as_of": "2026-08-17",
       "coverage_pct": 6.5
     },
     "supercore": {
@@ -168,8 +168,8 @@
     },
     "pce": {
       "yoy_pct": 3.23,
-      "as_of": "2026-08-14",
-      "coverage_pct": 21.7
+      "as_of": "2026-08-17",
+      "coverage_pct": 20.5
     }
   }
 }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-14",
+  "generated_at": "2026-08-17",
   "passed": 26,
   "total": 27,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-07-01 is 44d old (limit 80)"
+      "detail": "latest official month 2026-07-01 is 47d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -103,13 +103,13 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "684/693 fresh; stale \u2014 APU0000702212 (105d > 80d), APU0000704211 (105d > 80d), kalshi_cpi_mom (13d > 5d), DRCCLACBS (225d > 210d), TDSP (225d > 210d), DRSFRMACBS (225d > 210d), USSTHPI (225d > 210d), qcew_wage23_la (409d > 400d), qcew_aemp23_c41067 (500d > 400d)"
+      "detail": "682/693 fresh; stale \u2014 APU0000702212 (108d > 80d), APU0000704211 (108d > 80d), aptlist_us (77d > 75d), manheim_uvvi_m (47d > 45d), kalshi_cpi_mom (16d > 5d), DRCCLACBS (228d > 210d), TDSP (228d > 210d), DRSFRMACBS (228d > 210d), USSTHPI (228d > 210d), qcew_wage23_la (412d > 400d), qcew_aemp23_c41067 (503d > 400d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.044 vs EIA weekly $4.006 \u2014 relative divergence 1.0% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.045 vs EIA weekly $4.006 \u2014 relative divergence 1.0% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -127,7 +127,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-08-14"
+      "detail": "CPI nowcast as-of 2026-08-17"
     },
     {
       "name": "ensemble_computed",
@@ -139,7 +139,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-08-14 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-08-17 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
@@ -157,7 +157,7 @@
       "name": "gauge_coverage",
       "critical": false,
       "pass": true,
-      "detail": "gauge live coverage 42.6% (floor 40 (food_home BLS-CF per 2a deviation))"
+      "detail": "gauge live coverage 40.5% (floor 40 (food_home BLS-CF per 2a deviation))"
     },
     {
       "name": "tracker_corr",
