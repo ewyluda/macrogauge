@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-17T13:28:04Z",
+  "published_at": "2026-08-18T13:56:52Z",
   "groups": [
     {
       "group": "UNDERLYING",
@@ -52,9 +52,9 @@
         {
           "code": "IREXPETCOM",
           "label": "Import prices ex-petroleum",
-          "value": 3.16,
+          "value": 3.09,
           "unit": "% YoY (computed)",
-          "as_of": "2026-06-01",
+          "as_of": "2026-07-01",
           "cadence": "monthly"
         }
       ]
@@ -65,17 +65,17 @@
         {
           "code": "T5YIE",
           "label": "5-year breakeven",
-          "value": 2.24,
+          "value": 2.25,
           "unit": "%",
-          "as_of": "2026-08-14",
+          "as_of": "2026-08-17",
           "cadence": "daily"
         },
         {
           "code": "T10YIE",
           "label": "10-year breakeven",
-          "value": 2.27,
+          "value": 2.28,
           "unit": "%",
-          "as_of": "2026-08-14",
+          "as_of": "2026-08-17",
           "cadence": "daily"
         },
         {
