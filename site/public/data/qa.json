@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-08-18",
-  "passed": 26,
+  "generated_at": "2026-08-19",
+  "passed": 25,
   "total": 27,
   "checks": [
     {
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-07-01 is 48d old (limit 80)"
+      "detail": "latest official month 2026-07-01 is 49d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -96,20 +96,20 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": true,
-      "detail": "30/30 ok"
+      "pass": false,
+      "detail": "29/30 ok; failed \u2014 VASTAI: HTTPError: 429 Client Error: Too Many Requests for url: https://console.vast.ai/api/v0/bundles/?q=%7B%22gpu_name%22%3A%20%7B%22eq%22%3A%20%22B200%22%7D%2C%20%22rentable%22%3A%20%7B%22eq%22%3A%20true%7D%2C%20%22gpu_frac%22%3A%20%7B%22eq%22%3A%201%7D%2C%20%22type%22%3A%20%22on-demand%22%2C%20%22limit%22%3A%201000%7D"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "682/693 fresh; stale \u2014 APU0000702212 (109d > 80d), APU0000704211 (109d > 80d), aptlist_us (78d > 75d), manheim_uvvi_m (48d > 45d), kalshi_cpi_mom (17d > 5d), DRCCLACBS (229d > 210d), TDSP (229d > 210d), DRSFRMACBS (229d > 210d), USSTHPI (229d > 210d), qcew_wage23_la (413d > 400d), qcew_aemp23_c41067 (504d > 400d)"
+      "detail": "682/693 fresh; stale \u2014 APU0000702212 (110d > 80d), APU0000704211 (110d > 80d), aptlist_us (79d > 75d), kalshi_cpi_mom (18d > 5d), DRCCLACBS (230d > 210d), TDSP (230d > 210d), DRSFRMACBS (230d > 210d), USSTHPI (230d > 210d), qcew_wage23_la (414d > 400d), qcew_aemp23_c41067 (505d > 400d), eia_henry_hub (8d > 7d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.048 vs EIA weekly $4.006 \u2014 relative divergence 1.0% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.059 vs EIA weekly $4.049 \u2014 relative divergence 0.2% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -127,19 +127,19 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-08-18"
+      "detail": "CPI nowcast as-of 2026-08-19"
     },
     {
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.3 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=0.32 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-08-18 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-08-19 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
@@ -157,7 +157,7 @@
       "name": "gauge_coverage",
       "critical": false,
       "pass": true,
-      "detail": "gauge live coverage 40.5% (floor 40 (food_home BLS-CF per 2a deviation))"
+      "detail": "gauge live coverage 42.6% (floor 40 (food_home BLS-CF per 2a deviation))"
     },
     {
       "name": "tracker_corr",

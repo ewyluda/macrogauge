@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-18T13:56:52Z",
+  "generated_at": "2026-08-19T14:00:04Z",
   "sources": [
     {
       "name": "AAA",
@@ -9,9 +9,9 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-08-18T13:30:04Z",
+      "finished_at": "2026-08-19T13:38:23Z",
       "series_count": 1,
-      "latest_obs": "2026-08-18"
+      "latest_obs": "2026-08-19"
     },
     {
       "name": "AAA_STATE",
@@ -21,9 +21,9 @@
       "fetched": 51,
       "new_rows": 51,
       "error": null,
-      "finished_at": "2026-08-18T13:30:04Z",
+      "finished_at": "2026-08-19T13:38:23Z",
       "series_count": 51,
-      "latest_obs": "2026-08-18"
+      "latest_obs": "2026-08-19"
     },
     {
       "name": "APTLIST",
@@ -33,7 +33,7 @@
       "fetched": 114,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-08-18T13:28:51Z",
+      "finished_at": "2026-08-19T13:37:08Z",
       "series_count": 1,
       "latest_obs": "2026-06-01"
     },
@@ -45,7 +45,7 @@
       "fetched": 3096,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-08-18T13:28:13Z",
+      "finished_at": "2026-08-19T13:36:27Z",
       "series_count": 28,
       "latest_obs": "2026-07-01"
     },
@@ -57,9 +57,9 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-08-18T13:56:49Z",
+      "finished_at": "2026-08-19T14:00:00Z",
       "series_count": 1,
-      "latest_obs": "2026-08-18"
+      "latest_obs": "2026-08-19"
     },
     {
       "name": "CENSUS",
@@ -69,7 +69,7 @@
       "fetched": 300,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-08-18T13:56:26Z",
+      "finished_at": "2026-08-19T13:59:40Z",
       "series_count": 2,
       "latest_obs": "2026-06-01"
     },
@@ -81,7 +81,7 @@
       "fetched": 4,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-08-18T13:30:06Z",
+      "finished_at": "2026-08-19T13:38:26Z",
       "series_count": 4,
       "latest_obs": "2026-08-01"
     },
@@ -93,21 +93,21 @@
       "fetched": 3,
       "new_rows": 3,
       "error": null,
-      "finished_at": "2026-08-18T13:56:27Z",
+      "finished_at": "2026-08-19T13:59:41Z",
       "series_count": 3,
-      "latest_obs": "2026-08-18"
+      "latest_obs": "2026-08-19"
     },
     {
       "name": "EIA",
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 4413,
-      "new_rows": 0,
+      "fetched": 4415,
+      "new_rows": 2,
       "error": null,
-      "finished_at": "2026-08-18T13:28:46Z",
+      "finished_at": "2026-08-19T13:37:05Z",
       "series_count": 4,
-      "latest_obs": "2026-08-10"
+      "latest_obs": "2026-08-17"
     },
     {
       "name": "EIA_SPOT",
@@ -117,7 +117,7 @@
       "fetched": 4999,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-08-18T13:56:51Z",
+      "finished_at": "2026-08-19T14:00:02Z",
       "series_count": 1,
       "latest_obs": "2026-08-11"
     },
@@ -129,7 +129,7 @@
       "fetched": 15860,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-08-18T13:44:16Z",
+      "finished_at": "2026-08-19T13:52:05Z",
       "series_count": 52,
       "latest_obs": "2026-05-01"
     },
@@ -141,7 +141,7 @@
       "fetched": 15555,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-08-18T13:56:20Z",
+      "finished_at": "2026-08-19T13:59:34Z",
       "series_count": 51,
       "latest_obs": "2026-05-01"
     },
@@ -153,9 +153,9 @@
       "fetched": 14,
       "new_rows": 14,
       "error": null,
-      "finished_at": "2026-08-18T13:28:47Z",
+      "finished_at": "2026-08-19T13:37:05Z",
       "series_count": 14,
-      "latest_obs": "2026-08-18"
+      "latest_obs": "2026-08-19"
     },
     {
       "name": "FMP_EQ",
@@ -165,21 +165,21 @@
       "fetched": 56,
       "new_rows": 56,
       "error": null,
-      "finished_at": "2026-08-18T13:28:47Z",
+      "finished_at": "2026-08-19T13:37:05Z",
       "series_count": 56,
-      "latest_obs": "2026-08-17"
+      "latest_obs": "2026-08-19"
     },
     {
       "name": "FRED",
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 51234,
-      "new_rows": 43,
-      "error": null,
-      "finished_at": "2026-08-18T13:28:12Z",
+      "fetched": 48276,
+      "new_rows": 83,
+      "error": "partial: FRED: 6 item(s) failed \u2014 CUUR0000SEHF02: HTTPError: 500 Server Error: Internal Server Error for url: https://api.stlouisfed.org/fred/series/observations?series_id=CUUR0000SEHF02&api_key=REDACTED&file_type=json&observation_start=2017-01-01; CES0500000003: HTTPError: 502 Server Error: Bad Gateway for url: https://api.stlouisfed.org/fred/series/observations?series_id=CES0500000003&api_key=REDACTED&file_type=json&observation_start=2017-01-01; DTWEXBGS: HTTPError: 502 Server Error: Bad Gateway for url: https://api.stlouisfed.org/fred/series/observations?series_id=DTWEXBGS&api_key=REDACTED&file_type=json&observation_start=2017-01-01; ALUR: HTTPError: 502 Server Error: Bad Gateway for url: https://api.stlouisfed.org/fred/series/observations?series_id=ALUR&api_key=REDACTED&file_type=json&observation_start=2017-01-01; CES5000000003: HTTPError: 502 Server Error: Bad Gateway for url: https://api.stlouisfed.org/fred/series/observations?series_id=CES5000000003&api_key=REDACTED&file_type=json&observation_start=2017-01-01; PCU811310811310: HTTPError: 502 Server Error: Bad Gateway for url: https://api.stlouisfed.org/fred/series/observations?series_id=PCU811310811310&api_key=REDACTED&file_type=json&observation_start=2017-01-01",
+      "finished_at": "2026-08-19T13:36:26Z",
       "series_count": 151,
-      "latest_obs": "2026-08-17"
+      "latest_obs": "2026-08-18"
     },
     {
       "name": "ICE",
@@ -189,7 +189,7 @@
       "fetched": 139,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-08-18T13:56:50Z",
+      "finished_at": "2026-08-19T14:00:02Z",
       "series_count": 1,
       "latest_obs": "2026-08-04"
     },
@@ -201,7 +201,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-08-18T13:30:06Z",
+      "finished_at": "2026-08-19T13:38:26Z",
       "series_count": 1,
       "latest_obs": "2026-08-01"
     },
@@ -213,9 +213,9 @@
       "fetched": 2,
       "new_rows": 2,
       "error": null,
-      "finished_at": "2026-08-18T13:56:51Z",
+      "finished_at": "2026-08-19T14:00:03Z",
       "series_count": 2,
-      "latest_obs": "2026-08-18"
+      "latest_obs": "2026-08-19"
     },
     {
       "name": "MANHEIM",
@@ -223,11 +223,11 @@
       "cadence": "monthly",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-08-18T13:30:05Z",
+      "finished_at": "2026-08-19T13:38:25Z",
       "series_count": 1,
-      "latest_obs": "2026-07-01"
+      "latest_obs": "2026-08-01"
     },
     {
       "name": "MISO",
@@ -237,9 +237,9 @@
       "fetched": 4,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-08-18T13:56:50Z",
+      "finished_at": "2026-08-19T14:00:02Z",
       "series_count": 1,
-      "latest_obs": "2026-08-17"
+      "latest_obs": "2026-08-18"
     },
     {
       "name": "MND",
@@ -249,9 +249,9 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-08-18T13:30:04Z",
+      "finished_at": "2026-08-19T13:38:24Z",
       "series_count": 1,
-      "latest_obs": "2026-08-18"
+      "latest_obs": "2026-08-19"
     },
     {
       "name": "OPENROUTER",
@@ -261,9 +261,9 @@
       "fetched": 12,
       "new_rows": 12,
       "error": null,
-      "finished_at": "2026-08-18T13:56:30Z",
+      "finished_at": "2026-08-19T13:59:42Z",
       "series_count": 12,
-      "latest_obs": "2026-08-18"
+      "latest_obs": "2026-08-19"
     },
     {
       "name": "PMMS",
@@ -273,7 +273,7 @@
       "fetched": 502,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-08-18T13:28:50Z",
+      "finished_at": "2026-08-19T13:37:07Z",
       "series_count": 1,
       "latest_obs": "2026-08-13"
     },
@@ -285,7 +285,7 @@
       "fetched": 941,
       "new_rows": 0,
       "error": "partial: QCEW: 3 item(s) failed \u2014 2026q1: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/1/industry/23.csv; 2026q2: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/2/industry/23.csv; 2026q3: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/3/industry/23.csv",
-      "finished_at": "2026-08-18T13:56:25Z",
+      "finished_at": "2026-08-19T13:59:39Z",
       "series_count": 137,
       "latest_obs": "2025-10-01"
     },
@@ -295,11 +295,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 31,
-      "new_rows": 2,
+      "new_rows": 22,
       "error": null,
-      "finished_at": "2026-08-18T13:56:29Z",
+      "finished_at": "2026-08-19T13:59:42Z",
       "series_count": 1,
-      "latest_obs": "2026-08-18"
+      "latest_obs": "2026-08-19"
     },
     {
       "name": "STEO",
@@ -309,7 +309,7 @@
       "fetched": 672,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-08-18T13:56:49Z",
+      "finished_at": "2026-08-19T13:59:59Z",
       "series_count": 2,
       "latest_obs": "2027-12-01"
     },
@@ -318,12 +318,12 @@
       "route": "API",
       "cadence": "daily",
       "ok": true,
-      "fetched": 2415,
+      "fetched": 2416,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-08-18T13:28:48Z",
+      "finished_at": "2026-08-19T13:37:06Z",
       "series_count": 1,
-      "latest_obs": "2026-08-14"
+      "latest_obs": "2026-08-17"
     },
     {
       "name": "USDA",
@@ -333,7 +333,7 @@
       "fetched": 2183,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-08-18T13:30:03Z",
+      "finished_at": "2026-08-19T13:38:23Z",
       "series_count": 5,
       "latest_obs": "2026-08-14"
     },
@@ -341,11 +341,11 @@
       "name": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "ok": true,
-      "fetched": 4,
-      "new_rows": 4,
-      "error": null,
-      "finished_at": "2026-08-18T13:56:29Z",
+      "ok": false,
+      "fetched": 0,
+      "new_rows": 0,
+      "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://console.vast.ai/api/v0/bundles/?q=%7B%22gpu_name%22%3A%20%7B%22eq%22%3A%20%22B200%22%7D%2C%20%22rentable%22%3A%20%7B%22eq%22%3A%20true%7D%2C%20%22gpu_frac%22%3A%20%7B%22eq%22%3A%201%7D%2C%20%22type%22%3A%20%22on-demand%22%2C%20%22limit%22%3A%201000%7D",
+      "finished_at": "2026-08-19T13:59:42Z",
       "series_count": 5,
       "latest_obs": "2026-08-18"
     },
@@ -357,7 +357,7 @@
       "fetched": 11729,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-08-18T13:28:49Z",
+      "finished_at": "2026-08-19T13:37:07Z",
       "series_count": 102,
       "latest_obs": "2026-07-01"
     }

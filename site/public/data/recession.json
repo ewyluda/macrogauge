@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-18T13:56:52Z",
+  "published_at": "2026-08-19T14:00:04Z",
   "probability_pct": 0.0,
   "triggered": 0,
   "available": 6,
@@ -22,7 +22,7 @@
       "name": "NFCI",
       "code": "NFCI",
       "rule": "> 0",
-      "value": -0.549,
+      "value": -0.559,
       "triggered": false
     },
     {
