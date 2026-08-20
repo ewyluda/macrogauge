@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-08-19T14:00:04Z",
-  "as_of": "2026-08-19",
+  "published_at": "2026-08-20T14:15:04Z",
+  "as_of": "2026-08-20",
   "official_month": "2026-07-01",
   "rows": [
     {
@@ -14,6 +14,16 @@
       "contribution_pp": -0.57
     },
     {
+      "component": "fuel",
+      "label": "Gasoline",
+      "weight": 0.03,
+      "mode": "live",
+      "ours_yoy_pct": 29.16,
+      "bls_yoy_pct": 24.64,
+      "gap_pp": 4.52,
+      "contribution_pp": 0.14
+    },
+    {
       "component": "shelter_rent",
       "label": "Rent",
       "weight": 0.075,
@@ -22,16 +32,6 @@
       "bls_yoy_pct": 2.86,
       "gap_pp": -1.79,
       "contribution_pp": -0.13
-    },
-    {
-      "component": "fuel",
-      "label": "Gasoline",
-      "weight": 0.03,
-      "mode": "live",
-      "ours_yoy_pct": 28.75,
-      "bls_yoy_pct": 24.64,
-      "gap_pp": 4.12,
-      "contribution_pp": 0.12
     },
     {
       "component": "electricity",
@@ -144,21 +144,21 @@
       "contribution_pp": 0.0
     }
   ],
-  "total_gap_pp": -0.51,
+  "total_gap_pp": -0.5,
   "variants": {
     "gauge": {
-      "yoy_pct": 3.04,
-      "as_of": "2026-08-19",
+      "yoy_pct": 3.05,
+      "as_of": "2026-08-20",
       "coverage_pct": 42.6
     },
     "col": {
-      "yoy_pct": 3.06,
-      "as_of": "2026-08-19",
+      "yoy_pct": 2.99,
+      "as_of": "2026-08-20",
       "coverage_pct": 42.6
     },
     "tracker": {
-      "yoy_pct": 3.72,
-      "as_of": "2026-08-19",
+      "yoy_pct": 3.73,
+      "as_of": "2026-08-20",
       "coverage_pct": 6.5
     },
     "supercore": {
@@ -168,7 +168,7 @@
     },
     "pce": {
       "yoy_pct": 3.25,
-      "as_of": "2026-08-19",
+      "as_of": "2026-08-20",
       "coverage_pct": 21.7
     }
   }
