@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-21",
+  "generated_at": "2026-08-24",
   "passed": 26,
   "total": 27,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-07-01 is 51d old (limit 80)"
+      "detail": "latest official month 2026-07-01 is 54d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -103,13 +103,13 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "619/693 fresh; stale \u2014 PCEPI (81d > 80d), APU0000702212 (112d > 80d), APU0000704211 (112d > 80d), APU0000711311 (81d > 80d), aptlist_us (81d > 75d), kalshi_cpi_mom (20d > 5d), DSPIC96 (81d > 80d), CSUSHPINSA (112d > 110d), M2SL (81d > 80d), UMCSENT (81d > 80d), DRCCLACBS (232d > 210d), PSAVERT (81d > 80d), TDSP (232d > 210d), REVOLSL (81d > 80d), DRSFRMACBS (232d > 210d), CFNAIMA3 (81d > 80d), RECPROUSM156N (81d > 80d), PCETRIM12M159SFRBDAL (81d > 80d), MICH (81d > 80d), USSTHPI (232d > 210d), ALUR (81d > 80d), AKUR (81d > 80d), AZUR (81d > 80d), ARUR (81d > 80d), CAUR (81d > 80d), COUR (81d > 80d), CTUR (81d > 80d), DEUR (81d > 80d), DCUR (81d > 80d), FLUR (81d > 80d), GAUR (81d > 80d), HIUR (81d > 80d), IDUR (81d > 80d), ILUR (81d > 80d), INUR (81d > 80d), IAUR (81d > 80d), KSUR (81d > 80d), KYUR (81d > 80d), LAUR (81d > 80d), MEUR (81d > 80d), MDUR (81d > 80d), MAUR (81d > 80d), MIUR (81d > 80d), MNUR (81d > 80d), MSUR (81d > 80d), MOUR (81d > 80d), MTUR (81d > 80d), NEUR (81d > 80d), NVUR (81d > 80d), NHUR (81d > 80d), NJUR (81d > 80d), NMUR (81d > 80d), NYUR (81d > 80d), NCUR (81d > 80d), NDUR (81d > 80d), OHUR (81d > 80d), OKUR (81d > 80d), ORUR (81d > 80d), PAUR (81d > 80d), RIUR (81d > 80d), SCUR (81d > 80d), SDUR (81d > 80d), TNUR (81d > 80d), TXUR (81d > 80d), UTUR (81d > 80d), VTUR (81d > 80d), VAUR (81d > 80d), WAUR (81d > 80d), WVUR (81d > 80d), WIUR (81d > 80d), WYUR (81d > 80d), ppi_storage (81d > 80d), qcew_wage23_la (416d > 400d), qcew_aemp23_c41067 (507d > 400d)"
+      "detail": "620/693 fresh; stale \u2014 PCEPI (84d > 80d), APU0000702212 (115d > 80d), APU0000704211 (115d > 80d), APU0000711311 (84d > 80d), aptlist_us (84d > 75d), kalshi_cpi_mom (23d > 5d), DSPIC96 (84d > 80d), CSUSHPINSA (115d > 110d), M2SL (84d > 80d), UMCSENT (84d > 80d), DRCCLACBS (235d > 210d), PSAVERT (84d > 80d), TDSP (235d > 210d), REVOLSL (84d > 80d), DRSFRMACBS (235d > 210d), RECPROUSM156N (84d > 80d), PCETRIM12M159SFRBDAL (84d > 80d), MICH (84d > 80d), USSTHPI (235d > 210d), ALUR (84d > 80d), AKUR (84d > 80d), AZUR (84d > 80d), ARUR (84d > 80d), CAUR (84d > 80d), COUR (84d > 80d), CTUR (84d > 80d), DEUR (84d > 80d), DCUR (84d > 80d), FLUR (84d > 80d), GAUR (84d > 80d), HIUR (84d > 80d), IDUR (84d > 80d), ILUR (84d > 80d), INUR (84d > 80d), IAUR (84d > 80d), KSUR (84d > 80d), KYUR (84d > 80d), LAUR (84d > 80d), MEUR (84d > 80d), MDUR (84d > 80d), MAUR (84d > 80d), MIUR (84d > 80d), MNUR (84d > 80d), MSUR (84d > 80d), MOUR (84d > 80d), MTUR (84d > 80d), NEUR (84d > 80d), NVUR (84d > 80d), NHUR (84d > 80d), NJUR (84d > 80d), NMUR (84d > 80d), NYUR (84d > 80d), NCUR (84d > 80d), NDUR (84d > 80d), OHUR (84d > 80d), OKUR (84d > 80d), ORUR (84d > 80d), PAUR (84d > 80d), RIUR (84d > 80d), SCUR (84d > 80d), SDUR (84d > 80d), TNUR (84d > 80d), TXUR (84d > 80d), UTUR (84d > 80d), VTUR (84d > 80d), VAUR (84d > 80d), WAUR (84d > 80d), WVUR (84d > 80d), WIUR (84d > 80d), WYUR (84d > 80d), ppi_storage (84d > 80d), qcew_wage23_la (419d > 400d), qcew_aemp23_c41067 (510d > 400d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.083 vs EIA weekly $4.049 \u2014 relative divergence 0.8% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.086 vs EIA weekly $4.049 \u2014 relative divergence 0.9% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -127,19 +127,19 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-08-21"
+      "detail": "CPI nowcast as-of 2026-08-24"
     },
     {
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.3 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=0.33 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-08-21 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-08-24 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
