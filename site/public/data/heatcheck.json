@@ -1,17 +1,17 @@
 {
-  "published_at": "2026-08-25T13:35:36Z",
-  "score": -9.9,
+  "published_at": "2026-08-26T13:41:18Z",
+  "score": -9.8,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": -0.39232,
+      "z": -0.49878,
       "weight": 25,
       "available": 5,
       "expected": 5,
       "active_weight": 25.0
     },
     "real_economy": {
-      "z": -0.2353,
+      "z": -0.04548000000000001,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -25,14 +25,14 @@
       "active_weight": 20.0
     },
     "housing": {
-      "z": -0.32875,
+      "z": -0.35767499999999997,
       "weight": 15,
       "available": 4,
       "expected": 4,
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": 0.21356666666666665,
+      "z": 0.11026666666666667,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -60,9 +60,9 @@
       "code": "PCEPI",
       "group": "prices",
       "direction": 1,
-      "as_of": "2026-06-01",
-      "momentum": 0.7584,
-      "z": 0.2369
+      "as_of": "2026-07-01",
+      "momentum": 0.5445,
+      "z": -0.2954
     },
     {
       "code": "PPIACO",
@@ -78,7 +78,7 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-08-24",
+      "as_of": "2026-08-25",
       "momentum": -0.22,
       "z": -0.852
     },
@@ -119,9 +119,9 @@
       "code": "DSPIC96",
       "group": "real_economy",
       "direction": 1,
-      "as_of": "2026-06-01",
-      "momentum": 0.142,
-      "z": -0.551
+      "as_of": "2026-07-01",
+      "momentum": 0.9211,
+      "z": 0.3981
     },
     {
       "code": "ICSA",
@@ -171,8 +171,8 @@
       "group": "housing",
       "direction": 1,
       "as_of": "2026-07-01",
-      "momentum": 1.4055,
-      "z": 0.217
+      "momentum": 0.7027,
+      "z": 0.1013
     },
     {
       "code": "CSUSHPINSA",
@@ -196,9 +196,9 @@
       "code": "M2SL",
       "group": "money_expectations",
       "direction": 1,
-      "as_of": "2026-06-01",
-      "momentum": 2.1128,
-      "z": 1.2166
+      "as_of": "2026-07-01",
+      "momentum": 2.0271,
+      "z": 1.1175
     },
     {
       "code": "UMCSENT",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-08-24",
-      "momentum": 0.03,
-      "z": 0.2108
+      "as_of": "2026-08-25",
+      "momentum": -0.02,
+      "z": 0.0
     }
   ]
 }

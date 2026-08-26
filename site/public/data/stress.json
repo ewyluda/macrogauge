@@ -1,15 +1,15 @@
 {
-  "published_at": "2026-08-25T13:35:36Z",
-  "score": 65.3,
+  "published_at": "2026-08-26T13:41:18Z",
+  "score": 64.2,
   "coverage_pct": 100.0,
   "indicators": [
     {
       "code": "DRCCLACBS",
       "weight": 20,
       "direction": 1,
-      "value": 2.92,
-      "as_of": "2026-01-01",
-      "score": 65.5
+      "value": 2.85,
+      "as_of": "2026-04-01",
+      "score": 63.3
     },
     {
       "code": "TERMCBCCALLNS",
@@ -23,9 +23,9 @@
       "code": "PSAVERT",
       "weight": 15,
       "direction": -1,
-      "value": 2.7,
-      "as_of": "2026-06-01",
-      "score": 95.6
+      "value": 3.0,
+      "as_of": "2026-07-01",
+      "score": 92.3
     },
     {
       "code": "TDSP",
@@ -48,9 +48,9 @@
       "code": "DRSFRMACBS",
       "weight": 10,
       "direction": 1,
-      "value": 1.89,
-      "as_of": "2026-01-01",
-      "score": 51.7
+      "value": 1.86,
+      "as_of": "2026-04-01",
+      "score": 50.0
     },
     {
       "code": "CCSA",

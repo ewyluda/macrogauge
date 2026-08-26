@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-25T13:35:36Z",
+  "published_at": "2026-08-26T13:41:18Z",
   "groups": [
     {
       "group": "UNDERLYING",
@@ -65,9 +65,9 @@
         {
           "code": "T5YIE",
           "label": "5-year breakeven",
-          "value": 2.32,
+          "value": 2.31,
           "unit": "%",
-          "as_of": "2026-08-24",
+          "as_of": "2026-08-25",
           "cadence": "daily"
         },
         {
@@ -75,7 +75,7 @@
           "label": "10-year breakeven",
           "value": 2.32,
           "unit": "%",
-          "as_of": "2026-08-24",
+          "as_of": "2026-08-25",
           "cadence": "daily"
         },
         {
