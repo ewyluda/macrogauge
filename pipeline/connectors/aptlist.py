@@ -17,12 +17,14 @@ from pipeline.connectors.fred import today_et
 from pipeline.connectors.util import get_text, month_first
 from pipeline.models import Observation
 
-# Pinned by the Task-4 access spike (2026-07-09) — "Historic Rent Estimates
-# (Jan 2017 - Present)" download on the research/category/data-rent-estimates
-# page. The Contentful asset id/hash and the trailing YYYY_MM in the filename
-# change on every monthly refresh, so this URL needs periodic upkeep.
-CSV_URL = ("https://assets.ctfassets.net/jeox55pd4d8n/1KG2u9qAn6YlTDnQA1q6Jd/"
-           "dcdd8e50defdf26e6b84e0dab33284c3/Apartment_List_Rent_Estimates_2026_06.csv")
+# Pinned by the Task-4 access spike (2026-07-09), re-pinned 2026-08-27 —
+# "Historic Rent Estimates (Jan 2017 - Present)" download on the
+# research/category/data-rent-estimates page. The Contentful asset id/hash and
+# the trailing YYYY_MM in the filename change on every monthly refresh, so this
+# URL needs periodic upkeep (the page links it protocol-relative:
+# //assets.ctfassets.net/...).
+CSV_URL = ("https://assets.ctfassets.net/jeox55pd4d8n/7lvW7gaSwU8HQZurWlYEUY/"
+           "ebb465ed74b4de28a0e90362552b26c1/Apartment_List_Rent_Estimates_2026_08.csv")
 START = "2017-01-01"
 
 

@@ -264,7 +264,7 @@
     {"code": "cleveland_core_cpi_mom", "source": "CLEVELAND", "source_id": "cleveland_core_cpi_mom", "name": "Cleveland Fed core CPI nowcast MoM", "max_staleness_days": 40},
     {"code": "cleveland_pce_mom", "source": "CLEVELAND", "source_id": "cleveland_pce_mom",         "name": "Cleveland Fed PCE nowcast MoM",     "max_staleness_days": 40},
     {"code": "cleveland_core_pce_mom", "source": "CLEVELAND", "source_id": "cleveland_core_pce_mom", "name": "Cleveland Fed core PCE nowcast MoM", "max_staleness_days": 40},
-    {"code": "kalshi_cpi_mom",  "source": "KALSHI",    "source_id": "KXCPI",                        "name": "Kalshi CPI market-implied MoM",     "max_staleness_days": 5},
+    {"code": "kalshi_cpi_mom",  "source": "KALSHI",    "source_id": "KXCPI",                        "name": "Kalshi CPI market-implied MoM",     "max_staleness_days": 50},
     {"code": "UNRATE", "source": "FRED", "source_id": "UNRATE", "name": "Unemployment rate", "max_staleness_days": 80},
     {"code": "INDPRO", "source": "FRED", "source_id": "INDPRO", "name": "Industrial production index", "max_staleness_days": 80},
     {"code": "RSAFS", "source": "FRED", "source_id": "RSAFS", "name": "Advance retail sales", "max_staleness_days": 80},

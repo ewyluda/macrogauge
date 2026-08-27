@@ -17,7 +17,14 @@ TICKER_RE = re.compile(r"-(\d{2})([A-Z]{3})$")
 
 def _reference_month(event_ticker: str, close_time: str | None) -> str:
     """KXCPI-26JUN names the June data month. Fallback: markets close on
-    release morning, and a CPI release covers the prior calendar month."""
+    release morning, and a CPI release covers the prior calendar month.
+
+    Because obs_date is this month-start (not the trading day), its age vs
+    today peaks at ~42d on release morning (e.g. an Aug-data market quoted
+    until the ~Sep 10 print) even while fresh vintages land daily — so the
+    series' max_staleness_days in config/series.json must be ≥ that peak
+    (50, with margin), or sources_fresh false-positives from the 6th of
+    every month."""
     m = TICKER_RE.search(event_ticker or "")
     if m and m[2] in MONTHS:
         return f"20{m[1]}-{MONTHS[m[2]]:02d}-01"
