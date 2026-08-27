@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-08-26T13:41:18Z",
-  "score": -9.8,
+  "published_at": "2026-08-27T21:36:53Z",
+  "score": -8.6,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": -0.49878,
+      "z": -0.50588,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -18,21 +18,21 @@
       "active_weight": 25.0
     },
     "pipeline": {
-      "z": -0.1147,
+      "z": 0.01605000000000001,
       "weight": 20,
       "available": 4,
       "expected": 4,
       "active_weight": 20.0
     },
     "housing": {
-      "z": -0.35767499999999997,
+      "z": -0.39609999999999995,
       "weight": 15,
       "available": 4,
       "expected": 4,
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": 0.11026666666666667,
+      "z": 0.15243333333333334,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-08-25",
-      "momentum": -0.22,
-      "z": -0.852
+      "as_of": "2026-08-27",
+      "momentum": -0.23,
+      "z": -0.8875
     },
     {
       "code": "PAYEMS",
@@ -128,18 +128,18 @@
       "group": "pipeline",
       "direction": -1,
       "periods": 13,
-      "as_of": "2026-08-15",
-      "momentum": -1.9048,
-      "z": 0.0147
+      "as_of": "2026-08-22",
+      "momentum": -4.2453,
+      "z": 0.2594
     },
     {
       "code": "CCSA",
       "group": "pipeline",
       "direction": -1,
       "periods": 13,
-      "as_of": "2026-08-08",
-      "momentum": 1.581,
-      "z": -0.3082
+      "as_of": "2026-08-15",
+      "momentum": -0.3922,
+      "z": -0.0299
     },
     {
       "code": "PCUOMFGOMFG",
@@ -178,9 +178,9 @@
       "code": "CSUSHPINSA",
       "group": "housing",
       "direction": 1,
-      "as_of": "2026-05-01",
-      "momentum": 2.241,
-      "z": 0.4027
+      "as_of": "2026-06-01",
+      "momentum": 1.9326,
+      "z": 0.222
     },
     {
       "code": "pmms_30yr",
@@ -188,9 +188,9 @@
       "direction": -1,
       "mode": "diff",
       "periods": 13,
-      "as_of": "2026-08-20",
-      "momentum": 0.14,
-      "z": -0.4317
+      "as_of": "2026-08-27",
+      "momentum": 0.13,
+      "z": -0.4047
     },
     {
       "code": "M2SL",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-08-25",
-      "momentum": -0.02,
-      "z": 0.0
+      "as_of": "2026-08-27",
+      "momentum": 0.01,
+      "z": 0.1265
     }
   ]
 }
