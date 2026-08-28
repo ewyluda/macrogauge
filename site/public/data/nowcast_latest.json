@@ -1,22 +1,22 @@
 {
-  "published_at": "2026-08-27T21:36:53Z",
+  "published_at": "2026-08-28T01:12:38Z",
   "target": "CPI",
   "release_date": "2026-09-11",
   "reference_month": "2026-08",
   "cpi": {
     "target_month": "2026-08",
-    "mom_pct": 0.26,
-    "yoy_pct": 3.0,
+    "mom_pct": 0.23,
+    "yoy_pct": 3.04,
     "as_of": "2026-08-27",
     "status": "live",
     "parameters": {},
     "components": [
       {
         "component": "shelter_owned",
-        "mom_pct": 0.0965,
+        "mom_pct": 0.0243,
         "weight": 0.265,
-        "contribution_pp": 0.0256,
-        "basis": "trend"
+        "contribution_pp": 0.0064,
+        "basis": "measured"
       },
       {
         "component": "other",
@@ -27,11 +27,11 @@
       },
       {
         "component": "food_home",
-        "mom_pct": 0.8305,
+        "mom_pct": 0.826,
         "weight": 0.082,
-        "contribution_pp": 0.0681,
+        "contribution_pp": 0.0677,
         "basis": "trend+driver",
-        "driver_mom_pct": 0.5249
+        "driver_mom_pct": 0.5204
       },
       {
         "component": "medical",
@@ -42,10 +42,10 @@
       },
       {
         "component": "shelter_rent",
-        "mom_pct": 0.0965,
+        "mom_pct": 0.0243,
         "weight": 0.075,
-        "contribution_pp": 0.0072,
-        "basis": "trend"
+        "contribution_pp": 0.0018,
+        "basis": "measured"
       },
       {
         "component": "food_away",
@@ -114,7 +114,7 @@
     ]
   },
   "pce": {
-    "mom_pct": 0.25,
+    "mom_pct": 0.24,
     "parameters": {
       "intercept": 0.140187,
       "cpi_beta": 0.433363,
@@ -145,17 +145,17 @@
       "as_of": "2026-08-27"
     },
     "kalshi": {
-      "value": 0.319,
+      "value": 0.308,
       "as_of": "2026-08-27"
     }
   },
   "ensemble": {
-    "value": 0.31,
+    "value": 0.3,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-08-27"
+  "generated_on": "2026-08-28"
 }

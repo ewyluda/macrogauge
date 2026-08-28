@@ -103,7 +103,7 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "680/693 fresh; stale \u2014 APU0000702212 (118d > 80d), APU0000704211 (118d > 80d), APU0000711311 (87d > 80d), aptlist_us (87d > 75d), kalshi_cpi_mom (26d > 5d), UMCSENT (87d > 80d), TDSP (238d > 210d), REVOLSL (87d > 80d), RECPROUSM156N (87d > 80d), MICH (87d > 80d), ppi_storage (87d > 80d), qcew_wage23_la (422d > 400d), qcew_aemp23_c41067 (513d > 400d)"
+      "detail": "682/693 fresh; stale \u2014 APU0000702212 (118d > 80d), APU0000704211 (118d > 80d), APU0000711311 (87d > 80d), UMCSENT (87d > 80d), TDSP (238d > 210d), REVOLSL (87d > 80d), RECPROUSM156N (87d > 80d), MICH (87d > 80d), ppi_storage (87d > 80d), qcew_wage23_la (422d > 400d), qcew_aemp23_c41067 (513d > 400d)"
     },
     {
       "name": "fuel_sources_agree",
@@ -133,7 +133,7 @@
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.31 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=0.3 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",

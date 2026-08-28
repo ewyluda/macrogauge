@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-27T21:36:53Z",
+  "published_at": "2026-08-28T01:12:38Z",
   "groups": [
     {
       "group": "AI BUILD-OUT",
@@ -8,10 +8,10 @@
           "code": "fmp_copper",
           "label": "Copper front month",
           "unit": "$/lb",
-          "value": 6.5915,
+          "value": 6.6035,
           "as_of": "2026-08-27",
-          "yoy_pct": 49.13,
-          "chg_30d_pct": 4.12,
+          "yoy_pct": 49.4,
+          "chg_30d_pct": 4.31,
           "spark": [
             6.275,
             6.445,
@@ -72,17 +72,17 @@
             6.6345,
             6.6233,
             6.666,
-            6.5915
+            6.6035
           ]
         },
         {
           "code": "fmp_alum",
           "label": "Aluminum front month",
           "unit": "$/ton",
-          "value": 3396.5,
+          "value": 3371.0,
           "as_of": "2026-08-27",
-          "yoy_pct": 33.54,
-          "chg_30d_pct": -0.25,
+          "yoy_pct": 32.53,
+          "chg_30d_pct": -1.0,
           "spark": [
             3595.0,
             3501.0,
@@ -143,7 +143,7 @@
             3388.75,
             3374.0,
             3370.0,
-            3396.5
+            3371.0
           ]
         },
         {
@@ -285,10 +285,10 @@
           "code": "vast_h100_sxm",
           "label": "H100 SXM (vast.ai median)",
           "unit": "$/GPU-hr",
-          "value": 1.7356,
+          "value": 1.7764,
           "as_of": "2026-08-27",
           "yoy_pct": null,
-          "chg_30d_pct": 0.1,
+          "chg_30d_pct": 2.45,
           "spark": [
             2.0003,
             2.1102,
@@ -320,19 +320,18 @@
             1.6684,
             1.735,
             1.8678,
-            1.7356
+            1.7764
           ]
         },
         {
           "code": "sfc_h100",
           "label": "H100 (sfcompute spot)",
           "unit": "$/GPU-hr",
-          "value": 1.88,
-          "as_of": "2026-08-27",
+          "value": 1.94,
+          "as_of": "2026-08-28",
           "yoy_pct": null,
-          "chg_30d_pct": -15.32,
+          "chg_30d_pct": -11.82,
           "spark": [
-            2.0,
             2.0,
             2.02,
             2.04,
@@ -391,7 +390,8 @@
             1.94,
             1.95,
             1.87,
-            1.88
+            1.88,
+            1.94
           ]
         },
         {
@@ -545,10 +545,10 @@
           "code": "fmp_wti",
           "label": "WTI crude front month",
           "unit": "$/bbl",
-          "value": 83.53,
+          "value": 83.38,
           "as_of": "2026-08-27",
-          "yoy_pct": 30.21,
-          "chg_30d_pct": 2.45,
+          "yoy_pct": 29.98,
+          "chg_30d_pct": 2.27,
           "spark": [
             90.03,
             87.71,
@@ -609,17 +609,17 @@
             85.87,
             82.58,
             81.15,
-            83.53
+            83.38
           ]
         },
         {
           "code": "fmp_rbob",
           "label": "RBOB gasoline front month",
           "unit": "$/gal",
-          "value": 2.9846,
+          "value": 2.9895,
           "as_of": "2026-08-27",
-          "yoy_pct": 38.89,
-          "chg_30d_pct": -6.1,
+          "yoy_pct": 39.12,
+          "chg_30d_pct": -5.94,
           "spark": [
             3.1014,
             3.0498,
@@ -680,17 +680,17 @@
             3.0046,
             2.9471,
             2.9185,
-            2.9846
+            2.9895
           ]
         },
         {
           "code": "fmp_natgas",
           "label": "Nat gas futures front month",
           "unit": "$/MMBtu",
-          "value": 2.914,
+          "value": 2.91,
           "as_of": "2026-08-27",
-          "yoy_pct": 0.97,
-          "chg_30d_pct": 8.09,
+          "yoy_pct": 0.83,
+          "chg_30d_pct": 7.94,
           "spark": [
             3.087,
             3.12,
@@ -751,7 +751,7 @@
             2.862,
             2.758,
             2.872,
-            2.914
+            2.91
           ]
         },
         {
@@ -905,10 +905,10 @@
           "code": "fmp_gold",
           "label": "Gold front month",
           "unit": "$/oz",
-          "value": 4664.0,
+          "value": 4642.1,
           "as_of": "2026-08-27",
-          "yoy_pct": 35.24,
-          "chg_30d_pct": 15.8,
+          "yoy_pct": 34.61,
+          "chg_30d_pct": 15.26,
           "spark": [
             4114.0,
             4238.8,
@@ -969,17 +969,17 @@
             4727.4,
             4670.8,
             4664.6,
-            4664.0
+            4642.1
           ]
         },
         {
           "code": "fmp_copper",
           "label": "Copper front month",
           "unit": "$/lb",
-          "value": 6.5915,
+          "value": 6.6035,
           "as_of": "2026-08-27",
-          "yoy_pct": 49.13,
-          "chg_30d_pct": 4.12,
+          "yoy_pct": 49.4,
+          "chg_30d_pct": 4.31,
           "spark": [
             6.275,
             6.445,
@@ -1040,17 +1040,17 @@
             6.6345,
             6.6233,
             6.666,
-            6.5915
+            6.6035
           ]
         },
         {
           "code": "fmp_alum",
           "label": "Aluminum front month",
           "unit": "$/ton",
-          "value": 3396.5,
+          "value": 3371.0,
           "as_of": "2026-08-27",
-          "yoy_pct": 33.54,
-          "chg_30d_pct": -0.25,
+          "yoy_pct": 32.53,
+          "chg_30d_pct": -1.0,
           "spark": [
             3595.0,
             3501.0,
@@ -1111,7 +1111,7 @@
             3388.75,
             3374.0,
             3370.0,
-            3396.5
+            3371.0
           ]
         }
       ]
@@ -1123,10 +1123,10 @@
           "code": "fmp_corn",
           "label": "Corn front month",
           "unit": "\u00a2/bu",
-          "value": 531.5,
+          "value": 531.0,
           "as_of": "2026-08-27",
-          "yoy_pct": 38.95,
-          "chg_30d_pct": 10.59,
+          "yoy_pct": 38.82,
+          "chg_30d_pct": 10.49,
           "spark": [
             419.5,
             419.0,
@@ -1187,17 +1187,17 @@
             516.4,
             514.0,
             528.9,
-            531.5
+            531.0
           ]
         },
         {
           "code": "fmp_wheat",
           "label": "Wheat front month",
           "unit": "\u00a2/bu",
-          "value": 822.0,
+          "value": 821.25,
           "as_of": "2026-08-27",
-          "yoy_pct": 60.23,
-          "chg_30d_pct": 12.8,
+          "yoy_pct": 60.09,
+          "chg_30d_pct": 12.69,
           "spark": [
             630.75,
             630.5,
@@ -1258,17 +1258,17 @@
             779.75,
             751.75,
             782.25,
-            822.0
+            821.25
           ]
         },
         {
           "code": "fmp_soybeans",
           "label": "Soybeans front month",
           "unit": "\u00a2/bu",
-          "value": 1268.0,
+          "value": 1271.25,
           "as_of": "2026-08-27",
-          "yoy_pct": 21.05,
-          "chg_30d_pct": 4.15,
+          "yoy_pct": 21.36,
+          "chg_30d_pct": 4.41,
           "spark": [
             1113.75,
             1123.0,
@@ -1329,17 +1329,17 @@
             1231.25,
             1217.25,
             1240.5,
-            1268.0
+            1271.25
           ]
         },
         {
           "code": "fmp_soybean_oil",
           "label": "Soybean oil front month",
           "unit": "\u00a2/lb",
-          "value": 68.37,
+          "value": 69.3,
           "as_of": "2026-08-27",
-          "yoy_pct": 28.64,
-          "chg_30d_pct": -0.84,
+          "yoy_pct": 30.39,
+          "chg_30d_pct": 0.51,
           "spark": [
             74.56,
             74.91,
@@ -1400,17 +1400,17 @@
             67.71,
             66.64,
             66.99,
-            68.37
+            69.3
           ]
         },
         {
           "code": "fmp_coffee",
           "label": "Coffee front month",
           "unit": "\u00a2/lb",
-          "value": 311.4,
+          "value": 309.65,
           "as_of": "2026-08-27",
-          "yoy_pct": -19.18,
-          "chg_30d_pct": -8.1,
+          "yoy_pct": -19.63,
+          "chg_30d_pct": -8.61,
           "spark": [
             253.1,
             247.15,
@@ -1471,17 +1471,17 @@
             326.77,
             330.88,
             325.55,
-            311.4
+            309.65
           ]
         },
         {
           "code": "fmp_sugar",
           "label": "Sugar front month",
           "unit": "\u00a2/lb",
-          "value": 229.5645,
+          "value": 229.5089,
           "as_of": "2026-08-27",
-          "yoy_pct": 1.29,
-          "chg_30d_pct": 4.5,
+          "yoy_pct": 1.26,
+          "chg_30d_pct": 4.48,
           "spark": [
             222.5988,
             227.5469,
@@ -1542,17 +1542,17 @@
             228.8299,
             227.3358,
             217.81,
-            229.5645
+            229.5089
           ]
         },
         {
           "code": "fmp_cocoa",
           "label": "Cocoa front month",
           "unit": "$/ton",
-          "value": 6233.0,
+          "value": 6173.0,
           "as_of": "2026-08-27",
-          "yoy_pct": -20.57,
-          "chg_30d_pct": 23.57,
+          "yoy_pct": -21.33,
+          "chg_30d_pct": 22.38,
           "spark": [
             4072.0,
             3965.0,
@@ -1613,7 +1613,7 @@
             5877.0,
             5832.5,
             5822.5,
-            6233.0
+            6173.0
           ]
         },
         {

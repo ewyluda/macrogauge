@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-27T21:36:53Z",
+  "published_at": "2026-08-28T01:12:38Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -16,7 +16,7 @@
   "indexes": {
     "build": {
       "as_of": "2026-08-27",
-      "headline_yoy_pct": 9.1,
+      "headline_yoy_pct": 9.08,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -6342,7 +6342,7 @@
         170.35,
         170.33,
         170.39,
-        170.31
+        170.29
       ],
       "yoy_pct": [
         3.05,
@@ -9505,7 +9505,7 @@
         9.12,
         9.11,
         9.15,
-        9.1
+        9.08
       ],
       "components": [
         {
@@ -9570,8 +9570,8 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-08-27",
-          "yoy_pct": 30.25,
-          "contribution_pp": 1.66,
+          "yoy_pct": 30.49,
+          "contribution_pp": 1.68,
           "stale": false
         },
         {
@@ -9581,8 +9581,8 @@
           "weight": 0.03,
           "mode": "official+proxy",
           "last_obs": "2026-08-27",
-          "yoy_pct": 40.08,
-          "contribution_pp": 1.2,
+          "yoy_pct": 39.03,
+          "contribution_pp": 1.17,
           "stale": false
         },
         {
@@ -10094,7 +10094,7 @@
           165.82,
           166.7971,
           170.0706,
-          170.313
+          170.2853
         ],
         "components": {
           "constr_wages": [
@@ -11457,7 +11457,7 @@
             191.354,
             195.5169,
             205.7455,
-            208.9214
+            209.3017
           ],
           "alum_shapes": [
             96.7196,
@@ -11684,7 +11684,7 @@
             203.6942,
             208.6201,
             213.6166,
-            215.8729
+            214.2522
           ],
           "switchgear": [
             85.7335,
@@ -12832,7 +12832,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 4.44
+          "contribution_pp": 4.42
         },
         {
           "group": "electrical",
