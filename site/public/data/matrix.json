@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-28T01:12:38Z",
+  "published_at": "2026-08-31T19:18:11Z",
   "groups": [
     {
       "group": "UNDERLYING",
@@ -65,25 +65,25 @@
         {
           "code": "T5YIE",
           "label": "5-year breakeven",
-          "value": 2.31,
+          "value": 2.3,
           "unit": "%",
-          "as_of": "2026-08-27",
+          "as_of": "2026-08-28",
           "cadence": "daily"
         },
         {
           "code": "T10YIE",
           "label": "10-year breakeven",
-          "value": 2.33,
+          "value": 2.31,
           "unit": "%",
-          "as_of": "2026-08-27",
+          "as_of": "2026-08-28",
           "cadence": "daily"
         },
         {
           "code": "MICH",
           "label": "UMich 1-year expectation",
-          "value": 4.6,
+          "value": 4.2,
           "unit": "%",
-          "as_of": "2026-06-01",
+          "as_of": "2026-07-01",
           "cadence": "monthly"
         }
       ]

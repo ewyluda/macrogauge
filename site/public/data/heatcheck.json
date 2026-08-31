@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-08-28T01:12:38Z",
-  "score": -8.6,
+  "published_at": "2026-08-31T19:18:11Z",
+  "score": -4.3,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": -0.50588,
+      "z": -0.49878,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -32,7 +32,7 @@
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": 0.15243333333333334,
+      "z": 0.7073333333333333,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-08-27",
-      "momentum": -0.23,
-      "z": -0.8875
+      "as_of": "2026-08-28",
+      "momentum": -0.22,
+      "z": -0.852
     },
     {
       "code": "PAYEMS",
@@ -204,9 +204,9 @@
       "code": "UMCSENT",
       "group": "money_expectations",
       "direction": 1,
-      "as_of": "2026-06-01",
-      "momentum": -7.1295,
-      "z": -0.7867
+      "as_of": "2026-07-01",
+      "momentum": 10.8434,
+      "z": 1.2574
     },
     {
       "code": "T10Y2Y",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-08-27",
-      "momentum": 0.01,
-      "z": 0.1265
+      "as_of": "2026-08-28",
+      "momentum": -0.08,
+      "z": -0.2529
     }
   ]
 }

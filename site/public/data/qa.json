@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-27",
+  "generated_at": "2026-08-31",
   "passed": 26,
   "total": 27,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-07-01 is 57d old (limit 80)"
+      "detail": "latest official month 2026-07-01 is 61d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -103,13 +103,13 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "682/693 fresh; stale \u2014 APU0000702212 (118d > 80d), APU0000704211 (118d > 80d), APU0000711311 (87d > 80d), UMCSENT (87d > 80d), TDSP (238d > 210d), REVOLSL (87d > 80d), RECPROUSM156N (87d > 80d), MICH (87d > 80d), ppi_storage (87d > 80d), qcew_wage23_la (422d > 400d), qcew_aemp23_c41067 (513d > 400d)"
+      "detail": "684/693 fresh; stale \u2014 APU0000702212 (122d > 80d), APU0000704211 (122d > 80d), APU0000711311 (91d > 80d), TDSP (242d > 210d), REVOLSL (91d > 80d), SAHMREALTIME (61d > 60d), RECPROUSM156N (91d > 80d), ppi_storage (91d > 80d), qcew_aemp23_c41067 (517d > 400d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.1 vs EIA weekly $4.085 \u2014 relative divergence 0.4% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.099 vs EIA weekly $4.085 \u2014 relative divergence 0.3% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -127,25 +127,25 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-08-27"
+      "detail": "CPI nowcast as-of 2026-08-31"
     },
     {
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.3 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=0.29 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-08-27 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-08-31 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
       "critical": true,
       "pass": true,
-      "detail": "all components present at grid end"
+      "detail": "all components present at grid end; gated today \u2014 nat_gas@2026-06-01"
     },
     {
       "name": "basket_weights_sum",
