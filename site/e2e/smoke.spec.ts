@@ -72,7 +72,6 @@ for (const [path, text] of ROUTES) {
 // through lib/useJson, which checks r.ok and renders a retry line instead.
 for (const [route, artifact, what] of [
   ["/my-inflation", "replay.json", "component data"],
-  ["/calculator", "gauge_daily.json", "daily gauge index"],
   ["/", "compare.json", "inflation quilt data"],
 ] as const) {
   test(`${route} shows a failure state when ${artifact} 404s`, async ({ page }) => {
@@ -84,6 +83,38 @@ for (const [route, artifact, what] of [
     await expect(page.getByText(/^loading /)).toHaveCount(0);
   });
 }
+
+test("calculator receives its narrow series at build time", async ({ page }) => {
+  let gaugeRequests = 0;
+  page.on("request", (request) => {
+    if (request.url().endsWith("/data/gauge_daily.json")) gaugeRequests += 1;
+  });
+  await page.goto("/calculator");
+  await expect(page.getByText("Prices since 2020-01-01")).toBeVisible();
+  await page.waitForLoadState("networkidle");
+  expect(gaugeRequests).toBe(0);
+});
+
+test("the lazy ECharts runtime paints a chart", async ({ page }) => {
+  await page.goto("/supercore");
+  await expect(page.locator("canvas").first()).toBeVisible();
+});
+
+test("data-center PNG export uses the lazy chart instance", async ({ page }) => {
+  await page.addInitScript(() => {
+    HTMLAnchorElement.prototype.click = function () {
+      document.documentElement.dataset.testDownload =
+        `${this.download}|${this.href.slice(0, 22)}`;
+    };
+  });
+  await page.goto("/datacenter");
+  await expect(page.locator("canvas").first()).toBeVisible();
+  await page.getByRole("button", { name: "Export PNG" }).first().click();
+  await expect(page.locator("html")).toHaveAttribute(
+    "data-test-download",
+    "macrogauge-dc-index.png|data:image/png;base64,",
+  );
+});
 
 test("markets sortable controls preserve column-header semantics", async ({ page }) => {
   await page.goto("/markets");

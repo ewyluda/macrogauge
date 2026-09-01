@@ -1,5 +1,3 @@
-"use client";
-
 /** Renders dc_grades.json (site/public/data/dc_grades.json), the escalation
  *  grading harness behind /dc-scoreboard.
  *
@@ -46,10 +44,9 @@ import {
 } from "@/lib/dcGrades";
 import type { DcGrades, GradeStat, Leg } from "@/lib/types";
 
-/** Everything /dc-scoreboard renders, minus the 286-row `anchors` array
- *  (47KB) it does not: the receipts are linked from the methodology section
- *  as the raw artifact instead of being serialized a second time into this
- *  page's HTML. See the page component for the deliberate slice. */
+/** Everything /dc-scoreboard renders, minus the `anchors` receipts it does
+ *  not read. The full artifact remains available to the server page for its
+ *  reconstruction check and through the methodology download link. */
 export type GradesPageData = Omit<DcGrades, "anchors">;
 
 /** The graded reconstruction vs. the published index, measured live on the

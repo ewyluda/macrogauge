@@ -1,6 +1,6 @@
 "use client";
 import { useMemo, useRef } from "react";
-import * as echarts from "echarts/core";
+import type { ECharts } from "echarts/core";
 import { EChart } from "./EChart";
 import { C, baseOption } from "@/lib/chartTheme";
 
@@ -11,7 +11,7 @@ function pair(months: string[], vals: (number | null)[]): [string, number | null
 export function DcConstructionChart({ months, saar, real }: {
   months: string[]; saar: number[]; real: (number | null)[];
 }) {
-  const wrapRef = useRef<HTMLDivElement>(null);
+  const chartRef = useRef<ECharts | null>(null);
   const option = useMemo(() => {
     const base = baseOption();
     return {
@@ -39,9 +39,7 @@ export function DcConstructionChart({ months, saar, real }: {
   }, [months, saar, real]);
 
   const exportPng = () => {
-    const dom = wrapRef.current?.firstElementChild;
-    const chart =
-      dom instanceof HTMLElement ? echarts.getInstanceByDom(dom) : undefined;
+    const chart = chartRef.current;
     if (!chart) {
       console.warn("DC construction PNG export: chart instance not found");
       return;
@@ -63,9 +61,7 @@ export function DcConstructionChart({ months, saar, real }: {
           ⬇ Export PNG
         </button>
       </div>
-      <div ref={wrapRef}>
-        <EChart option={option} height={320} />
-      </div>
+      <EChart option={option} height={320} instanceRef={chartRef} />
     </div>
   );
 }

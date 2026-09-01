@@ -107,17 +107,30 @@ after the P1 fix branch: 876 / 166 / 51 (CLAUDE.md counts refreshed in the same 
   `null`, so a 404 leaves "loading…" forever. Only `QuiltHeatmap` has a `failed` flag. Fix: one
   `useJson<T>(url)` hook with `ok`/`failed`/abort.
   *Done:* `lib/fetchJson.ts` (rejects non-2xx, unit-tested) + `lib/useJson.ts` (failed state, abort on
-  unmount) + `components/DataUnavailable.tsx`; Treemap, CalculatorClient, MyInflationClient and
-  QuiltHeatmap use them. Three Playwright tests stub a 404 and assert the retry line.
+  unmount) + `components/DataUnavailable.tsx`; Treemap, MyInflationClient and QuiltHeatmap use them.
+  Two Playwright tests stub a 404 and assert the retry line; CalculatorClient's fetch and third test
+  were superseded when B5 moved its data to build-time props.
 
 ### P2
 
-- **B3 (verified). `GradesClient.tsx` (672 lines) is `"use client"` with zero hooks or handlers**;
-  drop the directive and the ~56 kB prop payload and page JS disappear.
-- **B4. ECharts is statically imported on 10 routes**, tripling First Load JS (103 → 311–320 kB).
-  `next/dynamic(() => import("./EChart"), { ssr: false })` in one place.
-- **B5. `/calculator` fetches all of `gauge_daily.json` (818 kB) for two arrays**; pass props like
-  `/escalation` does.
+- **B3 (verified) — FIXED on `perf/client-payload-pass`.** `GradesClient.tsx` (672 lines) was
+  `"use client"` with zero hooks or handlers; dropping the directive removes the page JS and its
+  ~56 kB serialized prop payload.
+  *Done:* `GradesClient` is now server-rendered and `/dc-scoreboard` passes the server-side artifact
+  directly instead of maintaining a client-only copy that manually omitted `anchors`.
+- **B4 — FIXED on `perf/client-payload-pass`.** ECharts was statically imported on 10 routes,
+  tripling First Load JS (103 → 311–320 kB).
+  *Done:* the public `EChart` wrapper now owns one `next/dynamic` seam to `EChartClient` with SSR
+  disabled; the stable outer wrapper reserves each chart's requested height while the async runtime
+  loads and exposes the instance ref needed by PNG exports without another runtime import. The
+  registry audit pins the lazy import, forbids eager imports elsewhere, and continues checking every
+  registered chart feature against its callers; Playwright verifies that the lazy runtime paints a
+  canvas.
+- **B5 — FIXED on `perf/client-payload-pass`.** `/calculator` fetched all of `gauge_daily.json`
+  (818 kB) for two arrays.
+  *Done:* the server page now imports the artifact at build time and passes only the gauge `dates`
+  and `index` arrays (about 63 kB serialized). The client no longer fetches the artifact or carries
+  a runtime loading/error state; Playwright pins the absence of that network request.
 - **B6. `replay.json` (1.24 MB) is fetched on `/` and `/my-inflation`; `bls_index` (28%) is read by
   nobody.**
 - **B7. `methodology.html` is 762 kB**: 693 rows × 5 inline style objects, then the array serialized
@@ -187,7 +200,8 @@ after the P1 fix branch: 876 / 166 / 51 (CLAUDE.md counts refreshed in the same 
 
 1. A1, A2 (before 2026-11-21), B1, B2 — small fixes, real defects.
 2. A5, A6 — **complete on `fix/daily-publish-hardening`**; daily-run resilience.
-3. B3, B4, B5 — three edits that remove most of the client payload.
+3. B3, B4, B5 — **complete on `perf/client-payload-pass`**; three edits that remove most of the
+   client payload.
 4. C1, C2, C3, C5, C6 — the canvas artboards, in that order.
 5. B8 + B9 — generated types close the drift class behind B1 and the seven double-casts.
 6. A4, A3, A7 — staleness limits and schema closure.

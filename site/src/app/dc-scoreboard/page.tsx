@@ -4,7 +4,6 @@ import gradesJson from "../../../public/data/dc_grades.json";
 import { KpiCard } from "@/components/KpiCard";
 import {
   GradesClient,
-  type GradesPageData,
   type ReconstructionNote,
 } from "@/components/grades/GradesClient";
 import { BASES, bases, lastCompleteMonth } from "@/lib/dcContingency";
@@ -15,22 +14,6 @@ const data = gradesJson as unknown as DcGrades;
 const strict = data.legs?.strict;
 const extended = data.legs?.extended;
 const ruleCount = Object.keys(BASIS_LABELS).length;
-
-// Everything the client renders — deliberately WITHOUT `anchors`. That array
-// is 286 rows / 47KB of re-derivation receipts this page shows nowhere; left
-// on `data` it would be serialized into dc-scoreboard.html on every publish
-// and read by nobody. The methodology section links /data/dc_grades.json
-// instead, so the receipts stay one click away at zero page cost.
-const clientData: GradesPageData = {
-  published_at: data.published_at,
-  as_of: data.as_of,
-  paired_legs_note: data.paired_legs_note,
-  revision_disclosure_pp: data.revision_disclosure_pp,
-  legs: data.legs,
-  scenarios: data.scenarios,
-  leadlag: data.leadlag,
-  power_nowcast: data.power_nowcast,
-};
 
 /** How far the PPI-only reconstruction graded here sits from the index the
  *  site actually displays — measured live, on the server, from the two
@@ -154,7 +137,7 @@ export default function Page() {
         />
       </div>
       <GradesClient
-        data={clientData}
+        data={data}
         reconstruction={reconstruction}
         anchorsN={data.anchors.length}
       />

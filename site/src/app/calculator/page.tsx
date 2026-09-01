@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import gaugeDaily from "../../../public/data/gauge_daily.json";
 import { Section } from "@/components/Section";
 import { CalculatorClient } from "@/components/CalculatorClient";
+
+const calculatorSeries = gaugeDaily.variants.gauge;
 
 export const metadata: Metadata = {
   title: "The Since-Date Calculator",
@@ -18,7 +21,10 @@ export default function Calculator() {
         </span>
       </h1>
       <div style={{ marginTop: 24 }}>
-        <CalculatorClient />
+        <CalculatorClient
+          dates={calculatorSeries.dates}
+          index={calculatorSeries.index}
+        />
       </div>
       <Section title="Methodology">
         <div style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.6 }}>

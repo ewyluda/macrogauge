@@ -2,29 +2,18 @@
 import { useState } from "react";
 import { EChart } from "./EChart";
 import { KpiCard } from "./KpiCard";
-import { DataUnavailable } from "./DataUnavailable";
-import { useJson } from "@/lib/useJson";
 import { C, baseOption } from "@/lib/chartTheme";
 import { sinceStats } from "@/lib/since";
 
-type GaugeDaily = {
-  variants: { gauge: { dates: string[]; index: number[] } };
+export type CalculatorSeries = {
+  dates: string[];
+  index: number[];
 };
 
-export function CalculatorClient() {
-  const { data, failed } = useJson<GaugeDaily>("/data/gauge_daily.json");
+export function CalculatorClient({ dates, index }: CalculatorSeries) {
   const [since, setSince] = useState("2020-01-01");
   const [amount, setAmount] = useState(100);
 
-  if (failed) return <DataUnavailable what="daily gauge index" />;
-  if (!data) {
-    return (
-      <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>
-        loading daily gauge index…
-      </div>
-    );
-  }
-  const { dates, index } = data.variants.gauge;
   const s = sinceStats(dates, index, since, amount);
   const from = s ? dates.indexOf(s.startDate) : 0;
   const base = baseOption();

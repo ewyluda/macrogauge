@@ -1,7 +1,7 @@
 // site/src/components/DcIndexChart.tsx
 "use client";
 import { useMemo, useRef, useState } from "react";
-import * as echarts from "echarts/core";
+import type { ECharts } from "echarts/core";
 import { EChart } from "./EChart";
 import { SegmentedControl } from "./SegmentedControl";
 import { C, baseOption } from "@/lib/chartTheme";
@@ -31,7 +31,7 @@ const LINE_COLORS = [C.sky, C.violet, C.amber];
 
 export function DcIndexChart({ series }: { series: DcSeries[] }) {
   const [mode, setMode] = useState<Mode>("level");
-  const wrapRef = useRef<HTMLDivElement>(null);
+  const chartRef = useRef<ECharts | null>(null);
 
   const option = useMemo(() => {
     const base = baseOption();
@@ -60,11 +60,7 @@ export function DcIndexChart({ series }: { series: DcSeries[] }) {
   }, [mode, series]);
 
   const exportPng = () => {
-    // The shared EChart wrapper doesn't expose its instance; recover it from
-    // the DOM node echarts.init() ran on (the wrapper's own root div).
-    const dom = wrapRef.current?.firstElementChild;
-    const chart =
-      dom instanceof HTMLElement ? echarts.getInstanceByDom(dom) : undefined;
+    const chart = chartRef.current;
     if (!chart) {
       // export silently degrading would be invisible to the e2e console check
       console.warn("DC index PNG export: chart instance not found");
@@ -109,9 +105,7 @@ export function DcIndexChart({ series }: { series: DcSeries[] }) {
           ⬇ Export PNG
         </button>
       </div>
-      <div ref={wrapRef}>
-        <EChart option={option} height={340} />
-      </div>
+      <EChart option={option} height={340} instanceRef={chartRef} />
     </div>
   );
 }
