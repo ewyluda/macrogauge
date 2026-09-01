@@ -12,7 +12,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -e ".[dev]" -q
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - run: python -m pip install --require-hashes -r requirements.lock -q
       - run: pytest -q
 
   site:
