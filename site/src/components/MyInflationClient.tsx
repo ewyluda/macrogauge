@@ -1,8 +1,10 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { EChart } from "./EChart";
 import { SegmentedControl } from "./SegmentedControl";
+import { DataUnavailable } from "./DataUnavailable";
 import { C, baseOption } from "@/lib/chartTheme";
+import { useJson } from "@/lib/useJson";
 import { heatColor } from "@/lib/heat";
 import { fmtPct } from "@/lib/format";
 
@@ -77,16 +79,9 @@ export function MyInflationClient({
   // panel (5 measure blocks × 51 states) has no business in the RSC payload
   states: StateOption[];
 }) {
-  const [data, setData] = useState<Replay | null>(null);
+  const { data, failed } = useJson<Replay>("/data/replay.json");
   const [answers, setAnswers] = useState<Answers>(DEFAULT_ANSWERS);
   const [stateSel, setStateSel] = useState("US");
-
-  useEffect(() => {
-    fetch("/data/replay.json")
-      .then((r) => r.json())
-      .then((d: Replay) => setData(d))
-      .catch(() => setData(null));
-  }, []);
 
   const weights = useMemo(
     () => (data ? renormalize(applyAnswers(data.components, answers)) : null),
@@ -103,6 +98,7 @@ export function MyInflationClient({
     return Object.keys(o).length ? o : undefined;
   }, [stateSel, states]);
 
+  if (failed) return <DataUnavailable what="component data" />;
   if (!data || !weights) {
     return (
       <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>

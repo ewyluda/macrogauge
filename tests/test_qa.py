@@ -343,3 +343,33 @@ def test_unknown_phase_key_fails_loudly():
     unknown = [c for c in r["checks"] if c["name"] == "compute_ok"][0]
     assert unknown["pass"] is False
     assert "qa.PHASES" in unknown["detail"]
+
+
+def test_headline_current_ages_latest_print_across_base_hole():
+    """Review 2026-09-01 A2: the 2025-10 CPI print was never published, so
+    once the Oct-2026 print lands official.latest_yoy's `month` stays at
+    2026-09 (no Oct-2025 base) while `latest_month` is 2026-10. Aged from
+    `month`, this CRITICAL check flipped red on 2026-11-21 (day 81) and stayed
+    red until the Nov-2026 print (~2026-12-10). It must age the print."""
+    hole = {"series_code": "CPIAUCNS", "month": "2026-09-01",
+            "latest_month": "2026-10-01", "yoy_pct": 3.1, "prev_yoy_pct": 3.0,
+            "as_of": "2026-11-10"}
+    r = qa.run_checks(hole, today="2026-11-21", phase_errors=_all_ok())
+    head = _by_name(r, "headline_current")
+    assert head["pass"] is True
+    assert "2026-10-01 is 51d old" in head["detail"]
+    assert "YoY month 2026-09-01" in head["detail"]  # the hole is still visible
+    # and the print itself going stale still fails: 81 days after 2026-10-01
+    r = qa.run_checks(hole, today="2026-12-21", phase_errors=_all_ok())
+    assert _by_name(r, "headline_current")["pass"] is False
+
+
+def test_headline_current_falls_back_to_month_without_latest_month():
+    # older callers / replayed state carry no latest_month -> age `month`
+    # (FRESH.month = 2026-05-01: day 79 passes, day 81 fails, no hole note)
+    r = qa.run_checks(FRESH, today="2026-07-19", phase_errors=_all_ok())
+    head = _by_name(r, "headline_current")
+    assert head["pass"] is True and "2026-05-01 is 79d old" in head["detail"]
+    assert "(base-month hole)" not in head["detail"]
+    r = qa.run_checks(FRESH, today="2026-07-21", phase_errors=_all_ok())
+    assert _by_name(r, "headline_current")["pass"] is False

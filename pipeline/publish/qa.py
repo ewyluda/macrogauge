@@ -41,12 +41,23 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                phase_errors: dict[str, str | None] | None = None,
                stale_stamps: list[str] | None = None) -> dict:
     if cpi is not None:
-        age = (date.fromisoformat(today) - date.fromisoformat(cpi["month"])).days
+        # Age the latest PRINT, not the latest YoY-computable month.
+        # official.latest_yoy walks `month` back over a base-month hole (the
+        # never-published 2025-10 print), so from the Oct-2026 print
+        # (~2026-11-10) until the Nov-2026 print (~2026-12-10) `month` sits at
+        # 2026-09 while the data is perfectly current -- aged from `month`,
+        # this critical check would have failed by construction from
+        # 2026-11-21 (day 81). `latest_month` is absent from older callers
+        # (tests, replayed state); fall back to `month` for them.
+        latest_month = cpi.get("latest_month") or cpi["month"]
+        age = (date.fromisoformat(today) - date.fromisoformat(latest_month)).days
+        hole = ("" if latest_month == cpi["month"]
+                else f"; YoY month {cpi['month']} (base-month hole)")
         checks = [
             {"name": "headline_current", "critical": True,
              "pass": age <= STALE_DAYS,
-             "detail": f"latest official month {cpi['month']} is {age}d old "
-                       f"(limit {STALE_DAYS})"},
+             "detail": f"latest official print {latest_month} is {age}d old "
+                       f"(limit {STALE_DAYS}){hole}"},
             {"name": "yoy_finite", "critical": True,
              "pass": math.isfinite(cpi["yoy_pct"])
                      and math.isfinite(cpi["prev_yoy_pct"]),

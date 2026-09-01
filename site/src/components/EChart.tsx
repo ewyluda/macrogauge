@@ -7,9 +7,16 @@ import {
   TooltipComponent,
   LegendComponent,
   MarkAreaComponent,
+  MarkLineComponent,
 } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 
+// Every chart/component an option in this tree can reference MUST be
+// registered here: ECharts silently drops an unregistered one in production
+// (no console error, so the e2e zero-console-errors gate cannot see it).
+// /supercore's dashed 2% markLine went missing this way (review 2026-09-01
+// B1). src/components/echartsRegistry.test.ts audits this list against the
+// option keys the wrappers actually use.
 echarts.use([
   LineChart,
   TreemapChart,
@@ -17,6 +24,7 @@ echarts.use([
   TooltipComponent,
   LegendComponent,
   MarkAreaComponent,
+  MarkLineComponent,
   CanvasRenderer,
 ]);
 

@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useJson } from "@/lib/useJson";
+import { DataUnavailable } from "./DataUnavailable";
 import { EChart } from "./EChart";
 import { C } from "@/lib/chartTheme";
 import { ramp, EMPTY_CELL } from "@/lib/heat";
@@ -56,18 +58,11 @@ function modeValue(
 }
 
 export function Treemap() {
-  const [data, setData] = useState<Replay | null>(null);
+  const { data, failed } = useJson<Replay>("/data/replay.json");
   const [mode, setMode] = useState<ModeKey>("yoy");
   const [pos, setPos] = useState(-1); // month index; -1 = latest (set on load)
   const [playing, setPlaying] = useState(false);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    fetch("/data/replay.json")
-      .then((r) => r.json())
-      .then((d: Replay) => setData(d))
-      .catch(() => setData(null));
-  }, []);
 
   // last daily position of each month — the scrubber steps months
   const monthEnds = useMemo(() => {
@@ -160,6 +155,7 @@ export function Treemap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, mode, at]);
 
+  if (failed) return <DataUnavailable what="basket replay" />;
   if (!data || !monthEnds.length) {
     return (
       <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>

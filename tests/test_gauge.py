@@ -438,3 +438,45 @@ def test_bls_cf_component_walks_back_over_base_month_hole(tmp_path):
         pytest.approx(FU)
     # walk-back must NOT None-poison the weighted headline at the grid end
     assert g["yoy"]["2019-10-01"] == pytest.approx(0.6 * SH + 0.4 * FU)
+
+
+def test_gate_fires_for_lead_shifted_component(tmp_path):
+    """Review 2026-09-01 A1: the gate's arrival check must query the STORE
+    obs_date, not the lead-shifted engine-view date. With lead_days=30, the
+    engine's last point is dated store_obs + 30d; querying the store for that
+    shifted date matched no row, so `arrived` was always False and a +20%
+    just-arrived print sailed through ungated on every lead-shifted component
+    (used_vehicles via manheim_uvvi_m in production)."""
+    mini = {"base_month": "2018-01", "supercore_components": ["fuel"], "components": [
+        {"code": "shelter", "label": "Shelter", "weight": 0.6, "pce_weight": 0.6,
+         "official_series": "OFF_SH", "live_blend": {"LIVE_SH": 1.0},
+         "live_variants": ["gauge"]},
+        {"code": "fuel", "label": "Fuel", "weight": 0.4, "pce_weight": 0.4,
+         "official_series": "OFF_FU", "live_blend": {"LIVE_FU": 1.0},
+         "live_variants": ["gauge", "tracker"],
+         "lead_days": {"LIVE_FU": 30}}]}
+    today = "2019-01-05"
+    history = [
+        ("OFF_SH", "2018-01-01", 100.0), ("OFF_SH", "2019-01-01", 103.0),
+        ("LIVE_SH", "2018-01-01", 50.0), ("LIVE_SH", "2019-01-01", 53.0),
+        ("OFF_FU", "2018-01-01", 200.0), ("OFF_FU", "2019-01-01", 208.0),
+        # store dates; engine view is +30d: 2018-01-31, 2018-12-31
+        ("LIVE_FU", "2018-01-01", 10.0), ("LIVE_FU", "2018-12-01", 10.3)]
+    # +20% print whose store date 2018-12-06 shifts to exactly `today`, and
+    # whose vintage IS today -- the just-arrived spike the gate exists for
+    spike = [("LIVE_FU", "2018-12-06", 12.4)]
+    vintage.append([Observation(series_code=c, obs_date=d, value=v,
+                                vintage_date="2019-01-02", source="T", route="API")
+                    for c, d, v in history], tmp_path)
+    vintage.append([Observation(series_code=c, obs_date=d, value=v,
+                                vintage_date=today, source="T", route="API")
+                    for c, d, v in spike], tmp_path)
+    bp = tmp_path / "basket.json"
+    bp.write_text(json.dumps(mini))
+    conn = vintage.load(tmp_path)
+
+    r = gauge.run(conn, today=today, basket_path=bp, staleness=STALENESS)
+    g = r["variants"]["gauge"]
+    assert g["gate_flags"] == [f"fuel@{today}"]
+    # held at the prior value: rebased 10.3/10.0 = 103, not 12.4/10.0 = 124
+    assert g["components"]["fuel"]["end_value"] == pytest.approx(103.0)

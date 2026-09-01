@@ -66,6 +66,25 @@ for (const [path, text] of ROUTES) {
   });
 }
 
+// Review 2026-09-01 B2: a runtime-fetched artifact that 404s (the host serves
+// an HTML not-found page) used to resolve r.json() into a SyntaxError that
+// the component swallowed into "loading…" forever. Every such fetch now goes
+// through lib/useJson, which checks r.ok and renders a retry line instead.
+for (const [route, artifact, what] of [
+  ["/my-inflation", "replay.json", "component data"],
+  ["/calculator", "gauge_daily.json", "daily gauge index"],
+  ["/", "compare.json", "inflation quilt data"],
+] as const) {
+  test(`${route} shows a failure state when ${artifact} 404s`, async ({ page }) => {
+    await page.route(`**/data/${artifact}`, (r) =>
+      r.fulfill({ status: 404, contentType: "text/html", body: "<h1>Not found</h1>" }),
+    );
+    await page.goto(route);
+    await expect(page.getByText(`${what} unavailable — reload to retry`)).toBeVisible();
+    await expect(page.getByText(/^loading /)).toHaveCount(0);
+  });
+}
+
 test("markets sortable controls preserve column-header semantics", async ({ page }) => {
   await page.goto("/markets");
   const head = page.locator("table.data-table thead");

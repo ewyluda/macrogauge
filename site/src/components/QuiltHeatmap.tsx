@@ -1,7 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { SegmentedControl } from "./SegmentedControl";
+import { DataUnavailable } from "./DataUnavailable";
+import { fetchJson } from "@/lib/fetchJson";
 import { heatColor } from "@/lib/heat";
+import { useJson } from "@/lib/useJson";
 import { exportQuiltPng, type QuiltRow } from "@/lib/quiltPng";
 import {
   buildComponentRows,
@@ -78,35 +81,18 @@ export function QuiltHeatmap() {
   const [win, setWin] = useState<WindowKey>("24");
   const [mode, setMode] = useState<QuiltMode>("ours");
   const [cache, setCache] = useState<Partial<Record<WindowKey, Quilt>>>({});
-  const [compare, setCompare] = useState<Compare | null>(null);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    fetch("/data/compare.json")
-      .then((r) => r.json())
-      .then(setCompare)
-      .catch(() => {
-        setCompare(null);
-        setFailed(true);
-      });
-  }, []);
+  const { data: compare, failed: compareFailed } = useJson<Compare>("/data/compare.json");
+  const [windowFailed, setWindowFailed] = useState(false);
 
   useEffect(() => {
     if (cache[win]) return;
-    fetch(`/data/quilt_months_${win}.json`)
-      .then((r) => r.json())
-      .then((q: Quilt) => setCache((c) => ({ ...c, [win]: q })))
-      .catch(() => setFailed(true));
+    fetchJson<Quilt>(`/data/quilt_months_${win}.json`)
+      .then((q) => setCache((c) => ({ ...c, [win]: q })))
+      .catch(() => setWindowFailed(true));
   }, [win, cache]);
 
   const quilt = cache[win];
-  if (failed) {
-    return (
-      <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>
-        inflation quilt data unavailable — reload to retry
-      </div>
-    );
-  }
+  if (compareFailed || windowFailed) return <DataUnavailable what="inflation quilt data" />;
   if (!quilt || !compare) {
     return (
       <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>
