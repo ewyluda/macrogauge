@@ -7,8 +7,9 @@ hand after the review pass; the rest are reviewer findings with file:line eviden
 
 Design canvas for the UI/UX items: https://claude.ai/code/artifact/e110d1e9-e3f1-4a2d-b159-bfc4b2a7fd4d
 
-Baselines measured this session: `pytest -q` 873 passed in 21.7 s (CLAUDE.md says 851);
-`npm test` 154 tests in 1.0 s; `npm run e2e` 48 passed in 27 s (CLAUDE.md says 47);
+Baselines measured this session: `pytest -q` 873 passed in 21.7 s (CLAUDE.md said 851);
+`npm test` 154 tests in 1.0 s; `npm run e2e` 48 passed in 27 s (CLAUDE.md said 47);
+after the P1 fix branch: 876 / 166 / 51 (CLAUDE.md counts refreshed in the same PR);
 `npm run build` 13.9 s, 34 pages; store 24 MB / 179,390 rows / 187 partitions, `vintage.load` 0.47 s.
 
 ## A. Pipeline
@@ -89,13 +90,18 @@ Baselines measured this session: `pytest -q` 873 passed in 21.7 s (CLAUDE.md say
 
 ### P1
 
-- **B1 (verified). `/supercore`'s dashed 2% reference line never renders.** `EChart.tsx:13-21`
+- **B1 (verified) — FIXED on `fix/review-2026-09-01-p1s`.** `/supercore`'s dashed 2% reference line never renders. `EChart.tsx:13-21`
   registers no `MarkLineComponent`; `StepChart.tsx:30` sets `markLine`. ECharts drops it silently in
   production, so the zero-console-errors gate cannot catch it.
-- **B2 (verified). Runtime-fetching charts have no failure state.** `Treemap.tsx:66-69`,
+  *Done:* `MarkLineComponent` registered; `src/components/echartsRegistry.test.ts` audits the
+  `echarts.use([...])` list against every option feature the wrappers use (fails on the old code).
+- **B2 (verified) — FIXED on `fix/review-2026-09-01-p1s`.** Runtime-fetching charts have no failure state. `Treemap.tsx:66-69`,
   `CalculatorClient.tsx:18-21`, `MyInflationClient.tsx:85-88`: no `r.ok` check, `.catch` sets
   `null`, so a 404 leaves "loading…" forever. Only `QuiltHeatmap` has a `failed` flag. Fix: one
   `useJson<T>(url)` hook with `ok`/`failed`/abort.
+  *Done:* `lib/fetchJson.ts` (rejects non-2xx, unit-tested) + `lib/useJson.ts` (failed state, abort on
+  unmount) + `components/DataUnavailable.tsx`; Treemap, CalculatorClient, MyInflationClient and
+  QuiltHeatmap use them. Three Playwright tests stub a 404 and assert the retry line.
 
 ### P2
 

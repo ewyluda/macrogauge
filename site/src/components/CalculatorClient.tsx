@@ -1,7 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { EChart } from "./EChart";
 import { KpiCard } from "./KpiCard";
+import { DataUnavailable } from "./DataUnavailable";
+import { useJson } from "@/lib/useJson";
 import { C, baseOption } from "@/lib/chartTheme";
 import { sinceStats } from "@/lib/since";
 
@@ -10,17 +12,11 @@ type GaugeDaily = {
 };
 
 export function CalculatorClient() {
-  const [data, setData] = useState<GaugeDaily | null>(null);
+  const { data, failed } = useJson<GaugeDaily>("/data/gauge_daily.json");
   const [since, setSince] = useState("2020-01-01");
   const [amount, setAmount] = useState(100);
 
-  useEffect(() => {
-    fetch("/data/gauge_daily.json")
-      .then((r) => r.json())
-      .then(setData)
-      .catch(() => setData(null));
-  }, []);
-
+  if (failed) return <DataUnavailable what="daily gauge index" />;
   if (!data) {
     return (
       <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>
