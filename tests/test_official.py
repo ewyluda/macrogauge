@@ -87,6 +87,9 @@ def test_latest_yoy_skips_month_with_missing_base(tmp_path):
         ("2026-08-01", 305.0), ("2026-09-01", 306.0), ("2026-10-01", 307.0)])
     r = official.latest_yoy(conn, "CPIAUCNS")
     assert r["month"] == "2026-09-01"
+    # the newest PRINT is still reported so QA can age the print, not the
+    # walked-back YoY month (review 2026-09-01 A2)
+    assert r["latest_month"] == "2026-10-01"
     assert r["yoy_pct"] == pytest.approx((306.0 / 299.0 - 1) * 100)
     assert r["prev_yoy_pct"] == pytest.approx((305.0 / 298.0 - 1) * 100)
 

@@ -1,6 +1,6 @@
 """Gauge engine orchestrator: store -> five stages -> per-variant results."""
 import sqlite3
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 from pipeline import basket as basket_mod
@@ -18,13 +18,28 @@ def _series(conn: sqlite3.Connection, code: str) -> dict[str, float]:
     return dict(vintage.latest(conn, code))
 
 
-def _arrived_today(conn, codes: list[str], obs_date: str, today: str) -> bool:
-    q = ",".join("?" * len(codes))
+def _arrived_today(conn, arrivals: dict[str, str], today: str) -> bool:
+    """True when the newest vintage across the given (series_code, obs_date)
+    pairs is today. `arrivals` maps each underlying STORE code to the store
+    obs_date of the component's last engine-view point -- i.e. with any
+    config lead_days shift undone (see _store_date). Querying the shifted
+    engine-view date matched no store row, so the gate never fired for a
+    lead-shifted component (review 2026-09-01 A1)."""
+    if not arrivals:
+        return False
+    clauses = " OR ".join("(series_code = ? AND obs_date = ?)" for _ in arrivals)
+    params = [p for code, d in arrivals.items() for p in (code, d)]
     row = conn.execute(
-        f"SELECT MAX(vintage_date) FROM observations "
-        f"WHERE series_code IN ({q}) AND obs_date = ?",
-        (*codes, obs_date)).fetchone()
+        f"SELECT MAX(vintage_date) FROM observations WHERE {clauses}",
+        params).fetchone()
     return row[0] == today
+
+
+def _store_date(engine_date: str, lead_days: int) -> str:
+    """Undo blend.shift_days: the store obs_date behind an engine-view date."""
+    if not lead_days:
+        return engine_date
+    return (date.fromisoformat(engine_date) - timedelta(days=lead_days)).isoformat()
 
 
 def _fresh(conn, blend_codes, staleness: dict[str, int], today: str) -> bool:
@@ -96,7 +111,10 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
                 comp, variant, official_series, live_sources, live_blend)
             if mode == "live":
                 last = max(idx)
-                arrived = _arrived_today(conn, gate_codes, last, today)
+                lead = comp.lead_days or {}
+                arrived = _arrived_today(
+                    conn, {code: _store_date(last, lead.get(code, 0))
+                           for code in gate_codes}, today)
                 idx, flagged = gate.apply_gate(idx, arrived)
                 if flagged:
                     flags.append(f"{comp.code}@{last}")

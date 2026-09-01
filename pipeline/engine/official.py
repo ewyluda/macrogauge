@@ -8,7 +8,12 @@ from pipeline.store import vintage
 
 def latest_yoy(conn: sqlite3.Connection, series_code: str) -> dict:
     """YoY of the latest computable month (a month can lack its YoY base:
-    the 2025-10 print was never published due to the government shutdown)."""
+    the 2025-10 print was never published due to the government shutdown).
+
+    `month` is the latest YoY-computable month; `latest_month` is the newest
+    print in the store regardless of base. They differ only across a
+    base-month hole (Oct-2026 print, no Oct-2025 base), and QA's freshness
+    check must age the PRINT, not the walked-back YoY month."""
     series = dict(vintage.latest(conn, series_code))
     if not series:
         raise ValueError(f"no observations for {series_code}")
@@ -21,6 +26,7 @@ def latest_yoy(conn: sqlite3.Connection, series_code: str) -> dict:
     if len(computable) < 2:
         raise ValueError(f"need two YoY-computable months for {series_code}")
     return {"series_code": series_code, "month": computable[0],
+            "latest_month": max(series),
             "yoy_pct": yoy(computable[0]), "prev_yoy_pct": yoy(computable[1]),
             "as_of": vintage.max_vintage(conn, series_code)}
 
