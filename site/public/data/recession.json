@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-08-31T19:18:11Z",
+  "published_at": "2026-09-01T17:06:35Z",
   "probability_pct": 0.0,
   "triggered": 0,
   "available": 6,
@@ -15,7 +15,7 @@
       "name": "10Y\u20133M",
       "code": "T10Y3M",
       "rule": "< 0",
-      "value": 0.83,
+      "value": 0.84,
       "triggered": false
     },
     {
@@ -43,7 +43,7 @@
       "name": "Chauvet-Piger",
       "code": "RECPROUSM156N",
       "rule": "> 20%",
-      "value": 0.6,
+      "value": 0.76,
       "triggered": false
     }
   ]
