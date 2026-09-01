@@ -45,12 +45,19 @@ after the P1 fix branch: 876 / 166 / 51 (CLAUDE.md counts refreshed in the same 
   ~6-month lag; 243 d today), SAHMREALTIME 60 (peaks ~65 d monthly), REVOLSL 80 (92 d today),
   `ppi_storage` 80 (92 d). Internal inconsistency: `qcew_aemp23_c41067` = 400 vs siblings 900.
   Adjacent to todo #10 but these are concrete limit corrections.
-- **A5. `daily.yml` pushes without rebasing.** `.github/workflows/daily.yml:71-72`; a human merge
+- **A5 — FIXED on `fix/daily-publish-hardening`.** `daily.yml` pushed without rebasing. A human merge
   during the ~10-min run rejects the push and the day's publish is lost until the backup cron.
-  `fetch-depth: 50` also bounds the once/day gate's history. Fix: `git pull --rebase` + retry loop;
+  `fetch-depth: 50` also bounded the once/day gate's history. Fix: `git pull --rebase` + retry loop;
   gate over `--since=midnight`.
-- **A6. Dependencies unpinned and re-resolved on every daily run.** `pyproject.toml` has `>=`
-  floors only; `daily.yml:56` installs fresh. Fix: a lock file used by both workflows.
+  *Done:* checkout now fetches full history, the gate searches only commits since ET midnight, and
+  the committed publish rebases and retries up to three times before failing explicitly. Rebase
+  conflicts abort rather than guessing how to merge generated data.
+- **A6 — FIXED on `fix/daily-publish-hardening`.** Dependencies were unpinned and re-resolved on
+  every daily run. `pyproject.toml` has `>=` floors only and `daily.yml` installed fresh. Fix: a
+  lock file used by both workflows.
+  *Done:* `requirements.lock` pins the complete production and test dependency graph with hashes;
+  both daily and CI install it with pip's `--require-hashes`, and setup-python caches against the
+  lock file. The lock's generated header records the reproducible `uv pip compile` refresh command.
 - **A7. Ten schemas lack `additionalProperties: false` and some have untyped interiors**
   (`fuel, heatcheck, stress, recession, nextprint, releases, backtest, accountability, longlead,
   dc_markets`); e.g. `heatcheck.groups: {"type":"object"}`, `backtest.rows.items` has `required`
@@ -179,7 +186,7 @@ after the P1 fix branch: 876 / 166 / 51 (CLAUDE.md counts refreshed in the same 
 ## D. Suggested order
 
 1. A1, A2 (before 2026-11-21), B1, B2 — small fixes, real defects.
-2. A5, A6 — daily-run resilience.
+2. A5, A6 — **complete on `fix/daily-publish-hardening`**; daily-run resilience.
 3. B3, B4, B5 — three edits that remove most of the client payload.
 4. C1, C2, C3, C5, C6 — the canvas artboards, in that order.
 5. B8 + B9 — generated types close the drift class behind B1 and the seven double-casts.
