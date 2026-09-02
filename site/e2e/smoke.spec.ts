@@ -1,5 +1,6 @@
 import { expect, test, type Locator } from "@playwright/test";
 import qa from "../public/data/qa.json";
+import gaugeDaily from "../public/data/gauge_daily.json";
 
 /** A delivery month `horizon` months past the END OF THE GRID, read off the
  *  picker's own `min` (which the page sets to grid-end + 1 month).
@@ -532,4 +533,85 @@ test("capacity KPI cards form one desktop row and equal mobile columns", async (
   );
   expect(new Set(mobileBoxes.map((box) => Math.round(box.width))).size).toBe(1);
   expect(mobileBoxes.every((box) => box.width >= 340)).toBe(true);
+});
+
+test("tapping page content closes the mobile navigation sheet", async ({
+  browser,
+}) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    hasTouch: true,
+  });
+  const page = await context.newPage();
+  await page.goto("/");
+  await page.getByRole("button", { name: "Open navigation" }).click();
+  const sheet = page.locator(".nav-items");
+  await expect(sheet).toBeVisible();
+  await page.touchscreen.tap(200, 800);
+  await expect(sheet).not.toBeVisible();
+  await context.close();
+});
+
+test("mouse hover does not toggle accordion groups inside the mobile sheet", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 600, height: 900 });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Open navigation" }).click();
+  const group = page.locator(".nav-group").first();
+  await group.hover();
+  await expect(group).not.toHaveClass(/open/);
+  await page.mouse.move(5, 850);
+  await expect(group).not.toHaveClass(/open/);
+});
+
+test("mobile header keeps both headline metric pills above the fold", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/markets");
+  const strip = page.locator(".mobile-metrics");
+  await expect(strip).toBeVisible();
+  await expect(strip).toContainText("DC BUILD");
+  await expect(strip).toContainText("MACROGAUGE");
+  const box = (await strip.boundingBox())!;
+  expect(box.y + box.height).toBeLessThan(844);
+});
+
+test("home headline grid leaves no empty cells at tablet widths", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1024, height: 900 });
+  await page.goto("/");
+  const grid = (await page.locator(".headline-grid").boundingBox())!;
+  const boxes = await page
+    .locator(".headline-grid .kpi-card")
+    .evaluateAll((nodes) => nodes.map((n) => n.getBoundingClientRect().toJSON()));
+  expect(boxes).toHaveLength(5);
+  const primary = boxes[0];
+  expect(Math.round(primary.width)).toBe(Math.round(grid.width));
+  const comparators = boxes.slice(1);
+  expect(new Set(comparators.map((b) => Math.round(b.y))).size).toBe(1);
+  const right = Math.max(...comparators.map((b) => b.x + b.width));
+  expect(Math.round(right)).toBe(Math.round(grid.x + grid.width));
+});
+
+test("single-card KPI rows stay content-sized on desktop", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/stress");
+  const card = (await page.locator(".kpi-row .kpi-card").first().boundingBox())!;
+  expect(card.width).toBeLessThan(700);
+});
+
+test("home hero chart payload is cut to the 24-month window", async ({
+  request,
+}) => {
+  // ECharts sizes the y-axis from every point it is handed, so the fix is to
+  // hand it only the window: the pre-window daily dates must not reach the page.
+  const html = await (await request.get("/")).text();
+  const first = gaugeDaily.variants.gauge.dates[0];
+  const last = gaugeDaily.variants.gauge.dates.at(-1)!;
+  expect(first < "2019-01-01").toBe(true);
+  expect(html).not.toContain(first);
+  expect(html).toContain(last);
 });

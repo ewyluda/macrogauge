@@ -2,6 +2,7 @@
 import { useMemo } from "react";
 import { EChart } from "./EChart";
 import { C, NBER_RECESSIONS, baseOption } from "@/lib/chartTheme";
+import { sliceSince, windowStart } from "@/lib/chartWindow";
 
 type Pt = [string, number];
 
@@ -33,26 +34,37 @@ export function HeroChart({
   core: (number | null)[];
   windowMonths?: number;
 }) {
-  const windowStart = useMemo(() => {
-    if (!windowMonths) return undefined;
-    const latest = [...dates, ...months].sort().at(-1);
-    if (!latest) return undefined;
-    const start = new Date(`${latest.slice(0, 10)}T00:00:00Z`);
-    start.setUTCMonth(start.getUTCMonth() - windowMonths);
-    return start.toISOString().slice(0, 10);
-  }, [dates, months, windowMonths]);
+  // The window is cut from the data, not just the axis: ECharts sizes the
+  // y-axis from every point in a series, including those clipped by
+  // `xAxis.min`, so the 2022 spike would otherwise crush the visible lines.
+  // page.tsx already slices the home payload; this keeps the prop honest for
+  // any caller that passes the full history.
+  const start = useMemo(
+    () => (windowMonths ? windowStart([dates, months], windowMonths) : undefined),
+    [dates, months, windowMonths],
+  );
+  const daily = useMemo(
+    () => sliceSince(dates, [gauge, tracker, col ?? []], start),
+    [dates, gauge, tracker, col, start],
+  );
+  const monthly = useMemo(
+    () => sliceSince(months, [official, core], start),
+    [months, official, core, start],
+  );
 
   const option = useMemo(
     () => {
       const base = baseOption();
+      const [g, t, c] = daily.series;
+      const [o, k] = monthly.series;
       return {
         ...base,
-        xAxis: { ...base.xAxis, min: windowStart },
+        xAxis: { ...base.xAxis, min: start },
         series: [
           {
             name: "Macrogauge (CPI-comparable)",
             type: "line",
-            data: pair(dates, gauge),
+            data: pair(daily.dates, g),
             showSymbol: false,
             lineStyle: { width: 2, color: C.sky },
             itemStyle: { color: C.sky },
@@ -65,7 +77,7 @@ export function HeroChart({
           {
             name: "CPI-Tracker",
             type: "line",
-            data: pair(dates, tracker),
+            data: pair(daily.dates, t),
             showSymbol: false,
             lineStyle: { width: 1.5, color: C.violet },
             itemStyle: { color: C.violet },
@@ -76,7 +88,7 @@ export function HeroChart({
                 {
                   name: "Cost of Living",
                   type: "line",
-                  data: pair(dates, col),
+                  data: pair(daily.dates, c),
                   showSymbol: false,
                   lineStyle: { width: 1.5, color: C.col },
                   itemStyle: { color: C.col },
@@ -87,7 +99,7 @@ export function HeroChart({
             name: "Official CPI",
             type: "line",
             step: "end",
-            data: pair(months, official),
+            data: pair(monthly.dates, o),
             showSymbol: false,
             lineStyle: { width: 1.5, type: "dashed", color: C.muted },
             itemStyle: { color: C.muted },
@@ -96,7 +108,7 @@ export function HeroChart({
             name: "Official Core",
             type: "line",
             step: "end",
-            data: pair(months, core),
+            data: pair(monthly.dates, k),
             showSymbol: false,
             lineStyle: { width: 1.5, type: "dashed", color: "#5B6873" },
             itemStyle: { color: "#5B6873" },
@@ -104,7 +116,7 @@ export function HeroChart({
         ],
       };
     },
-    [dates, gauge, tracker, col, months, official, core, windowStart],
+    [daily, monthly, col, start],
   );
   return <EChart option={option} height={340} />;
 }

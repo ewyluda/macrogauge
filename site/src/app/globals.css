@@ -63,6 +63,7 @@ a { transition: color 140ms ease, background 140ms ease; }
 .nav-menu-link.active { background: var(--chip-bg); color: var(--accent-sky); }
 .nav-emoji { width: 17px; text-align: center; flex: none; }
 .header-status { display: flex; gap: 8px; align-items: center; white-space: nowrap; }
+.mobile-metrics { display: none; }
 .header-metric-pill {
   display: inline-flex; align-items: center; gap: 6px;
   border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
@@ -188,7 +189,11 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
 .subtitle, .lede, .method { color: var(--muted); }
 .subtitle { font-size: 16px; font-weight: 400; }
 .lede, .method { font-size: 13px; line-height: 1.55; }
-.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 24px 0; }
+/* Rows of one or two KPI cards stay content-sized (a lone Stress score must
+   not become a 1160px banner); rows of three or more tile the canvas evenly
+   so no card orphans onto a second line (C5, /capacity). */
+.kpi-row { display: flex; flex-wrap: wrap; gap: 16px; margin: 24px 0; }
+.kpi-row:has(> :nth-child(3)) { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 .table-card, .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: auto; margin: 16px 0; }
 .strip-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; padding: 12px 16px; font-size: 13px; }
 .chart-card { padding: 12px 8px 4px; }
@@ -215,8 +220,10 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
 @media (max-width: 1180px) {
   .site-header { align-items: flex-start; }
   .header-primary { align-items: flex-start; flex-direction: column; gap: 10px; }
+  /* five cards: full-width primary over one row of four comparators, so
+     the grid never leaves empty cells at tablet widths */
   .headline-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .headline-primary { grid-column: span 2; }
+  .headline-primary { grid-column: 1 / -1; }
   .dashboard-row { grid-template-columns: 1fr 1fr; }
   .movers-panel { grid-column: 1 / -1; }
   .project-toolkit-grid { grid-template-columns: 1fr 1fr; }
@@ -259,9 +266,12 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
   .nav-group { width: 100%; }
   .nav-menu-link { padding: 9px 10px; font-size: 13px; white-space: normal; }
   .header-status { width: auto; gap: 0; }
-  .header-status .gauge-pill { display: none !important; }
-  .header-status .dc-pill { display: none !important; }
+  .header-status .header-metric-pill { display: none; }
   .header-status > a { min-height: 44px; display: inline-flex; align-items: center; }
+  .mobile-metrics { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 0 0; }
+  .mobile-metrics .header-metric-pill { padding: 3px 10px; font-size: 11px; }
+  /* every KPI row is a single full-width column on phones */
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
   .footer-main { flex-direction: column; }
   .headline-grid { grid-template-columns: 1fr 1fr; }
   .headline-primary { grid-column: span 2; }

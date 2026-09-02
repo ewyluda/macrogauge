@@ -27,18 +27,20 @@ export function NavBar() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
-  // tap/click anywhere outside the nav dismisses the menu (mouseleave never
-  // fires on touch devices, so this is the only close path there)
+  // tap/click anywhere outside the nav dismisses an open dropdown AND the
+  // mobile sheet (mouseleave never fires on touch devices, so this is the
+  // only close path there besides the × button)
   useEffect(() => {
-    if (open === null) return;
+    if (open === null && !mobileOpen) return;
     const onPointerDown = (e: PointerEvent) => {
       if (navRef.current && !navRef.current.contains(e.target as Node)) {
         setOpen(null);
+        setMobileOpen(false);
       }
     };
     document.addEventListener("pointerdown", onPointerDown);
     return () => document.removeEventListener("pointerdown", onPointerDown);
-  }, [open]);
+  }, [open, mobileOpen]);
 
   return (
     <nav className="site-nav" aria-label="Primary" ref={navRef}>
@@ -81,12 +83,14 @@ export function NavBar() {
               key={entry.label}
               className={isOpen ? "nav-group open" : "nav-group"}
               // hover open/close is mouse-only: a touch tap synthesizes
-              // mouseenter right before click, which would toggle twice
+              // mouseenter right before click, which would toggle twice.
+              // Inside the mobile sheet the groups are click accordions, so
+              // a mouse in a narrow window must not toggle them by hover.
               onPointerEnter={(e) => {
-                if (e.pointerType === "mouse") setOpen(entry.label);
+                if (e.pointerType === "mouse" && !mobileOpen) setOpen(entry.label);
               }}
               onPointerLeave={(e) => {
-                if (e.pointerType === "mouse")
+                if (e.pointerType === "mouse" && !mobileOpen)
                   setOpen((o) => (o === entry.label ? null : o));
               }}
               onBlur={(e) => {

@@ -15,6 +15,7 @@ import { DeltaChip } from "@/components/DeltaChip";
 import { StatusPill } from "@/components/StatusPill";
 import { Section } from "@/components/Section";
 import { HeroChart } from "@/components/HeroChart";
+import { sliceSince, windowStart } from "@/lib/chartWindow";
 import { Treemap } from "@/components/Treemap";
 import { QuiltHeatmap } from "@/components/QuiltHeatmap";
 import { GapTable } from "@/components/GapTable";
@@ -66,6 +67,28 @@ const FEATURED_GROCERY: [string, string][] = [
 ];
 
 // the public-debt level is quoted in dollars; every other quote fits fmtMoney
+// Home-only 24-month hero window, cut server-side so the clipped 2018+ points
+// neither set the y-axis extent nor ride along in the RSC payload (C3).
+const HERO_WINDOW_MONTHS = 24;
+const heroStart = windowStart(
+  [gaugeDaily.variants.gauge.dates, compare.months],
+  HERO_WINDOW_MONTHS,
+);
+const heroDaily = sliceSince(
+  gaugeDaily.variants.gauge.dates,
+  [
+    gaugeDaily.variants.gauge.yoy_pct,
+    gaugeDaily.variants.tracker.yoy_pct,
+    gaugeDaily.variants.col.yoy_pct,
+  ],
+  heroStart,
+);
+const heroMonthly = sliceSince(
+  compare.months,
+  [compare.official_yoy_pct, compare.official_core_yoy_pct],
+  heroStart,
+);
+
 const fmtQuote = (q: (typeof official.quotes)[number]) =>
   q.code === "fiscal_debt_total"
     ? `$${(q.latest / 1e12).toFixed(2)}T`
@@ -153,14 +176,14 @@ export default function Home() {
       <Section title="Macrogauge vs official — latest 24 months" featured>
         <div className="hero-chart-card">
           <HeroChart
-            dates={gaugeDaily.variants.gauge.dates}
-            gauge={gaugeDaily.variants.gauge.yoy_pct}
-            tracker={gaugeDaily.variants.tracker.yoy_pct}
-            col={gaugeDaily.variants.col.yoy_pct}
-            months={compare.months}
-            official={compare.official_yoy_pct}
-            core={compare.official_core_yoy_pct}
-            windowMonths={24}
+            dates={heroDaily.dates}
+            gauge={heroDaily.series[0]}
+            tracker={heroDaily.series[1]}
+            col={heroDaily.series[2]}
+            months={heroMonthly.dates}
+            official={heroMonthly.series[0]}
+            core={heroMonthly.series[1]}
+            windowMonths={HERO_WINDOW_MONTHS}
           />
         </div>
         <div className="chart-caption">
@@ -415,7 +438,7 @@ export default function Home() {
               style={{ textDecoration: "none" }}
             >
               <StatusPill
-                ok={s.ok}
+                tone={s.ok ? "ok" : "advisory"}
                 label={`${s.name} · ${s.latest_obs ?? "never"}`}
               />
             </Link>
