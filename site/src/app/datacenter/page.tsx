@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import Link from "next/link";
 import dc from "../../../public/data/datacenter.json";
 import gradesJson from "../../../public/data/dc_grades.json";
 import llJson from "../../../public/data/longlead.json";
@@ -58,6 +59,33 @@ const NOWCAST_CLAUSE: Record<string, string> = {
 // clause above so it never reads as a consequence of a specific outcome.
 const NOWCAST_STANDING =
   "the ops index stays on official retail data and the machinery ships config-gated";
+
+const PROJECT_CONTROLS_TOOLS = [
+  {
+    href: "/escalation",
+    eyebrow: "Estimate",
+    title: "Escalation calculator",
+    description: "Apply the DC Build index to your own project basis.",
+  },
+  {
+    href: "/markets",
+    eyebrow: "Labor",
+    title: "Market tightness",
+    description: "Compare wages and headcount across real DC markets.",
+  },
+  {
+    href: "/capacity",
+    eyebrow: "Supply",
+    title: "AI capacity",
+    description: "Track operational, construction and planned critical-IT MW.",
+  },
+  {
+    href: "/longlead",
+    eyebrow: "Procurement",
+    title: "Long-lead board",
+    description: "Read equipment prices beside vendor order-book receipts.",
+  },
+] as const;
 
 function ComponentTable({ title, comps, groupHeaders = false, groups }: {
   title: string; comps: Comp[]; groupHeaders?: boolean; groups?: GroupSum[];
@@ -159,6 +187,22 @@ export default function Datacenter() {
   return (
     <div>
       <h1>Data Center Cost Index <span className="subtitle">facility build & operating input costs — no official DC PPI exists</span></h1>
+      <section className="project-toolkit" aria-labelledby="project-toolkit-title">
+        <div className="project-toolkit-heading">
+          <span id="project-toolkit-title">Project controls toolkit</span>
+          <small>From estimate through procurement</small>
+        </div>
+        <div className="project-toolkit-grid">
+          {PROJECT_CONTROLS_TOOLS.map((tool) => (
+            <Link key={tool.href} href={tool.href} className="project-tool-card">
+              <span className="project-tool-eyebrow">{tool.eyebrow}</span>
+              <strong>{tool.title}</strong>
+              <span>{tool.description}</span>
+              <b aria-hidden>Explore →</b>
+            </Link>
+          ))}
+        </div>
+      </section>
       <div className="kpi-row">
         <KpiCard label="DC Build YoY" value={fmtSigned(build.headline_yoy_pct)}
                  context={`construction input costs · as of ${build.as_of}`} accent="sky" />

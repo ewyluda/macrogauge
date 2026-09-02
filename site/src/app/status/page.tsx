@@ -100,7 +100,11 @@ export default function Status() {
                     </span>
                   </td>
                   <td>
-                    <StatusPill ok={c.pass} label={c.pass ? "pass" : "fail"} />
+                    <StatusPill
+                      ok={c.pass}
+                      tone={c.pass ? "ok" : c.critical ? "critical" : "advisory"}
+                      label={c.pass ? "pass" : "fail"}
+                    />
                   </td>
                   <td
                     style={{

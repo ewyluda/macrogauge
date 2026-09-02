@@ -22,6 +22,7 @@ export function HeroChart({
   months,
   official,
   core,
+  windowMonths,
 }: {
   dates: string[];
   gauge: (number | null)[];
@@ -30,66 +31,80 @@ export function HeroChart({
   months: string[];
   official: (number | null)[];
   core: (number | null)[];
+  windowMonths?: number;
 }) {
+  const windowStart = useMemo(() => {
+    if (!windowMonths) return undefined;
+    const latest = [...dates, ...months].sort().at(-1);
+    if (!latest) return undefined;
+    const start = new Date(`${latest.slice(0, 10)}T00:00:00Z`);
+    start.setUTCMonth(start.getUTCMonth() - windowMonths);
+    return start.toISOString().slice(0, 10);
+  }, [dates, months, windowMonths]);
+
   const option = useMemo(
-    () => ({
-      ...baseOption(),
-      series: [
-        {
-          name: "Macrogauge (CPI-comparable)",
-          type: "line",
-          data: pair(dates, gauge),
-          showSymbol: false,
-          lineStyle: { width: 2, color: C.sky },
-          itemStyle: { color: C.sky },
-          markArea: {
-            silent: true,
-            itemStyle: { color: "rgba(139, 152, 165, 0.08)" },
-            data: NBER_RECESSIONS.map(([a, b]) => [{ xAxis: a }, { xAxis: b }]),
+    () => {
+      const base = baseOption();
+      return {
+        ...base,
+        xAxis: { ...base.xAxis, min: windowStart },
+        series: [
+          {
+            name: "Macrogauge (CPI-comparable)",
+            type: "line",
+            data: pair(dates, gauge),
+            showSymbol: false,
+            lineStyle: { width: 2, color: C.sky },
+            itemStyle: { color: C.sky },
+            markArea: {
+              silent: true,
+              itemStyle: { color: "rgba(139, 152, 165, 0.08)" },
+              data: NBER_RECESSIONS.map(([a, b]) => [{ xAxis: a }, { xAxis: b }]),
+            },
           },
-        },
-        {
-          name: "CPI-Tracker",
-          type: "line",
-          data: pair(dates, tracker),
-          showSymbol: false,
-          lineStyle: { width: 1.5, color: C.violet },
-          itemStyle: { color: C.violet },
-        },
-        // optional: the col variant (marginal-buyer shelter) as a 5th series
-        ...(col
-          ? [
-              {
-                name: "Cost of Living",
-                type: "line",
-                data: pair(dates, col),
-                showSymbol: false,
-                lineStyle: { width: 1.5, color: C.col },
-                itemStyle: { color: C.col },
-              },
-            ]
-          : []),
-        {
-          name: "Official CPI",
-          type: "line",
-          step: "end",
-          data: pair(months, official),
-          showSymbol: false,
-          lineStyle: { width: 1.5, type: "dashed", color: C.muted },
-          itemStyle: { color: C.muted },
-        },
-        {
-          name: "Official Core",
-          type: "line",
-          step: "end",
-          data: pair(months, core),
-          showSymbol: false,
-          lineStyle: { width: 1.5, type: "dashed", color: "#5B6873" },
-          itemStyle: { color: "#5B6873" },
-        },
-      ],
-    }),
-    [dates, gauge, tracker, col, months, official, core],
+          {
+            name: "CPI-Tracker",
+            type: "line",
+            data: pair(dates, tracker),
+            showSymbol: false,
+            lineStyle: { width: 1.5, color: C.violet },
+            itemStyle: { color: C.violet },
+          },
+          // optional: the col variant (marginal-buyer shelter) as a 5th series
+          ...(col
+            ? [
+                {
+                  name: "Cost of Living",
+                  type: "line",
+                  data: pair(dates, col),
+                  showSymbol: false,
+                  lineStyle: { width: 1.5, color: C.col },
+                  itemStyle: { color: C.col },
+                },
+              ]
+            : []),
+          {
+            name: "Official CPI",
+            type: "line",
+            step: "end",
+            data: pair(months, official),
+            showSymbol: false,
+            lineStyle: { width: 1.5, type: "dashed", color: C.muted },
+            itemStyle: { color: C.muted },
+          },
+          {
+            name: "Official Core",
+            type: "line",
+            step: "end",
+            data: pair(months, core),
+            showSymbol: false,
+            lineStyle: { width: 1.5, type: "dashed", color: "#5B6873" },
+            itemStyle: { color: "#5B6873" },
+          },
+        ],
+      };
+    },
+    [dates, gauge, tracker, col, months, official, core, windowStart],
   );
   return <EChart option={option} height={340} />;
 }

@@ -1,22 +1,18 @@
-export function StatusPill({ ok, label }: { ok: boolean; label: string }) {
-  const color = ok ? "var(--accent-emerald)" : "var(--accent-red)";
+export type StatusTone = "ok" | "advisory" | "critical";
+
+export function StatusPill({
+  ok,
+  label,
+  tone,
+}: {
+  ok: boolean;
+  label: string;
+  tone?: StatusTone;
+}) {
+  const resolvedTone = tone ?? (ok ? "ok" : "critical");
   return (
-    <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 6,
-        border: "1px solid var(--border)",
-        borderRadius: 999,
-        padding: "2px 10px",
-        fontSize: 11,
-        letterSpacing: "0.06em",
-        textTransform: "uppercase",
-        color: "var(--muted)",
-        whiteSpace: "nowrap",
-      }}
-    >
-      <span style={{ width: 7, height: 7, borderRadius: 999, background: color }} />
+    <span className={`status-pill status-pill-${resolvedTone}`}>
+      <span className="status-pill-dot" />
       {label}
     </span>
   );

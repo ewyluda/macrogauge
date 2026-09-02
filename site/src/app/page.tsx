@@ -24,6 +24,7 @@ import { OutlookChart } from "@/components/OutlookChart";
 import { Countdown } from "@/components/Countdown";
 import { ForecastNumberLine } from "@/components/ForecastNumberLine";
 import { fmtMonth, fmtPct, fmtPp, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
+import { SITE_DESCRIPTION } from "@/lib/nav";
 
 // Numbers are baked at build time, so the tab title is a live headline —
 // refreshed by the daily publish like everything else.
@@ -98,6 +99,7 @@ export default function Home() {
           </span>
         </div>
       )}
+      <h1 className="home-lede">{SITE_DESCRIPTION}</h1>
       <div className="home-kicker">
         <span>Daily US inflation &amp; macro</span>
         <span>Published {pulse.published_at}</span>
@@ -106,6 +108,7 @@ export default function Home() {
 
       <div className="headline-grid">
         <KpiCard
+          className="headline-primary"
           label="Macrogauge · YoY"
           value={fmtPct(pulse.gauge.yoy_pct)}
           context={`CPI-comparable · as of ${pulse.gauge.as_of}`}
@@ -113,6 +116,7 @@ export default function Home() {
           chip={<DeltaChip value={pulse.gap_pp} prefix="vs official" pp />}
         />
         <KpiCard
+          className="headline-comparator"
           label="CPI-Tracker · YoY"
           value={fmtPct(pulse.tracker.yoy_pct)}
           context="BLS shelter dynamics · built to re-track the print"
@@ -120,18 +124,21 @@ export default function Home() {
           chip={<DeltaChip value={pulse.tracker_gap_pp} prefix="gap" pp />}
         />
         <KpiCard
+          className="headline-comparator"
           label="Official CPI · YoY"
           value={fmtPct(cpi.yoy_pct)}
           context={`${fmtMonth(cpi.month)} print · prev ${fmtPct(cpi.prev_yoy_pct)} · as of ${cpi.as_of}`}
           accent="amber"
         />
         <KpiCard
+          className="headline-comparator"
           label="Core CPI · YoY"
           value={fmtPct(core.yoy_pct)}
           context={`${fmtMonth(core.month)} print · prev ${fmtPct(core.prev_yoy_pct)} · as of ${core.as_of}`}
           accent="amber"
         />
         <KpiCard
+          className="headline-comparator"
           label="Next CPI · ensemble MoM"
           value={nextprint.ensemble.value == null ? "—" : `${nextprint.ensemble.value.toFixed(2)}%`}
           context={
@@ -143,7 +150,7 @@ export default function Home() {
         />
       </div>
 
-      <Section title="Macrogauge vs official — YoY since 2018" featured>
+      <Section title="Macrogauge vs official — latest 24 months" featured>
         <div className="hero-chart-card">
           <HeroChart
             dates={gaugeDaily.variants.gauge.dates}
@@ -153,6 +160,7 @@ export default function Home() {
             months={compare.months}
             official={compare.official_yoy_pct}
             core={compare.official_core_yoy_pct}
+            windowMonths={24}
           />
         </div>
         <div className="chart-caption">
