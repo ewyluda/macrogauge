@@ -1,12 +1,42 @@
 import Link from "next/link";
 import pulse from "../../public/data/pulse.json";
 import qa from "../../public/data/qa.json";
+import datacenter from "../../public/data/datacenter.json";
 import { NavBar } from "./NavBar";
 import { SiteFooter } from "./SiteFooter";
 import { StatusPill } from "./StatusPill";
-import { fmtPct } from "@/lib/format";
+import { fmtPct, fmtSigned } from "@/lib/format";
+
+function HeaderMetrics() {
+  return (
+    <>
+      <span className="header-metric-pill metric-pill-emerald">
+        <span className="metric-pill-dot" />
+        MACROGAUGE {fmtPct(pulse.gauge.yoy_pct)}
+      </span>
+      <span className="header-metric-pill metric-pill-sky">
+        <span className="metric-pill-dot" />
+        DC BUILD {fmtSigned(datacenter.indexes.build.headline_yoy_pct)}
+      </span>
+    </>
+  );
+}
 
 export function PageShell({ children }: { children: React.ReactNode }) {
+  const failedChecks = qa.checks.filter((check) => !check.pass);
+  const criticalFailures = failedChecks.filter((check) => check.critical).length;
+  const advisoryFailures = failedChecks.length - criticalFailures;
+  const selfTestTone = criticalFailures > 0
+    ? "critical"
+    : advisoryFailures > 0
+      ? "advisory"
+      : "ok";
+  const selfTestLabel = criticalFailures > 0
+    ? `${criticalFailures} critical`
+    : advisoryFailures > 0
+      ? `${advisoryFailures} advisor${advisoryFailures === 1 ? "y" : "ies"}`
+      : `Self-test ${qa.passed}/${qa.total}`;
+
   return (
     <main className="page-shell">
       <header className="site-header">
@@ -19,40 +49,17 @@ export function PageShell({ children }: { children: React.ReactNode }) {
           <NavBar />
         </div>
         <div className="header-status">
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 6,
-              border: "1px solid rgba(52, 211, 153, 0.35)",
-              background: "rgba(52, 211, 153, 0.1)",
-              borderRadius: 999,
-              padding: "3px 12px",
-              fontSize: 12,
-              fontWeight: 600,
-              letterSpacing: "0.06em",
-              color: "var(--accent-emerald)",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <span
-              style={{
-                width: 7,
-                height: 7,
-                borderRadius: 999,
-                background: "var(--accent-emerald)",
-              }}
-            />
-            MACROGAUGE {fmtPct(pulse.gauge.yoy_pct)}
-          </span>
+          <HeaderMetrics />
           <Link href="/status" style={{ textDecoration: "none" }}>
-            <StatusPill
-              ok={qa.passed === qa.total}
-              label={`Self-test ${qa.passed}/${qa.total}`}
-            />
+            <StatusPill tone={selfTestTone} label={selfTestLabel} />
           </Link>
         </div>
       </header>
+      {/* The 56px mobile header has no room for the metric pills, so they move
+          to a strip under it — still above the fold on every route (C2). */}
+      <div className="mobile-metrics" aria-label="Headline metrics">
+        <HeaderMetrics />
+      </div>
       {children}
       <SiteFooter />
     </main>

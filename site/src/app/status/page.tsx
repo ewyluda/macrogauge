@@ -100,7 +100,10 @@ export default function Status() {
                     </span>
                   </td>
                   <td>
-                    <StatusPill ok={c.pass} label={c.pass ? "pass" : "fail"} />
+                    <StatusPill
+                      tone={c.pass ? "ok" : c.critical ? "critical" : "advisory"}
+                      label={c.pass ? "pass" : "fail"}
+                    />
                   </td>
                   <td
                     style={{
@@ -143,7 +146,10 @@ export default function Status() {
                   </td>
                   <td style={{ color: "var(--muted)" }}>{s.cadence}</td>
                   <td>
-                    <StatusPill ok={s.ok} label={s.ok ? "ok" : "error"} />
+                    <StatusPill
+                      tone={s.ok ? "ok" : "advisory"}
+                      label={s.ok ? "ok" : "error"}
+                    />
                   </td>
                   <td>{s.series_count}</td>
                   <td>{s.new_rows}</td>

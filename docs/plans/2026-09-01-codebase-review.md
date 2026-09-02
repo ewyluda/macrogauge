@@ -166,22 +166,36 @@ after the P1 fix branch: 876 / 166 / 51 (CLAUDE.md counts refreshed in the same 
 - **B23.** `playwright.config.ts` has no `retries`/`trace`.
 - **B24.** Loading placeholders don't reserve chart height (layout shift).
 
-## C. UI/UX (production walk; screenshots in the session scratchpad, mockups on the canvas)
+## C. UI/UX (production walk; PR-review screenshots in `docs/screenshots/2026-09-01-c1-c6/`, mockups on the canvas)
 
 1. **Mobile nav never collapses**: 265 px header (31% of viewport) on every page, 28 px targets, not
-   sticky. → sticky 56 px header + 44 px menu button + accordion sheet.
+   sticky. → sticky 56 px header + 44 px menu button + accordion sheet. **Complete on
+   `feat/c1-c6-ui-pass`: compact sticky header, accessible menu control and accordion sheet.**
 2. **No landing for the Project Controls audience**: nothing above the fold mentions data centers;
    `/datacenter` has no in-page path to `/escalation`, `/markets`, `/capacity`, `/longlead` until
    ~7,000 px down. → second header pill "DC BUILD +9.2%", 4-card toolkit row atop `/datacenter`,
-   rename nav "Data" → "About".
+   rename nav "Data" → "About". **Complete on `feat/c1-c6-ui-pass`: live DC Build header pill
+   (on phones both metric pills sit in a strip under the 56 px header), direct Project Controls
+   toolkit and renamed About navigation.**
 3. **Home fold**: five equal tiles in five colours, no h1, tagline only in the footer, the
    "Cost of Living" spike dominates the chart. → one 56 px Macrogauge tile with the gap as its
    sub-line, comparators at half weight, tagline promoted to an h1 lede, 24-month default window.
+   **Complete on `feat/c1-c6-ui-pass`: semantic lede, primary/comparator hierarchy and a home-only
+   24-month chart window. The window is cut from the data server-side (`lib/chartWindow.ts`), not
+   just `xAxis.min` — ECharts sizes the y-axis from clipped points too, so an axis-only window
+   left the 2022 spike setting a -5..30% scale.**
 4. **Two page widths** (1200 vs 1720 on home) make the site jump between routes. → one shell.
+   **Complete on `feat/c1-c6-ui-pass`: every route now uses the shared 1200 px canvas.**
 5. **KPI tiles size to content** (orphaned 4th tile on `/capacity`, ragged mobile widths).
-   → `repeat(auto-fit, minmax(220px, 1fr))`.
+   → `repeat(auto-fit, minmax(220px, 1fr))`. **Complete on `feat/c1-c6-ui-pass`: KPI rows of
+   three or more cards use the auto-fit grid (`.kpi-row:has(> :nth-child(3))`); one- and two-card
+   rows stay content-sized on desktop so a lone score tile is not stretched to a full-width
+   banner; every row is one full-width column on phones.**
 6. **Header self-test pill is red for an advisory miss on every page.** → amber for advisory,
-   red only for critical, and say "1 advisory".
+   red only for critical, and say "1 advisory". **Complete on `feat/c1-c6-ui-pass`: severity-aware
+   status pills and failure-count labels reserve red for critical checks; `StatusPill` requires a
+   `tone`, and connector errors (advisory in `qa.py`) render amber on the home Sources strip and
+   `/status` table too.**
 7. **Tables clip inside scroll containers with no affordance on 8 of 10 pages**; `/capacity`
    overflows by 5 px and its stacked bar collapses to a sliver on mobile. → edge fade + hint;
    mobile capacity row with full-width bar and note behind a disclosure.
@@ -202,7 +216,8 @@ after the P1 fix branch: 876 / 166 / 51 (CLAUDE.md counts refreshed in the same 
 2. A5, A6 — **complete on `fix/daily-publish-hardening`**; daily-run resilience.
 3. B3, B4, B5 — **complete on `perf/client-payload-pass`**; three edits that remove most of the
    client payload.
-4. C1, C2, C3, C5, C6 — the canvas artboards, in that order.
+4. C1–C6 — **complete on `feat/c1-c6-ui-pass` as a single UI-foundation changeset.**
+   Verified with 876 pytest, 173 Vitest and 63 Playwright tests plus the 34-page static build; the eight PR #19 review findings are fixed in the same branch.
 5. B8 + B9 — generated types close the drift class behind B1 and the seven double-casts.
 6. A4, A3, A7 — staleness limits and schema closure.
 7. Everything else as hygiene passes.

@@ -87,7 +87,7 @@ export const NAV: NavEntry[] = [
   },
   {
     kind: "group",
-    label: "Data",
+    label: "About",
     sections: [
       {
         items: [

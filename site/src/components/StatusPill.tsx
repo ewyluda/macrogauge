@@ -1,22 +1,13 @@
-export function StatusPill({ ok, label }: { ok: boolean; label: string }) {
-  const color = ok ? "var(--accent-emerald)" : "var(--accent-red)";
+export type StatusTone = "ok" | "advisory" | "critical";
+
+/** Severity-coloured pill. `tone` is required so a caller has to decide
+ *  whether a failure is advisory or critical: connector errors are advisory
+ *  (the pipeline's `connectors_ok` check is `critical: False`), and only the
+ *  QA checks the pipeline itself marks critical earn red (C6). */
+export function StatusPill({ tone, label }: { tone: StatusTone; label: string }) {
   return (
-    <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 6,
-        border: "1px solid var(--border)",
-        borderRadius: 999,
-        padding: "2px 10px",
-        fontSize: 11,
-        letterSpacing: "0.06em",
-        textTransform: "uppercase",
-        color: "var(--muted)",
-        whiteSpace: "nowrap",
-      }}
-    >
-      <span style={{ width: 7, height: 7, borderRadius: 999, background: color }} />
+    <span className={`status-pill status-pill-${tone}`}>
+      <span className="status-pill-dot" />
       {label}
     </span>
   );

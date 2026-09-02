@@ -16,16 +16,18 @@ export function KpiCard({
   context,
   accent = "sky",
   chip,
+  className,
 }: {
   label: string;
   value: string;
   context: string;
   accent?: Accent;
   chip?: ReactNode;
+  className?: string;
 }) {
   return (
     <div
-      className="kpi-card"
+      className={className ? `kpi-card ${className}` : "kpi-card"}
       style={{
         background: "var(--card)",
         border: "1px solid var(--border)",
@@ -34,6 +36,7 @@ export function KpiCard({
       }}
     >
       <div
+        className="kpi-label"
         style={{
           fontSize: 11,
           letterSpacing: "0.08em",
@@ -44,6 +47,7 @@ export function KpiCard({
         {label}
       </div>
       <div
+        className="kpi-value"
         style={{
           fontSize: 34,
           fontWeight: 700,
@@ -54,7 +58,7 @@ export function KpiCard({
       >
         {value}
       </div>
-      <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 4 }}>
+      <div className="kpi-context" style={{ fontSize: 13, color: "var(--muted)", marginTop: 4 }}>
         {chip ? <span style={{ marginRight: 8 }}>{chip}</span> : null}
         {context}
       </div>
