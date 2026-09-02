@@ -24,6 +24,13 @@ after the P1 fix branch: 876 / 166 / 51 (CLAUDE.md counts refreshed in the same 
   regression test with a +20% print arriving today.
   *Done:* `_arrived_today` now takes per-code store dates via `_store_date` (lead un-shifted);
   `tests/test_gauge.py::test_gate_fires_for_lead_shifted_component` fails on the old code.
+  *Follow-up 2026-09-02 (`fix/review-followups-2026-09-02`):* the re-audit found the hold was
+  still a no-op for Manheim in production — its month-start rows arrive mid-month, so the +30d
+  engine date sits past today's grid end on arrival day (nothing published changes) and the next
+  run it is no longer just-arrived. The gate now evaluates the newest point *inside* today's grid
+  and treats a lead-shifted point as arriving on the first run its engine date is visible
+  (`_entered_grid_today`, Monday covers weekend-dated points). Two new tests walk the
+  arrive → enter-grid → pass-through sequence and the Saturday/Monday case.
 - **A2 (verified) — FIXED on `fix/review-2026-09-01-p1s`.** `headline_current` (critical) will fail by construction 2026-11-21 → ~2026-12-10.
   `pipeline/engine/official.py:19-20` walks back to the latest month whose 12-month base exists. The
   2025-10 CPI print was never published (store has 2025-09 and 2025-11, no 2025-10), so after the
@@ -110,6 +117,8 @@ after the P1 fix branch: 876 / 166 / 51 (CLAUDE.md counts refreshed in the same 
   unmount) + `components/DataUnavailable.tsx`; Treemap, MyInflationClient and QuiltHeatmap use them.
   Two Playwright tests stub a 404 and assert the retry line; CalculatorClient's fetch and third test
   were superseded when B5 moved its data to build-time props.
+  *Follow-up 2026-09-02:* `QuiltHeatmap`'s per-window fetch bypassed `useJson` (no abort, failure
+  flag never reset on window change); it now goes through the hook like `compare.json`.
 
 ### P2
 
@@ -118,6 +127,10 @@ after the P1 fix branch: 876 / 166 / 51 (CLAUDE.md counts refreshed in the same 
   ~56 kB serialized prop payload.
   *Done:* `GradesClient` is now server-rendered and `/dc-scoreboard` passes the server-side artifact
   directly instead of maintaining a client-only copy that manually omitted `anchors`.
+  *Follow-up 2026-09-02:* the registry audit's feature table now lists every optional
+  `echarts/core` component and chart type (markPoint, title, graphic, dataset, bar, candlestick…),
+  matches either quote style, scans all of `src/` rather than `components/` only, and the
+  eager-import guard also rejects a bare `"echarts"` import.
 - **B4 — FIXED on `perf/client-payload-pass`.** ECharts was statically imported on 10 routes,
   tripling First Load JS (103 → 311–320 kB).
   *Done:* the public `EChart` wrapper now owns one `next/dynamic` seam to `EChartClient` with SSR
@@ -129,7 +142,7 @@ after the P1 fix branch: 876 / 166 / 51 (CLAUDE.md counts refreshed in the same 
 - **B5 — FIXED on `perf/client-payload-pass`.** `/calculator` fetched all of `gauge_daily.json`
   (818 kB) for two arrays.
   *Done:* the server page now imports the artifact at build time and passes only the gauge `dates`
-  and `index` arrays (about 63 kB serialized). The client no longer fetches the artifact or carries
+  and `index` arrays (about 73 kB of RSC payload, measured 2026-09-02). The client no longer fetches the artifact or carries
   a runtime loading/error state; Playwright pins the absence of that network request.
 - **B6. `replay.json` (1.24 MB) is fetched on `/` and `/my-inflation`; `bls_index` (28%) is read by
   nobody.**
@@ -218,6 +231,14 @@ after the P1 fix branch: 876 / 166 / 51 (CLAUDE.md counts refreshed in the same 
    client payload.
 4. C1–C6 — **complete on `feat/c1-c6-ui-pass` as a single UI-foundation changeset.**
    Verified with 876 pytest, 173 Vitest and 63 Playwright tests plus the 34-page static build; the eight PR #19 review findings are fixed in the same branch.
+   *Re-audit 2026-09-02 (`fix/review-followups-2026-09-02`):* all of A1/A2/A5/A6/B1–B5/C1–C6
+   confirmed on main; residuals resolved in that branch — A1 grid-entry hold (above), B1 registry
+   drift, B2 quilt window fetch, B24 visible chart placeholder, `:has()` fallback for KPI rows,
+   `sliceSince` no longer assumes sorted dates, `.market-grid` cells get `min-width: 0`, the
+   daily workflow distinguishes a rebase conflict from a failed pull, and CLAUDE/README/AGENTS
+   install from `requirements.lock` (63 e2e / 878 pytest counts refreshed). Left as-is: KPI rows
+   render two columns between 500 and 720 px (tablet, not phone); a genuine rebase conflict still
+   discards the day's data by design.
 5. B8 + B9 — generated types close the drift class behind B1 and the seven double-casts.
 6. A4, A3, A7 — staleness limits and schema closure.
 7. Everything else as hygiene passes.

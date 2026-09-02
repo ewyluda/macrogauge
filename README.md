@@ -137,7 +137,7 @@ From the repository root:
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -e ".[dev]"
+pip install --require-hashes -r requirements.lock
 
 export FRED_API_KEY="..."
 export EIA_API_KEY="..."   # optional, enables EIA sources

@@ -1,8 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SegmentedControl } from "./SegmentedControl";
 import { DataUnavailable } from "./DataUnavailable";
-import { fetchJson } from "@/lib/fetchJson";
 import { heatColor } from "@/lib/heat";
 import { useJson } from "@/lib/useJson";
 import { exportQuiltPng, type QuiltRow } from "@/lib/quiltPng";
@@ -80,18 +79,14 @@ function Cell({ v }: { v: number | null }) {
 export function QuiltHeatmap() {
   const [win, setWin] = useState<WindowKey>("24");
   const [mode, setMode] = useState<QuiltMode>("ours");
-  const [cache, setCache] = useState<Partial<Record<WindowKey, Quilt>>>({});
   const { data: compare, failed: compareFailed } = useJson<Compare>("/data/compare.json");
-  const [windowFailed, setWindowFailed] = useState(false);
-
-  useEffect(() => {
-    if (cache[win]) return;
-    fetchJson<Quilt>(`/data/quilt_months_${win}.json`)
-      .then((q) => setCache((c) => ({ ...c, [win]: q })))
-      .catch(() => setWindowFailed(true));
-  }, [win, cache]);
-
-  const quilt = cache[win];
+  // One hook per artifact: the window file rides the same abort-on-change,
+  // failed-state path as compare.json instead of a bespoke effect whose
+  // failure flag never reset on window change (review follow-up 2026-09-02).
+  // Re-selecting a window re-requests its file; the browser cache serves it.
+  const { data: quilt, failed: windowFailed } = useJson<Quilt>(
+    `/data/quilt_months_${win}.json`,
+  );
   if (compareFailed || windowFailed) return <DataUnavailable what="inflation quilt data" />;
   if (!quilt || !compare) {
     return (

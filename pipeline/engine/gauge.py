@@ -42,6 +42,22 @@ def _store_date(engine_date: str, lead_days: int) -> str:
     return (date.fromisoformat(engine_date) - timedelta(days=lead_days)).isoformat()
 
 
+def _entered_grid_today(engine_date: str, today: str) -> bool:
+    """True when a lead-shifted point first becomes visible on this run.
+
+    A +30d shift dates the point weeks past its store vintage, so on the day
+    it arrives it sits beyond the grid end (`end = min(..., today)`) and a
+    vintage-keyed hold is invisible; the next run it is no longer just-
+    arrived and passes ungated (review 2026-09-01 A1 follow-up). The hold
+    must instead land on the first run where the point is in the grid: the
+    day its engine date equals today, or the Monday run for a point dated
+    over the weekend (the daily run is weekdays only)."""
+    d, t = date.fromisoformat(engine_date), date.fromisoformat(today)
+    if d == t:
+        return True
+    return t.weekday() == 0 and 0 < (t - d).days <= 2
+
+
 def _fresh(conn, blend_codes, staleness: dict[str, int], today: str) -> bool:
     """A component is fresh when ANY blend source is within its staleness."""
     for code in blend_codes:
@@ -110,14 +126,23 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
             idx, mode, official_idx = variants.build_component(
                 comp, variant, official_series, live_sources, live_blend)
             if mode == "live":
-                last = max(idx)
                 lead = comp.lead_days or {}
-                arrived = _arrived_today(
-                    conn, {code: _store_date(last, lead.get(code, 0))
-                           for code in gate_codes}, today)
-                idx, flagged = gate.apply_gate(idx, arrived)
-                if flagged:
-                    flags.append(f"{comp.code}@{last}")
+                # Gate the newest point INSIDE today's grid, not max(idx): a
+                # lead-shifted point can sit past `today` for weeks, where a
+                # hold changes nothing published. Future points are kept
+                # untouched and are gated on the run they enter the grid.
+                visible = {d: v for d, v in idx.items() if d <= today}
+                if visible:
+                    last = max(visible)
+                    arrived = _arrived_today(
+                        conn, {code: _store_date(last, lead.get(code, 0))
+                               for code in gate_codes}, today)
+                    if not arrived and any(lead.get(c) for c in gate_codes):
+                        arrived = _entered_grid_today(last, today)
+                    gated, flagged = gate.apply_gate(visible, arrived)
+                    if flagged:
+                        idx = {**idx, **gated}
+                        flags.append(f"{comp.code}@{last}")
             built[comp.code], modes[comp.code] = idx, mode
             official_rebased[comp.code] = official_idx
         end = min(max(max(c) for c in built.values()), today)

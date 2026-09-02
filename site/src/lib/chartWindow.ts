@@ -22,17 +22,20 @@ export function windowStart(
 }
 
 /** Keep the dates at or after `start` and the matching entries of each
- *  aligned series. A missing `start` returns the inputs unchanged. */
+ *  aligned series, preserving input order (no sortedness assumed). A missing
+ *  `start` returns the inputs unchanged. */
 export function sliceSince<T>(
   dates: string[],
   series: T[][],
   start: string | undefined,
 ): { dates: string[]; series: T[][] } {
   if (!start) return { dates, series };
-  let from = 0;
-  while (from < dates.length && dates[from] < start) from++;
+  const keep: number[] = [];
+  dates.forEach((d, i) => {
+    if (d >= start) keep.push(i);
+  });
   return {
-    dates: dates.slice(from),
-    series: series.map((ys) => ys.slice(from)),
+    dates: keep.map((i) => dates[i]),
+    series: series.map((ys) => keep.map((i) => ys[i])),
   };
 }
