@@ -1,9 +1,11 @@
 """Engine stage 3: >5% one-day quality gate for live components.
 
 Stateless "hold one day": a spike is held only while it is the just-arrived
-(vintage_date == today) last observation. On the next run it is no longer
-just-arrived and passes through — a spike that persists was real. Historical
-jumps always stand; this protects only the newest incoming point.
+last observation inside today's grid — vintage_date == today, or for a
+lead-shifted component the first run its shifted date is visible (see
+gauge._entered_grid_today). On the next run it is no longer just-arrived and
+passes through — a spike that persists was real. Historical jumps always
+stand; this protects only the newest incoming point.
 """
 
 MAX_MOVE = 0.05

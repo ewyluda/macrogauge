@@ -11,7 +11,7 @@ The frontend lives in `site/`: routes are under `site/src/app/`, reusable UI in 
 Run pipeline commands from the repository root:
 
 ```bash
-pip install -e ".[dev]"   # install Python package and pytest
+pip install --require-hashes -r requirements.lock   # pinned deps incl. pytest (same as CI)
 pytest -q                  # run the complete Python suite
 pytest tests/test_gauge.py -q  # run one test module
 FRED_API_KEY=... python -m pipeline.run_daily --store store --out site/public/data

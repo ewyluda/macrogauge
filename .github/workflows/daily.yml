@@ -87,8 +87,12 @@ jobs:
             for attempt in 1 2 3; do
               echo "publish attempt $attempt/3"
               if ! git pull --rebase origin main; then
-                git rebase --abort || true
-                echo "::error::daily data commit conflicts with origin/main"
+                if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; then
+                  git rebase --abort || true
+                  echo "::error::daily data commit conflicts with origin/main"
+                else
+                  echo "::error::git pull --rebase failed before rebasing (network/auth?)"
+                fi
                 exit 1
               fi
               if git push origin HEAD:main; then

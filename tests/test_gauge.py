@@ -480,3 +480,77 @@ def test_gate_fires_for_lead_shifted_component(tmp_path):
     assert g["gate_flags"] == [f"fuel@{today}"]
     # held at the prior value: rebased 10.3/10.0 = 103, not 12.4/10.0 = 124
     assert g["components"]["fuel"]["end_value"] == pytest.approx(103.0)
+
+
+def _lead_shift_store(tmp_path, spike_store_date: str, vintage_date: str):
+    """Shared fixture for the lead-shift gate tests: a +20% LIVE_FU print at
+    `spike_store_date` (engine view +30d) with the given vintage."""
+    mini = {"base_month": "2018-01", "supercore_components": ["fuel"], "components": [
+        {"code": "shelter", "label": "Shelter", "weight": 0.6, "pce_weight": 0.6,
+         "official_series": "OFF_SH", "live_blend": {"LIVE_SH": 1.0},
+         "live_variants": ["gauge"]},
+        {"code": "fuel", "label": "Fuel", "weight": 0.4, "pce_weight": 0.4,
+         "official_series": "OFF_FU", "live_blend": {"LIVE_FU": 1.0},
+         "live_variants": ["gauge", "tracker"],
+         "lead_days": {"LIVE_FU": 30}}]}
+    history = [
+        ("OFF_SH", "2018-01-01", 100.0), ("OFF_SH", "2019-01-01", 103.0),
+        ("LIVE_SH", "2018-01-01", 50.0), ("LIVE_SH", "2019-01-01", 53.0),
+        ("LIVE_SH", "2019-02-01", 53.0),
+        ("OFF_FU", "2018-01-01", 200.0), ("OFF_FU", "2019-01-01", 208.0),
+        ("LIVE_FU", "2018-01-01", 10.0), ("LIVE_FU", "2018-11-01", 10.3)]
+    vintage.append([Observation(series_code=c, obs_date=d, value=v,
+                                vintage_date="2018-12-02", source="T", route="API")
+                    for c, d, v in history], tmp_path)
+    vintage.append([Observation(series_code="LIVE_FU", obs_date=spike_store_date,
+                                value=12.4, vintage_date=vintage_date,
+                                source="T", route="API")], tmp_path)
+    bp = tmp_path / "basket.json"
+    bp.write_text(json.dumps(mini))
+    return vintage.load(tmp_path), bp
+
+
+def test_gate_holds_lead_shifted_point_on_the_run_it_enters_the_grid(tmp_path):
+    """Review follow-up 2026-09-02 (A1 residual): Manheim prints are dated
+    month-start and arrive mid-month, so the +30d engine date sits ~2 weeks
+    past `today` on arrival. A vintage-keyed hold there is invisible (the grid
+    clamps to today) and the next run the point is no longer just-arrived, so
+    the spike passed ungated. The hold must land on the run the point becomes
+    visible."""
+    # store 2018-12-01 -> engine 2018-12-31 (a Monday); arrives 2018-12-17
+    conn, bp = _lead_shift_store(tmp_path, "2018-12-01", vintage_date="2018-12-17")
+
+    # arrival day: point is beyond the grid; nothing to hold, nothing flagged
+    g = gauge.run(conn, today="2018-12-17", basket_path=bp,
+                  staleness=STALENESS)["variants"]["gauge"]
+    assert g["gate_flags"] == []
+    assert g["components"]["fuel"]["end_value"] == pytest.approx(103.0)
+
+    # the day the shifted point enters the grid: held at the prior value
+    g = gauge.run(conn, today="2018-12-31", basket_path=bp,
+                  staleness=STALENESS)["variants"]["gauge"]
+    assert g["gate_flags"] == ["fuel@2018-12-31"]
+    assert g["components"]["fuel"]["end_value"] == pytest.approx(103.0)
+
+    # the run after: persisted, passes through (stateless one-day hold)
+    g = gauge.run(conn, today="2019-01-01", basket_path=bp,
+                  staleness=STALENESS)["variants"]["gauge"]
+    assert g["gate_flags"] == []
+    assert g["components"]["fuel"]["end_value"] == pytest.approx(124.0)
+
+
+def test_gate_holds_weekend_dated_lead_shifted_point_on_monday(tmp_path):
+    """The daily run is weekdays only: a shifted point dated Saturday first
+    appears on Monday's run and must be held then, not skipped."""
+    # store 2018-12-06 -> engine 2019-01-05 (Saturday); Monday is 2019-01-07
+    conn, bp = _lead_shift_store(tmp_path, "2018-12-06", vintage_date="2018-12-17")
+    g = gauge.run(conn, today="2019-01-04", basket_path=bp,
+                  staleness=STALENESS)["variants"]["gauge"]
+    assert g["gate_flags"] == []                       # Friday: not yet visible
+    g = gauge.run(conn, today="2019-01-07", basket_path=bp,
+                  staleness=STALENESS)["variants"]["gauge"]
+    assert g["gate_flags"] == ["fuel@2019-01-05"]      # Monday: held
+    assert g["components"]["fuel"]["end_value"] == pytest.approx(103.0)
+    g = gauge.run(conn, today="2019-01-08", basket_path=bp,
+                  staleness=STALENESS)["variants"]["gauge"]
+    assert g["gate_flags"] == []                       # Tuesday: passes

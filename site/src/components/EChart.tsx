@@ -12,7 +12,21 @@ export type EChartProps = EChartClientProps & {
 // restore the eager import by choosing its own loading strategy.
 const LazyEChart = dynamic(
   () => import("./EChartClient").then((mod) => mod.EChartClient),
-  { ssr: false },
+  {
+    ssr: false,
+    // A visible state inside the reserved box, so a slow runtime load reads
+    // as "loading" rather than a blank panel (review 2026-09-01 B24).
+    loading: () => (
+      <div
+        role="status"
+        aria-live="polite"
+        className="chart-loading"
+        style={{ height: "100%" }}
+      >
+        loading chart…
+      </div>
+    ),
+  },
 );
 
 export function EChart({

@@ -25,6 +25,11 @@ describe("sliceSince", () => {
     expect(sliceSince(dates, [a], "2020-01-01").dates).toEqual(dates);
     expect(sliceSince(dates, [a], undefined).series).toEqual([a]);
   });
+  it("does not assume ascending input order", () => {
+    const out = sliceSince(["2024-08-30", "2024-08-28", "2024-08-29"], [[3, 1, 2]], "2024-08-29");
+    expect(out.dates).toEqual(["2024-08-30", "2024-08-29"]);
+    expect(out.series).toEqual([[3, 2]]);
+  });
   it("returns empty arrays when the start is after the data", () => {
     const out = sliceSince(dates, [a, b], "2030-01-01");
     expect(out.dates).toEqual([]);

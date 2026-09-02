@@ -156,6 +156,7 @@ a { transition: color 140ms ease, background 140ms ease; }
 .forecast-call span, .market-grid span { display: block; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
 .forecast-call strong { display: block; color: var(--accent-violet); font-size: 17px; margin-top: 5px; font-variant-numeric: tabular-nums; }
 .market-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.market-grid > div { min-width: 0; }
 .market-grid strong { display: block; font-size: 18px; margin-top: 5px; font-variant-numeric: tabular-nums; }
 .market-grid small { display: block; color: var(--muted); font-size: 10px; margin-top: 3px; }
 .mover-list > div { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: baseline; gap: 7px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
@@ -194,6 +195,13 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
    so no card orphans onto a second line (C5, /capacity). */
 .kpi-row { display: flex; flex-wrap: wrap; gap: 16px; margin: 24px 0; }
 .kpi-row:has(> :nth-child(3)) { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+/* Browsers without :has() (Firefox <121, Safari <15.4) would otherwise keep
+   flex-wrap for every row and reintroduce the orphaned 4th tile. Prefer the
+   uniform grid for all rows there — the same layout phones already get. */
+@supports not selector(:has(> *)) {
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+}
+.chart-loading { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; }
 .table-card, .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: auto; margin: 16px 0; }
 .strip-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; padding: 12px 16px; font-size: 13px; }
 .chart-card { padding: 12px 8px 4px; }
