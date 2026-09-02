@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-01",
+  "generated_at": "2026-09-02",
   "passed": 26,
   "total": 27,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official month 2026-07-01 is 62d old (limit 80)"
+      "detail": "latest official print 2026-07-01 is 63d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -103,13 +103,13 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "685/693 fresh; stale \u2014 APU0000702212 (123d > 80d), APU0000704211 (123d > 80d), APU0000711311 (92d > 80d), TDSP (243d > 210d), REVOLSL (92d > 80d), SAHMREALTIME (62d > 60d), ppi_storage (92d > 80d), qcew_aemp23_c41067 (518d > 400d)"
+      "detail": "684/693 fresh; stale \u2014 APU0000702212 (124d > 80d), APU0000704211 (124d > 80d), APU0000711311 (93d > 80d), TDSP (244d > 210d), REVOLSL (93d > 80d), SAHMREALTIME (63d > 60d), ppi_storage (93d > 80d), qcew_aemp23_c41067 (519d > 400d), eia_henry_hub (8d > 7d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.097 vs EIA weekly $4.071 \u2014 relative divergence 0.7% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.099 vs EIA weekly $4.071 \u2014 relative divergence 0.7% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -127,7 +127,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-09-01"
+      "detail": "CPI nowcast as-of 2026-09-02"
     },
     {
       "name": "ensemble_computed",
@@ -139,7 +139,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-09-01 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-09-02 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
