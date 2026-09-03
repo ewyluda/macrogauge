@@ -79,6 +79,8 @@ export default function CostOfLiving() {
             dates={col.dates.slice(from)}
             col={col.yoy_pct.slice(from)}
             gauge={gauge.yoy_pct.slice(from)}
+            colIndex={col.index.slice(from)}
+            gaugeIndex={gauge.index.slice(from)}
             months={compare.months.slice(mFrom)}
             official={compare.official_yoy_pct.slice(mFrom)}
           />

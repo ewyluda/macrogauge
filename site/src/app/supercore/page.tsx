@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import gaugeDaily from "../../../public/data/gauge_daily.json";
 import compare from "../../../public/data/compare.json";
 import { LinesChart } from "@/components/LinesChart";
+import { BreadthPanel } from "@/components/BreadthPanel";
 import { DownloadData } from "@/components/DownloadData";
 import { columnsToRows } from "@/lib/csv";
 import { C } from "@/lib/chartTheme";
@@ -69,10 +70,16 @@ export default function Supercore() {
           <StepChart
             dates={sc.dates.slice(from)}
             values={sc.yoy_pct.slice(from)}
+            index={sc.index.slice(from)}
             refLine={2}
             refLabel="Fed 2% (core PCE target)"
           />
         </div>
+      </Section>
+
+      <Section title="Breadth across the whole basket">
+        <BreadthPanel compact />
+        <p className="method">Latest-month breadth over all 14 components (full charts on the <a href="/">homepage</a>) — context for whether services stickiness is broad or narrow.</p>
       </Section>
 
       <Section title="Supercore vs core CPI — monthly, full history">

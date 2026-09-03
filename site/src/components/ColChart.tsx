@@ -2,6 +2,8 @@
 import { useMemo } from "react";
 import { EChart } from "./EChart";
 import { C, NBER_RECESSIONS, baseOption } from "@/lib/chartTheme";
+import { rateLabel, rateSeries } from "@/lib/momentum";
+import { RateModeControl, useRateMode } from "./RateModeControl";
 
 
 type Pt = [string, number];
@@ -23,21 +25,30 @@ export function ColChart({
   gauge,
   months,
   official,
+  colIndex,
+  gaugeIndex,
 }: {
   dates: string[];
   col: (number | null)[];
   gauge: (number | null)[];
   months: string[];
   official: (number | null)[];
+  colIndex?: (number | null)[];
+  gaugeIndex?: (number | null)[];
 }) {
+  const [rate, setRate] = useRateMode();
+  const momentum = rate !== "yoy" && !!colIndex;
+  const colS = rateSeries(rate, col, colIndex);
+  const gaugeS = rateSeries(rate, gauge, gaugeIndex);
+  const suffix = momentum ? ` · ${rateLabel(rate)}` : "";
   const option = useMemo(
     () => ({
       ...baseOption(),
       series: [
         {
-          name: "Cost of Living",
+          name: `Cost of Living${suffix}`,
           type: "line",
-          data: pair(dates, col),
+          data: pair(dates, colS),
           showSymbol: false,
           lineStyle: { width: 2, color: C.col },
           itemStyle: { color: C.col },
@@ -48,14 +59,14 @@ export function ColChart({
           },
         },
         {
-          name: "Macrogauge",
+          name: `Macrogauge${suffix}`,
           type: "line",
-          data: pair(dates, gauge),
+          data: pair(dates, gaugeS),
           showSymbol: false,
           lineStyle: { width: 1.5, color: C.sky },
           itemStyle: { color: C.sky },
         },
-        {
+        ...(momentum ? [] : [{
           name: "Official CPI",
           type: "line",
           step: "end",
@@ -63,10 +74,15 @@ export function ColChart({
           showSymbol: false,
           lineStyle: { width: 1.5, type: "dashed", color: C.amber },
           itemStyle: { color: C.amber },
-        },
+        }]),
       ],
     }),
-    [dates, col, gauge, months, official],
+    [dates, colS, gaugeS, months, official, momentum, suffix],
   );
-  return <EChart option={option} height={340} />;
+  return (
+    <div>
+      {colIndex && <RateModeControl value={rate} onChange={setRate} />}
+      <EChart option={option} height={340} />
+    </div>
+  );
 }

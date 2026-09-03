@@ -3,6 +3,8 @@ import { useMemo } from "react";
 import { EChart } from "./EChart";
 import { C, NBER_RECESSIONS, baseOption } from "@/lib/chartTheme";
 import { sliceSince, windowStart } from "@/lib/chartWindow";
+import { rateLabel, rateSeries } from "@/lib/momentum";
+import { RateModeControl, useRateMode } from "./RateModeControl";
 
 type Pt = [string, number];
 
@@ -24,6 +26,9 @@ export function HeroChart({
   official,
   core,
   windowMonths,
+  gaugeIndex,
+  trackerIndex,
+  colIndex,
 }: {
   dates: string[];
   gauge: (number | null)[];
@@ -33,7 +38,18 @@ export function HeroChart({
   official: (number | null)[];
   core: (number | null)[];
   windowMonths?: number;
+  /** Daily index levels aligned with `dates`; when present the chart gains a
+   *  YoY | 3m ann. | 6m ann. control (momentum computed here, before the
+   *  window cut, so the lookback can reach behind the window start). */
+  gaugeIndex?: (number | null)[];
+  trackerIndex?: (number | null)[];
+  colIndex?: (number | null)[];
 }) {
+  const [rate, setRate] = useRateMode();
+  const momentum = rate !== "yoy" && !!gaugeIndex;
+  const gaugeS = useMemo(() => rateSeries(rate, gauge, gaugeIndex), [rate, gauge, gaugeIndex]);
+  const trackerS = useMemo(() => rateSeries(rate, tracker, trackerIndex), [rate, tracker, trackerIndex]);
+  const colS = useMemo(() => (col ? rateSeries(rate, col, colIndex) : undefined), [rate, col, colIndex]);
   // The window is cut from the data, not just the axis: ECharts sizes the
   // y-axis from every point in a series, including those clipped by
   // `xAxis.min`, so the 2022 spike would otherwise crush the visible lines.
@@ -44,8 +60,8 @@ export function HeroChart({
     [dates, months, windowMonths],
   );
   const daily = useMemo(
-    () => sliceSince(dates, [gauge, tracker, col ?? []], start),
-    [dates, gauge, tracker, col, start],
+    () => sliceSince(dates, [gaugeS, trackerS, colS ?? []], start),
+    [dates, gaugeS, trackerS, colS, start],
   );
   const monthly = useMemo(
     () => sliceSince(months, [official, core], start),
@@ -57,12 +73,13 @@ export function HeroChart({
       const base = baseOption();
       const [g, t, c] = daily.series;
       const [o, k] = monthly.series;
+      const suffix = momentum ? ` · ${rateLabel(rate)}` : "";
       return {
         ...base,
         xAxis: { ...base.xAxis, min: start },
         series: [
           {
-            name: "Macrogauge (CPI-comparable)",
+            name: `Macrogauge (CPI-comparable)${suffix}`,
             type: "line",
             data: pair(daily.dates, g),
             showSymbol: false,
@@ -75,7 +92,7 @@ export function HeroChart({
             },
           },
           {
-            name: "CPI-Tracker",
+            name: `CPI-Tracker${suffix}`,
             type: "line",
             data: pair(daily.dates, t),
             showSymbol: false,
@@ -86,7 +103,7 @@ export function HeroChart({
           ...(col
             ? [
                 {
-                  name: "Cost of Living",
+                  name: `Cost of Living${suffix}`,
                   type: "line",
                   data: pair(daily.dates, c),
                   showSymbol: false,
@@ -95,7 +112,7 @@ export function HeroChart({
                 },
               ]
             : []),
-          {
+          ...(momentum ? [] : [{
             name: "Official CPI",
             type: "line",
             step: "end",
@@ -112,11 +129,16 @@ export function HeroChart({
             showSymbol: false,
             lineStyle: { width: 1.5, type: "dashed", color: "#5B6873" },
             itemStyle: { color: "#5B6873" },
-          },
+          }]),
         ],
       };
     },
-    [daily, monthly, col, start],
+    [daily, monthly, col, start, momentum, rate],
   );
-  return <EChart option={option} height={340} />;
+  return (
+    <div>
+      {gaugeIndex && <RateModeControl value={rate} onChange={setRate} />}
+      <EChart option={option} height={340} />
+    </div>
+  );
 }

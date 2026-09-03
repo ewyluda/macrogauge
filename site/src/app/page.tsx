@@ -14,6 +14,8 @@ import { KpiCard } from "@/components/KpiCard";
 import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
 import { columnsToRows } from "@/lib/csv";
+import { ContributionSection } from "@/components/ContributionSection";
+import { BreadthPanel } from "@/components/BreadthPanel";
 import { cite } from "@/lib/citation";
 import { DeltaChip } from "@/components/DeltaChip";
 import { StatusPill } from "@/components/StatusPill";
@@ -86,6 +88,22 @@ const heroDaily = sliceSince(
     gaugeDaily.variants.col.yoy_pct,
   ],
   heroStart,
+);
+// The momentum control needs index levels reaching 6 months BEHIND the
+// window start (a 6m annualized rate at the first visible day looks back
+// 182 days), so the index payload is cut at window + 6 months; HeroChart
+// re-cuts the display to `windowMonths` after computing the rates.
+const heroIndex = sliceSince(
+  gaugeDaily.variants.gauge.dates,
+  [
+    gaugeDaily.variants.gauge.yoy_pct,
+    gaugeDaily.variants.tracker.yoy_pct,
+    gaugeDaily.variants.col.yoy_pct,
+    gaugeDaily.variants.gauge.index,
+    gaugeDaily.variants.tracker.index,
+    gaugeDaily.variants.col.index,
+  ],
+  windowStart([gaugeDaily.variants.gauge.dates], HERO_WINDOW_MONTHS + 6),
 );
 const heroMonthly = sliceSince(
   compare.months,
@@ -199,10 +217,13 @@ export default function Home() {
         </div>
         <div className="hero-chart-card">
           <HeroChart
-            dates={heroDaily.dates}
-            gauge={heroDaily.series[0]}
-            tracker={heroDaily.series[1]}
-            col={heroDaily.series[2]}
+            dates={heroIndex.dates}
+            gauge={heroIndex.series[0]}
+            tracker={heroIndex.series[1]}
+            col={heroIndex.series[2]}
+            gaugeIndex={heroIndex.series[3]}
+            trackerIndex={heroIndex.series[4]}
+            colIndex={heroIndex.series[5]}
             months={heroMonthly.dates}
             official={heroMonthly.series[0]}
             core={heroMonthly.series[1]}
@@ -281,6 +302,14 @@ export default function Home() {
           <div className="panel-foot">Ranked by absolute monthly move · {fmtMonth(cpi.month)} print</div>
         </section>
       </div>
+
+      <Section title="Contribution to YoY — what is driving the number" featured>
+        <ContributionSection />
+      </Section>
+
+      <Section title="Breadth — how much of the basket is inflating">
+        <BreadthPanel />
+      </Section>
 
       <Section title="Basket treemap — every component, replay 2018 → now">
         <Treemap />

@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, type MutableRefObject } from "react";
 import * as echarts from "echarts/core";
-import { LineChart, ScatterChart, TreemapChart } from "echarts/charts";
+import { BarChart, LineChart, ScatterChart, TreemapChart } from "echarts/charts";
 import {
+  AxisPointerComponent,
   GridComponent,
   TooltipComponent,
   LegendComponent,
@@ -19,9 +20,11 @@ import { CanvasRenderer } from "echarts/renderers";
 // B1). src/components/echartsRegistry.test.ts audits this list against the
 // option keys the wrappers actually use.
 echarts.use([
+  BarChart,
   LineChart,
   ScatterChart,
   TreemapChart,
+  AxisPointerComponent,
   GridComponent,
   TooltipComponent,
   LegendComponent,
