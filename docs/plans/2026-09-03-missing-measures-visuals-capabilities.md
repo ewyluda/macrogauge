@@ -185,6 +185,18 @@ vitest 204, e2e 81, 39 routes.
 
 ## Batch 3 — Momentum, contribution, breadth (site-only math)
 
+**Status: SHIPPED 2026-09-03 on `feat/batch3-momentum-breadth`.** One correction to the plan's
+3b formula: the engine's headline YoY is NOT an index ratio — it is `Σ wᵢ·yoyᵢ` over each
+component's own like-month YoY (`aggregate.weighted_yoy`), so the exact contribution is simply
+`wᵢ · yoyᵢ` off `replay.json`'s published per-component series (the index-ratio formula
+disagreed with the published headline by up to 0.78pp). Parity is pinned by test against both
+`gauge_daily` (every month end) and `gaptable.rows[].contribution_pp`. Momentum uses position
+offsets (91/182 grid days) because the published grid is contiguous and forward-filled, unlike the
+weekday-only raw series `pct_change_daily` bridges. One `?rate=` key drives the hero, `/vs-bls`,
+`/cost-of-living` and `/supercore`; official prints stay YoY-only in momentum modes (no official
+index level is published). Breadth is computed at build time from `quilt_months_all` and also
+feeds two rows into `/matrix` OURS. Gates: vitest 219, e2e 86, build 39 routes.
+
 All three are pure re-expressions of arrays already published daily. Put the math in
 `site/src/lib/momentum.ts`, `contribution.ts`, `breadth.ts`, each with vitest against a hand-computed
 fixture, and reuse across pages.

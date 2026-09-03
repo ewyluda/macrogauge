@@ -9,6 +9,7 @@ import { DownloadData } from "@/components/DownloadData";
 import { ForecastHero } from "@/components/ForecastHero";
 import { fmtDay, fmtMonth } from "@/lib/format";
 import type { Nowcast, Matrix } from "@/lib/types";
+import { BREADTH_LATEST } from "@/components/BreadthPanel";
 
 export const metadata: Metadata = {
   title: "Inflation Matrix — every measure, one table",
@@ -47,6 +48,12 @@ const SECTIONS: Section[] = [
         unit: "% YoY", as_of: pulse.gauge.as_of, cadence: "daily" },
       { label: "Tracker (official-shelter)", value: pulse.tracker.yoy_pct,
         unit: "% YoY", as_of: pulse.tracker.as_of, cadence: "daily" },
+      // Batch 3c: our own robust-central cuts over the 14 coarse components,
+      // beside the Cleveland/Atlanta measures below (which trim 45+ items).
+      { label: "Macrogauge 16% trimmed mean (14 components)", value: BREADTH_LATEST?.trimmedMean ?? null,
+        unit: "% YoY", as_of: BREADTH_LATEST ? `${BREADTH_LATEST.month}-01` : null, cadence: "monthly" },
+      { label: "Macrogauge weighted median (14 components)", value: BREADTH_LATEST?.weightedMedian ?? null,
+        unit: "% YoY", as_of: BREADTH_LATEST ? `${BREADTH_LATEST.month}-01` : null, cadence: "monthly" },
     ],
   },
   {
