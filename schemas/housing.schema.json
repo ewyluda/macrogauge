@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "housing",
+  "type": "object",
+  "required": ["published_at", "prices", "rents", "sales", "mortgage", "affordability", "parameters"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "prices": {
+      "type": "object",
+      "required": ["case_shiller", "fhfa", "zhvi"],
+      "additionalProperties": false,
+      "properties": {
+        "case_shiller": {"$ref": "#/$defs/measure"},
+        "fhfa": {"$ref": "#/$defs/measure"},
+        "zhvi": {"$ref": "#/$defs/measure"}
+      }
+    },
+    "rents": {
+      "type": "object",
+      "required": ["zori", "aptlist"],
+      "additionalProperties": false,
+      "properties": {"zori": {"$ref": "#/$defs/measure"}, "aptlist": {"$ref": "#/$defs/measure"}}
+    },
+    "sales": {"$ref": "#/$defs/measure"},
+    "mortgage": {
+      "type": "object",
+      "required": ["pmms_30yr", "mnd_30yr_daily"],
+      "additionalProperties": false,
+      "properties": {"pmms_30yr": {"$ref": "#/$defs/point"}, "mnd_30yr_daily": {"$ref": "#/$defs/point"}}
+    },
+    "affordability": {
+      "type": "object",
+      "required": ["as_of", "price", "rate_pct", "payment", "income", "share_pct",
+                   "share_2018_01_pct", "history"],
+      "additionalProperties": false,
+      "properties": {
+        "as_of": {"$ref": "#/$defs/day"},
+        "price": {"$ref": "#/$defs/num"},
+        "rate_pct": {"$ref": "#/$defs/num"},
+        "payment": {"$ref": "#/$defs/num"},
+        "income": {"$ref": "#/$defs/num"},
+        "share_pct": {"$ref": "#/$defs/num"},
+        "share_2018_01_pct": {"$ref": "#/$defs/num"},
+        "history": {
+          "type": "object",
+          "required": ["months", "price", "rate_pct", "payment", "income", "share_pct"],
+          "additionalProperties": false,
+          "properties": {
+            "months": {"type": "array", "items": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}},
+            "price": {"type": "array", "items": {"type": "number"}},
+            "rate_pct": {"type": "array", "items": {"type": "number"}},
+            "payment": {"type": "array", "items": {"type": "number"}},
+            "income": {"type": "array", "items": {"type": "number"}},
+            "share_pct": {"type": "array", "items": {"type": "number"}}
+          }
+        }
+      }
+    },
+    "parameters": {
+      "type": "object",
+      "required": ["ltv", "term_months", "hours_per_year", "income_proxy", "rate"],
+      "additionalProperties": false,
+      "properties": {
+        "ltv": {"type": "number"},
+        "term_months": {"type": "integer"},
+        "hours_per_year": {"type": "integer"},
+        "income_proxy": {"type": "string"},
+        "rate": {"type": "string"}
+      }
+    }
+  },
+  "$defs": {
+    "num": {"type": ["number", "null"]},
+    "day": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "point": {
+      "type": "object",
+      "required": ["value", "as_of"],
+      "additionalProperties": false,
+      "properties": {"value": {"$ref": "#/$defs/num"}, "as_of": {"$ref": "#/$defs/day"}}
+    },
+    "measure": {
+      "type": "object",
+      "required": ["code", "label", "unit", "value", "as_of", "yoy_pct"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"type": "string"},
+        "label": {"type": "string"},
+        "unit": {"type": "string"},
+        "value": {"$ref": "#/$defs/num"},
+        "as_of": {"$ref": "#/$defs/day"},
+        "yoy_pct": {"$ref": "#/$defs/num"}
+      }
+    }
+  }
+}

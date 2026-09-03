@@ -338,3 +338,8 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
   .citation { display: flex !important; }
   .citation .tool-btn { display: none !important; }
 }
+
+/* --- since-yesterday strip (batch 4e) --- */
+.since-strip { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 12px 0 4px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); font-size: 12.5px; }
+.since-label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-sky); font-weight: 600; }
+.since-link { color: var(--accent-sky); text-decoration: none; margin-left: auto; white-space: nowrap; }

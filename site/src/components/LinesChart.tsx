@@ -33,16 +33,30 @@ export function LinesChart({
   recessions = true,
   refLine,
   refLabel,
+  yUnit = "%",
+  yPrefix = "",
 }: {
   series: LineSeries[];
   height?: number;
   recessions?: boolean;
   refLine?: number;
   refLabel?: string;
+  /** axis/tooltip suffix — baseOption() assumes "%"; pass "" for an index,
+   *  "bn" for $bn etc. Strings only: this is rendered from server pages. */
+  yUnit?: string;
+  yPrefix?: string;
 }) {
   const option = useMemo(
-    () => ({
-      ...baseOption(),
+    () => {
+      const base = baseOption();
+      const fmt = (v: number) => `${yPrefix}${Number.isInteger(v) ? v.toLocaleString("en-US") : v.toFixed(2)}${yUnit}`;
+      const axis = yUnit === "%" && !yPrefix ? {} : {
+        yAxis: { ...base.yAxis, axisLabel: { ...(base.yAxis as { axisLabel?: object }).axisLabel, formatter: fmt } },
+        tooltip: { ...base.tooltip, valueFormatter: (v: unknown) => (typeof v === "number" ? fmt(v) : "—") },
+      };
+      return {
+      ...base,
+      ...axis,
       series: series.map((s, i) => ({
         name: s.name,
         type: "line",
@@ -72,8 +86,9 @@ export function LinesChart({
             }
           : {}),
       })),
-    }),
-    [series, recessions, refLine, refLabel],
+      };
+    },
+    [series, recessions, refLine, refLabel, yUnit, yPrefix],
   );
   return <EChart option={option} height={height} />;
 }

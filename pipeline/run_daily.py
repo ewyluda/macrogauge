@@ -19,9 +19,12 @@ labor jobs dashboard (surfaces via labor_ok), (8) the commodities grid
 DC market panel — county QCEW labor x the hand-tagged capacity roster
 (surfaces via markets_ok), (11) the escalation grading harness — vintage-
 true DC contingency-basis grading plus the P3c lead-lag study (surfaces via
-grades_ok), and (12) the long-lead equipment board — hand-curated vendor
+grades_ok), (12) the long-lead equipment board — hand-curated vendor
 order-book figures joined to the DC engine's price legs (surfaces via
-longlead_ok). A failure in any one phase still publishes status+qa (rc 0)
+longlead_ok), (13) the rates panel (rates_ok), (14) the compute price
+index (compute_ok), (15) the housing panel (housing_ok), and (16) the
+since-yesterday diff, which runs LAST because it diffs every artifact just
+written against a pre-run snapshot (changes_ok). A failure in any one phase still publishes status+qa (rc 0)
 without blocking the others — but a jsonschema.ValidationError re-raises and
 fails the run in every phase: a schema-invalid artifact must never deploy.
 """
@@ -46,7 +49,9 @@ from pipeline.engine import official
 from pipeline.engine import outlook as outlook_engine
 from pipeline.engine.nowcast import build_latest as build_nowcast
 from pipeline.publish import official as official_json
-from pipeline.publish import (capacity as capacity_json, commodities as commodities_json, compare,
+from pipeline.publish import (capacity as capacity_json, changes as changes_json,
+                              commodities as commodities_json, compare, compute as compute_json,
+                              housing as housing_json, rates as rates_json,
                               composites as composite_json,
                               datacenter as datacenter_json, dc_grades as dc_grades_json,
                               dc_markets as dc_markets_json, gaptable,
@@ -131,6 +136,11 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     staleness = {s.code: s.max_staleness_days for s in series}
     engine_state = {}
 
+    # Snapshot yesterday's readings BEFORE any writer overwrites them: the
+    # previous publish is in the checkout, so "what changed since yesterday"
+    # needs no store change (changes.py, batch 4e). None on a fresh out dir.
+    prev_snapshot = changes_json.read_previous(args.out)
+
     def _engine_phase():
         engine_state["cpi"] = cpi = official.latest_yoy(conn, "CPIAUCNS")
         engine_state["gauge_result"] = gauge_result = gauge_engine.run(
@@ -139,7 +149,8 @@ def main(argv=None, http_get=None, http_post=None) -> int:
 
         pulse_path = pulse.write(
             pulse.build(gauge_result, cpi,
-                        next_print=release_calendar.next_print(today)),
+                        next_print=release_calendar.next_print(today),
+                        prev=prev_snapshot["pulse"] if prev_snapshot else None),
             args.out, published_at=published_at)
         validate.validate_file(pulse_path, SCHEMAS / "pulse.schema.json")
         g = gauge_result["variants"]["gauge"]
@@ -416,6 +427,52 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         print(f"published: {ll_path}")
 
     _run_phase("LONGLEAD", _longlead_phase, phase_errors, "longlead")
+
+    # Rates panel (/rates): the Treasury curve, breakevens, credit, dollar,
+    # liquidity and mortgage spread — display-only arithmetic on daily FRED
+    # levels already in the store (batch 4a).
+    def _rates_phase():
+        r_path = rates_json.write(rates_json.build(conn), args.out,
+                                  published_at=published_at)
+        validate.validate_file(r_path, SCHEMAS / "rates.schema.json")
+        print(f"published: {r_path}")
+
+    _run_phase("RATES", _rates_phase, phase_errors, "rates")
+
+    # Compute price index (/compute): token and GPU-hour composites over the
+    # OpenRouter / vast.ai / sfcompute series (batch 4b).
+    def _compute_phase():
+        c_path = compute_json.write(compute_json.build(conn), args.out,
+                                    published_at=published_at)
+        validate.validate_file(c_path, SCHEMAS / "compute.schema.json")
+        print(f"published: {c_path}")
+
+    _run_phase("COMPUTE", _compute_phase, phase_errors, "compute")
+
+    # Housing panel (/housing): prices, rents, sales and the payment-to-
+    # income affordability line (batch 4d).
+    def _housing_phase():
+        h_path = housing_json.write(housing_json.build(conn), args.out,
+                                    published_at=published_at)
+        validate.validate_file(h_path, SCHEMAS / "housing.schema.json")
+        print(f"published: {h_path}")
+
+    _run_phase("HOUSING", _housing_phase, phase_errors, "housing")
+
+    # Since-yesterday diff (/changes + homepage strip + RSS body): diffs the
+    # artifacts just written against the pre-run snapshot. LAST, so every
+    # phase's output is on disk; reads back from disk so a failed engine
+    # phase nulls the headline block instead of taking this one down.
+    def _changes_phase():
+        gq = engine_state.get("gauge_qa") or {}
+        ch_path = changes_json.write(
+            changes_json.build(prev_snapshot, args.out, results,
+                               gate_flags=gq.get("gate_flags")),
+            args.out, published_at=published_at)
+        validate.validate_file(ch_path, SCHEMAS / "changes.schema.json")
+        print(f"published: {ch_path}")
+
+    _run_phase("CHANGES", _changes_phase, phase_errors, "changes")
 
     if nowcast_payload is not None:
         artifacts = {**(artifacts or {}), "nowcast": nowcast_payload}

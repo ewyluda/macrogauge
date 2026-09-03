@@ -23,7 +23,7 @@ def test_build_rounds_and_computes_gap():
     p = pulse.build(GAUGE_RESULT, CPI,
                      next_print={"date": "2026-07-14", "reference_month": "2026-06"})
     assert p["gauge"] == {"yoy_pct": 2.41, "as_of": "2026-07-06",
-                          "coverage_pct": 40.5}
+                          "coverage_pct": 40.5, "prev_yoy_pct": None, "prev_as_of": None}
     assert p["tracker"]["yoy_pct"] == 2.35
     assert p["official"] == {"yoy_pct": 2.4, "prev_yoy_pct": 2.3,
                              "month": "2026-05-01"}
