@@ -27,8 +27,8 @@ FRED_API_KEY=... python -m pipeline.run_daily --store store --out site/public/da
 cd site && npm ci
 npm run dev        # local dev server
 npm run build      # static export (must pass in CI)
-npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcMarkets/longLead) + csv/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth
-npm run e2e        # Playwright smoke + share + batch2-5 — 39 routes (60 pages) / 106 e2e tests, zero console errors
+npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcMarkets/longLead) + csv/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/portfolio
+npm run e2e        # Playwright smoke + share + batch2-6 — 41 routes (62 pages) / 112 e2e tests, zero console errors
 ```
 
 CI (`.github/workflows/ci.yml`) runs two independent jobs on every push/PR: `pipeline` (`pytest -q`)

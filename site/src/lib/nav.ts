@@ -79,6 +79,14 @@ export const NAV: NavEntry[] = [
     label: "AI Infra",
     sections: [
       {
+        title: "For Project Controls",
+        items: [
+          { href: "/project-controls", label: "Start here", emoji: "🧭" },
+          { href: "/portfolio", label: "Portfolio", emoji: "📁" },
+        ],
+      },
+      {
+        title: "Indexes & panels",
         items: [
           { href: "/datacenter", label: "Data Centers", emoji: "🏭" },
           { href: "/capacity", label: "AI Capacity", emoji: "⚡" },

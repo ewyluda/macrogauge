@@ -4,10 +4,8 @@ import gradesJson from "../../../public/data/dc_grades.json";
 import { Section } from "@/components/Section";
 import { Citation } from "@/components/Citation";
 import { fmtSigned } from "@/lib/format";
-import {
-  DcEscalationClient,
-  type EscalationData,
-} from "@/components/DcEscalationClient";
+import { DcEscalationClient } from "@/components/DcEscalationClient";
+import { ESCALATION_DATA, type EscalationData } from "@/lib/escalationData";
 import { escalationGradeSlice } from "@/lib/dcGrades";
 import type { DcGrades } from "@/lib/types";
 
@@ -33,27 +31,7 @@ const moverLabels = movers.map((c) => c.label).join(" and ");
 // cost the design spec says this page does not take on. The slice is ~4KB.
 const grades = escalationGradeSlice(gradesJson as unknown as DcGrades);
 
-// Slice only what the calculator needs — the monthly grid (224 months, 2007-12
-// through 2026-07, ~29.5KB), not the 3,127-point daily series — so the page
-// ships a fraction of the ~614KB artifact.
-const data: EscalationData = {
-  months: build.monthly.months,
-  index: build.monthly.index,
-  componentIndex: build.monthly.components,
-  components: build.components.map((c) => ({
-    code: c.code,
-    label: c.label,
-    group: c.group,
-    weight: c.weight,
-  })),
-  // The client derives the last COMPLETE month via min() of these — the
-  // published grid's trailing month is a partial stub (only the two
-  // live-proxy components move in it), so the raw grid end is unsafe to
-  // anchor a rate on. See lastCompleteMonth() in dcContingency.ts.
-  componentLastObs: build.components.map((c) => c.last_obs),
-  asOf: build.as_of,
-  rebase: dc.rebase,
-};
+const data: EscalationData = ESCALATION_DATA;
 
 export default function Escalation() {
   return (

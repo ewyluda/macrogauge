@@ -392,6 +392,17 @@ into `public/schemas`, gitignored). Gates: pytest 909, vitest 222, e2e 106, 60 p
 
 ## Batch 6 — Project Controls last mile (site-only; register P7 → P6)
 
+**Status: SHIPPED 2026-09-03 on `feat/batch6-project-controls`.** 6a `/project-controls` (vocabulary
+table, eight tool tiles, the three receipts: citation, anchor scatter, ledger); nav AI Infra gets a
+"For Project Controls" section on top. 6b `/portfolio`: projects in `?p=` (JSON) + localStorage,
+sample seeded, per-project to-date (P1 `escalate`) and carry at a reader-selected basis (P3a
+`bases`/`band`) with the p10–p90 band applied in dollars, dollar-weighted totals, cross-project
+component drivers (`bridgeWindow` summed), CSV, JSON import/export via textarea, CopyLink;
+`lib/portfolio.ts` pinned by test to the calculator's own numbers. 6c: `fmtUsd` (whole dollars,
+sign from the rounded value — todo #19), `checkMonth` client validation with distinct
+empty/format/range messages (todo #20), `CarryTable` extracted and shared (todo #37);
+`ESCALATION_DATA` slice shared by both pages. Gates: vitest 230, e2e 112, 62 pages.
+
 Read `docs/plans/2026-07-24-project-controls-gaps.md` §P6/§P7 and the corrections in memory
 before starting; the register's premises have been refuted four times by recon.
 

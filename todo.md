@@ -81,16 +81,16 @@ methodology constraints remain in
   five pipeline unlocks (rates, compute, USDA, housing, what-changed) → receipts surfaces →
   Project Controls P7/P6 → hygiene. Absorbs P5 (#14), P6 (#15), P7 (#16) and #7.
 
-- [ ] **#14 (absorbs #6) — P5 claims-grade artifacts.** Ship CSV/Excel export, a stable citation
+- [x] **#14 (absorbs #6) — P5 claims-grade artifacts.** *(done 2026-09-03, batches 1 + 5: CSV/JSON export, citation string, `/as-of` ledger, `/data`; the monthly PDF is deliberately not built — print CSS covers it)* Ship CSV/Excel export, a stable citation
   string, a monthly one-page PDF, and a point-in-time page backed by the append-only vintage store.
   Treat export as the claims workflow, not a standalone hygiene task.
 
-- [ ] **#15 — P6 portfolio/program view.** Let readers define local projects (market, MW, base
+- [x] **#15 — P6 portfolio/program view.** *(done 2026-09-03, batch 6: `/portfolio`)* Let readers define local projects (market, MW, base
   estimate/date, delivery date) and aggregate escalation exposure in localStorage/URL state. P1 and
   P3 are now complete; the forward leg must remain a reader-selected historical contingency basis,
   not an unstated forecast.
 
-- [ ] **#16 — P7 Project Controls landing page and vocabulary.** Create a dedicated entry surface
+- [x] **#16 — P7 Project Controls landing page and vocabulary.** *(done 2026-09-03, batch 6: `/project-controls`)* Create a dedicated entry surface
   using escalation, basis of estimate, contingency, long-lead, $/MW, and energization language;
   route into `/datacenter`, `/escalation`, `/markets`, `/longlead`, and `/capacity`.
 
@@ -115,10 +115,10 @@ methodology constraints remain in
   so that half of the old item is complete. What remains is visible copy when any graded/pending or
   backtest collection is empty instead of rendering a blank table body.
 
-- [ ] **#19 — Normalize escalation currency formatting.** Reconcile `$X.XXM` with adjacent exact
+- [x] **#19 — Normalize escalation currency formatting.** *(done 2026-09-03, batch 6: `fmtUsd`)* Reconcile `$X.XXM` with adjacent exact
   dollars and prevent small negative amounts from rendering as `−$0`.
 
-- [ ] **#20 — Validate month inputs independently of native browser support.** Safari may render
+- [x] **#20 — Validate month inputs independently of native browser support.** *(done 2026-09-03, batch 6: `lib/monthInput.ts`)* Safari may render
   `<input type="month">` as text and ignore `min`/`max`; invalid text currently falls through to a
   misleading “index starts in 2018-01” message. Parse and report invalid/out-of-range values in the
   client.
@@ -148,7 +148,7 @@ methodology constraints remain in
   value change so last-day-of-month sampling is observable, and give
   `tests/test_datacenter_writer.py` a six-decimal value so the 4dp publishing contract can fail.
 
-- [ ] **#37 — Extract the “What you could carry” block from `DcEscalationClient.tsx`.** The file is
+- [x] **#37 — Extract the “What you could carry” block from `DcEscalationClient.tsx`.** *(done 2026-09-03, batch 6: `CarryTable.tsx`)* The file is
   still roughly 460 lines; the basis table/band section remains a clean, copy-stable component seam.
 
 - [ ] **#40 — Finish the useful P3a test tightening.** The absolute-end guard now has a regression

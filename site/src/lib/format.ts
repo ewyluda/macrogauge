@@ -58,3 +58,13 @@ export function fmtPp(pp: number | null): string {
   const s = r > 0 ? "+" : r < 0 ? "−" : "";
   return `${s}${Math.abs(r).toFixed(2)}pp`;
 }
+
+/** Whole-dollar currency with a sign taken from the ROUNDED value, so −0.4
+ *  renders "$0" (never "−$0") and every figure on a page shares one scale —
+ *  no "$1.29M" beside "$72,800" (todo #19). */
+export function fmtUsd(v: number | null | undefined): string {
+  if (v == null || !Number.isFinite(v)) return "—";
+  const r = Math.round(v);
+  const s = r < 0 ? "−" : "";
+  return `${s}$${Math.abs(r).toLocaleString("en-US")}`;
+}
