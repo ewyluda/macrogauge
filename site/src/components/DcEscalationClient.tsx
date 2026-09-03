@@ -2,6 +2,9 @@
 import { useUrlState } from "@/lib/useUrlState";
 import { codecs } from "@/lib/urlState";
 import { CopyLink } from "./CopyLink";
+import { CarryTable } from "./CarryTable";
+import { checkMonth } from "@/lib/monthInput";
+import type { EscalationData } from "@/lib/escalationData";
 import { KpiCard } from "./KpiCard";
 import {
   addMonths,
@@ -23,27 +26,11 @@ import {
   pairedShortfall,
   type GradeLegs,
 } from "@/lib/dcGrades";
-import { fmtPp, fmtSigned } from "@/lib/format";
+import { fmtPp, fmtSigned, fmtUsd } from "@/lib/format";
 
-export type EscalationData = {
-  months: string[];
-  index: number[];
-  componentIndex: Record<string, number[]>;
-  components: BridgeComponent[];
-  /** Per-component last_obs, for deriving the last COMPLETE month — the
-   *  published grid's trailing month is a partial stub. */
-  componentLastObs: string[];
-  asOf: string;
-  rebase: string;
-};
+export type { EscalationData };
 
-const usd = (v: number) => {
-  const sign = v < 0 ? "−" : "";
-  const abs = Math.abs(v);
-  return abs >= 1_000_000
-    ? `${sign}$${(abs / 1_000_000).toFixed(2)}M`
-    : `${sign}$${Math.round(abs).toLocaleString("en-US")}`;
-};
+const usd = fmtUsd;
 
 export function DcEscalationClient({
   data,
@@ -85,17 +72,19 @@ export function DcEscalationClient({
   // diverge; this just keeps the lookup itself total against a wider type.
   const gradeBasisKey = chosen ? GRADE_BASIS_KEY[chosen.key] ?? null : null;
 
-  const deliveryValid =
-    !!deliveryMonth && !!anchor &&
-    deliveryMonth > lastMonth && deliveryMonth <= maxDelivery;
+  // Validate the typed strings, not just the native picker's min/max: Safari
+  // renders <input type="month"> as free text and ignores both (todo #20).
+  const baseCheck = checkMonth(baseMonth, firstMonth, lastMonth, "base month");
+  const deliveryCheck = deliveryMonth ? checkMonth(deliveryMonth, minDelivery, maxDelivery, "delivery month") : null;
+  const deliveryValid = !!deliveryCheck && deliveryCheck.ok && !!anchor;
   const horizon = deliveryValid ? monthDiff(lastMonth, deliveryMonth) : 0;
 
-  const result = escalate(
+  const result = baseCheck.ok ? escalate(
     data.months, data.index, baseMonth, baseCost,
     deliveryValid && chosen
       ? { deliveryMonth, annualizedPct: chosen.annualizedPct }
       : null
-  );
+  ) : null;
 
   const bandRow =
     deliveryValid && anchor && horizon >= MIN_HORIZON_MONTHS
@@ -259,7 +248,12 @@ export function DcEscalationClient({
         </p>
       )}
 
-      {!result && (
+      {!baseCheck.ok && (
+        <div data-testid="base-month-error" style={{ color: "var(--accent-amber)", fontSize: 13, padding: 24 }}>
+          {baseCheck.message}
+        </div>
+      )}
+      {baseCheck.ok && !result && (
         <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>
           The index starts in {firstMonth}. Pick a later base month.
         </div>
@@ -271,7 +265,12 @@ export function DcEscalationClient({
         </div>
       )}
 
-      {deliveryMonth && !deliveryValid && (
+      {deliveryCheck && !deliveryCheck.ok && deliveryCheck.reason === "format" && (
+        <div data-testid="delivery-month-error" style={{ color: "var(--accent-amber)", fontSize: 13, padding: 24 }}>
+          {deliveryCheck.message}
+        </div>
+      )}
+      {deliveryCheck && !deliveryCheck.ok && deliveryCheck.reason !== "format" && (
         <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>
           Pick a delivery month between {minDelivery} and {maxDelivery}. We cap the
           forward leg at {MAX_HORIZON_MONTHS} months because the realized sample is
@@ -421,86 +420,9 @@ export function DcEscalationClient({
             </div>
           </div>
 
-          {anchor && basisRows.length > 0 && (
-            <div className="table-card" style={{ marginTop: 16 }}>
-              <h2>
-                What you could carry{" "}
-                <span className="subtitle">
-                  realized regimes, measured to {anchor} — not a forecast
-                </span>
-              </h2>
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>Basis</th>
-                    <th>Window</th>
-                    <th>Annualized</th>
-                    <th>Cumulative</th>
-                    {deliveryValid && <th>Your {horizon}mo factor</th>}
-                  </tr>
-                </thead>
-                <tbody>
-                  {basisRows.map((b) => (
-                    <tr
-                      key={b.key}
-                      style={
-                        b.key === chosen?.key
-                          ? { background: "var(--bg)", fontWeight: 600 }
-                          : undefined
-                      }
-                    >
-                      <td>
-                        {b.label}
-                        <div style={{ fontSize: 11, color: "var(--muted)" }}>{b.note}</div>
-                      </td>
-                      <td>
-                        {b.startMonth} → {b.endMonth}{" "}
-                        <span style={{ color: "var(--muted)" }}>({b.months}mo)</span>
-                      </td>
-                      <td>{fmtSigned(b.annualizedPct)}/yr</td>
-                      <td>{fmtSigned(b.cumulativePct)}</td>
-                      {deliveryValid && (
-                        <td>
-                          ×
-                          {Math.pow(1 + b.annualizedPct / 100, horizon / 12).toFixed(4)}
-                        </td>
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {bandRow && (
-                <div
-                  style={{ fontSize: 12, color: "var(--muted)", padding: "8px 12px" }}
-                >
-                  Across every realized {bandRow.horizonMonths}-month window in the{" "}
-                  {bandRow.sampleStartMonth}–{bandRow.sampleEndMonth} sample, annualized
-                  DC Build escalation ran{" "}
-                  <strong>
-                    {bandRow.p10.toFixed(2)}% (p10) → {bandRow.p50.toFixed(2)}% (p50) →{" "}
-                    {bandRow.p90.toFixed(2)}% (p90)
-                  </strong>
-                  . That is {bandRow.windows} overlapping windows —{" "}
-                  <strong>≈{bandRow.independentDraws.toFixed(1)} independent</strong>{" "}
-                  draws — and {bandRow.spikeOverlapPct.toFixed(0)}% of them touch the
-                  2021–22 overlap window (narrower than the 2021–23 span the Peak-regime
-                  basis above carries — the two are measured for different purposes). It
-                  is a range of what has happened, not a probability distribution over
-                  what will.
-                </div>
-              )}
-              {!bandRow && deliveryValid && (
-                <div
-                  style={{ fontSize: 12, color: "var(--muted)", padding: "8px 12px" }}
-                >
-                  No realized band here — it needs a window of at least{" "}
-                  {MIN_HORIZON_MONTHS} months to compare like-length history, and your{" "}
-                  {horizon}-month delivery window is shorter. The bases above still
-                  apply — they&apos;re rates, not tied to any one window length — there
-                  just isn&apos;t enough same-length history to bound them with a band.
-                </div>
-              )}
-            </div>
+          {anchor && (
+            <CarryTable basisRows={basisRows} chosenKey={chosen?.key ?? null} deliveryValid={deliveryValid}
+              horizon={horizon} bandRow={bandRow} anchor={anchor} />
           )}
         </>
       )}

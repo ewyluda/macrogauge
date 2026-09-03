@@ -17,3 +17,16 @@ describe("fmtMonth", () => {
     expect(fmtMonth("2026-05-01")).toBe("May 2026");
   });
 });
+
+import { fmtUsd } from "./format";
+
+describe("fmtUsd", () => {
+  it("prints whole dollars with the sign from the rounded value", () => {
+    expect(fmtUsd(1_290_000.4)).toBe("$1,290,000");
+    expect(fmtUsd(-17_639.2)).toBe("−$17,639");
+    expect(fmtUsd(-0.4)).toBe("$0");
+    expect(fmtUsd(0.4)).toBe("$0");
+    expect(fmtUsd(null)).toBe("—");
+    expect(fmtUsd(NaN)).toBe("—");
+  });
+});

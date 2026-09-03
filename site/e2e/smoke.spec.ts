@@ -42,6 +42,8 @@ const ROUTES: [string, string][] = [
   ["/as-of", "what the site said on any publish, never restated"],
   ["/data", "every artifact, its schema, and how to cite it"],
   ["/components/fuel", "of the basket"],
+  ["/project-controls", "escalation you can put in a document"],
+  ["/portfolio", "escalation exposure, project by project"],
   ["/next-print", "who’s where"],
   ["/heatcheck", "Economy Heat Check"],
   ["/stress", "Consumer Stress Index"],
