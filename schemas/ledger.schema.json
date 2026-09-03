@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ledger",
+  "type": "object",
+  "required": ["published_at", "appended_today", "first_publish", "rows"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "appended_today": {"type": "boolean"},
+    "first_publish": {"type": ["string", "null"]},
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["published_at", "date"],
+        "properties": {
+          "published_at": {"type": "string"},
+          "date": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+          "gauge_yoy_pct": {"type": ["number", "null"]},
+          "gauge_as_of": {"type": ["string", "null"]},
+          "tracker_yoy_pct": {"type": ["number", "null"]},
+          "tracker_as_of": {"type": ["string", "null"]},
+          "col_yoy_pct": {"type": ["number", "null"]},
+          "col_as_of": {"type": ["string", "null"]},
+          "supercore_yoy_pct": {"type": ["number", "null"]},
+          "supercore_as_of": {"type": ["string", "null"]},
+          "pce_yoy_pct": {"type": ["number", "null"]},
+          "pce_as_of": {"type": ["string", "null"]},
+          "official_month": {"type": ["string", "null"]},
+          "official_yoy_pct": {"type": ["number", "null"]},
+          "coverage_pct": {"type": ["number", "null"]},
+          "dc_build_yoy_pct": {"type": ["number", "null"]},
+          "dc_build_as_of": {"type": ["string", "null"]},
+          "dc_ops_yoy_pct": {"type": ["number", "null"]},
+          "dc_ops_as_of": {"type": ["string", "null"]},
+          "dc_hardware_yoy_pct": {"type": ["number", "null"]},
+          "dc_hardware_as_of": {"type": ["string", "null"]}
+        }
+      }
+    }
+  }
+}

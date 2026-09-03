@@ -520,3 +520,31 @@ export type Changes = {
   sources_failed: string[];
   gate_holds: unknown[];
 };
+
+// --- batch 5 (2026-09-03) ---------------------------------------------------
+
+export type RevisionIndexRow = { reference_period: string; first_value: number; first_release_date: string; latest_value: number;
+  latest_vintage: string | null; n_vintages: number; revision_pct: number | null; yoy_first_pct: number | null;
+  yoy_latest_pct: number | null; yoy_revision_pp: number | null };
+export type RevisionLevelRow = { reference_period: string; first_value: number; first_release_date: string; latest_value: number;
+  latest_vintage: string | null; n_vintages: number; revision_k: number; change_first_k: number | null;
+  change_latest_k: number | null; change_revision_k: number | null };
+export type Revisions = {
+  published_at: string;
+  window: number;
+  targets: {
+    cpi: { code: string; kind: "index"; rows: RevisionIndexRow[]; summary: { n: number; n_revised: number; mean_abs_yoy_revision_pp: number | null; mean_revision: number | null } };
+    pce: { code: string; kind: "index"; rows: RevisionIndexRow[]; summary: { n: number; n_revised: number; mean_abs_yoy_revision_pp: number | null; mean_revision: number | null } };
+    nfp: { code: string; kind: "level_k"; rows: RevisionLevelRow[]; summary: { n: number; n_revised: number; mean_abs_change_revision_k: number | null; mean_revision: number | null } };
+  };
+};
+
+export type LedgerRow = {
+  published_at: string; date: string;
+  gauge_yoy_pct?: number | null; gauge_as_of?: string | null; tracker_yoy_pct?: number | null; tracker_as_of?: string | null;
+  col_yoy_pct?: number | null; col_as_of?: string | null; supercore_yoy_pct?: number | null; supercore_as_of?: string | null;
+  pce_yoy_pct?: number | null; pce_as_of?: string | null; official_month?: string | null; official_yoy_pct?: number | null;
+  coverage_pct?: number | null; dc_build_yoy_pct?: number | null; dc_build_as_of?: string | null;
+  dc_ops_yoy_pct?: number | null; dc_ops_as_of?: string | null; dc_hardware_yoy_pct?: number | null; dc_hardware_as_of?: string | null;
+};
+export type Ledger = { published_at: string; appended_today: boolean; first_publish: string | null; rows: LedgerRow[] };

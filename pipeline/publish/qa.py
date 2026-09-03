@@ -21,7 +21,7 @@ GAUGE_COVERAGE_FLOOR = 40.0
 # here — fails its check instead of silently reading "completed".
 PHASES = ("nowcast", "outlook", "composites", "datacenter", "geography",
           "labor", "commodities", "capacity", "markets", "grades", "longlead",
-          "rates", "compute", "housing", "changes")
+          "rates", "compute", "housing", "changes", "revisions", "ledger")
 _PHASE_DONE = {"nowcast": "nowcast completed",
                "outlook": "12-month outlook completed",
                "composites": "composites completed",
@@ -36,7 +36,9 @@ _PHASE_DONE = {"nowcast": "nowcast completed",
                "rates": "rates panel completed",
                "compute": "compute price index completed",
                "housing": "housing panel completed",
-               "changes": "since-yesterday diff completed"}
+               "changes": "since-yesterday diff completed",
+               "revisions": "revisions panel completed",
+               "ledger": "publish ledger completed"}
 
 
 def run_checks(cpi: dict | None, today: str, source_results: list | None = None,

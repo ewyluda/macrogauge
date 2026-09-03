@@ -21,6 +21,8 @@
           "label": {"type": "string"},
           "weight": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
           "mode": {"enum": ["live", "bls_cf"]},
+          "last_obs": {"type": ["string", "null"]},
+          "gate_flags": {"type": "array", "items": {"type": "string"}},
           "index": {"type": "array", "items": {"type": "number"}},
           "bls_index": {"type": "array", "items": {"type": "number"}},
           "yoy": {"type": "array", "items": {"type": ["number", "null"]}},

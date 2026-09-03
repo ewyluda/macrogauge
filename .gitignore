@@ -15,3 +15,4 @@ site/tsconfig.tsbuildinfo
 .playwright-mcp/
 .playwright-cli/
 output/playwright/
+site/public/schemas/

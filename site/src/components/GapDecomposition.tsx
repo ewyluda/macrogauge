@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { fmtMonth, fmtPp, fmtSigned, yoyColor } from "@/lib/format";
+import { componentHref } from "@/lib/components";
 
 const th: React.CSSProperties = {
   textAlign: "right",
@@ -64,7 +66,7 @@ export function GapDecomposition({
         <tbody>
           {rows.map((r) => (
             <tr key={r.component}>
-              <td style={{ ...td, textAlign: "left", fontSize: 14 }}>{r.label}</td>
+              <td style={{ ...td, textAlign: "left", fontSize: 14 }}><Link href={componentHref(r.component)}>{r.label}</Link></td>
               <td style={td}>{(r.weight * 100).toFixed(1)}%</td>
               <td style={{ ...td, textAlign: "center" }}>
                 <span

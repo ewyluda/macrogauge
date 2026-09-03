@@ -19,6 +19,11 @@ def build(gauge_result: dict, comps) -> dict:
         components.append({
             "code": comp.code, "label": comp.label, "weight": comp.weight,
             "mode": e["mode"],
+            # batch 5a (2026-09-03): the component's own last observation and
+            # any gate holds naming it, so /components/[code] can show the
+            # receipts without a second artifact
+            "last_obs": e.get("last_obs"),
+            "gate_flags": [f for f in g.get("gate_flags", []) if f.startswith(f"{comp.code}@")],
             "index": [round(e["daily_index"][d], 2) for d in dates],
             "bls_index": [round(e["official_daily_index"][d], 2)
                           for d in dates],

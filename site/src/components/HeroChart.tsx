@@ -29,6 +29,7 @@ export function HeroChart({
   gaugeIndex,
   trackerIndex,
   colIndex,
+  markers,
 }: {
   dates: string[];
   gauge: (number | null)[];
@@ -44,6 +45,8 @@ export function HeroChart({
   gaugeIndex?: (number | null)[];
   trackerIndex?: (number | null)[];
   colIndex?: (number | null)[];
+  /** vertical rules — CPI release days and the next scheduled print (batch 5d) */
+  markers?: { date: string; label: string }[];
 }) {
   const [rate, setRate] = useRateMode();
   const momentum = rate !== "yoy" && !!gaugeIndex;
@@ -90,6 +93,17 @@ export function HeroChart({
               itemStyle: { color: "rgba(139, 152, 165, 0.08)" },
               data: NBER_RECESSIONS.map(([a, b]) => [{ xAxis: a }, { xAxis: b }]),
             },
+            ...(markers && markers.length
+              ? {
+                  markLine: {
+                    silent: true,
+                    symbol: "none",
+                    lineStyle: { color: "rgba(139, 152, 165, 0.35)", type: "dotted", width: 1 },
+                    label: { show: false },
+                    data: markers.filter((m) => !start || m.date >= start).map((m) => ({ xAxis: m.date, name: m.label })),
+                  },
+                }
+              : {}),
           },
           {
             name: `CPI-Tracker${suffix}`,
@@ -133,7 +147,7 @@ export function HeroChart({
         ],
       };
     },
-    [daily, monthly, col, start, momentum, rate],
+    [daily, monthly, col, start, momentum, rate, markers],
   );
   return (
     <div>

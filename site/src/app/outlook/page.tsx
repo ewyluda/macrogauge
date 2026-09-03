@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { componentHref } from "@/lib/components";
 import outlookJson from "../../../public/data/outlook.json";
 import quiltJson from "../../../public/data/quilt_months_24.json";
 import { KpiCard } from "@/components/KpiCard";
@@ -178,7 +180,7 @@ export default function OutlookPage() {
                 const matched = driversFor(c.code);
                 return (
                   <tr key={c.code}>
-                    <td>{c.label}</td>
+                    <td><Link href={componentHref(c.code)}>{c.label}</Link></td>
                     <td>{(c.weight * 100).toFixed(1)}%</td>
                     <td style={{ color: yoyColor(nowYoy) }}>
                       {nowYoy === null ? "—" : `${nowYoy.toFixed(2)}%`}

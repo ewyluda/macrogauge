@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "revisions",
+  "type": "object",
+  "required": ["published_at", "window", "targets"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "window": {"type": "integer", "minimum": 1},
+    "targets": {
+      "type": "object",
+      "required": ["cpi", "pce", "nfp"],
+      "additionalProperties": false,
+      "properties": {
+        "cpi": {"$ref": "#/$defs/index_target"},
+        "pce": {"$ref": "#/$defs/index_target"},
+        "nfp": {"$ref": "#/$defs/level_target"}
+      }
+    }
+  },
+  "$defs": {
+    "num": {"type": ["number", "null"]},
+    "base_row": {
+      "reference_period": {"type": "string", "pattern": "^\\d{4}-\\d{2}$"},
+      "first_value": {"type": "number"},
+      "first_release_date": {"type": "string"},
+      "latest_value": {"type": "number"},
+      "latest_vintage": {"type": ["string", "null"]},
+      "n_vintages": {"type": "integer", "minimum": 1}
+    },
+    "index_target": {
+      "type": "object",
+      "required": ["code", "kind", "rows", "summary"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"type": "string"},
+        "kind": {"const": "index"},
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["reference_period", "first_value", "first_release_date", "latest_value",
+                         "latest_vintage", "n_vintages", "revision_pct", "yoy_first_pct",
+                         "yoy_latest_pct", "yoy_revision_pp"],
+            "additionalProperties": false,
+            "properties": {
+              "reference_period": {"type": "string", "pattern": "^\\d{4}-\\d{2}$"},
+              "first_value": {"type": "number"},
+              "first_release_date": {"type": "string"},
+              "latest_value": {"type": "number"},
+              "latest_vintage": {"type": ["string", "null"]},
+              "n_vintages": {"type": "integer", "minimum": 1},
+              "revision_pct": {"$ref": "#/$defs/num"},
+              "yoy_first_pct": {"$ref": "#/$defs/num"},
+              "yoy_latest_pct": {"$ref": "#/$defs/num"},
+              "yoy_revision_pp": {"$ref": "#/$defs/num"}
+            }
+          }
+        },
+        "summary": {
+          "type": "object",
+          "required": ["n", "n_revised", "mean_abs_yoy_revision_pp", "mean_revision"],
+          "additionalProperties": false,
+          "properties": {
+            "n": {"type": "integer"},
+            "n_revised": {"type": "integer"},
+            "mean_abs_yoy_revision_pp": {"$ref": "#/$defs/num"},
+            "mean_revision": {"$ref": "#/$defs/num"}
+          }
+        }
+      }
+    },
+    "level_target": {
+      "type": "object",
+      "required": ["code", "kind", "rows", "summary"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"type": "string"},
+        "kind": {"const": "level_k"},
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["reference_period", "first_value", "first_release_date", "latest_value",
+                         "latest_vintage", "n_vintages", "revision_k", "change_first_k",
+                         "change_latest_k", "change_revision_k"],
+            "additionalProperties": false,
+            "properties": {
+              "reference_period": {"type": "string", "pattern": "^\\d{4}-\\d{2}$"},
+              "first_value": {"type": "number"},
+              "first_release_date": {"type": "string"},
+              "latest_value": {"type": "number"},
+              "latest_vintage": {"type": ["string", "null"]},
+              "n_vintages": {"type": "integer", "minimum": 1},
+              "revision_k": {"type": "number"},
+              "change_first_k": {"$ref": "#/$defs/num"},
+              "change_latest_k": {"$ref": "#/$defs/num"},
+              "change_revision_k": {"$ref": "#/$defs/num"}
+            }
+          }
+        },
+        "summary": {
+          "type": "object",
+          "required": ["n", "n_revised", "mean_abs_change_revision_k", "mean_revision"],
+          "additionalProperties": false,
+          "properties": {
+            "n": {"type": "integer"},
+            "n_revised": {"type": "integer"},
+            "mean_abs_change_revision_k": {"$ref": "#/$defs/num"},
+            "mean_revision": {"$ref": "#/$defs/num"}
+          }
+        }
+      }
+    }
+  }
+}
