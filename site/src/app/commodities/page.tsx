@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import commoditiesJson from "../../../public/data/commodities.json";
 import { KpiCard } from "@/components/KpiCard";
+import { DownloadData } from "@/components/DownloadData";
 import { TailSpark } from "@/components/TailSpark";
 import { fmtDay, fmtSigned, yoyColor } from "@/lib/format";
 import type { Commodities, CommodityRow } from "@/lib/types";
@@ -48,6 +49,14 @@ export default function Page() {
         year-over-year is real, not a since-launch approximation.
       </p>
 
+      <div className="section-tools">
+        <DownloadData
+          filename="macrogauge-commodities"
+          json="commodities.json"
+          citation={`MacroGauge commodities grid, published ${data.published_at}`}
+          rows={data.groups.flatMap((g) => g.rows.map(({ spark: _s, ...r }) => ({ group: g.group, ...r })))}
+        />
+      </div>
       <div className="kpi-row">
         <KpiCard
           label="Copper"

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import llJson from "../../../public/data/longlead.json";
 import { KpiCard } from "@/components/KpiCard";
+import { DownloadData } from "@/components/DownloadData";
+import { flattenRow } from "@/lib/csv";
 import { fmtSigned } from "@/lib/format";
 import { BASIS_LABELS, fmtFigure, fmtWeightPct, noteSegments } from "@/lib/longLead";
 import type { LongLead, LongLeadPackage, LongLeadVendor } from "@/lib/types";
@@ -127,6 +129,14 @@ export default function Page() {
         lead-time quote in weeks. Every figure links to the company document
         that states it.
       </p>
+      <div className="section-tools">
+        <DownloadData filename="macrogauge-longlead" json="longlead.json"
+          citation={`MacroGauge long-lead board, curated ${data.as_of_curated}`}
+          rows={data.packages.flatMap((p) => p.vendors.flatMap((v) =>
+            v.figures.length
+              ? v.figures.map((f) => ({ package: p.label, vendor: v.name, ticker: v.ticker, stale: v.stale, ...flattenRow(f) }))
+              : [{ package: p.label, vendor: v.name, ticker: v.ticker, stale: v.stale, null_note: v.null_note }]))} />
+      </div>
       <div className="kpi-row">
         <KpiCard
           label="Packages tracked"

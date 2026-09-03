@@ -1,5 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useUrlState } from "@/lib/useUrlState";
+import { codecs } from "@/lib/urlState";
+import { CopyLink } from "./CopyLink";
 import { SegmentedControl } from "./SegmentedControl";
 import { DataUnavailable } from "./DataUnavailable";
 import { heatColor } from "@/lib/heat";
@@ -77,8 +79,8 @@ function Cell({ v }: { v: number | null }) {
 }
 
 export function QuiltHeatmap() {
-  const [win, setWin] = useState<WindowKey>("24");
-  const [mode, setMode] = useState<QuiltMode>("ours");
+  const [win, setWin] = useUrlState<WindowKey>("qw", "24", codecs.enumOf(WINDOWS.map((w) => w.key)));
+  const [mode, setMode] = useUrlState<QuiltMode>("qm", "ours", codecs.enumOf(MODES.map((m) => m.key)));
   const { data: compare, failed: compareFailed } = useJson<Compare>("/data/compare.json");
   // One hook per artifact: the window file rides the same abort-on-change,
   // failed-state path as compare.json instead of a bespoke effect whose
@@ -156,6 +158,7 @@ export function QuiltHeatmap() {
         >
           ⬇ Export 1920×1080 PNG
         </button>
+        <CopyLink />
       </div>
       <div style={{ overflowX: "auto" }}>
         <table style={{ borderCollapse: "collapse" }}>

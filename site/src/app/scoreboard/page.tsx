@@ -4,6 +4,7 @@ import accountability from "../../../public/data/accountability_cpi.json";
 import accountabilityPce from "../../../public/data/accountability_pce.json";
 import accountabilityNfp from "../../../public/data/accountability_nfp.json";
 import { KpiCard } from "@/components/KpiCard";
+import { DownloadData } from "@/components/DownloadData";
 import { Section } from "@/components/Section";
 import { fmtPp } from "@/lib/format";
 
@@ -52,6 +53,7 @@ export default function Scoreboard() {
       <KpiCard label="Naive MAE" value={summary.naive_mae_pp == null ? "—" : `${summary.naive_mae_pp.toFixed(2)}pp`} context="Last known monthly print" accent="amber" />
       <KpiCard label="Live grades" value={String(graded.length)} context={`${pending.length} pending`} accent="emerald" /></div>
     <Section title="Live grades — real-time calls, receipts included">
+      <div className="section-tools"><DownloadData filename="macrogauge-cpi-grades" json="accountability_cpi.json" citation="MacroGauge live CPI grades" rows={[...graded, ...pending]} /></div>
       <div className="table-card"><table className="data-table"><thead><tr><th>Print</th><th>Badge</th><th>Forecast MoM</th><th>Actual MoM</th><th>Error</th><th>Called on</th><th>Graded on</th></tr></thead><tbody>
         {graded.map(g => <tr key={`g-${g.reference_period}-${g.as_of}`}><td>{g.reference_period}</td><td><span className="badge">{g.badge}</span></td><td>{g.forecast.toFixed(2)}%</td><td>{g.actual == null ? "—" : `${g.actual.toFixed(2)}%`}</td><td style={{ color: g.error != null && Math.abs(g.error) > 0.1 ? "var(--accent-amber)" : "var(--text)" }}>{fmtPp(g.error)}</td><td>{g.as_of}</td><td>{g.release_date ?? "—"}</td></tr>)}
         {pending.map(p => <tr key={`p-${p.reference_period}-${p.as_of}`}><td>{p.reference_period}</td><td><span className="badge badge-muted">pending</span></td><td>{p.forecast.toFixed(2)}%</td><td>—</td><td>—</td><td>{p.as_of}</td><td>—</td></tr>)}
@@ -59,6 +61,7 @@ export default function Scoreboard() {
       <p className="method">Signed error = forecast − actual (positive = ran hot). Calls freeze at their as-of date and grade automatically when the print lands — nothing is revised after the fact.</p>
     </Section>
     <Section title="Walk-forward backtest — vintage-true history">
+      <div className="section-tools"><DownloadData filename="macrogauge-cpi-backtest" json="backtest.json" citation="MacroGauge vintage-true CPI backtest" rows={rows} /></div>
       <div className="table-card"><table className="data-table"><thead><tr><th>Month</th><th>Badge</th><th>Forecast</th><th>Actual</th><th>Error</th></tr></thead><tbody>{rows.slice(-24).reverse().map(row => <tr key={row.target_month}><td>{row.target_month}</td><td><span className="badge">{row.badge}</span></td><td>{row.forecast_mom_pct.toFixed(2)}%</td><td>{row.actual_mom_pct.toFixed(2)}%</td><td>{row.error_pp.toFixed(2)}pp</td></tr>)}</tbody></table></div>
       <p className="method">BT rows are vintage-true walk-forward values frozen the day before each release — the model never sees data it wouldn&apos;t have had. The backtested model is a three-month average of previously known official prints — a long-history benchmark, not the live bottom-up nowcast graded in the table above (which is too young to backtest vintage-true).</p>
     </Section>

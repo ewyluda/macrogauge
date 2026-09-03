@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import marketsJson from "../../../public/data/dc_markets.json";
 import { KpiCard } from "@/components/KpiCard";
+import { DownloadData } from "@/components/DownloadData";
+import { flattenRow } from "@/lib/csv";
 import { MarketsClient } from "@/components/markets/MarketsClient";
 import { tightnessScore } from "@/lib/dcMarkets";
 import type { DcMarkets } from "@/lib/types";
@@ -35,6 +37,11 @@ export default function Page() {
         twice as fast as the country is a market where your subcontractor
         coverage is thinning.
       </p>
+      <div className="section-tools">
+        <DownloadData filename="macrogauge-dc-markets" json="dc_markets.json"
+          citation={`MacroGauge DC market panel, published ${data.published_at}`}
+          rows={data.markets.map((m) => flattenRow(m))} />
+      </div>
       <div className="kpi-row">
         <KpiCard label="National construction wage"
           value={nat.wage != null ? `$${nat.wage.toLocaleString()}/wk` : "—"}

@@ -1,5 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useUrlState } from "@/lib/useUrlState";
+import { codecs } from "@/lib/urlState";
+import { CopyLink } from "./CopyLink";
 import { KpiCard } from "./KpiCard";
 import {
   addMonths,
@@ -54,10 +56,10 @@ export function DcEscalationClient({
 }) {
   const firstMonth = data.months[0];
   const lastMonth = data.months[data.months.length - 1];
-  const [baseMonth, setBaseMonth] = useState(
-    data.months[Math.max(0, data.months.length - 25)]
+  const [baseMonth, setBaseMonth] = useUrlState(
+    "base", data.months[Math.max(0, data.months.length - 25)], codecs.month()
   );
-  const [baseCost, setBaseCost] = useState(9_000_000);
+  const [baseCost, setBaseCost] = useUrlState("cost", 9_000_000, codecs.float(0, 1e12));
 
   const anchor = lastCompleteMonth(data.months, data.componentLastObs);
   // Cap the input at MAX_HORIZON_MONTHS past the month the forward leg actually
@@ -72,8 +74,8 @@ export function DcEscalationClient({
   // picker's own minimum must be the month after it. Offering `lastMonth` as the
   // min let the native picker propose a value the page then rejected.
   const minDelivery = addMonths(lastMonth, 1);
-  const [deliveryMonth, setDeliveryMonth] = useState("");
-  const [basisKey, setBasisKey] = useState("trailing3y");
+  const [deliveryMonth, setDeliveryMonth] = useUrlState("delivery", "", codecs.month());
+  const [basisKey, setBasisKey] = useUrlState("basis", "trailing3y", codecs.str(30));
 
   const basisRows = anchor ? bases(data.months, data.index, anchor) : [];
   const chosen = basisRows.find((b) => b.key === basisKey) ?? basisRows[0] ?? null;
@@ -217,6 +219,7 @@ export function DcEscalationClient({
         <span style={{ fontSize: 12, color: "var(--muted)" }}>
           your own $/MW, or the whole project — the math is a ratio, so the unit is yours
         </span>
+        <CopyLink />
       </div>
 
       {grades && deliveryValid && chosen && (

@@ -1,5 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useUrlState } from "@/lib/useUrlState";
+import { codecs } from "@/lib/urlState";
+import { CopyLink } from "./CopyLink";
 import { realRaisePct } from "@/lib/realwage";
 import { fmtMonth, fmtPp } from "@/lib/format";
 
@@ -42,7 +44,7 @@ export function RaiseCalculator({
   officialYoy: number;
   officialMonth: string;
 }) {
-  const [raise, setRaise] = useState(4.0);
+  const [raise, setRaise] = useUrlState("raise", 4.0, codecs.float(-100, 1000));
   return (
     <div
       style={{
@@ -92,6 +94,7 @@ export function RaiseCalculator({
           label={`vs official CPI (${fmtMonth(officialMonth)})`}
           pct={realRaisePct(raise, officialYoy)}
         />
+        <CopyLink />
       </div>
       <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 10 }}>
         Real change = (1 + raise) ÷ (1 + inflation) − 1 · gauge{" "}

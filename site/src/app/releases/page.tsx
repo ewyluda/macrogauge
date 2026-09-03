@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import releasesData from "../../../public/data/releases.json";
 import { KpiCard } from "@/components/KpiCard";
+import { DownloadData } from "@/components/DownloadData";
 import { Section } from "@/components/Section";
 import { fmtMonth, fmtStamp } from "@/lib/format";
 
@@ -76,6 +77,11 @@ export default function Releases() {
         Each row is a first print recorded the day it was released. This is the
         vintage log the scoreboard grades against — no restatements, ever.
       </p>
+      <div className="section-tools">
+        <DownloadData filename="macrogauge-releases" json="releases.json"
+          citation={`MacroGauge release log (first prints), published ${releasesData.published_at}`}
+          rows={releases} />
+      </div>
       <div className="kpi-row">
         <KpiCard
           label="CPI first prints"

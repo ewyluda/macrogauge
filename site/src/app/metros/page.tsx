@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import metrosJson from "../../../public/data/metros.json";
 import { KpiCard } from "@/components/KpiCard";
+import { DownloadData } from "@/components/DownloadData";
+import { flattenRow } from "@/lib/csv";
 import { TailSpark } from "@/components/TailSpark";
 import { fmtMoney, fmtSigned, fmtMonth, yoyColor } from "@/lib/format";
 import type { Metros, Metro } from "@/lib/types";
@@ -40,6 +42,11 @@ export default function Metros() {
         rent, so the metros leading shelter inflation sit on top.
       </p>
 
+      <div className="section-tools">
+        <DownloadData filename="macrogauge-metros" json="metros.json"
+          citation={`MacroGauge metro rents (Zillow ZORI/ZHVI), as of ${asOf}`}
+          rows={rows.map((m) => flattenRow(m))} />
+      </div>
       <div className="kpi-row">
         <KpiCard
           label="National rent (ZORI)"

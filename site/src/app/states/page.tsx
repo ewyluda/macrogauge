@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import geoJson from "../../../public/data/geo.json";
 import { KpiCard } from "@/components/KpiCard";
+import { DownloadData } from "@/components/DownloadData";
+import { flattenRow } from "@/lib/csv";
 import { GeoStateMap } from "@/components/GeoStateMap";
 import { fmtSigned, fmtMonth, yoyColor } from "@/lib/format";
 import type { Geo } from "@/lib/types";
@@ -49,6 +51,11 @@ export default function States() {
         recolor the map.
       </p>
 
+      <div className="section-tools">
+        <DownloadData filename="macrogauge-states" json="geo.json"
+          citation={`MacroGauge state cost map, published ${data.published_at}`}
+          rows={rows.map((s) => flattenRow(s))} />
+      </div>
       <div className="kpi-row">
         <KpiCard
           label="US gas (regular)"

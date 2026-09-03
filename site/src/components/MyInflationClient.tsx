@@ -1,5 +1,8 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { useUrlState } from "@/lib/useUrlState";
+import { codecs } from "@/lib/urlState";
+import { CopyLink } from "./CopyLink";
 import { EChart } from "./EChart";
 import { SegmentedControl } from "./SegmentedControl";
 import { DataUnavailable } from "./DataUnavailable";
@@ -57,6 +60,22 @@ const ROWS: {
     ] },
 ];
 
+/** ?me=rent.average.cook.average.no — one token per questionnaire row, in
+ *  ROWS order; any invalid token rejects the whole value (defaults win). */
+const ANSWERS_CODEC = {
+  parse: (s: string): Answers | undefined => {
+    const toks = s.split(".");
+    if (toks.length !== ROWS.length) return undefined;
+    const out: Record<string, string> = {};
+    for (let i = 0; i < ROWS.length; i++) {
+      if (!ROWS[i].options.some((o) => o.key === toks[i])) return undefined;
+      out[ROWS[i].key] = toks[i];
+    }
+    return out as Answers;
+  },
+  format: (a: Answers): string => ROWS.map((r) => a[r.key]).join("."),
+};
+
 export type StateOption = {
   state: string;
   name: string;
@@ -80,8 +99,8 @@ export function MyInflationClient({
   states: StateOption[];
 }) {
   const { data, failed } = useJson<Replay>("/data/replay.json");
-  const [answers, setAnswers] = useState<Answers>(DEFAULT_ANSWERS);
-  const [stateSel, setStateSel] = useState("US");
+  const [answers, setAnswers] = useUrlState<Answers>("me", DEFAULT_ANSWERS, ANSWERS_CODEC);
+  const [stateSel, setStateSel] = useUrlState("state", "US", codecs.str(2));
 
   const weights = useMemo(
     () => (data ? renormalize(applyAnswers(data.components, answers)) : null),
@@ -137,6 +156,7 @@ export function MyInflationClient({
           <option value="US">National (everyone)</option>
           {states.map((s) => <option key={s.state} value={s.state}>{s.name}</option>)}
         </select>
+        <CopyLink />
         {overrides && (
           <span style={{ fontSize: 12, color: "var(--muted)" }}>
             {Object.keys(overrides).length} of 14 components localized ({Object.keys(overrides).join(", ")})

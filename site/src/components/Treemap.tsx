@@ -1,5 +1,8 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { getUrlParam, setUrlParam, useUrlState } from "@/lib/useUrlState";
+import { codecs } from "@/lib/urlState";
+import { CopyLink } from "./CopyLink";
 import { useJson } from "@/lib/useJson";
 import { DataUnavailable } from "./DataUnavailable";
 import { EChart } from "./EChart";
@@ -59,7 +62,7 @@ function modeValue(
 
 export function Treemap() {
   const { data, failed } = useJson<Replay>("/data/replay.json");
-  const [mode, setMode] = useState<ModeKey>("yoy");
+  const [mode, setMode] = useUrlState<ModeKey>("tm", "yoy", codecs.enumOf(MODES.map((m) => m.key)));
   const [pos, setPos] = useState(-1); // month index; -1 = latest (set on load)
   const [playing, setPlaying] = useState(false);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -77,6 +80,20 @@ export function Treemap() {
   }, [data]);
 
   const at = pos === -1 ? monthEnds.length - 1 : pos;
+
+  // ?tmonth=YYYY-MM deep-links a replay frame: adopt it once the month grid
+  // exists, and mirror the scrubber back into the URL (latest = no param).
+  useEffect(() => {
+    if (!monthEnds.length) return;
+    const want = getUrlParam("tmonth", codecs.month());
+    if (!want) return;
+    const i = monthEnds.findIndex((m) => m.month === want);
+    if (i !== -1) setPos(i);
+  }, [monthEnds]);
+  useEffect(() => {
+    if (!monthEnds.length || playing) return;
+    setUrlParam("tmonth", at >= monthEnds.length - 1 ? null : monthEnds[at].month);
+  }, [at, playing, monthEnds]);
 
   useEffect(() => {
     if (!playing) {
@@ -242,6 +259,7 @@ export function Treemap() {
         >
           {frame.month}
         </span>
+        <CopyLink />
       </div>
       <div
         style={{

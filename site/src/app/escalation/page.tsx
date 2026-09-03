@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import dc from "../../../public/data/datacenter.json";
 import gradesJson from "../../../public/data/dc_grades.json";
 import { Section } from "@/components/Section";
+import { Citation } from "@/components/Citation";
+import { fmtSigned } from "@/lib/format";
 import {
   DcEscalationClient,
   type EscalationData,
@@ -65,6 +67,7 @@ export default function Escalation() {
       </h1>
       <div style={{ marginTop: 24 }}>
         <DcEscalationClient data={data} grades={grades} />
+        <Citation live series="DC Build Index (escalation)" asOf={data.asOf} rebase={dc.rebase} value={`${fmtSigned(build.headline_yoy_pct)} YoY`} path="/escalation" />
       </div>
       <Section title="Methodology">
         <div style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.6 }}>

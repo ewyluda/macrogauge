@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import grocery from "../../../public/data/grocery_basket.json";
 import { KpiCard } from "@/components/KpiCard";
+import { DownloadData } from "@/components/DownloadData";
 import { Section } from "@/components/Section";
 import { SparklineCard } from "@/components/SparklineCard";
 import { DeltaChip } from "@/components/DeltaChip";
@@ -42,6 +43,14 @@ export default function Grocery() {
         </span>
       </h1>
 
+      <div className="section-tools">
+        <DownloadData
+          filename="macrogauge-grocery"
+          json="grocery_basket.json"
+          citation={`MacroGauge grocery staples (BLS average prices), published ${grocery.published_at}`}
+          rows={items.map(({ series: _s, ...r }) => r)}
+        />
+      </div>
       <div className="kpi-row">
         <KpiCard
           label="Items tracked"

@@ -1,5 +1,8 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { useUrlState } from "@/lib/useUrlState";
+import { codecs } from "@/lib/urlState";
+import { CopyLink } from "../CopyLink";
 import type { Capacity, CapacityCompany, CapacityCohortKey } from "@/lib/types";
 import { buildTimeline } from "@/lib/capacityTimeline";
 import { CapacityBars } from "./CapacityBars";
@@ -33,10 +36,10 @@ function sortVal(c: CapacityCompany, key: string): number {
 }
 
 export function CapacityClient({ data }: { data: Capacity }) {
-  const [tab, setTab] = useState<(typeof TABS)[number]>("Capacity");
-  const [cohort, setCohort] = useState<CapacityCohortKey>("all");
-  const [query, setQuery] = useState("");
-  const [sort, setSort] = useState("total");
+  const [tab, setTab] = useUrlState<(typeof TABS)[number]>("tab", "Capacity", codecs.enumOf(TABS));
+  const [cohort, setCohort] = useUrlState<CapacityCohortKey>("cohort", "all", codecs.enumOf(COHORTS.map((c) => c[0])));
+  const [query, setQuery] = useUrlState("q", "", codecs.str(60));
+  const [sort, setSort] = useUrlState("sort", "total", codecs.str(20));
 
   const rows = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -68,6 +71,7 @@ export function CapacityClient({ data }: { data: Capacity }) {
           <button key={k} style={btn(cohort === k)}
             aria-pressed={cohort === k} onClick={() => setCohort(k)}>{label}</button>
         ))}
+        <CopyLink />
         {tab === "Capacity" && (
           <>
             <span style={{ color: "var(--muted)", fontSize: 12, marginLeft: 8 }}>sort</span>
