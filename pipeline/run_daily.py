@@ -23,8 +23,10 @@ grades_ok), (12) the long-lead equipment board — hand-curated vendor
 order-book figures joined to the DC engine's price legs (surfaces via
 longlead_ok), (13) the rates panel (rates_ok), (14) the compute price
 index (compute_ok), (15) the housing panel (housing_ok), and (16) the
-since-yesterday diff, which runs LAST because it diffs every artifact just
-written against a pre-run snapshot (changes_ok). A failure in any one phase still publishes status+qa (rc 0)
+since-yesterday diff, which diffs every artifact just written against a
+pre-run snapshot (changes_ok), (17) the revisions panel (revisions_ok) and
+(18) the append-only publish ledger, LAST, because it records the headline
+readings this run just wrote (ledger_ok). A failure in any one phase still publishes status+qa (rc 0)
 without blocking the others — but a jsonschema.ValidationError re-raises and
 fails the run in every phase: a schema-invalid artifact must never deploy.
 """
@@ -51,7 +53,8 @@ from pipeline.engine.nowcast import build_latest as build_nowcast
 from pipeline.publish import official as official_json
 from pipeline.publish import (capacity as capacity_json, changes as changes_json,
                               commodities as commodities_json, compare, compute as compute_json,
-                              housing as housing_json, rates as rates_json,
+                              housing as housing_json, ledger as ledger_json,
+                              rates as rates_json, revisions as revisions_json,
                               composites as composite_json,
                               datacenter as datacenter_json, dc_grades as dc_grades_json,
                               dc_markets as dc_markets_json, gaptable,
@@ -473,6 +476,28 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         print(f"published: {ch_path}")
 
     _run_phase("CHANGES", _changes_phase, phase_errors, "changes")
+
+    # Revisions panel (/revisions): first print vs latest value for the three
+    # graded targets, straight off the vintage store (batch 5b).
+    def _revisions_phase():
+        rv_path = revisions_json.write(revisions_json.build(conn), args.out,
+                                       published_at=published_at)
+        validate.validate_file(rv_path, SCHEMAS / "revisions.schema.json")
+        print(f"published: {rv_path}")
+
+    _run_phase("REVISIONS", _revisions_phase, phase_errors, "revisions")
+
+    # Publish ledger (/as-of): appends THIS run's headline readings to the
+    # append-only store/ledger and publishes every row — what the site said
+    # on each day, never restated (batch 5c). After changes, since it reads
+    # the same on-disk artifacts.
+    def _ledger_phase():
+        lg_path = ledger_json.write(ledger_json.build(args.store, args.out), args.out,
+                                    published_at=published_at)
+        validate.validate_file(lg_path, SCHEMAS / "ledger.schema.json")
+        print(f"published: {lg_path}")
+
+    _run_phase("LEDGER", _ledger_phase, phase_errors, "ledger")
 
     if nowcast_payload is not None:
         artifacts = {**(artifacts or {}), "nowcast": nowcast_payload}

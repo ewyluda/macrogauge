@@ -48,3 +48,13 @@ export function latestOf(dates: string[], ys: (number | null)[]): { date: string
   }
   return null;
 }
+
+/** Position of the last change in a forward-filled daily index (the
+ *  component's own latest observation); 0 when it never changes. Momentum
+ *  on a lagging component must be read here, never at the grid end. */
+export function lastChange(index: (number | null)[]): number {
+  for (let i = index.length - 1; i > 0; i--) {
+    if (index[i] != null && index[i - 1] != null && index[i] !== index[i - 1]) return i;
+  }
+  return 0;
+}

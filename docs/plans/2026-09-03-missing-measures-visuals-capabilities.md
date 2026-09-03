@@ -323,6 +323,18 @@ open so the new files land in the contract list from day one).
 
 ## Batch 5 — Receipts surfaces
 
+**Status: SHIPPED 2026-09-03 on `feat/batch5-receipts`.** 5a: 14 static `/components/[code]` pages
+(splice point DERIVED as the first grid day ours departs from the official index — no engine
+change; `replay` gained additive `last_obs` + `gate_flags`); component names link from `/gap`,
+`/outlook`, `/cpi-preview`, the homepage official table and the contribution table. 5b:
+`revisions.json` off `first_releases` vs `latest` — CPI's level revisions are 0.000 (the receipt
+that CPI-U NSA is not revised), PCE and payrolls carry real ones. 5c: `store/ledger/pulse.jsonl`
+append-only, dedup by published_at, BACKFILLED from 74 git commits of pulse.json (decision 4
+resolved: backfill); `/as-of` with `?date=` URL state and a live citation. 5d: ForecastHero
+realized-error band (±backtest MAE, labelled "not a calibrated interval"), CPI release-day rules
+on the hero chart. 5e: `/data` with sizes, stamps and schema links (`prebuild` copies `schemas/`
+into `public/schemas`, gitignored). Gates: pytest 909, vitest 222, e2e 106, 60 pages.
+
 ### 5a. Per-component pages `/components/[code]` (14 static routes)
 - `generateStaticParams` over `config/basket.json` codes (import the JSON at build; it is already
   in the repo). Content per component: weight, official series id, `live_blend` sources and

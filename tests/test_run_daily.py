@@ -280,7 +280,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "metros.json", "geo.json", "matrix.json", "labor.json",
                  "commodities.json", "capacity.json", "dc_markets.json",
                  "dc_grades.json", "longlead.json",
-                 "rates.json", "compute.json", "housing.json", "changes.json"):
+                 "rates.json", "compute.json", "housing.json", "changes.json",
+                 "revisions.json", "ledger.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 30
@@ -291,9 +292,9 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok
     # + geography_ok + labor_ok + commodities_ok + capacity_ok + markets_ok + grades_ok
-    # + longlead_ok + rates_ok + compute_ok + housing_ok + changes_ok
-    assert qa["total"] == 31
-    for phase in ("rates", "compute", "housing", "changes"):
+    # + longlead_ok + rates_ok + compute_ok + housing_ok + changes_ok + revisions_ok + ledger_ok
+    assert qa["total"] == 33
+    for phase in ("rates", "compute", "housing", "changes", "revisions", "ledger"):
         assert [c for c in qa["checks"] if c["name"] == f"{phase}_ok"][0]["pass"] is True, phase
     # batch 4e: a fresh out dir has no previous publish -> first reading
     ch = json.loads((out / "changes.json").read_text())
@@ -301,6 +302,16 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert {h["key"] for h in ch["headline"]} >= {"gauge", "tracker", "dc_build"}
     assert all(h["delta_pp"] is None for h in ch["headline"])
     assert pulse["gauge"]["prev_yoy_pct"] is None
+    # batch 5c: the ledger got exactly one row, this run's, from a fresh store
+    lg = json.loads((out / "ledger.json").read_text())
+    assert lg["appended_today"] is True and len(lg["rows"]) == 1
+    assert lg["rows"][0]["published_at"] == pulse["published_at"]
+    assert lg["rows"][0]["gauge_yoy_pct"] == pulse["gauge"]["yoy_pct"]
+    assert (store / "ledger" / "pulse.jsonl").exists()
+    # batch 5b: revisions publishes all three targets (rows may be empty on a
+    # single-vintage fixture store; the block itself must exist)
+    rv = json.loads((out / "revisions.json").read_text())
+    assert set(rv["targets"]) == {"cpi", "pce", "nfp"}
     gb = json.loads((out / "grocery_basket.json").read_text())
     assert [w["code"] for w in gb["wholesale"]] == [c for c, *_ in run_daily.grocery.WHOLESALE]
     stamp = [c for c in qa["checks"] if c["name"] == "single_run_stamp"][0]
@@ -1003,6 +1014,9 @@ def test_second_run_diffs_against_first(tmp_path, monkeypatch):
     assert ch["official"]["new_print"] is False
     pulse = json.loads((out / "pulse.json").read_text())
     assert pulse["gauge"]["prev_yoy_pct"] == pulse["gauge"]["yoy_pct"]
+    # the ledger has two rows, one per publish, in order
+    lg = json.loads((out / "ledger.json").read_text())
+    assert [r["published_at"] for r in lg["rows"]] == sorted({first, pulse["published_at"]})
 
 
 def test_rates_failure_does_not_block_publish(tmp_path, monkeypatch):
@@ -1042,7 +1056,8 @@ def test_changes_survives_engine_failure(tmp_path, monkeypatch):
     assert ch["headline"] == [] and ch["components"] == [] and ch["official"] is None
 
 
-@pytest.mark.parametrize("module", ["rates_json", "compute_json", "housing_json", "changes_json"])
+@pytest.mark.parametrize("module", ["rates_json", "compute_json", "housing_json", "changes_json",
+                                    "revisions_json", "ledger_json"])
 def test_batch4_schema_violation_fails_run(tmp_path, monkeypatch, module):
     set_keys(monkeypatch)
     monkeypatch.setattr(getattr(run_daily, module), "build", lambda *a, **k: {"bogus": True})

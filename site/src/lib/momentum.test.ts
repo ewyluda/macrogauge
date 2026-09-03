@@ -26,3 +26,12 @@ describe("rateSeries / latestOf", () => {
     expect(latestOf(["a"], [null])).toBeNull();
   });
 });
+
+describe("lastChange", () => {
+  it("returns the last position where a forward-filled index moves", async () => {
+    const { lastChange } = await import("./momentum");
+    expect(lastChange([100, 100, 101, 101, 101])).toBe(2);
+    expect(lastChange([100, 100])).toBe(0);
+    expect(lastChange([100, null, 102, 102])).toBe(0);
+  });
+});

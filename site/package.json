@@ -6,7 +6,8 @@
     "build": "next build",
     "lint": "next lint",
     "test": "vitest run",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "prebuild": "node scripts/copy-schemas.mjs"
   },
   "dependencies": {
     "echarts": "^6.1.0",

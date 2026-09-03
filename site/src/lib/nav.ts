@@ -50,6 +50,7 @@ export const NAV: NavEntry[] = [
           { href: "/scoreboard", label: "Scoreboard", emoji: "🏆" },
           { href: "/matrix", label: "Nowcast Matrix", emoji: "🔢" },
           { href: "/releases", label: "Release Log", emoji: "🧾" },
+          { href: "/revisions", label: "Revisions", emoji: "✏️" },
         ],
       },
     ],
@@ -98,6 +99,8 @@ export const NAV: NavEntry[] = [
         items: [
           { href: "/status", label: "System Status", emoji: "📡" },
           { href: "/methodology", label: "Methodology", emoji: "📖" },
+          { href: "/as-of", label: "Point in Time", emoji: "🗓️" },
+          { href: "/data", label: "Open Data", emoji: "🗂️" },
         ],
       },
     ],

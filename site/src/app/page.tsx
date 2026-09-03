@@ -17,6 +17,8 @@ import { columnsToRows } from "@/lib/csv";
 import { ContributionSection } from "@/components/ContributionSection";
 import { BreadthPanel } from "@/components/BreadthPanel";
 import { SinceYesterdayStrip } from "@/components/SinceYesterday";
+import { COMPONENT_BY_OFFICIAL, componentHref } from "@/lib/components";
+import releasesJson from "../../public/data/releases.json";
 import { cite } from "@/lib/citation";
 import { DeltaChip } from "@/components/DeltaChip";
 import { StatusPill } from "@/components/StatusPill";
@@ -111,6 +113,13 @@ const heroMonthly = sliceSince(
   [compare.official_yoy_pct, compare.official_core_yoy_pct],
   heroStart,
 );
+
+// CPI release days (first-print dates from the vintage log) plus the next
+// scheduled print, drawn as faint vertical rules on the hero chart (batch 5d)
+const releaseMarkers = [
+  ...releasesJson.releases.filter((r) => r.target === "cpi").map((r) => ({ date: r.first_release_date, label: `CPI ${r.reference_period}` })),
+  ...(nextprint.release_date ? [{ date: nextprint.release_date, label: `next CPI · ${nextprint.reference_month ?? ""}` }] : []),
+];
 
 const fmtQuote = (q: (typeof official.quotes)[number]) =>
   q.code === "fiscal_debt_total"
@@ -230,6 +239,7 @@ export default function Home() {
             official={heroMonthly.series[0]}
             core={heroMonthly.series[1]}
             windowMonths={HERO_WINDOW_MONTHS}
+            markers={releaseMarkers}
           />
         </div>
         <div className="chart-caption">
@@ -410,7 +420,9 @@ export default function Home() {
                       borderBottom: "1px solid var(--border)",
                     }}
                   >
-                    {c.label}
+                    {COMPONENT_BY_OFFICIAL[c.code]
+                      ? <Link href={componentHref(COMPONENT_BY_OFFICIAL[c.code])}>{c.label}</Link>
+                      : c.label}
                   </td>
                   <td
                     style={{

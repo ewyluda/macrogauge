@@ -1,5 +1,7 @@
 "use client";
 import { useMemo } from "react";
+import Link from "next/link";
+import { componentHref } from "@/lib/components";
 import { EChart } from "./EChart";
 import { SegmentedControl } from "./SegmentedControl";
 import { CopyLink } from "./CopyLink";
@@ -7,7 +9,7 @@ import { DataUnavailable } from "./DataUnavailable";
 import { DownloadData } from "./DownloadData";
 import { C, baseOption } from "@/lib/chartTheme";
 import { contributionGrid, contributionsAt, type ContribMode, type ReplayComponent } from "@/lib/contribution";
-import { annualizedChange, RATE_LOOKBACK_DAYS } from "@/lib/momentum";
+import { annualizedChange, lastChange, RATE_LOOKBACK_DAYS } from "@/lib/momentum";
 import { fmtPp, fmtSigned, yoyColor } from "@/lib/format";
 import { codecs } from "@/lib/urlState";
 import { useUrlState } from "@/lib/useUrlState";
@@ -17,15 +19,6 @@ type Replay = {
   dates: string[];
   components: (ReplayComponent & { index: (number | null)[]; bls_index: (number | null)[]; mode: string })[];
 };
-
-/** Position of the last change in a forward-filled daily index (the
- *  component's own latest observation); 0 when it never changes. */
-export function lastChange(index: (number | null)[]): number {
-  for (let i = index.length - 1; i > 0; i--) {
-    if (index[i] != null && index[i - 1] != null && index[i] !== index[i - 1]) return i;
-  }
-  return 0;
-}
 
 const MODES = [
   { key: "ours", label: "OURS" },
@@ -174,7 +167,7 @@ export function ContributionSection({
                 <tr key={r.code}>
                   <td style={{ textAlign: "left" }}>
                     <span style={{ display: "inline-block", width: 9, height: 9, borderRadius: 2, background: r.color, marginRight: 7 }} />
-                    {r.label}
+                    <Link href={componentHref(r.code)}>{r.label}</Link>
                   </td>
                   <td>{(r.weight * 100).toFixed(1)}%</td>
                   <td><span className="badge badge-muted">{r.mode === "live" ? "live" : "BLS carry"}</span></td>

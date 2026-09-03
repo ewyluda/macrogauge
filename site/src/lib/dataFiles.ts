@@ -45,6 +45,8 @@ export const DATA_FILES: DataFile[] = [
   { file: "compute.json", description: "Cost of a token and a GPU-hour: model and SKU prices with two composite indexes" },
   { file: "housing.json", description: "Home prices, rents, sales and payment-to-income affordability" },
   { file: "changes.json", description: "What moved since the previous publish: headline, components, sources" },
+  { file: "revisions.json", description: "First print vs latest value for CPI, PCE and payrolls" },
+  { file: "ledger.json", description: "Every publish's headline readings, append-only, never restated" },
 ];
 
 export function dataUrl(file: string): string {
