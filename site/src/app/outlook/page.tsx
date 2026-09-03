@@ -141,6 +141,18 @@ export default function OutlookPage() {
         <OutlookChart outlook={outlookForChart} />
       </Section>
 
+      <Section title="Model parameters — published with every run">
+        <details className="table-card" style={{ padding: "10px 14px" }}>
+          <summary style={{ cursor: "pointer", fontSize: 13, color: "var(--muted)" }}>
+            {outlook.model} · horizon {outlook.horizon_months}mo · baseline {parameters.baseline_annual_pct}%/yr ·
+            sigma window {outlook.sigma_window_months}mo — expand for every knob
+          </summary>
+          <pre style={{ fontSize: 11, lineHeight: 1.5, overflowX: "auto", margin: "10px 0 0", color: "var(--text)" }}>
+            {JSON.stringify(parameters, null, 2)}
+          </pre>
+        </details>
+      </Section>
+
       <Section title="Component paths">
         <div className="table-card">
           <table className="data-table">

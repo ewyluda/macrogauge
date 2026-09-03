@@ -123,6 +123,17 @@ linkable, and PC's P5 says export *is* the use case. Build the primitives once.
 
 ## Batch 2 — Render what is already published (site-only)
 
+**Status: SHIPPED 2026-09-03 on `feat/batch2-render-published`.** Not quite site-only: 2a needed
+two additive, nullable pipeline fields (`compare.official_pce_yoy_pct`, `official.headline.pce`)
+so `/pce` can chart and quote what it is graded on; both stay optional in their schemas until the
+next publish regenerates the artifacts. Deviations: `gaptable.rows` exist only for the main gauge,
+so 2e is a five-variant summary strip, not a row-level selector; `labor.history.weekly` carries no
+continued-claims tail, so it is a KPI figure only; `capacity.timeline` is now RENDERED (published
+curve for unfiltered cohorts, client rebuild only under a text search) with a vitest pinning the
+two equal. `lib/dcAnchors.ts` reproduces every published `legs.*.grades` cell from the anchor rows
+(pinned by test), so the scatter caption and the table cannot disagree. Gates: pytest 881,
+vitest 204, e2e 81, 39 routes.
+
 ### 2a. `/pce` page (Inflation → The gauge)
 - Data: `gauge_daily.variants.pce`, `compare.pce_yoy_pct`, `compare.validation.pce`, `gaptable.variants.pce`,
   `accountability_pce`. Official PCEPI is in the store as `PCEPI` but `official.json` carries only `headline.cpi`

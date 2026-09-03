@@ -67,8 +67,17 @@ def build(conn, series) -> dict:
         quotes.append(row)
 
     cpi_code, core_code = HEADLINE
+    # PCE price index headline for /pce (batch 2a). PCEPI can legitimately be
+    # absent (fresh basket before the first collect) or too short for two
+    # YoY-computable months -- publish null rather than take official.json
+    # down with it; the site degrades the KPI.
+    try:
+        pce_row = headline_row("PCEPI")
+    except ValueError:
+        pce_row = None
     return {"headline": {"cpi": headline_row(cpi_code),
-                         "core": headline_row(core_code)},
+                         "core": headline_row(core_code),
+                         "pce": pce_row},
             "components": components, "quotes": quotes}
 
 

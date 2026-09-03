@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: "Delinquencies, debt service and savings pressure in one 0–100 score.",
 };
 
-type Indicator = { code: string; value: number; score: number; weight: number; as_of: string };
+type Indicator = { code: string; value: number; score: number; weight: number; as_of: string; direction?: number };
 
 // Presentation-only buckets on the published percentile score — no new numbers.
 function severityWord(score: number): "elevated" | "watch" | "calm" {
@@ -34,7 +34,7 @@ export default function Stress() {
     <div className="kpi-row"><KpiCard label="Stress score" value={score == null ? "—" : score.toFixed(1)} context={`${stress.coverage_pct.toFixed(0)}% weighted coverage · ${stress.published_at}`} accent="red" /></div>
     {top && <WhyLine label="Most stretched:">{indicatorLabel(top.code)} — percentile score {top.score.toFixed(1)} of 100 ({severityWord(top.score)}).</WhyLine>}
     <Section title="Stress inputs">
-      <div className="table-card"><table className="data-table"><thead><tr><th>Indicator</th><th>Severity</th><th>Value</th><th>Percentile score</th><th>Weight</th><th>As of</th></tr></thead><tbody>{indicators.map(row => <tr key={row.code}><td>{indicatorLabel(row.code)} <span style={{ color: "var(--muted)", fontSize: 11 }}>{row.code}</span></td><td><SeverityBadge score={row.score} /></td><td>{row.value}</td><td>{row.score.toFixed(1)}</td><td>{row.weight}%</td><td>{row.as_of}</td></tr>)}</tbody></table></div>
+      <div className="table-card"><table className="data-table"><thead><tr><th>Indicator</th><th>Severity</th><th>Value</th><th>Sign</th><th>Percentile score</th><th>Weight</th><th>As of</th></tr></thead><tbody>{indicators.map(row => <tr key={row.code}><td>{indicatorLabel(row.code)} <span style={{ color: "var(--muted)", fontSize: 11 }}>{row.code}</span></td><td><SeverityBadge score={row.score} /></td><td>{row.value}</td><td title={(row.direction ?? 1) >= 0 ? "higher = more stress" : "higher = less stress"} style={{ color: "var(--muted)" }}>{(row.direction ?? 1) >= 0 ? "↑ stress" : "↓ stress"}</td><td>{row.score.toFixed(1)}</td><td>{row.weight}%</td><td>{row.as_of}</td></tr>)}</tbody></table></div>
     </Section>
     <p className="method">Every input is percentile-scored against its own history since 2019 and direction-adjusted. Missing inputs reduce coverage and are not imputed. Severity badges bucket the published percentile score — elevated at 80+, watch at 50+, calm below.</p></div>;
 }

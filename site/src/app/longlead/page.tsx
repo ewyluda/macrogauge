@@ -38,7 +38,7 @@ function VendorRow({ vendor }: { vendor: LongLeadVendor }) {
     <tr>
       <td>
         <strong>{vendor.name}</strong>{" "}
-        <span className="badge badge-muted">{vendor.ticker}</span>
+        <span className="badge badge-muted" title={`listed ${vendor.listed}`}>{vendor.ticker} · {vendor.listed}</span>
         {vendor.cadence === "annual" && (
           <span className="badge badge-muted">annual</span>
         )}

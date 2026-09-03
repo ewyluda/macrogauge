@@ -42,7 +42,9 @@ import {
   type LegPick,
   type PairedBasisMeans,
 } from "@/lib/dcGrades";
-import type { DcGrades, GradeStat, Leg } from "@/lib/types";
+import type { DcGrades, DcGradesAnchor, GradeStat, Leg } from "@/lib/types";
+import { AnchorScatter } from "./AnchorScatter";
+import { LeadLagProfile } from "./LeadLagProfile";
 
 /** Everything /dc-scoreboard renders, minus the `anchors` receipts it does
  *  not read. The full artifact remains available to the server page for its
@@ -173,6 +175,18 @@ function GradeRow({
   );
 }
 
+/** Whether a leg's anchor span includes a realized downturn — a sample
+ *  with none cannot tell a reader what a long window looks like in one
+ *  (the 2018-start lesson in the design spec). Published per leg. */
+function DownturnBadge({ leg }: { leg?: Leg }) {
+  if (!leg) return null;
+  return (
+    <ToneBadge tone={leg.contains_downturn ? "emerald" : "amber"}>
+      {leg.contains_downturn ? "includes a downturn" : "no downturn in sample"}
+    </ToneBadge>
+  );
+}
+
 function PairedGradingSection({
   data,
   strict,
@@ -197,8 +211,8 @@ function PairedGradingSection({
             <tr>
               <th rowSpan={2}>Basis</th>
               <th rowSpan={2}>Horizon</th>
-              <th colSpan={3}>Strict — vintage-true{strict ? ` (${strict.anchors_n} anchors)` : ""}</th>
-              <th colSpan={3}>Extended — final-revision{extended ? ` (${extended.anchors_n} anchors)` : ""}</th>
+              <th colSpan={3}>Strict — vintage-true{strict ? ` (${strict.anchors_n} anchors)` : ""} <DownturnBadge leg={strict} /></th>
+              <th colSpan={3}>Extended — final-revision{extended ? ` (${extended.anchors_n} anchors)` : ""} <DownturnBadge leg={extended} /></th>
             </tr>
             <tr>
               <th>Shortfall</th>
@@ -442,6 +456,7 @@ function LeadLagSection({ leadlag }: { leadlag: DcGrades["leadlag"] }) {
               — read the caveats before treating that as a usable lead.
             </p>
           </div>
+          <LeadLagProfile mappings={leadlag.mappings} />
           <div className="table-card">
             <table className="data-table">
               <thead>
@@ -640,10 +655,13 @@ function MethodologySection({
 
 export function GradesClient({
   data,
+  anchors,
   reconstruction = null,
   anchorsN,
 }: {
   data: GradesPageData;
+  /** The per-anchor rows (batch 2c) — the scatter's input. */
+  anchors: DcGradesAnchor[];
   reconstruction?: ReconstructionNote | null;
   anchorsN: number;
 }) {
@@ -653,6 +671,7 @@ export function GradesClient({
   return (
     <>
       <PairedGradingSection data={data} strict={strict} extended={extended} />
+      <AnchorScatter anchors={anchors} legs={data.legs} />
       <InversionSection data={data} />
       <ScenarioSection scenarios={data.scenarios} />
       <LeadLagSection leadlag={data.leadlag} />

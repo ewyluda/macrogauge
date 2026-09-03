@@ -4,6 +4,7 @@ import { useUrlState } from "@/lib/useUrlState";
 import { codecs } from "@/lib/urlState";
 import { CopyLink } from "../CopyLink";
 import type { Capacity, CapacityCompany, CapacityCohortKey } from "@/lib/types";
+import { cohortOf } from "@/lib/capacityCohort";
 import { buildTimeline } from "@/lib/capacityTimeline";
 import { CapacityBars } from "./CapacityBars";
 import { ValuationScatter } from "./ValuationScatter";
@@ -11,9 +12,7 @@ import { DemandMap } from "./DemandMap";
 import { TimelineChart } from "./TimelineChart";
 import { GeoMap } from "./GeoMap";
 
-export function cohortOf(c: CapacityCompany): CapacityCohortKey {
-  return c.role === "hyperscaler" ? "hyperscaler" : "neocloud";
-}
+export { cohortOf } from "@/lib/capacityCohort";
 
 const COHORTS: [CapacityCohortKey, string][] = [
   ["all", "All"], ["neocloud", "Neoclouds"], ["hyperscaler", "Hyperscalers"],
@@ -91,7 +90,13 @@ export function CapacityClient({ data }: { data: Capacity }) {
       {tab === "Capacity" && <CapacityBars rows={rows} />}
       {tab === "Valuation × Execution" && <ValuationScatter rows={rows} />}
       {tab === "Demand map" && <DemandMap data={data} visible={new Set(rows.map((r) => r.t))} />}
-      {tab === "Timeline" && <TimelineChart timeline={buildTimeline(rows)} />}
+      {/* Unfiltered cohorts render the PUBLISHED timeline (capacity.json,
+          computed by the pipeline); a text search narrows to a subset the
+          artifact never published, so only then is the curve rebuilt
+          client-side. capacityTimeline.test.ts pins the two equal. */}
+      {tab === "Timeline" && (
+        <TimelineChart timeline={query.trim() ? buildTimeline(rows) : (data.timeline?.[cohort] ?? buildTimeline(rows))} />
+      )}
       {tab === "Geo map" && <GeoMap data={data} visible={new Set(rows.map((r) => r.t))} />}
     </div>
   );
