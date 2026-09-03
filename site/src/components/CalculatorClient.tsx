@@ -1,5 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useUrlState } from "@/lib/useUrlState";
+import { codecs } from "@/lib/urlState";
+import { CopyLink } from "./CopyLink";
 import { EChart } from "./EChart";
 import { KpiCard } from "./KpiCard";
 import { C, baseOption } from "@/lib/chartTheme";
@@ -11,8 +13,8 @@ export type CalculatorSeries = {
 };
 
 export function CalculatorClient({ dates, index }: CalculatorSeries) {
-  const [since, setSince] = useState("2020-01-01");
-  const [amount, setAmount] = useState(100);
+  const [since, setSince] = useUrlState("since", "2020-01-01", codecs.date());
+  const [amount, setAmount] = useUrlState("amount", 100, codecs.float(1, 1e9));
 
   const s = sinceStats(dates, index, since, amount);
   const from = s ? dates.indexOf(s.startDate) : 0;
@@ -64,6 +66,7 @@ export function CalculatorClient({ dates, index }: CalculatorSeries) {
         <span style={{ fontSize: 12, color: "var(--muted)" }}>
           try: lease signing day, your last raise, your kid&apos;s birthday
         </span>
+        <CopyLink />
       </div>
 
       {s && (

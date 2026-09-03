@@ -299,3 +299,42 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
   .headline-grid .kpi-card { min-height: 0; }
   .outlook-drivers { grid-template-columns: 1fr; }
 }
+
+/* --- share & export (batch 1) --- */
+.tool-row { display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.tool-btn {
+  font: inherit; font-size: 11.5px; letter-spacing: .02em; cursor: pointer;
+  padding: 3px 9px; border-radius: 6px; border: 1px solid var(--border);
+  background: var(--chip-bg); color: var(--muted); text-decoration: none; line-height: 1.5;
+  white-space: nowrap;
+}
+.tool-btn:hover { color: var(--text); border-color: var(--accent-sky); }
+.tool-btn:disabled { opacity: .5; cursor: default; }
+.tool-btn:focus-visible { outline: 2px solid var(--accent-sky); outline-offset: 2px; }
+.section-tools { display: flex; justify-content: flex-end; gap: 6px; flex-wrap: wrap; margin: 6px 0 10px; }
+.citation {
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  margin: 10px 0 0; font-size: 11.5px; color: var(--muted);
+}
+.citation-label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+.citation-text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px;
+  background: var(--chip-bg); border: 1px solid var(--border); border-radius: 6px;
+  padding: 3px 8px; color: var(--text); overflow-wrap: anywhere;
+}
+.footer-data { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 11px; color: var(--muted); }
+.footer-data a { color: var(--muted); text-decoration: none; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.footer-data a:hover { color: var(--text); }
+
+@media print {
+  :root { --bg: #fff; --card: #fff; --text: #111; --muted: #444; --border: #bbb; --chip-bg: #f2f2f2; }
+  body { background: #fff; color: #111; }
+  .site-header, .site-footer, .mobile-menu-toggle, .tool-row, .tool-btn, .copy-link,
+  .section-tools, .print-banner, .nav-menu, button { display: none !important; }
+  .page-shell { max-width: none; padding: 0; }
+  .section, .kpi-card, .table-card, .dashboard-panel { break-inside: avoid; }
+  .section-featured { break-before: auto; }
+  a { color: inherit; text-decoration: none; }
+  .citation { display: flex !important; }
+  .citation .tool-btn { display: none !important; }
+}

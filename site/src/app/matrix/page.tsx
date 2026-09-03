@@ -5,6 +5,7 @@ import pulseJson from "../../../public/data/pulse.json";
 import officialJson from "../../../public/data/official.json";
 import matrixJson from "../../../public/data/matrix.json";
 import { KpiCard } from "@/components/KpiCard";
+import { DownloadData } from "@/components/DownloadData";
 import { ForecastHero } from "@/components/ForecastHero";
 import { fmtDay, fmtMonth } from "@/lib/format";
 import type { Nowcast, Matrix } from "@/lib/types";
@@ -107,6 +108,11 @@ export default function Matrix() {
         Inflation Matrix <span className="subtitle">models × targets</span>
       </h1>
       <ForecastHero />
+      <div className="section-tools">
+        <DownloadData filename="macrogauge-matrix" json="matrix.json"
+          citation={`MacroGauge inflation matrix, published ${matrix.published_at}`}
+          rows={SECTIONS.flatMap((s) => s.rows.map((r) => ({ group: s.group, ...r })))} />
+      </div>
       <div className="kpi-row">
         <KpiCard
           label="CPI bridge"

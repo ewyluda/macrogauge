@@ -5,6 +5,8 @@ import dc from "../../../public/data/datacenter.json";
 import gradesJson from "../../../public/data/dc_grades.json";
 import llJson from "../../../public/data/longlead.json";
 import { KpiCard } from "@/components/KpiCard";
+import { DownloadData } from "@/components/DownloadData";
+import { Citation } from "@/components/Citation";
 import { DcIndexChart } from "@/components/DcIndexChart";
 import { DcConstructionChart } from "@/components/DcConstructionChart";
 import { ParityTable, type ParityRow } from "@/components/ParityTable";
@@ -221,6 +223,18 @@ export default function Datacenter() {
           ))}
         </div>
       )}
+      <Citation
+        series="DC Build Index"
+        asOf={build.as_of}
+        rebase={dc.rebase}
+        value={`${fmtSigned(build.headline_yoy_pct)} YoY`}
+        path="/datacenter"
+      />
+      <div className="section-tools">
+        <DownloadData filename="macrogauge-dc-build-components" json="datacenter.json"
+          citation={`MacroGauge DC Build components, as of ${build.as_of}, ${dc.rebase}`}
+          rows={build.components as Comp[]} />
+      </div>
       <DcIndexChart series={[
         { key: "build", label: "DC Build", dates: build.dates, index: build.index, yoy: build.yoy_pct },
         { key: "ops", label: "DC Ops", dates: ops.dates, index: ops.index, yoy: ops.yoy_pct },

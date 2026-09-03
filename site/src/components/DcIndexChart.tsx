@@ -1,6 +1,9 @@
 // site/src/components/DcIndexChart.tsx
 "use client";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
+import { useUrlState } from "@/lib/useUrlState";
+import { codecs } from "@/lib/urlState";
+import { CopyLink } from "./CopyLink";
 import type { ECharts } from "echarts/core";
 import { EChart } from "./EChart";
 import { SegmentedControl } from "./SegmentedControl";
@@ -30,7 +33,7 @@ export type DcSeries = {
 const LINE_COLORS = [C.sky, C.violet, C.amber];
 
 export function DcIndexChart({ series }: { series: DcSeries[] }) {
-  const [mode, setMode] = useState<Mode>("level");
+  const [mode, setMode] = useUrlState<Mode>("view", "level", codecs.enumOf(["level", "yoy"] as const));
   const chartRef = useRef<ECharts | null>(null);
 
   const option = useMemo(() => {
@@ -104,6 +107,7 @@ export function DcIndexChart({ series }: { series: DcSeries[] }) {
         >
           ⬇ Export PNG
         </button>
+        <CopyLink />
       </div>
       <EChart option={option} height={340} instanceRef={chartRef} />
     </div>

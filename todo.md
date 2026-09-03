@@ -75,6 +75,12 @@ methodology constraints remain in
 
 ## Product and coverage roadmap
 
+- [ ] **#47 — Missing measures/visuals/capabilities, seven batches.** Plan at
+  [`docs/plans/2026-09-03-missing-measures-visuals-capabilities.md`](docs/plans/2026-09-03-missing-measures-visuals-capabilities.md):
+  share/export foundation → render dead artifact fields → momentum/contribution/breadth →
+  five pipeline unlocks (rates, compute, USDA, housing, what-changed) → receipts surfaces →
+  Project Controls P7/P6 → hygiene. Absorbs P5 (#14), P6 (#15), P7 (#16) and #7.
+
 - [ ] **#14 (absorbs #6) — P5 claims-grade artifacts.** Ship CSV/Excel export, a stable citation
   string, a monthly one-page PDF, and a point-in-time page backed by the append-only vintage store.
   Treat export as the claims workflow, not a standalone hygiene task.

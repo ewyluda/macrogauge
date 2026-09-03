@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import dcJson from "../../../public/data/datacenter.json";
 import gradesJson from "../../../public/data/dc_grades.json";
 import { KpiCard } from "@/components/KpiCard";
+import { Citation } from "@/components/Citation";
+import { DownloadData } from "@/components/DownloadData";
 import {
   GradesClient,
   type ReconstructionNote,
@@ -9,6 +11,7 @@ import {
 import { BASES, bases, lastCompleteMonth } from "@/lib/dcContingency";
 import { BASIS_LABELS, ESCALATION_BASIS_TO_GRADE } from "@/lib/dcGrades";
 import type { DcGrades } from "@/lib/types";
+import { flattenRow } from "@/lib/csv";
 
 const data = gradesJson as unknown as DcGrades;
 const strict = data.legs?.strict;
@@ -135,6 +138,12 @@ export default function Page() {
           context="see caveats before treating any as forecasting evidence"
           accent="amber"
         />
+      </div>
+      <Citation series="DC escalation grades (strict + extended legs)" asOf={dcJson.indexes.build.as_of} rebase={dcJson.rebase} value={`${data.anchors.length} vintage anchors`} path="/dc-scoreboard" />
+      <div className="section-tools">
+        <DownloadData filename="macrogauge-dc-anchors" json="dc_grades.json"
+          citation={`MacroGauge DC escalation grading anchors, published ${data.published_at}`}
+          rows={data.anchors.map((a) => flattenRow(a))} />
       </div>
       <GradesClient
         data={data}

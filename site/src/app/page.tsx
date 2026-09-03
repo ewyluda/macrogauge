@@ -11,6 +11,10 @@ import nextprintJson from "../../public/data/nextprint.json";
 import fuelJson from "../../public/data/fuel.json";
 import outlookJson from "../../public/data/outlook.json";
 import { KpiCard } from "@/components/KpiCard";
+import { DownloadData } from "@/components/DownloadData";
+import { Citation } from "@/components/Citation";
+import { columnsToRows } from "@/lib/csv";
+import { cite } from "@/lib/citation";
 import { DeltaChip } from "@/components/DeltaChip";
 import { StatusPill } from "@/components/StatusPill";
 import { Section } from "@/components/Section";
@@ -173,7 +177,26 @@ export default function Home() {
         />
       </div>
 
+      <Citation
+        series="CPI-comparable gauge YoY"
+        asOf={pulse.gauge.as_of}
+        rebase="2018-01=100"
+        value={`${fmtPct(pulse.gauge.yoy_pct)} vs official ${fmtPct(pulse.official.yoy_pct)}`}
+        path="/"
+      />
       <Section title="Macrogauge vs official — latest 24 months" featured>
+        <div className="section-tools">
+          <DownloadData
+            filename="macrogauge-vs-official-24m"
+            json="gauge_daily.json"
+            citation={cite({ series: "CPI-comparable gauge, daily YoY (24-month window)", asOf: pulse.gauge.as_of, rebase: "2018-01=100", value: `${fmtPct(pulse.gauge.yoy_pct)} YoY`, path: "/" })}
+            rows={columnsToRows({ name: "date", values: heroDaily.dates }, [
+              { name: "gauge_yoy_pct", values: heroDaily.series[0] },
+              { name: "tracker_yoy_pct", values: heroDaily.series[1] },
+              { name: "col_yoy_pct", values: heroDaily.series[2] },
+            ])}
+          />
+        </div>
         <div className="hero-chart-card">
           <HeroChart
             dates={heroDaily.dates}
