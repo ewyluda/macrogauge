@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "compute",
+  "type": "object",
+  "required": ["published_at", "history_start", "blend", "models", "token_index", "gpus", "gpu_index"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "history_start": {"type": ["string", "null"]},
+    "blend": {
+      "type": "object",
+      "required": ["in", "out", "min_members", "method"],
+      "additionalProperties": false,
+      "properties": {
+        "in": {"type": "number"},
+        "out": {"type": "number"},
+        "min_members": {"type": "integer", "minimum": 1},
+        "method": {"type": "string"}
+      }
+    },
+    "models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "label", "in_usd_mtok", "out_usd_mtok", "blended_usd_mtok", "as_of",
+                     "chg_30d_pct", "tail"],
+        "additionalProperties": false,
+        "properties": {
+          "key": {"type": "string"},
+          "label": {"type": "string"},
+          "in_usd_mtok": {"$ref": "#/$defs/num"},
+          "out_usd_mtok": {"$ref": "#/$defs/num"},
+          "blended_usd_mtok": {"$ref": "#/$defs/num"},
+          "as_of": {"$ref": "#/$defs/day"},
+          "chg_30d_pct": {"$ref": "#/$defs/num"},
+          "tail": {"$ref": "#/$defs/tail"}
+        }
+      }
+    },
+    "token_index": {"$ref": "#/$defs/index"},
+    "gpus": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "label", "usd_per_gpu_hr", "as_of", "chg_30d_pct", "tail"],
+        "additionalProperties": false,
+        "properties": {
+          "code": {"type": "string"},
+          "label": {"type": "string"},
+          "usd_per_gpu_hr": {"$ref": "#/$defs/num"},
+          "as_of": {"$ref": "#/$defs/day"},
+          "chg_30d_pct": {"$ref": "#/$defs/num"},
+          "tail": {"$ref": "#/$defs/tail"}
+        }
+      }
+    },
+    "gpu_index": {"$ref": "#/$defs/index"}
+  },
+  "$defs": {
+    "num": {"type": ["number", "null"]},
+    "day": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "tail": {
+      "type": "object",
+      "required": ["dates", "values"],
+      "additionalProperties": false,
+      "properties": {
+        "dates": {"type": "array", "items": {"type": "string"}},
+        "values": {"type": "array", "items": {"type": "number"}}
+      }
+    },
+    "index": {
+      "type": "object",
+      "required": ["base_date", "history", "value", "as_of", "chg_30d_pct"],
+      "additionalProperties": false,
+      "properties": {
+        "base_date": {"$ref": "#/$defs/day"},
+        "history": {
+          "type": "object",
+          "required": ["dates", "index", "members"],
+          "additionalProperties": false,
+          "properties": {
+            "dates": {"type": "array", "items": {"type": "string"}},
+            "index": {"type": "array", "items": {"type": ["number", "null"]}},
+            "members": {"type": "array", "items": {"type": "integer"}}
+          }
+        },
+        "value": {"$ref": "#/$defs/num"},
+        "as_of": {"$ref": "#/$defs/day"},
+        "chg_30d_pct": {"$ref": "#/$defs/num"}
+      }
+    }
+  }
+}

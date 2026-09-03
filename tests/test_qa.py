@@ -14,8 +14,8 @@ def _all_ok():
 
 def test_all_green_when_fresh():
     r = qa.run_checks(FRESH, today="2026-07-07", phase_errors=_all_ok())
-    # headline_current, yoy_finite, engine_ok + the 11 qa.PHASES checks
-    assert (r["passed"], r["total"]) == (14, 14)
+    # headline_current, yoy_finite, engine_ok + the 15 qa.PHASES checks
+    assert (r["passed"], r["total"]) == (18, 18)
     assert all(c["pass"] for c in r["checks"])
 
 
@@ -24,7 +24,7 @@ def test_stale_headline_fails():
                       phase_errors=_all_ok())
     by_name = {c["name"]: c for c in r["checks"]}
     assert by_name["headline_current"]["pass"] is False
-    assert r["passed"] == 13
+    assert r["passed"] == 17
 
 
 def test_nan_yoy_fails():
@@ -50,7 +50,7 @@ def test_connector_and_freshness_checks_green():
                       source_results=[_res("FRED", True), _res("EIA", True)],
                       freshness=[{"code": "CPIAUCNS", "latest_obs": "2026-05-01",
                                   "limit_days": 80}])
-    assert (r["passed"], r["total"]) == (16, 16)
+    assert (r["passed"], r["total"]) == (20, 20)
 
 
 def test_connector_failure_flagged_not_critical():
@@ -338,9 +338,9 @@ def test_unknown_phase_key_fails_loudly():
     # a new phase reported by run_daily but absent from qa.PHASES is a
     # wiring gap in the other direction — surface it, don't drop it
     errs = {p: None for p in qa.PHASES}
-    errs["compute"] = None
+    errs["bogus_phase"] = None
     r = qa.run_checks(FRESH, today="2026-07-08", phase_errors=errs)
-    unknown = [c for c in r["checks"] if c["name"] == "compute_ok"][0]
+    unknown = [c for c in r["checks"] if c["name"] == "bogus_phase_ok"][0]
     assert unknown["pass"] is False
     assert "qa.PHASES" in unknown["detail"]
 

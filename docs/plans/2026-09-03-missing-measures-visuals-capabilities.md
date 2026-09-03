@@ -241,6 +241,17 @@ fixture, and reuse across pages.
 
 ## Batch 4 — Pipeline unlocks (five writers, five isolated phases)
 
+**Status: SHIPPED 2026-09-03 on `feat/batch4-pipeline-unlocks`.** Four new artifacts (`rates`,
+`compute`, `housing`, `changes`) + the grocery `wholesale[]` block + pulse `prev_*` fields, four
+isolated phases (`changes` runs LAST), qa 27 → 31 checks. The four artifacts were generated locally
+from the committed store (pure store→JSON, no network — the 2026-07-17 snapshot precedent) so the
+site builds before the next daily run; that run regenerates them with a single stamp. Decisions
+taken: OpenRouter roster = the registry, renormalized over live members (a stale model leaves the
+mean, never freezes a dead price); the compute history is ~2.5 months and the page says so; the
+affordability income proxy is one average private earner (AHE×2080/12), deliberately harsher than
+household income and labelled as such; `changes` reads the previous publish from the checkout, no
+store change. Gates: pytest 902, vitest 219, e2e 96 (35 routes), build 43 routes.
+
 Each writer follows the `commodities.py` contract: pure store→dict, null rows on missing series,
 schema in `schemas/`, isolated `_xxx_phase` in `run_daily.py`, `xxx_ok` in `qa.py`,
 `test_run_daily.py` fake extended, `test_published_data.py` pair added (do this while todo #27 is

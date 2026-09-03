@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "changes",
+  "type": "object",
+  "required": ["published_at", "prev_published_at", "headline", "components", "official",
+               "sources_landed", "sources_failed", "gate_holds"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "prev_published_at": {"type": ["string", "null"]},
+    "headline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "label", "kind", "value", "as_of", "prev_value", "prev_as_of", "delta_pp"],
+        "additionalProperties": false,
+        "properties": {
+          "key": {"type": "string"},
+          "label": {"type": "string"},
+          "kind": {"enum": ["gauge", "datacenter"]},
+          "value": {"$ref": "#/$defs/num"},
+          "as_of": {"type": ["string", "null"]},
+          "prev_value": {"$ref": "#/$defs/num"},
+          "prev_as_of": {"type": ["string", "null"]},
+          "delta_pp": {"$ref": "#/$defs/num"}
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["component", "label", "mode", "yoy_pct", "prev_yoy_pct", "delta_pp", "bls_yoy_pct"],
+        "additionalProperties": false,
+        "properties": {
+          "component": {"type": "string"},
+          "label": {"type": "string"},
+          "mode": {"type": ["string", "null"]},
+          "yoy_pct": {"$ref": "#/$defs/num"},
+          "prev_yoy_pct": {"$ref": "#/$defs/num"},
+          "delta_pp": {"$ref": "#/$defs/num"},
+          "bls_yoy_pct": {"$ref": "#/$defs/num"}
+        }
+      }
+    },
+    "official": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "required": ["month", "yoy_pct", "prev_month", "new_print"],
+          "additionalProperties": false,
+          "properties": {
+            "month": {"type": ["string", "null"]},
+            "yoy_pct": {"$ref": "#/$defs/num"},
+            "prev_month": {"type": ["string", "null"]},
+            "new_print": {"type": "boolean"}
+          }
+        }
+      ]
+    },
+    "sources_landed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "new_rows"],
+        "additionalProperties": false,
+        "properties": {"source": {"type": "string"}, "new_rows": {"type": "integer", "minimum": 1}}
+      }
+    },
+    "sources_failed": {"type": "array", "items": {"type": "string"}},
+    "gate_holds": {"type": "array"}
+  },
+  "$defs": {"num": {"type": ["number", "null"]}}
+}

@@ -41,6 +41,10 @@ export const DATA_FILES: DataFile[] = [
   { file: "sources_status.json", description: "Per-source freshness and errors" },
   { file: "qa.json", description: "Data-integrity self-test results" },
   { file: "methodology.json", description: "Basket, series inventory, validation" },
+  { file: "rates.json", description: "Treasury curve, breakevens, credit, dollar, liquidity, mortgage spread" },
+  { file: "compute.json", description: "Cost of a token and a GPU-hour: model and SKU prices with two composite indexes" },
+  { file: "housing.json", description: "Home prices, rents, sales and payment-to-income affordability" },
+  { file: "changes.json", description: "What moved since the previous publish: headline, components, sources" },
 ];
 
 export function dataUrl(file: string): string {

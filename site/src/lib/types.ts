@@ -454,3 +454,69 @@ export type LongLead = {
   teaser: { vendor: string; name: string; stale: boolean; figure: LongLeadFigure }[];
   packages: LongLeadPackage[];
 };
+
+// --- batch 4 (2026-09-03) ---------------------------------------------------
+
+export type Tail = { dates: string[]; values: number[] };
+export type RateLevel = { code: string; value: number | null; as_of: string | null; chg_30d: number | null; chg_1y: number | null; tail: Tail };
+export type RateSpread = { label: string; value: number | null; as_of: string | null; chg_30d_pp: number | null; chg_1y_pp: number | null };
+export type Rates = {
+  published_at: string;
+  curve: { code: string; label: string; years: number; value: number | null; as_of: string | null;
+           chg_1d_pp: number | null; chg_30d_pp: number | null; chg_1y_pp: number | null;
+           value_30d_ago: number | null; value_1y_ago: number | null }[];
+  spreads: { s2s10s: RateSpread; s3m10y: RateSpread; real_10y: RateSpread };
+  breakevens: { t5yie: RateLevel; t10yie: RateLevel };
+  credit: { hy_oas: RateLevel };
+  dollar: RateLevel;
+  gdpnow: RateLevel;
+  auto_loan_60m: RateLevel;
+  liquidity: { as_of: string | null; walcl_bn: number | null; tga_bn: number | null; rrp_bn: number | null;
+               net_bn: number | null; units: string;
+               history: { dates: string[]; walcl_bn: (number | null)[]; tga_bn: (number | null)[]; rrp_bn: (number | null)[]; net_bn: (number | null)[] } };
+  mortgage: { pmms_30yr: { value: number | null; as_of: string | null }; mnd_30yr_daily: { value: number | null; as_of: string | null };
+              spread_to_10y_pp: number | null; history: { dates: string[]; pmms_30yr: (number | null)[]; spread_to_10y_pp: (number | null)[] } };
+  history: { dates: string[]; dgs3mo: (number | null)[]; dgs2: (number | null)[]; dgs10: (number | null)[]; t5yie: (number | null)[];
+             t10yie: (number | null)[]; hy_oas: (number | null)[]; dollar: (number | null)[]; spread_2s10s: (number | null)[];
+             spread_3m10y: (number | null)[]; real_10y: (number | null)[] };
+};
+
+export type ComputeIndex = { base_date: string | null; history: { dates: string[]; index: (number | null)[]; members: number[] };
+                             value: number | null; as_of: string | null; chg_30d_pct: number | null };
+export type Compute = {
+  published_at: string;
+  history_start: string | null;
+  blend: { in: number; out: number; min_members: number; method: string };
+  models: { key: string; label: string; in_usd_mtok: number | null; out_usd_mtok: number | null; blended_usd_mtok: number | null;
+            as_of: string | null; chg_30d_pct: number | null; tail: Tail }[];
+  token_index: ComputeIndex;
+  gpus: { code: string; label: string; usd_per_gpu_hr: number | null; as_of: string | null; chg_30d_pct: number | null; tail: Tail }[];
+  gpu_index: ComputeIndex;
+};
+
+export type HousingMeasure = { code: string; label: string; unit: string; value: number | null; as_of: string | null; yoy_pct: number | null };
+export type Housing = {
+  published_at: string;
+  prices: { case_shiller: HousingMeasure; fhfa: HousingMeasure; zhvi: HousingMeasure };
+  rents: { zori: HousingMeasure; aptlist: HousingMeasure };
+  sales: HousingMeasure;
+  mortgage: { pmms_30yr: { value: number | null; as_of: string | null }; mnd_30yr_daily: { value: number | null; as_of: string | null } };
+  affordability: { as_of: string | null; price: number | null; rate_pct: number | null; payment: number | null; income: number | null;
+                   share_pct: number | null; share_2018_01_pct: number | null;
+                   history: { months: string[]; price: number[]; rate_pct: number[]; payment: number[]; income: number[]; share_pct: number[] } };
+  parameters: { ltv: number; term_months: number; hours_per_year: number; income_proxy: string; rate: string };
+};
+
+export type ChangeRow = { key: string; label: string; kind: "gauge" | "datacenter"; value: number | null; as_of: string | null;
+                          prev_value: number | null; prev_as_of: string | null; delta_pp: number | null };
+export type Changes = {
+  published_at: string;
+  prev_published_at: string | null;
+  headline: ChangeRow[];
+  components: { component: string; label: string; mode: string | null; yoy_pct: number | null; prev_yoy_pct: number | null;
+                delta_pp: number | null; bls_yoy_pct: number | null }[];
+  official: { month: string | null; yoy_pct: number | null; prev_month: string | null; new_print: boolean } | null;
+  sources_landed: { source: string; new_rows: number }[];
+  sources_failed: string[];
+  gate_holds: unknown[];
+};

@@ -31,7 +31,7 @@ test("escalation calculator deep-link sets base month, cost and basis", async ({
 
 test("quilt window chip is mirrored into the query string", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "48M", exact: true }).click();
+  await page.locator("section", { hasText: "Inflation quilt" }).getByRole("button", { name: "48M", exact: true }).click();
   await expect.poll(() => page.evaluate(() => location.search)).toContain("qw=48");
 });
 

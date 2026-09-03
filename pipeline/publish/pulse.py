@@ -3,15 +3,21 @@ from pathlib import Path
 from pipeline.publish.util import write_json
 
 
-def build(gauge_result: dict, cpi: dict, next_print: dict | None = None) -> dict:
-    def block(v):
+def build(gauge_result: dict, cpi: dict, next_print: dict | None = None,
+          prev: dict | None = None) -> dict:
+    """`prev` is the previous publish's pulse.json (changes.read_previous);
+    each variant then carries prev_yoy_pct/prev_as_of so the homepage can
+    say what moved since yesterday without a second fetch (batch 4e)."""
+    def block(v, key):
+        p = (prev or {}).get(key) or {}
         return {"yoy_pct": round(v["yoy"][v["as_of"]], 2), "as_of": v["as_of"],
-                "coverage_pct": round(v["coverage_pct"], 2)}
+                "coverage_pct": round(v["coverage_pct"], 2),
+                "prev_yoy_pct": p.get("yoy_pct"), "prev_as_of": p.get("as_of")}
 
     g = gauge_result["variants"]["gauge"]
     t = gauge_result["variants"]["tracker"]
-    return {"gauge": block(g),
-            "tracker": block(t),
+    return {"gauge": block(g, "gauge"),
+            "tracker": block(t, "tracker"),
             "official": {"yoy_pct": round(cpi["yoy_pct"], 2),
                          "prev_yoy_pct": round(cpi["prev_yoy_pct"], 2),
                          "month": cpi["month"]},

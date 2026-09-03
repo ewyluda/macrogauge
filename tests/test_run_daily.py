@@ -279,7 +279,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "stress.json", "recession.json", "datacenter.json",
                  "metros.json", "geo.json", "matrix.json", "labor.json",
                  "commodities.json", "capacity.json", "dc_markets.json",
-                 "dc_grades.json", "longlead.json"):
+                 "dc_grades.json", "longlead.json",
+                 "rates.json", "compute.json", "housing.json", "changes.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 30
@@ -290,8 +291,18 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok
     # + geography_ok + labor_ok + commodities_ok + capacity_ok + markets_ok + grades_ok
-    # + longlead_ok
-    assert qa["total"] == 27
+    # + longlead_ok + rates_ok + compute_ok + housing_ok + changes_ok
+    assert qa["total"] == 31
+    for phase in ("rates", "compute", "housing", "changes"):
+        assert [c for c in qa["checks"] if c["name"] == f"{phase}_ok"][0]["pass"] is True, phase
+    # batch 4e: a fresh out dir has no previous publish -> first reading
+    ch = json.loads((out / "changes.json").read_text())
+    assert ch["prev_published_at"] is None
+    assert {h["key"] for h in ch["headline"]} >= {"gauge", "tracker", "dc_build"}
+    assert all(h["delta_pp"] is None for h in ch["headline"])
+    assert pulse["gauge"]["prev_yoy_pct"] is None
+    gb = json.loads((out / "grocery_basket.json").read_text())
+    assert [w["code"] for w in gb["wholesale"]] == [c for c, *_ in run_daily.grocery.WHOLESALE]
     stamp = [c for c in qa["checks"] if c["name"] == "single_run_stamp"][0]
     assert stamp["pass"] is True  # a clean full run leaves no stale artifacts
     official = json.loads((out / "official.json").read_text())
@@ -973,3 +984,70 @@ def test_longlead_schema_violation_fails_run(tmp_path, monkeypatch):
         run_daily.main(["--store", str(store), "--out", str(out)],
                        http_get=fake_get, http_post=fake_post)
     assert not (out / "qa.json").exists()  # run died before qa
+
+
+def test_second_run_diffs_against_first(tmp_path, monkeypatch):
+    """Batch 4e: the second run finds the first run's artifacts in `out` and
+    publishes deltas (zero here — same fake data) plus the previous stamp."""
+    set_keys(monkeypatch)
+    store, out = tmp_path / "store", tmp_path / "out"
+    assert run_daily.main(["--store", str(store), "--out", str(out)],
+                          http_get=fake_get, http_post=fake_post) == 0
+    first = json.loads((out / "pulse.json").read_text())["published_at"]
+    assert run_daily.main(["--store", str(store), "--out", str(out)],
+                          http_get=fake_get, http_post=fake_post) == 0
+    ch = json.loads((out / "changes.json").read_text())
+    assert ch["prev_published_at"] == first
+    gauge = [h for h in ch["headline"] if h["key"] == "gauge"][0]
+    assert gauge["delta_pp"] == 0.0 and gauge["prev_value"] == gauge["value"]
+    assert ch["official"]["new_print"] is False
+    pulse = json.loads((out / "pulse.json").read_text())
+    assert pulse["gauge"]["prev_yoy_pct"] == pulse["gauge"]["yoy_pct"]
+
+
+def test_rates_failure_does_not_block_publish(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("rates boom")
+
+    monkeypatch.setattr(run_daily.rates_json, "build", boom)
+    out = tmp_path / "out"
+    rc = run_daily.main(["--store", str(tmp_path / "store"), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    checks = {c["name"]: c for c in json.loads((out / "qa.json").read_text())["checks"]}
+    assert checks["rates_ok"]["pass"] is False and "rates boom" in checks["rates_ok"]["detail"]
+    assert checks["engine_ok"]["pass"] is True
+    assert checks["compute_ok"]["pass"] is True and checks["changes_ok"]["pass"] is True
+    assert not (out / "rates.json").exists()
+
+
+def test_changes_survives_engine_failure(tmp_path, monkeypatch):
+    """The diff reads back from disk: with no pulse/gaptable written it
+    publishes empty headline/components rather than failing."""
+    set_keys(monkeypatch)
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("engine boom")
+
+    monkeypatch.setattr(run_daily.gauge_engine, "run", boom)
+    out = tmp_path / "out"
+    rc = run_daily.main(["--store", str(tmp_path / "store"), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    checks = {c["name"]: c for c in json.loads((out / "qa.json").read_text())["checks"]}
+    assert checks["changes_ok"]["pass"] is True
+    ch = json.loads((out / "changes.json").read_text())
+    assert ch["headline"] == [] and ch["components"] == [] and ch["official"] is None
+
+
+@pytest.mark.parametrize("module", ["rates_json", "compute_json", "housing_json", "changes_json"])
+def test_batch4_schema_violation_fails_run(tmp_path, monkeypatch, module):
+    set_keys(monkeypatch)
+    monkeypatch.setattr(getattr(run_daily, module), "build", lambda *a, **k: {"bogus": True})
+    store, out = tmp_path / "store", tmp_path / "out"
+    with pytest.raises(jsonschema.ValidationError):
+        run_daily.main(["--store", str(store), "--out", str(out)],
+                       http_get=fake_get, http_post=fake_post)
+    assert not (out / "qa.json").exists()

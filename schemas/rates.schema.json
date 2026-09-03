@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "rates",
+  "type": "object",
+  "required": ["published_at", "curve", "spreads", "breakevens", "credit", "dollar", "gdpnow",
+               "auto_loan_60m", "liquidity", "mortgage", "history"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "curve": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "label", "years", "value", "as_of", "chg_1d_pp", "chg_30d_pp",
+                     "chg_1y_pp", "value_30d_ago", "value_1y_ago"],
+        "additionalProperties": false,
+        "properties": {
+          "code": {"type": "string"},
+          "label": {"type": "string"},
+          "years": {"type": "number"},
+          "value": {"$ref": "#/$defs/num"},
+          "as_of": {"$ref": "#/$defs/day"},
+          "chg_1d_pp": {"$ref": "#/$defs/num"},
+          "chg_30d_pp": {"$ref": "#/$defs/num"},
+          "chg_1y_pp": {"$ref": "#/$defs/num"},
+          "value_30d_ago": {"$ref": "#/$defs/num"},
+          "value_1y_ago": {"$ref": "#/$defs/num"}
+        }
+      }
+    },
+    "spreads": {
+      "type": "object",
+      "required": ["s2s10s", "s3m10y", "real_10y"],
+      "additionalProperties": false,
+      "properties": {
+        "s2s10s": {"$ref": "#/$defs/spread"},
+        "s3m10y": {"$ref": "#/$defs/spread"},
+        "real_10y": {"$ref": "#/$defs/spread"}
+      }
+    },
+    "breakevens": {
+      "type": "object",
+      "required": ["t5yie", "t10yie"],
+      "additionalProperties": false,
+      "properties": {"t5yie": {"$ref": "#/$defs/level"}, "t10yie": {"$ref": "#/$defs/level"}}
+    },
+    "credit": {
+      "type": "object",
+      "required": ["hy_oas"],
+      "additionalProperties": false,
+      "properties": {"hy_oas": {"$ref": "#/$defs/level"}}
+    },
+    "dollar": {"$ref": "#/$defs/level"},
+    "gdpnow": {"$ref": "#/$defs/level"},
+    "auto_loan_60m": {"$ref": "#/$defs/level"},
+    "liquidity": {
+      "type": "object",
+      "required": ["as_of", "walcl_bn", "tga_bn", "rrp_bn", "net_bn", "units", "history"],
+      "additionalProperties": false,
+      "properties": {
+        "as_of": {"$ref": "#/$defs/day"},
+        "walcl_bn": {"$ref": "#/$defs/num"},
+        "tga_bn": {"$ref": "#/$defs/num"},
+        "rrp_bn": {"$ref": "#/$defs/num"},
+        "net_bn": {"$ref": "#/$defs/num"},
+        "units": {"type": "string"},
+        "history": {
+          "type": "object",
+          "required": ["dates", "walcl_bn", "tga_bn", "rrp_bn", "net_bn"],
+          "additionalProperties": false,
+          "properties": {
+            "dates": {"$ref": "#/$defs/days"},
+            "walcl_bn": {"$ref": "#/$defs/nums"},
+            "tga_bn": {"$ref": "#/$defs/nums"},
+            "rrp_bn": {"$ref": "#/$defs/nums"},
+            "net_bn": {"$ref": "#/$defs/nums"}
+          }
+        }
+      }
+    },
+    "mortgage": {
+      "type": "object",
+      "required": ["pmms_30yr", "mnd_30yr_daily", "spread_to_10y_pp", "history"],
+      "additionalProperties": false,
+      "properties": {
+        "pmms_30yr": {"$ref": "#/$defs/point"},
+        "mnd_30yr_daily": {"$ref": "#/$defs/point"},
+        "spread_to_10y_pp": {"$ref": "#/$defs/num"},
+        "history": {
+          "type": "object",
+          "required": ["dates", "pmms_30yr", "spread_to_10y_pp"],
+          "additionalProperties": false,
+          "properties": {
+            "dates": {"$ref": "#/$defs/days"},
+            "pmms_30yr": {"$ref": "#/$defs/nums"},
+            "spread_to_10y_pp": {"$ref": "#/$defs/nums"}
+          }
+        }
+      }
+    },
+    "history": {
+      "type": "object",
+      "required": ["dates", "dgs3mo", "dgs2", "dgs10", "t5yie", "t10yie", "hy_oas", "dollar",
+                   "spread_2s10s", "spread_3m10y", "real_10y"],
+      "additionalProperties": false,
+      "properties": {
+        "dates": {"$ref": "#/$defs/days"},
+        "dgs3mo": {"$ref": "#/$defs/nums"},
+        "dgs2": {"$ref": "#/$defs/nums"},
+        "dgs10": {"$ref": "#/$defs/nums"},
+        "t5yie": {"$ref": "#/$defs/nums"},
+        "t10yie": {"$ref": "#/$defs/nums"},
+        "hy_oas": {"$ref": "#/$defs/nums"},
+        "dollar": {"$ref": "#/$defs/nums"},
+        "spread_2s10s": {"$ref": "#/$defs/nums"},
+        "spread_3m10y": {"$ref": "#/$defs/nums"},
+        "real_10y": {"$ref": "#/$defs/nums"}
+      }
+    }
+  },
+  "$defs": {
+    "num": {"type": ["number", "null"]},
+    "nums": {"type": "array", "items": {"type": ["number", "null"]}},
+    "day": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "days": {"type": "array", "items": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}},
+    "point": {
+      "type": "object",
+      "required": ["value", "as_of"],
+      "additionalProperties": false,
+      "properties": {"value": {"$ref": "#/$defs/num"}, "as_of": {"$ref": "#/$defs/day"}}
+    },
+    "spread": {
+      "type": "object",
+      "required": ["label", "value", "as_of", "chg_30d_pp", "chg_1y_pp"],
+      "additionalProperties": false,
+      "properties": {
+        "label": {"type": "string"},
+        "value": {"$ref": "#/$defs/num"},
+        "as_of": {"$ref": "#/$defs/day"},
+        "chg_30d_pp": {"$ref": "#/$defs/num"},
+        "chg_1y_pp": {"$ref": "#/$defs/num"}
+      }
+    },
+    "level": {
+      "type": "object",
+      "required": ["code", "value", "as_of", "chg_30d", "chg_1y", "tail"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"type": "string"},
+        "value": {"$ref": "#/$defs/num"},
+        "as_of": {"$ref": "#/$defs/day"},
+        "chg_30d": {"$ref": "#/$defs/num"},
+        "chg_1y": {"$ref": "#/$defs/num"},
+        "tail": {
+          "type": "object",
+          "required": ["dates", "values"],
+          "additionalProperties": false,
+          "properties": {"dates": {"$ref": "#/$defs/days"},
+                         "values": {"type": "array", "items": {"type": "number"}}}
+        }
+      }
+    }
+  }
+}

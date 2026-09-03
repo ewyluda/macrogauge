@@ -36,6 +36,34 @@
     "skipped": {
       "type": "array",
       "items": {"type": "string"}
+    },
+    "wholesale": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "name", "retail_code", "as_of", "value", "yoy_pct",
+                     "retail_yoy_pct", "spread_pp", "series"],
+        "additionalProperties": false,
+        "properties": {
+          "code": {"type": "string"},
+          "name": {"type": "string"},
+          "retail_code": {"type": "string"},
+          "as_of": {"type": ["string", "null"]},
+          "value": {"type": ["number", "null"]},
+          "yoy_pct": {"type": ["number", "null"]},
+          "retail_yoy_pct": {"type": ["number", "null"]},
+          "spread_pp": {"type": ["number", "null"]},
+          "series": {
+            "type": "object",
+            "required": ["dates", "values"],
+            "additionalProperties": false,
+            "properties": {
+              "dates": {"type": "array", "items": {"type": "string"}},
+              "values": {"type": "array", "items": {"type": "number"}}
+            }
+          }
+        }
+      }
     }
   }
 }

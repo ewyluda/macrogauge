@@ -16,6 +16,7 @@ import { Citation } from "@/components/Citation";
 import { columnsToRows } from "@/lib/csv";
 import { ContributionSection } from "@/components/ContributionSection";
 import { BreadthPanel } from "@/components/BreadthPanel";
+import { SinceYesterdayStrip } from "@/components/SinceYesterday";
 import { cite } from "@/lib/citation";
 import { DeltaChip } from "@/components/DeltaChip";
 import { StatusPill } from "@/components/StatusPill";
@@ -195,6 +196,7 @@ export default function Home() {
         />
       </div>
 
+      <SinceYesterdayStrip />
       <Citation
         series="CPI-comparable gauge YoY"
         asOf={pulse.gauge.as_of}

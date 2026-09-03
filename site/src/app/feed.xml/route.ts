@@ -4,6 +4,7 @@ import dc from "../../../public/data/datacenter.json";
 import { SITE_DESCRIPTION } from "@/lib/nav";
 import { SITE_URL } from "@/lib/site";
 import { fmtPct, fmtPp, fmtSigned } from "@/lib/format";
+import { sinceYesterdayText } from "@/components/SinceYesterday";
 
 export const dynamic = "force-static";
 
@@ -29,6 +30,7 @@ export function GET() {
     `Macrogauge (CPI-comparable) ${fmtPct(pulse.gauge.yoy_pct)} YoY as of ${pulse.gauge.as_of}, ${fmtPp(pulse.gap_pp)} vs the official ${fmtPct(pulse.official.yoy_pct)} print (${pulse.official.month.slice(0, 7)}).`,
     `CPI-Tracker ${fmtPct(pulse.tracker.yoy_pct)} (${fmtPp(pulse.tracker_gap_pp)} gap). Live basket coverage ${pulse.gauge.coverage_pct.toFixed(0)}%.`,
     `DC Build ${fmtSigned(dc.indexes.build.headline_yoy_pct)} · DC Ops ${fmtSigned(dc.indexes.ops.headline_yoy_pct)} · DC Hardware ${fmtSigned(dc.indexes.hardware.headline_yoy_pct)} YoY.`,
+    `Since the previous publish: ${sinceYesterdayText()}`,
     movers ? `Top official movers: ${movers}.` : "",
     `Next CPI print ${pulse.next_print.date} (reference ${pulse.next_print.reference_month}).`,
   ].filter(Boolean).join(" ");

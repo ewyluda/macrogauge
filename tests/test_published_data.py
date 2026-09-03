@@ -28,7 +28,11 @@ CONTRACT = [("pulse.json", "pulse.schema.json"),
             ("datacenter.json", "datacenter.schema.json"),
             ("capacity.json", "capacity.schema.json"),
             ("dc_markets.json", "dc_markets.schema.json"),
-            ("longlead.json", "longlead.schema.json")]
+            ("longlead.json", "longlead.schema.json"),
+            ("rates.json", "rates.schema.json"),
+            ("compute.json", "compute.schema.json"),
+            ("housing.json", "housing.schema.json"),
+            ("changes.json", "changes.schema.json")]
 
 
 @pytest.mark.parametrize("data_file,schema_file", CONTRACT)
