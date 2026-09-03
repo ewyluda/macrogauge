@@ -33,6 +33,7 @@ const ROUTES: [string, string][] = [
   ["/matrix", "models × targets"],
   ["/gap", "where ours differs from BLS"],
   ["/vs-bls", "Macrogauge vs BLS"],
+  ["/pce", "the Fed's index, re-priced daily under BEA shares"],
   ["/next-print", "who’s where"],
   ["/heatcheck", "Economy Heat Check"],
   ["/stress", "Consumer Stress Index"],

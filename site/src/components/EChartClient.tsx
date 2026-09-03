@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, type MutableRefObject } from "react";
 import * as echarts from "echarts/core";
-import { LineChart, TreemapChart } from "echarts/charts";
+import { LineChart, ScatterChart, TreemapChart } from "echarts/charts";
 import {
   GridComponent,
   TooltipComponent,
@@ -20,6 +20,7 @@ import { CanvasRenderer } from "echarts/renderers";
 // option keys the wrappers actually use.
 echarts.use([
   LineChart,
+  ScatterChart,
   TreemapChart,
   GridComponent,
   TooltipComponent,

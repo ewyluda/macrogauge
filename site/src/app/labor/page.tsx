@@ -53,7 +53,7 @@ export default function LaborPage() {
         <KpiCard label="Unemployment" value={d.unemployment.rate == null ? "—" : `${d.unemployment.rate.toFixed(1)}%`}
           context={`${d.unemployment.delta_1y_pp == null ? "—" : `${d.unemployment.delta_1y_pp > 0 ? "+" : ""}${d.unemployment.delta_1y_pp.toFixed(1)}pp`} vs 1y ago`} accent="amber" />
         <KpiCard label="Initial claims" value={k(d.claims.initial)}
-          context={`${k(d.claims.initial_4wk_avg)} 4-wk avg · ${d.claims.as_of ? fmtMonth(d.claims.as_of) : "—"}`} accent="violet" />
+          context={`${k(d.claims.initial_4wk_avg)} 4-wk avg · continued ${k(d.claims.continued)} · ${d.claims.as_of ? fmtMonth(d.claims.as_of) : "—"}`} accent="violet" />
         <KpiCard label="Wage growth" value={d.wages.atlanta_wgt_pct == null ? "—" : `${d.wages.atlanta_wgt_pct.toFixed(1)}%`}
           context={`Atlanta Fed tracker · AHE ${fmtSigned(d.wages.ahe_yoy_pct)}`} accent="emerald" />
       </div>

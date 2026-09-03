@@ -57,3 +57,18 @@ describe("buildTimeline", () => {
     expect(tl.milestones).toEqual({});
   });
 });
+
+
+import capacityJson from "../../public/data/capacity.json";
+import type { Capacity } from "./types";
+import { cohortOf } from "./capacityCohort";
+
+describe("published timeline parity", () => {
+  const cap = capacityJson as unknown as Capacity;
+  for (const cohort of ["all", "neocloud", "hyperscaler"] as const) {
+    it(`client buildTimeline equals capacity.json timeline.${cohort}`, () => {
+      const rows = cap.companies.filter((c) => cohort === "all" || cohortOf(c) === cohort);
+      expect(buildTimeline(rows)).toEqual(cap.timeline[cohort]);
+    });
+  }
+});

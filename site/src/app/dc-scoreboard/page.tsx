@@ -146,6 +146,7 @@ export default function Page() {
           rows={data.anchors.map((a) => flattenRow(a))} />
       </div>
       <GradesClient
+        anchors={data.anchors}
         data={data}
         reconstruction={reconstruction}
         anchorsN={data.anchors.length}

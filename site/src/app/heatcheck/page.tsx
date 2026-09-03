@@ -58,12 +58,12 @@ export default function Heatcheck() {
         {Object.entries(groups).map(([name, g]) => <div key={name} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 12px", minWidth: 140 }}>
           <div style={{ fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--muted)" }}>{name.replaceAll("_", " ")}</div>
           <div style={{ fontSize: 18, fontWeight: 600, color: g.z == null ? "var(--muted)" : zColor(g.z), fontVariantNumeric: "tabular-nums" }}>{g.z == null ? "—" : signed(g.z)}</div>
-          <div style={{ fontSize: 11, color: "var(--muted)" }}>weight {g.weight ?? "—"} · {g.available ?? "—"}/{g.expected ?? "—"} live</div>
+          <div style={{ fontSize: 11, color: "var(--muted)" }}>weight {g.weight ?? "—"}{g.active_weight != null && g.active_weight !== g.weight ? ` (active ${g.active_weight})` : ""} · {g.available ?? "—"}/{g.expected ?? "—"} live</div>
         </div>)}
       </div>
     </Section>
     <Section title="Indicator detail">
-      <div className="table-card"><table className="data-table"><thead><tr><th>Indicator</th><th>Group</th><th>Signal</th><th>Momentum</th><th>Signed z</th><th>As of</th></tr></thead><tbody>{indicators.map(row => <tr key={row.code}><td>{indicatorLabel(row.code)} <span style={{ color: "var(--muted)", fontSize: 11 }}>{row.code}</span></td><td>{row.group.replaceAll("_", " ")}</td><td><HeatBadge z={row.z} /></td><td>{row.momentum.toFixed(2)}{row.mode === "diff" ? "pp" : "%"}</td><td>{row.z.toFixed(2)}</td><td>{row.as_of}</td></tr>)}</tbody></table></div>
+      <div className="table-card"><table className="data-table"><thead><tr><th>Indicator</th><th>Group</th><th>Signal</th><th>Momentum</th><th>Sign</th><th>Signed z</th><th>As of</th></tr></thead><tbody>{indicators.map(row => <tr key={row.code}><td>{indicatorLabel(row.code)} <span style={{ color: "var(--muted)", fontSize: 11 }}>{row.code}</span></td><td>{row.group.replaceAll("_", " ")}</td><td><HeatBadge z={row.z} /></td><td>{row.momentum.toFixed(2)}{row.mode === "diff" ? "pp" : "%"}</td><td title={row.direction >= 0 ? "rising = heating" : "rising = cooling"} style={{ color: "var(--muted)" }}>{row.direction >= 0 ? "↑ heats" : "↓ heats"}</td><td>{row.z.toFixed(2)}</td><td>{row.as_of}</td></tr>)}</tbody></table></div>
     </Section>
     <p className="method">Each indicator’s momentum over roughly three months (3 monthly, 13 weekly, or 63 daily periods; rates and spreads as point changes, everything else as % change) is z-scored against its own available history, clamped to ±2.5, and signed so positive means heating. Group weights: Prices 25, Real Economy 25, Pipeline 20, Housing 15, Money &amp; Expectations 15. Group tiles show the published per-group subtotals (mean z, weight, available/expected inputs); row badges bucket the published z — HEATING above +0.25, COOLING below −0.25, NEUTRAL between.</p></div>;
 }

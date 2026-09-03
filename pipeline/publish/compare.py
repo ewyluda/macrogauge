@@ -81,11 +81,18 @@ def build(gauge_result: dict, conn) -> dict:
     official_col = [round(off[m], 2) for m in months]
     core = _official_yoy(conn, "CPILFENS")
     core_col = [None if m not in core else round(core[m], 2) for m in months]
+    # Official PCE price index on the same month grid, so /pce can chart the
+    # pce variant against what it is graded on (batch 2a, 2026-09-03). Null
+    # where PCEPI has no store rows -- same degradation as the core column.
+    pce = _official_yoy(conn, "PCEPI")
+    pce_col = [None if m not in pce else round(pce[m], 2) for m in months]
     payload = {"months": months, "official_yoy_pct": official_col,
                "official_core_yoy_pct": core_col,
+               "official_pce_yoy_pct": pce_col,
                "validation": {}}
     window = f"{months[0][:7]}..{months[-1][:7]}" if months else ""
-    ref_yoy_cache: dict[str, dict[str, float]] = {"CPIAUCNS": off}
+    ref_yoy_cache: dict[str, dict[str, float]] = {"CPIAUCNS": off, "CPILFENS": core,
+                                                  "PCEPI": pce}
     for name, v in gauge_result["variants"].items():
         # Sample each month at its LAST grid date — quilt.py's convention.
         # Month-first sampling published a different number for "our YoY in

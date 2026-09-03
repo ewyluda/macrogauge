@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import gaugeDaily from "../../../public/data/gauge_daily.json";
+import compare from "../../../public/data/compare.json";
+import { LinesChart } from "@/components/LinesChart";
+import { DownloadData } from "@/components/DownloadData";
+import { columnsToRows } from "@/lib/csv";
+import { C } from "@/lib/chartTheme";
 import pulse from "../../../public/data/pulse.json";
 import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
@@ -68,6 +73,33 @@ export default function Supercore() {
             refLabel="Fed 2% (core PCE target)"
           />
         </div>
+      </Section>
+
+      <Section title="Supercore vs core CPI — monthly, full history">
+        <div className="section-tools">
+          <DownloadData filename="macrogauge-supercore-monthly" json="compare.json"
+            citation={`MacroGauge supercore vs core CPI, monthly, ${compare.validation.supercore.window}`}
+            rows={columnsToRows({ name: "month", values: compare.months }, [
+              { name: "supercore_yoy_pct", values: compare.supercore_yoy_pct },
+              { name: "official_core_yoy_pct", values: compare.official_core_yoy_pct },
+            ])} />
+        </div>
+        <div className="chart-card">
+          <LinesChart
+            series={[
+              { name: "Supercore (ours)", x: compare.months, y: compare.supercore_yoy_pct, color: C.amber },
+              { name: "Official core CPI", x: compare.months, y: compare.official_core_yoy_pct, color: C.muted, dashed: true, step: true },
+            ]}
+            refLine={2}
+            refLabel="2%"
+          />
+        </div>
+        <p className="method">
+          Month-end sampling of the daily series against the official core CPI print — the series supercore is
+          graded on. Correlation {compare.validation.supercore.corr ?? "—"}, mean absolute gap{" "}
+          {compare.validation.supercore.mean_abs_gap_pp ?? "—"}pp over {compare.validation.supercore.window}. A
+          four-component services cut will not track a 200-item core index tightly; the gap is the point, not a defect.
+        </p>
       </Section>
 
       <Section title="Methodology">

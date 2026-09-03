@@ -153,6 +153,10 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
               ? ` · MW not disclosed at ${m.sites_mw_undisclosed} site${
                   m.sites_mw_undisclosed === 1 ? "" : "s"}`
               : ""}
+            {/* Planned / secured are stated-status buckets, not in-flight —
+                shown muted, never summed into the construction figure. */}
+            {m.mw_planned ? ` · ${m.mw_planned.toLocaleString()} MW planned` : ""}
+            {m.mw_secured ? ` · ${m.mw_secured.toLocaleString()} MW secured` : ""}
           </div>
         </td>
       </tr>

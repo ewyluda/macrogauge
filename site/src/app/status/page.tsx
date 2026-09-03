@@ -132,6 +132,7 @@ export default function Status() {
                 <th>Cadence</th>
                 <th>Status</th>
                 <th>Series</th>
+                <th>Fetched</th>
                 <th>New rows</th>
                 <th>Latest obs</th>
                 <th>Finished</th>
@@ -152,6 +153,7 @@ export default function Status() {
                     />
                   </td>
                   <td>{s.series_count}</td>
+                  <td style={{ color: "var(--muted)" }}>{s.fetched}</td>
                   <td>{s.new_rows}</td>
                   <td>{s.latest_obs ?? "—"}</td>
                   <td style={{ color: "var(--muted)" }}>
