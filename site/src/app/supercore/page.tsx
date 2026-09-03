@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import gaugeDaily from "../../../public/data/gauge_daily.json";
 import compare from "../../../public/data/compare.json";
 import { LinesChart } from "@/components/LinesChart";
@@ -79,7 +80,7 @@ export default function Supercore() {
 
       <Section title="Breadth across the whole basket">
         <BreadthPanel compact />
-        <p className="method">Latest-month breadth over all 14 components (full charts on the <a href="/">homepage</a>) — context for whether services stickiness is broad or narrow.</p>
+        <p className="method">Latest-month breadth over all 14 components (full charts on the <Link href="/">homepage</Link>) — context for whether services stickiness is broad or narrow.</p>
       </Section>
 
       <Section title="Supercore vs core CPI — monthly, full history">

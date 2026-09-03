@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "lint": "next lint",
+    "lint": "eslint src e2e scripts",
     "test": "vitest run",
     "e2e": "playwright test",
     "prebuild": "node scripts/copy-schemas.mjs"
@@ -20,6 +20,9 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^15.5.25",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "serve": "^14.2.6",
     "typescript": "^5",
     "vitest": "^4.1.10"

@@ -347,3 +347,15 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
 /* --- in-content links (batch 5): prose, tables and page nav share one style --- */
 .lede a, .method a, .data-table a, .subtitle a, .kpi-context a, .component-nav a, .since-strip a { color: var(--accent-sky); text-decoration: none; }
 .lede a:hover, .method a:hover, .data-table a:hover, .subtitle a:hover, .kpi-context a:hover, .component-nav a:hover { text-decoration: underline; }
+
+/* --- batch 7: glossary terms + a global focus ring --- */
+.term { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--accent-sky); cursor: help; }
+.term:hover { color: var(--accent-sky); }
+.glossary { display: grid; gap: 10px 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin: 0; }
+.glossary-row { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; scroll-margin-top: 80px; }
+.glossary dt { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+.glossary dd { margin: 0; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.glossary-row:target { border-color: var(--accent-sky); }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--accent-sky); outline-offset: 2px;
+}

@@ -111,7 +111,7 @@ methodology constraints remain in
 
 ## UX and accessibility
 
-- [ ] **#7 — Add explicit scoreboard empty/degraded states.** The page now explains BT versus LIVE,
+- [x] **#7 — Add explicit scoreboard empty/degraded states.** *(done 2026-09-03, batch 7: GradeTable empty rows, backtest empty row, grades sections' withheld copy)* The page now explains BT versus LIVE,
   so that half of the old item is complete. What remains is visible copy when any graded/pending or
   backtest collection is empty instead of rendering a blank table body.
 
@@ -123,17 +123,17 @@ methodology constraints remain in
   misleading “index starts in 2018-01” message. Parse and report invalid/out-of-range values in the
   client.
 
-- [ ] **#28 — Finish sortable-header accessibility in `ParityTable.tsx`.** `/markets` was fixed in
+- [x] **#28 — Finish sortable-header accessibility in `ParityTable.tsx`.** *(done 2026-09-03, batch 7)* `/markets` was fixed in
   `982d0a8` with a native button inside each `<th>` plus `aria-sort`. `QuiltHeatmap` has no sortable
   `<th>` and was incorrectly named in the original item. Apply the proven pattern to the one real
   remaining table.
 
-- [ ] **#29 — Preserve native row semantics on expandable tables.** `/markets` and `/capacity`
+- [x] **#29 — Preserve native row semantics on expandable tables.** *(done 2026-09-03, batch 7)* `/markets` and `/capacity`
   still put `role="button"` on `<tr>`, which removes its implicit row role. Move the interactive
   control into a button in the identifying cell while retaining keyboard and expanded-state
   behavior.
 
-- [ ] **#30 — Add an actual ESLint/a11y gate.** `site/` has no ESLint config or ESLint dependencies,
+- [x] **#30 — Add an actual ESLint/a11y gate.** *(done 2026-09-03, batch 7: `eslint.config.mjs` flat config, jsx-a11y + react-hooks, `npm run lint` in CI)* `site/` has no ESLint config or ESLint dependencies,
   while `npm run lint` still invokes `next lint`. Install/configure the supported Next/ESLint path
   and `jsx-a11y` rules so #28/#29 cannot recur.
 

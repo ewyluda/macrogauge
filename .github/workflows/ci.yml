@@ -28,6 +28,8 @@ jobs:
           cache-dependency-path: site/package-lock.json
       - run: npm ci
         working-directory: site
+      - run: npm run lint
+        working-directory: site
       - run: npm run build
         working-directory: site
       - run: npm test

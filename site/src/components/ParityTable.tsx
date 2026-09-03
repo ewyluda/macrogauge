@@ -25,10 +25,17 @@ export function ParityTable({ states, mode }: { states: ParityRow[]; mode: strin
     const cmp = av < bv ? -1 : av > bv ? 1 : 0;
     return asc ? cmp : -cmp;
   });
+  // Sortable headers are real buttons with aria-sort (todo #28) — the same
+  // pattern /markets uses — so they are reachable by keyboard and announce
+  // which column drives the order.
   const th = (label: string, k: Key) => (
-    <th style={{ cursor: "pointer" }}
-        onClick={() => (k === key ? setAsc(!asc) : (setKey(k), setAsc(k === "state")))}>
-      {label}{key === k ? (asc ? " ↑" : " ↓") : ""}
+    <th aria-sort={key === k ? (asc ? "ascending" : "descending") : undefined}>
+      <button type="button"
+        onClick={() => (k === key ? setAsc(!asc) : (setKey(k), setAsc(k === "state")))}
+        style={{ background: "none", border: 0, padding: 0, width: "100%", color: "inherit",
+                 cursor: "pointer", font: "inherit", textAlign: "inherit" }}>
+        {label}{key === k ? (asc ? " ↑" : " ↓") : ""}
+      </button>
     </th>
   );
   return (
