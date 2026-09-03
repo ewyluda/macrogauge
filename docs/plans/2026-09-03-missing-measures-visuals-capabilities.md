@@ -430,6 +430,19 @@ before starting; the register's premises have been refuted four times by recon.
 
 ## Batch 7 — Hygiene (ride-along)
 
+**Status: SHIPPED 2026-09-03 on `feat/batch7-hygiene`.** Glossary (`lib/glossary.ts`, 12 terms;
+`<Term>` links to `/methodology#term-…` with the definition as title + aria-label, mounted on
+`/gap`, `/cpi-preview`, `/dc-scoreboard`); empty states (todo #7) on the backtest table and the
+two grading sections that used to return null; `ParityTable` sortable headers are buttons with
+`aria-sort` (#28); `/markets` rows keep their row role with the control in the identifying cell,
+`/capacity` bars are real buttons (#29); ESLint flat config with next core-web-vitals, jsx-a11y and
+react-hooks, `npm run lint` in CI's site job (#30) — the tree was already clean bar one raw anchor;
+global `:focus-visible` ring. **Light mode: deferred** (Eric's call; print CSS stands in).
+Gates: vitest 230, e2e 116, lint 0 errors.
+
+**With this batch every item in the seven-batch plan is shipped.** Remaining product decisions
+live in the section below; engineering debt stays in `todo.md`.
+
 - **Glossary**: `site/src/lib/glossary.ts` (term → 1–2 sentences) + `<Term>` component rendering
   `<abbr title>` with a dotted underline; terms: Laspeyres, splice, vintage, gate hold,
   carry-forward, rebase, supercore, lead-lag, contingency basis, anchor, first print. Mount in

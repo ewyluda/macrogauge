@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GlossaryList } from "@/components/Term";
 import methodology from "../../../public/data/methodology.json";
 import { Section } from "@/components/Section";
 import { MethodologyInventory } from "@/components/MethodologyInventory";
@@ -62,6 +63,10 @@ export default function Methodology() {
           </div>
         ))}
       </div>
+
+      <Section title="Glossary — the words this site uses precisely">
+        <GlossaryList />
+      </Section>
 
       <Section title="How the gauge is built — five stages">
         <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))" }}>

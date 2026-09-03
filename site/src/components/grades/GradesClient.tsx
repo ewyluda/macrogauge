@@ -270,7 +270,13 @@ function PairedGradingSection({
  *  comparable, understating exactly the spread this section is about. */
 function InversionSection({ data }: { data: GradesPageData }) {
   const rows = pairedBasisMeans(data);
-  if (!rows.length) return null;
+  if (!rows.length) {
+    return (
+      <Section title="The inversion">
+        <p className="method">No basis has a graded horizon shared by both legs on this publish, so the strict-vs-extended comparison is withheld rather than shown one-legged.</p>
+      </Section>
+    );
+  }
 
   const strictOf: LegPick = (r) => r.strict;
   const extendedOf: LegPick = (r) => r.extended;
@@ -360,7 +366,13 @@ function InversionSection({ data }: { data: GradesPageData }) {
 // ---------------------------------------------------------------------------
 
 function ScenarioSection({ scenarios }: { scenarios: DcGrades["scenarios"] }) {
-  if (!scenarios.length) return null;
+  if (!scenarios.length) {
+    return (
+      <Section title="Regimes carried on /escalation — ungradeable by design">
+        <p className="method">No hindsight-selected regimes were published on this run.</p>
+      </Section>
+    );
+  }
   return (
     <Section title="Regimes carried on /escalation — ungradeable by design">
       <div className="section-featured" style={{ marginTop: 0 }}>

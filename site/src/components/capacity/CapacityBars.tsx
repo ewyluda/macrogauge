@@ -73,11 +73,11 @@ export function CapacityBars({ rows }: { rows: CapacityCompany[] }) {
           const total = c.op + c.con + c.plan;
           return (
             <div key={c.t} className="dashboard-panel" style={{ padding: 0 }}>
-              <div onClick={() => setOpen(open === c.t ? null : c.t)}
-                role="button" tabIndex={0} aria-expanded={open === c.t}
-                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOpen(open === c.t ? null : c.t); } }}
-                style={{ display: "grid", gridTemplateColumns: "230px 1fr 110px", gap: 12,
-                         alignItems: "center", padding: "9px 14px", cursor: "pointer" }}>
+              <button type="button" onClick={() => setOpen(open === c.t ? null : c.t)}
+                aria-expanded={open === c.t}
+                style={{ display: "grid", gridTemplateColumns: "230px 1fr 110px", gap: 12, width: "100%",
+                         alignItems: "center", padding: "9px 14px", cursor: "pointer", background: "none",
+                         border: 0, color: "inherit", font: "inherit", textAlign: "left" }}>
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontSize: 13.5, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                     <span style={{ color: "var(--muted)", marginRight: 6 }}>{i + 1}</span>
@@ -109,7 +109,7 @@ export function CapacityBars({ rows }: { rows: CapacityCompany[] }) {
                     ) : <span title={c.private ? "Private — EV/MW not comparable" : "Conglomerate EV — not meaningful per AI MW"}>—</span>}
                   </div>
                 </div>
-              </div>
+              </button>
               {open === c.t && <Detail c={c} />}
             </div>
           );

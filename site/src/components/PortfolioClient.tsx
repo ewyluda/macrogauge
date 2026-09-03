@@ -50,7 +50,6 @@ export function PortfolioClient({ data, markets }: { data: EscalationData; marke
       setProjects(SAMPLE);
     }
     setLoaded(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [encoded, loaded]);
 
   // persist: both channels, every change

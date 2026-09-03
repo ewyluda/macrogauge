@@ -115,12 +115,17 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
   }
   return (
     <>
-      <tr onClick={onToggle}
-        role="button" tabIndex={0} aria-expanded={open}
-        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onToggle(); } }}
-        style={{ cursor: "pointer" }}>
+      {/* The row keeps its native row role (todo #29): the interactive
+          control is a real button in the identifying cell, with the
+          expanded state on it; the rest of the row still toggles on click
+          for mouse readers. */}
+      <tr onClick={onToggle} style={{ cursor: "pointer" }}>
         <td>
-          {m.name}{m.thin_base ? " ⚠" : ""}
+          <button type="button" aria-expanded={open} onClick={(e) => { e.stopPropagation(); onToggle(); }}
+            style={{ background: "none", border: 0, padding: 0, color: "inherit", font: "inherit",
+                     cursor: "pointer", textAlign: "left" }}>
+            {open ? "▾ " : "▸ "}{m.name}{m.thin_base ? " ⚠" : ""}
+          </button>
           {(m.counties_used < m.counties_total || m.yoy_basis === null) && (
             <span title="Partial county coverage this quarter — expand for the basis"> †</span>
           )}

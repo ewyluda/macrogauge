@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import dcJson from "../../../public/data/datacenter.json";
 import gradesJson from "../../../public/data/dc_grades.json";
 import { KpiCard } from "@/components/KpiCard";
+import { Term } from "@/components/Term";
 import { Citation } from "@/components/Citation";
 import { DownloadData } from "@/components/DownloadData";
 import {
@@ -80,6 +81,7 @@ export default function Page() {
         <span className="subtitle">did the basis you carried hold?</span>
       </h1>
       <p className="lede">
+        Every <Term k="basis">contingency basis</Term> graded at every <Term k="anchor">anchor</Term>, on <Term k="vintage">vintage</Term>-true and final-revision legs.{" "}
         <b>
           /escalation offers {BASES.length} bases to carry as a contingency
           factor. This grades the {ruleCount} that are rules
