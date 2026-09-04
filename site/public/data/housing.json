@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-03T18:38:35Z",
+  "published_at": "2026-09-04T16:38:39Z",
   "prices": {
     "case_shiller": {
       "code": "CSUSHPINSA",
@@ -58,8 +58,8 @@
       "as_of": "2026-09-03"
     },
     "mnd_30yr_daily": {
-      "value": 6.91,
-      "as_of": "2026-09-03"
+      "value": 6.88,
+      "as_of": "2026-09-04"
     }
   },
   "affordability": {
@@ -67,8 +67,8 @@
     "price": 297419,
     "rate_pct": 6.542,
     "payment": 1888,
-    "income": 6521,
-    "share_pct": 28.96,
+    "income": 6526,
+    "share_pct": 28.93,
     "share_2018_01_pct": 18.88,
     "history": {
       "months": [
@@ -593,8 +593,8 @@
         6474,
         6484,
         6498,
-        6517,
-        6521
+        6516,
+        6526
       ],
       "share_pct": [
         18.88,
@@ -699,7 +699,7 @@
         28.52,
         28.77,
         28.81,
-        28.96
+        28.93
       ]
     }
   },

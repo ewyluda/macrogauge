@@ -1,14 +1,18 @@
 {
-  "published_at": "2026-09-03T16:43:37Z",
+  "published_at": "2026-09-04T16:38:39Z",
   "gauge": {
     "yoy_pct": 3.0,
-    "as_of": "2026-09-03",
-    "coverage_pct": 42.6
+    "as_of": "2026-09-04",
+    "coverage_pct": 42.6,
+    "prev_yoy_pct": 3.0,
+    "prev_as_of": "2026-09-03"
   },
   "tracker": {
     "yoy_pct": 3.67,
-    "as_of": "2026-09-03",
-    "coverage_pct": 6.5
+    "as_of": "2026-09-04",
+    "coverage_pct": 6.5,
+    "prev_yoy_pct": 3.67,
+    "prev_as_of": "2026-09-03"
   },
   "official": {
     "yoy_pct": 3.36,
@@ -16,7 +20,7 @@
     "month": "2026-07-01"
   },
   "gap_pp": -0.36,
-  "tracker_gap_pp": 0.3,
+  "tracker_gap_pp": 0.31,
   "next_print": {
     "date": "2026-09-11",
     "reference_month": "2026-08"

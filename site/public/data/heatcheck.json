@@ -1,17 +1,17 @@
 {
-  "published_at": "2026-09-03T16:43:37Z",
-  "score": -3.0,
+  "published_at": "2026-09-04T16:38:39Z",
+  "score": -1.1,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": -0.47038,
+      "z": -0.42068000000000005,
       "weight": 25,
       "available": 5,
       "expected": 5,
       "active_weight": 25.0
     },
     "real_economy": {
-      "z": -0.04548000000000001,
+      "z": 0.04037999999999999,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -32,7 +32,7 @@
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": 0.8057,
+      "z": 0.8338,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -78,24 +78,24 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-09-02",
-      "momentum": -0.18,
-      "z": -0.71
+      "as_of": "2026-09-03",
+      "momentum": -0.11,
+      "z": -0.4615
     },
     {
       "code": "PAYEMS",
       "group": "real_economy",
       "direction": 1,
-      "as_of": "2026-07-01",
-      "momentum": 0.0378,
-      "z": -1.3483
+      "as_of": "2026-08-01",
+      "momentum": 0.1347,
+      "z": -0.919
     },
     {
       "code": "UNRATE",
       "group": "real_economy",
       "direction": -1,
       "mode": "diff",
-      "as_of": "2026-07-01",
+      "as_of": "2026-08-01",
       "momentum": -0.2,
       "z": 0.6745
     },
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-09-02",
-      "momentum": -0.01,
-      "z": 0.0422
+      "as_of": "2026-09-03",
+      "momentum": 0.01,
+      "z": 0.1265
     }
   ]
 }

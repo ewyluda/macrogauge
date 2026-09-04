@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-03T16:43:37Z",
+  "published_at": "2026-09-04T16:38:39Z",
   "target": "CPI",
   "release_date": "2026-09-11",
   "reference_month": "2026-08",
@@ -7,7 +7,7 @@
     "target_month": "2026-08",
     "mom_pct": 0.23,
     "yoy_pct": 3.0,
-    "as_of": "2026-09-03",
+    "as_of": "2026-09-04",
     "status": "live",
     "parameters": {},
     "components": [
@@ -121,20 +121,20 @@
       "observations": 24
     },
     "status": "live",
-    "as_of": "2026-09-03"
+    "as_of": "2026-09-04"
   },
   "nfp": {
-    "change_thousands": 31,
+    "change_thousands": 75,
     "status": "live",
-    "reference_month": "2026-08",
+    "reference_month": "2026-09",
     "parameters": {
-      "a": 23.931599,
-      "b": 0.778716,
+      "a": 27.897523,
+      "b": 0.775557,
       "c": 1.0,
       "window_months": 60
     },
     "inputs": {
-      "payroll_momentum": 20.0,
+      "payroll_momentum": 71.33,
       "claims_delta_thousands": 8.25
     }
   },
@@ -144,8 +144,8 @@
       "as_of": "2026-08-27"
     },
     "kalshi": {
-      "value": 0.304,
-      "as_of": "2026-09-03"
+      "value": 0.296,
+      "as_of": "2026-09-04"
     }
   },
   "ensemble": {
@@ -156,5 +156,5 @@
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-09-03"
+  "generated_on": "2026-09-04"
 }

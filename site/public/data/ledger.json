@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-09-03T20:21:58Z",
-  "appended_today": false,
+  "published_at": "2026-09-04T16:38:39Z",
+  "appended_today": true,
   "first_publish": "2026-07-08T15:57:29Z",
   "rows": [
     {
@@ -1703,6 +1703,29 @@
       "supercore_as_of": "2026-07-01",
       "supercore_yoy_pct": 2.94,
       "tracker_as_of": "2026-09-03",
+      "tracker_yoy_pct": 3.67
+    },
+    {
+      "col_as_of": "2026-09-04",
+      "col_yoy_pct": 3.55,
+      "coverage_pct": 42.6,
+      "date": "2026-09-04",
+      "dc_build_as_of": "2026-09-04",
+      "dc_build_yoy_pct": 9.34,
+      "dc_hardware_as_of": "2026-07-01",
+      "dc_hardware_yoy_pct": 20.23,
+      "dc_ops_as_of": "2026-08-01",
+      "dc_ops_yoy_pct": 4.6,
+      "gauge_as_of": "2026-09-04",
+      "gauge_yoy_pct": 3.0,
+      "official_month": "2026-07-01",
+      "official_yoy_pct": 3.36,
+      "pce_as_of": "2026-09-04",
+      "pce_yoy_pct": 3.21,
+      "published_at": "2026-09-04T16:38:39Z",
+      "supercore_as_of": "2026-07-01",
+      "supercore_yoy_pct": 2.94,
+      "tracker_as_of": "2026-09-04",
       "tracker_yoy_pct": 3.67
     }
   ]

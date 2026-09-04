@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-09-03",
-  "passed": 26,
-  "total": 27,
+  "generated_at": "2026-09-04",
+  "passed": 32,
+  "total": 33,
   "checks": [
     {
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official print 2026-07-01 is 64d old (limit 80)"
+      "detail": "latest official print 2026-07-01 is 65d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -88,6 +88,42 @@
       "detail": "long-lead board completed"
     },
     {
+      "name": "rates_ok",
+      "critical": false,
+      "pass": true,
+      "detail": "rates panel completed"
+    },
+    {
+      "name": "compute_ok",
+      "critical": false,
+      "pass": true,
+      "detail": "compute price index completed"
+    },
+    {
+      "name": "housing_ok",
+      "critical": false,
+      "pass": true,
+      "detail": "housing panel completed"
+    },
+    {
+      "name": "changes_ok",
+      "critical": false,
+      "pass": true,
+      "detail": "since-yesterday diff completed"
+    },
+    {
+      "name": "revisions_ok",
+      "critical": false,
+      "pass": true,
+      "detail": "revisions panel completed"
+    },
+    {
+      "name": "ledger_ok",
+      "critical": false,
+      "pass": true,
+      "detail": "publish ledger completed"
+    },
+    {
       "name": "single_run_stamp",
       "critical": false,
       "pass": true,
@@ -103,13 +139,13 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "685/693 fresh; stale \u2014 APU0000702212 (125d > 80d), APU0000704211 (125d > 80d), APU0000711311 (94d > 80d), TDSP (245d > 210d), REVOLSL (94d > 80d), SAHMREALTIME (64d > 60d), ppi_storage (94d > 80d), qcew_aemp23_c41067 (520d > 400d)"
+      "detail": "686/693 fresh; stale \u2014 APU0000702212 (126d > 80d), APU0000704211 (126d > 80d), APU0000711311 (95d > 80d), TDSP (246d > 210d), REVOLSL (95d > 80d), ppi_storage (95d > 80d), qcew_aemp23_c41067 (521d > 400d)"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.105 vs EIA weekly $4.071 \u2014 relative divergence 0.8% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.113 vs EIA weekly $4.071 \u2014 relative divergence 1.0% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -127,7 +163,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-09-03"
+      "detail": "CPI nowcast as-of 2026-09-04"
     },
     {
       "name": "ensemble_computed",
@@ -139,7 +175,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-09-03 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-09-04 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
