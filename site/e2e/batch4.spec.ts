@@ -1,6 +1,5 @@
 import { expect, test } from "@playwright/test";
 import changes from "../public/data/changes.json";
-import housing from "../public/data/housing.json";
 
 /** Batch 4 — pipeline unlocks: rates, compute, housing, USDA wholesale, since-yesterday. */
 
@@ -22,8 +21,11 @@ test("/compute renders both composites and six models", async ({ page }) => {
 });
 
 test("/housing affordability KPI matches the artifact", async ({ page }) => {
+  // Read the artifact from the SERVED origin, not the local import: against
+  // production the daily run has regenerated it since this checkout.
+  const served = (await (await page.request.get("/data/housing.json")).json()) as { affordability: { share_pct: number } };
   await page.goto("/housing");
-  const share = (housing as { affordability: { share_pct: number } }).affordability.share_pct;
+  const share = served.affordability.share_pct;
   await expect(page.getByText("Payment ÷ paycheck")).toBeVisible();
   await expect(page.locator(".kpi-value").first()).toHaveText(`${share.toFixed(1)}%`);
 });
