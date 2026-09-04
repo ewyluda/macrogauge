@@ -253,6 +253,11 @@ def test_staleness_limits_cover_publication_lags():
     # quarterly bank-condition series release mid-to-late the following quarter (~193d)
     for code in ("DRCCLACBS", "TDSP", "DRSFRMACBS"):
         assert limits[code] >= 210, f"{code} flaps every quarter at {limits[code]}d"
+    # TDSP (FRB debt service ratio) lands ~2.5 months after quarter end, so the
+    # prior obs is ~267d old on the eve of each release (observed 2026-09-04: 246d)
+    assert limits["TDSP"] >= 280
+    # G.19 consumer credit lands ~the 7th for the month two back: ~99d on the eve
+    assert limits["REVOLSL"] >= 105
     # continued claims lag two weeks and slip past 14d on holiday weeks
     assert limits["CCSA"] >= 21
 
@@ -276,3 +281,72 @@ def test_unknown_source_rejected(tmp_path):
     p.write_text(json.dumps(bad))
     with pytest.raises(ValueError, match="unknown source"):
         registry.load_registry(p)
+
+
+# ---- expected-absence policy (todo #10) ------------------------------------
+
+def _one(series_entry, tmp_path):
+    p = tmp_path / "series.json"
+    p.write_text(json.dumps({"sources": {"X": {"route": "API", "cadence": "daily"}},
+                             "series": [series_entry]}))
+    return registry.load_registry(p)[1][0]
+
+
+def _entry(**absence):
+    return {"code": "a", "source": "X", "source_id": "1", "name": "a",
+            "max_staleness_days": 80, "absence": absence}
+
+
+def test_absence_policy_parsed(tmp_path):
+    s = _one({"code": "a", "source": "X", "source_id": "1", "name": "a",
+              "max_staleness_days": 80}, tmp_path)
+    assert s.absence is None
+    s = _one(_entry(kind="suppressed", note=" why ", review_by="2027-03-31"), tmp_path)
+    assert s.absence == registry.Absence(kind="suppressed", note="why",
+                                         review_by="2027-03-31", max_absence_days=None)
+    s = _one(_entry(kind="intermittent", note="n", max_absence_days=200), tmp_path)
+    assert s.absence.max_absence_days == 200 and s.absence.review_by is None
+
+
+@pytest.mark.parametrize("absence, msg", [
+    ({"kind": "seasonal", "note": "n"}, "absence.kind"),
+    ({"kind": "suppressed"}, "absence.note is required"),
+    ({"kind": "suppressed", "note": "  "}, "absence.note is required"),
+    ({"kind": "suppressed", "note": "n", "review_by": "2027-13-01"}, "review_by"),
+    ({"kind": "intermittent", "note": "n"}, "max_absence_days"),
+    ({"kind": "intermittent", "note": "n", "max_absence_days": 80}, "> max_staleness_days"),
+    ({"kind": "intermittent", "note": "n", "max_absence_days": "200"}, "> max_staleness_days"),
+])
+def test_absence_policy_rejects_malformed(tmp_path, absence, msg):
+    with pytest.raises(ValueError, match=re.escape(msg)):
+        _one(_entry(**absence), tmp_path)
+
+
+def test_registry_absence_policies_are_explicit_and_bounded():
+    # Every policy names its reason; open-ended kinds carry a review date so an
+    # exemption can never quietly outlive the condition that justified it.
+    _, series = registry.load_registry()
+    by = {s.code: s for s in series}
+    policies = {s.code: s.absence for s in series if s.absence is not None}
+    assert policies, "no expected-absence policies in the registry"
+    for code, a in policies.items():
+        assert a.note, code
+        if a.kind in ("suppressed", "discontinued"):
+            assert a.review_by is not None, f"{code}: open-ended policy needs review_by"
+        else:
+            assert a.max_absence_days is not None, code
+    # The Hillsboro (Washington County OR) QCEW cell is suppressed as a unit --
+    # all three metrics from that row carry the same policy, none is left out.
+    hillsboro = {c for c in by if c.endswith("_c41067")}
+    assert hillsboro == {"qcew_wage23_c41067", "qcew_emp23_c41067", "qcew_aemp23_c41067"}
+    assert all(policies[c].kind == "suppressed" for c in hillsboro)
+    # The policy does the tolerating, so a policy series keeps the same limit as
+    # its un-exempted siblings — no padded limit (the pre-#10 workaround was 900d,
+    # which hid the suppression from sources_fresh AND from this policy's own
+    # resumed-print check).
+    for c in hillsboro:
+        sibling = c.replace("_c41067", "_c13097")
+        assert by[c].max_staleness_days == by[sibling].max_staleness_days, c
+    assert by["APU0000711311"].max_staleness_days == by["APU0000712112"].max_staleness_days
+    assert policies["APU0000711311"].kind == "intermittent"
+    assert {policies[c].kind for c in ("APU0000702212", "APU0000704211")} == {"discontinued"}

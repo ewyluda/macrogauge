@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (909 tests)
+pytest -q                                     # full suite (928 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -45,7 +45,13 @@ One connector module per source — 23 total: API/CSV/XLSX (fred, bls, eia, fmp,
 aptlist, usda, kalshi, qcew, census, vastai, openrouter, caiso, miso, ice) and scrape (aaa, mnd,
 manheim, cleveland, dramex, sfcompute). What gets collected is driven entirely by
 `config/series.json` (via `pipeline/registry.py`) — the single source of truth for series,
-sources, and per-series `max_staleness_days`.
+sources, and per-series `max_staleness_days`. A series that is legitimately absent past its
+limit (QCEW disclosure suppression, a BLS average price published only some months, a
+discontinued print) carries an explicit `absence` policy (`kind`/`note`/`review_by`/
+`max_absence_days`) instead of a padded limit; `pipeline/freshness.py` classifies every series
+once for both `qa` (`sources_fresh` vs the `expected_absence` check, which fails when a policy
+is wrong) and `methodology`. Never hardcode expected-absence counts — they derive from the
+registry.
 
 **Connector failure isolation is a hard invariant.** A broken source records an error in its
 `SourceResult`, lowers freshness, and surfaces in `sources_status.json` + `qa.json` — it *never*

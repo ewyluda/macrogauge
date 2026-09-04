@@ -1,7 +1,9 @@
 """QA self-test v0 — results are published, never block publication."""
 import math
+from collections import Counter
 from datetime import date
 from pathlib import Path
+from pipeline import freshness as fr
 from pipeline.publish.util import write_json
 
 STALE_DAYS = 80  # ~1 CPI cycle + release slip headroom (final-review calibration)
@@ -121,18 +123,55 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                                   f"/{len(source_results)} ok"
                                   + (f"; failed — {'; '.join(failed)}" if failed else ""))})
     if freshness is not None:
-        stale = []
+        # Two buckets, one classifier (pipeline/freshness.py). Series with a
+        # registry `absence` policy are judged on their policy, never on the
+        # plain staleness limit — so a disclosure-suppressed county or a
+        # seasonal BLS price can't masquerade as (or hide) a real regression.
+        stale, policy_rows, problems = [], [], []
         for row in freshness:
-            if row["latest_obs"] is None:
-                stale.append(f"{row['code']} (never seen)")
+            absence = fr.absence_from_row(row.get("absence"))
+            status = fr.classify(row["latest_obs"], row["limit_days"], absence,
+                                 today)
+            age = fr.age_days(row["latest_obs"], today)
+            if absence is None:
+                if status == fr.NEVER:
+                    stale.append(f"{row['code']} (never seen)")
+                elif status == fr.STALE:
+                    stale.append(f"{row['code']} ({age}d > {row['limit_days']}d)")
                 continue
-            days = (date.fromisoformat(today) - date.fromisoformat(row["latest_obs"])).days
-            if days > row["limit_days"]:
-                stale.append(f"{row['code']} ({days}d > {row['limit_days']}d)")
+            policy_rows.append((row["code"], absence, status, age))
+            if status in fr.POLICY_FAILURES:
+                problems.append(f"{row['code']} [{absence.kind}] {status}"
+                                + ("" if age is None else f" at {age}d")
+                                + (f" (review_by {absence.review_by})"
+                                   if status == fr.POLICY_EXPIRED else "")
+                                + (f" (max_absence_days {absence.max_absence_days})"
+                                   if status == fr.ABSENCE_EXCEEDED else ""))
+        strict_total = len(freshness) - len(policy_rows)
         checks.append({"name": "sources_fresh", "critical": False,
                        "pass": not stale,
-                       "detail": (f"{len(freshness) - len(stale)}/{len(freshness)} fresh"
+                       "detail": (f"{strict_total - len(stale)}/{strict_total} fresh"
+                                  + (f" ({len(policy_rows)} under an "
+                                     f"expected-absence policy, judged "
+                                     f"separately)" if policy_rows else "")
                                   + (f"; stale — {', '.join(stale)}" if stale else ""))})
+        kinds = Counter(a.kind for _, a, _, _ in policy_rows)
+        listing = ", ".join(
+            f"{code} [{a.kind}"
+            + ("" if age is None else f", {age}d")
+            + (f", review_by {a.review_by}" if a.review_by else "")
+            + "]"
+            for code, a, status, age in policy_rows)
+        checks.append({"name": "expected_absence", "critical": False,
+                       "pass": not problems,
+                       "detail": ((f"{len(policy_rows)} series under an "
+                                   f"expected-absence policy ("
+                                   + ", ".join(f"{n} {k}" for k, n in sorted(kinds.items()))
+                                   + f") — {listing}")
+                                  if policy_rows else
+                                  "no series under an expected-absence policy")
+                                 + (f"; needs attention — {'; '.join(problems)}"
+                                    if problems else "")})
     if fuel_divergence is not None:
         aaa, eia = fuel_divergence.get("aaa_wk_avg"), fuel_divergence.get("eia")
         if aaa is None or eia is None:

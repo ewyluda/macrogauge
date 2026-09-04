@@ -31,10 +31,19 @@ methodology constraints remain in
   this audit), confirming the GitHub-hosted runner satisfies their minimum runner versions.
   `actions/setup-python@v5` is a separate action and is not part of this item.
 
-- [ ] **#10 — Model expected absence separately from real staleness.** `sources_fresh` still mixes
-  disclosure-suppressed QCEW rows and structurally absent series with genuine regressions. Add an
-  explicit registry/status policy for expected absence; do not hardcode the old “8 states” count,
-  which has already drifted.
+- [x] **#10 — Model expected absence separately from real staleness.** DONE 2026-09-04
+  (feat/expected-absence-policy). Registry series gained an optional `absence` policy
+  (`kind` ∈ suppressed | intermittent | discontinued, `note`, `review_by`, `max_absence_days`),
+  validated on load; `pipeline/freshness.py` is the one classifier shared by `qa` and
+  `methodology`. `sources_fresh` now judges only un-exempted series; a new advisory
+  `expected_absence` check lists every policy and FAILS when one is wrong (review date passed,
+  a suppressed/discontinued series printed again, an intermittent gap over its bound, or a
+  policy on a never-seen series). Counts derive from the registry — nothing hardcoded. Six
+  series carry policies (Hillsboro QCEW ×3 suppressed; whole-wheat bread + pork chops
+  discontinued at BLS after 2026-05, review 2027-01-15; navel oranges intermittent ≤200d).
+  TDSP (→290d) and REVOLSL (→110d) were limit miscalibrations, not absences. `ppi_storage`
+  (PCU334112334112) is left flagged on purpose: BLS itself has no July print while the rest
+  of the PPI does — that is a genuine anomaly to watch, not an expected gap.
 
 - [ ] **#23 — Remove the 2030 capacity-timeline time bomb.**
   `pipeline/publish/capacity.py` only recognizes years 2025–2029 via

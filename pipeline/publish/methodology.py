@@ -7,6 +7,7 @@ drift when the engine changes."""
 from datetime import date
 from pathlib import Path
 
+from pipeline import freshness as fr
 from pipeline.engine.gauge import ENGINE_VERSION
 from pipeline.publish.util import write_json
 from pipeline.store import vintage
@@ -77,17 +78,21 @@ def build(gauge_result: dict, conn, sources: dict, series: list, comps,
           today: str) -> dict:
     g = gauge_result["variants"]["gauge"]
     obs_count = conn.execute("SELECT COUNT(*) FROM observations").fetchone()[0]
-    inventory, fresh_count = [], 0
+    inventory, fresh_count, expected_absent = [], 0, 0
     for s in series:
         latest = vintage.max_obs_date(conn, s.code)
-        fresh = (latest is not None
-                 and (date.fromisoformat(today)
-                      - date.fromisoformat(latest)).days <= s.max_staleness_days)
+        status = fr.classify(latest, s.max_staleness_days, s.absence, today)
+        # `fresh` keeps its strict meaning (within the staleness window,
+        # policy or not); a policy-covered gap is reported as its own thing.
+        age = fr.age_days(latest, today)
+        fresh = age is not None and age <= s.max_staleness_days
         fresh_count += fresh
+        expected_absent += status == fr.EXPECTED_ABSENT
         inventory.append({"code": s.code, "name": s.name, "source": s.source,
                           "route": sources[s.source].route,
                           "cadence": sources[s.source].cadence,
-                          "latest_obs": latest, "fresh": fresh})
+                          "latest_obs": latest, "fresh": fresh,
+                          "absence": None if s.absence is None else s.absence.kind})
     basket_rows = []
     for comp in comps:
         e = g["components"][comp.code]
@@ -111,7 +116,8 @@ def build(gauge_result: dict, conn, sources: dict, series: list, comps,
                   "rebase": f"{gauge_result['base_month']}=100"},
         "stages": STAGES,
         "basket": basket_rows,
-        "freshness": {"fresh_count": fresh_count, "total": len(series)},
+        "freshness": {"fresh_count": fresh_count, "total": len(series),
+                      "expected_absent": expected_absent},
         "inventory": inventory,
         "validation": {**validation,
                        "bls_reconstruction": {

@@ -9,6 +9,8 @@ type Row = {
   cadence: string;
   latest_obs: string | null;
   fresh: boolean;
+  // expected-absence policy kind (todo #10); absent on older artifacts
+  absence?: string | null;
 };
 
 export function MethodologyInventory({ rows }: { rows: Row[] }) {
@@ -62,12 +64,26 @@ export function MethodologyInventory({ rows }: { rows: Row[] }) {
                       borderRadius: 999,
                       background: r.fresh
                         ? "var(--accent-emerald)"
-                        : "var(--accent-red)",
+                        : r.absence
+                          ? "var(--accent-amber)"
+                          : "var(--accent-red)",
                     }}
+                    title={
+                      r.fresh
+                        ? "fresh"
+                        : r.absence
+                          ? `expected absence: ${r.absence}`
+                          : "stale"
+                    }
                   />
                 </td>
                 <td style={{ ...td, fontFamily: "ui-monospace, monospace", fontSize: 12 }}>
                   {r.code}
+                  {r.absence && (
+                    <span className="badge badge-muted" style={{ marginLeft: 6 }}>
+                      {r.absence}
+                    </span>
+                  )}
                 </td>
                 <td style={td}>{r.name}</td>
                 <td style={{ ...td, color: "var(--muted)", fontSize: 12 }}>

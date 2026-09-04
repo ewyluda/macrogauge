@@ -25,6 +25,14 @@ const td: React.CSSProperties = {
 };
 
 export default function Methodology() {
+  // `expected_absent` / `absence` landed with todo #10; artifacts published
+  // before it lack them, so read them tolerantly.
+  const freshness = methodology.freshness as {
+    fresh_count: number;
+    total: number;
+    expected_absent?: number;
+  };
+  const expectedAbsent = freshness.expected_absent ?? 0;
   const s = methodology.stats;
   const v = methodology.validation;
   const stats: [string, string][] = [
@@ -165,11 +173,21 @@ export default function Methodology() {
           }}
         >
           <span style={{ color: "var(--accent-emerald)", fontWeight: 700 }}>
-            {methodology.freshness.fresh_count} of {methodology.freshness.total}
+            {freshness.fresh_count} of {freshness.total}
           </span>{" "}
           series fresh within their staleness windows (
-          {((methodology.freshness.fresh_count / methodology.freshness.total) * 100).toFixed(1)}
+          {((freshness.fresh_count / freshness.total) * 100).toFixed(1)}
           %)
+          {expectedAbsent > 0 && (
+            <>
+              {" "}
+              · <span style={{ color: "var(--muted)" }}>
+                {expectedAbsent} under an expected-absence policy (suppressed,
+                intermittent or discontinued at the source) — judged on that
+                policy, never counted as fresh
+              </span>
+            </>
+          )}
         </div>
       </Section>
 

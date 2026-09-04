@@ -35,6 +35,7 @@ import json
 import math
 import os
 import sys
+from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -519,7 +520,9 @@ def main(argv=None, http_get=None, http_post=None) -> int:
             stale_stamps.append(p.name)
 
     freshness = [{"code": s.code, "latest_obs": vintage.max_obs_date(conn, s.code),
-                  "limit_days": s.max_staleness_days} for s in series]
+                  "limit_days": s.max_staleness_days,
+                  "absence": None if s.absence is None else asdict(s.absence)}
+                 for s in series]
     qa_path = qa.write(qa.run_checks(cpi, today=today, source_results=results,
                                      freshness=freshness, gauge=gauge_qa,
                                      engine_error=engine_error,
