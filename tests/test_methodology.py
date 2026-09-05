@@ -66,9 +66,32 @@ def test_build_stats_inventory_and_reconstruction(tmp_path):
          "live_active": ["zori_us"],
          "official_series": "CUUR0000SEHC", "yoy_pct": 3.46},
     ]
-    assert p["freshness"] == {"fresh_count": 1, "total": 2}
+    assert p["freshness"] == {"fresh_count": 1, "total": 2, "expected_absent": 0}
     never = [r for r in p["inventory"] if r["code"] == "NEVER"][0]
     assert never["fresh"] is False and never["latest_obs"] is None
+    assert all(r["absence"] is None for r in p["inventory"])
+
+
+def test_policy_series_reported_as_expected_absent_not_fresh(tmp_path):
+    conn = seed(tmp_path)
+    series = [SERIES[0],
+              registry.Series(code="zori_us", source="T", source_id="z", name="z",
+                              max_staleness_days=40,
+                              absence=registry.Absence(kind="suppressed", note="n",
+                                                       review_by="2027-01-01"))]
+    p = methodology.build(RESULT, conn, SOURCES, series, COMPS, VALIDATION,
+                          GAPTABLE, CPI, today="2018-06-02")
+    # zori_us is 32d old: within its limit, so it reads fresh (qa separately
+    # flags the suppressed policy as resumed) -- methodology reports the kind.
+    assert p["freshness"] == {"fresh_count": 2, "total": 2, "expected_absent": 0}
+    z = [r for r in p["inventory"] if r["code"] == "zori_us"][0]
+    assert z["absence"] == "suppressed" and z["fresh"] is True
+    p = methodology.build(RESULT, conn, SOURCES, series, COMPS, VALIDATION,
+                          GAPTABLE, CPI, today="2018-06-30")
+    z = [r for r in p["inventory"] if r["code"] == "zori_us"][0]
+    assert z["fresh"] is False and z["absence"] == "suppressed"
+    assert p["freshness"] == {"fresh_count": 1, "total": 2, "expected_absent": 1}
+
     assert p["validation"]["bls_reconstruction"] == {
         "weighted_bls_yoy_pct": 3.0, "official_yoy_pct": 2.99}
     assert len(p["limitations"]) >= 3

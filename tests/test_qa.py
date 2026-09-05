@@ -50,7 +50,10 @@ def test_connector_and_freshness_checks_green():
                       source_results=[_res("FRED", True), _res("EIA", True)],
                       freshness=[{"code": "CPIAUCNS", "latest_obs": "2026-05-01",
                                   "limit_days": 80}])
-    assert (r["passed"], r["total"]) == (22, 22)
+    # + connectors_ok + sources_fresh + expected_absence
+    assert (r["passed"], r["total"]) == (23, 23)
+    by = {c["name"]: c for c in r["checks"]}
+    assert by["expected_absence"]["detail"] == "no series under an expected-absence policy"
 
 
 def test_connector_failure_flagged_not_critical():
@@ -373,3 +376,68 @@ def test_headline_current_falls_back_to_month_without_latest_month():
     assert "(base-month hole)" not in head["detail"]
     r = qa.run_checks(FRESH, today="2026-07-21", phase_errors=_all_ok())
     assert _by_name(r, "headline_current")["pass"] is False
+
+
+def _pol(kind, **kw):
+    return {"kind": kind, "note": "why", **kw}
+
+
+def test_policy_series_leave_sources_fresh_and_pass_expected_absence():
+    r = qa.run_checks(FRESH, today="2026-09-04", freshness=[
+        {"code": "fresh1", "latest_obs": "2026-09-01", "limit_days": 7},
+        {"code": "qcew_x", "latest_obs": "2025-04-01", "limit_days": 400,
+         "absence": _pol("suppressed", review_by="2027-03-31")},
+        {"code": "navel", "latest_obs": "2026-06-01", "limit_days": 80,
+         "absence": _pol("intermittent", max_absence_days=200)},
+        {"code": "bread", "latest_obs": "2026-05-01", "limit_days": 80,
+         "absence": _pol("discontinued")}])
+    by = {c["name"]: c for c in r["checks"]}
+    assert by["sources_fresh"]["pass"] is True
+    assert by["sources_fresh"]["detail"].startswith("1/1 fresh (3 under an expected-absence policy")
+    assert by["expected_absence"]["pass"] is True
+    assert by["expected_absence"]["critical"] is False
+    d = by["expected_absence"]["detail"]
+    assert d.startswith("3 series under an expected-absence policy "
+                        "(1 discontinued, 1 intermittent, 1 suppressed)")
+    assert "qcew_x [suppressed, 521d, review_by 2027-03-31]" in d
+    assert "navel [intermittent, 95d]" in d
+    assert "needs attention" not in d
+
+
+def test_expected_absence_fails_when_policy_is_wrong():
+    r = qa.run_checks(FRESH, today="2026-09-04", freshness=[
+        # review date passed -> must be re-affirmed or dropped
+        {"code": "expired", "latest_obs": "2025-04-01", "limit_days": 400,
+         "absence": _pol("suppressed", review_by="2026-09-03")},
+        # a discontinued series printing again -> policy is stale
+        {"code": "resumed", "latest_obs": "2026-09-01", "limit_days": 80,
+         "absence": _pol("discontinued")},
+        # intermittent gap longer than the tolerated bound
+        {"code": "toolong", "latest_obs": "2025-12-01", "limit_days": 80,
+         "absence": _pol("intermittent", max_absence_days=200)},
+        # a policy on a series with no history is a wiring error
+        {"code": "ghost", "latest_obs": None, "limit_days": 80,
+         "absence": _pol("suppressed")},
+        # a genuinely stale series is still reported on sources_fresh
+        {"code": "stale1", "latest_obs": "2026-01-01", "limit_days": 80}])
+    by = {c["name"]: c for c in r["checks"]}
+    assert by["sources_fresh"]["pass"] is False
+    assert by["sources_fresh"]["detail"].startswith("0/1 fresh (4 under")
+    assert "stale1 (246d > 80d)" in by["sources_fresh"]["detail"]
+    d = by["expected_absence"]["detail"]
+    assert by["expected_absence"]["pass"] is False
+    assert "expired [suppressed] policy_expired at 521d (review_by 2026-09-03)" in d
+    assert "resumed [discontinued] policy_resumed at 3d" in d
+    assert "toolong [intermittent] absence_exceeded at 277d (max_absence_days 200)" in d
+    assert "ghost [suppressed] never" in d
+    # the failing policies never leak into the strict bucket
+    for code in ("expired", "resumed", "toolong", "ghost"):
+        assert code not in by["sources_fresh"]["detail"]
+
+
+def test_expected_absence_survives_schema(tmp_path):
+    r = qa.run_checks(FRESH, today="2026-09-04", freshness=[
+        {"code": "qcew_x", "latest_obs": "2025-04-01", "limit_days": 400,
+         "absence": {"kind": "suppressed", "note": "n", "review_by": "2027-03-31",
+                     "max_absence_days": None}}])
+    validate.validate_file(qa.write(r, tmp_path), SCHEMAS / "qa.schema.json")

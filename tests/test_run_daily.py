@@ -293,7 +293,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok
     # + geography_ok + labor_ok + commodities_ok + capacity_ok + markets_ok + grades_ok
     # + longlead_ok + rates_ok + compute_ok + housing_ok + changes_ok + revisions_ok + ledger_ok
-    assert qa["total"] == 33
+    # + expected_absence (todo #10)
+    assert qa["total"] == 34
     for phase in ("rates", "compute", "housing", "changes", "revisions", "ledger"):
         assert [c for c in qa["checks"] if c["name"] == f"{phase}_ok"][0]["pass"] is True, phase
     # batch 4e: a fresh out dir has no previous publish -> first reading
