@@ -122,6 +122,7 @@ test("data-center PNG export uses the lazy chart instance", async ({ page }) => 
   });
   await page.goto("/datacenter");
   await expect(page.locator("canvas").first()).toBeVisible();
+  await page.locator(".dc-trend summary", { hasText: "Export" }).click();
   await page.getByRole("button", { name: "Export PNG" }).first().click();
   await expect(page.locator("html")).toHaveAttribute(
     "data-test-download",
@@ -472,7 +473,7 @@ test("mobile header is compact, sticky, and opens an accordion navigation sheet"
 
   const header = page.locator(".site-header");
   const menuButton = page.getByRole("button", { name: "Open navigation" });
-  expect((await header.boundingBox())?.height).toBe(56);
+  expect((await header.boundingBox())?.height).toBe(64);
   expect((await menuButton.boundingBox())?.height).toBe(44);
   await expect(page.locator(".nav-items")).not.toBeVisible();
 
@@ -510,7 +511,7 @@ test("header self-test severity distinguishes advisory and critical failures", a
   }
 });
 
-test("project-controls toolkit precedes data-center KPIs and links all four tools", async ({
+test("data-center readings and chart precede the toolkit, which links all four tools", async ({
   page,
 }) => {
   await page.goto("/datacenter");
@@ -523,8 +524,8 @@ test("project-controls toolkit precedes data-center KPIs and links all four tool
     /Long-lead board/,
   ]);
   const toolkitBox = (await page.locator(".project-toolkit").boundingBox())!;
-  const kpiTop = (await page.locator(".kpi-row").first().boundingBox())!.y;
-  expect(toolkitBox.y + toolkitBox.height).toBeLessThan(kpiTop);
+  const chart = (await page.locator(".dc-trend").boundingBox())!;
+  expect(chart.y + chart.height).toBeLessThan(toolkitBox.y);
 });
 
 test("capacity KPI cards form one desktop row and equal mobile columns", async ({
@@ -576,17 +577,12 @@ test("mouse hover does not toggle accordion groups inside the mobile sheet", asy
   await expect(group).not.toHaveClass(/open/);
 });
 
-test("mobile header keeps both headline metric pills above the fold", async ({
-  page,
-}) => {
+test("mobile shared header keeps navigation and data status accessible", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/markets");
-  const strip = page.locator(".mobile-metrics");
-  await expect(strip).toBeVisible();
-  await expect(strip).toContainText("DC BUILD");
-  await expect(strip).toContainText("MACROGAUGE");
-  const box = (await strip.boundingBox())!;
-  expect(box.y + box.height).toBeLessThan(844);
+  await expect(page.getByRole("button", { name: "Open navigation" })).toBeVisible();
+  await expect(page.locator(".header-status a")).toBeVisible();
+  await expect(page.locator(".mobile-metrics")).toHaveCount(0);
 });
 
 test("home headline grid leaves no empty cells at tablet widths", async ({
@@ -595,16 +591,19 @@ test("home headline grid leaves no empty cells at tablet widths", async ({
   await page.setViewportSize({ width: 1024, height: 900 });
   await page.goto("/");
   const grid = (await page.locator(".headline-grid").boundingBox())!;
+  const gridContent = await page.locator(".headline-grid").evaluate((node) => ({
+    width: node.clientWidth, left: node.clientLeft,
+  }));
   const boxes = await page
     .locator(".headline-grid .kpi-card")
     .evaluateAll((nodes) => nodes.map((n) => n.getBoundingClientRect().toJSON()));
   expect(boxes).toHaveLength(5);
   const primary = boxes[0];
-  expect(Math.round(primary.width)).toBe(Math.round(grid.width));
+  expect(Math.round(primary.width)).toBe(gridContent.width);
   const comparators = boxes.slice(1);
   expect(new Set(comparators.map((b) => Math.round(b.y))).size).toBe(1);
   const right = Math.max(...comparators.map((b) => b.x + b.width));
-  expect(Math.round(right)).toBe(Math.round(grid.x + grid.width));
+  expect(Math.round(right)).toBe(Math.round(grid.x + gridContent.left + gridContent.width));
 });
 
 test("single-card KPI rows stay content-sized on desktop", async ({ page }) => {

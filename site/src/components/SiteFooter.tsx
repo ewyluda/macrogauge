@@ -1,7 +1,6 @@
 import Link from "next/link";
 import sourcesStatus from "../../public/data/sources_status.json";
 import { NAV, SITE_DESCRIPTION } from "@/lib/nav";
-import { DATA_FILES, dataUrl } from "@/lib/dataFiles";
 
 // Columns are derived from the nav config so every route keeps exactly one
 // owner for its href/label: top-level links form an Overview column, then one
@@ -45,14 +44,9 @@ export function SiteFooter() {
           ))}
         </nav>
       </div>
-      <div className="footer-data" aria-label="Published data files">
-        <span className="footer-col-head" style={{ marginBottom: 0 }}>Data</span>
-        {DATA_FILES.map((d) => (
-          <a key={d.file} href={dataUrl(d.file)} title={d.description} download>
-            {d.file}
-          </a>
-        ))}
-        <a href="/feed.xml" title="RSS feed of each daily publish">feed.xml</a>
+      <div className="footer-research-data">
+        <Link href="/data">Explore open data →</Link>
+        <a href="/feed.xml">Subscribe via RSS</a>
       </div>
       <div className="footer-meta">
         Updated each weekday morning · every forecast graded in public · not

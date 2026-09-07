@@ -134,7 +134,7 @@ export function DcEscalationClient({
 
   return (
     <div>
-      <div
+      <div className="calculator-controls"
         style={{
           background: "var(--card)",
           border: "1px solid var(--border)",
@@ -147,7 +147,7 @@ export function DcEscalationClient({
         }}
       >
         <label style={{ fontSize: 12, color: "var(--muted)" }}>
-          BASE MONTH{" "}
+          Base month{" "}
           <input
             type="month"
             min={firstMonth}
@@ -158,7 +158,7 @@ export function DcEscalationClient({
           />
         </label>
         <label style={{ fontSize: 12, color: "var(--muted)" }}>
-          BASE COST ($){" "}
+          Base cost ($){" "}
           <input
             type="number"
             min={1}
@@ -177,7 +177,7 @@ export function DcEscalationClient({
           />
         </label>
         <label style={{ fontSize: 12, color: "var(--muted)" }}>
-          DELIVER BY{" "}
+          Deliver by{" "}
           <input
             type="month"
             min={minDelivery}
@@ -189,7 +189,7 @@ export function DcEscalationClient({
         </label>
         {anchor && (
           <label style={{ fontSize: 12, color: "var(--muted)" }}>
-            CARRY{" "}
+            Carry{" "}
             <select
               value={chosen?.key ?? ""}
               onChange={(e) => setBasisKey(e.target.value)}
@@ -284,7 +284,7 @@ export function DcEscalationClient({
 
       {result && validBaseCost && (
         <>
-          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 16 }}>
+          <div className="kpi-row">
             <KpiCard
               label={`Escalated to ${result.endMonth}`}
               value={usd(result.escalatedCost)}

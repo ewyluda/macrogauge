@@ -1,5 +1,5 @@
 "use client";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { EChart } from "./EChart";
 import { C, NBER_RECESSIONS, baseOption } from "@/lib/chartTheme";
 import { sliceSince, windowStart } from "@/lib/chartWindow";
@@ -30,6 +30,7 @@ export function HeroChart({
   trackerIndex,
   colIndex,
   markers,
+  overview = false,
 }: {
   dates: string[];
   gauge: (number | null)[];
@@ -47,7 +48,9 @@ export function HeroChart({
   colIndex?: (number | null)[];
   /** vertical rules — CPI release days and the next scheduled print (batch 5d) */
   markers?: { date: string; label: string }[];
+  overview?: boolean;
 }) {
+  const [allComparisons, setAllComparisons] = useState(false);
   const [rate, setRate] = useRateMode();
   const momentum = rate !== "yoy" && !!gaugeIndex;
   const gaugeS = useMemo(() => rateSeries(rate, gauge, gaugeIndex), [rate, gauge, gaugeIndex]);
@@ -79,7 +82,18 @@ export function HeroChart({
       const suffix = momentum ? ` · ${rateLabel(rate)}` : "";
       return {
         ...base,
-        xAxis: { ...base.xAxis, min: start },
+        xAxis: { ...base.xAxis, min: start, ...(overview ? { splitNumber: 4 } : {}) },
+        ...(overview ? {
+          legend: { ...base.legend, data: [
+            `Macrogauge (CPI-comparable)${suffix}`,
+            ...(allComparisons ? [`CPI-Tracker${suffix}`, ...(col ? [`Cost of Living${suffix}`] : [])] : []),
+            ...(momentum ? [] : ["Official CPI", ...(allComparisons ? ["Official Core"] : [])]),
+          ], selected: {
+            [`CPI-Tracker${suffix}`]: allComparisons,
+            [`Cost of Living${suffix}`]: allComparisons,
+            "Official Core": allComparisons,
+          } },
+        } : {}),
         series: [
           {
             name: `Macrogauge (CPI-comparable)${suffix}`,
@@ -93,7 +107,7 @@ export function HeroChart({
               itemStyle: { color: "rgba(139, 152, 165, 0.08)" },
               data: NBER_RECESSIONS.map(([a, b]) => [{ xAxis: a }, { xAxis: b }]),
             },
-            ...(markers && markers.length
+            ...(markers && markers.length && (!overview || allComparisons)
               ? {
                   markLine: {
                     silent: true,
@@ -147,11 +161,15 @@ export function HeroChart({
         ],
       };
     },
-    [daily, monthly, col, start, momentum, rate, markers],
+    [daily, monthly, col, start, momentum, rate, markers, overview, allComparisons],
   );
   return (
     <div>
-      {gaugeIndex && <RateModeControl value={rate} onChange={setRate} />}
+      <div className={overview ? "research-chart-controls" : undefined}>
+        {gaugeIndex && <RateModeControl value={rate} onChange={setRate} showCopyLink={!overview} />}
+        {overview && <button type="button" className="tool-btn" aria-pressed={allComparisons}
+          onClick={() => setAllComparisons((value) => !value)}>All comparisons</button>}
+      </div>
       <EChart option={option} height={340} />
     </div>
   );

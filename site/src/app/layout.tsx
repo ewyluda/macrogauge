@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./research.css";
 import { PageShell } from "@/components/PageShell";
 import { SITE_DESCRIPTION } from "@/lib/nav";
 import { SITE_URL } from "@/lib/site";
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
+      <body className="research-site">
         <PageShell>{children}</PageShell>
       </body>
     </html>

@@ -18,15 +18,17 @@ export function RateModeControl({
   value,
   onChange,
   note,
+  showCopyLink = true,
 }: {
   value: RateMode;
   onChange: (m: RateMode) => void;
   note?: string;
+  showCopyLink?: boolean;
 }) {
   return (
     <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap", margin: "4px 0 8px" }}>
       <SegmentedControl options={RATE_MODES} value={value} onChange={onChange} />
-      <CopyLink />
+      {showCopyLink && <CopyLink />}
       {value !== "yoy" && (
         <span style={{ fontSize: 11, color: "var(--muted)" }}>
           {note ?? "annualized off the daily index — amplifies noise (3m ≈ ×4); official prints shown as YoY only"}

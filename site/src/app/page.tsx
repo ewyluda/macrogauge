@@ -33,8 +33,9 @@ import { SparklineCard } from "@/components/SparklineCard";
 import { OutlookChart } from "@/components/OutlookChart";
 import { Countdown } from "@/components/Countdown";
 import { ForecastNumberLine } from "@/components/ForecastNumberLine";
-import { fmtMonth, fmtPct, fmtPp, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
+import { fmtDay, fmtMonth, fmtPct, fmtPp, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
 import { SITE_DESCRIPTION } from "@/lib/nav";
+import { CopyLink } from "@/components/CopyLink";
 
 // Numbers are baked at build time, so the tab title is a live headline —
 // refreshed by the daily publish like everything else.
@@ -154,42 +155,41 @@ export default function Home() {
           </span>
         </div>
       )}
-      <h1 className="home-lede">{SITE_DESCRIPTION}</h1>
-      <div className="home-kicker">
-        <span>Daily US inflation &amp; macro</span>
-        <span>Published {pulse.published_at}</span>
-        <span>{pulse.gauge.coverage_pct.toFixed(0)}% live basket coverage</span>
-      </div>
+      <header className="research-intro">
+        <div className="research-eyebrow">Daily briefing <span>Updated {fmtDay(pulse.published_at)}</span></div>
+        <h1>US inflation</h1>
+        <p>{SITE_DESCRIPTION}</p>
+      </header>
 
       <div className="headline-grid">
         <KpiCard
           className="headline-primary"
           label="Macrogauge · YoY"
           value={fmtPct(pulse.gauge.yoy_pct)}
-          context={`CPI-comparable · as of ${pulse.gauge.as_of}`}
+          context={`CPI-comparable · ${fmtDay(pulse.gauge.as_of)}`}
           accent="sky"
           chip={<DeltaChip value={pulse.gap_pp} prefix="vs official" pp />}
         />
         <KpiCard
           className="headline-comparator"
+          label="Official CPI · YoY"
+          value={fmtPct(cpi.yoy_pct)}
+          context={`${fmtMonth(cpi.month)} print · previous ${fmtPct(cpi.prev_yoy_pct)}`}
+          accent="amber"
+        />
+        <KpiCard
+          className="headline-comparator"
           label="CPI-Tracker · YoY"
           value={fmtPct(pulse.tracker.yoy_pct)}
-          context="BLS shelter dynamics · built to re-track the print"
+          context="Tracks official shelter dynamics"
           accent="violet"
           chip={<DeltaChip value={pulse.tracker_gap_pp} prefix="gap" pp />}
         />
         <KpiCard
           className="headline-comparator"
-          label="Official CPI · YoY"
-          value={fmtPct(cpi.yoy_pct)}
-          context={`${fmtMonth(cpi.month)} print · prev ${fmtPct(cpi.prev_yoy_pct)} · as of ${cpi.as_of}`}
-          accent="amber"
-        />
-        <KpiCard
-          className="headline-comparator"
           label="Core CPI · YoY"
           value={fmtPct(core.yoy_pct)}
-          context={`${fmtMonth(core.month)} print · prev ${fmtPct(core.prev_yoy_pct)} · as of ${core.as_of}`}
+          context={`${fmtMonth(core.month)} print · previous ${fmtPct(core.prev_yoy_pct)}`}
           accent="amber"
         />
         <KpiCard
@@ -198,36 +198,30 @@ export default function Home() {
           value={nextprint.ensemble.value == null ? "—" : `${nextprint.ensemble.value.toFixed(2)}%`}
           context={
             nextprint.reference_month
-              ? `${nextprint.reference_month} · releases ${nextprint.release_date ?? "TBA"}`
+              ? `${fmtMonth(nextprint.reference_month)} · ${nextprint.release_date ? fmtDay(nextprint.release_date) : "TBA"}`
               : "TBA (release calendar awaiting refresh)"
           }
           accent="emerald"
         />
       </div>
 
-      <SinceYesterdayStrip />
-      <Citation
-        series="CPI-comparable gauge YoY"
-        asOf={pulse.gauge.as_of}
-        rebase="2018-01=100"
-        value={`${fmtPct(pulse.gauge.yoy_pct)} vs official ${fmtPct(pulse.official.yoy_pct)}`}
-        path="/"
-      />
-      <Section title="Macrogauge vs official — latest 24 months" featured>
-        <div className="section-tools">
-          <DownloadData
-            filename="macrogauge-vs-official-24m"
-            json="gauge_daily.json"
-            citation={cite({ series: "CPI-comparable gauge, daily YoY (24-month window)", asOf: pulse.gauge.as_of, rebase: "2018-01=100", value: `${fmtPct(pulse.gauge.yoy_pct)} YoY`, path: "/" })}
-            rows={columnsToRows({ name: "date", values: heroDaily.dates }, [
-              { name: "gauge_yoy_pct", values: heroDaily.series[0] },
-              { name: "tracker_yoy_pct", values: heroDaily.series[1] },
-              { name: "col_yoy_pct", values: heroDaily.series[2] },
-            ])}
-          />
-        </div>
+      <div className="research-coverage">{pulse.gauge.coverage_pct.toFixed(0)}% of basket weight repriced from live data · Official CPI released {fmtDay(cpi.as_of)}</div>
+      <Section id="inflation-trend" title="Macrogauge vs official" featured actions={<>
+        <Citation compact series="CPI-comparable gauge YoY" asOf={pulse.gauge.as_of}
+          rebase="2018-01=100" value={`${fmtPct(pulse.gauge.yoy_pct)} vs official ${fmtPct(pulse.official.yoy_pct)}`} path="/" />
+        <CopyLink plain />
+        <DownloadData compact
+          filename="macrogauge-vs-official-24m" json="gauge_daily.json"
+          citation={cite({ series: "CPI-comparable gauge, daily YoY (24-month window)", asOf: pulse.gauge.as_of, rebase: "2018-01=100", value: `${fmtPct(pulse.gauge.yoy_pct)} YoY`, path: "/" })}
+          rows={columnsToRows({ name: "date", values: heroDaily.dates }, [
+            { name: "gauge_yoy_pct", values: heroDaily.series[0] },
+            { name: "tracker_yoy_pct", values: heroDaily.series[1] },
+            { name: "col_yoy_pct", values: heroDaily.series[2] },
+          ])} />
+      </>}>
+        <p className="research-chart-subtitle">Latest 24 months · year-over-year change</p>
         <div className="hero-chart-card">
-          <HeroChart
+          <HeroChart overview
             dates={heroIndex.dates}
             gauge={heroIndex.series[0]}
             tracker={heroIndex.series[1]}
@@ -263,10 +257,12 @@ export default function Home() {
         </div>
       </Section>
 
+      <SinceYesterdayStrip />
+
       <div className="dashboard-row">
         <section className="dashboard-panel next-print-panel">
-          <div className="panel-title">◴ Next CPI print — {nextprint.reference_month ?? "TBA"}</div>
-          <div className="release-date">{nextprint.release_date ?? "TBA"}</div>
+          <div className="panel-title">Next CPI print · {nextprint.reference_month ?? "TBA"}</div>
+          <div className="release-date">{nextprint.release_date ? fmtDay(nextprint.release_date) : "TBA"}</div>
           <Countdown releaseDate={nextprint.release_date} />
           <div className="panel-muted">BLS release · previous print {fmtPct(cpi.yoy_pct)} YoY</div>
           <ForecastNumberLine calls={nextprint.forecasters} />
@@ -281,7 +277,7 @@ export default function Home() {
         </section>
 
         <section className="dashboard-panel market-panel">
-          <div className="panel-title">▥ Market pulse — live transmission channels</div>
+          <div className="panel-title">Market pulse</div>
           <div className="market-grid">
             {gas && <div><span>Regular gas</span><strong>{fmtMoney(gas.latest, gas.unit)}</strong><small>{fmtSigned(gas.yoy_pct)} YoY</small></div>}
             {mortgage && <div><span>30Y mortgage</span><strong>{fmtMoney(mortgage.latest, mortgage.unit)}</strong><small>{(() => {
@@ -301,7 +297,7 @@ export default function Home() {
         </section>
 
         <section className="dashboard-panel movers-panel">
-          <div className="panel-title">ϟ Top movers — official CPI</div>
+          <div className="panel-title">Top movers · official CPI</div>
           <div className="mover-list">
             {movers.map((mover) => (
               <div key={mover.code}>

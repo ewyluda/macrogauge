@@ -30,7 +30,7 @@ export function CalculatorClient({ dates, index }: CalculatorSeries) {
 
   return (
     <div>
-      <div
+      <div className="calculator-controls calculator-controls-simple"
         style={{
           background: "var(--card)",
           border: "1px solid var(--border)",
@@ -43,7 +43,7 @@ export function CalculatorClient({ dates, index }: CalculatorSeries) {
         }}
       >
         <label style={{ fontSize: 12, color: "var(--muted)" }}>
-          SINCE{" "}
+          Since{" "}
           <input
             type="date"
             min={dates[0]}
@@ -54,7 +54,7 @@ export function CalculatorClient({ dates, index }: CalculatorSeries) {
           />
         </label>
         <label style={{ fontSize: 12, color: "var(--muted)" }}>
-          AMOUNT ($){" "}
+          Amount ($){" "}
           <input
             type="number"
             min={1}
@@ -71,7 +71,7 @@ export function CalculatorClient({ dates, index }: CalculatorSeries) {
 
       {s && (
         <>
-          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 16 }}>
+          <div className="kpi-row">
             <KpiCard
               label={`Prices since ${s.startDate}`}
               value={`${s.pctSince >= 0 ? "+" : "−"}${Math.abs(s.pctSince).toFixed(2)}%`}

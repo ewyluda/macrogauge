@@ -1,6 +1,6 @@
 // site/src/components/DcIndexChart.tsx
 "use client";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, type ReactNode } from "react";
 import { useUrlState } from "@/lib/useUrlState";
 import { codecs } from "@/lib/urlState";
 import { CopyLink } from "./CopyLink";
@@ -8,6 +8,7 @@ import type { ECharts } from "echarts/core";
 import { EChart } from "./EChart";
 import { SegmentedControl } from "./SegmentedControl";
 import { C, baseOption } from "@/lib/chartTheme";
+import { ToolDisclosure } from "./ToolDisclosure";
 
 type Mode = "level" | "yoy";
 const MODES = [
@@ -32,7 +33,7 @@ export type DcSeries = {
 
 const LINE_COLORS = [C.sky, C.violet, C.amber];
 
-export function DcIndexChart({ series }: { series: DcSeries[] }) {
+export function DcIndexChart({ series, actions, exportData }: { series: DcSeries[]; actions?: ReactNode; exportData?: ReactNode }) {
   const [mode, setMode] = useUrlState<Mode>("view", "level", codecs.enumOf(["level", "yoy"] as const));
   const chartRef = useRef<ECharts | null>(null);
 
@@ -41,6 +42,7 @@ export function DcIndexChart({ series }: { series: DcSeries[] }) {
     const level = mode === "level";
     return {
       ...base,
+      xAxis: { ...base.xAxis, splitNumber: 4 },
       // LEVEL plots the unitless rebased index, not a percent — drop
       // baseOption()'s "%" valueFormatter/axisLabel. YOY keeps them.
       tooltip: level
@@ -72,7 +74,7 @@ export function DcIndexChart({ series }: { series: DcSeries[] }) {
     const url = chart.getDataURL({
       type: "png",
       pixelRatio: 2,
-      backgroundColor: C.bg,
+      backgroundColor: getComputedStyle(chart.getDom()).getPropertyValue("--card").trim() || C.bg,
     });
     const a = document.createElement("a");
     a.href = url;
@@ -82,32 +84,28 @@ export function DcIndexChart({ series }: { series: DcSeries[] }) {
 
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: 8,
-          margin: "12px 0 4px",
-        }}
-      >
-        <SegmentedControl options={MODES} value={mode} onChange={setMode} />
+      <div className="section-heading">
+        <h2 id="dc-trend-title" className="section-title">The cost of building and operating</h2>
+        <div className="chart-actions">
+        {actions}
+        <CopyLink plain />
+        <ToolDisclosure label="Export">
+        <div className="tool-row">
+        {exportData}
         <button
+          type="button"
+          className="tool-btn"
           onClick={exportPng}
-          style={{
-            border: "1px solid var(--border)",
-            background: "var(--chip-bg)",
-            color: "var(--muted)",
-            borderRadius: 999,
-            padding: "2px 12px",
-            fontSize: 12,
-            cursor: "pointer",
-          }}
         >
-          ⬇ Export PNG
+          Export PNG
         </button>
-        <CopyLink />
+        </div>
+        </ToolDisclosure>
+        </div>
+      </div>
+      <p className="research-chart-subtitle">{mode === "level" ? "Index · January 2018 = 100" : "Year-over-year change · %"}</p>
+      <div className="research-chart-controls">
+        <SegmentedControl options={MODES} value={mode} onChange={setMode} />
       </div>
       <EChart option={option} height={340} instanceRef={chartRef} />
     </div>

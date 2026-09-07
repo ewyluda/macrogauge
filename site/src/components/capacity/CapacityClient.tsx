@@ -58,7 +58,7 @@ export function CapacityClient({ data }: { data: Capacity }) {
   });
 
   return (
-    <div>
+    <div className="capacity-workspace">
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, margin: "18px 0 6px" }}>
         {TABS.map((t) => (
           <button key={t} style={btn(tab === t)}

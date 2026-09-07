@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { cite } from "@/lib/citation";
+import { ToolDisclosure } from "./ToolDisclosure";
 
 /** The citable reference string for a headline number, with a copy button.
  *  `path` defaults to the current route; with `live`, the current query
@@ -13,6 +14,7 @@ export function Citation({
   rebase,
   path,
   live = false,
+  compact = true,
 }: {
   series: string;
   asOf: string;
@@ -20,6 +22,7 @@ export function Citation({
   rebase?: string | null;
   path: string;
   live?: boolean;
+  compact?: boolean;
 }) {
   const [query, setQuery] = useState("");
   const [copied, setCopied] = useState(false);
@@ -46,7 +49,7 @@ export function Citation({
       window.prompt("Copy this citation", text);
     }
   };
-  return (
+  const content = (
     <div className="citation">
       <span className="citation-label">Cite</span>
       <code className="citation-text">{text}</code>
@@ -55,4 +58,7 @@ export function Citation({
       </button>
     </div>
   );
+  return compact ? (
+    <ToolDisclosure label="Cite" className="citation-disclosure">{content}</ToolDisclosure>
+  ) : content;
 }

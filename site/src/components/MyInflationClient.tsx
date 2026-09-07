@@ -29,31 +29,31 @@ const ROWS: {
   label: string;
   options: readonly { key: string; label: string }[];
 }[] = [
-  { key: "housing", label: "🏠 Housing",
+  { key: "housing", label: "Housing",
     options: [
       { key: "rent", label: "I rent" },
       { key: "own_mortgage", label: "Own w/ mortgage" },
       { key: "own_paidoff", label: "Own, paid off" },
     ] },
-  { key: "driving", label: "🚗 Driving",
+  { key: "driving", label: "Driving",
     options: [
       { key: "none", label: "Don't drive" },
       { key: "average", label: "Average miles" },
       { key: "heavy", label: "Heavy commuter" },
     ] },
-  { key: "eating", label: "🍽 Eating out",
+  { key: "eating", label: "Eating out",
     options: [
       { key: "cook", label: "Mostly cook" },
       { key: "average", label: "Average" },
       { key: "out", label: "Eat out a lot" },
     ] },
-  { key: "healthcare", label: "🩺 Healthcare use",
+  { key: "healthcare", label: "Healthcare use",
     options: [
       { key: "light", label: "Light" },
       { key: "average", label: "Average" },
       { key: "heavy", label: "Heavy" },
     ] },
-  { key: "tuition", label: "🎓 Paying tuition",
+  { key: "tuition", label: "Paying tuition",
     options: [
       { key: "no", label: "No" },
       { key: "yes", label: "Yes" },

@@ -15,7 +15,7 @@ import { HardwareGapPanel, type GapRow } from "@/components/HardwareGapPanel";
 import { PowerPanel, type PowerData } from "@/components/PowerPanel";
 import { ContextPanel, type ContextData } from "@/components/ContextPanel";
 import { LongLeadStrip } from "@/components/LongLeadStrip";
-import { fmtSigned, fmtPp } from "@/lib/format";
+import { fmtDay, fmtSigned, fmtPp } from "@/lib/format";
 import type { DcGrades, LongLead } from "@/lib/types";
 
 export const metadata: Metadata = {
@@ -187,8 +187,45 @@ export default function Datacenter() {
     </div>
   );
   return (
-    <div>
-      <h1>Data Center Cost Index <span className="subtitle">facility build & operating input costs — no official DC PPI exists</span></h1>
+    <div className="datacenter-dashboard">
+      <header className="research-intro">
+        <div className="research-eyebrow">AI infrastructure <span>Updated {fmtDay(build.as_of)}</span></div>
+        <h1>Data Center Cost Index</h1>
+        <p>Facility build, operating and hardware input costs. Independent indexes with component-level sources and weights.</p>
+      </header>
+      <div className="kpi-row dc-headline">
+        <KpiCard label="DC Build YoY" value={fmtSigned(build.headline_yoy_pct)}
+                 context={`construction input costs · ${fmtDay(build.as_of)}`} accent="sky" />
+        <KpiCard label="DC Ops YoY" value={fmtSigned(ops.headline_yoy_pct)}
+                 context={`operating input costs · ${fmtDay(ops.as_of)}`} accent="violet" />
+        <KpiCard label="DC Hardware YoY" value={fmtSigned(hardware.headline_yoy_pct)}
+                 context={`IT hardware input costs · ${fmtDay(hardware.as_of)}`} accent="amber" />
+      </div>
+      {gateFlags.length > 0 && (
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", margin: "8px 0" }}>
+          {gateFlags.map((f) => (
+            <span key={f} className="badge badge-muted"
+                  style={{ color: "var(--accent-amber)", borderColor: "rgba(245,158,11,0.4)" }}>
+              quality hold: {f}
+            </span>
+          ))}
+        </div>
+      )}
+      <section className="section section-featured dc-trend" aria-labelledby="dc-trend-title">
+        <DcIndexChart actions={<>
+          <Citation compact series="DC Build Index" asOf={build.as_of} rebase={dc.rebase}
+            value={`${fmtSigned(build.headline_yoy_pct)} YoY`} path="/datacenter" />
+        </>} exportData={
+          <DownloadData compact={false} filename="macrogauge-dc-build-components" json="datacenter.json"
+            citation={`MacroGauge DC Build components, as of ${build.as_of}, ${dc.rebase}`}
+            rows={build.components as Comp[]} />
+        } series={[
+          { key: "build", label: "DC Build", dates: build.dates, index: build.index, yoy: build.yoy_pct },
+          { key: "ops", label: "DC Ops", dates: ops.dates, index: ops.index, yoy: ops.yoy_pct },
+          { key: "hardware", label: "DC Hardware", dates: hardware.dates, index: hardware.index, yoy: hardware.yoy_pct },
+        ]} />
+        <p className="chart-caption">Source: BLS, EIA and market data · {dc.rebase} · Input-price indexes; build and operating costs remain separate.</p>
+      </section>
       <section className="project-toolkit" aria-labelledby="project-toolkit-title">
         <div className="project-toolkit-heading">
           <span id="project-toolkit-title">Project controls toolkit</span>
@@ -205,41 +242,6 @@ export default function Datacenter() {
           ))}
         </div>
       </section>
-      <div className="kpi-row">
-        <KpiCard label="DC Build YoY" value={fmtSigned(build.headline_yoy_pct)}
-                 context={`construction input costs · as of ${build.as_of}`} accent="sky" />
-        <KpiCard label="DC Ops YoY" value={fmtSigned(ops.headline_yoy_pct)}
-                 context={`operating input costs · as of ${ops.as_of}`} accent="violet" />
-        <KpiCard label="DC Hardware YoY" value={fmtSigned(hardware.headline_yoy_pct)}
-                 context={`IT hardware input costs · as of ${hardware.as_of}`} accent="amber" />
-      </div>
-      {gateFlags.length > 0 && (
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", margin: "8px 0" }}>
-          {gateFlags.map((f) => (
-            <span key={f} className="badge badge-muted"
-                  style={{ color: "var(--accent-amber)", borderColor: "rgba(245,158,11,0.4)" }}>
-              quality hold: {f}
-            </span>
-          ))}
-        </div>
-      )}
-      <Citation
-        series="DC Build Index"
-        asOf={build.as_of}
-        rebase={dc.rebase}
-        value={`${fmtSigned(build.headline_yoy_pct)} YoY`}
-        path="/datacenter"
-      />
-      <div className="section-tools">
-        <DownloadData filename="macrogauge-dc-build-components" json="datacenter.json"
-          citation={`MacroGauge DC Build components, as of ${build.as_of}, ${dc.rebase}`}
-          rows={build.components as Comp[]} />
-      </div>
-      <DcIndexChart series={[
-        { key: "build", label: "DC Build", dates: build.dates, index: build.index, yoy: build.yoy_pct },
-        { key: "ops", label: "DC Ops", dates: ops.dates, index: ops.index, yoy: ops.yoy_pct },
-        { key: "hardware", label: "DC Hardware", dates: hardware.dates, index: hardware.index, yoy: hardware.yoy_pct },
-      ]} />
       <ComponentTable title="DC Build components" comps={build.components as Comp[]}
                       groups={(build as { groups?: GroupSum[] }).groups} groupHeaders />
       {/* No groupHeaders (and no groups prop — sums only render under

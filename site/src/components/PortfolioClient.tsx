@@ -90,7 +90,7 @@ export function PortfolioClient({ data, markets }: { data: EscalationData; marke
   if (!loaded) return <div style={{ color: "var(--muted)", fontSize: 13, padding: 24 }}>loading your projects…</div>;
 
   return (
-    <div>
+    <div className="portfolio-workspace">
       <div className="kpi-row">
         <KpiCard label="Capital at base" value={fmtUsd(t.capital)} context={`${t.valid} of ${t.projects} projects priced · ${t.mw.toLocaleString("en-US")} MW`} accent="sky" />
         <KpiCard label={`Escalated to ${lastMonth}`} value={fmtUsd(t.toDate)} context={`${fmtSigned(t.weightedToDatePct)} dollar-weighted · ${fmtUsd(t.exposureToDate)} exposure to date`} accent={(t.exposureToDate ?? 0) >= 0 ? "red" : "emerald"} />

@@ -1,6 +1,7 @@
 "use client";
 import { toCsv, type CsvRow } from "@/lib/csv";
 import { dataUrl } from "@/lib/dataFiles";
+import { ToolDisclosure } from "./ToolDisclosure";
 
 /** CSV / JSON download pair for a table or chart.
  *
@@ -14,6 +15,7 @@ export function DownloadData({
   json,
   citation,
   columns,
+  compact = true,
 }: {
   rows: CsvRow[];
   /** basename without extension, e.g. "macrogauge-grocery" */
@@ -22,6 +24,7 @@ export function DownloadData({
   json?: string;
   citation?: string;
   columns?: string[];
+  compact?: boolean;
 }) {
   const downloadCsv = () => {
     const text = toCsv(rows, { columns, comment: citation });
@@ -35,7 +38,7 @@ export function DownloadData({
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
-  return (
+  const content = (
     <span className="tool-row download-data" aria-label="Download data">
       <button type="button" className="tool-btn" onClick={downloadCsv} disabled={rows.length === 0}>
         ↓ CSV
@@ -47,4 +50,7 @@ export function DownloadData({
       )}
     </span>
   );
+  return compact ? (
+    <ToolDisclosure label="Export data">{content}</ToolDisclosure>
+  ) : content;
 }

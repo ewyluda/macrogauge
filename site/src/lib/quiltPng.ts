@@ -1,3 +1,4 @@
+import { C } from "./chartTheme";
 import { heatColor } from "./heat";
 
 export type QuiltRow = { label: string; values: (number | null)[] };
@@ -26,13 +27,13 @@ export function exportQuiltPng(
   canvas.width = W;
   canvas.height = H;
   const ctx = canvas.getContext("2d")!;
-  ctx.fillStyle = "#0B0F14";
+  ctx.fillStyle = C.card;
   ctx.fillRect(0, 0, W, H);
 
-  ctx.fillStyle = "#E6EDF3";
+  ctx.fillStyle = C.text;
   ctx.font = "bold 28px ui-sans-serif, system-ui";
   ctx.fillText("MACROGAUGE — INFLATION QUILT", 24, 44);
-  ctx.fillStyle = "#8B98A5";
+  ctx.fillStyle = C.muted;
   ctx.font = "16px ui-sans-serif, system-ui";
   ctx.fillText(
     `${sourceLabel} component YoY %, every month · as of ${asOf}`,
@@ -41,7 +42,7 @@ export function exportQuiltPng(
   );
 
   const drawRow = (row: QuiltRow, y: number) => {
-    ctx.fillStyle = "#8B98A5";
+    ctx.fillStyle = C.muted;
     ctx.font = "13px ui-sans-serif, system-ui";
     ctx.textAlign = "right";
     ctx.fillText(row.label, left - 8, y + cellH / 2 + 4);
@@ -65,7 +66,7 @@ export function exportQuiltPng(
 
   // month labels: at most ~24, evenly thinned
   const step = Math.max(1, Math.ceil(months.length / 24));
-  ctx.fillStyle = "#8B98A5";
+  ctx.fillStyle = C.muted;
   ctx.font = "12px ui-sans-serif, system-ui";
   months.forEach((m, i) => {
     if (i % step !== 0) return;

@@ -1,15 +1,15 @@
 :root {
-  --bg: #0B0F14;
-  --card: #11161C;
-  --border: #1E2630;
-  --text: #E6EDF3;
-  --muted: #8B98A5;
-  --accent-sky: #38BDF8;
-  --accent-amber: #F59E0B;
-  --accent-red: #F87171;
-  --accent-emerald: #34D399;
-  --accent-violet: #A78BFA;
-  --chip-bg: rgba(139, 152, 165, 0.08);
+  --bg: #F6F7F9;
+  --card: #FFFFFF;
+  --border: #DEE3E9;
+  --text: #17212B;
+  --muted: #526170;
+  --accent-sky: #2763C4;
+  --accent-amber: #9A6210;
+  --accent-red: #BB4545;
+  --accent-emerald: #147A63;
+  --accent-violet: #7356A8;
+  --chip-bg: #EEF2F6;
 }
 
 * {
@@ -152,7 +152,7 @@ a { transition: color 140ms ease, background 140ms ease; }
 .panel-foot { border-top: 1px solid var(--border); padding-top: 9px; margin-top: 10px; }
 .release-date { font-size: 28px; font-weight: 750; letter-spacing: -.025em; font-variant-numeric: tabular-nums; }
 .forecast-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
-.forecast-call, .market-grid > div { background: #0d1218; border: 1px solid var(--border); border-radius: 7px; padding: 9px; }
+.forecast-call, .market-grid > div { background: #F6F8FB; border: 1px solid var(--border); border-radius: 7px; padding: 9px; }
 .forecast-call span, .market-grid span { display: block; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
 .forecast-call strong { display: block; color: var(--accent-violet); font-size: 17px; margin-top: 5px; font-variant-numeric: tabular-nums; }
 .market-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
@@ -175,7 +175,7 @@ a { transition: color 140ms ease, background 140ms ease; }
 .outlook-actual { color: var(--accent-sky); }
 .outlook-central { color: var(--accent-emerald); }
 .outlook-drivers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
-.outlook-driver { min-width: 0; padding: 8px 10px; background: #0d1218; border: 1px solid var(--border); border-radius: 8px; }
+.outlook-driver { min-width: 0; padding: 8px 10px; background: #F6F8FB; border: 1px solid var(--border); border-radius: 8px; }
 .outlook-driver span, .outlook-driver small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .outlook-driver span { color: var(--muted); font-size: 10px; }
 .outlook-driver strong { display: block; margin-top: 4px; font-size: 13px; font-variant-numeric: tabular-nums; }

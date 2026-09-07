@@ -32,6 +32,7 @@ function Detail({ c }: { c: CapacityCompany }) {
         ))}
       </div>
       {c.sites.length > 0 && (
+        <div className="capacity-site-table">
         <table style={{ width: "100%", fontSize: 12.5, borderCollapse: "collapse" }}>
           <tbody>
             {c.sites.map(([name, mw, st, when], i) => (
@@ -45,6 +46,7 @@ function Detail({ c }: { c: CapacityCompany }) {
             ))}
           </tbody>
         </table>
+        </div>
       )}
       {c.src.length > 0 && (
         <p style={{ fontSize: 11.5, color: "var(--muted)", marginTop: 8 }}>
@@ -73,7 +75,7 @@ export function CapacityBars({ rows }: { rows: CapacityCompany[] }) {
           const total = c.op + c.con + c.plan;
           return (
             <div key={c.t} className="dashboard-panel" style={{ padding: 0 }}>
-              <button type="button" onClick={() => setOpen(open === c.t ? null : c.t)}
+              <button className="capacity-company" type="button" onClick={() => setOpen(open === c.t ? null : c.t)}
                 aria-expanded={open === c.t}
                 style={{ display: "grid", gridTemplateColumns: "230px 1fr 110px", gap: 12, width: "100%",
                          alignItems: "center", padding: "9px 14px", cursor: "pointer", background: "none",

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 /** Copies the current address (which carries every useUrlState control) to
  *  the clipboard. Falls back to selecting nothing but showing the URL when
  *  the Clipboard API is unavailable (insecure context, old browser). */
-export function CopyLink({ label = "Copy link" }: { label?: string }) {
+export function CopyLink({ label = "Copy link", plain = true }: { label?: string; plain?: boolean }) {
   const [state, setState] = useState<"idle" | "copied" | "failed">("idle");
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
@@ -23,7 +23,7 @@ export function CopyLink({ label = "Copy link" }: { label?: string }) {
   };
   return (
     <button type="button" className="tool-btn copy-link" onClick={copy} aria-live="polite">
-      {state === "copied" ? "✓ Copied" : state === "failed" ? "Copy failed" : `🔗 ${label}`}
+      {state === "copied" ? "✓ Copied" : state === "failed" ? "Copy failed" : `${plain ? "" : "🔗 "}${label}`}
     </button>
   );
 }

@@ -37,6 +37,7 @@ test("quilt window chip is mirrored into the query string", async ({ page }) => 
 
 test("CSV download produces a file with the citation comment", async ({ page }) => {
   await page.goto("/grocery");
+  await page.locator("summary", { hasText: "Export data" }).first().click();
   const [download] = await Promise.all([
     page.waitForEvent("download"),
     page.getByRole("button", { name: "↓ CSV" }).first().click(),
@@ -68,11 +69,12 @@ test("copy link writes the current URL to the clipboard", async ({ page, context
   expect(text).toContain("/calculator?amount=250");
 });
 
-test("footer lists every published artifact and the feed", async ({ page }) => {
+test("footer links to the complete open data catalog and feed", async ({ page }) => {
   await page.goto("/methodology");
-  const links = page.locator(".footer-data a");
-  expect(await links.count()).toBeGreaterThanOrEqual(37); // 36 artifacts + feed.xml
-  await expect(links.filter({ hasText: "gauge_daily.json" })).toHaveCount(1);
+  await expect(page.locator(".footer-research-data a")).toHaveCount(2);
+  await page.locator(".footer-research-data").getByRole("link", { name: "Explore open data" }).click();
+  await expect(page.locator("h1")).toContainText("Open Data");
+  await expect(page.getByRole("link", { name: "gauge_daily.json", exact: true })).toBeVisible();
 });
 
 test("feed, sitemap, robots and the OG image are emitted by the export", async ({ page }) => {

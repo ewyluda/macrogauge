@@ -1,29 +1,29 @@
 // Canvas can't read CSS custom properties — these hexes MIRROR globals.css.
 // If a token changes there, change it here.
 export const C = {
-  bg: "#0B0F14",
-  card: "#11161C",
-  border: "#1E2630",
-  text: "#E6EDF3",
-  muted: "#8B98A5",
-  sky: "#38BDF8",
-  amber: "#F59E0B",
-  red: "#F87171",
-  emerald: "#34D399",
-  violet: "#A78BFA",
+  bg: "#F6F7F9",
+  card: "#FFFFFF",
+  border: "#DEE3E9",
+  text: "#17212B",
+  muted: "#526170",
+  sky: "#2763C4",
+  amber: "#9A6210",
+  red: "#BB4545",
+  emerald: "#147A63",
+  violet: "#7356A8",
   // reserved for the col (cost-of-living) variant line — deliberately not one
   // of the semantic accents (sky = ours, amber = official)
-  col: "#FB923C",
+  col: "#B86A2D",
 } as const;
 
 /** NBER recessions inside the 2018→now window (peak month → trough month). */
 export const NBER_RECESSIONS: [string, string][] = [["2020-02-01", "2020-04-30"]];
 
-/** Shared dark chart chrome: thin lines, sparse gridlines, dark tooltip. */
+/** Shared research chart chrome: restrained series colors and light surfaces. */
 export function baseOption() {
   return {
     backgroundColor: "transparent",
-    textStyle: { color: C.muted, fontSize: 11 },
+    textStyle: { color: C.muted, fontSize: 12 },
     grid: { left: 48, right: 16, top: 36, bottom: 28 },
     tooltip: {
       trigger: "axis" as const,

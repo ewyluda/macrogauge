@@ -17,6 +17,9 @@ export function SegmentedControl<K extends string>({
         return (
           <button
             key={o.key}
+            type="button"
+            className="segmented-option"
+            aria-pressed={active}
             onClick={() => onChange(o.key)}
             style={{
               border: `1px solid ${active ? "rgba(56,189,248,0.5)" : "var(--border)"}`,
