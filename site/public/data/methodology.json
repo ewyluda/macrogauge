@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-09-04T16:38:39Z",
+  "published_at": "2026-09-07T17:58:11Z",
   "stats": {
     "series_count": 693,
-    "obs_count": 180402,
+    "obs_count": 180571,
     "source_count": 30,
     "tracker_corr": 0.9807,
     "live_coverage_pct": 42.6,
@@ -158,7 +158,7 @@
         "eia_gasreg_w"
       ],
       "official_series": "CUUR0000SETB01",
-      "yoy_pct": 28.18
+      "yoy_pct": 28.25
     },
     {
       "code": "electricity",
@@ -215,7 +215,8 @@
   ],
   "freshness": {
     "fresh_count": 686,
-    "total": 693
+    "total": 693,
+    "expected_absent": 6
   },
   "inventory": [
     {
@@ -225,7 +226,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CPILFENS",
@@ -234,7 +236,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "PCEPI",
@@ -243,7 +246,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CUUR0000SAF11",
@@ -252,7 +256,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CUUR0000SEFV",
@@ -261,7 +266,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CUUR0000SAM",
@@ -270,7 +276,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CUUR0000SAA",
@@ -279,7 +286,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CUUR0000SAR",
@@ -288,7 +296,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CUUR0000SAE",
@@ -297,7 +306,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CUUR0000SAG",
@@ -306,7 +316,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CUUR0000SETA01",
@@ -315,7 +326,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CUUR0000SETA02",
@@ -324,7 +336,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CUUR0000SEHA",
@@ -333,7 +346,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CUUR0000SEHC",
@@ -342,7 +356,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CUUR0000SEHF01",
@@ -351,7 +366,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CUUR0000SEHF02",
@@ -360,7 +376,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CUUR0000SETB01",
@@ -369,7 +386,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "FRBATLWGT3MMAUMHWGO",
@@ -378,7 +396,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CES0500000003",
@@ -387,7 +406,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000708111",
@@ -396,7 +416,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000709112",
@@ -405,7 +426,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000702111",
@@ -414,7 +436,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000703112",
@@ -423,7 +446,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000706111",
@@ -432,7 +456,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000711211",
@@ -441,7 +466,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000701111",
@@ -450,7 +476,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000701312",
@@ -459,7 +486,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000701322",
@@ -468,7 +496,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000702212",
@@ -477,7 +506,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": false,
+      "absence": "discontinued"
     },
     {
       "code": "APU0000702421",
@@ -486,7 +516,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000703511",
@@ -495,7 +526,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000704111",
@@ -504,7 +536,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000704211",
@@ -513,7 +546,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": false
+      "fresh": false,
+      "absence": "discontinued"
     },
     {
       "code": "APU0000704312",
@@ -522,7 +556,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000FF1101",
@@ -531,7 +566,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000FS1101",
@@ -540,7 +576,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000710212",
@@ -549,7 +586,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000710411",
@@ -558,7 +596,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000711311",
@@ -567,7 +606,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": false
+      "fresh": false,
+      "absence": "intermittent"
     },
     {
       "code": "APU0000712112",
@@ -576,7 +616,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000712211",
@@ -585,7 +626,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000712311",
@@ -594,7 +636,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000713111",
@@ -603,7 +646,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000715211",
@@ -612,7 +656,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU0000717311",
@@ -621,7 +666,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU000072610",
@@ -630,7 +676,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "APU000072620",
@@ -639,7 +686,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res",
@@ -648,7 +696,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_ng_res",
@@ -657,7 +706,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_gasreg_w",
@@ -666,7 +716,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-31",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_gold",
@@ -674,8 +725,9 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_wti",
@@ -683,8 +735,9 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_rbob",
@@ -692,8 +745,9 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_natgas",
@@ -701,8 +755,9 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_corn",
@@ -710,8 +765,9 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_wheat",
@@ -720,7 +776,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_soybeans",
@@ -729,7 +786,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_soybean_oil",
@@ -737,8 +795,9 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_coffee",
@@ -747,7 +806,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_sugar",
@@ -755,8 +815,9 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cocoa",
@@ -765,7 +826,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_live_cattle",
@@ -774,7 +836,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fiscal_debt_total",
@@ -782,8 +845,9 @@
       "source": "TREASURY",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-02",
-      "fresh": true
+      "latest_obs": "2026-09-03",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_us",
@@ -792,7 +856,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_us",
@@ -801,7 +866,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394913",
@@ -810,7 +876,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_753899",
@@ -819,7 +886,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394463",
@@ -828,7 +896,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394514",
@@ -837,7 +906,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394692",
@@ -846,7 +916,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395209",
@@ -855,7 +926,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394974",
@@ -864,7 +936,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394856",
@@ -873,7 +946,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394347",
@@ -882,7 +956,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394404",
@@ -891,7 +966,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394976",
@@ -900,7 +976,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395057",
@@ -909,7 +986,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395025",
@@ -918,7 +996,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394532",
@@ -927,7 +1006,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395078",
@@ -936,7 +1016,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394865",
@@ -945,7 +1026,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395056",
@@ -954,7 +1036,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395148",
@@ -963,7 +1046,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394530",
@@ -972,7 +1056,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394358",
@@ -981,7 +1066,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395121",
@@ -990,7 +1076,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394943",
@@ -999,7 +1086,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394458",
@@ -1008,7 +1096,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395055",
@@ -1017,7 +1106,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394998",
@@ -1026,7 +1116,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395045",
@@ -1035,7 +1126,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394982",
@@ -1044,7 +1136,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394466",
@@ -1053,7 +1146,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394355",
@@ -1062,7 +1156,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394775",
@@ -1071,7 +1166,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394735",
@@ -1080,7 +1176,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394492",
@@ -1089,7 +1186,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394705",
@@ -1098,7 +1196,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394475",
@@ -1107,7 +1206,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395059",
@@ -1116,7 +1216,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394902",
@@ -1125,7 +1226,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395194",
@@ -1134,7 +1236,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395005",
@@ -1143,7 +1246,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394714",
@@ -1152,7 +1256,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394862",
@@ -1161,7 +1266,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394935",
@@ -1170,7 +1276,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395012",
@@ -1179,7 +1286,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394849",
@@ -1188,7 +1296,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395022",
@@ -1197,7 +1306,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394807",
@@ -1206,7 +1316,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394910",
@@ -1215,7 +1326,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_395053",
@@ -1224,7 +1336,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394669",
@@ -1233,7 +1346,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394425",
@@ -1242,7 +1356,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zori_394388",
@@ -1251,7 +1366,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394913",
@@ -1260,7 +1376,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_753899",
@@ -1269,7 +1386,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394463",
@@ -1278,7 +1396,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394514",
@@ -1287,7 +1406,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394692",
@@ -1296,7 +1416,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395209",
@@ -1305,7 +1426,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394974",
@@ -1314,7 +1436,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394856",
@@ -1323,7 +1446,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394347",
@@ -1332,7 +1456,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394404",
@@ -1341,7 +1466,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394976",
@@ -1350,7 +1476,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395057",
@@ -1359,7 +1486,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395025",
@@ -1368,7 +1496,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394532",
@@ -1377,7 +1506,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395078",
@@ -1386,7 +1516,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394865",
@@ -1395,7 +1526,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395056",
@@ -1404,7 +1536,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395148",
@@ -1413,7 +1546,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394530",
@@ -1422,7 +1556,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394358",
@@ -1431,7 +1566,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395121",
@@ -1440,7 +1576,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394943",
@@ -1449,7 +1586,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394458",
@@ -1458,7 +1596,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395055",
@@ -1467,7 +1606,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394998",
@@ -1476,7 +1616,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395045",
@@ -1485,7 +1626,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394982",
@@ -1494,7 +1636,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394466",
@@ -1503,7 +1646,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394355",
@@ -1512,7 +1656,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394775",
@@ -1521,7 +1666,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394735",
@@ -1530,7 +1676,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394492",
@@ -1539,7 +1686,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394705",
@@ -1548,7 +1696,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394475",
@@ -1557,7 +1706,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395059",
@@ -1566,7 +1716,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394902",
@@ -1575,7 +1726,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395194",
@@ -1584,7 +1736,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395005",
@@ -1593,7 +1746,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394714",
@@ -1602,7 +1756,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394862",
@@ -1611,7 +1766,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394935",
@@ -1620,7 +1776,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395012",
@@ -1629,7 +1786,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394849",
@@ -1638,7 +1796,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395022",
@@ -1647,7 +1806,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394807",
@@ -1656,7 +1816,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394910",
@@ -1665,7 +1826,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_395053",
@@ -1674,7 +1836,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394669",
@@ -1683,7 +1846,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394425",
@@ -1692,7 +1856,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "zhvi_394388",
@@ -1701,7 +1866,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "pmms_30yr",
@@ -1710,7 +1876,8 @@
       "route": "CSV",
       "cadence": "weekly",
       "latest_obs": "2026-09-03",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aptlist_us",
@@ -1719,7 +1886,8 @@
       "route": "CSV",
       "cadence": "monthly",
       "latest_obs": "2026-08-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "usda_eggs_w",
@@ -1728,7 +1896,8 @@
       "route": "API",
       "cadence": "weekly",
       "latest_obs": "2026-08-31",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "usda_milk_w",
@@ -1737,7 +1906,8 @@
       "route": "API",
       "cadence": "weekly",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "usda_beef_w",
@@ -1745,8 +1915,9 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-08-24",
-      "fresh": true
+      "latest_obs": "2026-08-31",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "usda_pork_w",
@@ -1754,8 +1925,9 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-08-24",
-      "fresh": true
+      "latest_obs": "2026-08-31",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "usda_broiler_w",
@@ -1763,8 +1935,9 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-08-24",
-      "fresh": true
+      "latest_obs": "2026-08-31",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "mnd_30y_d",
@@ -1772,8 +1945,9 @@
       "source": "MND",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_d",
@@ -1781,8 +1955,9 @@
       "source": "AAA",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_al",
@@ -1790,8 +1965,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ak",
@@ -1799,8 +1975,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_az",
@@ -1808,8 +1985,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ar",
@@ -1817,8 +1995,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ca",
@@ -1826,8 +2005,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_co",
@@ -1835,8 +2015,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ct",
@@ -1844,8 +2025,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_de",
@@ -1853,8 +2035,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_dc",
@@ -1862,8 +2045,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_fl",
@@ -1871,8 +2055,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ga",
@@ -1880,8 +2065,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_hi",
@@ -1889,8 +2075,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_id",
@@ -1898,8 +2085,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_il",
@@ -1907,8 +2095,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_in",
@@ -1916,8 +2105,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ia",
@@ -1925,8 +2115,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ks",
@@ -1934,8 +2125,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ky",
@@ -1943,8 +2135,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_la",
@@ -1952,8 +2145,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_me",
@@ -1961,8 +2155,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_md",
@@ -1970,8 +2165,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ma",
@@ -1979,8 +2175,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_mi",
@@ -1988,8 +2185,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_mn",
@@ -1997,8 +2195,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ms",
@@ -2006,8 +2205,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_mo",
@@ -2015,8 +2215,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_mt",
@@ -2024,8 +2225,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ne",
@@ -2033,8 +2235,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_nv",
@@ -2042,8 +2245,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_nh",
@@ -2051,8 +2255,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_nj",
@@ -2060,8 +2265,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_nm",
@@ -2069,8 +2275,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ny",
@@ -2078,8 +2285,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_nc",
@@ -2087,8 +2295,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_nd",
@@ -2096,8 +2305,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_oh",
@@ -2105,8 +2315,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ok",
@@ -2114,8 +2325,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_or",
@@ -2123,8 +2335,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_pa",
@@ -2132,8 +2345,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ri",
@@ -2141,8 +2355,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_sc",
@@ -2150,8 +2365,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_sd",
@@ -2159,8 +2375,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_tn",
@@ -2168,8 +2385,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_tx",
@@ -2177,8 +2395,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_ut",
@@ -2186,8 +2405,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_vt",
@@ -2195,8 +2415,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_va",
@@ -2204,8 +2425,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_wa",
@@ -2213,8 +2435,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_wv",
@@ -2222,8 +2445,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_wi",
@@ -2231,8 +2455,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "aaa_gas_wy",
@@ -2240,8 +2465,9 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "manheim_uvvi_m",
@@ -2250,7 +2476,8 @@
       "route": "SCRAPE",
       "cadence": "monthly",
       "latest_obs": "2026-08-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "PAYEMS",
@@ -2259,7 +2486,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ICSA",
@@ -2268,7 +2496,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-29",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "cleveland_cpi_mom",
@@ -2277,7 +2506,8 @@
       "route": "SCRAPE",
       "cadence": "daily",
       "latest_obs": "2026-09-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "cleveland_core_cpi_mom",
@@ -2286,7 +2516,8 @@
       "route": "SCRAPE",
       "cadence": "daily",
       "latest_obs": "2026-09-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "cleveland_pce_mom",
@@ -2295,7 +2526,8 @@
       "route": "SCRAPE",
       "cadence": "daily",
       "latest_obs": "2026-09-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "cleveland_core_pce_mom",
@@ -2304,7 +2536,8 @@
       "route": "SCRAPE",
       "cadence": "daily",
       "latest_obs": "2026-09-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "kalshi_cpi_mom",
@@ -2313,7 +2546,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-08-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "UNRATE",
@@ -2322,7 +2556,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "INDPRO",
@@ -2331,7 +2566,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "RSAFS",
@@ -2340,7 +2576,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "DSPIC96",
@@ -2349,7 +2586,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "PPIACO",
@@ -2358,7 +2596,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "IREXPETCOM",
@@ -2367,7 +2606,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "T5YIE",
@@ -2375,8 +2615,9 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-03",
-      "fresh": true
+      "latest_obs": "2026-09-04",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CCSA",
@@ -2385,7 +2626,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-22",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "PCUOMFGOMFG",
@@ -2394,7 +2636,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "FEDFUNDS",
@@ -2403,7 +2646,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "HOUST",
@@ -2412,7 +2656,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "PERMIT",
@@ -2421,7 +2666,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CSUSHPINSA",
@@ -2430,7 +2676,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "M2SL",
@@ -2439,7 +2686,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "UMCSENT",
@@ -2448,7 +2696,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "T10Y2Y",
@@ -2456,8 +2705,9 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-03",
-      "fresh": true
+      "latest_obs": "2026-09-04",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "DRCCLACBS",
@@ -2466,7 +2716,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-04-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "TERMCBCCALLNS",
@@ -2475,7 +2726,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "PSAVERT",
@@ -2484,7 +2736,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "TDSP",
@@ -2493,7 +2746,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-01-01",
-      "fresh": false
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "REVOLSL",
@@ -2502,7 +2756,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": false
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "DRSFRMACBS",
@@ -2511,7 +2766,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-04-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "SAHMREALTIME",
@@ -2520,7 +2776,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "T10Y3M",
@@ -2528,8 +2785,9 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-03",
-      "fresh": true
+      "latest_obs": "2026-09-04",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "NFCI",
@@ -2538,7 +2796,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-28",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CFNAIMA3",
@@ -2547,7 +2806,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "RECPROUSM156N",
@@ -2556,7 +2816,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "MEDCPIM158SFRBCLE",
@@ -2565,7 +2826,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "TRMMEANCPIM158SFRBCLE",
@@ -2574,7 +2836,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CORESTICKM159SFRBATL",
@@ -2583,7 +2846,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "PCETRIM12M159SFRBDAL",
@@ -2592,7 +2856,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "T10YIE",
@@ -2600,8 +2865,9 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-03",
-      "fresh": true
+      "latest_obs": "2026-09-04",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "MICH",
@@ -2610,7 +2876,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "DGS1MO",
@@ -2618,8 +2885,9 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-02",
-      "fresh": true
+      "latest_obs": "2026-09-03",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "DGS3MO",
@@ -2627,8 +2895,9 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-02",
-      "fresh": true
+      "latest_obs": "2026-09-03",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "DGS6MO",
@@ -2636,8 +2905,9 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-02",
-      "fresh": true
+      "latest_obs": "2026-09-03",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "DGS1",
@@ -2645,8 +2915,9 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-02",
-      "fresh": true
+      "latest_obs": "2026-09-03",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "DGS2",
@@ -2654,8 +2925,9 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-02",
-      "fresh": true
+      "latest_obs": "2026-09-03",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "DGS5",
@@ -2663,8 +2935,9 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-02",
-      "fresh": true
+      "latest_obs": "2026-09-03",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "DGS10",
@@ -2672,8 +2945,9 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-02",
-      "fresh": true
+      "latest_obs": "2026-09-03",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "DGS30",
@@ -2681,8 +2955,9 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-02",
-      "fresh": true
+      "latest_obs": "2026-09-03",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "BAMLH0A0HYM2",
@@ -2691,7 +2966,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-03",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "DTWEXBGS",
@@ -2700,7 +2976,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-28",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "GDPNOW",
@@ -2709,7 +2986,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "WALCL",
@@ -2718,7 +2996,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-02",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "WTREGEN",
@@ -2727,7 +3006,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-02",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "RRPONTSYD",
@@ -2735,8 +3015,9 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-03",
-      "fresh": true
+      "latest_obs": "2026-09-04",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "EXHOSLUSM495S",
@@ -2745,7 +3026,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "USSTHPI",
@@ -2754,7 +3036,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-04-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "RIFLPBCIANM60NM",
@@ -2763,7 +3046,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-05-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ALUR",
@@ -2772,7 +3056,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "AKUR",
@@ -2781,7 +3066,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "AZUR",
@@ -2790,7 +3076,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ARUR",
@@ -2799,7 +3086,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CAUR",
@@ -2808,7 +3096,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "COUR",
@@ -2817,7 +3106,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "CTUR",
@@ -2826,7 +3116,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "DEUR",
@@ -2835,7 +3126,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "DCUR",
@@ -2844,7 +3136,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "FLUR",
@@ -2853,7 +3146,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "GAUR",
@@ -2862,7 +3156,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "HIUR",
@@ -2871,7 +3166,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "IDUR",
@@ -2880,7 +3176,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ILUR",
@@ -2889,7 +3186,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "INUR",
@@ -2898,7 +3196,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "IAUR",
@@ -2907,7 +3206,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "KSUR",
@@ -2916,7 +3216,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "KYUR",
@@ -2925,7 +3226,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "LAUR",
@@ -2934,7 +3236,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "MEUR",
@@ -2943,7 +3246,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "MDUR",
@@ -2952,7 +3256,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "MAUR",
@@ -2961,7 +3266,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "MIUR",
@@ -2970,7 +3276,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "MNUR",
@@ -2979,7 +3286,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "MSUR",
@@ -2988,7 +3296,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "MOUR",
@@ -2997,7 +3306,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "MTUR",
@@ -3006,7 +3316,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "NEUR",
@@ -3015,7 +3326,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "NVUR",
@@ -3024,7 +3336,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "NHUR",
@@ -3033,7 +3346,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "NJUR",
@@ -3042,7 +3356,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "NMUR",
@@ -3051,7 +3366,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "NYUR",
@@ -3060,7 +3376,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "NCUR",
@@ -3069,7 +3386,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "NDUR",
@@ -3078,7 +3396,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "OHUR",
@@ -3087,7 +3406,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "OKUR",
@@ -3096,7 +3416,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ORUR",
@@ -3105,7 +3426,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "PAUR",
@@ -3114,7 +3436,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "RIUR",
@@ -3123,7 +3446,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "SCUR",
@@ -3132,7 +3456,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "SDUR",
@@ -3141,7 +3466,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "TNUR",
@@ -3150,7 +3476,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "TXUR",
@@ -3159,7 +3486,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "UTUR",
@@ -3168,7 +3496,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "VTUR",
@@ -3177,7 +3506,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "VAUR",
@@ -3186,7 +3516,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "WAUR",
@@ -3195,7 +3526,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "WVUR",
@@ -3204,7 +3536,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "WIUR",
@@ -3213,7 +3546,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "WYUR",
@@ -3222,7 +3556,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ces_constr_ahe",
@@ -3231,7 +3566,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_elec_contr",
@@ -3240,7 +3576,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_plumb_hvac",
@@ -3249,7 +3586,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_steel",
@@ -3258,7 +3596,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_concrete",
@@ -3267,7 +3606,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_copper_wire",
@@ -3276,7 +3616,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_alum_shapes",
@@ -3285,7 +3626,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_switchgear",
@@ -3294,7 +3636,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_transformer",
@@ -3303,7 +3646,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_genset",
@@ -3312,7 +3656,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_hvac_equip",
@@ -3321,7 +3666,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_pumps",
@@ -3330,7 +3676,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fred_uo_electrical",
@@ -3339,7 +3686,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fred_uo_hvac",
@@ -3348,7 +3696,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fred_uo_turbines",
@@ -3357,7 +3706,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ces_dp_ahe",
@@ -3366,7 +3716,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_mach_repair",
@@ -3375,7 +3726,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_storage",
@@ -3384,7 +3736,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": false
+      "fresh": false,
+      "absence": null
     },
     {
       "code": "ppi_semis_components",
@@ -3393,7 +3746,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_network_equip",
@@ -3402,7 +3756,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "mxp_computers_exsemi",
@@ -3411,7 +3766,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "mxp_semis",
@@ -3420,7 +3776,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "mxp_semis_comp_naics",
@@ -3429,7 +3786,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_semi_headline",
@@ -3438,7 +3796,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_servers",
@@ -3447,7 +3806,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_ic_packages",
@@ -3456,7 +3816,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ppi_wafers",
@@ -3465,7 +3826,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "cpi_computers",
@@ -3474,7 +3836,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "census_dc_constr_saar",
@@ -3483,7 +3846,8 @@
       "route": "XLSX",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "census_dc_constr_nsa",
@@ -3492,7 +3856,8 @@
       "route": "XLSX",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "dramex_nand_mlc64",
@@ -3500,8 +3865,9 @@
       "source": "DRAMEX",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "dramex_ddr5_16g",
@@ -3509,8 +3875,9 @@
       "source": "DRAMEX",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "dramex_ddr4_16g",
@@ -3518,8 +3885,9 @@
       "source": "DRAMEX",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "vast_h100_sxm",
@@ -3527,8 +3895,9 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "vast_h200",
@@ -3537,7 +3906,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-03",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "vast_b200",
@@ -3546,7 +3916,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "vast_a100_sxm",
@@ -3554,8 +3925,9 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "vast_rtx4090",
@@ -3563,8 +3935,9 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "sfc_h100",
@@ -3572,8 +3945,9 @@
       "source": "SFCOMPUTE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "or_gpt4o_in",
@@ -3581,8 +3955,9 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "or_gpt4o_out",
@@ -3590,8 +3965,9 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "or_claude_sonnet_in",
@@ -3599,8 +3975,9 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "or_claude_sonnet_out",
@@ -3608,8 +3985,9 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "or_llama70b_in",
@@ -3617,8 +3995,9 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "or_llama70b_out",
@@ -3626,8 +4005,9 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "or_deepseek_in",
@@ -3635,8 +4015,9 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "or_deepseek_out",
@@ -3644,8 +4025,9 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "or_gemini_flash_in",
@@ -3653,8 +4035,9 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "or_gemini_flash_out",
@@ -3662,8 +4045,9 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "or_mistral_large_in",
@@ -3671,8 +4055,9 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "or_mistral_large_out",
@@ -3680,8 +4065,9 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "steo_elec_ind_us",
@@ -3690,7 +4076,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2027-12-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "steo_power_pj",
@@ -3699,7 +4086,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2027-12-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_copper",
@@ -3707,8 +4095,9 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_alum",
@@ -3716,8 +4105,9 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_us",
@@ -3726,7 +4116,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_al",
@@ -3735,7 +4126,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ak",
@@ -3744,7 +4136,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_az",
@@ -3753,7 +4146,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ar",
@@ -3762,7 +4156,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ca",
@@ -3771,7 +4166,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_co",
@@ -3780,7 +4176,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ct",
@@ -3789,7 +4186,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_de",
@@ -3798,7 +4196,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_dc",
@@ -3807,7 +4206,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_fl",
@@ -3816,7 +4216,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ga",
@@ -3825,7 +4226,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_hi",
@@ -3834,7 +4236,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_id",
@@ -3843,7 +4246,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_il",
@@ -3852,7 +4256,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_in",
@@ -3861,7 +4266,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ia",
@@ -3870,7 +4276,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ks",
@@ -3879,7 +4286,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ky",
@@ -3888,7 +4296,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_la",
@@ -3897,7 +4306,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_me",
@@ -3906,7 +4316,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_md",
@@ -3915,7 +4326,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ma",
@@ -3924,7 +4336,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_mi",
@@ -3933,7 +4346,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_mn",
@@ -3942,7 +4356,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ms",
@@ -3951,7 +4366,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_mo",
@@ -3960,7 +4376,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_mt",
@@ -3969,7 +4386,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ne",
@@ -3978,7 +4396,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_nv",
@@ -3987,7 +4406,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_nh",
@@ -3996,7 +4416,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_nj",
@@ -4005,7 +4426,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_nm",
@@ -4014,7 +4436,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ny",
@@ -4023,7 +4446,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_nc",
@@ -4032,7 +4456,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_nd",
@@ -4041,7 +4466,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_oh",
@@ -4050,7 +4476,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ok",
@@ -4059,7 +4486,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_or",
@@ -4068,7 +4496,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_pa",
@@ -4077,7 +4506,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ri",
@@ -4086,7 +4516,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_sc",
@@ -4095,7 +4526,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_sd",
@@ -4104,7 +4536,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_tn",
@@ -4113,7 +4546,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_tx",
@@ -4122,7 +4556,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_ut",
@@ -4131,7 +4566,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_vt",
@@ -4140,7 +4576,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_va",
@@ -4149,7 +4586,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_wa",
@@ -4158,7 +4596,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_wv",
@@ -4167,7 +4606,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_wi",
@@ -4176,7 +4616,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_ind_wy",
@@ -4185,7 +4626,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_al",
@@ -4194,7 +4636,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ak",
@@ -4203,7 +4646,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_az",
@@ -4212,7 +4656,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ar",
@@ -4221,7 +4666,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ca",
@@ -4230,7 +4676,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_co",
@@ -4239,7 +4686,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ct",
@@ -4248,7 +4696,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_de",
@@ -4257,7 +4706,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_dc",
@@ -4266,7 +4716,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_fl",
@@ -4275,7 +4726,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ga",
@@ -4284,7 +4736,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_hi",
@@ -4293,7 +4746,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_id",
@@ -4302,7 +4756,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_il",
@@ -4311,7 +4766,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_in",
@@ -4320,7 +4776,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ia",
@@ -4329,7 +4786,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ks",
@@ -4338,7 +4796,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ky",
@@ -4347,7 +4806,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_la",
@@ -4356,7 +4816,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_me",
@@ -4365,7 +4826,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_md",
@@ -4374,7 +4836,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ma",
@@ -4383,7 +4846,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_mi",
@@ -4392,7 +4856,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_mn",
@@ -4401,7 +4866,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ms",
@@ -4410,7 +4876,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_mo",
@@ -4419,7 +4886,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_mt",
@@ -4428,7 +4896,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ne",
@@ -4437,7 +4906,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_nv",
@@ -4446,7 +4916,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_nh",
@@ -4455,7 +4926,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_nj",
@@ -4464,7 +4936,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_nm",
@@ -4473,7 +4946,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ny",
@@ -4482,7 +4956,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_nc",
@@ -4491,7 +4966,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_nd",
@@ -4500,7 +4976,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_oh",
@@ -4509,7 +4986,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ok",
@@ -4518,7 +4996,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_or",
@@ -4527,7 +5006,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_pa",
@@ -4536,7 +5016,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ri",
@@ -4545,7 +5026,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_sc",
@@ -4554,7 +5036,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_sd",
@@ -4563,7 +5046,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_tn",
@@ -4572,7 +5056,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_tx",
@@ -4581,7 +5066,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_ut",
@@ -4590,7 +5076,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_vt",
@@ -4599,7 +5086,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_va",
@@ -4608,7 +5096,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_wa",
@@ -4617,7 +5106,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_wv",
@@ -4626,7 +5116,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_wi",
@@ -4635,7 +5126,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_elec_res_wy",
@@ -4644,7 +5136,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-06-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_us",
@@ -4653,7 +5146,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_al",
@@ -4662,7 +5156,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_az",
@@ -4671,7 +5166,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_ar",
@@ -4680,7 +5176,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_ca",
@@ -4689,7 +5186,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_co",
@@ -4698,7 +5196,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_ct",
@@ -4707,7 +5206,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_de",
@@ -4716,7 +5216,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2025-10-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_fl",
@@ -4725,7 +5226,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_ga",
@@ -4734,7 +5236,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_hi",
@@ -4743,7 +5246,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_id",
@@ -4752,7 +5256,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_il",
@@ -4761,7 +5266,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_in",
@@ -4770,7 +5276,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_ia",
@@ -4779,7 +5286,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_ks",
@@ -4788,7 +5296,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2025-10-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_ky",
@@ -4797,7 +5306,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_la",
@@ -4806,7 +5316,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_me",
@@ -4815,7 +5326,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_md",
@@ -4824,7 +5336,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_mi",
@@ -4833,7 +5346,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_mn",
@@ -4842,7 +5356,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_ms",
@@ -4851,7 +5366,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_mt",
@@ -4860,7 +5376,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_ne",
@@ -4869,7 +5386,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_nv",
@@ -4878,7 +5396,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_nh",
@@ -4887,7 +5406,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_nj",
@@ -4896,7 +5416,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_nm",
@@ -4905,7 +5426,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_ny",
@@ -4914,7 +5436,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_nc",
@@ -4923,7 +5446,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2025-10-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_nd",
@@ -4932,7 +5456,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_oh",
@@ -4941,7 +5466,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_ok",
@@ -4950,7 +5476,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_or",
@@ -4959,7 +5486,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_pa",
@@ -4968,7 +5496,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2025-10-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_sc",
@@ -4977,7 +5506,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_tn",
@@ -4986,7 +5516,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_tx",
@@ -4995,7 +5526,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_ut",
@@ -5004,7 +5536,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_va",
@@ -5013,7 +5546,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_wa",
@@ -5022,7 +5556,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_wv",
@@ -5031,7 +5566,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_wi",
@@ -5040,7 +5576,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_wy",
@@ -5049,7 +5586,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_us",
@@ -5058,7 +5596,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c51107",
@@ -5067,7 +5606,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c51107",
@@ -5076,7 +5616,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c19155",
@@ -5085,7 +5626,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c19155",
@@ -5094,7 +5636,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c51153",
@@ -5103,7 +5646,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c51153",
@@ -5112,7 +5656,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c19153",
@@ -5121,7 +5666,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c19153",
@@ -5130,7 +5676,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c48113",
@@ -5139,7 +5686,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c48113",
@@ -5148,7 +5696,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c19049",
@@ -5157,7 +5706,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c19049",
@@ -5166,7 +5716,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c48439",
@@ -5175,7 +5726,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c48439",
@@ -5184,7 +5736,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c56021",
@@ -5193,7 +5746,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c56021",
@@ -5202,7 +5756,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c48139",
@@ -5211,7 +5766,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c48139",
@@ -5220,7 +5776,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c32029",
@@ -5229,7 +5786,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c32029",
@@ -5238,7 +5796,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c17031",
@@ -5247,7 +5806,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c17031",
@@ -5256,7 +5816,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c32031",
@@ -5265,7 +5826,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c32031",
@@ -5274,7 +5836,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c17043",
@@ -5283,7 +5846,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c17043",
@@ -5292,7 +5856,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c53025",
@@ -5301,7 +5866,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c53025",
@@ -5310,7 +5876,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c04013",
@@ -5319,7 +5886,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c04013",
@@ -5328,7 +5896,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c48029",
@@ -5337,7 +5906,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c48029",
@@ -5346,7 +5916,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c04021",
@@ -5355,7 +5926,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c04021",
@@ -5364,25 +5936,28 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c41067",
-      "name": "QCEW avg weekly wage, construction (Washington County, OR) \u2014 chronically disclosure-suppressed (2 consecutive quarters as of 2026-07-25); staleness widened to 900 so the expected absence doesn't false-alarm sources_fresh",
+      "name": "QCEW avg weekly wage, construction (Washington County, OR)",
       "source": "QCEW",
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2025-04-01",
-      "fresh": true
+      "fresh": false,
+      "absence": "suppressed"
     },
     {
       "code": "qcew_emp23_c41067",
-      "name": "QCEW construction employment (Washington County, OR) \u2014 chronically disclosure-suppressed (2 consecutive quarters as of 2026-07-25); staleness widened to 900 so the expected absence doesn't false-alarm sources_fresh",
+      "name": "QCEW construction employment (Washington County, OR)",
       "source": "QCEW",
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2025-04-01",
-      "fresh": true
+      "fresh": false,
+      "absence": "suppressed"
     },
     {
       "code": "qcew_wage23_c13097",
@@ -5391,7 +5966,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c13097",
@@ -5400,7 +5976,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c39049",
@@ -5409,7 +5986,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c39049",
@@ -5418,7 +5996,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c13121",
@@ -5427,7 +6006,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c13121",
@@ -5436,7 +6016,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c39089",
@@ -5445,7 +6026,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c39089",
@@ -5454,7 +6036,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c06085",
@@ -5463,7 +6046,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c06085",
@@ -5472,7 +6056,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c49035",
@@ -5481,7 +6066,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c49035",
@@ -5490,7 +6076,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c48441",
@@ -5499,7 +6086,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c48441",
@@ -5508,7 +6096,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c49049",
@@ -5517,7 +6106,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c49049",
@@ -5526,7 +6116,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c18141",
@@ -5535,7 +6126,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c18141",
@@ -5544,7 +6136,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c55101",
@@ -5553,7 +6146,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c55101",
@@ -5562,7 +6156,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c22083",
@@ -5571,7 +6166,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c22083",
@@ -5580,7 +6176,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_wage23_c47157",
@@ -5589,7 +6186,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_emp23_c47157",
@@ -5598,7 +6196,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_us",
@@ -5607,7 +6206,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c51107",
@@ -5616,7 +6216,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c19155",
@@ -5625,7 +6226,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c51153",
@@ -5634,7 +6236,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c19153",
@@ -5643,7 +6246,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c48113",
@@ -5652,7 +6256,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c19049",
@@ -5661,7 +6266,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c48439",
@@ -5670,7 +6276,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c56021",
@@ -5679,7 +6286,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c48139",
@@ -5688,7 +6296,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c32029",
@@ -5697,7 +6306,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c17031",
@@ -5706,7 +6316,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c32031",
@@ -5715,7 +6326,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c17043",
@@ -5724,7 +6336,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c53025",
@@ -5733,7 +6346,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c04013",
@@ -5742,7 +6356,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c48029",
@@ -5751,7 +6366,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c04021",
@@ -5760,7 +6376,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c41067",
@@ -5769,7 +6386,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2025-04-01",
-      "fresh": false
+      "fresh": false,
+      "absence": "suppressed"
     },
     {
       "code": "qcew_aemp23_c13097",
@@ -5778,7 +6396,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c39049",
@@ -5787,7 +6406,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c13121",
@@ -5796,7 +6416,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c39089",
@@ -5805,7 +6426,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c06085",
@@ -5814,7 +6436,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c49035",
@@ -5823,7 +6446,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c48441",
@@ -5832,7 +6456,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c49049",
@@ -5841,7 +6466,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c18141",
@@ -5850,7 +6476,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c55101",
@@ -5859,7 +6486,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c22083",
@@ -5868,7 +6496,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "qcew_aemp23_c47157",
@@ -5877,7 +6506,8 @@
       "route": "CSV",
       "cadence": "quarterly",
       "latest_obs": "2026-01-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "caiso_sp15_da",
@@ -5886,7 +6516,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "miso_indiana_da",
@@ -5894,8 +6525,9 @@
       "source": "MISO",
       "route": "CSV",
       "cadence": "daily",
-      "latest_obs": "2026-09-03",
-      "fresh": true
+      "latest_obs": "2026-09-06",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "ice_pjm_west",
@@ -5904,7 +6536,8 @@
       "route": "XLSX",
       "cadence": "biweekly",
       "latest_obs": "2026-09-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_henry_hub",
@@ -5913,7 +6546,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "eia_diesel",
@@ -5922,7 +6556,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-31",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "cpi_water",
@@ -5931,7 +6566,8 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-07-01",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "kalshi_dc_count",
@@ -5939,8 +6575,9 @@
       "source": "KALSHI_DC",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "kalshi_dc_nuclear",
@@ -5948,8 +6585,9 @@
       "source": "KALSHI_DC",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-04",
-      "fresh": true
+      "latest_obs": "2026-09-07",
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_crwv",
@@ -5958,7 +6596,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_crwv",
@@ -5967,7 +6606,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_orcl",
@@ -5976,7 +6616,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_orcl",
@@ -5985,7 +6626,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_nbis",
@@ -5994,7 +6636,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_nbis",
@@ -6003,7 +6646,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_apld",
@@ -6012,7 +6656,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_apld",
@@ -6021,7 +6666,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_corz",
@@ -6030,7 +6676,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_corz",
@@ -6039,7 +6686,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_glxy",
@@ -6048,7 +6696,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_glxy",
@@ -6057,7 +6706,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_wulf",
@@ -6066,7 +6716,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_wulf",
@@ -6075,7 +6726,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_hut",
@@ -6084,7 +6736,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_hut",
@@ -6093,7 +6746,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_cifr",
@@ -6102,7 +6756,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_cifr",
@@ -6111,7 +6766,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_iren",
@@ -6120,7 +6776,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_iren",
@@ -6129,7 +6786,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_keel",
@@ -6138,7 +6796,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_keel",
@@ -6147,7 +6806,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_riot",
@@ -6156,7 +6816,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_riot",
@@ -6165,7 +6826,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_btdr",
@@ -6174,7 +6836,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_btdr",
@@ -6183,7 +6846,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_wyfi",
@@ -6192,7 +6856,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_wyfi",
@@ -6201,7 +6866,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_btbt",
@@ -6210,7 +6876,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_btbt",
@@ -6219,7 +6886,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_mara",
@@ -6228,7 +6896,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_mara",
@@ -6237,7 +6906,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_docn",
@@ -6246,7 +6916,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_docn",
@@ -6255,7 +6926,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_akam",
@@ -6264,7 +6936,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_akam",
@@ -6273,7 +6946,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_msft",
@@ -6282,7 +6956,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_msft",
@@ -6291,7 +6966,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_amzn",
@@ -6300,7 +6976,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_amzn",
@@ -6309,7 +6986,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_googl",
@@ -6318,7 +6996,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_googl",
@@ -6327,7 +7006,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_meta",
@@ -6336,7 +7016,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_meta",
@@ -6345,7 +7026,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_baba",
@@ -6354,7 +7036,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_baba",
@@ -6363,7 +7046,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_tcehy",
@@ -6372,7 +7056,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_tcehy",
@@ -6381,7 +7066,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_bidu",
@@ -6390,7 +7076,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_bidu",
@@ -6399,7 +7086,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_eqix",
@@ -6408,7 +7096,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_eqix",
@@ -6417,7 +7106,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_dlr",
@@ -6426,7 +7116,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_dlr",
@@ -6435,7 +7126,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_px_nvda",
@@ -6444,7 +7136,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     },
     {
       "code": "fmp_cap_nvda",
@@ -6453,7 +7146,8 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-04",
-      "fresh": true
+      "fresh": true,
+      "absence": null
     }
   ],
   "validation": {

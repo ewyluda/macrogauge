@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-09-04",
+  "generated_at": "2026-09-07",
   "passed": 32,
-  "total": 33,
+  "total": 34,
   "checks": [
     {
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official print 2026-07-01 is 65d old (limit 80)"
+      "detail": "latest official print 2026-07-01 is 68d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -132,20 +132,26 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": true,
-      "detail": "30/30 ok"
+      "pass": false,
+      "detail": "29/30 ok; failed \u2014 CAISO: ConnectTimeout: HTTPSConnectionPool(host='oasis.caiso.com', port=443): Max retries exceeded with url: /oasisapi/SingleZip?queryname=PRC_LMP&startdatetime=20260907T07:00-0000&enddatetime=20260908T09:00-0000&version=1&market_run_id=DAM&node=TH_SP15_GEN-APND&resultformat=6 (Caused by ConnectTimeoutError(<HTTPSConnection(host='oasis.caiso.com', port=443) at 0x7f4d70d2e930>, 'Connection to oasis.caiso.com timed out. (connect timeout=60)'))"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "686/693 fresh; stale \u2014 APU0000702212 (126d > 80d), APU0000704211 (126d > 80d), APU0000711311 (95d > 80d), TDSP (246d > 210d), REVOLSL (95d > 80d), ppi_storage (95d > 80d), qcew_aemp23_c41067 (521d > 400d)"
+      "detail": "686/687 fresh (6 under an expected-absence policy, judged separately); stale \u2014 ppi_storage (98d > 80d)"
+    },
+    {
+      "name": "expected_absence",
+      "critical": false,
+      "pass": true,
+      "detail": "6 series under an expected-absence policy (2 discontinued, 1 intermittent, 3 suppressed) \u2014 APU0000702212 [discontinued, 129d, review_by 2027-01-15], APU0000704211 [discontinued, 129d, review_by 2027-01-15], APU0000711311 [intermittent, 98d], qcew_wage23_c41067 [suppressed, 524d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 524d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 524d, review_by 2027-03-31]"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.113 vs EIA weekly $4.071 \u2014 relative divergence 1.0% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.12 vs EIA weekly $4.071 \u2014 relative divergence 1.2% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -163,7 +169,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-09-04"
+      "detail": "CPI nowcast as-of 2026-09-07"
     },
     {
       "name": "ensemble_computed",
@@ -175,7 +181,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-09-04 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-09-07 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
