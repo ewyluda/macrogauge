@@ -1,36 +1,36 @@
 {
-  "published_at": "2026-09-08T16:53:48Z",
-  "prev_published_at": "2026-09-07T17:58:11Z",
+  "published_at": "2026-09-09T16:56:21Z",
+  "prev_published_at": "2026-09-08T16:53:48Z",
   "headline": [
     {
       "key": "gauge",
       "label": "Macrogauge (CPI-comparable)",
       "kind": "gauge",
-      "value": 2.99,
-      "as_of": "2026-09-08",
-      "prev_value": 3.01,
-      "prev_as_of": "2026-09-07",
-      "delta_pp": -0.02
+      "value": 3.06,
+      "as_of": "2026-09-09",
+      "prev_value": 2.99,
+      "prev_as_of": "2026-09-08",
+      "delta_pp": 0.07
     },
     {
       "key": "tracker",
       "label": "CPI-Tracker",
       "kind": "gauge",
-      "value": 3.66,
-      "as_of": "2026-09-08",
-      "prev_value": 3.67,
-      "prev_as_of": "2026-09-07",
-      "delta_pp": -0.01
+      "value": 3.73,
+      "as_of": "2026-09-09",
+      "prev_value": 3.66,
+      "prev_as_of": "2026-09-08",
+      "delta_pp": 0.07
     },
     {
       "key": "col",
       "label": "Cost of Living",
       "kind": "gauge",
-      "value": 3.56,
-      "as_of": "2026-09-08",
-      "prev_value": 3.58,
-      "prev_as_of": "2026-09-07",
-      "delta_pp": -0.02
+      "value": 3.63,
+      "as_of": "2026-09-09",
+      "prev_value": 3.56,
+      "prev_as_of": "2026-09-08",
+      "delta_pp": 0.07
     },
     {
       "key": "supercore",
@@ -46,21 +46,21 @@
       "key": "pce",
       "label": "PCE-weighted",
       "kind": "gauge",
-      "value": 3.2,
-      "as_of": "2026-09-08",
-      "prev_value": 3.22,
-      "prev_as_of": "2026-09-07",
-      "delta_pp": -0.02
+      "value": 3.26,
+      "as_of": "2026-09-09",
+      "prev_value": 3.2,
+      "prev_as_of": "2026-09-08",
+      "delta_pp": 0.06
     },
     {
       "key": "dc_build",
       "label": "DC Build",
       "kind": "datacenter",
-      "value": 9.58,
-      "as_of": "2026-09-08",
-      "prev_value": 9.37,
-      "prev_as_of": "2026-09-07",
-      "delta_pp": 0.21
+      "value": 9.67,
+      "as_of": "2026-09-09",
+      "prev_value": 9.58,
+      "prev_as_of": "2026-09-08",
+      "delta_pp": 0.09
     },
     {
       "key": "dc_ops",
@@ -88,9 +88,9 @@
       "component": "fuel",
       "label": "Gasoline",
       "mode": "live",
-      "yoy_pct": 27.67,
-      "prev_yoy_pct": 28.25,
-      "delta_pp": -0.58,
+      "yoy_pct": 30.05,
+      "prev_yoy_pct": 27.67,
+      "delta_pp": 2.38,
       "bls_yoy_pct": 24.64
     },
     {
@@ -227,6 +227,14 @@
       "new_rows": 51
     },
     {
+      "source": "STEO",
+      "new_rows": 36
+    },
+    {
+      "source": "FRED",
+      "new_rows": 26
+    },
+    {
       "source": "FMP",
       "new_rows": 14
     },
@@ -243,15 +251,15 @@
       "new_rows": 3
     },
     {
-      "source": "FRED",
+      "source": "CLEVELAND",
+      "new_rows": 2
+    },
+    {
+      "source": "EIA",
       "new_rows": 2
     },
     {
       "source": "KALSHI_DC",
-      "new_rows": 2
-    },
-    {
-      "source": "SFCOMPUTE",
       "new_rows": 2
     },
     {
@@ -260,10 +268,6 @@
     },
     {
       "source": "CAISO",
-      "new_rows": 1
-    },
-    {
-      "source": "CLEVELAND",
       "new_rows": 1
     },
     {
@@ -276,6 +280,14 @@
     },
     {
       "source": "MND",
+      "new_rows": 1
+    },
+    {
+      "source": "SFCOMPUTE",
+      "new_rows": 1
+    },
+    {
+      "source": "TREASURY",
       "new_rows": 1
     }
   ],
