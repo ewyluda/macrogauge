@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-09T16:56:21Z",
+  "published_at": "2026-09-10T16:43:27Z",
   "prices": {
     "case_shiller": {
       "code": "CSUSHPINSA",
@@ -48,18 +48,18 @@
     "code": "EXHOSLUSM495S",
     "label": "Existing home sales (SAAR)",
     "unit": "units",
-    "value": 4060000.0,
-    "as_of": "2026-07-01",
-    "yoy_pct": 0.74
+    "value": 3980000.0,
+    "as_of": "2026-08-01",
+    "yoy_pct": -1.24
   },
   "mortgage": {
     "pmms_30yr": {
-      "value": 6.71,
-      "as_of": "2026-09-03"
+      "value": 6.76,
+      "as_of": "2026-09-10"
     },
     "mnd_30yr_daily": {
-      "value": 6.89,
-      "as_of": "2026-09-09"
+      "value": 7.07,
+      "as_of": "2026-09-10"
     }
   },
   "affordability": {

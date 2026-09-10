@@ -1,13 +1,13 @@
 {
-  "published_at": "2026-09-09T16:56:21Z",
+  "published_at": "2026-09-10T16:43:27Z",
   "target": "CPI",
   "release_date": "2026-09-11",
   "reference_month": "2026-08",
   "cpi": {
     "target_month": "2026-08",
     "mom_pct": 0.23,
-    "yoy_pct": 3.06,
-    "as_of": "2026-09-09",
+    "yoy_pct": 3.09,
+    "as_of": "2026-09-10",
     "status": "live",
     "parameters": {},
     "components": [
@@ -121,10 +121,10 @@
       "observations": 24
     },
     "status": "live",
-    "as_of": "2026-09-09"
+    "as_of": "2026-09-10"
   },
   "nfp": {
-    "change_thousands": 75,
+    "change_thousands": 77,
     "status": "live",
     "reference_month": "2026-09",
     "parameters": {
@@ -135,7 +135,7 @@
     },
     "inputs": {
       "payroll_momentum": 71.33,
-      "claims_delta_thousands": 8.25
+      "claims_delta_thousands": 6.25
     }
   },
   "benchmarks": {
@@ -144,8 +144,8 @@
       "as_of": "2026-08-27"
     },
     "kalshi": {
-      "value": 0.325,
-      "as_of": "2026-09-09"
+      "value": 0.319,
+      "as_of": "2026-09-10"
     }
   },
   "ensemble": {
@@ -156,5 +156,5 @@
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-09-09"
+  "generated_on": "2026-09-10"
 }
