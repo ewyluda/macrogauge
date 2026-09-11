@@ -44,6 +44,17 @@ jobs:
           fi
           if [ -n "$(git log --since="$MIDNIGHT_ET" --format='%s' \
               --grep="^data: daily publish $TODAY")" ]; then
+            # Release-day guard: on a CPI/PPI release day, a publish that ran
+            # before FRED propagated the print (2026-09-10: run 12:38 ET, FRED
+            # PPI 12:54 ET) must not block the later cron from retrying. Only
+            # the anchor rows for today's releases are checked; every other day
+            # stays once-per-day. Stdlib only — runs before pip install.
+            GUARD=$(python3 -m pipeline.release_gate --store store --today "$TODAY")
+            echo "$GUARD"
+            if echo "$GUARD" | grep -q '^republish=true$'; then
+              echo "already published today, but today's print is still missing — republishing"
+              echo "run=true" >> "$GITHUB_OUTPUT"; exit 0
+            fi
             echo "already published today"
             echo "run=false" >> "$GITHUB_OUTPUT"; exit 0
           fi
