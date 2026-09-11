@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-09-10T16:43:27Z",
-  "score": 0.4,
+  "published_at": "2026-09-11T12:59:54Z",
+  "score": -2.1,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": -0.36388,
+      "z": -0.43694,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -18,7 +18,7 @@
       "active_weight": 25.0
     },
     "pipeline": {
-      "z": 0.175225,
+      "z": 0.05082500000000001,
       "weight": 20,
       "available": 4,
       "expected": 4,
@@ -32,7 +32,7 @@
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": 0.8197333333333333,
+      "z": 0.7775666666666666,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -68,9 +68,9 @@
       "code": "PPIACO",
       "group": "prices",
       "direction": 1,
-      "as_of": "2026-07-01",
-      "momentum": 0.4605,
-      "z": -0.0902
+      "as_of": "2026-08-01",
+      "momentum": -0.7829,
+      "z": -0.633
     },
     {
       "code": "T5YIE",
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-09-09",
-      "momentum": -0.03,
-      "z": -0.1775
+      "as_of": "2026-09-10",
+      "momentum": 0.02,
+      "z": 0.0
     },
     {
       "code": "PAYEMS",
@@ -145,9 +145,9 @@
       "code": "PCUOMFGOMFG",
       "group": "pipeline",
       "direction": 1,
-      "as_of": "2026-07-01",
-      "momentum": 0.4361,
-      "z": -0.1982
+      "as_of": "2026-08-01",
+      "momentum": -0.6009,
+      "z": -0.6958
     },
     {
       "code": "FEDFUNDS",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-09-09",
-      "momentum": 0.0,
-      "z": 0.0843
+      "as_of": "2026-09-10",
+      "momentum": -0.03,
+      "z": -0.0422
     }
   ]
 }

@@ -1,13 +1,13 @@
 {
-  "published_at": "2026-09-10T16:43:27Z",
+  "published_at": "2026-09-11T12:59:54Z",
   "target": "CPI",
   "release_date": "2026-09-11",
   "reference_month": "2026-08",
   "cpi": {
     "target_month": "2026-08",
     "mom_pct": 0.23,
-    "yoy_pct": 3.09,
-    "as_of": "2026-09-10",
+    "yoy_pct": 3.11,
+    "as_of": "2026-09-11",
     "status": "live",
     "parameters": {},
     "components": [
@@ -121,7 +121,7 @@
       "observations": 24
     },
     "status": "live",
-    "as_of": "2026-09-10"
+    "as_of": "2026-09-11"
   },
   "nfp": {
     "change_thousands": 77,
@@ -156,5 +156,5 @@
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-09-10"
+  "generated_on": "2026-09-11"
 }
