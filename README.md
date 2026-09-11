@@ -71,7 +71,7 @@ Official + market + alternative sources
        Next.js static site → Vercel
 ```
 
-The weekday workflow runs at 8:40 AM Eastern, with backup scheduling for delayed GitHub cron delivery. It collects new observations, recomputes the products, validates every artifact, and commits the resulting store and site data. A new data commit is the pipeline heartbeat; a green workflow that skipped its publication gate is not counted as a publish.
+The weekday workflow runs at 8:40 AM Eastern, with backup scheduling for delayed GitHub cron delivery. It collects new observations, recomputes the products, validates every artifact, and commits the resulting store and site data. A new data commit is the pipeline heartbeat; a green workflow that skipped its publication gate is not counted as a publish. On CPI/PPI release days the gate lets a later firing republish when the day's print has not yet reached the store, so a cron that lands before FRED propagates the release cannot leave the site a month stale.
 
 Reliability is built around a few hard rules:
 

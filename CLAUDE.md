@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (928 tests)
+pytest -q                                     # full suite (936 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -155,7 +155,7 @@ is BLS average-price staples.
 
 - **Daily run** (`.github/workflows/daily.yml`): cron at 8:40 AM ET weekdays (two crons for
   EDT/EST, plus a midday backup cron), gated so scheduled runs publish at most once/day in the
-  8:40–15:59 ET window — the window must out-span GitHub's cron slip (2.5–3h observed); commits
+  8:40–15:59 ET window — the window must out-span GitHub's cron slip (2.5–3h observed). **Release-day guard:** on a CPI/PPI release day (`config/release_calendar.json`, keys `cpi`/`ppi`) a later scheduled firing republishes if the anchor row for the released month (`CPIAUCNS`/`PPIACO`, `pipeline/release_gate.py`) is still absent from the store — the 2026-09-10 miss was a 12:38 run beating FRED's 12:54 PPI propagation; commits
   `store/` + `site/public/data` back as `data: daily publish <date>` (the loop's heartbeat), which
   triggers the Vercel deploy.
 - **`origin/main` gets a daily bot commit every morning.** Always `git fetch` / rebase before

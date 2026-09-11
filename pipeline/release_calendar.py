@@ -1,4 +1,5 @@
-"""BLS CPI release calendar — static config, refreshed by hand once a year.
+"""BLS CPI/PPI release calendar — static config, refreshed by hand once a year
+(FRED release calendars rid=10 CPI, rid=46 PPI).
 
 A date column for the gap table (1c spec §7), not a nowcast; nextprint.json
 (countdown, who's-where) stays Phase 3."""
@@ -16,3 +17,13 @@ def next_print(today: str, path: Path | None = None) -> dict | None:
             return {"date": entry["release_date"],
                     "reference_month": entry["reference_month"]}
     return None
+
+
+def due_today(today: str, path: Path | None = None) -> list[dict]:
+    """Every release (any key: cpi, ppi, ...) scheduled exactly on `today`.
+
+    Feeds the workflow's release-day republish guard, not the nowcast."""
+    raw = json.loads((path or DEFAULT_PATH).read_text())
+    return [{"key": key, "date": e["release_date"], "reference_month": e["reference_month"]}
+            for key, entries in sorted(raw.items())
+            for e in entries if e["release_date"] == today]
