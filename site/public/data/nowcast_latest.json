@@ -1,12 +1,12 @@
 {
-  "published_at": "2026-09-11T12:59:54Z",
+  "published_at": "2026-09-11T14:04:08Z",
   "target": "CPI",
   "release_date": "2026-09-11",
   "reference_month": "2026-08",
   "cpi": {
     "target_month": "2026-08",
-    "mom_pct": 0.23,
-    "yoy_pct": 3.11,
+    "mom_pct": 0.25,
+    "yoy_pct": 3.13,
     "as_of": "2026-09-11",
     "status": "live",
     "parameters": {},
@@ -20,25 +20,24 @@
       },
       {
         "component": "other",
-        "mom_pct": 0.1493,
+        "mom_pct": 0.0907,
         "weight": 0.185,
-        "contribution_pp": 0.0276,
-        "basis": "trend"
+        "contribution_pp": 0.0168,
+        "basis": "measured"
       },
       {
         "component": "food_home",
-        "mom_pct": 0.9145,
+        "mom_pct": -0.0445,
         "weight": 0.082,
-        "contribution_pp": 0.075,
-        "basis": "trend+driver",
-        "driver_mom_pct": 0.6088
+        "contribution_pp": -0.0036,
+        "basis": "measured"
       },
       {
         "component": "medical",
-        "mom_pct": 0.1145,
+        "mom_pct": -0.131,
         "weight": 0.081,
-        "contribution_pp": 0.0093,
-        "basis": "trend"
+        "contribution_pp": -0.0106,
+        "basis": "measured"
       },
       {
         "component": "shelter_rent",
@@ -49,31 +48,31 @@
       },
       {
         "component": "food_away",
-        "mom_pct": 0.2642,
+        "mom_pct": 0.2542,
         "weight": 0.057,
-        "contribution_pp": 0.0151,
-        "basis": "trend"
+        "contribution_pp": 0.0145,
+        "basis": "measured"
       },
       {
         "component": "education_comm",
-        "mom_pct": 0.1646,
+        "mom_pct": 1.9024,
         "weight": 0.055,
-        "contribution_pp": 0.0091,
-        "basis": "trend"
+        "contribution_pp": 0.1046,
+        "basis": "measured"
       },
       {
         "component": "recreation",
-        "mom_pct": 0.2253,
+        "mom_pct": -0.0386,
         "weight": 0.053,
-        "contribution_pp": 0.0119,
-        "basis": "trend"
+        "contribution_pp": -0.002,
+        "basis": "measured"
       },
       {
         "component": "new_vehicles",
-        "mom_pct": 0.0806,
+        "mom_pct": 0.0969,
         "weight": 0.036,
-        "contribution_pp": 0.0029,
-        "basis": "trend"
+        "contribution_pp": 0.0035,
+        "basis": "measured"
       },
       {
         "component": "fuel",
@@ -91,10 +90,10 @@
       },
       {
         "component": "apparel",
-        "mom_pct": -0.1833,
+        "mom_pct": 1.9153,
         "weight": 0.025,
-        "contribution_pp": -0.0046,
-        "basis": "trend"
+        "contribution_pp": 0.0479,
+        "basis": "measured"
       },
       {
         "component": "used_vehicles",
@@ -113,7 +112,7 @@
     ]
   },
   "pce": {
-    "mom_pct": 0.24,
+    "mom_pct": 0.25,
     "parameters": {
       "intercept": 0.140187,
       "cpi_beta": 0.433363,
@@ -149,7 +148,7 @@
     }
   },
   "ensemble": {
-    "value": 0.3,
+    "value": 0.31,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,

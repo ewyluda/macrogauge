@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-11T12:59:54Z",
+  "published_at": "2026-09-11T14:04:08Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -16,7 +16,7 @@
   "indexes": {
     "build": {
       "as_of": "2026-09-11",
-      "headline_yoy_pct": 9.17,
+      "headline_yoy_pct": 9.19,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -6372,7 +6372,7 @@
         171.39,
         171.53,
         170.77,
-        170.69
+        170.72
       ],
       "yoy_pct": [
         3.05,
@@ -9550,7 +9550,7 @@
         9.62,
         9.7,
         9.22,
-        9.17
+        9.19
       ],
       "components": [
         {
@@ -9615,7 +9615,7 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-09-11",
-          "yoy_pct": 31.13,
+          "yoy_pct": 31.09,
           "contribution_pp": 1.71,
           "stale": false
         },
@@ -9626,8 +9626,8 @@
           "weight": 0.03,
           "mode": "official+proxy",
           "last_obs": "2026-09-11",
-          "yoy_pct": 26.78,
-          "contribution_pp": 0.8,
+          "yoy_pct": 27.4,
+          "contribution_pp": 0.82,
           "stale": false
         },
         {
@@ -10141,7 +10141,7 @@
           166.7723,
           169.3214,
           170.9063,
-          170.6948
+          170.7202
         ],
         "components": {
           "constr_wages": [
@@ -11510,7 +11510,7 @@
             195.5169,
             195.8628,
             209.9622,
-            206.3465
+            206.2836
           ],
           "alum_shapes": [
             96.7196,
@@ -11738,7 +11738,7 @@
             208.6201,
             205.3164,
             198.9157,
-            198.4924
+            199.4558
           ],
           "switchgear": [
             85.7335,
@@ -12891,7 +12891,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 4.15
+          "contribution_pp": 4.17
         },
         {
           "group": "electrical",
@@ -34073,8 +34073,8 @@
       "code": "cpi_computers",
       "label": "CPI computers & peripherals",
       "source_id": "CUUR0000SEEE01",
-      "yoy_pct": 3.88,
-      "last_obs": "2026-07-01",
+      "yoy_pct": 8.43,
+      "last_obs": "2026-08-01",
       "in_basket": false
     },
     {
@@ -34795,8 +34795,8 @@
       "unit": "$/gal"
     },
     "water": {
-      "yoy_pct": 4.62,
-      "asof": "2026-07-01"
+      "yoy_pct": 4.76,
+      "asof": "2026-08-01"
     }
   }
 }

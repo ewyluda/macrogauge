@@ -1,23 +1,11 @@
 {
-  "published_at": "2026-09-11T12:59:54Z",
+  "published_at": "2026-09-11T14:04:08Z",
   "window": 36,
   "targets": {
     "cpi": {
       "code": "CPIAUCNS",
       "kind": "index",
       "rows": [
-        {
-          "reference_period": "2023-07",
-          "first_value": 305.691,
-          "first_release_date": "2023-08-10",
-          "latest_value": 305.691,
-          "latest_vintage": "2026-07-07",
-          "n_vintages": 2,
-          "revision_pct": 0.0,
-          "yoy_first_pct": 3.18,
-          "yoy_latest_pct": 3.18,
-          "yoy_revision_pp": 0.0
-        },
         {
           "reference_period": "2023-08",
           "first_value": 307.026,
@@ -437,11 +425,23 @@
           "yoy_first_pct": 3.36,
           "yoy_latest_pct": 3.36,
           "yoy_revision_pp": 0.0
+        },
+        {
+          "reference_period": "2026-08",
+          "first_value": 334.98,
+          "first_release_date": "2026-09-11",
+          "latest_value": 334.98,
+          "latest_vintage": "2026-09-11",
+          "n_vintages": 1,
+          "revision_pct": 0.0,
+          "yoy_first_pct": 3.4,
+          "yoy_latest_pct": 3.4,
+          "yoy_revision_pp": 0.0
         }
       ],
       "summary": {
         "n": 36,
-        "n_revised": 34,
+        "n_revised": 33,
         "mean_abs_yoy_revision_pp": 0.0,
         "mean_revision": 0.0
       }

@@ -1,17 +1,17 @@
 {
-  "published_at": "2026-09-11T12:59:54Z",
+  "published_at": "2026-09-11T14:04:08Z",
   "headline": {
     "cpi": {
-      "month": "2026-07-01",
-      "yoy_pct": 3.36,
-      "prev_yoy_pct": 3.53,
-      "as_of": "2026-08-12"
+      "month": "2026-08-01",
+      "yoy_pct": 3.4,
+      "prev_yoy_pct": 3.36,
+      "as_of": "2026-09-11"
     },
     "core": {
-      "month": "2026-07-01",
-      "yoy_pct": 2.48,
-      "prev_yoy_pct": 2.59,
-      "as_of": "2026-08-12"
+      "month": "2026-08-01",
+      "yoy_pct": 2.45,
+      "prev_yoy_pct": 2.48,
+      "as_of": "2026-09-11"
     },
     "pce": {
       "month": "2026-07-01",
@@ -24,100 +24,100 @@
     {
       "code": "CUUR0000SETB01",
       "label": "Gasoline (CPI)",
-      "month": "2026-07-01",
-      "yoy_pct": 24.64,
-      "mom_pct": -2.14
+      "month": "2026-08-01",
+      "yoy_pct": 27.4,
+      "mom_pct": 2.53
     },
     {
       "code": "CUUR0000SEHF02",
       "label": "Piped gas (CPI)",
-      "month": "2026-07-01",
-      "yoy_pct": 4.32,
-      "mom_pct": 0.52
+      "month": "2026-08-01",
+      "yoy_pct": 4.39,
+      "mom_pct": -0.95
     },
     {
       "code": "CUUR0000SAG",
       "label": "Other goods & services",
-      "month": "2026-07-01",
-      "yoy_pct": 4.3,
-      "mom_pct": 0.04
+      "month": "2026-08-01",
+      "yoy_pct": 4.23,
+      "mom_pct": 0.09
     },
     {
       "code": "CUUR0000SEHF01",
       "label": "Electricity (CPI)",
-      "month": "2026-07-01",
-      "yoy_pct": 4.2,
-      "mom_pct": -0.05
+      "month": "2026-08-01",
+      "yoy_pct": 3.79,
+      "mom_pct": -0.52
     },
     {
       "code": "CUUR0000SAA",
       "label": "Apparel",
-      "month": "2026-07-01",
-      "yoy_pct": 3.86,
-      "mom_pct": -1.28
+      "month": "2026-08-01",
+      "yoy_pct": 3.61,
+      "mom_pct": 1.92
     },
     {
       "code": "CUUR0000SEFV",
       "label": "Food away from home",
-      "month": "2026-07-01",
-      "yoy_pct": 3.4,
-      "mom_pct": 0.31
+      "month": "2026-08-01",
+      "yoy_pct": 3.37,
+      "mom_pct": 0.25
     },
     {
       "code": "CUUR0000SEHC",
       "label": "Owners' equiv. rent",
-      "month": "2026-07-01",
-      "yoy_pct": 3.23,
+      "month": "2026-08-01",
+      "yoy_pct": 3.08,
       "mom_pct": 0.26
     },
     {
       "code": "CUUR0000SEHA",
       "label": "Rent",
-      "month": "2026-07-01",
-      "yoy_pct": 2.86,
+      "month": "2026-08-01",
+      "yoy_pct": 2.75,
       "mom_pct": 0.23
-    },
-    {
-      "code": "CUUR0000SAF11",
-      "label": "Food at home",
-      "month": "2026-07-01",
-      "yoy_pct": 2.68,
-      "mom_pct": 0.0
     },
     {
       "code": "CUUR0000SAR",
       "label": "Recreation",
-      "month": "2026-07-01",
-      "yoy_pct": 2.58,
-      "mom_pct": 0.2
+      "month": "2026-08-01",
+      "yoy_pct": 2.68,
+      "mom_pct": -0.04
     },
     {
-      "code": "CUUR0000SAM",
-      "label": "Medical care",
-      "month": "2026-07-01",
-      "yoy_pct": 1.7,
-      "mom_pct": 0.17
+      "code": "CUUR0000SAF11",
+      "label": "Food at home",
+      "month": "2026-08-01",
+      "yoy_pct": 2.19,
+      "mom_pct": -0.04
     },
     {
       "code": "CUUR0000SAE",
       "label": "Education & comm",
-      "month": "2026-07-01",
-      "yoy_pct": 0.55,
-      "mom_pct": 0.68
+      "month": "2026-08-01",
+      "yoy_pct": 2.14,
+      "mom_pct": 1.9
+    },
+    {
+      "code": "CUUR0000SAM",
+      "label": "Medical care",
+      "month": "2026-08-01",
+      "yoy_pct": 1.56,
+      "mom_pct": -0.13
     },
     {
       "code": "CUUR0000SETA01",
       "label": "New vehicles",
-      "month": "2026-07-01",
-      "yoy_pct": 0.54,
-      "mom_pct": 0.11
+      "month": "2026-08-01",
+      "yoy_pct": 0.57,
+      "mom_pct": 0.1
     },
     {
       "code": "CUUR0000SETA02",
       "label": "Used cars & trucks",
-      "month": "2026-07-01",
-      "yoy_pct": -1.87,
-      "mom_pct": 0.71
+      "month": "2026-08-01",
+      "yoy_pct": -2.32,
+      "mom_pct": -0.04
     }
   ],
   "quotes": [
@@ -217,18 +217,18 @@
       "label": "Gold",
       "group": "markets",
       "unit": "$/oz",
-      "latest": 4403.8,
+      "latest": 4432.7,
       "obs_date": "2026-09-11",
-      "yoy_pct": 19.88
+      "yoy_pct": 20.66
     },
     {
       "code": "fmp_wti",
       "label": "WTI crude",
       "group": "markets",
       "unit": "$/bbl",
-      "latest": 99.39,
+      "latest": 98.96,
       "obs_date": "2026-09-11",
-      "yoy_pct": 59.36
+      "yoy_pct": 58.67
     },
     {
       "code": "fiscal_debt_total",

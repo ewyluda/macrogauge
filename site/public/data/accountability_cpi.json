@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-11T12:59:54Z",
+  "published_at": "2026-09-11T14:04:08Z",
   "target": "CPI",
   "graded": [
     {
@@ -19,13 +19,22 @@
       "actual": -0.01,
       "error": 0.04,
       "release_date": "2026-08-12"
+    },
+    {
+      "reference_period": "2026-08",
+      "badge": "LIVE",
+      "forecast": 0.23,
+      "as_of": "2026-08-27",
+      "actual": 0.32,
+      "error": -0.09,
+      "release_date": "2026-09-11"
     }
   ],
   "pending": [
     {
       "reference_period": "2026-08",
       "badge": "LIVE",
-      "forecast": 0.23,
+      "forecast": 0.25,
       "as_of": "2026-09-11",
       "actual": null
     }

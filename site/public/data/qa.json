@@ -7,13 +7,13 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official print 2026-07-01 is 72d old (limit 80)"
+      "detail": "latest official print 2026-08-01 is 41d old (limit 80)"
     },
     {
       "name": "yoy_finite",
       "critical": true,
       "pass": true,
-      "detail": "yoy=3.364825041479902 prev=3.5314250637863864"
+      "detail": "yoy=3.3965478924364856 prev=3.364825041479902"
     },
     {
       "name": "engine_ok",
@@ -175,7 +175,7 @@
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.3 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=0.31 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
