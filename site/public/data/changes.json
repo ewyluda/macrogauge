@@ -1,36 +1,36 @@
 {
-  "published_at": "2026-09-11T14:04:08Z",
-  "prev_published_at": "2026-09-11T12:59:54Z",
+  "published_at": "2026-09-14T18:14:16Z",
+  "prev_published_at": "2026-09-11T14:04:08Z",
   "headline": [
     {
       "key": "gauge",
       "label": "Macrogauge (CPI-comparable)",
       "kind": "gauge",
-      "value": 3.13,
-      "as_of": "2026-09-11",
-      "prev_value": 3.11,
+      "value": 3.14,
+      "as_of": "2026-09-14",
+      "prev_value": 3.13,
       "prev_as_of": "2026-09-11",
-      "delta_pp": 0.02
+      "delta_pp": 0.01
     },
     {
       "key": "tracker",
       "label": "CPI-Tracker",
       "kind": "gauge",
-      "value": 3.74,
-      "as_of": "2026-09-11",
-      "prev_value": 3.77,
+      "value": 3.75,
+      "as_of": "2026-09-14",
+      "prev_value": 3.74,
       "prev_as_of": "2026-09-11",
-      "delta_pp": -0.03
+      "delta_pp": 0.01
     },
     {
       "key": "col",
       "label": "Cost of Living",
       "kind": "gauge",
-      "value": 4.63,
-      "as_of": "2026-09-11",
-      "prev_value": 4.61,
+      "value": 4.93,
+      "as_of": "2026-09-14",
+      "prev_value": 4.63,
       "prev_as_of": "2026-09-11",
-      "delta_pp": 0.02
+      "delta_pp": 0.3
     },
     {
       "key": "supercore",
@@ -38,29 +38,29 @@
       "kind": "gauge",
       "value": 3.12,
       "as_of": "2026-08-01",
-      "prev_value": 2.94,
-      "prev_as_of": "2026-07-01",
-      "delta_pp": 0.18
+      "prev_value": 3.12,
+      "prev_as_of": "2026-08-01",
+      "delta_pp": 0.0
     },
     {
       "key": "pce",
       "label": "PCE-weighted",
       "kind": "gauge",
-      "value": 3.29,
-      "as_of": "2026-09-11",
+      "value": 3.3,
+      "as_of": "2026-09-14",
       "prev_value": 3.29,
       "prev_as_of": "2026-09-11",
-      "delta_pp": 0.0
+      "delta_pp": 0.01
     },
     {
       "key": "dc_build",
       "label": "DC Build",
       "kind": "datacenter",
-      "value": 9.19,
-      "as_of": "2026-09-11",
-      "prev_value": 9.17,
+      "value": 9.03,
+      "as_of": "2026-09-14",
+      "prev_value": 9.19,
       "prev_as_of": "2026-09-11",
-      "delta_pp": 0.02
+      "delta_pp": -0.16
     },
     {
       "key": "dc_ops",
@@ -76,85 +76,22 @@
       "key": "dc_hardware",
       "label": "DC Hardware",
       "kind": "datacenter",
-      "value": 33.61,
-      "as_of": "2026-09-11",
+      "value": 34.18,
+      "as_of": "2026-09-14",
       "prev_value": 33.61,
       "prev_as_of": "2026-09-11",
-      "delta_pp": 0.0
+      "delta_pp": 0.57
     }
   ],
   "components": [
     {
-      "component": "education_comm",
-      "label": "Education & comm",
-      "mode": "bls_cf",
-      "yoy_pct": 2.14,
-      "prev_yoy_pct": 0.55,
-      "delta_pp": 1.59,
-      "bls_yoy_pct": 2.14
-    },
-    {
-      "component": "food_home",
-      "label": "Food at home",
-      "mode": "bls_cf",
-      "yoy_pct": 2.19,
-      "prev_yoy_pct": 2.68,
-      "delta_pp": -0.49,
-      "bls_yoy_pct": 2.19
-    },
-    {
-      "component": "apparel",
-      "label": "Apparel",
-      "mode": "bls_cf",
-      "yoy_pct": 3.61,
-      "prev_yoy_pct": 3.86,
-      "delta_pp": -0.25,
-      "bls_yoy_pct": 3.61
-    },
-    {
-      "component": "medical",
-      "label": "Medical care",
-      "mode": "bls_cf",
-      "yoy_pct": 1.56,
-      "prev_yoy_pct": 1.7,
-      "delta_pp": -0.14,
-      "bls_yoy_pct": 1.56
-    },
-    {
-      "component": "recreation",
-      "label": "Recreation",
-      "mode": "bls_cf",
-      "yoy_pct": 2.68,
-      "prev_yoy_pct": 2.58,
-      "delta_pp": 0.1,
-      "bls_yoy_pct": 2.68
-    },
-    {
-      "component": "other",
-      "label": "Other goods & services",
-      "mode": "bls_cf",
-      "yoy_pct": 4.23,
-      "prev_yoy_pct": 4.3,
-      "delta_pp": -0.07,
-      "bls_yoy_pct": 4.23
-    },
-    {
-      "component": "food_away",
-      "label": "Food away from home",
-      "mode": "bls_cf",
-      "yoy_pct": 3.37,
-      "prev_yoy_pct": 3.4,
-      "delta_pp": -0.03,
-      "bls_yoy_pct": 3.37
-    },
-    {
-      "component": "new_vehicles",
-      "label": "New vehicles",
-      "mode": "bls_cf",
-      "yoy_pct": 0.57,
-      "prev_yoy_pct": 0.54,
-      "delta_pp": 0.03,
-      "bls_yoy_pct": 0.57
+      "component": "fuel",
+      "label": "Gasoline",
+      "mode": "live",
+      "yoy_pct": 32.03,
+      "prev_yoy_pct": 31.57,
+      "delta_pp": 0.46,
+      "bls_yoy_pct": 27.4
     },
     {
       "component": "shelter_owned",
@@ -175,15 +112,6 @@
       "bls_yoy_pct": 2.75
     },
     {
-      "component": "fuel",
-      "label": "Gasoline",
-      "mode": "live",
-      "yoy_pct": 31.57,
-      "prev_yoy_pct": 31.57,
-      "delta_pp": 0.0,
-      "bls_yoy_pct": 27.4
-    },
-    {
       "component": "electricity",
       "label": "Electricity",
       "mode": "live",
@@ -202,6 +130,78 @@
       "bls_yoy_pct": 4.39
     },
     {
+      "component": "other",
+      "label": "Other goods & services",
+      "mode": "bls_cf",
+      "yoy_pct": 4.23,
+      "prev_yoy_pct": 4.23,
+      "delta_pp": 0.0,
+      "bls_yoy_pct": 4.23
+    },
+    {
+      "component": "food_home",
+      "label": "Food at home",
+      "mode": "bls_cf",
+      "yoy_pct": 2.19,
+      "prev_yoy_pct": 2.19,
+      "delta_pp": 0.0,
+      "bls_yoy_pct": 2.19
+    },
+    {
+      "component": "medical",
+      "label": "Medical care",
+      "mode": "bls_cf",
+      "yoy_pct": 1.56,
+      "prev_yoy_pct": 1.56,
+      "delta_pp": 0.0,
+      "bls_yoy_pct": 1.56
+    },
+    {
+      "component": "food_away",
+      "label": "Food away from home",
+      "mode": "bls_cf",
+      "yoy_pct": 3.37,
+      "prev_yoy_pct": 3.37,
+      "delta_pp": 0.0,
+      "bls_yoy_pct": 3.37
+    },
+    {
+      "component": "education_comm",
+      "label": "Education & comm",
+      "mode": "bls_cf",
+      "yoy_pct": 2.14,
+      "prev_yoy_pct": 2.14,
+      "delta_pp": 0.0,
+      "bls_yoy_pct": 2.14
+    },
+    {
+      "component": "recreation",
+      "label": "Recreation",
+      "mode": "bls_cf",
+      "yoy_pct": 2.68,
+      "prev_yoy_pct": 2.68,
+      "delta_pp": 0.0,
+      "bls_yoy_pct": 2.68
+    },
+    {
+      "component": "new_vehicles",
+      "label": "New vehicles",
+      "mode": "bls_cf",
+      "yoy_pct": 0.57,
+      "prev_yoy_pct": 0.57,
+      "delta_pp": 0.0,
+      "bls_yoy_pct": 0.57
+    },
+    {
+      "component": "apparel",
+      "label": "Apparel",
+      "mode": "bls_cf",
+      "yoy_pct": 3.61,
+      "prev_yoy_pct": 3.61,
+      "delta_pp": 0.0,
+      "bls_yoy_pct": 3.61
+    },
+    {
       "component": "used_vehicles",
       "label": "Used cars & trucks",
       "mode": "live",
@@ -214,8 +214,8 @@
   "official": {
     "month": "2026-08-01",
     "yoy_pct": 3.4,
-    "prev_month": "2026-07-01",
-    "new_print": true
+    "prev_month": "2026-08-01",
+    "new_print": false
   },
   "sources_landed": [
     {
@@ -224,22 +224,62 @@
     },
     {
       "source": "FRED",
-      "new_rows": 19
+      "new_rows": 56
+    },
+    {
+      "source": "AAA_STATE",
+      "new_rows": 51
     },
     {
       "source": "FMP",
       "new_rows": 14
     },
     {
-      "source": "VASTAI",
+      "source": "OPENROUTER",
+      "new_rows": 12
+    },
+    {
+      "source": "USDA",
       "new_rows": 5
     },
     {
-      "source": "CLEVELAND",
+      "source": "SFCOMPUTE",
+      "new_rows": 4
+    },
+    {
+      "source": "VASTAI",
+      "new_rows": 4
+    },
+    {
+      "source": "DRAMEX",
+      "new_rows": 3
+    },
+    {
+      "source": "MISO",
+      "new_rows": 3
+    },
+    {
+      "source": "KALSHI_DC",
       "new_rows": 2
     },
     {
+      "source": "AAA",
+      "new_rows": 1
+    },
+    {
+      "source": "CAISO",
+      "new_rows": 1
+    },
+    {
       "source": "KALSHI",
+      "new_rows": 1
+    },
+    {
+      "source": "MND",
+      "new_rows": 1
+    },
+    {
+      "source": "TREASURY",
       "new_rows": 1
     }
   ],

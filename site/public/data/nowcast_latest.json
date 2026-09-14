@@ -1,84 +1,85 @@
 {
-  "published_at": "2026-09-11T14:04:08Z",
+  "published_at": "2026-09-14T18:14:16Z",
   "target": "CPI",
-  "release_date": "2026-09-11",
-  "reference_month": "2026-08",
+  "release_date": "2026-10-14",
+  "reference_month": "2026-09",
   "cpi": {
-    "target_month": "2026-08",
-    "mom_pct": 0.25,
-    "yoy_pct": 3.13,
-    "as_of": "2026-09-11",
+    "target_month": "2026-09",
+    "mom_pct": 0.23,
+    "yoy_pct": 3.14,
+    "as_of": "2026-09-14",
     "status": "live",
     "parameters": {},
     "components": [
       {
         "component": "shelter_owned",
-        "mom_pct": 0.0243,
+        "mom_pct": 0.1444,
         "weight": 0.265,
-        "contribution_pp": 0.0064,
-        "basis": "measured"
+        "contribution_pp": 0.0383,
+        "basis": "trend"
       },
       {
         "component": "other",
-        "mom_pct": 0.0907,
+        "mom_pct": 0.1343,
         "weight": 0.185,
-        "contribution_pp": 0.0168,
-        "basis": "measured"
+        "contribution_pp": 0.0249,
+        "basis": "trend"
       },
       {
         "component": "food_home",
-        "mom_pct": -0.0445,
+        "mom_pct": 0.4928,
         "weight": 0.082,
-        "contribution_pp": -0.0036,
-        "basis": "measured"
+        "contribution_pp": 0.0404,
+        "basis": "trend+driver",
+        "driver_mom_pct": 0.3726
       },
       {
         "component": "medical",
-        "mom_pct": -0.131,
+        "mom_pct": 0.1145,
         "weight": 0.081,
-        "contribution_pp": -0.0106,
-        "basis": "measured"
+        "contribution_pp": 0.0093,
+        "basis": "trend"
       },
       {
         "component": "shelter_rent",
-        "mom_pct": 0.0243,
+        "mom_pct": 0.1444,
         "weight": 0.075,
-        "contribution_pp": 0.0018,
-        "basis": "measured"
+        "contribution_pp": 0.0108,
+        "basis": "trend"
       },
       {
         "component": "food_away",
-        "mom_pct": 0.2542,
+        "mom_pct": 0.2479,
         "weight": 0.057,
-        "contribution_pp": 0.0145,
-        "basis": "measured"
+        "contribution_pp": 0.0141,
+        "basis": "trend"
       },
       {
         "component": "education_comm",
-        "mom_pct": 1.9024,
+        "mom_pct": 0.1646,
         "weight": 0.055,
-        "contribution_pp": 0.1046,
-        "basis": "measured"
+        "contribution_pp": 0.0091,
+        "basis": "trend"
       },
       {
         "component": "recreation",
-        "mom_pct": -0.0386,
+        "mom_pct": 0.2253,
         "weight": 0.053,
-        "contribution_pp": -0.002,
-        "basis": "measured"
+        "contribution_pp": 0.0119,
+        "basis": "trend"
       },
       {
         "component": "new_vehicles",
-        "mom_pct": 0.0969,
+        "mom_pct": 0.0929,
         "weight": 0.036,
-        "contribution_pp": 0.0035,
-        "basis": "measured"
+        "contribution_pp": 0.0033,
+        "basis": "trend"
       },
       {
         "component": "fuel",
-        "mom_pct": 3.1125,
+        "mom_pct": 2.539,
         "weight": 0.03,
-        "contribution_pp": 0.0934,
+        "contribution_pp": 0.0762,
         "basis": "measured"
       },
       {
@@ -90,17 +91,18 @@
       },
       {
         "component": "apparel",
-        "mom_pct": 1.9153,
+        "mom_pct": -0.1833,
         "weight": 0.025,
-        "contribution_pp": 0.0479,
-        "basis": "measured"
+        "contribution_pp": -0.0046,
+        "basis": "trend"
       },
       {
         "component": "used_vehicles",
-        "mom_pct": -1.3582,
+        "mom_pct": -0.7756,
         "weight": 0.021,
-        "contribution_pp": -0.0285,
-        "basis": "measured"
+        "contribution_pp": -0.0163,
+        "basis": "trend+driver",
+        "driver_mom_pct": -0.574
       },
       {
         "component": "nat_gas",
@@ -112,7 +114,7 @@
     ]
   },
   "pce": {
-    "mom_pct": 0.25,
+    "mom_pct": 0.24,
     "parameters": {
       "intercept": 0.140187,
       "cpi_beta": 0.433363,
@@ -120,7 +122,7 @@
       "observations": 24
     },
     "status": "live",
-    "as_of": "2026-09-11"
+    "as_of": "2026-09-14"
   },
   "nfp": {
     "change_thousands": 77,
@@ -139,21 +141,21 @@
   },
   "benchmarks": {
     "cleveland": {
-      "value": 0.36,
-      "as_of": "2026-08-27"
+      "value": 0.37,
+      "as_of": "2026-09-11"
     },
     "kalshi": {
-      "value": 0.319,
-      "as_of": "2026-09-10"
+      "value": 0.444,
+      "as_of": "2026-09-14"
     }
   },
   "ensemble": {
-    "value": 0.31,
+    "value": 0.35,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-09-11"
+  "generated_on": "2026-09-14"
 }
