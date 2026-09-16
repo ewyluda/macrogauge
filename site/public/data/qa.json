@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-15",
+  "generated_at": "2026-09-16",
   "passed": 32,
   "total": 34,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official print 2026-08-01 is 45d old (limit 80)"
+      "detail": "latest official print 2026-08-01 is 46d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -139,19 +139,19 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "585/687 fresh (6 under an expected-absence policy, judged separately); stale \u2014 zori_us (76d > 75d), zhvi_us (76d > 75d), zori_394913 (76d > 75d), zori_753899 (76d > 75d), zori_394463 (76d > 75d), zori_394514 (76d > 75d), zori_394692 (76d > 75d), zori_395209 (76d > 75d), zori_394974 (76d > 75d), zori_394856 (76d > 75d), zori_394347 (76d > 75d), zori_394404 (76d > 75d), zori_394976 (76d > 75d), zori_395057 (76d > 75d), zori_395025 (76d > 75d), zori_394532 (76d > 75d), zori_395078 (76d > 75d), zori_394865 (76d > 75d), zori_395056 (76d > 75d), zori_395148 (76d > 75d), zori_394530 (76d > 75d), zori_394358 (76d > 75d), zori_395121 (76d > 75d), zori_394943 (76d > 75d), zori_394458 (76d > 75d), zori_395055 (76d > 75d), zori_394998 (76d > 75d), zori_395045 (76d > 75d), zori_394982 (76d > 75d), zori_394466 (76d > 75d), zori_394355 (76d > 75d), zori_394775 (76d > 75d), zori_394735 (76d > 75d), zori_394492 (76d > 75d), zori_394705 (76d > 75d), zori_394475 (76d > 75d), zori_395059 (76d > 75d), zori_394902 (76d > 75d), zori_395194 (76d > 75d), zori_395005 (76d > 75d), zori_394714 (76d > 75d), zori_394862 (76d > 75d), zori_394935 (76d > 75d), zori_395012 (76d > 75d), zori_394849 (76d > 75d), zori_395022 (76d > 75d), zori_394807 (76d > 75d), zori_394910 (76d > 75d), zori_395053 (76d > 75d), zori_394669 (76d > 75d), zori_394425 (76d > 75d), zori_394388 (76d > 75d), zhvi_394913 (76d > 75d), zhvi_753899 (76d > 75d), zhvi_394463 (76d > 75d), zhvi_394514 (76d > 75d), zhvi_394692 (76d > 75d), zhvi_395209 (76d > 75d), zhvi_394974 (76d > 75d), zhvi_394856 (76d > 75d), zhvi_394347 (76d > 75d), zhvi_394404 (76d > 75d), zhvi_394976 (76d > 75d), zhvi_395057 (76d > 75d), zhvi_395025 (76d > 75d), zhvi_394532 (76d > 75d), zhvi_395078 (76d > 75d), zhvi_394865 (76d > 75d), zhvi_395056 (76d > 75d), zhvi_395148 (76d > 75d), zhvi_394530 (76d > 75d), zhvi_394358 (76d > 75d), zhvi_395121 (76d > 75d), zhvi_394943 (76d > 75d), zhvi_394458 (76d > 75d), zhvi_395055 (76d > 75d), zhvi_394998 (76d > 75d), zhvi_395045 (76d > 75d), zhvi_394982 (76d > 75d), zhvi_394466 (76d > 75d), zhvi_394355 (76d > 75d), zhvi_394775 (76d > 75d), zhvi_394735 (76d > 75d), zhvi_394492 (76d > 75d), zhvi_394705 (76d > 75d), zhvi_394475 (76d > 75d), zhvi_395059 (76d > 75d), zhvi_394902 (76d > 75d), zhvi_395194 (76d > 75d), zhvi_395005 (76d > 75d), zhvi_394714 (76d > 75d), zhvi_394862 (76d > 75d), zhvi_394935 (76d > 75d), zhvi_395012 (76d > 75d), zhvi_394849 (76d > 75d), zhvi_395022 (76d > 75d), zhvi_394807 (76d > 75d), zhvi_394910 (76d > 75d), zhvi_395053 (76d > 75d), zhvi_394669 (76d > 75d), zhvi_394425 (76d > 75d), zhvi_394388 (76d > 75d)"
+      "detail": "686/687 fresh (6 under an expected-absence policy, judged separately); stale \u2014 manheim_uvvi_m (46d > 45d)"
     },
     {
       "name": "expected_absence",
       "critical": false,
       "pass": true,
-      "detail": "6 series under an expected-absence policy (2 discontinued, 1 intermittent, 3 suppressed) \u2014 APU0000702212 [discontinued, 137d, review_by 2027-01-15], APU0000704211 [discontinued, 137d, review_by 2027-01-15], APU0000711311 [intermittent, 45d], qcew_wage23_c41067 [suppressed, 532d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 532d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 532d, review_by 2027-03-31]"
+      "detail": "6 series under an expected-absence policy (2 discontinued, 1 intermittent, 3 suppressed) \u2014 APU0000702212 [discontinued, 138d, review_by 2027-01-15], APU0000704211 [discontinued, 138d, review_by 2027-01-15], APU0000711311 [intermittent, 46d], qcew_wage23_c41067 [suppressed, 533d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 533d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 533d, review_by 2027-03-31]"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.249 vs EIA weekly $4.319 \u2014 relative divergence 1.6% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.28 vs EIA weekly $4.319 \u2014 relative divergence 0.9% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -169,19 +169,19 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-09-15"
+      "detail": "CPI nowcast as-of 2026-09-16"
     },
     {
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.35 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=0.39 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-09-15 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-09-16 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
@@ -199,7 +199,7 @@
       "name": "gauge_coverage",
       "critical": false,
       "pass": true,
-      "detail": "gauge live coverage 42.6% (floor 40 (food_home BLS-CF per 2a deviation))"
+      "detail": "gauge live coverage 40.5% (floor 40 (food_home BLS-CF per 2a deviation))"
     },
     {
       "name": "tracker_corr",

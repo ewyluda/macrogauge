@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-09-15T17:20:26Z",
-  "as_of": "2026-09-15",
+  "published_at": "2026-09-16T17:19:44Z",
+  "as_of": "2026-09-16",
   "official_month": "2026-08-01",
   "rows": [
     {
@@ -8,30 +8,30 @@
       "label": "Shelter (owned)",
       "weight": 0.265,
       "mode": "live",
-      "ours_yoy_pct": 1.2,
+      "ours_yoy_pct": 1.36,
       "bls_yoy_pct": 3.08,
-      "gap_pp": -1.88,
-      "contribution_pp": -0.5
+      "gap_pp": -1.72,
+      "contribution_pp": -0.46
     },
     {
       "component": "fuel",
       "label": "Gasoline",
       "weight": 0.03,
       "mode": "live",
-      "ours_yoy_pct": 34.83,
+      "ours_yoy_pct": 35.67,
       "bls_yoy_pct": 27.4,
-      "gap_pp": 7.43,
-      "contribution_pp": 0.22
+      "gap_pp": 8.26,
+      "contribution_pp": 0.25
     },
     {
       "component": "shelter_rent",
       "label": "Rent",
       "weight": 0.075,
       "mode": "live",
-      "ours_yoy_pct": 1.2,
+      "ours_yoy_pct": 1.36,
       "bls_yoy_pct": 2.75,
-      "gap_pp": -1.55,
-      "contribution_pp": -0.12
+      "gap_pp": -1.39,
+      "contribution_pp": -0.1
     },
     {
       "component": "electricity",
@@ -144,21 +144,21 @@
       "contribution_pp": 0.0
     }
   ],
-  "total_gap_pp": -0.36,
+  "total_gap_pp": -0.28,
   "variants": {
     "gauge": {
-      "yoy_pct": 3.23,
-      "as_of": "2026-09-15",
-      "coverage_pct": 42.6
+      "yoy_pct": 3.3,
+      "as_of": "2026-09-16",
+      "coverage_pct": 40.5
     },
     "col": {
-      "yoy_pct": 5.15,
-      "as_of": "2026-09-15",
-      "coverage_pct": 42.6
+      "yoy_pct": 5.14,
+      "as_of": "2026-09-16",
+      "coverage_pct": 40.5
     },
     "tracker": {
-      "yoy_pct": 3.83,
-      "as_of": "2026-09-15",
+      "yoy_pct": 3.86,
+      "as_of": "2026-09-16",
       "coverage_pct": 6.5
     },
     "supercore": {
@@ -167,9 +167,9 @@
       "coverage_pct": 0.0
     },
     "pce": {
-      "yoy_pct": 3.36,
-      "as_of": "2026-09-15",
-      "coverage_pct": 21.7
+      "yoy_pct": 3.4,
+      "as_of": "2026-09-16",
+      "coverage_pct": 20.5
     }
   }
 }

@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-09-15T17:20:26Z",
-  "score": -3.8,
+  "published_at": "2026-09-16T17:19:44Z",
+  "score": -3.0,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
@@ -11,7 +11,7 @@
       "active_weight": 25.0
     },
     "real_economy": {
-      "z": 0.04037999999999999,
+      "z": 0.10444,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -78,7 +78,7 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-09-14",
+      "as_of": "2026-09-15",
       "momentum": 0.01,
       "z": -0.0355
     },
@@ -111,9 +111,9 @@
       "code": "RSAFS",
       "group": "real_economy",
       "direction": 1,
-      "as_of": "2026-07-01",
-      "momentum": 0.5935,
-      "z": -0.3847
+      "as_of": "2026-08-01",
+      "momentum": 1.0121,
+      "z": -0.0644
     },
     {
       "code": "DSPIC96",
@@ -214,7 +214,7 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-09-14",
+      "as_of": "2026-09-15",
       "momentum": -0.07,
       "z": -0.2108
     }
