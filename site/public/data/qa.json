@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-16",
+  "generated_at": "2026-09-17",
   "passed": 32,
   "total": 34,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official print 2026-08-01 is 46d old (limit 80)"
+      "detail": "latest official print 2026-08-01 is 47d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -139,19 +139,19 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "686/687 fresh (6 under an expected-absence policy, judged separately); stale \u2014 manheim_uvvi_m (46d > 45d)"
+      "detail": "686/687 fresh (6 under an expected-absence policy, judged separately); stale \u2014 manheim_uvvi_m (47d > 45d)"
     },
     {
       "name": "expected_absence",
       "critical": false,
       "pass": true,
-      "detail": "6 series under an expected-absence policy (2 discontinued, 1 intermittent, 3 suppressed) \u2014 APU0000702212 [discontinued, 138d, review_by 2027-01-15], APU0000704211 [discontinued, 138d, review_by 2027-01-15], APU0000711311 [intermittent, 46d], qcew_wage23_c41067 [suppressed, 533d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 533d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 533d, review_by 2027-03-31]"
+      "detail": "6 series under an expected-absence policy (2 discontinued, 1 intermittent, 3 suppressed) \u2014 APU0000702212 [discontinued, 139d, review_by 2027-01-15], APU0000704211 [discontinued, 139d, review_by 2027-01-15], APU0000711311 [intermittent, 47d], qcew_wage23_c41067 [suppressed, 534d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 534d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 534d, review_by 2027-03-31]"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.28 vs EIA weekly $4.319 \u2014 relative divergence 0.9% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.321 vs EIA weekly $4.319 \u2014 relative divergence 0.0% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -169,19 +169,19 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-09-16"
+      "detail": "CPI nowcast as-of 2026-09-17"
     },
     {
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.39 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=0.42 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-09-16 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-09-17 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",

@@ -1,9 +1,9 @@
 {
-  "published_at": "2026-09-16T17:19:44Z",
+  "published_at": "2026-09-17T17:19:03Z",
   "available": true,
-  "as_of": "2026-09-16",
-  "pump": 4.3672,
-  "forward_2wk": 4.473,
+  "as_of": "2026-09-17",
+  "pump": 4.4386,
+  "forward_2wk": 4.547,
   "proxy": "RBOB futures",
   "formula": "pump + 0.85 \u00d7 (RBOB_5d_avg \u2212 RBOB_prior15d_avg)"
 }

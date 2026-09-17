@@ -1,13 +1,13 @@
 {
-  "published_at": "2026-09-16T17:19:44Z",
+  "published_at": "2026-09-17T17:19:03Z",
   "target": "CPI",
   "release_date": "2026-10-14",
   "reference_month": "2026-09",
   "cpi": {
     "target_month": "2026-09",
-    "mom_pct": 0.27,
-    "yoy_pct": 3.3,
-    "as_of": "2026-09-16",
+    "mom_pct": 0.28,
+    "yoy_pct": 3.35,
+    "as_of": "2026-09-17",
     "status": "live",
     "parameters": {},
     "components": [
@@ -27,11 +27,11 @@
       },
       {
         "component": "food_home",
-        "mom_pct": 0.4601,
+        "mom_pct": 0.4541,
         "weight": 0.082,
-        "contribution_pp": 0.0377,
+        "contribution_pp": 0.0372,
         "basis": "trend+driver",
-        "driver_mom_pct": 0.3398
+        "driver_mom_pct": 0.3339
       },
       {
         "component": "medical",
@@ -77,9 +77,9 @@
       },
       {
         "component": "fuel",
-        "mom_pct": 3.1153,
+        "mom_pct": 3.4082,
         "weight": 0.03,
-        "contribution_pp": 0.0935,
+        "contribution_pp": 0.1022,
         "basis": "measured"
       },
       {
@@ -121,10 +121,10 @@
       "observations": 24
     },
     "status": "live",
-    "as_of": "2026-09-16"
+    "as_of": "2026-09-17"
   },
   "nfp": {
-    "change_thousands": 77,
+    "change_thousands": 84,
     "status": "live",
     "reference_month": "2026-09",
     "parameters": {
@@ -135,7 +135,7 @@
     },
     "inputs": {
       "payroll_momentum": 71.33,
-      "claims_delta_thousands": 6.25
+      "claims_delta_thousands": -1.0
     }
   },
   "benchmarks": {
@@ -144,17 +144,17 @@
       "as_of": "2026-09-16"
     },
     "kalshi": {
-      "value": 0.485,
-      "as_of": "2026-09-16"
+      "value": 0.54,
+      "as_of": "2026-09-17"
     }
   },
   "ensemble": {
-    "value": 0.39,
+    "value": 0.42,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-09-16"
+  "generated_on": "2026-09-17"
 }

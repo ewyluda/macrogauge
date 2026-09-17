@@ -1,7 +1,7 @@
 {
-  "published_at": "2026-09-16T17:19:44Z",
+  "published_at": "2026-09-17T17:19:03Z",
   "model": "macrogauge_outlook_v1",
-  "as_of": "2026-09-16",
+  "as_of": "2026-09-17",
   "origin_month": "2026-08",
   "horizon_months": 12,
   "latest_complete_month_yoy_pct": 2.81,

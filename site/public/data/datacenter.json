@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-16T17:19:44Z",
+  "published_at": "2026-09-17T17:19:03Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -15,8 +15,8 @@
   },
   "indexes": {
     "build": {
-      "as_of": "2026-09-16",
-      "headline_yoy_pct": 9.16,
+      "as_of": "2026-09-17",
+      "headline_yoy_pct": 9.35,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -3199,7 +3199,8 @@
         "2026-09-13",
         "2026-09-14",
         "2026-09-15",
-        "2026-09-16"
+        "2026-09-16",
+        "2026-09-17"
       ],
       "index": [
         100.0,
@@ -6382,7 +6383,8 @@
         170.72,
         170.47,
         170.49,
-        170.67
+        170.67,
+        170.97
       ],
       "yoy_pct": [
         3.05,
@@ -9565,7 +9567,8 @@
         9.19,
         9.03,
         9.04,
-        9.16
+        9.16,
+        9.35
       ],
       "components": [
         {
@@ -9629,9 +9632,9 @@
           "group": "materials",
           "weight": 0.055,
           "mode": "official+proxy",
-          "last_obs": "2026-09-16",
-          "yoy_pct": 29.95,
-          "contribution_pp": 1.65,
+          "last_obs": "2026-09-17",
+          "yoy_pct": 33.09,
+          "contribution_pp": 1.82,
           "stale": false
         },
         {
@@ -9640,9 +9643,9 @@
           "group": "materials",
           "weight": 0.03,
           "mode": "official+proxy",
-          "last_obs": "2026-09-16",
-          "yoy_pct": 28.41,
-          "contribution_pp": 0.85,
+          "last_obs": "2026-09-17",
+          "yoy_pct": 29.06,
+          "contribution_pp": 0.87,
           "stale": false
         },
         {
@@ -10156,7 +10159,7 @@
           166.7723,
           169.3214,
           170.9063,
-          170.6686
+          170.9714
         ],
         "components": {
           "constr_wages": [
@@ -11525,7 +11528,7 @@
             195.5169,
             195.8628,
             209.9622,
-            204.4852
+            209.4339
           ],
           "alum_shapes": [
             96.7196,
@@ -11753,7 +11756,7 @@
             208.6201,
             205.3164,
             198.9157,
-            201.0323
+            202.0541
           ],
           "switchgear": [
             85.7335,
@@ -12906,7 +12909,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 4.14
+          "contribution_pp": 4.33
         },
         {
           "group": "electrical",
@@ -22983,7 +22986,7 @@
       ]
     },
     "hardware": {
-      "as_of": "2026-09-16",
+      "as_of": "2026-09-17",
       "headline_yoy_pct": 35.11,
       "gate_flags": [],
       "dates": [
@@ -26167,7 +26170,8 @@
         "2026-09-13",
         "2026-09-14",
         "2026-09-15",
-        "2026-09-16"
+        "2026-09-16",
+        "2026-09-17"
       ],
       "index": [
         100.0,
@@ -29348,6 +29352,7 @@
         133.5,
         133.5,
         133.5,
+        134.12,
         134.12,
         134.12,
         134.12
@@ -32533,6 +32538,7 @@
         34.53,
         35.11,
         35.11,
+        35.11,
         35.11
       ],
       "components": [
@@ -32575,7 +32581,7 @@
           "group": "storage",
           "weight": 0.15,
           "mode": "official+proxy",
-          "last_obs": "2026-09-16",
+          "last_obs": "2026-09-17",
           "yoy_pct": 125.73,
           "contribution_pp": 18.86,
           "stale": false
@@ -34593,30 +34599,30 @@
       {
         "code": "caiso_sp15_da",
         "label": "CAISO SP15 (day-ahead)",
-        "latest": 40.66,
-        "asof": "2026-09-16",
+        "latest": 35.2,
+        "asof": "2026-09-17",
         "unit": "$/MWh"
       },
       {
         "code": "miso_indiana_da",
         "label": "MISO Indiana Hub (day-ahead)",
-        "latest": 91.33,
-        "asof": "2026-09-15",
+        "latest": 85.99,
+        "asof": "2026-09-16",
         "unit": "$/MWh"
       },
       {
         "code": "ice_pjm_west",
         "label": "PJM Western Hub (ICE wtd avg)",
-        "latest": 119.29,
-        "asof": "2026-09-01",
+        "latest": 117.4,
+        "asof": "2026-09-15",
         "unit": "$/MWh"
       }
     ],
     "henry_hub": {
       "code": "eia_henry_hub",
       "label": "Henry Hub natural gas",
-      "latest": 2.81,
-      "asof": "2026-09-09",
+      "latest": 2.97,
+      "asof": "2026-09-15",
       "unit": "$/MMBtu"
     },
     "capacity_auction": {
@@ -34815,9 +34821,9 @@
     "transformer": null,
     "kalshi": {
       "dc_count_expected": 5347.0,
-      "count_asof": "2026-09-16",
-      "nuclear_by_2030_prob": 0.46,
-      "nuclear_asof": "2026-09-16"
+      "count_asof": "2026-09-17",
+      "nuclear_by_2030_prob": 0.52,
+      "nuclear_asof": "2026-09-17"
     },
     "diesel": {
       "latest": 6.29,

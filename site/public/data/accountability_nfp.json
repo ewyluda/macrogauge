@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-16T17:19:44Z",
+  "published_at": "2026-09-17T17:19:03Z",
   "target": "NFP",
   "graded": [
     {
@@ -25,8 +25,8 @@
     {
       "reference_period": "2026-09",
       "badge": "LIVE",
-      "forecast": 77,
-      "as_of": "2026-09-16",
+      "forecast": 84,
+      "as_of": "2026-09-17",
       "actual": null
     }
   ]

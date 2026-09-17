@@ -1,36 +1,36 @@
 {
-  "published_at": "2026-09-16T17:19:44Z",
-  "prev_published_at": "2026-09-15T17:20:26Z",
+  "published_at": "2026-09-17T17:19:03Z",
+  "prev_published_at": "2026-09-16T17:19:44Z",
   "headline": [
     {
       "key": "gauge",
       "label": "Macrogauge (CPI-comparable)",
       "kind": "gauge",
-      "value": 3.3,
-      "as_of": "2026-09-16",
-      "prev_value": 3.23,
-      "prev_as_of": "2026-09-15",
-      "delta_pp": 0.07
+      "value": 3.35,
+      "as_of": "2026-09-17",
+      "prev_value": 3.3,
+      "prev_as_of": "2026-09-16",
+      "delta_pp": 0.05
     },
     {
       "key": "tracker",
       "label": "CPI-Tracker",
       "kind": "gauge",
-      "value": 3.86,
-      "as_of": "2026-09-16",
-      "prev_value": 3.83,
-      "prev_as_of": "2026-09-15",
-      "delta_pp": 0.03
+      "value": 3.91,
+      "as_of": "2026-09-17",
+      "prev_value": 3.86,
+      "prev_as_of": "2026-09-16",
+      "delta_pp": 0.05
     },
     {
       "key": "col",
       "label": "Cost of Living",
       "kind": "gauge",
-      "value": 5.14,
-      "as_of": "2026-09-16",
-      "prev_value": 5.15,
-      "prev_as_of": "2026-09-15",
-      "delta_pp": -0.01
+      "value": 5.19,
+      "as_of": "2026-09-17",
+      "prev_value": 5.14,
+      "prev_as_of": "2026-09-16",
+      "delta_pp": 0.05
     },
     {
       "key": "supercore",
@@ -46,21 +46,21 @@
       "key": "pce",
       "label": "PCE-weighted",
       "kind": "gauge",
-      "value": 3.4,
-      "as_of": "2026-09-16",
-      "prev_value": 3.36,
-      "prev_as_of": "2026-09-15",
+      "value": 3.44,
+      "as_of": "2026-09-17",
+      "prev_value": 3.4,
+      "prev_as_of": "2026-09-16",
       "delta_pp": 0.04
     },
     {
       "key": "dc_build",
       "label": "DC Build",
       "kind": "datacenter",
-      "value": 9.16,
-      "as_of": "2026-09-16",
-      "prev_value": 9.04,
-      "prev_as_of": "2026-09-15",
-      "delta_pp": 0.12
+      "value": 9.35,
+      "as_of": "2026-09-17",
+      "prev_value": 9.16,
+      "prev_as_of": "2026-09-16",
+      "delta_pp": 0.19
     },
     {
       "key": "dc_ops",
@@ -77,10 +77,10 @@
       "label": "DC Hardware",
       "kind": "datacenter",
       "value": 35.11,
-      "as_of": "2026-09-16",
-      "prev_value": 34.18,
-      "prev_as_of": "2026-09-15",
-      "delta_pp": 0.93
+      "as_of": "2026-09-17",
+      "prev_value": 35.11,
+      "prev_as_of": "2026-09-16",
+      "delta_pp": 0.0
     }
   ],
   "components": [
@@ -88,9 +88,9 @@
       "component": "fuel",
       "label": "Gasoline",
       "mode": "live",
-      "yoy_pct": 35.67,
-      "prev_yoy_pct": 34.83,
-      "delta_pp": 0.84,
+      "yoy_pct": 37.22,
+      "prev_yoy_pct": 35.67,
+      "delta_pp": 1.55,
       "bls_yoy_pct": 27.4
     },
     {
@@ -98,8 +98,8 @@
       "label": "Shelter (owned)",
       "mode": "live",
       "yoy_pct": 1.36,
-      "prev_yoy_pct": 1.2,
-      "delta_pp": 0.16,
+      "prev_yoy_pct": 1.36,
+      "delta_pp": 0.0,
       "bls_yoy_pct": 3.08
     },
     {
@@ -107,8 +107,8 @@
       "label": "Rent",
       "mode": "live",
       "yoy_pct": 1.36,
-      "prev_yoy_pct": 1.2,
-      "delta_pp": 0.16,
+      "prev_yoy_pct": 1.36,
+      "delta_pp": 0.0,
       "bls_yoy_pct": 2.75
     },
     {
@@ -219,20 +219,16 @@
   },
   "sources_landed": [
     {
-      "source": "ZILLOW",
-      "new_rows": 11831
-    },
-    {
-      "source": "FRED",
-      "new_rows": 515
-    },
-    {
       "source": "FMP_EQ",
       "new_rows": 56
     },
     {
       "source": "AAA_STATE",
       "new_rows": 51
+    },
+    {
+      "source": "FRED",
+      "new_rows": 22
     },
     {
       "source": "FMP",
@@ -243,16 +239,20 @@
       "new_rows": 12
     },
     {
+      "source": "ICE",
+      "new_rows": 8
+    },
+    {
+      "source": "EIA_SPOT",
+      "new_rows": 4
+    },
+    {
       "source": "VASTAI",
       "new_rows": 4
     },
     {
       "source": "DRAMEX",
       "new_rows": 3
-    },
-    {
-      "source": "CLEVELAND",
-      "new_rows": 2
     },
     {
       "source": "KALSHI_DC",
@@ -276,6 +276,10 @@
     },
     {
       "source": "MND",
+      "new_rows": 1
+    },
+    {
+      "source": "PMMS",
       "new_rows": 1
     },
     {

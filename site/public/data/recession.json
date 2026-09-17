@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-16T17:19:44Z",
+  "published_at": "2026-09-17T17:19:03Z",
   "probability_pct": 0.0,
   "triggered": 0,
   "available": 6,
@@ -15,7 +15,7 @@
       "name": "10Y\u20133M",
       "code": "T10Y3M",
       "rule": "< 0",
-      "value": 0.89,
+      "value": 0.87,
       "triggered": false
     },
     {
@@ -29,7 +29,7 @@
       "name": "Claims",
       "code": "ICSA",
       "rule": "3m avg > 110% of 12m avg",
-      "value": 206000.0,
+      "value": 196000.0,
       "triggered": false
     },
     {
