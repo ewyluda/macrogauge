@@ -1,13 +1,13 @@
 {
-  "published_at": "2026-09-17T17:19:03Z",
+  "published_at": "2026-09-18T16:45:44Z",
   "target": "CPI",
   "release_date": "2026-10-14",
   "reference_month": "2026-09",
   "cpi": {
     "target_month": "2026-09",
-    "mom_pct": 0.28,
-    "yoy_pct": 3.35,
-    "as_of": "2026-09-17",
+    "mom_pct": 0.27,
+    "yoy_pct": 3.37,
+    "as_of": "2026-09-18",
     "status": "live",
     "parameters": {},
     "components": [
@@ -27,11 +27,11 @@
       },
       {
         "component": "food_home",
-        "mom_pct": 0.4541,
+        "mom_pct": 0.4318,
         "weight": 0.082,
-        "contribution_pp": 0.0372,
+        "contribution_pp": 0.0354,
         "basis": "trend+driver",
-        "driver_mom_pct": 0.3339
+        "driver_mom_pct": 0.3115
       },
       {
         "component": "medical",
@@ -77,9 +77,9 @@
       },
       {
         "component": "fuel",
-        "mom_pct": 3.4082,
+        "mom_pct": 3.6971,
         "weight": 0.03,
-        "contribution_pp": 0.1022,
+        "contribution_pp": 0.1109,
         "basis": "measured"
       },
       {
@@ -98,10 +98,11 @@
       },
       {
         "component": "used_vehicles",
-        "mom_pct": -0.2016,
+        "mom_pct": -0.9414,
         "weight": 0.021,
-        "contribution_pp": -0.0042,
-        "basis": "trend"
+        "contribution_pp": -0.0198,
+        "basis": "trend+driver",
+        "driver_mom_pct": -0.7398
       },
       {
         "component": "nat_gas",
@@ -121,7 +122,7 @@
       "observations": 24
     },
     "status": "live",
-    "as_of": "2026-09-17"
+    "as_of": "2026-09-18"
   },
   "nfp": {
     "change_thousands": 84,
@@ -144,8 +145,8 @@
       "as_of": "2026-09-16"
     },
     "kalshi": {
-      "value": 0.54,
-      "as_of": "2026-09-17"
+      "value": 0.55,
+      "as_of": "2026-09-18"
     }
   },
   "ensemble": {
@@ -156,5 +157,5 @@
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-09-17"
+  "generated_on": "2026-09-18"
 }

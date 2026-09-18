@@ -1,36 +1,36 @@
 {
-  "published_at": "2026-09-17T17:19:03Z",
-  "prev_published_at": "2026-09-16T17:19:44Z",
+  "published_at": "2026-09-18T16:45:44Z",
+  "prev_published_at": "2026-09-17T17:19:03Z",
   "headline": [
     {
       "key": "gauge",
       "label": "Macrogauge (CPI-comparable)",
       "kind": "gauge",
-      "value": 3.35,
-      "as_of": "2026-09-17",
-      "prev_value": 3.3,
-      "prev_as_of": "2026-09-16",
-      "delta_pp": 0.05
+      "value": 3.37,
+      "as_of": "2026-09-18",
+      "prev_value": 3.35,
+      "prev_as_of": "2026-09-17",
+      "delta_pp": 0.02
     },
     {
       "key": "tracker",
       "label": "CPI-Tracker",
       "kind": "gauge",
-      "value": 3.91,
-      "as_of": "2026-09-17",
-      "prev_value": 3.86,
-      "prev_as_of": "2026-09-16",
-      "delta_pp": 0.05
+      "value": 3.93,
+      "as_of": "2026-09-18",
+      "prev_value": 3.91,
+      "prev_as_of": "2026-09-17",
+      "delta_pp": 0.02
     },
     {
       "key": "col",
       "label": "Cost of Living",
       "kind": "gauge",
-      "value": 5.19,
-      "as_of": "2026-09-17",
-      "prev_value": 5.14,
-      "prev_as_of": "2026-09-16",
-      "delta_pp": 0.05
+      "value": 5.51,
+      "as_of": "2026-09-18",
+      "prev_value": 5.19,
+      "prev_as_of": "2026-09-17",
+      "delta_pp": 0.32
     },
     {
       "key": "supercore",
@@ -46,21 +46,21 @@
       "key": "pce",
       "label": "PCE-weighted",
       "kind": "gauge",
-      "value": 3.44,
-      "as_of": "2026-09-17",
-      "prev_value": 3.4,
-      "prev_as_of": "2026-09-16",
-      "delta_pp": 0.04
+      "value": 3.45,
+      "as_of": "2026-09-18",
+      "prev_value": 3.44,
+      "prev_as_of": "2026-09-17",
+      "delta_pp": 0.01
     },
     {
       "key": "dc_build",
       "label": "DC Build",
       "kind": "datacenter",
-      "value": 9.35,
-      "as_of": "2026-09-17",
-      "prev_value": 9.16,
-      "prev_as_of": "2026-09-16",
-      "delta_pp": 0.19
+      "value": 9.39,
+      "as_of": "2026-09-18",
+      "prev_value": 9.35,
+      "prev_as_of": "2026-09-17",
+      "delta_pp": 0.04
     },
     {
       "key": "dc_ops",
@@ -77,9 +77,9 @@
       "label": "DC Hardware",
       "kind": "datacenter",
       "value": 35.11,
-      "as_of": "2026-09-17",
+      "as_of": "2026-09-18",
       "prev_value": 35.11,
-      "prev_as_of": "2026-09-16",
+      "prev_as_of": "2026-09-17",
       "delta_pp": 0.0
     }
   ],
@@ -88,9 +88,9 @@
       "component": "fuel",
       "label": "Gasoline",
       "mode": "live",
-      "yoy_pct": 37.22,
-      "prev_yoy_pct": 35.67,
-      "delta_pp": 1.55,
+      "yoy_pct": 37.87,
+      "prev_yoy_pct": 37.22,
+      "delta_pp": 0.65,
       "bls_yoy_pct": 27.4
     },
     {
@@ -239,11 +239,7 @@
       "new_rows": 12
     },
     {
-      "source": "ICE",
-      "new_rows": 8
-    },
-    {
-      "source": "EIA_SPOT",
+      "source": "USDA",
       "new_rows": 4
     },
     {
@@ -271,15 +267,15 @@
       "new_rows": 1
     },
     {
+      "source": "MANHEIM",
+      "new_rows": 1
+    },
+    {
       "source": "MISO",
       "new_rows": 1
     },
     {
       "source": "MND",
-      "new_rows": 1
-    },
-    {
-      "source": "PMMS",
       "new_rows": 1
     },
     {
@@ -291,8 +287,6 @@
       "new_rows": 1
     }
   ],
-  "sources_failed": [
-    "MANHEIM"
-  ],
+  "sources_failed": [],
   "gate_holds": []
 }
