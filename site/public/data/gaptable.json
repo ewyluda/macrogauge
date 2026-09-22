@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-09-21T18:22:51Z",
-  "as_of": "2026-09-21",
+  "published_at": "2026-09-22T17:20:03Z",
+  "as_of": "2026-09-22",
   "official_month": "2026-08-01",
   "rows": [
     {
@@ -18,10 +18,10 @@
       "label": "Gasoline",
       "weight": 0.03,
       "mode": "live",
-      "ours_yoy_pct": 38.08,
+      "ours_yoy_pct": 39.29,
       "bls_yoy_pct": 27.4,
-      "gap_pp": 10.68,
-      "contribution_pp": 0.32
+      "gap_pp": 11.89,
+      "contribution_pp": 0.36
     },
     {
       "component": "shelter_rent",
@@ -144,21 +144,21 @@
       "contribution_pp": 0.0
     }
   ],
-  "total_gap_pp": -0.21,
+  "total_gap_pp": -0.17,
   "variants": {
     "gauge": {
-      "yoy_pct": 3.37,
-      "as_of": "2026-09-21",
+      "yoy_pct": 3.41,
+      "as_of": "2026-09-22",
       "coverage_pct": 42.6
     },
     "col": {
-      "yoy_pct": 5.48,
-      "as_of": "2026-09-21",
+      "yoy_pct": 5.46,
+      "as_of": "2026-09-22",
       "coverage_pct": 42.6
     },
     "tracker": {
-      "yoy_pct": 3.93,
-      "as_of": "2026-09-21",
+      "yoy_pct": 3.97,
+      "as_of": "2026-09-22",
       "coverage_pct": 6.5
     },
     "supercore": {
@@ -167,8 +167,8 @@
       "coverage_pct": 0.0
     },
     "pce": {
-      "yoy_pct": 3.46,
-      "as_of": "2026-09-21",
+      "yoy_pct": 3.48,
+      "as_of": "2026-09-22",
       "coverage_pct": 21.7
     }
   }
