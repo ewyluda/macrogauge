@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-23T17:36:42Z",
+  "published_at": "2026-09-24T17:36:01Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -15,8 +15,8 @@
   },
   "indexes": {
     "build": {
-      "as_of": "2026-09-23",
-      "headline_yoy_pct": 9.44,
+      "as_of": "2026-09-24",
+      "headline_yoy_pct": 9.48,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -3206,7 +3206,8 @@
         "2026-09-20",
         "2026-09-21",
         "2026-09-22",
-        "2026-09-23"
+        "2026-09-23",
+        "2026-09-24"
       ],
       "index": [
         100.0,
@@ -6396,7 +6397,8 @@
         171.03,
         171.14,
         171.35,
-        171.12
+        171.12,
+        171.18
       ],
       "yoy_pct": [
         3.05,
@@ -9586,7 +9588,8 @@
         9.39,
         9.46,
         9.59,
-        9.44
+        9.44,
+        9.48
       ],
       "components": [
         {
@@ -9650,9 +9653,9 @@
           "group": "materials",
           "weight": 0.055,
           "mode": "official+proxy",
-          "last_obs": "2026-09-23",
-          "yoy_pct": 34.87,
-          "contribution_pp": 1.92,
+          "last_obs": "2026-09-24",
+          "yoy_pct": 35.42,
+          "contribution_pp": 1.95,
           "stale": false
         },
         {
@@ -9661,8 +9664,8 @@
           "group": "materials",
           "weight": 0.03,
           "mode": "official+proxy",
-          "last_obs": "2026-09-23",
-          "yoy_pct": 28.91,
+          "last_obs": "2026-09-24",
+          "yoy_pct": 29.13,
           "contribution_pp": 0.87,
           "stale": false
         },
@@ -10177,7 +10180,7 @@
           166.7723,
           169.3214,
           170.9063,
-          171.118
+          171.1766
         ],
         "components": {
           "constr_wages": [
@@ -11546,7 +11549,7 @@
             195.5169,
             195.8628,
             209.9622,
-            212.2259
+            213.1
           ],
           "alum_shapes": [
             96.7196,
@@ -11774,7 +11777,7 @@
             208.6201,
             205.3164,
             198.9157,
-            201.8206
+            202.1709
           ],
           "switchgear": [
             85.7335,
@@ -12927,7 +12930,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 4.42
+          "contribution_pp": 4.46
         },
         {
           "group": "electrical",
@@ -23004,7 +23007,7 @@
       ]
     },
     "hardware": {
-      "as_of": "2026-09-23",
+      "as_of": "2026-09-24",
       "headline_yoy_pct": 35.68,
       "gate_flags": [],
       "dates": [
@@ -26195,7 +26198,8 @@
         "2026-09-20",
         "2026-09-21",
         "2026-09-22",
-        "2026-09-23"
+        "2026-09-23",
+        "2026-09-24"
       ],
       "index": [
         100.0,
@@ -29383,6 +29387,7 @@
         134.12,
         134.12,
         134.12,
+        134.74,
         134.74,
         134.74,
         134.74
@@ -32575,6 +32580,7 @@
         35.11,
         35.68,
         35.68,
+        35.68,
         35.68
       ],
       "components": [
@@ -32617,7 +32623,7 @@
           "group": "storage",
           "weight": 0.15,
           "mode": "official+proxy",
-          "last_obs": "2026-09-23",
+          "last_obs": "2026-09-24",
           "yoy_pct": 129.54,
           "contribution_pp": 19.43,
           "stale": false
@@ -34635,15 +34641,15 @@
       {
         "code": "caiso_sp15_da",
         "label": "CAISO SP15 (day-ahead)",
-        "latest": 39.14,
-        "asof": "2026-09-23",
+        "latest": 37.98,
+        "asof": "2026-09-24",
         "unit": "$/MWh"
       },
       {
         "code": "miso_indiana_da",
         "label": "MISO Indiana Hub (day-ahead)",
-        "latest": 42.84,
-        "asof": "2026-09-22",
+        "latest": 41.93,
+        "asof": "2026-09-23",
         "unit": "$/MWh"
       },
       {
@@ -34657,8 +34663,8 @@
     "henry_hub": {
       "code": "eia_henry_hub",
       "label": "Henry Hub natural gas",
-      "latest": 2.97,
-      "asof": "2026-09-15",
+      "latest": 2.9,
+      "asof": "2026-09-22",
       "unit": "$/MMBtu"
     },
     "capacity_auction": {
@@ -34856,10 +34862,10 @@
     ],
     "transformer": null,
     "kalshi": {
-      "dc_count_expected": 5338.0,
-      "count_asof": "2026-09-23",
+      "dc_count_expected": 5327.0,
+      "count_asof": "2026-09-24",
       "nuclear_by_2030_prob": 0.53,
-      "nuclear_asof": "2026-09-23"
+      "nuclear_asof": "2026-09-24"
     },
     "diesel": {
       "latest": 6.53,
