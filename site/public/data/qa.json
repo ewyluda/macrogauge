@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-09-24",
-  "passed": 33,
+  "generated_at": "2026-09-25",
+  "passed": 32,
   "total": 34,
   "checks": [
     {
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official print 2026-08-01 is 54d old (limit 80)"
+      "detail": "latest official print 2026-08-01 is 55d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -132,26 +132,26 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": true,
-      "detail": "30/30 ok"
+      "pass": false,
+      "detail": "29/30 ok; failed \u2014 SFCOMPUTE: ValueError: sfcompute section 'H100' not found (structure drift?)"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": false,
-      "detail": "677/687 fresh (6 under an expected-absence policy, judged separately); stale \u2014 PCEPI (85d > 80d), APU0000713111 (85d > 80d), DSPIC96 (85d > 80d), CSUSHPINSA (115d > 110d), UMCSENT (85d > 80d), PSAVERT (85d > 80d), RECPROUSM156N (85d > 80d), PCETRIM12M159SFRBDAL (85d > 80d), MICH (85d > 80d), vast_b200 (13d > 7d)"
+      "detail": "679/687 fresh (6 under an expected-absence policy, judged separately); stale \u2014 PCEPI (86d > 80d), APU0000713111 (86d > 80d), DSPIC96 (86d > 80d), CSUSHPINSA (116d > 110d), PSAVERT (86d > 80d), RECPROUSM156N (86d > 80d), PCETRIM12M159SFRBDAL (86d > 80d), vast_b200 (14d > 7d)"
     },
     {
       "name": "expected_absence",
       "critical": false,
       "pass": true,
-      "detail": "6 series under an expected-absence policy (2 discontinued, 1 intermittent, 3 suppressed) \u2014 APU0000702212 [discontinued, 146d, review_by 2027-01-15], APU0000704211 [discontinued, 146d, review_by 2027-01-15], APU0000711311 [intermittent, 54d], qcew_wage23_c41067 [suppressed, 541d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 541d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 541d, review_by 2027-03-31]"
+      "detail": "6 series under an expected-absence policy (2 discontinued, 1 intermittent, 3 suppressed) \u2014 APU0000702212 [discontinued, 147d, review_by 2027-01-15], APU0000704211 [discontinued, 147d, review_by 2027-01-15], APU0000711311 [intermittent, 55d], qcew_wage23_c41067 [suppressed, 542d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 542d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 542d, review_by 2027-03-31]"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.455 vs EIA weekly $4.478 \u2014 relative divergence 0.5% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.473 vs EIA weekly $4.478 \u2014 relative divergence 0.1% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -169,7 +169,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-09-24"
+      "detail": "CPI nowcast as-of 2026-09-25"
     },
     {
       "name": "ensemble_computed",
@@ -181,7 +181,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-09-24 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-09-25 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",

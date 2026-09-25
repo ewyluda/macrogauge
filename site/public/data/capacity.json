@@ -1,7 +1,7 @@
 {
-  "published_at": "2026-09-24T17:36:01Z",
+  "published_at": "2026-09-25T17:35:31Z",
   "as_of_curated": "2026-08-27",
-  "priced_date": "2026-09-24",
+  "priced_date": "2026-09-25",
   "note": "AI critical-IT MW + unit economics across the AI build-out cohort: neoclouds, powered-shell landlords, operators, and hyperscalers (incl. private builders xAI and OpenAI/Stargate). Spec: docs/superpowers/specs/2026-07-21-capacity-tracker-design.md. op/con/plan = verify-adjusted critical-IT AI MW; hyperscaler MW are estimates (no filing-grade critical-IT split is disclosed). cap/nd/bk in $B. Derived analytics (EV, weighted MW, EV/MW, coverage, %energized) are computed at render time, not stored. dupe!=null => excluded from de-duped cohort totals.",
   "basis": {
     "weighted_mw": "op + 0.5*con + 0.25*plan",
@@ -89,9 +89,9 @@
           "https://s205.q4cdn.com/133937190/files/doc_financials/2026/q2/CRWV-US-CORRECTED-TRANSCRIPT-CoreWeave-Q2-2026-Earnings-Call-11August2026.pdf"
         ]
       ],
-      "cap": 49.39,
-      "px": 90.53,
-      "priced_date": "2026-09-24",
+      "cap": 47.7,
+      "px": 87.44,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -110,11 +110,11 @@
           360
         ]
       ],
-      "ev": 79.19,
+      "ev": 77.5,
       "wmw": 2475.0,
-      "ev_per_mw": 32.0,
+      "ev_per_mw": 31.3,
       "pct_energized": 35.7,
-      "coverage": 1.31
+      "coverage": 1.34
     },
     {
       "t": "ORCL",
@@ -183,9 +183,9 @@
           "https://epoch.ai/publications/openai-stargate-where-the-us-sites-stand"
         ]
       ],
-      "cap": 399.06,
-      "px": 138.54,
-      "priced_date": "2026-09-24",
+      "cap": 397.56,
+      "px": 138.02,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -194,11 +194,11 @@
           1200
         ]
       ],
-      "ev": 497.26,
+      "ev": 495.76,
       "wmw": 2025.0,
       "ev_per_mw": null,
       "pct_energized": 19.4,
-      "coverage": 1.28
+      "coverage": 1.29
     },
     {
       "t": "NBIS",
@@ -295,9 +295,9 @@
           "https://www.datacenterdynamics.com/en/news/nebius-signs-18mw-lease-with-merlin-properties-at-spain-data-center-report/"
         ]
       ],
-      "cap": 59.27,
-      "px": 246.965,
-      "priced_date": "2026-09-24",
+      "cap": 57.23,
+      "px": 238.475,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -311,11 +311,11 @@
           1200
         ]
       ],
-      "ev": 59.77,
+      "ev": 57.73,
       "wmw": 1635.0,
-      "ev_per_mw": 36.6,
+      "ev_per_mw": 35.3,
       "pct_energized": 3.7,
-      "coverage": 0.67
+      "coverage": 0.69
     },
     {
       "t": "APLD",
@@ -408,9 +408,9 @@
           "https://ir.applieddigital.com/news-events/press-releases/detail/159/applied-digital-reports-fiscal-fourth-quarter-and-full-year"
         ]
       ],
-      "cap": 7.93,
-      "px": 27.53,
-      "priced_date": "2026-09-24",
+      "cap": 7.56,
+      "px": 26.255,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -444,11 +444,11 @@
           210
         ]
       ],
-      "ev": 8.73,
+      "ev": 8.36,
       "wmw": 842.5,
-      "ev_per_mw": 10.4,
+      "ev_per_mw": 9.9,
       "pct_energized": 11.6,
-      "coverage": 4.12
+      "coverage": 4.31
     },
     {
       "t": "CORZ",
@@ -541,9 +541,9 @@
           "https://investors.corescientific.com/news-events/press-releases/detail/142/core-scientific-completes-acquisition-of-polaris-ds-advancing-planned-muskogee-expansion-to-1-5-gw-of-gross-power"
         ]
       ],
-      "cap": 5.89,
-      "px": 18.3389,
-      "priced_date": "2026-09-24",
+      "cap": 5.63,
+      "px": 17.5125,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -567,11 +567,11 @@
           530
         ]
       ],
-      "ev": 8.39,
+      "ev": 8.13,
       "wmw": 1118.5,
-      "ev_per_mw": 7.5,
+      "ev_per_mw": 7.3,
       "pct_energized": 17.5,
-      "coverage": 2.86
+      "coverage": 2.95
     },
     {
       "t": "GLXY",
@@ -650,9 +650,9 @@
           "https://www.prnewswire.com/news-releases/galaxy-announces-second-quarter-2026-financial-results-302843529.html"
         ]
       ],
-      "cap": 8.42,
-      "px": 25.39,
-      "priced_date": "2026-09-24",
+      "cap": 8.15,
+      "px": 24.58,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -661,11 +661,11 @@
           260
         ]
       ],
-      "ev": 12.32,
+      "ev": 12.05,
       "wmw": 537.0,
-      "ev_per_mw": 22.9,
+      "ev_per_mw": 22.4,
       "pct_energized": 9.8,
-      "coverage": 1.1
+      "coverage": 1.12
     },
     {
       "t": "WULF",
@@ -758,9 +758,9 @@
           "https://www.stocktitan.net/sec-filings/WULF/8-k-terawulf-inc-reports-material-event-19c1a25b1358.html"
         ]
       ],
-      "cap": 8.2,
-      "px": 16.545,
-      "priced_date": "2026-09-24",
+      "cap": 7.73,
+      "px": 15.6087,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -784,11 +784,11 @@
           401
         ]
       ],
-      "ev": 10.8,
+      "ev": 10.33,
       "wmw": 1050.5,
-      "ev_per_mw": 10.3,
+      "ev_per_mw": 9.8,
       "pct_energized": 3.2,
-      "coverage": 2.96
+      "coverage": 3.1
     },
     {
       "t": "HUT",
@@ -863,9 +863,9 @@
           "https://www.prnewswire.com/news-releases/hut-8-reports-second-quarter-2026-results-302841830.html"
         ]
       ],
-      "cap": 11.51,
-      "px": 102.2,
-      "priced_date": "2026-09-24",
+      "cap": 10.98,
+      "px": 97.5,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -884,11 +884,11 @@
           352
         ]
       ],
-      "ev": 11.91,
+      "ev": 11.38,
       "wmw": 474.5,
-      "ev_per_mw": 25.1,
+      "ev_per_mw": 24.0,
       "pct_energized": 0.0,
-      "coverage": 2.23
+      "coverage": 2.34
     },
     {
       "t": "CIFR",
@@ -971,9 +971,9 @@
           "https://www.globenewswire.com/news-release/2026/08/04/3338166/0/en/Cipher-Digital-Provides-Second-Quarter-2026-Business-Update.html"
         ]
       ],
-      "cap": 7.56,
-      "px": 18.4782,
-      "priced_date": "2026-09-24",
+      "cap": 7.21,
+      "px": 17.62,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -987,11 +987,11 @@
           70
         ]
       ],
-      "ev": 12.16,
+      "ev": 11.81,
       "wmw": 314.0,
-      "ev_per_mw": 38.7,
+      "ev_per_mw": 37.6,
       "pct_energized": 0.0,
-      "coverage": 0.94
+      "coverage": 0.97
     },
     {
       "t": "IREN",
@@ -1078,9 +1078,9 @@
           "https://www.globenewswire.com/news-release/2026/07/20/3329624/0/en/iren-signs-2-8bn-in-new-customer-contracts-with-leading-ai-developers-raises-2026-arr-target-to-over-4bn.html"
         ]
       ],
-      "cap": 16.55,
-      "px": 46.384,
-      "priced_date": "2026-09-24",
+      "cap": 15.68,
+      "px": 43.94,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -1094,11 +1094,11 @@
           60
         ]
       ],
-      "ev": 18.3,
+      "ev": 17.43,
       "wmw": 397.5,
-      "ev_per_mw": 46.0,
+      "ev_per_mw": 43.8,
       "pct_energized": 4.5,
-      "coverage": 0.9
+      "coverage": 0.95
     },
     {
       "t": "KEEL",
@@ -1165,9 +1165,9 @@
           "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001812477"
         ]
       ],
-      "cap": 2.39,
-      "px": 3.95,
-      "priced_date": "2026-09-24",
+      "cap": 2.26,
+      "px": 3.745,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -1176,9 +1176,9 @@
           350
         ]
       ],
-      "ev": 2.99,
+      "ev": 2.86,
       "wmw": 231.2,
-      "ev_per_mw": 12.9,
+      "ev_per_mw": 12.4,
       "pct_energized": 0.0,
       "coverage": 0.0
     },
@@ -1251,9 +1251,9 @@
           "https://blockspace.media/insight/riot-platforms-signs-ai-lease-rockdale-2026/"
         ]
       ],
-      "cap": 9.07,
-      "px": 23.975,
-      "priced_date": "2026-09-24",
+      "cap": 8.6,
+      "px": 22.75,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -1262,11 +1262,11 @@
           191
         ]
       ],
-      "ev": 9.7,
+      "ev": 9.23,
       "wmw": 170.5,
-      "ev_per_mw": 56.9,
+      "ev_per_mw": 54.1,
       "pct_energized": 6.4,
-      "coverage": 1.01
+      "coverage": 1.06
     },
     {
       "t": "BTDR",
@@ -1345,9 +1345,9 @@
           "https://www.sec.gov/Archives/edgar/data/1899123/000121390026086938/ea030131301ex99-1.htm"
         ]
       ],
-      "cap": 2.89,
-      "px": 12.395,
-      "priced_date": "2026-09-24",
+      "cap": 2.69,
+      "px": 11.505,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -1366,11 +1366,11 @@
           86
         ]
       ],
-      "ev": 4.19,
+      "ev": 3.99,
       "wmw": 356.0,
-      "ev_per_mw": 11.8,
+      "ev_per_mw": 11.2,
       "pct_energized": 0.2,
-      "coverage": 1.12
+      "coverage": 1.18
     },
     {
       "t": "WYFI",
@@ -1447,16 +1447,16 @@
           "https://www.sec.gov/Archives/edgar/data/2042022/000121390026090492/ea030233401ex99-1.htm"
         ]
       ],
-      "cap": 0.76,
-      "px": 19.75,
-      "priced_date": "2026-09-24",
+      "cap": 0.75,
+      "px": 19.4962,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [],
-      "ev": 0.91,
+      "ev": 0.9,
       "wmw": 82.0,
-      "ev_per_mw": 11.1,
+      "ev_per_mw": 11.0,
       "pct_energized": 30.2,
-      "coverage": 1.03
+      "coverage": 1.04
     },
     {
       "t": "BTBT",
@@ -1499,16 +1499,16 @@
           "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1710350"
         ]
       ],
-      "cap": 0.62,
-      "px": 1.7836,
-      "priced_date": "2026-09-24",
+      "cap": 0.6,
+      "px": 1.72,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [],
-      "ev": 0.63,
+      "ev": 0.61,
       "wmw": 82.0,
-      "ev_per_mw": 7.7,
+      "ev_per_mw": 7.4,
       "pct_energized": 30.2,
-      "coverage": 1.48
+      "coverage": 1.53
     },
     {
       "t": "MARA",
@@ -1567,14 +1567,14 @@
           "https://ir.mara.com/news-events/press-releases/detail/1424/mara-signs-agreement-with-hif-to-acquire-strategic-powered-land-site-in-texas"
         ]
       ],
-      "cap": 4.98,
-      "px": 13.06,
-      "priced_date": "2026-09-24",
+      "cap": 4.68,
+      "px": 12.267,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [],
-      "ev": 8.08,
+      "ev": 7.78,
       "wmw": 25.0,
-      "ev_per_mw": 323.2,
+      "ev_per_mw": 311.2,
       "pct_energized": 0.0,
       "coverage": 0.0
     },
@@ -1645,14 +1645,14 @@
           "https://www.datacenterdynamics.com/en/news/digitalocean-signs-multiple-nine-figure-customer-agreements-for-inference-and-cloud-services/"
         ]
       ],
-      "cap": 16.68,
-      "px": 142.68,
-      "priced_date": "2026-09-24",
+      "cap": 16.5,
+      "px": 141.1,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [],
-      "ev": 16.84,
+      "ev": 16.66,
       "wmw": 107.5,
-      "ev_per_mw": 156.7,
+      "ev_per_mw": 155.0,
       "pct_energized": 45.2,
       "coverage": 0.05
     },
@@ -1707,14 +1707,14 @@
           "https://www.quiverquant.com/news/Akamai+Technologies+shares+fall+as+investors+appear+to+weigh+leverage+and+AI+infrastructure+spending"
         ]
       ],
-      "cap": 16.44,
-      "px": 113.11,
-      "priced_date": "2026-09-24",
+      "cap": 16.93,
+      "px": 116.4218,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [],
-      "ev": 21.69,
+      "ev": 22.18,
       "wmw": 47.5,
-      "ev_per_mw": 456.6,
+      "ev_per_mw": 466.9,
       "pct_energized": 20.0,
       "coverage": 0.13
     },
@@ -1843,12 +1843,12 @@
           "https://newsletter.semianalysis.com/p/microsofts-datacenter-freeze"
         ]
       ],
-      "cap": 3682.78,
-      "px": 495.96,
-      "priced_date": "2026-09-24",
+      "cap": 3831.58,
+      "px": 516.0,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [],
-      "ev": 3646.28,
+      "ev": 3795.08,
       "wmw": 7125.0,
       "ev_per_mw": null,
       "pct_energized": 37.5,
@@ -2009,9 +2009,9 @@
           "https://www.nextbigfuture.com/2026/04/amazon-investing-200-billion-into-ai-capex-in-2026-and-making-15-billion-in-ai-revenue.html"
         ]
       ],
-      "cap": 2681.85,
-      "px": 249.31,
-      "priced_date": "2026-09-24",
+      "cap": 2689.81,
+      "px": 250.05,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -2020,7 +2020,7 @@
           1034
         ]
       ],
-      "ev": 2687.75,
+      "ev": 2695.71,
       "wmw": 21500.0,
       "ev_per_mw": null,
       "pct_energized": 44.1,
@@ -2165,9 +2165,9 @@
           "https://blockspace.media/insight/cipher-mining-signs-3-billion-ai-hosting-deal-with-fluidstack-google-to-backstop-1-4-billion/"
         ]
       ],
-      "cap": 4128.51,
-      "px": 341.14,
-      "priced_date": "2026-09-24",
+      "cap": 4167.03,
+      "px": 344.3228,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -2181,7 +2181,7 @@
           300
         ]
       ],
-      "ev": 3984.21,
+      "ev": 4022.73,
       "wmw": 10125.0,
       "ev_per_mw": null,
       "pct_energized": 34.3,
@@ -2318,9 +2318,9 @@
           "https://www.tomshardware.com/tech-industry/artificial-intelligence/meta-inks-deals-to-supply-a-staggering-6-gigawatts-in-nuclear-power-for-data-center-ambitions-enough-wattage-to-supply-5-million-homes"
         ]
       ],
-      "cap": 1963.73,
-      "px": 770.84998,
-      "priced_date": "2026-09-24",
+      "cap": 1913.61,
+      "px": 751.175,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -2334,7 +2334,7 @@
           720
         ]
       ],
-      "ev": 1957.13,
+      "ev": 1907.01,
       "wmw": 7875.0,
       "ev_per_mw": null,
       "pct_energized": 45.8,
@@ -2418,12 +2418,12 @@
           "https://baxtel.com/data-centers/alibaba-cloud"
         ]
       ],
-      "cap": 266.86,
-      "px": 111.335,
-      "priced_date": "2026-09-24",
+      "cap": 263.85,
+      "px": 110.08,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [],
-      "ev": 235.86,
+      "ev": 232.85,
       "wmw": 3000.0,
       "ev_per_mw": null,
       "pct_energized": 40.0,
@@ -2497,12 +2497,12 @@
           "https://www.scmp.com/tech/big-tech/article/3353573/alibaba-tencent-signal-ai-spending-surge-despite-earnings-pressure-china-chips-ramp"
         ]
       ],
-      "cap": 502.3,
-      "px": 55.74,
-      "priced_date": "2026-09-24",
+      "cap": 502.84,
+      "px": 55.8,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [],
-      "ev": 494.2,
+      "ev": 494.74,
       "wmw": 1875.0,
       "ev_per_mw": null,
       "pct_energized": 36.4,
@@ -2570,12 +2570,12 @@
           "https://www.nasdaq.com/articles/zacks-analyst-blog-highlights-baidu-tencent-and-alibaba"
         ]
       ],
-      "cap": 29.93,
-      "px": 87.9958,
-      "priced_date": "2026-09-24",
+      "cap": 29.82,
+      "px": 87.685,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [],
-      "ev": 5.93,
+      "ev": 5.82,
       "wmw": 1000.0,
       "ev_per_mw": null,
       "pct_energized": 33.3,
@@ -2655,14 +2655,14 @@
           "https://investor.equinix.com/news-events/press-releases/detail/48/equinix-and-gic-to-add-3-9b-to-expand-xscale-data-center"
         ]
       ],
-      "cap": 103.06,
-      "px": 1044.48,
-      "priced_date": "2026-09-24",
+      "cap": 100.73,
+      "px": 1020.9,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [],
-      "ev": 123.76,
+      "ev": 121.43,
       "wmw": 1000.0,
-      "ev_per_mw": 123.8,
+      "ev_per_mw": 121.4,
       "pct_energized": 19.6,
       "coverage": null
     },
@@ -2753,9 +2753,9 @@
           "https://news.alphastreet.com/digital-realty-dlr-has-a-power-constrained-capacity-and-backlog-engine-bigger-than-a-rate-sensitive-reit-trade/amp/"
         ]
       ],
-      "cap": 67.48,
-      "px": 182.4,
-      "priced_date": "2026-09-24",
+      "cap": 66.49,
+      "px": 179.71001,
+      "priced_date": "2026-09-25",
       "stale": false,
       "tl": [
         [
@@ -2764,9 +2764,9 @@
           200
         ]
       ],
-      "ev": 83.08,
+      "ev": 82.09,
       "wmw": 2950.0,
-      "ev_per_mw": 28.2,
+      "ev_per_mw": 27.8,
       "pct_energized": 45.5,
       "coverage": 0.02
     },
@@ -5104,7 +5104,7 @@
   ],
   "geo_note": "Campus-level site map, added 2026-07-09. lat/lng are town/county centroids, NOT parcel coordinates. approx=true => only the state/country is public (placed at a state-level position; dashed on the map). Sites with undisclosed locations or n/d MW live in geo_unmapped. DOCN (leased colo, locations undisclosed) and AKAM (distributed edge PoPs) are excluded by construction.",
   "reference": {
-    "nvda_cap_b": 5432.3,
-    "cohort_ev_b": 13900.6
+    "nvda_cap_b": 5449.9,
+    "cohort_ev_b": 14031.9
   }
 }

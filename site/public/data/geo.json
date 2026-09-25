@@ -1,23 +1,23 @@
 {
-  "published_at": "2026-09-24T17:36:01Z",
+  "published_at": "2026-09-25T17:35:31Z",
   "states": [
     {
       "state": "AL",
       "name": "Alabama",
       "gas_regular": {
-        "value": 4.085,
-        "as_of": "2026-09-24",
+        "value": 4.096,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
         "value": 16.4,
-        "as_of": "2026-06-01",
-        "yoy_pct": 2.12
+        "as_of": "2026-07-01",
+        "yoy_pct": 2.95
       },
       "elec_ind_cents": {
-        "value": 7.92,
-        "as_of": "2026-06-01",
-        "yoy_pct": -3.41
+        "value": 8.42,
+        "as_of": "2026-07-01",
+        "yoy_pct": 3.69
       },
       "wage_weekly": {
         "value": 1479,
@@ -35,18 +35,18 @@
       "name": "Alaska",
       "gas_regular": {
         "value": 5.069,
-        "as_of": "2026-09-24",
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 28.21,
-        "as_of": "2026-06-01",
-        "yoy_pct": 4.99
+        "value": 28.83,
+        "as_of": "2026-07-01",
+        "yoy_pct": 5.6
       },
       "elec_ind_cents": {
-        "value": 21.02,
-        "as_of": "2026-06-01",
-        "yoy_pct": 3.7
+        "value": 24.81,
+        "as_of": "2026-07-01",
+        "yoy_pct": 27.89
       },
       "wage_weekly": {
         "value": null,
@@ -63,19 +63,19 @@
       "state": "AZ",
       "name": "Arizona",
       "gas_regular": {
-        "value": 4.782,
-        "as_of": "2026-09-24",
+        "value": 4.82,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 15.18,
-        "as_of": "2026-06-01",
-        "yoy_pct": -0.33
+        "value": 15.38,
+        "as_of": "2026-07-01",
+        "yoy_pct": 0.26
       },
       "elec_ind_cents": {
-        "value": 7.73,
-        "as_of": "2026-06-01",
-        "yoy_pct": -6.42
+        "value": 9.35,
+        "as_of": "2026-07-01",
+        "yoy_pct": 0.86
       },
       "wage_weekly": {
         "value": 1638,
@@ -92,19 +92,19 @@
       "state": "AR",
       "name": "Arkansas",
       "gas_regular": {
-        "value": 4.062,
-        "as_of": "2026-09-24",
+        "value": 4.058,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 14.12,
-        "as_of": "2026-06-01",
-        "yoy_pct": 5.61
+        "value": 14.33,
+        "as_of": "2026-07-01",
+        "yoy_pct": 8.07
       },
       "elec_ind_cents": {
-        "value": 7.08,
-        "as_of": "2026-06-01",
-        "yoy_pct": 2.46
+        "value": 7.84,
+        "as_of": "2026-07-01",
+        "yoy_pct": 8.29
       },
       "wage_weekly": {
         "value": 1275,
@@ -121,19 +121,19 @@
       "state": "CA",
       "name": "California",
       "gas_regular": {
-        "value": 6.236,
-        "as_of": "2026-09-24",
+        "value": 6.288,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 34.74,
-        "as_of": "2026-06-01",
-        "yoy_pct": 3.42
+        "value": 33.61,
+        "as_of": "2026-07-01",
+        "yoy_pct": 2.91
       },
       "elec_ind_cents": {
-        "value": 20.74,
-        "as_of": "2026-06-01",
-        "yoy_pct": -6.32
+        "value": 25.11,
+        "as_of": "2026-07-01",
+        "yoy_pct": -0.63
       },
       "wage_weekly": {
         "value": 1801,
@@ -150,19 +150,19 @@
       "state": "CO",
       "name": "Colorado",
       "gas_regular": {
-        "value": 4.313,
-        "as_of": "2026-09-24",
+        "value": 4.277,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 17.13,
-        "as_of": "2026-06-01",
-        "yoy_pct": 6.8
+        "value": 17.0,
+        "as_of": "2026-07-01",
+        "yoy_pct": 6.32
       },
       "elec_ind_cents": {
-        "value": 10.23,
-        "as_of": "2026-06-01",
-        "yoy_pct": 6.12
+        "value": 9.54,
+        "as_of": "2026-07-01",
+        "yoy_pct": 0.1
       },
       "wage_weekly": {
         "value": 1694,
@@ -179,19 +179,19 @@
       "state": "CT",
       "name": "Connecticut",
       "gas_regular": {
-        "value": 4.493,
-        "as_of": "2026-09-24",
+        "value": 4.5,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 24.32,
-        "as_of": "2026-06-01",
-        "yoy_pct": -10.56
+        "value": 24.16,
+        "as_of": "2026-07-01",
+        "yoy_pct": -12.46
       },
       "elec_ind_cents": {
-        "value": 16.7,
-        "as_of": "2026-06-01",
-        "yoy_pct": -12.24
+        "value": 17.29,
+        "as_of": "2026-07-01",
+        "yoy_pct": -6.99
       },
       "wage_weekly": {
         "value": 1715,
@@ -208,19 +208,19 @@
       "state": "DE",
       "name": "Delaware",
       "gas_regular": {
-        "value": 4.353,
-        "as_of": "2026-09-24",
+        "value": 4.352,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 19.29,
-        "as_of": "2026-06-01",
-        "yoy_pct": 6.22
+        "value": 18.48,
+        "as_of": "2026-07-01",
+        "yoy_pct": 11.46
       },
       "elec_ind_cents": {
-        "value": 12.24,
-        "as_of": "2026-06-01",
-        "yoy_pct": 33.77
+        "value": 11.71,
+        "as_of": "2026-07-01",
+        "yoy_pct": 5.59
       },
       "wage_weekly": {
         "value": null,
@@ -237,19 +237,19 @@
       "state": "DC",
       "name": "District of Columbia",
       "gas_regular": {
-        "value": 4.428,
-        "as_of": "2026-09-24",
+        "value": 4.455,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 24.39,
-        "as_of": "2026-06-01",
-        "yoy_pct": 7.44
+        "value": 25.21,
+        "as_of": "2026-07-01",
+        "yoy_pct": 9.42
       },
       "elec_ind_cents": {
-        "value": 16.21,
-        "as_of": "2026-06-01",
-        "yoy_pct": 6.79
+        "value": 32.15,
+        "as_of": "2026-07-01",
+        "yoy_pct": 59.08
       },
       "wage_weekly": {
         "value": null,
@@ -266,19 +266,19 @@
       "state": "FL",
       "name": "Florida",
       "gas_regular": {
-        "value": 4.382,
-        "as_of": "2026-09-24",
+        "value": 4.423,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 15.1,
-        "as_of": "2026-06-01",
-        "yoy_pct": -1.63
+        "value": 15.03,
+        "as_of": "2026-07-01",
+        "yoy_pct": -0.53
       },
       "elec_ind_cents": {
-        "value": 9.12,
-        "as_of": "2026-06-01",
-        "yoy_pct": 3.28
+        "value": 9.17,
+        "as_of": "2026-07-01",
+        "yoy_pct": 2.92
       },
       "wage_weekly": {
         "value": 1450,
@@ -295,19 +295,19 @@
       "state": "GA",
       "name": "Georgia",
       "gas_regular": {
-        "value": 4.108,
-        "as_of": "2026-09-24",
+        "value": 4.167,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 16.36,
-        "as_of": "2026-06-01",
-        "yoy_pct": 2.51
+        "value": 16.27,
+        "as_of": "2026-07-01",
+        "yoy_pct": 4.56
       },
       "elec_ind_cents": {
-        "value": 8.86,
-        "as_of": "2026-06-01",
-        "yoy_pct": -4.22
+        "value": 10.03,
+        "as_of": "2026-07-01",
+        "yoy_pct": -7.73
       },
       "wage_weekly": {
         "value": 1672,
@@ -324,19 +324,19 @@
       "state": "HI",
       "name": "Hawaii",
       "gas_regular": {
-        "value": 5.574,
-        "as_of": "2026-09-24",
+        "value": 5.581,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 52.72,
-        "as_of": "2026-06-01",
-        "yoy_pct": 28.71
+        "value": 48.0,
+        "as_of": "2026-07-01",
+        "yoy_pct": 21.95
       },
       "elec_ind_cents": {
-        "value": 43.37,
-        "as_of": "2026-06-01",
-        "yoy_pct": 42.34
+        "value": 39.33,
+        "as_of": "2026-07-01",
+        "yoy_pct": 29.84
       },
       "wage_weekly": {
         "value": 1805,
@@ -353,19 +353,19 @@
       "state": "ID",
       "name": "Idaho",
       "gas_regular": {
-        "value": 5.003,
-        "as_of": "2026-09-24",
+        "value": 5.006,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 14.37,
-        "as_of": "2026-06-01",
-        "yoy_pct": 19.06
+        "value": 13.73,
+        "as_of": "2026-07-01",
+        "yoy_pct": 11.81
       },
       "elec_ind_cents": {
-        "value": 10.23,
-        "as_of": "2026-06-01",
-        "yoy_pct": 2.92
+        "value": 9.02,
+        "as_of": "2026-07-01",
+        "yoy_pct": 9.47
       },
       "wage_weekly": {
         "value": 1399,
@@ -382,19 +382,19 @@
       "state": "IL",
       "name": "Illinois",
       "gas_regular": {
-        "value": 4.851,
-        "as_of": "2026-09-24",
+        "value": 4.828,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 19.89,
-        "as_of": "2026-06-01",
-        "yoy_pct": 8.75
+        "value": 19.22,
+        "as_of": "2026-07-01",
+        "yoy_pct": 11.61
       },
       "elec_ind_cents": {
-        "value": 10.65,
-        "as_of": "2026-06-01",
-        "yoy_pct": 10.36
+        "value": 11.87,
+        "as_of": "2026-07-01",
+        "yoy_pct": 11.56
       },
       "wage_weekly": {
         "value": 1803,
@@ -411,19 +411,19 @@
       "state": "IN",
       "name": "Indiana",
       "gas_regular": {
-        "value": 3.963,
-        "as_of": "2026-09-24",
+        "value": 3.941,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 17.51,
-        "as_of": "2026-06-01",
-        "yoy_pct": 6.25
+        "value": 16.73,
+        "as_of": "2026-07-01",
+        "yoy_pct": 3.4
       },
       "elec_ind_cents": {
-        "value": 9.0,
-        "as_of": "2026-06-01",
-        "yoy_pct": 3.57
+        "value": 9.16,
+        "as_of": "2026-07-01",
+        "yoy_pct": -0.54
       },
       "wage_weekly": {
         "value": 1614,
@@ -440,19 +440,19 @@
       "state": "IA",
       "name": "Iowa",
       "gas_regular": {
-        "value": 4.327,
-        "as_of": "2026-09-24",
+        "value": 4.305,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 15.93,
-        "as_of": "2026-06-01",
-        "yoy_pct": 3.91
+        "value": 15.99,
+        "as_of": "2026-07-01",
+        "yoy_pct": 4.44
       },
       "elec_ind_cents": {
-        "value": 8.48,
-        "as_of": "2026-06-01",
-        "yoy_pct": 2.29
+        "value": 9.99,
+        "as_of": "2026-07-01",
+        "yoy_pct": 10.14
       },
       "wage_weekly": {
         "value": 1500,
@@ -469,19 +469,19 @@
       "state": "KS",
       "name": "Kansas",
       "gas_regular": {
-        "value": 4.167,
-        "as_of": "2026-09-24",
+        "value": 4.161,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 15.71,
-        "as_of": "2026-06-01",
-        "yoy_pct": 4.45
+        "value": 15.27,
+        "as_of": "2026-07-01",
+        "yoy_pct": 5.6
       },
       "elec_ind_cents": {
-        "value": 8.21,
-        "as_of": "2026-06-01",
-        "yoy_pct": 0.24
+        "value": 8.52,
+        "as_of": "2026-07-01",
+        "yoy_pct": 5.58
       },
       "wage_weekly": {
         "value": null,
@@ -498,19 +498,19 @@
       "state": "KY",
       "name": "Kentucky",
       "gas_regular": {
-        "value": 4.156,
-        "as_of": "2026-09-24",
+        "value": 4.145,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 14.26,
-        "as_of": "2026-06-01",
-        "yoy_pct": 6.42
+        "value": 13.81,
+        "as_of": "2026-07-01",
+        "yoy_pct": 5.18
       },
       "elec_ind_cents": {
-        "value": 7.15,
-        "as_of": "2026-06-01",
-        "yoy_pct": 0.28
+        "value": 7.51,
+        "as_of": "2026-07-01",
+        "yoy_pct": 2.74
       },
       "wage_weekly": {
         "value": 1420,
@@ -527,19 +527,19 @@
       "state": "LA",
       "name": "Louisiana",
       "gas_regular": {
-        "value": 4.032,
-        "as_of": "2026-09-24",
+        "value": 4.034,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 13.49,
-        "as_of": "2026-06-01",
-        "yoy_pct": 5.89
+        "value": 12.72,
+        "as_of": "2026-07-01",
+        "yoy_pct": -3.05
       },
       "elec_ind_cents": {
-        "value": 6.69,
-        "as_of": "2026-06-01",
-        "yoy_pct": 4.21
+        "value": 6.08,
+        "as_of": "2026-07-01",
+        "yoy_pct": -12.01
       },
       "wage_weekly": {
         "value": 1612,
@@ -556,19 +556,19 @@
       "state": "ME",
       "name": "Maine",
       "gas_regular": {
-        "value": 4.429,
-        "as_of": "2026-09-24",
+        "value": 4.431,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 29.59,
-        "as_of": "2026-06-01",
-        "yoy_pct": 5.15
+        "value": 32.41,
+        "as_of": "2026-07-01",
+        "yoy_pct": 15.83
       },
       "elec_ind_cents": {
-        "value": 14.21,
-        "as_of": "2026-06-01",
-        "yoy_pct": 0.07
+        "value": 13.94,
+        "as_of": "2026-07-01",
+        "yoy_pct": -11.27
       },
       "wage_weekly": {
         "value": 1388,
@@ -585,19 +585,19 @@
       "state": "MD",
       "name": "Maryland",
       "gas_regular": {
-        "value": 4.327,
-        "as_of": "2026-09-24",
+        "value": 4.367,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 21.84,
-        "as_of": "2026-06-01",
-        "yoy_pct": 13.22
+        "value": 21.41,
+        "as_of": "2026-07-01",
+        "yoy_pct": 13.7
       },
       "elec_ind_cents": {
-        "value": 13.51,
-        "as_of": "2026-06-01",
-        "yoy_pct": -6.96
+        "value": 16.21,
+        "as_of": "2026-07-01",
+        "yoy_pct": 18.67
       },
       "wage_weekly": {
         "value": 1687,
@@ -614,19 +614,19 @@
       "state": "MA",
       "name": "Massachusetts",
       "gas_regular": {
-        "value": 4.398,
-        "as_of": "2026-09-24",
+        "value": 4.399,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 29.61,
-        "as_of": "2026-06-01",
-        "yoy_pct": -2.37
+        "value": 30.49,
+        "as_of": "2026-07-01",
+        "yoy_pct": 1.4
       },
       "elec_ind_cents": {
-        "value": 18.97,
-        "as_of": "2026-06-01",
-        "yoy_pct": -4.1
+        "value": 20.25,
+        "as_of": "2026-07-01",
+        "yoy_pct": 1.61
       },
       "wage_weekly": {
         "value": null,
@@ -643,19 +643,19 @@
       "state": "MI",
       "name": "Michigan",
       "gas_regular": {
-        "value": 4.807,
-        "as_of": "2026-09-24",
+        "value": 4.765,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 22.99,
-        "as_of": "2026-06-01",
-        "yoy_pct": 10.42
+        "value": 23.05,
+        "as_of": "2026-07-01",
+        "yoy_pct": 12.17
       },
       "elec_ind_cents": {
-        "value": 9.24,
-        "as_of": "2026-06-01",
-        "yoy_pct": 5.24
+        "value": 9.81,
+        "as_of": "2026-07-01",
+        "yoy_pct": 9.73
       },
       "wage_weekly": {
         "value": 1564,
@@ -672,19 +672,19 @@
       "state": "MN",
       "name": "Minnesota",
       "gas_regular": {
-        "value": 4.372,
-        "as_of": "2026-09-24",
+        "value": 4.371,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 17.52,
-        "as_of": "2026-06-01",
-        "yoy_pct": 2.34
+        "value": 17.45,
+        "as_of": "2026-07-01",
+        "yoy_pct": 3.13
       },
       "elec_ind_cents": {
-        "value": 10.23,
-        "as_of": "2026-06-01",
-        "yoy_pct": 4.39
+        "value": 10.34,
+        "as_of": "2026-07-01",
+        "yoy_pct": 5.83
       },
       "wage_weekly": {
         "value": 1873,
@@ -701,19 +701,19 @@
       "state": "MS",
       "name": "Mississippi",
       "gas_regular": {
-        "value": 3.996,
-        "as_of": "2026-09-24",
+        "value": 4.008,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 14.88,
-        "as_of": "2026-06-01",
-        "yoy_pct": 5.76
+        "value": 14.54,
+        "as_of": "2026-07-01",
+        "yoy_pct": 7.07
       },
       "elec_ind_cents": {
-        "value": 8.29,
-        "as_of": "2026-06-01",
-        "yoy_pct": 9.37
+        "value": 7.66,
+        "as_of": "2026-07-01",
+        "yoy_pct": 0.66
       },
       "wage_weekly": {
         "value": 1397,
@@ -730,19 +730,19 @@
       "state": "MO",
       "name": "Missouri",
       "gas_regular": {
-        "value": 4.183,
-        "as_of": "2026-09-24",
+        "value": 4.194,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 16.22,
-        "as_of": "2026-06-01",
-        "yoy_pct": 1.95
+        "value": 16.09,
+        "as_of": "2026-07-01",
+        "yoy_pct": 3.41
       },
       "elec_ind_cents": {
-        "value": 9.84,
-        "as_of": "2026-06-01",
-        "yoy_pct": 0.1
+        "value": 9.87,
+        "as_of": "2026-07-01",
+        "yoy_pct": 4.33
       },
       "wage_weekly": {
         "value": null,
@@ -759,19 +759,19 @@
       "state": "MT",
       "name": "Montana",
       "gas_regular": {
-        "value": 4.609,
-        "as_of": "2026-09-24",
+        "value": 4.601,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 15.14,
-        "as_of": "2026-06-01",
-        "yoy_pct": 2.23
+        "value": 14.99,
+        "as_of": "2026-07-01",
+        "yoy_pct": 5.05
       },
       "elec_ind_cents": {
-        "value": 6.68,
-        "as_of": "2026-06-01",
-        "yoy_pct": -10.93
+        "value": 7.71,
+        "as_of": "2026-07-01",
+        "yoy_pct": 0.0
       },
       "wage_weekly": {
         "value": 1426,
@@ -788,19 +788,19 @@
       "state": "NE",
       "name": "Nebraska",
       "gas_regular": {
-        "value": 4.395,
-        "as_of": "2026-09-24",
+        "value": 4.398,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 13.25,
-        "as_of": "2026-06-01",
-        "yoy_pct": 0.84
+        "value": 13.78,
+        "as_of": "2026-07-01",
+        "yoy_pct": 7.32
       },
       "elec_ind_cents": {
-        "value": 9.64,
-        "as_of": "2026-06-01",
-        "yoy_pct": 12.35
+        "value": 10.0,
+        "as_of": "2026-07-01",
+        "yoy_pct": 11.11
       },
       "wage_weekly": {
         "value": 1369,
@@ -817,19 +817,19 @@
       "state": "NV",
       "name": "Nevada",
       "gas_regular": {
-        "value": 5.366,
-        "as_of": "2026-09-24",
+        "value": 5.388,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 13.11,
-        "as_of": "2026-06-01",
-        "yoy_pct": 6.93
+        "value": 12.77,
+        "as_of": "2026-07-01",
+        "yoy_pct": 3.07
       },
       "elec_ind_cents": {
-        "value": 10.16,
-        "as_of": "2026-06-01",
-        "yoy_pct": 7.4
+        "value": 10.04,
+        "as_of": "2026-07-01",
+        "yoy_pct": 2.14
       },
       "wage_weekly": {
         "value": 1671,
@@ -846,19 +846,19 @@
       "state": "NH",
       "name": "New Hampshire",
       "gas_regular": {
-        "value": 4.373,
-        "as_of": "2026-09-24",
+        "value": 4.375,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 27.01,
-        "as_of": "2026-06-01",
-        "yoy_pct": 14.89
+        "value": 26.6,
+        "as_of": "2026-07-01",
+        "yoy_pct": 16.72
       },
       "elec_ind_cents": {
-        "value": 17.47,
-        "as_of": "2026-06-01",
-        "yoy_pct": 9.32
+        "value": 18.17,
+        "as_of": "2026-07-01",
+        "yoy_pct": 8.48
       },
       "wage_weekly": {
         "value": 1577,
@@ -875,19 +875,19 @@
       "state": "NJ",
       "name": "New Jersey",
       "gas_regular": {
-        "value": 4.397,
-        "as_of": "2026-09-24",
+        "value": 4.391,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 24.95,
-        "as_of": "2026-06-01",
-        "yoy_pct": 0.28
+        "value": 25.19,
+        "as_of": "2026-07-01",
+        "yoy_pct": -0.51
       },
       "elec_ind_cents": {
-        "value": 15.65,
-        "as_of": "2026-06-01",
-        "yoy_pct": 1.62
+        "value": 15.63,
+        "as_of": "2026-07-01",
+        "yoy_pct": 4.76
       },
       "wage_weekly": {
         "value": 1731,
@@ -904,19 +904,19 @@
       "state": "NM",
       "name": "New Mexico",
       "gas_regular": {
-        "value": 4.533,
-        "as_of": "2026-09-24",
+        "value": 4.555,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 15.06,
-        "as_of": "2026-06-01",
-        "yoy_pct": 2.59
+        "value": 16.09,
+        "as_of": "2026-07-01",
+        "yoy_pct": 1.84
       },
       "elec_ind_cents": {
-        "value": 4.62,
-        "as_of": "2026-06-01",
-        "yoy_pct": -21.69
+        "value": 4.16,
+        "as_of": "2026-07-01",
+        "yoy_pct": -27.53
       },
       "wage_weekly": {
         "value": 1322,
@@ -933,19 +933,19 @@
       "state": "NY",
       "name": "New York",
       "gas_regular": {
-        "value": 4.489,
-        "as_of": "2026-09-24",
+        "value": 4.493,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 29.49,
-        "as_of": "2026-06-01",
-        "yoy_pct": 11.07
+        "value": 29.9,
+        "as_of": "2026-07-01",
+        "yoy_pct": 14.04
       },
       "elec_ind_cents": {
-        "value": 10.17,
-        "as_of": "2026-06-01",
-        "yoy_pct": 10.42
+        "value": 10.81,
+        "as_of": "2026-07-01",
+        "yoy_pct": 7.46
       },
       "wage_weekly": {
         "value": 1757,
@@ -962,19 +962,19 @@
       "state": "NC",
       "name": "North Carolina",
       "gas_regular": {
-        "value": 4.129,
-        "as_of": "2026-09-24",
+        "value": 4.168,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 14.74,
-        "as_of": "2026-06-01",
-        "yoy_pct": 10.16
+        "value": 15.16,
+        "as_of": "2026-07-01",
+        "yoy_pct": 13.39
       },
       "elec_ind_cents": {
-        "value": 7.87,
-        "as_of": "2026-06-01",
-        "yoy_pct": 1.29
+        "value": 8.37,
+        "as_of": "2026-07-01",
+        "yoy_pct": 7.72
       },
       "wage_weekly": {
         "value": null,
@@ -991,19 +991,19 @@
       "state": "ND",
       "name": "North Dakota",
       "gas_regular": {
-        "value": 4.264,
-        "as_of": "2026-09-24",
+        "value": 4.268,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 14.12,
-        "as_of": "2026-06-01",
-        "yoy_pct": 2.99
+        "value": 13.41,
+        "as_of": "2026-07-01",
+        "yoy_pct": 0.75
       },
       "elec_ind_cents": {
-        "value": 8.32,
-        "as_of": "2026-06-01",
-        "yoy_pct": 8.05
+        "value": 8.21,
+        "as_of": "2026-07-01",
+        "yoy_pct": 7.74
       },
       "wage_weekly": {
         "value": 1524,
@@ -1020,19 +1020,19 @@
       "state": "OH",
       "name": "Ohio",
       "gas_regular": {
-        "value": 4.427,
-        "as_of": "2026-09-24",
+        "value": 4.396,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 19.19,
-        "as_of": "2026-06-01",
-        "yoy_pct": 9.66
+        "value": 19.45,
+        "as_of": "2026-07-01",
+        "yoy_pct": 11.91
       },
       "elec_ind_cents": {
-        "value": 9.89,
-        "as_of": "2026-06-01",
-        "yoy_pct": 14.2
+        "value": 10.95,
+        "as_of": "2026-07-01",
+        "yoy_pct": 20.99
       },
       "wage_weekly": {
         "value": 1654,
@@ -1049,19 +1049,19 @@
       "state": "OK",
       "name": "Oklahoma",
       "gas_regular": {
-        "value": 4.119,
-        "as_of": "2026-09-24",
+        "value": 4.146,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 14.33,
-        "as_of": "2026-06-01",
-        "yoy_pct": 5.14
+        "value": 14.35,
+        "as_of": "2026-07-01",
+        "yoy_pct": 6.14
       },
       "elec_ind_cents": {
-        "value": 7.37,
-        "as_of": "2026-06-01",
-        "yoy_pct": 12.18
+        "value": 8.16,
+        "as_of": "2026-07-01",
+        "yoy_pct": 21.43
       },
       "wage_weekly": {
         "value": 1360,
@@ -1078,19 +1078,19 @@
       "state": "OR",
       "name": "Oregon",
       "gas_regular": {
-        "value": 5.094,
-        "as_of": "2026-09-24",
+        "value": 5.089,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 16.32,
-        "as_of": "2026-06-01",
-        "yoy_pct": 3.29
+        "value": 15.97,
+        "as_of": "2026-07-01",
+        "yoy_pct": 2.31
       },
       "elec_ind_cents": {
-        "value": 8.83,
-        "as_of": "2026-06-01",
-        "yoy_pct": 3.4
+        "value": 8.92,
+        "as_of": "2026-07-01",
+        "yoy_pct": 3.84
       },
       "wage_weekly": {
         "value": 1681,
@@ -1107,19 +1107,19 @@
       "state": "PA",
       "name": "Pennsylvania",
       "gas_regular": {
-        "value": 4.553,
-        "as_of": "2026-09-24",
+        "value": 4.549,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 21.73,
-        "as_of": "2026-06-01",
-        "yoy_pct": 10.36
+        "value": 21.72,
+        "as_of": "2026-07-01",
+        "yoy_pct": 11.33
       },
       "elec_ind_cents": {
-        "value": 10.1,
-        "as_of": "2026-06-01",
-        "yoy_pct": 8.49
+        "value": 11.04,
+        "as_of": "2026-07-01",
+        "yoy_pct": 11.85
       },
       "wage_weekly": {
         "value": null,
@@ -1137,18 +1137,18 @@
       "name": "Rhode Island",
       "gas_regular": {
         "value": 4.394,
-        "as_of": "2026-09-24",
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 29.23,
-        "as_of": "2026-06-01",
-        "yoy_pct": 8.9
+        "value": 28.29,
+        "as_of": "2026-07-01",
+        "yoy_pct": 8.06
       },
       "elec_ind_cents": {
-        "value": 22.91,
-        "as_of": "2026-06-01",
-        "yoy_pct": 23.11
+        "value": 22.86,
+        "as_of": "2026-07-01",
+        "yoy_pct": 7.27
       },
       "wage_weekly": {
         "value": null,
@@ -1165,19 +1165,19 @@
       "state": "SC",
       "name": "South Carolina",
       "gas_regular": {
-        "value": 4.048,
-        "as_of": "2026-09-24",
+        "value": 4.129,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 15.55,
-        "as_of": "2026-06-01",
-        "yoy_pct": 5.14
+        "value": 15.47,
+        "as_of": "2026-07-01",
+        "yoy_pct": 5.24
       },
       "elec_ind_cents": {
-        "value": 7.55,
-        "as_of": "2026-06-01",
-        "yoy_pct": 4.57
+        "value": 7.84,
+        "as_of": "2026-07-01",
+        "yoy_pct": -0.51
       },
       "wage_weekly": {
         "value": 1568,
@@ -1194,19 +1194,19 @@
       "state": "SD",
       "name": "South Dakota",
       "gas_regular": {
-        "value": 4.317,
-        "as_of": "2026-09-24",
+        "value": 4.312,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 15.36,
-        "as_of": "2026-06-01",
-        "yoy_pct": 8.02
+        "value": 15.37,
+        "as_of": "2026-07-01",
+        "yoy_pct": 5.85
       },
       "elec_ind_cents": {
-        "value": 9.44,
-        "as_of": "2026-06-01",
-        "yoy_pct": 7.64
+        "value": 9.83,
+        "as_of": "2026-07-01",
+        "yoy_pct": 5.36
       },
       "wage_weekly": {
         "value": null,
@@ -1223,19 +1223,19 @@
       "state": "TN",
       "name": "Tennessee",
       "gas_regular": {
-        "value": 4.061,
-        "as_of": "2026-09-24",
+        "value": 4.059,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 14.07,
-        "as_of": "2026-06-01",
-        "yoy_pct": 1.81
+        "value": 13.71,
+        "as_of": "2026-07-01",
+        "yoy_pct": 3.79
       },
       "elec_ind_cents": {
-        "value": 6.87,
-        "as_of": "2026-06-01",
-        "yoy_pct": -4.85
+        "value": 7.13,
+        "as_of": "2026-07-01",
+        "yoy_pct": -1.52
       },
       "wage_weekly": {
         "value": 1524,
@@ -1252,19 +1252,19 @@
       "state": "TX",
       "name": "Texas",
       "gas_regular": {
-        "value": 3.957,
-        "as_of": "2026-09-24",
+        "value": 3.953,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 15.94,
-        "as_of": "2026-06-01",
-        "yoy_pct": 4.46
+        "value": 15.88,
+        "as_of": "2026-07-01",
+        "yoy_pct": 3.39
       },
       "elec_ind_cents": {
-        "value": 6.58,
-        "as_of": "2026-06-01",
-        "yoy_pct": 3.46
+        "value": 7.07,
+        "as_of": "2026-07-01",
+        "yoy_pct": 6.96
       },
       "wage_weekly": {
         "value": 1698,
@@ -1281,19 +1281,19 @@
       "state": "UT",
       "name": "Utah",
       "gas_regular": {
-        "value": 4.981,
-        "as_of": "2026-09-24",
+        "value": 4.973,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 13.37,
-        "as_of": "2026-06-01",
-        "yoy_pct": 2.06
+        "value": 13.12,
+        "as_of": "2026-07-01",
+        "yoy_pct": -2.45
       },
       "elec_ind_cents": {
-        "value": 9.22,
-        "as_of": "2026-06-01",
-        "yoy_pct": 8.73
+        "value": 9.1,
+        "as_of": "2026-07-01",
+        "yoy_pct": -3.19
       },
       "wage_weekly": {
         "value": 1438,
@@ -1310,19 +1310,19 @@
       "state": "VT",
       "name": "Vermont",
       "gas_regular": {
-        "value": 4.455,
-        "as_of": "2026-09-24",
+        "value": 4.457,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 24.44,
-        "as_of": "2026-06-01",
-        "yoy_pct": 6.26
+        "value": 23.75,
+        "as_of": "2026-07-01",
+        "yoy_pct": 7.27
       },
       "elec_ind_cents": {
-        "value": 12.9,
-        "as_of": "2026-06-01",
-        "yoy_pct": 3.7
+        "value": 13.07,
+        "as_of": "2026-07-01",
+        "yoy_pct": 6.87
       },
       "wage_weekly": {
         "value": null,
@@ -1339,19 +1339,19 @@
       "state": "VA",
       "name": "Virginia",
       "gas_regular": {
-        "value": 4.24,
-        "as_of": "2026-09-24",
+        "value": 4.244,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 17.22,
-        "as_of": "2026-06-01",
-        "yoy_pct": 13.07
+        "value": 17.55,
+        "as_of": "2026-07-01",
+        "yoy_pct": 11.22
       },
       "elec_ind_cents": {
-        "value": 9.31,
-        "as_of": "2026-06-01",
-        "yoy_pct": -0.85
+        "value": 10.07,
+        "as_of": "2026-07-01",
+        "yoy_pct": 3.81
       },
       "wage_weekly": {
         "value": 1632,
@@ -1368,19 +1368,19 @@
       "state": "WA",
       "name": "Washington",
       "gas_regular": {
-        "value": 5.549,
-        "as_of": "2026-09-24",
+        "value": 5.547,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 14.91,
-        "as_of": "2026-06-01",
-        "yoy_pct": 15.05
+        "value": 14.71,
+        "as_of": "2026-07-01",
+        "yoy_pct": 9.37
       },
       "elec_ind_cents": {
-        "value": 7.2,
-        "as_of": "2026-06-01",
-        "yoy_pct": 5.88
+        "value": 7.51,
+        "as_of": "2026-07-01",
+        "yoy_pct": 4.16
       },
       "wage_weekly": {
         "value": 1698,
@@ -1397,19 +1397,19 @@
       "state": "WV",
       "name": "West Virginia",
       "gas_regular": {
-        "value": 4.373,
-        "as_of": "2026-09-24",
+        "value": 4.37,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 15.45,
-        "as_of": "2026-06-01",
-        "yoy_pct": -2.34
+        "value": 15.78,
+        "as_of": "2026-07-01",
+        "yoy_pct": 2.27
       },
       "elec_ind_cents": {
-        "value": 7.95,
-        "as_of": "2026-06-01",
-        "yoy_pct": -4.79
+        "value": 8.4,
+        "as_of": "2026-07-01",
+        "yoy_pct": 5.26
       },
       "wage_weekly": {
         "value": 1394,
@@ -1426,19 +1426,19 @@
       "state": "WI",
       "name": "Wisconsin",
       "gas_regular": {
-        "value": 4.387,
-        "as_of": "2026-09-24",
+        "value": 4.367,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 19.56,
-        "as_of": "2026-06-01",
-        "yoy_pct": 5.62
+        "value": 19.06,
+        "as_of": "2026-07-01",
+        "yoy_pct": 4.44
       },
       "elec_ind_cents": {
-        "value": 9.95,
-        "as_of": "2026-06-01",
-        "yoy_pct": 3.43
+        "value": 10.46,
+        "as_of": "2026-07-01",
+        "yoy_pct": 6.09
       },
       "wage_weekly": {
         "value": 1571,
@@ -1455,19 +1455,19 @@
       "state": "WY",
       "name": "Wyoming",
       "gas_regular": {
-        "value": 4.552,
-        "as_of": "2026-09-24",
+        "value": 4.55,
+        "as_of": "2026-09-25",
         "yoy_pct": null
       },
       "elec_res_cents": {
-        "value": 15.24,
-        "as_of": "2026-06-01",
-        "yoy_pct": 2.35
+        "value": 14.36,
+        "as_of": "2026-07-01",
+        "yoy_pct": -1.91
       },
       "elec_ind_cents": {
-        "value": 8.75,
-        "as_of": "2026-06-01",
-        "yoy_pct": -0.57
+        "value": 8.62,
+        "as_of": "2026-07-01",
+        "yoy_pct": -3.47
       },
       "wage_weekly": {
         "value": 1375,
@@ -1483,19 +1483,19 @@
   ],
   "national": {
     "gas_regular": {
-      "value": 4.482,
-      "as_of": "2026-09-24",
+      "value": 4.492,
+      "as_of": "2026-09-25",
       "yoy_pct": null
     },
     "elec_res_cents": {
-      "value": 18.34,
-      "as_of": "2026-06-01",
-      "yoy_pct": 4.98
+      "value": 18.31,
+      "as_of": "2026-07-01",
+      "yoy_pct": 4.93
     },
     "elec_ind_cents": {
-      "value": 9.17,
-      "as_of": "2026-06-01",
-      "yoy_pct": 3.03
+      "value": 9.77,
+      "as_of": "2026-07-01",
+      "yoy_pct": 4.72
     },
     "wage_weekly": {
       "value": 1634,
