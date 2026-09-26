@@ -43,12 +43,16 @@ _PHASE_DONE = {"nowcast": "nowcast completed",
                "ledger": "publish ledger completed"}
 
 
+CALENDAR_HORIZON_MIN = 45  # days of scheduled CPI releases still ahead
+
+
 def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                freshness: list[dict] | None = None, gauge: dict | None = None,
                engine_error: str | None = None, fuel_divergence: dict | None = None,
                artifacts: dict | None = None,
                phase_errors: dict[str, str | None] | None = None,
-               stale_stamps: list[str] | None = None) -> dict:
+               stale_stamps: list[str] | None = None,
+               calendar: dict | None = None) -> dict:
     if cpi is not None:
         # Age the latest PRINT, not the latest YoY-computable month.
         # official.latest_yoy walks `month` back over a base-month hole (the
@@ -115,6 +119,18 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                        "detail": ("all artifacts share this run's published_at"
                                   if not stale_stamps else
                                   "stale published_at — " + ", ".join(stale_stamps))})
+    if calendar is not None:
+        # Runway, not state: fails while there is still time to act. The
+        # calendar self-refreshes from FRED (pipeline/calendar_refresh.py);
+        # this goes red only if that refresh has been failing for weeks or the
+        # agencies haven't published next year's schedule yet.
+        h, err = calendar.get("horizon_days"), calendar.get("refresh_error")
+        checks.append({"name": "calendar_horizon", "critical": False,
+                       "pass": h is not None and h >= CALENDAR_HORIZON_MIN,
+                       "detail": (f"CPI calendar runs {h}d ahead (floor "
+                                  f"{CALENDAR_HORIZON_MIN}d)" if h is not None
+                                  else "no CPI calendar entries")
+                                 + (f"; FRED refresh failed — {err}" if err else "")})
     if source_results is not None:
         failed = [f"{r.source}: {r.error}" for r in source_results if not r.ok]
         checks.append({"name": "connectors_ok", "critical": False,

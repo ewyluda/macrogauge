@@ -70,7 +70,10 @@ def test_default_calendar_has_sorted_ppi_dates_aligned_with_cpi_months():
     ppi = [e["release_date"] for e in raw["ppi"]]
     assert ppi == sorted(ppi) and len(ppi) >= 6
     assert {e["reference_month"] for e in raw["ppi"]} == {e["reference_month"] for e in raw["cpi"]}
-    assert set(release_gate.ANCHORS) <= set(raw)
+    assert {"cpi", "ppi"} <= set(raw)
+    # pce/nfp dates arrive via the FRED refresh (store/calendar/releases.json)
+    from pipeline import calendar_refresh
+    assert set(release_gate.ANCHORS) <= set(calendar_refresh.RELEASES)
 
 
 def test_live_store_shape_is_readable():

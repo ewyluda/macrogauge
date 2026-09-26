@@ -195,7 +195,7 @@ def collect_all(sources: dict[str, Source], series: list[Series],
     latest_cache = vintage.latest_values(store_dir)
     for name, source in sources.items():
         subset = [s for s in series if s.source == name]
-        if not subset:
+        if not subset or source.retired:
             continue
         key = secrets.get(source.secret, "") if source.secret else ""
         if source.secret and not key and not source.secret_optional:

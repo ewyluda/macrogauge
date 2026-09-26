@@ -43,7 +43,7 @@ import jsonschema
 
 from pipeline import basket as basket_mod
 from pipeline import capacity as capacity_cfg
-from pipeline import collect, dc_basket, dc_context, dc_longlead, dc_power, registry, release_calendar
+from pipeline import calendar_refresh, collect, dc_basket, dc_context, dc_longlead, dc_power, registry, release_calendar
 from pipeline import dc_markets as dc_markets_cfg
 from pipeline.connectors import fred
 from pipeline.engine import dcindex
@@ -113,6 +113,21 @@ def main(argv=None, http_get=None, http_post=None) -> int:
                  else f"FAILED — {r.error}"))
 
     conn = vintage.load(args.store)
+    today = fred.today_et()
+
+    # Release calendar refresh (FRED release/dates). Isolated: a failure keeps
+    # the previous refreshed file / the hand-seeded config and only surfaces
+    # in the calendar_horizon qa check — never blocks the run.
+    calendar_error = None
+    release_calendar.use_store(args.store)
+    try:
+        calendar_refresh.write(
+            calendar_refresh.fetch(os.environ["FRED_API_KEY"], today, http_get=http_get),
+            args.store / "calendar" / "releases.json", today)
+    except Exception as e:  # isolation: stale calendar beats no publish
+        calendar_error = collect._sanitize(f"{type(e).__name__}: {e}",
+                                           [os.environ.get("FRED_API_KEY", "")])
+        print(f"calendar refresh FAILED — {calendar_error}")
 
     # sources_status FIRST: a broken engine must never hide a broken source
     status = sources_status.build(results, sources, series, conn)
@@ -120,7 +135,6 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     validate.validate_file(status_path, SCHEMAS / "sources_status.schema.json")
     print(f"published: {status_path}")
 
-    today = fred.today_et()
     published_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     # Fuel cross-check reads only the store (outside the engine phase): AAA daily
@@ -257,7 +271,10 @@ def main(argv=None, http_get=None, http_post=None) -> int:
             # Don't let the nowcast trip over the missing gauge and publish a
             # cryptic TypeError in qa.json — name the upstream cause.
             raise RuntimeError("skipped — gauge engine failed upstream")
-        next_release = release_calendar.next_print(today)
+        # next_target, not next_print: past the scheduled calendar the nowcast
+        # keeps targeting an inferred month (release date unknown) so forecasts
+        # keep recording instead of leaving an un-backfillable ledger gap.
+        next_release = release_calendar.next_target(today)
         nowcast_state["payload"] = payload = build_nowcast(
             conn, gauge_result, next_release,
             benchmarks=phase3.latest_benchmarks(
@@ -529,7 +546,9 @@ def main(argv=None, http_get=None, http_post=None) -> int:
                                      phase_errors=phase_errors,
                                      fuel_divergence=fuel_div,
                                      artifacts=artifacts,
-                                     stale_stamps=stale_stamps),
+                                     stale_stamps=stale_stamps,
+                                     calendar={"horizon_days": release_calendar.horizon_days(today),
+                                               "refresh_error": calendar_error}),
                        args.out)
     validate.validate_file(qa_path, SCHEMAS / "qa.schema.json")
     print(f"qa: {qa_path}")

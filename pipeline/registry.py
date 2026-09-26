@@ -14,6 +14,9 @@ class Source:
     cadence: str          # human-readable: "daily" | "weekly" | "monthly"
     secret: str | None    # env var holding the API key, if any
     secret_optional: bool
+    # Why a source is no longer collected (history stays in the store; its
+    # series carry a `discontinued` absence policy). collect_all skips it.
+    retired: str | None = None
 
 
 # Expected-absence policy kinds. A policy says "this series is allowed to sit
@@ -79,7 +82,8 @@ def load_registry(path: Path | None = None) -> tuple[dict[str, Source], list[Ser
     raw = json.loads((path or DEFAULT_PATH).read_text())
     sources = {n: Source(name=n, route=s["route"], cadence=s["cadence"],
                          secret=s.get("secret"),
-                         secret_optional=s.get("secret_optional", False))
+                         secret_optional=s.get("secret_optional", False),
+                         retired=s.get("retired"))
                for n, s in raw["sources"].items()}
     series = [Series(code=s["code"], source=s["source"], source_id=s["source_id"],
                      name=s["name"], max_staleness_days=s["max_staleness_days"],

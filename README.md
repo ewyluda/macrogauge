@@ -3,17 +3,17 @@
 **A daily, independent view of US inflation—built from live market data, official releases, and auditable vintage history.**
 
 [![CI](https://github.com/ewyluda/macrogauge/actions/workflows/ci.yml/badge.svg)](https://github.com/ewyluda/macrogauge/actions/workflows/ci.yml)
-[![Live site](https://img.shields.io/badge/live-macrogauge-38bdf8)](https://macrogauge-cloudten.vercel.app)
+[![Live site](https://img.shields.io/badge/live-macrogauge-38bdf8)](https://macrogauge.vercel.app)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-3776AB)](https://www.python.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-static_export-000000)](https://nextjs.org/)
 
-[Open MacroGauge](https://macrogauge-cloudten.vercel.app) · [Explore Data Center Inflation](https://macrogauge-cloudten.vercel.app/datacenter) · [Read the methodology](https://macrogauge-cloudten.vercel.app/methodology)
+[Open MacroGauge](https://macrogauge.vercel.app) · [Explore Data Center Inflation](https://macrogauge.vercel.app/datacenter) · [Read the methodology](https://macrogauge.vercel.app/methodology)
 
 MacroGauge re-prices the CPI basket using higher-frequency market and alternative data, compares the result with official inflation, forecasts upcoming prints, and publishes the evidence behind every number. The Python pipeline performs all collection and calculation; the Next.js site renders pre-built, schema-validated JSON and does no analytical work in the browser.
 
 ## Data Center Inflation
 
-The dedicated [Data Centers page](https://macrogauge-cloudten.vercel.app/datacenter) tracks a category that has no official all-in price index: the cost to build, equip, and operate US data centers.
+The dedicated [Data Centers page](https://macrogauge.vercel.app/datacenter) tracks a category that has no official all-in price index: the cost to build, equip, and operate US data centers.
 
 ### Available now
 
@@ -186,7 +186,7 @@ This policy keeps old vintages replayable and makes source revisions auditable o
 
 ## Deployment and project status
 
-- **Production:** [macrogauge-cloudten.vercel.app](https://macrogauge-cloudten.vercel.app)
+- **Production:** [macrogauge-cloudten.vercel.app](https://macrogauge.vercel.app)
 - **Daily publisher:** [`.github/workflows/daily.yml`](.github/workflows/daily.yml)
 - **CI:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
 - **Current work:** a market-data memory nowcast tail for the DC Hardware Index (no official DRAM price index exists) and a cost-of-compute section (GPU rental and AI inference prices)

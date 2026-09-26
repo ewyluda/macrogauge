@@ -16,7 +16,7 @@ from pipeline import release_calendar
 
 # Anchor series per calendar key: the headline index whose reference-month row
 # proves the print was ingested.
-ANCHORS = {"cpi": "CPIAUCNS", "ppi": "PPIACO"}
+ANCHORS = {"cpi": "CPIAUCNS", "ppi": "PPIACO", "pce": "PCEPI", "nfp": "PAYEMS"}
 
 
 def _has_obs(store_dir: Path, series_code: str, obs_date: str) -> bool:

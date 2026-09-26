@@ -218,7 +218,7 @@ def test_zillow_metro_family_consistent():
         prefix, region_id = s.code.split("_", 1)
         assert prefix in ("zori", "zhvi")
         assert s.source_id == f"{prefix}:{region_id}"
-        assert s.max_staleness_days == 75
+        assert s.max_staleness_days == 80  # was 75 (decision 4); Zillow posts ~mid-month, natural peak age 76-77d (2026-09-26)
     zori_ids = {s.code.split("_", 1)[1] for s in metros if s.code.startswith("zori_")}
     zhvi_ids = {s.code.split("_", 1)[1] for s in metros if s.code.startswith("zhvi_")}
     assert zori_ids == zhvi_ids and len(zori_ids) == 50
@@ -350,3 +350,17 @@ def test_registry_absence_policies_are_explicit_and_bounded():
     assert by["APU0000711311"].max_staleness_days == by["APU0000712112"].max_staleness_days
     assert policies["APU0000711311"].kind == "intermittent"
     assert {policies[c].kind for c in ("APU0000702212", "APU0000704211")} == {"discontinued"}
+
+
+def test_retired_source_is_not_collected(tmp_path):
+    from pipeline import collect
+    sources, series = registry.load_registry()
+    assert sources["SFCOMPUTE"].retired
+    sfc = [s for s in series if s.source == "SFCOMPUTE"]
+    assert sfc and all(s.absence and s.absence.kind == "discontinued" for s in sfc)
+
+    def boom(*a, **k):
+        raise AssertionError("retired source must not be fetched")
+    results = collect.collect_all({"SFCOMPUTE": sources["SFCOMPUTE"]}, sfc, {}, tmp_path,
+                                  http_get=boom, http_post=boom)
+    assert results == []

@@ -32,7 +32,12 @@ export function GET() {
     `DC Build ${fmtSigned(dc.indexes.build.headline_yoy_pct)} · DC Ops ${fmtSigned(dc.indexes.ops.headline_yoy_pct)} · DC Hardware ${fmtSigned(dc.indexes.hardware.headline_yoy_pct)} YoY.`,
     `Since the previous publish: ${sinceYesterdayText()}`,
     movers ? `Top official movers: ${movers}.` : "",
-    `Next CPI print ${pulse.next_print.date} (reference ${pulse.next_print.reference_month}).`,
+    // next_print is null once the release calendar has no future CPI entry
+    // (schema allows it); this route runs at build time, so a bare
+    // dereference would fail the whole static export.
+    pulse.next_print
+      ? `Next CPI print ${pulse.next_print.date} (reference ${pulse.next_print.reference_month}).`
+      : "Next CPI print: date not yet scheduled.",
   ].filter(Boolean).join(" ");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
