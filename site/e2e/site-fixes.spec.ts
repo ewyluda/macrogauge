@@ -28,3 +28,21 @@ test("treemap scrubber and state picker have accessible names", async ({ page })
   await expect(state).toBeVisible();
   await expect(state).toHaveValue("US");
 });
+
+test("calculator explains a pre-2018 or cleared date instead of rendering nothing", async ({ page }) => {
+  await page.goto("/calculator?since=2015-06-01");
+  await expect(page.getByTestId("since-empty")).toContainText("No data before 2018-01-01");
+  await page.goto("/calculator");
+  await expect(page.locator(".kpi-card").first()).toBeVisible();
+  await page.locator('input[type="date"]').fill("");
+  await expect(page.getByTestId("since-empty")).toContainText("Pick a start date");
+});
+
+test("/as-of says there is no publish before the ledger starts, not a later one", async ({ page }) => {
+  await page.goto("/as-of?date=2020-01-01");
+  await expect(page.getByTestId("asof-status")).toContainText(/no publish on or before 2020-01-01; the earliest is \d{4}-\d{2}-\d{2}/);
+  await expect(page.getByText(/showing the last one before it/)).toHaveCount(0);
+  await expect(page.locator(".kpi-row")).toHaveCount(0);
+  await page.getByTestId("asof-empty").getByRole("button").click();
+  await expect(page.getByTestId("asof-status")).toContainText(/^publish /);
+});
