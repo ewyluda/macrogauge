@@ -16,6 +16,10 @@ export const metadata: Metadata = {
 
 export default function Page() {
   const ref = data.reference;
+  // reference.cohort_ev_b sums EV over exactly these rows (publish/capacity.py):
+  // de-duplicated rows that publish an EV/MW — a hyperscaler's conglomerate EV
+  // is suppressed on its row, so it is not summed back in here either.
+  const evRows = data.companies.filter((c) => c.dupe == null && c.ev_per_mw != null).length;
   return (
     <div>
       <h1>
@@ -39,7 +43,7 @@ export default function Page() {
         <KpiCard label="NVDA vs the field"
           value={ref.nvda_cap_b != null ? `$${(ref.nvda_cap_b / 1000).toFixed(1)}T` : "—"}
           context={ref.cohort_ev_b != null
-            ? `Nvidia market cap vs $${(ref.cohort_ev_b / 1000).toFixed(1)}T combined tracked EV`
+            ? `Nvidia market cap vs $${(ref.cohort_ev_b / 1000).toFixed(2)}T combined EV of the ${evRows} rows with a published EV/MW (hyperscaler and private-builder EVs excluded, as on their rows)`
             : "Nvidia market cap (cohort EV pending first repricing)"} accent="sky" />
       </div>
       <p style={{ fontSize: 12, color: "var(--muted)", margin: "4px 0 0" }}>

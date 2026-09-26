@@ -201,6 +201,18 @@ def test_reference_block(tmp_path):
     assert out["reference"] == {"nvda_cap_b": 4150.0, "cohort_ev_b": 100.0}
 
 
+def test_cohort_ev_excludes_rows_whose_ev_per_mw_is_suppressed(tmp_path):
+    # A hyperscaler's conglomerate EV is suppressed per row (ev_per_mw null)
+    # as misleading over an AI-DC slice — the combined figure must not sum it
+    # back in. AAA (neocloud) counts; HHH (hyperscaler) does not.
+    conn = _conn(tmp_path, [("fmp_cap_aaa", "2026-07-20", 90.0),
+                            ("fmp_cap_hhh", "2026-07-20", 3000.0)])
+    out = writer.build(conn, _cfg([_co(), _co(t="HHH", role="hyperscaler")]))
+    hhh = next(r for r in out["companies"] if r["t"] == "HHH")
+    assert hhh["ev"] == 3010.0 and hhh["ev_per_mw"] is None
+    assert out["reference"]["cohort_ev_b"] == 100.0
+
+
 def test_write_validates_against_schema(tmp_path):
     conn = _conn(tmp_path, [("fmp_cap_aaa", "2026-07-20", 90.0)])
     payload = writer.build(conn, _cfg([_co()]))

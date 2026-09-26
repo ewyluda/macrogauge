@@ -234,7 +234,14 @@ def build(conn, cfg: dict, today: str | None = None,
     hyp = [r for r in rows if _cohort(r) == "hyperscaler"]
     priced = [r["priced_date"] for r in rows if r["priced_date"]]
     _, nvda_cap = _latest(conn, "fmp_cap_nvda")
-    evs = [r["ev"] for r in rows if r["ev"] is not None and r["dupe"] is None]
+    # Only rows that publish an EV/MW: a hyperscaler's conglomerate EV (or a
+    # private builder's) is the very number the rows themselves suppress as
+    # misleading over an AI-DC slice — summing it here made "combined tracked
+    # EV" ~97% MSFT/GOOGL/AMZN/META (2026-09: $14.0T with them, $0.38T
+    # without).
+    evs = [r["ev"] for r in rows
+           if r["ev"] is not None and r["dupe"] is None
+           and r["ev_per_mw"] is not None]
     return {"as_of_curated": cfg["as_of_curated"],
             "priced_date": max(priced) if priced else None,
             "note": cfg["note"], "basis": cfg["basis"],
