@@ -57,6 +57,25 @@ test("/supercore claims 'daily' only when something rides live", async ({ page }
   if (!live) await expect(page.getByText(/latest monthly BLS-derived reading/)).toBeVisible();
 });
 
+// The banner is data-driven: it must appear exactly when a page's artifact
+// predates pulse.json (its phase failed on the latest publish) — so the
+// expectation is computed from the same JSON the build read.
+const STALE_ROUTES: [string, string[]][] = [
+  ["/rates", ["rates"]], ["/housing", ["housing"]], ["/labor", ["labor"]],
+  ["/datacenter", ["datacenter", "dc_grades", "longlead"]], ["/markets", ["dc_markets"]],
+  ["/capacity", ["capacity"]], ["/longlead", ["longlead"]], ["/commodities", ["commodities"]], ["/outlook", ["outlook"]],
+];
+for (const [route, files] of STALE_ROUTES) {
+  test(`${route} shows the stale-phase banner iff its artifact predates pulse.json`, async ({ page, request }) => {
+    const pulse = await (await request.get("/data/pulse.json")).json();
+    const stamps: string[] = [];
+    for (const f of files) stamps.push((await (await request.get(`/data/${f}.json`)).json()).published_at);
+    const stale = stamps.some((s) => Date.parse(s) < Date.parse(pulse.published_at));
+    await page.goto(route);
+    await expect(page.getByTestId("stale-banner")).toHaveCount(stale ? 1 : 0);
+  });
+}
+
 test("component sources table shows each series' own latest obs, not the whole source's", async ({ page }) => {
   // electricity rides EIA's monthly retail price; EIA as a source also
   // carries weekly gasoline, so the source-level date runs months ahead

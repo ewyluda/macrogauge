@@ -11,6 +11,7 @@ import { C } from "@/lib/chartTheme";
 import { columnsToRows } from "@/lib/csv";
 import { fmtDay, fmtPp } from "@/lib/format";
 import type { Rates } from "@/lib/types";
+import { StaleBanner } from "@/components/StaleBanner";
 
 const data = ratesJson as Rates;
 const pct = (v: number | null, d = 2) => (v == null ? "—" : `${v.toFixed(d)}%`);
@@ -39,6 +40,7 @@ export default function RatesPage() {
   const m = data.mortgage;
   return (
     <div>
+      <StaleBanner publishedAt={ratesJson.published_at} />
       <h1>
         Rates &amp; Liquidity <span className="subtitle">the curve, the spreads, and the plumbing behind them</span>
       </h1>
