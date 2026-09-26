@@ -76,6 +76,28 @@ for (const [route, files] of STALE_ROUTES) {
   });
 }
 
+test("/rates builds its history CSV on click instead of inlining ~2k rows", async ({ page, request }) => {
+  // the page HTML carries only the recipe: the column name appears a handful
+  // of times, not once per inlined row as before
+  const html = await (await request.get("/rates")).text();
+  expect(html.split("spread_3m10y").length - 1).toBeLessThan(10);
+  const rates = await (await request.get("/data/rates.json")).json();
+  await page.goto("/rates");
+  const section = page.locator("section", { hasText: "Spreads — 2s10s" }).first();
+  await section.locator("summary", { hasText: "Export data" }).click();
+  const [download] = await Promise.all([
+    page.waitForEvent("download"),
+    section.getByRole("button", { name: "↓ CSV" }).click(),
+  ]);
+  expect(download.suggestedFilename()).toBe("macrogauge-rates-history.csv");
+  const { readFileSync } = await import("node:fs");
+  const lines = readFileSync((await download.path())!, "utf8").trimEnd().split("\r\n");
+  expect(lines[0]).toBe("# MacroGauge rates history (daily, DGS10 business-day grid)");
+  expect(lines[1]).toBe("date,dgs3mo,dgs2,dgs10,t5yie,t10yie,hy_oas,dollar,spread_2s10s,spread_3m10y,real_10y");
+  expect(lines.length - 2).toBe(rates.history.dates.length);
+  expect(lines[2].startsWith(`${rates.history.dates[0]},`)).toBe(true);
+});
+
 test("component sources table shows each series' own latest obs, not the whole source's", async ({ page }) => {
   // electricity rides EIA's monthly retail price; EIA as a source also
   // carries weekly gasoline, so the source-level date runs months ahead

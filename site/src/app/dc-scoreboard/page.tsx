@@ -12,7 +12,7 @@ import {
 import { BASES, bases, lastCompleteMonth } from "@/lib/dcContingency";
 import { BASIS_LABELS, ESCALATION_BASIS_TO_GRADE } from "@/lib/dcGrades";
 import type { DcGrades } from "@/lib/types";
-import { flattenRow } from "@/lib/csv";
+import { DC_ANCHORS_CSV } from "@/lib/exportSpecs";
 
 const data = gradesJson as unknown as DcGrades;
 const strict = data.legs?.strict;
@@ -145,7 +145,7 @@ export default function Page() {
       <div className="section-tools">
         <DownloadData filename="macrogauge-dc-anchors" json="dc_grades.json"
           citation={`MacroGauge DC escalation grading anchors, published ${data.published_at}`}
-          rows={data.anchors.map((a) => flattenRow(a))} />
+          spec={DC_ANCHORS_CSV} />
       </div>
       <GradesClient
         anchors={data.anchors}
