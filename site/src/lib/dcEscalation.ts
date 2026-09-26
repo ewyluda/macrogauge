@@ -65,24 +65,41 @@ export function monthIndexAtOrBefore(months: string[], target: string): number {
 /** Escalate a base cost by the index ratio. Unit-agnostic — the caller's $/MW,
  *  total project $, or any other denomination all ride the same ratio.
  *
- *  The optional `forward` leg compounds a chosen annual rate from the END of
- *  the measured history to a delivery month. The two segments are contiguous
- *  by construction (forward.fromMonth === endMonth), so nothing is double
- *  counted and nothing is skipped. The rate is the caller's choice of basis —
- *  this function asserts nothing about which regime will obtain. */
+ *  `endMonth` is where the measured leg stops. Callers pass the LAST COMPLETE
+ *  month (dcContingency.lastCompleteMonth — the month every component has
+ *  actually printed), NOT the grid end: the published grid's trailing month
+ *  is a partial stub in which the monthly PPIs still hold the prior month's
+ *  print, so measuring to it books ~zero escalation for that month, and
+ *  carrying forward from it then skipped it too (1 month dropped, 2 before a
+ *  mid-month PPI release). Omitted, it defaults to the grid end (the
+ *  pre-fix behavior, kept only for a caller that genuinely wants it).
+ *
+ *  The optional `forward` leg compounds a chosen annual rate from `endMonth`
+ *  to a delivery month. The two segments are contiguous by construction
+ *  (forward.fromMonth === endMonth), so measured months + carried months ===
+ *  monthDiff(baseMonth, deliveryMonth): nothing is double counted and —
+ *  given an `endMonth` at the last complete month — nothing is skipped. The
+ *  rate is the caller's choice of basis — this function asserts nothing
+ *  about which regime will obtain.
+ *
+ *  Returns null when the base predates the series or falls after `endMonth`. */
 export function escalate(
   months: string[],
   index: number[],
   baseMonth: string,
   baseCost: number,
-  forward?: { deliveryMonth: string; annualizedPct: number } | null
+  forward?: { deliveryMonth: string; annualizedPct: number } | null,
+  endMonth?: string
 ): EscalationResult | null {
   const i = monthIndexAtOrBefore(months, baseMonth);
   if (i < 0) return null;
   // months/index are always equal length — the monthly grid publishes them
   // together and pins it at publish time (tests/test_datacenter_writer.py).
   // Deriving `last` from `months` here matches bridgeWindow()'s convention.
-  const last = months.length - 1;
+  const last = endMonth === undefined
+    ? months.length - 1
+    : monthIndexAtOrBefore(months, endMonth);
+  if (last < i) return null;
   const ratio = index[last] / index[i];
   const monthsElapsed = monthDiff(months[i], months[last]);
 

@@ -5,8 +5,9 @@ national NAICS-23 baseline, plus a DENOMINATED capacity-competition column.
 
 The capacity join publishes four numbers, never one: sites, disclosed MW,
 sites whose MW is undisclosed, and (site-wide) the coverage_note. A bare
-MW figure would read as authoritative when capacity.json is a 29-public-
-company roster covering ~40% of its own tracked MW — private operators and
+MW figure would read as authoritative when capacity.json is a hand-curated
+roster (public companies plus a few private builders) covering ~40% of its
+own tracked MW — private operators and
 hyperscaler leased space are not in it. Membership is by hand-assigned market
 tag, never a coordinate radius: 70 of 112 geo entries are approx-placed and
 the flag does not identify which coordinates are trustworthy.
@@ -19,8 +20,23 @@ from pipeline.engine import dcmarkets
 from pipeline.publish.util import write_json
 from pipeline.store import vintage
 
-COVERAGE_NOTE = (
-    "Competition MW is drawn from the /capacity tracker: 29 public companies, "
+def coverage_note(companies: list[dict]) -> str:
+    """The site-wide coverage caveat. The roster size is COUNTED from the
+    capacity config (it read "29 public companies" while two of the 29 --
+    xAI and Stargate -- are private), so a curation change can't leave the
+    sentence stale."""
+    public = sum(1 for c in companies if not c.get("private"))
+    private = [c["n"].split(" (")[0] for c in companies if c.get("private")]
+    roster = f"{public} public {'company' if public == 1 else 'companies'}"
+    if private:
+        roster += (f" plus {len(private)} private "
+                   f"builder{'' if len(private) == 1 else 's'} "
+                   f"({', '.join(private)})")
+    return _COVERAGE_NOTE.format(roster=roster)
+
+
+_COVERAGE_NOTE = (
+    "Competition MW is drawn from the /capacity tracker: {roster}, "
     "hand-curated from filings. Private operators (CyrusOne, Vantage, Aligned, "
     "STACK, QTS, EdgeConneX) and hyperscaler leased space inside their shells "
     "are not tracked, and sites with undisclosed locations carry no market. "
@@ -86,7 +102,7 @@ def build(conn, markets, cap_cfg: dict, meta: dict) -> dict:
         row.update({f: int(v) for f, v in buckets.items()})
 
     return {**payload, "as_of_curated": meta["as_of_curated"],
-            "note": meta["note"], "coverage_note": COVERAGE_NOTE}
+            "note": meta["note"], "coverage_note": coverage_note(cap_cfg.get("companies", []))}
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
