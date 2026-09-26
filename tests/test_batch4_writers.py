@@ -2,6 +2,7 @@
 grocery wholesale block. Synthetic stores; schema validation on every
 payload; the null-row contract (a missing series never raises)."""
 import json
+import math
 from pathlib import Path
 
 import pytest
@@ -87,22 +88,124 @@ def test_compute_index_geometric_mean_renormalizes_and_rebases(tmp_path):
     for key, base in (("gpt4o", 4.0), ("deepseek", 1.0), ("llama70b", 2.0)):
         rows[f"or_{key}_in"] = {d: base for d in days}
         rows[f"or_{key}_out"] = {d: base for d in days}
-    # deepseek halves on day 3; llama missing on day 3 -> renormalize over 2
+    # deepseek halves on day 3; llama missing on day 3
     rows["or_deepseek_in"]["2026-07-17"] = 0.5
     rows["or_deepseek_out"]["2026-07-17"] = 0.5
     del rows["or_llama70b_in"]["2026-07-17"]
     del rows["or_llama70b_out"]["2026-07-17"]
-    p = compute.build(_store(tmp_path, rows, source="OPENROUTER"))
+    conn = _store(tmp_path, rows, source="OPENROUTER")
+    p = compute.build(conn)
     ti = p["token_index"]
     assert ti["base_date"] == "2026-07-15"
     assert ti["history"]["index"][0] == 100.0 and ti["history"]["members"][0] == 3
-    # day 3: only 2 members present (< MIN_MEMBERS=3) -> null
-    assert ti["history"]["index"][2] is None and ti["history"]["members"][2] == 2
+    # day 3 (chain-linked, registry 7d carry): llama's 07-16 price carries, so
+    # 3 members link and the move is geomean(1, 0.5, 1) = 0.7937. (Pre-chain
+    # this pinned a null: the fixed-base mean had no carry, so 2 < MIN_MEMBERS.)
+    assert ti["history"]["index"][2] == pytest.approx(79.37, abs=1e-3)
+    assert ti["history"]["members"][2] == 3
+    # with no carry allowed, llama is absent -> 2 members < MIN_MEMBERS -> null
+    ti0 = compute.build(conn, staleness={})["token_index"]  # unlisted -> default
+    assert ti0["history"]["index"][2] == pytest.approx(79.37, abs=1e-3)
+    ti0 = compute.build(conn, staleness={f"or_llama70b_{s}": 0 for s in ("in", "out")})["token_index"]
+    assert ti0["history"]["index"][2] is None and ti0["history"]["members"][2] == 2
     models = {m["key"]: m for m in p["models"]}
     assert models["gpt4o"]["blended_usd_mtok"] == 4.0
     assert models["claude_sonnet"]["as_of"] is None  # never collected -> null row
     path = compute.write(p, tmp_path / "out", "2026-09-03T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "compute.schema.json")
+
+
+def _gpu_store(tmp_path, prices):
+    """prices: {code: {date: $/hr}} -> conn (VASTAI source for every row)."""
+    return _store(tmp_path, prices, source="VASTAI")
+
+
+NO_CARRY = {c: 0 for c, _ in compute.GPUS}
+
+
+def test_gpu_index_membership_swing_does_not_move_the_level(tmp_path):
+    # The 2026-09-24 -> 09-25 regression: every price unchanged, but the two
+    # dearest SKUs (H200, sfcompute H100) are missing on day 2. The old
+    # fixed-base mean re-averaged the survivors' levels-vs-base and jumped;
+    # the chain averages day-over-day relatives of members on both days (all
+    # 1.0) and stays flat. NO_CARRY makes the absence real (not carried).
+    d1, d2, d0 = "2026-09-24", "2026-09-25", "2026-09-23"
+    base = {"vast_h100_sxm": 2.0, "vast_h200": 3.0, "vast_a100_sxm": 1.0,
+            "vast_rtx4090": 0.4, "sfc_h100": 2.5}
+    moved = {"vast_h100_sxm": 1.8, "vast_h200": 3.3, "vast_a100_sxm": 1.1,
+             "vast_rtx4090": 0.44, "sfc_h100": 2.75}
+    prices = {c: {d0: base[c], d1: moved[c]} for c in base}
+    for c in ("vast_h100_sxm", "vast_a100_sxm", "vast_rtx4090"):
+        prices[c][d2] = moved[c]
+    gi = compute.build(_gpu_store(tmp_path, prices), staleness=NO_CARRY)["gpu_index"]
+    h = dict(zip(gi["history"]["dates"], gi["history"]["index"]))
+    assert gi["base_date"] == d0
+    assert h[d2] == h[d1]                       # no membership jump
+    assert gi["history"]["members"] == [5, 5, 3]
+    # d1's move is the geomean of all five relatives from d0
+    rel = [moved[c] / base[c] for c in base]
+    assert h[d1] == pytest.approx(100 * math.prod(rel) ** (1 / 5), abs=1e-3)
+
+
+def test_gpu_index_permanent_exit_links_without_a_jump(tmp_path):
+    # sfc_h100 is retired after 2026-09-24 (no data after). Within its 7-day
+    # carry it links flat; after that it drops out — neither step moves the
+    # level. The survivors' later moves still chain in.
+    days = ([f"2026-09-{d:02d}" for d in range(20, 31)]
+            + ["2026-10-01", "2026-10-02", "2026-10-03"])
+    prices = {c: {d: 1.0 for d in days}
+              for c in ("vast_h100_sxm", "vast_a100_sxm", "vast_rtx4090")}
+    prices["sfc_h100"] = {d: 9.0 for d in days if d <= "2026-09-24"}
+    prices["vast_h100_sxm"]["2026-10-03"] = 1.331   # +33.1% on the last day
+    gi = compute.build(_gpu_store(tmp_path, prices),
+                       staleness={c: 7 for c, _ in compute.GPUS})["gpu_index"]
+    h = dict(zip(gi["history"]["dates"], gi["history"]["index"]))
+    m = dict(zip(gi["history"]["dates"], gi["history"]["members"]))
+    assert all(h[d] == 100.0 for d in days[:-1])   # carried, then gone: flat
+    assert m["2026-10-01"] == 4 and m["2026-10-02"] == 3   # 09-24 + 7d carry
+    assert h["2026-10-03"] == pytest.approx(100 * 1.331 ** (1 / 3), abs=1e-3)  # 110.0
+
+
+def test_gpu_index_carried_member_books_its_move_on_arrival(tmp_path):
+    # a member missing one day links flat that day (carried) and its full
+    # move lands when its next price arrives — nothing is lost or doubled
+    days = ["2026-09-01", "2026-09-02", "2026-09-03"]
+    prices = {c: {d: 1.0 for d in days}
+              for c in ("vast_h100_sxm", "vast_a100_sxm", "vast_rtx4090")}
+    del prices["vast_rtx4090"]["2026-09-02"]
+    prices["vast_rtx4090"]["2026-09-03"] = 1.331
+    gi = compute.build(_gpu_store(tmp_path, prices),
+                       staleness={c: 7 for c, _ in compute.GPUS})["gpu_index"]
+    assert gi["history"]["index"] == [100.0, 100.0, pytest.approx(110.0, abs=1e-3)]
+    assert gi["history"]["members"] == [3, 3, 3]
+
+
+def test_gpu_index_thin_day_is_null_and_next_day_links_back(tmp_path):
+    days = ["2026-09-01", "2026-09-02", "2026-09-03"]
+    prices = {c: {d: 1.0 for d in days}
+              for c in ("vast_h100_sxm", "vast_a100_sxm", "vast_rtx4090")}
+    del prices["vast_a100_sxm"]["2026-09-02"]
+    del prices["vast_rtx4090"]["2026-09-02"]
+    for c in prices:
+        prices[c]["2026-09-03"] = 1.2
+    gi = compute.build(_gpu_store(tmp_path, prices), staleness=NO_CARRY)["gpu_index"]
+    assert gi["history"]["index"][1] is None and gi["history"]["members"][1] == 1
+    # 09-03 links to 09-01 (the last non-null level) over all three members
+    assert gi["history"]["index"][2] == pytest.approx(120.0)
+    assert gi["value"] == pytest.approx(120.0) and gi["as_of"] == "2026-09-03"
+
+
+def test_gpu_index_chg_30d_compares_chained_levels(tmp_path):
+    # 30 days apart: two members +10% each, a third absent on the later date
+    # (no carry). Chained: 09-01 -> 10-01 links over the two present members
+    # only, so the 30d change is +10%, not a membership artifact.
+    prices = {"vast_h100_sxm": {"2026-09-01": 1.0, "2026-10-01": 1.1},
+              "vast_a100_sxm": {"2026-09-01": 2.0, "2026-10-01": 2.2},
+              "vast_rtx4090": {"2026-09-01": 0.5, "2026-10-01": 0.55},
+              "vast_h200": {"2026-09-01": 5.0}}
+    gi = compute.build(_gpu_store(tmp_path, prices), staleness=NO_CARRY)["gpu_index"]
+    assert gi["value"] == pytest.approx(110.0)
+    assert gi["chg_30d_pct"] == pytest.approx(10.0)
 
 
 def test_compute_geometric_mean_value(tmp_path):

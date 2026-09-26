@@ -31,6 +31,20 @@ export function useUrlState<T>(
   const hydrated = useRef(false);
   const initialStr = codec.format(initial);
 
+  // The write effect is declared BEFORE the read effect on purpose: effects
+  // run in declaration order, so on mount the write sees hydrated=false and
+  // skips. In the other order the read set hydrated=true and the write then
+  // ran in the same commit with `value` still `initial`, stripping the
+  // param from the address bar until the adopted value re-wrote it — and any
+  // later effect in that commit (PortfolioClient's hydrate) read a URL with
+  // the shared state already gone.
+  useEffect(() => {
+    if (!hydrated.current) return;
+    const s = codec.format(value);
+    setUrlParam(key, s === initialStr ? null : s);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key, value, initialStr]);
+
   useEffect(() => {
     const fromUrl = getUrlParam(key, codec);
     if (fromUrl !== undefined) setValue(fromUrl);
@@ -38,13 +52,6 @@ export function useUrlState<T>(
     // codec/initial are stable per call site; re-reading on change is not wanted
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
-
-  useEffect(() => {
-    if (!hydrated.current) return;
-    const s = codec.format(value);
-    setUrlParam(key, s === initialStr ? null : s);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, value, initialStr]);
 
   const set = useCallback((v: T | ((prev: T) => T)) => setValue(v), []);
   return [value, set];

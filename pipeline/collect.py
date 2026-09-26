@@ -15,6 +15,7 @@ from pipeline.connectors import (aaa, aptlist, bls, caiso, census, cleveland, dr
                                  sfcompute, treasury, usda, vastai, zillow)
 from pipeline.connectors.util import PartialFetchWarning
 from pipeline.registry import Series, Source
+from pipeline.models import Observation
 from pipeline.store import vintage
 
 _KEY_PARAMS = re.compile(r"(api_key|apikey|registrationkey)=[^&\s\"']+", re.IGNORECASE)
@@ -107,6 +108,12 @@ def _kalshi(subset, key, http):
     return kalshi.fetch(subset[0].source_id, http_get=http)
 
 
+def _kalshi_core(subset, key, http):
+    obs = kalshi.fetch(subset[0].source_id, http_get=http)
+    return [Observation(o.series_code, o.obs_date, o.value, o.vintage_date,
+                        "KALSHI_CORE", o.route) for o in obs]
+
+
 def _kalshi_dc(subset, key, http):
     return kalshi.fetch_dc([s.source_id for s in subset], http_get=http)
 
@@ -156,6 +163,9 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             "AAA_STATE": _aaa_state, "MND": _mnd,
             "MANHEIM": _manheim, "CLEVELAND": _cleveland,
             "KALSHI": _kalshi,
+            # KALSHI_CORE: separate isolation key — a thin core ladder must
+            # never fail the headline KALSHI row the ensemble reads.
+            "KALSHI_CORE": _kalshi_core,
             # EIA_STATE is a separate source key only for failure isolation
             # and its own status row — the fetch mechanics are plain EIA.
             "EIA_STATE": _eia, "QCEW": _qcew, "CENSUS": _census,
@@ -195,7 +205,7 @@ def collect_all(sources: dict[str, Source], series: list[Series],
     latest_cache = vintage.latest_values(store_dir)
     for name, source in sources.items():
         subset = [s for s in series if s.source == name]
-        if not subset:
+        if not subset or source.retired:
             continue
         key = secrets.get(source.secret, "") if source.secret else ""
         if source.secret and not key and not source.secret_optional:

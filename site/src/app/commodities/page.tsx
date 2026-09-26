@@ -5,6 +5,7 @@ import { DownloadData } from "@/components/DownloadData";
 import { TailSpark } from "@/components/TailSpark";
 import { fmtDay, fmtSigned, yoyColor } from "@/lib/format";
 import type { Commodities, CommodityRow } from "@/lib/types";
+import { StaleBanner } from "@/components/StaleBanner";
 
 const data = commoditiesJson as Commodities;
 
@@ -36,6 +37,7 @@ function Chg({ pct }: { pct: number | null }) {
 export default function Page() {
   return (
     <div>
+      <StaleBanner publishedAt={commoditiesJson.published_at} />
       <h1>
         Commodities{" "}
         <span className="subtitle">the AI build-out basket, priced daily</span>

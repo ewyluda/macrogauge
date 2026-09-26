@@ -48,3 +48,16 @@ def test_absence_from_row_roundtrip():
 def test_policy_failures_set_is_exactly_the_attention_states():
     assert fr.POLICY_FAILURES == {fr.POLICY_EXPIRED, fr.POLICY_RESUMED,
                                   fr.ABSENCE_EXCEEDED, fr.NEVER}
+
+
+def test_since_lets_a_policy_start_before_the_series_goes_stale():
+    from pipeline import freshness as fr
+    from pipeline.registry import Absence
+    pol = Absence(kind="discontinued", note="retired", since="2026-09-24")
+    # last obs == since, still within the 7-day limit: expected, not "resumed"
+    assert fr.classify("2026-09-24", 7, pol, "2026-09-26") == fr.FRESH
+    # a print after `since` means the source came back — policy is wrong
+    assert fr.classify("2026-09-25", 7, pol, "2026-09-26") == fr.POLICY_RESUMED
+    # no `since`: legacy behavior
+    legacy = Absence(kind="discontinued", note="retired")
+    assert fr.classify("2026-09-24", 7, legacy, "2026-09-26") == fr.POLICY_RESUMED

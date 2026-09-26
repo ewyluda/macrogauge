@@ -22,12 +22,24 @@ class FakeResponse:
         pass
 
 
-def _fake_get_for(feed_text, post_text):
+# fetch re-reads the newest MAX_MONTHS reference months; the recorded feed's
+# second month is May 2026 (full-month post).
+MAY_URL = ("https://www.coxautoinc.com/insights/"
+           "manheim-used-vehicle-value-index-may-2026-trends/")
+MAY_POST = ("<h1>Manheim Used Vehicle Value Index: May 2026 Trends</h1>"
+            "<p>(MUVVI) rose to 211.4, reflecting ...</p>")
+
+
+def _fake_get_for(feed_text, post_text, others=None):
+    pages = {MAY_URL: MAY_POST, **(others or {})}
+
     def fake_get(url, timeout=None):
         if url == manheim.FEED_URL:
             return FakeResponse(feed_text)
         if url == POST_URL:
             return FakeResponse(post_text)
+        if url in pages:
+            return FakeResponse(pages[url])
         raise AssertionError(f"unexpected url {url}")
     return fake_get
 
@@ -52,8 +64,8 @@ def test_fetch_extracts_latest_index_and_month():
     feed, post = _fixtures()
     obs = manheim.fetch(vintage_date="2026-07-13",
                         http_get=_fake_get_for(feed, post))
-    assert len(obs) == 1
-    o = obs[0]
+    assert [o.obs_date for o in obs] == ["2026-05-01", EXPECTED_MONTH]
+    o = obs[-1]
     assert o.series_code == "manheim_uvvi_m"
     assert o.source == "MANHEIM" and o.route == "SCRAPE"
     assert o.obs_date == EXPECTED_MONTH
@@ -74,8 +86,8 @@ def test_fetch_mid_month_report_maps_to_same_reference_month():
     post = post.replace("June 2026 Trends", "Mid-June 2026 Trends")
     obs = manheim.fetch(vintage_date="2026-07-13",
                         http_get=_fake_get_for(feed, post))
-    assert obs[0].obs_date == EXPECTED_MONTH
-    assert obs[0].value == pytest.approx(EXPECTED_VALUE)
+    assert obs[-1].obs_date == EXPECTED_MONTH
+    assert obs[-1].value == pytest.approx(EXPECTED_VALUE)
 
 
 def test_fetch_reads_h1_anchored_value_not_head_metadata_decoy():
@@ -91,9 +103,10 @@ def test_fetch_reads_h1_anchored_value_not_head_metadata_decoy():
     march = (FIXTURES / "manheim_post_march.html").read_text()
     obs = manheim.fetch(vintage_date="2026-07-13",
                         http_get=_fake_get_for(feed, march))
-    assert obs[0].obs_date == "2026-03-01"
-    assert obs[0].value == pytest.approx(215.3)
-    assert obs[0].value != pytest.approx(209.2)
+    march_obs = [o for o in obs if o.obs_date == "2026-03-01"]
+    assert len(march_obs) == 1
+    assert march_obs[0].value == pytest.approx(215.3)
+    assert march_obs[0].value != pytest.approx(209.2)
 
 
 def test_parse_post_accepts_integer_index_value_from_july_2026_layout():
@@ -142,3 +155,59 @@ def test_fetch_raises_on_implausible_value():
     with pytest.raises(ValueError, match="implausible"):
         manheim.fetch(vintage_date="2026-07-13",
                       http_get=_fake_get_for(feed, post.replace("212.9", "999.9")))
+
+
+def test_parse_post_accepts_full_month_was_phrasing_august_2026():
+    # Live regression, recorded 2026-09-26: the August full-month post says
+    # "(MUVVI) in August was 208.2" (no verb+to). The old regex raised, the
+    # connector was red 09-08..09-17, and the mid-August flash 207.4 stood in
+    # for the final value. The <head> JSON-LD still carries the stale
+    # "increased to 209.2" decoy, which must not win.
+    html = (FIXTURES / "manheim_post_august_full.html").read_text()
+    assert "(MUVVI) increased to 209.2" in html  # guard: decoy still present
+    assert manheim.parse_post(html) == ("2026-08-01", pytest.approx(208.2))
+
+
+def _feed(*titles_urls):
+    items = "".join(f"<item><title>{t}</title><link>{u}</link></item>"
+                    for t, u in titles_urls)
+    return f"<rss><channel><title>x</title>{items}</channel></rss>"
+
+
+def test_fetch_prefers_full_month_and_self_heals_a_missed_month():
+    # Newest-first feed as of 2026-09-26: Mid-September, then the August
+    # full-month post that was never ingested, then Mid-August.
+    base = "https://www.coxautoinc.com/insights/"
+    feed = _feed(
+        ("Manheim Used Vehicle Value Index: Mid-September 2026 Trends", base + "mid-sep/"),
+        ("Manheim Used Vehicle Value Index: August 2026 Trends", base + "aug/"),
+        ("Manheim Used Vehicle Value Index: Mid-August 2026 Trends", base + "mid-aug/"),
+        ("Manheim Used Vehicle Value Index: July 2026 Trends", base + "jul/"))
+    pages = {
+        base + "mid-sep/": ("<h1>Manheim Used Vehicle Value Index: Mid-September 2026 Trends</h1>"
+                            "<p>(MUVVI) rose to 209.0</p>"),
+        base + "aug/": (FIXTURES / "manheim_post_august_full.html").read_text(),
+    }
+
+    def fake_get(url, timeout=None):
+        if url == manheim.FEED_URL:
+            return FakeResponse(feed)
+        if url in pages:
+            return FakeResponse(pages[url])
+        raise AssertionError(f"unexpected url {url}")  # mid-aug / jul never read
+
+    obs = manheim.fetch(vintage_date="2026-09-26", http_get=fake_get)
+    assert [(o.obs_date, o.value) for o in obs] == [("2026-08-01", 208.2),
+                                                    ("2026-09-01", 209.0)]
+
+
+def test_fetch_tolerates_an_older_month_failing_as_partial():
+    import warnings
+    from pipeline.connectors.util import PartialFetchWarning
+    feed, post = _fixtures()
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        obs = manheim.fetch(vintage_date="2026-07-13", http_get=_fake_get_for(
+            feed, post, {MAY_URL: "<html>redesigned</html>"}))
+    assert [o.obs_date for o in obs] == [EXPECTED_MONTH]
+    assert any(issubclass(w.category, PartialFetchWarning) for w in caught)

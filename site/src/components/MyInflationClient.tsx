@@ -150,8 +150,8 @@ export function MyInflationClient({
   return (
     <div>
       <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12, flexWrap: "wrap" }}>
-        <span style={{ fontSize: 13, fontWeight: 600 }}>📍 Your state</span>
-        <select value={stateSel} onChange={(e) => setStateSel(e.target.value)}
+        <label htmlFor="my-inflation-state" style={{ fontSize: 13, fontWeight: 600 }}><span aria-hidden="true">📍 </span>Your state</label>
+        <select id="my-inflation-state" value={stateSel} onChange={(e) => setStateSel(e.target.value)}
           style={{ background: "var(--chip-bg)", color: "var(--text)", border: "1px solid var(--border)", borderRadius: 8, padding: "4px 10px", fontSize: 13 }}>
           <option value="US">National (everyone)</option>
           {states.map((s) => <option key={s.state} value={s.state}>{s.name}</option>)}

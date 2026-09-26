@@ -85,14 +85,34 @@ def splice_anchored(official: dict[str, float], live: dict[str, float]) -> dict[
     re-pricing (live replaces official), wrong for a proxy that merely
     nowcasts an official backbone (DC index): raw futures are an input to a
     fabricated-product PPI, not a measure of it, so proxy volatility and
-    contract-roll drift must stay confined to the ~1-2 month tail."""
+    contract-roll drift must stay confined to the ~1-2 month tail.
+
+    Scale anchor = the proxy's MEAN over the official print's REFERENCE MONTH
+    (every live obs sharing t0's YYYY-MM), not the last proxy obs at/before
+    t0. A monthly PPI is stamped YYYY-MM-01 but priced mid-month (BLS: the
+    Tuesday of the week containing the 13th), so anchoring on the proxy the
+    day BEFORE the reference month counted the early-month move twice — once
+    inside the print, once again in the tail (store 2026-09: copper tail
+    +4.29% off Jul-31 vs +1.89% off Aug-11; aluminum +3.18% vs -1.75%). The
+    month mean is the proxy's own level over the window the print measures,
+    with no need to hard-code the survey date. Only when the reference month
+    has NO proxy obs does it fall back to the last proxy obs at/before t0.
+
+    Output-date semantics are unchanged: the tail is every live date strictly
+    after t0 (so days inside the reference month ride the proxy around the
+    print's level; dcindex samples the month's LAST grid day)."""
     if not official:
         return dict(live)
     t0 = max(official)
-    overlap = [d for d in live if d <= t0]
-    if not overlap or not live[max(overlap)]:
+    ref_month = [live[d] for d in live if d[:7] == t0[:7]]
+    if ref_month:
+        anchor = sum(ref_month) / len(ref_month)
+    else:
+        overlap = [d for d in live if d <= t0]
+        anchor = live[max(overlap)] if overlap else None
+    if not anchor:
         return dict(official)  # nothing to scale on (or zero): official only
-    scale = official[t0] / live[max(overlap)]
+    scale = official[t0] / anchor
     out = dict(official)
     out.update({d: v * scale for d, v in live.items() if d > t0})
     return out

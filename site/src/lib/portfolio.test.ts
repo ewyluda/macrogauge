@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { ESCALATION_DATA as D } from "./escalationData";
 import { lastCompleteMonth } from "./dcContingency";
-import { escalate } from "./dcEscalation";
+import { addMonths, escalate, monthDiff } from "./dcEscalation";
 import { coerceProject, decodeProjects, driversAcross, encodeProjects, evaluateAll, evaluateProject, totals, type Project } from "./portfolio";
 
 const anchor = lastCompleteMonth(D.months, D.componentLastObs)!;
-const last = D.months[D.months.length - 1];
+const last = D.months[D.months.length - 1]; // may be a partial stub month past `anchor`
 const proj = (over: Partial<Project> = {}): Project => ({
   id: "a1", name: "Campus A", market: "nova", mw: 100, baseCost: 900_000_000,
   baseMonth: "2024-01", deliveryMonth: "", basis: "trailing3y", ...over,
@@ -16,15 +16,17 @@ describe("evaluateProject", () => {
     const { evals, basisRows } = evaluateAll([proj()], D.months, D.index, anchor);
     const e = evals[0];
     expect(e.errors).toEqual([]);
-    const ref = escalate(D.months, D.index, "2024-01", 900_000_000, null)!;
+    // the calculator measures to the last complete month, not the grid's stub
+    const ref = escalate(D.months, D.index, "2024-01", 900_000_000, null, anchor)!;
+    expect(ref.endMonth).toBe(anchor);
     expect(e.toDate).toBeCloseTo(ref.escalatedCost, 6);
     expect(e.atDelivery).toBeCloseTo(ref.escalatedCost, 6); // no delivery -> no carry
     expect(e.perMwAtDelivery).toBeCloseTo(ref.escalatedCost / 100, 6);
     expect(basisRows.some((b) => b.key === "trailing3y")).toBe(true);
   });
   it("carries forward with a band when the delivery window is long enough", () => {
-    const y = Number(last.slice(0, 4)) + 2;
-    const p = proj({ deliveryMonth: `${y}-${last.slice(5, 7)}` });
+    const y = Number(anchor.slice(0, 4)) + 2;
+    const p = proj({ deliveryMonth: `${y}-${anchor.slice(5, 7)}` });
     const { evals } = evaluateAll([p], D.months, D.index, anchor);
     const e = evals[0];
     expect(e.errors).toEqual([]);
@@ -32,6 +34,23 @@ describe("evaluateProject", () => {
     expect(e.atDelivery!).toBeGreaterThan(e.toDate!);
     expect(e.band).not.toBeNull();
     expect(e.atDeliveryP10!).toBeLessThan(e.atDeliveryP90!);
+  });
+  it("measures to the anchor and carries from it: no month dropped, factor pinned", () => {
+    const delivery = addMonths(anchor, 18);
+    const p = proj({ deliveryMonth: delivery });
+    const { evals } = evaluateAll([p], D.months, D.index, anchor);
+    const e = evals[0];
+    const r = e.result!;
+    expect(r.endMonth).toBe(anchor);
+    expect(r.forward!.fromMonth).toBe(anchor);
+    expect(e.horizon).toBe(18);
+    expect(r.monthsElapsed + r.forward!.monthsAhead).toBe(monthDiff("2024-01", delivery));
+    const iBase = D.months.indexOf("2024-01"), iEnd = D.months.indexOf(anchor);
+    const factor = (D.index[iEnd] / D.index[iBase]) * Math.pow(1 + e.chosen!.annualizedPct / 100, 18 / 12);
+    expect(r.totalFactor).toBeCloseTo(factor, 10);
+    expect(e.atDelivery!).toBeCloseTo(900_000_000 * factor, 2);
+    // the grid's stub month (when present) is past the anchor and unused
+    expect(last >= anchor).toBe(true);
   });
   it("reports malformed, out-of-range and over-cap inputs as errors, not numbers", () => {
     const { basisRows } = evaluateAll([], D.months, D.index, anchor);

@@ -11,7 +11,7 @@ def test_default_basket_loads_and_is_valid():
     assert len(comps) == 14
     assert sum(c.weight for c in comps) == pytest.approx(1.0, abs=1e-9)
     by_code = {c.code: c for c in comps}
-    assert by_code["shelter_owned"].weight == 0.265
+    assert by_code["shelter_owned"].weight == 0.26204  # BLS RI Dec-2025 OER
     assert by_code["shelter_owned"].official_series == "CUUR0000SEHC"
     assert by_code["shelter_owned"].live_variants == ("gauge", "col", "pce")
     assert by_code["fuel"].live_variants == ("gauge", "tracker", "col", "pce")
@@ -25,8 +25,26 @@ def test_official_series_exist_in_registry():
     _, comps = basket.load_basket()
     _, series = registry.load_registry()
     codes = {s.code for s in series}
-    missing = [c.official_series for c in comps if c.official_series not in codes]
+    from pipeline import derived
+    missing = [c.official_series for c in comps
+               if c.official_series not in codes and c.official_series != derived.RESIDUAL_CODE]
     assert missing == []
+
+
+def test_weights_match_latest_bls_relative_importance():
+    # Weights are BLS CPI-U relative importance for the December named in
+    # weights_as_of; "other" is the residual. A January refresh that adds the
+    # new December table must move the basket with it.
+    import json
+    from pipeline import derived
+    raw = json.loads(basket.DEFAULT_PATH.read_text())
+    ri = derived.load_ri()
+    year = int(raw["weights_as_of"][:4])
+    assert year == max(ri)
+    _, comps = basket.load_basket()
+    for c in comps:
+        assert c.weight == pytest.approx(ri[year][c.code] / 100, abs=1e-9), c.code
+    assert {c.code: c.official_series for c in comps}["other"] == derived.RESIDUAL_CODE
 
 
 def test_bad_weight_sum_raises(tmp_path):

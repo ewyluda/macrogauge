@@ -3,6 +3,13 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Daily data commits are pushed with the workflow token, which never
+  # triggers other workflows — so without this the committed data was never
+  # built or e2e-tested before Vercel deployed it (last CI run on a data
+  # commit: 2026-09-11). Runs against main's head after each publish.
+  workflow_run:
+    workflows: [daily]
+    types: [completed]
 
 jobs:
   pipeline:

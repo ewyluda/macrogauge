@@ -8,9 +8,10 @@ import { TailSpark } from "@/components/TailSpark";
 import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
 import { C } from "@/lib/chartTheme";
-import { columnsToRows } from "@/lib/csv";
+import { RATES_CURVE_CSV, RATES_HISTORY_CSV, RATES_LIQUIDITY_CSV } from "@/lib/exportSpecs";
 import { fmtDay, fmtPp } from "@/lib/format";
 import type { Rates } from "@/lib/types";
+import { StaleBanner } from "@/components/StaleBanner";
 
 const data = ratesJson as Rates;
 const pct = (v: number | null, d = 2) => (v == null ? "—" : `${v.toFixed(d)}%`);
@@ -39,6 +40,7 @@ export default function RatesPage() {
   const m = data.mortgage;
   return (
     <div>
+      <StaleBanner publishedAt={ratesJson.published_at} />
       <h1>
         Rates &amp; Liquidity <span className="subtitle">the curve, the spreads, and the plumbing behind them</span>
       </h1>
@@ -64,7 +66,7 @@ export default function RatesPage() {
 
       <Section title="The curve — today vs 30 days and a year ago" featured>
         <div className="section-tools">
-          <DownloadData filename="macrogauge-treasury-curve" json="rates.json" rows={data.curve}
+          <DownloadData filename="macrogauge-treasury-curve" json="rates.json" spec={RATES_CURVE_CSV}
             citation={`MacroGauge Treasury curve snapshot, as of ${ten?.as_of ?? "—"}`} />
         </div>
         <div className="chart-card"><CurveChart curve={data.curve} /></div>
@@ -91,12 +93,7 @@ export default function RatesPage() {
         <div className="section-tools">
           <DownloadData filename="macrogauge-rates-history" json="rates.json"
             citation="MacroGauge rates history (daily, DGS10 business-day grid)"
-            rows={columnsToRows({ name: "date", values: h.dates }, [
-              { name: "dgs3mo", values: h.dgs3mo }, { name: "dgs2", values: h.dgs2 }, { name: "dgs10", values: h.dgs10 },
-              { name: "t5yie", values: h.t5yie }, { name: "t10yie", values: h.t10yie }, { name: "hy_oas", values: h.hy_oas },
-              { name: "dollar", values: h.dollar }, { name: "spread_2s10s", values: h.spread_2s10s },
-              { name: "spread_3m10y", values: h.spread_3m10y }, { name: "real_10y", values: h.real_10y },
-            ])} />
+            spec={RATES_HISTORY_CSV} />
         </div>
         <div className="chart-card">
           <LinesChart height={300} refLine={0} refLabel="flat"
@@ -152,10 +149,7 @@ export default function RatesPage() {
         </div>
         <div className="section-tools">
           <DownloadData filename="macrogauge-liquidity" json="rates.json" citation={`MacroGauge net liquidity ($bn), weekly, as of ${liq.as_of ?? "—"}`}
-            rows={columnsToRows({ name: "date", values: liq.history.dates }, [
-              { name: "walcl_bn", values: liq.history.walcl_bn }, { name: "tga_bn", values: liq.history.tga_bn },
-              { name: "rrp_bn", values: liq.history.rrp_bn }, { name: "net_bn", values: liq.history.net_bn },
-            ])} />
+            spec={RATES_LIQUIDITY_CSV} />
         </div>
         <div className="chart-card">
           <LinesChart height={280} yUnit="bn" yPrefix="$"

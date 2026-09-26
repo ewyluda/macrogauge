@@ -54,9 +54,15 @@ def fetch(series_ids: list[str], api_key: str, observation_start: str = "2017-01
         if throttle and i:
             time.sleep(0.5)  # FRED caps at 120 req/min; 0.45 paced ~133/min
         try:
-            resp = http_get(FRED_URL, params={
-                "series_id": sid, "api_key": api_key, "file_type": "json",
-                "observation_start": observation_start}, timeout=30)
+            params = {"series_id": sid, "api_key": api_key, "file_type": "json",
+                      "observation_start": observation_start}
+            resp = http_get(FRED_URL, params=params, timeout=30)
+            if getattr(resp, "status_code", 200) >= 500:
+                # One retry on a server error: single-series 5xx showed up on
+                # 12 of 80 publishes (Jul-Sep 2026), each a whole-day gap.
+                if throttle:
+                    time.sleep(2.0)
+                resp = http_get(FRED_URL, params=params, timeout=30)
             resp.raise_for_status()
             rows = [Observation(series_code=sid, obs_date=row["date"],
                                 value=float(row["value"]), vintage_date=vintage,

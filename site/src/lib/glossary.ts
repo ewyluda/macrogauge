@@ -47,7 +47,7 @@ export const GLOSSARY = {
   },
   nowcast: {
     term: "Nowcast",
-    def: "An estimate of an official print before it is released, built from the components' live data and the trend of the rest. It is graded in public the morning after every release and its realized error band is shown, not a confidence interval.",
+    def: "An estimate of an official print before it is released, built from the components' live data and the trend of the rest. It is graded in public the morning after every release and a simple benchmark's realized error is shown for scale — not a confidence interval.",
   },
 } as const;
 

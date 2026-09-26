@@ -41,8 +41,11 @@ export default function DataPage() {
       </p>
       <p className="method">
         Base URL <code>{SITE_URL}/data/</code> · updated each weekday morning (see <a href="/status">/status</a> for the run) ·
-        licence: free to use with attribution — cite as <code>MacroGauge &lt;series&gt;, &lt;as-of&gt;, 2018-01=100, &lt;value&gt; — {SITE_URL}/&lt;page&gt;</code> (the
-        Copy button under every headline number produces this string). The append-only vintage store behind the numbers is in the
+        licence: MacroGauge-computed values (indexes, blends, nowcasts, composites, grades) are free to use with attribution —
+        cite as <code>MacroGauge &lt;series&gt;, &lt;as-of&gt;, 2018-01=100, &lt;value&gt; — {SITE_URL}/&lt;page&gt;</code> (the
+        Copy button under every headline number produces this string). Source observations republished alongside them
+        (BLS, BEA, FRED/ALFRED, EIA, Treasury, Census, USDA and the private sources listed on <a href="/methodology">/methodology</a>) remain
+        subject to each provider&apos;s own terms — check those before redistributing raw source series. The append-only vintage store behind the numbers is in the
         repository; <a href="/as-of">Point in Time</a> reads the publish ledger.
       </p>
       <div className="table-card">

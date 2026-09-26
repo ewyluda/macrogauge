@@ -1,7 +1,7 @@
 "use client";
 import { SegmentedControl } from "./SegmentedControl";
 import { CopyLink } from "./CopyLink";
-import { RATE_MODES, type RateMode } from "@/lib/momentum";
+import { NSA_NOTE, RATE_MODES, type RateMode } from "@/lib/momentum";
 import { codecs } from "@/lib/urlState";
 import { useUrlState } from "@/lib/useUrlState";
 
@@ -30,8 +30,9 @@ export function RateModeControl({
       <SegmentedControl options={RATE_MODES} value={value} onChange={onChange} />
       {showCopyLink && <CopyLink />}
       {value !== "yoy" && (
-        <span style={{ fontSize: 11, color: "var(--muted)" }}>
+        <span style={{ fontSize: 11, color: "var(--muted)" }} data-testid="rate-nsa-note">
           {note ?? "annualized off the daily index — amplifies noise (3m ≈ ×4); official prints shown as YoY only"}
+          {" · "}{NSA_NOTE}
         </span>
       )}
     </div>

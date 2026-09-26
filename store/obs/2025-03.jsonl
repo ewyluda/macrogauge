@@ -34,3 +34,10 @@
 {"obs_date": "2025-02-01", "route": "API", "series_code": "ppi_hvac_equip", "source": "ALFRED", "value": 300.778, "vintage_date": "2025-03-13"}
 {"obs_date": "2025-01-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 380.115, "vintage_date": "2025-03-13"}
 {"obs_date": "2025-02-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 379.797, "vintage_date": "2025-03-13"}
+{"obs_date": "2024-10-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 124.265, "vintage_date": "2025-03-28"}
+{"obs_date": "2024-11-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 124.399, "vintage_date": "2025-03-28"}
+{"obs_date": "2025-01-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 125.189, "vintage_date": "2025-03-28"}
+{"obs_date": "2025-02-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 125.6, "vintage_date": "2025-03-28"}
+{"obs_date": "2024-12-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 158942.0, "vintage_date": "2025-03-07"}
+{"obs_date": "2025-01-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 159067.0, "vintage_date": "2025-03-07"}
+{"obs_date": "2025-02-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 159218.0, "vintage_date": "2025-03-07"}

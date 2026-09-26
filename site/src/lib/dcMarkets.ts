@@ -52,7 +52,7 @@ export function sortMarkets(rows: MarketRow[], key: SortKey, desc: boolean): Mar
     if (av === null) return 1;
     if (bv === null) return -1;
     const cmp = typeof av === "string" && typeof bv === "string"
-      ? av.localeCompare(bv)
+      ? av.localeCompare(bv, "en-US")
       : (av as number) - (bv as number);
     return desc ? -cmp : cmp;
   });

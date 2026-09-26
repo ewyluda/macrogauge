@@ -38,8 +38,8 @@ export function ColChart({
 }) {
   const [rate, setRate] = useRateMode();
   const momentum = rate !== "yoy" && !!colIndex;
-  const colS = rateSeries(rate, col, colIndex);
-  const gaugeS = rateSeries(rate, gauge, gaugeIndex);
+  const colS = rateSeries(rate, col, colIndex, dates);
+  const gaugeS = rateSeries(rate, gauge, gaugeIndex, dates);
   const suffix = momentum ? ` · ${rateLabel(rate)}` : "";
   const option = useMemo(
     () => ({

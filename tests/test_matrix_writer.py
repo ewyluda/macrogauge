@@ -20,11 +20,14 @@ def _store_with(tmp_path, code_to_rows):
 def test_group_and_row_order_pinned(tmp_path):
     p = matrix.build(_store_with(tmp_path, {}))
     assert [g["group"] for g in p["groups"]] == \
-        ["UNDERLYING", "PIPELINE", "EXPECTATIONS"]
+        ["UNDERLYING", "PIPELINE", "EXPECTATIONS", "LABOR COSTS"]
     codes = [r["code"] for g in p["groups"] for r in g["rows"]]
     assert codes == ["MEDCPIM158SFRBCLE", "TRMMEANCPIM158SFRBCLE",
                      "CORESTICKM159SFRBATL", "PCETRIM12M159SFRBDAL",
-                     "PPIACO", "IREXPETCOM", "T5YIE", "T10YIE", "MICH"]
+                     "COREFLEXCPIM159SFRBATL", "PCEPILFE",
+                     "PPIACO", "IREXPETCOM", "CHNTOT", "CUSR0000SACL1E",
+                     "T5YIE", "T10YIE", "MICH", "T5YIFR", "EXPINF1YR", "EXPINF10YR",
+                     "ECIALLCIV", "ULCNFB"]
 
 
 def test_rows_reference_registered_codes():

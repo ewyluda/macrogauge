@@ -11,6 +11,8 @@ test("hero chart rate control switches to 3m annualized and lives in the URL", a
   await page.goto("/vs-bls?rate=ann6");
   await expect(page.getByRole("button", { name: "6m ann.", exact: true })).toBeVisible();
   await expect(page.getByText(/annualized off the daily index/)).toBeVisible();
+  // short-window annualized rates carry seasonality — the NSA caveat rides with them
+  await expect(page.getByTestId("rate-nsa-note").first()).toContainText("not seasonally adjusted");
 });
 
 test("cost-of-living and supercore charts carry the same rate control", async ({ page }) => {
@@ -18,6 +20,14 @@ test("cost-of-living and supercore charts carry the same rate control", async ({
   await expect(page.getByText(/annualized off the daily index/)).toBeVisible();
   await page.goto("/supercore?rate=ann3");
   await expect(page.getByText(/annualized off the daily index/)).toBeVisible();
+  await expect(page.getByTestId("rate-nsa-note").first()).toContainText("not seasonally adjusted");
+});
+
+test("momentum table and component KPI carry the not-seasonally-adjusted caveat", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByText(/3m\/6m annualized off each component/)).toContainText("not seasonally adjusted");
+  await page.goto("/components/apparel");
+  await expect(page.getByTestId("momentum-nsa-note")).toContainText("not seasonally adjusted");
 });
 
 test("contribution section renders 14 component rows whose contributions sum to the headline", async ({ page }) => {

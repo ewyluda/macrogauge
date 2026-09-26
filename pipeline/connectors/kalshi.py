@@ -52,6 +52,9 @@ def _expected_from_ladder(points: list[tuple[float, float]]) -> float:
     return sum(v * m for v, m in zip(values, masses))
 
 
+SERIES_CODES = {"KXCPI": "kalshi_cpi_mom", "KXCPICORE": "kalshi_core_cpi_mom"}
+
+
 def fetch(series_ticker: str = "KXCPI", vintage_date: str | None = None,
           http_get=None) -> list[Observation]:
     http_get = http_get or requests.get
@@ -91,8 +94,8 @@ def fetch(series_ticker: str = "KXCPI", vintage_date: str | None = None,
     close = min((m.get("close_time") for m in nearest if m.get("close_time")),
                 default=None)
     obs_date = _reference_month(ticker, close)
-    return [Observation("kalshi_cpi_mom", obs_date, expected, vintage,
-                        "KALSHI", "API")]
+    return [Observation(SERIES_CODES.get(series_ticker, "kalshi_cpi_mom"), obs_date,
+                        expected, vintage, "KALSHI", "API")]
 
 
 COUNT_PLAUSIBLE = (0.0, 50_000.0)   # expected US data-center count

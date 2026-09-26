@@ -13,6 +13,7 @@ re-deriving it from gauge_daily.json.
 """
 from pathlib import Path
 
+from pipeline import derived
 from pipeline.engine import official as official_engine
 from pipeline.publish.util import write_json
 
@@ -22,6 +23,8 @@ def _round(x, nd=2):
 
 
 def build(gauge_result: dict, conn, comps, official_month: str) -> dict:
+    if any(c.official_series == derived.RESIDUAL_CODE for c in comps):
+        derived.ensure(conn, comps)
     g = gauge_result["variants"]["gauge"]
     rows, total = [], 0.0
     for comp in comps:

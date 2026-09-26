@@ -64,3 +64,45 @@ export function flattenRow(obj: object, prefix = ""): CsvRow {
   }
   return out;
 }
+
+/** A serializable recipe for CSV rows, resolved against the published
+ *  artifact only when the reader clicks ↓ CSV. A server page hands the client
+ *  DownloadData these few bytes instead of every row — /rates inlined 2,182
+ *  keyed row objects (59% of an 820 kB page) that the JSON under /data
+ *  already carries. Paths are dotted keys into the artifact.
+ *  - `columns`: parallel arrays → one row per key entry (columnsToRows),
+ *    optionally keeping only key values ≥ `from` (a trailing window);
+ *  - `rows`: an array of row objects, optionally flattened (flattenRow). */
+export type CsvSpec =
+  | {
+      kind: "columns";
+      key: { name: string; path: string };
+      series: { name: string; path: string }[];
+      from?: string;
+    }
+  | { kind: "rows"; path: string; flatten?: boolean };
+
+/** Value at a dotted path ("liquidity.history.dates"); undefined if absent. */
+export function getPath(obj: unknown, path: string): unknown {
+  let cur: unknown = obj;
+  for (const k of path.split(".")) {
+    if (cur == null || typeof cur !== "object") return undefined;
+    cur = (cur as Record<string, unknown>)[k];
+  }
+  return cur;
+}
+
+const asArray = (v: unknown): readonly unknown[] => (Array.isArray(v) ? v : []);
+
+/** Build the rows a CsvSpec describes from a fetched artifact. */
+export function rowsFromSpec(data: unknown, spec: CsvSpec): CsvRow[] {
+  if (spec.kind === "rows") {
+    const rows = asArray(getPath(data, spec.path)) as object[];
+    return spec.flatten ? rows.map((r) => flattenRow(r)) : (rows as CsvRow[]);
+  }
+  const key = asArray(getPath(data, spec.key.path));
+  const series = spec.series.map((s) => ({ name: s.name, values: asArray(getPath(data, s.path)) }));
+  const rows = columnsToRows({ name: spec.key.name, values: key }, series);
+  const from = spec.from;
+  return from == null ? rows : rows.filter((r) => String(r[spec.key.name]) >= from);
+}

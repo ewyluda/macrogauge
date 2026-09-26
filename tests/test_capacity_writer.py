@@ -115,13 +115,67 @@ def test_cohort_totals_dedupe_and_split(tmp_path):
     ("Q3 2026", 2026 * 4 + 2),
     ("phased from 2026", 2026 * 4 + 3),      # bare year -> Q4
     ("early 2027", 2027 * 4 + 0),
-    ("majority H2 2026 (Sep)", 2026 * 4 + 2),
+    # parentheticals are ignored: H2 -> Q4 (was Q3 off the "(Sep)" aside —
+    # the old parser read a keyword ANYWHERE; a date in an aside must be
+    # curated as energize_q instead)
+    ("majority H2 2026 (Sep)", 2026 * 4 + 3),
     ("mid-2026", 2026 * 4 + 1),
     ("operating", None),
     (None, None),
+    # --- the misdates the old parser produced (live config strings) ---
+    # first year anywhere + first quarter keyword anywhere -> 2026Q2
+    ("signed Aug 2026; initial 96 MW Dec 2027, full 191 MW by Jun 2028", 2027 * 4 + 3),
+    # "(2 mo early)" matched `early` -> Q1
+    ("initial capacity live Aug 2026 (2 mo early), rent commenced", 2026 * 4 + 2),
+    # "(slipped from Q3)" matched q3
+    ("delivery Q4 2026 (slipped from Q3); ~0.3 GW IT delivered in 2026", 2026 * 4 + 3),
+    # half-years: 1H -> Q2, 2H -> Q4 (old: bare-year default Q4 for 1H)
+    ("initial ops 1H 2028", 2028 * 4 + 1),
+    ("AMD delivery 2H 2027", 2027 * 4 + 3),
+    # the regex could not see 2030 (todo #23)
+    ("first power Q1 2030", 2030 * 4 + 0),
+    ("phased to 2039", 2039 * 4 + 3),
+    ("2040", None),
+    # a deal-close date loses to a delivery milestone
+    ("closed 2026-08-14 (~$444M); next ~82 MW 2H 2027", 2027 * 4 + 3),
+    # construction start loses to first data hall
+    ("advanced to construction Aug 2026; initial data hall Q2 2028", 2028 * 4 + 1),
+    # earliest first-power milestone, not full build-out
+    ("1H 2027 – 1H 2028; full 530 MW by end-2028", 2027 * 4 + 1),
+    # "may" is not a month unless adjacent to a year
+    ("2027-28 (timing TBD); MW attribution may be generous", 2027 * 4 + 3),
+    ("YE 2026 target", 2026 * 4 + 3),
+    ("~summer 2028", 2028 * 4 + 2),
+    ("construction launched Q1'26", 2026 * 4 + 0),
+    ("Oct-2025", 2025 * 4 + 3),
+    ("decision 2027", 2027 * 4 + 3),          # not "Dec 2027"
 ])
 def test_parse_quarter(when, expected):
     assert writer.parse_quarter(when) == expected
+
+
+@pytest.mark.parametrize("site,expected", [
+    (["S", 100, "c", "signed Aug 2026", "2027Q4"], 2027 * 4 + 3),  # curated wins
+    (["S", 100, "c", "Q3 2026", None], None),     # curated null = undated
+    (["S", 100, "c", "Q3 2026"], 2026 * 4 + 2),   # no field -> free-text parse
+])
+def test_site_quarter_prefers_curated_energize_q(site, expected):
+    assert writer.site_quarter(site) == expected
+
+
+def test_energize_q_drives_tl_and_timeline_and_is_not_published(tmp_path):
+    conn = _conn(tmp_path, [])
+    cfg = _cfg([_co(op=100, sites=[["S1", 50, "c", "signed Aug 2026", "2027Q4"],
+                                   ["S2", 30, "c", "Q3 2026", None],
+                                   ["S3", 20, "c", "Q3 2026"]])])
+    out = writer.build(conn, cfg)
+    row = out["companies"][0]
+    assert row["tl"] == [["2027Q4", "S1", 50], ["2026Q3", "S3", 20]]
+    # published sites keep the 4-element shape the page destructures
+    assert all(len(s) == 4 for s in row["sites"])
+    tl = {p["q"]: p for p in out["timeline"]["all"]["points"]}
+    assert tl["2026Q3"]["add_mw"] == 20 and tl["2027Q4"]["add_mw"] == 50
+    assert tl["2027Q4"]["cum_mw"] == 170   # S2 (curated undated) excluded
 
 
 def test_timeline_cumulative_from_construction_sites(tmp_path):
@@ -145,6 +199,18 @@ def test_reference_block(tmp_path):
                             ("fmp_cap_aaa", "2026-07-20", 90.0)])
     out = writer.build(conn, _cfg([_co()]))
     assert out["reference"] == {"nvda_cap_b": 4150.0, "cohort_ev_b": 100.0}
+
+
+def test_cohort_ev_excludes_rows_whose_ev_per_mw_is_suppressed(tmp_path):
+    # A hyperscaler's conglomerate EV is suppressed per row (ev_per_mw null)
+    # as misleading over an AI-DC slice — the combined figure must not sum it
+    # back in. AAA (neocloud) counts; HHH (hyperscaler) does not.
+    conn = _conn(tmp_path, [("fmp_cap_aaa", "2026-07-20", 90.0),
+                            ("fmp_cap_hhh", "2026-07-20", 3000.0)])
+    out = writer.build(conn, _cfg([_co(), _co(t="HHH", role="hyperscaler")]))
+    hhh = next(r for r in out["companies"] if r["t"] == "HHH")
+    assert hhh["ev"] == 3010.0 and hhh["ev_per_mw"] is None
+    assert out["reference"]["cohort_ev_b"] == 100.0
 
 
 def test_write_validates_against_schema(tmp_path):

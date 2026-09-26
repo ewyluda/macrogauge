@@ -11,7 +11,7 @@ test("/project-controls links every tool and shows the three receipts", async ({
   await expect(page.locator(".citation-text")).toContainText("DC Build Index");
 });
 
-test("/portfolio seeds a sample, aggregates it, and round-trips through the URL", async ({ page }) => {
+test("/portfolio seeds a sample, aggregates it, and round-trips through the URL", async ({ page, browser }) => {
   await page.goto("/portfolio");
   const rows = page.locator('[data-testid="portfolio-row"]');
   await expect(rows).toHaveCount(2);
@@ -22,10 +22,25 @@ test("/portfolio seeds a sample, aggregates it, and round-trips through the URL"
   await expect(rows).toHaveCount(3);
   await expect.poll(() => page.evaluate(() => new URLSearchParams(location.search).get("p"))).toContain('"Project 3"');
   const url = page.url();
-  // a fresh context with only the link sees the same three projects
-  await page.context().clearCookies();
+  const linked = new URL(url).searchParams.get("p");
+  // a fresh context with only the link sees the same three projects. It must
+  // be a NEW context: clearCookies() left localStorage holding the same three
+  // projects, so the old round-trip passed even while the hydrate effect
+  // ignored ?p= and fell back to storage (then overwrote the link).
+  const fresh = await browser.newContext();
+  const shared = await fresh.newPage();
+  await shared.goto(url);
+  const sharedRows = shared.locator('[data-testid="portfolio-row"]');
+  await expect(sharedRows).toHaveCount(3);
+  await expect(sharedRows.nth(2).getByLabel("Project name")).toHaveValue("Project 3");
+  // …and the link is left as shared, not replaced by the sample
+  await expect.poll(() => shared.evaluate(() => new URLSearchParams(location.search).get("p"))).toBe(linked);
+  await fresh.close();
+  // the same holds for a link opened over a DIFFERENT stored portfolio
+  await page.evaluate(() => localStorage.setItem("macrogauge.portfolio.v1", "[]"));
   await page.goto(url);
   await expect(rows).toHaveCount(3);
+  await expect.poll(() => page.evaluate(() => new URLSearchParams(location.search).get("p"))).toBe(linked);
   // remove one; localStorage persists across a plain reload without the query
   await page.locator('[data-testid="portfolio-row"]').last().getByRole("button", { name: /Remove/ }).click();
   await expect(rows).toHaveCount(2);
@@ -38,8 +53,12 @@ test("/portfolio reports a bad month as an error instead of a number, and carrie
   const first = page.locator('[data-testid="portfolio-row"]').first();
   const delivery = first.getByLabel("Delivery month");
   const min = await delivery.getAttribute("min");
+  // min = anchor (last complete month) + 1 since 2026-09-26 — carry starts at
+  // the anchor, so delivery = anchor + 24 months carries exactly 24.
   const [y, m] = min!.split("-").map(Number);
-  await delivery.fill(`${y + 2}-${String(m).padStart(2, "0")}`);
+  const anchor = new Date(Date.UTC(y, m - 2, 1));
+  const target = `${anchor.getUTCFullYear() + 2}-${String(anchor.getUTCMonth() + 1).padStart(2, "0")}`;
+  await delivery.fill(target);
   await expect(first.getByText(/24mo carried/)).toBeVisible();
   await expect(page.locator(".kpi-label", { hasText: "Realized band at delivery" })).toBeVisible();
   await expect(page.getByText(/p10–p90 of like-length history on 1 project/)).toBeVisible();

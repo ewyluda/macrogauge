@@ -183,6 +183,43 @@ describe("escalate with a forward segment", () => {
   });
 });
 
+describe("escalate measured to the last complete month (endMonth)", () => {
+  // Grid ends on a partial stub month (2026-09) whose PPIs still hold the
+  // August print: the stub's value equals the anchor's. The pre-fix
+  // calculator measured to 2026-09 AND carried from 2026-09, so the
+  // Aug→Sep month was booked at 0% — one month of escalation dropped.
+  const M = ["2026-06", "2026-07", "2026-08", "2026-09"];
+  const I = [100, 101, 102, 102];
+
+  it("measured + carried months equal base → delivery exactly", () => {
+    const r = escalate(M, I, "2026-06", 1_000_000,
+      { deliveryMonth: "2027-08", annualizedPct: 12 }, "2026-08")!;
+    expect(r.endMonth).toBe("2026-08");
+    expect(r.monthsElapsed).toBe(2);
+    expect(r.forward!.fromMonth).toBe("2026-08");
+    expect(r.forward!.monthsAhead).toBe(12);
+    expect(r.monthsElapsed + r.forward!.monthsAhead).toBe(monthDiff("2026-06", "2027-08"));
+    // measured 102/100 x a full 12-month carry at 12%/yr
+    expect(r.forward!.factor).toBeCloseTo(1.12, 10);
+    expect(r.totalFactor).toBeCloseTo(1.02 * 1.12, 10);
+    expect(r.totalCost).toBeCloseTo(1_000_000 * 1.02 * 1.12, 4);
+  });
+
+  it("the grid-end default still drops the stub month (why callers pass endMonth)", () => {
+    const r = escalate(M, I, "2026-06", 1_000_000,
+      { deliveryMonth: "2027-08", annualizedPct: 12 })!;
+    // measured to the stub (2 of the 3 elapsed months carry real movement),
+    // carried only 11 months: the Aug→Sep month is escalated at 0%
+    expect(r.endMonth).toBe("2026-09");
+    expect(r.forward!.monthsAhead).toBe(11);
+    expect(r.totalFactor).toBeLessThan(1.02 * 1.12);
+  });
+
+  it("returns null when the base falls after endMonth", () => {
+    expect(escalate(M, I, "2026-09", 100, null, "2026-08")).toBeNull();
+  });
+});
+
 describe("month helpers are exported for dcContingency", () => {
   it("monthDiff counts whole months", () => {
     expect(monthDiff("2024-03", "2026-03")).toBe(24);

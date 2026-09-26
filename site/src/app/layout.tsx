@@ -7,7 +7,10 @@ import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  alternates: { types: { "application/rss+xml": `${SITE_URL}/feed.xml` } },
+  // "./" resolves against each route's own pathname, so every page gets a
+  // self-canonical on the indexable production origin (query-string variants
+  // like ?rate= / ?cm= collapse onto it).
+  alternates: { canonical: "./", types: { "application/rss+xml": `${SITE_URL}/feed.xml` } },
   openGraph: { siteName: "MacroGauge", type: "website", locale: "en_US" },
   twitter: { card: "summary_large_image" },
   title: {

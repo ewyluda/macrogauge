@@ -14,7 +14,11 @@ GROCERY_ITEMS_MIN = 20
 # Coverage floor: 40, not the 45 that a food_home live-data flip would have allowed —
 # that flip was reverted in Task 6 (day-one gap failed), so food_home stays
 # BLS-CF (official-only, no live blend) per the 2a deviation.
-GAUGE_COVERAGE_FLOOR = 40.0
+# Lowered to 35 on 2026-09-26: basket weights moved to BLS relative importance
+# (shelter 26.5+7.5 -> ~33.6) and EIA electricity/gas became tail-only
+# ("year_ratio"), counting as live only while they run past the BLS print.
+# Steady state is ~39% (shelter + fuel + used cars), ~42% with the EIA tails.
+GAUGE_COVERAGE_FLOOR = 35.0
 
 # Every isolated publish phase in run_daily.py except the core engine (which
 # has its own cpi-fallback handling above). run_checks cross-checks the
@@ -43,12 +47,16 @@ _PHASE_DONE = {"nowcast": "nowcast completed",
                "ledger": "publish ledger completed"}
 
 
+CALENDAR_HORIZON_MIN = 45  # days of scheduled CPI releases still ahead
+
+
 def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                freshness: list[dict] | None = None, gauge: dict | None = None,
                engine_error: str | None = None, fuel_divergence: dict | None = None,
                artifacts: dict | None = None,
                phase_errors: dict[str, str | None] | None = None,
-               stale_stamps: list[str] | None = None) -> dict:
+               stale_stamps: list[str] | None = None,
+               calendar: dict | None = None) -> dict:
     if cpi is not None:
         # Age the latest PRINT, not the latest YoY-computable month.
         # official.latest_yoy walks `month` back over a base-month hole (the
@@ -115,6 +123,18 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                        "detail": ("all artifacts share this run's published_at"
                                   if not stale_stamps else
                                   "stale published_at — " + ", ".join(stale_stamps))})
+    if calendar is not None:
+        # Runway, not state: fails while there is still time to act. The
+        # calendar self-refreshes from FRED (pipeline/calendar_refresh.py);
+        # this goes red only if that refresh has been failing for weeks or the
+        # agencies haven't published next year's schedule yet.
+        h, err = calendar.get("horizon_days"), calendar.get("refresh_error")
+        checks.append({"name": "calendar_horizon", "critical": False,
+                       "pass": h is not None and h >= CALENDAR_HORIZON_MIN,
+                       "detail": (f"CPI calendar runs {h}d ahead (floor "
+                                  f"{CALENDAR_HORIZON_MIN}d)" if h is not None
+                                  else "no CPI calendar entries")
+                                 + (f"; FRED refresh failed — {err}" if err else "")})
     if source_results is not None:
         failed = [f"{r.source}: {r.error}" for r in source_results if not r.ok]
         checks.append({"name": "connectors_ok", "critical": False,
@@ -234,7 +254,7 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                        "pass": gauge["coverage_pct"] >= GAUGE_COVERAGE_FLOOR,
                        "detail": f"gauge live coverage "
                                  f"{gauge['coverage_pct']}% "
-                                 f"(floor 40 (food_home BLS-CF per 2a deviation))"})
+                                 f"(floor {GAUGE_COVERAGE_FLOOR:g}: shelter + fuel + used cars; EIA utilities count only while they extend past the BLS print)"})
         corr = gauge["tracker_corr"]
         checks.append({"name": "tracker_corr", "critical": False,
                        "pass": corr is not None and corr >= 0.95,
