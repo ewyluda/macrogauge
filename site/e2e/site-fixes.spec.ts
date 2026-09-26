@@ -1,4 +1,6 @@
 import { expect, test } from "@playwright/test";
+import gaptable from "../public/data/gaptable.json";
+import methodology from "../public/data/methodology.json";
 
 /** Site calc/a11y/state fixes (2026-09-26 review). */
 
@@ -45,4 +47,23 @@ test("/as-of says there is no publish before the ledger starts, not a later one"
   await expect(page.locator(".kpi-row")).toHaveCount(0);
   await page.getByTestId("asof-empty").getByRole("button").click();
   await expect(page.getByTestId("asof-status")).toContainText(/^publish /);
+});
+
+test("/supercore claims 'daily' only when something rides live", async ({ page }) => {
+  await page.goto("/supercore");
+  const live = gaptable.variants.supercore.coverage_pct > 0;
+  await expect(page.getByText(/tracked daily/)).toHaveCount(live ? 1 : 0);
+  await expect(page.locator(".kpi-label").first()).toHaveText(live ? "Supercore YoY (today)" : /^Supercore YoY \(\w{3} \d{4} BLS\)$/);
+  if (!live) await expect(page.getByText(/latest monthly BLS-derived reading/)).toBeVisible();
+});
+
+test("component sources table shows each series' own latest obs, not the whole source's", async ({ page }) => {
+  // electricity rides EIA's monthly retail price; EIA as a source also
+  // carries weekly gasoline, so the source-level date runs months ahead
+  const inv = (methodology as { inventory: { code: string; latest_obs: string | null }[] }).inventory;
+  const own = inv.find((r) => r.code === "eia_elec_res")!.latest_obs!;
+  await page.goto("/components/electricity");
+  const row = page.locator("tr", { has: page.getByText("eia_elec_res", { exact: true }) });
+  await expect(row).toContainText(own);
+  await expect(page.locator("th", { hasText: "Series latest obs" })).toHaveCount(1);
 });
