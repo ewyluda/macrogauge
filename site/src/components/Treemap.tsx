@@ -7,7 +7,7 @@ import { useJson } from "@/lib/useJson";
 import { DataUnavailable } from "./DataUnavailable";
 import { EChart } from "./EChart";
 import { C } from "@/lib/chartTheme";
-import { ramp, EMPTY_CELL } from "@/lib/heat";
+import { ramp, EMPTY_CELL, textOn } from "@/lib/heat";
 
 type Replay = {
   rebase: string;
@@ -153,17 +153,17 @@ export function Treemap() {
             fontSize: 12,
             formatter: (p: { name: string }) => p.name,
           },
-          data: values.map(({ c, v }) => ({
-            id: c.code,
-            name: `${c.label}\n${v === null ? "—" : `${v.toFixed(1)}%`}`,
-            value: c.weight,
-            itemStyle: {
-              color:
-                v === null
-                  ? EMPTY_CELL
-                  : ramp((v - domain[0]) / (domain[1] - domain[0])),
-            },
-          })),
+          data: values.map(({ c, v }) => {
+            const bg = v === null ? EMPTY_CELL : ramp((v - domain[0]) / (domain[1] - domain[0]));
+            // per-tile label ink by WCAG luminance (white on amber is ~3:1)
+            return {
+              id: c.code,
+              name: `${c.label}\n${v === null ? "—" : `${v.toFixed(1)}%`}`,
+              value: c.weight,
+              itemStyle: { color: bg },
+              label: { color: textOn(bg) },
+            };
+          }),
         },
       ],
     };
