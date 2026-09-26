@@ -53,8 +53,12 @@ test("/portfolio reports a bad month as an error instead of a number, and carrie
   const first = page.locator('[data-testid="portfolio-row"]').first();
   const delivery = first.getByLabel("Delivery month");
   const min = await delivery.getAttribute("min");
+  // min = anchor (last complete month) + 1 since 2026-09-26 — carry starts at
+  // the anchor, so delivery = anchor + 24 months carries exactly 24.
   const [y, m] = min!.split("-").map(Number);
-  await delivery.fill(`${y + 2}-${String(m).padStart(2, "0")}`);
+  const anchor = new Date(Date.UTC(y, m - 2, 1));
+  const target = `${anchor.getUTCFullYear() + 2}-${String(anchor.getUTCMonth() + 1).padStart(2, "0")}`;
+  await delivery.fill(target);
   await expect(first.getByText(/24mo carried/)).toBeVisible();
   await expect(page.locator(".kpi-label", { hasText: "Realized band at delivery" })).toBeVisible();
   await expect(page.getByText(/p10–p90 of like-length history on 1 project/)).toBeVisible();
