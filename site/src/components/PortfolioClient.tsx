@@ -12,9 +12,10 @@ import {
   DEFAULT_BASIS, decodeProjects, driversAcross, encodeProjects, evaluateAll, newId, totals, type Project,
 } from "@/lib/portfolio";
 import { codecs } from "@/lib/urlState";
-import { useUrlState } from "@/lib/useUrlState";
+import { getUrlParam, useUrlState } from "@/lib/useUrlState";
 
 const STORAGE_KEY = "macrogauge.portfolio.v1";
+const P_CODEC = codecs.str(4000);
 const SAMPLE: Project[] = [
   { id: "s1", name: "Campus A — Phase 1", market: "nova", mw: 120, baseCost: 1_200_000_000, baseMonth: "2024-06", deliveryMonth: "", basis: DEFAULT_BASIS },
   { id: "s2", name: "Campus B", market: "dfw", mw: 200, baseCost: 1_900_000_000, baseMonth: "2025-03", deliveryMonth: "", basis: DEFAULT_BASIS },
@@ -30,17 +31,22 @@ const input: React.CSSProperties = {
  *  State lives in the URL (?p=) and localStorage — no login, nothing
  *  leaves the browser. */
 export function PortfolioClient({ data, markets }: { data: EscalationData; markets: { key: string; name: string }[] }) {
-  const [encoded, setEncoded] = useUrlState("p", "", codecs.str(4000));
+  const [encoded, setEncoded] = useUrlState("p", "", P_CODEC);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [pasteOpen, setPasteOpen] = useState(false);
   const [pasteText, setPasteText] = useState("");
   const [pasteError, setPasteError] = useState<string | null>(null);
 
-  // hydrate: URL wins, then localStorage, then the sample
+  // hydrate: URL wins, then localStorage, then the sample. The URL is read
+  // synchronously here, not via `encoded`: useUrlState adopts ?p= in an
+  // effect of this same commit, so `encoded` is still "" on the first run and
+  // a shared link would fall through to localStorage/SAMPLE — which the
+  // persist effect then wrote over ?p=.
   useEffect(() => {
     if (loaded) return;
-    const fromUrl = encoded ? decodeProjects(encoded) : null;
+    const linked = getUrlParam("p", P_CODEC) ?? encoded;
+    const fromUrl = linked ? decodeProjects(linked) : null;
     if (fromUrl && fromUrl.length) { setProjects(fromUrl); setLoaded(true); return; }
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
