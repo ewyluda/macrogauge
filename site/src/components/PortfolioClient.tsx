@@ -6,6 +6,7 @@ import { CopyLink } from "./CopyLink";
 import { DownloadData } from "./DownloadData";
 import { CarryTable } from "./CarryTable";
 import { lastCompleteMonth, MAX_HORIZON_MONTHS } from "@/lib/dcContingency";
+import { addMonths } from "@/lib/dcEscalation";
 import type { EscalationData } from "@/lib/escalationData";
 import { fmtPp, fmtSigned, fmtUsd } from "@/lib/format";
 import {
@@ -62,7 +63,6 @@ export function PortfolioClient({ data, markets }: { data: EscalationData; marke
   }, [projects, loaded]);
 
   const anchor = lastCompleteMonth(data.months, data.componentLastObs) ?? data.months[data.months.length - 1];
-  const lastMonth = data.months[data.months.length - 1];
   const { evals, basisRows } = useMemo(() => evaluateAll(projects, data.months, data.index, anchor), [projects, data, anchor]);
   const t = useMemo(() => totals(evals), [evals]);
   const drivers = useMemo(() => driversAcross(evals, data.months, data.componentIndex, data.components), [evals, data]);
@@ -93,7 +93,7 @@ export function PortfolioClient({ data, markets }: { data: EscalationData; marke
     <div className="portfolio-workspace">
       <div className="kpi-row">
         <KpiCard label="Capital at base" value={fmtUsd(t.capital)} context={`${t.valid} of ${t.projects} projects priced · ${t.mw.toLocaleString("en-US")} MW`} accent="sky" />
-        <KpiCard label={`Escalated to ${lastMonth}`} value={fmtUsd(t.toDate)} context={`${fmtSigned(t.weightedToDatePct)} dollar-weighted · ${fmtUsd(t.exposureToDate)} exposure to date`} accent={(t.exposureToDate ?? 0) >= 0 ? "red" : "emerald"} />
+        <KpiCard label={`Escalated to ${anchor}`} value={fmtUsd(t.toDate)} context={`${fmtSigned(t.weightedToDatePct)} dollar-weighted · ${fmtUsd(t.exposureToDate)} exposure to date`} accent={(t.exposureToDate ?? 0) >= 0 ? "red" : "emerald"} />
         <KpiCard label="At delivery, carried" value={fmtUsd(t.atDelivery)} context={`${fmtSigned(t.weightedAtDeliveryPct)} vs base · carry ${fmtUsd(t.exposureCarry)} at each project's chosen basis`} accent="violet" />
         <KpiCard label="Realized band at delivery" value={t.atDeliveryP10 == null ? "—" : `${fmtUsd(t.atDeliveryP10)} – ${fmtUsd(t.atDeliveryP90)}`}
           context={t.banded ? `p10–p90 of like-length history on ${t.banded} project${t.banded === 1 ? "" : "s"} · not a probability` : "set delivery months ≥12 months out for a band"} accent="amber" />
@@ -123,7 +123,7 @@ export function PortfolioClient({ data, markets }: { data: EscalationData; marke
           <thead>
             <tr>
               <th style={{ textAlign: "left" }}>Project</th><th>Market</th><th>MW</th><th>Base estimate</th><th>Base month</th><th>Deliver by</th><th>Carry basis</th>
-              <th>To {lastMonth}</th><th>At delivery</th><th>$/MW at delivery</th><th></th>
+              <th>To {anchor}</th><th>At delivery</th><th>$/MW at delivery</th><th></th>
             </tr>
           </thead>
           <tbody>
@@ -143,7 +143,7 @@ export function PortfolioClient({ data, markets }: { data: EscalationData; marke
                   <td><input type="number" min={0} step={10} value={p.mw} onChange={(ev) => update(p.id, { mw: Number(ev.target.value) || 0 })} style={{ ...input, width: 70 }} aria-label="MW" /></td>
                   <td><input type="number" min={0} step={1_000_000} value={p.baseCost} onChange={(ev) => update(p.id, { baseCost: Number(ev.target.value) || 0 })} style={{ ...input, width: 150 }} aria-label="Base estimate" /></td>
                   <td><input type="month" min={data.months[0]} max={anchor} value={p.baseMonth} onChange={(ev) => update(p.id, { baseMonth: ev.target.value })} style={{ ...input, width: 120 }} aria-label="Base month" /></td>
-                  <td><input type="month" min={lastMonth} value={p.deliveryMonth} onChange={(ev) => update(p.id, { deliveryMonth: ev.target.value })} style={{ ...input, width: 120 }} aria-label="Delivery month" /></td>
+                  <td><input type="month" min={addMonths(anchor, 1)} value={p.deliveryMonth} onChange={(ev) => update(p.id, { deliveryMonth: ev.target.value })} style={{ ...input, width: 120 }} aria-label="Delivery month" /></td>
                   <td>
                     <select value={e.chosen?.key ?? DEFAULT_BASIS} onChange={(ev) => update(p.id, { basis: ev.target.value })} style={input} aria-label="Carry basis" disabled={!p.deliveryMonth}>
                       {basisRows.map((b) => <option key={b.key} value={b.key}>{b.label} · {fmtSigned(b.annualizedPct)}/yr</option>)}
@@ -160,8 +160,8 @@ export function PortfolioClient({ data, markets }: { data: EscalationData; marke
           </tbody>
         </table>
         <div style={{ fontSize: 12, color: "var(--muted)", padding: "8px 12px" }}>
-          To-date escalation is the DC Build index ratio from each base month to {lastMonth} (the same arithmetic as the{" "}
-          <Link href="/escalation">calculator</Link>). The carry is the basis you chose per project, applied from {lastMonth} to delivery —
+          To-date escalation is the DC Build index ratio from each base month to {anchor}, the last complete month (the same arithmetic as the{" "}
+          <Link href="/escalation">calculator</Link>). The carry is the basis you chose per project, applied from {anchor} to delivery —
           a realized historical regime, not a forecast; the carry cap is {MAX_HORIZON_MONTHS} months. The band is the p10–p90 of every
           like-length window in the sample, applied to the to-date figure. Market is a label for your own reporting: escalation is
           national, and the market panel&apos;s labor tightness is on <Link href="/markets">/markets</Link>.

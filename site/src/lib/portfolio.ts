@@ -1,9 +1,13 @@
 /** Portfolio / program view math (register P6): a reader's projects, each
  *  escalated by the DC Build index from its base month to the last complete
- *  month (P1, dcEscalation.escalate) and carried to its delivery month at a
- *  READER-SELECTED realized basis (P3a, dcContingency.bases) with the
- *  horizon-matched band. Aggregates are sums of dollars and dollar-weighted
- *  rates. No forecast: the carry is a historical regime the reader chose. */
+ *  month `anchor` (P1, dcEscalation.escalate with endMonth = anchor) and
+ *  carried FROM `anchor` to its delivery month at a READER-SELECTED realized
+ *  basis (P3a, dcContingency.bases) with the horizon-matched band. The two
+ *  legs meet at `anchor`, so measured + carried months equal base -> delivery
+ *  exactly: the grid's trailing stub month (where the PPIs still hold the
+ *  prior print) is neither measured nor skipped. Aggregates are sums of
+ *  dollars and dollar-weighted rates. No forecast: the carry is a historical
+ *  regime the reader chose. */
 import { bridgeWindow, escalate, monthDiff, type BridgeComponent, type EscalationResult } from "./dcEscalation";
 import { band, bases, MAX_HORIZON_MONTHS, MIN_HORIZON_MONTHS, type Band, type Basis } from "./dcContingency";
 import { checkMonth } from "./monthInput";
@@ -84,7 +88,7 @@ export function evaluateProject(
   p: Project, months: string[], index: number[], anchor: string, basisRows: Basis[],
 ): ProjectEval {
   const errors: string[] = [];
-  const first = months[0], last = months[months.length - 1];
+  const first = months[0];
   const bm = checkMonth(p.baseMonth, first, anchor, "base month");
   if (!bm.ok) errors.push(bm.message);
   if (!(p.baseCost > 0)) errors.push("Base estimate must be greater than $0.");
@@ -93,8 +97,8 @@ export function evaluateProject(
   if (p.deliveryMonth) {
     if (!MONTH.test(p.deliveryMonth)) errors.push(`"${p.deliveryMonth}" is not a month — use YYYY-MM.`);
     else {
-      horizon = monthDiff(last, p.deliveryMonth);
-      if (horizon > MAX_HORIZON_MONTHS) errors.push(`Delivery ${p.deliveryMonth} is beyond the ${MAX_HORIZON_MONTHS}-month carry cap (latest ${monthsAhead(last, MAX_HORIZON_MONTHS)}).`);
+      horizon = monthDiff(anchor, p.deliveryMonth);
+      if (horizon > MAX_HORIZON_MONTHS) errors.push(`Delivery ${p.deliveryMonth} is beyond the ${MAX_HORIZON_MONTHS}-month carry cap (latest ${monthsAhead(anchor, MAX_HORIZON_MONTHS)}).`);
       else deliveryValid = horizon > 0;
     }
   }
@@ -103,7 +107,8 @@ export function evaluateProject(
     return { project: p, errors, result: null, chosen, horizon, band: null, toDate: null, atDelivery: null, atDeliveryP10: null, atDeliveryP90: null, perMwAtDelivery: null };
   }
   const result = escalate(months, index, bm.month, p.baseCost,
-    deliveryValid && chosen ? { deliveryMonth: p.deliveryMonth, annualizedPct: chosen.annualizedPct } : null);
+    deliveryValid && chosen ? { deliveryMonth: p.deliveryMonth, annualizedPct: chosen.annualizedPct } : null,
+    anchor);
   if (!result) {
     return { project: p, errors: ["Base month precedes the index."], result: null, chosen, horizon, band: null, toDate: null, atDelivery: null, atDeliveryP10: null, atDeliveryP90: null, perMwAtDelivery: null };
   }
@@ -164,15 +169,15 @@ export function totals(evals: ProjectEval[]): PortfolioTotals {
 }
 
 /** Component drivers across the portfolio: each project's bridge (base
- *  month → last month) in dollars, summed by component. */
+ *  month → the measured leg's end, result.endMonth = the last complete
+ *  month) in dollars, summed by component — so drivers reconcile with toDate. */
 export function driversAcross(
   evals: ProjectEval[], months: string[], componentIndex: Record<string, number[]>, components: BridgeComponent[],
 ): { code: string; label: string; group: string; contributionCost: number }[] {
-  const last = months[months.length - 1];
   const acc = new Map<string, { code: string; label: string; group: string; contributionCost: number }>();
   for (const e of evals) {
     if (!e.result) continue;
-    for (const r of bridgeWindow(months, componentIndex, components, e.result.baseMonth, last, e.project.baseCost)) {
+    for (const r of bridgeWindow(months, componentIndex, components, e.result.baseMonth, e.result.endMonth, e.project.baseCost)) {
       const cur = acc.get(r.code) ?? { code: r.code, label: r.label, group: r.group, contributionCost: 0 };
       cur.contributionCost += r.contributionCost;
       acc.set(r.code, cur);
