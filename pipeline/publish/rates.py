@@ -9,6 +9,7 @@ WALCL and WTREGEN are FRED millions of dollars, RRPONTSYD is billions; all
 three publish in $bn (UNITS_BN pins the divisors). A series with no store
 rows publishes a null block: a new writer must never take down the run.
 """
+from datetime import date, timedelta
 from pathlib import Path
 
 from pipeline.engine.gauge import PUBLISH_START
@@ -127,6 +128,25 @@ def _level(conn, code, pct=True):
             "tail": tail(obs, TAIL_OBS)}
 
 
+def _gdpnow(conn):
+    """GDPNow is a running nowcast of ONE quarter: its obs_date is the
+    quarter start (2026-07-01 for Q3) while the value updates several times a
+    month. `as_of` is therefore the date of the latest UPDATE (its vintage),
+    and chg_30d is the same quarter's estimate now vs 30 days ago — the
+    generic level tile showed "as of 2026-07-01" and "30d —" all quarter."""
+    lv = _level(conn, "GDPNOW", pct=False)
+    if lv["value"] is None:
+        return lv
+    quarter = lv["as_of"]
+    updated = conn.execute(
+        "SELECT MAX(vintage_date) FROM observations WHERE series_code = 'GDPNOW' "
+        "AND obs_date = ?", (quarter,)).fetchone()[0]
+    month_ago = (date.fromisoformat(updated) - timedelta(days=30)).isoformat()
+    then = dict(vintage.as_of(conn, "GDPNOW", month_ago)).get(quarter)
+    return {**lv, "as_of": updated,
+            "chg_30d": None if then is None else round(lv["value"] - then, 4)}
+
+
 def _mortgage(conn):
     pmms, mnd, dgs10 = _rows(conn, "pmms_30yr"), _rows(conn, "mnd_30y_d"), _rows(conn, "DGS10")
     p_as_of, p_val = latest_point(pmms)
@@ -156,7 +176,7 @@ def build(conn) -> dict:
                            "t10yie": _level(conn, "T10YIE", pct=False)},
             "credit": {"hy_oas": _level(conn, "BAMLH0A0HYM2", pct=False)},
             "dollar": _level(conn, "DTWEXBGS", pct=True),
-            "gdpnow": _level(conn, "GDPNOW", pct=False),
+            "gdpnow": _gdpnow(conn),
             "auto_loan_60m": _level(conn, "RIFLPBCIANM60NM", pct=False),
             "liquidity": _liquidity(conn),
             "mortgage": _mortgage(conn),

@@ -86,11 +86,16 @@ def build_accountability(target: str, nowcast: dict, conn) -> dict:
     actual_codes = {"cpi": "CPIAUCNS", "pce": "PCEPI", "nfp": "PAYEMS"}
     actuals = vintage.first_releases(conn, actual_codes[target])
     actual_changes = {}
-    for i in range(1, len(actuals)):
-        period, value, released = actuals[i]
-        previous = actuals[i - 1][1]
-        if actuals[i - 1][0] != prior_month(period):
-            continue  # spans a never-published month (2025-10): not a MoM
+    for period, value, released in actuals:
+        # The actual is the change AS THAT RELEASE REPORTED IT: t's first print
+        # over t-1 as known on t's release date. BLS/BEA revise t-1 in the same
+        # release, so first(t) - first(t-1) mixes two vintages (Aug-2026
+        # payrolls read +217k that way vs the release's own +162k; July -126k
+        # vs -23k).
+        known = dict(vintage.as_of(conn, actual_codes[target], released))
+        previous = known.get(prior_month(period))
+        if previous is None:
+            continue  # prior month never published (2025-10): not a MoM
         actual_changes[period] = ((value / previous - 1) * 100 if target in ("cpi", "pce")
                                   else value - previous, released)
     graded = []
@@ -110,10 +115,28 @@ def build_accountability(target: str, nowcast: dict, conn) -> dict:
                        "release_date": release_date})
     reference = (nowcast.get("nfp") or {}).get("reference_month") \
         if target == "nfp" else nowcast.get("reference_month")
-    pending = [] if forecast is None or forecast.get("status") == "unavailable" else [{
+    live = [] if forecast is None or forecast.get("status") == "unavailable" else [{
         "reference_period": reference, "badge": "LIVE",
         "forecast": forecast.get("mom_pct", forecast.get("change_thousands")),
         "as_of": forecast.get("as_of", nowcast.get("generated_on")), "actual": None}]
+    # Every recorded call still awaiting its print, not only the current
+    # target: the PCE call for month t freezes when the CPI nowcast rolls to
+    # t+1 (~mid-month) but PCE for t prints ~2 weeks later — it was invisible.
+    released = {p for p, _, _ in actuals}
+    live_periods = {r["reference_period"] for r in live}
+    frozen = []
+    for period, value, as_of in conn.execute(
+            "SELECT obs_date, value, vintage_date FROM ("
+            " SELECT obs_date, value, vintage_date, ROW_NUMBER() OVER ("
+            "  PARTITION BY obs_date ORDER BY vintage_date DESC, rowid DESC) rn"
+            " FROM observations WHERE series_code = ?) WHERE rn = 1 ORDER BY obs_date",
+            (forecast_codes[target],)).fetchall():
+        if period in released or period[:7] in live_periods or (
+                released and period <= max(released)):
+            continue  # graded, current, or skipped by the agency (2025-10 CPI)
+        frozen.append({"reference_period": period[:7], "badge": "LIVE",
+                       "forecast": round(value, 2), "as_of": as_of, "actual": None})
+    pending = frozen + live
     return {"target": target.upper(), "graded": graded, "pending": pending}
 
 

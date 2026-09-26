@@ -68,24 +68,29 @@ def _last(conn, code):
 
 
 def build_recession(conn) -> dict:
-    claims = [v for _, v in vintage.latest(conn, "ICSA")]
-    claims_trigger = None
+    icsa = vintage.latest(conn, "ICSA")
+    claims = [v for _, v in icsa]
+    claims_ratio = None
     if len(claims) >= 52:
-        claims_trigger = sum(claims[-13:]) / 13 > 1.10 * (sum(claims[-52:]) / 52)
+        # Show the quantity the rule tests (13-week avg as % of the 52-week
+        # avg), not the latest weekly print — "197000" next to "> 110%" read
+        # as nonsense.
+        claims_ratio = round(100 * (sum(claims[-13:]) / 13) / (sum(claims[-52:]) / 52), 1)
     definitions = [
         ("Sahm", "SAHMREALTIME", ">= +0.50pp", lambda value: value >= 0.5),
         ("10Y–3M", "T10Y3M", "< 0", lambda value: value < 0),
         ("NFCI", "NFCI", "> 0", lambda value: value > 0),
-        ("Claims", "ICSA", "3m avg > 110% of 12m avg", None),
+        ("Claims", "ICSA", "13-week avg > 110% of 52-week avg", lambda value: value > 110),
         ("CFNAI", "CFNAIMA3", "< -0.70", lambda value: value < -0.7),
         ("Chauvet-Piger", "RECPROUSM156N", "> 20%", lambda value: value > 20),
     ]
     signals = []
     for name, code, rule, fn in definitions:
-        value = _last(conn, code)
-        triggered = claims_trigger if code == "ICSA" else (None if value is None else fn(value))
-        signals.append({"name": name, "code": code, "rule": rule,
-                        "value": value, "triggered": triggered})
+        rows = icsa if code == "ICSA" else vintage.latest(conn, code)
+        value = claims_ratio if code == "ICSA" else (rows[-1][1] if rows else None)
+        signals.append({"name": name, "code": code, "rule": rule, "value": value,
+                        "as_of": rows[-1][0] if rows else None,
+                        "triggered": None if value is None else fn(value)})
     return composites.recession_composite(signals)
 
 

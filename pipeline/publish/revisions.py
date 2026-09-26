@@ -45,6 +45,11 @@ def _rows(conn, code, kind):
             continue
         base = latest.get(months_back(d, 12))
         prev = latest.get(prior_month(d))
+        # "Change first" = the change as the first release reported it: its
+        # own value over the prior month AS KNOWN THAT DAY (the release revised
+        # t-1 too). Latest-over-latest is the current view.
+        prev_at_release = dict(vintage.as_of(conn, code, released)).get(prior_month(d)) \
+            if kind != "index" else None
         row = {"reference_period": d[:7], "first_value": round(f, 3), "first_release_date": released,
                "latest_value": round(cur, 3), "latest_vintage": latest_vintage.get(d),
                "n_vintages": n_v.get(d, 1)}
@@ -56,10 +61,13 @@ def _rows(conn, code, kind):
                                       if base else None)
         else:
             row["revision_k"] = round(cur - f, 1)
-            row["change_first_k"] = round(f - prev, 1) if prev is not None else None
+            row["change_first_k"] = (round(f - prev_at_release, 1)
+                                     if prev_at_release is not None else None)
             row["change_latest_k"] = round(cur - prev, 1) if prev is not None else None
-            row["change_revision_k"] = (round(row["change_latest_k"] - row["change_first_k"], 1)
-                                        if prev is not None else None)
+            row["change_revision_k"] = (
+                round(row["change_latest_k"] - row["change_first_k"], 1)
+                if row["change_latest_k"] is not None and row["change_first_k"] is not None
+                else None)
         out.append(row)
     return out
 
