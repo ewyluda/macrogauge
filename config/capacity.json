@@ -39,19 +39,22 @@
      "Helios (Galaxy) — anchor",
      800,
      "c",
-     "phased from 2026"
+     "phased from 2026",
+     "2026Q4"
     ],
     [
      "Core Scientific — 6 campuses",
      590,
      "c",
-     "2025–27"
+     "2025–27",
+     "2025Q4"
     ],
     [
      "Applied Digital — Ellendale",
      400,
      "c",
-     "100 MW live; full by 2026–27"
+     "100 MW live; full by 2026–27",
+     "2026Q4"
     ],
     [
      "~50 leased facilities (Flexential, Bulk…)",
@@ -69,7 +72,8 @@
      "Indonesia — first APAC site",
      360,
      "c",
-     "online ~early 2028"
+     "online ~early 2028",
+     "2028Q1"
     ]
    ],
    "src": [
@@ -120,7 +124,8 @@
      "Abilene TX (Stargate I)",
      1200,
      "c",
-     "300 MW op / 900 MW con; full Q4 2026"
+     "300 MW op / 900 MW con; full Q4 2026",
+     "2026Q4"
     ],
     [
      "Shackelford County TX (Vantage)",
@@ -201,7 +206,8 @@
      "Vineland NJ (Microsoft)",
      300,
      "c",
-     "majority H2 2026"
+     "majority H2 2026",
+     "2026Q4"
     ],
     [
      "New Finland AI factory",
@@ -213,7 +219,8 @@
      "Independence MO (owned)",
      1200,
      "c",
-     "first cap 2027"
+     "first cap 2027",
+     "2027Q4"
     ],
     [
      "Pennsylvania (owned)",
@@ -298,37 +305,43 @@
      "PF1 — Bldg 2 remainder + Bldg 3",
      75,
      "c",
-     "phased 2026"
+     "phased 2026",
+     "2026Q4"
     ],
     [
      "PF1 — Bldg 4 (ELN-04)",
      150,
      "c",
-     "~2027"
+     "~2027",
+     "2027Q4"
     ],
     [
      "Polaris Forge 2 (Harwood)",
      200,
      "c",
-     "first rev Jul 2026"
+     "first rev Jul 2026",
+     "2026Q3"
     ],
     [
      "Delta Forge 1 (Boyce, LA)",
      300,
      "c",
-     "initial ops 2027 (~$7.5B 15-yr lease)"
+     "initial ops 2027 (~$7.5B 15-yr lease)",
+     "2027Q4"
     ],
     [
      "Polaris Forge 3 — LEASED",
      300,
      "c",
-     "15-yr ~$7.5B signed; initial ops 2027"
+     "15-yr ~$7.5B signed; initial ops 2027",
+     "2027Q4"
     ],
     [
      "Delta Forge 2 — LEASED",
      210,
      "c",
-     "15-yr ~$5.2B signed post-qtr; initial ops 1H 2028"
+     "15-yr ~$5.2B signed post-qtr; initial ops 1H 2028",
+     "2028Q2"
     ]
    ],
    "src": [
@@ -397,19 +410,22 @@
      "Dalton, GA",
      175,
      "c",
-     "phased; AMD delivery 1H 2028"
+     "phased; AMD delivery 1H 2028",
+     "2028Q2"
     ],
     [
      "Muskogee, OK",
      70,
      "c",
-     "AMD delivery 2H 2027"
+     "AMD delivery 2H 2027",
+     "2027Q4"
     ],
     [
      "Muskogee expansion (Polaris DS) — CLOSED",
      330,
      "c",
-     "closed 2026-08-14 (~$444M); campus plan 1.5 GW gross / ~1.0 GW leasable; next ~82 MW 2H 2027"
+     "closed 2026-08-14 (~$444M); campus plan 1.5 GW gross / ~1.0 GW leasable; next ~82 MW 2H 2027",
+     "2027Q4"
     ],
     [
      "Hunt County, TX",
@@ -421,7 +437,8 @@
      "AMD five-site program (Pecos TX · Auburn AL · Muskogee · Dalton · Hunt Co.)",
      530,
      "c",
-     "1H 2027 – 1H 2028; full 530 MW by end-2028 (per-site split n/d)"
+     "1H 2027 – 1H 2028; full 530 MW by end-2028 (per-site split n/d)",
+     "2027Q2"
     ]
    ],
    "src": [
@@ -478,13 +495,15 @@
      "Helios Phase II",
      260,
      "c",
-     "foundations underway (HITT); data halls from Q2 2027"
+     "foundations underway (HITT); data halls from Q2 2027",
+     "2027Q2"
     ],
     [
      "Helios Phase III",
      133,
      "c",
-     "final CoreWeave option"
+     "final CoreWeave option",
+     null
     ],
     [
      "Helios expansion (830 MW)",
@@ -557,25 +576,29 @@
      "Lake Mariner — CB-4",
      168,
      "c",
-     "phased delivery + rent 2H 2026"
+     "phased delivery + rent 2H 2026",
+     "2026Q4"
     ],
     [
      "Lake Mariner — CB-5",
      168,
      "c",
-     "phased delivery from early 2027"
+     "phased delivery from early 2027",
+     "2027Q1"
     ],
     [
      "Abernathy JV — sale to Fluidstack agreed 7/06",
      84,
      "c",
-     "exits at close (installments through Apr 2027); excluded from con"
+     "exits at close (installments through Apr 2027); excluded from con",
+     null
     ],
     [
      "Justified Data — Hawesville KY (Anthropic)",
      401,
      "c",
-     "initial delivery 2H 2027, full early 2028; KY PSC approved 482 MW retail service"
+     "initial delivery 2H 2027, full early 2028; KY PSC approved 482 MW retail service",
+     "2027Q4"
     ],
     [
      "Muskie Data — Grayson KY",
@@ -644,19 +667,22 @@
      "River Bend Campus (Fluidstack)",
      245,
      "c",
-     "initial data hall Q2 2027"
+     "initial data hall Q2 2027",
+     "2027Q2"
     ],
     [
      "Beacon Point Campus (IG hyperscaler)",
      352,
      "c",
-     "energize Q1 2027; initial data hall Q3 2027"
+     "energize Q1 2027; initial data hall Q3 2027",
+     "2027Q1"
     ],
     [
      "Beacon Point Phase 2 (IG hyperscaler)",
      352,
      "c",
-     "advanced to construction Aug 2026; initial data hall Q2 2028"
+     "advanced to construction Aug 2026; initial data hall Q2 2028",
+     "2028Q2"
     ],
     [
      "Highrise AI GPU cloud",
@@ -719,19 +745,22 @@
      "Barber Lake (Fluidstack)",
      207,
      "c",
-     "delivery ~Sep 2026"
+     "delivery ~Sep 2026",
+     "2026Q3"
     ],
     [
      "Black Pearl (AWS)",
      216,
      "c",
-     "initial capacity live Aug 2026 (2 mo early), rent commenced; remaining Ph I halls in fit-out"
+     "initial capacity live Aug 2026 (2 mo early), rent commenced; remaining Ph I halls in fit-out",
+     "2026Q3"
     ],
     [
      "Stingray (AWS)",
      70,
      "c",
-     "slipped to 1H 2027; fully funded by $810M bond"
+     "slipped to 1H 2027; fully funded by $810M bond",
+     "2027Q2"
     ],
     [
      "Apollo — ~288-acre option near San Antonio TX",
@@ -808,13 +837,15 @@
      "Childress Horizons 2–4 (Microsoft)",
      150,
      "c",
-     "delivery Q4 2026 (slipped from Q3); ~0.3 GW IT delivered in 2026, ~0.8 GW in 2027"
+     "delivery Q4 2026 (slipped from Q3); ~0.3 GW IT delivered in 2026, ~0.8 GW in 2027",
+     "2026Q4"
     ],
     [
      "Childress — NVIDIA air-cooled",
      60,
      "c",
-     "early 2027 (not restated in FY26 PR)"
+     "early 2027 (not restated in FY26 PR)",
+     "2027Q1"
     ],
     [
      "Canada GPU sites (Mackenzie · Canal Flats · Prince George BC)",
@@ -889,7 +920,8 @@
      "Panther Creek PA",
      350,
      "c",
-     "first ~50 MW YE 2026 target (not reaffirmed Q2 2026; zoning + land approvals secured, >500 MW expansion potential)"
+     "first ~50 MW YE 2026 target (not reaffirmed Q2 2026; zoning + land approvals secured, >500 MW expansion potential)",
+     "2026Q4"
     ],
     [
      "Sharon PA",
@@ -962,13 +994,15 @@
      "Rockdale (AMD Ph2)",
      25,
      "c",
-     "second 25 MW under construction"
+     "second 25 MW under construction",
+     null
     ],
     [
      "Rockdale (frontier AI lab)",
      191,
      "c",
-     "signed Aug 2026; initial 96 MW Dec 2027, full 191 MW by Jun 2028"
+     "signed Aug 2026; initial 96 MW Dec 2027, full 191 MW by Jun 2028",
+     "2027Q4"
     ],
     [
      "Rockdale (AMD options)",
@@ -1033,13 +1067,15 @@
      "Tydal Norway — Ph1 (Volta)",
      66,
      "c",
-     "66.5 MW gross Q4 2026"
+     "66.5 MW gross Q4 2026",
+     "2026Q4"
     ],
     [
      "Tydal Norway — Ph2 (Volta)",
      66,
      "c",
-     "66.5 MW gross Q1 2027"
+     "66.5 MW gross Q1 2027",
+     "2027Q1"
     ],
     [
      "Tydal Norway — Ph3 (retained AI cloud)",
@@ -1051,7 +1087,8 @@
      "Knoxville TN",
      86,
      "c",
-     "redesigned; completion Q3 2027 (was Q4 2026)"
+     "redesigned; completion Q3 2027 (was Q4 2026)",
+     "2027Q3"
     ],
     [
      "Wenatchee WA",
@@ -1547,13 +1584,15 @@
      "Madison County / Canton, MS (Madison Co.)",
      1034,
      "c",
-     "build to 2027; MS statewide +$12B ann. 2026-04-09"
+     "build to 2027; MS statewide +$12B ann. 2026-04-09",
+     "2027Q4"
     ],
     [
      "Salem Township Innovation Campus, PA (Luzerne Co.)",
      960,
      "c",
-     "Susquehanna nuclear-adjacent; part of $20B PA"
+     "Susquehanna nuclear-adjacent; part of $20B PA",
+     null
     ],
     [
      "Northeast Creek / North Creek Tech, VA (Louisa Co.)",
@@ -1565,7 +1604,8 @@
      "Richmond County, NC",
      1000,
      "c",
-     "construction began Oct-2025"
+     "construction began Oct-2025",
+     null
     ],
     [
      "New Albany, OH (Licking Co.)",
@@ -1703,7 +1743,8 @@
      "Chesterfield, VA (Bermuda Hundred)",
      900,
      "c",
-     "constr. late 2026, phased to 2032"
+     "constr. late 2026, phased to 2032",
+     null
     ],
     [
      "Ridgeville / St George, SC (Dorchester Co.)",
@@ -1715,7 +1756,8 @@
      "Jackson Co. AL (Widows Creek/Bridgeport)",
      300,
      "c",
-     "$1.5B 2026-27; Kairos 50MW nuclear"
+     "$1.5B 2026-27; Kairos 50MW nuclear",
+     "2026Q4"
     ],
     [
      "Texas 3 hubs (Armstrong/Haskell/Midlothian)",
@@ -1837,13 +1879,15 @@
      "Hyperion - Richland Parish, LA",
      1440,
      "c",
-     "2 GW gross Ph1 ~summer 2028; scales to 5 GW; Blue Owl JV; Entergy gas"
+     "2 GW gross Ph1 ~summer 2028; scales to 5 GW; Blue Owl JV; Entergy gas",
+     "2028Q3"
     ],
     [
      "El Paso, TX (BlackRock JV 80/20)",
      720,
      "c",
-     "1 GW gross by 2028, ~$14B dev cost, off-B/S SPV (7/28/26); 366 MW on-site modular gas"
+     "1 GW gross by 2028, ~$14B dev cost, off-B/S SPV (7/28/26); 366 MW on-site modular gas",
+     "2028Q4"
     ],
     [
      "Montgomery, IN",
@@ -2191,7 +2235,8 @@
      "Global xScale portfolio (35+ facilities)",
      725,
      "c",
-     ">725MW at full buildout"
+     ">725MW at full buildout",
+     null
     ]
    ],
    "src": [
@@ -2249,7 +2294,8 @@
      "Charlotte, NC - 200MW AI-inference (AA hyperscaler)",
      200,
      "c",
-     "phasing through 2028; new market"
+     "phasing through 2028; new market",
+     "2028Q4"
     ],
     [
      "Charlotte, NC - 2nd 200MW building",
@@ -2261,7 +2307,8 @@
      "Atlanta, GA - 200MW development",
      200,
      "c",
-     "construction launched Q1'26"
+     "construction launched Q1'26",
+     null
     ],
     [
      "Ashburn / Northern Virginia hub",
@@ -2341,7 +2388,8 @@
      "Colossus 2 - Memphis TN (Tulane Rd)",
      1000,
      "c",
-     "ramping to ~1 GW through 2026"
+     "ramping to ~1 GW through 2026",
+     "2026Q4"
     ],
     [
      "Building 3 / MACROHARDRR - Southaven MS",
@@ -2411,13 +2459,15 @@
      "Milam County TX (SB Energy / SoftBank)",
      1200,
      "c",
-     "first bldg delivery Oct 2026; full Q4 2028; scales to multi-GW"
+     "first bldg delivery Oct 2026; full Q4 2028; scales to multi-GW",
+     "2026Q4"
     ],
     [
      "Lordstown OH (SoftBank/Foxconn, ex-GM/Foxconn plant)",
      300,
      "c",
-     "2027-28 (timing TBD); mostly AI-server/modular-DC manufacturing per Epoch — MW attribution may be generous"
+     "2027-28 (timing TBD); mostly AI-server/modular-DC manufacturing per Epoch — MW attribution may be generous",
+     "2027Q4"
     ],
     [
      "[Oracle-owned Stargate sites - see TENANTS/ORCL, NOT counted here]",
