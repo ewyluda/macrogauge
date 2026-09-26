@@ -44,7 +44,7 @@ export default function Page() {
       </div>
       <div className="kpi-row">
         <KpiCard label="National construction wage"
-          value={nat.wage != null ? `$${nat.wage.toLocaleString()}/wk` : "—"}
+          value={nat.wage != null ? `$${nat.wage.toLocaleString("en-US")}/wk` : "—"}
           context={nat.wage_yoy_pct != null
             ? `${nat.wage_yoy_pct > 0 ? "+" : ""}${nat.wage_yoy_pct}% YoY · private NAICS 23`
             : "awaiting first QCEW quarter"} accent="sky" />
