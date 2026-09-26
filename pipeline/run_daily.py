@@ -36,7 +36,7 @@ import math
 import os
 import sys
 from dataclasses import asdict
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import jsonschema
@@ -286,6 +286,14 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         # keeps targeting an inferred month (release date unknown) so forecasts
         # keep recording instead of leaving an un-backfillable ledger gap.
         next_release = release_calendar.next_target(today)
+        if (next_release and next_release["date"] == today and conn.execute(
+                "SELECT 1 FROM observations WHERE series_code = 'CPIAUCNS' AND obs_date = ?",
+                (f"{next_release['reference_month']}-01",)).fetchone()):
+            # Release morning, print already ingested: target the NEXT month
+            # (the same-day entry used to keep "forecasting" a month that was
+            # already out, recording a post-release call).
+            tomorrow = (date.fromisoformat(today) + timedelta(days=1)).isoformat()
+            next_release = release_calendar.next_target(tomorrow)
         nowcast_state["payload"] = payload = build_nowcast(
             conn, gauge_result, next_release,
             benchmarks=phase3.latest_benchmarks(

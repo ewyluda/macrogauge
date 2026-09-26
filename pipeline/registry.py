@@ -38,6 +38,10 @@ class Absence:
     note: str                       # why — published verbatim in qa.json
     review_by: str | None = None    # ISO date; policy fails QA after this
     max_absence_days: int | None = None  # intermittent: longest tolerated gap
+    # suppressed/discontinued: the last obs date the policy already accounts
+    # for. Only a print AFTER it means the policy is wrong — so a policy can be
+    # added the day a source stops, before the series ages past its limit.
+    since: str | None = None
 
 
 @dataclass(frozen=True)
@@ -74,8 +78,15 @@ def _parse_absence(code: str, raw: dict | None, limit: int) -> Absence | None:
     if max_gap is not None and (not isinstance(max_gap, int) or max_gap <= limit):
         raise ValueError(f"series {code}: absence.max_absence_days must be an "
                          f"int > max_staleness_days ({limit}), got {max_gap!r}")
+    since = raw.get("since")
+    if since is not None:
+        try:
+            date.fromisoformat(since)
+        except (TypeError, ValueError):
+            raise ValueError(f"series {code}: absence.since must be an ISO date, "
+                             f"got {since!r}") from None
     return Absence(kind=kind, note=note.strip(), review_by=review_by,
-                   max_absence_days=max_gap)
+                   max_absence_days=max_gap, since=since)
 
 
 def load_registry(path: Path | None = None) -> tuple[dict[str, Source], list[Series]]:

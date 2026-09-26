@@ -1,0 +1,22 @@
+# Weekly, grouped update PRs. Would have flagged next < 15.5.24 (critical
+# advisory; no exposure under output: "export", but patch it anyway) and the
+# tag-pinned actions.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /site
+    schedule: {interval: weekly}
+    groups:
+      site-deps: {patterns: ["*"]}
+    open-pull-requests-limit: 3
+  - package-ecosystem: pip
+    directory: /
+    schedule: {interval: weekly}
+    groups:
+      python-deps: {patterns: ["*"]}
+    open-pull-requests-limit: 3
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: {interval: weekly}
+    groups:
+      actions: {patterns: ["*"]}
