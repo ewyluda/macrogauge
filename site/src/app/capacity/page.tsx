@@ -3,6 +3,7 @@ import capacityJson from "../../../public/data/capacity.json";
 import { KpiCard } from "@/components/KpiCard";
 import { CapacityClient } from "@/components/capacity/CapacityClient";
 import type { Capacity } from "@/lib/types";
+import { StaleBanner } from "@/components/StaleBanner";
 
 const data = capacityJson as unknown as Capacity;
 const all = data.cohorts.all;
@@ -18,6 +19,7 @@ export default function Page() {
   const ref = data.reference;
   return (
     <div>
+      <StaleBanner publishedAt={capacityJson.published_at} />
       <h1>
         AI Capacity <span className="subtitle">who has the megawatts?</span>
       </h1>

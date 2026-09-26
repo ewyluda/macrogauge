@@ -22,7 +22,7 @@ export function StepChart({
   name?: string;
 }) {
   const [rate, setRate] = useRateMode();
-  const series = rateSeries(rate, values, index);
+  const series = rateSeries(rate, values, index, dates);
   const label = rate === "yoy" || !index ? name : `${name.replace(/ YoY$/, "")} · ${rateLabel(rate)}`;
   const option = {
     ...baseOption(),

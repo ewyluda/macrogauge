@@ -69,6 +69,15 @@ export function CalculatorClient({ dates, index }: CalculatorSeries) {
         <CopyLink />
       </div>
 
+      {/* sinceStats is null for a cleared date or one before the series
+          starts — say so instead of rendering an empty page */}
+      {!s && (
+        <p className="method" role="status" data-testid="since-empty">
+          {since
+            ? `No data before ${dates[0]} — the gauge index starts in January 2018. Pick a date on or after ${dates[0]}.`
+            : `Pick a start date (on or after ${dates[0]}) to see what prices have done since.`}
+        </p>
+      )}
       {s && (
         <>
           <div className="kpi-row">

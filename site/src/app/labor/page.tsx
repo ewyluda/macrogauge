@@ -6,6 +6,7 @@ import { KpiCard } from "@/components/KpiCard";
 import { LaborMonthlyChart, LaborClaimsChart } from "@/components/LaborCharts";
 import { fmtSigned, fmtMonth } from "@/lib/format";
 import type { Labor, Nowcast } from "@/lib/types";
+import { StaleBanner } from "@/components/StaleBanner";
 
 const d = laborJson as Labor;
 const nowcast = nowcastJson as Nowcast;
@@ -38,6 +39,7 @@ export default function LaborPage() {
     : null;
   return (
     <div>
+      <StaleBanner publishedAt={laborJson.published_at} />
       <h1>
         Labor Market <span className="subtitle">the jobs market, in receipts</span>
       </h1>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import gaugeDaily from "../../../public/data/gauge_daily.json";
 import compare from "../../../public/data/compare.json";
+import gaptable from "../../../public/data/gaptable.json";
 import { LinesChart } from "@/components/LinesChart";
 import { BreadthPanel } from "@/components/BreadthPanel";
 import { DownloadData } from "@/components/DownloadData";
@@ -11,11 +12,18 @@ import pulse from "../../../public/data/pulse.json";
 import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
 import { StepChart } from "@/components/StepChart";
-import { fmtPct, fmtPp } from "@/lib/format";
+import { fmtMonth, fmtPct, fmtPp } from "@/lib/format";
+
+// None of the four supercore service components has a live source yet
+// (gaptable coverage 0%), so the series is the BLS carry-forward and only
+// moves on a CPI release. Claim "daily" only once something rides live.
+const LIVE = gaptable.variants.supercore.coverage_pct > 0;
 
 export const metadata: Metadata = {
   title: "Supercore Services",
-  description: "Services inflation ex-shelter — the Fed's favorite cut, tracked daily.",
+  description: LIVE
+    ? "Services inflation ex-shelter — the Fed's favorite cut, tracked daily."
+    : "Services inflation ex-shelter — the Fed's favorite cut, at the latest monthly BLS-derived reading.",
 };
 
 export default function Supercore() {
@@ -34,15 +42,18 @@ export default function Supercore() {
       <h1 style={{ fontSize: 26, fontWeight: 700, margin: "24px 0 0" }}>
         Supercore Services{" "}
         <span style={{ color: "var(--muted)", fontWeight: 400, fontSize: 16 }}>
-          the Fed&apos;s favorite cut — services inflation ex-shelter, tracked daily
+          the Fed&apos;s favorite cut — services inflation ex-shelter,{" "}
+          {LIVE ? "tracked daily" : `latest monthly BLS-derived reading (${fmtMonth(scAsOf)})`}
         </span>
       </h1>
 
       <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 24 }}>
         <KpiCard
-          label="Supercore YoY (today)"
+          label={LIVE ? "Supercore YoY (today)" : `Supercore YoY (${fmtMonth(scAsOf)} BLS)`}
           value={fmtPct(scYoy)}
-          context={`as of ${scAsOf}`}
+          context={LIVE
+            ? `as of ${scAsOf}`
+            : `latest BLS month, as of ${scAsOf} · no live source (${gaptable.variants.supercore.coverage_pct.toFixed(0)}% coverage) — moves only on a CPI release`}
           accent="amber"
         />
         <KpiCard
@@ -59,7 +70,7 @@ export default function Supercore() {
         />
       </div>
 
-      <Section title="Supercore YoY — daily, since 2019">
+      <Section title={LIVE ? "Supercore YoY — daily, since 2019" : "Supercore YoY — since 2019, stepping with each BLS print"}>
         <div
           style={{
             background: "var(--card)",

@@ -6,6 +6,7 @@ import { flattenRow } from "@/lib/csv";
 import { MarketsClient } from "@/components/markets/MarketsClient";
 import { tightnessScore } from "@/lib/dcMarkets";
 import type { DcMarkets } from "@/lib/types";
+import { StaleBanner } from "@/components/StaleBanner";
 
 const data = marketsJson as unknown as DcMarkets;
 const nat = data.national;
@@ -25,6 +26,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div>
+      <StaleBanner publishedAt={marketsJson.published_at} />
       <h1>
         DC Market Panel <span className="subtitle">how tight is the labor where you&apos;re building?</span>
       </h1>
@@ -44,7 +46,7 @@ export default function Page() {
       </div>
       <div className="kpi-row">
         <KpiCard label="National construction wage"
-          value={nat.wage != null ? `$${nat.wage.toLocaleString()}/wk` : "—"}
+          value={nat.wage != null ? `$${nat.wage.toLocaleString("en-US")}/wk` : "—"}
           context={nat.wage_yoy_pct != null
             ? `${nat.wage_yoy_pct > 0 ? "+" : ""}${nat.wage_yoy_pct}% YoY · private NAICS 23`
             : "awaiting first QCEW quarter"} accent="sky" />
