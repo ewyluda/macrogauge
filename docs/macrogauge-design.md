@@ -145,11 +145,12 @@ Five pure stages over the vintage store (each independently unit-testable):
 3. **Quality gate** — any live component moving >5% in one day: hold at prior value one day,
    flag. Missing inputs carry forward and lower the coverage score. Publication never blocks.
 4. **Aggregate** — Laspeyres: `headline_index = Σ weightᵢ × component_indexᵢ`.
-   `YoY = index_today ÷ index_365d_ago − 1`. Weights = BLS CPI relative importance (December
-   values), hand-seeded in `config/basket.yaml`, renormalized, refreshed annually.
-   Seed weights (2026, 14 components): shelter_owned .265, other .185, food_home .082,
-   medical .081, shelter_rent .075, food_away .057, education_comm .055, recreation .053,
-   new_vehicles .036, fuel .030, electricity .028, apparel .025, used_vehicles .021, nat_gas .007.
+   Headline YoY = Σ wᵢ · yoyᵢ over each component's own like-month YoY (not an index ratio —
+   see CLAUDE.md). Weights = BLS CPI-U relative importance (`config/cpi_relative_importance.json`,
+   December tables 2016–2025), price-updated at run time to the YoY base month (t − 12); refresh
+   by adding each new December table in January. "other" is the exact CPI residual
+   (`pipeline/derived.py`), not the Other-goods-and-services index. (Until 2026-09-26 the weights
+   were a hand seed that reconstructed Aug-2026 CPI at 3.58% vs 3.40%; see the methodology changelog.)
 5. **Variants** — five published cuts, each validated vs official history (corr + mean abs gap
    published in methodology):
 

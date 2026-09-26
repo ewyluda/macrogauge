@@ -55,7 +55,7 @@ def test_build_stats_inventory_and_reconstruction(tmp_path):
                           GAPTABLE, CPI, today="2018-06-02")
     assert p["stats"] == {"series_count": 2, "obs_count": 2, "source_count": 1,
                           "tracker_corr": 0.98, "live_coverage_pct": 40.46,
-                          "engine_version": "1.0", "rebase": "2018-01=100"}
+                          "engine_version": "1.1", "rebase": "2018-01=100"}
     assert [s["n"] for s in p["stages"]] == [1, 2, 3, 4, 5]
     assert p["basket"] == [
         {"code": "fuel", "label": "Gasoline", "weight": 1.0,

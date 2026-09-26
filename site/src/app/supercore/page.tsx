@@ -113,7 +113,7 @@ export default function Supercore() {
       <Section title="Methodology">
         <div style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.6 }}>
           Weighted average of our service components — medical care, education &amp;
-          communication, recreation, and other goods &amp; services — with weights
+          communication, recreation, and the CPI residual (everything outside the 13 named components) — with weights
           renormalized; excludes shelter, goods, food-at-home, energy and vehicles
           (config: supercore_components in basket.json). Why it matters: goods prices
           swing with supply chains and energy with OPEC — supercore is the wage-driven

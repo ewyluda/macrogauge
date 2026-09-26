@@ -30,7 +30,18 @@ def latest_benchmarks(conn, reference_month: str | None) -> dict[str, dict | Non
     Rows are keyed obs_date = reference-month first (shared connector
     convention); anything else — old-convention leftovers, a stale prior
     month — is excluded rather than silently blended into the ensemble."""
-    codes = {"cleveland": "cleveland_cpi_mom", "kalshi": "kalshi_cpi_mom"}
+    return _benchmarks(conn, reference_month,
+                       {"cleveland": "cleveland_cpi_mom", "kalshi": "kalshi_cpi_mom"})
+
+
+def latest_core_benchmarks(conn, reference_month: str | None) -> dict[str, dict | None]:
+    """Core CPI benchmarks for the same reference month (Cleveland's core
+    nowcast was collected but never published; Kalshi's KXCPICORE ladder)."""
+    return _benchmarks(conn, reference_month,
+                       {"cleveland": "cleveland_core_cpi_mom", "kalshi": "kalshi_core_cpi_mom"})
+
+
+def _benchmarks(conn, reference_month, codes):
     if reference_month is None:
         return {name: None for name in codes}
     out = {}
@@ -67,6 +78,14 @@ def record_forecasts(nowcast: dict, conn, store_dir: Path, vintage_date: str) ->
                ("forecast_pce_mom", cpi_month, nowcast["pce"]["mom_pct"])]
     if nowcast["cpi"].get("basis") == "SA":
         entries.append(("forecast_cpi_mom_sa", cpi_month, nowcast["cpi"]["mom_pct"]))
+    core = nowcast["cpi"].get("core")
+    if core and core.get("basis") == "SA":
+        entries.append(("forecast_core_cpi_mom_sa", cpi_month, core["mom_pct"]))
+    # Frozen per-component rows (NSA MoM, the model's native unit): after the
+    # print, each component's miss can be attributed against its own CUUR
+    # series. Value-deduped by vintage.append, so an unchanged row costs nothing.
+    for row in nowcast["cpi"].get("components") or []:
+        entries.append((f"forecast_cpi_comp_{row['component']}", cpi_month, row["mom_pct"]))
     if nfp is not None:
         entries.append(("forecast_nfp_change",
                         f"{nfp['reference_month']}-01",
@@ -171,9 +190,18 @@ def build_nextprint(nowcast: dict) -> dict:
                     "kind": "benchmark", "as_of": bench["as_of"]}
                    for name, bench in nowcast["benchmarks"].items()
                    if bench is not None]
+    core = (nowcast["cpi"] or {}).get("core")
+    core_rows = ([{"name": "Macrogauge", "value": core["mom_pct"], "kind": "model",
+                   "as_of": nowcast["cpi"]["as_of"]}] if core else [])
+    core_rows += [{"name": name.title(), "value": b["value"], "kind": "benchmark",
+                   "as_of": b["as_of"]}
+                  for name, b in (nowcast.get("core_benchmarks") or {}).items()]
     return {"target": "CPI MoM", "release_date": nowcast["release_date"],
             "reference_month": nowcast["reference_month"],
-            "ensemble": nowcast["ensemble"], "forecasters": candidates}
+            "basis": (nowcast["cpi"] or {}).get("basis", "NSA"),
+            "ensemble": nowcast["ensemble"], "forecasters": candidates,
+            "core": {"ensemble": nowcast.get("core_ensemble") or {"value": None, "weights": {}},
+                     "forecasters": core_rows}}
 
 
 BBL_GALLONS = 42  # WTI quotes in $/barrel; the pump price is $/gallon
@@ -207,6 +235,104 @@ def build_fuel(conn) -> dict:
             "proxy": proxy, "formula": formula}
 
 
+LEADERBOARD_MIN_N = 6  # graded prints each forecaster needs before weights are earned
+LEADERBOARD_WINDOW = 12
+
+
+def build_leaderboard(conn) -> dict:
+    """Head-to-head CPI MoM track record on ONE basis (seasonally adjusted,
+    as first released): each forecaster's last value before the release vs
+    CPIAUCSL t over t-1 as known on release day. Our pre-2026-09-26 calls
+    were recorded NSA and are converted with the same seasonal factors the
+    live model now uses (seasonal_mom), flagged `converted`."""
+    from pipeline.engine.nowcast.models import seasonal_mom
+    releases = {p: r for p, _, r in vintage.first_releases(conn, "CPIAUCNS")}
+    sources = {"macrogauge": ("forecast_cpi_mom_sa", "forecast_cpi_mom"),
+               "cleveland": ("cleveland_cpi_mom", None),
+               "kalshi": ("kalshi_cpi_mom", None)}
+
+    def last_before(code, period, released):
+        row = conn.execute(
+            "SELECT value FROM observations WHERE series_code = ? AND obs_date = ? "
+            "AND vintage_date < ? ORDER BY vintage_date DESC, rowid DESC LIMIT 1",
+            (code, period, released)).fetchone()
+        return None if row is None else row[0]
+
+    rows = []
+    for period in sorted(releases)[-LEADERBOARD_WINDOW:]:
+        released = releases[period]
+        known = dict(vintage.as_of(conn, "CPIAUCSL", released))
+        prev = known.get(prior_month(period))
+        if prev is None or period not in known:
+            continue
+        actual = (known[period] / prev - 1) * 100
+        entry = {"reference_period": period[:7], "release_date": released,
+                 "actual_sa_mom_pct": round(actual, 3), "forecasts": {}}
+        for name, (code, legacy) in sources.items():
+            value, converted = last_before(code, period, released), False
+            if value is None and legacy:
+                nsa = last_before(legacy, period, released)
+                value = None if nsa is None else seasonal_mom(nsa, conn, period)
+                converted = value is not None
+            if value is not None:
+                entry["forecasts"][name] = {"value": round(value, 3),
+                                            "error": round(value - actual, 3),
+                                            "converted": converted}
+        if entry["forecasts"]:
+            rows.append(entry)
+    stats = {}
+    for name in sources:
+        errs = [r["forecasts"][name]["error"] for r in rows if name in r["forecasts"]]
+        stats[name] = {"n": len(errs),
+                       "mae_pp": round(sum(abs(e) for e in errs) / len(errs), 3) if errs else None,
+                       "bias_pp": round(sum(errs) / len(errs), 3) if errs else None}
+    earned = all(v["n"] >= LEADERBOARD_MIN_N for v in stats.values())
+    return {"basis": "SA, first release", "window": LEADERBOARD_WINDOW,
+            "min_n_for_weights": LEADERBOARD_MIN_N, "weights_earned": earned,
+            "stats": stats, "rows": rows}
+
+
+def build_component_misses(conn, basket_components=None) -> dict | None:
+    """Miss attribution for the latest released CPI month: each frozen
+    component row (forecast_cpi_comp_<code>, NSA MoM) vs that component's own
+    official NSA MoM as released. None until a print lands after component
+    rows started being recorded (2026-09-26)."""
+    from pipeline import basket as basket_mod
+    comps = basket_components or basket_mod.load_basket()[1]
+    releases = vintage.first_releases(conn, "CPIAUCNS")
+    if not releases:
+        return None
+    period, _, released = releases[-1]
+    rows = []
+    for c in comps:
+        f = conn.execute(
+            "SELECT value FROM observations WHERE series_code = ? AND obs_date = ? "
+            "AND vintage_date < ? ORDER BY vintage_date DESC, rowid DESC LIMIT 1",
+            (f"forecast_cpi_comp_{c.code}", period, released)).fetchone()
+        known = dict(vintage.as_of(conn, c.official_series, released)) \
+            or dict(vintage.latest(conn, c.official_series))
+        prev = known.get(prior_month(period))
+        if f is None or prev is None or period not in known:
+            continue
+        actual = (known[period] / prev - 1) * 100
+        rows.append({"component": c.code, "label": c.label, "weight": round(c.weight, 5),
+                     "forecast_nsa_mom_pct": round(f[0], 3),
+                     "actual_nsa_mom_pct": round(actual, 3),
+                     "miss_contribution_pp": round(c.weight * (f[0] - actual), 3)})
+    if not rows:
+        return None
+    rows.sort(key=lambda r: -abs(r["miss_contribution_pp"]))
+    return {"reference_period": period[:7], "release_date": released, "rows": rows}
+
+
+def ensemble_errors(leaderboard: dict) -> dict[str, float | None]:
+    """Per-forecaster MAE for inverse-error ensemble weights — only once every
+    forecaster has LEADERBOARD_MIN_N graded prints; equal weights until then."""
+    if not leaderboard.get("weights_earned"):
+        return {}
+    return {k: v["mae_pp"] for k, v in leaderboard["stats"].items()}
+
+
 def write_all(nowcast: dict, conn, out_dir: Path, published_at: str) -> list[Path]:
     releases = build_releases(conn)
     payloads = {
@@ -218,4 +344,6 @@ def write_all(nowcast: dict, conn, out_dir: Path, published_at: str) -> list[Pat
         **{f"accountability_{target}.json": build_accountability(target, nowcast, conn)
            for target in ("cpi", "pce", "nfp")},
     }
+    payloads["accountability_cpi.json"]["leaderboard"] = build_leaderboard(conn)
+    payloads["accountability_cpi.json"]["last_print_components"] = build_component_misses(conn)
     return [_write(name, payload, out_dir, published_at) for name, payload in payloads.items()]

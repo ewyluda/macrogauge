@@ -59,7 +59,11 @@ def _driver_slice(code: str, conn, config: dict, through_month: str,
 OFFICIAL_ONLY = ("shelter_owned", "shelter_rent")
 
 
-def seasonal_mom(nsa_mom: float, conn, target: str) -> float | None:
+FOOD_ENERGY = ("food_home", "food_away", "fuel", "electricity", "nat_gas")
+
+
+def seasonal_mom(nsa_mom: float, conn, target: str,
+                 sa_code: str = "CPIAUCSL", nsa_code: str = "CPIAUCNS") -> float | None:
     """Convert a not-seasonally-adjusted MoM to the seasonally adjusted basis
     every benchmark quotes (Cleveland Fed, Kalshi settle on SA CPI-U), using
     last year's BLS seasonal factors (SA/NSA) for the target and prior month:
@@ -70,8 +74,8 @@ def seasonal_mom(nsa_mom: float, conn, target: str) -> float | None:
     February). None when CPIAUCSL/CPIAUCNS lack either month."""
     if conn is None:
         return None
-    sa = dict(vintage.latest(conn, "CPIAUCSL"))
-    nsa = dict(vintage.latest(conn, "CPIAUCNS"))
+    sa = dict(vintage.latest(conn, sa_code))
+    nsa = dict(vintage.latest(conn, nsa_code))
     t12 = month_first(f"{int(target[:4]) - 1}-{target[5:7]}")
     p12 = prior_month(t12)
     try:
@@ -146,12 +150,26 @@ def cpi_nowcast(gauge_result: dict, target_month: str, conn=None,
         total += contribution
     latest_yoy = variant["yoy"][variant["as_of"]]
     sa = seasonal_mom(total, conn, target)
+    # Core = the same bottom-up rows ex food & energy, renormalized (the
+    # residual "other" still holds alcohol and non-gasoline motor fuel, <1%
+    # of CPI — an honest approximation of CPI-U less food and energy).
+    core_rows = [r for r in contributions if r["component"] not in FOOD_ENERGY]
+    core_w = sum(r["weight"] for r in core_rows)
+    core = None
+    if core_w > 0:
+        core_nsa = sum(r["contribution_pp"] for r in core_rows) / core_w
+        core_sa = seasonal_mom(core_nsa, conn, target, "CPILFESL", "CPILFENS")
+        core = {"mom_pct": round(core_sa if core_sa is not None else core_nsa, 2),
+                "mom_nsa_pct": round(core_nsa, 2),
+                "basis": "SA" if core_sa is not None else "NSA",
+                "weight_share": round(core_w, 4)}
     return {"target_month": target[:7],
             # Headline is SA whenever factors exist, so the model, Cleveland
             # and Kalshi are averaged and graded on one basis.
             "mom_pct": round(sa if sa is not None else total, 2),
             "mom_nsa_pct": round(total, 2),
             "basis": "SA" if sa is not None else "NSA",
+            "core": core,
             "yoy_pct": round(latest_yoy, 2), "as_of": variant["as_of"],
             "status": "live", "parameters": {},
             "components": contributions}
@@ -233,6 +251,7 @@ def ensemble(forecasts: dict[str, float | None], errors: dict[str, float | None]
 
 def build_latest(conn, gauge_result: dict, next_release: dict | None,
                  benchmarks: dict[str, float | None] | None = None,
+                 core_benchmarks: dict[str, dict | None] | None = None,
                  staleness: dict[str, int] | None = None,
                  today: str | None = None) -> dict:
     if next_release is None:
@@ -261,8 +280,17 @@ def build_latest(conn, gauge_result: dict, next_release: dict | None,
     forecasts = {"macrogauge": cpi["mom_pct"],
                  **{name: b["value"] for name, b in benchmark_values.items()
                     if b is not None}}
-    ens = ensemble(forecasts, {name: None for name in forecasts})
+    # Inverse-MAE weights once every forecaster has a graded SA record
+    # (phase3.build_leaderboard); equal weights until then.
+    from pipeline.publish import phase3
+    errors = phase3.ensemble_errors(phase3.build_leaderboard(conn)) if conn is not None else {}
+    ens = ensemble(forecasts, {name: errors.get(name) for name in forecasts})
+    core_bench = {k: v for k, v in (core_benchmarks or {}).items() if v is not None}
+    core_forecasts = {"macrogauge": (cpi.get("core") or {}).get("mom_pct"),
+                      **{name: b["value"] for name, b in core_bench.items()}}
+    core_ens = ensemble(core_forecasts, {name: None for name in core_forecasts})
     return {"target": "CPI", "release_date": next_release["date"],
+            "core_benchmarks": core_bench, "core_ensemble": core_ens,
             "reference_month": next_release["reference_month"], "cpi": cpi,
             "pce": {**pce, "status": "live", "as_of": cpi["as_of"]},
             "nfp": nfp, "benchmarks": benchmark_values, "ensemble": ens,

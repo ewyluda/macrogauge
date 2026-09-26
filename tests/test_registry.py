@@ -22,15 +22,15 @@ def test_load_real_registry():
                             "APTLIST", "USDA", "AAA", "AAA_STATE", "MND", "MANHEIM",
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
-                            "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC",
+                            "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC", "KALSHI_CORE",
                             "EIA_STATE_RES"}
-    assert len(series) == 695
+    assert len(series) == 705
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 153
+    assert len(fred) == 162
     # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
     # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
     # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
@@ -40,6 +40,8 @@ def test_load_real_registry():
         "CPILFENS": "CPILFENS",
         "CPIAUCSL": "CPIAUCSL",
         "CPILFESL": "CPILFESL",
+        **{c: c for c in ("COREFLEXCPIM159SFRBATL", "PCEPILFE", "T5YIFR", "EXPINF1YR",
+                          "EXPINF10YR", "CUSR0000SACL1E", "CHNTOT", "ECIALLCIV", "ULCNFB")},
         "PCEPI": "PCEPI",
         "CUUR0000SAF11": "CUUR0000SAF11",
         "CUUR0000SEFV": "CUUR0000SEFV",

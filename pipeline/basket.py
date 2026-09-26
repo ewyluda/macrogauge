@@ -10,7 +10,7 @@ DEFAULT_PATH = Path(__file__).parent.parent / "config" / "basket.json"
 class Component:
     code: str                            # internal component id, e.g. "shelter_owned"
     label: str                           # display label (gaptable rows)
-    weight: float                        # BLS relative-importance seed weight
+    weight: float                        # BLS relative importance, December of weights_as_of
     official_series: str                 # store series code of the official BLS index
     live_blend: dict[str, float] | None  # store series code -> design blend weight
     live_variants: tuple[str, ...]       # variants whose live blend drives this component

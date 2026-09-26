@@ -12,7 +12,7 @@ export function ForecastHero() {
   return (
     <>
       <div className="kpi-row">
-        <KpiCard label="Ensemble CPI · MoM"
+        <KpiCard label={`Ensemble CPI · MoM${nextprint.basis ? ` (${nextprint.basis})` : ""}`}
           value={nextprint.ensemble.value == null ? "—" : `${nextprint.ensemble.value.toFixed(2)}%`}
           context={nextprint.release_date
             ? `${nextprint.reference_month} · releases ${nextprint.release_date}`
@@ -28,6 +28,17 @@ export function ForecastHero() {
           context="Unavailable benchmarks receive zero weight" accent="violet" />
       </div>
       <ForecastTable rows={nextprint.forecasters} />
+      {nextprint.core && nextprint.core.forecasters.length > 0 && (
+        <>
+          <div className="kpi-row" style={{ marginTop: 16 }}>
+            <KpiCard label="Ensemble core CPI · MoM (SA)"
+              value={nextprint.core.ensemble.value == null ? "—" : `${nextprint.core.ensemble.value.toFixed(2)}%`}
+              context="CPI less food & energy — our bottom-up rows ex food/energy vs Cleveland Fed and the Kalshi core ladder"
+              accent="violet" />
+          </div>
+          <ForecastTable rows={nextprint.core.forecasters} />
+        </>
+      )}
     </>
   );
 }

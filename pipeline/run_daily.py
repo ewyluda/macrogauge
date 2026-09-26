@@ -290,6 +290,8 @@ def main(argv=None, http_get=None, http_post=None) -> int:
             conn, gauge_result, next_release,
             benchmarks=phase3.latest_benchmarks(
                 conn, next_release["reference_month"] if next_release else None),
+            core_benchmarks=phase3.latest_core_benchmarks(
+                conn, next_release["reference_month"] if next_release else None),
             staleness=staleness, today=today)
         phase3.record_forecasts(payload, conn, args.store, today)
         phase3_paths = phase3.write_all(payload, conn, args.out,

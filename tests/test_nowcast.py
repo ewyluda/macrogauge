@@ -261,3 +261,42 @@ def test_build_latest_threads_staleness_into_cpi_receipts(tmp_path, monkeypatch)
                           staleness={"fmp_corn": 30}, today="2026-06-20")
     assert captured == {"staleness": {"fmp_corn": 30}, "today": "2026-06-20"}
     assert result["cpi"]["components"][0]["basis"] in ("trend", "trend+driver")
+
+
+def _two_component_gauge():
+    # fuel (energy) +10% measured in July; medical trends +0.3%/mo.
+    gauge = _sticky_gauge("medical", 0.3, last="2026-05-28")
+    daily = {f"2026-06-{d:02d}": 100.0 for d in range(1, 31)}
+    daily.update({f"2026-07-{d:02d}": 110.0 for d in range(1, 11)})
+    comps = gauge["variants"]["gauge"]["components"]
+    comps["medical"]["weight"] = 0.5
+    comps["fuel"] = {"weight": 0.5, "last_obs": "2026-07-10", "daily_index": daily}
+    gauge["variants"]["gauge"]["as_of"] = "2026-07-10"
+    gauge["variants"]["gauge"]["yoy"] = {"2026-07-10": 3.0}
+    return gauge
+
+
+def test_core_nowcast_excludes_food_and_energy_and_renormalizes():
+    result = cpi_nowcast(_two_component_gauge(), "2026-07", config=TREND_CONFIG)
+    core = result["core"]
+    assert core["weight_share"] == 0.5
+    medical = [r for r in result["components"] if r["component"] == "medical"][0]
+    assert core["mom_nsa_pct"] == round(medical["mom_pct"], 2)
+    assert core["basis"] == "NSA"  # no conn -> no seasonal factors
+
+
+def test_seasonal_mom_uses_last_years_factor_ratio(tmp_path):
+    rows = [Observation("CPIAUCNS", "2025-06-01", 100.0, "2025-07-15", "FRED", "API"),
+            Observation("CPIAUCNS", "2025-07-01", 100.0, "2025-08-12", "FRED", "API"),
+            Observation("CPIAUCSL", "2025-06-01", 100.0, "2025-07-15", "FRED", "API"),
+            Observation("CPIAUCSL", "2025-07-01", 100.2, "2025-08-12", "FRED", "API")]
+    vintage.append(rows, tmp_path)
+    conn = vintage.load(tmp_path)
+    # NSA flat July; last year's factors say July SA runs 0.2% above NSA vs June
+    assert models.seasonal_mom(0.0, conn, "2026-07-01") == pytest.approx(0.2)
+    assert models.seasonal_mom(0.0, conn, "2026-09-01") is None  # no factors
+
+
+def test_kalshi_core_ladder_writes_its_own_series_code():
+    from pipeline.connectors import kalshi
+    assert kalshi.SERIES_CODES["KXCPICORE"] == "kalshi_core_cpi_mom"
