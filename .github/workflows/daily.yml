@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           # The once-per-day gate must see every commit made today, even on an
           # unusually busy branch.
@@ -44,7 +44,7 @@ jobs:
           python3 -m pipeline.publish_gate --event "${{ github.event_name }}" \
             --store store | tee gate.log
           grep '^run=' gate.log >> "$GITHUB_OUTPUT"
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         if: steps.gate.outputs.run == 'true'
         with:
           python-version: "3.12"
