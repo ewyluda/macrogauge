@@ -244,6 +244,8 @@ export function Treemap() {
           min={0}
           max={monthEnds.length - 1}
           value={at}
+          aria-label="Replay month"
+          aria-valuetext={frame.month}
           onChange={(e) => {
             setPlaying(false);
             setPos(Number(e.target.value));
