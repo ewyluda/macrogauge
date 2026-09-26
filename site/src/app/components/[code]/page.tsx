@@ -13,7 +13,7 @@ import { Citation } from "@/components/Citation";
 import { StatusPill } from "@/components/StatusPill";
 import { COMPONENTS, COMPONENT_BY_CODE, componentHref, splicePosition } from "@/lib/components";
 import { contributionsAt, type ReplayComponent } from "@/lib/contribution";
-import { annualizedChange, lastChange, RATE_LOOKBACK_DAYS } from "@/lib/momentum";
+import { annualizedAt, lastChange, NSA_NOTE, RATE_LOOKBACK_MONTHS } from "@/lib/momentum";
 import { columnsToRows } from "@/lib/csv";
 import { fmtMonth, fmtPp, fmtSigned, yoyColor } from "@/lib/format";
 
@@ -59,8 +59,8 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
   const bls = contributionsAt(replay.components, "bls", last);
   const contrib = ours?.find((x) => x.code === code)?.pp ?? null;
   const blsContrib = bls?.find((x) => x.code === code)?.pp ?? null;
-  const ann3 = annualizedChange(rc.index, RATE_LOOKBACK_DAYS.ann3)[own];
-  const ann6 = annualizedChange(rc.index, RATE_LOOKBACK_DAYS.ann6)[own];
+  const ann3 = annualizedAt(rc.index, replay.dates, RATE_LOOKBACK_MONTHS.ann3, own);
+  const ann6 = annualizedAt(rc.index, replay.dates, RATE_LOOKBACK_MONTHS.ann6, own);
   const gapRow = gaptable.rows.find((r) => r.component === code);
   const path = outlook.component_paths[code] ?? [];
   const idx = COMPONENTS.findIndex((x) => x.code === code);
@@ -98,6 +98,9 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
         <KpiCard label="Gap vs BLS" value={fmtPp(gapRow?.gap_pp ?? null)} context={gapRow ? `contribution to the headline gap ${fmtPp(gapRow.contribution_pp)} · ${gaptable.as_of}` : "no gap row"} accent={(gapRow?.gap_pp ?? 0) > 0 ? "red" : "emerald"} />
         <KpiCard label="Momentum" value={fmtSigned(ann3)} context={`3m annualized · 6m ${fmtSigned(ann6)} · at own last obs ${replay.dates[own]}`} accent={(ann3 ?? 0) > (rc.yoy[last] ?? 0) ? "red" : "emerald"} />
       </div>
+      <p className="chart-caption" data-testid="momentum-nsa-note">
+        Momentum compares the index with the same day-of-month 3 and 6 calendar months earlier, compounded to a year. {NSA_NOTE}
+      </p>
       <Citation series={`${c.label} component YoY`} asOf={rc.last_obs ?? replay.dates[last]} rebase={replay.rebase} value={`${fmtSigned(rc.yoy[last])} YoY`} path={componentHref(code)} />
 
       <Section title="Ours vs BLS — daily since 2018" featured>

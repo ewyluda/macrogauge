@@ -94,8 +94,8 @@ const heroDaily = sliceSince(
   heroStart,
 );
 // The momentum control needs index levels reaching 6 months BEHIND the
-// window start (a 6m annualized rate at the first visible day looks back
-// 182 days), so the index payload is cut at window + 6 months; HeroChart
+// window start (a 6m annualized rate at the first visible day looks back 6
+// calendar months), so the index payload is cut at window + 6 months; HeroChart
 // re-cuts the display to `windowMonths` after computing the rates.
 const heroIndex = sliceSince(
   gaugeDaily.variants.gauge.dates,
