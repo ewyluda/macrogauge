@@ -1,0 +1,16 @@
+{
+  "_note": "Every change that moves a published number or its meaning, newest first. methodology.json publishes these entries and methodology_version = the newest date. Add an entry in the same commit as the change.",
+  "entries": [
+    {"date": "2026-09-26", "area": "weights", "change": "Basket weights are BLS CPI-U relative importance (December tables 2016-2025), price-updated to the YoY base month, replacing the 2026-07-08 seed weights. The seed weights reconstructed Aug-2026 CPI at 3.58% vs the actual 3.40%; the new weights at 3.34%."},
+    {"date": "2026-09-26", "area": "other", "change": "\"Other\" (17.7% of CPI) is the exact CPI residual — CPI-U minus the 13 named components, chained December to December — instead of the 'Other goods and services' index (tobacco and personal care, ~3% of CPI). Aug-2026 YoY 3.21% vs 4.23% for the old proxy."},
+    {"date": "2026-09-26", "area": "utilities", "change": "EIA residential electricity and gas no longer replace published BLS prints; they extend the official series only past the last print, on a like-month ratio. They had substituted July/June EIA data for the published August BLS values, and EIA's residential-gas seasonality inflated the 12-month outlook."},
+    {"date": "2026-09-26", "area": "nowcast", "change": "The CPI nowcast is seasonally adjusted (last year's BLS seasonal factors), the basis Cleveland Fed and Kalshi quote; the unadjusted value is kept alongside. Shelter rows follow official OER/rent trend instead of same-month market asking rents. A core-CPI nowcast and a head-to-head leaderboard were added."},
+    {"date": "2026-09-26", "area": "grading", "change": "Scoreboard actuals are the change as each release reported it (month t over t-1 as known that day), fixing payroll and PCE grades that mixed vintages. Payroll and PCE first prints are backfilled from ALFRED."},
+    {"date": "2026-09-26", "area": "datacenter", "change": "DC index proxy tails are anchored on the proxy's reference-month average (PPIs are priced mid-month), not its last value before the month; compute price indexes are chain-linked so members dropping in and out no longer move the level."},
+    {"date": "2026-09-05", "area": "freshness", "change": "Series that are legitimately absent (disclosure-suppressed, intermittent, discontinued) carry an explicit expected-absence policy, judged separately from staleness."},
+    {"date": "2026-07-17", "area": "audit", "change": "Math audit fixes: the cost-of-living payment index merges MND onto PMMS with level scaling; Heat Check's PPI input sign corrected; the stress index scores consumer credit as growth; nowcast measured rows use month-average moves."},
+    {"date": "2026-07-10", "area": "blend", "change": "A live source that starts after the blend enters at the blend's level (fixes a fabricated one-day fuel cliff)."},
+    {"date": "2026-07-09", "area": "sources", "change": "Used vehicles ride the Manheim wholesale index with a 30-day lead; Redfin dropped from the shelter blend (dataset retired)."},
+    {"date": "2026-07-08", "area": "headline", "change": "Headline YoY is the weighted mean of each component's own like-month YoY (not an index ratio), so lagging components compare like month to like month."}
+  ]
+}

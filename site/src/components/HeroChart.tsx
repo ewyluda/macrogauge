@@ -53,9 +53,9 @@ export function HeroChart({
   const [allComparisons, setAllComparisons] = useState(false);
   const [rate, setRate] = useRateMode();
   const momentum = rate !== "yoy" && !!gaugeIndex;
-  const gaugeS = useMemo(() => rateSeries(rate, gauge, gaugeIndex), [rate, gauge, gaugeIndex]);
-  const trackerS = useMemo(() => rateSeries(rate, tracker, trackerIndex), [rate, tracker, trackerIndex]);
-  const colS = useMemo(() => (col ? rateSeries(rate, col, colIndex) : undefined), [rate, col, colIndex]);
+  const gaugeS = useMemo(() => rateSeries(rate, gauge, gaugeIndex, dates), [rate, gauge, gaugeIndex, dates]);
+  const trackerS = useMemo(() => rateSeries(rate, tracker, trackerIndex, dates), [rate, tracker, trackerIndex, dates]);
+  const colS = useMemo(() => (col ? rateSeries(rate, col, colIndex, dates) : undefined), [rate, col, colIndex, dates]);
   // The window is cut from the data, not just the axis: ECharts sizes the
   // y-axis from every point in a series, including those clipped by
   // `xAxis.min`, so the 2022 spike would otherwise crush the visible lines.

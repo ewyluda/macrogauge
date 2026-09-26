@@ -7,7 +7,7 @@ import { TailSpark } from "@/components/TailSpark";
 import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
 import { C } from "@/lib/chartTheme";
-import { columnsToRows } from "@/lib/csv";
+import { computeIndexRows } from "@/lib/computeCsv";
 import { fmtSigned, yoyColor } from "@/lib/format";
 import type { Compute } from "@/lib/types";
 
@@ -33,9 +33,10 @@ export default function ComputePage() {
       <p className="lede">
         The DC Hardware index prices the inputs to a data center. This page prices what comes out of one: the
         per-token list prices of six frontier and open models on OpenRouter, and the rental price of a GPU-hour
-        on vast.ai and sfcompute. Both composites are equal-weight geometric means of each member relative to
-        its own base-date price, renormalized over the members present, so a deprecated model drops out instead
-        of freezing a dead price into the index. Collection began {data.history_start ?? "—"}: the history is short
+        on vast.ai and sfcompute. Both composites are chain-linked equal-weight geometric means: each day&apos;s
+        move averages the day-over-day price changes of the members priced on both days, so a SKU missing a
+        day, joining, or retiring changes who is averaged but never jumps the index — and a deprecated model
+        drops out instead of freezing a dead price into it. Collection began {data.history_start ?? "—"}: the history is short
         and says so.
       </p>
       <div className="kpi-row">
@@ -53,10 +54,7 @@ export default function ComputePage() {
         <div className="section-tools">
           <DownloadData filename="macrogauge-compute-indexes" json="compute.json"
             citation={`MacroGauge token and GPU-hour price indexes, ${ti.base_date ?? "—"}=100`}
-            rows={columnsToRows({ name: "date", values: ti.history.dates.length >= gi.history.dates.length ? ti.history.dates : gi.history.dates }, [
-              { name: "token_index", values: ti.history.index }, { name: "token_members", values: ti.history.members },
-              { name: "gpu_index", values: gi.history.index }, { name: "gpu_members", values: gi.history.members },
-            ])} />
+            rows={computeIndexRows(ti.history, gi.history)} />
         </div>
         <div className="chart-card">
           <LinesChart height={300} recessions={false} refLine={100} refLabel="base" yUnit=""

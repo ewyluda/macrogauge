@@ -51,7 +51,7 @@ export function ParityTable({ states, mode }: { states: ParityRow[]; mode: strin
             <td>{r.state}</td><td>{fmt(r.build_mult)}</td><td>{fmt(r.ops_mult)}</td>
             <td>{fmt(r.wage_rel)}</td><td>{fmt(r.power_rel)}</td>
             <td>{r.power_cents != null ? r.power_cents.toFixed(2) : "—"}</td>
-            <td>{r.wage_level != null ? `$${r.wage_level.toLocaleString()}` : "—"}</td>
+            <td>{r.wage_level != null ? `$${r.wage_level.toLocaleString("en-US")}` : "—"}</td>
             <td>{r.wage_asof ?? "—"}</td><td>{r.power_asof}</td>
           </tr>
         ))}</tbody>

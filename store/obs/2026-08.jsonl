@@ -17554,3 +17554,5 @@
 {"obs_date": "2026-08-30", "route": "CSV", "series_code": "miso_indiana_da", "source": "MISO", "value": 42.46, "vintage_date": "2026-08-31"}
 {"obs_date": "2026-08-31", "route": "API", "series_code": "kalshi_dc_count", "source": "KALSHI_DC", "value": 5255.0, "vintage_date": "2026-08-31"}
 {"obs_date": "2026-08-31", "route": "API", "series_code": "kalshi_dc_nuclear", "source": "KALSHI_DC", "value": 0.54, "vintage_date": "2026-08-31"}
+{"obs_date": "2026-07-01", "route": "API", "series_code": "CPIAUCSL", "source": "ALFRED", "value": 332.813, "vintage_date": "2026-08-12"}
+{"obs_date": "2026-07-01", "route": "API", "series_code": "CPILFESL", "source": "ALFRED", "value": 336.789, "vintage_date": "2026-08-12"}

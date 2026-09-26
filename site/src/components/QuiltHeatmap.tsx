@@ -4,7 +4,7 @@ import { codecs } from "@/lib/urlState";
 import { CopyLink } from "./CopyLink";
 import { SegmentedControl } from "./SegmentedControl";
 import { DataUnavailable } from "./DataUnavailable";
-import { heatColor } from "@/lib/heat";
+import { heatColor, textOn } from "@/lib/heat";
 import { useJson } from "@/lib/useJson";
 import { exportQuiltPng, type QuiltRow } from "@/lib/quiltPng";
 import {
@@ -60,16 +60,19 @@ function headlineRows(months: string[], compare: Compare): QuiltRow[] {
 }
 
 function Cell({ v }: { v: number | null }) {
+  const bg = heatColor(v);
   return (
     <td
       style={{
-        background: heatColor(v),
+        background: bg,
         minWidth: 42,
         height: 26,
         textAlign: "center",
         fontSize: 10.5,
         fontVariantNumeric: "tabular-nums",
-        color: "rgba(255,255,255,0.92)",
+        // dark ink or white by WCAG luminance — white on the amber stretch
+        // (≈3% YoY) was ~3:1
+        color: textOn(bg),
         border: "1px solid var(--bg)",
       }}
     >

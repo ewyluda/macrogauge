@@ -9,7 +9,7 @@ import { DataUnavailable } from "./DataUnavailable";
 import { DownloadData } from "./DownloadData";
 import { C, baseOption } from "@/lib/chartTheme";
 import { contributionGrid, contributionsAt, type ContribMode, type ReplayComponent } from "@/lib/contribution";
-import { annualizedChange, lastChange, RATE_LOOKBACK_DAYS } from "@/lib/momentum";
+import { annualizedAt, lastChange, NSA_NOTE, RATE_LOOKBACK_MONTHS } from "@/lib/momentum";
 import { fmtPp, fmtSigned, yoyColor } from "@/lib/format";
 import { codecs } from "@/lib/urlState";
 import { useUrlState } from "@/lib/useUrlState";
@@ -108,12 +108,12 @@ export function ContributionSection({
   const rows = data.components.map((c, k) => {
     // Momentum at each component's OWN last observation, never the grid
     // end: a lagging monthly series is forward-filled, so at the grid end
-    // "index today vs 91 days ago" compares the same print with itself and
+    // "index today vs 3 months ago" compares the same print with itself and
     // reads 0.0% (the like-month rule CLAUDE.md applies to YoY). The last
     // index change on the grid is that observation.
     const own = lastChange(c.index);
-    const a3 = annualizedChange(c.index, RATE_LOOKBACK_DAYS.ann3)[own];
-    const a6 = annualizedChange(c.index, RATE_LOOKBACK_DAYS.ann6)[own];
+    const a3 = annualizedAt(c.index, data.dates, RATE_LOOKBACK_MONTHS.ann3, own);
+    const a6 = annualizedAt(c.index, data.dates, RATE_LOOKBACK_MONTHS.ann6, own);
     return {
       code: c.code, label: c.label, weight: c.weight, mode: c.mode, color: COMPONENT_COLORS[k % COMPONENT_COLORS.length],
       ownDate: data.dates[own],
@@ -182,10 +182,10 @@ export function ContributionSection({
             </tbody>
           </table>
           <div style={{ fontSize: 11, color: "var(--muted)", padding: "6px 10px 8px" }}>
-            As of {data.dates[last]} · 3m/6m annualized off each component&apos;s daily index (91/182 grid days,
-            compounded to a year), read at the component&apos;s own last observation (hover a cell for the date) so a
-            lagging monthly print is never compared with its own forward-fill — noisier than YoY by construction ·
-            sorted by |contribution|.
+            As of {data.dates[last]} · 3m/6m annualized off each component&apos;s daily index (3/6 calendar months
+            back to the same day-of-month, compounded to a year), read at the component&apos;s own last observation
+            (hover a cell for the date) so a lagging monthly print is never compared with its own forward-fill —
+            noisier than YoY by construction · sorted by |contribution|. {NSA_NOTE}
           </div>
         </div>
       )}

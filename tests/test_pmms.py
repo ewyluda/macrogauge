@@ -24,3 +24,17 @@ def test_fetch_weekly_30yr_iso_dates():
                                                     ("2026-07-02", 6.31)]
     assert obs[0].series_code == "pmms_30yr"
     assert obs[0].source == "PMMS" and obs[0].route == "CSV"
+
+
+def test_fetch_raises_when_no_rate_rows_parse():
+    import pytest as _pytest
+    from pipeline.connectors import pmms as _pmms
+
+    class R:
+        text = "date,pmms30_renamed\n01/02/2025,6.9\n"
+
+        def raise_for_status(self):
+            pass
+
+    with _pytest.raises(ValueError, match="structure drift"):
+        _pmms.fetch(vintage_date="2026-09-26", http_get=lambda url, timeout=None: R())

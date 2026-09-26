@@ -32,4 +32,8 @@ def fetch(vintage_date: str | None = None, http_get=None) -> list[Observation]:
         out.append(Observation(series_code="pmms_30yr", obs_date=obs_date,
                                value=float(rate), vintage_date=vintage,
                                source="PMMS", route="CSV"))
+    if not out:
+        # A renamed pmms30 column skips every row; returning [] as "ok" hid
+        # that for up to 21 days (until staleness QA). Fail loudly instead.
+        raise ValueError("PMMS CSV: no pmms30 rows parsed (structure drift?)")
     return out

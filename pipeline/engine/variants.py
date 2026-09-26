@@ -36,6 +36,16 @@ def build_component(comp: basket.Component, variant: str,
         live = blend_mod.blend(
             {k: rebase_mod.rebase(v) for k, v in live_sources.items() if v},
             blend_weights)
+        if comp.live_method == "year_ratio":
+            # Official wherever a print exists; live extends past the last
+            # print only. Until 2026-09-26 EIA electricity (July) and gas
+            # (June) REPLACED the already-published BLS August prints, and the
+            # outlook projected EIA residential gas from its August seasonal
+            # peak ($26 vs $12/Mcf in January). No tail = not live coverage.
+            assembled = blend_mod.splice_year_ratio(official_idx, live, 1.0)
+            has_tail = max(assembled) > max(official_idx)
+            return (rebase_mod.rebase(assembled), "live" if has_tail else "bls_cf",
+                    official_idx)
         assembled = blend_mod.splice(official_idx, live)
         return rebase_mod.rebase(assembled), "live", official_idx
     return official_idx, "bls_cf", official_idx

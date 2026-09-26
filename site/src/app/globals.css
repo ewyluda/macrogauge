@@ -106,6 +106,15 @@ a { transition: color 140ms ease, background 140ms ease; }
 .print-banner-tag { color: var(--accent-red); font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
 .print-banner a { color: var(--accent-sky); text-decoration: none; }
 .print-banner a:hover { text-decoration: underline; }
+/* a page whose pipeline phase failed on the latest publish (StaleBanner) */
+.stale-banner {
+  display: flex; gap: 10px; align-items: baseline; margin-top: 14px;
+  background: rgba(217, 119, 6, 0.07); border: 1px solid rgba(154, 98, 16, 0.35);
+  border-left: 3px solid var(--accent-amber); border-radius: 10px;
+  padding: 8px 12px; font-size: 12.5px; line-height: 1.5;
+}
+.stale-banner-tag { color: var(--accent-amber); font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.stale-banner a { color: var(--accent-sky); }
 
 .countdown { font-variant-numeric: tabular-nums; font-size: 17px; font-weight: 650; color: var(--accent-sky); margin: 2px 0 6px; min-height: 22px; }
 .countdown small { font-size: 10px; color: var(--muted); font-weight: 400; margin: 0 7px 0 1px; }

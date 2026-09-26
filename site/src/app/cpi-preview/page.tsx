@@ -4,6 +4,7 @@ import { COMPONENT_BY_CODE, componentHref } from "@/lib/components";
 import { Term } from "@/components/Term";
 import nowcastJson from "../../../public/data/nowcast_latest.json";
 import { ForecastHero } from "@/components/ForecastHero";
+import { LastPrint } from "@/components/LastPrint";
 import { Section } from "@/components/Section";
 import type { Nowcast } from "@/lib/types";
 
@@ -18,6 +19,7 @@ export default function CpiPreview() {
   return <div><h1>CPI Preview <span className="subtitle">evergreen forecast → result</span></h1>
     <p className="lede">Bottom-up forecast for {nowcast.reference_month ?? "the next print (release calendar awaiting refresh)"}, frozen and graded when the BLS print arrives.</p>
     <ForecastHero />
+    <LastPrint />
     <Section title="Component receipts"><div className="table-card"><table className="data-table"><thead><tr><th>Component</th><th>MoM</th><th>Weight</th><th>Contribution</th></tr></thead><tbody>
       {nowcast.cpi.components.map((row) => <tr key={row.component}><td><Link href={componentHref(row.component)}>{COMPONENT_BY_CODE[row.component]?.label ?? row.component}</Link></td><td>{row.mom_pct.toFixed(2)}%{row.basis !== "measured" && <span className="badge" style={{ marginLeft: 6 }} title={row.driver_mom_pct !== undefined ? `trend + ${row.driver_mom_pct.toFixed(2)}pp futures driver` : "trailing-median trend"}>modeled</span>}</td><td>{(row.weight * 100).toFixed(1)}%</td><td>{row.contribution_pp.toFixed(3)}pp</td></tr>)}
     </tbody></table></div></Section>

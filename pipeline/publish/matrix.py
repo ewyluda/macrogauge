@@ -19,15 +19,26 @@ GROUPS = [
         ("TRMMEANCPIM158SFRBCLE", "16% trimmed-mean CPI", "% ann. rate (MoM)", "monthly", False),
         ("CORESTICKM159SFRBATL", "Sticky-price core CPI", "% YoY", "monthly", False),
         ("PCETRIM12M159SFRBDAL", "Dallas Fed trimmed-mean PCE", "% YoY", "monthly", False),
+        ("COREFLEXCPIM159SFRBATL", "Flexible-price core CPI", "% YoY", "monthly", False),
+        ("PCEPILFE", "Core PCE (the Fed's target)", "% YoY (computed)", "monthly", True),
     ]),
     ("PIPELINE", [
         ("PPIACO", "PPI all commodities", "% YoY (computed)", "monthly", True),
         ("IREXPETCOM", "Import prices ex-petroleum", "% YoY (computed)", "monthly", True),
+        ("CHNTOT", "Import prices, goods from China", "% YoY (computed)", "monthly", True),
+        ("CUSR0000SACL1E", "Core goods CPI (tariff pass-through)", "% YoY (computed)", "monthly", True),
     ]),
     ("EXPECTATIONS", [
         ("T5YIE", "5-year breakeven", "%", "daily", False),
         ("T10YIE", "10-year breakeven", "%", "daily", False),
         ("MICH", "UMich 1-year expectation", "%", "monthly", False),
+        ("T5YIFR", "5y5y forward breakeven", "%", "daily", False),
+        ("EXPINF1YR", "Cleveland Fed 1-year expected inflation", "%", "monthly", False),
+        ("EXPINF10YR", "Cleveland Fed 10-year expected inflation", "%", "monthly", False),
+    ]),
+    ("LABOR COSTS", [
+        ("ECIALLCIV", "Employment Cost Index, total comp", "% YoY (computed)", "quarterly", True),
+        ("ULCNFB", "Unit labor costs, nonfarm business", "% YoY (computed)", "quarterly", True),
     ]),
 ]
 

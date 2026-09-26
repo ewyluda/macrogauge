@@ -88,7 +88,7 @@ test("feed, sitemap, robots and the OG image are emitted by the export", async (
   expect(sitemap.ok()).toBe(true);
   const sm = await sitemap.text();
   for (const route of ["/", "/datacenter", "/escalation", "/methodology"]) {
-    expect(sm).toContain(`<loc>https://macrogauge-cloudten.vercel.app${route}</loc>`);
+    expect(sm).toContain(`<loc>https://macrogauge.vercel.app${route}</loc>`);
   }
 
   const robots = await page.request.get("/robots.txt");

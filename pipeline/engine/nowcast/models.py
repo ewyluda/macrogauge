@@ -56,6 +56,35 @@ def _driver_slice(code: str, conn, config: dict, through_month: str,
     return signals.distributed_return(value * cfg["pass_through"], cfg["horizon_months"])
 
 
+OFFICIAL_ONLY = ("shelter_owned", "shelter_rent")
+
+
+FOOD_ENERGY = ("food_home", "food_away", "fuel", "electricity", "nat_gas")
+
+
+def seasonal_mom(nsa_mom: float, conn, target: str,
+                 sa_code: str = "CPIAUCSL", nsa_code: str = "CPIAUCNS") -> float | None:
+    """Convert a not-seasonally-adjusted MoM to the seasonally adjusted basis
+    every benchmark quotes (Cleveland Fed, Kalshi settle on SA CPI-U), using
+    last year's BLS seasonal factors (SA/NSA) for the target and prior month:
+
+        SA_mom = (1 + NSA_mom) * f(target-12) / f(prior-12) - 1
+
+    Seasonal factors move little year to year (BLS re-estimates each
+    February). None when CPIAUCSL/CPIAUCNS lack either month."""
+    if conn is None:
+        return None
+    sa = dict(vintage.latest(conn, sa_code))
+    nsa = dict(vintage.latest(conn, nsa_code))
+    t12 = month_first(f"{int(target[:4]) - 1}-{target[5:7]}")
+    p12 = prior_month(t12)
+    try:
+        f_t, f_p = sa[t12] / nsa[t12], sa[p12] / nsa[p12]
+    except (KeyError, ZeroDivisionError):
+        return None
+    return ((1 + nsa_mom / 100) * f_t / f_p - 1) * 100
+
+
 def cpi_nowcast(gauge_result: dict, target_month: str, conn=None,
                 config: dict | None = None,
                 staleness: dict[str, int] | None = None,
@@ -73,7 +102,15 @@ def cpi_nowcast(gauge_result: dict, target_month: str, conn=None,
     cap = float(config["component_trend_annual_cap_pct"])
     lo, hi = signals.monthly_from_annual(-cap), signals.monthly_from_annual(cap)
     contributions, total = [], 0.0
+    tracker = gauge_result["variants"].get("tracker", {}).get("components", {})
     for code, component in variant["components"].items():
+        if code in OFFICIAL_ONLY and code in tracker:
+            # Market asking rents (ZORI/Apartment List) lead CPI shelter by
+            # ~a year; they are not a same-month measurement of OER/rent. The
+            # Aug-2026 call "measured" shelter at +0.02% from asking rents
+            # while OER printed +0.26% — -0.08pp of a -0.09pp miss. Shelter
+            # rows ride the official series' own trend instead.
+            component = tracker[code]
         series = component["daily_index"]
         driver_mom = None
         if component["last_obs"] >= target:
@@ -100,16 +137,39 @@ def cpi_nowcast(gauge_result: dict, target_month: str, conn=None,
             if driver_mom is not None:
                 move += driver_mom
                 basis = "trend+driver"
-        contribution = component["weight"] * move
+        # MoM weights = relative importance price-updated to the month before
+        # the target (the engine's mom_weights); YoY-base weights otherwise.
+        weight = (gauge_result.get("mom_weights") or {}).get(code, component["weight"])
+        contribution = weight * move
         row = {"component": code, "mom_pct": round(move, 4),
-               "weight": component["weight"],
+               "weight": round(weight, 6),
                "contribution_pp": round(contribution, 4), "basis": basis}
         if driver_mom is not None:
             row["driver_mom_pct"] = round(driver_mom, 4)
         contributions.append(row)
         total += contribution
     latest_yoy = variant["yoy"][variant["as_of"]]
-    return {"target_month": target[:7], "mom_pct": round(total, 2),
+    sa = seasonal_mom(total, conn, target)
+    # Core = the same bottom-up rows ex food & energy, renormalized (the
+    # residual "other" still holds alcohol and non-gasoline motor fuel, <1%
+    # of CPI — an honest approximation of CPI-U less food and energy).
+    core_rows = [r for r in contributions if r["component"] not in FOOD_ENERGY]
+    core_w = sum(r["weight"] for r in core_rows)
+    core = None
+    if core_w > 0:
+        core_nsa = sum(r["contribution_pp"] for r in core_rows) / core_w
+        core_sa = seasonal_mom(core_nsa, conn, target, "CPILFESL", "CPILFENS")
+        core = {"mom_pct": round(core_sa if core_sa is not None else core_nsa, 2),
+                "mom_nsa_pct": round(core_nsa, 2),
+                "basis": "SA" if core_sa is not None else "NSA",
+                "weight_share": round(core_w, 4)}
+    return {"target_month": target[:7],
+            # Headline is SA whenever factors exist, so the model, Cleveland
+            # and Kalshi are averaged and graded on one basis.
+            "mom_pct": round(sa if sa is not None else total, 2),
+            "mom_nsa_pct": round(total, 2),
+            "basis": "SA" if sa is not None else "NSA",
+            "core": core,
             "yoy_pct": round(latest_yoy, 2), "as_of": variant["as_of"],
             "status": "live", "parameters": {},
             "components": contributions}
@@ -191,6 +251,7 @@ def ensemble(forecasts: dict[str, float | None], errors: dict[str, float | None]
 
 def build_latest(conn, gauge_result: dict, next_release: dict | None,
                  benchmarks: dict[str, float | None] | None = None,
+                 core_benchmarks: dict[str, dict | None] | None = None,
                  staleness: dict[str, int] | None = None,
                  today: str | None = None) -> dict:
     if next_release is None:
@@ -209,15 +270,27 @@ def build_latest(conn, gauge_result: dict, next_release: dict | None,
                 "generated_on": date.today().isoformat()}
     cpi = cpi_nowcast(gauge_result, next_release["reference_month"], conn=conn,
                       staleness=staleness, today=today)
-    pce = pce_bridge(cpi["mom_pct"], vintage.latest(conn, "CPIAUCNS"),
+    # PCEPI is seasonally adjusted: bridge from SA CPI (CPIAUCSL) when the
+    # nowcast is on the SA basis, else the legacy NSA pairing.
+    sa_rows = vintage.latest(conn, "CPIAUCSL") if cpi.get("basis") == "SA" else []
+    pce = pce_bridge(cpi["mom_pct"], sa_rows or vintage.latest(conn, "CPIAUCNS"),
                      vintage.latest(conn, "PCEPI"))
     nfp = nfp_nowcast(vintage.latest(conn, "PAYEMS"), vintage.latest(conn, "ICSA"))
     benchmark_values = benchmarks or {}
     forecasts = {"macrogauge": cpi["mom_pct"],
                  **{name: b["value"] for name, b in benchmark_values.items()
                     if b is not None}}
-    ens = ensemble(forecasts, {name: None for name in forecasts})
+    # Inverse-MAE weights once every forecaster has a graded SA record
+    # (phase3.build_leaderboard); equal weights until then.
+    from pipeline.publish import phase3
+    errors = phase3.ensemble_errors(phase3.build_leaderboard(conn)) if conn is not None else {}
+    ens = ensemble(forecasts, {name: errors.get(name) for name in forecasts})
+    core_bench = {k: v for k, v in (core_benchmarks or {}).items() if v is not None}
+    core_forecasts = {"macrogauge": (cpi.get("core") or {}).get("mom_pct"),
+                      **{name: b["value"] for name, b in core_bench.items()}}
+    core_ens = ensemble(core_forecasts, {name: None for name in core_forecasts})
     return {"target": "CPI", "release_date": next_release["date"],
+            "core_benchmarks": core_bench, "core_ensemble": core_ens,
             "reference_month": next_release["reference_month"], "cpi": cpi,
             "pce": {**pce, "status": "live", "as_of": cpi["as_of"]},
             "nfp": nfp, "benchmarks": benchmark_values, "ensemble": ens,

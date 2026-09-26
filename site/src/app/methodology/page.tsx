@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { GlossaryList } from "@/components/Term";
 import methodology from "../../../public/data/methodology.json";
+
+// Added 2026-09-26 (config/methodology_changelog.json); absent on older artifacts.
+const { changelog = [], methodology_version: methodologyVersion } = methodology as unknown as {
+  changelog?: { date: string; area: string; change: string }[];
+  methodology_version?: string;
+};
 import { Section } from "@/components/Section";
 import { MethodologyInventory } from "@/components/MethodologyInventory";
 import { fmtSigned } from "@/lib/format";
@@ -256,6 +262,24 @@ export default function Methodology() {
         </div>
       </Section>
 
+      {changelog.length > 0 && (
+        <Section title={`Methodology changelog — version ${methodologyVersion ?? "—"}`}>
+          <div className="table-card">
+            <table className="data-table">
+              <thead><tr><th style={{ textAlign: "left" }}>Date</th><th style={{ textAlign: "left" }}>Area</th><th style={{ textAlign: "left" }}>What changed</th></tr></thead>
+              <tbody>
+                {changelog.map((c, i) => (
+                  <tr key={`${c.date}-${i}`}>
+                    <td style={{ textAlign: "left", whiteSpace: "nowrap" }}>{c.date}</td>
+                    <td style={{ textAlign: "left" }}>{c.area}</td>
+                    <td style={{ textAlign: "left", color: "var(--muted)" }}>{c.change}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Section>
+      )}
       <Section title="Limitations — read these">
         <ul style={{ margin: 0, paddingLeft: 20, color: "var(--muted)", fontSize: 14 }}>
           {methodology.limitations.map((l, i) => (

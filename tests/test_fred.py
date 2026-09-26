@@ -150,3 +150,29 @@ def test_fetch_partial_failure_emits_warning():
     with pytest.warns(PartialFetchWarning, match="BADID: HTTPError"):
         fred.fetch(["CPIAUCNS", "BADID"], "test-key",
                    vintage_date="2026-07-07", http_get=get)
+
+
+def test_fetch_retries_once_on_server_error():
+    import json as _json
+    from pathlib import Path as _P
+    body = _json.loads((_P(__file__).parent / "fixtures" / "fred_cpiaucns.json").read_text())
+    calls = []
+
+    class R:
+        def __init__(self, code):
+            self.status_code = code
+
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                raise RuntimeError(f"HTTP {self.status_code}")
+
+        def json(self):
+            return body
+
+    def flaky(url, params=None, timeout=None):
+        calls.append(params["series_id"])
+        return R(503 if len(calls) == 1 else 200)
+
+    from pipeline.connectors import fred as _fred
+    obs = _fred.fetch(["CPIAUCNS"], "k", vintage_date="2026-09-26", http_get=flaky)
+    assert obs and calls == ["CPIAUCNS", "CPIAUCNS"]

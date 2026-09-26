@@ -78,15 +78,24 @@ def load_capacity(path: Path | None = None,
             raise ValueError(f"{c['t']}: dupe must be a string or null")
         for field in ("nd", "bk", "valuation_b"):
             _require_num_or_none(c["t"], field, c.get(field))
-        # sites rows feed publish/capacity._events by positional unpack, and
-        # mw/when drive the tl/timeline artifact fields.
+        # sites rows feed publish/capacity._events positionally, and
+        # mw/when(/energize_q) drive the tl/timeline artifact fields. The
+        # optional 5th element is the curated energization quarter
+        # ("2027Q4", or null = deliberately undated); it outranks the
+        # free-text `when` parse (publish/capacity.site_quarter).
         for s in c["sites"]:
-            if (not isinstance(s, list) or len(s) != 4
+            if (not isinstance(s, list) or len(s) not in (4, 5)
                     or not isinstance(s[0], str)
                     or not isinstance(s[3], str)
                     or s[2] not in SITE_STATUSES):
                 raise ValueError(f"{c['t']}: sites rows must be "
-                                 f"[name, mw, o|c|p|s, when], got {s!r}")
+                                 f"[name, mw, o|c|p|s, when(, energize_q)], "
+                                 f"got {s!r}")
+            if len(s) == 5 and s[4] is not None and (
+                    not isinstance(s[4], str)
+                    or not re.fullmatch(r"20\d\dQ[1-4]", s[4])):
+                raise ValueError(f"{c['t']}/{s[0]}: energize_q must be "
+                                 f"YYYYQn or null, got {s[4]!r}")
             _require_num_or_none(c["t"], "sites mw", s[1])
         for s in c["src"]:
             if (not isinstance(s, list) or len(s) != 2

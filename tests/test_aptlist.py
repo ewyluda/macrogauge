@@ -41,3 +41,42 @@ def test_fetch_raises_when_national_row_missing():
         assert False, "expected ValueError"
     except ValueError as e:
         assert "National" in str(e)
+
+
+def test_discover_picks_newest_rent_estimates_csv_not_summary_or_growth():
+    page = (FIXTURES / "aptlist_page.html").read_text()
+    url = aptlist.discover_csv_url(page)
+    assert url.startswith("https://assets.ctfassets.net/")
+    assert url.endswith("/Apartment_List_Rent_Estimates_2026_08.csv")
+    assert "Summary" not in url
+
+
+def test_fetch_follows_discovered_url():
+    page = (FIXTURES / "aptlist_page.html").read_text()
+    csv_text = (FIXTURES / "aptlist.csv").read_text()
+    seen = []
+
+    def fake_get(url, timeout=None):
+        seen.append(url)
+        return FakeResponse(page if url == aptlist.PAGE_URL else csv_text)
+
+    obs = aptlist.fetch(vintage_date="2026-09-26", http_get=fake_get)
+    assert obs and seen[1].endswith("Apartment_List_Rent_Estimates_2026_08.csv")
+    assert seen[1] != aptlist.CSV_URL or "2026_08" in aptlist.CSV_URL
+
+
+def test_discovery_failure_falls_back_to_pin_with_partial_warning():
+    import warnings
+    from pipeline.connectors.util import PartialFetchWarning
+    csv_text = (FIXTURES / "aptlist.csv").read_text()
+    seen = []
+
+    def fake_get(url, timeout=None):
+        seen.append(url)
+        return FakeResponse("<html>redesigned</html>" if url == aptlist.PAGE_URL else csv_text)
+
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        obs = aptlist.fetch(vintage_date="2026-09-26", http_get=fake_get)
+    assert obs and seen[1] == aptlist.CSV_URL
+    assert any(issubclass(w.category, PartialFetchWarning) for w in caught)

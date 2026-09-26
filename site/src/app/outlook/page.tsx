@@ -8,6 +8,7 @@ import { Section } from "@/components/Section";
 import { OutlookChart } from "@/components/OutlookChart";
 import { fmtMonth, yoyColor } from "@/lib/format";
 import type { Outlook } from "@/lib/types";
+import { StaleBanner } from "@/components/StaleBanner";
 
 export const metadata: Metadata = {
   title: "Outlook",
@@ -108,6 +109,7 @@ const terminal = outlook.forecast[outlook.forecast.length - 1];
 export default function OutlookPage() {
   return (
     <div>
+      <StaleBanner publishedAt={outlookJson.published_at} />
       <h1>
         Outlook{" "}
         <span className="subtitle">the next 12 months, component by component</span>

@@ -8,6 +8,9 @@ import { DownloadData } from "@/components/DownloadData";
 import { Section } from "@/components/Section";
 import { fmtPp } from "@/lib/format";
 import { GradeTable, reconcileCalls } from "@/components/GradeTable";
+import { Leaderboard, type LeaderboardData } from "@/components/Leaderboard";
+
+const leaderboard = (accountability as unknown as { leaderboard?: LeaderboardData }).leaderboard;
 
 export const metadata: Metadata = {
   title: "Forecast Scoreboard",
@@ -38,6 +41,11 @@ export default function Scoreboard() {
       <GradeTable rows={{ graded, pending }} keyPrefix="cpi" />
       <p className="method">Signed error = forecast − actual (positive = ran hot). Calls freeze at their as-of date and grade automatically when the print lands — nothing is revised after the fact.</p>
     </Section>
+    {leaderboard && leaderboard.rows.length > 0 && (
+      <Section title="Head to head — Macrogauge vs Cleveland Fed vs Kalshi">
+        <Leaderboard data={leaderboard} />
+      </Section>
+    )}
     <Section title="Walk-forward backtest — vintage-true history">
       <div className="section-tools"><DownloadData filename="macrogauge-cpi-backtest" json="backtest.json" citation="MacroGauge vintage-true CPI backtest" rows={rows} /></div>
       <div className="table-card"><table className="data-table"><thead><tr><th>Month</th><th>Badge</th><th>Vintage cutoff</th><th>Forecast</th><th>Naive (carry-fwd)</th><th>Actual</th><th>Error</th><th>vs naive</th></tr></thead><tbody>{rows.length === 0 && <tr><td colSpan={8} style={{ color: "var(--muted)", textAlign: "left" }}>No backtest rows published on this run — the harness needs the release calendar and at least one vintage-true month.</td></tr>}{rows.slice(-24).reverse().map(row => { const naiveErr = row.naive_mom_pct == null ? null : Math.abs(row.naive_mom_pct - row.actual_mom_pct); const beat = naiveErr == null ? null : Math.abs(row.error_pp) < naiveErr; return <tr key={row.target_month}><td>{row.target_month}</td><td><span className="badge">{row.badge}</span></td><td style={{ color: "var(--muted)" }}>{row.cutoff ?? "—"}</td><td>{row.forecast_mom_pct.toFixed(2)}%</td><td style={{ color: "var(--muted)" }}>{row.naive_mom_pct == null ? "—" : `${row.naive_mom_pct.toFixed(2)}%`}</td><td>{row.actual_mom_pct.toFixed(2)}%</td><td>{row.error_pp.toFixed(2)}pp</td><td>{beat == null ? "—" : <span className={beat ? "badge" : "badge badge-muted"}>{beat ? "beat" : "lost"}</span>}</td></tr>; })}</tbody></table></div>

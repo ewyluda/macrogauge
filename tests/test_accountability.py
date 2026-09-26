@@ -83,3 +83,44 @@ def test_record_forecasts_uses_nfp_own_reference_month(tmp_path: Path):
     row = conn.execute("SELECT obs_date FROM observations "
                        "WHERE series_code = 'forecast_nfp_change'").fetchone()
     assert row[0] == "2026-07-01"  # NFP's own month, not CPI's 2026-06
+
+
+def test_nfp_actual_uses_same_release_prior_month(tmp_path: Path):
+    # Store rows as recorded (2026): the Aug release revised July 158,858 ->
+    # 158,913 and printed Aug 159,075. The release's own change is +162k; the
+    # old first(t) - first(t-1) read +217k (and July -126k vs the release's -23k).
+    rows = [
+        Observation("PAYEMS", "2026-06-01", 158984.0, "2026-07-02", "FRED", "API"),
+        Observation("PAYEMS", "2026-07-01", 158858.0, "2026-08-07", "FRED", "API"),
+        Observation("PAYEMS", "2026-06-01", 158881.0, "2026-08-07", "FRED", "API"),
+        Observation("PAYEMS", "2026-06-01", 158892.0, "2026-09-04", "FRED", "API"),
+        Observation("PAYEMS", "2026-07-01", 158913.0, "2026-09-04", "FRED", "API"),
+        Observation("PAYEMS", "2026-08-01", 159075.0, "2026-09-04", "FRED", "API"),
+        Observation("forecast_nfp_change", "2026-07-01", 137.0, "2026-07-30", "MACROGAUGE", "MODEL"),
+        Observation("forecast_nfp_change", "2026-08-01", 31.0, "2026-09-03", "MACROGAUGE", "MODEL"),
+    ]
+    vintage.append_vintages(rows, tmp_path)
+    nowcast = {"reference_month": "2026-09", "generated_on": "2026-09-26",
+               "nfp": {"reference_month": "2026-09", "change_thousands": 90.0}}
+    result = phase3.build_accountability("nfp", nowcast, vintage.load(tmp_path))
+    graded = {g["reference_period"]: g for g in result["graded"]}
+    assert graded["2026-07"]["actual"] == -23.0
+    assert graded["2026-08"]["actual"] == 162.0
+    assert graded["2026-08"]["error"] == -131.0
+
+
+def test_pending_lists_frozen_calls_awaiting_their_print(tmp_path: Path):
+    # PCE Aug call frozen 09-11 when the CPI nowcast rolled to Sept; Aug PCE
+    # prints 09-30. Both it and the live Sept call must show as pending.
+    rows = [
+        Observation("PCEPI", "2026-07-01", 131.659, "2026-08-26", "FRED", "API"),
+        Observation("forecast_pce_mom", "2026-08-01", 0.25, "2026-09-11", "MACROGAUGE", "MODEL"),
+        Observation("forecast_pce_mom", "2026-09-01", 0.28, "2026-09-26", "MACROGAUGE", "MODEL"),
+        Observation("forecast_pce_mom", "2025-10-01", 0.2, "2025-11-01", "MACROGAUGE", "MODEL"),
+    ]
+    vintage.append(rows, tmp_path)
+    nowcast = {"reference_month": "2026-09", "generated_on": "2026-09-26",
+               "pce": {"mom_pct": 0.28, "as_of": "2026-09-26", "status": "live"}}
+    result = phase3.build_accountability("pce", nowcast, vintage.load(tmp_path))
+    assert [(p["reference_period"], p["forecast"]) for p in result["pending"]] == \
+        [("2026-08", 0.25), ("2026-09", 0.28)]

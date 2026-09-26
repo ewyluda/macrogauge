@@ -39,3 +39,16 @@
 {"obs_date": "2026-01-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 407.991, "vintage_date": "2026-04-14"}
 {"obs_date": "2026-02-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 409.031, "vintage_date": "2026-04-14"}
 {"obs_date": "2026-03-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 409.913, "vintage_date": "2026-04-14"}
+{"obs_date": "2025-10-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 127.871, "vintage_date": "2026-04-09"}
+{"obs_date": "2025-11-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 128.152, "vintage_date": "2026-04-09"}
+{"obs_date": "2025-12-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 128.576, "vintage_date": "2026-04-09"}
+{"obs_date": "2026-01-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 128.965, "vintage_date": "2026-04-09"}
+{"obs_date": "2026-01-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 129.0, "vintage_date": "2026-04-30"}
+{"obs_date": "2026-02-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 129.449, "vintage_date": "2026-04-09"}
+{"obs_date": "2026-02-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 129.484, "vintage_date": "2026-04-30"}
+{"obs_date": "2026-03-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 130.344, "vintage_date": "2026-04-30"}
+{"obs_date": "2026-01-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 158592.0, "vintage_date": "2026-04-03"}
+{"obs_date": "2026-02-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 158459.0, "vintage_date": "2026-04-03"}
+{"obs_date": "2026-03-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 158637.0, "vintage_date": "2026-04-03"}
+{"obs_date": "2026-03-01", "route": "API", "series_code": "CPIAUCSL", "source": "ALFRED", "value": 330.293, "vintage_date": "2026-04-10"}
+{"obs_date": "2026-03-01", "route": "API", "series_code": "CPILFESL", "source": "ALFRED", "value": 334.165, "vintage_date": "2026-04-10"}

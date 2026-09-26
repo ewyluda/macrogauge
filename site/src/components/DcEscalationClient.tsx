@@ -42,25 +42,32 @@ export function DcEscalationClient({
   grades: GradeLegs | null;
 }) {
   const firstMonth = data.months[0];
-  const lastMonth = data.months[data.months.length - 1];
+  const anchor = lastCompleteMonth(data.months, data.componentLastObs);
+  // The measured leg ENDS, and the forward carry STARTS, at the last complete
+  // month — never at the grid end. The published grid's trailing month is a
+  // partial stub in which the monthly PPIs still hold the prior month's print;
+  // measuring to it booked ~zero escalation for that month and carrying from it
+  // skipped the month again (one month dropped, two before a mid-month PPI
+  // release). With both legs meeting at `endMonth`, measured + carried months
+  // equal base → delivery exactly. Falls back to the grid end only when no
+  // component carries a last_obs.
+  const endMonth = anchor ?? data.months[data.months.length - 1];
+  const endIdx = data.months.indexOf(endMonth);
   const [baseMonth, setBaseMonth] = useUrlState(
-    "base", data.months[Math.max(0, data.months.length - 25)], codecs.month()
+    "base", data.months[Math.max(0, endIdx - 24)], codecs.month()
   );
   const [baseCost, setBaseCost] = useUrlState("cost", 9_000_000, codecs.float(0, 1e12));
 
-  const anchor = lastCompleteMonth(data.months, data.componentLastObs);
   // Cap the input at MAX_HORIZON_MONTHS past the month the forward leg actually
-  // STARTS from (lastMonth, the grid end) — not past `anchor`. Anchoring the cap
-  // on `anchor` would allow a 49-month carry whenever the grid carries a partial
-  // trailing month, so the on-page "we cap at 48 months" claim would be false by
-  // one. This is a deliberate one-month tightening of the spec's phrasing.
-  const maxDelivery = addMonths(lastMonth, MAX_HORIZON_MONTHS);
-  // The smallest delivery month that produces a forward leg at all. `lastMonth`
+  // STARTS from (`endMonth`), so the on-page "we cap at 48 months" claim holds
+  // exactly.
+  const maxDelivery = addMonths(endMonth, MAX_HORIZON_MONTHS);
+  // The smallest delivery month that produces a forward leg at all. `endMonth`
   // itself is NOT valid — deliveryValid requires a strictly later month, since
   // delivering in the month history already ends in carries nothing — so the
-  // picker's own minimum must be the month after it. Offering `lastMonth` as the
+  // picker's own minimum must be the month after it. Offering `endMonth` as the
   // min let the native picker propose a value the page then rejected.
-  const minDelivery = addMonths(lastMonth, 1);
+  const minDelivery = addMonths(endMonth, 1);
   const [deliveryMonth, setDeliveryMonth] = useUrlState("delivery", "", codecs.month());
   const [basisKey, setBasisKey] = useUrlState("basis", "trailing3y", codecs.str(30));
 
@@ -74,16 +81,17 @@ export function DcEscalationClient({
 
   // Validate the typed strings, not just the native picker's min/max: Safari
   // renders <input type="month"> as free text and ignores both (todo #20).
-  const baseCheck = checkMonth(baseMonth, firstMonth, lastMonth, "base month");
+  const baseCheck = checkMonth(baseMonth, firstMonth, endMonth, "base month");
   const deliveryCheck = deliveryMonth ? checkMonth(deliveryMonth, minDelivery, maxDelivery, "delivery month") : null;
   const deliveryValid = !!deliveryCheck && deliveryCheck.ok && !!anchor;
-  const horizon = deliveryValid ? monthDiff(lastMonth, deliveryMonth) : 0;
+  const horizon = deliveryValid ? monthDiff(endMonth, deliveryMonth) : 0;
 
   const result = baseCheck.ok ? escalate(
     data.months, data.index, baseMonth, baseCost,
     deliveryValid && chosen
       ? { deliveryMonth, annualizedPct: chosen.annualizedPct }
-      : null
+      : null,
+    endMonth
   ) : null;
 
   const bandRow =
@@ -101,7 +109,7 @@ export function DcEscalationClient({
 
   const rows = bridgeWindow(
     data.months, data.componentIndex, data.components,
-    baseMonth, lastMonth, baseCost
+    baseMonth, endMonth, baseCost
   );
   const maxAbs = Math.max(...rows.map((r) => Math.abs(r.contributionPp)), 0.01);
 
@@ -151,7 +159,7 @@ export function DcEscalationClient({
           <input
             type="month"
             min={firstMonth}
-            max={lastMonth}
+            max={endMonth}
             value={baseMonth}
             onChange={(e) => setBaseMonth(e.target.value)}
             style={input}
@@ -278,7 +286,7 @@ export function DcEscalationClient({
           {capBand ? ` (about ${capBand.independentDraws.toFixed(1)} independent windows)` : ""}{" "}
           and keeps thinning the longer the horizon runs. That still spans the 12–36
           month range this tool targets, and carries a basis measured to{" "}
-          {anchor ?? lastMonth} as far out as {maxDelivery}.
+          {endMonth} as far out as {maxDelivery}.
         </div>
       )}
 

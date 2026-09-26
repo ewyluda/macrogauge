@@ -93,6 +93,27 @@ def test_capacity_join_publishes_four_numbers_not_one():
     assert nova["sites_mw_undisclosed"] == 1
 
 
+def test_coverage_note_counts_the_roster_instead_of_hardcoding_it():
+    # It read "29 public companies" while two of the 29 (xAI, Stargate) are
+    # private. The count now comes from the capacity config itself.
+    cfg = {**CAP_CFG, "companies": [
+        {"t": "AAA", "n": "Aaa", "private": False},
+        {"t": "BBB", "n": "Bbb", "private": False},
+        {"t": "XAI", "n": "xAI (Colossus)", "private": True}]}
+    note = writer.build(_conn(), MARKETS, cfg, META)["coverage_note"]
+    assert "2 public companies plus 1 private builder (xAI)," in note
+    assert "29" not in note
+
+
+def test_coverage_note_matches_the_real_roster():
+    from pipeline.capacity import load_capacity
+    comps = load_capacity()["companies"]
+    public = sum(1 for c in comps if not c["private"])
+    private = sum(1 for c in comps if c["private"])
+    note = writer.coverage_note(comps)
+    assert f"{public} public companies plus {private} private builders" in note
+
+
 def test_untagged_geo_entries_are_not_joined_to_any_market():
     payload = writer.build(_conn(), MARKETS, CAP_CFG, META)
     assert sum(m["sites"] for m in payload["markets"]) == 3  # the META site is untagged

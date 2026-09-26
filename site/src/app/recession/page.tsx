@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: "Six transparent recession signals — rules, values and what's triggered, no black box.",
 };
 
-type Signal = { name: string; code: string; rule: string; value: number | null; triggered: boolean | null };
+type Signal = { name: string; code: string; rule: string; value: number | null; as_of?: string | null; triggered: boolean | null };
 
 function TriggerBadge({ triggered }: { triggered: boolean | null }) {
   if (triggered == null) return <ToneBadge tone="muted" italic>unavailable</ToneBadge>;
@@ -30,7 +30,7 @@ export default function Recession() {
     </div>
     <WhyLine label="Status:">{recession.triggered} of {recession.available} available signals are triggered{triggeredNames.length > 0 ? ` — ${triggeredNames.join(", ")}` : ""}.</WhyLine>
     <Section title="Signal rules">
-      <div className="table-card"><table className="data-table"><thead><tr><th>Signal</th><th style={{ textAlign: "left" }}>Rule</th><th>Value</th><th>Triggered</th></tr></thead><tbody>{signals.map(row => <tr key={row.code}><td>{row.name}</td><td style={{ textAlign: "left" }}>{row.rule}</td><td>{row.value ?? "—"}</td><td><TriggerBadge triggered={row.triggered} /></td></tr>)}</tbody></table></div>
+      <div className="table-card"><table className="data-table"><thead><tr><th>Signal</th><th style={{ textAlign: "left" }}>Rule</th><th>Value</th><th>As of</th><th>Triggered</th></tr></thead><tbody>{signals.map(row => <tr key={row.code}><td>{row.name}</td><td style={{ textAlign: "left" }}>{row.rule}</td><td>{row.value ?? "—"}</td><td style={{ color: "var(--muted)" }}>{row.as_of ?? "—"}</td><td><TriggerBadge triggered={row.triggered} /></td></tr>)}</tbody></table></div>
     </Section>
     <p className="method">The composite is the equal-weight share of available rules currently triggered. It is a signal dashboard, not a fitted recession probability. A red YES badge marks a rule currently met; unavailable means the signal’s input is missing and it is excluded from the share.</p></div>;
 }

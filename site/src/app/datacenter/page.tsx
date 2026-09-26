@@ -17,6 +17,7 @@ import { ContextPanel, type ContextData } from "@/components/ContextPanel";
 import { LongLeadStrip } from "@/components/LongLeadStrip";
 import { fmtDay, fmtSigned, fmtPp } from "@/lib/format";
 import type { DcGrades, LongLead } from "@/lib/types";
+import { StaleBanner } from "@/components/StaleBanner";
 
 export const metadata: Metadata = {
   title: `Data Center Cost Index: build ${fmtSigned(dc.indexes.build.headline_yoy_pct)} · ops ${fmtSigned(dc.indexes.ops.headline_yoy_pct)} · hardware ${fmtSigned(dc.indexes.hardware.headline_yoy_pct)} YoY`,
@@ -188,6 +189,7 @@ export default function Datacenter() {
   );
   return (
     <div className="datacenter-dashboard">
+      <StaleBanner publishedAt={[dc.published_at, gradesJson.published_at, llJson.published_at]} />
       <header className="research-intro">
         <div className="research-eyebrow">AI infrastructure <span>Updated {fmtDay(build.as_of)}</span></div>
         <h1>Data Center Cost Index</h1>

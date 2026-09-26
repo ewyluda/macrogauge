@@ -23,11 +23,14 @@ export function AsOfClient({ rows, todayDates, todayGauge }: {
   const latest = rows[rows.length - 1];
   const [date, setDate] = useUrlState("date", latest.date, codecs.date());
   const row = useMemo(() => {
-    // exact date, else the last publish on or before it
+    // exact date, else the last publish on or before it; null when the date
+    // precedes the ledger (a ?date= link can go below the picker's min) —
+    // falling back to rows[0] showed a publish AFTER the date under copy
+    // saying "the last one before it"
     const exact = rows.filter((r) => r.date === date);
     if (exact.length) return exact[exact.length - 1];
     const before = rows.filter((r) => r.date < date);
-    return before.length ? before[before.length - 1] : rows[0];
+    return before.length ? before[before.length - 1] : null;
   }, [rows, date]);
   const asPublished = rows.map((r) => [r.date, r.gauge_yoy_pct ?? null] as [string, number | null]);
   return (
@@ -38,11 +41,20 @@ export function AsOfClient({ rows, todayDates, todayGauge }: {
           <input type="date" min={rows[0].date} max={latest.date} value={date} onChange={(e) => e.target.value && setDate(e.target.value)}
             style={{ background: "var(--bg)", color: "var(--text)", border: "1px solid var(--border)", borderRadius: 6, padding: "6px 10px" }} />
         </label>
-        <span style={{ fontSize: 12, color: "var(--muted)" }}>
-          {row.date === date ? `publish ${fmtStamp(row.published_at)}` : `no publish on ${date} — showing the last one before it, ${fmtStamp(row.published_at)}`}
+        <span style={{ fontSize: 12, color: "var(--muted)" }} data-testid="asof-status">
+          {row == null
+            ? `no publish on or before ${date}; the earliest is ${rows[0].date}`
+            : row.date === date ? `publish ${fmtStamp(row.published_at)}` : `no publish on ${date} — showing the last one before it, ${fmtStamp(row.published_at)}`}
         </span>
         <CopyLink />
       </div>
+      {row == null ? (
+        <p className="method" role="status" data-testid="asof-empty">
+          No publish on or before {date} — the ledger&apos;s earliest publish is {rows[0].date}.{" "}
+          <button type="button" className="tool-btn" onClick={() => setDate(rows[0].date)}>Show {rows[0].date}</button>
+        </p>
+      ) : (
+      <>
       <div className="kpi-row">
         <KpiCard label="Macrogauge · YoY" value={row.gauge_yoy_pct == null ? "—" : fmtPct(row.gauge_yoy_pct)} context={`as of ${row.gauge_as_of ?? "—"} · coverage ${row.coverage_pct == null ? "—" : `${row.coverage_pct.toFixed(0)}%`}`} accent="sky" />
         <KpiCard label="Official CPI · YoY" value={row.official_yoy_pct == null ? "—" : fmtPct(row.official_yoy_pct)} context={`${row.official_month ? row.official_month.slice(0, 7) : "—"} print, as known then`} accent="amber" />
@@ -62,6 +74,8 @@ export function AsOfClient({ rows, todayDates, todayGauge }: {
           </tbody>
         </table>
       </div>
+      </>
+      )}
       <div className="chart-card" style={{ marginTop: 14 }}>
         <LinesChart height={300}
           series={[

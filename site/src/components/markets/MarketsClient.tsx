@@ -44,7 +44,7 @@ function pct(v: number | null): string {
 }
 
 function money(v: number | null): string {
-  return v != null ? `$${v.toLocaleString()}` : "—";
+  return v != null ? `$${v.toLocaleString("en-US")}` : "—";
 }
 
 export function MarketsClient({ data }: { data: DcMarkets }) {
@@ -138,7 +138,7 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
         </ToneBadge></td>
         <td>{money(m.wage)}</td>
         <td>{pct(m.wage_yoy_pct)} <small>{fmtSpread(m.wage_spread_pp)}</small></td>
-        <td>{m.emp_cur_total != null ? m.emp_cur_total.toLocaleString() : "—"}</td>
+        <td>{m.emp_cur_total != null ? m.emp_cur_total.toLocaleString("en-US") : "—"}</td>
         <td>{pct(m.emp_yoy_pct)} <small>{fmtSpread(m.emp_spread_pp)}</small></td>
         <td>
           {/* A zero with undisclosed-MW sites is an unknown, not a measured
@@ -148,11 +148,11 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
           {m.sites === 0 ||
           (m.mw_construction === 0 && m.sites_mw_undisclosed > 0)
             ? "—"
-            : `${m.mw_construction.toLocaleString()} MW under constr.`}
+            : `${m.mw_construction.toLocaleString("en-US")} MW under constr.`}
           <div style={{ fontSize: 11, color: "var(--muted)" }}>
             {m.sites} tracked site{m.sites === 1 ? "" : "s"}
             {m.mw_operating
-              ? ` · ${m.mw_operating.toLocaleString()} MW operating`
+              ? ` · ${m.mw_operating.toLocaleString("en-US")} MW operating`
               : ""}
             {m.sites_mw_undisclosed
               ? ` · MW not disclosed at ${m.sites_mw_undisclosed} site${
@@ -160,8 +160,8 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
               : ""}
             {/* Planned / secured are stated-status buckets, not in-flight —
                 shown muted, never summed into the construction figure. */}
-            {m.mw_planned ? ` · ${m.mw_planned.toLocaleString()} MW planned` : ""}
-            {m.mw_secured ? ` · ${m.mw_secured.toLocaleString()} MW secured` : ""}
+            {m.mw_planned ? ` · ${m.mw_planned.toLocaleString("en-US")} MW planned` : ""}
+            {m.mw_secured ? ` · ${m.mw_secured.toLocaleString("en-US")} MW secured` : ""}
           </div>
         </td>
       </tr>
@@ -184,7 +184,7 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
             <p style={{ fontSize: 12, color: "var(--muted)", margin: "0 0 8px" }}>
               Current-quarter total (the basis for Constr. workers above):{" "}
               {money(m.wage_cur)} wage ·{" "}
-              {m.emp_cur_total != null ? m.emp_cur_total.toLocaleString() : "—"}{" "}
+              {m.emp_cur_total != null ? m.emp_cur_total.toLocaleString("en-US") : "—"}{" "}
               workers, across every county with current-quarter data.
             </p>
             <table className="data-table">
@@ -225,7 +225,7 @@ function CountyRow({ c }: { c: MarketCounty }) {
       <td>{c.fips}</td>
       <td>{money(c.wage)}</td>
       <td>{pct(c.wage_yoy_pct)}</td>
-      <td>{c.emp != null ? c.emp.toLocaleString() : "—"}</td>
+      <td>{c.emp != null ? c.emp.toLocaleString("en-US") : "—"}</td>
       <td>{pct(c.emp_yoy_pct)}</td>
     </tr>
   );

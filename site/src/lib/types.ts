@@ -14,6 +14,9 @@ export type NextPrint = {
   reference_month: string | null;
   ensemble: { value: number | null; weights: Record<string, number> };
   forecasters: Forecaster[];
+  // Added 2026-09-26; absent on artifacts published before then.
+  basis?: "SA" | "NSA";
+  core?: { ensemble: { value: number | null; weights: Record<string, number> }; forecasters: Forecaster[] };
 };
 
 export type Fuel = {

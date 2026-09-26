@@ -4,6 +4,7 @@ Everything derives from config + the store + live validation stats so the
 methodology page cannot drift from code (1c spec §8). STAGES prose and
 LIMITATIONS are the two hand-authored blocks, kept here so review catches
 drift when the engine changes."""
+import json
 from datetime import date
 from pathlib import Path
 
@@ -64,13 +65,21 @@ VARIANTS = {
                "gas ride live — built to re-track the print.",
     "supercore": "Services-ex-shelter approximation over our 14 coarse "
                  "components (medical, education & comm, recreation, "
-                 "other goods & services) — includes goods subcomponents "
+                 "and the CPI residual 'everything else') — includes goods subcomponents "
                  "inside those categories, so it is not a true PCE "
                  "core-services cut. Graded vs official core CPI.",
     "pce": "Same 14 components under hand-seeded BEA underlying-detail "
            "share weights instead of BLS relative importance, graded vs "
            "the official PCE price index rather than CPI.",
 }
+
+
+CHANGELOG_PATH = Path(__file__).parent.parent.parent / "config" / "methodology_changelog.json"
+
+
+def load_changelog(path: Path | None = None) -> list[dict]:
+    entries = json.loads((path or CHANGELOG_PATH).read_text())["entries"]
+    return sorted(entries, key=lambda e: e["date"], reverse=True)
 
 
 def build(gauge_result: dict, conn, sources: dict, series: list, comps,
@@ -125,6 +134,8 @@ def build(gauge_result: dict, conn, sources: dict, series: list, comps,
                            "official_yoy_pct": round(cpi["yoy_pct"], 2)}},
         "variants": VARIANTS,
         "limitations": LIMITATIONS,
+        "changelog": (changelog := load_changelog()),
+        "methodology_version": changelog[0]["date"],
     }
 
 

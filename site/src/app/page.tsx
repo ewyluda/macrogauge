@@ -13,7 +13,7 @@ import outlookJson from "../../public/data/outlook.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
-import { columnsToRows } from "@/lib/csv";
+import { heroCsvSpec } from "@/lib/exportSpecs";
 import { ContributionSection } from "@/components/ContributionSection";
 import { BreadthPanel } from "@/components/BreadthPanel";
 import { SinceYesterdayStrip } from "@/components/SinceYesterday";
@@ -84,18 +84,11 @@ const heroStart = windowStart(
   [gaugeDaily.variants.gauge.dates, compare.months],
   HERO_WINDOW_MONTHS,
 );
-const heroDaily = sliceSince(
-  gaugeDaily.variants.gauge.dates,
-  [
-    gaugeDaily.variants.gauge.yoy_pct,
-    gaugeDaily.variants.tracker.yoy_pct,
-    gaugeDaily.variants.col.yoy_pct,
-  ],
-  heroStart,
-);
+// The hero CSV is built on click from gauge_daily.json over the same window
+// (lib/exportSpecs heroCsvSpec) — its ~730 rows no longer ride in the HTML.
 // The momentum control needs index levels reaching 6 months BEHIND the
-// window start (a 6m annualized rate at the first visible day looks back
-// 182 days), so the index payload is cut at window + 6 months; HeroChart
+// window start (a 6m annualized rate at the first visible day looks back 6
+// calendar months), so the index payload is cut at window + 6 months; HeroChart
 // re-cuts the display to `windowMonths` after computing the rates.
 const heroIndex = sliceSince(
   gaugeDaily.variants.gauge.dates,
@@ -213,11 +206,7 @@ export default function Home() {
         <DownloadData compact
           filename="macrogauge-vs-official-24m" json="gauge_daily.json"
           citation={cite({ series: "CPI-comparable gauge, daily YoY (24-month window)", asOf: pulse.gauge.as_of, rebase: "2018-01=100", value: `${fmtPct(pulse.gauge.yoy_pct)} YoY`, path: "/" })}
-          rows={columnsToRows({ name: "date", values: heroDaily.dates }, [
-            { name: "gauge_yoy_pct", values: heroDaily.series[0] },
-            { name: "tracker_yoy_pct", values: heroDaily.series[1] },
-            { name: "col_yoy_pct", values: heroDaily.series[2] },
-          ])} />
+          spec={heroCsvSpec(heroStart)} />
       </>}>
         <p className="research-chart-subtitle">Latest 24 months · year-over-year change</p>
         <div className="hero-chart-card">

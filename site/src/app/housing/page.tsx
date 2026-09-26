@@ -9,6 +9,7 @@ import { C } from "@/lib/chartTheme";
 import { columnsToRows } from "@/lib/csv";
 import { fmtMonth, fmtSigned, yoyColor } from "@/lib/format";
 import type { Housing, HousingMeasure } from "@/lib/types";
+import { StaleBanner } from "@/components/StaleBanner";
 
 const data = housingJson as Housing;
 const a = data.affordability;
@@ -38,6 +39,7 @@ export default function HousingPage() {
   const rows = [data.prices.zhvi, data.prices.case_shiller, data.prices.fhfa, data.rents.zori, data.rents.aptlist, data.sales];
   return (
     <div>
+      <StaleBanner publishedAt={housingJson.published_at} />
       <h1>
         Housing <span className="subtitle">prices, rents, sales — and what the payment takes out of a paycheck</span>
       </h1>

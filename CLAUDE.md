@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (936 tests)
+pytest -q                                     # full suite (1026 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -29,7 +29,7 @@ npm run dev        # local dev server
 npm run lint       # ESLint flat config: next core-web-vitals + jsx-a11y + react-hooks (must pass in CI)
 npm run build      # static export (must pass in CI)
 npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcMarkets/longLead) + csv/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/portfolio
-npm run e2e        # Playwright smoke + share + batch2-7 — 41 routes (62 pages) / 116 e2e tests, zero console errors
+npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes — 41 routes / 181 e2e tests, zero console errors
 ```
 
 CI (`.github/workflows/ci.yml`) runs two independent jobs on every push/PR: `pipeline` (`pytest -q`)
@@ -154,14 +154,26 @@ is BLS average-price staples.
 ## Operational notes
 
 - **Daily run** (`.github/workflows/daily.yml`): cron at 8:40 AM ET weekdays (two crons for
-  EDT/EST, plus a midday backup cron), gated so scheduled runs publish at most once/day in the
-  8:40–15:59 ET window — the window must out-span GitHub's cron slip (2.5–3h observed). **Release-day guard:** on a CPI/PPI release day (`config/release_calendar.json`, keys `cpi`/`ppi`) a later scheduled firing republishes if the anchor row for the released month (`CPIAUCNS`/`PPIACO`, `pipeline/release_gate.py`) is still absent from the store — the 2026-09-10 miss was a 12:38 run beating FRED's 12:54 PPI propagation; commits
-  `store/` + `site/public/data` back as `data: daily publish <date>` (the loop's heartbeat), which
-  triggers the Vercel deploy.
+  EDT/EST, plus two backup crons), gated by `pipeline/publish_gate.py` so scheduled (and
+  `repository_dispatch` `daily`) runs publish at most once/day in the 8:00–21:59 ET window — GitHub's
+  cron slip reached a 4–5.5h weekly median in Sept 2026 and 2026-08-28 had no publish at all under the
+  old 15:59 cutoff. The gate fast-forwards to origin/main first (a queued run's checkout can predate
+  today's publish). **Release-day guard:** on a CPI/PPI/PCE/NFP release day a later scheduled firing
+  republishes if the anchor row for the released month (`CPIAUCNS`/`PPIACO`/`PCEPI`/`PAYEMS`,
+  `pipeline/release_gate.py`) is still absent from the store — the 2026-09-10 miss was a 12:38 run
+  beating FRED's 12:54 PPI propagation. Commits `store/` + `site/public/data` back as
+  `data: daily publish <date>` (the loop's heartbeat), which triggers the Vercel deploy; a critical
+  qa failure then turns the run red. **Watchdog** (`.github/workflows/watchdog.yml`,
+  `pipeline/watchdog.py`) fails nightly if the last closed weekday has no publish.
+- **Release calendar** = `config/release_calendar.json` (hand-seeded floor) merged with
+  `store/calendar/releases.json`, refreshed every run from FRED `release/dates` (CPI 10, PPI 46,
+  PIO 54, Empsit 50; reference month = release month − 1). `calendar_horizon` qa goes red under 45
+  days of scheduled CPI dates; past the calendar the nowcast targets an inferred month
+  (`release_calendar.next_target`) so forecasts keep recording.
 - **`origin/main` gets a daily bot commit every morning.** Always `git fetch` / rebase before
   pushing; expect to rebase your work over `data: daily publish` commits. Store JSONL conflicts are
   resolved by *union* (keep both rows; last-seen wins on load), not by picking a side.
 - The bot commits as `35318463+ewyluda@users.noreply.github.com` — Vercel Hobby blocks deploys whose
   author email doesn't match a GitHub account.
-- Production: https://macrogauge-cloudten.vercel.app (public; Vercel Auth protects preview
+- Production: https://macrogauge.vercel.app (public, indexable; the team alias macrogauge-cloudten.vercel.app serves the same deploy but Vercel sends `x-robots-tag: noindex` on it; Vercel Auth protects preview
   deployments only).

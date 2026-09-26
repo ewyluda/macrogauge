@@ -10,12 +10,18 @@ DEFAULT_PATH = Path(__file__).parent.parent / "config" / "basket.json"
 class Component:
     code: str                            # internal component id, e.g. "shelter_owned"
     label: str                           # display label (gaptable rows)
-    weight: float                        # BLS relative-importance seed weight
+    weight: float                        # BLS relative importance, December of weights_as_of
     official_series: str                 # store series code of the official BLS index
     live_blend: dict[str, float] | None  # store series code -> design blend weight
     live_variants: tuple[str, ...]       # variants whose live blend drives this component
     lead_days: dict[str, int] | None = None  # store series code -> +days shift (wholesale leads retail)
     pce_weight: float = 0.0              # hand-seeded BEA-share weight, used by the "pce" variant
+    # "level" (default): the live blend REPLACES official from its first obs
+    # (independent re-pricing). "year_ratio": official everywhere it exists,
+    # live only as a like-month year-ratio tail after the last print — for
+    # live legs that are the same retail concept but LAG the BLS print and
+    # carry their own seasonality (EIA residential electricity/gas).
+    live_method: str = "level"
 
 
 def load_basket(path: Path | None = None) -> tuple[str, list[Component]]:
@@ -25,7 +31,8 @@ def load_basket(path: Path | None = None) -> tuple[str, list[Component]]:
                        live_blend=c.get("live_blend"),
                        live_variants=tuple(c.get("live_variants", [])),
                        lead_days=c.get("lead_days"),
-                       pce_weight=c["pce_weight"])
+                       pce_weight=c["pce_weight"],
+                       live_method=c.get("live_method", "level"))
              for c in raw["components"]]
     codes = [c.code for c in comps]
     dupes = {c for c in codes if codes.count(c) > 1}
@@ -38,6 +45,8 @@ def load_basket(path: Path | None = None) -> tuple[str, list[Component]]:
     if abs(pce_total - 1.0) > 1e-9:
         raise ValueError(f"basket pce_weights sum to {pce_total}, expected 1.0")
     for c in comps:
+        if c.live_method not in ("level", "year_ratio"):
+            raise ValueError(f"{c.code}: live_method must be level|year_ratio")
         if c.live_variants and not c.live_blend:
             raise ValueError(f"{c.code}: live_variants requires live_blend")
         if c.lead_days:

@@ -105,6 +105,35 @@ def test_short_sites_row_raises(tmp_path):
         capacity.load_capacity(p, market_keys=set())
 
 
+@pytest.mark.parametrize("eq", ["2027-Q4", "Q4 2027", 2027, "2027Q5"])
+def test_bad_energize_q_raises(tmp_path, eq):
+    cfg = json.loads(_mini(tmp_path).read_text())
+    cfg["companies"][0]["sites"] = [["Helios", 800, "c", "2026", eq]]
+    p = tmp_path / "eq.json"
+    p.write_text(json.dumps(cfg))
+    with pytest.raises(ValueError, match="energize_q"):
+        capacity.load_capacity(p, market_keys=set())
+
+
+@pytest.mark.parametrize("eq", ["2027Q4", None])
+def test_energize_q_row_loads(tmp_path, eq):
+    cfg = json.loads(_mini(tmp_path).read_text())
+    cfg["companies"][0]["sites"] = [["Helios", 800, "c", "2026", eq]]
+    p = tmp_path / "eq.json"
+    p.write_text(json.dumps(cfg))
+    assert capacity.load_capacity(p, market_keys=set())["companies"][0]["sites"][0][4] == eq
+
+
+def test_every_real_timeline_row_carries_curated_energize_q():
+    # Every construction site with MW feeds the energization timeline; its
+    # quarter is curated (energize_q, null = deliberately undated) rather than
+    # left to the free-text fallback parse. A new row without one fails here,
+    # at review time, not silently in the chart.
+    missing = [(c["t"], s[0]) for c in capacity.load_capacity()["companies"]
+               for s in c["sites"] if s[2] == "c" and s[1] and len(s) < 5]
+    assert missing == []
+
+
 def test_bad_site_status_raises(tmp_path):
     cfg = json.loads(_mini(tmp_path).read_text())
     cfg["companies"][0]["sites"] = [["Helios", 800, "x", "2026"]]

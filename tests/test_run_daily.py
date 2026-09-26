@@ -116,7 +116,26 @@ def _ice_xlsx():
     return buf.getvalue()
 
 
+def _text_json(obj):
+    return _TextResponse(json.dumps(obj))
+
+
+class _TextResponse:
+    def __init__(self, text):
+        self.text = text
+        self.content = text.encode()
+
+    def raise_for_status(self):
+        pass
+
+
 def fake_get(url, params=None, timeout=None, **kw):
+    if "api.stlouisfed.org/fred/release/dates" in url:
+        rid = int(url.split("release_id=")[1].split("&")[0])
+        dates = {10: ["2026-07-14", "2026-08-12", "2026-09-11", "2026-10-14"],
+                 46: ["2026-09-10", "2026-10-15"], 54: ["2026-09-30"], 50: ["2026-10-02"]}
+        return _text_json({"release_dates": [{"release_id": rid, "date": d}
+                                             for d in dates[rid]]})
     if "api.stlouisfed.org" in url:
         # test_fred.fake_get hard-asserts series_id == "CPIAUCNS" (written when
         # FRED had a single registry series); the registry now carries 17 FRED
@@ -284,7 +303,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "revisions.json", "ledger.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 30
+    assert len(status["sources"]) == 30  # SFCOMPUTE retired, KALSHI_CORE added 2026-09-26
     assert all(s["ok"] for s in status["sources"])
     kalshi_dc_row = [s for s in status["sources"] if s["name"] == "KALSHI_DC"][0]
     assert kalshi_dc_row["ok"] is True
@@ -294,7 +313,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     # + geography_ok + labor_ok + commodities_ok + capacity_ok + markets_ok + grades_ok
     # + longlead_ok + rates_ok + compute_ok + housing_ok + changes_ok + revisions_ok + ledger_ok
     # + expected_absence (todo #10)
-    assert qa["total"] == 34
+    assert qa["total"] == 35
     for phase in ("rates", "compute", "housing", "changes", "revisions", "ledger"):
         assert [c for c in qa["checks"] if c["name"] == f"{phase}_ok"][0]["pass"] is True, phase
     # batch 4e: a fresh out dir has no previous publish -> first reading
@@ -675,8 +694,10 @@ def test_labor_schema_violation_fails_run(tmp_path, monkeypatch):
 
 
 def test_release_calendar_exhausted_degrades_nowcast_instead_of_crashing(tmp_path, monkeypatch):
-    # config/release_calendar.json's last entry is 2026-12-10 — every run from
-    # 2026-12-11 onward hits next_print()=None until the yearly calendar refresh.
+    # With no future scheduled CPI entry (FRED refresh failing AND the seeded
+    # config exhausted), next_print() is None: pulse/nextprint show no date,
+    # but the nowcast keeps targeting an inferred month so forecasts keep
+    # recording (2026-09-26 — previously it went "unavailable").
     set_keys(monkeypatch)
     monkeypatch.setattr(run_daily.release_calendar, "next_print", lambda *a, **k: None)
     store, out = tmp_path / "store", tmp_path / "out"
@@ -687,10 +708,11 @@ def test_release_calendar_exhausted_degrades_nowcast_instead_of_crashing(tmp_pat
     assert (out / "heatcheck.json").exists()
     nowcast = json.loads((out / "nowcast_latest.json").read_text())
     assert nowcast["release_date"] is None
-    assert nowcast["reference_month"] is None
-    assert nowcast["cpi"]["status"] == "unavailable"
+    assert nowcast["reference_month"] is not None
+    assert nowcast["cpi"]["status"] == "live"
     nextprint = json.loads((out / "nextprint.json").read_text())
     assert nextprint["release_date"] is None
+    assert json.loads((out / "pulse.json").read_text())["next_print"] is None
     qa_data = json.loads((out / "qa.json").read_text())
     checks = {c["name"]: c for c in qa_data["checks"]}
     assert checks["nowcast_ok"]["pass"] is True  # exhaustion is not an error

@@ -1,0 +1,23 @@
+name: watchdog
+# Turns a silently missed weekday publish (2026-08-28) or a critical-QA publish
+# into a red run, which is what triggers GitHub's failure email. Fires after the
+# daily gate's window closes (21:59 ET); pipeline/watchdog.py checks the most
+# recent weekday whose window has closed, so cron slip only delays the alarm.
+on:
+  schedule:
+    - cron: "30 3 * * 2-6" # 23:30 EDT / 22:30 EST, Mon-Fri ET
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+      - name: Check yesterday's publish and critical QA
+        run: python3 -m pipeline.watchdog --ref HEAD

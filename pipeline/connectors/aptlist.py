@@ -5,16 +5,26 @@ column per month). Second leg of the shelter blend (basket.json aptlist_us:
 0.3). Verified live 2026-07-09: the national row has location_name="United
 States", location_type="National", and repeats per bed_size ("overall", "1br",
 "2br") — we want the "overall" row, not "location_name == National" (that
-value doesn't appear; it's the location_type instead). URL lives in a
-constant — moves (the asset id/hash changes on every monthly refresh) are a
-one-line fix, caught by the QA connector check."""
+value doesn't appear; it's the location_type instead).
+
+URL discovery (2026-09-26): the CSV's Contentful asset id/hash AND the
+trailing YYYY_MM change on every monthly refresh, so the pinned constant
+needed a hand re-pin each month — and a stale pin keeps returning HTTP 200
+with last month's file, i.e. the connector stays green while 30% of the
+market-rent blend freezes. fetch() now reads the research page and takes the
+newest ``Apartment_List_Rent_Estimates_YYYY_MM.csv`` link (the page links it
+protocol-relative; ``_Summary_`` and the growth/vacancy files are excluded by
+the pattern). CSV_URL remains as the fallback when discovery fails — the
+discovery error is surfaced as a partial warning, never silently."""
 import csv
 import io
+
+import re
 
 import requests
 
 from pipeline.connectors.fred import today_et
-from pipeline.connectors.util import get_text, month_first
+from pipeline.connectors.util import get_text, month_first, warn_partial
 from pipeline.models import Observation
 
 # Pinned by the Task-4 access spike (2026-07-09), re-pinned 2026-08-27 —
@@ -26,12 +36,30 @@ from pipeline.models import Observation
 CSV_URL = ("https://assets.ctfassets.net/jeox55pd4d8n/7lvW7gaSwU8HQZurWlYEUY/"
            "ebb465ed74b4de28a0e90362552b26c1/Apartment_List_Rent_Estimates_2026_08.csv")
 START = "2017-01-01"
+PAGE_URL = "https://www.apartmentlist.com/research/category/data-rent-estimates"
+LINK_RE = re.compile(
+    r"(?:https:)?//assets\.ctfassets\.net/[\w/]+/Apartment_List_Rent_Estimates_(\d{4})_(\d{2})\.csv")
+
+
+def discover_csv_url(page_html: str) -> str:
+    """Newest monthly rent-estimates CSV linked from the research page."""
+    found = {(m.group(1), m.group(2)): m.group(0) for m in LINK_RE.finditer(page_html)}
+    if not found:
+        raise ValueError("Apartment List page: rent-estimates CSV link not found "
+                         "(structure drift?)")
+    url = found[max(found)]
+    return "https:" + url if url.startswith("//") else url
 
 
 def fetch(vintage_date: str | None = None, http_get=None) -> list[Observation]:
     http_get = http_get or requests.get
     vintage = vintage_date or today_et()
-    reader = csv.DictReader(io.StringIO(get_text(CSV_URL, http_get)))
+    try:
+        url = discover_csv_url(get_text(PAGE_URL, http_get))
+    except Exception as e:  # fall back to the last known pin, loudly
+        warn_partial("APTLIST", [("csv discovery", e)])
+        url = CSV_URL
+    reader = csv.DictReader(io.StringIO(get_text(url, http_get)))
     for row in reader:
         if row.get("location_name") != "United States" or row.get("bed_size") != "overall":
             continue

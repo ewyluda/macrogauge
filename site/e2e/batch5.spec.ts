@@ -50,10 +50,10 @@ test("/as-of reads a ledger row by date from the URL and cites it", async ({ pag
   await expect(page.locator(".citation-text")).toContainText(`/as-of?date=${first.date}`);
 });
 
-test("nowcast hero shows the realized error band", async ({ page }) => {
+test("nowcast hero shows the benchmark error scale", async ({ page }) => {
   await page.goto("/cpi-preview");
-  await expect(page.locator(".kpi-label", { hasText: "Realized error band" })).toBeVisible();
-  await expect(page.getByText(/mean absolute error over \d+ vintage-true prints/)).toBeVisible();
+  await expect(page.locator(".kpi-label", { hasText: "Benchmark error scale" })).toBeVisible();
+  await expect(page.getByText(/MAE of a simple 3-month-average benchmark over \d+ vintage-true prints/)).toBeVisible();
 });
 
 test("/data lists every artifact with a schema link that resolves", async ({ page }) => {

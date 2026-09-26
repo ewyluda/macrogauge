@@ -259,17 +259,18 @@ def test_grocery_items_below_floor_fails_noncritical():
     assert check["pass"] is False and check["critical"] is False
 
 
-def test_coverage_floor_is_40_with_self_explaining_detail():
-    g = dict(GAUGE_OK, coverage_pct=40.0)
+def test_coverage_floor_is_35_with_self_explaining_detail():
+    # 35 since 2026-09-26 (RI weights + tail-only EIA utilities; see qa.py)
+    g = dict(GAUGE_OK, coverage_pct=35.0)
     r = qa.run_checks(FRESH, today="2026-07-08", gauge=g)
     cov = _by_name(r, "gauge_coverage")
     assert cov["pass"] is True
-    assert "40" in cov["detail"]
-    assert "food_home" in cov["detail"]
+    assert "35" in cov["detail"]
+    assert "shelter" in cov["detail"]
 
 
 def test_coverage_just_below_new_floor_fails():
-    g = dict(GAUGE_OK, coverage_pct=39.9)
+    g = dict(GAUGE_OK, coverage_pct=34.9)
     r = qa.run_checks(FRESH, today="2026-07-08", gauge=g)
     cov = _by_name(r, "gauge_coverage")
     assert cov["pass"] is False

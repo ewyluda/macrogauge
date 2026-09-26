@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { SegmentedControl } from "./SegmentedControl";
-import { STOPS, ramp, EMPTY_CELL } from "@/lib/heat";
+import { STOPS, ramp, EMPTY_CELL, textOn } from "@/lib/heat";
 import { TILE_POS } from "@/lib/stateTiles";
 import type { GeoStateRow, GeoPanel } from "@/lib/types";
 
@@ -125,6 +125,9 @@ export function GeoStateMap({
           const pos = TILE_POS[s.state];
           if (!pos) return null;
           const v = valueOf(s, metric);
+          const bg = v == null ? EMPTY_CELL : ramp((v - min) / span);
+          // tile ink by WCAG luminance — near-white on the amber stretch was ~3:1
+          const ink = textOn(bg);
           return (
             <div
               key={s.state}
@@ -132,17 +135,17 @@ export function GeoStateMap({
               style={{
                 gridRow: pos[0] + 1,
                 gridColumn: pos[1] + 1,
-                background: v == null ? EMPTY_CELL : ramp((v - min) / span),
+                background: bg,
                 opacity: v == null ? 0.45 : 1,
                 borderRadius: 3,
                 padding: "5px 2px",
                 textAlign: "center",
               }}
             >
-              <div style={{ fontSize: 11, fontWeight: 600, color: "#E6EDF3" }}>
+              <div style={{ fontSize: 11, fontWeight: 600, color: ink }}>
                 {s.state}
               </div>
-              <div style={{ fontSize: 10, color: "rgba(230,237,243,0.85)" }}>
+              <div style={{ fontSize: 10, color: ink }}>
                 {fmtTile(v, metric)}
               </div>
             </div>

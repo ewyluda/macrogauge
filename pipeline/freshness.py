@@ -52,7 +52,8 @@ def classify(latest_obs: str | None, limit_days: int, absence: Absence | None,
         return FRESH if within_limit else STALE
     if absence.review_by is not None and today > absence.review_by:
         return POLICY_EXPIRED
-    if within_limit and absence.kind in _RESUME_KINDS:
+    if (within_limit and absence.kind in _RESUME_KINDS
+            and (absence.since is None or latest_obs > absence.since)):
         return POLICY_RESUMED
     if (absence.max_absence_days is not None
             and age > absence.max_absence_days):
@@ -68,4 +69,5 @@ def absence_from_row(raw: dict | None) -> Absence | None:
         return raw
     return Absence(kind=raw["kind"], note=raw["note"],
                    review_by=raw.get("review_by"),
-                   max_absence_days=raw.get("max_absence_days"))
+                   max_absence_days=raw.get("max_absence_days"),
+                   since=raw.get("since"))

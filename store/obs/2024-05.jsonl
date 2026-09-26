@@ -39,3 +39,10 @@
 {"obs_date": "2024-02-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 364.738, "vintage_date": "2024-05-14"}
 {"obs_date": "2024-03-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 367.155, "vintage_date": "2024-05-14"}
 {"obs_date": "2024-04-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 367.355, "vintage_date": "2024-05-14"}
+{"obs_date": "2024-01-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 121.934, "vintage_date": "2024-05-31"}
+{"obs_date": "2024-02-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 122.347, "vintage_date": "2024-05-31"}
+{"obs_date": "2024-03-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 122.761, "vintage_date": "2024-05-31"}
+{"obs_date": "2024-04-01", "route": "API", "series_code": "PCEPI", "source": "ALFRED", "value": 123.076, "vintage_date": "2024-05-31"}
+{"obs_date": "2024-02-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 157796.0, "vintage_date": "2024-05-03"}
+{"obs_date": "2024-03-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 158111.0, "vintage_date": "2024-05-03"}
+{"obs_date": "2024-04-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 158286.0, "vintage_date": "2024-05-03"}

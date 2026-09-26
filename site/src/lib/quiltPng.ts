@@ -1,5 +1,5 @@
 import { C } from "./chartTheme";
-import { heatColor } from "./heat";
+import { heatColor, textOn } from "./heat";
 
 export type QuiltRow = { label: string; values: (number | null)[] };
 
@@ -49,10 +49,11 @@ export function exportQuiltPng(
     ctx.textAlign = "center";
     row.values.forEach((v, i) => {
       const x = left + i * cellW;
-      ctx.fillStyle = heatColor(v);
+      const bg = heatColor(v);
+      ctx.fillStyle = bg;
       ctx.fillRect(x, y, cellW - 1, cellH - 1);
       if (v !== null && cellW >= 30) {
-        ctx.fillStyle = "rgba(255,255,255,0.92)";
+        ctx.fillStyle = textOn(bg);
         ctx.font = "11px ui-sans-serif, system-ui";
         ctx.fillText(v.toFixed(1), x + cellW / 2, y + cellH / 2 + 4);
       }

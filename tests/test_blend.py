@@ -106,9 +106,12 @@ def test_splice_anchored_keeps_official_and_scales_tail():
     out = blend.splice_anchored(official, live)
     # official values never overwritten
     assert out["2017-01-01"] == 100.0 and out["2017-02-01"] == 102.0
-    # tail scaled at the LAST official obs: scale = 102 / live(2017-01-15) = 2.04
-    assert out["2017-02-10"] == pytest.approx(52.0 * 2.04)
-    assert out["2017-03-01"] == pytest.approx(55.0 * 2.04)
+    # tail scaled on the proxy's mean over the print's REFERENCE MONTH
+    # (2017-02: only 02-10 = 52), no longer on live(2017-01-15) — the old
+    # anchor sat before the month the print measures and double-counted the
+    # early-month move (scale was 102/50 = 2.04; now 102/52)
+    assert out["2017-02-10"] == pytest.approx(102.0)
+    assert out["2017-03-01"] == pytest.approx(55.0 * 102.0 / 52.0)
     # live points at/before the anchor never enter the output
     assert "2017-01-15" not in out
 
@@ -118,10 +121,43 @@ def test_splice_anchored_reanchors_on_new_print():
     live = {"2017-01-15": 50.0, "2017-02-10": 52.0, "2017-03-01": 55.0,
             "2017-03-20": 56.0}
     out = blend.splice_anchored(official, live)
-    # anchor moved to 2017-03-01: scale = 110/55 = 2.0 — drift does not compound
+    # anchor moved to the 2017-03 reference month: scale = 110 / mean(55, 56)
+    # — re-anchored on each print, so drift does not compound
     assert out["2017-03-01"] == 110.0
-    assert out["2017-03-20"] == pytest.approx(112.0)
+    assert out["2017-03-20"] == pytest.approx(56.0 * 110.0 / 55.5)
     assert "2017-02-10" not in out  # official backbone covers that span now
+
+
+def test_splice_anchored_scales_on_reference_month_mean_not_prior_day():
+    # The 2026-09 regression: the Aug PPI (stamped 08-01, priced mid-month)
+    # was scaled on the proxy's Jul-31 close, so an early-August rally was
+    # counted once inside the print and again in the tail. Anchor = mean of
+    # the proxy over August.
+    official = {"2026-07-01": 100.0, "2026-08-01": 104.0}
+    live = {"2026-07-31": 10.0,                       # pre-month close: ignored
+            "2026-08-03": 10.4, "2026-08-13": 10.4, "2026-08-31": 10.4,
+            "2026-09-15": 10.92}
+    out = blend.splice_anchored(official, live)
+    # scale = 104 / mean(10.4, 10.4, 10.4) = 10 -> tail is +5% on the print,
+    # not +9.2% (10.92/10.0) as the Jul-31 anchor made it
+    assert out["2026-09-15"] == pytest.approx(109.2)
+    assert out["2026-08-31"] == pytest.approx(104.0)
+    assert "2026-07-31" not in out
+
+
+def test_splice_anchored_falls_back_to_last_obs_when_ref_month_empty():
+    # a proxy with no obs inside the print's reference month (feed gap):
+    # the last proxy obs at/before t0 is the only anchor available
+    official = {"2026-08-01": 104.0}
+    live = {"2026-07-30": 9.0, "2026-07-31": 10.0, "2026-09-15": 11.0}
+    out = blend.splice_anchored(official, live)
+    assert out["2026-09-15"] == pytest.approx(114.4)   # 11 * 104/10
+
+
+def test_splice_anchored_zero_reference_mean_is_official_only():
+    official = {"2026-08-01": 104.0}
+    live = {"2026-08-10": 0.0, "2026-09-15": 11.0}
+    assert blend.splice_anchored(official, live) == official
 
 
 def test_hub_mean_two_present_mean():

@@ -22,15 +22,15 @@ def test_load_real_registry():
                             "APTLIST", "USDA", "AAA", "AAA_STATE", "MND", "MANHEIM",
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
-                            "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC",
+                            "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC", "KALSHI_CORE",
                             "EIA_STATE_RES"}
-    assert len(series) == 693
+    assert len(series) == 705
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 151
+    assert len(fred) == 162
     # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
     # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
     # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
@@ -38,6 +38,10 @@ def test_load_real_registry():
     assert fred_ids == {
         "CPIAUCNS": "CPIAUCNS",
         "CPILFENS": "CPILFENS",
+        "CPIAUCSL": "CPIAUCSL",
+        "CPILFESL": "CPILFESL",
+        **{c: c for c in ("COREFLEXCPIM159SFRBATL", "PCEPILFE", "T5YIFR", "EXPINF1YR",
+                          "EXPINF10YR", "CUSR0000SACL1E", "CHNTOT", "ECIALLCIV", "ULCNFB")},
         "PCEPI": "PCEPI",
         "CUUR0000SAF11": "CUUR0000SAF11",
         "CUUR0000SEFV": "CUUR0000SEFV",
@@ -218,7 +222,7 @@ def test_zillow_metro_family_consistent():
         prefix, region_id = s.code.split("_", 1)
         assert prefix in ("zori", "zhvi")
         assert s.source_id == f"{prefix}:{region_id}"
-        assert s.max_staleness_days == 75
+        assert s.max_staleness_days == 80  # was 75 (decision 4); Zillow posts ~mid-month, natural peak age 76-77d (2026-09-26)
     zori_ids = {s.code.split("_", 1)[1] for s in metros if s.code.startswith("zori_")}
     zhvi_ids = {s.code.split("_", 1)[1] for s in metros if s.code.startswith("zhvi_")}
     assert zori_ids == zhvi_ids and len(zori_ids) == 50
@@ -350,3 +354,17 @@ def test_registry_absence_policies_are_explicit_and_bounded():
     assert by["APU0000711311"].max_staleness_days == by["APU0000712112"].max_staleness_days
     assert policies["APU0000711311"].kind == "intermittent"
     assert {policies[c].kind for c in ("APU0000702212", "APU0000704211")} == {"discontinued"}
+
+
+def test_retired_source_is_not_collected(tmp_path):
+    from pipeline import collect
+    sources, series = registry.load_registry()
+    assert sources["SFCOMPUTE"].retired
+    sfc = [s for s in series if s.source == "SFCOMPUTE"]
+    assert sfc and all(s.absence and s.absence.kind == "discontinued" for s in sfc)
+
+    def boom(*a, **k):
+        raise AssertionError("retired source must not be fetched")
+    results = collect.collect_all({"SFCOMPUTE": sources["SFCOMPUTE"]}, sfc, {}, tmp_path,
+                                  http_get=boom, http_post=boom)
+    assert results == []

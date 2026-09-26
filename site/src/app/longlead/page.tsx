@@ -6,6 +6,7 @@ import { flattenRow } from "@/lib/csv";
 import { fmtSigned } from "@/lib/format";
 import { BASIS_LABELS, fmtFigure, fmtWeightPct, noteSegments } from "@/lib/longLead";
 import type { LongLead, LongLeadPackage, LongLeadVendor } from "@/lib/types";
+import { StaleBanner } from "@/components/StaleBanner";
 
 const data = llJson as unknown as LongLead;
 
@@ -120,6 +121,7 @@ export default function Page() {
   // second one here is invalid HTML; the other DC pages use a plain div.
   return (
     <div>
+      <StaleBanner publishedAt={llJson.published_at} />
       <h1>Long-Lead Board</h1>
       <p className="lede">
         The binding constraint in DC delivery is availability, not just price.

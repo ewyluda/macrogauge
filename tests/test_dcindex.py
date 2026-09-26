@@ -114,9 +114,12 @@ def test_stale_series_carries_forward_no_weight_shift(tmp_path):
 def test_proxy_splice_and_gate(tmp_path):
     build = [{"code": "copper_wire", "label": "Copper", "group": "materials",
               "series": "ppi_copper_wire", "weight": 1.0, "live_proxy": "fmp_copper"}]
+    # the tail point sits in the month AFTER the print's reference month: the
+    # splice anchors on the proxy's reference-month mean (2018-01 = 50 alone),
+    # so a tail point inside 2018-01 would also move the anchor
     rows = [
         ("ppi_copper_wire", "2017-01-01", 100.0), ("ppi_copper_wire", "2018-01-01", 100.0),
-        ("fmp_copper", "2018-01-01", 50.0), ("fmp_copper", "2018-01-05", 55.0),
+        ("fmp_copper", "2018-01-01", 50.0), ("fmp_copper", "2018-02-05", 55.0),
     ] + OPS_ROWS
     basket = write_basket(tmp_path, build, ONE_COMP_OPS,
                           hardware=[{"code": "hw", "label": "HW", "group": "compute",
@@ -124,20 +127,49 @@ def test_proxy_splice_and_gate(tmp_path):
 
     # (a) proxy point just arrived today and jumps 10% -> gate holds it one day
     conn = make_conn(tmp_path / "a", rows,
-                     vintages={("fmp_copper", "2018-01-05"): "2018-01-05"})
-    result = dcindex.run(conn, today="2018-01-05", basket_path=basket)
+                     vintages={("fmp_copper", "2018-02-05"): "2018-02-05"})
+    result = dcindex.run(conn, today="2018-02-05", basket_path=basket)
     b = result["indexes"]["build"]
     assert b["components"]["copper_wire"]["mode"] == "official+proxy"
-    assert b["index"]["2018-01-05"] == pytest.approx(100.0)  # held at prior value
-    assert b["gate_flags"] == ["copper_wire@2018-01-05"]
+    assert b["index"]["2018-02-05"] == pytest.approx(100.0)  # held at prior value
+    assert b["gate_flags"] == ["copper_wire@2018-02-05"]
 
     # (b) same data, not just-arrived -> spike passes through, spliced tail
     #     scale x rebase cancel: 100 * 55/50 = 110 exactly
     conn = make_conn(tmp_path / "b", rows)
-    result = dcindex.run(conn, today="2018-01-05", basket_path=basket)
+    result = dcindex.run(conn, today="2018-02-05", basket_path=basket)
     b = result["indexes"]["build"]
-    assert b["index"]["2018-01-05"] == pytest.approx(110.0)
+    assert b["index"]["2018-02-05"] == pytest.approx(110.0)
     assert b["gate_flags"] == []
+
+
+def test_proxy_tail_anchors_on_reference_month_mean(tmp_path):
+    # The 2026-09 regression through the engine: the Aug print (stamped
+    # 08-01, priced mid-month) must be scaled on the proxy's August mean, not
+    # its Jul-31 close — otherwise the early-August rally lands twice.
+    build = [{"code": "copper_wire", "label": "Copper", "group": "materials",
+              "series": "ppi_copper_wire", "weight": 1.0, "live_proxy": "fmp_copper"}]
+    rows = [
+        ("ppi_copper_wire", "2017-01-01", 100.0), ("ppi_copper_wire", "2018-01-01", 100.0),
+        ("ppi_copper_wire", "2018-08-01", 104.0),
+        ("fmp_copper", "2018-01-15", 50.0),
+        ("fmp_copper", "2018-07-31", 50.0),                 # pre-month close
+        ("fmp_copper", "2018-08-02", 52.0), ("fmp_copper", "2018-08-15", 52.0),
+        ("fmp_copper", "2018-08-31", 52.0),
+        ("fmp_copper", "2018-09-14", 54.6),                 # +5% on the Aug mean
+    ] + OPS_ROWS
+    basket = write_basket(tmp_path, build, ONE_COMP_OPS,
+                          hardware=[{"code": "hw", "label": "HW", "group": "compute",
+                                     "series": "ppi_copper_wire", "weight": 1.0}])
+    conn = make_conn(tmp_path, rows)
+    result = dcindex.run(conn, today="2018-09-14", basket_path=basket)
+    b = result["indexes"]["build"]
+    assert b["components"]["copper_wire"]["mode"] == "official+proxy"
+    # 104 * 54.6/52 = 109.2 (the Jul-31 anchor gave 104 * 54.6/50 = 113.568)
+    assert b["index"]["2018-09-14"] == pytest.approx(109.2)
+    # the reference month's last grid day sits at the print's level
+    assert b["monthly"]["index"][b["monthly"]["months"].index("2018-08")] == \
+        pytest.approx(104.0)
 
 
 def test_official_print_not_gated_when_proxy_tail_is_empty(tmp_path):
@@ -165,15 +197,18 @@ def test_official_print_not_gated_when_proxy_tail_is_empty(tmp_path):
 
 
 def test_dormant_proxy_labels_official_and_changes_nothing(tmp_path):
-    # proxy rows exist but ALL post-date the last official print: splice
-    # returns official-only, mode must NOT advertise a tail, no gate flags.
+    # proxy rows exist but ALL post-date the last official print's reference
+    # month (none in 2018-01, none before it): splice returns official-only,
+    # mode must NOT advertise a tail, no gate flags. (Proxy obs INSIDE the
+    # reference month now anchor the splice — the month mean — so the dormant
+    # case needs them to start in the following month.)
     build = [{"code": "copper_wire", "label": "Copper", "group": "materials",
               "series": "ppi_copper_wire", "weight": 1.0,
               "live_proxy": "fmp_copper"}]
     rows = [
         ("ppi_copper_wire", "2017-01-01", 100.0),
         ("ppi_copper_wire", "2018-01-01", 100.0),
-        ("fmp_copper", "2018-01-10", 50.0), ("fmp_copper", "2018-01-11", 55.0),
+        ("fmp_copper", "2018-02-10", 50.0), ("fmp_copper", "2018-02-11", 55.0),
     ] + OPS_ROWS
     conn = make_conn(tmp_path, rows)
     # hardware default (ONE_COMP_HW -> ppi_steel) has no rows in this test;
@@ -182,7 +217,7 @@ def test_dormant_proxy_labels_official_and_changes_nothing(tmp_path):
     basket = write_basket(tmp_path, build, ONE_COMP_OPS,
                           hardware=[{"code": "hw", "label": "HW", "group": "compute",
                                      "series": "ppi_copper_wire", "weight": 1.0}])
-    result = dcindex.run(conn, today="2018-01-12", basket_path=basket)
+    result = dcindex.run(conn, today="2018-02-12", basket_path=basket)
     b = result["indexes"]["build"]
     assert b["components"]["copper_wire"]["mode"] == "official"
     assert b["gate_flags"] == []
@@ -220,10 +255,13 @@ def test_blend_proxy_worked_example_and_smoothed_tail(tmp_path):
     # hub_mean: 01-01 -> 50, 01-02 -> 52 (caiso only), 01-03 -> 55
     # trailing_mean(days=2): 01-01 -> 50, 01-02 -> 51, 01-03 -> 53.5
     # rebase (base month 2018-01, all 3 pts) anchor = 154.5/3 = 51.5
-    # splice_anchored scale at 01-01 (100/97.0873...) = 1.03
+    # splice_anchored scale = official(01-01) / mean of the proxy over the
+    # print's reference month 2018-01 = 100/100 = 1 (it used to scale on the
+    # 01-01 point alone, 100/97.0873 = 1.03 -> 102.0 / 107.0; the month mean
+    # is the proxy level over the window a mid-month-priced print measures)
     assert ops["index"]["2018-01-01"] == pytest.approx(100.0)  # official, unspliced
-    assert ops["index"]["2018-01-02"] == pytest.approx(102.0)  # smoothed tail
-    assert ops["index"]["2018-01-03"] == pytest.approx(107.0)
+    assert ops["index"]["2018-01-02"] == pytest.approx(5100.0 / 51.5)  # smoothed tail
+    assert ops["index"]["2018-01-03"] == pytest.approx(5350.0 / 51.5)
     assert ops["gate_flags"] == []
 
 
@@ -233,8 +271,10 @@ def test_blend_gate_triggers_on_any_blend_series_arrival(tmp_path):
     # configured series, so the >5% jump still gets held one day.
     rows = BUILD_ROWS + [
         ("eia_elec_ind_us", "2017-01-01", 100.0), ("eia_elec_ind_us", "2018-01-01", 100.0),
-        ("caiso_sp15_da", "2018-01-01", 50.0), ("caiso_sp15_da", "2018-01-05", 55.0),
-        ("miso_indiana_da", "2018-01-01", 50.0), ("miso_indiana_da", "2018-01-05", 55.0),
+        # tail in the month after the reference month, so the anchor is the
+        # 2018-01 proxy mean (50) alone and the tail is a clean +10%
+        ("caiso_sp15_da", "2018-01-01", 50.0), ("caiso_sp15_da", "2018-02-05", 55.0),
+        ("miso_indiana_da", "2018-01-01", 50.0), ("miso_indiana_da", "2018-02-05", 55.0),
     ]
     gate_ops = [
         {"code": "power", "label": "Power", "group": "power", "series": "eia_elec_ind_us",
@@ -243,25 +283,26 @@ def test_blend_gate_triggers_on_any_blend_series_arrival(tmp_path):
     ]
     basket = write_basket(tmp_path, TWO_COMP_BUILD, gate_ops)
     conn = make_conn(tmp_path, rows,
-                     vintages={("miso_indiana_da", "2018-01-05"): "2018-01-05"})
-    result = dcindex.run(conn, today="2018-01-05", basket_path=basket)
+                     vintages={("miso_indiana_da", "2018-02-05"): "2018-02-05"})
+    result = dcindex.run(conn, today="2018-02-05", basket_path=basket)
     ops = result["indexes"]["ops"]
     assert ops["components"]["power"]["mode"] == "official+proxy"
-    assert ops["index"]["2018-01-05"] == pytest.approx(100.0)  # held at prior value
-    assert ops["gate_flags"] == ["power@2018-01-05"]
+    assert ops["index"]["2018-02-05"] == pytest.approx(100.0)  # held at prior value
+    assert ops["gate_flags"] == ["power@2018-02-05"]
 
 
 def test_dormant_blend_labels_official_and_changes_nothing(tmp_path):
-    # all blend obs post-date the last official print with NO overlap at or
-    # before it: splice_anchored has nothing to scale on -> official only.
+    # all blend obs post-date the last official print's reference month with
+    # NO obs in it or before it: splice_anchored has nothing to scale on ->
+    # official only. (Obs inside 2018-01 would now anchor on the month mean.)
     rows = BUILD_ROWS + [
         ("eia_elec_ind_us", "2017-01-01", 100.0), ("eia_elec_ind_us", "2018-01-01", 100.0),
-        ("caiso_sp15_da", "2018-01-10", 50.0), ("caiso_sp15_da", "2018-01-11", 55.0),
-        ("miso_indiana_da", "2018-01-10", 52.0), ("miso_indiana_da", "2018-01-12", 56.0),
+        ("caiso_sp15_da", "2018-02-10", 50.0), ("caiso_sp15_da", "2018-02-11", 55.0),
+        ("miso_indiana_da", "2018-02-10", 52.0), ("miso_indiana_da", "2018-02-12", 56.0),
     ]
     basket = write_basket(tmp_path, TWO_COMP_BUILD, BLEND_OPS)
     conn = make_conn(tmp_path, rows)
-    result = dcindex.run(conn, today="2018-01-15", basket_path=basket)
+    result = dcindex.run(conn, today="2018-02-15", basket_path=basket)
     ops = result["indexes"]["ops"]
     assert ops["components"]["power"]["mode"] == "official"
     assert ops["gate_flags"] == []
@@ -685,17 +726,19 @@ def test_level_components_unchanged_report_no_implied_level(tmp_path):
     # every component entry and is populated for an active level tail too
     build = [{"code": "copper_wire", "label": "Copper", "group": "materials",
               "series": "ppi_copper_wire", "weight": 1.0, "live_proxy": "fmp_copper"}]
+    # tail point in the month after the reference month (see
+    # test_proxy_splice_and_gate): anchor = the 2018-01 proxy mean, 50
     rows = [
         ("ppi_copper_wire", "2017-01-01", 100.0), ("ppi_copper_wire", "2018-01-01", 100.0),
-        ("fmp_copper", "2018-01-01", 50.0), ("fmp_copper", "2018-01-05", 55.0),
+        ("fmp_copper", "2018-01-01", 50.0), ("fmp_copper", "2018-02-05", 55.0),
     ] + OPS_ROWS
     basket = write_basket(tmp_path, build, ONE_COMP_OPS,
                           hardware=[{"code": "hw", "label": "HW", "group": "compute",
                                      "series": "ppi_copper_wire", "weight": 1.0}])
     conn = make_conn(tmp_path, rows)
-    result = dcindex.run(conn, today="2018-01-05", basket_path=basket)
+    result = dcindex.run(conn, today="2018-02-05", basket_path=basket)
     b = result["indexes"]["build"]
-    assert b["index"]["2018-01-05"] == pytest.approx(110.0)   # unchanged math
+    assert b["index"]["2018-02-05"] == pytest.approx(110.0)   # unchanged math
     assert b["components"]["copper_wire"]["implied_level"] == pytest.approx(110.0)
     # ops power rides official only -> None
     assert result["indexes"]["ops"]["components"]["power"]["implied_level"] is None

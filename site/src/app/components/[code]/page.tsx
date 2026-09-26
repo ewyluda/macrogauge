@@ -4,6 +4,7 @@ import replayJson from "../../../../public/data/replay.json";
 import gaptable from "../../../../public/data/gaptable.json";
 import outlookJson from "../../../../public/data/outlook.json";
 import sourcesStatus from "../../../../public/data/sources_status.json";
+import methodologyJson from "../../../../public/data/methodology.json";
 import seriesJson from "../../../../../config/series.json";
 import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
@@ -13,7 +14,7 @@ import { Citation } from "@/components/Citation";
 import { StatusPill } from "@/components/StatusPill";
 import { COMPONENTS, COMPONENT_BY_CODE, componentHref, splicePosition } from "@/lib/components";
 import { contributionsAt, type ReplayComponent } from "@/lib/contribution";
-import { annualizedChange, lastChange, RATE_LOOKBACK_DAYS } from "@/lib/momentum";
+import { annualizedAt, lastChange, NSA_NOTE, RATE_LOOKBACK_MONTHS } from "@/lib/momentum";
 import { columnsToRows } from "@/lib/csv";
 import { fmtMonth, fmtPp, fmtSigned, yoyColor } from "@/lib/format";
 
@@ -27,6 +28,13 @@ const replay = replayJson as unknown as ReplayFull;
 const outlook = outlookJson as { origin_month: string; component_paths: Record<string, { month: string; mom_pct: number; index: number }[]> };
 const SERIES = Object.fromEntries((seriesJson as { series: { code: string; source: string; name: string; max_staleness_days: number }[] }).series.map((s) => [s.code, s]));
 const SOURCES = Object.fromEntries(sourcesStatus.sources.map((s) => [s.name, s]));
+// Per-SERIES latest observation (methodology.json's registry inventory).
+// sources_status.latest_obs is the whole source's newest row — EIA's weekly
+// gasoline (2026-09-21) sat beside an electricity KPI whose own last obs was
+// 2026-07-01 — so the table reads the series' own date from here.
+const INVENTORY = Object.fromEntries(
+  (methodologyJson as { inventory: { code: string; latest_obs: string | null; fresh: boolean }[] }).inventory.map((r) => [r.code, r]),
+);
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -59,8 +67,8 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
   const bls = contributionsAt(replay.components, "bls", last);
   const contrib = ours?.find((x) => x.code === code)?.pp ?? null;
   const blsContrib = bls?.find((x) => x.code === code)?.pp ?? null;
-  const ann3 = annualizedChange(rc.index, RATE_LOOKBACK_DAYS.ann3)[own];
-  const ann6 = annualizedChange(rc.index, RATE_LOOKBACK_DAYS.ann6)[own];
+  const ann3 = annualizedAt(rc.index, replay.dates, RATE_LOOKBACK_MONTHS.ann3, own);
+  const ann6 = annualizedAt(rc.index, replay.dates, RATE_LOOKBACK_MONTHS.ann6, own);
   const gapRow = gaptable.rows.find((r) => r.component === code);
   const path = outlook.component_paths[code] ?? [];
   const idx = COMPONENTS.findIndex((x) => x.code === code);
@@ -74,7 +82,8 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
     const s = SERIES[sc];
     const st = s ? SOURCES[s.source] : undefined;
     return { code: sc, weight: w, name: s?.name ?? sc, source: s?.source ?? "—", limit: s?.max_staleness_days ?? null,
-             ok: st?.ok ?? null, latest_obs: st?.latest_obs ?? null, new_rows: st?.new_rows ?? null, lead_days: c.lead_days?.[sc] ?? null };
+             ok: st?.ok ?? null, series_latest_obs: INVENTORY[sc]?.latest_obs ?? null, in_inventory: sc in INVENTORY,
+             source_latest_obs: st?.latest_obs ?? null, new_rows: st?.new_rows ?? null, lead_days: c.lead_days?.[sc] ?? null };
   });
 
   return (
@@ -98,6 +107,9 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
         <KpiCard label="Gap vs BLS" value={fmtPp(gapRow?.gap_pp ?? null)} context={gapRow ? `contribution to the headline gap ${fmtPp(gapRow.contribution_pp)} · ${gaptable.as_of}` : "no gap row"} accent={(gapRow?.gap_pp ?? 0) > 0 ? "red" : "emerald"} />
         <KpiCard label="Momentum" value={fmtSigned(ann3)} context={`3m annualized · 6m ${fmtSigned(ann6)} · at own last obs ${replay.dates[own]}`} accent={(ann3 ?? 0) > (rc.yoy[last] ?? 0) ? "red" : "emerald"} />
       </div>
+      <p className="chart-caption" data-testid="momentum-nsa-note">
+        Momentum compares the index with the same day-of-month 3 and 6 calendar months earlier, compounded to a year. {NSA_NOTE}
+      </p>
       <Citation series={`${c.label} component YoY`} asOf={rc.last_obs ?? replay.dates[last]} rebase={replay.rebase} value={`${fmtSigned(rc.yoy[last])} YoY`} path={componentHref(code)} />
 
       <Section title="Ours vs BLS — daily since 2018" featured>
@@ -124,7 +136,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
         {liveSources.length ? (
           <div className="table-card">
             <table className="data-table">
-              <thead><tr><th style={{ textAlign: "left" }}>Series</th><th>Blend weight</th><th>Source</th><th>Status</th><th>Latest obs</th><th>New rows today</th><th>Staleness limit</th><th>Lead</th></tr></thead>
+              <thead><tr><th style={{ textAlign: "left" }}>Series</th><th>Blend weight</th><th>Source</th><th>Source status</th><th>Series latest obs</th><th>Source rows today</th><th>Staleness limit</th><th>Lead</th></tr></thead>
               <tbody>
                 {liveSources.map((s) => (
                   <tr key={s.code}>
@@ -132,7 +144,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
                     <td>{(s.weight * 100).toFixed(0)}%</td>
                     <td><span className="badge badge-muted">{s.source}</span></td>
                     <td>{s.ok == null ? "—" : <StatusPill tone={s.ok ? "ok" : "advisory"} label={s.ok ? "ok" : "error"} />}</td>
-                    <td style={{ color: "var(--muted)" }}>{s.latest_obs ?? "—"}</td>
+                    <td style={{ color: "var(--muted)" }}>{s.in_inventory ? (s.series_latest_obs ?? "—") : s.source_latest_obs ? `${s.source_latest_obs} (source last updated)` : "—"}</td>
                     <td>{s.new_rows ?? "—"}</td>
                     <td style={{ color: "var(--muted)" }}>{s.limit == null ? "—" : `${s.limit}d`}</td>
                     <td style={{ color: "var(--muted)" }}>{s.lead_days == null ? "—" : `+${s.lead_days}d`}</td>
@@ -146,7 +158,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
         )}
         <p className="method">
           Official series {c.official_series} · live in variants {c.live_variants?.length ? c.live_variants.join(", ") : "none"} · blend weights renormalize as sources phase in.
-          Source status is the run-level row from <a href="/status">/status</a>; a blend source past its staleness limit drops out of coverage.
+          Source status and rows today are the run-level source row from <a href="/status">/status</a>; latest obs is this series&apos; own newest observation. A blend source past its staleness limit drops out of coverage.
         </p>
       </Section>
 

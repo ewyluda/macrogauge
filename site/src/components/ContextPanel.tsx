@@ -26,8 +26,8 @@ export function ContextPanel({ context }: { context: ContextData }) {
         <KpiCard label="Colo asking rate" value={`$${colo.rate_kw_mo.toFixed(2)}/kW-mo`}
                  context={`${fmtSigned(colo.yoy_pct)} YoY · vacancy ${colo.vacancy_pct}% · ${colo.asof}`}
                  accent="sky" />
-        <KpiCard label="Grid queue" value={`${queue.generation_gw.toLocaleString()} GW`}
-                 context={`+${queue.storage_gw.toLocaleString()} GW storage queued · ${queue.asof}`}
+        <KpiCard label="Grid queue" value={`${queue.generation_gw.toLocaleString("en-US")} GW`}
+                 context={`+${queue.storage_gw.toLocaleString("en-US")} GW storage queued · ${queue.asof}`}
                  accent="violet" />
         {diesel && (
           <KpiCard label="Diesel (genset fuel)" value={`$${diesel.latest.toFixed(2)}/gal`}
@@ -46,7 +46,11 @@ export function ContextPanel({ context }: { context: ContextData }) {
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", margin: "8px 0" }}>
           {kalshi.dc_count_expected != null && (
             <span className="badge badge-muted">
-              market-implied 2026 US data centers: ~{Math.round(kalshi.dc_count_expected).toLocaleString()} · Kalshi · {kalshi.count_asof}
+              {/* No year in the label: the connector rolls to whichever Kalshi
+                  event settles next (…-26DEC31 → …-27DEC31) and the artifact
+                  does not carry the event year, so a hardcoded "2026" goes
+                  stale at every annual rollover. */}
+              market-implied US data-center count (next-settling Kalshi event): ~{Math.round(kalshi.dc_count_expected).toLocaleString("en-US")} · Kalshi · {kalshi.count_asof}
             </span>
           )}
           {kalshi.nuclear_by_2030_prob != null && (

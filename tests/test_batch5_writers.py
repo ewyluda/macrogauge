@@ -95,3 +95,22 @@ def test_ledger_read_rows_union_merges_duplicates(tmp_path):
                  '{"published_at": "A", "date": "2026-09-01", "gauge_yoy_pct": 2}\n')
     rows = ledger.read_rows(tmp_path)
     assert rows == [{"published_at": "A", "date": "2026-09-01", "gauge_yoy_pct": 2}]  # last-seen wins
+
+
+def test_revisions_change_first_uses_prior_month_as_of_release(tmp_path):
+    from pipeline.models import Observation
+    from pipeline.publish import revisions
+    from pipeline.store import vintage
+    rows = [
+        Observation("PAYEMS", "2026-06-01", 158984.0, "2026-07-02", "FRED", "API"),
+        Observation("PAYEMS", "2026-07-01", 158858.0, "2026-08-07", "FRED", "API"),
+        Observation("PAYEMS", "2026-06-01", 158881.0, "2026-08-07", "FRED", "API"),
+        Observation("PAYEMS", "2026-06-01", 158892.0, "2026-09-04", "FRED", "API"),
+        Observation("PAYEMS", "2026-07-01", 158913.0, "2026-09-04", "FRED", "API"),
+    ]
+    vintage.append_vintages(rows, tmp_path)
+    july = [r for r in revisions._rows(vintage.load(tmp_path), "PAYEMS", "level_k")
+            if r["reference_period"] == "2026-07"][0]
+    assert july["change_first_k"] == -23.0     # as the Aug-7 release reported it
+    assert july["change_latest_k"] == 21.0     # 158913 - 158892
+    assert july["change_revision_k"] == 44.0
