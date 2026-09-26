@@ -60,8 +60,13 @@ def record_forecasts(nowcast: dict, conn, store_dir: Path, vintage_date: str) ->
         return 0
     cpi_month = f"{nowcast['reference_month']}-01"
     nfp = nowcast.get("nfp")
-    entries = [("forecast_cpi_mom", cpi_month, nowcast["cpi"]["mom_pct"]),
+    # forecast_cpi_mom stays the NSA call (its history is NSA);
+    # forecast_cpi_mom_sa is the headline SA call graded against CPIAUCSL.
+    entries = [("forecast_cpi_mom", cpi_month,
+                nowcast["cpi"].get("mom_nsa_pct", nowcast["cpi"]["mom_pct"])),
                ("forecast_pce_mom", cpi_month, nowcast["pce"]["mom_pct"])]
+    if nowcast["cpi"].get("basis") == "SA":
+        entries.append(("forecast_cpi_mom_sa", cpi_month, nowcast["cpi"]["mom_pct"]))
     if nfp is not None:
         entries.append(("forecast_nfp_change",
                         f"{nfp['reference_month']}-01",
@@ -77,42 +82,58 @@ def record_forecasts(nowcast: dict, conn, store_dir: Path, vintage_date: str) ->
     return written
 
 
+def _graded_rows(conn, forecast_code: str, actual_code: str, pct: bool) -> dict[str, dict]:
+    """{obs_date: graded row} — last pre-release recorded forecast vs the
+    change AS THE RELEASE REPORTED IT: t's first print over t-1 as known on
+    t's release date. BLS/BEA revise t-1 in the same release, so first(t) -
+    first(t-1) mixes two vintages (Aug-2026 payrolls read +217k that way vs
+    the release's own +162k; July -126k vs -23k)."""
+    out = {}
+    for period, value, released in vintage.first_releases(conn, actual_code):
+        known = dict(vintage.as_of(conn, actual_code, released))
+        previous = known.get(prior_month(period))
+        if previous is None:
+            continue  # prior month never published (2025-10): not a MoM
+        actual = (value / previous - 1) * 100 if pct else value - previous
+        row = conn.execute(
+            "SELECT value, vintage_date FROM observations "
+            "WHERE series_code = ? AND obs_date = ? AND vintage_date < ? "
+            "ORDER BY vintage_date DESC, rowid DESC LIMIT 1",
+            (forecast_code, period, released)).fetchone()
+        if row is None:
+            continue
+        fv, forecast_date = row
+        out[period] = {"reference_period": period[:7], "badge": "LIVE",
+                       "forecast": round(fv, 2), "as_of": forecast_date,
+                       "actual": round(actual, 2), "error": round(fv - actual, 2),
+                       "release_date": released}
+    return out
+
+
 def build_accountability(target: str, nowcast: dict, conn) -> dict:
-    """Grade last pre-release live forecast against the first-release actual."""
+    """Grade last pre-release live forecast against the first-release actual.
+
+    CPI grades on the seasonally adjusted basis (forecast_cpi_mom_sa vs
+    CPIAUCSL) from 2026-09-26 on — the basis Cleveland and Kalshi quote;
+    earlier recorded calls were NSA and keep grading against CPIAUCNS. Each
+    row says which (`basis`)."""
     key = "cpi" if target == "cpi" else target
     forecast = nowcast.get(key)
     forecast_codes = {"cpi": "forecast_cpi_mom", "pce": "forecast_pce_mom",
                       "nfp": "forecast_nfp_change"}
     actual_codes = {"cpi": "CPIAUCNS", "pce": "PCEPI", "nfp": "PAYEMS"}
     actuals = vintage.first_releases(conn, actual_codes[target])
-    actual_changes = {}
-    for period, value, released in actuals:
-        # The actual is the change AS THAT RELEASE REPORTED IT: t's first print
-        # over t-1 as known on t's release date. BLS/BEA revise t-1 in the same
-        # release, so first(t) - first(t-1) mixes two vintages (Aug-2026
-        # payrolls read +217k that way vs the release's own +162k; July -126k
-        # vs -23k).
-        known = dict(vintage.as_of(conn, actual_codes[target], released))
-        previous = known.get(prior_month(period))
-        if previous is None:
-            continue  # prior month never published (2025-10): not a MoM
-        actual_changes[period] = ((value / previous - 1) * 100 if target in ("cpi", "pce")
-                                  else value - previous, released)
-    graded = []
-    for period, (actual, release_date) in actual_changes.items():
-        row = conn.execute(
-            "SELECT value, vintage_date FROM observations "
-            "WHERE series_code = ? AND obs_date = ? AND vintage_date < ? "
-            "ORDER BY vintage_date DESC, rowid DESC LIMIT 1",
-            (forecast_codes[target], period, release_date)).fetchone()
-        if row is None:
-            continue
-        value, forecast_date = row
-        graded.append({"reference_period": period[:7], "badge": "LIVE",
-                       "forecast": round(value, 2), "as_of": forecast_date,
-                       "actual": round(actual, 2),
-                       "error": round(value - actual, 2),
-                       "release_date": release_date})
+    pct = target in ("cpi", "pce")
+    rows = _graded_rows(conn, forecast_codes[target], actual_codes[target], pct)
+    if target == "cpi":
+        rows = {p: {**r, "basis": "NSA"} for p, r in rows.items()}
+        rows.update({p: {**r, "basis": "SA"} for p, r in
+                     _graded_rows(conn, "forecast_cpi_mom_sa", "CPIAUCSL", True).items()})
+        sa_recorded = conn.execute("SELECT 1 FROM observations WHERE series_code = "
+                                   "'forecast_cpi_mom_sa' LIMIT 1").fetchone()
+        if sa_recorded:
+            forecast_codes["cpi"] = "forecast_cpi_mom_sa"  # pending calls are SA now
+    graded = [rows[p] for p in sorted(rows)]
     reference = (nowcast.get("nfp") or {}).get("reference_month") \
         if target == "nfp" else nowcast.get("reference_month")
     live = [] if forecast is None or forecast.get("status") == "unavailable" else [{

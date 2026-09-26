@@ -56,3 +56,5 @@
 {"obs_date": "2026-03-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 158650.0, "vintage_date": "2026-06-05"}
 {"obs_date": "2026-04-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 158829.0, "vintage_date": "2026-06-05"}
 {"obs_date": "2026-05-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 159001.0, "vintage_date": "2026-06-05"}
+{"obs_date": "2026-05-01", "route": "API", "series_code": "CPIAUCSL", "source": "ALFRED", "value": 333.979, "vintage_date": "2026-06-10"}
+{"obs_date": "2026-05-01", "route": "API", "series_code": "CPILFESL", "source": "ALFRED", "value": 336.121, "vintage_date": "2026-06-10"}

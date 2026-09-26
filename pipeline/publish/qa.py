@@ -14,7 +14,11 @@ GROCERY_ITEMS_MIN = 20
 # Coverage floor: 40, not the 45 that a food_home live-data flip would have allowed —
 # that flip was reverted in Task 6 (day-one gap failed), so food_home stays
 # BLS-CF (official-only, no live blend) per the 2a deviation.
-GAUGE_COVERAGE_FLOOR = 40.0
+# Lowered to 35 on 2026-09-26: basket weights moved to BLS relative importance
+# (shelter 26.5+7.5 -> ~33.6) and EIA electricity/gas became tail-only
+# ("year_ratio"), counting as live only while they run past the BLS print.
+# Steady state is ~39% (shelter + fuel + used cars), ~42% with the EIA tails.
+GAUGE_COVERAGE_FLOOR = 35.0
 
 # Every isolated publish phase in run_daily.py except the core engine (which
 # has its own cpi-fallback handling above). run_checks cross-checks the
@@ -250,7 +254,7 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                        "pass": gauge["coverage_pct"] >= GAUGE_COVERAGE_FLOOR,
                        "detail": f"gauge live coverage "
                                  f"{gauge['coverage_pct']}% "
-                                 f"(floor 40 (food_home BLS-CF per 2a deviation))"})
+                                 f"(floor {GAUGE_COVERAGE_FLOOR:g}: shelter + fuel + used cars; EIA utilities count only while they extend past the BLS print)"})
         corr = gauge["tracker_corr"]
         checks.append({"name": "tracker_corr", "critical": False,
                        "pass": corr is not None and corr >= 0.95,

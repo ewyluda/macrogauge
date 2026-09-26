@@ -116,7 +116,26 @@ def _ice_xlsx():
     return buf.getvalue()
 
 
+def _text_json(obj):
+    return _TextResponse(json.dumps(obj))
+
+
+class _TextResponse:
+    def __init__(self, text):
+        self.text = text
+        self.content = text.encode()
+
+    def raise_for_status(self):
+        pass
+
+
 def fake_get(url, params=None, timeout=None, **kw):
+    if "api.stlouisfed.org/fred/release/dates" in url:
+        rid = int(url.split("release_id=")[1].split("&")[0])
+        dates = {10: ["2026-07-14", "2026-08-12", "2026-09-11", "2026-10-14"],
+                 46: ["2026-09-10", "2026-10-15"], 54: ["2026-09-30"], 50: ["2026-10-02"]}
+        return _text_json({"release_dates": [{"release_id": rid, "date": d}
+                                             for d in dates[rid]]})
     if "api.stlouisfed.org" in url:
         # test_fred.fake_get hard-asserts series_id == "CPIAUCNS" (written when
         # FRED had a single registry series); the registry now carries 17 FRED

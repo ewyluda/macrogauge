@@ -1,9 +1,11 @@
 """Gauge engine orchestrator: store -> five stages -> per-variant results."""
 import sqlite3
+from dataclasses import replace
 from datetime import date, timedelta
 from pathlib import Path
 
 from pipeline import basket as basket_mod
+from pipeline import derived
 from pipeline.engine import aggregate, gate, variants
 from pipeline.engine import blend as blend_mod
 from pipeline.engine import payment as payment_mod
@@ -72,6 +74,25 @@ def _fresh(conn, blend_codes, staleness: dict[str, int], today: str) -> bool:
 def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
         staleness: dict[str, int] | None = None) -> dict:
     base_month, comps = basket_mod.load_basket(basket_path)
+    weights_basis = "config"
+    mom_weights = None
+    if any(c.official_series == derived.RESIDUAL_CODE for c in comps):
+        derived.ensure(conn, comps)  # "other" rides the CPI residual
+        # Effective weights: relative importance price-updated to the YoY base
+        # month (latest CPI print - 12 months) for the Σ w·yoy headline, and to
+        # the latest print's month for MoM consumers (the nowcast).
+        cpi_rows = vintage.latest(conn, "CPIAUCNS")
+        if cpi_rows:
+            last = cpi_rows[-1][0][:7]
+            y, mo = int(last[:4]), int(last[5:7])
+            yoy_base = f"{y - 1:04d}-{mo:02d}"
+            eff = derived.effective_weights(conn, comps, yoy_base)
+            if eff:
+                comps = [replace(c, weight=round(eff[c.code], 6)) for c in comps]
+                drift = 1.0 - sum(c.weight for c in comps)
+                comps[0] = replace(comps[0], weight=round(comps[0].weight + drift, 6))
+                weights_basis = f"BLS relative importance price-updated to {yoy_base}"
+            mom_weights = derived.effective_weights(conn, comps, last)
     staleness = staleness or {}
     supercore = basket_mod.load_supercore_components(basket_path)
     payment_series: dict[str, float] | None = None
@@ -199,4 +220,5 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
             "index": index, "yoy": aggregate.weighted_yoy(own_yoy, weights),
             "as_of": end, "coverage_pct": coverage * 100, "gate_flags": flags,
             "components": components}
-    return {"base_month": base_month, "variants": out}
+    return {"base_month": base_month, "variants": out, "basket": comps,
+            "weights_basis": weights_basis, "mom_weights": mom_weights}

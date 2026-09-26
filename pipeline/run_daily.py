@@ -43,7 +43,7 @@ import jsonschema
 
 from pipeline import basket as basket_mod
 from pipeline import capacity as capacity_cfg
-from pipeline import calendar_refresh, collect, dc_basket, dc_context, dc_longlead, dc_power, registry, release_calendar
+from pipeline import calendar_refresh, collect, derived, dc_basket, dc_context, dc_longlead, dc_power, registry, release_calendar
 from pipeline import dc_markets as dc_markets_cfg
 from pipeline.connectors import fred
 from pipeline.engine import dcindex
@@ -114,6 +114,14 @@ def main(argv=None, http_get=None, http_post=None) -> int:
 
     conn = vintage.load(args.store)
     today = fred.today_et()
+    # Derived official series (the CPI residual behind the basket's "other").
+    # Isolated: a failure leaves "other" without an official series, which the
+    # engine phase then reports in qa (engine_ok) — never a crash here.
+    try:
+        print(f"derived: {derived.inject(conn, basket_mod.load_basket()[1])} "
+              f"{derived.RESIDUAL_CODE} rows")
+    except Exception as e:  # isolation contract
+        print(f"derived series FAILED — {type(e).__name__}: {e}")
 
     # Release calendar refresh (FRED release/dates). Isolated: a failure keeps
     # the previous refreshed file / the hand-seeded config and only surfaces
@@ -164,6 +172,9 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         engine_state["gauge_result"] = gauge_result = gauge_engine.run(
             conn, today=today, staleness=staleness)
         _, comps = basket_mod.load_basket()  # inside the phase: config errors -> qa
+        # the engine's effective (price-updated) weights, so replay/quilt/
+        # gaptable/methodology publish the weights the headline actually used
+        comps = gauge_result.get("basket") or comps
 
         pulse_path = pulse.write(
             pulse.build(gauge_result, cpi,
