@@ -1,28 +1,37 @@
-# Weekly, grouped update PRs. Would have flagged next < 15.5.24 (critical
-# advisory; no exposure under output: "export", but patch it anyway) and the
-# tag-pinned actions.
+# Monthly, grouped minor+patch update PRs. Would have flagged next < 15.5.24
+# (critical advisory; no exposure under output: "export", but patch it anyway)
+# and the tag-pinned actions.
 #
-# Groups take minor + patch only. Majors fall outside the group and arrive as
-# their own PRs: the first grouped run (PR #34, 2026-09-26) bundled next 16,
-# eslint 10, typescript 7 and vitest 5 into one PR whose `npm ci` failed on
-# eslint-plugin-jsx-a11y's eslint<=9 peer range — a major is a migration, not
-# a weekly bump.
+# Majors are ignored outright: the first grouped run (PR #34, 2026-09-26)
+# bundled next 16, eslint 10, typescript 7 and vitest 5 into one PR whose
+# `npm ci` failed on eslint-plugin-jsx-a11y's eslint<=9 peer range. A major is
+# a deliberate migration, not a routine bump. Security alerts are a separate
+# Dependabot feature and are not governed by this schedule.
+#
+# Vercel skips preview builds for dependabot/** branches (site/vercel.json
+# git.deploymentEnabled); CI still runs on these PRs and is the merge gate.
 version: 2
 updates:
   - package-ecosystem: npm
     directory: /site
-    schedule: {interval: weekly}
+    schedule: {interval: monthly}
     groups:
-      site-deps: {patterns: ["*"], update-types: ["minor", "patch"]}
+      site-deps: {patterns: ["*"]}
+    ignore:
+      - {dependency-name: "*", update-types: ["version-update:semver-major"]}
     open-pull-requests-limit: 3
   - package-ecosystem: pip
     directory: /
-    schedule: {interval: weekly}
+    schedule: {interval: monthly}
     groups:
-      python-deps: {patterns: ["*"], update-types: ["minor", "patch"]}
+      python-deps: {patterns: ["*"]}
+    ignore:
+      - {dependency-name: "*", update-types: ["version-update:semver-major"]}
     open-pull-requests-limit: 3
   - package-ecosystem: github-actions
     directory: /
-    schedule: {interval: weekly}
+    schedule: {interval: monthly}
     groups:
-      actions: {patterns: ["*"], update-types: ["minor", "patch"]}
+      actions: {patterns: ["*"]}
+    ignore:
+      - {dependency-name: "*", update-types: ["version-update:semver-major"]}
