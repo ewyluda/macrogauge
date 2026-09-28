@@ -3,10 +3,15 @@ import { GlossaryList } from "@/components/Term";
 import methodology from "../../../public/data/methodology.json";
 
 // Added 2026-09-26 (config/methodology_changelog.json); absent on older artifacts.
-const { changelog = [], methodology_version: methodologyVersion } = methodology as unknown as {
+// Property reads, NOT `const { changelog = [] } = methodology`: webpack mangles
+// JSON-import keys and emitted `{ "rN" = [] }` — invalid syntax that crashed
+// the minifier once the key existed (2026-09-28 publish failed to deploy).
+const methodologyMeta = methodology as unknown as {
   changelog?: { date: string; area: string; change: string }[];
   methodology_version?: string;
 };
+const changelog = methodologyMeta.changelog ?? [];
+const methodologyVersion = methodologyMeta.methodology_version;
 import { Section } from "@/components/Section";
 import { MethodologyInventory } from "@/components/MethodologyInventory";
 import { fmtSigned } from "@/lib/format";
