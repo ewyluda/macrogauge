@@ -1,22 +1,28 @@
 # Weekly, grouped update PRs. Would have flagged next < 15.5.24 (critical
 # advisory; no exposure under output: "export", but patch it anyway) and the
 # tag-pinned actions.
+#
+# Groups take minor + patch only. Majors fall outside the group and arrive as
+# their own PRs: the first grouped run (PR #34, 2026-09-26) bundled next 16,
+# eslint 10, typescript 7 and vitest 5 into one PR whose `npm ci` failed on
+# eslint-plugin-jsx-a11y's eslint<=9 peer range — a major is a migration, not
+# a weekly bump.
 version: 2
 updates:
   - package-ecosystem: npm
     directory: /site
     schedule: {interval: weekly}
     groups:
-      site-deps: {patterns: ["*"]}
+      site-deps: {patterns: ["*"], update-types: ["minor", "patch"]}
     open-pull-requests-limit: 3
   - package-ecosystem: pip
     directory: /
     schedule: {interval: weekly}
     groups:
-      python-deps: {patterns: ["*"]}
+      python-deps: {patterns: ["*"], update-types: ["minor", "patch"]}
     open-pull-requests-limit: 3
   - package-ecosystem: github-actions
     directory: /
     schedule: {interval: weekly}
     groups:
-      actions: {patterns: ["*"]}
+      actions: {patterns: ["*"], update-types: ["minor", "patch"]}
