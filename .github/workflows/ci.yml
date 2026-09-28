@@ -45,3 +45,11 @@ jobs:
         working-directory: site
       - run: npm run e2e
         working-directory: site
+      # Open with `npx playwright show-trace <trace.zip>`.
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: playwright-test-results
+          path: site/test-results/
+          retention-days: 14
+          if-no-files-found: ignore
