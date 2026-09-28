@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-25T17:35:31Z",
+  "published_at": "2026-09-28T19:18:59Z",
   "as_of": "2026-01-01",
   "base_date": "2025-01-01",
   "national": {
@@ -897,5 +897,5 @@
   ],
   "as_of_curated": "2026-07-25",
   "note": "Tight core counties \u2014 the counties where data centers actually are, not the MSA. Broader metro definitions dilute the signal: Northern Virginia reads +9.9% wage YoY tight vs +7.7% across the 11-county metro, because Arlington and Alexandria average in mature non-DC construction.",
-  "coverage_note": "Competition MW is drawn from the /capacity tracker: 29 public companies, hand-curated from filings. Private operators (CyrusOne, Vantage, Aligned, STACK, QTS, EdgeConneX) and hyperscaler leased space inside their shells are not tracked, and sites with undisclosed locations carry no market. MW under construction counts only sites tagged st=\"c\" -- operating, planned and secured MW are published separately, never folded in -- so treat it as a floor on what is actually being built, never a census."
+  "coverage_note": "Competition MW is drawn from the /capacity tracker: 27 public companies plus 2 private builders (xAI, OpenAI / Stargate), hand-curated from filings. Private operators (CyrusOne, Vantage, Aligned, STACK, QTS, EdgeConneX) and hyperscaler leased space inside their shells are not tracked, and sites with undisclosed locations carry no market. MW under construction counts only sites tagged st=\"c\" -- operating, planned and secured MW are published separately, never folded in -- so treat it as a floor on what is actually being built, never a census."
 }

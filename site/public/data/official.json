@@ -1,11 +1,11 @@
 {
-  "published_at": "2026-09-25T17:35:31Z",
+  "published_at": "2026-09-28T19:18:59Z",
   "headline": {
     "cpi": {
       "month": "2026-08-01",
       "yoy_pct": 3.4,
       "prev_yoy_pct": 3.36,
-      "as_of": "2026-09-11"
+      "as_of": "2026-09-26"
     },
     "core": {
       "month": "2026-08-01",
@@ -217,27 +217,27 @@
       "label": "Gold",
       "group": "markets",
       "unit": "$/oz",
-      "latest": 4325.2,
-      "obs_date": "2026-09-25",
-      "yoy_pct": 14.69
+      "latest": 4167.7,
+      "obs_date": "2026-09-28",
+      "yoy_pct": 9.42
     },
     {
       "code": "fmp_wti",
       "label": "WTI crude",
       "group": "markets",
       "unit": "$/bbl",
-      "latest": 92.09,
-      "obs_date": "2026-09-25",
-      "yoy_pct": 41.72
+      "latest": 92.81,
+      "obs_date": "2026-09-28",
+      "yoy_pct": 41.22
     },
     {
       "code": "fiscal_debt_total",
       "label": "Total public debt",
       "group": "fiscal",
       "unit": "$",
-      "latest": 40073558531201.68,
-      "obs_date": "2026-09-23",
-      "yoy_pct": 6.95
+      "latest": 40068807991924.84,
+      "obs_date": "2026-09-24",
+      "yoy_pct": 6.98
     }
   ]
 }

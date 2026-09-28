@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-09-25T17:35:31Z",
-  "score": 1.3,
+  "published_at": "2026-09-28T19:18:59Z",
+  "score": 2.1,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": -0.4788,
+      "z": -0.46346,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -32,7 +32,7 @@
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": 0.7645666666666667,
+      "z": 0.8348333333333334,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -46,7 +46,7 @@
       "direction": 1,
       "as_of": "2026-08-01",
       "momentum": -0.0427,
-      "z": -1.0744
+      "z": -1.1042
     },
     {
       "code": "CPILFENS",
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-09-24",
-      "momentum": 0.1,
-      "z": 0.284
+      "as_of": "2026-09-25",
+      "momentum": 0.13,
+      "z": 0.3905
     },
     {
       "code": "PAYEMS",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-09-24",
-      "momentum": 0.0,
-      "z": 0.0843
+      "as_of": "2026-09-25",
+      "momentum": 0.05,
+      "z": 0.2951
     }
   ]
 }

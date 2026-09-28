@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-25T17:35:31Z",
+  "published_at": "2026-09-28T19:18:59Z",
   "target": "NFP",
   "graded": [
     {
@@ -7,8 +7,8 @@
       "badge": "LIVE",
       "forecast": 137.0,
       "as_of": "2026-07-30",
-      "actual": -126.0,
-      "error": 263.0,
+      "actual": -23.0,
+      "error": 160.0,
       "release_date": "2026-08-07"
     },
     {
@@ -16,8 +16,8 @@
       "badge": "LIVE",
       "forecast": 31.0,
       "as_of": "2026-09-03",
-      "actual": 217.0,
-      "error": -186.0,
+      "actual": 162.0,
+      "error": -131.0,
       "release_date": "2026-09-04"
     }
   ],
@@ -26,7 +26,7 @@
       "reference_period": "2026-09",
       "badge": "LIVE",
       "forecast": 87,
-      "as_of": "2026-09-25",
+      "as_of": "2026-09-28",
       "actual": null
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-25T17:35:31Z",
+  "published_at": "2026-09-28T19:18:59Z",
   "probability_pct": 0.0,
   "triggered": 0,
   "available": 6,
@@ -9,13 +9,15 @@
       "code": "SAHMREALTIME",
       "rule": ">= +0.50pp",
       "value": -0.07,
+      "as_of": "2026-08-01",
       "triggered": false
     },
     {
       "name": "10Y\u20133M",
       "code": "T10Y3M",
       "rule": "< 0",
-      "value": 0.94,
+      "value": 0.93,
+      "as_of": "2026-09-25",
       "triggered": false
     },
     {
@@ -23,13 +25,15 @@
       "code": "NFCI",
       "rule": "> 0",
       "value": -0.555,
+      "as_of": "2026-09-18",
       "triggered": false
     },
     {
       "name": "Claims",
       "code": "ICSA",
-      "rule": "3m avg > 110% of 12m avg",
-      "value": 197000.0,
+      "rule": "13-week avg > 110% of 52-week avg",
+      "value": 95.9,
+      "as_of": "2026-09-19",
       "triggered": false
     },
     {
@@ -37,6 +41,7 @@
       "code": "CFNAIMA3",
       "rule": "< -0.70",
       "value": 0.01,
+      "as_of": "2026-08-01",
       "triggered": false
     },
     {
@@ -44,6 +49,7 @@
       "code": "RECPROUSM156N",
       "rule": "> 20%",
       "value": 0.76,
+      "as_of": "2026-07-01",
       "triggered": false
     }
   ]

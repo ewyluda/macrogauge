@@ -1,0 +1,124 @@
+{
+  "_refreshed": "2026-09-28",
+  "_source": "FRED release/dates",
+  "cpi": [
+    {
+      "reference_month": "2026-05",
+      "release_date": "2026-06-10"
+    },
+    {
+      "reference_month": "2026-06",
+      "release_date": "2026-07-14"
+    },
+    {
+      "reference_month": "2026-07",
+      "release_date": "2026-08-12"
+    },
+    {
+      "reference_month": "2026-08",
+      "release_date": "2026-09-11"
+    },
+    {
+      "reference_month": "2026-09",
+      "release_date": "2026-10-14"
+    },
+    {
+      "reference_month": "2026-10",
+      "release_date": "2026-11-10"
+    },
+    {
+      "reference_month": "2026-11",
+      "release_date": "2026-12-10"
+    }
+  ],
+  "nfp": [
+    {
+      "reference_month": "2026-05",
+      "release_date": "2026-06-05"
+    },
+    {
+      "reference_month": "2026-06",
+      "release_date": "2026-07-02"
+    },
+    {
+      "reference_month": "2026-07",
+      "release_date": "2026-08-07"
+    },
+    {
+      "reference_month": "2026-08",
+      "release_date": "2026-09-04"
+    },
+    {
+      "reference_month": "2026-09",
+      "release_date": "2026-10-02"
+    },
+    {
+      "reference_month": "2026-10",
+      "release_date": "2026-11-06"
+    },
+    {
+      "reference_month": "2026-11",
+      "release_date": "2026-12-04"
+    }
+  ],
+  "pce": [
+    {
+      "reference_month": "2026-05",
+      "release_date": "2026-06-25"
+    },
+    {
+      "reference_month": "2026-06",
+      "release_date": "2026-07-30"
+    },
+    {
+      "reference_month": "2026-07",
+      "release_date": "2026-08-26"
+    },
+    {
+      "reference_month": "2026-08",
+      "release_date": "2026-09-30"
+    },
+    {
+      "reference_month": "2026-09",
+      "release_date": "2026-10-29"
+    },
+    {
+      "reference_month": "2026-10",
+      "release_date": "2026-11-25"
+    },
+    {
+      "reference_month": "2026-11",
+      "release_date": "2026-12-23"
+    }
+  ],
+  "ppi": [
+    {
+      "reference_month": "2026-05",
+      "release_date": "2026-06-11"
+    },
+    {
+      "reference_month": "2026-06",
+      "release_date": "2026-07-15"
+    },
+    {
+      "reference_month": "2026-07",
+      "release_date": "2026-08-13"
+    },
+    {
+      "reference_month": "2026-08",
+      "release_date": "2026-09-10"
+    },
+    {
+      "reference_month": "2026-09",
+      "release_date": "2026-10-15"
+    },
+    {
+      "reference_month": "2026-10",
+      "release_date": "2026-11-13"
+    },
+    {
+      "reference_month": "2026-11",
+      "release_date": "2026-12-15"
+    }
+  ]
+}
