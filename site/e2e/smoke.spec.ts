@@ -121,7 +121,10 @@ test("data-center PNG export uses the lazy chart instance", async ({ page }) => 
     };
   });
   await page.goto("/datacenter");
-  await expect(page.locator("canvas").first()).toBeVisible();
+  // Wait for THIS chart's canvas: each lazy EChart mounts on its own schedule,
+  // and a bare canvas.first() can match a lower chart that painted first —
+  // Export then runs before the DC index instance exists (CI trace 2026-09-28).
+  await expect(page.locator(".dc-trend canvas")).toBeVisible();
   await page.locator(".dc-trend summary", { hasText: "Export" }).click();
   await page.getByRole("button", { name: "Export PNG" }).first().click();
   await expect(page.locator("html")).toHaveAttribute(
