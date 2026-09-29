@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-28T19:18:59Z",
+  "published_at": "2026-09-29T18:23:16Z",
   "prices": {
     "case_shiller": {
       "code": "CSUSHPINSA",
@@ -39,9 +39,9 @@
       "code": "aptlist_us",
       "label": "Apartment List national rent",
       "unit": "$/mo",
-      "value": 1390.0,
-      "as_of": "2026-08-01",
-      "yoy_pct": -0.79
+      "value": 1388.0,
+      "as_of": "2026-09-01",
+      "yoy_pct": -0.43
     }
   },
   "sales": {
@@ -58,8 +58,8 @@
       "as_of": "2026-09-24"
     },
     "mnd_30yr_daily": {
-      "value": 7.5,
-      "as_of": "2026-09-28"
+      "value": 7.58,
+      "as_of": "2026-09-29"
     }
   },
   "affordability": {

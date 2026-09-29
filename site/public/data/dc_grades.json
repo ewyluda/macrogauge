@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-28T19:18:59Z",
+  "published_at": "2026-09-29T18:23:16Z",
   "as_of": "2026-08",
   "legs": {
     "strict": {
@@ -5112,5 +5112,27 @@
     "best_mae": 8.479,
     "verdict": "FAIL",
     "note": "A like-month year-ratio nowcast, backtested against realized retail prints before letting it touch the index. It failed the pre-registered backtest gate -- the selected pass-through candidate must beat both naive baselines (simple carry-forward and zero pass-through) on MAE with every month's error inside the bound, and it did not -- so the ops index stays on official retail data and the machinery ships config-gated."
+  },
+  "storage_nowcast": {
+    "official": "ppi_storage",
+    "proxy": [
+      "dramex_nand_mlc64"
+    ],
+    "transform": "year_ratio",
+    "smooth_days": 7,
+    "as_of": "2026-08-01",
+    "proxy_history_days": 76,
+    "months_graded": 0,
+    "min_months": 6,
+    "months_dropped": 0,
+    "dropped_months": [],
+    "carry_forward_mae": null,
+    "zero_lambda_mae": null,
+    "best_lambda": null,
+    "best_mae": null,
+    "lambda_ols": null,
+    "verdict": "INSUFFICIENT",
+    "tail_active": false,
+    "note": "Not enough history to grade the like-month NAND-spot tail (a year-over-year ratio needs a year of spot prices), so the storage component is official-only until it can be graded."
   }
 }

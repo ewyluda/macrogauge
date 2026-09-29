@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-28T19:18:59Z",
+  "published_at": "2026-09-29T18:23:16Z",
   "as_of_curated": "2026-07-26",
   "build_weight_covered": 0.5,
   "teaser": [
@@ -61,21 +61,21 @@
           "listed": "NYSE",
           "dc_segment": "Electrical Americas & combined Electrical businesses",
           "cadence": "quarterly",
-          "stale": true,
+          "stale": false,
           "figures": [
             {
               "metric": "Backlog growth, Electrical Americas",
               "kind": "backlog_growth",
               "basis": "order-backlog",
               "scope": "segment",
-              "value": 44.0,
+              "value": 33.0,
               "unit": "pct_yoy",
-              "period": "2026-03-31",
-              "asof": "2026-05-05",
-              "quote": "The twelve-month rolling average of orders in the first quarter was up 42% organically. Total backlog at the end of March remained strong and was up 44% over March 2025.",
+              "period": "2026-06-30",
+              "asof": "2026-07-31",
+              "quote": "The twelve-month rolling average of orders in the second quarter was up 41% organically. Total backlog at the end of June remained strong and was up 33% over June 2025.",
               "src": {
-                "label": "Eaton Q1 2026 8-K exhibit 99 (SEC EDGAR)",
-                "url": "https://www.sec.gov/Archives/edgar/data/1551182/000155118226000010/etn03312026exhibit99.htm"
+                "label": "Eaton Q2 2026 8-K exhibit 99 (SEC EDGAR)",
+                "url": "https://www.sec.gov/Archives/edgar/data/1551182/000155118226000027/etn06302026exhibit99.htm"
               }
             },
             {
@@ -85,12 +85,12 @@
               "scope": "segment",
               "value": 1.2,
               "unit": "ratio",
-              "period": "2026-03-31",
-              "asof": "2026-05-05",
-              "quote": "On a rolling twelve-month basis, the book-to-bill ratio for the Electrical businesses increased to 1.2.",
+              "period": "2026-06-30",
+              "asof": "2026-07-31",
+              "quote": "On a rolling twelve-month basis, the book-to-bill ratio for the Electrical businesses remained strong at 1.2.",
               "src": {
-                "label": "Eaton Q1 2026 8-K exhibit 99 (SEC EDGAR)",
-                "url": "https://www.sec.gov/Archives/edgar/data/1551182/000155118226000010/etn03312026exhibit99.htm"
+                "label": "Eaton Q2 2026 8-K exhibit 99 (SEC EDGAR)",
+                "url": "https://www.sec.gov/Archives/edgar/data/1551182/000155118226000027/etn06302026exhibit99.htm"
               }
             }
           ],
@@ -255,21 +255,21 @@
           "listed": "TSE",
           "dc_segment": "Hitachi Energy",
           "cadence": "quarterly",
-          "stale": true,
+          "stale": false,
           "figures": [
             {
               "metric": "Order backlog, Hitachi Energy segment",
               "kind": "backlog",
               "basis": "order-backlog",
               "scope": "segment",
-              "value": 57.9,
+              "value": 63.6,
               "unit": "usd_b",
-              "period": "2026-03-31",
-              "asof": "2026-04-27",
-              "quote": "Order Backlog (as of FY2025-end) ... Hitachi Energy : 9.2 tn yen (+42% vs end-FY2024) 57.9 bn USD (+33% vs end-FY2024)",
+              "period": "2026-06-30",
+              "asof": "2026-07-29",
+              "quote": "Order Backlog (as of June 30, 2026) ... Hitachi Energy : 10.3 tn yen (+12% vs end-FY2025) 63.6 bn USD (+10% vs end-FY2025)",
               "src": {
-                "label": "Hitachi FY2025 (year ended March 2026) results presentation",
-                "url": "https://www.hitachi.com/content/dam/hitachi/global/en/press/files/2026/04/260427/2025_Anpre.pdf"
+                "label": "Hitachi Q1 FY2026 (quarter ended June 30, 2026) results presentation",
+                "url": "https://www.hitachi.com/content/dam/hitachi/global/en/press/files/2026/07/260729/2026_1Qpre.pdf"
               }
             }
           ],
@@ -388,21 +388,21 @@
           "listed": "NYSE",
           "dc_segment": "Power & Energy",
           "cadence": "quarterly",
-          "stale": true,
+          "stale": false,
           "figures": [
             {
               "metric": "MD&A backlog, total company",
               "kind": "backlog",
               "basis": "mdna-backlog",
               "scope": "group",
-              "value": 62.7,
+              "value": 72.1,
               "unit": "usd_b",
-              "period": "2026-03-31",
-              "asof": "2026-05-06",
-              "quote": "At the end of the first quarter of 2026, the dollar amount of backlog believed to be firm was approximately $62.7 billion, about $11.5 billion higher than the fourth quarter of 2025. The order backlog increased across the three primary segments, with the largest increase in Power & Energy.",
+              "period": "2026-06-30",
+              "asof": "2026-08-05",
+              "quote": "At the end of the second quarter of 2026, the dollar amount of backlog believed to be firm was approximately $72.1 billion, about $9.4 billion higher than the first quarter of 2026. The order backlog increased across the three primary segments, with the largest increase in Power & Energy.",
               "src": {
-                "label": "Caterpillar Q1 2026 10-Q, MD&A Order Backlog (SEC EDGAR)",
-                "url": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000021/cat-20260331.htm"
+                "label": "Caterpillar Q2 2026 10-Q, MD&A Order Backlog (SEC EDGAR)",
+                "url": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000046/cat-20260630.htm"
               }
             }
           ],

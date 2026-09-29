@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-28T19:18:59Z",
+  "published_at": "2026-09-29T18:23:16Z",
   "target": "CPI",
   "release_date": "2026-10-14",
   "core_benchmarks": {
@@ -8,8 +8,8 @@
       "as_of": "2026-09-11"
     },
     "kalshi": {
-      "value": 0.167,
-      "as_of": "2026-09-28"
+      "value": 0.174,
+      "as_of": "2026-09-29"
     }
   },
   "core_ensemble": {
@@ -23,17 +23,17 @@
   "reference_month": "2026-09",
   "cpi": {
     "target_month": "2026-09",
-    "mom_pct": 0.42,
-    "mom_nsa_pct": 0.38,
+    "mom_pct": 0.43,
+    "mom_nsa_pct": 0.39,
     "basis": "SA",
     "core": {
-      "mom_pct": 0.1,
+      "mom_pct": 0.11,
       "mom_nsa_pct": 0.14,
       "basis": "SA",
       "weight_share": 0.7937
     },
-    "yoy_pct": 3.15,
-    "as_of": "2026-09-28",
+    "yoy_pct": 3.28,
+    "as_of": "2026-09-29",
     "status": "live",
     "parameters": {},
     "components": [
@@ -53,11 +53,11 @@
       },
       {
         "component": "food_home",
-        "mom_pct": 0.383,
+        "mom_pct": 0.4086,
         "weight": 0.082024,
-        "contribution_pp": 0.0314,
+        "contribution_pp": 0.0335,
         "basis": "trend+driver",
-        "driver_mom_pct": 0.2628
+        "driver_mom_pct": 0.2884
       },
       {
         "component": "medical",
@@ -103,9 +103,9 @@
       },
       {
         "component": "fuel",
-        "mom_pct": 5.8589,
+        "mom_pct": 5.9803,
         "weight": 0.038532,
-        "contribution_pp": 0.2258,
+        "contribution_pp": 0.2304,
         "basis": "measured"
       },
       {
@@ -124,9 +124,9 @@
       },
       {
         "component": "used_vehicles",
-        "mom_pct": -0.9414,
+        "mom_pct": -0.8042,
         "weight": 0.026882,
-        "contribution_pp": -0.0253,
+        "contribution_pp": -0.0216,
         "basis": "trend+driver",
         "driver_mom_pct": -0.7398
       },
@@ -140,15 +140,82 @@
     ]
   },
   "pce": {
-    "mom_pct": 0.36,
+    "mom_pct": 0.34,
+    "bridge": "cpi+ppi",
     "parameters": {
-      "intercept": 0.114808,
-      "cpi_beta": 0.575643,
-      "window_months": 24,
-      "observations": 24
+      "intercept": 0.071534,
+      "cpi_beta": 0.64512,
+      "window_months": 60,
+      "observations": 60,
+      "oos_mae_cpi_only_pp": 0.0647,
+      "oos_mae_cpi_ppi_pp": 0.0605,
+      "oos_months": 24,
+      "ppi_betas": {
+        "ppi_pce_airline": 0.003972,
+        "ppi_pce_physician": 0.016094,
+        "ppi_pce_hospital": 0.041284,
+        "ppi_pce_portfolio": 0.010872
+      },
+      "ppi_inputs_mom_pct": {
+        "ppi_pce_airline": 0.9495,
+        "ppi_pce_physician": 0.0345,
+        "ppi_pce_hospital": 0.6232,
+        "ppi_pce_portfolio": -1.5884
+      }
     },
     "status": "live",
-    "as_of": "2026-09-28"
+    "cpi_input": {
+      "source": "actual",
+      "series": "CPIAUCSL",
+      "mom_pct": 0.396
+    },
+    "reference_month": "2026-08",
+    "release_date": "2026-09-30",
+    "as_of": "2026-09-29",
+    "core": {
+      "mom_pct": 0.27,
+      "bridge": "cpi+ppi",
+      "parameters": {
+        "intercept": 0.08417,
+        "cpi_beta": 0.603729,
+        "window_months": 60,
+        "observations": 60,
+        "oos_mae_cpi_only_pp": 0.0714,
+        "oos_mae_cpi_ppi_pp": 0.0602,
+        "oos_months": 24,
+        "ppi_betas": {
+          "ppi_pce_airline": 0.005439,
+          "ppi_pce_physician": 0.0542,
+          "ppi_pce_hospital": 0.035845,
+          "ppi_pce_portfolio": 0.012178
+        },
+        "ppi_inputs_mom_pct": {
+          "ppi_pce_airline": 0.9495,
+          "ppi_pce_physician": 0.0345,
+          "ppi_pce_hospital": 0.6232,
+          "ppi_pce_portfolio": -1.5884
+        }
+      },
+      "status": "live",
+      "cpi_input": {
+        "source": "actual",
+        "series": "CPILFESL",
+        "mom_pct": 0.2898
+      },
+      "reference_month": "2026-08",
+      "benchmarks": {
+        "cleveland": {
+          "value": 0.27,
+          "as_of": "2026-08-03"
+        }
+      }
+    },
+    "benchmarks": {
+      "cleveland": {
+        "value": 0.35,
+        "as_of": "2026-08-27"
+      }
+    }
   },
   "nfp": {
     "change_thousands": 87,
@@ -171,8 +238,8 @@
       "as_of": "2026-09-23"
     },
     "kalshi": {
-      "value": 0.515,
-      "as_of": "2026-09-28"
+      "value": 0.504,
+      "as_of": "2026-09-29"
     }
   },
   "ensemble": {
@@ -183,5 +250,5 @@
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-09-28"
+  "generated_on": "2026-09-29"
 }

@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-09-28",
-  "passed": 35,
+  "generated_at": "2026-09-29",
+  "passed": 34,
   "total": 35,
   "checks": [
     {
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official print 2026-08-01 is 58d old (limit 80)"
+      "detail": "latest official print 2026-08-01 is 59d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -133,31 +133,31 @@
       "name": "calendar_horizon",
       "critical": false,
       "pass": true,
-      "detail": "CPI calendar runs 73d ahead (floor 45d)"
+      "detail": "CPI calendar runs 72d ahead (floor 45d)"
     },
     {
       "name": "connectors_ok",
       "critical": false,
       "pass": true,
-      "detail": "30/30 ok"
+      "detail": "32/32 ok"
     },
     {
       "name": "sources_fresh",
       "critical": false,
-      "pass": true,
-      "detail": "691/691 fresh (14 under an expected-absence policy, judged separately)"
+      "pass": false,
+      "detail": "708/709 fresh (14 under an expected-absence policy, judged separately); stale \u2014 vast_b300 (never seen)"
     },
     {
       "name": "expected_absence",
       "critical": false,
       "pass": true,
-      "detail": "14 series under an expected-absence policy (3 discontinued, 4 intermittent, 7 suppressed) \u2014 APU0000702212 [discontinued, 150d, review_by 2027-01-15], APU0000704211 [discontinued, 150d, review_by 2027-01-15], APU0000711311 [intermittent, 58d], APU0000713111 [intermittent, 89d, review_by 2027-01-15], vast_h200 [intermittent, 0d, review_by 2027-03-31], vast_b200 [intermittent, 17d, review_by 2027-03-31], sfc_h100 [discontinued, 4d, review_by 2027-03-31], qcew_wage23_de [suppressed, 362d, review_by 2027-03-31], qcew_wage23_ks [suppressed, 362d, review_by 2027-03-31], qcew_wage23_nc [suppressed, 362d, review_by 2027-03-31], qcew_wage23_pa [suppressed, 362d, review_by 2027-03-31], qcew_wage23_c41067 [suppressed, 545d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 545d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 545d, review_by 2027-03-31]"
+      "detail": "14 series under an expected-absence policy (3 discontinued, 4 intermittent, 7 suppressed) \u2014 APU0000702212 [discontinued, 151d, review_by 2027-01-15], APU0000704211 [discontinued, 151d, review_by 2027-01-15], APU0000711311 [intermittent, 59d], APU0000713111 [intermittent, 90d, review_by 2027-01-15], vast_h200 [intermittent, 1d, review_by 2027-03-31], vast_b200 [intermittent, 18d, review_by 2027-03-31], sfc_h100 [discontinued, 5d, review_by 2027-03-31], qcew_wage23_de [suppressed, 363d, review_by 2027-03-31], qcew_wage23_ks [suppressed, 363d, review_by 2027-03-31], qcew_wage23_nc [suppressed, 363d, review_by 2027-03-31], qcew_wage23_pa [suppressed, 363d, review_by 2027-03-31], qcew_wage23_c41067 [suppressed, 546d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 546d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 546d, review_by 2027-03-31]"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.478 vs EIA weekly $4.478 \u2014 relative divergence 0.0% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.476 vs EIA weekly $4.465 \u2014 relative divergence 0.3% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -175,7 +175,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-09-28"
+      "detail": "CPI nowcast as-of 2026-09-29"
     },
     {
       "name": "ensemble_computed",
@@ -187,7 +187,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-09-28 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-09-29 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
@@ -211,7 +211,7 @@
       "name": "tracker_corr",
       "critical": false,
       "pass": true,
-      "detail": "tracker monthly-YoY corr vs official = 0.9939 (floor 0.95)"
+      "detail": "tracker monthly-YoY corr vs official = 0.9978 (floor 0.95)"
     }
   ]
 }

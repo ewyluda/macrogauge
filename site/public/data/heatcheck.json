@@ -1,17 +1,17 @@
 {
-  "published_at": "2026-09-28T19:18:59Z",
-  "score": 2.1,
+  "published_at": "2026-09-29T18:23:16Z",
+  "score": -2.1,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": -0.46346,
+      "z": -0.60854,
       "weight": 25,
       "available": 5,
       "expected": 5,
       "active_weight": 25.0
     },
     "real_economy": {
-      "z": 0.08836,
+      "z": 0.1099,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -25,14 +25,14 @@
       "active_weight": 20.0
     },
     "housing": {
-      "z": -0.15467499999999998,
+      "z": -0.49205,
       "weight": 15,
       "available": 4,
       "expected": 4,
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": 0.8348333333333334,
+      "z": 0.8207666666666666,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -41,20 +41,20 @@
   },
   "indicators": [
     {
-      "code": "CPIAUCNS",
+      "code": "CPIAUCSL",
       "group": "prices",
       "direction": 1,
       "as_of": "2026-08-01",
-      "momentum": -0.0427,
-      "z": -1.1042
+      "momentum": 0.0455,
+      "z": -1.6883
     },
     {
-      "code": "CPILFENS",
+      "code": "CPILFESL",
       "group": "prices",
       "direction": 1,
       "as_of": "2026-08-01",
-      "momentum": 0.3548,
-      "z": -0.6752
+      "momentum": 0.4891,
+      "z": -0.6745
     },
     {
       "code": "PCEPI",
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-09-25",
-      "momentum": 0.13,
-      "z": 0.3905
+      "as_of": "2026-09-28",
+      "momentum": 0.09,
+      "z": 0.2485
     },
     {
       "code": "PAYEMS",
@@ -112,8 +112,8 @@
       "group": "real_economy",
       "direction": 1,
       "as_of": "2026-08-01",
-      "momentum": 1.0121,
-      "z": -0.0644
+      "momentum": 0.8679,
+      "z": 0.0433
     },
     {
       "code": "DSPIC96",
@@ -175,12 +175,12 @@
       "z": -0.0922
     },
     {
-      "code": "CSUSHPINSA",
+      "code": "CSUSHPISA",
       "group": "housing",
       "direction": 1,
       "as_of": "2026-06-01",
-      "momentum": 1.9326,
-      "z": 0.222
+      "momentum": 0.0944,
+      "z": -1.1275
     },
     {
       "code": "pmms_30yr",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-09-25",
-      "momentum": 0.05,
-      "z": 0.2951
+      "as_of": "2026-09-28",
+      "momentum": 0.04,
+      "z": 0.2529
     }
   ]
 }

@@ -1,42 +1,42 @@
 {
-  "published_at": "2026-09-28T19:18:59Z",
-  "as_of": "2026-09-28",
+  "published_at": "2026-09-29T18:23:16Z",
+  "as_of": "2026-09-29",
   "official_month": "2026-08-01",
   "rows": [
     {
       "component": "shelter_owned",
       "label": "Shelter (owned)",
-      "weight": 0.262314,
+      "weight": 0.262168,
       "mode": "live",
-      "ours_yoy_pct": 1.36,
+      "ours_yoy_pct": 1.52,
       "bls_yoy_pct": 3.08,
-      "gap_pp": -1.72,
-      "contribution_pp": -0.45
+      "gap_pp": -1.56,
+      "contribution_pp": -0.41
     },
     {
       "component": "fuel",
       "label": "Gasoline",
-      "weight": 0.029491,
+      "weight": 0.029754,
       "mode": "live",
-      "ours_yoy_pct": 39.33,
+      "ours_yoy_pct": 41.2,
       "bls_yoy_pct": 27.4,
-      "gap_pp": 11.92,
-      "contribution_pp": 0.35
+      "gap_pp": 13.79,
+      "contribution_pp": 0.41
     },
     {
       "component": "shelter_rent",
       "label": "Rent",
-      "weight": 0.074559,
+      "weight": 0.074579,
       "mode": "live",
-      "ours_yoy_pct": 1.36,
+      "ours_yoy_pct": 1.52,
       "bls_yoy_pct": 2.75,
-      "gap_pp": -1.39,
-      "contribution_pp": -0.1
+      "gap_pp": -1.23,
+      "contribution_pp": -0.09
     },
     {
       "component": "used_vehicles",
       "label": "Used cars & trucks",
-      "weight": 0.024409,
+      "weight": 0.02411,
       "mode": "live",
       "ours_yoy_pct": -1.74,
       "bls_yoy_pct": -2.32,
@@ -46,7 +46,7 @@
     {
       "component": "other",
       "label": "Everything else (CPI residual)",
-      "weight": 0.180556,
+      "weight": 0.180519,
       "mode": "bls_cf",
       "ours_yoy_pct": 3.21,
       "bls_yoy_pct": 3.21,
@@ -56,7 +56,7 @@
     {
       "component": "food_home",
       "label": "Food at home",
-      "weight": 0.079934,
+      "weight": 0.080095,
       "mode": "bls_cf",
       "ours_yoy_pct": 2.19,
       "bls_yoy_pct": 2.19,
@@ -66,7 +66,7 @@
     {
       "component": "medical",
       "label": "Medical care",
-      "weight": 0.082672,
+      "weight": 0.082601,
       "mode": "bls_cf",
       "ours_yoy_pct": 1.56,
       "bls_yoy_pct": 1.56,
@@ -76,7 +76,7 @@
     {
       "component": "food_away",
       "label": "Food away from home",
-      "weight": 0.056528,
+      "weight": 0.056464,
       "mode": "bls_cf",
       "ours_yoy_pct": 3.37,
       "bls_yoy_pct": 3.37,
@@ -86,7 +86,7 @@
     {
       "component": "education_comm",
       "label": "Education & comm",
-      "weight": 0.056397,
+      "weight": 0.056387,
       "mode": "bls_cf",
       "ours_yoy_pct": 2.14,
       "bls_yoy_pct": 2.14,
@@ -96,7 +96,7 @@
     {
       "component": "recreation",
       "label": "Recreation",
-      "weight": 0.05269,
+      "weight": 0.052717,
       "mode": "bls_cf",
       "ours_yoy_pct": 2.68,
       "bls_yoy_pct": 2.68,
@@ -106,7 +106,7 @@
     {
       "component": "new_vehicles",
       "label": "New vehicles",
-      "weight": 0.043071,
+      "weight": 0.042979,
       "mode": "bls_cf",
       "ours_yoy_pct": 0.57,
       "bls_yoy_pct": 0.57,
@@ -116,7 +116,7 @@
     {
       "component": "electricity",
       "label": "Electricity",
-      "weight": 0.024642,
+      "weight": 0.024428,
       "mode": "bls_cf",
       "ours_yoy_pct": 3.79,
       "bls_yoy_pct": 3.79,
@@ -126,7 +126,7 @@
     {
       "component": "apparel",
       "label": "Apparel",
-      "weight": 0.025038,
+      "weight": 0.025625,
       "mode": "bls_cf",
       "ours_yoy_pct": 3.61,
       "bls_yoy_pct": 3.61,
@@ -136,7 +136,7 @@
     {
       "component": "nat_gas",
       "label": "Piped gas",
-      "weight": 0.007699,
+      "weight": 0.007574,
       "mode": "bls_cf",
       "ours_yoy_pct": 4.39,
       "bls_yoy_pct": 4.39,
@@ -144,31 +144,31 @@
       "contribution_pp": 0.0
     }
   ],
-  "total_gap_pp": -0.19,
+  "total_gap_pp": -0.08,
   "variants": {
     "gauge": {
-      "yoy_pct": 3.15,
-      "as_of": "2026-09-28",
+      "yoy_pct": 3.28,
+      "as_of": "2026-09-29",
       "coverage_pct": 39.08
     },
     "col": {
-      "yoy_pct": 6.0,
-      "as_of": "2026-09-28",
+      "yoy_pct": 6.3,
+      "as_of": "2026-09-29",
       "coverage_pct": 39.08
     },
     "tracker": {
-      "yoy_pct": 3.69,
-      "as_of": "2026-09-28",
+      "yoy_pct": 3.76,
+      "as_of": "2026-09-29",
       "coverage_pct": 2.95
     },
     "supercore": {
-      "yoy_pct": 2.61,
+      "yoy_pct": 2.71,
       "as_of": "2026-08-01",
       "coverage_pct": 0.0
     },
     "pce": {
-      "yoy_pct": 3.18,
-      "as_of": "2026-09-28",
+      "yoy_pct": 3.25,
+      "as_of": "2026-09-29",
       "coverage_pct": 18.9
     }
   }

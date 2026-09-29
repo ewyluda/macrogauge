@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-28T19:18:59Z",
+  "published_at": "2026-09-29T18:23:16Z",
   "target": "CPI",
   "graded": [
     {
@@ -37,8 +37,8 @@
     {
       "reference_period": "2026-09",
       "badge": "LIVE",
-      "forecast": 0.42,
-      "as_of": "2026-09-28",
+      "forecast": 0.43,
+      "as_of": "2026-09-29",
       "actual": null
     }
   ],
