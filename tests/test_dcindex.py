@@ -371,6 +371,29 @@ def test_parity_wage_from_older_quarter_treated_as_missing():
     assert row["ops_mult"] == pytest.approx(1.11)  # power side unaffected
 
 
+def test_parity_lagged_state_uses_its_own_quarter_against_same_quarter_national():
+    # PA/NC 2026 Q1 suppressed: the state's 2025 Q4 wage is compared to the
+    # NATIONAL 2025 Q4 wage (like-for-like), flagged so the page labels it
+    out = dcindex.parity_rows(
+        power={"pa": ("2026-05-01", 12.0), "tx": ("2026-05-01", 9.0)},
+        wage={"pa": ("2025-10-01", 1900.0), "tx": ("2026-01-01", 1700.0)},
+        nat_power=("2026-05-01", 10.0), nat_wage=("2026-01-01", 1600.0),
+        w_labor=0.30, w_power=0.55,
+        nat_wage_hist={"2025-10-01": 1520.0, "2026-01-01": 1600.0})
+    rows = {r["state"]: r for r in out["states"]}
+    pa = rows["PA"]
+    assert pa["wage_rel"] == pytest.approx(round(1900.0 / 1520.0, 4))   # 1.25
+    assert pa["build_mult"] == pytest.approx(0.30 * 1.25 + 0.70)
+    assert pa["wage_asof"] == "2025-10-01" and pa["wage_lagged"] is True
+    assert "wage_lagged" not in rows["TX"]                               # current quarter
+    # national history missing that quarter -> still dropped, never mixed
+    out = dcindex.parity_rows(
+        power={"pa": ("2026-05-01", 12.0)}, wage={"pa": ("2025-10-01", 1900.0)},
+        nat_power=("2026-05-01", 10.0), nat_wage=("2026-01-01", 1600.0),
+        w_labor=0.30, w_power=0.55, nat_wage_hist={"2026-01-01": 1600.0})
+    assert out["states"][0]["build_mult"] is None
+
+
 def test_by_state_ignores_non_state_suffixes(tmp_path):
     conn = make_conn(tmp_path, [
         ("eia_elec_ind_us", "2026-05-01", 10.0),

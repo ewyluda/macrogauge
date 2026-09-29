@@ -184,10 +184,15 @@ def parity_rows(power: dict[str, tuple[str, float]],
                 wage: dict[str, tuple[str, float]],
                 nat_power: tuple[str, float] | None,
                 nat_wage: tuple[str, float] | None,
-                w_labor: float, w_power: float) -> dict:
+                w_labor: float, w_power: float,
+                nat_wage_hist: dict[str, float] | None = None) -> dict:
     """Pinned parity formula (spec §6): mult = w x state_relative + (1 - w).
     Inputs that don't vary by state are pinned at relative 1.0. Pure function;
-    inputs are {state: (obs_date, value)} plus national (obs_date, value)."""
+    inputs are {state: (obs_date, value)} plus national (obs_date, value).
+    nat_wage_hist ({quarter: national wage}) lets a state whose newest quarter
+    lags the national one (QCEW disclosure suppression: PA/NC 2026 Q1) use its
+    OWN latest quarter against the national wage for THAT quarter — still
+    like-for-like — flagged wage_lagged so the page labels the quarter."""
     national = {
         "power": None if not nat_power else {"value": nat_power[1], "as_of": nat_power[0]},
         "wage": None if not nat_wage else {"value": nat_wage[1], "as_of": nat_wage[0]}}
@@ -209,9 +214,18 @@ def parity_rows(power: dict[str, tuple[str, float]],
         # like-for-like quarters only: a state whose newest quarter is
         # disclosure-suppressed keeps its prior-quarter wage in the store —
         # dividing it by the newer national quarter would bias build_mult
-        # low by a quarter of wage growth, so treat it as missing instead
-        if w and nat_wage and nat_wage[1] and w[0] == nat_wage[0]:
-            wage_rel = w[1] / nat_wage[1]
+        # low by a quarter of wage growth. With the national history, the
+        # state's own latest quarter is compared to the national wage for
+        # that SAME quarter (wage_lagged); without it, treat as missing.
+        denom = None
+        if w and nat_wage and nat_wage[1]:
+            if w[0] == nat_wage[0]:
+                denom = nat_wage[1]
+            elif nat_wage_hist and nat_wage_hist.get(w[0]) and w[0] < nat_wage[0]:
+                denom = nat_wage_hist[w[0]]
+                row["wage_lagged"] = True
+        if denom:
+            wage_rel = w[1] / denom
             row["wage_rel"] = round(wage_rel, 4)
             row["build_mult"] = round(w_labor * wage_rel + (1 - w_labor), 4)
             row["wage_asof"] = w[0]
@@ -253,7 +267,8 @@ def parity_from_store(conn: sqlite3.Connection,
                        _by_state(conn, "qcew_wage23_"),
                        _latest_row(conn, "eia_elec_ind_us"),
                        _latest_row(conn, "qcew_wage23_us"),
-                       w_labor, w_power)
+                       w_labor, w_power,
+                       nat_wage_hist=_series(conn, "qcew_wage23_us"))
 
 
 def construction_block(saar: dict[str, float], nsa: dict[str, float],
