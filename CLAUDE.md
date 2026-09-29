@@ -153,8 +153,10 @@ is BLS average-price staples.
 
 ## Operational notes
 
-- **Daily run** (`.github/workflows/daily.yml`): cron at 8:40 AM ET weekdays (two crons for
-  EDT/EST, plus two backup crons), gated by `pipeline/publish_gate.py` so scheduled (and
+- **Daily run** (`.github/workflows/daily.yml`): primary trigger is an external scheduler
+  (cron-job.org → `repository_dispatch` `daily`, Mon–Fri 8:45/10:45/13:45 America/New_York, via a
+  fine-grained PAT expiring ~2027-09); GitHub crons at 8:40 AM ET weekdays (two crons for
+  EDT/EST, plus two backup crons) are the fallback. Both are gated by `pipeline/publish_gate.py` so scheduled (and
   `repository_dispatch` `daily`) runs publish at most once/day in the 8:00–21:59 ET window — GitHub's
   cron slip reached a 4–5.5h weekly median in Sept 2026 and 2026-08-28 had no publish at all under the
   old 15:59 cutoff. The gate fast-forwards to origin/main first (a queued run's checkout can predate
