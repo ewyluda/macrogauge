@@ -79,6 +79,16 @@ def test_composites_config_pins_audit_fixes():
     assert stress["REVOLSL"].get("transform") == "yoy"
 
 
+def test_heatcheck_rides_seasonally_adjusted_price_and_housing_inputs():
+    # 2026-09-28: NSA CPI/core CPI/Case-Shiller 3-month momentum put a
+    # calendar pattern into the z-scores (CPIAUCNS mean z -0.89 in Dec vs
+    # +1.03 in Mar on the store); the SA equivalents flatten it to -0.25/+0.35.
+    cfg = json.loads(CONFIG.read_text())
+    codes = {item["code"] for item in cfg["heatcheck"]["indicators"]}
+    assert {"CPIAUCSL", "CPILFESL", "CSUSHPISA"} <= codes
+    assert not codes & {"CPIAUCNS", "CPILFENS", "CSUSHPINSA"}
+
+
 def test_heat_check_renormalizes_available_groups():
     result = heat_check([
         {"code": "a", "group": "prices", "z": 1.0},

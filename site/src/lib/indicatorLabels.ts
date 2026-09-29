@@ -4,7 +4,9 @@
 // raw code via indicatorLabel().
 
 export const INDICATOR_LABELS: Record<string, string> = {
-  // heatcheck — prices
+  // heatcheck — prices (SA inputs from 2026-09-28; NSA codes kept for older artifacts)
+  CPIAUCSL: "CPI, all items (SA)",
+  CPILFESL: "Core CPI (SA)",
   CPIAUCNS: "CPI, all items",
   CPILFENS: "Core CPI",
   PCEPI: "PCE price index",
@@ -24,6 +26,7 @@ export const INDICATOR_LABELS: Record<string, string> = {
   // heatcheck — housing
   HOUST: "Housing starts",
   PERMIT: "Building permits",
+  CSUSHPISA: "Case-Shiller home prices (SA)",
   CSUSHPINSA: "Case-Shiller home prices",
   pmms_30yr: "30yr mortgage rate",
   // heatcheck — money & expectations

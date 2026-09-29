@@ -298,6 +298,7 @@
     {"code": "HOUST", "source": "FRED", "source_id": "HOUST", "name": "Housing starts", "max_staleness_days": 80},
     {"code": "PERMIT", "source": "FRED", "source_id": "PERMIT", "name": "Building permits", "max_staleness_days": 80},
     {"code": "CSUSHPINSA", "source": "FRED", "source_id": "CSUSHPINSA", "name": "Case-Shiller national home price index", "max_staleness_days": 125},
+    {"code": "CSUSHPISA", "source": "FRED", "source_id": "CSUSHPISA", "name": "Case-Shiller national home price index (SA) — Heat Check input", "max_staleness_days": 125},
     {"code": "M2SL", "source": "FRED", "source_id": "M2SL", "name": "M2 money stock", "max_staleness_days": 90},
     {"code": "UMCSENT", "source": "FRED", "source_id": "UMCSENT", "name": "University of Michigan consumer sentiment", "max_staleness_days": 95},
     {"code": "T10Y2Y", "source": "FRED", "source_id": "T10Y2Y", "name": "10-year minus 2-year Treasury spread", "max_staleness_days": 10},
