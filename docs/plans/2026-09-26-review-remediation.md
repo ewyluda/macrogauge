@@ -67,37 +67,33 @@ GitHub crons remain the fallback._
 - Source-licensing register: per-source terms review (FMP, TrendForce/DRAMeXchange, MND, Manheim,
   AAA, Zillow, OpenRouter, Vast) before any growth push. The /data licence is now scoped, not audited.
 
-### Engineering backlog (ranked)
-1. **Hand-curated DC data refresh:** PJM 2028/29 BRA (cleared 2026-07-14, $325/MW-day) in
-   `config/dc_power.json`; CBRE H1 2026 in `dc_context.json`; long-lead Q2 pass (VRT, Hitachi, ETN,
-   CAT); ORCL FY27 Q1 (RPO $664B, net debt ≈ $88.9B, +850 MW).
-2. ~~**Vintage-true gauge history**~~ DONE 2026-09-28 (`feat/backlog-history-weights`):
-   compare.json `realtime` month-end track (`pipeline/engine/realtime.py`: ledger rows since
-   2026-07, else official prints from their CPIAUCNS release date + live sources after their
-   measured publication lag); homepage lead-lag now graded on it (0.951 @1mo vs hindsight 0.945).
-   Per-variant `validation` stats remain hindsight (labelled).
-3. **PCE nowcast keyed to the PCE calendar** (target the next PIO release; use the actual CPI once
-   out) and a PPI→PCE bridge (airline, physician, hospital, portfolio-management PPIs).
-4. ~~**Time-varying weights through history**~~ DONE 2026-09-28 (`feat/backlog-history-weights`):
-   Σ w·yoy at date d uses RI price-updated to base_month(d); `weights_by_month` in replay.json
-   (+ per-month `weights` in quilt) and every site weight×yoy consumer reads the date's weight.
-   Tracker corr 0.9939 → 0.9978.
-5. **NAND spot → storage PPI**: pass-through factor + backtest gate, as the power tail has.
-6. **Heat Check on SA inputs**; supercore definition (the residual is 49.5% "other"); Manheim
-   double-count in the outlook; seasonal gas gate misfires.
-7. **Homepage reconciliation strip** (official → reconstruction → ours), outlook caveat, one-decimal
-   tile precision, labelled gas prices, /gap supercore + PCE gaps.
-8. **a11y backlog** B14 (colour-only source status), B15 (chart text alternatives), B16 (landmarks,
-   skip link); B8 schema-generated TS types; B19 raw internal links.
-9. **vast.ai coverage:** ordered/paginated queries (server caps at 64 offers), add B300.
-10. **New measures:** Kalshi `KXFED` market-implied Fed path on /rates; effective tariff rate
-    (customs duties ÷ goods imports); NY Fed SCE/GSCPI/MCT; Atlanta BIE; international HICP.
-11. **Distribution:** per-page OG cards, embeds/badges, programmatic long-tail pages
-    (`/grocery/[item]`, `/states/[st]`, `/metros/[m]`).
-12. **DC audience:** price-adjustment clause kit on official BLS PPIs; official-only Build series for
-    contract indexation (P8); S-curve midpoint escalation; P80 contingency; Census M3 backlog months;
-    NAICS 238210 electrical-contractor labor by market; PA/NC build multipliers.
-13. **Ops hardening:** pin actions by SHA, `persist-credentials: false`, token scoped to the commit step.
+### Engineering backlog — status 2026-09-29 (branch `feat/backlog-2026-09-29`)
+Done:
+1. DC curation — PJM 2028/29 ($325), CBRE H1 2026 ($204.69/kW-mo, 7.48 GW), long-lead Q2
+   (Hitachi $63.6B, Eaton +33%/1.2, CAT $72.1B; Vertiv stopped disclosing backlog after Q4 2025),
+   ORCL FY27 Q1 (RPO $664B, nd ≈ $89.0B, +850 MW).
+2. Vintage-true history — `compare.realtime` (ledger + first-release reconstruction); homepage
+   lead-lag on it (0.951).
+3. PCE nowcast on the PCE calendar, actual SA CPI once printed, PPI→PCE bridge (4 BEA-input PPIs,
+   used only when it beats CPI-only out of sample), core PCE nowcast + official core PCE.
+4. Time-varying price-updated weights through history, per-month weights in replay/quilt, site
+   contribution parity per date (max 0.007pp).
+5. Storage tail gated by a backtest (INSUFFICIENT until ~2027-08 → official-only; Hardware ≈ 29%);
+   Heat Check on SA inputs; supercore graded vs BLS services less rent of shelter (+ energy services);
+   Manheim double count; like-month gate for year-ratio tails.
+6. Homepage reconciliation strip, outlook caveat, 2-dp tiles, labelled gas, /gap vs each variant's own print.
+7. a11y B14/B15/B16, schema-generated TS types (B8, drift guard), next/link everywhere (B19).
+8. vast.ai banded queries past the 64-offer cap + B300.
+9. Kalshi KXFED market-implied Fed path on /rates; effective tariff rate; NY Fed GSCPI + MCT.
+10. Distribution — per-page OG cards, SVG badges, /grocery/[item], /states/[st], /metros/[m].
+11. DC — official-only Build series, monthly CSV, P80 contingency, PA/NC/DE/KS multipliers on own
+    latest quarter, price-adjustment clause kit (/escalation/clause).
+12. Ops — actions pinned by SHA, persist-credentials false, push token only in the commit step.
+
+Still open (deliberately small or blocked):
+- NY Fed SCE, Atlanta BIE (not on FRED; need connectors), euro-area HICP (placement decision).
+- S-curve midpoint escalation, Census M3 backlog months, NAICS 238210 electrical-contractor labor.
+- Storage-tail λ needs ~12 months of NAND history (≈2027-08) before the gate can pass.
 
 ### Calendar
 - 2026-10-14 CPI: first SA-graded print; first component miss attribution on /cpi-preview.
