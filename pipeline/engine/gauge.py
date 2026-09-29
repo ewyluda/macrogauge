@@ -226,7 +226,9 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
                                for code in gate_codes}, today)
                     if not arrived and any(lead.get(c) for c in gate_codes):
                         arrived = _entered_grid_today(last, today)
-                    gated, flagged = gate.apply_gate(visible, arrived)
+                    gated, flagged = gate.apply_gate(
+                        visible, arrived,
+                        like_month=comp.live_method == "year_ratio")
                     if flagged:
                         idx = {**idx, **gated}
                         flags.append(f"{comp.code}@{last}")

@@ -2,8 +2,8 @@
   "heatcheck": {
     "group_weights": {"prices": 25, "real_economy": 25, "pipeline": 20, "housing": 15, "money_expectations": 15},
     "indicators": [
-      {"code": "CPIAUCNS", "group": "prices", "direction": 1},
-      {"code": "CPILFENS", "group": "prices", "direction": 1},
+      {"code": "CPIAUCSL", "group": "prices", "direction": 1},
+      {"code": "CPILFESL", "group": "prices", "direction": 1},
       {"code": "PCEPI", "group": "prices", "direction": 1},
       {"code": "PPIACO", "group": "prices", "direction": 1},
       {"code": "T5YIE", "group": "prices", "direction": 1, "mode": "diff", "periods": 63},
@@ -18,7 +18,7 @@
       {"code": "FEDFUNDS", "group": "pipeline", "direction": -1, "mode": "diff"},
       {"code": "HOUST", "group": "housing", "direction": 1},
       {"code": "PERMIT", "group": "housing", "direction": 1},
-      {"code": "CSUSHPINSA", "group": "housing", "direction": 1},
+      {"code": "CSUSHPISA", "group": "housing", "direction": 1},
       {"code": "pmms_30yr", "group": "housing", "direction": -1, "mode": "diff", "periods": 13},
       {"code": "M2SL", "group": "money_expectations", "direction": 1},
       {"code": "UMCSENT", "group": "money_expectations", "direction": 1},

@@ -46,8 +46,8 @@ describe("reconcile (official -> reconstruction -> ours)", () => {
 });
 
 describe("variantGap on /gap", () => {
-  it("grades supercore against core CPI and pce against PCEPI", () => {
-    expect(VARIANT_REF.supercore).toBe("core");
+  it("grades supercore against services less rent of shelter and pce against PCEPI", () => {
+    expect(VARIANT_REF.supercore).toBe("services");
     expect(VARIANT_REF.pce).toBe("pce");
     expect(variantGap(2.61, { yoy_pct: 2.45 })).toBe(0.16);
     expect(variantGap(3.18, { yoy_pct: 3.7 })).toBe(-0.52);
@@ -58,6 +58,7 @@ describe("variantGap on /gap", () => {
   it("has a reference print for every published variant", () => {
     for (const key of Object.keys(gaptable.variants)) expect(VARIANT_REF[key]).toBeDefined();
     for (const ref of new Set(Object.values(VARIANT_REF))) {
+      if (ref === "services") continue; // from compare.json (core CPI fallback), not official.headline
       expect(official.headline[ref]).toHaveProperty("yoy_pct");
     }
   });

@@ -81,22 +81,29 @@ def test_official_core_yoy_column(tmp_path):
     assert p["official_core_yoy_pct"] == [2.5, 2.49, 2.97]
 
 
-def test_supercore_grades_against_core_cpi_pce_tolerates_absent_pcepi(tmp_path):
-    """Task 12 spec §9.7: supercore grades vs CPILFENS (seeded here via
-    CORE_ROWS), pce vs PCEPI. The store has zero PCEPI rows (matches
-    production on a fresh basket, before the first collect run picks it up)
-    -- _official_yoy(conn, "PCEPI") then returns {}, so pce's validation
-    pairs list is empty and must degrade to corr=None/mean_abs_gap_pp=None,
-    not crash (compare._validation's existing empty-pairs path)."""
+def test_supercore_grades_against_services_less_rent_of_shelter(tmp_path):
+    """2026-09-28: supercore grades vs BLS services less rent of shelter
+    (CUUR0000SASL2RS), not core CPI (~44% shelter, ~25% core goods). pce
+    grades vs PCEPI; with zero PCEPI / SASL2RS rows (a fresh basket before
+    the first collect) validation degrades to corr=None, never a crash."""
     conn = seed(tmp_path)
     p = compare.build(RESULT, conn)
     assert compare.GRADE_REF == {"gauge": "CPIAUCNS", "col": "CPIAUCNS",
-                                 "tracker": "CPIAUCNS", "supercore": "CPILFENS",
+                                 "tracker": "CPIAUCNS", "supercore": "CUUR0000SASL2RS",
                                  "pce": "PCEPI"}
-    sc = p["validation"]["supercore"]
-    assert sc["corr"] is not None and -1.0 <= sc["corr"] <= 1.0
+    assert p["validation"]["supercore"]["corr"] is None  # no SASL2RS rows yet
+    assert p["official_supercore_yoy_pct"] == [None, None, None]
     pce = p["validation"]["pce"]
     assert pce["corr"] is None and pce["mean_abs_gap_pp"] is None
+    # with the reference series present, supercore pairs against IT
+    vintage.append([Observation("CUUR0000SASL2RS", d, v, "2018-04-01", "FRED", "API")
+                    for d, v in CPI_ROWS], tmp_path)
+    p = compare.build(RESULT, vintage.load(tmp_path))
+    assert p["official_supercore_yoy_pct"] == p["official_yoy_pct"]
+    sc = p["validation"]["supercore"]
+    assert sc["corr"] is not None and -1.0 <= sc["corr"] <= 1.0
+    # |2.6-2.0| + |3.1-2.4876| + |4.1-3.4653| = 1.847 / 3
+    assert sc["mean_abs_gap_pp"] == 0.62
 
 
 def test_variant_sampled_at_month_end_not_month_start(tmp_path):
@@ -162,13 +169,14 @@ def test_official_pce_yoy_column_and_pce_validation_with_pcepi(tmp_path):
     """Batch 2a: the PCE price index rides the same month grid as CPI so the
     /pce page can chart the pce variant against what it is graded on; the
     pce validation block pairs against the same series."""
-    obs = [Observation(series_code="PCEPI", obs_date=d, value=v,
+    obs = [Observation(series_code=code, obs_date=d, value=v * scale,
                        vintage_date="2018-04-01", source="FRED", route="API")
-           for d, v in PCE_ROWS]
+           for code, scale in (("PCEPI", 1.0), ("PCEPILFE", 2.0)) for d, v in PCE_ROWS]
     vintage.append(obs, tmp_path)
     conn = seed(tmp_path)
     p = compare.build(RESULT, conn)
     assert p["official_pce_yoy_pct"] == [1.0, 2.0, 3.0]
+    assert p["official_core_pce_yoy_pct"] == [1.0, 2.0, 3.0]  # core PCE (2026-09-28)
     pce = p["validation"]["pce"]
     assert pce["corr"] is not None and pce["mean_abs_gap_pp"] is not None
     path = compare.write(p, tmp_path / "out", "2018-04-01T12:00:00Z")

@@ -90,13 +90,14 @@ default absent fields to `None` so old partitions load forever. **Never rewrite 
   `splice()` grafts scaled live data onto official history at the splice point.
 - `gate.py` (stage 3) — stateless one-day quality hold: a >5% jump in the *just-arrived* last
   observation is held one day; if it persists (no longer just-arrived) it passes through.
+  `year_ratio` components (EIA electricity/gas) are gated on the like-month change, not the raw step.
 - `aggregate.py` (stage 4) — daily forward-fill grid, Laspeyres headline over dates where every
   component has a value, 365-day YoY (`None` where the base is missing).
 - `variants.py` (stage 5) — assemble each component per variant.
 
 `official.py` is a separate, trivial engine for YoY off the latest official monthly print.
 
-**Five variants** (`variants.VARIANTS`): `gauge` (the market-rent blend drives both shelter components; fuel, electricity and piped gas ride live EIA data), `col` (owned shelter = marginal-buyer payment: 0.80×ZHVI at the 30yr rate, MND daily/PMMS fallback; everything else rides live), `tracker` (official shelter dynamics; only fuel, electricity and piped gas ride live), `supercore` (services-ex-shelter approximation over our 14 coarse components, renormalized), and `pce` (same components under hand-seeded BEA-share weights, graded vs PCEPI).
+**Five variants** (`variants.VARIANTS`): `gauge` (the market-rent blend drives both shelter components; fuel, electricity and piped gas ride live EIA data), `col` (owned shelter = marginal-buyer payment: 0.80×ZHVI at the 30yr rate, MND daily/PMMS fallback; everything else rides live), `tracker` (official shelter dynamics; only fuel, electricity and piped gas ride live), `supercore` (approximation of BLS services less rent of shelter over six coarse components incl. the energy services, renormalized; graded vs `CUUR0000SASL2RS`), and `pce` (same components under hand-seeded BEA-share weights, graded vs PCEPI).
 Which component rides live data in which variant is config (`live_variants` in `config/basket.json`),
 not code.
 

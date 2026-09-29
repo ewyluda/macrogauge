@@ -55,12 +55,12 @@ export function reconcile(x: ReconcileInput): Reconciliation {
 }
 
 /** Reference print for each gauge variant's gap on /gap. */
-export type VariantRef = "cpi" | "core" | "pce";
+export type VariantRef = "cpi" | "core" | "services" | "pce";
 export const VARIANT_REF: Record<string, VariantRef> = {
   gauge: "cpi",
   tracker: "cpi",
   col: "cpi",
-  supercore: "core",
+  supercore: "services",
   pce: "pce",
 };
 

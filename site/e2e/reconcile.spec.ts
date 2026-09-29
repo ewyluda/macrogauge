@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import pulse from "../public/data/pulse.json";
 import gaptable from "../public/data/gaptable.json";
 import methodology from "../public/data/methodology.json";
+import compare from "../public/data/compare.json";
 import official from "../public/data/official.json";
 import fuel from "../public/data/fuel.json";
 import outlook from "../public/data/outlook.json";
@@ -54,11 +55,21 @@ test("homepage outlook widget explains its index-level starting point", async ({
   await expect(caveat).toContainText("not the own-observation headline");
 });
 
-test("/gap grades supercore vs core CPI and the PCE gauge vs PCEPI", async ({ page }) => {
+// supercore's reference is BLS services less rent of shelter once compare.json
+// carries that column (2026-09-28+); older artifacts fall back to core CPI.
+const svcCol = (compare as unknown as { months: string[]; official_supercore_yoy_pct?: (number | null)[] });
+const svcIdx = svcCol.official_supercore_yoy_pct
+  ? svcCol.official_supercore_yoy_pct.map((v, i) => (v == null ? -1 : i)).filter((i) => i >= 0).pop()
+  : undefined;
+const supercoreRef: [{ yoy_pct: number }, string] = svcIdx != null
+  ? [{ yoy_pct: svcCol.official_supercore_yoy_pct![svcIdx] as number }, "BLS services less rent of shelter"]
+  : [official.headline.core, "core CPI"];
+
+test("/gap grades supercore vs its own reference and the PCE gauge vs PCEPI", async ({ page }) => {
   await page.goto("/gap");
   const strip = page.getByTestId("gap-variant-strip");
   const cases: [string, number | null, { yoy_pct: number }, string][] = [
-    ["supercore", gaptable.variants.supercore.yoy_pct, official.headline.core, "core CPI"],
+    ["supercore", gaptable.variants.supercore.yoy_pct, supercoreRef[0], supercoreRef[1]],
     ["pce", gaptable.variants.pce.yoy_pct, official.headline.pce, "PCEPI"],
     ["gauge", gaptable.variants.gauge.yoy_pct, official.headline.cpi, "official CPI"],
   ];

@@ -58,9 +58,11 @@ def load_basket(path: Path | None = None) -> tuple[str, list[Component]]:
 
 
 def load_supercore_components(path: Path | None = None) -> tuple[str, ...]:
-    """The 'supercore' variant's subset: a services-ex-shelter approximation
-    over our 14 coarse components (includes goods subcomponents inside those
-    categories — an honest caveat, not a true PCE core-services cut)."""
+    """The 'supercore' variant's subset: an approximation of BLS "services
+    less rent of shelter" (CUUR0000SASL2RS, which it is graded against) over
+    our coarse components — medical, education & comm, recreation, the two
+    energy services and the CPI residual. Goods inside those categories (and
+    in the residual) are an honest caveat: not a true services-only cut."""
     raw = json.loads((path or DEFAULT_PATH).read_text())
     supercore = tuple(raw["supercore_components"])
     codes = {c["code"] for c in raw["components"]}

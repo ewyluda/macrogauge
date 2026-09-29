@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import gaptable from "../../../public/data/gaptable.json";
 import official from "../../../public/data/official.json";
+import compare from "../../../public/data/compare.json";
 import { GapDecomposition } from "@/components/GapDecomposition";
 import { GapVariantStrip } from "@/components/GapVariantStrip";
 import { ContributionSection } from "@/components/ContributionSection";
@@ -14,8 +15,17 @@ export const metadata: Metadata = {
 };
 
 // each variant's gap is taken against its own reference print (lib/reconcile
-// VARIANT_REF): CPI, core CPI for supercore, PCEPI for the PCE-weighted gauge
+// VARIANT_REF): CPI, BLS services less rent of shelter for supercore (from
+// compare.json; core CPI when an older artifact lacks it), PCEPI for PCE
+const svc = (() => {
+  const c = compare as unknown as { months: string[]; official_supercore_yoy_pct?: (number | null)[] };
+  const col = c.official_supercore_yoy_pct;
+  if (!col) return undefined;
+  for (let i = col.length - 1; i >= 0; i--) if (col[i] != null) return { yoy_pct: col[i], month: c.months[i] };
+  return undefined;
+})();
 const refs = {
+  ...(svc ? { services: svc } : {}),
   cpi: { yoy_pct: official.headline.cpi.yoy_pct, month: official.headline.cpi.month },
   core: { yoy_pct: official.headline.core.yoy_pct, month: official.headline.core.month },
   pce: { yoy_pct: official.headline.pce.yoy_pct, month: official.headline.pce.month },

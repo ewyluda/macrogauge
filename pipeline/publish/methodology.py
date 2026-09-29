@@ -71,11 +71,16 @@ VARIANTS = {
            "rides live too. Graded vs official CPI.",
     "tracker": "Official shelter dynamics; only fuel, electricity and piped "
                "gas ride live — built to re-track the print.",
-    "supercore": "Services-ex-shelter approximation over our 14 coarse "
-                 "components (medical, education & comm, recreation, "
-                 "and the CPI residual 'everything else') — includes goods subcomponents "
-                 "inside those categories, so it is not a true PCE "
-                 "core-services cut. Graded vs official core CPI.",
+    "supercore": "Approximation of BLS 'services less rent of shelter' over "
+                 "our coarse components (medical, education & comm, "
+                 "recreation, electricity, utility gas and the CPI residual "
+                 "'everything else', ~45% of it) — those categories still hold "
+                 "goods (drugs, computers, TVs, furnishings, tobacco), so it "
+                 "is not a services-only cut and runs below the BLS series. "
+                 "Graded vs BLS services less rent of shelter "
+                 "(CUUR0000SASL2RS), not core CPI. Unlike the market "
+                 "'supercore' it includes energy services, as the BLS "
+                 "aggregate does.",
     "pce": "Same 14 components under hand-seeded BEA underlying-detail "
            "share weights instead of BLS relative importance, graded vs "
            "the official PCE price index rather than CPI.",

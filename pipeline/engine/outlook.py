@@ -127,6 +127,18 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
     if signals.fresh_series(used_rows, used_cfg["series"], staleness, today):
         used_value, _ = signals.lookback_return(used_rows, origin_month, used_cfg["lookback_months"])
     used_asof = signals.month_asof(used_rows, origin_month)
+    tracker = gauge_result["variants"].get("tracker", {}).get("components", {})
+    used_trend_source = "gauge"
+    if used_value is not None and "used_vehicles" in tracker:
+        # The gauge's used-car levels are Manheim-spliced, so their trailing
+        # median already carries the wholesale move the Manheim driver below
+        # adds again (a double count). With the driver live, the base rate is
+        # the OFFICIAL used-car trend (tracker: CUUR0000SETA02) and Manheim
+        # enters once, as the driver.
+        base_mom["used_vehicles"] = min(cap_high, max(cap_low, signals.median_mom(
+            signals.component_trend_levels(tracker["used_vehicles"], origin_month),
+            trailing_window, fallback=neutral_mom)))
+        used_trend_source = "official"
 
     wage_cfg = config["wages"]
     wage_rows = vintage.latest(conn, wage_cfg["series"])
@@ -195,7 +207,8 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
                 used_value, "%", used_asof,
                 "live" if used_value is not None else "fallback",
                 f"{used_cfg['pass_through']:.0%} retail pass-through over "
-                f"{used_cfg['horizon_months']} months",
+                f"{used_cfg['horizon_months']} months"
+                + (", on the official used-car trend" if used_trend_source == "official" else ""),
                 [used_cfg["series"]] if used_value is not None else []),
         _driver("new_vehicles", "New vehicles (own complete-month trend)",
                 base_mom.get("new_vehicles"), "%/mo", origin_month + "-01", "fallback",

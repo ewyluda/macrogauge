@@ -554,3 +554,43 @@ def test_gate_holds_weekend_dated_lead_shifted_point_on_monday(tmp_path):
     g = gauge.run(conn, today="2019-01-08", basket_path=bp,
                   staleness=STALENESS)["variants"]["gauge"]
     assert g["gate_flags"] == []                       # Tuesday: passes
+
+
+YR_MINI = {"base_month": "2018-01", "supercore_components": ["gas"], "components": [
+    {"code": "gas", "label": "Piped gas", "weight": 1.0, "pce_weight": 1.0,
+     "official_series": "OFF_GAS", "live_blend": {"LIVE_GAS": 1.0},
+     "live_method": "year_ratio", "live_variants": ["gauge"]}]}
+
+
+def _year_ratio_store(tmp_path, live_jan):
+    # Official: last year's Dec->Jan seasonal turn is +10%; the last print is
+    # Dec 2018. EIA-like live source: same +10% Dec->Jan shape last year, and
+    # a Jan-2019 obs arriving today that extends the tail past the print.
+    rows = [("OFF_GAS", "2017-12-01", 100.0), ("OFF_GAS", "2018-01-01", 110.0),
+            ("OFF_GAS", "2018-06-01", 104.0), ("OFF_GAS", "2018-12-01", 100.0),
+            ("LIVE_GAS", "2017-12-01", 50.0), ("LIVE_GAS", "2018-01-01", 55.0),
+            ("LIVE_GAS", "2018-12-01", 50.0)]
+    vintage.append([Observation(c, d, v, "2018-12-20", "T", "API") for c, d, v in rows]
+                   + [Observation("LIVE_GAS", "2019-01-01", live_jan, "2019-01-05", "T", "API")],
+                   tmp_path)
+    bp = tmp_path / "basket.json"
+    bp.write_text(json.dumps(YR_MINI))
+    return vintage.load(tmp_path), bp
+
+
+def test_year_ratio_tail_seasonal_turn_is_not_held(tmp_path):
+    """2026-09-28: the year-ratio tail's step off the last print carries last
+    year's official seasonal move (+10% here). The gate tests the like-month
+    change (0% here), so a seasonal turn is not held as a spike."""
+    conn, bp = _year_ratio_store(tmp_path, live_jan=55.0)
+    g = gauge.run(conn, today="2019-01-05", basket_path=bp)["variants"]["gauge"]
+    assert g["components"]["gas"]["mode"] == "live"
+    assert g["gate_flags"] == []
+    idx = g["components"]["gas"]["daily_index"]
+    assert idx["2019-01-01"] / idx["2018-12-01"] == pytest.approx(1.10)
+
+
+def test_year_ratio_tail_like_month_surprise_is_held(tmp_path):
+    conn, bp = _year_ratio_store(tmp_path, live_jan=60.5)  # +10% vs last year's shape
+    g = gauge.run(conn, today="2019-01-05", basket_path=bp)["variants"]["gauge"]
+    assert g["gate_flags"] == ["gas@2019-01-01"]

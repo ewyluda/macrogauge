@@ -13,26 +13,29 @@ const LABELS: Record<string, { label: string; href?: string }> = {
   pce: { label: "PCE-weighted", href: "/pce" },
 };
 
-const REF_LABEL: Record<VariantRef, string> = { cpi: "official CPI", core: "core CPI", pce: "PCEPI" };
+const REF_LABEL: Record<VariantRef, string> = { cpi: "official CPI", core: "core CPI", services: "BLS services less rent of shelter", pce: "PCEPI" };
 
 /** Every variant's headline gap in one strip. gaptable.json publishes the
  *  row-level decomposition for the main gauge only; the other variants carry
  *  a summary (YoY, as-of, live coverage) — that is what this shows, each gap
  *  taken against the variant's OWN reference print: CPI for the CPI-comparable
- *  variants, core CPI for supercore, PCEPI for the PCE-weighted gauge
- *  (official.json headline). */
+ *  variants, BLS services less rent of shelter for supercore (core CPI on older
+ *  artifacts), PCEPI for the PCE-weighted gauge. */
 export function GapVariantStrip({
   variants,
   refs,
 }: {
   variants: Record<string, VariantSummary>;
-  refs: Record<VariantRef, RefPrint>;
+  refs: Partial<Record<VariantRef, RefPrint>>;
 }) {
   return (
     <div className="quote-board" style={{ margin: "12px 0 16px" }} data-testid="gap-variant-strip">
       {Object.entries(variants).map(([key, v]) => {
         const meta = LABELS[key] ?? { label: key };
-        const refKey = VARIANT_REF[key];
+        // supercore is graded on BLS services less rent of shelter; older
+        // artifacts without that column fall back to core CPI
+        let refKey: VariantRef | undefined = VARIANT_REF[key];
+        if (refKey === "services" && !refs.services) refKey = "core";
         const ref = refKey ? refs[refKey] : undefined;
         const gap = variantGap(v.yoy_pct, ref);
         return (

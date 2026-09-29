@@ -132,7 +132,7 @@ export default function Matrix() {
         <KpiCard
           label="PCE bridge"
           value={nowcast.pce.mom_pct == null ? "—" : `${nowcast.pce.mom_pct.toFixed(2)}%`}
-          context={`${nowcast.pce.parameters.observations ?? "—"} rolling observations`}
+          context={`${nowcast.pce.reference_month ?? nowcast.reference_month ?? "TBA"} MoM · ${nowcast.pce.parameters.observations ?? "—"} rolling observations`}
           accent="violet"
         />
         <KpiCard
