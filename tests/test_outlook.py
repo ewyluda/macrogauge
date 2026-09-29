@@ -300,3 +300,43 @@ def test_outlook_writer_matches_schema(tmp_path):
         path,
         Path(__file__).parent.parent / "schemas" / "outlook.schema.json",
     )
+
+
+def _used_car_world(gauge_mom=1.0, official_mom=0.1):
+    """Gauge used-car levels ride Manheim (+1%/mo); the official CPI series
+    (tracker variant) trends +0.1%/mo."""
+    base = _gauge_result()
+
+    def path(mom):
+        month, level, out = "2021-01-01", 100.0, {}
+        for _ in range(48):
+            out[month] = level
+            level *= 1 + mom / 100
+            month = next_month(month)
+        return out
+
+    base["variants"]["gauge"]["components"]["used_vehicles"].update(
+        daily_index=path(gauge_mom), last_obs="2024-12-01")
+    base["variants"]["tracker"] = {"components": {"used_vehicles": {
+        "weight": 0.03, "daily_index": path(official_mom), "last_obs": "2024-12-01"}}}
+    return base
+
+
+def test_used_cars_take_official_trend_when_manheim_driver_is_live(tmp_path):
+    # Manheim both spliced into the gauge's levels AND as the driver counted
+    # the wholesale move twice: path = Manheim trend + Manheim shock.
+    _seed_forward_drivers(tmp_path / "store")
+    conn = vintage.load(tmp_path / "store")
+    result = outlook.run(conn, _used_car_world())
+    shock = signals.distributed_return(6.0 * 0.7, 3)
+    first = result["component_paths"]["used_vehicles"][0]["mom_pct"]
+    assert first == pytest.approx(0.1 + shock, abs=1e-3)  # not 1.0 + shock
+    driver = next(d for d in result["drivers"] if d["key"] == "used_vehicles")
+    assert driver["effect"].endswith("on the official used-car trend")
+
+
+def test_used_cars_keep_own_trend_without_a_live_driver(tmp_path):
+    conn = vintage.load(tmp_path / "store")  # no Manheim rows: driver fallback
+    result = outlook.run(conn, _used_car_world())
+    first = result["component_paths"]["used_vehicles"][0]["mom_pct"]
+    assert first == pytest.approx(1.0, abs=1e-3)

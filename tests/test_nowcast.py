@@ -231,6 +231,26 @@ def test_lagging_used_vehicles_gets_manheim_slice(tmp_path):
         signals.distributed_return(3.0 * 0.7, 3), abs=1e-4)
 
 
+def test_used_vehicles_driver_rides_official_trend_not_manheim_levels(tmp_path):
+    # Gauge used-car levels are Manheim-spliced (+1%/mo); the official series
+    # (tracker) trends +0.1%/mo. With the Manheim driver live, trend + driver
+    # must be official trend + Manheim once — not Manheim twice.
+    _seed(tmp_path, "manheim_uvvi_m", [("2026-02-01", 200.0), ("2026-05-01", 206.0)])
+    conn = vintage.load(tmp_path)
+    gauge = _sticky_gauge(code="used_vehicles", monthly_pct=1.0)
+    official = _sticky_gauge(code="used_vehicles", monthly_pct=0.1)
+    gauge["variants"]["tracker"] = official["variants"]["gauge"]
+    row = cpi_nowcast(gauge, "2026-06", conn=conn, config=DRIVER_CONFIG)["components"][0]
+    driver = signals.distributed_return(3.0 * 0.7, 3)
+    assert row["basis"] == "trend+driver"
+    assert row["mom_pct"] == pytest.approx(0.1 + driver, abs=0.01)
+    # without a live driver the component keeps its own (gauge) trend
+    stale = cpi_nowcast(gauge, "2026-06", conn=conn, config=DRIVER_CONFIG,
+                        staleness={"manheim_uvvi_m": 7}, today="2026-06-20")
+    assert stale["components"][0]["basis"] == "trend"
+    assert stale["components"][0]["mom_pct"] == pytest.approx(1.0, abs=0.01)
+
+
 def test_energy_components_stay_trend_only_with_full_store(tmp_path):
     _seed(tmp_path, "fmp_natgas", [("2026-03-10", 100.0), ("2026-06-10", 112.0)])
     conn = vintage.load(tmp_path)

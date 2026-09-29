@@ -58,6 +58,11 @@ def _driver_slice(code: str, conn, config: dict, through_month: str,
 
 OFFICIAL_ONLY = ("shelter_owned", "shelter_rent")
 
+# Components whose forward driver is the same series the gauge splices into
+# their levels (used cars: Manheim both ways). Their trend must come from the
+# official series when the driver applies, or the move is counted twice.
+DRIVER_IS_LIVE_SOURCE = ("used_vehicles",)
+
 
 FOOD_ENERGY = ("food_home", "food_away", "fuel", "electricity", "nat_gas")
 
@@ -129,10 +134,16 @@ def cpi_nowcast(gauge_result: dict, target_month: str, conn=None,
             # Modeled: the component's grid is pure forward-fill inside the
             # target month; its own capped trailing-median trend replaces the
             # fabricated 0.0 (same base-rate rule as the outlook).
-            levels = signals.component_trend_levels(component, prior[:7])
+            driver_mom = _driver_slice(code, conn, config, target[:7], staleness, today)
+            trend_source = component
+            if driver_mom is not None and code in DRIVER_IS_LIVE_SOURCE and code in tracker:
+                # The gauge's used-car levels ARE Manheim (spliced): a trend
+                # read off them already holds the wholesale move the Manheim
+                # driver adds again. Official trend + Manheim driver instead.
+                trend_source = tracker[code]
+            levels = signals.component_trend_levels(trend_source, prior[:7])
             move = min(hi, max(lo, signals.median_mom(
                 levels, int(config["trailing_median_months"]), fallback=neutral)))
-            driver_mom = _driver_slice(code, conn, config, target[:7], staleness, today)
             basis = "trend"
             if driver_mom is not None:
                 move += driver_mom
