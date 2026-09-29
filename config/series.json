@@ -31,7 +31,8 @@
     "EIA_SPOT": {"route": "API", "cadence": "daily", "secret": "EIA_API_KEY"},
     "KALSHI_CORE": {"route": "API", "cadence": "daily"},
     "KALSHI_DC": {"route": "API", "cadence": "daily"},
-    "KALSHI_FED": {"route": "API", "cadence": "daily"}
+    "KALSHI_FED": {"route": "API", "cadence": "daily"},
+    "NYFED": {"route": "CSV", "cadence": "monthly"}
   },
   "series": [
     {"code": "CPIAUCNS",        "source": "FRED",     "source_id": "CPIAUCNS",                     "name": "CPI-U all items (NSA)",              "max_staleness_days": 80},
@@ -290,6 +291,7 @@
     {"code": "IREXPETCOM", "source": "FRED", "source_id": "IREXPETCOM", "name": "Import price index ex computers, semiconductors, and petroleum", "max_staleness_days": 80},
     {"code": "B235RC1Q027SBEA", "source": "FRED", "source_id": "B235RC1Q027SBEA", "name": "Federal customs duties (NIPA, quarterly SAAR, $bn) — effective tariff rate numerator", "max_staleness_days": 230},
     {"code": "A255RC1Q027SBEA", "source": "FRED", "source_id": "A255RC1Q027SBEA", "name": "Imports of goods (NIPA, quarterly SAAR, $bn) — effective tariff rate denominator", "max_staleness_days": 230},
+    {"code": "GSCPI", "source": "NYFED", "source_id": "GSCPI", "name": "NY Fed Global Supply Chain Pressure Index (std devs from average; monthly)", "max_staleness_days": 80},
     {"code": "T5YIE", "source": "FRED", "source_id": "T5YIE", "name": "5-year breakeven inflation", "max_staleness_days": 10},
     {"code": "CCSA", "source": "FRED", "source_id": "CCSA", "name": "Continued unemployment claims", "max_staleness_days": 21},
     {"code": "PCUOMFGOMFG", "source": "FRED", "source_id": "PCUOMFGOMFG", "name": "PPI total manufacturing", "max_staleness_days": 80},

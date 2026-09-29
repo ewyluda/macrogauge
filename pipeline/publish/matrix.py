@@ -27,6 +27,7 @@ GROUPS = [
         ("IREXPETCOM", "Import prices ex-petroleum", "% YoY (computed)", "monthly", True),
         ("CHNTOT", "Import prices, goods from China", "% YoY (computed)", "monthly", True),
         ("CUSR0000SACL1E", "Core goods CPI (tariff pass-through)", "% YoY (computed)", "monthly", True),
+        ("GSCPI", "NY Fed Global Supply Chain Pressure Index", "std dev from avg", "monthly", False),
     ]),
     ("EXPECTATIONS", [
         ("T5YIE", "5-year breakeven", "%", "daily", False),

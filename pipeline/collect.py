@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from pipeline.connectors import (aaa, aptlist, bls, caiso, census, cleveland, dramex, eia, fmp,
-                                 fred, ice, kalshi, manheim, miso, mnd, openrouter, pmms, qcew,
+                                 fred, ice, kalshi, manheim, miso, mnd, nyfed, openrouter, pmms, qcew,
                                  sfcompute, treasury, usda, vastai, zillow)
 from pipeline.connectors.util import PartialFetchWarning
 from pipeline.registry import Series, Source
@@ -150,6 +150,10 @@ def _miso(subset, key, http):
     return miso.fetch([s.source_id for s in subset], http_get=http)
 
 
+def _nyfed(subset, key, http):
+    return nyfed.fetch([s.source_id for s in subset], http_get=http)
+
+
 def _ice(subset, key, http):
     return ice.fetch([s.source_id for s in subset], http_get=http)
 
@@ -193,7 +197,8 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             "KALSHI_DC": _kalshi_dc,
             # KALSHI_FED: separate isolation key — the FOMC ladders (market-
             # implied Fed path on /rates) must never fail the CPI rows.
-            "KALSHI_FED": _kalshi_fed}
+            "KALSHI_FED": _kalshi_fed,
+            "NYFED": _nyfed}
 
 # BLS posts; everything else gets. collect_all passes the right client through.
 POST_SOURCES = {"BLS"}

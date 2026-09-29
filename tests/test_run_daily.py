@@ -217,6 +217,8 @@ def fake_get(url, params=None, timeout=None, **kw):
                                            "last_price_dollars": "0.5",
                                            "event_ticker": "KXCPI-26JUL",
                                            "close_time": "2026-08-11T00:00:00Z"}]})
+    if "newyorkfed.org" in url and "gscpi" in url:
+        return _TextResponse((FIXTURES / "nyfed_gscpi.csv").read_text())
     if "fiscaldata.treasury.gov" in url:
         return FakeResponse(json.loads((FIXTURES / "treasury_debt.json").read_text()))
     if "zillowstatic.com" in url:
@@ -322,7 +324,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "revisions.json", "ledger.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 31  # SFCOMPUTE retired, KALSHI_CORE added 2026-09-26, KALSHI_FED 09-28
+    assert len(status["sources"]) == 32  # SFCOMPUTE retired, KALSHI_CORE added 2026-09-26, KALSHI_FED + NYFED 09-28
     assert all(s["ok"] for s in status["sources"])
     kalshi_dc_row = [s for s in status["sources"] if s["name"] == "KALSHI_DC"][0]
     assert kalshi_dc_row["ok"] is True
@@ -451,6 +453,9 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     med = next(r for g in matrix_out["groups"] for r in g["rows"]
                if r["code"] == "MEDCPIM158SFRBCLE")
     assert med["value"] == pytest.approx(320.1)  # FRED fixture latest 2026-04-01
+    gscpi = next(r for g in matrix_out["groups"] for r in g["rows"] if r["code"] == "GSCPI")
+    assert (gscpi["value"], gscpi["as_of"]) == (1.06, "2026-08-01")  # NYFED fixture
+    assert matrix_out["tariffs"]["as_of"] is not None               # FRED fake pair
     # GRADES phase (/dc-scoreboard): the fake store's fixtures span only a
     # couple of months (this suite never backfills ALFRED vintage history --
     # scripts/backfill_dc_vintages.py is a one-off, run once against the
