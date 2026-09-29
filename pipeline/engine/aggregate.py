@@ -89,17 +89,38 @@ def fill_yoy(at_obs: dict[str, float | None], start: str, end: str
     return out
 
 
+def base_month(d: str) -> str:
+    """YYYY-MM of the 365-day YoY base of grid date `d` — the month whose
+    price-updated weights apply to d's Σ w·yoy (backlog #4). The site's
+    lib/contribution.ts baseMonth() mirrors this exactly (a Feb-29 grid date
+    maps to March of the prior year, same as the 365-day YoY itself)."""
+    return (date.fromisoformat(d) - timedelta(days=365)).isoformat()[:7]
+
+
 def weighted_yoy(component_yoys: dict[str, dict[str, float | None]],
-                 weights: dict[str, float]) -> dict[str, float | None]:
+                 weights: dict[str, float],
+                 weights_by_month: dict[str, dict[str, float]] | None = None
+                 ) -> dict[str, float | None]:
     """Headline YoY = sum(w_i * yoy_i) on dates every component covers;
-    weights renormalize like headline(). None where any component is None."""
+    weights renormalize like headline(). None where any component is None.
+
+    weights_by_month (optional, YYYY-MM -> {code: w}): time-varying weights —
+    date d uses the entry for base_month(d), renormalized over the components
+    present (so a subset variant like supercore renormalizes per date); a
+    month with no entry falls back to the fixed `weights`."""
     if not component_yoys:
         return {}
     dates = set.intersection(*(set(c) for c in component_yoys.values()))
     total = sum(weights.values())
     out: dict[str, float | None] = {}
     for d in sorted(dates):
-        vals = [(weights[k], c[d]) for k, c in component_yoys.items()]
-        out[d] = (sum(w * v for w, v in vals) / total
+        w, t = weights, total
+        if weights_by_month:
+            wm = weights_by_month.get(base_month(d))
+            if wm is not None:
+                w = wm
+                t = sum(wm[k] for k in component_yoys)
+        vals = [(w[k], c[d]) for k, c in component_yoys.items()]
+        out[d] = (sum(wk * v for wk, v in vals) / t
                   if all(v is not None for _, v in vals) else None)
     return out

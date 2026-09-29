@@ -26,7 +26,13 @@
           "index": {"type": "array", "items": {"type": "number"}},
           "bls_index": {"type": "array", "items": {"type": "number"}},
           "yoy": {"type": "array", "items": {"type": ["number", "null"]}},
-          "bls_yoy": {"type": "array", "items": {"type": ["number", "null"]}}
+          "bls_yoy": {"type": "array", "items": {"type": ["number", "null"]}},
+          "weights_by_month": {
+            "description": "Headline weight in force for each YoY base month (YYYY-MM): the weight the engine applied at every date d whose base month (d - 365 days) is that month. Absent in artifacts before 2026-09-28 (consumers fall back to `weight`).",
+            "type": "object",
+            "propertyNames": {"pattern": "^\\d{4}-\\d{2}$"},
+            "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+          }
         }
       }
     }

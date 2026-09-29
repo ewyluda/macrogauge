@@ -49,11 +49,19 @@ export const metadata: Metadata = {
     absolute: `US inflation today: ${fmtPct(pulse.gauge.yoy_pct)} macrogauge vs ${fmtPct(pulse.official.yoy_pct)} official CPI`,
   },
 };
-import type { Fuel, NextPrint, Outlook } from "@/lib/types";
+import type { CompareRealtime, Fuel, LeadLagStat, NextPrint, Outlook } from "@/lib/types";
 
 // Cast, don't infer: these artifacts legally degrade (see lib/types.ts).
 const nextprint = nextprintJson as NextPrint;
 const fuel = fuelJson as Fuel;
+// Lead-lag stat on the VINTAGE-TRUE record (compare.json `realtime`, added
+// 2026-09-28): what the gauge read at each month-end, before that month's
+// print. Property read, not destructuring (the #42 webpack-mangle lesson).
+// Older artifacts carry only the hindsight stat, labelled as such.
+const realtime = (compare as { realtime?: CompareRealtime }).realtime;
+const leadLag: { stat: LeadLagStat; basis: "real-time" | "hindsight" } = realtime?.validation.lead_lag
+  ? { stat: realtime.validation.lead_lag, basis: "real-time" }
+  : { stat: compare.validation.gauge.lead_lag ?? null, basis: "hindsight" };
 // component_paths (~11KB) and the full parameters block are unconsumed by the
 // chart — strip them so they never enter the client component's RSC payload.
 const { component_paths: _componentPaths, parameters: outlookParams, ...outlookRest } = outlookJson;
@@ -251,19 +259,27 @@ export default function Home() {
           />
         </div>
         <div className="chart-caption">
-          {compare.validation.gauge.lead_lag ? (
-            <>
+          {leadLag.stat ? (
+            <span
+              data-testid="lead-lag-stat"
+              title={
+                leadLag.basis === "real-time"
+                  ? realtime?.basis
+                  : "Hindsight series: each monthly print applied from its reference month, ~6 weeks before release."
+              }
+            >
               <span style={{ color: "var(--accent-sky)", fontWeight: 600 }}>
                 LEAD-LAG:
               </span>{" "}
-              gauge today correlates {compare.validation.gauge.lead_lag.corr}{" "}
-              with official CPI{" "}
-              {compare.validation.gauge.lead_lag.best_shift_months} month
-              {compare.validation.gauge.lead_lag.best_shift_months === 1
-                ? ""
-                : "s"}{" "}
-              ahead ·{" "}
-            </>
+              {leadLag.basis === "real-time"
+                ? "the gauge as read at each month-end (real-time record, before that month's print) correlates "
+                : "gauge (hindsight series) correlates "}
+              {leadLag.stat.corr} with official CPI{" "}
+              {leadLag.stat.best_shift_months === 0
+                ? "for the same month"
+                : `${leadLag.stat.best_shift_months} month${leadLag.stat.best_shift_months === 1 ? "" : "s"} ahead`}
+              {leadLag.basis === "real-time" && realtime ? ` (${realtime.validation.window})` : ""} ·{" "}
+            </span>
           ) : null}
           CPI-TRACKER {fmtPct(pulse.tracker.yoy_pct)} — built to re-track the
           print · {pulse.gauge.coverage_pct.toFixed(0)}% of basket weight rides

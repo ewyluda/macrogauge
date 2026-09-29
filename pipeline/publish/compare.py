@@ -5,8 +5,10 @@ vs official >= 0.95 on the 2018-now backfill); 1c's methodology page reads it
 from here.
 """
 import statistics
+from datetime import date
 from pathlib import Path
 
+from pipeline.engine import realtime
 from pipeline.engine.gauge import PUBLISH_START
 from pipeline.publish.util import write_json
 from pipeline.store import vintage
@@ -75,7 +77,9 @@ def _lead_lag(official: dict[str, float], ours: dict[str, float | None],
             else {"best_shift_months": best[0], "corr": round(best[1], 4)})
 
 
-def build(gauge_result: dict, conn) -> dict:
+def build(gauge_result: dict, conn, ledger_rows: list[dict] | None = None) -> dict:
+    """`ledger_rows` (store/ledger/pulse.jsonl, via ledger.read_rows) feed
+    the vintage-true `realtime` track where the ledger covers a month-end."""
     off = _official_yoy(conn)
     months = [m for m in sorted(off) if m >= PUBLISH_START]
     official_col = [round(off[m], 2) for m in months]
@@ -121,7 +125,51 @@ def build(gauge_result: dict, conn) -> dict:
         if name == "gauge":
             payload["validation"][name]["lead_lag"] = _lead_lag(
                 off, dict(zip(months, raw)))
+    g = gauge_result["variants"].get("gauge") or {}
+    comps_g = g.get("components") or {}
+    if comps_g and all("obs_dates" in e for e in comps_g.values()):
+        payload["realtime"] = _realtime(g, gauge_result.get("basket") or [],
+                                        conn, months, off, ledger_rows, window)
     return payload
+
+
+REALTIME_BASIS = (
+    "Vintage-true: at each month-end, the gauge headline as it could have "
+    "been known that day. Publish-ledger readings where they exist (since "
+    "2026-07-08); before that a reconstruction that applies each official "
+    "monthly print only from its first release date (CPI-U ALFRED vintages; "
+    "component indexes release with the headline) and each live source only "
+    "after its typical publication lag. Compare the hindsight series, which "
+    "applies every monthly print from its reference month ~6 weeks early.")
+
+
+def _realtime(g: dict, basket, conn, months: list[str],
+              off: dict[str, float], ledger_rows: list[dict] | None,
+              window: str) -> dict:
+    """compare.json `realtime` block (backlog #2): the month-end vintage-true
+    gauge track and its own validation stats vs official CPI."""
+    release = {}
+    for d, _, v in vintage.first_releases(conn, "CPIAUCNS"):
+        lag = (date.fromisoformat(v) - date.fromisoformat(d)).days
+        if 0 <= lag <= realtime.GENUINE_LAG_MAX_DAYS:  # a real release date
+            release[d[:7]] = v
+    lags: dict[str, int] = {}
+    for c in basket:
+        if not c.live_blend:
+            continue
+        lead = c.lead_days or {}
+        lags[c.code] = max(
+            max(0, realtime.typical_lag(vintage.first_releases(conn, s)) - lead.get(s, 0))
+            for s in c.live_blend)
+    tr = realtime.track(g, months, lags, release, ledger_rows)
+    vals = tr["gauge_yoy_pct"]
+    stats = {**_validation([off.get(m) for m in months], vals), "window": window,
+             "lead_lag": _lead_lag(off, dict(zip(months, vals)))}
+    return {**tr, "basis": REALTIME_BASIS,
+            "lag_days": dict(sorted(lags.items())),
+            "n_ledger": tr["source"].count("ledger"),
+            "n_reconstructed": tr["source"].count("reconstructed"),
+            "validation": stats}
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:

@@ -14,9 +14,8 @@ import { fmtPct } from "@/lib/format";
 import {
   DEFAULT_ANSWERS,
   MULTIPLIER_NOTES,
-  applyAnswers,
   contributions,
-  renormalize,
+  personalWeights,
   weightedYoY,
   type Answers,
   type Comp,
@@ -102,8 +101,9 @@ export function MyInflationClient({
   const [answers, setAnswers] = useUrlState<Answers>("me", DEFAULT_ANSWERS, ANSWERS_CODEC);
   const [stateSel, setStateSel] = useUrlState("state", "US", codecs.str(2));
 
+  // the weights in force on the latest date (time-varying headline weights)
   const weights = useMemo(
-    () => (data ? renormalize(applyAnswers(data.components, answers)) : null),
+    () => (data ? personalWeights(data.components, answers, data.dates[data.dates.length - 1]) : null),
     [data, answers]
   );
 
@@ -132,7 +132,7 @@ export function MyInflationClient({
 
   const personalSeries = compareMonths.map((m) => {
     const di = data.dates.indexOf(m);
-    return [m, di === -1 ? null : weightedYoY(data.components, weights, di)] as [
+    return [m, di === -1 ? null : weightedYoY(data.components, personalWeights(data.components, answers, data.dates[di]), di)] as [
       string,
       number | null,
     ];

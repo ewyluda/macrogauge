@@ -59,8 +59,8 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
   const splice = rc.mode === "live" ? splicePosition(rc.index, rc.bls_index) : null;
   const spliceDate = splice == null ? null : replay.dates[splice];
   const gateDates = (rc.gate_flags ?? []).map((f) => f.split("@")[1]).filter(Boolean);
-  const ours = contributionsAt(replay.components, "ours", last);
-  const bls = contributionsAt(replay.components, "bls", last);
+  const ours = contributionsAt(replay.components, "ours", last, replay.dates[last]);
+  const bls = contributionsAt(replay.components, "bls", last, replay.dates[last]);
   const contrib = ours?.find((x) => x.code === code)?.pp ?? null;
   const blsContrib = bls?.find((x) => x.code === code)?.pp ?? null;
   const ann3 = annualizedAt(rc.index, replay.dates, RATE_LOOKBACK_MONTHS.ann3, own);

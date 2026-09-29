@@ -31,8 +31,11 @@ STAGES = [
     {"n": 4, "name": "Aggregate",
      "description": "Laspeyres headline over the daily grid; headline YoY is "
                     "the weighted sum of each component's like-month YoY at "
-                    "its own last observation, carried forward between prints.",
-     "formula": "headline_yoy(d) = sum_i w_i * yoy_i(d)"},
+                    "its own last observation, carried forward between prints. "
+                    "The weights are time-varying: at each date, BLS relative "
+                    "importance price-updated to that date's own YoY base "
+                    "month (d - 365 days).",
+     "formula": "headline_yoy(d) = sum_i w_i(base(d)) * yoy_i(d)"},
     {"n": 5, "name": "Variants",
      "description": "Each published cut assembles the same components with a "
                     "different live/official mix; which component rides live "
@@ -51,6 +54,11 @@ LIMITATIONS = [
     "Component YoY is computed at each component's own last observation "
     "(like month vs like month), so lagging series compare honestly at the "
     "cost of timeliness.",
+    "The daily history is a hindsight series: each monthly official print is "
+    "applied from its reference month, ~6 weeks before release. The "
+    "per-variant validation stats use it; the real-time record (compare.json "
+    "`realtime`, and the homepage lead-lag) applies each print only from its "
+    "release date.",
 ]
 
 VARIANTS = {
@@ -114,7 +122,12 @@ def build(gauge_result: dict, conn, sources: dict, series: list, comps,
                             if vintage.max_obs_date(conn, s) is not None],
             "official_series": comp.official_series,
             "yoy_pct": None if e["yoy_pct"] is None else round(e["yoy_pct"], 2)})
-    weighted_bls = sum(r["weight"] * r["bls_yoy_pct"]
+    # Reconstruct the latest official print with the weights of ITS YoY base
+    # month (comp.weight: latest print - 12). gaptable rows now carry the
+    # grid-end date's weights (time-varying weights, backlog #4), which can
+    # be one base month later than the print's.
+    print_w = {c.code: c.weight for c in comps}
+    weighted_bls = sum(print_w.get(r["component"], r["weight"]) * r["bls_yoy_pct"]
                        for r in gaptable_payload["rows"])
     return {
         "stats": {"series_count": len(series), "obs_count": obs_count,

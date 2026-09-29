@@ -21,7 +21,10 @@
           "label": {"type": "string"},
           "weight": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
           "ours_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
-          "official_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}}
+          "official_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
+          "weights": {
+            "description": "Headline weight in force at each month's sampled grid day (time-varying weights, 2026-09-28), aligned with `months`. Absent in older artifacts (consumers fall back to `weight`).",
+            "type": "array", "items": {"type": "number", "minimum": 0, "maximum": 1}}
         }
       }
     }

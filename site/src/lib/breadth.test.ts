@@ -46,3 +46,17 @@ describe("breadthRows", () => {
     expect(latestBreadth(rows)?.month).toBe("m2");
   });
 });
+
+describe("breadthRows — time-varying weights", () => {
+  it("uses each month's own published weights when present", () => {
+    const comps: QuiltComponent[] = [
+      { code: "a", label: "A", weight: 0.9, ours_yoy_pct: [1, 1], official_yoy_pct: [1, 1], weights: [0.4, 0.6] },
+      { code: "b", label: "B", weight: 0.1, ours_yoy_pct: [3, 3], official_yoy_pct: [3, 3], weights: [0.6, 0.4] },
+    ];
+    const rows = breadthRows(["m1", "m2"], comps, "ours");
+    expect(rows[0].aboveWeightPct).toBeCloseTo(60, 9); // b (3% > 2%) carries 0.6 in m1
+    expect(rows[1].aboveWeightPct).toBeCloseTo(40, 9); // and 0.4 in m2
+    expect(rows[0].weightedMedian).toBe(3);
+    expect(rows[1].weightedMedian).toBe(1);
+  });
+});

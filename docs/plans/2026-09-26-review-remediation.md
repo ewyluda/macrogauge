@@ -71,12 +71,17 @@ GitHub crons remain the fallback._
 1. **Hand-curated DC data refresh:** PJM 2028/29 BRA (cleared 2026-07-14, $325/MW-day) in
    `config/dc_power.json`; CBRE H1 2026 in `dc_context.json`; long-lead Q2 pass (VRT, Hitachi, ETN,
    CAT); ORCL FY27 Q1 (RPO $664B, net debt ≈ $88.9B, +850 MW).
-2. **Vintage-true gauge history:** replay `as_of` so compare/lead-lag stats and the homepage
-   correlation stop using hindsight (monthly rows applied ~6 weeks pre-release).
+2. ~~**Vintage-true gauge history**~~ DONE 2026-09-28 (`feat/backlog-history-weights`):
+   compare.json `realtime` month-end track (`pipeline/engine/realtime.py`: ledger rows since
+   2026-07, else official prints from their CPIAUCNS release date + live sources after their
+   measured publication lag); homepage lead-lag now graded on it (0.951 @1mo vs hindsight 0.945).
+   Per-variant `validation` stats remain hindsight (labelled).
 3. **PCE nowcast keyed to the PCE calendar** (target the next PIO release; use the actual CPI once
    out) and a PPI→PCE bridge (airline, physician, hospital, portfolio-management PPIs).
-4. **Time-varying weights through history** (per-month price-updated RI) with per-month weights in
-   replay.json so site contributions keep exact parity.
+4. ~~**Time-varying weights through history**~~ DONE 2026-09-28 (`feat/backlog-history-weights`):
+   Σ w·yoy at date d uses RI price-updated to base_month(d); `weights_by_month` in replay.json
+   (+ per-month `weights` in quilt) and every site weight×yoy consumer reads the date's weight.
+   Tracker corr 0.9939 → 0.9978.
 5. **NAND spot → storage PPI**: pass-through factor + backtest gate, as the power tail has.
 6. **Heat Check on SA inputs**; supercore definition (the residual is 49.5% "other"); Manheim
    double-count in the outlook; seasonal gas gate misfires.

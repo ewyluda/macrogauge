@@ -139,18 +139,35 @@ def effective_weights(conn, basket_components, month: str,
     December table itself missed Aug-2026 CPI by -0.08pp and the seed weights
     by +0.19pp. None when any input is missing at `month` (callers keep the
     configured December weights)."""
+    return effective_weights_by_month(conn, basket_components, [month],
+                                      ri_path)[month]
+
+
+def effective_weights_by_month(conn, basket_components, months,
+                               ri_path: Path | None = None
+                               ) -> dict[str, dict[str, float] | None]:
+    """effective_weights() for many months at once — each official series is
+    read from the store ONCE (the engine asks for ~115 base months: one per
+    grid month, backlog #4 time-varying weights). {month: weights | None}."""
     ensure(conn, basket_components)
     ri = load_ri(ri_path)
-    year = int(month[:4]) - 1
-    w = ri.get(year)
-    if w is None:
-        return None
-    d0, m = f"{year}-12-01", f"{month}-01"
-    raw = {}
-    for c in basket_components:
-        s = dict(vintage.latest(conn, c.official_series))
-        if d0 not in s or m not in s or c.code not in w or not s[d0]:
-            return None
-        raw[c.code] = w[c.code] * s[m] / s[d0]
-    total = sum(raw.values())
-    return {k: v / total for k, v in raw.items()}
+    series = {c.code: dict(vintage.latest(conn, c.official_series))
+              for c in basket_components}
+    out: dict[str, dict[str, float] | None] = {}
+    for month in months:
+        year = int(month[:4]) - 1
+        w = ri.get(year)
+        d0, m = f"{year}-12-01", f"{month}-01"
+        raw = {}
+        for c in basket_components:
+            s = series[c.code]
+            if w is None or d0 not in s or m not in s or c.code not in w or not s[d0]:
+                raw = None
+                break
+            raw[c.code] = w[c.code] * s[m] / s[d0]
+        if raw is None:
+            out[month] = None
+            continue
+        total = sum(raw.values())
+        out[month] = {k: v / total for k, v in raw.items()}
+    return out

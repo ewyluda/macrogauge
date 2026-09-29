@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { GlossaryList } from "@/components/Term";
 import methodology from "../../../public/data/methodology.json";
+import compareJson from "../../../public/data/compare.json";
+import type { CompareRealtime } from "@/lib/types";
 
 // Added 2026-09-26 (config/methodology_changelog.json); absent on older artifacts.
 // Property reads, NOT `const { changelog = [] } = methodology`: webpack mangles
@@ -10,6 +12,9 @@ import methodology from "../../../public/data/methodology.json";
 const methodologyMeta = artifact("methodology", methodology);
 const changelog = methodologyMeta.changelog ?? [];
 const methodologyVersion = methodologyMeta.methodology_version;
+// compare.json `realtime` (2026-09-28): the vintage-true month-end track's
+// own validation. Property read (same webpack lesson); absent on older files.
+const realtime = (compareJson as { realtime?: CompareRealtime }).realtime;
 import { Section } from "@/components/Section";
 import { MethodologyInventory } from "@/components/MethodologyInventory";
 import { fmtSigned } from "@/lib/format";
@@ -228,11 +233,30 @@ export default function Methodology() {
           {"lead_lag" in v.gauge && v.gauge.lead_lag ? (
             <div style={statChip}>
               <div style={{ fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--muted)" }}>
-                lead vs print
+                lead vs print · hindsight
               </div>
               <div style={{ fontSize: 15, marginTop: 4 }}>
                 best corr <b>{v.gauge.lead_lag.corr}</b> at{" "}
                 <b>{v.gauge.lead_lag.best_shift_months}mo</b> ahead
+              </div>
+            </div>
+          ) : null}
+          {realtime ? (
+            <div style={statChip} title={realtime.basis} data-testid="realtime-validation">
+              <div style={{ fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--muted)" }}>
+                gauge · real-time record · {realtime.validation.window}
+              </div>
+              <div style={{ fontSize: 15, marginTop: 4 }}>
+                corr <b>{realtime.validation.corr ?? "—"}</b> · mean abs gap{" "}
+                <b>{realtime.validation.mean_abs_gap_pp ?? "—"}pp</b>
+                {realtime.validation.lead_lag ? (
+                  <> · best <b>{realtime.validation.lead_lag.corr}</b> at{" "}
+                    <b>{realtime.validation.lead_lag.best_shift_months}mo</b> ahead</>
+                ) : null}
+              </div>
+              <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 4 }}>
+                month-end readings as knowable that day · {realtime.n_ledger} from the publish ledger,{" "}
+                {realtime.n_reconstructed} reconstructed from release-dated prints
               </div>
             </div>
           ) : null}
