@@ -24,7 +24,7 @@ def test_load_real_registry():
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC", "KALSHI_CORE",
                             "EIA_STATE_RES"}
-    assert len(series) == 705
+    assert len(series) == 706
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]

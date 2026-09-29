@@ -166,6 +166,27 @@ def test_gpu_index_permanent_exit_links_without_a_jump(tmp_path):
     assert h["2026-10-03"] == pytest.approx(100 * 1.331 ** (1 / 3), abs=1e-3)  # 110.0
 
 
+def test_display_only_b300_is_priced_but_never_joins_the_index(tmp_path):
+    # vast_b300 enters (09-29) after sfc_h100 retired (09-24). As a member it
+    # would leave no day on which EVERY member was priced -> a null index.
+    # Display-only: its row is priced, the index is untouched.
+    days = ["2026-09-23", "2026-09-24", "2026-09-29", "2026-09-30"]
+    prices = {c: {d: 1.0 for d in days}
+              for c in ("vast_h100_sxm", "vast_a100_sxm", "vast_rtx4090")}
+    prices["sfc_h100"] = {"2026-09-23": 2.0, "2026-09-24": 2.0}
+    prices["vast_b300"] = {"2026-09-29": 11.0, "2026-09-30": 22.0}
+    conn = _gpu_store(tmp_path, prices)
+    p = compute.build(conn, staleness={c: 7 for c, _ in compute.GPUS})
+    rows = {g["code"]: g for g in p["gpus"]}
+    assert rows["vast_b300"]["usd_per_gpu_hr"] == 22.0
+    assert rows["vast_b300"]["in_index"] is False
+    assert rows["vast_h100_sxm"]["in_index"] is True
+    gi = p["gpu_index"]
+    assert gi["base_date"] == "2026-09-23" and gi["value"] == pytest.approx(100.0)
+    path = compute.write(p, tmp_path / "out", "2026-09-30T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "compute.schema.json")
+
+
 def test_gpu_index_carried_member_books_its_move_on_arrival(tmp_path):
     # a member missing one day links flat that day (carried) and its full
     # move lands when its next price arrives — nothing is lost or doubled

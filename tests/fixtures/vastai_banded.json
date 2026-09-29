@@ -1,0 +1,2659 @@
+{
+ "recorded": "2026-09-28",
+ "responses": {
+  "[\"RTX 4090\", null]": {
+   "offers": [
+    {
+     "id": 46655560,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.1362962962962963,
+     "dph_base": 0.13333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52391850,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.33629629629629626,
+     "dph_base": 0.3333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53273049,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.3577777777777778,
+     "dph_base": 0.3466666666666667,
+     "rentable": true
+    },
+    {
+     "id": 39646545,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.3622222222222223,
+     "dph_base": 0.36000000000000004,
+     "rentable": true
+    },
+    {
+     "id": 51882495,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4022222222222222,
+     "dph_base": 0.39999999999999997,
+     "rentable": true
+    },
+    {
+     "id": 53295401,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4044444444444444,
+     "dph_base": 0.39999999999999997,
+     "rentable": true
+    },
+    {
+     "id": 53263800,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 53168370,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 45095711,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 51351001,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 49418051,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 45777644,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 53244106,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42962962962962964,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 50985535,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.43259259259259264,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 50821056,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.43259259259259264,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 52761489,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.44053333333333333,
+     "dph_base": 0.44,
+     "rentable": true
+    },
+    {
+     "id": 46801831,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4414814814814815,
+     "dph_base": 0.44,
+     "rentable": true
+    },
+    {
+     "id": 51640737,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.44222222222222224,
+     "dph_base": 0.44,
+     "rentable": true
+    },
+    {
+     "id": 51121057,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4562962962962963,
+     "dph_base": 0.45333333333333337,
+     "rentable": true
+    },
+    {
+     "id": 51365776,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4577777777777778,
+     "dph_base": 0.45333333333333337,
+     "rentable": true
+    },
+    {
+     "id": 28271698,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4672592592592592,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 47079050,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4675555555555556,
+     "dph_base": 0.4653333333333334,
+     "rentable": true
+    },
+    {
+     "id": 52713946,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4681481481481481,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 53098673,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46888888888888886,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 34785269,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46888888888888886,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 53187116,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46888888888888886,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 52837226,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46888888888888886,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 41676723,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46888888888888886,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 50405130,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46962962962962956,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 49570424,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4703703703703703,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 52628544,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.47111111111111104,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 50003773,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.47407407407407404,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 53001826,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4822222222222223,
+     "dph_base": 0.48000000000000004,
+     "rentable": true
+    },
+    {
+     "id": 52867004,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4822222222222223,
+     "dph_base": 0.48000000000000004,
+     "rentable": true
+    },
+    {
+     "id": 52661348,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4937777777777777,
+     "dph_base": 0.49199999999999994,
+     "rentable": true
+    },
+    {
+     "id": 47098169,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53244693,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53222744,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53289551,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53280095,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52214344,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52955203,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52885649,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52406280,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52998917,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52554658,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52434896,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 51773318,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53132502,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53269009,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52603707,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.507037037037037,
+     "dph_base": 0.5033333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53070139,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5088888888888888,
+     "dph_base": 0.5066666666666666,
+     "rentable": true
+    },
+    {
+     "id": 50607409,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5088888888888888,
+     "dph_base": 0.5066666666666666,
+     "rentable": true
+    },
+    {
+     "id": 51932007,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5096296296296295,
+     "dph_base": 0.5066666666666666,
+     "rentable": true
+    },
+    {
+     "id": 53061818,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5222222222222223,
+     "dph_base": 0.52,
+     "rentable": true
+    },
+    {
+     "id": 53278554,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5355555555555556,
+     "dph_base": 0.5333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 51632016,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5355555555555556,
+     "dph_base": 0.5333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52511398,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5404888888888889,
+     "dph_base": 0.5382666666666667,
+     "rentable": true
+    },
+    {
+     "id": 49496471,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5622222222222223,
+     "dph_base": 0.56,
+     "rentable": true
+    },
+    {
+     "id": 52126082,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6014814814814815,
+     "dph_base": 0.6,
+     "rentable": true
+    },
+    {
+     "id": 52125965,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6014814814814815,
+     "dph_base": 0.6,
+     "rentable": true
+    },
+    {
+     "id": 47591298,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6022222222222222,
+     "dph_base": 0.6,
+     "rentable": true
+    },
+    {
+     "id": 52219219,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.6688888888888889,
+     "dph_base": 0.6666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 29933348,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6688888888888889,
+     "dph_base": 0.6666666666666666,
+     "rentable": true
+    }
+   ]
+  },
+  "[\"RTX 4090\", {\"gte\": 0.0, \"lt\": 1.0}]": {
+   "offers": [
+    {
+     "id": 46655542,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.1362962962962963,
+     "dph_base": 0.13333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52391850,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.33629629629629626,
+     "dph_base": 0.3333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 39646545,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.3622222222222223,
+     "dph_base": 0.36000000000000004,
+     "rentable": true
+    },
+    {
+     "id": 51369819,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4022222222222222,
+     "dph_base": 0.39999999999999997,
+     "rentable": true
+    },
+    {
+     "id": 53295401,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4044444444444444,
+     "dph_base": 0.39999999999999997,
+     "rentable": true
+    },
+    {
+     "id": 53263800,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 53168370,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 45095711,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 51351001,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 49418051,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 53244106,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42962962962962964,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 51243838,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.43259259259259264,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 50821056,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.43259259259259264,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 52761489,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.44053333333333333,
+     "dph_base": 0.44,
+     "rentable": true
+    },
+    {
+     "id": 46801831,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4414814814814815,
+     "dph_base": 0.44,
+     "rentable": true
+    },
+    {
+     "id": 51640737,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.44222222222222224,
+     "dph_base": 0.44,
+     "rentable": true
+    },
+    {
+     "id": 52207942,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4551851851851852,
+     "dph_base": 0.45333333333333337,
+     "rentable": true
+    },
+    {
+     "id": 49905847,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4555555555555556,
+     "dph_base": 0.45333333333333337,
+     "rentable": true
+    },
+    {
+     "id": 50632846,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4555555555555556,
+     "dph_base": 0.45333333333333337,
+     "rentable": true
+    },
+    {
+     "id": 51121057,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4562962962962963,
+     "dph_base": 0.45333333333333337,
+     "rentable": true
+    },
+    {
+     "id": 51365776,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4577777777777778,
+     "dph_base": 0.45333333333333337,
+     "rentable": true
+    },
+    {
+     "id": 50678030,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46719999999999995,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 49545603,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4675555555555556,
+     "dph_base": 0.4653333333333334,
+     "rentable": true
+    },
+    {
+     "id": 52713946,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4681481481481481,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 53098673,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46888888888888886,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 52837226,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46888888888888886,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 41676723,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46888888888888886,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 50405130,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46962962962962956,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 49570424,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4703703703703703,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 52628544,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.47111111111111104,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 50003773,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.47407407407407404,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 46820017,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.48111111111111116,
+     "dph_base": 0.48000000000000004,
+     "rentable": true
+    },
+    {
+     "id": 53001826,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4822222222222223,
+     "dph_base": 0.48000000000000004,
+     "rentable": true
+    },
+    {
+     "id": 52867004,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4822222222222223,
+     "dph_base": 0.48000000000000004,
+     "rentable": true
+    },
+    {
+     "id": 52661348,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4937777777777777,
+     "dph_base": 0.49199999999999994,
+     "rentable": true
+    },
+    {
+     "id": 51582668,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.49481481481481476,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53244693,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53222744,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53289551,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53280095,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52214344,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52955203,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52885649,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52406280,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52998917,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52554658,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53005836,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 51773318,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53132502,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53269009,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52603707,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.507037037037037,
+     "dph_base": 0.5033333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53070139,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5088888888888888,
+     "dph_base": 0.5066666666666666,
+     "rentable": true
+    },
+    {
+     "id": 50406968,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5096296296296295,
+     "dph_base": 0.5066666666666666,
+     "rentable": true
+    },
+    {
+     "id": 53080136,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5222222222222223,
+     "dph_base": 0.52,
+     "rentable": true
+    },
+    {
+     "id": 53278554,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5355555555555556,
+     "dph_base": 0.5333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 51890698,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5622222222222223,
+     "dph_base": 0.56,
+     "rentable": true
+    },
+    {
+     "id": 49972289,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5622222222222223,
+     "dph_base": 0.56,
+     "rentable": true
+    },
+    {
+     "id": 52126082,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6014814814814815,
+     "dph_base": 0.6,
+     "rentable": true
+    },
+    {
+     "id": 52125965,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6014814814814815,
+     "dph_base": 0.6,
+     "rentable": true
+    },
+    {
+     "id": 52126036,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6014814814814815,
+     "dph_base": 0.6,
+     "rentable": true
+    },
+    {
+     "id": 47591298,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6022222222222222,
+     "dph_base": 0.6,
+     "rentable": true
+    },
+    {
+     "id": 52219219,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.6688888888888889,
+     "dph_base": 0.6666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 50608092,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.7355555555555556,
+     "dph_base": 0.7333333333333334,
+     "rentable": true
+    },
+    {
+     "id": 52143100,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.7511111111111112,
+     "dph_base": 0.7466666666666667,
+     "rentable": true
+    }
+   ]
+  },
+  "[\"RTX 4090\", {\"gte\": 0.0, \"lt\": 0.5}]": {
+   "offers": [
+    {
+     "id": 46655716,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.20296296296296296,
+     "dph_base": 0.19999999999999998,
+     "rentable": true
+    },
+    {
+     "id": 52391850,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.33629629629629626,
+     "dph_base": 0.3333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 39646545,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.3622222222222223,
+     "dph_base": 0.36000000000000004,
+     "rentable": true
+    },
+    {
+     "id": 51369819,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4022222222222222,
+     "dph_base": 0.39999999999999997,
+     "rentable": true
+    },
+    {
+     "id": 53295401,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4044444444444444,
+     "dph_base": 0.39999999999999997,
+     "rentable": true
+    },
+    {
+     "id": 53263800,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 53168370,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 45095711,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 51351001,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42888888888888893,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 53244106,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.42962962962962964,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 50985345,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.43259259259259264,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 50821056,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.43259259259259264,
+     "dph_base": 0.4266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 52761489,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.44053333333333333,
+     "dph_base": 0.44,
+     "rentable": true
+    },
+    {
+     "id": 46801831,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4414814814814815,
+     "dph_base": 0.44,
+     "rentable": true
+    },
+    {
+     "id": 47039615,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4494222222222222,
+     "dph_base": 0.4472,
+     "rentable": true
+    },
+    {
+     "id": 52207942,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4551851851851852,
+     "dph_base": 0.45333333333333337,
+     "rentable": true
+    },
+    {
+     "id": 49905847,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4555555555555556,
+     "dph_base": 0.45333333333333337,
+     "rentable": true
+    },
+    {
+     "id": 50632846,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4555555555555556,
+     "dph_base": 0.45333333333333337,
+     "rentable": true
+    },
+    {
+     "id": 53189080,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4555555555555556,
+     "dph_base": 0.45333333333333337,
+     "rentable": true
+    },
+    {
+     "id": 51121057,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4562962962962963,
+     "dph_base": 0.45333333333333337,
+     "rentable": true
+    },
+    {
+     "id": 52628526,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4577777777777778,
+     "dph_base": 0.45333333333333337,
+     "rentable": true
+    },
+    {
+     "id": 51365776,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4577777777777778,
+     "dph_base": 0.45333333333333337,
+     "rentable": true
+    },
+    {
+     "id": 47079050,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4675555555555556,
+     "dph_base": 0.4653333333333334,
+     "rentable": true
+    },
+    {
+     "id": 49545603,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4675555555555556,
+     "dph_base": 0.4653333333333334,
+     "rentable": true
+    },
+    {
+     "id": 53098673,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46888888888888886,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 53187116,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46888888888888886,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 52837226,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46888888888888886,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 41676723,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46888888888888886,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 50405130,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.46962962962962956,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 49570424,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4703703703703703,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 45843293,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.47222222222222215,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 50003773,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.47407407407407404,
+     "dph_base": 0.4666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 46820017,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.48111111111111116,
+     "dph_base": 0.48000000000000004,
+     "rentable": true
+    },
+    {
+     "id": 53001826,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4822222222222223,
+     "dph_base": 0.48000000000000004,
+     "rentable": true
+    },
+    {
+     "id": 52867004,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4822222222222223,
+     "dph_base": 0.48000000000000004,
+     "rentable": true
+    },
+    {
+     "id": 52661348,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4937777777777777,
+     "dph_base": 0.49199999999999994,
+     "rentable": true
+    },
+    {
+     "id": 31668029,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4939259259259259,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 50590094,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4951851851851851,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 47469767,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53075874,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 47745976,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 47098169,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53244693,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53222744,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53289551,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53280095,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52214344,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52955203,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52885649,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52406280,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52998917,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52554658,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52434896,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 51773318,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 51831767,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53269009,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.4955555555555555,
+     "dph_base": 0.4933333333333333,
+     "rentable": true
+    }
+   ]
+  },
+  "[\"RTX 4090\", {\"gte\": 0.5, \"lt\": 1.0}]": {
+   "offers": [
+    {
+     "id": 52603707,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.507037037037037,
+     "dph_base": 0.5033333333333333,
+     "rentable": true
+    },
+    {
+     "id": 45406725,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5085185185185185,
+     "dph_base": 0.5066666666666666,
+     "rentable": true
+    },
+    {
+     "id": 53070139,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5088888888888888,
+     "dph_base": 0.5066666666666666,
+     "rentable": true
+    },
+    {
+     "id": 50607409,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5088888888888888,
+     "dph_base": 0.5066666666666666,
+     "rentable": true
+    },
+    {
+     "id": 51932007,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5096296296296295,
+     "dph_base": 0.5066666666666666,
+     "rentable": true
+    },
+    {
+     "id": 50406968,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5096296296296295,
+     "dph_base": 0.5066666666666666,
+     "rentable": true
+    },
+    {
+     "id": 48232732,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5111111111111111,
+     "dph_base": 0.5066666666666666,
+     "rentable": true
+    },
+    {
+     "id": 53251387,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5222222222222223,
+     "dph_base": 0.52,
+     "rentable": true
+    },
+    {
+     "id": 53080136,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5222222222222223,
+     "dph_base": 0.52,
+     "rentable": true
+    },
+    {
+     "id": 53010543,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5222222222222223,
+     "dph_base": 0.52,
+     "rentable": true
+    },
+    {
+     "id": 53278554,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5355555555555556,
+     "dph_base": 0.5333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 51220369,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5355555555555556,
+     "dph_base": 0.5333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 51890698,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5622222222222223,
+     "dph_base": 0.56,
+     "rentable": true
+    },
+    {
+     "id": 49496471,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5622222222222223,
+     "dph_base": 0.56,
+     "rentable": true
+    },
+    {
+     "id": 46785569,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.5948148148148149,
+     "dph_base": 0.5933333333333334,
+     "rentable": true
+    },
+    {
+     "id": 52126082,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6014814814814815,
+     "dph_base": 0.6,
+     "rentable": true
+    },
+    {
+     "id": 53029171,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6014814814814815,
+     "dph_base": 0.6,
+     "rentable": true
+    },
+    {
+     "id": 52125444,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6014814814814815,
+     "dph_base": 0.6,
+     "rentable": true
+    },
+    {
+     "id": 52125965,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6014814814814815,
+     "dph_base": 0.6,
+     "rentable": true
+    },
+    {
+     "id": 52126036,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6014814814814815,
+     "dph_base": 0.6,
+     "rentable": true
+    },
+    {
+     "id": 39884168,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6035555555555555,
+     "dph_base": 0.6,
+     "rentable": true
+    },
+    {
+     "id": 47789184,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6431111111111111,
+     "dph_base": 0.6386666666666666,
+     "rentable": true
+    },
+    {
+     "id": 33435509,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6688888888888889,
+     "dph_base": 0.6666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 52219219,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.6688888888888889,
+     "dph_base": 0.6666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 47554699,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 0.6688888888888889,
+     "dph_base": 0.6666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 52143100,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.7511111111111112,
+     "dph_base": 0.7466666666666667,
+     "rentable": true
+    },
+    {
+     "id": 53290087,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.8014814814814815,
+     "dph_base": 0.7999999999999999,
+     "rentable": true
+    },
+    {
+     "id": 43303090,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.8022222222222222,
+     "dph_base": 0.7999999999999999,
+     "rentable": true
+    },
+    {
+     "id": 31736832,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.8022222222222222,
+     "dph_base": 0.7999999999999999,
+     "rentable": true
+    },
+    {
+     "id": 50284182,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.8022222222222222,
+     "dph_base": 0.7999999999999999,
+     "rentable": true
+    },
+    {
+     "id": 52668847,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.8555555555555556,
+     "dph_base": 0.8533333333333334,
+     "rentable": true
+    },
+    {
+     "id": 48771641,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.8924444444444445,
+     "dph_base": 0.888,
+     "rentable": true
+    },
+    {
+     "id": 52996431,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.9355555555555555,
+     "dph_base": 0.9333333333333332,
+     "rentable": true
+    },
+    {
+     "id": 47635081,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.961851851851852,
+     "dph_base": 0.9600000000000001,
+     "rentable": true
+    },
+    {
+     "id": 52393805,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.9888888888888888,
+     "dph_base": 0.9866666666666666,
+     "rentable": true
+    },
+    {
+     "id": 52992242,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.9888888888888888,
+     "dph_base": 0.9866666666666666,
+     "rentable": true
+    },
+    {
+     "id": 50300638,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 0.9903703703703702,
+     "dph_base": 0.9866666666666666,
+     "rentable": true
+    }
+   ]
+  },
+  "[\"RTX 4090\", {\"gte\": 1.0, \"lt\": 4.0}]": {
+   "offers": [
+    {
+     "id": 45630892,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 1.0418518518518518,
+     "dph_base": 1.04,
+     "rentable": true
+    },
+    {
+     "id": 52312374,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 1.0688888888888888,
+     "dph_base": 1.0666666666666667,
+     "rentable": true
+    },
+    {
+     "id": 51214168,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 1.0955555555555554,
+     "dph_base": 1.0933333333333333,
+     "rentable": true
+    },
+    {
+     "id": 47334601,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 1.1220740740740742,
+     "dph_base": 1.12,
+     "rentable": true
+    },
+    {
+     "id": 50728364,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 1.1222222222222222,
+     "dph_base": 1.12,
+     "rentable": true
+    },
+    {
+     "id": 20266704,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 1.1383407407407407,
+     "dph_base": 1.1333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 31829237,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 1.177037037037037,
+     "dph_base": 1.1733333333333333,
+     "rentable": true
+    },
+    {
+     "id": 39518987,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 1.2703703703703704,
+     "dph_base": 1.2666666666666666,
+     "rentable": true
+    },
+    {
+     "id": 38637438,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 1.2822222222222222,
+     "dph_base": 1.28,
+     "rentable": true
+    },
+    {
+     "id": 53119953,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 1.3355555555555554,
+     "dph_base": 1.3333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52812727,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 1.337037037037037,
+     "dph_base": 1.3333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 52710803,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 1.4014814814814816,
+     "dph_base": 1.4000000000000001,
+     "rentable": true
+    },
+    {
+     "id": 51071482,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 1.6074074074074072,
+     "dph_base": 1.5999999999999999,
+     "rentable": true
+    },
+    {
+     "id": 44713759,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 1.7622222222222221,
+     "dph_base": 1.76,
+     "rentable": true
+    },
+    {
+     "id": 46218730,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 1.762962962962963,
+     "dph_base": 1.76,
+     "rentable": true
+    },
+    {
+     "id": 36643056,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 1.8725925925925924,
+     "dph_base": 1.8666666666666665,
+     "rentable": true
+    },
+    {
+     "id": 52180335,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 1.9229629629629632,
+     "dph_base": 1.9200000000000002,
+     "rentable": true
+    },
+    {
+     "id": 52213357,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 1.9229629629629632,
+     "dph_base": 1.9200000000000002,
+     "rentable": true
+    },
+    {
+     "id": 51754927,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 1.9229629629629632,
+     "dph_base": 1.9200000000000002,
+     "rentable": true
+    },
+    {
+     "id": 51754822,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 1.9229629629629632,
+     "dph_base": 1.9200000000000002,
+     "rentable": true
+    },
+    {
+     "id": 8936324,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 5,
+     "dph_total": 2.001659259259259,
+     "dph_base": 1.9999999999999998,
+     "rentable": true
+    },
+    {
+     "id": 8993658,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 5,
+     "dph_total": 2.001659259259259,
+     "dph_base": 1.9999999999999998,
+     "rentable": true
+    },
+    {
+     "id": 25814733,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 5,
+     "dph_total": 2.002222222222222,
+     "dph_base": 1.9999999999999998,
+     "rentable": true
+    },
+    {
+     "id": 52814544,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 2.002222222222222,
+     "dph_base": 2.0,
+     "rentable": true
+    },
+    {
+     "id": 52375914,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 2.082222222222222,
+     "dph_base": 2.08,
+     "rentable": true
+    },
+    {
+     "id": 53211607,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 2.1355555555555554,
+     "dph_base": 2.1333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 22694031,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 2.137037037037037,
+     "dph_base": 2.1333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 22692662,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 2.1385185185185187,
+     "dph_base": 2.1333333333333333,
+     "rentable": true
+    },
+    {
+     "id": 53271476,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 2.290222222222222,
+     "dph_base": 2.288,
+     "rentable": true
+    },
+    {
+     "id": 52963863,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 2.402222222222222,
+     "dph_base": 2.4,
+     "rentable": true
+    },
+    {
+     "id": 46255396,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 2.5637037037037036,
+     "dph_base": 2.56,
+     "rentable": true
+    },
+    {
+     "id": 53177401,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 2.5644444444444443,
+     "dph_base": 2.56,
+     "rentable": true
+    },
+    {
+     "id": 51857339,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 5,
+     "dph_total": 2.6042962962962966,
+     "dph_base": 2.6,
+     "rentable": true
+    },
+    {
+     "id": 49906446,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 2.667262311111111,
+     "dph_base": 2.664,
+     "rentable": true
+    },
+    {
+     "id": 53065113,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 2.6688888888888886,
+     "dph_base": 2.6666666666666665,
+     "rentable": true
+    },
+    {
+     "id": 53255201,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 4,
+     "dph_total": 2.6711111111111108,
+     "dph_base": 2.6666666666666665,
+     "rentable": true
+    },
+    {
+     "id": 50727494,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 2.674074074074074,
+     "dph_base": 2.6666666666666665,
+     "rentable": true
+    },
+    {
+     "id": 52969850,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 2.7088888888888887,
+     "dph_base": 2.7066666666666666,
+     "rentable": true
+    },
+    {
+     "id": 48647864,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 5,
+     "dph_total": 2.7355555555555555,
+     "dph_base": 2.7333333333333334,
+     "rentable": true
+    },
+    {
+     "id": 41298064,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 7,
+     "dph_total": 3.3614814814814817,
+     "dph_base": 3.3600000000000003,
+     "rentable": true
+    },
+    {
+     "id": 52396973,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 7,
+     "dph_total": 3.362962962962963,
+     "dph_base": 3.3600000000000003,
+     "rentable": true
+    },
+    {
+     "id": 51754891,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 7,
+     "dph_total": 3.362962962962963,
+     "dph_base": 3.3600000000000003,
+     "rentable": true
+    },
+    {
+     "id": 51564116,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 3.738518518518519,
+     "dph_base": 3.7333333333333334,
+     "rentable": true
+    },
+    {
+     "id": 51737460,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 3.842962962962963,
+     "dph_base": 3.8400000000000003,
+     "rentable": true
+    },
+    {
+     "id": 26435148,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 3.842962962962963,
+     "dph_base": 3.8400000000000003,
+     "rentable": true
+    },
+    {
+     "id": 51754677,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 3.842962962962963,
+     "dph_base": 3.8400000000000003,
+     "rentable": true
+    }
+   ]
+  },
+  "[\"RTX 4090\", {\"gte\": 4.0, \"lt\": 16.0}]": {
+   "offers": [
+    {
+     "id": 42544505,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 4.010370370370371,
+     "dph_base": 4.0,
+     "rentable": true
+    },
+    {
+     "id": 16391304,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 4.055555555555556,
+     "dph_base": 4.053333333333334,
+     "rentable": true
+    },
+    {
+     "id": 50510106,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 4.055555555555556,
+     "dph_base": 4.053333333333334,
+     "rentable": true
+    },
+    {
+     "id": 51542328,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 4.268888888888889,
+     "dph_base": 4.266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 51840658,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 4.269629629629629,
+     "dph_base": 4.266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 43226762,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 4.272592592592592,
+     "dph_base": 4.266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 50986322,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 4.272592592592592,
+     "dph_base": 4.266666666666667,
+     "rentable": true
+    },
+    {
+     "id": 36821252,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 4.485925925925926,
+     "dph_base": 4.48,
+     "rentable": true
+    },
+    {
+     "id": 51126106,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 4.485925925925926,
+     "dph_base": 4.48,
+     "rentable": true
+    },
+    {
+     "id": 45813081,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 12,
+     "dph_total": 6.0822222222222235,
+     "dph_base": 6.080000000000001,
+     "rentable": true
+    },
+    {
+     "id": 53004539,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 6.401481481481481,
+     "dph_base": 6.3999999999999995,
+     "rentable": true
+    },
+    {
+     "id": 50390705,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 9,
+     "dph_total": 6.6037037037037045,
+     "dph_base": 6.6000000000000005,
+     "rentable": true
+    },
+    {
+     "id": 51339331,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 2,
+     "dph_total": 8.002222222222223,
+     "dph_base": 8.0,
+     "rentable": true
+    },
+    {
+     "id": 45654096,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 14,
+     "dph_total": 10.274074074074077,
+     "dph_base": 10.26666666666667,
+     "rentable": true
+    },
+    {
+     "id": 53154223,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 5,
+     "dph_total": 13.535555555555556,
+     "dph_base": 13.533333333333333,
+     "rentable": true
+    },
+    {
+     "id": 41755381,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 12,
+     "dph_total": 15.202666666666662,
+     "dph_base": 15.199999999999996,
+     "rentable": true
+    }
+   ]
+  },
+  "[\"RTX 4090\", {\"gte\": 16.0, \"lt\": 64.0}]": {
+   "offers": [
+    {
+     "id": 47202811,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 14,
+     "dph_total": 16.783555555555555,
+     "dph_base": 16.781333333333333,
+     "rentable": true
+    },
+    {
+     "id": 48598384,
+     "gpu_name": "RTX 4090",
+     "gpu_frac": 1.0,
+     "num_gpus": 1,
+     "dph_total": 26.66888888888889,
+     "dph_base": 26.666666666666668,
+     "rentable": true
+    }
+   ]
+  },
+  "[\"RTX 4090\", {\"gte\": 64.0}]": {
+   "offers": []
+  },
+  "[\"B300\", null]": {
+   "offers": [
+    {
+     "id": 50525846,
+     "gpu_name": "B300",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 65.00208333333333,
+     "dph_base": 65.0,
+     "rentable": true
+    },
+    {
+     "id": 48838128,
+     "gpu_name": "B300",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 70.00138888888888,
+     "dph_base": 70.0,
+     "rentable": true
+    },
+    {
+     "id": 53283120,
+     "gpu_name": "B300",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 90.00208333333333,
+     "dph_base": 90.0,
+     "rentable": true
+    },
+    {
+     "id": 53283030,
+     "gpu_name": "B300",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 90.00208333333333,
+     "dph_base": 90.0,
+     "rentable": true
+    },
+    {
+     "id": 53012213,
+     "gpu_name": "B300",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 120.00555555555557,
+     "dph_base": 120.00000000000001,
+     "rentable": true
+    },
+    {
+     "id": 53260660,
+     "gpu_name": "B300",
+     "gpu_frac": 1.0,
+     "num_gpus": 8,
+     "dph_total": 120.00625000000001,
+     "dph_base": 120.00000000000001,
+     "rentable": true
+    }
+   ]
+  }
+ }
+}

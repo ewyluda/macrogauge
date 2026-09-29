@@ -493,7 +493,7 @@ export type Compute = {
   models: { key: string; label: string; in_usd_mtok: number | null; out_usd_mtok: number | null; blended_usd_mtok: number | null;
             as_of: string | null; chg_30d_pct: number | null; tail: Tail }[];
   token_index: ComputeIndex;
-  gpus: { code: string; label: string; usd_per_gpu_hr: number | null; as_of: string | null; chg_30d_pct: number | null; tail: Tail }[];
+  gpus: { code: string; label: string; usd_per_gpu_hr: number | null; as_of: string | null; chg_30d_pct: number | null; tail: Tail; in_index?: boolean }[];
   gpu_index: ComputeIndex;
 };
 
