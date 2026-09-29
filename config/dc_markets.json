@@ -1,6 +1,6 @@
 {
   "as_of_curated": "2026-07-25",
-  "note": "Tight core counties — the counties where data centers actually are, not the MSA. Broader metro definitions dilute the signal: Northern Virginia reads +9.9% wage YoY tight vs +7.7% across the 11-county metro, because Arlington and Alexandria average in mature non-DC construction.",
+  "note": "Tight core counties — the counties where data centers actually are, not the MSA. Broader metro definitions dilute the signal: when the method was chosen (2026-07, QCEW 2025Q4) Northern Virginia read +9.9% wage YoY on the tight Loudoun + Prince William definition vs +7.7% across the 11-county metro, because Arlington and Alexandria average in mature non-DC construction. Live values are in the market rows.",
   "markets": [
     {"key": "nova", "name": "Northern Virginia", "counties": ["51107", "51153"], "state": "VA", "iso": "PJM", "grid": null, "utility": "Dominion Energy Virginia", "note": "Loudoun + Prince William; Ashburn / Data Center Alley"},
     {"key": "dfw", "name": "Dallas–Fort Worth", "counties": ["48113", "48439", "48139"], "state": "TX", "iso": "ERCOT", "grid": null, "utility": "Oncor", "note": "Dallas + Tarrant + Ellis"},

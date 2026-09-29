@@ -1,11 +1,11 @@
 {
   "colo": {
-    "rate_kw_mo": 194.95,
-    "yoy_pct": 6.5,
+    "rate_kw_mo": 204.69,
+    "yoy_pct": 4.3,
     "vacancy_pct": 1.4,
-    "under_construction_gw": 5.99,
-    "asof": "H2 2025",
-    "source": "CBRE North America Data Center Trends H2 2025 (cbre.com)"
+    "under_construction_gw": 7.48,
+    "asof": "H1 2026",
+    "source": "CBRE North America Data Center Trends H1 2026 (cbre.com, 2026-08-27): primary-market 250-500 kW asking rate (Figure 3), vacancy, under construction 7,481.1 MW"
   },
   "queue": {
     "generation_gw": 1400,

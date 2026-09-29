@@ -13,9 +13,10 @@ def test_load_real_config():
     assert cfg.henry_hub.code == "eia_henry_hub"
     assert cfg.henry_hub.label == "Henry Hub natural gas"
     assert cfg.capacity_auction["source"].startswith("PJM RPM Base Residual Auction")
-    assert cfg.capacity_auction["asof"] == "2025-12-17"
+    assert cfg.capacity_auction["asof"] == "2026-07-14"  # 2028/29 BRA
     rows = cfg.capacity_auction["rows"]
-    assert len(rows) == 4
+    assert len(rows) == 5
+    assert rows[-1] == {"delivery_year": "2028/29", "price_mw_day": 325.0}
     assert rows[0] == {"delivery_year": "2024/25", "price_mw_day": 28.92}
     assert all(isinstance(r["price_mw_day"], (int, float)) for r in rows)
 
