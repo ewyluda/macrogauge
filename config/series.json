@@ -30,7 +30,8 @@
     "ICE": {"route": "XLSX", "cadence": "biweekly"},
     "EIA_SPOT": {"route": "API", "cadence": "daily", "secret": "EIA_API_KEY"},
     "KALSHI_CORE": {"route": "API", "cadence": "daily"},
-    "KALSHI_DC": {"route": "API", "cadence": "daily"}
+    "KALSHI_DC": {"route": "API", "cadence": "daily"},
+    "KALSHI_FED": {"route": "API", "cadence": "daily"}
   },
   "series": [
     {"code": "CPIAUCNS",        "source": "FRED",     "source_id": "CPIAUCNS",                     "name": "CPI-U all items (NSA)",              "max_staleness_days": 80},
@@ -291,6 +292,7 @@
     {"code": "CCSA", "source": "FRED", "source_id": "CCSA", "name": "Continued unemployment claims", "max_staleness_days": 21},
     {"code": "PCUOMFGOMFG", "source": "FRED", "source_id": "PCUOMFGOMFG", "name": "PPI total manufacturing", "max_staleness_days": 80},
     {"code": "FEDFUNDS", "source": "FRED", "source_id": "FEDFUNDS", "name": "Effective federal funds rate", "max_staleness_days": 80},
+    {"code": "DFEDTARU", "source": "FRED", "source_id": "DFEDTARU", "name": "Federal funds target range upper limit (daily, %)", "max_staleness_days": 7},
     {"code": "HOUST", "source": "FRED", "source_id": "HOUST", "name": "Housing starts", "max_staleness_days": 80},
     {"code": "PERMIT", "source": "FRED", "source_id": "PERMIT", "name": "Building permits", "max_staleness_days": 80},
     {"code": "CSUSHPINSA", "source": "FRED", "source_id": "CSUSHPINSA", "name": "Case-Shiller national home price index", "max_staleness_days": 125},
@@ -689,6 +691,12 @@
     {"code": "cpi_water", "source": "FRED", "source_id": "CUSR0000SEHG", "name": "CPI water, sewer & trash collection services (SA)", "max_staleness_days": 80},
     {"code": "kalshi_dc_count", "source": "KALSHI_DC", "source_id": "KXUSADATACENTERS", "name": "Kalshi market-implied 2026 US data-center count", "max_staleness_days": 30},
     {"code": "kalshi_dc_nuclear", "source": "KALSHI_DC", "source_id": "KXDATACENTER", "name": "Kalshi P(nuclear-powered DC by 2030)", "max_staleness_days": 30},
+    {"code": "kalshi_fed_ref_upper", "source": "KALSHI_FED", "source_id": "KXFED", "name": "Kalshi KXFED reference: fed funds upper bound now in effect (last settled meeting, %); freshness sentinel for the future-dated per-meeting rows", "max_staleness_days": 7},
+    {"code": "kalshi_fed_upper", "source": "KALSHI_FED", "source_id": "KXFED", "name": "Kalshi market-implied fed funds upper bound after each FOMC meeting (%; obs_date = decision date)", "max_staleness_days": 7},
+    {"code": "kalshi_fed_quoted", "source": "KALSHI_FED", "source_id": "KXFED", "name": "Kalshi KXFED last-quoted stamp per FOMC meeting (fetch date as YYYYMMDD; obs_date = decision date)", "max_staleness_days": 7},
+    {"code": "kalshi_fed_p_cut", "source": "KALSHI_FED", "source_id": "KXFED", "name": "Kalshi P(upper bound below today's by each FOMC meeting; obs_date = decision date)", "max_staleness_days": 7},
+    {"code": "kalshi_fed_p_hold", "source": "KALSHI_FED", "source_id": "KXFED", "name": "Kalshi P(upper bound unchanged from today's at each FOMC meeting; obs_date = decision date)", "max_staleness_days": 7},
+    {"code": "kalshi_fed_p_hike", "source": "KALSHI_FED", "source_id": "KXFED", "name": "Kalshi P(upper bound above today's by each FOMC meeting; obs_date = decision date)", "max_staleness_days": 7},
     {"code": "fmp_px_crwv", "source": "FMP_EQ", "source_id": "CRWV:px", "name": "CoreWeave share price $", "max_staleness_days": 7},
     {"code": "fmp_cap_crwv", "source": "FMP_EQ", "source_id": "CRWV:cap", "name": "CoreWeave market cap $B", "max_staleness_days": 7},
     {"code": "fmp_px_orcl", "source": "FMP_EQ", "source_id": "ORCL:px", "name": "Oracle share price $", "max_staleness_days": 7},

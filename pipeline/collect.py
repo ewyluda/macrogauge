@@ -118,6 +118,10 @@ def _kalshi_dc(subset, key, http):
     return kalshi.fetch_dc([s.source_id for s in subset], http_get=http)
 
 
+def _kalshi_fed(subset, key, http):
+    return kalshi.fetch_fed(http_get=http)
+
+
 def _qcew(subset, key, http):
     return qcew.fetch([s.source_id for s in subset], http_get=http)
 
@@ -186,7 +190,10 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             # KALSHI_DC is a separate source key only for failure isolation —
             # thin speculative DC books must never fail the core KALSHI (CPI)
             # row; fetch_dc's skip semantics differ from fetch()'s by design.
-            "KALSHI_DC": _kalshi_dc}
+            "KALSHI_DC": _kalshi_dc,
+            # KALSHI_FED: separate isolation key — the FOMC ladders (market-
+            # implied Fed path on /rates) must never fail the CPI rows.
+            "KALSHI_FED": _kalshi_fed}
 
 # BLS posts; everything else gets. collect_all passes the right client through.
 POST_SOURCES = {"BLS"}

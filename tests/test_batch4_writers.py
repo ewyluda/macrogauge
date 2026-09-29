@@ -82,6 +82,45 @@ def test_rates_spreads_units_and_history(tmp_path):
 
 # --- compute ------------------------------------------------------------
 
+def test_rates_fed_path_from_kalshi_fetch_against_dfedtaru(tmp_path):
+    from pipeline.connectors import kalshi
+    fx = json.loads((Path(__file__).parent / "fixtures" / "kalshi_fed.json").read_text())
+
+    class _R:
+        def __init__(self, p):
+            self.p = p
+
+        def raise_for_status(self):
+            pass
+
+        def json(self):
+            return self.p
+    obs = kalshi.fetch_fed(vintage_date="2026-09-28",
+                           http_get=lambda url, params=None, timeout=None: _R(fx[params["status"]]))
+    # a meeting quoted on an EARLIER fetch but skipped today must not publish
+    stale = [Observation("kalshi_fed_upper", "2027-01-27", 4.3, "2026-09-20", "KALSHI_FED", "API"),
+             Observation("kalshi_fed_quoted", "2027-01-27", 20260920.0, "2026-09-20",
+                         "KALSHI_FED", "API")]
+    fred = [Observation("DFEDTARU", d, v, "2026-09-28", "FRED", "API")
+            for d, v in (("2026-09-15", 3.75), ("2026-09-17", 4.0), ("2026-09-28", 4.0))]
+    fred.append(Observation("FEDFUNDS", "2026-08-01", 3.63, "2026-09-28", "FRED", "API"))
+    vintage.append(stale + obs + fred, tmp_path)
+    p = rates.build(vintage.load(tmp_path))
+    fp = p["fed_path"]
+    assert fp["as_of"] == "2026-09-28" and fp["reference_upper"] == 4.0
+    assert fp["target_upper"] == {"value": 4.0, "as_of": "2026-09-28"}
+    assert fp["effective"] == {"value": 3.63, "as_of": "2026-08-01"}
+    assert fp["reference_matches_target"] is True
+    assert [m["date"] for m in fp["meetings"]] == ["2026-10-28", "2026-12-09"]
+    oct_ = fp["meetings"][0]
+    assert oct_["expected_upper"] == pytest.approx(4.1787, abs=1e-4)
+    assert oct_["implied_change_bp"] == pytest.approx(17.9, abs=0.05)
+    assert oct_["p_hike"] == pytest.approx(0.705, abs=1e-4)
+    assert fp["history"]["dates"][0] == "2026-09-15"
+    path = rates.write(p, tmp_path / "out", "2026-09-28T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "rates.schema.json")
+
+
 def test_compute_index_geometric_mean_renormalizes_and_rebases(tmp_path):
     days = ["2026-07-15", "2026-07-16", "2026-07-17"]
     rows = {}

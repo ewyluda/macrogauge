@@ -98,6 +98,46 @@
         }
       }
     },
+    "fed_path": {
+      "description": "Market-implied Fed path (Kalshi KXFED) vs the official target. Added 2026-09-28; not in the top-level required list so older rates.json files still validate.",
+      "type": "object",
+      "required": ["as_of", "reference_upper", "target_upper", "effective",
+                   "reference_matches_target", "meetings", "method", "history"],
+      "additionalProperties": false,
+      "properties": {
+        "as_of": {"$ref": "#/$defs/day"},
+        "reference_upper": {"$ref": "#/$defs/num"},
+        "target_upper": {"$ref": "#/$defs/point"},
+        "effective": {"$ref": "#/$defs/point"},
+        "reference_matches_target": {"type": ["boolean", "null"]},
+        "meetings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["date", "expected_upper", "implied_change_bp", "p_cut", "p_hold", "p_hike"],
+            "additionalProperties": false,
+            "properties": {
+              "date": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+              "expected_upper": {"type": "number", "minimum": 0, "maximum": 15},
+              "implied_change_bp": {"$ref": "#/$defs/num"},
+              "p_cut": {"$ref": "#/$defs/prob"},
+              "p_hold": {"$ref": "#/$defs/prob"},
+              "p_hike": {"$ref": "#/$defs/prob"}
+            }
+          }
+        },
+        "method": {"type": "string"},
+        "history": {
+          "type": "object",
+          "required": ["dates", "target_upper"],
+          "additionalProperties": false,
+          "properties": {
+            "dates": {"$ref": "#/$defs/days"},
+            "target_upper": {"$ref": "#/$defs/nums"}
+          }
+        }
+      }
+    },
     "history": {
       "type": "object",
       "required": ["dates", "dgs3mo", "dgs2", "dgs10", "t5yie", "t10yie", "hy_oas", "dollar",
@@ -120,6 +160,7 @@
   },
   "$defs": {
     "num": {"type": ["number", "null"]},
+    "prob": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
     "nums": {"type": "array", "items": {"type": ["number", "null"]}},
     "day": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
     "days": {"type": "array", "items": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}},
