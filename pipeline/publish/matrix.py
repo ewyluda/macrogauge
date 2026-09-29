@@ -21,6 +21,7 @@ GROUPS = [
         ("PCETRIM12M159SFRBDAL", "Dallas Fed trimmed-mean PCE", "% YoY", "monthly", False),
         ("COREFLEXCPIM159SFRBATL", "Flexible-price core CPI", "% YoY", "monthly", False),
         ("PCEPILFE", "Core PCE (the Fed's target)", "% YoY (computed)", "monthly", True),
+        ("nyfed_mct", "NY Fed Multivariate Core Trend", "% (trend)", "monthly", False),
     ]),
     ("PIPELINE", [
         ("PPIACO", "PPI all commodities", "% YoY (computed)", "monthly", True),

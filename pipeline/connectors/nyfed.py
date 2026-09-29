@@ -23,6 +23,7 @@ from datetime import datetime
 import requests
 
 from pipeline.connectors.fred import today_et
+from pipeline.connectors.util import warn_partial
 from pipeline.models import Observation
 
 URL = ("https://www.newyorkfed.org/medialibrary/research/interactives/data/"
@@ -40,11 +41,64 @@ def _default_get(url, timeout=60):
 
 def fetch(source_ids: list[str], vintage_date: str | None = None,
           http_get=None) -> list[Observation]:
-    """source_id = "GSCPI" (one series). Every month of the current vintage
-    publishes each run; the store's value-dedupe keeps only the changes, so
-    a revised month lands as a new vintage row."""
+    """source_ids: "GSCPI" and/or "MCT". Each series fails independently
+    (a partial warning), so a redesigned MCT chart file never takes GSCPI
+    down; every series failing raises."""
     http_get = http_get or _default_get
     vintage = vintage_date or today_et()
+    out, errors = [], []
+    for sid in source_ids or ["GSCPI"]:
+        try:
+            out.extend((_fetch_mct if sid == "MCT" else _fetch_gscpi)(sid, vintage, http_get))
+        except Exception as e:  # per-series isolation
+            errors.append((sid, e))
+    if errors and not out:
+        raise errors[0][1]
+    warn_partial("NYFED", errors)
+    return out
+
+
+MCT_URL = ("https://www.newyorkfed.org/medialibrary/Research/Interactives/Data/"
+           "mct/mct-chart-data.csv")
+MCT_PLAUSIBLE = (-2.0, 12.0)   # % annual trend inflation (1970s peak ~8)
+MCT_MIN_MONTHS = 600           # starts 1960-01
+
+
+def _fetch_mct(series_code: str, vintage: str, http_get) -> list[Observation]:
+    """NY Fed Multivariate Core Trend (PCE-based trend inflation, %). The
+    interactive's chart CSV (verified live 2026-09-29) carries three header
+    rows, then a 'column name' row: Date, then four "MCT" columns — 68% band
+    low, MCT point estimate, band high, normalized MCT — then headline and
+    core PCE YoY and the sector decomposition. Only the point estimate (the
+    second MCT column) is read; the header shape is pinned."""
+    resp = http_get(MCT_URL, timeout=60)
+    resp.raise_for_status()
+    rows = list(csv.reader(io.StringIO(resp.text.lstrip("\ufeff"))))
+    head = next((i for i, r in enumerate(rows) if r and r[0].strip() == "column name"), None)
+    if head is None:
+        raise ValueError("nyfed mct: no 'column name' header row (structure drift?)")
+    h = [c.strip() for c in rows[head]]
+    if h[1:6] != ["Date", "MCT", "MCT", "MCT", "MCT"] or "Core PCE inflation (YoY)" not in h:
+        raise ValueError(f"nyfed mct: header {h[:8]!r} changed (structure drift?)")
+    out = []
+    for r in rows[head + 1:]:
+        if len(r) < 4 or not r[1].strip():
+            continue
+        try:
+            month = datetime.strptime(r[1].strip(), "%m/%d/%Y")
+        except ValueError:
+            raise ValueError(f"nyfed mct: date {r[1]!r} is not M/D/YYYY (structure drift?)") from None
+        low, mct, high = (float(r[2]), float(r[3]), float(r[4]))
+        if not (MCT_PLAUSIBLE[0] <= mct <= MCT_PLAUSIBLE[1]) or not (low <= mct <= high):
+            raise ValueError(f"nyfed mct {r[1]}: {mct} (band {low}-{high}) implausible (structure drift?)")
+        out.append(Observation(series_code="nyfed_mct", obs_date=f"{month.year}-{month.month:02d}-01",
+                               value=mct, vintage_date=vintage, source="NYFED", route="CSV"))
+    if len(out) < MCT_MIN_MONTHS:
+        raise ValueError(f"nyfed mct: only {len(out)} months (< {MCT_MIN_MONTHS}; structure drift?)")
+    return out
+
+
+def _fetch_gscpi(series_code: str, vintage: str, http_get) -> list[Observation]:
     resp = http_get(URL, timeout=60)
     resp.raise_for_status()
     rows = list(csv.reader(io.StringIO(resp.text)))
@@ -79,7 +133,7 @@ def fetch(source_ids: list[str], vintage_date: str | None = None,
         if (month.year, month.month) >= (pub.year, pub.month):
             raise ValueError(f"nyfed gscpi: vintage {label} covers {r[0]} — a "
                              "publication cannot cover its own month (structure drift?)")
-        out.append(Observation(series_code=source_ids[0] if source_ids else "GSCPI",
+        out.append(Observation(series_code=series_code,
                                obs_date=f"{month.year}-{month.month:02d}-01",
                                value=value, vintage_date=vintage,
                                source="NYFED", route="CSV"))

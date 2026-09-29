@@ -24,7 +24,7 @@ def test_group_and_row_order_pinned(tmp_path):
     codes = [r["code"] for g in p["groups"] for r in g["rows"]]
     assert codes == ["MEDCPIM158SFRBCLE", "TRMMEANCPIM158SFRBCLE",
                      "CORESTICKM159SFRBATL", "PCETRIM12M159SFRBDAL",
-                     "COREFLEXCPIM159SFRBATL", "PCEPILFE",
+                     "COREFLEXCPIM159SFRBATL", "PCEPILFE", "nyfed_mct",
                      "PPIACO", "IREXPETCOM", "CHNTOT", "CUSR0000SACL1E", "GSCPI",
                      "B235RC1Q027SBEA/A255RC1Q027SBEA",
                      "T5YIE", "T10YIE", "MICH", "T5YIFR", "EXPINF1YR", "EXPINF10YR",
