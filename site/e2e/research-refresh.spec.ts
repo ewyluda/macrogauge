@@ -44,12 +44,14 @@ for (const route of ["/", "/datacenter"]) {
     expect(Math.round(boxes[0].y)).toBe(Math.round(boxes[1].y));
     await chart.locator("summary").filter({ hasText: "Export" }).click();
     const menu = chart.locator("details[open] .research-popover");
-    await expect(menu.getByRole("button", { name: "↓ CSV" })).toBeVisible();
+    // /datacenter names its first export (it carries three CSVs)
+    const csv = menu.getByRole("button", { name: route === "/" ? "↓ CSV" : "↓ Components CSV" });
+    await expect(csv).toBeVisible();
     const box = (await menu.boundingBox())!;
     expect(box.x).toBeGreaterThanOrEqual(0);
     expect(box.x + box.width).toBeLessThanOrEqual(390);
     const downloadEvent = page.waitForEvent("download");
-    await menu.getByRole("button", { name: "↓ CSV" }).click();
+    await csv.click();
     expect((await downloadEvent).suggestedFilename()).toMatch(/\.csv$/);
   });
 }

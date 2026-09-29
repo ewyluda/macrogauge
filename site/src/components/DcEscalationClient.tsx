@@ -265,8 +265,9 @@ export function DcEscalationClient({
                   here, with the measured gap on /dc-scoreboard's methodology,
                   rather than either a silent difference or a paragraph of
                   arithmetic inside a one-line verdict. */}
-              Graded on a reconstruction from official prints only, which can differ
-              slightly in months carrying a live futures tail.{" "}
+              {useOfficial
+                ? "Graded on a reconstruction from official prints only — the same basis as the index chosen above."
+                : "Graded on a reconstruction from official prints only, which can differ slightly in months carrying a live futures tail."}{" "}
               <a href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
                 See how each basis has held up →
               </a>
@@ -375,7 +376,7 @@ export function DcEscalationClient({
               <strong>{p80.ratePct.toFixed(2)}%/yr</strong>: an escalation allowance of{" "}
               <strong>{usd(p80.allowance)}</strong> on this project from {result.endMonth} to{" "}
               {result.forward.deliveryMonth}, which is{" "}
-              <strong>{p80.aboveBasis >= 0 ? usd(p80.aboveBasis) : `−${usd(-p80.aboveBasis)}`}</strong>{" "}
+              <strong>{usd(Math.abs(p80.aboveBasis))}</strong>{" "}
               {p80.aboveBasis >= 0 ? "above" : "below"} carrying the {chosen.label} basis.{" "}
               <span style={{ color: "var(--muted)" }}>
                 A count of precedents ({bandRow.independentDraws.toFixed(1)} independent windows,{" "}

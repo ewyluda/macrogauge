@@ -229,7 +229,7 @@ export default function Datacenter() {
           <>
             <DownloadData compact={false} filename="macrogauge-dc-build-components" json="datacenter.json"
               citation={`MacroGauge DC Build components, as of ${build.as_of}, ${dc.rebase}`}
-              rows={build.components as Comp[]} />
+              rows={build.components as Comp[]} csvLabel="Components CSV" />
             <DownloadData compact={false} filename="macrogauge-dc-build-monthly" json="datacenter.json"
               citation={`MacroGauge DC Build index, monthly (live grid; trailing month carries the proxy tail), ${dc.rebase}`}
               spec={dcBuildMonthlyCsvSpec(buildCodes)} csvLabel="Monthly index CSV" hideJson />
