@@ -288,6 +288,8 @@
     {"code": "DSPIC96", "source": "FRED", "source_id": "DSPIC96", "name": "Real disposable personal income", "max_staleness_days": 95},
     {"code": "PPIACO", "source": "FRED", "source_id": "PPIACO", "name": "Producer price index all commodities", "max_staleness_days": 80},
     {"code": "IREXPETCOM", "source": "FRED", "source_id": "IREXPETCOM", "name": "Import price index ex computers, semiconductors, and petroleum", "max_staleness_days": 80},
+    {"code": "B235RC1Q027SBEA", "source": "FRED", "source_id": "B235RC1Q027SBEA", "name": "Federal customs duties (NIPA, quarterly SAAR, $bn) — effective tariff rate numerator", "max_staleness_days": 230},
+    {"code": "A255RC1Q027SBEA", "source": "FRED", "source_id": "A255RC1Q027SBEA", "name": "Imports of goods (NIPA, quarterly SAAR, $bn) — effective tariff rate denominator", "max_staleness_days": 230},
     {"code": "T5YIE", "source": "FRED", "source_id": "T5YIE", "name": "5-year breakeven inflation", "max_staleness_days": 10},
     {"code": "CCSA", "source": "FRED", "source_id": "CCSA", "name": "Continued unemployment claims", "max_staleness_days": 21},
     {"code": "PCUOMFGOMFG", "source": "FRED", "source_id": "PCUOMFGOMFG", "name": "PPI total manufacturing", "max_staleness_days": 80},

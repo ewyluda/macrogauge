@@ -124,9 +124,19 @@ export type MatrixRow = {
   as_of: string | null;
   cadence: string;
 };
+export type MatrixTariffs = {
+  as_of: string | null;
+  rate_pct: number | null;
+  numerator: string;
+  denominator: string;
+  method: string;
+  history: { dates: string[]; rate_pct: number[]; customs_bn: number[]; goods_imports_bn: number[] };
+};
 export type Matrix = {
   published_at: string;
   groups: { group: string; rows: MatrixRow[] }[];
+  /** effective tariff rate history, added 2026-09-28 — absent in older files */
+  tariffs?: MatrixTariffs;
 };
 
 export type CommodityRow = {
