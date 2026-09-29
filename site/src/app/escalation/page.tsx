@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import dc from "../../../public/data/datacenter.json";
 import gradesJson from "../../../public/data/dc_grades.json";
@@ -8,6 +9,7 @@ import { DcEscalationClient } from "@/components/DcEscalationClient";
 import { ESCALATION_DATA, type EscalationData } from "@/lib/escalationData";
 import { escalationGradeSlice } from "@/lib/dcGrades";
 import type { DcGrades } from "@/lib/types";
+import { artifact } from "@/lib/artifact";
 
 export const metadata: Metadata = {
   title: "DC Escalation Calculator",
@@ -29,7 +31,7 @@ const moverLabels = movers.map((c) => c.label).join(" and ");
 // artifact would serialize its 286-row `anchors` array (~47KB of the ~58KB
 // file) into escalation.html for a component that never touches it — the load
 // cost the design spec says this page does not take on. The slice is ~4KB.
-const grades = escalationGradeSlice(gradesJson as unknown as DcGrades);
+const grades = escalationGradeSlice(artifact<"dc_grades", DcGrades>("dc_grades", gradesJson));
 
 const data: EscalationData = ESCALATION_DATA;
 
@@ -67,7 +69,7 @@ export default function Escalation() {
           which stops at the index&apos;s latest observation ({data.asOf}) and is therefore a
           partial month.
           Escalation is national — state parity multipliers on{" "}
-          <a href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</a> are{" "}
+          <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link> are{" "}
           <em>level</em> multipliers (cost relative to the national average), not escalation
           rates; your base cost for a real site already embeds its location, so applying them
           here would count location twice.
@@ -89,7 +91,7 @@ export default function Escalation() {
           over a sample containing one downturn and one spike, best read as a range of
           precedents rather than a probability. Component sources and weights are
           documented on{" "}
-          <a href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</a>.
+          <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link>.
         </div>
       </Section>
     </div>

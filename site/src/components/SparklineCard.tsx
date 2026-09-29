@@ -58,7 +58,13 @@ export function SparklineCard({
       >
         {price}
       </div>
-      <svg width={w} height={h} style={{ display: "block", maxWidth: "100%" }}>
+      <svg
+        width={w}
+        height={h}
+        style={{ display: "block", maxWidth: "100%" }}
+        role="img"
+        aria-label={`${label} price history: ${prices.length} monthly points, latest ${price} (${asOf})`}
+      >
         <polyline
           points={pts}
           fill="none"

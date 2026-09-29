@@ -125,7 +125,7 @@ export default function RatesPage() {
                 <div className="quote-meta" style={{ fontSize: 11, color: "var(--muted)" }}>
                   30d <Chg v={L.chg_30d} unit={unit as "pp" | "%"} /> · 1y <Chg v={L.chg_1y} unit={unit as "pp" | "%"} /> · {L.as_of ?? "—"}
                 </div>
-                <TailSpark tail={L.tail.values} />
+                <TailSpark tail={L.tail.values} label={label as string} />
               </div>
             );
           })}

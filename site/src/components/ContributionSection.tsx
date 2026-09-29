@@ -139,7 +139,7 @@ export function ContributionSection({
           citation={`MacroGauge contribution to YoY (${mode}), pp, month-end sampling, as of ${data.dates[last]}`} />
       </div>
       <div className="chart-card">
-        <EChart option={option} height={380} />
+        <EChart option={option} height={380} ariaTitle="Contribution to headline YoY by component, percentage points" />
       </div>
       <p style={{ fontSize: 11, color: "var(--muted)", margin: "6px 0 0" }}>
         Each bar segment is weight × that component&apos;s own year-over-year change, in percentage points; the

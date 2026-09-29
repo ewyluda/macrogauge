@@ -94,7 +94,7 @@ export default function Grocery() {
                     <td style={{ color: yoyColor(w.retail_yoy_pct) }}>{fmtSigned(w.retail_yoy_pct)}</td>
                     <td style={{ color: w.spread_pp == null ? "var(--muted)" : w.spread_pp > 0 ? "var(--accent-red)" : "var(--accent-emerald)", fontWeight: 600 }}>{fmtPp(w.spread_pp)}</td>
                     <td style={{ color: "var(--muted)" }}>{w.as_of ?? "—"}</td>
-                    <td><TailSpark tail={w.series.values} /></td>
+                    <td><TailSpark tail={w.series.values} label={w.name} /></td>
                   </tr>
                 );
               })}

@@ -27,7 +27,7 @@ export function LaborMonthlyChart({
     }),
     [months, payrollsYoy, unemploymentRate],
   );
-  return <EChart height={300} option={option} />;
+  return <EChart height={300} option={option} ariaTitle="Payrolls YoY % and unemployment rate %" />;
 }
 
 export function LaborClaimsChart({
@@ -58,5 +58,5 @@ export function LaborClaimsChart({
       ],
     };
   }, [dates, initialClaims]);
-  return <EChart height={240} option={option} />;
+  return <EChart height={240} option={option} ariaTitle="Initial jobless claims, weekly" />;
 }

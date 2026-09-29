@@ -129,8 +129,8 @@ export default function Supercore() {
           (config: supercore_components in basket.json). Why it matters: goods prices
           swing with supply chains and energy with OPEC — supercore is the wage-driven
           core the Fed watches to judge whether inflation is entrenched. Grades against
-          core CPI; see <a href="/methodology" style={{ color: "var(--accent-sky)" }}>
-          methodology</a> for validation stats.
+          core CPI; see <Link href="/methodology" style={{ color: "var(--accent-sky)" }}>
+          methodology</Link> for validation stats.
         </div>
       </Section>
     </div>

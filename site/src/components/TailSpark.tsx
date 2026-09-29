@@ -6,9 +6,12 @@ import { yoyColor } from "@/lib/format";
 export function TailSpark({
   tail,
   stroke,
+  label,
 }: {
   tail: (number | null)[];
   stroke?: string;
+  /** what the trail is ("WTI crude"); leads the text alternative (B15) */
+  label?: string;
 }) {
   const pts = tail
     .map((v, i) => [i, v] as const)
@@ -27,8 +30,11 @@ export function TailSpark({
     )
     .join(" ");
   const last = ys[ys.length - 1];
+  const fmt = (v: number) => (Math.abs(v) >= 1000 ? v.toLocaleString("en-US", { maximumFractionDigits: 0 }) : v.toFixed(2));
+  // B15: an unlabeled SVG trail is invisible to assistive tech
+  const alt = `${label ? `${label} trend` : "Trend"}: ${pts.length} points, from ${fmt(ys[0])} to latest ${fmt(last)}`;
   return (
-    <svg width={w} height={h} style={{ display: "block" }}>
+    <svg width={w} height={h} style={{ display: "block" }} role="img" aria-label={alt}>
       <polyline
         points={line}
         fill="none"

@@ -35,6 +35,7 @@ export function LinesChart({
   refLabel,
   yUnit = "%",
   yPrefix = "",
+  ariaTitle,
 }: {
   series: LineSeries[];
   height?: number;
@@ -45,6 +46,8 @@ export function LinesChart({
    *  "bn" for $bn etc. Strings only: this is rendered from server pages. */
   yUnit?: string;
   yPrefix?: string;
+  /** chart text alternative's lead (B15); series + latest values follow */
+  ariaTitle?: string;
 }) {
   const option = useMemo(
     () => {
@@ -90,5 +93,5 @@ export function LinesChart({
     },
     [series, recessions, refLine, refLabel, yUnit, yPrefix],
   );
-  return <EChart option={option} height={height} />;
+  return <EChart option={option} height={height} ariaTitle={ariaTitle} />;
 }

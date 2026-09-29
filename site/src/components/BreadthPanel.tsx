@@ -1,3 +1,4 @@
+import Link from "next/link";
 import quiltJson from "../../public/data/quilt_months_all.json";
 import compare from "../../public/data/compare.json";
 import { KpiCard } from "./KpiCard";
@@ -78,7 +79,7 @@ export function BreadthPanel({ compact = false }: { compact?: boolean }) {
           </div>
           <p style={{ fontSize: 11, color: "var(--muted)", margin: "6px 0 0" }}>
             Fourteen coarse components, not Cleveland&apos;s 45-item trim — read these as breadth diagnostics beside the
-            Cleveland/Atlanta measures on <a href="/matrix">the matrix</a>, not as substitutes. Trimmed mean drops 16% of
+            Cleveland/Atlanta measures on <Link href="/matrix">the matrix</Link>, not as substitutes. Trimmed mean drops 16% of
             basket weight from each tail (splitting the straddling component) and averages the rest; the median is the
             component at the middle of cumulative weight. Cells are the published quilt YoYs; nothing is re-priced.
           </p>

@@ -2,6 +2,8 @@ import accountabilityJson from "../../public/data/accountability_cpi.json";
 import type { LeaderboardData } from "./Leaderboard";
 import { KpiCard } from "./KpiCard";
 import { Section } from "./Section";
+import { artifact } from "@/lib/artifact";
+import type { AccountabilityArtifact } from "@/lib/generated";
 
 /** "Forecast → result": the latest graded CPI print, every forecaster on the
  *  SA first-release basis, plus component miss attribution once frozen
@@ -12,7 +14,11 @@ type Misses = {
           actual_nsa_mom_pct: number; miss_contribution_pp: number }[];
 } | null;
 
-const acc = accountabilityJson as unknown as { leaderboard?: LeaderboardData; last_print_components?: Misses };
+// leaderboard / last_print_components are not declared in
+// accountability.schema.json, so they ride as a hand-typed refinement of it.
+const acc = artifact<"accountability", AccountabilityArtifact & { leaderboard?: LeaderboardData; last_print_components?: Misses }>(
+  "accountability", accountabilityJson,
+);
 const NAMES: Record<string, string> = { macrogauge: "Macrogauge", cleveland: "Cleveland Fed", kalshi: "Kalshi" };
 
 export function LastPrint() {

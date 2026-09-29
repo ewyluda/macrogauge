@@ -18,6 +18,7 @@ import { LongLeadStrip } from "@/components/LongLeadStrip";
 import { fmtDay, fmtSigned, fmtPp } from "@/lib/format";
 import type { DcGrades, LongLead } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
+import { artifact } from "@/lib/artifact";
 
 export const metadata: Metadata = {
   title: `Data Center Cost Index: build ${fmtSigned(dc.indexes.build.headline_yoy_pct)} · ops ${fmtSigned(dc.indexes.ops.headline_yoy_pct)} · hardware ${fmtSigned(dc.indexes.hardware.headline_yoy_pct)} YoY`,
@@ -36,8 +37,8 @@ const GROUPS = dc.group_labels as Record<string, string>;
 // power_nowcast is nullable in the schema (and its numeric fields can be
 // null on a degraded run) — the methodology paragraph below reads as a
 // complete sentence with or without it.
-const pn = (gradesJson as unknown as DcGrades).power_nowcast;
-const longlead = llJson as unknown as LongLead;
+const pn = artifact<"dc_grades", DcGrades>("dc_grades", gradesJson).power_nowcast;
+const longlead = artifact<"longlead", LongLead>("longlead", llJson);
 
 // What the backtest DECIDED, in English, derived from the verdict the gate
 // recomputes every run. The page used to assert "it lost to simple

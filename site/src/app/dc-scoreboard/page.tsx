@@ -13,8 +13,9 @@ import { BASES, bases, lastCompleteMonth } from "@/lib/dcContingency";
 import { BASIS_LABELS, ESCALATION_BASIS_TO_GRADE } from "@/lib/dcGrades";
 import type { DcGrades } from "@/lib/types";
 import { DC_ANCHORS_CSV } from "@/lib/exportSpecs";
+import { artifact } from "@/lib/artifact";
 
-const data = gradesJson as unknown as DcGrades;
+const data = artifact<"dc_grades", DcGrades>("dc_grades", gradesJson);
 const strict = data.legs?.strict;
 const extended = data.legs?.extended;
 const ruleCount = Object.keys(BASIS_LABELS).length;

@@ -4,6 +4,11 @@
 // types from the *committed sample*, so a valid degraded artifact — nulled
 // fields, empty arrays — would otherwise fail `next build`.
 // Keep in sync with schemas/{fuel,nextprint,nowcast_latest,outlook}.schema.json.
+//
+// Where a type here is passed to `artifact<K, T>()` (lib/artifact.ts) it is a
+// compile-checked REFINEMENT of the schema-generated `ArtifactTypes[K]`
+// (lib/generated, scripts/gen-types.mjs): if the schema changes in a way the
+// hand type no longer satisfies, `next build` fails instead of drifting.
 
 export type Forecaster = { name: string; value: number; kind: string; as_of: string };
 
@@ -212,6 +217,8 @@ export type CapacityTimeline = {
   milestones: Record<string, [string, string, number][]>;
 };
 
+export type CapacitySiteStatus = "o" | "c" | "p" | "s";
+
 export type CapacityCohortKey = "all" | "neocloud" | "hyperscaler";
 
 export type Capacity = {
@@ -221,8 +228,9 @@ export type Capacity = {
   cohorts: Record<CapacityCohortKey, { companies: number; op: number; con: number; plan: number }>;
   timeline: Record<CapacityCohortKey, CapacityTimeline>;
   tenants: [string, string, number | null, string][];
-  geo: { t: string; site: string; mw: number | null; st: string; lat: number; lng: number; when?: string; approx: boolean }[];
-  geo_unmapped: { t: string; site: string; mw: number | null; st: string; why: string }[];
+  // st: o(perating) / c(onstruction) / p(lanned) / s(ecured), per the schema
+  geo: { t: string; site: string; mw: number | null; st: CapacitySiteStatus; lat: number; lng: number; when?: string; approx: boolean; market?: string }[];
+  geo_unmapped: { t: string; site: string; mw: number | null; st: CapacitySiteStatus; why: string }[];
   geo_note: string;
   reference: { nvda_cap_b: number | null; cohort_ev_b: number | null };
 };

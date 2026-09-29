@@ -96,7 +96,7 @@ export default function Metros() {
                   <Yoy pct={m.zori.yoy_pct} />
                 </td>
                 <td>
-                  <TailSpark tail={m.zori.yoy_tail.yoy_pct} />
+                  <TailSpark tail={m.zori.yoy_tail.yoy_pct} label={`${m.name} rent YoY`} />
                 </td>
                 <td>{dollars(m.zhvi.value)}</td>
                 <td>

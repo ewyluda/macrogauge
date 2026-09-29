@@ -26,5 +26,5 @@ export function CurveChart({ curve }: { curve: Rates["curve"] }) {
       ],
     };
   }, [curve]);
-  return <EChart option={option} height={320} />;
+  return <EChart option={option} height={320} ariaTitle="Treasury yield curve, %" />;
 }

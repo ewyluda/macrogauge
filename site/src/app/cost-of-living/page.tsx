@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import gaugeDaily from "../../../public/data/gauge_daily.json";
 import pulse from "../../../public/data/pulse.json";
@@ -105,9 +106,9 @@ export default function CostOfLiving() {
           CPI it correlates {compare.validation.col.corr} with a mean absolute
           gap of {compare.validation.col.mean_abs_gap_pp}pp (
           {compare.validation.col.window}). See{" "}
-          <a href="/methodology" style={{ color: "var(--accent-sky)" }}>
+          <Link href="/methodology" style={{ color: "var(--accent-sky)" }}>
             methodology
-          </a>{" "}
+          </Link>{" "}
           for validation stats.
         </div>
       </Section>

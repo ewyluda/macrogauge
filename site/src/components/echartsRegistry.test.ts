@@ -93,6 +93,15 @@ describe("ECharts lazy wrapper and registry", () => {
     expect(eagerImports.map((f) => path.relative(SRC_DIR, f))).toEqual([]);
   });
 
+  it("gives every chart a text alternative (B15)", () => {
+    // the shared wrapper is the one place a canvas enters the page, so the
+    // role="img" label and ECharts' own aria layer live there for all charts
+    expect(ECHART_WRAPPER).toMatch(/role="img"/);
+    expect(ECHART_WRAPPER).toMatch(/aria-label=\{ariaLabel \?\? chartAriaLabel\(option, ariaTitle\)\}/);
+    expect(registered.has("AriaComponent")).toBe(true);
+    expect(ECHART_CLIENT).toMatch(/aria:\s*\{\s*enabled:\s*true\s*\}/);
+  });
+
   it("finds at least one chart wrapper to audit", () => {
     expect(wrappers.length).toBeGreaterThan(0);
   });

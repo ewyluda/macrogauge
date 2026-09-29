@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import gaugeDaily from "../../../public/data/gauge_daily.json";
 import compareJson from "../../../public/data/compare.json";
@@ -123,7 +124,7 @@ export default function Pce() {
       <Section title="PCE calls — graded against every print">
         <GradeTable rows={reconcileCalls(accountabilityPce)} keyPrefix="pce" />
         <p className="method">
-          The monthly PCE nowcast is a CPI pass-through (see <a href="/matrix">the matrix</a>); the daily PCE gauge
+          The monthly PCE nowcast is a CPI pass-through (see <Link href="/matrix">the matrix</Link>); the daily PCE gauge
           above is a separate object — a re-weighting of live prices, not a forecast.
         </p>
       </Section>

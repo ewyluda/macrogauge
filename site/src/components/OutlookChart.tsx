@@ -112,7 +112,7 @@ export function OutlookChart({ outlook }: { outlook: Outlook }) {
           band = {outlook.sigma_monthly_pp.toFixed(3)}pp/mo × √horizon
         </span>
       </div>
-      <EChart option={option} height={320} />
+      <EChart option={option} height={320} ariaTitle="Macrogauge 12-month outlook, CPI YoY %" />
       <div className="outlook-drivers">
         {outlook.drivers.map((driver) => (
           <div

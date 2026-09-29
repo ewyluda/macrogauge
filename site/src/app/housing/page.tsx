@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import Link from "next/link";
 import housingJson from "../../../public/data/housing.json";

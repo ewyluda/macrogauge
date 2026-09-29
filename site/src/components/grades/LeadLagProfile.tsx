@@ -31,7 +31,7 @@ export function LeadLagProfile({ mappings }: { mappings: LeadLagMapping[] }) {
   if (!mappings.some((m) => m.profile?.length)) return null;
   return (
     <div className="chart-card" style={{ marginBottom: 12 }}>
-      <EChart option={option} height={300} />
+      <EChart option={option} height={300} ariaTitle="Lead-lag correlation profile by lag in months" />
       <div style={{ fontSize: 11, color: "var(--muted)", padding: "4px 8px 6px" }}>
         Solid = cleared the gate; dashed = not stable across the split halves. Peak position is the best lag in the
         table; peak height is its correlation.
