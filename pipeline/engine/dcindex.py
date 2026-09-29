@@ -42,6 +42,63 @@ PUBLISH_START = "2018-01-01"       # writers publish DAILY arrays from here
 MONTHLY_PUBLISH_START = "2007-12"
 
 
+# Indexes that also publish an OFFICIAL-ONLY variant (backlog #12 / P8).
+OFFICIAL_ONLY_INDEXES = ("build",)
+
+
+def official_only(officials: dict[str, dict[str, float]], weights: dict[str, float],
+                  base_month: str) -> dict | None:
+    """The index on official prints alone — no proxy tail, no daily grid.
+
+    Month m = sum(w_c x rebased official_c(m)) over the months from the first
+    on which EVERY component has a print to the last on which every component
+    has one. That is the contract-indexation basis (P8): it never carries a
+    futures-proxy move, so a month once published changes only when the
+    agency revises its own print (the tailed index restates its trailing
+    month every time a new PPI replaces the proxy — 2026-08: 170.62 tailed vs
+    170.50 official). An interior month a component skipped (a shutdown gap)
+    carries that component's previous print, counted in `interior_fills`.
+    Pure function; returns None when no month is fully covered."""
+    monthly = {}
+    for code, obs in officials.items():
+        if not obs:
+            return None
+        idx = rebase.rebase(obs, base_month)
+        by_month: dict[str, float] = {}
+        for d in sorted(idx):
+            by_month[d[:7]] = idx[d]          # a monthly series: one per month
+        monthly[code] = by_month
+    firsts = [min(m) for m in monthly.values()]
+    lasts = [max(m) for m in monthly.values()]
+    start, end = max(firsts), min(lasts)
+    if start > end:
+        return None
+    months, cur = [], start
+    while cur <= end:
+        months.append(cur)
+        y, mo = int(cur[:4]), int(cur[5:7]) + 1
+        cur = f"{y + (mo > 12)}-{(mo - 1) % 12 + 1:02d}"
+    comps: dict[str, list[float]] = {}
+    fills = 0
+    for code, by_month in monthly.items():
+        vals, last = [], None
+        for m in months:
+            if m in by_month:
+                last = by_month[m]
+            elif last is None:
+                return None                   # cannot happen: start >= its first
+            else:
+                fills += 1
+            vals.append(last)
+        comps[code] = vals
+    index = [sum(weights[c] * comps[c][i] for c in comps) for i in range(len(months))]
+    yoy = (None if len(index) < 13 or not index[-13]
+           else (index[-1] / index[-13] - 1) * 100)
+    return {"months": months, "index": index, "components": comps,
+            "last_official": months[-1], "index_yoy_pct": yoy,
+            "interior_fills": fills}
+
+
 def _series(conn: sqlite3.Connection, code: str) -> dict[str, float]:
     return dict(vintage.latest(conn, code))
 
@@ -161,6 +218,8 @@ def run(conn: sqlite3.Connection, today: str,
                      "yoy": aggregate.weighted_yoy(own_yoy, weights),
                      "as_of": end, "gate_flags": flags, "components": components,
                      "monthly": monthly}
+        if name in OFFICIAL_ONLY_INDEXES:
+            out[name]["official_only"] = official_only(officials, weights, base_month)
     # Hedonic-gap panel: YoY at each series' OWN last observation, same
     # like-month honesty as basket components (yoy_at_obs omits month-hole
     # bases). A panel-only series with no store rows degrades to a missing
@@ -184,10 +243,15 @@ def parity_rows(power: dict[str, tuple[str, float]],
                 wage: dict[str, tuple[str, float]],
                 nat_power: tuple[str, float] | None,
                 nat_wage: tuple[str, float] | None,
-                w_labor: float, w_power: float) -> dict:
+                w_labor: float, w_power: float,
+                nat_wage_hist: dict[str, float] | None = None) -> dict:
     """Pinned parity formula (spec §6): mult = w x state_relative + (1 - w).
     Inputs that don't vary by state are pinned at relative 1.0. Pure function;
-    inputs are {state: (obs_date, value)} plus national (obs_date, value)."""
+    inputs are {state: (obs_date, value)} plus national (obs_date, value).
+    nat_wage_hist ({quarter: national wage}) lets a state whose newest quarter
+    lags the national one (QCEW disclosure suppression: PA/NC 2026 Q1) use its
+    OWN latest quarter against the national wage for THAT quarter — still
+    like-for-like — flagged wage_lagged so the page labels the quarter."""
     national = {
         "power": None if not nat_power else {"value": nat_power[1], "as_of": nat_power[0]},
         "wage": None if not nat_wage else {"value": nat_wage[1], "as_of": nat_wage[0]}}
@@ -209,9 +273,18 @@ def parity_rows(power: dict[str, tuple[str, float]],
         # like-for-like quarters only: a state whose newest quarter is
         # disclosure-suppressed keeps its prior-quarter wage in the store —
         # dividing it by the newer national quarter would bias build_mult
-        # low by a quarter of wage growth, so treat it as missing instead
-        if w and nat_wage and nat_wage[1] and w[0] == nat_wage[0]:
-            wage_rel = w[1] / nat_wage[1]
+        # low by a quarter of wage growth. With the national history, the
+        # state's own latest quarter is compared to the national wage for
+        # that SAME quarter (wage_lagged); without it, treat as missing.
+        denom = None
+        if w and nat_wage and nat_wage[1]:
+            if w[0] == nat_wage[0]:
+                denom = nat_wage[1]
+            elif nat_wage_hist and nat_wage_hist.get(w[0]) and w[0] < nat_wage[0]:
+                denom = nat_wage_hist[w[0]]
+                row["wage_lagged"] = True
+        if denom:
+            wage_rel = w[1] / denom
             row["wage_rel"] = round(wage_rel, 4)
             row["build_mult"] = round(w_labor * wage_rel + (1 - w_labor), 4)
             row["wage_asof"] = w[0]
@@ -253,7 +326,8 @@ def parity_from_store(conn: sqlite3.Connection,
                        _by_state(conn, "qcew_wage23_"),
                        _latest_row(conn, "eia_elec_ind_us"),
                        _latest_row(conn, "qcew_wage23_us"),
-                       w_labor, w_power)
+                       w_labor, w_power,
+                       nat_wage_hist=_series(conn, "qcew_wage23_us"))
 
 
 def construction_block(saar: dict[str, float], nsa: dict[str, float],

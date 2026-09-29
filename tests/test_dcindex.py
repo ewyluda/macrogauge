@@ -143,6 +143,45 @@ def test_proxy_splice_and_gate(tmp_path):
     assert b["gate_flags"] == []
 
 
+def test_official_only_ignores_the_proxy_tail(tmp_path):
+    # P8: the build index on official prints alone. The copper proxy moves
+    # +10% after the 2018-02 print; the tailed monthly grid's 2018-02 sample
+    # (last grid day) carries it, the official-only 2018-02 does not.
+    build = [{"code": "copper_wire", "label": "Copper", "group": "materials",
+              "series": "ppi_copper_wire", "weight": 0.5, "live_proxy": "fmp_copper"},
+             {"code": "steel", "label": "Steel", "group": "materials",
+              "series": "ppi_steel", "weight": 0.5}]
+    rows = [("ppi_copper_wire", "2018-01-01", 100.0), ("ppi_copper_wire", "2018-02-01", 102.0),
+            ("ppi_steel", "2018-01-01", 200.0), ("ppi_steel", "2018-02-01", 210.0),
+            ("fmp_copper", "2018-01-15", 50.0), ("fmp_copper", "2018-02-01", 51.0),
+            ("fmp_copper", "2018-02-20", 56.1)] + OPS_ROWS
+    basket = write_basket(tmp_path, build, ONE_COMP_OPS)
+    conn = make_conn(tmp_path, rows)
+    b = dcindex.run(conn, today="2018-02-20", basket_path=basket)["indexes"]["build"]
+    off = b["official_only"]
+    assert off["months"] == ["2018-01", "2018-02"] and off["last_official"] == "2018-02"
+    # 0.5 x 102 + 0.5 x 105 = 103.5 — official prints, rebased 2018-01 = 100
+    assert off["index"] == [pytest.approx(100.0), pytest.approx(103.5)]
+    assert off["components"]["copper_wire"] == [pytest.approx(100.0), pytest.approx(102.0)]
+    tailed_feb = b["monthly"]["index"][b["monthly"]["months"].index("2018-02")]
+    assert tailed_feb > off["index"][1] + 1.0          # the proxy tail moved it
+    assert off["interior_fills"] == 0 and off["index_yoy_pct"] is None   # < 13 months
+    # hardware/ops never carry the variant
+    assert "official_only" not in dcindex.run(conn, today="2018-02-20",
+                                              basket_path=basket)["indexes"]["ops"]
+
+
+def test_official_only_carries_an_interior_gap_and_counts_it():
+    officials = {"a": {"2017-01-01": 100.0, "2017-02-01": 101.0, "2017-04-01": 103.0},
+                 "b": {"2017-01-01": 50.0, "2017-02-01": 50.0, "2017-03-01": 51.0,
+                       "2017-04-01": 52.0, "2017-05-01": 53.0}}
+    out = dcindex.official_only(officials, {"a": 0.5, "b": 0.5}, "2017-01")
+    assert out["months"] == ["2017-01", "2017-02", "2017-03", "2017-04"]   # to min(last)
+    assert out["components"]["a"][2] == pytest.approx(101.0)             # Mar carries Feb
+    assert out["interior_fills"] == 1
+    assert dcindex.official_only({"a": {}}, {"a": 1.0}, "2017-01") is None
+
+
 def test_proxy_tail_anchors_on_reference_month_mean(tmp_path):
     # The 2026-09 regression through the engine: the Aug print (stamped
     # 08-01, priced mid-month) must be scaled on the proxy's August mean, not
@@ -369,6 +408,29 @@ def test_parity_wage_from_older_quarter_treated_as_missing():
     assert row["wage_rel"] is None and row["build_mult"] is None
     assert row["wage_asof"] is None
     assert row["ops_mult"] == pytest.approx(1.11)  # power side unaffected
+
+
+def test_parity_lagged_state_uses_its_own_quarter_against_same_quarter_national():
+    # PA/NC 2026 Q1 suppressed: the state's 2025 Q4 wage is compared to the
+    # NATIONAL 2025 Q4 wage (like-for-like), flagged so the page labels it
+    out = dcindex.parity_rows(
+        power={"pa": ("2026-05-01", 12.0), "tx": ("2026-05-01", 9.0)},
+        wage={"pa": ("2025-10-01", 1900.0), "tx": ("2026-01-01", 1700.0)},
+        nat_power=("2026-05-01", 10.0), nat_wage=("2026-01-01", 1600.0),
+        w_labor=0.30, w_power=0.55,
+        nat_wage_hist={"2025-10-01": 1520.0, "2026-01-01": 1600.0})
+    rows = {r["state"]: r for r in out["states"]}
+    pa = rows["PA"]
+    assert pa["wage_rel"] == pytest.approx(round(1900.0 / 1520.0, 4))   # 1.25
+    assert pa["build_mult"] == pytest.approx(0.30 * 1.25 + 0.70)
+    assert pa["wage_asof"] == "2025-10-01" and pa["wage_lagged"] is True
+    assert "wage_lagged" not in rows["TX"]                               # current quarter
+    # national history missing that quarter -> still dropped, never mixed
+    out = dcindex.parity_rows(
+        power={"pa": ("2026-05-01", 12.0)}, wage={"pa": ("2025-10-01", 1900.0)},
+        nat_power=("2026-05-01", 10.0), nat_wage=("2026-01-01", 1600.0),
+        w_labor=0.30, w_power=0.55, nat_wage_hist={"2026-01-01": 1600.0})
+    assert out["states"][0]["build_mult"] is None
 
 
 def test_by_state_ignores_non_state_suffixes(tmp_path):

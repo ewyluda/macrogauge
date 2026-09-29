@@ -6,7 +6,7 @@ import { Section } from "@/components/Section";
 import { Citation } from "@/components/Citation";
 import { fmtSigned } from "@/lib/format";
 import { DcEscalationClient } from "@/components/DcEscalationClient";
-import { ESCALATION_DATA, type EscalationData } from "@/lib/escalationData";
+import { ESCALATION_DATA, ESCALATION_DATA_OFFICIAL, type EscalationData } from "@/lib/escalationData";
 import { escalationGradeSlice } from "@/lib/dcGrades";
 import type { DcGrades } from "@/lib/types";
 import { artifact } from "@/lib/artifact";
@@ -46,7 +46,7 @@ export default function Escalation() {
         </span>
       </h1>
       <div style={{ marginTop: 24 }}>
-        <DcEscalationClient data={data} grades={grades} />
+        <DcEscalationClient data={data} officialData={ESCALATION_DATA_OFFICIAL} grades={grades} />
         <Citation live series="DC Build Index (escalation)" asOf={data.asOf} rebase={dc.rebase} value={`${fmtSigned(build.headline_yoy_pct)} YoY`} path="/escalation" />
       </div>
       <Section title="Methodology">
@@ -92,6 +92,17 @@ export default function Escalation() {
           precedents rather than a probability. Component sources and weights are
           documented on{" "}
           <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link>.
+          {" "}<strong>Index choice.</strong> The default is the live DC Build grid, whose
+          trailing month carries a futures-proxy tail for copper and aluminium until the next
+          PPI replaces it — so its latest month restates. <em>Official prints only</em> is the
+          same Laspeyres basket on the agencies&apos; own prints: every month is complete, and a
+          month once published moves only when BLS revises its print. That is the basis to cite
+          in a price-adjustment clause; its monthly series downloads as CSV on{" "}
+          <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link>.
+          {" "}<strong>P80.</strong> The P80 line is the 80th percentile of the same realized
+          windows as the band: carried over your forward leg, it is the allowance that would have
+          covered four in five of the historical windows of your length — with the same
+          small-sample caveat.
         </div>
       </Section>
     </div>

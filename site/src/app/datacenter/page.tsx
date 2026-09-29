@@ -19,6 +19,7 @@ import { fmtDay, fmtSigned, fmtPp } from "@/lib/format";
 import type { DcGrades, LongLead } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
+import { dcBuildMonthlyCsvSpec } from "@/lib/exportSpecs";
 
 export const metadata: Metadata = {
   title: `Data Center Cost Index: build ${fmtSigned(dc.indexes.build.headline_yoy_pct)} · ops ${fmtSigned(dc.indexes.ops.headline_yoy_pct)} · hardware ${fmtSigned(dc.indexes.hardware.headline_yoy_pct)} YoY`,
@@ -32,6 +33,13 @@ type Comp = {
 };
 
 type GroupSum = { group: string; weight: number; contribution_pp: number | null };
+
+// Official-prints-only Build variant (P8), absent from files published
+// before 2026-09-28 — read through a cast so older artifacts still build.
+const buildOfficial = (dc.indexes.build as unknown as {
+  official_only?: { last_official: string; headline_yoy_pct: number | null };
+}).official_only ?? null;
+const buildCodes = dc.indexes.build.components.map((c) => c.code);
 
 const GROUPS = dc.group_labels as Record<string, string>;
 // power_nowcast is nullable in the schema (and its numeric fields can be
@@ -219,9 +227,19 @@ export default function Datacenter() {
           <Citation compact series="DC Build Index" asOf={build.as_of} rebase={dc.rebase}
             value={`${fmtSigned(build.headline_yoy_pct)} YoY`} path="/datacenter" />
         </>} exportData={
-          <DownloadData compact={false} filename="macrogauge-dc-build-components" json="datacenter.json"
-            citation={`MacroGauge DC Build components, as of ${build.as_of}, ${dc.rebase}`}
-            rows={build.components as Comp[]} />
+          <>
+            <DownloadData compact={false} filename="macrogauge-dc-build-components" json="datacenter.json"
+              citation={`MacroGauge DC Build components, as of ${build.as_of}, ${dc.rebase}`}
+              rows={build.components as Comp[]} csvLabel="Components CSV" />
+            <DownloadData compact={false} filename="macrogauge-dc-build-monthly" json="datacenter.json"
+              citation={`MacroGauge DC Build index, monthly (live grid; trailing month carries the proxy tail), ${dc.rebase}`}
+              spec={dcBuildMonthlyCsvSpec(buildCodes)} csvLabel="Monthly index CSV" hideJson />
+            {buildOfficial && (
+              <DownloadData compact={false} filename="macrogauge-dc-build-monthly-official" json="datacenter.json"
+                citation={`MacroGauge DC Build index, monthly, official prints only (no proxy tail), through ${buildOfficial.last_official}, ${dc.rebase}`}
+                spec={dcBuildMonthlyCsvSpec(buildCodes, "official")} csvLabel="Monthly CSV, official prints only" hideJson />
+            )}
+          </>
         } series={[
           { key: "build", label: "DC Build", dates: build.dates, index: build.index, yoy: build.yoy_pct },
           { key: "ops", label: "DC Ops", dates: ops.dates, index: ops.index, yoy: ops.yoy_pct },

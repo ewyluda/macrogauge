@@ -32,11 +32,16 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           # The once-per-day gate must see every commit made today, even on an
           # unusually busy branch.
           fetch-depth: 0
+          # No token in .git/config: the gate, pip install and the pipeline
+          # (third-party packages, 20+ network sources) never hold the push
+          # credential. Fetch/pull need none (public repo); only the commit
+          # step below authenticates, for its own git commands.
+          persist-credentials: false
       - name: Gate — scheduled runs publish once per day, 8:00-21:59 ET
         id: gate
         run: |
@@ -48,7 +53,7 @@ jobs:
           python3 -m pipeline.publish_gate --event "${{ github.event_name }}" \
             --store store | tee gate.log
           grep '^run=' gate.log >> "$GITHUB_OUTPUT"
-      - uses: actions/setup-python@v7
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         if: steps.gate.outputs.run == 'true'
         with:
           python-version: "3.12"
@@ -67,7 +72,16 @@ jobs:
           python -m pipeline.run_daily --store store --out site/public/data
       - name: Commit data back
         if: steps.gate.outputs.run == 'true'
+        env:
+          # The job's GITHUB_TOKEN (contents: write) — scoped to this step
+          # only, and passed per-command via -c so it never lands in
+          # .git/config for the steps after this one.
+          PUSH_TOKEN: ${{ github.token }}
         run: |
+          # Same header actions/checkout persists by default, built here instead.
+          B64="$(printf 'x-access-token:%s' "$PUSH_TOKEN" | base64 | tr -d '\n')"
+          echo "::add-mask::$B64"
+          authgit() { git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $B64" "$@"; }
           git config user.name "macrogauge-bot"
           # Vercel (Hobby) blocks deploys for commits whose author email doesn't
           # match a GitHub account — use the owner's noreply address.
@@ -86,7 +100,7 @@ jobs:
             # must never be resolved by guessing in automation.
             for attempt in 1 2 3; do
               echo "publish attempt $attempt/3"
-              if ! git pull --rebase origin main; then
+              if ! authgit pull --rebase origin main; then
                 if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; then
                   git rebase --abort || true
                   echo "::error::daily data commit conflicts with origin/main"
@@ -95,7 +109,7 @@ jobs:
                 fi
                 exit 1
               fi
-              if git push origin HEAD:main; then
+              if authgit push origin HEAD:main; then
                 exit 0
               fi
               echo "origin/main advanced during publish attempt $attempt"

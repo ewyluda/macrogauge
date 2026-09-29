@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from pipeline.connectors import (aaa, aptlist, bls, caiso, census, cleveland, dramex, eia, fmp,
-                                 fred, ice, kalshi, manheim, miso, mnd, openrouter, pmms, qcew,
+                                 fred, ice, kalshi, manheim, miso, mnd, nyfed, openrouter, pmms, qcew,
                                  sfcompute, treasury, usda, vastai, zillow)
 from pipeline.connectors.util import PartialFetchWarning
 from pipeline.registry import Series, Source
@@ -118,6 +118,10 @@ def _kalshi_dc(subset, key, http):
     return kalshi.fetch_dc([s.source_id for s in subset], http_get=http)
 
 
+def _kalshi_fed(subset, key, http):
+    return kalshi.fetch_fed(http_get=http)
+
+
 def _qcew(subset, key, http):
     return qcew.fetch([s.source_id for s in subset], http_get=http)
 
@@ -144,6 +148,10 @@ def _caiso(subset, key, http):
 
 def _miso(subset, key, http):
     return miso.fetch([s.source_id for s in subset], http_get=http)
+
+
+def _nyfed(subset, key, http):
+    return nyfed.fetch([s.source_id for s in subset], http_get=http)
 
 
 def _ice(subset, key, http):
@@ -186,7 +194,11 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             # KALSHI_DC is a separate source key only for failure isolation —
             # thin speculative DC books must never fail the core KALSHI (CPI)
             # row; fetch_dc's skip semantics differ from fetch()'s by design.
-            "KALSHI_DC": _kalshi_dc}
+            "KALSHI_DC": _kalshi_dc,
+            # KALSHI_FED: separate isolation key — the FOMC ladders (market-
+            # implied Fed path on /rates) must never fail the CPI rows.
+            "KALSHI_FED": _kalshi_fed,
+            "NYFED": _nyfed}
 
 # BLS posts; everything else gets. collect_all passes the right client through.
 POST_SOURCES = {"BLS"}

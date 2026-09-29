@@ -22,6 +22,8 @@ export function DownloadData({
   citation,
   columns,
   compact = true,
+  csvLabel = "CSV",
+  hideJson = false,
 }: {
   rows?: CsvRow[];
   /** lazy rows: built from `json` on click (requires `json`) */
@@ -33,6 +35,10 @@ export function DownloadData({
   citation?: string;
   columns?: string[];
   compact?: boolean;
+  /** CSV button text after the arrow — name the export when several share a row */
+  csvLabel?: string;
+  /** omit the JSON link (a sibling DownloadData for the same artifact carries it) */
+  hideJson?: boolean;
 }) {
   const [busy, setBusy] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -67,9 +73,9 @@ export function DownloadData({
   const content = (
     <span className="tool-row download-data" aria-label="Download data">
       <button type="button" className="tool-btn" onClick={downloadCsv} disabled={busy || (!lazy && (rows ?? []).length === 0)}>
-        {busy ? "↓ CSV…" : "↓ CSV"}
+        {busy ? `↓ ${csvLabel}…` : `↓ ${csvLabel}`}
       </button>
-      {json && (
+      {json && !hideJson && (
         <a className="tool-btn" href={dataUrl(json)} download>
           ↓ JSON
         </a>

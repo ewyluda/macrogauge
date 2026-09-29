@@ -25,7 +25,8 @@ def test_group_and_row_order_pinned(tmp_path):
     assert codes == ["MEDCPIM158SFRBCLE", "TRMMEANCPIM158SFRBCLE",
                      "CORESTICKM159SFRBATL", "PCETRIM12M159SFRBDAL",
                      "COREFLEXCPIM159SFRBATL", "PCEPILFE",
-                     "PPIACO", "IREXPETCOM", "CHNTOT", "CUSR0000SACL1E",
+                     "PPIACO", "IREXPETCOM", "CHNTOT", "CUSR0000SACL1E", "GSCPI",
+                     "B235RC1Q027SBEA/A255RC1Q027SBEA",
                      "T5YIE", "T10YIE", "MICH", "T5YIFR", "EXPINF1YR", "EXPINF10YR",
                      "ECIALLCIV", "ULCNFB"]
 
@@ -61,6 +62,27 @@ def test_verbatim_and_computed_values(tmp_path):
     assert rows["T5YIE"]["value"] == 2.35
     assert rows["T5YIE"]["as_of"] == "2026-07-16"
     assert rows["T5YIE"]["cadence"] == "daily"
+
+
+def test_effective_tariff_rate_row_and_history(tmp_path):
+    # live 2026-09-28 values: customs duties / goods imports, NIPA SAAR $bn
+    conn = _store_with(tmp_path, {
+        "B235RC1Q027SBEA": {"2025-01-01": 96.965, "2026-01-01": 346.15,
+                            "2026-04-01": 326.324},
+        "A255RC1Q027SBEA": {"2025-01-01": 3681.432, "2026-01-01": 3411.545,
+                            "2026-04-01": 3697.402, "2026-07-01": 3700.0}})
+    p = matrix.build(conn)
+    pipe = next(g for g in p["groups"] if g["group"] == "PIPELINE")["rows"]
+    row = pipe[-1]
+    assert row["code"] == "B235RC1Q027SBEA/A255RC1Q027SBEA"
+    # latest COMMON quarter: 2026Q3 has imports but no duties yet
+    assert row["as_of"] == "2026-04-01" and row["cadence"] == "quarterly"
+    assert row["value"] == 8.83
+    t = p["tariffs"]
+    assert t["history"]["dates"] == ["2025-01-01", "2026-01-01", "2026-04-01"]
+    assert t["history"]["rate_pct"][0] == 2.634
+    path = matrix.write(p, tmp_path / "out", "2026-09-28T12:00:00Z")
+    validate.validate_file(path, SCHEMA)
 
 
 def test_missing_series_degrade_to_null_but_keep_metadata(tmp_path):

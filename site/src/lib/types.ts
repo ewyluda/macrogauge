@@ -147,9 +147,19 @@ export type MatrixRow = {
   as_of: string | null;
   cadence: string;
 };
+export type MatrixTariffs = {
+  as_of: string | null;
+  rate_pct: number | null;
+  numerator: string;
+  denominator: string;
+  method: string;
+  history: { dates: string[]; rate_pct: number[]; customs_bn: number[]; goods_imports_bn: number[] };
+};
 export type Matrix = {
   published_at: string;
   groups: { group: string; rows: MatrixRow[] }[];
+  /** effective tariff rate history, added 2026-09-28 — absent in older files */
+  tariffs?: MatrixTariffs;
 };
 
 export type CommodityRow = {
@@ -489,6 +499,19 @@ export type LongLead = {
 export type Tail = { dates: string[]; values: number[] };
 export type RateLevel = { code: string; value: number | null; as_of: string | null; chg_30d: number | null; chg_1y: number | null; tail: Tail };
 export type RateSpread = { label: string; value: number | null; as_of: string | null; chg_30d_pp: number | null; chg_1y_pp: number | null };
+export type FedMeeting = { date: string; expected_upper: number; implied_change_bp: number | null;
+                           p_cut: number | null; p_hold: number | null; p_hike: number | null };
+export type FedPath = {
+  as_of: string | null;
+  reference_upper: number | null;
+  target_upper: { value: number | null; as_of: string | null };
+  effective: { value: number | null; as_of: string | null };
+  reference_matches_target: boolean | null;
+  meetings: FedMeeting[];
+  method: string;
+  history: { dates: string[]; target_upper: (number | null)[] };
+};
+
 export type Rates = {
   published_at: string;
   curve: { code: string; label: string; years: number; value: number | null; as_of: string | null;
@@ -505,6 +528,8 @@ export type Rates = {
                history: { dates: string[]; walcl_bn: (number | null)[]; tga_bn: (number | null)[]; rrp_bn: (number | null)[]; net_bn: (number | null)[] } };
   mortgage: { pmms_30yr: { value: number | null; as_of: string | null }; mnd_30yr_daily: { value: number | null; as_of: string | null };
               spread_to_10y_pp: number | null; history: { dates: string[]; pmms_30yr: (number | null)[]; spread_to_10y_pp: (number | null)[] } };
+  /** Market-implied Fed path (Kalshi KXFED), added 2026-09-28 — absent in older files. */
+  fed_path?: FedPath;
   history: { dates: string[]; dgs3mo: (number | null)[]; dgs2: (number | null)[]; dgs10: (number | null)[]; t5yie: (number | null)[];
              t10yie: (number | null)[]; hy_oas: (number | null)[]; dollar: (number | null)[]; spread_2s10s: (number | null)[];
              spread_3m10y: (number | null)[]; real_10y: (number | null)[] };
@@ -519,7 +544,7 @@ export type Compute = {
   models: { key: string; label: string; in_usd_mtok: number | null; out_usd_mtok: number | null; blended_usd_mtok: number | null;
             as_of: string | null; chg_30d_pct: number | null; tail: Tail }[];
   token_index: ComputeIndex;
-  gpus: { code: string; label: string; usd_per_gpu_hr: number | null; as_of: string | null; chg_30d_pct: number | null; tail: Tail }[];
+  gpus: { code: string; label: string; usd_per_gpu_hr: number | null; as_of: string | null; chg_30d_pct: number | null; tail: Tail; in_index?: boolean }[];
   gpu_index: ComputeIndex;
 };
 

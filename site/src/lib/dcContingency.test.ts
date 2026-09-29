@@ -6,6 +6,7 @@ import {
   lastCompleteMonth,
   MAX_HORIZON_MONTHS,
   MIN_HORIZON_MONTHS,
+  p80Carry,
 } from "./dcContingency";
 
 // A 4-year monthly grid compounding at exactly 5%/yr from 100.
@@ -177,6 +178,7 @@ describe("band", () => {
     expect(b.windows).toBe(5);
     expect(b.p10).toBeCloseTo(0.4, 6);
     expect(b.p50).toBeCloseTo(2.0, 6);
+    expect(b.p80).toBeCloseTo(3.2, 6);   // pos 0.8 x 4 = 3.2 -> 3 + 0.2 x (4 - 3)
     expect(b.p90).toBeCloseTo(3.6, 6);
   });
 
@@ -228,5 +230,22 @@ describe("band", () => {
   it("exposes the horizon bounds the UI caps on", () => {
     expect(MIN_HORIZON_MONTHS).toBe(12);
     expect(MAX_HORIZON_MONTHS).toBe(48);
+  });
+});
+
+describe("p80Carry", () => {
+  it("carries the start cost at the band's p80 and prices the gap to the basis", () => {
+    const b = band(MONTHS, INDEX, 24, "2026-01")!;       // constant 5%/yr grid
+    const c = p80Carry(b, 1_000_000, 24, 3.0)!;
+    expect(c.ratePct).toBeCloseTo(5.0, 6);
+    expect(c.totalCost).toBeCloseTo(1_000_000 * 1.05 ** 2, 2);
+    expect(c.allowance).toBeCloseTo(102_500, 2);
+    expect(c.aboveBasis).toBeCloseTo(1_000_000 * (1.05 ** 2 - 1.03 ** 2), 2);
+  });
+  it("is null without a band, a positive cost or a horizon", () => {
+    const b = band(MONTHS, INDEX, 12, "2026-01")!;
+    expect(p80Carry(null, 1, 12, 0)).toBeNull();
+    expect(p80Carry(b, 0, 12, 0)).toBeNull();
+    expect(p80Carry(b, 1, 0, 0)).toBeNull();
   });
 });

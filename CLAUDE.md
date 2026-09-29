@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (1054 tests)
+pytest -q                                     # full suite (COUNT_PY tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -28,8 +28,8 @@ cd site && npm ci
 npm run dev        # local dev server
 npm run lint       # ESLint flat config: next core-web-vitals + jsx-a11y + react-hooks (must pass in CI)
 npm run build      # static export (must pass in CI)
-npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcMarkets/longLead/reconcile) + csv/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/portfolio/chartAria/sourcePills
-npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile — 41 routes / 193 e2e tests, zero console errors
+npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail) + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/portfolio/chartAria/sourcePills/badge
+npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail — COUNT_E2E e2e tests, zero console errors
 npm run gen-types  # schemas/*.schema.json -> src/lib/generated/*.ts (gitignored; runs automatically before dev/build/test)
 ```
 
@@ -39,6 +39,9 @@ extend the schema type, so schema drift fails `next build`. Never `as unknown as
 
 CI (`.github/workflows/ci.yml`) runs two independent jobs on every push/PR: `pipeline` (`pytest -q`)
 and `site` (`npm run lint`, `npm run build`, `npm test`, `npm run e2e`). Both must be green.
+Workflow hardening is pinned by `tests/test_workflows.py`: every action by full commit SHA (release in
+a comment), `persist-credentials: false` on every checkout, and daily.yml's push token visible only
+to its commit step.
 
 ## Architecture
 
@@ -46,9 +49,10 @@ Data flows in one direction: **collect → store → engine → publish → vali
 live in one repo.
 
 ### 1. Collection (`pipeline/collect.py`, `pipeline/connectors/`)
-One connector module per source — 23 total: API/CSV/XLSX (fred, bls, eia, fmp, treasury, zillow, pmms,
-aptlist, usda, kalshi, qcew, census, vastai, openrouter, caiso, miso, ice) and scrape (aaa, mnd,
-manheim, cleveland, dramex, sfcompute). What gets collected is driven entirely by
+One connector module per source — 24 total: API/CSV/XLSX (fred, bls, eia, fmp, treasury, zillow, pmms,
+aptlist, usda, kalshi, qcew, census, vastai, openrouter, caiso, miso, ice, nyfed) and scrape (aaa, mnd,
+manheim, cleveland, dramex, sfcompute). One module can serve several source keys for failure
+isolation (`kalshi.py`: KALSHI / KALSHI_CORE / KALSHI_DC / KALSHI_FED). What gets collected is driven entirely by
 `config/series.json` (via `pipeline/registry.py`) — the single source of truth for series,
 sources, and per-series `max_staleness_days`. A series that is legitimately absent past its
 limit (QCEW disclosure suppression, a BLS average price published only some months, a
@@ -63,7 +67,7 @@ registry.
 blocks the run. Carry-forward store semantics make a missed day harmless. Error strings are
 sanitized (API keys redacted) because they get published.
 
-**Scrape/unofficial-API connectors (`aaa.py`, `mnd.py`, `manheim.py`, `dramex.py`, `sfcompute.py`, `vastai.py`, `openrouter.py`) carry drift protection**, not just the
+**Scrape/unofficial-API connectors (`aaa.py`, `mnd.py`, `manheim.py`, `dramex.py`, `sfcompute.py`, `vastai.py`, `openrouter.py`, `nyfed.py`, and `kalshi.fetch_fed`) carry drift protection**, not just the
 generic failure isolation above: a tight regex pinned to a recorded fixture plus a plausible-value
 range check, so a redesigned source page raises a clear "structure drift?" error (caught by the
 same isolation path) instead of silently ingesting garbage.
@@ -112,7 +116,9 @@ YoY bases); writers publish from 2018-01.
 `real_wages`, `qa`, plus phase 3 (`nowcast_latest`, `nextprint`, `releases`, `backtest`,
 `fuel`, `accountability_{cpi,pce,nfp}`), the 12-month component outlook (`outlook`), and
 phase 4 composites (`heatcheck`, `stress`, `recession`), plus the DC cost index
-(`datacenter`), the geography panel (`metros`, `geo`, `matrix`), the labor dashboard
+(`datacenter`; Build also publishes an `official_only` variant — official prints, no proxy tail —
+for contract indexation), the geography panel (`metros`, `geo`, `matrix` — which also carries
+GSCPI and the effective tariff rate, customs duties ÷ goods imports, in `tariffs`), the labor dashboard
 (`labor`), the commodities grid (`commodities`), the AI capacity tracker (`capacity` —
 hand-curated MW × daily FMP_EQ market caps), the DC market panel (`dc_markets` —
 county-QCEW construction labor for 20 real DC markets, plus a denominated capacity-competition
@@ -121,9 +127,10 @@ grading harness (`dc_grades` — vintage-true backtest of the contingency bases 
 samples, strict and extended, plus the unfilled-orders lead-lag verdict), and the long-lead
 equipment board (`longlead` — hand-curated, stated-only vendor order-book figures joined to the
 five long-lead packages' price legs), and the batch-4 unlocks (2026-09-03): `rates` (Treasury
-curve, breakevens, HY OAS, dollar, WALCL−TGA−RRP liquidity in $bn, mortgage spread), `compute`
+curve, breakevens, HY OAS, dollar, WALCL−TGA−RRP liquidity in $bn, mortgage spread, and the
+Kalshi KXFED market-implied Fed path vs DFEDTARU in `fed_path`), `compute`
 (token and GPU-hour price indexes: equal-weight geometric means renormalized over live roster
-members), `housing` (prices, rents, sales, payment-to-income affordability off 0.80×ZHVI at the
+members; display-only SKUs carry `in_index: false`), `housing` (prices, rents, sales, payment-to-income affordability off 0.80×ZHVI at the
 PMMS rate ÷ AHE×2080/12), and `changes` (what moved since the previous publish — run_daily
 snapshots pulse/gaptable/datacenter BEFORE the engine phase and this writer diffs today's files
 against it; `grocery_basket` also gained a USDA `wholesale[]` block and `pulse` variants carry
