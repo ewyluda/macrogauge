@@ -159,6 +159,24 @@ def test_written_file_validates_against_schema(tmp_path):
     assert json.loads(path.read_text())["published_at"] == "2026-07-12T12:00:00Z"
 
 
+def test_official_only_block_publishes_and_validates(tmp_path):
+    import copy
+    dc_result = copy.deepcopy(DC_RESULT)
+    months = [f"2025-{m:02d}" for m in range(1, 13)] + ["2026-01"]
+    dc_result["indexes"]["build"]["official_only"] = {
+        "months": months, "index": [100.0 + i for i in range(13)],
+        "components": {c: [100.0 + i for i in range(13)]
+                       for c in dc_result["indexes"]["build"]["components"]},
+        "last_official": "2026-01", "index_yoy_pct": 12.000001, "interior_fills": 0}
+    payload = datacenter.build(dc_result, PARITY, SOURCE_IDS, CONSTRUCTION, POWER, CONTEXT)
+    off = payload["indexes"]["build"]["official_only"]
+    assert off["as_of"] == "2026-01-01" and off["headline_yoy_pct"] == 12.0
+    assert off["monthly"]["months"] == months
+    assert "official_only" not in payload["indexes"]["ops"]
+    path = datacenter.write(payload, tmp_path, published_at="2026-07-12T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "datacenter.schema.json")
+
+
 def test_null_construction_validates(tmp_path):
     payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, None, None, CONTEXT)
     assert payload["construction"] is None
@@ -237,3 +255,23 @@ def test_monthly_publishes_deeper_than_daily(tmp_path):
     assert len(build["monthly"]["index"]) == len(build["monthly"]["months"])
     for code, vals in build["monthly"]["components"].items():
         assert len(vals) == len(build["monthly"]["months"]), code
+
+
+def test_clause_series_publishes_raw_latest_and_first_print(tmp_path):
+    from pipeline.dc_basket import DCComponent
+    from pipeline.models import Observation
+    from pipeline.publish import datacenter
+    from pipeline.store import vintage
+    rows = [Observation("ppi_switchgear", "2026-07-01", 419.25, "2026-08-13", "FRED", "API"),
+            Observation("ppi_switchgear", "2026-07-01", 420.184, "2026-11-13", "FRED", "API"),
+            Observation("ppi_switchgear", "2026-08-01", 430.247, "2026-09-11", "FRED", "API")]
+    vintage.append_vintages(rows, tmp_path)
+    comp = DCComponent(code="switchgear", label="Switchgear", group="electrical",
+                       series="ppi_switchgear", weight=0.14)
+    out = datacenter.clause_series(vintage.load(tmp_path), {"build": [comp], "ops": []},
+                                   {"ppi_switchgear": "WPU1175"})
+    assert out == [{"basket": "build", "code": "switchgear", "label": "Switchgear",
+                    "series": "ppi_switchgear", "source_id": "WPU1175",
+                    "months": ["2026-07", "2026-08"], "latest": [420.184, 430.247],
+                    "first_print": [419.25, 430.247],
+                    "first_release": ["2026-08-13", "2026-09-11"]}]

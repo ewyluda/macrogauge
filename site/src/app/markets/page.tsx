@@ -7,8 +7,9 @@ import { MarketsClient } from "@/components/markets/MarketsClient";
 import { tightnessScore } from "@/lib/dcMarkets";
 import type { DcMarkets } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
+import { artifact } from "@/lib/artifact";
 
-const data = marketsJson as unknown as DcMarkets;
+const data = artifact<"dc_markets", DcMarkets>("dc_markets", marketsJson);
 const nat = data.national;
 const live = data.markets.filter((m) => m.available);
 // Ranked by the same composite the table's tightness badge uses — wage

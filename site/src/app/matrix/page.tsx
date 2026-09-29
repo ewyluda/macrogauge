@@ -10,6 +10,8 @@ import { ForecastHero } from "@/components/ForecastHero";
 import { fmtDay, fmtMonth } from "@/lib/format";
 import type { Nowcast, Matrix } from "@/lib/types";
 import { BREADTH_LATEST } from "@/components/BreadthPanel";
+import { LinesChart } from "@/components/LinesChart";
+import { C } from "@/lib/chartTheme";
 
 export const metadata: Metadata = {
   title: "Inflation Matrix — every measure, one table",
@@ -130,7 +132,7 @@ export default function Matrix() {
         <KpiCard
           label="PCE bridge"
           value={nowcast.pce.mom_pct == null ? "—" : `${nowcast.pce.mom_pct.toFixed(2)}%`}
-          context={`${nowcast.pce.parameters.observations ?? "—"} rolling observations`}
+          context={`${nowcast.pce.reference_month ?? nowcast.reference_month ?? "TBA"} MoM · ${nowcast.pce.parameters.observations ?? "—"} rolling observations`}
           accent="violet"
         />
         <KpiCard
@@ -147,8 +149,9 @@ export default function Matrix() {
           Our daily gauge and tracker, the official CPI prints, the Fed&apos;s
           underlying-inflation cuts, pipeline pressure, and market expectations —
           one table, each with its own as-of and cadence. Values are shown
-          verbatim from source except the two pipeline rows, which are computed
-          year-over-year off a raw index level.
+          verbatim from source except the pipeline price indexes, which are computed
+          year-over-year off a raw index level, and the effective tariff rate, which is
+          customs duties divided by goods imports.
         </p>
         <div className="table-card">
           <table className="data-table">
@@ -168,6 +171,33 @@ export default function Matrix() {
           </table>
         </div>
       </div>
+      {matrix.tariffs && matrix.tariffs.history.dates.length > 0 && (
+        <div className="section">
+          <h2 style={{ fontSize: 18, margin: "0 0 4px" }}>
+            Effective tariff rate{" "}
+            <span className="subtitle">
+              {matrix.tariffs.rate_pct == null ? "—" : `${matrix.tariffs.rate_pct.toFixed(2)}%`} of goods imports ·{" "}
+              {matrix.tariffs.as_of ? fmtQuarter(matrix.tariffs.as_of) : "—"}
+            </span>
+          </h2>
+          <div className="chart-card">
+            <LinesChart height={240} recessions={false}
+              series={[{ name: "Customs duties / goods imports (%)", x: matrix.tariffs.history.dates,
+                         y: matrix.tariffs.history.rate_pct, color: C.amber, step: true }]} />
+          </div>
+          <p className="method">
+            Federal customs duties ({matrix.tariffs.numerator}) over imports of goods ({matrix.tariffs.denominator}),
+            both BEA NIPA quarterly at seasonally adjusted annual rates, so the annualization cancels. This is the
+            duty actually collected per dollar of goods imported — below the statutory rate whenever exemptions,
+            trade diversion or collection lags bite. Quarterly, a month after the quarter closes.
+          </p>
+        </div>
+      )}
     </div>
   );
+}
+
+function fmtQuarter(day: string): string {
+  const m = Number(day.slice(5, 7));
+  return `${day.slice(0, 4)}Q${Math.floor((m - 1) / 3) + 1}`;
 }

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import commoditiesJson from "../../../public/data/commodities.json";
 import { KpiCard } from "@/components/KpiCard";
@@ -46,7 +47,7 @@ export default function Page() {
         Every commodity the pipeline already collects, in one grid. The first
         group is the cross-cut nobody else publishes as a basket: the inputs
         the AI datacenter build-out is bidding for — copper and aluminum
-        (feeding the <a href="/datacenter">DC Build index</a>), DRAM spot,
+        (feeding the <Link href="/datacenter">DC Build index</Link>), DRAM spot,
         GPU-hours, and wholesale power. Futures history runs from 2017, so
         year-over-year is real, not a since-launch approximation.
       </p>
@@ -123,6 +124,7 @@ export default function Page() {
                       <TailSpark
                         tail={r.spark}
                         stroke={yoyColor(r.chg_30d_pct)}
+                        label={r.label}
                       />
                     </td>
                     <td>{r.as_of ? fmtDay(r.as_of) : "—"}</td>
@@ -143,7 +145,7 @@ export default function Page() {
         that far back (±3 days — markets close on weekends). Sparklines trace
         the last 60 observations; new sources fill in as history accrues.
         Copper and aluminum also feed the{" "}
-        <a href="/datacenter">Data Center Cost Index</a> as anchored forward
+        <Link href="/datacenter">Data Center Cost Index</Link> as anchored forward
         tails — this page shows the raw prices.
       </p>
     </div>

@@ -13,18 +13,14 @@ import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
 import { StatusPill } from "@/components/StatusPill";
 import { COMPONENTS, COMPONENT_BY_CODE, componentHref, splicePosition } from "@/lib/components";
-import { contributionsAt, type ReplayComponent } from "@/lib/contribution";
+import { contributionsAt } from "@/lib/contribution";
 import { annualizedAt, lastChange, NSA_NOTE, RATE_LOOKBACK_MONTHS } from "@/lib/momentum";
 import { columnsToRows } from "@/lib/csv";
 import { fmtMonth, fmtPp, fmtSigned, yoyColor } from "@/lib/format";
+import { artifact } from "@/lib/artifact";
 
-type ReplayFull = {
-  published_at: string;
-  rebase: string;
-  dates: string[];
-  components: (ReplayComponent & { index: (number | null)[]; bls_index: (number | null)[]; mode: string; last_obs?: string | null; gate_flags?: string[] })[];
-};
-const replay = replayJson as unknown as ReplayFull;
+// Schema-typed (index/bls_index are non-null number[] per replay.schema.json).
+const replay = artifact("replay", replayJson);
 const outlook = outlookJson as { origin_month: string; component_paths: Record<string, { month: string; mom_pct: number; index: number }[]> };
 const SERIES = Object.fromEntries((seriesJson as { series: { code: string; source: string; name: string; max_staleness_days: number }[] }).series.map((s) => [s.code, s]));
 const SOURCES = Object.fromEntries(sourcesStatus.sources.map((s) => [s.name, s]));
@@ -63,8 +59,8 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
   const splice = rc.mode === "live" ? splicePosition(rc.index, rc.bls_index) : null;
   const spliceDate = splice == null ? null : replay.dates[splice];
   const gateDates = (rc.gate_flags ?? []).map((f) => f.split("@")[1]).filter(Boolean);
-  const ours = contributionsAt(replay.components, "ours", last);
-  const bls = contributionsAt(replay.components, "bls", last);
+  const ours = contributionsAt(replay.components, "ours", last, replay.dates[last]);
+  const bls = contributionsAt(replay.components, "bls", last, replay.dates[last]);
   const contrib = ours?.find((x) => x.code === code)?.pp ?? null;
   const blsContrib = bls?.find((x) => x.code === code)?.pp ?? null;
   const ann3 = annualizedAt(rc.index, replay.dates, RATE_LOOKBACK_MONTHS.ann3, own);
@@ -158,7 +154,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
         )}
         <p className="method">
           Official series {c.official_series} · live in variants {c.live_variants?.length ? c.live_variants.join(", ") : "none"} · blend weights renormalize as sources phase in.
-          Source status and rows today are the run-level source row from <a href="/status">/status</a>; latest obs is this series&apos; own newest observation. A blend source past its staleness limit drops out of coverage.
+          Source status and rows today are the run-level source row from <Link href="/status">/status</Link>; latest obs is this series&apos; own newest observation. A blend source past its staleness limit drops out of coverage.
         </p>
       </Section>
 
@@ -172,7 +168,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
               </tbody>
             </table>
           </div>
-          <p className="method">Monthly changes the <a href="/outlook">outlook</a> carries for this component; a forward-driver where one applies, else the trailing median of its own real changes. Projection, not a promise.</p>
+          <p className="method">Monthly changes the <Link href="/outlook">outlook</Link> carries for this component; a forward-driver where one applies, else the trailing median of its own real changes. Projection, not a promise.</p>
         </Section>
       )}
     </div>

@@ -170,7 +170,7 @@ export function HeroChart({
         {overview && <button type="button" className="tool-btn" aria-pressed={allComparisons}
           onClick={() => setAllComparisons((value) => !value)}>All comparisons</button>}
       </div>
-      <EChart option={option} height={340} />
+      <EChart option={option} height={340} ariaTitle="Macrogauge vs official CPI" />
     </div>
   );
 }

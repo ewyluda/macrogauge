@@ -34,7 +34,15 @@ MODELS = [("gpt4o", "GPT-4o"), ("claude_sonnet", "Claude Sonnet"),
           ("gemini_flash", "Gemini Flash"), ("mistral_large", "Mistral Large")]
 GPUS = [("vast_h100_sxm", "H100 SXM (vast.ai)"), ("vast_h200", "H200 (vast.ai)"),
         ("vast_b200", "B200 (vast.ai)"), ("vast_a100_sxm", "A100 SXM (vast.ai)"),
-        ("vast_rtx4090", "RTX 4090 (vast.ai)"), ("sfc_h100", "H100 (sfcompute spot)")]
+        ("vast_rtx4090", "RTX 4090 (vast.ai)"), ("sfc_h100", "H100 (sfcompute spot)"),
+        ("vast_b300", "B300 (vast.ai)")]
+# Display-only SKUs: priced in the table, kept OUT of gpu_index. The index is
+# rebased on the first day EVERY member was priced, so a SKU that enters after
+# a member has retired (vast_b300 first collected 2026-09-29; sfc_h100 retired
+# after 2026-09-24) would leave no common base day and null the whole index;
+# even with one, a late entrant moves the base and restates history.
+# Admitting a member is a roster decision, not a registry side effect.
+DISPLAY_ONLY = {"vast_b300"}
 BLEND_IN, BLEND_OUT = 0.75, 0.25
 MIN_MEMBERS = 3
 TAIL_OBS = 90
@@ -142,11 +150,12 @@ def _gpu_rows(conn):
     for code, label in GPUS:
         obs = _rows(conn, code)
         as_of, value = latest_point(obs)
-        if as_of is not None:
+        in_index = code not in DISPLAY_ONLY
+        if as_of is not None and in_index:
             members[code] = obs
         rows.append({"code": code, "label": label, "usd_per_gpu_hr": value, "as_of": as_of,
                      "chg_30d_pct": pct_change_daily(obs, as_of, 30) if as_of else None,
-                     "tail": tail(obs, TAIL_OBS)})
+                     "tail": tail(obs, TAIL_OBS), "in_index": in_index})
     return rows, members
 
 

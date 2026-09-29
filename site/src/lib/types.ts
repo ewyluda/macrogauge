@@ -4,6 +4,11 @@
 // types from the *committed sample*, so a valid degraded artifact — nulled
 // fields, empty arrays — would otherwise fail `next build`.
 // Keep in sync with schemas/{fuel,nextprint,nowcast_latest,outlook}.schema.json.
+//
+// Where a type here is passed to `artifact<K, T>()` (lib/artifact.ts) it is a
+// compile-checked REFINEMENT of the schema-generated `ArtifactTypes[K]`
+// (lib/generated, scripts/gen-types.mjs): if the schema changes in a way the
+// hand type no longer satisfies, `next build` fails instead of drifting.
 
 export type Forecaster = { name: string; value: number; kind: string; as_of: string };
 
@@ -17,6 +22,24 @@ export type NextPrint = {
   // Added 2026-09-26; absent on artifacts published before then.
   basis?: "SA" | "NSA";
   core?: { ensemble: { value: number | null; weights: Record<string, number> }; forecasters: Forecaster[] };
+};
+
+export type LeadLagStat = { best_shift_months: number; corr: number } | null;
+
+/** compare.json `realtime` (added 2026-09-28, backlog #2; absent before):
+ *  the month-end vintage-true gauge track — publish-ledger readings where
+ *  they exist, else a reconstruction applying each official print only from
+ *  its release date — with its own validation vs official CPI. */
+export type CompareRealtime = {
+  dates: string[];
+  months: string[];
+  gauge_yoy_pct: (number | null)[];
+  source: ("ledger" | "reconstructed")[];
+  basis: string;
+  lag_days: Record<string, number>;
+  n_ledger: number;
+  n_reconstructed: number;
+  validation: { corr: number | null; mean_abs_gap_pp: number | null; window: string; lead_lag?: LeadLagStat };
 };
 
 export type Fuel = {
@@ -124,9 +147,19 @@ export type MatrixRow = {
   as_of: string | null;
   cadence: string;
 };
+export type MatrixTariffs = {
+  as_of: string | null;
+  rate_pct: number | null;
+  numerator: string;
+  denominator: string;
+  method: string;
+  history: { dates: string[]; rate_pct: number[]; customs_bn: number[]; goods_imports_bn: number[] };
+};
 export type Matrix = {
   published_at: string;
   groups: { group: string; rows: MatrixRow[] }[];
+  /** effective tariff rate history, added 2026-09-28 — absent in older files */
+  tariffs?: MatrixTariffs;
 };
 
 export type CommodityRow = {
@@ -165,6 +198,28 @@ export type NowcastComponent = {
   driver_mom_pct?: number;
 };
 
+export type PceBridgeParameters = {
+  observations?: number;
+  intercept?: number;
+  cpi_beta?: number;
+  window_months?: number;
+  oos_mae_cpi_only_pp?: number | null;
+  oos_mae_cpi_ppi_pp?: number | null;
+  oos_months?: number;
+  ppi_betas?: Record<string, number>;
+  ppi_inputs_mom_pct?: Record<string, number>;
+};
+
+export type PceNowcast = {
+  mom_pct: number | null;
+  status: string;
+  parameters: PceBridgeParameters;
+  bridge?: "cpi" | "cpi+ppi" | null;
+  bridge_note?: string;
+  cpi_input?: { source: "actual" | "nowcast" | "nowcast_nsa"; series: string; mom_pct: number } | null;
+  benchmarks?: Record<string, { value: number; as_of: string }>;
+};
+
 export type Nowcast = {
   published_at: string;
   target: string;
@@ -178,11 +233,12 @@ export type Nowcast = {
     parameters: Record<string, number>;
     components: NowcastComponent[];
   };
-  pce: {
-    mom_pct: number | null;
-    status: string;
+  pce: PceNowcast & {
     as_of: string | null;
-    parameters: { observations?: number; intercept?: number; cpi_beta?: number; window_months?: number };
+    // Added 2026-09-28 (PCE keyed to its own release); absent on older artifacts.
+    reference_month?: string | null;
+    release_date?: string | null;
+    core?: PceNowcast & { reference_month?: string | null };
   };
   nfp: { change_thousands: number; reference_month: string } | null;
   benchmarks: Record<string, { value: number; as_of: string } | null>;
@@ -212,6 +268,8 @@ export type CapacityTimeline = {
   milestones: Record<string, [string, string, number][]>;
 };
 
+export type CapacitySiteStatus = "o" | "c" | "p" | "s";
+
 export type CapacityCohortKey = "all" | "neocloud" | "hyperscaler";
 
 export type Capacity = {
@@ -221,8 +279,9 @@ export type Capacity = {
   cohorts: Record<CapacityCohortKey, { companies: number; op: number; con: number; plan: number }>;
   timeline: Record<CapacityCohortKey, CapacityTimeline>;
   tenants: [string, string, number | null, string][];
-  geo: { t: string; site: string; mw: number | null; st: string; lat: number; lng: number; when?: string; approx: boolean }[];
-  geo_unmapped: { t: string; site: string; mw: number | null; st: string; why: string }[];
+  // st: o(perating) / c(onstruction) / p(lanned) / s(ecured), per the schema
+  geo: { t: string; site: string; mw: number | null; st: CapacitySiteStatus; lat: number; lng: number; when?: string; approx: boolean; market?: string }[];
+  geo_unmapped: { t: string; site: string; mw: number | null; st: CapacitySiteStatus; why: string }[];
   geo_note: string;
   reference: { nvda_cap_b: number | null; cohort_ev_b: number | null };
 };
@@ -398,6 +457,29 @@ export type PowerNowcast = {
   note: string;
 };
 
+/** NAND spot -> storage PPI tail gate (added 2026-09-28). Load-bearing: the
+ *  Hardware storage component rides the tail only when verdict is PASS. */
+export type StorageNowcast = {
+  official: string;
+  proxy: string[];
+  as_of: string | null;
+  proxy_history_days: number;
+  months_graded: number;
+  min_months: number;
+  months_dropped: number;
+  dropped_months: string[];
+  transform?: "year_ratio";
+  smooth_days?: number;
+  carry_forward_mae: number | null;
+  zero_lambda_mae: number | null;
+  best_lambda: number | null;
+  best_mae: number | null;
+  lambda_ols: number | null;
+  verdict: "PASS" | "FAIL" | "INSUFFICIENT";
+  tail_active: boolean;
+  note: string;
+};
+
 export type DcGrades = {
   published_at: string;
   as_of: string | null;
@@ -412,6 +494,7 @@ export type DcGrades = {
   scenarios: DcGradesScenario[];
   leadlag: LeadLag | null;
   power_nowcast: PowerNowcast | null;
+  storage_nowcast?: StorageNowcast | null;
 };
 
 export type LongLeadFigure = {
@@ -463,6 +546,19 @@ export type LongLead = {
 export type Tail = { dates: string[]; values: number[] };
 export type RateLevel = { code: string; value: number | null; as_of: string | null; chg_30d: number | null; chg_1y: number | null; tail: Tail };
 export type RateSpread = { label: string; value: number | null; as_of: string | null; chg_30d_pp: number | null; chg_1y_pp: number | null };
+export type FedMeeting = { date: string; expected_upper: number; implied_change_bp: number | null;
+                           p_cut: number | null; p_hold: number | null; p_hike: number | null };
+export type FedPath = {
+  as_of: string | null;
+  reference_upper: number | null;
+  target_upper: { value: number | null; as_of: string | null };
+  effective: { value: number | null; as_of: string | null };
+  reference_matches_target: boolean | null;
+  meetings: FedMeeting[];
+  method: string;
+  history: { dates: string[]; target_upper: (number | null)[] };
+};
+
 export type Rates = {
   published_at: string;
   curve: { code: string; label: string; years: number; value: number | null; as_of: string | null;
@@ -479,6 +575,8 @@ export type Rates = {
                history: { dates: string[]; walcl_bn: (number | null)[]; tga_bn: (number | null)[]; rrp_bn: (number | null)[]; net_bn: (number | null)[] } };
   mortgage: { pmms_30yr: { value: number | null; as_of: string | null }; mnd_30yr_daily: { value: number | null; as_of: string | null };
               spread_to_10y_pp: number | null; history: { dates: string[]; pmms_30yr: (number | null)[]; spread_to_10y_pp: (number | null)[] } };
+  /** Market-implied Fed path (Kalshi KXFED), added 2026-09-28 — absent in older files. */
+  fed_path?: FedPath;
   history: { dates: string[]; dgs3mo: (number | null)[]; dgs2: (number | null)[]; dgs10: (number | null)[]; t5yie: (number | null)[];
              t10yie: (number | null)[]; hy_oas: (number | null)[]; dollar: (number | null)[]; spread_2s10s: (number | null)[];
              spread_3m10y: (number | null)[]; real_10y: (number | null)[] };
@@ -493,7 +591,7 @@ export type Compute = {
   models: { key: string; label: string; in_usd_mtok: number | null; out_usd_mtok: number | null; blended_usd_mtok: number | null;
             as_of: string | null; chg_30d_pct: number | null; tail: Tail }[];
   token_index: ComputeIndex;
-  gpus: { code: string; label: string; usd_per_gpu_hr: number | null; as_of: string | null; chg_30d_pct: number | null; tail: Tail }[];
+  gpus: { code: string; label: string; usd_per_gpu_hr: number | null; as_of: string | null; chg_30d_pct: number | null; tail: Tail; in_index?: boolean }[];
   gpu_index: ComputeIndex;
 };
 

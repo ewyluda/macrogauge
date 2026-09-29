@@ -23,14 +23,14 @@ def test_load_real_registry():
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC", "KALSHI_CORE",
-                            "EIA_STATE_RES"}
-    assert len(series) == 705
+                            "EIA_STATE_RES", "KALSHI_FED", "NYFED"}
+    assert len(series) == 723  # +nyfed_mct; +KXFED/DFEDTARU/tariff/GSCPI/B300 (measures) +4 PPIs/CSUSHPISA/SASL2RS (PCE, methodology)
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 162
+    assert len(fred) == 171
     # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
     # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
     # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
@@ -40,9 +40,16 @@ def test_load_real_registry():
         "CPILFENS": "CPILFENS",
         "CPIAUCSL": "CPIAUCSL",
         "CPILFESL": "CPILFESL",
+        "CUUR0000SASL2RS": "CUUR0000SASL2RS",
         **{c: c for c in ("COREFLEXCPIM159SFRBATL", "PCEPILFE", "T5YIFR", "EXPINF1YR",
                           "EXPINF10YR", "CUSR0000SACL1E", "CHNTOT", "ECIALLCIV", "ULCNFB")},
         "PCEPI": "PCEPI",
+        # BEA-input PPIs for the PCE bridge — verified on FRED fred/series
+        # 2026-09-28 (PCU523920523920 ended 2022-12; the "P" product line runs on)
+        "ppi_pce_airline": "PCU481111481111",
+        "ppi_pce_physician": "PCU621111621111",
+        "ppi_pce_hospital": "PCU622622",
+        "ppi_pce_portfolio": "PCU523920523920P",
         "CUUR0000SAF11": "CUUR0000SAF11",
         "CUUR0000SEFV": "CUUR0000SEFV",
         "CUUR0000SAM": "CPIMEDNS",
@@ -65,8 +72,9 @@ def test_load_real_registry():
             "DSPIC96": "DSPIC96", "PPIACO": "PPIACO",
             "IREXPETCOM": "IREXPETCOM", "T5YIE": "T5YIE",
             "CCSA": "CCSA", "PCUOMFGOMFG": "PCUOMFGOMFG",
-            "FEDFUNDS": "FEDFUNDS", "HOUST": "HOUST", "PERMIT": "PERMIT",
-            "CSUSHPINSA": "CSUSHPINSA", "M2SL": "M2SL", "UMCSENT": "UMCSENT",
+            "FEDFUNDS": "FEDFUNDS", "DFEDTARU": "DFEDTARU", "HOUST": "HOUST", "PERMIT": "PERMIT",
+            "B235RC1Q027SBEA": "B235RC1Q027SBEA", "A255RC1Q027SBEA": "A255RC1Q027SBEA",
+            "CSUSHPINSA": "CSUSHPINSA", "CSUSHPISA": "CSUSHPISA", "M2SL": "M2SL", "UMCSENT": "UMCSENT",
             "T10Y2Y": "T10Y2Y", "DRCCLACBS": "DRCCLACBS",
             "TERMCBCCALLNS": "TERMCBCCALLNS", "PSAVERT": "PSAVERT",
             "TDSP": "TDSP", "REVOLSL": "REVOLSL", "DRSFRMACBS": "DRSFRMACBS",

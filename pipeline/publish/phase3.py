@@ -41,6 +41,16 @@ def latest_core_benchmarks(conn, reference_month: str | None) -> dict[str, dict 
                        {"cleveland": "cleveland_core_cpi_mom", "kalshi": "kalshi_core_cpi_mom"})
 
 
+def latest_pce_benchmarks(conn, reference_month: str | None) -> dict[str, dict | None]:
+    """Cleveland Fed's PCE nowcast for the PCE target month (its table keys
+    every row by reference month, the same convention as its CPI rows)."""
+    return _benchmarks(conn, reference_month, {"cleveland": "cleveland_pce_mom"})
+
+
+def latest_core_pce_benchmarks(conn, reference_month: str | None) -> dict[str, dict | None]:
+    return _benchmarks(conn, reference_month, {"cleveland": "cleveland_core_pce_mom"})
+
+
 def _benchmarks(conn, reference_month, codes):
     if reference_month is None:
         return {name: None for name in codes}
@@ -71,11 +81,17 @@ def record_forecasts(nowcast: dict, conn, store_dir: Path, vintage_date: str) ->
         return 0
     cpi_month = f"{nowcast['reference_month']}-01"
     nfp = nowcast.get("nfp")
+    pce = nowcast["pce"]
+    # PCE records under ITS reference month (the next PCE release's), which
+    # trails the CPI target by one month between the two prints.
+    pce_month = f"{pce.get('reference_month') or nowcast['reference_month']}-01"
     # forecast_cpi_mom stays the NSA call (its history is NSA);
     # forecast_cpi_mom_sa is the headline SA call graded against CPIAUCSL.
     entries = [("forecast_cpi_mom", cpi_month,
                 nowcast["cpi"].get("mom_nsa_pct", nowcast["cpi"]["mom_pct"])),
-               ("forecast_pce_mom", cpi_month, nowcast["pce"]["mom_pct"])]
+               ("forecast_pce_mom", pce_month, pce["mom_pct"])]
+    if (pce.get("core") or {}).get("status") == "live":
+        entries.append(("forecast_core_pce_mom", pce_month, pce["core"]["mom_pct"]))
     if nowcast["cpi"].get("basis") == "SA":
         entries.append(("forecast_cpi_mom_sa", cpi_month, nowcast["cpi"]["mom_pct"]))
     core = nowcast["cpi"].get("core")
@@ -153,15 +169,42 @@ def build_accountability(target: str, nowcast: dict, conn) -> dict:
         if sa_recorded:
             forecast_codes["cpi"] = "forecast_cpi_mom_sa"  # pending calls are SA now
     graded = [rows[p] for p in sorted(rows)]
-    reference = (nowcast.get("nfp") or {}).get("reference_month") \
-        if target == "nfp" else nowcast.get("reference_month")
-    live = [] if forecast is None or forecast.get("status") == "unavailable" else [{
-        "reference_period": reference, "badge": "LIVE",
-        "forecast": forecast.get("mom_pct", forecast.get("change_thousands")),
-        "as_of": forecast.get("as_of", nowcast.get("generated_on")), "actual": None}]
+    if target == "nfp":
+        reference = (nowcast.get("nfp") or {}).get("reference_month")
+    elif target == "pce":
+        # PCE targets its own release's month (engine.nowcast.pce_nowcast);
+        # older payloads without it rode the CPI month.
+        reference = (forecast or {}).get("reference_month") or nowcast.get("reference_month")
+    else:
+        reference = nowcast.get("reference_month")
+    pending = _pending(conn, forecast_codes[target], actuals, forecast, reference,
+                       nowcast.get("generated_on"))
+    out = {"target": target.upper(), "graded": graded, "pending": pending}
+    if target == "pce":
+        # Core PCE (PCEPILFE), bridged from core CPI — graded the same way.
+        core = (forecast or {}).get("core")
+        out["core"] = {
+            "graded": [r for _, r in sorted(_graded_rows(
+                conn, "forecast_core_pce_mom", "PCEPILFE", True).items())],
+            "pending": _pending(conn, "forecast_core_pce_mom",
+                                vintage.first_releases(conn, "PCEPILFE"), core,
+                                (core or {}).get("reference_month") or reference,
+                                nowcast.get("generated_on"))}
+    return out
+
+
+def _pending(conn, forecast_code: str, actuals, forecast: dict | None,
+             reference: str | None, generated_on: str | None) -> list[dict]:
+    live = [] if forecast is None or forecast.get("status") == "unavailable" \
+        or reference is None else [{
+            "reference_period": reference, "badge": "LIVE",
+            "forecast": forecast.get("mom_pct", forecast.get("change_thousands")),
+            "as_of": forecast.get("as_of") or generated_on, "actual": None}]
     # Every recorded call still awaiting its print, not only the current
-    # target: the PCE call for month t freezes when the CPI nowcast rolls to
-    # t+1 (~mid-month) but PCE for t prints ~2 weeks later — it was invisible.
+    # target: before 2026-09-28 the PCE call for month t froze when the CPI
+    # nowcast rolled to t+1 (~mid-month) but PCE for t printed ~2 weeks
+    # later — it was invisible. PCE now keys to its own calendar; the frozen
+    # pre-change rows still list here until their prints grade them.
     released = {p for p, _, _ in actuals}
     live_periods = {r["reference_period"] for r in live}
     frozen = []
@@ -170,14 +213,14 @@ def build_accountability(target: str, nowcast: dict, conn) -> dict:
             " SELECT obs_date, value, vintage_date, ROW_NUMBER() OVER ("
             "  PARTITION BY obs_date ORDER BY vintage_date DESC, rowid DESC) rn"
             " FROM observations WHERE series_code = ?) WHERE rn = 1 ORDER BY obs_date",
-            (forecast_codes[target],)).fetchall():
+            (forecast_code,)).fetchall():
         if period in released or period[:7] in live_periods or (
                 released and period <= max(released)):
             continue  # graded, current, or skipped by the agency (2025-10 CPI)
         frozen.append({"reference_period": period[:7], "badge": "LIVE",
                        "forecast": round(value, 2), "as_of": as_of, "actual": None})
-    pending = frozen + live
-    return {"target": target.upper(), "graded": graded, "pending": pending}
+    # chronological: a PCE live call can now precede a frozen pre-change row
+    return sorted(frozen + live, key=lambda r: r["reference_period"])
 
 
 def build_nextprint(nowcast: dict) -> dict:

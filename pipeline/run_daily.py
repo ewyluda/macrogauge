@@ -210,7 +210,10 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         print(f"published: {gr_path} ({len(grocery_payload['items'])} items, "
               f"{len(grocery_payload['skipped'])} skipped)")
 
-        compare_payload = compare.build(gauge_result, conn)
+        # the publish ledger (prior runs' rows) feeds compare's vintage-true
+        # `realtime` track; this run's row is appended LAST, after every phase
+        compare_payload = compare.build(gauge_result, conn,
+                                        ledger_rows=ledger_json.read_rows(args.store))
         cmp_path = compare.write(compare_payload, args.out,
                                  published_at=published_at)
         validate.validate_file(cmp_path, SCHEMAS / "compare.schema.json")
@@ -285,22 +288,31 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         # next_target, not next_print: past the scheduled calendar the nowcast
         # keeps targeting an inferred month (release date unknown) so forecasts
         # keep recording instead of leaving an un-backfillable ledger gap.
-        next_release = release_calendar.next_target(today)
-        if (next_release and next_release["date"] == today and conn.execute(
-                "SELECT 1 FROM observations WHERE series_code = 'CPIAUCNS' AND obs_date = ?",
-                (f"{next_release['reference_month']}-01",)).fetchone()):
-            # Release morning, print already ingested: target the NEXT month
-            # (the same-day entry used to keep "forecasting" a month that was
-            # already out, recording a post-release call).
-            tomorrow = (date.fromisoformat(today) + timedelta(days=1)).isoformat()
-            next_release = release_calendar.next_target(tomorrow)
+        def target(key: str, anchor: str) -> dict | None:
+            nxt = release_calendar.next_target(today, key=key)
+            if (nxt and nxt["date"] == today and conn.execute(
+                    "SELECT 1 FROM observations WHERE series_code = ? AND obs_date = ?",
+                    (anchor, f"{nxt['reference_month']}-01")).fetchone()):
+                # Release morning, print already ingested: target the NEXT
+                # month (the same-day entry used to keep "forecasting" a month
+                # that was already out, recording a post-release call).
+                tomorrow = (date.fromisoformat(today) + timedelta(days=1)).isoformat()
+                nxt = release_calendar.next_target(tomorrow, key=key)
+            return nxt
+
+        next_release = target("cpi", "CPIAUCNS")
+        # PCE keys to ITS release calendar (BEA Personal Income & Outlays).
+        pce_release = target("pce", "PCEPI") if next_release else None
+        pce_month = (pce_release or next_release or {}).get("reference_month")
         nowcast_state["payload"] = payload = build_nowcast(
             conn, gauge_result, next_release,
             benchmarks=phase3.latest_benchmarks(
                 conn, next_release["reference_month"] if next_release else None),
             core_benchmarks=phase3.latest_core_benchmarks(
                 conn, next_release["reference_month"] if next_release else None),
-            staleness=staleness, today=today)
+            staleness=staleness, today=today, pce_release=pce_release,
+            pce_benchmarks=phase3.latest_pce_benchmarks(conn, pce_month),
+            core_pce_benchmarks=phase3.latest_core_pce_benchmarks(conn, pce_month))
         phase3.record_forecasts(payload, conn, args.store, today)
         phase3_paths = phase3.write_all(payload, conn, args.out,
                                         published_at)  # validates each file inline
@@ -344,11 +356,13 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         construction = dcindex.construction_from_store(conn, dc_result)
         power = dcindex.power_block(conn, dc_result, dc_power.load())
         context = dcindex.context_block(conn, dc_context.load(), dc_result)
-        dc_path = datacenter_json.write(
-            datacenter_json.build(dc_result, parity_result,
-                                  {s.code: s.source_id for s in series},
-                                  construction, power, context),
-            args.out, published_at=published_at)
+        dc_payload = datacenter_json.build(dc_result, parity_result,
+                                           {s.code: s.source_id for s in series},
+                                           construction, power, context)
+        _, dc_baskets = dc_basket.load_baskets(registry_codes={s.code for s in series})
+        dc_payload["clause_series"] = datacenter_json.clause_series(
+            conn, dc_baskets, {s.code: s.source_id for s in series})
+        dc_path = datacenter_json.write(dc_payload, args.out, published_at=published_at)
         validate.validate_file(dc_path, SCHEMAS / "datacenter.schema.json")
         print(f"published: {dc_path}")
 

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import marketsJson from "../../../public/data/dc_markets.json";
 import { Section } from "@/components/Section";
@@ -29,9 +30,9 @@ export default function PortfolioPage() {
           The index is an input-price index ({ESCALATION_DATA.rebase}), not a turnkey $/MW quote, so the base estimate is yours and
           the output is a ratio applied to it. The carry bases are measured windows of the same index (long-run, trailing 3-year,
           current momentum) plus two hindsight-selected episodes (GFC, COVID peak) that carry no grade; the{" "}
-          <a href="/dc-scoreboard">grading harness</a> shows how each rolling basis has held up on every vintage since 2018, and the
+          <Link href="/dc-scoreboard">grading harness</Link> shows how each rolling basis has held up on every vintage since 2018, and the
           basis with the best mean error has been the worst contingency. Every number on this page can be re-derived from{" "}
-          <a href="/data">datacenter.json</a> and the calculator math in the repository.
+          <Link href="/data">datacenter.json</Link> and the calculator math in the repository.
         </div>
       </Section>
     </div>

@@ -2,7 +2,7 @@
   "base_month": "2018-01",
   "weights_as_of": "2025-12",
   "weights_source": "BLS CPI-U relative importance, December 2025 (config/cpi_relative_importance.json); 'other' = 100 - the 13 named components, backed by the CPI residual index (pipeline/derived.py). Refresh every January when BLS publishes the new December table.",
-  "supercore_components": ["medical", "education_comm", "recreation", "other"],
+  "supercore_components": ["medical", "education_comm", "recreation", "electricity", "nat_gas", "other"],
   "components": [
     {"code": "shelter_owned", "label": "Shelter (owned)", "weight": 0.26204, "pce_weight": 0.105,
      "official_series": "CUUR0000SEHC",

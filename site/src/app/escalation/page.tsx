@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import dc from "../../../public/data/datacenter.json";
 import gradesJson from "../../../public/data/dc_grades.json";
@@ -5,9 +6,10 @@ import { Section } from "@/components/Section";
 import { Citation } from "@/components/Citation";
 import { fmtSigned } from "@/lib/format";
 import { DcEscalationClient } from "@/components/DcEscalationClient";
-import { ESCALATION_DATA, type EscalationData } from "@/lib/escalationData";
+import { ESCALATION_DATA, ESCALATION_DATA_OFFICIAL, type EscalationData } from "@/lib/escalationData";
 import { escalationGradeSlice } from "@/lib/dcGrades";
 import type { DcGrades } from "@/lib/types";
+import { artifact } from "@/lib/artifact";
 
 export const metadata: Metadata = {
   title: "DC Escalation Calculator",
@@ -29,7 +31,7 @@ const moverLabels = movers.map((c) => c.label).join(" and ");
 // artifact would serialize its 286-row `anchors` array (~47KB of the ~58KB
 // file) into escalation.html for a component that never touches it — the load
 // cost the design spec says this page does not take on. The slice is ~4KB.
-const grades = escalationGradeSlice(gradesJson as unknown as DcGrades);
+const grades = escalationGradeSlice(artifact<"dc_grades", DcGrades>("dc_grades", gradesJson));
 
 const data: EscalationData = ESCALATION_DATA;
 
@@ -43,8 +45,12 @@ export default function Escalation() {
           packages moved it
         </span>
       </h1>
+      <p className="method" style={{ marginTop: 8 }}>
+        Drafting a contract clause? The <Link href="/escalation/clause">price-adjustment clause kit</Link> settles on a
+        single official BLS series, with deadband, share, cap/floor and a named vintage.
+      </p>
       <div style={{ marginTop: 24 }}>
-        <DcEscalationClient data={data} grades={grades} />
+        <DcEscalationClient data={data} officialData={ESCALATION_DATA_OFFICIAL} grades={grades} />
         <Citation live series="DC Build Index (escalation)" asOf={data.asOf} rebase={dc.rebase} value={`${fmtSigned(build.headline_yoy_pct)} YoY`} path="/escalation" />
       </div>
       <Section title="Methodology">
@@ -67,7 +73,7 @@ export default function Escalation() {
           which stops at the index&apos;s latest observation ({data.asOf}) and is therefore a
           partial month.
           Escalation is national — state parity multipliers on{" "}
-          <a href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</a> are{" "}
+          <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link> are{" "}
           <em>level</em> multipliers (cost relative to the national average), not escalation
           rates; your base cost for a real site already embeds its location, so applying them
           here would count location twice.
@@ -89,7 +95,18 @@ export default function Escalation() {
           over a sample containing one downturn and one spike, best read as a range of
           precedents rather than a probability. Component sources and weights are
           documented on{" "}
-          <a href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</a>.
+          <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link>.
+          {" "}<strong>Index choice.</strong> The default is the live DC Build grid, whose
+          trailing month carries a futures-proxy tail for copper and aluminium until the next
+          PPI replaces it — so its latest month restates. <em>Official prints only</em> is the
+          same Laspeyres basket on the agencies&apos; own prints: every month is complete, and a
+          month once published moves only when BLS revises its print. That is the basis to cite
+          in a price-adjustment clause; its monthly series downloads as CSV on{" "}
+          <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link>.
+          {" "}<strong>P80.</strong> The P80 line is the 80th percentile of the same realized
+          windows as the band: carried over your forward leg, it is the allowance that would have
+          covered four in five of the historical windows of your length — with the same
+          small-sample caveat.
         </div>
       </Section>
     </div>

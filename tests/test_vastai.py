@@ -1,4 +1,6 @@
 import json
+import statistics
+import urllib.parse
 from pathlib import Path
 
 import pytest
@@ -60,3 +62,75 @@ def test_multi_gpu_offers_normalized_per_gpu():
     obs = vastai.fetch(["H100 SXM"], vintage_date="2026-07-15",
                        http_get=_get(offers))
     assert obs[0].value == pytest.approx(2.0)   # all normalize to 2.0/GPU-hr
+
+
+# --- backlog #9: explicit order + banded split past the 64-offer cap -------
+BANDED = json.loads(
+    (Path(__file__).parent / "fixtures" / "vastai_banded.json").read_text())
+
+
+def _q(url):
+    return json.loads(urllib.parse.unquote(url.split("?q=", 1)[1]))
+
+
+def _banded_get(calls):
+    """Replay the recorded 2026-09-28 live session, keyed by the query's SKU
+    and dph_total band (None = the unbanded first query)."""
+    def get(url, timeout=None):
+        q = _q(url)
+        calls.append(q)
+        return _R(BANDED["responses"][json.dumps([q["gpu_name"]["eq"], q.get("dph_total")])])
+    return get
+
+
+def test_every_query_carries_explicit_order():
+    calls = []
+    vastai.fetch(["RTX 4090", "B300"], vintage_date="2026-09-28",
+                 http_get=_banded_get(calls))
+    assert calls and all(q["order"] == [["dph_total", "asc"]] for q in calls)
+
+
+def test_saturated_query_is_split_into_bands_covering_full_market():
+    calls = []
+    obs = vastai.fetch(["RTX 4090"], vintage_date="2026-09-28",
+                       http_get=_banded_get(calls))
+    bands = [q.get("dph_total") for q in calls]
+    assert bands[0] is None                              # first query hit the cap
+    assert {"gte": 0.0, "lt": 0.5} in bands              # [0,1) re-saturated -> bisected
+    assert {"gte": 0.5, "lt": 1.0} in bands
+    assert {"gte": 64.0} in bands                        # open top band
+    leaf = [BANDED["responses"][json.dumps(["RTX 4090", b])]["offers"]
+            for b in bands if b not in (None, {"gte": 0.0, "lt": 1.0})]
+    ids = {o["id"] for offers in leaf for o in offers}
+    assert len(ids) > vastai.CAP                         # 157 live vs 64 capped
+    prices = [o["dph_total"] / o["num_gpus"] for offers in leaf
+              for o in offers if o["num_gpus"]]
+    assert obs[0].value == pytest.approx(round(statistics.median(prices), 4))
+    assert obs[0].value == pytest.approx(0.4956, abs=1e-4)   # recorded live
+
+
+def test_unsaturated_query_is_a_single_request():
+    calls = []
+    obs = vastai.fetch(["B300"], vintage_date="2026-09-28",
+                       http_get=_banded_get(calls))
+    assert len(calls) == 1
+    assert obs[0].value == pytest.approx(11.2503, abs=1e-4)   # recorded live
+
+
+def test_duplicate_offers_across_bands_counted_once():
+    cap = [{"id": i, "dph_total": 0.5, "num_gpus": 1} for i in range(vastai.CAP)]
+    few = [{"id": 1, "dph_total": 0.5, "num_gpus": 1},
+           {"id": 2, "dph_total": 0.6, "num_gpus": 1}]
+
+    def get(url, timeout=None):
+        return _R({"offers": cap if "dph_total" not in _q(url) else few})
+    # every band returns ids {1, 2}: de-duplicated to 2 offers -> thin -> skip
+    assert vastai.fetch(["X"], vintage_date="2026-09-28", http_get=get) == []
+
+
+def test_runaway_split_is_structure_drift():
+    cap = {"offers": [{"id": i, "dph_total": 0.5 + i, "num_gpus": 1}
+                      for i in range(vastai.CAP)]}
+    with pytest.raises(ValueError, match="structure drift"):
+        vastai.fetch(["X"], vintage_date="2026-09-28",
+                     http_get=lambda url, timeout=None: _R(cap))

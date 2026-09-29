@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import gaptable from "../../../public/data/gaptable.json";
-import pulse from "../../../public/data/pulse.json";
+import official from "../../../public/data/official.json";
+import compare from "../../../public/data/compare.json";
 import { GapDecomposition } from "@/components/GapDecomposition";
 import { GapVariantStrip } from "@/components/GapVariantStrip";
 import { ContributionSection } from "@/components/ContributionSection";
@@ -13,7 +14,22 @@ export const metadata: Metadata = {
   description: "Where the daily gauge differs from BLS, reconciled component by component.",
 };
 
-const pulseOfficial = { yoy_pct: pulse.official.yoy_pct, month: pulse.official.month };
+// each variant's gap is taken against its own reference print (lib/reconcile
+// VARIANT_REF): CPI, BLS services less rent of shelter for supercore (from
+// compare.json; core CPI when an older artifact lacks it), PCEPI for PCE
+const svc = (() => {
+  const c = compare as unknown as { months: string[]; official_supercore_yoy_pct?: (number | null)[] };
+  const col = c.official_supercore_yoy_pct;
+  if (!col) return undefined;
+  for (let i = col.length - 1; i >= 0; i--) if (col[i] != null) return { yoy_pct: col[i], month: c.months[i] };
+  return undefined;
+})();
+const refs = {
+  ...(svc ? { services: svc } : {}),
+  cpi: { yoy_pct: official.headline.cpi.yoy_pct, month: official.headline.cpi.month },
+  core: { yoy_pct: official.headline.core.yoy_pct, month: official.headline.core.month },
+  pce: { yoy_pct: official.headline.pce.yoy_pct, month: official.headline.pce.month },
+};
 export default function Gap() {
-  return <div><h1>Gauge Gap <span className="subtitle">where ours differs from BLS</span></h1><p className="lede"><Term k="laspeyres">Laspeyres</Term> contribution arithmetic decomposes our gap against a 14-component reconstruction of the BLS basket — close to, but not identical to, the headline gap vs the official print.</p><GapVariantStrip variants={gaptable.variants} officialYoy={pulseOfficial} /><div className="section-tools"><DownloadData rows={gaptable.rows} filename="macrogauge-gap" json="gaptable.json" citation={`MacroGauge gap decomposition, ${gaptable.as_of}, vs official ${gaptable.official_month}`} /></div><GapDecomposition rows={gaptable.rows} asOf={gaptable.as_of} officialMonth={gaptable.official_month} totalGapPp={gaptable.total_gap_pp} /><Section title="Gap contribution over time — ours minus BLS, by component"><ContributionSection defaultMode="gap" showTable={false} /></Section></div>;
+  return <div><h1>Gauge Gap <span className="subtitle">where ours differs from BLS</span></h1><p className="lede"><Term k="laspeyres">Laspeyres</Term> contribution arithmetic decomposes our gap against a 14-component reconstruction of the BLS basket — close to, but not identical to, the headline gap vs the official print.</p><GapVariantStrip variants={gaptable.variants} refs={refs} /><div className="section-tools"><DownloadData rows={gaptable.rows} filename="macrogauge-gap" json="gaptable.json" citation={`MacroGauge gap decomposition, ${gaptable.as_of}, vs official ${gaptable.official_month}`} /></div><GapDecomposition rows={gaptable.rows} asOf={gaptable.as_of} officialMonth={gaptable.official_month} totalGapPp={gaptable.total_gap_pp} /><Section title="Gap contribution over time — ours minus BLS, by component"><ContributionSection defaultMode="gap" showTable={false} /></Section></div>;
 }

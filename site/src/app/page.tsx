@@ -10,6 +10,7 @@ import grocery from "../../public/data/grocery_basket.json";
 import nextprintJson from "../../public/data/nextprint.json";
 import fuelJson from "../../public/data/fuel.json";
 import outlookJson from "../../public/data/outlook.json";
+import methodologyJson from "../../public/data/methodology.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
@@ -36,6 +37,10 @@ import { ForecastNumberLine } from "@/components/ForecastNumberLine";
 import { fmtDay, fmtMonth, fmtPct, fmtPp, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
 import { SITE_DESCRIPTION } from "@/lib/nav";
 import { CopyLink } from "@/components/CopyLink";
+import { artifact } from "@/lib/artifact";
+import { sourcePills } from "@/lib/sourcePills";
+import { reconcile } from "@/lib/reconcile";
+import { ReconciliationStrip } from "@/components/ReconciliationStrip";
 
 // Numbers are baked at build time, so the tab title is a live headline —
 // refreshed by the daily publish like everything else.
@@ -44,11 +49,19 @@ export const metadata: Metadata = {
     absolute: `US inflation today: ${fmtPct(pulse.gauge.yoy_pct)} macrogauge vs ${fmtPct(pulse.official.yoy_pct)} official CPI`,
   },
 };
-import type { Fuel, NextPrint, Outlook } from "@/lib/types";
+import type { CompareRealtime, Fuel, LeadLagStat, NextPrint, Outlook } from "@/lib/types";
 
 // Cast, don't infer: these artifacts legally degrade (see lib/types.ts).
 const nextprint = nextprintJson as NextPrint;
 const fuel = fuelJson as Fuel;
+// Lead-lag stat on the VINTAGE-TRUE record (compare.json `realtime`, added
+// 2026-09-28): what the gauge read at each month-end, before that month's
+// print. Property read, not destructuring (the #42 webpack-mangle lesson).
+// Older artifacts carry only the hindsight stat, labelled as such.
+const realtime = (compare as { realtime?: CompareRealtime }).realtime;
+const leadLag: { stat: LeadLagStat; basis: "real-time" | "hindsight" } = realtime?.validation.lead_lag
+  ? { stat: realtime.validation.lead_lag, basis: "real-time" }
+  : { stat: compare.validation.gauge.lead_lag ?? null, basis: "hindsight" };
 // component_paths (~11KB) and the full parameters block are unconsumed by the
 // chart — strip them so they never enter the client component's RSC payload.
 const { component_paths: _componentPaths, parameters: outlookParams, ...outlookRest } = outlookJson;
@@ -56,6 +69,22 @@ const outlook = {
   ...outlookRest,
   parameters: { baseline_annual_pct: outlookParams.baseline_annual_pct },
 } as Outlook;
+
+// official → 14-component reconstruction → ours, every leg a published
+// number (lib/reconcile.ts). Property read, not a destructure (see
+// methodology/page.tsx on webpack JSON-key mangling).
+const reconciliation = reconcile({
+  official: pulse.official,
+  reconstruction: artifact("methodology", methodologyJson).validation.bls_reconstruction,
+  componentGapPp: gaptable.total_gap_pp,
+  gauge: pulse.gauge,
+  headlineGapPp: pulse.gap_pp,
+});
+
+// Two decimals on the headline YoY tiles: the prints move by hundredths
+// (3.36 → 3.40 reads "3.4%" twice at one decimal) and the reconciliation
+// strip below is exact to the hundredth.
+const pct2 = (v: number) => `${v.toFixed(2)}%`;
 
 const GROUP_TITLES: Record<string, string> = {
   grocery: "Grocery basket",
@@ -122,11 +151,14 @@ const fmtQuote = (q: (typeof official.quotes)[number]) =>
 
 export default function Home() {
   const { cpi, core } = official.headline;
-  const quote = (code: string) => official.quotes.find((q) => q.code === code);
+  // schema-typed: `yoy_pp` is optional on quotes (absent before the refresh)
+  const quote = (code: string) => artifact("official", official).quotes.find((q) => q.code === code);
   const gas = quote("eia_gasreg_w");
   const mortgage = quote("pmms_30yr");
   const gold = quote("fmp_gold");
   const debt = quote("fiscal_debt_total");
+  const sources = sourcePills(status.sources);
+  const failedSources = sources.filter((p) => p.tone !== "ok");
   const movers = [...official.components]
     .sort((a, b) => Math.abs(b.mom_pct) - Math.abs(a.mom_pct))
     .slice(0, 6);
@@ -158,7 +190,7 @@ export default function Home() {
         <KpiCard
           className="headline-primary"
           label="Macrogauge · YoY"
-          value={fmtPct(pulse.gauge.yoy_pct)}
+          value={pct2(pulse.gauge.yoy_pct)}
           context={`CPI-comparable · ${fmtDay(pulse.gauge.as_of)}`}
           accent="sky"
           chip={<DeltaChip value={pulse.gap_pp} prefix="vs official" pp />}
@@ -166,14 +198,14 @@ export default function Home() {
         <KpiCard
           className="headline-comparator"
           label="Official CPI · YoY"
-          value={fmtPct(cpi.yoy_pct)}
-          context={`${fmtMonth(cpi.month)} print · previous ${fmtPct(cpi.prev_yoy_pct)}`}
+          value={pct2(cpi.yoy_pct)}
+          context={`${fmtMonth(cpi.month)} print · previous ${pct2(cpi.prev_yoy_pct)}`}
           accent="amber"
         />
         <KpiCard
           className="headline-comparator"
           label="CPI-Tracker · YoY"
-          value={fmtPct(pulse.tracker.yoy_pct)}
+          value={pct2(pulse.tracker.yoy_pct)}
           context="Tracks official shelter dynamics"
           accent="violet"
           chip={<DeltaChip value={pulse.tracker_gap_pp} prefix="gap" pp />}
@@ -181,8 +213,8 @@ export default function Home() {
         <KpiCard
           className="headline-comparator"
           label="Core CPI · YoY"
-          value={fmtPct(core.yoy_pct)}
-          context={`${fmtMonth(core.month)} print · previous ${fmtPct(core.prev_yoy_pct)}`}
+          value={pct2(core.yoy_pct)}
+          context={`${fmtMonth(core.month)} print · previous ${pct2(core.prev_yoy_pct)}`}
           accent="amber"
         />
         <KpiCard
@@ -199,6 +231,7 @@ export default function Home() {
       </div>
 
       <div className="research-coverage">{pulse.gauge.coverage_pct.toFixed(0)}% of basket weight repriced from live data · Official CPI released {fmtDay(cpi.as_of)}</div>
+      <ReconciliationStrip r={reconciliation} officialMonth={pulse.official.month} gaugeAsOf={pulse.gauge.as_of} />
       <Section id="inflation-trend" title="Macrogauge vs official" featured actions={<>
         <Citation compact series="CPI-comparable gauge YoY" asOf={pulse.gauge.as_of}
           rebase="2018-01=100" value={`${fmtPct(pulse.gauge.yoy_pct)} vs official ${fmtPct(pulse.official.yoy_pct)}`} path="/" />
@@ -226,19 +259,27 @@ export default function Home() {
           />
         </div>
         <div className="chart-caption">
-          {compare.validation.gauge.lead_lag ? (
-            <>
+          {leadLag.stat ? (
+            <span
+              data-testid="lead-lag-stat"
+              title={
+                leadLag.basis === "real-time"
+                  ? realtime?.basis
+                  : "Hindsight series: each monthly print applied from its reference month, ~6 weeks before release."
+              }
+            >
               <span style={{ color: "var(--accent-sky)", fontWeight: 600 }}>
                 LEAD-LAG:
               </span>{" "}
-              gauge today correlates {compare.validation.gauge.lead_lag.corr}{" "}
-              with official CPI{" "}
-              {compare.validation.gauge.lead_lag.best_shift_months} month
-              {compare.validation.gauge.lead_lag.best_shift_months === 1
-                ? ""
-                : "s"}{" "}
-              ahead ·{" "}
-            </>
+              {leadLag.basis === "real-time"
+                ? "the gauge as read at each month-end (real-time record, before that month's print) correlates "
+                : "gauge (hindsight series) correlates "}
+              {leadLag.stat.corr} with official CPI{" "}
+              {leadLag.stat.best_shift_months === 0
+                ? "for the same month"
+                : `${leadLag.stat.best_shift_months} month${leadLag.stat.best_shift_months === 1 ? "" : "s"} ahead`}
+              {leadLag.basis === "real-time" && realtime ? ` (${realtime.validation.window})` : ""} ·{" "}
+            </span>
           ) : null}
           CPI-TRACKER {fmtPct(pulse.tracker.yoy_pct)} — built to re-track the
           print · {pulse.gauge.coverage_pct.toFixed(0)}% of basket weight rides
@@ -253,7 +294,7 @@ export default function Home() {
           <div className="panel-title">Next CPI print · {nextprint.reference_month ?? "TBA"}</div>
           <div className="release-date">{nextprint.release_date ? fmtDay(nextprint.release_date) : "TBA"}</div>
           <Countdown releaseDate={nextprint.release_date} />
-          <div className="panel-muted">BLS release · previous print {fmtPct(cpi.yoy_pct)} YoY</div>
+          <div className="panel-muted">BLS release · previous print {pct2(cpi.yoy_pct)} YoY</div>
           <ForecastNumberLine calls={nextprint.forecasters} />
           <div className="panel-foot">
             Ensemble {nextprint.ensemble.value == null ? "—" : `${nextprint.ensemble.value.toFixed(2)}%`} MoM
@@ -268,18 +309,18 @@ export default function Home() {
         <section className="dashboard-panel market-panel">
           <div className="panel-title">Market pulse</div>
           <div className="market-grid">
-            {gas && <div><span>Regular gas</span><strong>{fmtMoney(gas.latest, gas.unit)}</strong><small>{fmtSigned(gas.yoy_pct)} YoY</small></div>}
+            {gas && <div><span>Regular gas · EIA weekly</span><strong>{fmtMoney(gas.latest, gas.unit)}</strong><small>{fmtSigned(gas.yoy_pct)} YoY · week of {gas.obs_date}</small></div>}
             {mortgage && <div><span>30Y mortgage</span><strong>{fmtMoney(mortgage.latest, mortgage.unit)}</strong><small>{(() => {
               // rates move in POINTS: render the pp delta once the pipeline
               // publishes it; %-change fallback for the pre-refresh artifact
-              const pp = (mortgage as { yoy_pp?: number | null }).yoy_pp;
+              const pp = mortgage.yoy_pp;
               return pp != null ? `${fmtPp(pp)} YoY` : `${fmtSigned(mortgage.yoy_pct)} YoY`;
             })()}</small></div>}
             {gold && <div><span>Gold</span><strong>{fmtMoney(gold.latest, gold.unit)}</strong><small>{fmtSigned(gold.yoy_pct)} YoY</small></div>}
             {debt && <div><span>Public debt</span><strong>${(debt.latest / 1e12).toFixed(2)}T</strong><small>{fmtSigned(debt.yoy_pct)} YoY</small></div>}
           </div>
           <div className="panel-foot">
-            Fuel: pump {fuel.pump == null ? "—" : `$${fuel.pump.toFixed(2)}`} →{" "}
+            Fuel component · AAA daily pump {fuel.pump == null ? "—" : `$${fuel.pump.toFixed(2)}`} →{" "}
             {fuel.forward_2wk == null ? "—" : `$${fuel.forward_2wk.toFixed(2)}`} in 2 weeks
             {fuel.available && fuel.proxy ? ` · implied by ${fuel.proxy}` : ""} · {fuel.as_of ?? "awaiting data"}
           </div>
@@ -352,6 +393,12 @@ export default function Home() {
 
       <Section title="Macrogauge outlook — next 12 months" featured>
         <OutlookChart outlook={outlook} />
+        <p className="chart-caption" data-testid="outlook-caveat">
+          The outlook&apos;s starting point ({outlook.latest_complete_month_yoy_pct.toFixed(2)}%,{" "}
+          {fmtMonth(`${outlook.origin_month}-01`)}) is the gauge&apos;s index-level YoY — a ratio of monthly
+          index levels — not the own-observation headline above ({pct2(pulse.gauge.yoy_pct)}), so the two
+          differ. Component paths and drivers: <Link href="/outlook">outlook</Link>.
+        </p>
       </Section>
 
       <Section title="Inflation quilt — every component, every month">
@@ -481,20 +528,28 @@ export default function Home() {
 
       <Section title="Sources">
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {status.sources.map((s) => (
+          {sources.map((p) => (
             <Link
-              key={s.name}
+              key={p.id}
               href="/status"
-              title={s.error ?? `${s.name} ok · last pull ${s.finished_at}`}
+              title={p.detail}
+              aria-describedby={`${p.id}-detail`}
               style={{ textDecoration: "none" }}
             >
-              <StatusPill
-                tone={s.ok ? "ok" : "advisory"}
-                label={`${s.name} · ${s.latest_obs ?? "never"}`}
-              />
+              <StatusPill tone={p.tone} label={p.label} />
+              {p.tone === "ok" && <span id={`${p.id}-detail`} className="sr-only">{p.detail}</span>}
             </Link>
           ))}
         </div>
+        {failedSources.length > 0 && (
+          <ul className="source-errors" aria-label="Source errors">
+            {failedSources.map((p) => (
+              <li key={p.id} id={`${p.id}-detail`}>
+                <span aria-hidden="true">! </span>{p.detail}
+              </li>
+            ))}
+          </ul>
+        )}
         <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 12 }}>
           All figures from official/public sources (BLS, FRED, EIA, Zillow, Freddie
           Mac, U.S. Treasury, FMP) — collected daily, published with as-of dates. The

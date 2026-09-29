@@ -62,7 +62,7 @@ export function ComponentChart({
         <SegmentedControl options={VIEWS} value={view} onChange={setView} />
         <CopyLink />
       </div>
-      <EChart option={option} height={340} />
+      <EChart option={option} height={340} ariaTitle={`${label}, ours vs official — ${view === "level" ? "index level (2018-01 = 100)" : "YoY %"}`} />
     </div>
   );
 }

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { stateSlug } from "@/lib/longtail";
 import geoJson from "../../../public/data/geo.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DownloadData } from "@/components/DownloadData";
@@ -110,7 +112,7 @@ export default function States() {
           <tbody>
             {rows.map((s) => (
               <tr key={s.state}>
-                <td>{s.name}</td>
+                <td><Link href={`/states/${stateSlug(s.state)}`}>{s.name}</Link></td>
                 <td>{price(s.gas_regular.value, "$gal")}</td>
                 <td>{price(s.elec_res_cents.value, "cents")}</td>
                 <td style={{ color: yoyColor(s.elec_res_cents.yoy_pct) }}>

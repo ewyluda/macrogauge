@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useUrlState } from "@/lib/useUrlState";
 import { codecs } from "@/lib/urlState";
 import { CopyLink } from "./CopyLink";
@@ -19,6 +20,7 @@ import {
   lastCompleteMonth,
   MAX_HORIZON_MONTHS,
   MIN_HORIZON_MONTHS,
+  p80Carry,
 } from "@/lib/dcContingency";
 import {
   ESCALATION_BASIS_TO_GRADE as GRADE_BASIS_KEY,
@@ -33,14 +35,20 @@ export type { EscalationData };
 const usd = fmtUsd;
 
 export function DcEscalationClient({
-  data,
+  data: tailData,
+  officialData = null,
   grades,
 }: {
   data: EscalationData;
+  /** the official-prints-only variant (P8); null hides the index choice */
+  officialData?: EscalationData | null;
   // The legs slice of dc_grades.json, never the whole artifact — see
   // escalationGradeSlice() and this page's server component.
   grades: GradeLegs | null;
 }) {
+  const [indexKey, setIndexKey] = useUrlState("index", "live", codecs.str(10));
+  const useOfficial = indexKey === "official" && !!officialData;
+  const data = useOfficial && officialData ? officialData : tailData;
   const firstMonth = data.months[0];
   const anchor = lastCompleteMonth(data.months, data.componentLastObs);
   // The measured leg ENDS, and the forward carry STARTS, at the last complete
@@ -106,6 +114,12 @@ export function DcEscalationClient({
   // the sample grows (it is not 48; see the comment on MAX_HORIZON_MONTHS in
   // dcContingency.ts), so the message must not assert one.
   const capBand = anchor ? band(data.months, data.index, MAX_HORIZON_MONTHS, anchor) : null;
+
+  // P80 contingency: the band's p80 carried over the same forward leg the
+  // chosen basis carries, from the cost at the last complete month.
+  const p80 = result?.forward && chosen && bandRow
+    ? p80Carry(bandRow, result.escalatedCost, result.forward.monthsAhead, chosen.annualizedPct)
+    : null;
 
   const rows = bridgeWindow(
     data.months, data.componentIndex, data.components,
@@ -195,10 +209,25 @@ export function DcEscalationClient({
             style={input}
           />
         </label>
+        {officialData && (
+          <label style={{ fontSize: 12, color: "var(--muted)" }}>
+            Index{" "}
+            <select
+              value={useOfficial ? "official" : "live"}
+              onChange={(e) => setIndexKey(e.target.value)}
+              style={input}
+              data-testid="index-basis"
+            >
+              <option value="live">DC Build (live tail)</option>
+              <option value="official">DC Build, official prints only</option>
+            </select>
+          </label>
+        )}
         {anchor && (
           <label style={{ fontSize: 12, color: "var(--muted)" }}>
             Carry{" "}
             <select
+              data-testid="carry-basis"
               value={chosen?.key ?? ""}
               onChange={(e) => setBasisKey(e.target.value)}
               style={input}
@@ -238,19 +267,20 @@ export function DcEscalationClient({
                   here, with the measured gap on /dc-scoreboard's methodology,
                   rather than either a silent difference or a paragraph of
                   arithmetic inside a one-line verdict. */}
-              Graded on a reconstruction from official prints only, which can differ
-              slightly in months carrying a live futures tail.{" "}
-              <a href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
+              {useOfficial
+                ? "Graded on a reconstruction from official prints only — the same basis as the index chosen above."
+                : "Graded on a reconstruction from official prints only, which can differ slightly in months carrying a live futures tail."}{" "}
+              <Link href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
                 See how each basis has held up →
-              </a>
+              </Link>
             </>
           ) : (
             <>
               This is a hindsight-selected historical episode, not a rule — it
               carries no grade.{" "}
-              <a href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
+              <Link href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
                 See the bases that do →
-              </a>
+              </Link>
             </>
           )}
         </p>
@@ -341,6 +371,22 @@ export function DcEscalationClient({
             )}
           </div>
 
+          {p80 && bandRow && chosen && result.forward && (
+            <p data-testid="p80-contingency" style={{ fontSize: 13, margin: "12px 4px 0" }}>
+              To cover <strong>P80</strong> of the {bandRow.windows} realized{" "}
+              {bandRow.horizonMonths}-month windows since {bandRow.sampleStartMonth}, carry{" "}
+              <strong>{p80.ratePct.toFixed(2)}%/yr</strong>: an escalation allowance of{" "}
+              <strong>{usd(p80.allowance)}</strong> on this project from {result.endMonth} to{" "}
+              {result.forward.deliveryMonth}, which is{" "}
+              <strong>{usd(Math.abs(p80.aboveBasis))}</strong>{" "}
+              {p80.aboveBasis >= 0 ? "above" : "below"} carrying the {chosen.label} basis.{" "}
+              <span style={{ color: "var(--muted)" }}>
+                A count of precedents ({bandRow.independentDraws.toFixed(1)} independent windows,{" "}
+                {bandRow.spikeOverlapPct.toFixed(0)}% touching the 2021–22 spike), not a probability.
+              </span>
+            </p>
+          )}
+
           <div className="table-card" style={{ marginTop: 16 }}>
             <h2>
               What drove it{" "}
@@ -355,7 +401,7 @@ export function DcEscalationClient({
               happens to start at 100 — the Index column below lets you verify Contribution
               directly: 100 × weight × (end − base) ÷ headline base index. That is a
               different formula from <code>contribution_pp</code> on{" "}
-              <a href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</a>{" "}
+              <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link>{" "}
               (weight × the component&apos;s own YoY) — don&apos;t carry that shortcut over
               here.
             </div>

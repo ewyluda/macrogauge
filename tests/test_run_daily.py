@@ -2,7 +2,7 @@ import csv
 import io
 import json
 import zipfile
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 import jsonschema
@@ -116,6 +116,23 @@ def _ice_xlsx():
     return buf.getvalue()
 
 
+def _kxfed_payload(status):
+    """KXFED: one settled meeting at 4.00% and one liquid open ladder closing
+    30 days after today_et() — relative dates so the e2e never ages out of
+    the connector's 'upcoming meetings only' filter."""
+    if status == "settled":
+        return {"markets": [{"ticker": "KXFED-26SEP-T4.00", "event_ticker": "KXFED-26SEP",
+                             "close_time": "2026-09-16T17:55:00Z",
+                             "expiration_value": "4.00%", "result": "no"}]}
+    close = (date.fromisoformat(today_et()) + timedelta(days=30)).isoformat()
+    ev = "KXFED-" + date.fromisoformat(close).strftime("%y%b").upper()
+    rungs = [(3.5, "0.98", "0.99"), (3.75, "0.97", "0.99"), (4.0, "0.60", "0.64"),
+             (4.25, "0.04", "0.06"), (4.5, "0.00", "0.02")]
+    return {"markets": [{"ticker": f"{ev}-T{s:.2f}", "event_ticker": ev,
+                         "floor_strike": s, "yes_bid_dollars": b, "yes_ask_dollars": a,
+                         "close_time": f"{close}T17:55:00Z"} for s, b, a in rungs]}
+
+
 def _text_json(obj):
     return _TextResponse(json.dumps(obj))
 
@@ -189,6 +206,8 @@ def fake_get(url, params=None, timeout=None, **kw):
                 {"floor_strike": 2000, "last_price_dollars": "0.4"}]})
         if ticker == "KXDATACENTER":
             return FakeResponse({"markets": [{"last_price_dollars": "0.61"}]})
+        if ticker == "KXFED":
+            return FakeResponse(_kxfed_payload(params.get("status")))
         # two rungs: a single priced rung is a degenerate ladder and raises
         return FakeResponse({"markets": [{"floor_strike": 0.1,
                                            "last_price_dollars": "0.9",
@@ -198,6 +217,8 @@ def fake_get(url, params=None, timeout=None, **kw):
                                            "last_price_dollars": "0.5",
                                            "event_ticker": "KXCPI-26JUL",
                                            "close_time": "2026-08-11T00:00:00Z"}]})
+    if "newyorkfed.org" in url and "gscpi" in url:
+        return _TextResponse((FIXTURES / "nyfed_gscpi.csv").read_text())
     if "fiscaldata.treasury.gov" in url:
         return FakeResponse(json.loads((FIXTURES / "treasury_debt.json").read_text()))
     if "zillowstatic.com" in url:
@@ -303,7 +324,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "revisions.json", "ledger.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 30  # SFCOMPUTE retired, KALSHI_CORE added 2026-09-26
+    assert len(status["sources"]) == 32  # SFCOMPUTE retired, KALSHI_CORE added 2026-09-26, KALSHI_FED + NYFED 09-28
     assert all(s["ok"] for s in status["sources"])
     kalshi_dc_row = [s for s in status["sources"] if s["name"] == "KALSHI_DC"][0]
     assert kalshi_dc_row["ok"] is True
@@ -316,6 +337,10 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert qa["total"] == 35
     for phase in ("rates", "compute", "housing", "changes", "revisions", "ledger"):
         assert [c for c in qa["checks"] if c["name"] == f"{phase}_ok"][0]["pass"] is True, phase
+    # backlog #10a: the KXFED fake's one liquid ladder reaches rates.json
+    fed = json.loads((out / "rates.json").read_text())["fed_path"]
+    assert fed["reference_upper"] == 4.0 and len(fed["meetings"]) == 1
+    assert fed["meetings"][0]["p_hike"] == pytest.approx(0.62, abs=1e-4)   # mid at T4.00
     # batch 4e: a fresh out dir has no previous publish -> first reading
     ch = json.loads((out / "changes.json").read_text())
     assert ch["prev_published_at"] is None
@@ -428,6 +453,9 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     med = next(r for g in matrix_out["groups"] for r in g["rows"]
                if r["code"] == "MEDCPIM158SFRBCLE")
     assert med["value"] == pytest.approx(320.1)  # FRED fixture latest 2026-04-01
+    gscpi = next(r for g in matrix_out["groups"] for r in g["rows"] if r["code"] == "GSCPI")
+    assert (gscpi["value"], gscpi["as_of"]) == (1.06, "2026-08-01")  # NYFED fixture
+    assert matrix_out["tariffs"]["as_of"] is not None               # FRED fake pair
     # GRADES phase (/dc-scoreboard): the fake store's fixtures span only a
     # couple of months (this suite never backfills ALFRED vintage history --
     # scripts/backfill_dc_vintages.py is a one-off, run once against the

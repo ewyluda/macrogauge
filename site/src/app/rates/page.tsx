@@ -10,7 +10,7 @@ import { Citation } from "@/components/Citation";
 import { C } from "@/lib/chartTheme";
 import { RATES_CURVE_CSV, RATES_HISTORY_CSV, RATES_LIQUIDITY_CSV } from "@/lib/exportSpecs";
 import { fmtDay, fmtPp } from "@/lib/format";
-import type { Rates } from "@/lib/types";
+import type { FedPath, Rates } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 
 const data = ratesJson as Rates;
@@ -30,6 +30,64 @@ function Chg({ v, unit = "pp" }: { v: number | null; unit?: "pp" | "%" }) {
   if (v == null) return <span style={{ color: "var(--muted)" }}>—</span>;
   const color = Math.abs(v) < 0.005 ? "var(--muted)" : v > 0 ? "var(--accent-red)" : "var(--accent-emerald)";
   return <span style={{ color }}>{v > 0 ? "+" : v < 0 ? "−" : ""}{Math.abs(v).toFixed(2)}{unit}</span>;
+}
+
+const prob = (v: number | null) => (v == null ? "—" : `${Math.round(v * 100)}%`);
+const bp = (v: number | null) => (v == null ? "—" : `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v).toFixed(0)}bp`);
+
+/** Kalshi KXFED market-implied path against the official target (backlog #10a).
+ *  Renders only when rates.json carries the block. */
+function FedPathSection({ fp }: { fp: FedPath }) {
+  const t = fp.target_upper;
+  const pathX = t.as_of ? [t.as_of, ...fp.meetings.map((m) => m.date)] : fp.meetings.map((m) => m.date);
+  const pathY = t.as_of ? [t.value, ...fp.meetings.map((m) => m.expected_upper)] : fp.meetings.map((m) => m.expected_upper);
+  const next = fp.meetings[0];
+  return (
+    <Section title="Market-implied Fed path — Kalshi FOMC ladders vs the target">
+      <div className="kpi-row">
+        <KpiCard label="Target range, upper" value={pct(t.value)} context={`DFEDTARU · ${t.as_of ?? "—"}`} accent="sky" />
+        <KpiCard label="Effective fed funds" value={pct(fp.effective.value)} context={`FEDFUNDS monthly · ${fp.effective.as_of ?? "—"}`} accent="violet" />
+        <KpiCard label={next ? `Next meeting ${fmtDay(next.date)}` : "Next meeting"} value={next ? pct(next.expected_upper) : "—"}
+          context={next ? `expected upper · ${bp(next.implied_change_bp)} · P(hike) ${prob(next.p_hike)}` : "no liquid ladder today"}
+          accent={next && (next.implied_change_bp ?? 0) > 0 ? "red" : "emerald"} />
+      </div>
+      {fp.meetings.length > 0 && (
+        <div className="chart-card">
+          <LinesChart height={260} recessions={false}
+            series={[
+              { name: "Target upper bound (DFEDTARU)", x: fp.history.dates, y: fp.history.target_upper, color: C.sky, step: true },
+              { name: "Market-implied upper bound (Kalshi)", x: pathX, y: pathY, color: C.amber, dashed: true },
+            ]} />
+        </div>
+      )}
+      <div className="table-card" style={{ marginTop: 10 }}>
+        <table className="data-table">
+          <caption className="method" style={{ captionSide: "bottom", textAlign: "left" }}>Probabilities are cumulative from today to each meeting, vs the upper bound now in effect.</caption>
+          <thead><tr><th style={{ textAlign: "left" }}>Meeting</th><th>Expected upper</th><th>vs today</th><th>P(cut)</th><th>P(hold)</th><th>P(hike)</th></tr></thead>
+          <tbody>
+            {fp.meetings.length === 0 ? (
+              <tr><td colSpan={6} style={{ color: "var(--muted)" }}>No meeting ladder was liquid enough on the latest fetch.</td></tr>
+            ) : fp.meetings.map((m) => (
+              <tr key={m.date}>
+                <td style={{ textAlign: "left" }}>{fmtDay(m.date)}</td>
+                <td><strong>{pct(m.expected_upper)}</strong></td>
+                <td>{bp(m.implied_change_bp)}</td>
+                <td>{prob(m.p_cut)}</td>
+                <td>{prob(m.p_hold)}</td>
+                <td>{prob(m.p_hike)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="method">
+        {fp.method} Reference upper bound {pct(fp.reference_upper)}
+        {fp.reference_matches_target === false ? " — differs from DFEDTARU (FRED lags a fresh decision by a day)" : ""}; quotes as of {fp.as_of ?? "—"}.
+        Far-dated meetings rarely trade two-sided, so the table is usually the next one or two meetings. A betting-market
+        read, not a forecast of ours.
+      </p>
+    </Section>
+  );
 }
 
 export default function RatesPage() {
@@ -89,6 +147,8 @@ export default function RatesPage() {
         </div>
       </Section>
 
+      {data.fed_path && <FedPathSection fp={data.fed_path} />}
+
       <Section title="Spreads — 2s10s, 3m10y and the real 10-year, since 2019">
         <div className="section-tools">
           <DownloadData filename="macrogauge-rates-history" json="rates.json"
@@ -125,7 +185,7 @@ export default function RatesPage() {
                 <div className="quote-meta" style={{ fontSize: 11, color: "var(--muted)" }}>
                   30d <Chg v={L.chg_30d} unit={unit as "pp" | "%"} /> · 1y <Chg v={L.chg_1y} unit={unit as "pp" | "%"} /> · {L.as_of ?? "—"}
                 </div>
-                <TailSpark tail={L.tail.values} />
+                <TailSpark tail={L.tail.values} label={label as string} />
               </div>
             );
           })}

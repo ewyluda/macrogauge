@@ -34,11 +34,11 @@ export function MethodologyInventory({ rows }: { rows: Row[] }) {
   return (
     <div>
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
-        <button style={chip(filter === null)} onClick={() => setFilter(null)}>
+        <button type="button" aria-pressed={filter === null} style={chip(filter === null)} onClick={() => setFilter(null)}>
           All ({rows.length})
         </button>
         {sources.map((s) => (
-          <button key={s} style={chip(filter === s)} onClick={() => setFilter(s)}>
+          <button key={s} type="button" aria-pressed={filter === s} style={chip(filter === s)} onClick={() => setFilter(s)}>
             {s}
           </button>
         ))}
@@ -56,26 +56,17 @@ export function MethodologyInventory({ rows }: { rows: Row[] }) {
             {shown.map((r) => (
               <tr key={r.code}>
                 <td style={{ ...td, width: 14 }}>
+                  {/* glyph + screen-reader text, not colour alone (B14) */}
                   <span
-                    style={{
-                      display: "inline-block",
-                      width: 7,
-                      height: 7,
-                      borderRadius: 999,
-                      background: r.fresh
-                        ? "var(--accent-emerald)"
-                        : r.absence
-                          ? "var(--accent-amber)"
-                          : "var(--accent-red)",
-                    }}
-                    title={
-                      r.fresh
-                        ? "fresh"
-                        : r.absence
-                          ? `expected absence: ${r.absence}`
-                          : "stale"
-                    }
-                  />
+                    className={`inv-status inv-status-${r.fresh ? "fresh" : r.absence ? "absent" : "stale"}`}
+                    aria-hidden="true"
+                    title={r.fresh ? "fresh" : r.absence ? `expected absence: ${r.absence}` : "stale"}
+                  >
+                    {r.fresh ? "✓" : r.absence ? "–" : "!"}
+                  </span>
+                  <span className="sr-only">
+                    {r.fresh ? "fresh" : r.absence ? `expected absence: ${r.absence}` : "stale"}
+                  </span>
                 </td>
                 <td style={{ ...td, fontFamily: "ui-monospace, monospace", fontSize: 12 }}>
                   {r.code}

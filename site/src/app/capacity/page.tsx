@@ -4,8 +4,9 @@ import { KpiCard } from "@/components/KpiCard";
 import { CapacityClient } from "@/components/capacity/CapacityClient";
 import type { Capacity } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
+import { artifact } from "@/lib/artifact";
 
-const data = capacityJson as unknown as Capacity;
+const data = artifact<"capacity", Capacity>("capacity", capacityJson);
 const all = data.cohorts.all;
 const gw = (mw: number) => (mw / 1000).toFixed(1);
 

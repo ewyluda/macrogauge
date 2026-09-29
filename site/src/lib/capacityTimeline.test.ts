@@ -61,10 +61,11 @@ describe("buildTimeline", () => {
 
 import capacityJson from "../../public/data/capacity.json";
 import type { Capacity } from "./types";
+import { artifact } from "./artifact";
 import { cohortOf } from "./capacityCohort";
 
 describe("published timeline parity", () => {
-  const cap = capacityJson as unknown as Capacity;
+  const cap = artifact<"capacity", Capacity>("capacity", capacityJson);
   for (const cohort of ["all", "neocloud", "hyperscaler"] as const) {
     it(`client buildTimeline equals capacity.json timeline.${cohort}`, () => {
       const rows = cap.companies.filter((c) => cohort === "all" || cohortOf(c) === cohort);

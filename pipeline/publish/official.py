@@ -71,13 +71,18 @@ def build(conn, series) -> dict:
     # absent (fresh basket before the first collect) or too short for two
     # YoY-computable months -- publish null rather than take official.json
     # down with it; the site degrades the KPI.
-    try:
-        pce_row = headline_row("PCEPI")
-    except ValueError:
-        pce_row = None
+    def optional_row(code):
+        try:
+            return headline_row(code)
+        except ValueError:
+            return None
+
     return {"headline": {"cpi": headline_row(cpi_code),
                          "core": headline_row(core_code),
-                         "pce": pce_row},
+                         "pce": optional_row("PCEPI"),
+                         # Core PCE (PCEPILFE) for /pce (2026-09-28), same
+                         # null-tolerance as the headline PCE row.
+                         "core_pce": optional_row("PCEPILFE")},
             "components": components, "quotes": quotes}
 
 

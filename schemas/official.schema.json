@@ -13,7 +13,8 @@
       "properties": {
         "cpi": {"$ref": "#/$defs/headline_row"},
         "core": {"$ref": "#/$defs/headline_row"},
-        "pce": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/headline_row"}]}
+        "pce": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/headline_row"}]},
+        "core_pce": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/headline_row"}]}
       }
     },
     "components": {

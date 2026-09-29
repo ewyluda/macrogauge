@@ -56,6 +56,8 @@ def test_build_and_write_validates(tmp_path):
     assert payload["headline"]["cpi"]["as_of"] == "2026-07-07"  # seed vintage
     # batch 2a: PCEPI headline rides alongside (registry seeds it here)
     assert payload["headline"]["pce"]["month"] == "2026-05-01"
+    # 2026-09-28: core PCE (PCEPILFE) headline alongside
+    assert payload["headline"]["core_pce"]["month"] == "2026-05-01"
     path = official_pub.write(payload, tmp_path / "out", "2026-07-07T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "official.schema.json")
     data = json.loads(path.read_text())
@@ -80,8 +82,9 @@ def test_build_publishes_null_pce_headline_without_pcepi(tmp_path):
     """PCEPI absent (fresh basket) must not take official.json down --
     headline.pce publishes null and validates."""
     _, series = load_registry()
-    conn = seed_full_from(tmp_path, [s for s in series if s.code != "PCEPI"])
+    conn = seed_full_from(tmp_path, [s for s in series if s.code not in ("PCEPI", "PCEPILFE")])
     payload = official_pub.build(conn, series)
     assert payload["headline"]["pce"] is None
+    assert payload["headline"]["core_pce"] is None
     path = official_pub.write(payload, tmp_path / "out", "2026-07-07T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "official.schema.json")

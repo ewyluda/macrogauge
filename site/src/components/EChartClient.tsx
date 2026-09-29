@@ -4,6 +4,7 @@ import { useEffect, useRef, type MutableRefObject } from "react";
 import * as echarts from "echarts/core";
 import { BarChart, LineChart, ScatterChart, TreemapChart } from "echarts/charts";
 import {
+  AriaComponent,
   AxisPointerComponent,
   GridComponent,
   TooltipComponent,
@@ -24,6 +25,7 @@ echarts.use([
   LineChart,
   ScatterChart,
   TreemapChart,
+  AriaComponent,
   AxisPointerComponent,
   GridComponent,
   TooltipComponent,
@@ -66,7 +68,10 @@ export function EChartClient({
   }, [instanceRef]);
 
   useEffect(() => {
-    ownedInstanceRef.current?.setOption(option, { notMerge });
+    // ECharts' own aria layer (B15): an auto-generated description of the
+    // series on the chart's DOM node. The EChart wrapper's role="img" label
+    // is the concise one assistive tech reads first.
+    ownedInstanceRef.current?.setOption({ aria: { enabled: true }, ...option }, { notMerge });
   }, [option, notMerge]);
 
   return <div ref={ref} style={{ width: "100%", height: "100%" }} />;

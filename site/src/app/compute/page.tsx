@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import computeJson from "../../../public/data/compute.json";
 import { KpiCard } from "@/components/KpiCard";
@@ -82,7 +83,7 @@ export default function ComputePage() {
                   <td><strong>{usd(m.blended_usd_mtok, 3)}</strong></td>
                   <td style={{ color: yoyColor(m.chg_30d_pct) }}>{fmtSigned(m.chg_30d_pct)}</td>
                   <td style={{ color: "var(--muted)" }}>{m.as_of ?? "not collected"}</td>
-                  <td><TailSpark tail={m.tail.values} /></td>
+                  <td><TailSpark tail={m.tail.values} label={m.label} /></td>
                 </tr>
               ))}
             </tbody>
@@ -97,11 +98,11 @@ export default function ComputePage() {
             <tbody>
               {data.gpus.map((g) => (
                 <tr key={g.code}>
-                  <td style={{ textAlign: "left" }}>{g.label} <span style={{ color: "var(--muted)", fontSize: 11 }}>{g.code}</span></td>
+                  <td style={{ textAlign: "left" }}>{g.label} <span style={{ color: "var(--muted)", fontSize: 11 }}>{g.code}{g.in_index === false ? " · not in index" : ""}</span></td>
                   <td><strong>{usd(g.usd_per_gpu_hr, 3)}</strong></td>
                   <td style={{ color: yoyColor(g.chg_30d_pct) }}>{fmtSigned(g.chg_30d_pct)}</td>
                   <td style={{ color: "var(--muted)" }}>{g.as_of ?? "not collected"}</td>
-                  <td><TailSpark tail={g.tail.values} /></td>
+                  <td><TailSpark tail={g.tail.values} label={g.label} /></td>
                 </tr>
               ))}
             </tbody>
@@ -110,7 +111,11 @@ export default function ComputePage() {
         <p className="method">
           vast.ai rows are the marketplace median for the SKU; sfcompute is its spot average. List prices, not
           negotiated rates — the same caveat the DC Hardware index carries for OEM inputs. Series are config
-          (config/series.json); a stale series (7-day limit) shows on <a href="/status">/status</a> and leaves the mean.
+          (config/series.json); a stale series (7-day limit) shows on <Link href="/status">/status</Link> and leaves the mean.
+          vast.ai medians cover the whole on-demand market: the API caps a query at 64 offers, so a saturated
+          SKU is re-queried in price bands and the bands merged. Rows marked &ldquo;not in index&rdquo; (B300, first
+          collected 2026-09-29) are priced but kept out of the GPU-hour index, whose base is the first day every
+          member was priced.
         </p>
       </Section>
     </div>

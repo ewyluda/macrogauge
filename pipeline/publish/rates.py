@@ -165,6 +165,53 @@ def _mortgage(conn):
                         "spread_to_10y_pp": spread_hist}}
 
 
+FED_HISTORY_DAYS = 730
+FED_METHOD = ("Kalshi KXFED ladders (upper bound above X% after each FOMC meeting): "
+              "bid/ask mids, rungs wider than 10c dropped, survival curve forced "
+              "monotone; a meeting publishes only when its liquid rungs bracket the "
+              "distribution. Expected upper bound on the 25bp grid; cut/hold/hike are "
+              "vs the upper bound now in effect (last settled KXFED meeting), "
+              "cumulative to each meeting.")
+
+
+def _fed_path(conn):
+    """Market-implied Fed path (backlog #10a): the latest KXFED fetch's
+    liquid meetings against the official target (DFEDTARU) and the effective
+    rate (FEDFUNDS). Only meetings stamped (kalshi_fed_quoted) on the latest
+    fetch publish — a meeting skipped as illiquid never shows a stale quote."""
+    ref = _rows(conn, "kalshi_fed_ref_upper")
+    target = _rows(conn, "DFEDTARU")
+    t_as_of, t_val = latest_point(target)
+    e_as_of, e_val = latest_point(_rows(conn, "FEDFUNDS"))
+    as_of, ref_val = latest_point(ref)
+    hist_dates = []
+    if t_as_of is not None:
+        start = (date.fromisoformat(t_as_of) - timedelta(days=FED_HISTORY_DAYS)).isoformat()
+        hist_dates = sorted(d for d in target if d >= start)
+    meetings = []
+    if as_of is not None:
+        stamp = float(as_of.replace("-", ""))
+        quoted = _rows(conn, "kalshi_fed_quoted")
+        upper = _rows(conn, "kalshi_fed_upper")
+        probs = {k: _rows(conn, f"kalshi_fed_p_{k}") for k in ("cut", "hold", "hike")}
+        for d in sorted(quoted):
+            if d < as_of or quoted[d] != stamp or d not in upper:
+                continue
+            p = {k: (None if d not in probs[k] else round(probs[k][d], 4)) for k in probs}
+            meetings.append({"date": d, "expected_upper": round(upper[d], 4),
+                             "implied_change_bp": None if ref_val is None
+                             else round((upper[d] - ref_val) * 100, 1),
+                             "p_cut": p["cut"], "p_hold": p["hold"], "p_hike": p["hike"]})
+    return {"as_of": as_of, "reference_upper": ref_val,
+            "target_upper": {"value": t_val, "as_of": t_as_of},
+            "effective": {"value": e_val, "as_of": e_as_of},
+            "reference_matches_target": (None if ref_val is None or t_val is None
+                                         else abs(ref_val - t_val) < 1e-9),
+            "meetings": meetings, "method": FED_METHOD,
+            "history": {"dates": hist_dates,
+                        "target_upper": [round(target[d], 4) for d in hist_dates]}}
+
+
 def build(conn) -> dict:
     dgs = {code: _rows(conn, code) for code, _, _ in TENORS}
     t10 = _rows(conn, "T10YIE")
@@ -180,6 +227,7 @@ def build(conn) -> dict:
             "auto_loan_60m": _level(conn, "RIFLPBCIANM60NM", pct=False),
             "liquidity": _liquidity(conn),
             "mortgage": _mortgage(conn),
+            "fed_path": _fed_path(conn),
             "history": _history(conn)}
 
 

@@ -382,7 +382,9 @@ test("escalation renders the ungradeable note for a hindsight-selected regime", 
   // dcGrades.ts's rule vocabulary by design. Selecting one must swap the
   // paired verdict for the ungradeable note, never leave a verdict or a
   // blank behind.
-  await page.locator("select").selectOption("gfc");
+  // by test id: the index-basis select (official-only option) renders beside it
+  // whenever datacenter.json carries official_only
+  await page.getByTestId("carry-basis").selectOption("gfc");
 
   const verdict = page.getByTestId("basis-grade");
   await expect(verdict).toBeVisible();

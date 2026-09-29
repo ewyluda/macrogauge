@@ -25,10 +25,18 @@ def latest_yoy(conn: sqlite3.Connection, series_code: str) -> dict:
                   if _months_back(m, 12) in series]
     if len(computable) < 2:
         raise ValueError(f"need two YoY-computable months for {series_code}")
+    latest_month = max(series)
+    # as_of = when the latest print was RELEASED (its first vintage). The
+    # series' newest vintage of ANY row is wrong: a backfilled old month (the
+    # 2026-09-26 Dec-2016 base rows) made the site say August CPI "released
+    # Sep 26" when it printed Sep 11.
+    released = conn.execute(
+        "SELECT MIN(vintage_date) FROM observations WHERE series_code = ? AND obs_date = ?",
+        (series_code, latest_month)).fetchone()[0]
     return {"series_code": series_code, "month": computable[0],
-            "latest_month": max(series),
+            "latest_month": latest_month,
             "yoy_pct": yoy(computable[0]), "prev_yoy_pct": yoy(computable[1]),
-            "as_of": vintage.max_vintage(conn, series_code)}
+            "as_of": released or vintage.max_vintage(conn, series_code)}
 
 
 QUOTE_BASE_TOLERANCE_DAYS = 60  # a YoY base older than this before target is meaningless

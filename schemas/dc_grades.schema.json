@@ -210,6 +210,34 @@
         "verdict": {"enum": ["PASS", "FAIL", "INSUFFICIENT"]},
         "note": {"type": "string"}
       }
+    },
+    "storage_nowcast": {
+      "description": "NAND spot -> storage PPI year-ratio tail gate (engine/proxygate.py, added 2026-09-28). Unlike power_nowcast this verdict is load-bearing: the DC Hardware storage component rides the tail only on PASS.",
+      "type": ["object", "null"],
+      "required": ["official", "proxy", "as_of", "proxy_history_days", "months_graded",
+                   "min_months", "months_dropped", "dropped_months", "carry_forward_mae",
+                   "zero_lambda_mae", "best_lambda", "best_mae", "lambda_ols", "verdict",
+                   "tail_active", "note"],
+      "properties": {
+        "official": {"type": "string"},
+        "proxy": {"type": "array", "items": {"type": "string"}},
+        "transform": {"const": "year_ratio"},
+        "smooth_days": {"type": "integer"},
+        "as_of": {"type": ["string", "null"]},
+        "proxy_history_days": {"type": "integer"},
+        "months_graded": {"type": "integer"},
+        "min_months": {"type": "integer"},
+        "months_dropped": {"type": "integer"},
+        "dropped_months": {"type": "array", "items": {"type": "string"}},
+        "carry_forward_mae": {"type": ["number", "null"]},
+        "zero_lambda_mae": {"type": ["number", "null"]},
+        "best_lambda": {"type": ["number", "null"]},
+        "best_mae": {"type": ["number", "null"]},
+        "lambda_ols": {"type": ["number", "null"]},
+        "verdict": {"enum": ["PASS", "FAIL", "INSUFFICIENT"]},
+        "tail_active": {"type": "boolean"},
+        "note": {"type": "string"}
+      }
     }
   }
 }

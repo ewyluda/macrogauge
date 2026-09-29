@@ -15,7 +15,14 @@ def test_load_real_baskets():
     assert proxied == {"copper_wire": "fmp_copper", "alum_shapes": "fmp_alum"}
     # hardware v1 carried no proxies; wave 3a ships the dormant DRAM tail
     hw_proxied = {c.code: c.live_proxy for c in baskets["hardware"] if c.live_proxy}
-    assert hw_proxied == {"storage": "dramex_nand_mlc64"}
+    assert hw_proxied == {}
+    # 2026-09-28: the NAND level splice became a backtest-gated year-ratio
+    # tail (engine/proxygate.py) — λ comes from the gate, never config.
+    storage = next(c for c in baskets["hardware"] if c.code == "storage")
+    assert storage.live_proxy_blend == ("dramex_nand_mlc64",)
+    assert storage.live_proxy_transform == "year_ratio"
+    assert storage.live_proxy_gate == "backtest"
+    assert storage.live_proxy_passthrough is None
     # wave-4 option B: the wholesale tail was DEFERRED from the index after a
     # live run showed the anchored level-splice maps the ~2.8x seasonal
     # wholesale swing onto the seasonally-flat retail series (ops YoY +52%).

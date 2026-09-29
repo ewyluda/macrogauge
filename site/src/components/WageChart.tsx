@@ -39,5 +39,5 @@ export function WageChart({
       },
     ],
   };
-  return <EChart option={option} height={340} />;
+  return <EChart option={option} height={340} ariaTitle="Wage growth vs macrogauge inflation, YoY %" />;
 }

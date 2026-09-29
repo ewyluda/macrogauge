@@ -46,6 +46,22 @@ def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
             "components": {code: [round(vals[i], 4) for i in keep]
                            for code, vals in mo["components"].items()},
         }
+        off = v.get("official_only")
+        if off is not None:
+            keep = [i for i, m in enumerate(off["months"]) if m >= MONTHLY_PUBLISH_START]
+            out["indexes"][name]["official_only"] = {
+                "as_of": f"{off['last_official']}-01",
+                "last_official": off["last_official"],
+                "headline_yoy_pct": (None if off["index_yoy_pct"] is None
+                                     else round(off["index_yoy_pct"], 2)),
+                "interior_fills": off["interior_fills"],
+                "method": "official prints only: sum(weight x rebased official "
+                          "print) per month, no proxy tail; months where every "
+                          "component has printed; YoY = index ratio",
+                "monthly": {"months": [off["months"][i] for i in keep],
+                            "index": [round(off["index"][i], 4) for i in keep],
+                            "components": {c: [round(vals[i], 4) for i in keep]
+                                           for c, vals in off["components"].items()}}}
         by_group: dict[str, dict] = {}
         for code, e in v["components"].items():
             g = by_group.setdefault(e["group"], {"group": e["group"], "weight": 0.0,
@@ -87,6 +103,36 @@ def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
             **power["henry_hub"], "latest": round(power["henry_hub"]["latest"], 2)},
         "capacity_auction": power["capacity_auction"]}
     out["context"] = context
+    return out
+
+
+CLAUSE_START = "2016-01-01"
+
+
+def clause_series(conn, baskets: dict, source_ids: dict[str, str]) -> list[dict]:
+    """Raw official series behind every DC Build/Ops component, for the
+    price-adjustment clause kit (/escalation/clause): contracts settle on the
+    agency's own index, not on a MacroGauge composite, and on a NAMED vintage.
+    Per component: latest values and first-print values (the value as first
+    published, with its release date) on one month grid. No proxy tails."""
+    from pipeline.store import vintage
+    out = []
+    for basket in ("build", "ops"):
+        for c in baskets.get(basket, []):
+            latest = {d: v for d, v in vintage.latest(conn, c.series) if d >= CLAUSE_START}
+            if not latest:
+                continue
+            first = {d: (v, rel) for d, v, rel in vintage.first_releases(conn, c.series)
+                     if d >= CLAUSE_START}
+            months = sorted(latest)
+            out.append({"basket": basket, "code": c.code, "label": c.label,
+                        "series": c.series, "source_id": source_ids.get(c.series, c.series),
+                        "months": [m[:7] for m in months],
+                        "latest": [round(latest[m], 3) for m in months],
+                        "first_print": [None if m not in first else round(first[m][0], 3)
+                                        for m in months],
+                        "first_release": [None if m not in first else first[m][1]
+                                          for m in months]})
     return out
 
 

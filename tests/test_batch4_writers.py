@@ -82,6 +82,45 @@ def test_rates_spreads_units_and_history(tmp_path):
 
 # --- compute ------------------------------------------------------------
 
+def test_rates_fed_path_from_kalshi_fetch_against_dfedtaru(tmp_path):
+    from pipeline.connectors import kalshi
+    fx = json.loads((Path(__file__).parent / "fixtures" / "kalshi_fed.json").read_text())
+
+    class _R:
+        def __init__(self, p):
+            self.p = p
+
+        def raise_for_status(self):
+            pass
+
+        def json(self):
+            return self.p
+    obs = kalshi.fetch_fed(vintage_date="2026-09-28",
+                           http_get=lambda url, params=None, timeout=None: _R(fx[params["status"]]))
+    # a meeting quoted on an EARLIER fetch but skipped today must not publish
+    stale = [Observation("kalshi_fed_upper", "2027-01-27", 4.3, "2026-09-20", "KALSHI_FED", "API"),
+             Observation("kalshi_fed_quoted", "2027-01-27", 20260920.0, "2026-09-20",
+                         "KALSHI_FED", "API")]
+    fred = [Observation("DFEDTARU", d, v, "2026-09-28", "FRED", "API")
+            for d, v in (("2026-09-15", 3.75), ("2026-09-17", 4.0), ("2026-09-28", 4.0))]
+    fred.append(Observation("FEDFUNDS", "2026-08-01", 3.63, "2026-09-28", "FRED", "API"))
+    vintage.append(stale + obs + fred, tmp_path)
+    p = rates.build(vintage.load(tmp_path))
+    fp = p["fed_path"]
+    assert fp["as_of"] == "2026-09-28" and fp["reference_upper"] == 4.0
+    assert fp["target_upper"] == {"value": 4.0, "as_of": "2026-09-28"}
+    assert fp["effective"] == {"value": 3.63, "as_of": "2026-08-01"}
+    assert fp["reference_matches_target"] is True
+    assert [m["date"] for m in fp["meetings"]] == ["2026-10-28", "2026-12-09"]
+    oct_ = fp["meetings"][0]
+    assert oct_["expected_upper"] == pytest.approx(4.1787, abs=1e-4)
+    assert oct_["implied_change_bp"] == pytest.approx(17.9, abs=0.05)
+    assert oct_["p_hike"] == pytest.approx(0.705, abs=1e-4)
+    assert fp["history"]["dates"][0] == "2026-09-15"
+    path = rates.write(p, tmp_path / "out", "2026-09-28T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "rates.schema.json")
+
+
 def test_compute_index_geometric_mean_renormalizes_and_rebases(tmp_path):
     days = ["2026-07-15", "2026-07-16", "2026-07-17"]
     rows = {}
@@ -164,6 +203,27 @@ def test_gpu_index_permanent_exit_links_without_a_jump(tmp_path):
     assert all(h[d] == 100.0 for d in days[:-1])   # carried, then gone: flat
     assert m["2026-10-01"] == 4 and m["2026-10-02"] == 3   # 09-24 + 7d carry
     assert h["2026-10-03"] == pytest.approx(100 * 1.331 ** (1 / 3), abs=1e-3)  # 110.0
+
+
+def test_display_only_b300_is_priced_but_never_joins_the_index(tmp_path):
+    # vast_b300 enters (09-29) after sfc_h100 retired (09-24). As a member it
+    # would leave no day on which EVERY member was priced -> a null index.
+    # Display-only: its row is priced, the index is untouched.
+    days = ["2026-09-23", "2026-09-24", "2026-09-29", "2026-09-30"]
+    prices = {c: {d: 1.0 for d in days}
+              for c in ("vast_h100_sxm", "vast_a100_sxm", "vast_rtx4090")}
+    prices["sfc_h100"] = {"2026-09-23": 2.0, "2026-09-24": 2.0}
+    prices["vast_b300"] = {"2026-09-29": 11.0, "2026-09-30": 22.0}
+    conn = _gpu_store(tmp_path, prices)
+    p = compute.build(conn, staleness={c: 7 for c, _ in compute.GPUS})
+    rows = {g["code"]: g for g in p["gpus"]}
+    assert rows["vast_b300"]["usd_per_gpu_hr"] == 22.0
+    assert rows["vast_b300"]["in_index"] is False
+    assert rows["vast_h100_sxm"]["in_index"] is True
+    gi = p["gpu_index"]
+    assert gi["base_date"] == "2026-09-23" and gi["value"] == pytest.approx(100.0)
+    path = compute.write(p, tmp_path / "out", "2026-09-30T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "compute.schema.json")
 
 
 def test_gpu_index_carried_member_books_its_move_on_arrival(tmp_path):

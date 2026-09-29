@@ -10,9 +10,10 @@ import { Section } from "@/components/Section";
 import { Citation } from "@/components/Citation";
 import { fmtSigned } from "@/lib/format";
 import type { DcGrades, Ledger } from "@/lib/types";
+import { artifact } from "@/lib/artifact";
 
 const build = dc.indexes.build;
-const grades = gradesJson as unknown as DcGrades;
+const grades = artifact<"dc_grades", DcGrades>("dc_grades", gradesJson);
 const ledger = ledgerJson as Ledger;
 const longlead = longleadJson as { packages: { vendors: unknown[] }[] };
 const markets = (marketsJson as { markets: { available: boolean }[] }).markets;

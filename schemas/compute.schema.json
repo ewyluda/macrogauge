@@ -50,7 +50,8 @@
           "usd_per_gpu_hr": {"$ref": "#/$defs/num"},
           "as_of": {"$ref": "#/$defs/day"},
           "chg_30d_pct": {"$ref": "#/$defs/num"},
-          "tail": {"$ref": "#/$defs/tail"}
+          "tail": {"$ref": "#/$defs/tail"},
+          "in_index": {"type": "boolean"}
         }
       }
     },

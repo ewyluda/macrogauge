@@ -4,7 +4,19 @@
   "properties": {
     "published_at": {"type": "string"}, "target": {"const": "CPI"},
     "release_date": {"type": ["string", "null"]}, "reference_month": {"type": ["string", "null"]},
-    "cpi": {"$ref": "#/$defs/forecast"}, "pce": {"$ref": "#/$defs/forecast"},
+    "cpi": {"$ref": "#/$defs/forecast"},
+    "pce": {"allOf": [{"$ref": "#/$defs/forecast"}, {"properties": {
+      "reference_month": {"type": ["string", "null"], "description": "the next PCE release's reference month (added 2026-09-28; older payloads rode the CPI month)"},
+      "release_date": {"type": ["string", "null"]},
+      "bridge": {"enum": ["cpi", "cpi+ppi", null]},
+      "bridge_note": {"type": "string"},
+      "cpi_input": {"oneOf": [{"type": "null"}, {"type": "object", "required": ["source", "series", "mom_pct"],
+        "properties": {"source": {"enum": ["actual", "nowcast", "nowcast_nsa"]}, "series": {"type": "string"}, "mom_pct": {"type": "number"}}}]},
+      "benchmarks": {"$ref": "#/$defs/benchmarks"},
+      "core": {"type": "object", "required": ["mom_pct", "status", "parameters"], "properties": {
+        "mom_pct": {"type": ["number", "null"]}, "status": {"enum": ["live", "unavailable"]},
+        "parameters": {"type": "object"}, "benchmarks": {"$ref": "#/$defs/benchmarks"}}}
+    }}]},
     "nfp": {"oneOf": [{"type": "null"},
       {"type": "object", "required": ["change_thousands", "reference_month", "status"]}]},
     "benchmarks": {"type": "object", "additionalProperties": {"oneOf": [
@@ -14,7 +26,9 @@
     ]}},
     "ensemble": {"type": "object"}, "generated_on": {"type": "string"}
   },
-  "$defs": {"forecast": {"type": "object", "required": ["mom_pct", "status", "as_of", "parameters"],
+  "$defs": {"benchmarks": {"type": "object", "additionalProperties": {"type": "object", "required": ["value", "as_of"],
+      "properties": {"value": {"type": "number"}, "as_of": {"type": "string"}}}},
+    "forecast": {"type": "object", "required": ["mom_pct", "status", "as_of", "parameters"],
     "properties": {
       "components": {
         "type": "array",

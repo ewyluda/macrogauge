@@ -258,3 +258,23 @@ body.research-site .footer-meta { font-size: 12px; }
   body.research-site { --bg: #FFFFFF; }
   .research-page .chart-actions, .research-page .research-chart-controls { display: none; }
 }
+
+/* Homepage reconciliation strip (backlog #7): official → reconstruction → ours */
+.recon-strip { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; margin: 0 0 28px; }
+.research-page h2.recon-title { font-size: 11px; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin: 0 0 10px; }
+.recon-steps { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.recon-node { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.recon-label { font-size: 12px; color: var(--muted); }
+.recon-value { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.recon-official { color: var(--accent-amber); }
+.recon-gauge { color: var(--accent-sky); }
+.recon-edge { display: flex; flex-direction: column; align-items: center; gap: 1px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.recon-delta { font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; }
+.recon-edge small { font-size: 11px; white-space: nowrap; }
+.recon-foot { font-size: 12px; line-height: 1.55; color: var(--muted); margin: 10px 0 0; max-width: 980px; }
+@media (max-width: 720px) {
+  .recon-strip { padding: 14px 16px; }
+  .recon-steps { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .recon-edge { flex-direction: row; gap: 8px; padding-left: 12px; }
+  .recon-edge small { white-space: normal; }
+}

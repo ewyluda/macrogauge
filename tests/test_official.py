@@ -108,3 +108,17 @@ def test_component_summary_skips_month_with_missing_base(tmp_path):
     assert r["month"] == "2026-09-01"
     assert r["yoy_pct"] == pytest.approx((205.0 / 200.0 - 1) * 100)
     assert r["mom_pct"] == pytest.approx((205.0 / 204.0 - 1) * 100)
+
+
+def test_as_of_is_the_latest_prints_release_not_a_backfilled_rows_vintage(tmp_path):
+    from pipeline.engine import official
+    from pipeline.models import Observation
+    from pipeline.store import vintage
+    rows = [Observation("CPIAUCNS", f"2025-{m:02d}-01", 100 + m, f"2025-{m:02d}-28", "FRED", "API") for m in range(1, 13)]
+    rows += [Observation("CPIAUCNS", "2026-01-01", 114.0, "2026-02-11", "FRED", "API"),
+             Observation("CPIAUCNS", "2026-02-01", 115.0, "2026-03-11", "FRED", "API"),
+             Observation("CPIAUCNS", "2024-12-01", 99.0, "2026-09-26", "FRED", "API")]  # late backfill
+    vintage.append_vintages(rows, tmp_path)
+    r = official.latest_yoy(vintage.load(tmp_path), "CPIAUCNS")
+    assert r["latest_month"] == "2026-02-01"
+    assert r["as_of"] == "2026-03-11"

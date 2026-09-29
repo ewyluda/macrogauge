@@ -7,6 +7,7 @@ them directly."""
 import json
 from pathlib import Path
 
+from pipeline.engine import aggregate
 from pipeline.engine.gauge import PUBLISH_START
 from pipeline.publish import validate
 
@@ -37,13 +38,21 @@ def build(gauge_result: dict, comps) -> dict:
     g = gauge_result["variants"]["gauge"]
     dates = [d for d in sorted(g["index"]) if d >= PUBLISH_START]
     ends = _month_ends(dates)
+    # time-varying weights (backlog #4): each column's weight is the one the
+    # headline used on that month's sampled grid day, so the breadth panel's
+    # weighted median / trimmed mean weight history with its own shares
+    wbm = g.get("weights_by_month")
     components = []
     for comp in comps:
         e = g["components"][comp.code]
-        components.append({
+        row = {
             "code": comp.code, "label": comp.label, "weight": comp.weight,
             "ours_yoy_pct": _sample(e["own_yoy_daily"], ends),
-            "official_yoy_pct": _sample(e["official_own_yoy_daily"], ends)})
+            "official_yoy_pct": _sample(e["official_own_yoy_daily"], ends)}
+        if wbm:
+            row["weights"] = [round(wbm.get(aggregate.base_month(d), {}).get(
+                                  comp.code, comp.weight), 6) for _, d in ends]
+        components.append(row)
     return {"rebase": f"{gauge_result['base_month']}=100",
             "months": [m for m, _ in ends], "components": components}
 
@@ -59,7 +68,9 @@ def write(payload: dict, out_dir: Path, published_at: str) -> list[Path]:
                   "months": payload["months"][-n:],
                   "components": [{**c,
                                   "ours_yoy_pct": c["ours_yoy_pct"][-n:],
-                                  "official_yoy_pct": c["official_yoy_pct"][-n:]}
+                                  "official_yoy_pct": c["official_yoy_pct"][-n:],
+                                  **({"weights": c["weights"][-n:]}
+                                     if "weights" in c else {})}
                                  for c in payload["components"]]}
         path = out_dir / name
         path.write_text(json.dumps(sliced, separators=(",", ":")) + "\n")

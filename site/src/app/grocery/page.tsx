@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { grocerySlug } from "@/lib/longtail";
 import grocery from "../../../public/data/grocery_basket.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DownloadData } from "@/components/DownloadData";
@@ -92,7 +94,7 @@ export default function Grocery() {
                     <td style={{ color: yoyColor(w.retail_yoy_pct) }}>{fmtSigned(w.retail_yoy_pct)}</td>
                     <td style={{ color: w.spread_pp == null ? "var(--muted)" : w.spread_pp > 0 ? "var(--accent-red)" : "var(--accent-emerald)", fontWeight: 600 }}>{fmtPp(w.spread_pp)}</td>
                     <td style={{ color: "var(--muted)" }}>{w.as_of ?? "—"}</td>
-                    <td><TailSpark tail={w.series.values} /></td>
+                    <td><TailSpark tail={w.series.values} label={w.name} /></td>
                   </tr>
                 );
               })}
@@ -126,8 +128,9 @@ export default function Grocery() {
                 asOf={fmtMonth(item.month)}
                 prices={item.series.prices}
               />
-              <div style={{ fontSize: 11, color: "var(--muted)", paddingLeft: 2 }}>
+              <div style={{ fontSize: 11, color: "var(--muted)", paddingLeft: 2, display: "flex", justifyContent: "space-between" }}>
                 <DeltaChip value={item.mom_pct} prefix="MoM" />
+                <Link href={`/grocery/${grocerySlug(item.name)}`}>history →</Link>
               </div>
             </div>
           ))}

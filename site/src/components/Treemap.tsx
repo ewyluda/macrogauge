@@ -8,6 +8,7 @@ import { DataUnavailable } from "./DataUnavailable";
 import { EChart } from "./EChart";
 import { C } from "@/lib/chartTheme";
 import { ramp, EMPTY_CELL, textOn } from "@/lib/heat";
+import { weightAt } from "@/lib/contribution";
 
 type Replay = {
   rebase: string;
@@ -21,6 +22,7 @@ type Replay = {
     bls_index: number[];
     yoy: (number | null)[];
     bls_yoy: (number | null)[];
+    weights_by_month?: Record<string, number>;
   }[];
 };
 
@@ -159,7 +161,7 @@ export function Treemap() {
             return {
               id: c.code,
               name: `${c.label}\n${v === null ? "—" : `${v.toFixed(1)}%`}`,
-              value: c.weight,
+              value: weightAt(c, frame && data ? data.dates[frame.i] : undefined),
               itemStyle: { color: bg },
               label: { color: textOn(bg) },
             };
@@ -186,14 +188,17 @@ export function Treemap() {
     c,
     v: modeValue(c, frame.i, mode),
   }));
+  // the weights the headline used on this frame's date (time-varying
+  // weights: each date's own YoY base month; fixed weight on older artifacts)
+  const frameDate = data.dates[frame.i];
   const oursHeadline =
     mode === "yoy" && values.every((x) => x.v !== null)
-      ? values.reduce((s, x) => s + x.c.weight * (x.v as number), 0)
+      ? values.reduce((s, x) => s + weightAt(x.c, frameDate) * (x.v as number), 0)
       : null;
   const blsHeadline =
     mode === "yoy" && data.components.every((c) => c.bls_yoy[frame.i] !== null)
       ? data.components.reduce(
-          (s, c) => s + c.weight * (c.bls_yoy[frame.i] as number),
+          (s, c) => s + weightAt(c, frameDate) * (c.bls_yoy[frame.i] as number),
           0
         )
       : null;
@@ -228,7 +233,7 @@ export function Treemap() {
           </button>
         ))}
       </div>
-      <EChart option={option} height={420} notMerge={false} />
+      <EChart option={option} height={420} notMerge={false} ariaTitle="Basket treemap: component weight and YoY" />
       <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 10 }}>
         <button
           style={chip(playing)}
@@ -274,8 +279,9 @@ export function Treemap() {
       >
         <span>tile area = basket weight · drag to replay 2018 → now</span>
         <span>
-          Ours {oursHeadline === null ? "—" : `${oursHeadline.toFixed(2)}%`} · BLS{" "}
+          Ours {oursHeadline === null ? "—" : `${oursHeadline.toFixed(2)}%`} · BLS reconstructed{" "}
           {blsHeadline === null ? "—" : `${blsHeadline.toFixed(2)}%`}
+          <span className="sr-only"> (14-component weighted BLS YoY, not the official print)</span>
         </span>
       </div>
     </div>
