@@ -356,11 +356,13 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         construction = dcindex.construction_from_store(conn, dc_result)
         power = dcindex.power_block(conn, dc_result, dc_power.load())
         context = dcindex.context_block(conn, dc_context.load(), dc_result)
-        dc_path = datacenter_json.write(
-            datacenter_json.build(dc_result, parity_result,
-                                  {s.code: s.source_id for s in series},
-                                  construction, power, context),
-            args.out, published_at=published_at)
+        dc_payload = datacenter_json.build(dc_result, parity_result,
+                                           {s.code: s.source_id for s in series},
+                                           construction, power, context)
+        _, dc_baskets = dc_basket.load_baskets(registry_codes={s.code for s in series})
+        dc_payload["clause_series"] = datacenter_json.clause_series(
+            conn, dc_baskets, {s.code: s.source_id for s in series})
+        dc_path = datacenter_json.write(dc_payload, args.out, published_at=published_at)
         validate.validate_file(dc_path, SCHEMAS / "datacenter.schema.json")
         print(f"published: {dc_path}")
 

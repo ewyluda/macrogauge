@@ -45,6 +45,10 @@ export default function Escalation() {
           packages moved it
         </span>
       </h1>
+      <p className="method" style={{ marginTop: 8 }}>
+        Drafting a contract clause? The <Link href="/escalation/clause">price-adjustment clause kit</Link> settles on a
+        single official BLS series, with deadband, share, cap/floor and a named vintage.
+      </p>
       <div style={{ marginTop: 24 }}>
         <DcEscalationClient data={data} officialData={ESCALATION_DATA_OFFICIAL} grades={grades} />
         <Citation live series="DC Build Index (escalation)" asOf={data.asOf} rebase={dc.rebase} value={`${fmtSigned(build.headline_yoy_pct)} YoY`} path="/escalation" />

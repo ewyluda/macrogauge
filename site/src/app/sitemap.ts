@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       e.kind === "link" ? [e.href] : e.sections.flatMap((s) => s.items.map((i) => i.href)),
     ),
     ...COMPONENTS.map((c) => componentHref(c.code)),
+    "/escalation/clause",
     // programmatic long-tail pages (one per published item/state/metro)
     ...grocery.items.map((i) => `/grocery/${grocerySlug(i.name)}`),
     ...geo.states.map((s) => `/states/${stateSlug(s.state)}`),

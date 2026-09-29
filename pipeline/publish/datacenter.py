@@ -106,6 +106,36 @@ def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
     return out
 
 
+CLAUSE_START = "2016-01-01"
+
+
+def clause_series(conn, baskets: dict, source_ids: dict[str, str]) -> list[dict]:
+    """Raw official series behind every DC Build/Ops component, for the
+    price-adjustment clause kit (/escalation/clause): contracts settle on the
+    agency's own index, not on a MacroGauge composite, and on a NAMED vintage.
+    Per component: latest values and first-print values (the value as first
+    published, with its release date) on one month grid. No proxy tails."""
+    from pipeline.store import vintage
+    out = []
+    for basket in ("build", "ops"):
+        for c in baskets.get(basket, []):
+            latest = {d: v for d, v in vintage.latest(conn, c.series) if d >= CLAUSE_START}
+            if not latest:
+                continue
+            first = {d: (v, rel) for d, v, rel in vintage.first_releases(conn, c.series)
+                     if d >= CLAUSE_START}
+            months = sorted(latest)
+            out.append({"basket": basket, "code": c.code, "label": c.label,
+                        "series": c.series, "source_id": source_ids.get(c.series, c.series),
+                        "months": [m[:7] for m in months],
+                        "latest": [round(latest[m], 3) for m in months],
+                        "first_print": [None if m not in first else round(first[m][0], 3)
+                                        for m in months],
+                        "first_release": [None if m not in first else first[m][1]
+                                          for m in months]})
+    return out
+
+
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
     return write_json({"published_at": published_at, **payload}, out_dir,
                       "datacenter.json")
