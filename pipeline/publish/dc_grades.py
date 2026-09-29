@@ -20,7 +20,7 @@ ALL derived math lives in engine/dcgrade.py, engine/dcleadlag.py and
 engine/powergrade.py; the site renders only."""
 from pathlib import Path
 
-from pipeline.engine import dcgrade, dcleadlag, powergrade
+from pipeline.engine import dcgrade, dcleadlag, powergrade, proxygate
 from pipeline.publish.util import write_json
 
 # Hand-set to the observed episodes, stated on-page with their bounds. They
@@ -60,7 +60,22 @@ def build(conn, components) -> dict:
         payload["revision_disclosure_pp"])
     payload["leadlag"] = dcleadlag.study(conn, components)
     payload["power_nowcast"] = powergrade.run(conn)
+    payload["storage_nowcast"] = storage_nowcast(conn)
     return payload
+
+
+def storage_nowcast(conn, basket_path=None) -> dict | None:
+    """The NAND-spot -> storage-PPI tail gate, computed by the same call
+    dcindex uses to decide whether the tail rides (engine/proxygate.py), so
+    the published verdict and the index cannot disagree. None when no
+    storage component is gated in config/dc_basket.json."""
+    from pipeline import dc_basket
+    _, baskets = dc_basket.load_baskets(basket_path)
+    for comp in baskets["hardware"]:
+        if comp.code == "storage" and comp.live_proxy_gate == "backtest":
+            return proxygate.grade(conn, comp.series, comp.live_proxy_blend,
+                                   comp.live_proxy_smooth_days)
+    return None
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:

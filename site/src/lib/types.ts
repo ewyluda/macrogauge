@@ -421,6 +421,25 @@ export type PowerNowcast = {
   note: string;
 };
 
+/** NAND spot -> storage PPI tail gate (added 2026-09-28). Load-bearing: the
+ *  Hardware storage component rides the tail only when verdict is PASS. */
+export type StorageNowcast = {
+  official: string;
+  proxy: string[];
+  as_of: string | null;
+  proxy_history_days: number;
+  months_graded: number;
+  min_months: number;
+  carry_forward_mae: number | null;
+  zero_lambda_mae: number | null;
+  best_lambda: number | null;
+  best_mae: number | null;
+  lambda_ols: number | null;
+  verdict: "PASS" | "FAIL" | "INSUFFICIENT";
+  tail_active: boolean;
+  note: string;
+};
+
 export type DcGrades = {
   published_at: string;
   as_of: string | null;
@@ -435,6 +454,7 @@ export type DcGrades = {
   scenarios: DcGradesScenario[];
   leadlag: LeadLag | null;
   power_nowcast: PowerNowcast | null;
+  storage_nowcast?: StorageNowcast | null;
 };
 
 export type LongLeadFigure = {

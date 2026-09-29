@@ -135,6 +135,25 @@ export default function Page() {
           }
         />
         <KpiCard
+          label="Storage (NAND) tail"
+          value={data.storage_nowcast?.verdict ?? "—"}
+          context={
+            data.storage_nowcast
+              ? `${data.storage_nowcast.months_graded}/${data.storage_nowcast.min_months} months graded · `
+                + (data.storage_nowcast.tail_active
+                  ? `tail rides at λ=${data.storage_nowcast.best_lambda}`
+                  : "Hardware storage is official-only")
+              : "publishes with the next daily run"
+          }
+          accent={
+            data.storage_nowcast?.verdict === "PASS"
+              ? "emerald"
+              : data.storage_nowcast?.verdict === "FAIL"
+                ? "red"
+                : "amber"
+          }
+        />
+        <KpiCard
           label="Lead-lag mappings tested"
           value={data.leadlag ? `${data.leadlag.mappings.length}` : "—"}
           context="see caveats before treating any as forecasting evidence"

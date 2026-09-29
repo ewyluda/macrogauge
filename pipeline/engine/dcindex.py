@@ -17,7 +17,7 @@ from datetime import date
 from pathlib import Path
 
 from pipeline import dc_basket
-from pipeline.engine import aggregate, gate, rebase
+from pipeline.engine import aggregate, gate, proxygate, rebase
 from pipeline.engine import blend as blend_mod
 from pipeline.store import vintage
 
@@ -61,7 +61,7 @@ def run(conn: sqlite3.Connection, today: str,
     base_month, baskets = dc_basket.load_baskets(basket_path)
     out = {}
     for name, comps in baskets.items():
-        built, flags, modes, officials = {}, [], {}, {}
+        built, flags, modes, officials, gates = {}, [], {}, {}, {}
         for comp in comps:
             official = _series(conn, comp.series)
             officials[comp.code] = official
@@ -73,6 +73,17 @@ def run(conn: sqlite3.Connection, today: str,
                     comp.live_proxy_smooth_days or 1)
             else:
                 live = _series(conn, comp.live_proxy) if comp.live_proxy else {}
+            passthrough = comp.live_proxy_passthrough
+            if comp.live_proxy_gate == "backtest":
+                # Ride the proxy tail only while its own backtest passes, at
+                # the λ it picked (engine/proxygate.py); official-only else.
+                graded = proxygate.grade(conn, comp.series, comp.live_proxy_blend,
+                                         comp.live_proxy_smooth_days)
+                gates[comp.code] = graded
+                if graded["verdict"] == "PASS":
+                    passthrough = graded["best_lambda"]
+                else:
+                    live = {}
             tail_active = False
             if live:
                 official_end = max(idx)
@@ -80,8 +91,7 @@ def run(conn: sqlite3.Connection, today: str,
                     # the ratio W(t)/W(t-365d) is scale-invariant: W stays
                     # raw, no rebase — rebasing would change nothing but
                     # obscure the audit trail
-                    idx = blend_mod.splice_year_ratio(
-                        idx, live, comp.live_proxy_passthrough)
+                    idx = blend_mod.splice_year_ratio(idx, live, passthrough)
                 else:
                     live_idx = rebase.rebase(live, base_month)
                     idx = blend_mod.splice_anchored(idx, live_idx)
@@ -160,7 +170,7 @@ def run(conn: sqlite3.Connection, today: str,
         out[name] = {"index": index,
                      "yoy": aggregate.weighted_yoy(own_yoy, weights),
                      "as_of": end, "gate_flags": flags, "components": components,
-                     "monthly": monthly}
+                     "monthly": monthly, "proxy_gates": gates}
     # Hedonic-gap panel: YoY at each series' OWN last observation, same
     # like-month honesty as basket components (yoy_at_obs omits month-hole
     # bases). A panel-only series with no store rows degrades to a missing

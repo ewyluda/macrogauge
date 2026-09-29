@@ -36,7 +36,10 @@ class DCComponent:
         # level splice (the wave-4 +52% incident)
     live_proxy_passthrough: float | None = None  # λ in (0, 1]: share of the
         # wholesale like-month move retail inherits; required by and
-        # exclusive to "year_ratio"
+        # exclusive to "year_ratio" (unless the gate below picks λ)
+    live_proxy_gate: str | None = None  # "backtest": ride the year-ratio tail
+        # only while engine/proxygate.py's backtest returns PASS, at the λ it
+        # picked; official-only otherwise. Excludes a fixed passthrough.
 
 
 def load_baskets(path: Path | None = None,
@@ -75,11 +78,24 @@ def load_baskets(path: Path | None = None,
                     f"non-empty")
             transform = c.get("live_proxy_transform", "level")
             passthrough = c.get("live_proxy_passthrough")
+            gate = c.get("live_proxy_gate")
             if transform not in ("level", "year_ratio"):
                 raise ValueError(
                     f"dc_basket {name}/{c['code']}: unknown "
                     f"live_proxy_transform {transform!r}")
-            if transform == "year_ratio":
+            if gate is not None:
+                if gate != "backtest":
+                    raise ValueError(
+                        f"dc_basket {name}/{c['code']}: unknown live_proxy_gate {gate!r}")
+                if transform != "year_ratio" or not blend or smooth_days is None:
+                    raise ValueError(
+                        f"dc_basket {name}/{c['code']}: live_proxy_gate requires "
+                        f"year_ratio with live_proxy_blend and live_proxy_smooth_days")
+                if passthrough is not None:
+                    raise ValueError(
+                        f"dc_basket {name}/{c['code']}: live_proxy_gate picks λ — "
+                        f"drop live_proxy_passthrough")
+            elif transform == "year_ratio":
                 if not blend:
                     raise ValueError(
                         f"dc_basket {name}/{c['code']}: year_ratio requires "
@@ -111,7 +127,8 @@ def load_baskets(path: Path | None = None,
                 live_proxy_blend=tuple(blend) if blend else None,
                 live_proxy_smooth_days=smooth_days,
                 live_proxy_transform=transform,
-                live_proxy_passthrough=passthrough))
+                live_proxy_passthrough=passthrough,
+                live_proxy_gate=gate))
         codes = [c.code for c in comps]
         dupes = {c for c in codes if codes.count(c) > 1}
         if dupes:
