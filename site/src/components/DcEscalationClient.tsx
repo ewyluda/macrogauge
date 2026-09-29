@@ -227,6 +227,7 @@ export function DcEscalationClient({
           <label style={{ fontSize: 12, color: "var(--muted)" }}>
             Carry{" "}
             <select
+              data-testid="carry-basis"
               value={chosen?.key ?? ""}
               onChange={(e) => setBasisKey(e.target.value)}
               style={input}

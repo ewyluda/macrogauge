@@ -18,7 +18,8 @@ test("/escalation/clause settles on an official series and drafts clause text", 
     await page.getByLabel("Vintage").selectOption("latest");
     await expect(text).toContainText("as most recently published");
     await page.getByLabel("Adjustment month").fill(series[0].months[0]);
-    await expect(page.getByRole("alert")).toContainText("after the base month");
+    // scoped to the kit: Next's route announcer is also role=alert
+    await expect(page.locator("main").getByRole("alert")).toContainText("after the base month");
   }
   expect(errors).toEqual([]);
 });
