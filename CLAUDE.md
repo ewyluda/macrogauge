@@ -81,6 +81,7 @@ default absent fields to `None` so old partitions load forever. **Never rewrite 
   `splice()` grafts scaled live data onto official history at the splice point.
 - `gate.py` (stage 3) — stateless one-day quality hold: a >5% jump in the *just-arrived* last
   observation is held one day; if it persists (no longer just-arrived) it passes through.
+  `year_ratio` components (EIA electricity/gas) are gated on the like-month change, not the raw step.
 - `aggregate.py` (stage 4) — daily forward-fill grid, Laspeyres headline over dates where every
   component has a value, 365-day YoY (`None` where the base is missing).
 - `variants.py` (stage 5) — assemble each component per variant.
