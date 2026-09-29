@@ -274,8 +274,9 @@ export function Treemap() {
       >
         <span>tile area = basket weight · drag to replay 2018 → now</span>
         <span>
-          Ours {oursHeadline === null ? "—" : `${oursHeadline.toFixed(2)}%`} · BLS{" "}
+          Ours {oursHeadline === null ? "—" : `${oursHeadline.toFixed(2)}%`} · BLS reconstructed{" "}
           {blsHeadline === null ? "—" : `${blsHeadline.toFixed(2)}%`}
+          <span className="sr-only"> (14-component weighted BLS YoY, not the official print)</span>
         </span>
       </div>
     </div>
