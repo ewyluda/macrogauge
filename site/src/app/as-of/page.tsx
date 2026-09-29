@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import ledgerJson from "../../../public/data/ledger.json";
 import compare from "../../../public/data/compare.json";
@@ -47,7 +48,7 @@ export default function AsOfPage() {
         {rows.length} publishes on record since {ledger.first_publish ? ledger.first_publish.slice(0, 10) : "—"}. Rows before
         2026-09-03 were backfilled from the git history of pulse.json (scripts/backfill_ledger.py) using the same row
         builder the live run uses; fields absent on early rows (DC index, Cost of Living) read as — because those
-        artifacts did not exist yet. Comparison months come from <a href="/vs-bls">compare.json</a>; source: {compare.published_at.slice(0, 10)} publish.
+        artifacts did not exist yet. Comparison months come from <Link href="/vs-bls">compare.json</Link>; source: {compare.published_at.slice(0, 10)} publish.
       </p>
     </div>
   );

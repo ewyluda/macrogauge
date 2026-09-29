@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import dc from "../../../public/data/datacenter.json";
 import gradesJson from "../../../public/data/dc_grades.json";
@@ -68,7 +69,7 @@ export default function Escalation() {
           which stops at the index&apos;s latest observation ({data.asOf}) and is therefore a
           partial month.
           Escalation is national — state parity multipliers on{" "}
-          <a href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</a> are{" "}
+          <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link> are{" "}
           <em>level</em> multipliers (cost relative to the national average), not escalation
           rates; your base cost for a real site already embeds its location, so applying them
           here would count location twice.
@@ -90,7 +91,7 @@ export default function Escalation() {
           over a sample containing one downturn and one spike, best read as a range of
           precedents rather than a probability. Component sources and weights are
           documented on{" "}
-          <a href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</a>.
+          <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link>.
         </div>
       </Section>
     </div>

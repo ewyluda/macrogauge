@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import computeJson from "../../../public/data/compute.json";
 import { KpiCard } from "@/components/KpiCard";
@@ -110,7 +111,7 @@ export default function ComputePage() {
         <p className="method">
           vast.ai rows are the marketplace median for the SKU; sfcompute is its spot average. List prices, not
           negotiated rates — the same caveat the DC Hardware index carries for OEM inputs. Series are config
-          (config/series.json); a stale series (7-day limit) shows on <a href="/status">/status</a> and leaves the mean.
+          (config/series.json); a stale series (7-day limit) shows on <Link href="/status">/status</Link> and leaves the mean.
         </p>
       </Section>
     </div>

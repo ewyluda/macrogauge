@@ -154,7 +154,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
         )}
         <p className="method">
           Official series {c.official_series} · live in variants {c.live_variants?.length ? c.live_variants.join(", ") : "none"} · blend weights renormalize as sources phase in.
-          Source status and rows today are the run-level source row from <a href="/status">/status</a>; latest obs is this series&apos; own newest observation. A blend source past its staleness limit drops out of coverage.
+          Source status and rows today are the run-level source row from <Link href="/status">/status</Link>; latest obs is this series&apos; own newest observation. A blend source past its staleness limit drops out of coverage.
         </p>
       </Section>
 
@@ -168,7 +168,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
               </tbody>
             </table>
           </div>
-          <p className="method">Monthly changes the <a href="/outlook">outlook</a> carries for this component; a forward-driver where one applies, else the trailing median of its own real changes. Projection, not a promise.</p>
+          <p className="method">Monthly changes the <Link href="/outlook">outlook</Link> carries for this component; a forward-driver where one applies, else the trailing median of its own real changes. Projection, not a promise.</p>
         </Section>
       )}
     </div>

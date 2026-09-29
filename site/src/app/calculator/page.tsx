@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import gaugeDaily from "../../../public/data/gauge_daily.json";
 import { Section } from "@/components/Section";
@@ -31,7 +32,7 @@ export default function Calculator() {
           Powered by the macrogauge daily index (market prices, Jan 2018 = 100) from
           gauge_daily.json. Official-CPI calculators can only answer in whole months,
           two months late. Annualized rate = ratio^(365/days) − 1. See{" "}
-          <a href="/methodology" style={{ color: "var(--accent-sky)" }}>methodology</a>{" "}
+          <Link href="/methodology" style={{ color: "var(--accent-sky)" }}>methodology</Link>{" "}
           for sources and the gauge&apos;s public track record.
         </div>
       </Section>

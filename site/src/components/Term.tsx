@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { GLOSSARY, type GlossaryKey } from "@/lib/glossary";
 
 /** Inline glossary term: dotted underline, the definition in the native
@@ -6,9 +7,9 @@ import { GLOSSARY, type GlossaryKey } from "@/lib/glossary";
 export function Term({ k, children }: { k: GlossaryKey; children?: React.ReactNode }) {
   const g = GLOSSARY[k];
   return (
-    <a href={`/methodology#term-${k}`} className="term" title={g.def} aria-label={`${g.term}: ${g.def}`}>
+    <Link href={`/methodology#term-${k}`} className="term" title={g.def} aria-label={`${g.term}: ${g.def}`}>
       {children ?? g.term}
-    </a>
+    </Link>
   );
 }
 

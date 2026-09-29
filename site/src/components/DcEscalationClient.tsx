@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useUrlState } from "@/lib/useUrlState";
 import { codecs } from "@/lib/urlState";
 import { CopyLink } from "./CopyLink";
@@ -240,17 +241,17 @@ export function DcEscalationClient({
                   arithmetic inside a one-line verdict. */}
               Graded on a reconstruction from official prints only, which can differ
               slightly in months carrying a live futures tail.{" "}
-              <a href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
+              <Link href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
                 See how each basis has held up →
-              </a>
+              </Link>
             </>
           ) : (
             <>
               This is a hindsight-selected historical episode, not a rule — it
               carries no grade.{" "}
-              <a href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
+              <Link href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
                 See the bases that do →
-              </a>
+              </Link>
             </>
           )}
         </p>
@@ -355,7 +356,7 @@ export function DcEscalationClient({
               happens to start at 100 — the Index column below lets you verify Contribution
               directly: 100 × weight × (end − base) ÷ headline base index. That is a
               different formula from <code>contribution_pp</code> on{" "}
-              <a href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</a>{" "}
+              <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link>{" "}
               (weight × the component&apos;s own YoY) — don&apos;t carry that shortcut over
               here.
             </div>

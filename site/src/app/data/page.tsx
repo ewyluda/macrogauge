@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
@@ -40,13 +41,13 @@ export default function DataPage() {
         renamed or removed, so an integration written today keeps working.
       </p>
       <p className="method">
-        Base URL <code>{SITE_URL}/data/</code> · updated each weekday morning (see <a href="/status">/status</a> for the run) ·
+        Base URL <code>{SITE_URL}/data/</code> · updated each weekday morning (see <Link href="/status">/status</Link> for the run) ·
         licence: MacroGauge-computed values (indexes, blends, nowcasts, composites, grades) are free to use with attribution —
         cite as <code>MacroGauge &lt;series&gt;, &lt;as-of&gt;, 2018-01=100, &lt;value&gt; — {SITE_URL}/&lt;page&gt;</code> (the
         Copy button under every headline number produces this string). Source observations republished alongside them
-        (BLS, BEA, FRED/ALFRED, EIA, Treasury, Census, USDA and the private sources listed on <a href="/methodology">/methodology</a>) remain
+        (BLS, BEA, FRED/ALFRED, EIA, Treasury, Census, USDA and the private sources listed on <Link href="/methodology">/methodology</Link>) remain
         subject to each provider&apos;s own terms — check those before redistributing raw source series. The append-only vintage store behind the numbers is in the
-        repository; <a href="/as-of">Point in Time</a> reads the publish ledger.
+        repository; <Link href="/as-of">Point in Time</Link> reads the publish ledger.
       </p>
       <div className="table-card">
         <table className="data-table">

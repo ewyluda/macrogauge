@@ -1,3 +1,4 @@
+import Link from "next/link";
 /** Renders dc_grades.json (site/public/data/dc_grades.json), the escalation
  *  grading harness behind /dc-scoreboard.
  *
@@ -629,8 +630,8 @@ function MethodologySection({
         <p className="method">
           <b>The index graded here is reconstructed from official releases only.</b> Every component is read from its
           published PPI/CES series and nothing else. The DC Build index on{" "}
-          <a href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</a> and{" "}
-          <a href="/escalation" style={{ color: "var(--accent-sky)" }}>/escalation</a> additionally splices a live
+          <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link> and{" "}
+          <Link href="/escalation" style={{ color: "var(--accent-sky)" }}>/escalation</Link> additionally splices a live
           futures tail onto {reconstruction.proxyLabels.join(" and ")} ({reconstruction.proxyWeightPct.toFixed(1)}% of
           Build weight) past their last official print, so the two indexes agree in every month where that splice is
           inactive and differ where it is not — and the latest anchor, the month every basis above is read at, is such

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
@@ -103,7 +104,7 @@ export default function ChangesPage() {
           </table>
         </div>
         <p className="method">
-          Gate holds: {c.gate_holds.length ? JSON.stringify(c.gate_holds) : "none"} — a component whose just-arrived print jumped more than 5% is held one day (see <a href="/methodology">methodology</a>).
+          Gate holds: {c.gate_holds.length ? JSON.stringify(c.gate_holds) : "none"} — a component whose just-arrived print jumped more than 5% is held one day (see <Link href="/methodology">methodology</Link>).
           {" "}Failed sources: {c.sources_failed.length ? c.sources_failed.join(", ") : "none"}.
         </p>
       </Section>

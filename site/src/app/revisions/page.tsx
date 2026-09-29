@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import revisionsJson from "../../../public/data/revisions.json";
 import { KpiCard } from "@/components/KpiCard";
@@ -51,7 +52,7 @@ export default function RevisionsPage() {
       <p className="lede">
         The store keeps every release of each series it collects — a re-published value appends a new vintage row,
         never overwrites. So for every reference period we can show the number as it first landed and the number it
-        became. The <a href="/scoreboard">scoreboard</a> grades our calls against first prints; this page is how far
+        became. The <Link href="/scoreboard">scoreboard</Link> grades our calls against first prints; this page is how far
         those first prints later moved. CPI is not revised by design (seasonal factors aside); PCE and payrolls are.
       </p>
       <div className="kpi-row">

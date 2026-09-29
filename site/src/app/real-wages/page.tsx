@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import realWages from "../../../public/data/real_wages.json";
 import pulse from "../../../public/data/pulse.json";
@@ -85,7 +86,7 @@ export default function RealWages() {
           Earnings, total private (YoY computed in the pipeline; FRED CES0500000003),
           and the macrogauge daily gauge. Real change = (1 + raise) ÷ (1 + inflation) − 1.
           The original site&apos;s second wage line (Indeed posted wages) is not publicly
-          feedable — see the <a href="/labor">Labor Market</a> dashboard for the
+          feedable — see the <Link href="/labor">Labor Market</Link> dashboard for the
           full jobs picture (payrolls, claims, wage growth).
         </div>
       </Section>
