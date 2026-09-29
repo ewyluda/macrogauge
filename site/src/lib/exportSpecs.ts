@@ -39,3 +39,18 @@ export function heroCsvSpec(from: string | undefined): CsvSpec {
 
 /** /dc-scoreboard — every grading anchor, flattened. */
 export const DC_ANCHORS_CSV: CsvSpec = { kind: "rows", path: "anchors", flatten: true };
+
+/** /datacenter — the DC Build index on its monthly grid, headline plus every
+ *  component's rebased index (the same arrays /escalation uses). `official`
+ *  selects the official-prints-only variant (no proxy tail; months where every
+ *  component has printed) — the contract-indexation basis; the default is the
+ *  live grid, whose trailing month carries the copper/aluminium proxy tail. */
+export function dcBuildMonthlyCsvSpec(codes: string[], variant: "tailed" | "official" = "tailed"): CsvSpec {
+  const root = variant === "official" ? "indexes.build.official_only.monthly" : "indexes.build.monthly";
+  return {
+    kind: "columns",
+    key: { name: "month", path: `${root}.months` },
+    series: [{ name: "build_index", path: `${root}.index` },
+             ...codes.map((c) => ({ name: c, path: `${root}.components.${c}` }))],
+  };
+}

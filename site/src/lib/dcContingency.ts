@@ -200,6 +200,8 @@ export type Band = {
   p25: number;
   p50: number;
   p75: number;
+  /** the P80 contingency line: 80% of realized windows escalated at or below it */
+  p80: number;
   p90: number;
   sampleStartMonth: string;
   sampleEndMonth: string;
@@ -258,8 +260,40 @@ export function band(
     p25: percentile(sorted, 25),
     p50: percentile(sorted, 50),
     p75: percentile(sorted, 75),
+    p80: percentile(sorted, 80),
     p90: percentile(sorted, 90),
     sampleStartMonth: months[0],
     sampleEndMonth: months[anchorIdx],
   };
+}
+
+export type P80Carry = {
+  /** annualized rate at the band's p80 */
+  ratePct: number;
+  /** startCost carried `months` at ratePct */
+  totalCost: number;
+  /** totalCost - startCost: the escalation allowance that covers P80 */
+  allowance: number;
+  /** totalCost minus the same cost carried at the chosen basis — the
+   *  contingency on top of the basis, in dollars (negative when the basis
+   *  already sits above P80) */
+  aboveBasis: number;
+};
+
+/** "To cover P80 of realized h-month windows, carry X%/yr": the band's p80
+ *  applied to the forward leg (startCost = the cost at the last complete
+ *  month; months = the carried horizon). A count of what happened across
+ *  overlapping historical windows, not a probability. null without a band. */
+export function p80Carry(
+  b: Band | null,
+  startCost: number,
+  months: number,
+  basisAnnualizedPct: number
+): P80Carry | null {
+  if (!b || !(startCost > 0) || months <= 0) return null;
+  const yrs = months / 12;
+  const totalCost = startCost * Math.pow(1 + b.p80 / 100, yrs);
+  const atBasis = startCost * Math.pow(1 + basisAnnualizedPct / 100, yrs);
+  return { ratePct: b.p80, totalCost, allowance: totalCost - startCost,
+           aboveBasis: totalCost - atBasis };
 }

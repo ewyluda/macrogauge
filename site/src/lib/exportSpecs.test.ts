@@ -3,9 +3,10 @@ import rates from "../../public/data/rates.json";
 import gaugeDaily from "../../public/data/gauge_daily.json";
 import compare from "../../public/data/compare.json";
 import dcGrades from "../../public/data/dc_grades.json";
+import datacenter from "../../public/data/datacenter.json";
 import { columnsToRows, flattenRow, getPath, rowsFromSpec, toCsv } from "./csv";
 import { sliceSince, windowStart } from "./chartWindow";
-import { DC_ANCHORS_CSV, heroCsvSpec, RATES_CURVE_CSV, RATES_HISTORY_CSV, RATES_LIQUIDITY_CSV } from "./exportSpecs";
+import { DC_ANCHORS_CSV, dcBuildMonthlyCsvSpec, heroCsvSpec, RATES_CURVE_CSV, RATES_HISTORY_CSV, RATES_LIQUIDITY_CSV } from "./exportSpecs";
 
 describe("getPath / rowsFromSpec", () => {
   it("resolves dotted paths and tolerates missing ones", () => {
@@ -60,5 +61,26 @@ describe("lazy export recipes reproduce the inline rows", () => {
     const old = dcGrades.anchors.map((a) => flattenRow(a));
     expect(old.length).toBeGreaterThan(0);
     expect(toCsv(rowsFromSpec(dcGrades, DC_ANCHORS_CSV))).toBe(toCsv(old));
+  });
+});
+
+describe("DC Build monthly CSV (backlog #12a)", () => {
+  it("tailed grid: month, headline, one column per component", () => {
+    const b = datacenter.indexes.build;
+    const codes = b.components.map((c) => c.code);
+    const comps = b.monthly.components as Record<string, number[]>;
+    const rows = rowsFromSpec(datacenter, dcBuildMonthlyCsvSpec(codes));
+    expect(rows.length).toBe(b.monthly.months.length);
+    expect(codes.length).toBeGreaterThan(5);
+    expect(rows[0]).toEqual({ month: b.monthly.months[0], build_index: b.monthly.index[0],
+      ...Object.fromEntries(codes.map((c) => [c, comps[c][0]])) });
+  });
+  it("official variant reads official_only.monthly", () => {
+    const data = { indexes: { build: { official_only: { monthly: {
+      months: ["2026-07", "2026-08"], index: [170.1, 170.5], components: { steel: [120, 121] } } } } } };
+    expect(rowsFromSpec(data, dcBuildMonthlyCsvSpec(["steel"], "official"))).toEqual([
+      { month: "2026-07", build_index: 170.1, steel: 120 },
+      { month: "2026-08", build_index: 170.5, steel: 121 },
+    ]);
   });
 });

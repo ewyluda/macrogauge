@@ -46,6 +46,22 @@ def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
             "components": {code: [round(vals[i], 4) for i in keep]
                            for code, vals in mo["components"].items()},
         }
+        off = v.get("official_only")
+        if off is not None:
+            keep = [i for i, m in enumerate(off["months"]) if m >= MONTHLY_PUBLISH_START]
+            out["indexes"][name]["official_only"] = {
+                "as_of": f"{off['last_official']}-01",
+                "last_official": off["last_official"],
+                "headline_yoy_pct": (None if off["index_yoy_pct"] is None
+                                     else round(off["index_yoy_pct"], 2)),
+                "interior_fills": off["interior_fills"],
+                "method": "official prints only: sum(weight x rebased official "
+                          "print) per month, no proxy tail; months where every "
+                          "component has printed; YoY = index ratio",
+                "monthly": {"months": [off["months"][i] for i in keep],
+                            "index": [round(off["index"][i], 4) for i in keep],
+                            "components": {c: [round(vals[i], 4) for i in keep]
+                                           for c, vals in off["components"].items()}}}
         by_group: dict[str, dict] = {}
         for code, e in v["components"].items():
             g = by_group.setdefault(e["group"], {"group": e["group"], "weight": 0.0,

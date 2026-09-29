@@ -159,6 +159,24 @@ def test_written_file_validates_against_schema(tmp_path):
     assert json.loads(path.read_text())["published_at"] == "2026-07-12T12:00:00Z"
 
 
+def test_official_only_block_publishes_and_validates(tmp_path):
+    import copy
+    dc_result = copy.deepcopy(DC_RESULT)
+    months = [f"2025-{m:02d}" for m in range(1, 13)] + ["2026-01"]
+    dc_result["indexes"]["build"]["official_only"] = {
+        "months": months, "index": [100.0 + i for i in range(13)],
+        "components": {c: [100.0 + i for i in range(13)]
+                       for c in dc_result["indexes"]["build"]["components"]},
+        "last_official": "2026-01", "index_yoy_pct": 12.000001, "interior_fills": 0}
+    payload = datacenter.build(dc_result, PARITY, SOURCE_IDS, CONSTRUCTION, POWER, CONTEXT)
+    off = payload["indexes"]["build"]["official_only"]
+    assert off["as_of"] == "2026-01-01" and off["headline_yoy_pct"] == 12.0
+    assert off["monthly"]["months"] == months
+    assert "official_only" not in payload["indexes"]["ops"]
+    path = datacenter.write(payload, tmp_path, published_at="2026-07-12T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "datacenter.schema.json")
+
+
 def test_null_construction_validates(tmp_path):
     payload = datacenter.build(DC_RESULT, PARITY, SOURCE_IDS, None, None, CONTEXT)
     assert payload["construction"] is None
