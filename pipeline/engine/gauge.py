@@ -71,13 +71,65 @@ def _fresh(conn, blend_codes, staleness: dict[str, int], today: str) -> bool:
     return False
 
 
+def _months(first: str, last: str) -> list[str]:
+    """Every YYYY-MM from `first` to `last`, inclusive."""
+    out, y, m = [], int(first[:4]), int(first[5:7])
+    while f"{y:04d}-{m:02d}" <= last:
+        out.append(f"{y:04d}-{m:02d}")
+        y, m = (y + 1, 1) if m == 12 else (y, m + 1)
+    return out
+
+
+def _sum_to_one(w: dict[str, float], codes: list[str]) -> dict[str, float]:
+    """Round to 6dp and put the rounding drift on the first component -- the
+    same convention as the fixed weights, so the published per-month weights
+    ARE the ones the headline used and sum to exactly 1."""
+    out = {k: round(w[k], 6) for k in codes}
+    out[codes[0]] = round(out[codes[0]] + 1.0 - sum(out.values()), 6)
+    return out
+
+
+def weights_through_history(conn, comps, first_month: str, last_month: str,
+                            fallback: dict[str, float]
+                            ) -> dict[str, dict[str, float]]:
+    """{YYYY-MM: {code: w}} -- BLS relative importance price-updated to each
+    month (derived.effective_weights), for every YoY base month the grid
+    needs (backlog #4, 2026-09-28). Until then ONE month's weights (the
+    latest print's base) were applied to the whole 2018-now history, so every
+    past headline carried today's expenditure shares: the 2022-06 official
+    reconstruction missed by -0.26pp with them vs +0.05pp with its own.
+
+    A month missing an input (the never-published 2025-10 print) carries the
+    nearest earlier month of the same weight year -- price-updating is
+    continuous within a year, and a jump back to the unpriced December table
+    would step every weight for one month. With no earlier month in that
+    year (or no RI table: months before 2017), the configured December
+    weights (`fallback`)."""
+    months = _months(first_month, last_month)
+    raw = derived.effective_weights_by_month(conn, comps, months)
+    codes = [c.code for c in comps]
+    out, carry = {}, None
+    for m in months:
+        w = raw.get(m)
+        if w is not None:
+            carry = (m[:4], w)
+        elif carry is not None and carry[0] == m[:4]:
+            w = carry[1]
+        else:
+            w = fallback
+        out[m] = _sum_to_one(w, codes)
+    return out
+
+
 def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
         staleness: dict[str, int] | None = None) -> dict:
     base_month, comps = basket_mod.load_basket(basket_path)
     weights_basis = "config"
     mom_weights = None
+    weights_by_month = None
     if any(c.official_series == derived.RESIDUAL_CODE for c in comps):
         derived.ensure(conn, comps)  # "other" rides the CPI residual
+        config_weights = {c.code: c.weight for c in comps}
         # Effective weights: relative importance price-updated to the YoY base
         # month (latest CPI print - 12 months) for the Σ w·yoy headline, and to
         # the latest print's month for MoM consumers (the nowcast).
@@ -91,8 +143,15 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
                 comps = [replace(c, weight=round(eff[c.code], 6)) for c in comps]
                 drift = 1.0 - sum(c.weight for c in comps)
                 comps[0] = replace(comps[0], weight=round(comps[0].weight + drift, 6))
-                weights_basis = f"BLS relative importance price-updated to {yoy_base}"
+                weights_basis = (
+                    "BLS relative importance price-updated to each date's YoY "
+                    f"base month (published weights: {yoy_base})")
             mom_weights = derived.effective_weights(conn, comps, last)
+        # Time-varying headline weights (backlog #4): every grid date's Σ w·yoy
+        # uses the weights in force at ITS YoY base month, not today's.
+        weights_by_month = weights_through_history(
+            conn, comps, aggregate.base_month(GRID_START),
+            aggregate.base_month(today), config_weights)
     staleness = staleness or {}
     supercore = basket_mod.load_supercore_components(basket_path)
     payment_series: dict[str, float] | None = None
@@ -106,6 +165,13 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
                    if variant != "supercore" or c.code in supercore]
         weights = {c.code: (c.pce_weight if variant == "pce" else c.weight)
                    for c in comps_v}
+        # gauge/col/tracker ride the per-month BLS weights; supercore the same
+        # restricted to its subset (weighted_yoy renormalizes per date); pce
+        # keeps its fixed hand-seeded BEA shares.
+        wbm = None
+        if weights_by_month is not None and variant != "pce":
+            wbm = {m: {c.code: w[c.code] for c in comps_v}
+                   for m, w in weights_by_month.items()}
         built, modes, flags = {}, {}, []
         official_rebased = {}
         for comp in comps_v:
@@ -217,7 +283,8 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
                 "own_yoy_daily": own_yoy[c.code],
                 "official_own_yoy_daily": official_own_yoy[c.code]}
         out[variant] = {
-            "index": index, "yoy": aggregate.weighted_yoy(own_yoy, weights),
+            "index": index, "yoy": aggregate.weighted_yoy(own_yoy, weights, wbm),
+            "weights_by_month": wbm,
             "as_of": end, "coverage_pct": coverage * 100, "gate_flags": flags,
             "components": components}
     return {"base_month": base_month, "variants": out, "basket": comps,

@@ -14,6 +14,7 @@ re-deriving it from gauge_daily.json.
 from pathlib import Path
 
 from pipeline import derived
+from pipeline.engine import aggregate
 from pipeline.engine import official as official_engine
 from pipeline.publish.util import write_json
 
@@ -26,16 +27,21 @@ def build(gauge_result: dict, conn, comps, official_month: str) -> dict:
     if any(c.official_series == derived.RESIDUAL_CODE for c in comps):
         derived.ensure(conn, comps)
     g = gauge_result["variants"]["gauge"]
+    # The headline at the grid end uses the weights of ITS YoY base month
+    # (time-varying weights, backlog #4), so the gap decomposition does too:
+    # Σ contribution_i then reconciles with the headline the site shows.
+    end_w = (g.get("weights_by_month") or {}).get(aggregate.base_month(g["as_of"]))
     rows, total = [], 0.0
     for comp in comps:
         entry = g["components"][comp.code]
+        weight = end_w[comp.code] if end_w else comp.weight
         ours = entry["yoy_pct"]
         bls = official_engine.component_summary(conn, comp.official_series)["yoy_pct"]
         gap = None if ours is None else ours - bls
-        contribution = None if gap is None else comp.weight * gap
+        contribution = None if gap is None else weight * gap
         total += contribution or 0.0
         rows.append({"component": comp.code, "label": comp.label,
-                     "weight": comp.weight, "mode": entry["mode"],
+                     "weight": weight, "mode": entry["mode"],
                      "ours_yoy_pct": _round(ours), "bls_yoy_pct": round(bls, 2),
                      "gap_pp": _round(gap),
                      "contribution_pp": _round(contribution)})

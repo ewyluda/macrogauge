@@ -5,6 +5,7 @@ import {
   DEFAULT_ANSWERS,
   applyAnswers,
   contributions,
+  personalWeights,
   renormalize,
   weightedYoY,
   type Answers,
@@ -152,5 +153,21 @@ describe("contributions", () => {
     const list = contributions(comps, { a: 0.6, d: 0.6 }, 0);
     expect(list[0].code).toBe("d");
     expect(list[0].pp).toBeCloseTo(-3.0, 10);
+  });
+});
+
+describe("personalWeights — time-varying weights", () => {
+  const comps = [
+    { code: "food_home", label: "F", weight: 0.5, yoy: [1], weights_by_month: { "2018-01": 0.2 } },
+    { code: "apparel", label: "A", weight: 0.5, yoy: [1], weights_by_month: { "2018-01": 0.8 } },
+  ];
+  it("reweights the shares in force on the date, renormalized", () => {
+    const w = personalWeights(comps, DEFAULT_ANSWERS, "2019-01-31");
+    expect(w.food_home).toBeCloseTo(0.2, 12);
+    expect(w.apparel).toBeCloseTo(0.8, 12);
+  });
+  it("falls back to the fixed weights without a date or month entry", () => {
+    expect(personalWeights(comps, DEFAULT_ANSWERS).food_home).toBeCloseTo(0.5, 12);
+    expect(personalWeights(comps, DEFAULT_ANSWERS, "2020-06-30").food_home).toBeCloseTo(0.5, 12);
   });
 });

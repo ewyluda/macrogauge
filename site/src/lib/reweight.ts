@@ -4,6 +4,7 @@
  *  construction (Option A, weighted own-obs YoYs — the 1c sawtooth fix),
  *  applied to reweighted published weights. Never an index-ratio
  *  recomputation. Multipliers below are printed verbatim on the page. */
+import { weightAt } from "./contribution";
 
 export type Answers = {
   housing: "rent" | "own_mortgage" | "own_paidoff";
@@ -26,7 +27,23 @@ export type Comp = {
   label: string;
   weight: number;
   yoy: (number | null)[];
+  /** replay.json per-month headline weights (time-varying, 2026-09-28) */
+  weights_by_month?: Record<string, number>;
 };
+
+/** The answers applied to the published weights in force on `date` (each
+ *  date's own YoY base month, lib/contribution.ts weightAt), renormalized —
+ *  so a personal history reweights the shares the headline used THAT day,
+ *  not today's. No date → the fixed published weights. */
+export function personalWeights(
+  components: { code: string; weight: number; weights_by_month?: Record<string, number> }[],
+  a: Answers,
+  date?: string
+): Record<string, number> {
+  return renormalize(
+    applyAnswers(components.map((c) => ({ code: c.code, weight: weightAt(c, date) })), a)
+  );
+}
 
 /** Scale published weights by the answers (NOT yet renormalized). */
 export function applyAnswers(

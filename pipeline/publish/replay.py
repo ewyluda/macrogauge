@@ -7,16 +7,24 @@ exception to "the site only formats" (1c spec §6.3)."""
 import json
 from pathlib import Path
 
+from pipeline.engine import aggregate
 from pipeline.engine.gauge import PUBLISH_START
 
 
 def build(gauge_result: dict, comps) -> dict:
     g = gauge_result["variants"]["gauge"]
     dates = [d for d in sorted(g["index"]) if d >= PUBLISH_START]
+    # Time-varying weights (backlog #4): the headline at date d uses the
+    # weights of d's YoY base month (aggregate.base_month). Publish exactly
+    # the months the published dates need, so lib/contribution.ts reproduces
+    # Σ w·yoy at every date, not just the latest.
+    wbm = g.get("weights_by_month")
+    months = (sorted({aggregate.base_month(d) for d in dates})
+              if wbm and dates else [])
     components = []
     for comp in comps:
         e = g["components"][comp.code]
-        components.append({
+        row = {
             "code": comp.code, "label": comp.label, "weight": comp.weight,
             "mode": e["mode"],
             # batch 5a (2026-09-03): the component's own last observation and
@@ -31,7 +39,11 @@ def build(gauge_result: dict, comps) -> dict:
                     else round(e["own_yoy_daily"][d], 2) for d in dates],
             "bls_yoy": [None if e["official_own_yoy_daily"].get(d) is None
                         else round(e["official_own_yoy_daily"][d], 2)
-                        for d in dates]})
+                        for d in dates]}
+        if months:
+            row["weights_by_month"] = {m: round(wbm[m][comp.code], 6)
+                                       for m in months if m in wbm}
+        components.append(row)
     return {"rebase": f"{gauge_result['base_month']}=100",
             "dates": dates, "components": components}
 

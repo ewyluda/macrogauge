@@ -8,7 +8,7 @@ import { CopyLink } from "./CopyLink";
 import { DataUnavailable } from "./DataUnavailable";
 import { DownloadData } from "./DownloadData";
 import { C, baseOption } from "@/lib/chartTheme";
-import { contributionGrid, contributionsAt, type ContribMode, type ReplayComponent } from "@/lib/contribution";
+import { contributionGrid, contributionsAt, weightAt, type ContribMode, type ReplayComponent } from "@/lib/contribution";
 import { annualizedAt, lastChange, NSA_NOTE, RATE_LOOKBACK_MONTHS } from "@/lib/momentum";
 import { fmtPp, fmtSigned, yoyColor } from "@/lib/format";
 import { codecs } from "@/lib/urlState";
@@ -103,8 +103,8 @@ export function ContributionSection({
   }
 
   const last = data.dates.length - 1;
-  const ours = contributionsAt(data.components, "ours", last);
-  const bls = contributionsAt(data.components, "bls", last);
+  const ours = contributionsAt(data.components, "ours", last, data.dates[last]);
+  const bls = contributionsAt(data.components, "bls", last, data.dates[last]);
   const rows = data.components.map((c, k) => {
     // Momentum at each component's OWN last observation, never the grid
     // end: a lagging monthly series is forward-filled, so at the grid end
@@ -115,7 +115,7 @@ export function ContributionSection({
     const a3 = annualizedAt(c.index, data.dates, RATE_LOOKBACK_MONTHS.ann3, own);
     const a6 = annualizedAt(c.index, data.dates, RATE_LOOKBACK_MONTHS.ann6, own);
     return {
-      code: c.code, label: c.label, weight: c.weight, mode: c.mode, color: COMPONENT_COLORS[k % COMPONENT_COLORS.length],
+      code: c.code, label: c.label, weight: weightAt(c, data.dates[last]), mode: c.mode, color: COMPONENT_COLORS[k % COMPONENT_COLORS.length],
       ownDate: data.dates[own],
       yoy: c.yoy[last], ann3: a3, ann6: a6, bls_yoy: c.bls_yoy[last],
       contribution_pp: ours ? ours[k].pp : null, bls_contribution_pp: bls ? bls[k].pp : null,

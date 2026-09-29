@@ -11,6 +11,9 @@ export type QuiltComponent = {
   weight: number;
   ours_yoy_pct: (number | null)[];
   official_yoy_pct: (number | null)[];
+  /** per-month weights aligned with `months` (time-varying weights,
+   *  2026-09-28); absent in older artifacts → the fixed `weight` */
+  weights?: number[];
 };
 
 export type BreadthSide = "ours" | "official";
@@ -32,7 +35,7 @@ function cellsAt(comps: QuiltComponent[], side: BreadthSide, k: number): { w: nu
   for (const c of comps) {
     const v = (side === "ours" ? c.ours_yoy_pct : c.official_yoy_pct)[k];
     if (v == null) return null;
-    out.push({ w: c.weight, v });
+    out.push({ w: c.weights?.[k] ?? c.weight, v });
   }
   return out;
 }
