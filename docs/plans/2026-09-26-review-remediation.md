@@ -56,9 +56,11 @@ methodology → value-adds. This file records what shipped and what is still ope
 
 ## Still open
 
+_2026-09-29: external scheduler DONE — cron-job.org → `repository_dispatch` Mon–Fri 8:45/10:45/13:45 ET
+(fine-grained PAT `macrogauge-scheduler`, Contents r/w, expires ~2027-09; renew before then).
+GitHub crons remain the fallback._
+
 ### Needs the owner (accounts, money, or a decision)
-- External scheduler for `repository_dispatch` (cron-job.org / Cloudflare Worker + a fine-grained
-  token with Actions write on this repo) — the hook is live; GitHub crons remain the fallback.
 - Custom domain + analytics (Vercel Web Analytics or Plausible) — product decisions.
 - Email / release-morning alerts (Buttondown or Resend account).
 - About / corrections page (owner name, contact, corrections policy).

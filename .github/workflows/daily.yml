@@ -9,9 +9,13 @@ on:
     # publishes 8:00-21:59 ET and dedupes, so extra firings are cheap no-ops.
     - cron: "10 15 * * 1-5"
     - cron: "40 17 * * 1-5"
-  # External scheduler (no cron slip): POST /repos/{owner}/{repo}/dispatches
-  # with {"event_type":"daily"} from a fine-grained token scoped to this repo.
-  # Gated exactly like schedule; workflow_dispatch stays ungated for humans.
+  # PRIMARY trigger since 2026-09-29: cron-job.org POSTs
+  # /repos/{owner}/{repo}/dispatches {"event_type":"daily"} Mon-Fri at 8:45,
+  # 10:45 and 13:45 America/New_York (the later two only matter on release
+  # days, via the republish guard). Token: fine-grained PAT
+  # `macrogauge-scheduler`, this repo only, Contents read/write, 1-year expiry.
+  # The GitHub crons above are the fallback: on 2026-09-28 none fired until
+  # 16:13 ET. Gated exactly like schedule; workflow_dispatch stays ungated.
   repository_dispatch:
     types: [daily]
   workflow_dispatch:
