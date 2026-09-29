@@ -14,6 +14,7 @@
     "official_core_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
     "official_pce_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
     "official_core_pce_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
+    "official_supercore_yoy_pct": {"description": "BLS CPI services less rent of shelter (CUUR0000SASL2RS) YoY — supercore's reference from 2026-09-28", "type": "array", "items": {"type": ["number", "null"]}},
     "gauge_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
     "col_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
     "tracker_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},

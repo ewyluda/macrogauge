@@ -6,7 +6,7 @@ const LABELS: Record<string, { label: string; vs: string; href?: string }> = {
   gauge: { label: "Macrogauge (CPI-comparable)", vs: "official CPI" },
   tracker: { label: "CPI-Tracker", vs: "official CPI", href: "/vs-bls" },
   col: { label: "Cost of Living", vs: "official CPI", href: "/cost-of-living" },
-  supercore: { label: "Supercore", vs: "core CPI", href: "/supercore" },
+  supercore: { label: "Supercore", vs: "BLS services less rent of shelter", href: "/supercore" },
   pce: { label: "PCE-weighted", vs: "PCEPI", href: "/pce" },
 };
 

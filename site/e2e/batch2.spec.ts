@@ -15,9 +15,9 @@ test("/pce renders the PCE gauge KPI, its weights table and the graded calls", a
   await expect(page.locator("canvas").first()).toBeVisible();
 });
 
-test("/supercore shows the monthly history against core CPI with validation stats", async ({ page }) => {
+test("/supercore shows the monthly history against its official reference with validation stats", async ({ page }) => {
   await page.goto("/supercore");
-  await expect(page.getByText("Supercore vs core CPI — monthly, full history")).toBeVisible();
+  await expect(page.getByText("Supercore vs its official reference — monthly, full history")).toBeVisible();
   await expect(page.getByText(/Correlation .* mean absolute gap/)).toBeVisible();
   await expect(page.locator("canvas")).toHaveCount(2);
 });

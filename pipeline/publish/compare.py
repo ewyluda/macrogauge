@@ -22,8 +22,12 @@ def _official_yoy(conn, code: str = "CPIAUCNS") -> dict[str, float]:
     return out
 
 
+# supercore grades against BLS "services less rent of shelter" (NSA, like the
+# gauge) from 2026-09-28 — until then core CPI, which is ~44% shelter and
+# ~25% core goods: the wrong target for a services-ex-shelter cut.
+SUPERCORE_REF = "CUUR0000SASL2RS"
 GRADE_REF = {"gauge": "CPIAUCNS", "col": "CPIAUCNS", "tracker": "CPIAUCNS",
-             "supercore": "CPILFENS", "pce": "PCEPI"}
+             "supercore": SUPERCORE_REF, "pce": "PCEPI"}
 
 
 def _validation(official: list[float | None], ours: list[float | None]) -> dict:
@@ -88,14 +92,17 @@ def build(gauge_result: dict, conn) -> dict:
     pce_col = [None if m not in pce else round(pce[m], 2) for m in months]
     core_pce = _official_yoy(conn, "PCEPILFE")  # core PCE for /pce (2026-09-28)
     core_pce_col = [None if m not in core_pce else round(core_pce[m], 2) for m in months]
+    svc = _official_yoy(conn, SUPERCORE_REF)  # supercore's reference series
+    svc_col = [None if m not in svc else round(svc[m], 2) for m in months]
     payload = {"months": months, "official_yoy_pct": official_col,
                "official_core_yoy_pct": core_col,
                "official_pce_yoy_pct": pce_col,
                "official_core_pce_yoy_pct": core_pce_col,
+               "official_supercore_yoy_pct": svc_col,
                "validation": {}}
     window = f"{months[0][:7]}..{months[-1][:7]}" if months else ""
     ref_yoy_cache: dict[str, dict[str, float]] = {"CPIAUCNS": off, "CPILFENS": core,
-                                                  "PCEPI": pce}
+                                                  "PCEPI": pce, SUPERCORE_REF: svc}
     for name, v in gauge_result["variants"].items():
         # Sample each month at its LAST grid date — quilt.py's convention.
         # Month-first sampling published a different number for "our YoY in
@@ -109,7 +116,8 @@ def build(gauge_result: dict, conn) -> dict:
         payload[f"{name}_yoy_pct"] = [None if x is None else round(x, 2)
                                       for x in raw]
         # each variant grades against its own reference series (spec §9.7):
-        # gauge/col/tracker vs headline CPI, supercore vs core CPI, pce vs
+        # gauge/col/tracker vs headline CPI, supercore vs BLS services less
+        # rent of shelter, pce vs
         # the official PCE price index. PCEPI has no store rows until the
         # next collect on a fresh basket — _official_yoy then returns {} and
         # ref_col is all-None, which _validation degrades to corr=mag=None

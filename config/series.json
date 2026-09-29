@@ -37,6 +37,7 @@
     {"code": "CPILFENS",        "source": "FRED",     "source_id": "CPILFENS",                     "name": "CPI-U core, ex food & energy (NSA)", "max_staleness_days": 80},
     {"code": "CPIAUCSL",        "source": "FRED",     "source_id": "CPIAUCSL",                     "name": "CPI-U all items (SA) — nowcast seasonal basis", "max_staleness_days": 80},
     {"code": "CPILFESL",        "source": "FRED",     "source_id": "CPILFESL",                     "name": "CPI-U core, ex food & energy (SA)", "max_staleness_days": 80},
+    {"code": "CUUR0000SASL2RS", "source": "FRED", "source_id": "CUUR0000SASL2RS", "name": "CPI-U services less rent of shelter (NSA) — supercore reference", "max_staleness_days": 80},
     {"code": "COREFLEXCPIM159SFRBATL", "source": "FRED", "source_id": "COREFLEXCPIM159SFRBATL", "name": "Flexible-price core CPI, % YoY (Atlanta Fed)", "max_staleness_days": 80},
     {"code": "PCEPILFE", "source": "FRED", "source_id": "PCEPILFE", "name": "Core PCE price index (SA)", "max_staleness_days": 95},
     {"code": "ppi_pce_airline", "source": "FRED", "source_id": "PCU481111481111", "name": "PPI scheduled passenger air transportation — BEA's PCE airfare input (NSA)", "max_staleness_days": 80},

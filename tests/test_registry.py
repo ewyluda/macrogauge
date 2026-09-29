@@ -24,13 +24,13 @@ def test_load_real_registry():
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC", "KALSHI_CORE",
                             "EIA_STATE_RES"}
-    assert len(series) == 710  # +4 BEA-input PPIs (PCE bridge) +CSUSHPISA (Heat Check), 2026-09-28
+    assert len(series) == 711  # 2026-09-28: +4 BEA-input PPIs (PCE bridge), CSUSHPISA (Heat Check), CUUR0000SASL2RS (supercore ref)
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 167
+    assert len(fred) == 168
     # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
     # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
     # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
@@ -40,6 +40,7 @@ def test_load_real_registry():
         "CPILFENS": "CPILFENS",
         "CPIAUCSL": "CPIAUCSL",
         "CPILFESL": "CPILFESL",
+        "CUUR0000SASL2RS": "CUUR0000SASL2RS",
         **{c: c for c in ("COREFLEXCPIM159SFRBATL", "PCEPILFE", "T5YIFR", "EXPINF1YR",
                           "EXPINF10YR", "CUSR0000SACL1E", "CHNTOT", "ECIALLCIV", "ULCNFB")},
         "PCEPI": "PCEPI",

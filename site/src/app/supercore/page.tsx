@@ -14,10 +14,19 @@ import { Section } from "@/components/Section";
 import { StepChart } from "@/components/StepChart";
 import { fmtMonth, fmtPct, fmtPp } from "@/lib/format";
 
-// None of the four supercore service components has a live source yet
-// (gaptable coverage 0%), so the series is the BLS carry-forward and only
-// moves on a CPI release. Claim "daily" only once something rides live.
+// Only electricity and utility gas can ride live data (an EIA like-month
+// tail past the last BLS print, which EIA rarely has), so the series is
+// usually the BLS carry-forward and moves on a CPI release. Claim "daily"
+// only while something rides live.
 const LIVE = gaptable.variants.supercore.coverage_pct > 0;
+
+// compare.json gained official_supercore_yoy_pct (BLS services less rent of
+// shelter, supercore's reference) on 2026-09-28; older artifacts fall back to
+// core CPI, the reference until then.
+const SVC = (compare as typeof compare & { official_supercore_yoy_pct?: (number | null)[] })
+  .official_supercore_yoy_pct;
+const REF = SVC ?? compare.official_core_yoy_pct;
+const REF_NAME = SVC ? "BLS services less rent of shelter (CUUR0000SASL2RS)" : "the official core CPI print";
 
 export const metadata: Metadata = {
   title: "Supercore Services",
@@ -94,42 +103,44 @@ export default function Supercore() {
         <p className="method">Latest-month breadth over all 14 components (full charts on the <Link href="/">homepage</Link>) — context for whether services stickiness is broad or narrow.</p>
       </Section>
 
-      <Section title="Supercore vs core CPI — monthly, full history">
+      <Section title="Supercore vs its official reference — monthly, full history">
         <div className="section-tools">
           <DownloadData filename="macrogauge-supercore-monthly" json="compare.json"
-            citation={`MacroGauge supercore vs core CPI, monthly, ${compare.validation.supercore.window}`}
+            citation={`MacroGauge supercore vs ${REF_NAME}, monthly, ${compare.validation.supercore.window}`}
             rows={columnsToRows({ name: "month", values: compare.months }, [
               { name: "supercore_yoy_pct", values: compare.supercore_yoy_pct },
-              { name: "official_core_yoy_pct", values: compare.official_core_yoy_pct },
+              { name: SVC ? "official_services_less_rent_of_shelter_yoy_pct" : "official_core_yoy_pct", values: REF },
             ])} />
         </div>
         <div className="chart-card">
           <LinesChart
             series={[
               { name: "Supercore (ours)", x: compare.months, y: compare.supercore_yoy_pct, color: C.amber },
-              { name: "Official core CPI", x: compare.months, y: compare.official_core_yoy_pct, color: C.muted, dashed: true, step: true },
+              { name: SVC ? "BLS services less rent of shelter" : "Official core CPI", x: compare.months, y: REF, color: C.muted, dashed: true, step: true },
             ]}
             refLine={2}
             refLabel="2%"
           />
         </div>
         <p className="method">
-          Month-end sampling of the daily series against the official core CPI print — the series supercore is
+          Month-end sampling of the daily series against {REF_NAME} — the series supercore is
           graded on. Correlation {compare.validation.supercore.corr ?? "—"}, mean absolute gap{" "}
-          {compare.validation.supercore.mean_abs_gap_pp ?? "—"}pp over {compare.validation.supercore.window}. A
-          four-component services cut will not track a 200-item core index tightly; the gap is the point, not a defect.
+          {compare.validation.supercore.mean_abs_gap_pp ?? "—"}pp over {compare.validation.supercore.window}. The six
+          coarse components still carry goods (drugs, computers, TVs; furnishings and tobacco inside the CPI
+          residual), so the approximation runs below the BLS services series. The gap is disclosed, not tuned away.
         </p>
       </Section>
 
       <Section title="Methodology">
         <div style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.6 }}>
-          Weighted average of our service components — medical care, education &amp;
-          communication, recreation, and the CPI residual (everything outside the 13 named components) — with weights
-          renormalized; excludes shelter, goods, food-at-home, energy and vehicles
-          (config: supercore_components in basket.json). Why it matters: goods prices
-          swing with supply chains and energy with OPEC — supercore is the wage-driven
-          core the Fed watches to judge whether inflation is entrenched. Grades against
-          core CPI; see <a href="/methodology" style={{ color: "var(--accent-sky)" }}>
+          Weighted average of six components — medical care, education &amp; communication, recreation,
+          electricity, utility gas and the CPI residual (everything outside the 13 named components, about 45% of
+          the cut) — with weights renormalized; excludes shelter, food, gasoline, apparel and vehicles (config:
+          supercore_components in basket.json). It approximates BLS &ldquo;services less rent of shelter&rdquo;
+          and is graded against it; like that series, and unlike the market &ldquo;supercore&rdquo;, it includes
+          energy services. Why it matters: goods prices swing with supply chains and energy with OPEC — services
+          ex-shelter is the wage-driven core the Fed watches to judge whether inflation is entrenched. See{" "}
+          <a href="/methodology" style={{ color: "var(--accent-sky)" }}>
           methodology</a> for validation stats.
         </div>
       </Section>

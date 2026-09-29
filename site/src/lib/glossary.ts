@@ -27,7 +27,7 @@ export const GLOSSARY = {
   },
   supercore: {
     term: "Supercore",
-    def: "Services excluding shelter — the sticky, wage-driven cut the Fed watches. On the gauge it is a renormalized weighted average of four service components; it is graded against core CPI.",
+    def: "Services excluding shelter — the sticky, wage-driven cut the Fed watches. On the gauge it is a renormalized weighted average of six components (medical, education & communication, recreation, electricity, utility gas and the CPI residual), graded against BLS services less rent of shelter.",
   },
   leadlag: {
     term: "Lead-lag",

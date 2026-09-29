@@ -5,8 +5,9 @@ tracker   — official shelter dynamics; only fuel/electricity/nat_gas ride live
 col       — cost-of-living: shelter_owned rides the marginal-buyer payment
             index (spec §5) instead of the market-rent blend; everything
             else that gauge rides live, col rides live too.
-supercore — services-ex-shelter approximation: a renormalized subset of
-            components (config `supercore_components`), graded vs core CPI.
+supercore — approximation of BLS services less rent of shelter: a
+            renormalized subset of components (config
+            `supercore_components`), graded vs CUUR0000SASL2RS.
 pce       — hand-seeded BEA-share weights (`Component.pce_weight`) over all
             14 components, graded vs the official PCE price index.
 
