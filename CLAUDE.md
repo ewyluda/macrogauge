@@ -28,9 +28,14 @@ cd site && npm ci
 npm run dev        # local dev server
 npm run lint       # ESLint flat config: next core-web-vitals + jsx-a11y + react-hooks (must pass in CI)
 npm run build      # static export (must pass in CI)
-npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcMarkets/longLead) + csv/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/portfolio
-npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes — 41 routes / 181 e2e tests, zero console errors
+npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcMarkets/longLead/reconcile) + csv/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/portfolio/chartAria/sourcePills
+npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile — 41 routes / 193 e2e tests, zero console errors
+npm run gen-types  # schemas/*.schema.json -> src/lib/generated/*.ts (gitignored; runs automatically before dev/build/test)
 ```
+
+Published JSON enters a page through `artifact()` (`site/src/lib/artifact.ts`), typed by the
+schema-generated `ArtifactTypes[K]`; a sharper hand type from `lib/types.ts` passes as `T` and must
+extend the schema type, so schema drift fails `next build`. Never `as unknown as` an artifact.
 
 CI (`.github/workflows/ci.yml`) runs two independent jobs on every push/PR: `pipeline` (`pytest -q`)
 and `site` (`npm run lint`, `npm run build`, `npm test`, `npm run e2e`). Both must be green.
