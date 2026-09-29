@@ -21,5 +21,5 @@ export function RevisionChart({ months, values, unit }: { months: string[]; valu
       }],
     };
   }, [months, values, unit]);
-  return <EChart option={option} height={240} />;
+  return <EChart option={option} height={240} ariaTitle={unit === "pp" ? "Revision, first print to latest, percentage points" : "Revision, first print to latest, thousands of jobs"} />;
 }

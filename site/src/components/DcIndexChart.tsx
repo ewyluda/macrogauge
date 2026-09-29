@@ -107,7 +107,7 @@ export function DcIndexChart({ series, actions, exportData }: { series: DcSeries
       <div className="research-chart-controls">
         <SegmentedControl options={MODES} value={mode} onChange={setMode} />
       </div>
-      <EChart option={option} height={340} instanceRef={chartRef} />
+      <EChart option={option} height={340} instanceRef={chartRef} ariaTitle="Data Center Cost Index, YoY %" />
     </div>
   );
 }

@@ -127,6 +127,7 @@ export function CalculatorClient({ dates, index }: CalculatorSeries) {
               The price level since {s.startDate} (Jan 2018 = 100)
             </div>
             <EChart
+              ariaTitle={`Price level since ${s.startDate} (Jan 2018 = 100)`}
               option={{
                 ...base,
                 legend: { show: false },

@@ -228,7 +228,7 @@ export function Treemap() {
           </button>
         ))}
       </div>
-      <EChart option={option} height={420} notMerge={false} />
+      <EChart option={option} height={420} notMerge={false} ariaTitle="Basket treemap: component weight and YoY" />
       <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 10 }}>
         <button
           style={chip(playing)}

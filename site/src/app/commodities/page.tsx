@@ -124,6 +124,7 @@ export default function Page() {
                       <TailSpark
                         tail={r.spark}
                         stroke={yoyColor(r.chg_30d_pct)}
+                        label={r.label}
                       />
                     </td>
                     <td>{r.as_of ? fmtDay(r.as_of) : "—"}</td>

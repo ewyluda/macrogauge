@@ -37,6 +37,7 @@ import { fmtDay, fmtMonth, fmtPct, fmtPp, fmtSigned, fmtMoney, yoyColor } from "
 import { SITE_DESCRIPTION } from "@/lib/nav";
 import { CopyLink } from "@/components/CopyLink";
 import { artifact } from "@/lib/artifact";
+import { sourcePills } from "@/lib/sourcePills";
 
 // Numbers are baked at build time, so the tab title is a live headline —
 // refreshed by the daily publish like everything else.
@@ -129,6 +130,8 @@ export default function Home() {
   const mortgage = quote("pmms_30yr");
   const gold = quote("fmp_gold");
   const debt = quote("fiscal_debt_total");
+  const sources = sourcePills(status.sources);
+  const failedSources = sources.filter((p) => p.tone !== "ok");
   const movers = [...official.components]
     .sort((a, b) => Math.abs(b.mom_pct) - Math.abs(a.mom_pct))
     .slice(0, 6);
@@ -483,20 +486,28 @@ export default function Home() {
 
       <Section title="Sources">
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {status.sources.map((s) => (
+          {sources.map((p) => (
             <Link
-              key={s.name}
+              key={p.id}
               href="/status"
-              title={s.error ?? `${s.name} ok · last pull ${s.finished_at}`}
+              title={p.detail}
+              aria-describedby={`${p.id}-detail`}
               style={{ textDecoration: "none" }}
             >
-              <StatusPill
-                tone={s.ok ? "ok" : "advisory"}
-                label={`${s.name} · ${s.latest_obs ?? "never"}`}
-              />
+              <StatusPill tone={p.tone} label={p.label} />
+              {p.tone === "ok" && <span id={`${p.id}-detail`} className="sr-only">{p.detail}</span>}
             </Link>
           ))}
         </div>
+        {failedSources.length > 0 && (
+          <ul className="source-errors" aria-label="Source errors">
+            {failedSources.map((p) => (
+              <li key={p.id} id={`${p.id}-detail`}>
+                <span aria-hidden="true">! </span>{p.detail}
+              </li>
+            ))}
+          </ul>
+        )}
         <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 12 }}>
           All figures from official/public sources (BLS, FRED, EIA, Zillow, Freddie
           Mac, U.S. Treasury, FMP) — collected daily, published with as-of dates. The

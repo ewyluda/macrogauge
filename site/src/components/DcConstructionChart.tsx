@@ -61,7 +61,7 @@ export function DcConstructionChart({ months, saar, real }: {
           ⬇ Export PNG
         </button>
       </div>
-      <EChart option={option} height={320} instanceRef={chartRef} />
+      <EChart option={option} height={320} instanceRef={chartRef} ariaTitle="Census data-center construction spending, $bn SAAR" />
     </div>
   );
 }

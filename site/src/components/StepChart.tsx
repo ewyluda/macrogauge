@@ -50,7 +50,7 @@ export function StepChart({
   return (
     <div>
       {index && <RateModeControl value={rate} onChange={setRate} note="annualized off the daily index — amplifies noise (3m ≈ ×4)" />}
-      <EChart option={option} height={340} />
+      <EChart option={option} height={340} ariaTitle={label} />
     </div>
   );
 }

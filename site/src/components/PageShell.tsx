@@ -19,8 +19,13 @@ export function PageShell({ children }: { children: React.ReactNode }) {
       ? `${advisoryFailures} advisor${advisoryFailures === 1 ? "y" : "ies"}`
       : `Self-test ${qa.passed}/${qa.total}`;
 
+  // Landmarks (review 2026-09-01 B16): banner, primary nav and contentinfo sit
+  // BESIDE <main>, not inside it, so "jump to main" skips the chrome. The skip
+  // link is the first focusable element on every page; <main> takes
+  // tabIndex -1 so activating it moves focus (not just scroll) into content.
   return (
-    <main className="page-shell">
+    <div className="page-shell">
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <header className="site-header">
         <div className="header-primary">
           <Link href="/" style={{ textDecoration: "none", color: "var(--text)" }}>
@@ -36,8 +41,8 @@ export function PageShell({ children }: { children: React.ReactNode }) {
           </Link>
         </div>
       </header>
-      <div className="research-page">{children}</div>
+      <main id="main-content" className="research-page" tabIndex={-1}>{children}</main>
       <SiteFooter />
-    </main>
+    </div>
   );
 }

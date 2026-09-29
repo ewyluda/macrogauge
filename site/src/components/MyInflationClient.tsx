@@ -240,6 +240,7 @@ export function MyInflationClient({
         }}
       >
         <EChart
+          ariaTitle="My inflation vs official CPI, YoY %"
           option={{
             ...baseOption(),
             series: [

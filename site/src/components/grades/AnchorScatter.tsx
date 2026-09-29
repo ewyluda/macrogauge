@@ -104,7 +104,7 @@ export function AnchorScatter({
         <CopyLink />
       </div>
       <div className="chart-card">
-        <EChart option={option} height={380} />
+        <EChart option={option} height={380} ariaTitle="Contingency basis vs realized escalation, by anchor month" />
       </div>
       {stats ? (
         <p style={{ fontSize: 12, color: "var(--muted)", margin: "8px 0 0" }}>

@@ -83,7 +83,7 @@ export default function ComputePage() {
                   <td><strong>{usd(m.blended_usd_mtok, 3)}</strong></td>
                   <td style={{ color: yoyColor(m.chg_30d_pct) }}>{fmtSigned(m.chg_30d_pct)}</td>
                   <td style={{ color: "var(--muted)" }}>{m.as_of ?? "not collected"}</td>
-                  <td><TailSpark tail={m.tail.values} /></td>
+                  <td><TailSpark tail={m.tail.values} label={m.label} /></td>
                 </tr>
               ))}
             </tbody>
@@ -102,7 +102,7 @@ export default function ComputePage() {
                   <td><strong>{usd(g.usd_per_gpu_hr, 3)}</strong></td>
                   <td style={{ color: yoyColor(g.chg_30d_pct) }}>{fmtSigned(g.chg_30d_pct)}</td>
                   <td style={{ color: "var(--muted)" }}>{g.as_of ?? "not collected"}</td>
-                  <td><TailSpark tail={g.tail.values} /></td>
+                  <td><TailSpark tail={g.tail.values} label={g.label} /></td>
                 </tr>
               ))}
             </tbody>

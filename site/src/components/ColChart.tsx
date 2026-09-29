@@ -82,7 +82,7 @@ export function ColChart({
   return (
     <div>
       {colIndex && <RateModeControl value={rate} onChange={setRate} />}
-      <EChart option={option} height={340} />
+      <EChart option={option} height={340} ariaTitle="Cost-of-living gauge vs macrogauge and official CPI" />
     </div>
   );
 }
