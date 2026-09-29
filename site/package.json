@@ -7,7 +7,10 @@
     "lint": "eslint src e2e scripts",
     "test": "vitest run",
     "e2e": "playwright test",
-    "prebuild": "node scripts/copy-schemas.mjs"
+    "predev": "node scripts/gen-types.mjs",
+    "prebuild": "node scripts/copy-schemas.mjs && node scripts/gen-types.mjs",
+    "pretest": "node scripts/gen-types.mjs",
+    "gen-types": "node scripts/gen-types.mjs"
   },
   "dependencies": {
     "echarts": "^6.1.0",
@@ -23,6 +26,7 @@
     "eslint": "^9.39.5",
     "eslint-config-next": "^15.5.26",
     "eslint-plugin-jsx-a11y": "^6.10.2",
+    "json-schema-to-typescript": "^16.0.0",
     "serve": "^14.2.6",
     "typescript": "^5",
     "vitest": "^4.1.11"

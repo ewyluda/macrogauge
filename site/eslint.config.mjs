@@ -7,7 +7,7 @@ import tsParser from "@typescript-eslint/parser";
 import reactHooks from "eslint-plugin-react-hooks";
 
 export default [
-  { ignores: ["out/**", ".next/**", "node_modules/**", "public/**", "next-env.d.ts"] },
+  { ignores: ["out/**", ".next/**", "node_modules/**", "public/**", "next-env.d.ts", "src/lib/generated/**"] },
   {
     files: ["**/*.{ts,tsx,mjs}"],
     languageOptions: { parser: tsParser, parserOptions: { ecmaFeatures: { jsx: true } } },

@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 import grades from "../../public/data/dc_grades.json";
 import type { DcGrades } from "./types";
+import { artifact } from "./artifact";
 import { anchorBases, anchorPoints, anchorStats } from "./dcAnchors";
 
-const data = grades as unknown as DcGrades;
+const data = artifact<"dc_grades", DcGrades>("dc_grades", grades);
 
 describe("anchorPoints / anchorStats", () => {
   it("reproduce the published legs.*.grades from the anchors", () => {

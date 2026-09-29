@@ -7,8 +7,9 @@ import { fmtSigned } from "@/lib/format";
 import { BASIS_LABELS, fmtFigure, fmtWeightPct, noteSegments } from "@/lib/longLead";
 import type { LongLead, LongLeadPackage, LongLeadVendor } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
+import { artifact } from "@/lib/artifact";
 
-const data = llJson as unknown as LongLead;
+const data = artifact<"longlead", LongLead>("longlead", llJson);
 
 export const metadata: Metadata = {
   title: "Long-Lead Board: vendor order books vs equipment prices",

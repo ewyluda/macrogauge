@@ -36,6 +36,7 @@ import { ForecastNumberLine } from "@/components/ForecastNumberLine";
 import { fmtDay, fmtMonth, fmtPct, fmtPp, fmtSigned, fmtMoney, yoyColor } from "@/lib/format";
 import { SITE_DESCRIPTION } from "@/lib/nav";
 import { CopyLink } from "@/components/CopyLink";
+import { artifact } from "@/lib/artifact";
 
 // Numbers are baked at build time, so the tab title is a live headline —
 // refreshed by the daily publish like everything else.
@@ -122,7 +123,8 @@ const fmtQuote = (q: (typeof official.quotes)[number]) =>
 
 export default function Home() {
   const { cpi, core } = official.headline;
-  const quote = (code: string) => official.quotes.find((q) => q.code === code);
+  // schema-typed: `yoy_pp` is optional on quotes (absent before the refresh)
+  const quote = (code: string) => artifact("official", official).quotes.find((q) => q.code === code);
   const gas = quote("eia_gasreg_w");
   const mortgage = quote("pmms_30yr");
   const gold = quote("fmp_gold");
@@ -272,7 +274,7 @@ export default function Home() {
             {mortgage && <div><span>30Y mortgage</span><strong>{fmtMoney(mortgage.latest, mortgage.unit)}</strong><small>{(() => {
               // rates move in POINTS: render the pp delta once the pipeline
               // publishes it; %-change fallback for the pre-refresh artifact
-              const pp = (mortgage as { yoy_pp?: number | null }).yoy_pp;
+              const pp = mortgage.yoy_pp;
               return pp != null ? `${fmtPp(pp)} YoY` : `${fmtSigned(mortgage.yoy_pct)} YoY`;
             })()}</small></div>}
             {gold && <div><span>Gold</span><strong>{fmtMoney(gold.latest, gold.unit)}</strong><small>{fmtSigned(gold.yoy_pct)} YoY</small></div>}

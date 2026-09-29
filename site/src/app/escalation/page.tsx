@@ -8,6 +8,7 @@ import { DcEscalationClient } from "@/components/DcEscalationClient";
 import { ESCALATION_DATA, type EscalationData } from "@/lib/escalationData";
 import { escalationGradeSlice } from "@/lib/dcGrades";
 import type { DcGrades } from "@/lib/types";
+import { artifact } from "@/lib/artifact";
 
 export const metadata: Metadata = {
   title: "DC Escalation Calculator",
@@ -29,7 +30,7 @@ const moverLabels = movers.map((c) => c.label).join(" and ");
 // artifact would serialize its 286-row `anchors` array (~47KB of the ~58KB
 // file) into escalation.html for a component that never touches it — the load
 // cost the design spec says this page does not take on. The slice is ~4KB.
-const grades = escalationGradeSlice(gradesJson as unknown as DcGrades);
+const grades = escalationGradeSlice(artifact<"dc_grades", DcGrades>("dc_grades", gradesJson));
 
 const data: EscalationData = ESCALATION_DATA;
 

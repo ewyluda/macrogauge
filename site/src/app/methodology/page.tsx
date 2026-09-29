@@ -6,15 +6,14 @@ import methodology from "../../../public/data/methodology.json";
 // Property reads, NOT `const { changelog = [] } = methodology`: webpack mangles
 // JSON-import keys and emitted `{ "rN" = [] }` — invalid syntax that crashed
 // the minifier once the key existed (2026-09-28 publish failed to deploy).
-const methodologyMeta = methodology as unknown as {
-  changelog?: { date: string; area: string; change: string }[];
-  methodology_version?: string;
-};
+// Typed by the schema (changelog/methodology_version are optional there).
+const methodologyMeta = artifact("methodology", methodology);
 const changelog = methodologyMeta.changelog ?? [];
 const methodologyVersion = methodologyMeta.methodology_version;
 import { Section } from "@/components/Section";
 import { MethodologyInventory } from "@/components/MethodologyInventory";
 import { fmtSigned } from "@/lib/format";
+import { artifact } from "@/lib/artifact";
 
 export const metadata: Metadata = {
   title: "Methodology",

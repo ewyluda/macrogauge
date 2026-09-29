@@ -16,3 +16,4 @@ site/tsconfig.tsbuildinfo
 .playwright-cli/
 output/playwright/
 site/public/schemas/
+site/src/lib/generated/

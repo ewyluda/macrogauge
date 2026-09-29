@@ -9,8 +9,14 @@ import { Section } from "@/components/Section";
 import { fmtPp } from "@/lib/format";
 import { GradeTable, reconcileCalls } from "@/components/GradeTable";
 import { Leaderboard, type LeaderboardData } from "@/components/Leaderboard";
+import { artifact } from "@/lib/artifact";
+import type { AccountabilityArtifact } from "@/lib/generated";
 
-const leaderboard = (accountability as unknown as { leaderboard?: LeaderboardData }).leaderboard;
+// `leaderboard` is not (yet) declared in accountability.schema.json, so it
+// rides as a hand-typed refinement of the schema type.
+const leaderboard = artifact<"accountability", AccountabilityArtifact & { leaderboard?: LeaderboardData }>(
+  "accountability", accountability,
+).leaderboard;
 
 export const metadata: Metadata = {
   title: "Forecast Scoreboard",

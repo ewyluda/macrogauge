@@ -13,18 +13,14 @@ import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
 import { StatusPill } from "@/components/StatusPill";
 import { COMPONENTS, COMPONENT_BY_CODE, componentHref, splicePosition } from "@/lib/components";
-import { contributionsAt, type ReplayComponent } from "@/lib/contribution";
+import { contributionsAt } from "@/lib/contribution";
 import { annualizedAt, lastChange, NSA_NOTE, RATE_LOOKBACK_MONTHS } from "@/lib/momentum";
 import { columnsToRows } from "@/lib/csv";
 import { fmtMonth, fmtPp, fmtSigned, yoyColor } from "@/lib/format";
+import { artifact } from "@/lib/artifact";
 
-type ReplayFull = {
-  published_at: string;
-  rebase: string;
-  dates: string[];
-  components: (ReplayComponent & { index: (number | null)[]; bls_index: (number | null)[]; mode: string; last_obs?: string | null; gate_flags?: string[] })[];
-};
-const replay = replayJson as unknown as ReplayFull;
+// Schema-typed (index/bls_index are non-null number[] per replay.schema.json).
+const replay = artifact("replay", replayJson);
 const outlook = outlookJson as { origin_month: string; component_paths: Record<string, { month: string; mom_pct: number; index: number }[]> };
 const SERIES = Object.fromEntries((seriesJson as { series: { code: string; source: string; name: string; max_staleness_days: number }[] }).series.map((s) => [s.code, s]));
 const SOURCES = Object.fromEntries(sourcesStatus.sources.map((s) => [s.name, s]));
