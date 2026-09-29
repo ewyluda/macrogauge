@@ -22,11 +22,11 @@ test("/pce renders the PCE gauge KPI, its weights table and the graded calls", a
 test("/pce and /cpi-preview show the next-PCE-print nowcast", async ({ page }) => {
   await page.goto("/pce");
   await expect(page.getByRole("heading", { name: "Next PCE print — nowcast" })).toBeVisible();
-  await expect(page.getByText("PCE nowcast · MoM (SA)")).toBeVisible();
+  await expect(page.getByText("PCE nowcast · MoM (SA)", { exact: true })).toBeVisible();
   await expect(page.getByText("Core PCE nowcast · MoM (SA)")).toBeVisible();
   await page.goto("/cpi-preview");
   await expect(page.getByRole("heading", { name: "Next PCE print" })).toBeVisible();
-  await expect(page.getByText("PCE nowcast · MoM (SA)")).toBeVisible();
+  await expect(page.getByText("PCE nowcast · MoM (SA)", { exact: true })).toBeVisible();
 });
 
 test("/dc-scoreboard shows the storage-tail gate verdict", async ({ page }) => {
