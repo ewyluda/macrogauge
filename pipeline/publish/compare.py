@@ -86,9 +86,12 @@ def build(gauge_result: dict, conn) -> dict:
     # where PCEPI has no store rows -- same degradation as the core column.
     pce = _official_yoy(conn, "PCEPI")
     pce_col = [None if m not in pce else round(pce[m], 2) for m in months]
+    core_pce = _official_yoy(conn, "PCEPILFE")  # core PCE for /pce (2026-09-28)
+    core_pce_col = [None if m not in core_pce else round(core_pce[m], 2) for m in months]
     payload = {"months": months, "official_yoy_pct": official_col,
                "official_core_yoy_pct": core_col,
                "official_pce_yoy_pct": pce_col,
+               "official_core_pce_yoy_pct": core_pce_col,
                "validation": {}}
     window = f"{months[0][:7]}..{months[-1][:7]}" if months else ""
     ref_yoy_cache: dict[str, dict[str, float]] = {"CPIAUCNS": off, "CPILFENS": core,

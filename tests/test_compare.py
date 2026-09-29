@@ -162,13 +162,14 @@ def test_official_pce_yoy_column_and_pce_validation_with_pcepi(tmp_path):
     """Batch 2a: the PCE price index rides the same month grid as CPI so the
     /pce page can chart the pce variant against what it is graded on; the
     pce validation block pairs against the same series."""
-    obs = [Observation(series_code="PCEPI", obs_date=d, value=v,
+    obs = [Observation(series_code=code, obs_date=d, value=v * scale,
                        vintage_date="2018-04-01", source="FRED", route="API")
-           for d, v in PCE_ROWS]
+           for code, scale in (("PCEPI", 1.0), ("PCEPILFE", 2.0)) for d, v in PCE_ROWS]
     vintage.append(obs, tmp_path)
     conn = seed(tmp_path)
     p = compare.build(RESULT, conn)
     assert p["official_pce_yoy_pct"] == [1.0, 2.0, 3.0]
+    assert p["official_core_pce_yoy_pct"] == [1.0, 2.0, 3.0]  # core PCE (2026-09-28)
     pce = p["validation"]["pce"]
     assert pce["corr"] is not None and pce["mean_abs_gap_pp"] is not None
     path = compare.write(p, tmp_path / "out", "2018-04-01T12:00:00Z")

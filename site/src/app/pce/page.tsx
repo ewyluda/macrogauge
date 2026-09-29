@@ -11,6 +11,7 @@ import { LinesChart } from "@/components/LinesChart";
 import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
 import { GradeTable, reconcileCalls } from "@/components/GradeTable";
+import { PceForecastHero } from "@/components/PceForecastHero";
 import { C } from "@/lib/chartTheme";
 import { columnsToRows } from "@/lib/csv";
 import { fmtMonth, fmtPct, fmtPp } from "@/lib/format";
@@ -19,8 +20,14 @@ import { fmtMonth, fmtPct, fmtPp } from "@/lib/format";
 // optional in their schemas until the next publish regenerates the
 // artifacts — read them as absent-tolerant, never as required.
 type HeadlineRow = { month: string; yoy_pct: number; prev_yoy_pct: number; as_of: string };
-const compare = compareJson as typeof compareJson & { official_pce_yoy_pct?: (number | null)[] };
+const compare = compareJson as typeof compareJson & {
+  official_pce_yoy_pct?: (number | null)[];
+  official_core_pce_yoy_pct?: (number | null)[];
+};
 const officialPce = (officialJson.headline as { pce?: HeadlineRow | null }).pce ?? null;
+// Core PCE rows added 2026-09-28 — absent on older artifacts.
+const officialCorePce = (officialJson.headline as { core_pce?: HeadlineRow | null }).core_pce ?? null;
+const accountabilityCore = (accountabilityPce as { core?: { graded: unknown[]; pending: unknown[] } }).core ?? null;
 
 const pce = gaugeDaily.variants.pce;
 let last = pce.yoy_pct.length - 1;
@@ -32,6 +39,7 @@ const gap = pceYoy != null && officialPce ? pceYoy - officialPce.yoy_pct : null;
 const from = compare.months.findIndex((m) => m >= "2019-01-01");
 const officialSeries = compare.official_pce_yoy_pct ?? compare.months.map(() => null);
 const hasOfficialHistory = officialSeries.some((v) => v != null);
+const coreSeries = compare.official_core_pce_yoy_pct ?? null;
 const weights = (basket.components as { code: string; label: string; weight: number; pce_weight: number }[])
   .slice()
   .sort((a, b) => b.pce_weight - a.pce_weight);
@@ -70,6 +78,14 @@ export default function Pce() {
           accent="amber"
         />
         <KpiCard
+          label="Official core PCE · YoY"
+          value={officialCorePce ? fmtPct(officialCorePce.yoy_pct) : "—"}
+          context={officialCorePce
+            ? `${fmtMonth(officialCorePce.month)} print · prev ${fmtPct(officialCorePce.prev_yoy_pct)} · PCEPILFE`
+            : "publishes with the next daily run"}
+          accent="violet"
+        />
+        <KpiCard
           label="Gap vs PCEPI"
           value={gap == null ? "—" : fmtPp(gap)}
           context={gap == null ? "needs both readings" : "gauge minus the latest official print"}
@@ -99,6 +115,7 @@ export default function Pce() {
             rows={columnsToRows({ name: "month", values: compare.months }, [
               { name: "pce_gauge_yoy_pct", values: compare.pce_yoy_pct },
               { name: "official_pcepi_yoy_pct", values: officialSeries },
+              ...(coreSeries ? [{ name: "official_core_pce_yoy_pct", values: coreSeries }] : []),
             ])}
           />
         </div>
@@ -107,6 +124,9 @@ export default function Pce() {
             series={[
               { name: "PCE gauge (ours)", x: compare.months.slice(from), y: compare.pce_yoy_pct.slice(from), color: C.sky },
               { name: "Official PCEPI", x: compare.months.slice(from), y: officialSeries.slice(from), color: C.amber, dashed: true, step: true },
+              ...(coreSeries
+                ? [{ name: "Official core PCE", x: compare.months.slice(from), y: coreSeries.slice(from), color: C.violet, dashed: true, step: true }]
+                : []),
             ]}
             refLine={2}
             refLabel="Fed 2% target"
@@ -120,11 +140,28 @@ export default function Pce() {
         )}
       </Section>
 
+      <Section title="Next PCE print — nowcast">
+        <PceForecastHero />
+        <p className="method">
+          The PCE nowcast targets the next BEA Personal Income &amp; Outlays release. Between the CPI and PCE prints
+          (about two weeks) it bridges from the <em>published</em> seasonally adjusted CPI for that month; before
+          the CPI print, from our CPI nowcast. Once the month&apos;s PPIs are out, the bridge adds the PPIs BEA prices
+          PCE items with (airfares, physician and hospital care, portfolio management) — only while that bridge
+          beats the CPI-only one out of sample. Every coefficient is published in nowcast_latest.json.
+        </p>
+      </Section>
+
       <Section title="PCE calls — graded against every print">
         <GradeTable rows={reconcileCalls(accountabilityPce)} keyPrefix="pce" />
+        {accountabilityCore && (accountabilityCore.graded.length > 0 || accountabilityCore.pending.length > 0) && (
+          <>
+            <p className="method">Core PCE (PCEPILFE) calls:</p>
+            <GradeTable rows={reconcileCalls(accountabilityCore)} keyPrefix="core-pce" />
+          </>
+        )}
         <p className="method">
-          The monthly PCE nowcast is a CPI pass-through (see <a href="/matrix">the matrix</a>); the daily PCE gauge
-          above is a separate object — a re-weighting of live prices, not a forecast.
+          The monthly PCE nowcast is a CPI (plus PPI) pass-through; the daily PCE gauge above is a separate
+          object — a re-weighting of live prices, not a forecast.
         </p>
       </Section>
 

@@ -285,22 +285,31 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         # next_target, not next_print: past the scheduled calendar the nowcast
         # keeps targeting an inferred month (release date unknown) so forecasts
         # keep recording instead of leaving an un-backfillable ledger gap.
-        next_release = release_calendar.next_target(today)
-        if (next_release and next_release["date"] == today and conn.execute(
-                "SELECT 1 FROM observations WHERE series_code = 'CPIAUCNS' AND obs_date = ?",
-                (f"{next_release['reference_month']}-01",)).fetchone()):
-            # Release morning, print already ingested: target the NEXT month
-            # (the same-day entry used to keep "forecasting" a month that was
-            # already out, recording a post-release call).
-            tomorrow = (date.fromisoformat(today) + timedelta(days=1)).isoformat()
-            next_release = release_calendar.next_target(tomorrow)
+        def target(key: str, anchor: str) -> dict | None:
+            nxt = release_calendar.next_target(today, key=key)
+            if (nxt and nxt["date"] == today and conn.execute(
+                    "SELECT 1 FROM observations WHERE series_code = ? AND obs_date = ?",
+                    (anchor, f"{nxt['reference_month']}-01")).fetchone()):
+                # Release morning, print already ingested: target the NEXT
+                # month (the same-day entry used to keep "forecasting" a month
+                # that was already out, recording a post-release call).
+                tomorrow = (date.fromisoformat(today) + timedelta(days=1)).isoformat()
+                nxt = release_calendar.next_target(tomorrow, key=key)
+            return nxt
+
+        next_release = target("cpi", "CPIAUCNS")
+        # PCE keys to ITS release calendar (BEA Personal Income & Outlays).
+        pce_release = target("pce", "PCEPI") if next_release else None
+        pce_month = (pce_release or next_release or {}).get("reference_month")
         nowcast_state["payload"] = payload = build_nowcast(
             conn, gauge_result, next_release,
             benchmarks=phase3.latest_benchmarks(
                 conn, next_release["reference_month"] if next_release else None),
             core_benchmarks=phase3.latest_core_benchmarks(
                 conn, next_release["reference_month"] if next_release else None),
-            staleness=staleness, today=today)
+            staleness=staleness, today=today, pce_release=pce_release,
+            pce_benchmarks=phase3.latest_pce_benchmarks(conn, pce_month),
+            core_pce_benchmarks=phase3.latest_core_pce_benchmarks(conn, pce_month))
         phase3.record_forecasts(payload, conn, args.store, today)
         phase3_paths = phase3.write_all(payload, conn, args.out,
                                         published_at)  # validates each file inline

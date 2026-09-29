@@ -300,3 +300,139 @@ def test_seasonal_mom_uses_last_years_factor_ratio(tmp_path):
 def test_kalshi_core_ladder_writes_its_own_series_code():
     from pipeline.connectors import kalshi
     assert kalshi.SERIES_CODES["KXCPICORE"] == "kalshi_core_cpi_mom"
+
+
+# --- PCE keyed to its own calendar + PPI bridge (backlog #3, 2026-09-28) ---
+
+def _levels(months, moves, start=100.0):
+    out, level = [], start
+    for m, mv in zip(months, moves):
+        level *= 1 + mv / 100
+        out.append((m, level))
+    return out
+
+
+def _months(n, start_year=2019):
+    return [f"{start_year + i // 12}-{i % 12 + 1:02d}-01" for i in range(n)]
+
+
+def _ppi_world(n=72, pce_on_ppi=0.2):
+    """PCE MoM = 0.05 + 0.6*CPI + pce_on_ppi*hospital PPI (deterministic,
+    non-collinear drivers) — the PPI bridge must recover the hospital beta."""
+    months = _months(n)
+    cpi_mv = [0.2 + 0.1 * ((i * 7) % 5 - 2) / 2 for i in range(n)]
+    hosp = [0.3 * ((i * 3) % 7 - 3) / 3 for i in range(n)]
+    other = {c: [0.1 * ((i * k) % 4 - 1.5) + 0.01 * ((i * (k + 1)) % 3) for i in range(n)]
+             for k, c in zip((2, 5, 11), ("ppi_pce_airline", "ppi_pce_physician",
+                                          "ppi_pce_portfolio"))}
+    pce_mv = [0.05 + 0.6 * c + pce_on_ppi * h for c, h in zip(cpi_mv, hosp)]
+    ppi = {"ppi_pce_hospital": _levels(months, hosp),
+           **{c: _levels(months, v) for c, v in other.items()}}
+    return months, _levels(months, cpi_mv), _levels(months, pce_mv), ppi
+
+
+def test_ppi_bridge_recovers_ppi_beta_and_publishes_coefficients():
+    months, cpi, pce, ppi = _ppi_world()
+    target = months[-1][:7]
+    result = models.pce_ppi_bridge(0.3, target, cpi[:-1], pce[:-1], ppi)
+    assert result["bridge"] == "cpi+ppi"
+    p = result["parameters"]
+    assert p["ppi_betas"]["ppi_pce_hospital"] == pytest.approx(0.2, abs=1e-3)
+    assert p["cpi_beta"] == pytest.approx(0.6, abs=1e-3)
+    assert p["oos_mae_cpi_ppi_pp"] < p["oos_mae_cpi_only_pp"]
+    hosp = ppi["ppi_pce_hospital"]
+    hosp_mom = (hosp[-1][1] / hosp[-2][1] - 1) * 100
+    assert result["mom_pct"] == pytest.approx(0.05 + 0.6 * 0.3 + 0.2 * hosp_mom, abs=0.01)
+    assert p["ppi_inputs_mom_pct"]["ppi_pce_hospital"] == pytest.approx(hosp_mom, abs=1e-4)
+    assert p["window_months"] == models.PPI_WINDOW
+
+
+def test_ppi_bridge_falls_back_to_cpi_only_with_reason():
+    months, cpi, pce, ppi = _ppi_world()
+    target = months[-1][:7]
+    unprinted = {c: rows[:-1] for c, rows in ppi.items()}  # target PPI not out yet
+    r = models.pce_ppi_bridge(0.3, target, cpi[:-1], pce[:-1], unprinted)
+    assert r["bridge"] == "cpi" and "not printed yet" in r["bridge_note"]
+    assert r["mom_pct"] == models.pce_bridge(0.3, cpi[:-1], pce[:-1])["mom_pct"]
+    short = {c: rows[-20:] for c, rows in ppi.items()}
+    r = models.pce_ppi_bridge(0.3, target, cpi[:-1], pce[:-1], short)
+    assert r["bridge"] == "cpi" and "< 36 required" in r["bridge_note"]
+    partial = {c: v for c, v in ppi.items() if c != "ppi_pce_hospital"}
+    r = models.pce_ppi_bridge(0.3, target, cpi[:-1], pce[:-1], partial)
+    assert r["bridge"] == "cpi" and r["bridge_note"] == "PPI inputs not in the store"
+
+
+def test_ppi_bridge_gate_follows_the_published_out_of_sample_maes():
+    # PCE ignores the PPIs (plus noise): whichever bridge publishes, the
+    # choice must agree with the two walk-forward MAEs it publishes.
+    months, cpi, pce, ppi = _ppi_world(pce_on_ppi=0.0)
+    noisy = [(m, v * (1 + 0.0004 * ((i * 13) % 9 - 4))) for i, (m, v) in enumerate(pce)]
+    r = models.pce_ppi_bridge(0.3, months[-1][:7], cpi[:-1], noisy[:-1], ppi)
+    p = r["parameters"]
+    if r["bridge"] == "cpi":
+        assert "did not beat" in r["bridge_note"]
+        assert p["oos_mae_cpi_ppi_pp"] >= p["oos_mae_cpi_only_pp"]
+    else:
+        assert p["oos_mae_cpi_ppi_pp"] < p["oos_mae_cpi_only_pp"]
+
+
+def _pce_store(tmp_path, cpi_through="2026-08-01"):
+    ms = [m for m in _months(48, 2023) if m <= "2026-09-01"]
+    _seed(tmp_path, "CPIAUCSL", [r for r in _levels(ms, [0.25] * len(ms)) if r[0] <= cpi_through])
+    _seed(tmp_path, "CPILFESL", [r for r in _levels(ms, [0.28] * len(ms)) if r[0] <= cpi_through])
+    pce = [r for r in _levels(ms, [0.2] * len(ms)) if r[0] <= "2026-07-01"]
+    _seed(tmp_path, "PCEPI", pce)
+    _seed(tmp_path, "PCEPILFE", pce)
+    return vintage.load(tmp_path)
+
+
+CPI_SEPT = {"mom_pct": 0.42, "mom_nsa_pct": 0.38, "basis": "SA", "as_of": "2026-09-28",
+            "core": {"mom_pct": 0.10, "mom_nsa_pct": 0.14, "basis": "SA"}}
+
+
+def test_pce_nowcast_uses_actual_cpi_once_that_month_printed(tmp_path):
+    # 2026-09-28: CPI nowcast targets Sept, PCE's next release (09-30) is Aug
+    # and Aug CPI printed 09-11 -> the bridge reads the ACTUAL Aug SA CPI.
+    conn = _pce_store(tmp_path, cpi_through="2026-08-01")
+    r = models.pce_nowcast(conn, CPI_SEPT, "2026-08", "2026-09-30", "2026-09")
+    assert r["reference_month"] == "2026-08" and r["release_date"] == "2026-09-30"
+    assert r["cpi_input"]["source"] == "actual" and r["cpi_input"]["series"] == "CPIAUCSL"
+    assert r["cpi_input"]["mom_pct"] == pytest.approx(0.25, abs=1e-4)
+    assert r["core"]["cpi_input"]["source"] == "actual"
+    assert r["core"]["cpi_input"]["series"] == "CPILFESL"
+    assert r["status"] == "live" and r["core"]["status"] == "live"
+
+
+def test_pce_nowcast_uses_sa_cpi_nowcast_when_month_not_printed(tmp_path):
+    # 2026-10-01: PCE targets Sept (release 10-29); Sept CPI is out 10-14.
+    conn = _pce_store(tmp_path, cpi_through="2026-08-01")
+    r = models.pce_nowcast(conn, CPI_SEPT, "2026-09", "2026-10-29", "2026-09")
+    assert r["cpi_input"] == {"source": "nowcast", "series": "CPIAUCSL", "mom_pct": 0.42}
+    assert r["core"]["cpi_input"] == {"source": "nowcast", "series": "CPILFESL",
+                                      "mom_pct": 0.1}
+
+
+def test_pce_nowcast_unavailable_without_actual_or_same_month_nowcast(tmp_path):
+    # PCE month whose CPI never printed (2025-10) and isn't the CPI target:
+    # no guess off another month's nowcast.
+    conn = _pce_store(tmp_path, cpi_through="2026-07-01")
+    r = models.pce_nowcast(conn, CPI_SEPT, "2026-08", "2026-09-30", "2026-09")
+    assert r["status"] == "unavailable" and r["mom_pct"] is None
+    assert r["core"]["status"] == "unavailable"
+
+
+def test_build_latest_keys_pce_to_its_own_release(tmp_path):
+    _pce_store(tmp_path, cpi_through="2026-08-01")
+    _seed(tmp_path, "PAYEMS", [(f"2026-{m:02d}-01", 159000.0 + m) for m in range(1, 9)])
+    conn = vintage.load(tmp_path)
+    result = build_latest(conn, _sticky_gauge(), {"date": "2026-10-14",
+                                                  "reference_month": "2026-09"},
+                          pce_release={"date": "2026-09-30", "reference_month": "2026-08"},
+                          pce_benchmarks={"cleveland": {"value": 0.35, "as_of": "2026-09-20"}},
+                          core_pce_benchmarks={"cleveland": None})
+    assert result["reference_month"] == "2026-09"
+    assert result["pce"]["reference_month"] == "2026-08"
+    assert result["pce"]["release_date"] == "2026-09-30"
+    assert result["pce"]["cpi_input"]["source"] == "actual"
+    assert result["pce"]["benchmarks"] == {"cleveland": {"value": 0.35, "as_of": "2026-09-20"}}
+    assert result["pce"]["core"]["benchmarks"] == {}

@@ -50,5 +50,31 @@
       "release_date": "2026-12-15",
       "reference_month": "2026-11"
     }
+  ],
+  "pce": [
+    {
+      "release_date": "2026-07-30",
+      "reference_month": "2026-06"
+    },
+    {
+      "release_date": "2026-08-26",
+      "reference_month": "2026-07"
+    },
+    {
+      "release_date": "2026-09-30",
+      "reference_month": "2026-08"
+    },
+    {
+      "release_date": "2026-10-29",
+      "reference_month": "2026-09"
+    },
+    {
+      "release_date": "2026-11-25",
+      "reference_month": "2026-10"
+    },
+    {
+      "release_date": "2026-12-23",
+      "reference_month": "2026-11"
+    }
   ]
 }

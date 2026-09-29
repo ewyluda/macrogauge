@@ -165,6 +165,28 @@ export type NowcastComponent = {
   driver_mom_pct?: number;
 };
 
+export type PceBridgeParameters = {
+  observations?: number;
+  intercept?: number;
+  cpi_beta?: number;
+  window_months?: number;
+  oos_mae_cpi_only_pp?: number | null;
+  oos_mae_cpi_ppi_pp?: number | null;
+  oos_months?: number;
+  ppi_betas?: Record<string, number>;
+  ppi_inputs_mom_pct?: Record<string, number>;
+};
+
+export type PceNowcast = {
+  mom_pct: number | null;
+  status: string;
+  parameters: PceBridgeParameters;
+  bridge?: "cpi" | "cpi+ppi" | null;
+  bridge_note?: string;
+  cpi_input?: { source: "actual" | "nowcast" | "nowcast_nsa"; series: string; mom_pct: number } | null;
+  benchmarks?: Record<string, { value: number; as_of: string }>;
+};
+
 export type Nowcast = {
   published_at: string;
   target: string;
@@ -178,11 +200,12 @@ export type Nowcast = {
     parameters: Record<string, number>;
     components: NowcastComponent[];
   };
-  pce: {
-    mom_pct: number | null;
-    status: string;
+  pce: PceNowcast & {
     as_of: string | null;
-    parameters: { observations?: number; intercept?: number; cpi_beta?: number; window_months?: number };
+    // Added 2026-09-28 (PCE keyed to its own release); absent on older artifacts.
+    reference_month?: string | null;
+    release_date?: string | null;
+    core?: PceNowcast & { reference_month?: string | null };
   };
   nfp: { change_thousands: number; reference_month: string } | null;
   benchmarks: Record<string, { value: number; as_of: string } | null>;

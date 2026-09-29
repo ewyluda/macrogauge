@@ -209,6 +209,149 @@ def pce_bridge(cpi_mom: float, cpi_rows, pce_rows, window: int = 24) -> dict:
         "window_months": window, "observations": len(months)}}
 
 
+# BEA prices several PCE services straight off PPIs (NIPA handbook ch. 5):
+# airfares, physician and hospital care (PCE counts the employer/government
+# payment CPI excludes), portfolio management. Their month-t prints land the
+# day after CPI, so once CPI for t is out they are extra regressors on the
+# bridge. Registry codes -> FRED ids live in config/series.json.
+PPI_BRIDGE = ("ppi_pce_airline", "ppi_pce_physician", "ppi_pce_hospital",
+              "ppi_pce_portfolio")
+PPI_WINDOW = 60      # 6 parameters: a 24-month window leaves 18 dof — too few
+PPI_MIN_OBS = 36     # below this the PPI bridge is not fit at all
+OOS_MONTHS = 24      # walk-forward window that decides PPI vs CPI-only
+
+
+def _bridge_fit(target: dict[str, float], regressors: list[dict[str, float]],
+                months: list[str], window: int) -> list[float] | None:
+    hist = months[-window:]
+    return _ols([[1.0] + [r[m] for r in regressors] for m in hist],
+                [target[m] for m in hist])
+
+
+def _walk_forward_mae(target, regressors, months, window, min_obs) -> float | None:
+    """Mean |error| of one-step-ahead fits over the last OOS_MONTHS months,
+    each fit only on months before the one it predicts (with that month's
+    actual regressors — the regime the PPI bridge runs in)."""
+    errs = []
+    for i in range(max(0, len(months) - OOS_MONTHS), len(months)):
+        if i < min_obs:
+            continue
+        beta = _bridge_fit(target, regressors, months[:i], window)
+        if beta is None:
+            continue
+        m = months[i]
+        fit = beta[0] + sum(b * r[m] for b, r in zip(beta[1:], regressors))
+        errs.append(abs(fit - target[m]))
+    return sum(errs) / len(errs) if errs else None
+
+
+def pce_ppi_bridge(cpi_mom: float, target_month: str, cpi_rows, pce_rows,
+                   ppi_rows: dict[str, list] | None = None,
+                   window: int = 24) -> dict:
+    """PCE MoM from SA CPI MoM, plus the BEA-input PPIs when they are usable.
+
+    The PPI bridge (OLS of PCE MoM on [1, CPI MoM, PPI_1..k MoM] over
+    PPI_WINDOW months) is used only when every PPI has printed target_month,
+    the overlap reaches PPI_MIN_OBS, and its walk-forward MAE over the last
+    OOS_MONTHS beats the CPI-only bridge's — otherwise the CPI-only bridge
+    (pce_bridge, unchanged) publishes, with the reason. Every coefficient and
+    both out-of-sample MAEs are in `parameters`. Inputs are latest-vintage
+    history (revisions included); the PPIs are NSA, as BEA uses them."""
+    base = pce_bridge(cpi_mom, cpi_rows, pce_rows, window)
+    base["bridge"] = "cpi"
+    cpi, pce = monthly_changes(dict(cpi_rows)), monthly_changes(dict(pce_rows))
+    ppi = {code: monthly_changes(dict(rows)) for code, rows in (ppi_rows or {}).items()}
+    if not ppi or set(ppi) != set(PPI_BRIDGE):
+        base["bridge_note"] = "PPI inputs not in the store"
+        return base
+    target = month_first(target_month)
+    missing = [code for code in PPI_BRIDGE if target not in ppi[code]]
+    if missing:
+        base["bridge_note"] = (f"PPI for {target_month} not printed yet "
+                               f"({', '.join(missing)})")
+        return base
+    months = sorted(m for m in set(cpi) & set(pce) if m < target
+                    and all(m in ppi[c] for c in PPI_BRIDGE))
+    if len(months) < PPI_MIN_OBS:
+        base["bridge_note"] = (f"PPI overlap {len(months)} months "
+                               f"< {PPI_MIN_OBS} required")
+        return base
+    regs_ppi = [cpi] + [ppi[c] for c in PPI_BRIDGE]
+    beta = _bridge_fit(pce, regs_ppi, months, PPI_WINDOW)
+    oos_ppi = _walk_forward_mae(pce, regs_ppi, months, PPI_WINDOW, PPI_MIN_OBS)
+    oos_cpi = _walk_forward_mae(pce, [cpi], months, window, 2)
+    base["parameters"].update({
+        "oos_mae_cpi_only_pp": None if oos_cpi is None else round(oos_cpi, 4),
+        "oos_mae_cpi_ppi_pp": None if oos_ppi is None else round(oos_ppi, 4),
+        "oos_months": OOS_MONTHS})
+    if beta is None or oos_ppi is None or oos_cpi is None or oos_ppi >= oos_cpi:
+        base["bridge_note"] = ("PPI bridge did not beat the CPI-only bridge "
+                               "out of sample")
+        return base
+    inputs = {c: round(ppi[c][target], 4) for c in PPI_BRIDGE}
+    forecast = beta[0] + beta[1] * cpi_mom + sum(
+        b * ppi[c][target] for b, c in zip(beta[2:], PPI_BRIDGE))
+    return {"mom_pct": round(forecast, 2), "bridge": "cpi+ppi",
+            "parameters": {**base["parameters"],
+                           "intercept": round(beta[0], 6), "cpi_beta": round(beta[1], 6),
+                           "ppi_betas": {c: round(b, 6) for c, b in zip(PPI_BRIDGE, beta[2:])},
+                           "ppi_inputs_mom_pct": inputs,
+                           "window_months": PPI_WINDOW,
+                           "observations": len(months[-PPI_WINDOW:])}}
+
+
+def _actual_mom(conn, code: str, month: str) -> float | None:
+    """Published MoM for `month` (latest vintage), None until it prints."""
+    if conn is None:
+        return None
+    levels = dict(vintage.latest(conn, code))
+    return monthly_changes({m: levels[m] for m in (prior_month(month), month)
+                            if m in levels}).get(month)
+
+
+def pce_nowcast(conn, cpi: dict, reference_month: str, release_date: str | None,
+                cpi_target_month: str | None) -> dict:
+    """Headline + core PCE MoM for the next PCE release's reference month.
+
+    CPI input: the ACTUAL seasonally adjusted CPI MoM (CPIAUCSL / CPILFESL,
+    as known today) once that month's CPI is out — the usual state for the
+    ~2 weeks between the CPI and PCE prints; otherwise the SA CPI nowcast,
+    which then targets the same month. Neither available (a month whose CPI
+    was skipped, e.g. 2025-10) → unavailable, never a guess off another
+    month's nowcast."""
+    month = month_first(reference_month)
+    ppi_rows = {c: vintage.latest(conn, c) for c in PPI_BRIDGE} if conn is not None else {}
+    ppi_rows = {c: r for c, r in ppi_rows.items() if r}
+    same_month = cpi_target_month is not None and month_first(cpi_target_month) == month
+
+    def one(label, sa_code, nsa_code, target_code, nowcast):
+        actual = _actual_mom(conn, sa_code, month)
+        series = sa_code
+        if actual is not None:
+            source, value = "actual", actual
+        elif same_month and nowcast.get("mom_pct") is not None and nowcast.get("basis") == "SA":
+            source, value = "nowcast", nowcast["mom_pct"]
+        elif same_month and nowcast.get("mom_nsa_pct") is not None:
+            # No SA factors in the store (fresh/test stores): the legacy
+            # NSA-on-NSA pairing, labelled as such.
+            source, value, series = "nowcast_nsa", nowcast["mom_nsa_pct"], nsa_code
+        else:
+            return {"mom_pct": None, "status": "unavailable", "parameters": {},
+                    "bridge": None, "cpi_input": None,
+                    "note": f"no {label} CPI MoM for {reference_month[:7]} "
+                            f"(neither published nor nowcast)"}
+        out = pce_ppi_bridge(value, reference_month, vintage.latest(conn, series),
+                             vintage.latest(conn, target_code), ppi_rows)
+        out.update(status="live", cpi_input={"source": source, "series": series,
+                                             "mom_pct": round(value, 4)})
+        return out
+
+    headline = one("headline", "CPIAUCSL", "CPIAUCNS", "PCEPI", cpi)
+    core = one("core", "CPILFESL", "CPILFENS", "PCEPILFE", cpi.get("core") or {})
+    return {**headline, "reference_month": reference_month[:7], "release_date": release_date,
+            "as_of": cpi.get("as_of"), "core": {**core, "reference_month": reference_month[:7]}}
+
+
 def nfp_nowcast(payroll_rows, claims_rows, window: int = 60) -> dict | None:
     payroll = {d: v for d, v in payroll_rows}
     months = sorted(payroll)
@@ -253,7 +396,13 @@ def build_latest(conn, gauge_result: dict, next_release: dict | None,
                  benchmarks: dict[str, float | None] | None = None,
                  core_benchmarks: dict[str, dict | None] | None = None,
                  staleness: dict[str, int] | None = None,
-                 today: str | None = None) -> dict:
+                 today: str | None = None,
+                 pce_release: dict | None = None,
+                 pce_benchmarks: dict[str, dict | None] | None = None,
+                 core_pce_benchmarks: dict[str, dict | None] | None = None) -> dict:
+    """`pce_release` = the next PCE (Personal Income & Outlays) release,
+    {date, reference_month} from release_calendar.next_target(key="pce");
+    None falls back to the CPI target month (the pre-2026-09-28 pairing)."""
     if next_release is None:
         # Calendar exhausted (config/release_calendar.json needs its annual
         # refresh): degrade to an "unavailable" nowcast rather than raising —
@@ -264,17 +413,25 @@ def build_latest(conn, gauge_result: dict, next_release: dict | None,
                         "status": "unavailable", "parameters": {},
                         "components": []},
                 "pce": {"mom_pct": None, "status": "unavailable", "as_of": None,
-                        "parameters": {}},
+                        "parameters": {}, "reference_month": None,
+                        "core": {"mom_pct": None, "status": "unavailable",
+                                 "parameters": {}, "reference_month": None}},
                 "nfp": None, "benchmarks": benchmarks or {},
                 "ensemble": {"value": None, "weights": {}},
                 "generated_on": date.today().isoformat()}
     cpi = cpi_nowcast(gauge_result, next_release["reference_month"], conn=conn,
                       staleness=staleness, today=today)
-    # PCEPI is seasonally adjusted: bridge from SA CPI (CPIAUCSL) when the
-    # nowcast is on the SA basis, else the legacy NSA pairing.
-    sa_rows = vintage.latest(conn, "CPIAUCSL") if cpi.get("basis") == "SA" else []
-    pce = pce_bridge(cpi["mom_pct"], sa_rows or vintage.latest(conn, "CPIAUCNS"),
-                     vintage.latest(conn, "PCEPI"))
+    # PCE targets its OWN next release (BEA prints ~2 weeks after CPI): until
+    # 2026-09-28 it rode the CPI nowcast's month, so the call for month t
+    # froze the day the CPI nowcast rolled to t+1 — ~15 days before PCE for
+    # t printed, and never used the actual CPI for t that was already out.
+    pce_target = pce_release or {"date": None,
+                                 "reference_month": next_release["reference_month"]}
+    pce = pce_nowcast(conn, cpi, pce_target["reference_month"], pce_target["date"],
+                      next_release["reference_month"])
+    pce["benchmarks"] = {k: v for k, v in (pce_benchmarks or {}).items() if v is not None}
+    pce["core"]["benchmarks"] = {k: v for k, v in (core_pce_benchmarks or {}).items()
+                                 if v is not None}
     nfp = nfp_nowcast(vintage.latest(conn, "PAYEMS"), vintage.latest(conn, "ICSA"))
     benchmark_values = benchmarks or {}
     forecasts = {"macrogauge": cpi["mom_pct"],
@@ -292,6 +449,6 @@ def build_latest(conn, gauge_result: dict, next_release: dict | None,
     return {"target": "CPI", "release_date": next_release["date"],
             "core_benchmarks": core_bench, "core_ensemble": core_ens,
             "reference_month": next_release["reference_month"], "cpi": cpi,
-            "pce": {**pce, "status": "live", "as_of": cpi["as_of"]},
+            "pce": pce,
             "nfp": nfp, "benchmarks": benchmark_values, "ensemble": ens,
             "generated_on": date.today().isoformat()}

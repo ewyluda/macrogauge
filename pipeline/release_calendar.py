@@ -51,13 +51,19 @@ def load(path: Path | None = None, refreshed_path: Path | None = None) -> dict[s
             for k, v in raw.items() if not k.startswith("_")}
 
 
-def next_print(today: str, path: Path | None = None) -> dict | None:
-    """First CPI release on/after today; None once the calendar is exhausted."""
-    for entry in load(path).get("cpi", []):
+def next_print(today: str, path: Path | None = None, key: str = "cpi") -> dict | None:
+    """First `key` release on/after today; None once the calendar is exhausted."""
+    for entry in load(path).get(key, []):
         if entry["release_date"] >= today:
             return {"date": entry["release_date"],
                     "reference_month": entry["reference_month"]}
     return None
+
+
+# Day of the month AFTER the reference month by which each release has
+# normally printed — only used to infer a target past the scheduled calendar
+# (CPI/PPI mid-month, PCE in the last week, the jobs report in the first).
+TYPICAL_RELEASE_DAY = {"cpi": 15, "ppi": 16, "pce": 28, "nfp": 7}
 
 
 def _add_month(ym: str, n: int = 1) -> str:
@@ -66,22 +72,24 @@ def _add_month(ym: str, n: int = 1) -> str:
     return f"{y:04d}-{m + 1:02d}"
 
 
-def next_target(today: str, path: Path | None = None) -> dict | None:
-    """The CPI release the nowcast should target. Same as next_print while the
-    calendar has a future entry; once it is exhausted, infer the reference
-    month (the month after the last scheduled one whose mid-following-month
-    release has not passed) with an unknown release date — so forecasts keep
-    recording and grading (which reads actual release vintages) keeps working."""
-    nxt = next_print(today, path)
+def next_target(today: str, path: Path | None = None, key: str = "cpi") -> dict | None:
+    """The `key` release (cpi, pce, ppi, nfp) a nowcast should target. Same as
+    next_print while the calendar has a future entry; once it is exhausted,
+    infer the reference month (the month after the last scheduled one whose
+    typical following-month release day has not passed) with an unknown
+    release date — so forecasts keep recording and grading (which reads
+    actual release vintages) keeps working. None when the key is absent."""
+    nxt = next_print(today, path, key)
     if nxt is not None:
         return nxt
-    cpi = load(path).get("cpi", [])
-    if not cpi:
+    entries = load(path).get(key, [])
+    if not entries:
         return None
-    ref = cpi[-1]["reference_month"]
+    day = TYPICAL_RELEASE_DAY.get(key, 15)
+    ref = entries[-1]["reference_month"]
     while True:
         ref = _add_month(ref)
-        if f"{_add_month(ref)}-15" >= today:
+        if f"{_add_month(ref)}-{day:02d}" >= today:
             return {"date": None, "reference_month": ref}
 
 

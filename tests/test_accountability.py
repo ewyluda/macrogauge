@@ -124,3 +124,56 @@ def test_pending_lists_frozen_calls_awaiting_their_print(tmp_path: Path):
     result = phase3.build_accountability("pce", nowcast, vintage.load(tmp_path))
     assert [(p["reference_period"], p["forecast"]) for p in result["pending"]] == \
         [("2026-08", 0.25), ("2026-09", 0.28)]
+
+
+def test_pce_records_and_pends_under_its_own_reference_month(tmp_path: Path):
+    # 2026-09-28: CPI nowcast targets Sept; PCE targets Aug (prints 09-30).
+    rows = [
+        Observation("PCEPI", "2026-07-01", 131.659, "2026-08-26", "FRED", "API"),
+        Observation("PCEPILFE", "2026-07-01", 130.658, "2026-08-26", "FRED", "API"),
+        # a pre-change call recorded under the CPI month stays pending
+        Observation("forecast_pce_mom", "2026-09-01", 0.36, "2026-09-24", "MACROGAUGE", "MODEL"),
+    ]
+    vintage.append(rows, tmp_path)
+    conn = vintage.load(tmp_path)
+    nowcast = {"reference_month": "2026-09", "generated_on": "2026-09-28",
+               "cpi": {"mom_pct": 0.42, "mom_nsa_pct": 0.38, "basis": "SA"},
+               "pce": {"mom_pct": 0.34, "status": "live", "as_of": "2026-09-28",
+                       "reference_month": "2026-08",
+                       "core": {"mom_pct": 0.27, "status": "live",
+                                "reference_month": "2026-08"}},
+               "nfp": None}
+    phase3.record_forecasts(nowcast, conn, tmp_path, "2026-09-28")
+    recorded = dict(conn.execute(
+        "SELECT series_code || ':' || obs_date, value FROM observations "
+        "WHERE vintage_date = '2026-09-28' AND series_code LIKE 'forecast_%pce%'").fetchall())
+    assert recorded == {"forecast_pce_mom:2026-08-01": 0.34,
+                        "forecast_core_pce_mom:2026-08-01": 0.27}
+    result = phase3.build_accountability("pce", nowcast, conn)
+    assert [(p["reference_period"], p["forecast"]) for p in result["pending"]] == \
+        [("2026-09", 0.36), ("2026-08", 0.34)]
+    assert [(p["reference_period"], p["forecast"]) for p in result["core"]["pending"]] == \
+        [("2026-08", 0.27)]
+
+
+def test_core_pce_call_grades_against_pcepilfe(tmp_path: Path):
+    rows = [
+        Observation("PCEPILFE", "2026-07-01", 100.0, "2026-08-26", "FRED", "API"),
+        Observation("PCEPILFE", "2026-08-01", 100.3, "2026-09-30", "FRED", "API"),
+        Observation("PCEPILFE", "2026-07-01", 100.0, "2026-09-30", "FRED", "API"),
+        Observation("forecast_core_pce_mom", "2026-08-01", 0.27, "2026-09-29",
+                    "MACROGAUGE", "MODEL"),
+    ]
+    vintage.append_vintages(rows, tmp_path)
+    nowcast = {"reference_month": "2026-10", "generated_on": "2026-10-01",
+               "pce": {"mom_pct": 0.2, "status": "live", "as_of": "2026-10-01",
+                       "reference_month": "2026-09",
+                       "core": {"mom_pct": 0.25, "status": "live",
+                                "reference_month": "2026-09"}}}
+    result = phase3.build_accountability("pce", nowcast, vintage.load(tmp_path))
+    graded = result["core"]["graded"]
+    assert [g["reference_period"] for g in graded] == ["2026-08"]
+    assert graded[0]["actual"] == 0.3 and graded[0]["error"] == -0.03
+    assert result["core"]["pending"] == [{"reference_period": "2026-09", "badge": "LIVE",
+                                          "forecast": 0.25, "as_of": "2026-10-01",
+                                          "actual": None}]
