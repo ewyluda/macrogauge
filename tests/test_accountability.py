@@ -151,7 +151,7 @@ def test_pce_records_and_pends_under_its_own_reference_month(tmp_path: Path):
                         "forecast_core_pce_mom:2026-08-01": 0.27}
     result = phase3.build_accountability("pce", nowcast, conn)
     assert [(p["reference_period"], p["forecast"]) for p in result["pending"]] == \
-        [("2026-09", 0.36), ("2026-08", 0.34)]
+        [("2026-08", 0.34), ("2026-09", 0.36)]  # chronological
     assert [(p["reference_period"], p["forecast"]) for p in result["core"]["pending"]] == \
         [("2026-08", 0.27)]
 

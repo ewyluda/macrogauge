@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import grades from "../public/data/dc_grades.json";
+import accountabilityPce from "../public/data/accountability_pce.json";
 
 /** Batch 2 — render what was already published. */
 
@@ -10,9 +11,27 @@ test("/pce renders the PCE gauge KPI, its weights table and the graded calls", a
   // weights table lists all 14 components with a PCE column
   const rows = page.locator("table.data-table").last().locator("tbody tr");
   await expect(rows).toHaveCount(14);
-  // the graded-calls table is the same component /scoreboard uses
-  await expect(page.locator("th", { hasText: "Graded on" })).toHaveCount(1);
+  // the graded-calls table is the same component /scoreboard uses; core PCE
+  // calls (added 2026-09-28) get a second one once the artifact carries them
+  const core = (accountabilityPce as { core?: { graded: unknown[]; pending: unknown[] } }).core;
+  const coreTables = core && (core.graded.length > 0 || core.pending.length > 0) ? 1 : 0;
+  await expect(page.locator("th", { hasText: "Graded on" })).toHaveCount(1 + coreTables);
   await expect(page.locator("canvas").first()).toBeVisible();
+});
+
+test("/pce and /cpi-preview show the next-PCE-print nowcast", async ({ page }) => {
+  await page.goto("/pce");
+  await expect(page.getByRole("heading", { name: "Next PCE print — nowcast" })).toBeVisible();
+  await expect(page.getByText("PCE nowcast · MoM (SA)")).toBeVisible();
+  await expect(page.getByText("Core PCE nowcast · MoM (SA)")).toBeVisible();
+  await page.goto("/cpi-preview");
+  await expect(page.getByRole("heading", { name: "Next PCE print" })).toBeVisible();
+  await expect(page.getByText("PCE nowcast · MoM (SA)")).toBeVisible();
+});
+
+test("/dc-scoreboard shows the storage-tail gate verdict", async ({ page }) => {
+  await page.goto("/dc-scoreboard");
+  await expect(page.getByText("Storage (NAND) tail")).toBeVisible();
 });
 
 test("/supercore shows the monthly history against its official reference with validation stats", async ({ page }) => {

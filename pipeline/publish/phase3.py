@@ -219,7 +219,8 @@ def _pending(conn, forecast_code: str, actuals, forecast: dict | None,
             continue  # graded, current, or skipped by the agency (2025-10 CPI)
         frozen.append({"reference_period": period[:7], "badge": "LIVE",
                        "forecast": round(value, 2), "as_of": as_of, "actual": None})
-    return frozen + live
+    # chronological: a PCE live call can now precede a frozen pre-change row
+    return sorted(frozen + live, key=lambda r: r["reference_period"])
 
 
 def build_nextprint(nowcast: dict) -> dict:
