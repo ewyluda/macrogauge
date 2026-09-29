@@ -48,6 +48,11 @@ export default function DataPage() {
         subject to each provider&apos;s own terms — check those before redistributing raw source series. The append-only vintage store behind the numbers is in the
         repository; <a href="/as-of">Point in Time</a> reads the publish ledger.
       </p>
+      <p className="method">
+        Embed a live reading: <code style={{ overflowWrap: "anywhere" }}>{`<img src="${SITE_URL}/badge/gauge.svg" alt="MacroGauge CPI YoY">`}</code> or{" "}
+        <code style={{ overflowWrap: "anywhere" }}>{`<img src="${SITE_URL}/badge/dc-build.svg" alt="DC Build cost YoY">`}</code> — plain SVG badges regenerated with every
+        publish (<a href="/badge/gauge.svg">gauge</a> · <a href="/badge/dc-build.svg">DC Build</a>). Link them back to the page they cite.
+      </p>
       <div className="table-card">
         <table className="data-table">
           <thead><tr><th style={{ textAlign: "left" }}>File</th><th style={{ textAlign: "left" }}>What it holds</th><th>Size</th><th>Published</th><th>Schema</th></tr></thead>

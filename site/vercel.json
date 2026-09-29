@@ -36,6 +36,19 @@
       ]
     },
     {
+      "source": "/:path*/opengraph-image",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/png"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    },
+    {
       "source": "/twitter-image",
       "headers": [
         {
