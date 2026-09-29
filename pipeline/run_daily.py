@@ -210,7 +210,10 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         print(f"published: {gr_path} ({len(grocery_payload['items'])} items, "
               f"{len(grocery_payload['skipped'])} skipped)")
 
-        compare_payload = compare.build(gauge_result, conn)
+        # the publish ledger (prior runs' rows) feeds compare's vintage-true
+        # `realtime` track; this run's row is appended LAST, after every phase
+        compare_payload = compare.build(gauge_result, conn,
+                                        ledger_rows=ledger_json.read_rows(args.store))
         cmp_path = compare.write(compare_payload, args.out,
                                  published_at=published_at)
         validate.validate_file(cmp_path, SCHEMAS / "compare.schema.json")

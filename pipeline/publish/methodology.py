@@ -54,6 +54,11 @@ LIMITATIONS = [
     "Component YoY is computed at each component's own last observation "
     "(like month vs like month), so lagging series compare honestly at the "
     "cost of timeliness.",
+    "The daily history is a hindsight series: each monthly official print is "
+    "applied from its reference month, ~6 weeks before release. The "
+    "per-variant validation stats use it; the real-time record (compare.json "
+    "`realtime`, and the homepage lead-lag) applies each print only from its "
+    "release date.",
 ]
 
 VARIANTS = {

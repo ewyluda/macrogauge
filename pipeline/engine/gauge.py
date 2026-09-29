@@ -172,7 +172,7 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
         if weights_by_month is not None and variant != "pce":
             wbm = {m: {c.code: w[c.code] for c in comps_v}
                    for m, w in weights_by_month.items()}
-        built, modes, flags = {}, {}, []
+        built, modes, flags, live_from = {}, {}, [], {}
         official_rebased = {}
         for comp in comps_v:
             official_series = _series(conn, comp.official_series)
@@ -232,6 +232,18 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
                         flags.append(f"{comp.code}@{last}")
             built[comp.code], modes[comp.code] = idx, mode
             official_rebased[comp.code] = official_idx
+            # First engine date whose value is live-derived (None: official
+            # throughout). The vintage-true track (engine/realtime.py) dates
+            # official points by their CPI release and live points by the
+            # source's publication lag, so it must know which is which.
+            live_from[comp.code] = None
+            if mode == "live":
+                if comp.live_method == "year_ratio":
+                    tail = [d for d in idx if d > max(official_idx)]
+                    live_from[comp.code] = min(tail) if tail else None
+                else:
+                    starts = [min(s) for s in live_sources.values() if s]
+                    live_from[comp.code] = min(starts) if starts else None
         end = min(max(max(c) for c in built.values()), today)
         daily = {k: aggregate.fill_daily(c, GRID_START, end)
                  for k, c in built.items()}
@@ -281,7 +293,11 @@ def run(conn: sqlite3.Connection, today: str, basket_path: Path | None = None,
                 "daily_index": daily[c.code],
                 "official_daily_index": official_daily[c.code],
                 "own_yoy_daily": own_yoy[c.code],
-                "official_own_yoy_daily": official_own_yoy[c.code]}
+                "official_own_yoy_daily": official_own_yoy[c.code],
+                # the component's own observation dates inside the grid and
+                # where its live data starts -- for the vintage-true track
+                "obs_dates": sorted(d for d in built[c.code] if d <= end),
+                "live_from": live_from[c.code]}
         out[variant] = {
             "index": index, "yoy": aggregate.weighted_yoy(own_yoy, weights, wbm),
             "weights_by_month": wbm,

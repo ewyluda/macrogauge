@@ -19,6 +19,24 @@ export type NextPrint = {
   core?: { ensemble: { value: number | null; weights: Record<string, number> }; forecasters: Forecaster[] };
 };
 
+export type LeadLagStat = { best_shift_months: number; corr: number } | null;
+
+/** compare.json `realtime` (added 2026-09-28, backlog #2; absent before):
+ *  the month-end vintage-true gauge track — publish-ledger readings where
+ *  they exist, else a reconstruction applying each official print only from
+ *  its release date — with its own validation vs official CPI. */
+export type CompareRealtime = {
+  dates: string[];
+  months: string[];
+  gauge_yoy_pct: (number | null)[];
+  source: ("ledger" | "reconstructed")[];
+  basis: string;
+  lag_days: Record<string, number>;
+  n_ledger: number;
+  n_reconstructed: number;
+  validation: { corr: number | null; mean_abs_gap_pp: number | null; window: string; lead_lag?: LeadLagStat };
+};
+
 export type Fuel = {
   published_at: string;
   available: boolean;
