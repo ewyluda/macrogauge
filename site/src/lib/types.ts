@@ -466,6 +466,10 @@ export type StorageNowcast = {
   proxy_history_days: number;
   months_graded: number;
   min_months: number;
+  months_dropped: number;
+  dropped_months: string[];
+  transform?: "year_ratio";
+  smooth_days?: number;
   carry_forward_mae: number | null;
   zero_lambda_mae: number | null;
   best_lambda: number | null;
