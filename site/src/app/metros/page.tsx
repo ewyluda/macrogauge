@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { metroSlug } from "@/lib/longtail";
 import metrosJson from "../../../public/data/metros.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DownloadData } from "@/components/DownloadData";
@@ -88,7 +90,7 @@ export default function Metros() {
           <tbody>
             {rows.map((m) => (
               <tr key={m.region_id}>
-                <td>{m.name}</td>
+                <td><Link href={`/metros/${metroSlug(m.name)}`}>{m.name}</Link></td>
                 <td>{dollars(m.zori.value)}</td>
                 <td>
                   <Yoy pct={m.zori.yoy_pct} />

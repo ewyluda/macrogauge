@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import housingJson from "../../../public/data/housing.json";
 import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
@@ -99,7 +100,7 @@ export default function HousingPage() {
         <p className="method">
           Case-Shiller and FHFA are indexes (level shown, YoY is the comparable number); Zillow values and rents are
           dollars. Existing-home sales are a seasonally adjusted annual rate. Metro-level rents live on{" "}
-          <a href="/metros">/metros</a>; the marginal-buyer shelter variant is on <a href="/cost-of-living">/cost-of-living</a>.
+          <Link href="/metros">/metros</Link>; the marginal-buyer shelter variant is on <Link href="/cost-of-living">/cost-of-living</Link>.
         </p>
       </Section>
     </div>
