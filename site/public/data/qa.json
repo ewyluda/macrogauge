@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-09-29",
-  "passed": 34,
+  "generated_at": "2026-09-30",
+  "passed": 35,
   "total": 35,
   "checks": [
     {
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official print 2026-08-01 is 59d old (limit 80)"
+      "detail": "latest official print 2026-08-01 is 60d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -133,7 +133,7 @@
       "name": "calendar_horizon",
       "critical": false,
       "pass": true,
-      "detail": "CPI calendar runs 72d ahead (floor 45d)"
+      "detail": "CPI calendar runs 71d ahead (floor 45d)"
     },
     {
       "name": "connectors_ok",
@@ -144,20 +144,20 @@
     {
       "name": "sources_fresh",
       "critical": false,
-      "pass": false,
-      "detail": "708/709 fresh (14 under an expected-absence policy, judged separately); stale \u2014 vast_b300 (never seen)"
+      "pass": true,
+      "detail": "709/709 fresh (14 under an expected-absence policy, judged separately)"
     },
     {
       "name": "expected_absence",
       "critical": false,
       "pass": true,
-      "detail": "14 series under an expected-absence policy (3 discontinued, 4 intermittent, 7 suppressed) \u2014 APU0000702212 [discontinued, 151d, review_by 2027-01-15], APU0000704211 [discontinued, 151d, review_by 2027-01-15], APU0000711311 [intermittent, 59d], APU0000713111 [intermittent, 90d, review_by 2027-01-15], vast_h200 [intermittent, 1d, review_by 2027-03-31], vast_b200 [intermittent, 18d, review_by 2027-03-31], sfc_h100 [discontinued, 5d, review_by 2027-03-31], qcew_wage23_de [suppressed, 363d, review_by 2027-03-31], qcew_wage23_ks [suppressed, 363d, review_by 2027-03-31], qcew_wage23_nc [suppressed, 363d, review_by 2027-03-31], qcew_wage23_pa [suppressed, 363d, review_by 2027-03-31], qcew_wage23_c41067 [suppressed, 546d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 546d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 546d, review_by 2027-03-31]"
+      "detail": "14 series under an expected-absence policy (3 discontinued, 4 intermittent, 7 suppressed) \u2014 APU0000702212 [discontinued, 152d, review_by 2027-01-15], APU0000704211 [discontinued, 152d, review_by 2027-01-15], APU0000711311 [intermittent, 60d], APU0000713111 [intermittent, 91d, review_by 2027-01-15], vast_h200 [intermittent, 2d, review_by 2027-03-31], vast_b200 [intermittent, 0d, review_by 2027-03-31], sfc_h100 [discontinued, 6d, review_by 2027-03-31], qcew_wage23_de [suppressed, 364d, review_by 2027-03-31], qcew_wage23_ks [suppressed, 364d, review_by 2027-03-31], qcew_wage23_nc [suppressed, 364d, review_by 2027-03-31], qcew_wage23_pa [suppressed, 364d, review_by 2027-03-31], qcew_wage23_c41067 [suppressed, 547d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 547d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 547d, review_by 2027-03-31]"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.476 vs EIA weekly $4.465 \u2014 relative divergence 0.3% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.47 vs EIA weekly $4.465 \u2014 relative divergence 0.1% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -175,19 +175,19 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-09-29"
+      "detail": "CPI nowcast as-of 2026-09-30"
     },
     {
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.48 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
+      "detail": "ensemble=0.49 weights={'macrogauge': 0.3333, 'cleveland': 0.3333, 'kalshi': 0.3333}"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-09-29 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-09-30 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",

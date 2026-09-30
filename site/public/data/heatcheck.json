@@ -1,17 +1,17 @@
 {
-  "published_at": "2026-09-29T18:23:16Z",
-  "score": -2.1,
+  "published_at": "2026-09-30T18:12:53Z",
+  "score": -4.9,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": -0.60854,
+      "z": -0.77878,
       "weight": 25,
       "available": 5,
       "expected": 5,
       "active_weight": 25.0
     },
     "real_economy": {
-      "z": 0.1099,
+      "z": 0.03168,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -32,7 +32,7 @@
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": 0.8207666666666666,
+      "z": 0.8629333333333333,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -60,9 +60,9 @@
       "code": "PCEPI",
       "group": "prices",
       "direction": 1,
-      "as_of": "2026-07-01",
-      "momentum": 0.5445,
-      "z": -0.2954
+      "as_of": "2026-08-01",
+      "momentum": 0.2575,
+      "z": -1.1111
     },
     {
       "code": "PPIACO",
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-09-28",
-      "momentum": 0.09,
-      "z": 0.2485
+      "as_of": "2026-09-29",
+      "momentum": 0.08,
+      "z": 0.213
     },
     {
       "code": "PAYEMS",
@@ -119,9 +119,9 @@
       "code": "DSPIC96",
       "group": "real_economy",
       "direction": 1,
-      "as_of": "2026-07-01",
-      "momentum": 0.9211,
-      "z": 0.3981
+      "as_of": "2026-08-01",
+      "momentum": 0.6434,
+      "z": 0.007
     },
     {
       "code": "ICSA",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-09-28",
-      "momentum": 0.04,
-      "z": 0.2529
+      "as_of": "2026-09-29",
+      "momentum": 0.07,
+      "z": 0.3794
     }
   ]
 }

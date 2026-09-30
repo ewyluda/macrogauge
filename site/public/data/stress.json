@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-09-29T18:23:16Z",
-  "score": 60.0,
+  "published_at": "2026-09-30T18:12:53Z",
+  "score": 59.5,
   "coverage_pct": 100.0,
   "indicators": [
     {
@@ -23,9 +23,9 @@
       "code": "PSAVERT",
       "weight": 15,
       "direction": -1,
-      "value": 3.0,
-      "as_of": "2026-07-01",
-      "score": 92.3
+      "value": 4.1,
+      "as_of": "2026-08-01",
+      "score": 89.1
     },
     {
       "code": "TDSP",

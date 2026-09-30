@@ -1,36 +1,36 @@
 {
-  "published_at": "2026-09-29T18:23:16Z",
-  "prev_published_at": "2026-09-28T19:18:59Z",
+  "published_at": "2026-09-30T18:12:53Z",
+  "prev_published_at": "2026-09-29T18:23:16Z",
   "headline": [
     {
       "key": "gauge",
       "label": "Macrogauge (CPI-comparable)",
       "kind": "gauge",
-      "value": 3.28,
-      "as_of": "2026-09-29",
-      "prev_value": 3.15,
-      "prev_as_of": "2026-09-28",
-      "delta_pp": 0.13
+      "value": 3.26,
+      "as_of": "2026-09-30",
+      "prev_value": 3.28,
+      "prev_as_of": "2026-09-29",
+      "delta_pp": -0.02
     },
     {
       "key": "tracker",
       "label": "CPI-Tracker",
       "kind": "gauge",
-      "value": 3.76,
-      "as_of": "2026-09-29",
-      "prev_value": 3.69,
-      "prev_as_of": "2026-09-28",
-      "delta_pp": 0.07
+      "value": 3.75,
+      "as_of": "2026-09-30",
+      "prev_value": 3.76,
+      "prev_as_of": "2026-09-29",
+      "delta_pp": -0.01
     },
     {
       "key": "col",
       "label": "Cost of Living",
       "kind": "gauge",
-      "value": 6.3,
-      "as_of": "2026-09-29",
-      "prev_value": 6.0,
-      "prev_as_of": "2026-09-28",
-      "delta_pp": 0.3
+      "value": 6.17,
+      "as_of": "2026-09-30",
+      "prev_value": 6.3,
+      "prev_as_of": "2026-09-29",
+      "delta_pp": -0.13
     },
     {
       "key": "supercore",
@@ -38,29 +38,29 @@
       "kind": "gauge",
       "value": 2.71,
       "as_of": "2026-08-01",
-      "prev_value": 2.61,
+      "prev_value": 2.71,
       "prev_as_of": "2026-08-01",
-      "delta_pp": 0.1
+      "delta_pp": 0.0
     },
     {
       "key": "pce",
       "label": "PCE-weighted",
       "kind": "gauge",
-      "value": 3.25,
-      "as_of": "2026-09-29",
-      "prev_value": 3.18,
-      "prev_as_of": "2026-09-28",
-      "delta_pp": 0.07
+      "value": 3.24,
+      "as_of": "2026-09-30",
+      "prev_value": 3.25,
+      "prev_as_of": "2026-09-29",
+      "delta_pp": -0.01
     },
     {
       "key": "dc_build",
       "label": "DC Build",
       "kind": "datacenter",
-      "value": 9.01,
-      "as_of": "2026-09-29",
-      "prev_value": 9.05,
-      "prev_as_of": "2026-09-28",
-      "delta_pp": -0.04
+      "value": 8.94,
+      "as_of": "2026-09-30",
+      "prev_value": 9.01,
+      "prev_as_of": "2026-09-29",
+      "delta_pp": -0.07
     },
     {
       "key": "dc_ops",
@@ -78,9 +78,9 @@
       "kind": "datacenter",
       "value": 29.32,
       "as_of": "2026-08-01",
-      "prev_value": 33.91,
-      "prev_as_of": "2026-09-28",
-      "delta_pp": -4.59
+      "prev_value": 29.32,
+      "prev_as_of": "2026-08-01",
+      "delta_pp": 0.0
     }
   ],
   "components": [
@@ -88,9 +88,9 @@
       "component": "fuel",
       "label": "Gasoline",
       "mode": "live",
-      "yoy_pct": 41.2,
-      "prev_yoy_pct": 39.33,
-      "delta_pp": 1.87,
+      "yoy_pct": 40.73,
+      "prev_yoy_pct": 41.2,
+      "delta_pp": -0.47,
       "bls_yoy_pct": 27.4
     },
     {
@@ -98,8 +98,8 @@
       "label": "Shelter (owned)",
       "mode": "live",
       "yoy_pct": 1.52,
-      "prev_yoy_pct": 1.36,
-      "delta_pp": 0.16,
+      "prev_yoy_pct": 1.52,
+      "delta_pp": 0.0,
       "bls_yoy_pct": 3.08
     },
     {
@@ -107,8 +107,8 @@
       "label": "Rent",
       "mode": "live",
       "yoy_pct": 1.52,
-      "prev_yoy_pct": 1.36,
-      "delta_pp": 0.16,
+      "prev_yoy_pct": 1.52,
+      "delta_pp": 0.0,
       "bls_yoy_pct": 2.75
     },
     {
@@ -220,11 +220,7 @@
   "sources_landed": [
     {
       "source": "FRED",
-      "new_rows": 4464
-    },
-    {
-      "source": "NYFED",
-      "new_rows": 1147
+      "new_rows": 875
     },
     {
       "source": "FMP_EQ",
@@ -233,10 +229,6 @@
     {
       "source": "AAA_STATE",
       "new_rows": 51
-    },
-    {
-      "source": "APTLIST",
-      "new_rows": 14
     },
     {
       "source": "FMP",
@@ -251,16 +243,24 @@
       "new_rows": 11
     },
     {
-      "source": "DRAMEX",
-      "new_rows": 3
+      "source": "EIA",
+      "new_rows": 6
+    },
+    {
+      "source": "EIA_SPOT",
+      "new_rows": 5
     },
     {
       "source": "VASTAI",
+      "new_rows": 5
+    },
+    {
+      "source": "CLEVELAND",
       "new_rows": 3
     },
     {
-      "source": "EIA",
-      "new_rows": 2
+      "source": "DRAMEX",
+      "new_rows": 3
     },
     {
       "source": "KALSHI_DC",
@@ -276,10 +276,6 @@
     },
     {
       "source": "KALSHI",
-      "new_rows": 1
-    },
-    {
-      "source": "KALSHI_CORE",
       "new_rows": 1
     },
     {

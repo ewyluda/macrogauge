@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-29T18:23:16Z",
+  "published_at": "2026-09-30T18:12:53Z",
   "target": "PCE",
   "graded": [
     {
@@ -19,32 +19,44 @@
       "actual": 0.16,
       "error": -0.05,
       "release_date": "2026-08-26"
-    }
-  ],
-  "pending": [
+    },
     {
       "reference_period": "2026-08",
       "badge": "LIVE",
       "forecast": 0.34,
       "as_of": "2026-09-29",
-      "actual": null
-    },
+      "actual": 0.31,
+      "error": 0.03,
+      "release_date": "2026-09-30"
+    }
+  ],
+  "pending": [
     {
       "reference_period": "2026-09",
       "badge": "LIVE",
-      "forecast": 0.36,
-      "as_of": "2026-09-28",
+      "forecast": 0.35,
+      "as_of": "2026-09-30",
       "actual": null
     }
   ],
   "core": {
-    "graded": [],
-    "pending": [
+    "graded": [
       {
         "reference_period": "2026-08",
         "badge": "LIVE",
         "forecast": 0.27,
         "as_of": "2026-09-29",
+        "actual": 0.25,
+        "error": 0.02,
+        "release_date": "2026-09-30"
+      }
+    ],
+    "pending": [
+      {
+        "reference_period": "2026-09",
+        "badge": "LIVE",
+        "forecast": 0.19,
+        "as_of": "2026-09-30",
         "actual": null
       }
     ]

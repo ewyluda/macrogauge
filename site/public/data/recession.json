@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-29T18:23:16Z",
+  "published_at": "2026-09-30T18:12:53Z",
   "probability_pct": 0.0,
   "triggered": 0,
   "available": 6,
@@ -16,16 +16,16 @@
       "name": "10Y\u20133M",
       "code": "T10Y3M",
       "rule": "< 0",
-      "value": 0.96,
-      "as_of": "2026-09-28",
+      "value": 1.01,
+      "as_of": "2026-09-29",
       "triggered": false
     },
     {
       "name": "NFCI",
       "code": "NFCI",
       "rule": "> 0",
-      "value": -0.555,
-      "as_of": "2026-09-18",
+      "value": -0.548,
+      "as_of": "2026-09-25",
       "triggered": false
     },
     {
