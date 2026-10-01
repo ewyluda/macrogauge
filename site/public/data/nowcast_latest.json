@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-09-30T18:12:53Z",
+  "published_at": "2026-10-01T18:43:02Z",
   "target": "CPI",
   "release_date": "2026-10-14",
   "core_benchmarks": {
@@ -32,8 +32,8 @@
       "basis": "SA",
       "weight_share": 0.7937
     },
-    "yoy_pct": 3.26,
-    "as_of": "2026-09-30",
+    "yoy_pct": 3.25,
+    "as_of": "2026-10-01",
     "status": "live",
     "parameters": {},
     "components": [
@@ -124,11 +124,10 @@
       },
       {
         "component": "used_vehicles",
-        "mom_pct": -0.8042,
+        "mom_pct": -0.8297,
         "weight": 0.026882,
-        "contribution_pp": -0.0216,
-        "basis": "trend+driver",
-        "driver_mom_pct": -0.7398
+        "contribution_pp": -0.0223,
+        "basis": "measured"
       },
       {
         "component": "nat_gas",
@@ -157,7 +156,7 @@
     },
     "reference_month": "2026-09",
     "release_date": "2026-10-29",
-    "as_of": "2026-09-30",
+    "as_of": "2026-10-01",
     "core": {
       "mom_pct": 0.19,
       "parameters": {
@@ -190,7 +189,7 @@
     }
   },
   "nfp": {
-    "change_thousands": 87,
+    "change_thousands": 91,
     "status": "live",
     "reference_month": "2026-09",
     "parameters": {
@@ -201,7 +200,7 @@
     },
     "inputs": {
       "payroll_momentum": 71.33,
-      "claims_delta_thousands": -3.5
+      "claims_delta_thousands": -7.5
     }
   },
   "benchmarks": {
@@ -210,8 +209,8 @@
       "as_of": "2026-09-30"
     },
     "kalshi": {
-      "value": 0.505,
-      "as_of": "2026-09-30"
+      "value": 0.502,
+      "as_of": "2026-10-01"
     }
   },
   "ensemble": {
@@ -222,5 +221,5 @@
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-09-30"
+  "generated_on": "2026-10-01"
 }

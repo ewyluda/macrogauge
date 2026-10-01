@@ -1,13 +1,13 @@
 {
-  "published_at": "2026-09-30T18:12:53Z",
+  "published_at": "2026-10-01T18:43:02Z",
   "prices": {
     "case_shiller": {
       "code": "CSUSHPINSA",
       "label": "Case-Shiller national",
       "unit": "index",
-      "value": 336.66,
-      "as_of": "2026-06-01",
-      "yoy_pct": 1.53
+      "value": 337.31,
+      "as_of": "2026-07-01",
+      "yoy_pct": 1.93
     },
     "fhfa": {
       "code": "USSTHPI",
@@ -54,12 +54,12 @@
   },
   "mortgage": {
     "pmms_30yr": {
-      "value": 7.03,
-      "as_of": "2026-09-24"
+      "value": 7.28,
+      "as_of": "2026-10-01"
     },
     "mnd_30yr_daily": {
       "value": 7.54,
-      "as_of": "2026-09-30"
+      "as_of": "2026-10-01"
     }
   },
   "affordability": {
