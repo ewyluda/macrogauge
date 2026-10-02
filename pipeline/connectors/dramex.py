@@ -2,8 +2,9 @@
 
 One observation per series per run: the session average from the public spot
 table (the closing session, ~18:10 GMT+8, precedes the 8:40 ET run). The page
-shows the current session only — no history exists to backfill, which is why
-collection ships ahead of any consuming feature (wave-3a collectors-first).
+shows the current session only; history before live collection (2026-07-15)
+comes from Wayback Machine snapshots of this same page
+(scripts/backfill_dramex_wayback.py, route WAYBACK, 2019-02 on).
 Scrape protections per house convention: per-row regex anchored on the exact
 product label, pinned to tests/fixtures/dramex.html; plausible-range check;
 collect-layer isolation.
@@ -13,8 +14,12 @@ written consent for publication/redistribution; §6.3 alone is not an
 attribution license. This wave COLLECTS for internal analysis only;
 publication of any DRAM-derived value is gated on a wave-3b ToS resolution
 (see docs/superpowers/specs/2026-07-15-collectors-first-design.md §3.1).
+Resolved 2026-10-02 by the owner: MacroGauge is educational and not resold,
+so NAND-derived values (the gated storage tail) and the archived history may
+be published and committed.
 """
 import re
+from datetime import date
 
 import requests
 
@@ -35,6 +40,24 @@ def _row_re(label: str) -> re.Pattern:
     # bleeding a neighbor row's plausible values into the capture — the
     # row-leak demonstrated in the collectors spike (wave-3b hardening).
     return re.compile(re.escape(label) + _CELL * AVG_CELL, re.DOTALL)
+
+
+_FLASH_STAMP = re.compile(
+    r'id="NationalFlashSpotPrice_show_day".*?Last Update:\s*([A-Za-z]{3})[a-z]*\.?\s*'
+    r'(\d{1,2})\s+(\d{4})', re.DOTALL)
+_MONTHS = {m: i + 1 for i, m in enumerate(
+    ("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"))}
+
+
+def flash_last_update(html: str) -> str | None:
+    """The flash table's own "Last Update" date (YYYY-MM-DD), or None when
+    the stamp is missing. The flash table can lag the DRAM one by days (the
+    fixture: flash Jul.6, DRAM Jul.15), so a backfilled snapshot is dated by
+    this stamp, not by when it was archived (scripts/backfill_dramex_wayback.py)."""
+    m = _FLASH_STAMP.search(html)
+    if not m or m.group(1).lower() not in _MONTHS:
+        return None
+    return date(int(m.group(3)), _MONTHS[m.group(1).lower()], int(m.group(2))).isoformat()
 
 
 def fetch(source_ids: list[str], vintage_date: str | None = None,

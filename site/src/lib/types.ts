@@ -503,10 +503,16 @@ export type StorageNowcast = {
   transform?: "year_ratio";
   smooth_days?: number;
   carry_forward_mae: number | null;
+  carry_forward_max: number | null;
   zero_lambda_mae: number | null;
   best_lambda: number | null;
   best_mae: number | null;
+  best_max: number | null;
   lambda_ols: number | null;
+  /** switched rule: the tail rides only while |NAND YoY| exceeds this */
+  regime_min_move: number;
+  proxy_yoy_pct: number | null;
+  regime_active: boolean;
   verdict: "PASS" | "FAIL" | "INSUFFICIENT";
   tail_active: boolean;
   note: string;

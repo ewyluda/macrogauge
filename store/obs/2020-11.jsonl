@@ -21,3 +21,4 @@
 {"obs_date": "2020-10-01", "route": "API", "series_code": "ppi_hvac_equip", "source": "ALFRED", "value": 207.8, "vintage_date": "2020-11-13"}
 {"obs_date": "2020-06-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 270.0, "vintage_date": "2020-11-13"}
 {"obs_date": "2020-10-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 269.7, "vintage_date": "2020-11-13"}
+{"obs_date": "2020-10-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 58.7, "vintage_date": "2020-11-13"}

@@ -53,10 +53,12 @@ REALTIME_START = "1990-01-01"   # must predate the first release, or ALFRED
                                 # first-release date is lost
 
 
-def build_series_entries():
-    """Registry entries for the 12 DC Build components, in basket order."""
+def build_series_entries(codes: set[str] | None = None):
+    """Registry entries for the 12 DC Build components, in basket order —
+    or for explicit registry `codes` (2026-10-02: --codes ppi_storage makes
+    the storage tail gate, engine/proxygate.py, vintage-true)."""
     _, baskets = load_baskets_safely()
-    wanted = {c.series for c in baskets["build"]}
+    wanted = codes or {c.series for c in baskets["build"]}
     _, series = load_registry()
     entries = [s for s in series if s.code in wanted]
     missing = wanted - {s.code for s in entries}
@@ -95,12 +97,15 @@ def main(argv=None, http_get=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--store", required=True, type=Path)
     parser.add_argument("--min-vintages", type=int, default=MIN_VINTAGES)
+    parser.add_argument("--codes", default=None,
+                        help="comma list of registry codes (default: the 12 Build components)")
     args = parser.parse_args(argv)
     key = os.environ.get("FRED_API_KEY")
     if not key:
         sys.exit("FRED_API_KEY not set")
 
-    entries = build_series_entries()
+    entries = build_series_entries(
+        {c.strip() for c in args.codes.split(",")} if args.codes else None)
     id_map = {s.source_id: s.code for s in entries}
     obs: list[Observation] = []
     for s in entries:

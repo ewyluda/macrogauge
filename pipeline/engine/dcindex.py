@@ -131,14 +131,17 @@ def run(conn: sqlite3.Connection, today: str,
             else:
                 live = _series(conn, comp.live_proxy) if comp.live_proxy else {}
             passthrough = comp.live_proxy_passthrough
+            tolerance = 7
             if comp.live_proxy_gate == "backtest":
-                # Ride the proxy tail only while its own backtest passes, at
-                # the λ it picked (engine/proxygate.py); official-only else.
+                # Ride the proxy tail only while its own backtest passes AND
+                # the proxy is in the moving regime the switched rule rides,
+                # at the λ it picked (engine/proxygate.py); official-only else.
                 graded = proxygate.grade(conn, comp.series, comp.live_proxy_blend,
                                          comp.live_proxy_smooth_days)
                 gates[comp.code] = graded
-                if graded["verdict"] == "PASS":
+                if graded["tail_active"]:
                     passthrough = graded["best_lambda"]
+                    tolerance = proxygate.PROXY_TOLERANCE_DAYS
                 else:
                     live = {}
             tail_active = False
@@ -148,7 +151,7 @@ def run(conn: sqlite3.Connection, today: str,
                     # the ratio W(t)/W(t-365d) is scale-invariant: W stays
                     # raw, no rebase — rebasing would change nothing but
                     # obscure the audit trail
-                    idx = blend_mod.splice_year_ratio(idx, live, passthrough)
+                    idx = blend_mod.splice_year_ratio(idx, live, passthrough, tolerance)
                 else:
                     live_idx = rebase.rebase(live, base_month)
                     idx = blend_mod.splice_anchored(idx, live_idx)

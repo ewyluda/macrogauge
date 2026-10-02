@@ -97,3 +97,9 @@ class _FakeResponse:
 
     def json(self):
         return self._payload
+
+
+def test_build_series_entries_takes_explicit_codes():
+    entries = bf.build_series_entries({"ppi_storage"})
+    assert [e.code for e in entries] == ["ppi_storage"]
+    assert entries[0].source_id == "PCU334112334112"
