@@ -42,9 +42,10 @@ def _row_re(label: str) -> re.Pattern:
     return re.compile(re.escape(label) + _CELL * AVG_CELL, re.DOTALL)
 
 
+_STAMP = r'Last Update:\s*([A-Za-z]{3})[a-z]*\.?\s*(\d{1,2})\s+(\d{4})'
 _FLASH_STAMP = re.compile(
-    r'id="NationalFlashSpotPrice_show_day".*?Last Update:\s*([A-Za-z]{3})[a-z]*\.?\s*'
-    r'(\d{1,2})\s+(\d{4})', re.DOTALL)
+    r'id="NationalFlashSpotPrice_show_day".*?' + _STAMP, re.DOTALL)
+_TABLE = re.compile(r'id="National\w+SpotPrice_show_day"')
 _MONTHS = {m: i + 1 for i, m in enumerate(
     ("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"))}
 
@@ -54,10 +55,23 @@ def flash_last_update(html: str) -> str | None:
     the stamp is missing. The flash table can lag the DRAM one by days (the
     fixture: flash Jul.6, DRAM Jul.15), so a backfilled snapshot is dated by
     this stamp, not by when it was archived (scripts/backfill_dramex_wayback.py)."""
-    m = _FLASH_STAMP.search(html)
+    return _stamp_date(_FLASH_STAMP.search(html))
+
+
+def _stamp_date(m: re.Match | None) -> str | None:
     if not m or m.group(1).lower() not in _MONTHS:
         return None
     return date(int(m.group(3)), _MONTHS[m.group(1).lower()], int(m.group(2))).isoformat()
+
+
+def table_last_update(html: str, pos: int) -> str | None:
+    """The "Last Update" stamp of the spot table holding the row at `pos`:
+    the nearest table anchor before it, then its first stamp. None when
+    either is missing."""
+    anchors = [a.end() for a in _TABLE.finditer(html, 0, pos)]
+    if not anchors:
+        return None
+    return _stamp_date(re.compile(_STAMP).search(html, anchors[-1], pos))
 
 
 def fetch(source_ids: list[str], vintage_date: str | None = None,
@@ -76,7 +90,16 @@ def fetch(source_ids: list[str], vintage_date: str | None = None,
         if not (PLAUSIBLE[0] <= value <= PLAUSIBLE[1]):
             raise ValueError(f"DRAMeXchange {sid}: {value} implausible "
                              f"(range {PLAUSIBLE}) — structure drift?")
-        out.append(Observation(series_code=sid, obs_date=vintage, value=value,
+        # Date the row by its own table's stamp, not the run: the flash table
+        # can sit unchanged for a week or more (live 2026-10-02: stamped
+        # Sep.21 while every run since had stored 40.75 as a fresh daily
+        # print), and a run-dated row turns one stale reading into a run of
+        # fake daily observations that hide the staleness from freshness QA.
+        # Clamped to the run date; the run date is the fallback when the
+        # stamp is missing.
+        stamp = table_last_update(html, m.start())
+        obs_date = min(stamp, vintage) if stamp else vintage
+        out.append(Observation(series_code=sid, obs_date=obs_date, value=value,
                                vintage_date=vintage, source="DRAMEX",
                                route="SCRAPE"))
     return out

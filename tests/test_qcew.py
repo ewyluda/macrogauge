@@ -114,6 +114,53 @@ def test_fetch_partial_quarter_failure_emits_warning():
         qcew.fetch(["US000"], vintage_date="2026-07-12", http_get=wobbly_get)
 
 
+def _http_resp(status):
+    import requests
+
+    class R(_Resp):
+        def raise_for_status(self):
+            if self._status != 200:
+                resp = requests.Response()
+                resp.status_code = self._status
+                raise requests.HTTPError(f"{self._status} Client Error", response=resp)
+    return R("", status=status)
+
+
+def _quarter(url):
+    return tuple(int(p) for p in url.split("/industry/")[0].split("/")[-2:])
+
+
+def test_unpublished_newest_quarters_404_silently(recwarn):
+    # On 2026-10-02 the window ends at 2026q4; BLS has published through
+    # 2026q1, so q2-q4 404. That is the lag, not a failure — no warning.
+    def get(url, timeout=None, **kw):
+        return _http_resp(404) if _quarter(url) > (2026, 1) else _Resp(FIXTURE.read_text())
+
+    from pipeline.connectors.util import PartialFetchWarning
+    qcew.fetch(["US000"], vintage_date="2026-10-02", http_get=get)
+    assert not [w for w in recwarn if issubclass(w.category, PartialFetchWarning)]
+
+
+def test_404_behind_a_loaded_quarter_and_5xx_ahead_still_warn():
+    from pipeline.connectors.util import PartialFetchWarning
+
+    def get(url, timeout=None, **kw):
+        q = _quarter(url)
+        if q == (2025, 3):
+            return _http_resp(404)       # a hole behind 2026q1: real gap
+        if q == (2026, 2):
+            return _http_resp(503)       # outage, not "not yet published"
+        if q > (2026, 1):
+            return _http_resp(404)
+        return _Resp(FIXTURE.read_text())
+
+    with pytest.warns(PartialFetchWarning) as rec:
+        qcew.fetch(["US000"], vintage_date="2026-10-02", http_get=get)
+    msg = str(rec[0].message)
+    assert "2025q3" in msg and "2026q2" in msg
+    assert "2026q3" not in msg and "2026q4" not in msg
+
+
 def test_window_reaches_the_year_ago_base_of_the_newest_published_quarter():
     # QCEW publishes ~3 quarters behind (the ~5-month lag), so on 2026-07-25
     # the newest published quarter is 2025q4 (q0-3). A window that stops
