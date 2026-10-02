@@ -88,3 +88,34 @@ def test_fetch_partial_failure_emits_warning():
     with pytest.warns(PartialFetchWarning, match="BAD.SERIES.M: RuntimeError"):
         eia.fetch(["BAD.SERIES.M", "ELEC.PRICE.US-RES.M"], "eia-key",
                   vintage_date="2026-07-07", http_get=flaky_get)
+
+
+def test_series_fetch_concurrently_and_keep_input_order():
+    # 2026-10-02: EIA answered some requests in 24-28 s and ~100 sequential
+    # state calls blew the daily job's 30-min timeout. Every call below waits
+    # on a barrier only concurrent callers can pass — sequential fetching
+    # would break it and fail the series.
+    import threading
+
+    from pipeline.connectors import eia
+
+    gate = threading.Barrier(eia.WORKERS, timeout=5)
+    ids = [f"S{i}" for i in range(eia.WORKERS * 2)]
+
+    class R:
+        def __init__(self, sid):
+            self.sid = sid
+
+        def raise_for_status(self):
+            pass
+
+        def json(self):
+            return {"response": {"data": [{"period": "2026-08", "value": int(self.sid[1:])}]}}
+
+    def get(url, params=None, timeout=None):
+        gate.wait()
+        return R(url.rsplit("/", 1)[1])
+
+    obs = eia.fetch(ids, "k", vintage_date="2026-10-02", http_get=get)
+    assert [o.series_code for o in obs] == ids
+    assert [o.value for o in obs] == [float(i) for i in range(len(ids))]
