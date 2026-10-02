@@ -11,6 +11,7 @@ import { artifact } from "@/lib/artifact";
 
 const data = artifact<"dc_markets", DcMarkets>("dc_markets", marketsJson);
 const nat = data.national;
+const elecNat = data.elec_national;
 const live = data.markets.filter((m) => m.available);
 // Ranked by the same composite the table's tightness badge uses — wage
 // spread alone can crown a different market than the hottest badge.
@@ -94,6 +95,26 @@ export default function Page() {
         campus is a completed draw on the labor pool, not a live one.
         {" "}{data.coverage_note}{" "}
         Utility and ISO are hand-curated attributes of the market, not derived.
+      </p>
+      <p className="method" id="electrical-contractors">
+        <b>Electrical contractors (nonres., NAICS 238212)</b> is private-sector
+        QCEW for <b>nonresidential</b> electrical contractors — NAICS 2022 split
+        the old 238210 into 238211 (residential) and 238212 (nonresidential),
+        and only the nonresidential trade, the one that wires commercial and
+        data-center work, is shown. It is aggregated exactly like the
+        construction columns: wage weighted by each county&apos;s
+        quarterly-average employment, year-over-year on a like-for-like county
+        set, workers as the current-quarter third-month level. The smaller
+        figure beside the YoY is its spread against the national 238212 wage
+        rate
+        {elecNat && elecNat.wage_yoy_pct != null
+          ? ` (${elecNat.wage_yoy_pct > 0 ? "+" : ""}${elecNat.wage_yoy_pct}% YoY, quarter ${elecNat.as_of ?? "—"})`
+          : ""}.
+        A six-digit industry is often too small to publish in a single
+        county: <b>disclosure-suppressed counties are skipped, never
+        zero-filled</b>, a market missing any county for 238212 is marked{" "}
+        <b>†</b>, and a market with none reads as suppressed. Expand a row for
+        the per-county receipts.
       </p>
     </div>
   );

@@ -22,6 +22,18 @@
         "as_of": {"type": ["string", "null"]}
       }
     },
+    "elec_national": {
+      "description": "Private NAICS 238212 (nonresidential electrical contractors) national baseline. Additive (2026-10): optional so artifacts published before it landed still validate; the writer always emits it (pinned by tests/test_dc_markets_writer.py).",
+      "type": "object",
+      "required": ["wage", "wage_yoy_pct", "emp", "emp_yoy_pct", "as_of"],
+      "properties": {
+        "wage": {"type": ["number", "null"]},
+        "wage_yoy_pct": {"type": ["number", "null"]},
+        "emp": {"type": ["integer", "null"]},
+        "emp_yoy_pct": {"type": ["number", "null"]},
+        "as_of": {"type": ["string", "null"]}
+      }
+    },
     "markets": {
       "type": "array",
       "items": {
@@ -65,6 +77,47 @@
           "mw_planned": {"type": "integer"},
           "mw_secured": {"type": "integer"},
           "mw_operating": {"type": "integer"},
+          "elec": {
+            "description": "Private NAICS 238212 (nonresidential electrical contractors) for this market's counties, aggregated exactly like the NAICS 23 fields (pipeline/engine/dcmarkets.py). Additive (2026-10): optional at the row level for older artifacts; the writer always emits it.",
+            "type": "object",
+            "required": ["as_of", "base_date", "available", "partial", "yoy_basis",
+                         "wage", "wage_yoy_pct", "wage_spread_pp", "emp",
+                         "emp_yoy_pct", "emp_spread_pp", "wage_cur",
+                         "emp_cur_total", "counties_total", "counties_used",
+                         "counties_suppressed", "counties"],
+            "properties": {
+              "as_of": {"type": ["string", "null"]},
+              "base_date": {"type": ["string", "null"]},
+              "available": {"type": "boolean"},
+              "partial": {"type": "boolean"},
+              "yoy_basis": {"type": ["string", "null"], "enum": ["like_for_like", null]},
+              "wage": {"type": ["number", "null"]},
+              "wage_yoy_pct": {"type": ["number", "null"]},
+              "wage_spread_pp": {"type": ["number", "null"]},
+              "emp": {"type": ["integer", "null"]},
+              "emp_yoy_pct": {"type": ["number", "null"]},
+              "emp_spread_pp": {"type": ["number", "null"]},
+              "wage_cur": {"type": ["number", "null"]},
+              "emp_cur_total": {"type": ["integer", "null"]},
+              "counties_total": {"type": "integer"},
+              "counties_used": {"type": "integer"},
+              "counties_suppressed": {"type": "array", "items": {"type": "string"}},
+              "counties": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["fips", "wage", "emp", "wage_yoy_pct", "emp_yoy_pct"],
+                  "properties": {
+                    "fips": {"type": "string"},
+                    "wage": {"type": ["number", "null"]},
+                    "emp": {"type": ["integer", "null"]},
+                    "wage_yoy_pct": {"type": ["number", "null"]},
+                    "emp_yoy_pct": {"type": ["number", "null"]}
+                  }
+                }
+              }
+            }
+          },
           "counties": {
             "type": "array",
             "items": {

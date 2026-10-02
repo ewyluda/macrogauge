@@ -252,3 +252,92 @@ def test_series_resolves_latest_vintage_and_breaks_same_vintage_ties_by_rowid():
     nova = payload["markets"][0]
     assert nova["wage"] == 2264.0  # not 2200.0 -- the same-vintage tie
     assert nova["counties"][0]["wage"] == 2264.0
+
+
+# --- NAICS 238212 (nonresidential electrical contractors) elec block --------
+# Values are the live 2025q1/2026q1 /industry/238212.csv cells (the same rows
+# trimmed into tests/fixtures/qcew_industry238212*.csv).
+
+ELEC_MARKETS = (
+    MarketSpec(key="nova", name="Northern Virginia", counties=("51107", "51153"),
+               state="VA", iso="PJM", grid=None,
+               utility="Dominion Energy Virginia", note=""),
+    # Storey (32029) has no 238212 series at all -- unregistered, suppressed
+    # since 2023 Q4 -- and must read as suppressed, never as zero.
+    MarketSpec(key="reno", name="Reno / Storey NV", counties=("32029", "32031"),
+               state="NV", iso=None, grid="WECC", utility="NV Energy", note=""),
+)
+
+
+def _elec_conn(with_elec=True):
+    conn = _conn()
+    rows = [
+        ("qcew_wage238212_us", "2025-01-01", 1751.0),
+        ("qcew_wage238212_us", "2026-01-01", 1869.0),
+        ("qcew_emp238212_us", "2025-01-01", 754749.0),
+        ("qcew_emp238212_us", "2026-01-01", 802677.0),
+    ]
+    cells = {  # fips: {date: (wage, m1, m2, m3)}
+        "51107": {"2025-01-01": (2218, 9440, 9700, 9932),
+                  "2026-01-01": (2392, 12833, 13248, 13638)},
+        "51153": {"2025-01-01": (1827, 862, 900, 898),
+                  "2026-01-01": (1663, 1095, 1093, 1093)},
+        "32031": {"2025-01-01": (1879, 1589, 1571, 1569),
+                  "2026-01-01": (2342, 2414, 2144, 2096)},
+    }
+    for f, by_date in cells.items():
+        for d, (w, m1, m2, m3) in by_date.items():
+            rows += [(f"qcew_wage238212_c{f}", d, float(w)),
+                     (f"qcew_emp238212_c{f}", d, float(m3)),
+                     (f"qcew_aemp238212_c{f}", d, (m1 + m2 + m3) / 3)]
+    if with_elec:
+        conn.executemany(
+            "INSERT INTO observations VALUES (?,?,?,'2026-10-01')", rows)
+    return conn
+
+
+def test_elec_block_aggregates_238212_like_naics_23():
+    payload = writer.build(_elec_conn(), ELEC_MARKETS, CAP_CFG, META)
+    jsonschema.validate({"published_at": "2026-10-01T00:00:00Z", **payload}, SCHEMA)
+    assert payload["elec_national"] == {
+        "wage": 1869.0, "wage_yoy_pct": 6.7, "emp": 802677,
+        "emp_yoy_pct": 6.4, "as_of": "2026-01-01"}
+    nova = {m["key"]: m["elec"] for m in payload["markets"]}["nova"]
+    assert nova["available"] is True and nova["partial"] is False
+    assert (nova["as_of"], nova["base_date"]) == ("2026-01-01", "2025-01-01")
+    assert nova["yoy_basis"] == "like_for_like"
+    # average-monthly-employment-weighted, never a 50/50 county mean
+    # ((2392 + 1663) / 2 = 2027.5 would be the wrong answer)
+    assert nova["wage"] == 2336.38
+    assert nova["wage_yoy_pct"] == 6.9
+    assert nova["wage_spread_pp"] == 0.2
+    assert nova["emp"] == nova["emp_cur_total"] == 13638 + 1093
+    assert nova["emp_yoy_pct"] == 36.0
+    assert nova["emp_spread_pp"] == 29.6
+    assert [c["fips"] for c in nova["counties"]] == ["51107", "51153"]
+
+
+def test_elec_unregistered_county_reads_suppressed_and_partial():
+    payload = writer.build(_elec_conn(), ELEC_MARKETS, CAP_CFG, META)
+    reno = {m["key"]: m["elec"] for m in payload["markets"]}["reno"]
+    assert reno["available"] is True and reno["partial"] is True
+    assert reno["counties_suppressed"] == ["32029"]
+    assert (reno["counties_used"], reno["counties_total"]) == (1, 2)
+    assert reno["wage"] == 2342.0 and reno["wage_yoy_pct"] == 24.6
+    assert reno["emp"] == 2096 and reno["emp_yoy_pct"] == 33.6
+
+
+def test_elec_block_is_always_emitted_and_never_touches_naics_23_fields():
+    # The schema leaves elec/elec_national optional only so artifacts
+    # published before they landed still validate -- the writer must always
+    # emit them, unavailable (not absent) when the store has no 238212 rows.
+    bare = writer.build(_elec_conn(with_elec=False), ELEC_MARKETS, CAP_CFG, META)
+    jsonschema.validate({"published_at": "2026-10-01T00:00:00Z", **bare}, SCHEMA)
+    assert bare["elec_national"]["wage"] is None
+    for m in bare["markets"]:
+        assert m["elec"]["available"] is False and m["elec"]["wage"] is None
+        assert m["elec"]["partial"] is True
+    full = writer.build(_elec_conn(), ELEC_MARKETS, CAP_CFG, META)
+    strip = lambda p: [{k: v for k, v in m.items() if k != "elec"} for m in p["markets"]]
+    assert strip(bare) == strip(full)
+    assert bare["national"] == full["national"]

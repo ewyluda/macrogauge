@@ -3,7 +3,7 @@
 // untestable except through Playwright.
 import type { MarketRow } from "./types";
 
-export type SortKey = "name" | "wage" | "wageYoy" | "emp" | "empYoy" | "mw";
+export type SortKey = "name" | "wage" | "wageYoy" | "emp" | "empYoy" | "mw" | "elecYoy";
 
 const VALUE: Record<SortKey, (r: MarketRow) => number | string | null> = {
   name: (r) => r.name,
@@ -33,14 +33,27 @@ const VALUE: Record<SortKey, (r: MarketRow) => number | string | null> = {
     r.mw_construction === 0 && r.sites_mw_undisclosed > 0
       ? null
       : r.mw_construction,
+  // NAICS 238212 electrical-contractor wage YoY, the figure the column leads
+  // with. An artifact published before the block landed has no `elec` --
+  // that sorts as null, never as a zero.
+  elecYoy: (r) => (r.elec?.available ? r.elec.wage_yoy_pct : null),
+};
+
+// Which availability flag decides "sinks to the bottom" for a key. The
+// electrical-contractor cell has its own disclosure state: Hillsboro is
+// NAICS 23-suppressed but publishes 238212, so sorting that column must not
+// sink it with the construction-unavailable rows.
+const AVAILABLE: Partial<Record<SortKey, (r: MarketRow) => boolean>> = {
+  elecYoy: (r) => r.elec?.available === true,
 };
 
 /** Sort a copy. Unavailable markets always sink to the bottom — a suppressed
  *  row has null metrics and must never sort as if it were a zero. */
 export function sortMarkets(rows: MarketRow[], key: SortKey, desc: boolean): MarketRow[] {
   const get = VALUE[key];
+  const avail = AVAILABLE[key] ?? ((r: MarketRow) => r.available);
   return [...rows].sort((a, b) => {
-    if (a.available !== b.available) return a.available ? -1 : 1;
+    if (avail(a) !== avail(b)) return avail(a) ? -1 : 1;
     const av = get(a);
     const bv = get(b);
     // Both null must compare equal (0), not "a after b" from both sides —
@@ -83,4 +96,33 @@ export function fmtSpread(pp: number | null): string {
   if (pp === null) return "—";
   const sign = pp < 0 ? "−" : "+";
   return `${sign}${Math.abs(pp).toFixed(1)}pp`;
+}
+
+/** What the "Electrical contractors" cell shows for one market (NAICS
+ *  238212, nonresidential). Three states, never a zero:
+ *  - pending: the artifact predates the elec block (no `elec` at all);
+ *  - suppressed: no county resolves a level (lists the suppressed FIPS);
+ *  - live: wage YoY + spread vs the national 238212 rate, headcount, wage,
+ *    and `partial` -- a county outside the basis, or no YoY basis at all --
+ *    which the cell marks with † like the construction columns. */
+export type ElecCell =
+  | { state: "pending" }
+  | { state: "suppressed"; counties: string[] }
+  | { state: "live"; yoy: string; spread: string; workers: string;
+      wage: string; partial: boolean };
+
+export function elecCell(r: MarketRow): ElecCell {
+  const e = r.elec;
+  if (!e) return { state: "pending" };
+  if (!e.available) return { state: "suppressed", counties: e.counties_suppressed };
+  const yoy = e.wage_yoy_pct == null
+    ? "—" : `${e.wage_yoy_pct > 0 ? "+" : ""}${e.wage_yoy_pct}%`;
+  return {
+    state: "live",
+    yoy,
+    spread: fmtSpread(e.wage_spread_pp),
+    workers: e.emp_cur_total != null ? e.emp_cur_total.toLocaleString("en-US") : "—",
+    wage: e.wage != null ? `$${e.wage.toLocaleString("en-US")}` : "—",
+    partial: e.partial || e.yoy_basis === null,
+  };
 }

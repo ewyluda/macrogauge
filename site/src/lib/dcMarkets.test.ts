@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { fmtSpread, sortMarkets, tightness, tightnessScore } from "./dcMarkets";
-import type { MarketRow } from "./types";
+import { elecCell, fmtSpread, sortMarkets, tightness, tightnessScore } from "./dcMarkets";
+import type { MarketElec, MarketRow } from "./types";
 
 const row = (over: Partial<MarketRow>): MarketRow =>
   ({
@@ -174,5 +174,57 @@ describe("fmtSpread", () => {
     expect(fmtSpread(-5.7)).toBe("−5.7pp");   // U+2212 minus, not hyphen
     expect(fmtSpread(0)).toBe("+0.0pp");
     expect(fmtSpread(null)).toBe("—");
+  });
+});
+
+// NAICS 238212 (nonresidential electrical contractors) -- values are the
+// pipeline's own aggregation of the live 2025q1/2026q1 QCEW cells
+// (tests/test_dc_markets_writer.py).
+const elec = (over: Partial<MarketElec>): MarketElec => ({
+  as_of: "2026-01-01", base_date: "2025-01-01", available: true, partial: false,
+  yoy_basis: "like_for_like", wage: 2336.38, wage_yoy_pct: 6.9, wage_spread_pp: 0.2,
+  emp: 14731, emp_yoy_pct: 36, emp_spread_pp: 29.6, wage_cur: 2336.38,
+  emp_cur_total: 14731, counties_total: 2, counties_used: 2,
+  counties_suppressed: [], counties: [], ...over,
+});
+
+describe("elecCell", () => {
+  it("is pending (never a zero) when the artifact predates the elec block", () => {
+    expect(elecCell(row({}))).toEqual({ state: "pending" });
+  });
+
+  it("is suppressed, naming the counties, when no county resolves a level", () => {
+    const r = row({ elec: elec({ available: false, wage: null, wage_yoy_pct: null,
+      emp_cur_total: null, counties_used: 0, counties_suppressed: ["22083"],
+      partial: true, yoy_basis: null }) });
+    expect(elecCell(r)).toEqual({ state: "suppressed", counties: ["22083"] });
+  });
+
+  it("formats a live market and marks partial coverage", () => {
+    expect(elecCell(row({ elec: elec({}) }))).toEqual({
+      state: "live", yoy: "+6.9%", spread: "+0.2pp", workers: "14,731",
+      wage: "$2,336.38", partial: false });
+    const reno = elecCell(row({ elec: elec({ partial: true, counties_suppressed: ["32029"] }) }));
+    expect(reno.state === "live" && reno.partial).toBe(true);
+    // no YoY basis is also partial: the level stands, the rate does not
+    const noBase = elecCell(row({ elec: elec({ yoy_basis: null, wage_yoy_pct: null }) }));
+    expect(noBase).toMatchObject({ state: "live", yoy: "—", partial: true });
+  });
+});
+
+describe("sortMarkets elecYoy", () => {
+  it("sinks on the electrical cell's own availability, not the construction one", () => {
+    // Hillsboro: NAICS 23 suppressed, 238212 published -- must rank by its
+    // electrical YoY, not sink with the construction-unavailable rows.
+    const rows = [
+      row({ key: "none" }),                                   // pre-elec artifact
+      row({ key: "sup", elec: elec({ available: false, wage_yoy_pct: null }) }),
+      row({ key: "hillsboro", available: false, elec: elec({ wage_yoy_pct: 9 }) }),
+      row({ key: "nova", elec: elec({ wage_yoy_pct: 6.9 }) }),
+    ];
+    expect(sortMarkets(rows, "elecYoy", true).map((r) => r.key).slice(0, 2))
+      .toEqual(["hillsboro", "nova"]);
+    expect(sortMarkets(rows, "elecYoy", false).map((r) => r.key).slice(0, 2))
+      .toEqual(["nova", "hillsboro"]);
   });
 });
