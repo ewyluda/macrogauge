@@ -110,6 +110,22 @@ test("capacity dossier names its fields for readers, not by curator keys", async
   await expect(page.getByRole("tab", { name: "Valuation × Execution", selected: true })).toBeFocused();
 });
 
+test("capacity views each carry a readable table view and no page overflow", async ({ page }) => {
+  await page.goto("/capacity?tab=Valuation+%C3%97+Execution");
+  await expect(page.locator(".cap-table caption", { hasText: "Cheapest per megawatt first" })).toBeVisible();
+  await page.getByRole("tab", { name: "Demand map" }).click();
+  const deals = page.locator(".cap-table tbody tr");
+  expect(await deals.count()).toBeGreaterThan(10);
+  await page.getByRole("tab", { name: "Timeline" }).click();
+  await expect(page.locator(".cap-figures")).toContainText("Operational today");
+  await expect(page.locator(".cap-quarters > li").first()).toBeVisible();
+  await page.getByRole("tab", { name: "Geo map" }).click();
+  // Sites outside every drawn panel (e.g. China) are listed, never dropped.
+  await expect(page.locator(".cap-elsewhere")).toContainText("outside the mapped regions");
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+});
+
 // CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS
 // fonts happened to fit — pin the wrap rule itself, independent of font metrics.
 test("source-error text can break inside long URLs", async ({ page }) => {
