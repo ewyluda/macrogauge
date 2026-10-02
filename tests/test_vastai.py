@@ -134,3 +134,57 @@ def test_runaway_split_is_structure_drift():
     with pytest.raises(ValueError, match="structure drift"):
         vastai.fetch(["X"], vintage_date="2026-09-28",
                      http_get=lambda url, timeout=None: _R(cap))
+
+
+def test_429_backs_off_and_retries_then_succeeds():
+    import json as _json
+    from pipeline.connectors import vastai as _v
+
+    class R:
+        def __init__(self, code, offers=None):
+            self.status_code, self._o, self.headers = code, offers, {"Retry-After": "1"}
+
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                raise RuntimeError(f"HTTP {self.status_code}")
+
+        def json(self):
+            return {"offers": self._o}
+
+    offers = [{"id": i, "dph_total": 0.5 + i / 100, "num_gpus": 1} for i in range(5)]
+    calls = []
+
+    def get(url, timeout=None):
+        calls.append(url)
+        return R(429) if len(calls) == 1 else R(200, offers)
+
+    obs = _v.fetch(["RTX 4090"], vintage_date="2026-10-01", http_get=get)
+    assert len(calls) == 2 and obs[0].value == 0.52
+
+
+def test_one_sku_failing_is_partial_not_fatal():
+    import warnings
+    from pipeline.connectors import vastai as _v
+    from pipeline.connectors.util import PartialFetchWarning
+
+    class R:
+        def __init__(self, code, offers=None):
+            self.status_code, self._o, self.headers = code, offers, {}
+
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                raise RuntimeError(f"HTTP {self.status_code}")
+
+        def json(self):
+            return {"offers": self._o}
+
+    good = [{"id": i, "dph_total": 2.0 + i / 10, "num_gpus": 1} for i in range(5)]
+
+    def get(url, timeout=None):
+        return R(429) if "H100" in __import__("urllib.parse").parse.unquote(url) else R(200, good)
+
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        obs = _v.fetch(["H100 SXM", "H200"], vintage_date="2026-10-01", http_get=get)
+    assert [o.series_code for o in obs] == ["H200"]
+    assert any(issubclass(w.category, PartialFetchWarning) for w in caught)

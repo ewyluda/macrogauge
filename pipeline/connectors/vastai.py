@@ -22,11 +22,13 @@ raises "structure drift?" (the cap or the filter semantics changed).
 """
 import json
 import statistics
+import time
 import urllib.parse
 
 import requests
 
 from pipeline.connectors.fred import today_et
+from pipeline.connectors.util import warn_partial
 from pipeline.models import Observation
 
 URL = "https://console.vast.ai/api/v0/bundles/"
@@ -39,6 +41,11 @@ ORDER = [["dph_total", "asc"]]
 EDGES = [0.0, 1.0, 4.0, 16.0, 64.0, None]
 MIN_WIDTH = 0.001          # stop bisecting below this band width ($/hr)
 MAX_REQUESTS = 60          # per SKU
+# Banded queries multiply requests per run; the API answers bursts with 429
+# (seen in a live run 2026-10-01). On the real network, pace requests and
+# back off on 429 (honouring Retry-After). Tests inject http_get and never sleep.
+PACE_SECONDS = 0.4
+RETRY_429 = (2.0, 6.0)     # back-off schedule, seconds
 
 
 def _query(gpu_name: str, band: tuple[float, float | None] | None = None) -> str:
@@ -57,7 +64,19 @@ def _get_offers(http_get, sid: str, band, budget: list[int]) -> list[dict]:
         raise ValueError(f"vast.ai {sid}: pagination budget {MAX_REQUESTS} "
                          "exhausted (cap or filter semantics changed — "
                          "structure drift?)")
-    resp = http_get(f"{URL}?q={_query(sid, band)}", timeout=60)
+    url = f"{URL}?q={_query(sid, band)}"
+    real = http_get is requests.get
+    if real:
+        time.sleep(PACE_SECONDS)
+    resp = http_get(url, timeout=60)
+    for wait in RETRY_429:
+        if getattr(resp, "status_code", 200) != 429:
+            break
+        retry_after = (getattr(resp, "headers", None) or {}).get("Retry-After")
+        delay = float(retry_after) if retry_after and str(retry_after).isdigit() else wait
+        if real:
+            time.sleep(min(delay, 30.0))
+        resp = http_get(url, timeout=60)
     resp.raise_for_status()
     offers = resp.json().get("offers")
     if offers is None:
@@ -108,23 +127,35 @@ def fetch(source_ids: list[str], vintage_date: str | None = None,
     """source_id = the vast.ai gpu_name string (spike-pinned)."""
     http_get = http_get or requests.get
     vintage = vintage_date or today_et()
-    out = []
+    out, errors = [], []
     for sid in source_ids:
-        offers = _all_offers(http_get, sid)
-        prices = []
-        for o in offers:
-            if "dph_total" not in o or "num_gpus" not in o:
-                raise ValueError(f"vast.ai {sid}: offer missing dph_total/"
-                                 "num_gpus (structure drift?)")
-            if o["num_gpus"]:
-                prices.append(o["dph_total"] / o["num_gpus"])
-        if len(prices) < MIN_OFFERS:
-            continue   # thin market today — skip; carry-forward absorbs it
-        value = round(statistics.median(prices), 4)
-        if not (PLAUSIBLE[0] <= value <= PLAUSIBLE[1]):
-            raise ValueError(f"vast.ai {sid}: median {value} implausible "
-                             f"(range {PLAUSIBLE}) — structure drift?")
-        out.append(Observation(series_code=sid, obs_date=vintage, value=value,
-                               vintage_date=vintage, source="VASTAI",
-                               route="API"))
+        try:
+            out.extend(_sku(http_get, sid, vintage))
+        except Exception as e:  # per-SKU isolation: one throttled SKU must not drop the rest
+            errors.append((sid, e))
+    if errors and len(errors) == len(source_ids):
+        raise errors[0][1]  # every SKU failed: the source is down, not thin
+    warn_partial("VASTAI", errors)
+    return out
+
+
+def _sku(http_get, sid: str, vintage: str) -> list[Observation]:
+    out = []
+    offers = _all_offers(http_get, sid)
+    prices = []
+    for o in offers:
+        if "dph_total" not in o or "num_gpus" not in o:
+            raise ValueError(f"vast.ai {sid}: offer missing dph_total/"
+                             "num_gpus (structure drift?)")
+        if o["num_gpus"]:
+            prices.append(o["dph_total"] / o["num_gpus"])
+    if len(prices) < MIN_OFFERS:
+        return out   # thin market today — skip; carry-forward absorbs it
+    value = round(statistics.median(prices), 4)
+    if not (PLAUSIBLE[0] <= value <= PLAUSIBLE[1]):
+        raise ValueError(f"vast.ai {sid}: median {value} implausible "
+                         f"(range {PLAUSIBLE}) — structure drift?")
+    out.append(Observation(series_code=sid, obs_date=vintage, value=value,
+                           vintage_date=vintage, source="VASTAI",
+                           route="API"))
     return out
