@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (1114 tests)
+pytest -q                                     # full suite (1127 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -29,7 +29,7 @@ npm run dev        # local dev server
 npm run lint       # ESLint flat config: next core-web-vitals + jsx-a11y + react-hooks (must pass in CI)
 npm run build      # static export (must pass in CI)
 npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail) + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/portfolio/chartAria/sourcePills/badge
-npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 205 e2e tests, zero console errors
+npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 206 e2e tests, zero console errors
 npm run gen-types  # schemas/*.schema.json -> src/lib/generated/*.ts (gitignored; runs automatically before dev/build/test)
 ```
 
@@ -52,7 +52,8 @@ live in one repo.
 One connector module per source — 24 total: API/CSV/XLSX (fred, bls, eia, fmp, treasury, zillow, pmms,
 aptlist, usda, kalshi, qcew, census, vastai, openrouter, caiso, miso, ice, nyfed) and scrape (aaa, mnd,
 manheim, cleveland, dramex, sfcompute). One module can serve several source keys for failure
-isolation (`kalshi.py`: KALSHI / KALSHI_CORE / KALSHI_DC / KALSHI_FED). What gets collected is driven entirely by
+isolation (`kalshi.py`: KALSHI / KALSHI_CORE / KALSHI_DC / KALSHI_FED; `qcew.py`: QCEW for NAICS 23 /
+QCEW_238212 for the 6-digit electrical-contractor slice). What gets collected is driven entirely by
 `config/series.json` (via `pipeline/registry.py`) — the single source of truth for series,
 sources, and per-series `max_staleness_days`. A series that is legitimately absent past its
 limit (QCEW disclosure suppression, a BLS average price published only some months, a
@@ -122,7 +123,8 @@ for contract indexation), the geography panel (`metros`, `geo`, `matrix` — whi
 GSCPI and the effective tariff rate, customs duties ÷ goods imports, in `tariffs`), the labor dashboard
 (`labor`), the commodities grid (`commodities`), the AI capacity tracker (`capacity` —
 hand-curated MW × daily FMP_EQ market caps), the DC market panel (`dc_markets` —
-county-QCEW construction labor for 20 real DC markets, plus a denominated capacity-competition
+county-QCEW construction labor for 20 real DC markets, a per-market `elec` block of private NAICS
+238212 nonresidential electrical contractors aggregated the same way, plus a denominated capacity-competition
 column keyed by hand-assigned market tag, never a coordinate radius), and the DC escalation
 grading harness (`dc_grades` — vintage-true backtest of the contingency bases on two labelled
 samples, strict and extended, plus the unfilled-orders lead-lag verdict), and the long-lead
