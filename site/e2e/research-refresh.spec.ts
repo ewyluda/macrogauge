@@ -93,3 +93,13 @@ test("capacity company details stay usable on a phone", async ({ page }) => {
   await expect(page.locator(".capacity-site-table").first()).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
 });
+
+// CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS
+// fonts happened to fit — pin the wrap rule itself, independent of font metrics.
+test("source-error text can break inside long URLs", async ({ page }) => {
+  await page.goto("/status");
+  const errs = page.locator("p.wrap-anywhere");
+  if (await errs.count()) {
+    await expect(errs.first()).toHaveCSS("overflow-wrap", "anywhere");
+  }
+});
