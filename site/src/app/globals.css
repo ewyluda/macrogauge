@@ -109,6 +109,7 @@ a { transition: color 140ms ease, background 140ms ease; }
 .source-errors { margin: 10px 0 0; padding: 10px 14px; list-style: none; font-size: 13px; line-height: 1.5;
   border: 1px solid color-mix(in srgb, var(--accent-amber) 35%, var(--border)); border-radius: 8px;
   background: color-mix(in srgb, var(--accent-amber) 6%, transparent); }
+.source-errors li { overflow-wrap: anywhere; } /* error strings carry long, unbreakable request URLs */
 .source-errors li + li { margin-top: 4px; }
 .source-errors code { font-size: 12px; overflow-wrap: anywhere; }
 
