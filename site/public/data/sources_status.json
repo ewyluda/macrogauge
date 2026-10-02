@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T18:43:02Z",
+  "generated_at": "2026-10-02T16:54:03Z",
   "sources": [
     {
       "name": "AAA",
@@ -9,9 +9,9 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-01T18:36:53Z",
+      "finished_at": "2026-10-02T16:52:52Z",
       "series_count": 1,
-      "latest_obs": "2026-10-01"
+      "latest_obs": "2026-10-02"
     },
     {
       "name": "AAA_STATE",
@@ -21,9 +21,9 @@
       "fetched": 51,
       "new_rows": 51,
       "error": null,
-      "finished_at": "2026-10-01T18:36:53Z",
+      "finished_at": "2026-10-02T16:52:52Z",
       "series_count": 51,
-      "latest_obs": "2026-10-01"
+      "latest_obs": "2026-10-02"
     },
     {
       "name": "APTLIST",
@@ -33,8 +33,20 @@
       "fetched": 117,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-01T18:35:59Z",
+      "finished_at": "2026-10-02T16:52:05Z",
       "series_count": 1,
+      "latest_obs": "2026-09-01"
+    },
+    {
+      "name": "ATLFED",
+      "route": "XLSX",
+      "cadence": "monthly",
+      "ok": true,
+      "fetched": 240,
+      "new_rows": 240,
+      "error": null,
+      "finished_at": "2026-10-02T16:54:00Z",
+      "series_count": 2,
       "latest_obs": "2026-09-01"
     },
     {
@@ -45,7 +57,7 @@
       "fetched": 3121,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-01T18:35:44Z",
+      "finished_at": "2026-10-02T16:51:39Z",
       "series_count": 28,
       "latest_obs": "2026-08-01"
     },
@@ -57,9 +69,9 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-01T18:42:54Z",
+      "finished_at": "2026-10-02T16:53:55Z",
       "series_count": 1,
-      "latest_obs": "2026-10-01"
+      "latest_obs": "2026-10-02"
     },
     {
       "name": "CENSUS",
@@ -67,9 +79,9 @@
       "cadence": "monthly",
       "ok": true,
       "fetched": 304,
-      "new_rows": 6,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-01T18:42:45Z",
+      "finished_at": "2026-10-02T16:53:19Z",
       "series_count": 2,
       "latest_obs": "2026-08-01"
     },
@@ -79,9 +91,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 8,
-      "new_rows": 4,
+      "new_rows": 2,
       "error": null,
-      "finished_at": "2026-10-01T18:36:57Z",
+      "finished_at": "2026-10-02T16:52:55Z",
       "series_count": 4,
       "latest_obs": "2026-10-01"
     },
@@ -93,9 +105,9 @@
       "fetched": 3,
       "new_rows": 3,
       "error": null,
-      "finished_at": "2026-10-01T18:42:47Z",
+      "finished_at": "2026-10-02T16:53:20Z",
       "series_count": 3,
-      "latest_obs": "2026-10-01"
+      "latest_obs": "2026-10-02"
     },
     {
       "name": "EIA",
@@ -105,7 +117,7 @@
       "fetched": 4431,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-01T18:35:56Z",
+      "finished_at": "2026-10-02T16:52:03Z",
       "series_count": 4,
       "latest_obs": "2026-09-28"
     },
@@ -117,7 +129,7 @@
       "fetched": 4999,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-01T18:42:57Z",
+      "finished_at": "2026-10-02T16:53:56Z",
       "series_count": 1,
       "latest_obs": "2026-09-29"
     },
@@ -129,7 +141,7 @@
       "fetched": 15964,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-01T18:39:53Z",
+      "finished_at": "2026-10-02T16:53:03Z",
       "series_count": 52,
       "latest_obs": "2026-07-01"
     },
@@ -141,7 +153,7 @@
       "fetched": 15655,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-01T18:42:41Z",
+      "finished_at": "2026-10-02T16:53:10Z",
       "series_count": 51,
       "latest_obs": "2026-07-01"
     },
@@ -153,9 +165,9 @@
       "fetched": 14,
       "new_rows": 14,
       "error": null,
-      "finished_at": "2026-10-01T18:35:56Z",
+      "finished_at": "2026-10-02T16:52:03Z",
       "series_count": 14,
-      "latest_obs": "2026-10-01"
+      "latest_obs": "2026-10-02"
     },
     {
       "name": "FMP_EQ",
@@ -165,21 +177,21 @@
       "fetched": 56,
       "new_rows": 56,
       "error": null,
-      "finished_at": "2026-10-01T18:35:56Z",
+      "finished_at": "2026-10-02T16:52:03Z",
       "series_count": 56,
-      "latest_obs": "2026-10-01"
+      "latest_obs": "2026-10-02"
     },
     {
       "name": "FRED",
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 59659,
-      "new_rows": 222,
+      "fetched": 60382,
+      "new_rows": 843,
       "error": null,
-      "finished_at": "2026-10-01T18:35:43Z",
-      "series_count": 171,
-      "latest_obs": "2026-10-01"
+      "finished_at": "2026-10-02T16:51:38Z",
+      "series_count": 177,
+      "latest_obs": "2026-10-02"
     },
     {
       "name": "ICE",
@@ -187,9 +199,9 @@
       "cadence": "biweekly",
       "ok": true,
       "fetched": 174,
-      "new_rows": 9,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-01T18:42:57Z",
+      "finished_at": "2026-10-02T16:53:56Z",
       "series_count": 1,
       "latest_obs": "2026-09-29"
     },
@@ -201,7 +213,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-01T18:36:57Z",
+      "finished_at": "2026-10-02T16:52:55Z",
       "series_count": 1,
       "latest_obs": "2026-09-01"
     },
@@ -211,9 +223,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-01T18:42:57Z",
+      "finished_at": "2026-10-02T16:53:56Z",
       "series_count": 1,
       "latest_obs": "2026-09-01"
     },
@@ -225,9 +237,9 @@
       "fetched": 2,
       "new_rows": 2,
       "error": null,
-      "finished_at": "2026-10-01T18:42:58Z",
+      "finished_at": "2026-10-02T16:53:57Z",
       "series_count": 2,
-      "latest_obs": "2026-10-01"
+      "latest_obs": "2026-10-02"
     },
     {
       "name": "KALSHI_FED",
@@ -237,7 +249,7 @@
       "fetched": 11,
       "new_rows": 10,
       "error": null,
-      "finished_at": "2026-10-01T18:42:58Z",
+      "finished_at": "2026-10-02T16:53:57Z",
       "series_count": 6,
       "latest_obs": "2026-12-09"
     },
@@ -245,11 +257,11 @@
       "name": "MANHEIM",
       "route": "SCRAPE",
       "cadence": "monthly",
-      "ok": false,
-      "fetched": 0,
+      "ok": true,
+      "fetched": 2,
       "new_rows": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://www.coxautoinc.com/insights/manheim-used-vehicle-value-index-august-2026-trends/",
-      "finished_at": "2026-10-01T18:36:56Z",
+      "error": null,
+      "finished_at": "2026-10-02T16:52:54Z",
       "series_count": 1,
       "latest_obs": "2026-09-01"
     },
@@ -261,9 +273,9 @@
       "fetched": 4,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-01T18:42:56Z",
+      "finished_at": "2026-10-02T16:53:56Z",
       "series_count": 1,
-      "latest_obs": "2026-09-30"
+      "latest_obs": "2026-10-01"
     },
     {
       "name": "MND",
@@ -273,20 +285,20 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-01T18:36:54Z",
+      "finished_at": "2026-10-02T16:52:53Z",
       "series_count": 1,
-      "latest_obs": "2026-10-01"
+      "latest_obs": "2026-10-02"
     },
     {
       "name": "NYFED",
       "route": "CSV",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 1147,
-      "new_rows": 658,
+      "fetched": 1521,
+      "new_rows": 374,
       "error": null,
-      "finished_at": "2026-10-01T18:42:58Z",
-      "series_count": 2,
+      "finished_at": "2026-10-02T16:54:00Z",
+      "series_count": 5,
       "latest_obs": "2026-08-01"
     },
     {
@@ -297,9 +309,9 @@
       "fetched": 12,
       "new_rows": 12,
       "error": null,
-      "finished_at": "2026-10-01T18:42:50Z",
+      "finished_at": "2026-10-02T16:53:31Z",
       "series_count": 12,
-      "latest_obs": "2026-10-01"
+      "latest_obs": "2026-10-02"
     },
     {
       "name": "PMMS",
@@ -307,9 +319,9 @@
       "cadence": "weekly",
       "ok": true,
       "fetched": 509,
-      "new_rows": 1,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-01T18:35:58Z",
+      "finished_at": "2026-10-02T16:52:05Z",
       "series_count": 1,
       "latest_obs": "2026-10-01"
     },
@@ -321,8 +333,20 @@
       "fetched": 934,
       "new_rows": 0,
       "error": "partial: QCEW: 3 item(s) failed \u2014 2026q2: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/2/industry/23.csv; 2026q3: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/3/industry/23.csv; 2026q4: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/4/industry/23.csv",
-      "finished_at": "2026-10-01T18:42:45Z",
+      "finished_at": "2026-10-02T16:53:15Z",
       "series_count": 137,
+      "latest_obs": "2026-01-01"
+    },
+    {
+      "name": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "ok": true,
+      "fetched": 605,
+      "new_rows": 605,
+      "error": "partial: QCEW_238212: 3 item(s) failed \u2014 2026q2: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/2/industry/238212.csv; 2026q3: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/3/industry/238212.csv; 2026q4: HTTPError: 404 Client Error: Not Found for url: https://data.bls.gov/cew/data/api/2026/4/industry/238212.csv",
+      "finished_at": "2026-10-02T16:53:18Z",
+      "series_count": 89,
       "latest_obs": "2026-01-01"
     },
     {
@@ -333,7 +357,7 @@
       "fetched": 672,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-01T18:42:54Z",
+      "finished_at": "2026-10-02T16:53:55Z",
       "series_count": 2,
       "latest_obs": "2027-12-01"
     },
@@ -342,24 +366,24 @@
       "route": "API",
       "cadence": "daily",
       "ok": true,
-      "fetched": 2446,
+      "fetched": 2447,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-01T18:35:56Z",
+      "finished_at": "2026-10-02T16:52:04Z",
       "series_count": 1,
-      "latest_obs": "2026-09-29"
+      "latest_obs": "2026-09-30"
     },
     {
       "name": "USDA",
       "route": "API",
       "cadence": "weekly",
       "ok": true,
-      "fetched": 2213,
-      "new_rows": 0,
+      "fetched": 2217,
+      "new_rows": 4,
       "error": null,
-      "finished_at": "2026-10-01T18:36:53Z",
+      "finished_at": "2026-10-02T16:52:52Z",
       "series_count": 5,
-      "latest_obs": "2026-09-25"
+      "latest_obs": "2026-10-02"
     },
     {
       "name": "VASTAI",
@@ -369,9 +393,9 @@
       "fetched": 3,
       "new_rows": 3,
       "error": null,
-      "finished_at": "2026-10-01T18:42:50Z",
+      "finished_at": "2026-10-02T16:53:31Z",
       "series_count": 6,
-      "latest_obs": "2026-10-01"
+      "latest_obs": "2026-10-02"
     },
     {
       "name": "ZILLOW",
@@ -381,7 +405,7 @@
       "fetched": 11831,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-01T18:35:58Z",
+      "finished_at": "2026-10-02T16:52:05Z",
       "series_count": 102,
       "latest_obs": "2026-08-01"
     }

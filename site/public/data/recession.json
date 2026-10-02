@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-01T18:43:02Z",
+  "published_at": "2026-10-02T16:54:03Z",
   "probability_pct": 0.0,
   "triggered": 0,
   "available": 6,
@@ -8,16 +8,16 @@
       "name": "Sahm",
       "code": "SAHMREALTIME",
       "rule": ">= +0.50pp",
-      "value": -0.07,
-      "as_of": "2026-08-01",
+      "value": 0.0,
+      "as_of": "2026-09-01",
       "triggered": false
     },
     {
       "name": "10Y\u20133M",
       "code": "T10Y3M",
       "rule": "< 0",
-      "value": 1.09,
-      "as_of": "2026-09-30",
+      "value": 1.07,
+      "as_of": "2026-10-01",
       "triggered": false
     },
     {
@@ -48,8 +48,8 @@
       "name": "Chauvet-Piger",
       "code": "RECPROUSM156N",
       "rule": "> 20%",
-      "value": 0.76,
-      "as_of": "2026-07-01",
+      "value": 0.62,
+      "as_of": "2026-08-01",
       "triggered": false
     }
   ]

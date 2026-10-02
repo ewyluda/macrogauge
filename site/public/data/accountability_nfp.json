@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-01T18:43:02Z",
+  "published_at": "2026-10-02T16:54:03Z",
   "target": "NFP",
   "graded": [
     {
@@ -19,14 +19,23 @@
       "actual": 162.0,
       "error": -131.0,
       "release_date": "2026-09-04"
+    },
+    {
+      "reference_period": "2026-09",
+      "badge": "LIVE",
+      "forecast": 91.0,
+      "as_of": "2026-10-01",
+      "actual": 29.0,
+      "error": 62.0,
+      "release_date": "2026-10-02"
     }
   ],
   "pending": [
     {
-      "reference_period": "2026-09",
+      "reference_period": "2026-10",
       "badge": "LIVE",
-      "forecast": 91,
-      "as_of": "2026-10-01",
+      "forecast": 69,
+      "as_of": "2026-10-02",
       "actual": null
     }
   ]

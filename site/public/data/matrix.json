@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-01T18:43:02Z",
+  "published_at": "2026-10-02T16:54:03Z",
   "groups": [
     {
       "group": "UNDERLYING",
@@ -123,7 +123,7 @@
           "label": "5-year breakeven",
           "value": 2.36,
           "unit": "%",
-          "as_of": "2026-09-30",
+          "as_of": "2026-10-01",
           "cadence": "daily"
         },
         {
@@ -131,7 +131,7 @@
           "label": "10-year breakeven",
           "value": 2.36,
           "unit": "%",
-          "as_of": "2026-09-30",
+          "as_of": "2026-10-01",
           "cadence": "daily"
         },
         {
@@ -147,7 +147,7 @@
           "label": "5y5y forward breakeven",
           "value": 2.36,
           "unit": "%",
-          "as_of": "2026-09-30",
+          "as_of": "2026-10-01",
           "cadence": "daily"
         },
         {
@@ -164,6 +164,67 @@
           "value": 2.57,
           "unit": "%",
           "as_of": "2026-09-01",
+          "cadence": "monthly"
+        },
+        {
+          "code": "nyfed_sce_1y",
+          "label": "NY Fed SCE consumers, 1-year median",
+          "value": 3.58,
+          "unit": "%",
+          "as_of": "2026-08-01",
+          "cadence": "monthly"
+        },
+        {
+          "code": "nyfed_sce_3y",
+          "label": "NY Fed SCE consumers, 3-year median",
+          "value": 3.19,
+          "unit": "%",
+          "as_of": "2026-08-01",
+          "cadence": "monthly"
+        },
+        {
+          "code": "nyfed_sce_5y",
+          "label": "NY Fed SCE consumers, 5-year median",
+          "value": 3.01,
+          "unit": "%",
+          "as_of": "2026-08-01",
+          "cadence": "monthly"
+        },
+        {
+          "code": "atl_bie_1y_median",
+          "label": "Atlanta Fed BIE firms, year-ahead unit costs (median)",
+          "value": 2.36,
+          "unit": "%",
+          "as_of": "2026-09-01",
+          "cadence": "monthly"
+        },
+        {
+          "code": "atl_bie_lt_mean",
+          "label": "Atlanta Fed BIE firms, 5-10-year unit costs (mean)",
+          "value": 2.77,
+          "unit": "%",
+          "as_of": "2026-09-01",
+          "cadence": "quarterly"
+        }
+      ]
+    },
+    {
+      "group": "INTERNATIONAL",
+      "rows": [
+        {
+          "code": "CP0000EZCCM086NEST",
+          "label": "Euro-area HICP",
+          "value": 3.25,
+          "unit": "% YoY (computed)",
+          "as_of": "2026-08-01",
+          "cadence": "monthly"
+        },
+        {
+          "code": "TOTNRGFOODEA20MI15XM",
+          "label": "Euro-area core HICP (ex energy, food, alcohol, tobacco)",
+          "value": 2.38,
+          "unit": "% YoY (computed)",
+          "as_of": "2026-08-01",
           "cadence": "monthly"
         }
       ]

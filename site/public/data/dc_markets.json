@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-01T18:43:02Z",
+  "published_at": "2026-10-02T16:54:03Z",
   "as_of": "2026-01-01",
   "base_date": "2025-01-01",
   "national": {
@@ -50,6 +50,40 @@
           "emp_yoy_pct": 11.8
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 2336.38,
+        "wage_yoy_pct": 6.9,
+        "wage_spread_pp": 0.2,
+        "emp": 14731,
+        "emp_yoy_pct": 36.0,
+        "emp_spread_pp": 29.6,
+        "wage_cur": 2336.38,
+        "emp_cur_total": 14731,
+        "counties_total": 2,
+        "counties_used": 2,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "51107",
+            "wage": 2392.0,
+            "emp": 13638,
+            "wage_yoy_pct": 7.8,
+            "emp_yoy_pct": 37.3
+          },
+          {
+            "fips": "51153",
+            "wage": 1663.0,
+            "emp": 1093,
+            "wage_yoy_pct": -9.0,
+            "emp_yoy_pct": 21.7
+          }
+        ],
+        "partial": false
+      },
       "sites": 1,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 1,
@@ -105,6 +139,47 @@
           "emp_yoy_pct": 6.7
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 1854.54,
+        "wage_yoy_pct": 11.8,
+        "wage_spread_pp": 5.1,
+        "emp": 22593,
+        "emp_yoy_pct": 9.6,
+        "emp_spread_pp": 3.2,
+        "wage_cur": 1854.54,
+        "emp_cur_total": 22593,
+        "counties_total": 3,
+        "counties_used": 3,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "48113",
+            "wage": 1857.0,
+            "emp": 14403,
+            "wage_yoy_pct": 11.8,
+            "emp_yoy_pct": 7.6
+          },
+          {
+            "fips": "48439",
+            "wage": 1896.0,
+            "emp": 7471,
+            "wage_yoy_pct": 11.7,
+            "emp_yoy_pct": 14.2
+          },
+          {
+            "fips": "48139",
+            "wage": 1376.0,
+            "emp": 719,
+            "wage_yoy_pct": 9.5,
+            "emp_yoy_pct": 4.4
+          }
+        ],
+        "partial": false
+      },
       "sites": 2,
       "mw_disclosed": 250,
       "sites_mw_undisclosed": 1,
@@ -153,6 +228,40 @@
           "emp_yoy_pct": 4.0
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 2293.14,
+        "wage_yoy_pct": 7.8,
+        "wage_spread_pp": 1.1,
+        "emp": 12924,
+        "emp_yoy_pct": 3.2,
+        "emp_spread_pp": -3.2,
+        "wage_cur": 2293.14,
+        "emp_cur_total": 12924,
+        "counties_total": 2,
+        "counties_used": 2,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "17031",
+            "wage": 2184.0,
+            "emp": 8477,
+            "wage_yoy_pct": 7.4,
+            "emp_yoy_pct": 0.9
+          },
+          {
+            "fips": "17043",
+            "wage": 2500.0,
+            "emp": 4447,
+            "wage_yoy_pct": 7.8,
+            "emp_yoy_pct": 7.8
+          }
+        ],
+        "partial": false
+      },
       "sites": 1,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 1,
@@ -201,6 +310,40 @@
           "emp_yoy_pct": -18.6
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 1849.0,
+        "wage_yoy_pct": 6.6,
+        "wage_spread_pp": -0.1,
+        "emp": 22269,
+        "emp_yoy_pct": 6.0,
+        "emp_spread_pp": -0.4,
+        "wage_cur": 1849.0,
+        "emp_cur_total": 22269,
+        "counties_total": 2,
+        "counties_used": 2,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "04013",
+            "wage": 1854.0,
+            "emp": 21905,
+            "wage_yoy_pct": 6.7,
+            "emp_yoy_pct": 7.2
+          },
+          {
+            "fips": "04021",
+            "wage": 1556.0,
+            "emp": 364,
+            "wage_yoy_pct": -3.9,
+            "emp_yoy_pct": -35.2
+          }
+        ],
+        "partial": false
+      },
       "sites": 1,
       "mw_disclosed": 200,
       "sites_mw_undisclosed": 0,
@@ -249,6 +392,40 @@
           "emp_yoy_pct": -1.3
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 1961.53,
+        "wage_yoy_pct": 11.7,
+        "wage_spread_pp": 5.0,
+        "emp": 3517,
+        "emp_yoy_pct": 13.9,
+        "emp_spread_pp": 7.5,
+        "wage_cur": 1961.53,
+        "emp_cur_total": 3517,
+        "counties_total": 2,
+        "counties_used": 2,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "13097",
+            "wage": 1207.0,
+            "emp": 244,
+            "wage_yoy_pct": 4.6,
+            "emp_yoy_pct": -34.1
+          },
+          {
+            "fips": "13121",
+            "wage": 2029.0,
+            "emp": 3273,
+            "wage_yoy_pct": 10.2,
+            "emp_yoy_pct": 20.4
+          }
+        ],
+        "partial": false
+      },
       "sites": 1,
       "mw_disclosed": 200,
       "sites_mw_undisclosed": 0,
@@ -290,6 +467,33 @@
           "emp_yoy_pct": 3.6
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 3150.0,
+        "wage_yoy_pct": 1.3,
+        "wage_spread_pp": -5.4,
+        "emp": 7535,
+        "emp_yoy_pct": 16.3,
+        "emp_spread_pp": 9.9,
+        "wage_cur": 3150.0,
+        "emp_cur_total": 7535,
+        "counties_total": 1,
+        "counties_used": 1,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "06085",
+            "wage": 3150.0,
+            "emp": 7535,
+            "wage_yoy_pct": 1.3,
+            "emp_yoy_pct": 16.3
+          }
+        ],
+        "partial": false
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
@@ -338,6 +542,40 @@
           "emp_yoy_pct": 10.4
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 2269.99,
+        "wage_yoy_pct": 19.8,
+        "wage_spread_pp": 13.1,
+        "emp": 8391,
+        "emp_yoy_pct": 22.9,
+        "emp_spread_pp": 16.5,
+        "wage_cur": 2269.99,
+        "emp_cur_total": 8391,
+        "counties_total": 2,
+        "counties_used": 2,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "39049",
+            "wage": 2351.0,
+            "emp": 7464,
+            "wage_yoy_pct": 21.7,
+            "emp_yoy_pct": 15.8
+          },
+          {
+            "fips": "39089",
+            "wage": 1594.0,
+            "emp": 927,
+            "wage_yoy_pct": 27.9,
+            "emp_yoy_pct": 141.4
+          }
+        ],
+        "partial": false
+      },
       "sites": 3,
       "mw_disclosed": 1450,
       "sites_mw_undisclosed": 0,
@@ -386,6 +624,40 @@
           "emp_yoy_pct": 1.1
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 1926.67,
+        "wage_yoy_pct": 1.1,
+        "wage_spread_pp": -5.6,
+        "emp": 6435,
+        "emp_yoy_pct": 1.5,
+        "emp_spread_pp": -4.9,
+        "wage_cur": 1926.67,
+        "emp_cur_total": 6435,
+        "counties_total": 2,
+        "counties_used": 2,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "49035",
+            "wage": 2017.0,
+            "emp": 5638,
+            "wage_yoy_pct": 2.0,
+            "emp_yoy_pct": -2.6
+          },
+          {
+            "fips": "49049",
+            "wage": 1243.0,
+            "emp": 797,
+            "wage_yoy_pct": 8.1,
+            "emp_yoy_pct": 44.9
+          }
+        ],
+        "partial": false
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
@@ -427,6 +699,33 @@
           "emp_yoy_pct": 37.7
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 1536.0,
+        "wage_yoy_pct": 19.4,
+        "wage_spread_pp": 12.7,
+        "emp": 497,
+        "emp_yoy_pct": -5.7,
+        "emp_spread_pp": -12.1,
+        "wage_cur": 1536.0,
+        "emp_cur_total": 497,
+        "counties_total": 1,
+        "counties_used": 1,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "48441",
+            "wage": 1536.0,
+            "emp": 497,
+            "wage_yoy_pct": 19.4,
+            "emp_yoy_pct": -5.7
+          }
+        ],
+        "partial": false
+      },
       "sites": 2,
       "mw_disclosed": 1200,
       "sites_mw_undisclosed": 0,
@@ -468,6 +767,33 @@
           "emp_yoy_pct": 12.9
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 2085.0,
+        "wage_yoy_pct": 12.9,
+        "wage_spread_pp": 6.2,
+        "emp": 1569,
+        "emp_yoy_pct": 52.5,
+        "emp_spread_pp": 46.1,
+        "wage_cur": 2085.0,
+        "emp_cur_total": 1569,
+        "counties_total": 1,
+        "counties_used": 1,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "18141",
+            "wage": 2085.0,
+            "emp": 1569,
+            "wage_yoy_pct": 12.9,
+            "emp_yoy_pct": 52.5
+          }
+        ],
+        "partial": false
+      },
       "sites": 1,
       "mw_disclosed": 1725,
       "sites_mw_undisclosed": 0,
@@ -509,6 +835,33 @@
           "emp_yoy_pct": -4.2
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 1690.0,
+        "wage_yoy_pct": -0.5,
+        "wage_spread_pp": -7.2,
+        "emp": 522,
+        "emp_yoy_pct": 2.4,
+        "emp_spread_pp": -4.0,
+        "wage_cur": 1690.0,
+        "emp_cur_total": 522,
+        "counties_total": 1,
+        "counties_used": 1,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "55101",
+            "wage": 1690.0,
+            "emp": 522,
+            "wage_yoy_pct": -0.5,
+            "emp_yoy_pct": 2.4
+          }
+        ],
+        "partial": false
+      },
       "sites": 1,
       "mw_disclosed": 400,
       "sites_mw_undisclosed": 0,
@@ -550,6 +903,27 @@
           "emp_yoy_pct": 968.8
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": false,
+        "yoy_basis": null,
+        "wage": null,
+        "wage_yoy_pct": null,
+        "wage_spread_pp": null,
+        "emp": null,
+        "emp_yoy_pct": null,
+        "emp_spread_pp": null,
+        "wage_cur": null,
+        "emp_cur_total": null,
+        "counties_total": 1,
+        "counties_used": 0,
+        "counties_suppressed": [
+          "22083"
+        ],
+        "counties": [],
+        "partial": true
+      },
       "sites": 1,
       "mw_disclosed": 1440,
       "sites_mw_undisclosed": 0,
@@ -591,6 +965,33 @@
           "emp_yoy_pct": 1.3
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 1618.0,
+        "wage_yoy_pct": -0.9,
+        "wage_spread_pp": -7.6,
+        "emp": 2952,
+        "emp_yoy_pct": 10.9,
+        "emp_spread_pp": 4.5,
+        "wage_cur": 1618.0,
+        "emp_cur_total": 2952,
+        "counties_total": 1,
+        "counties_used": 1,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "47157",
+            "wage": 1618.0,
+            "emp": 2952,
+            "wage_yoy_pct": -0.9,
+            "emp_yoy_pct": 10.9
+          }
+        ],
+        "partial": false
+      },
       "sites": 2,
       "mw_disclosed": 1300,
       "sites_mw_undisclosed": 0,
@@ -632,6 +1033,33 @@
           "emp_yoy_pct": 26.2
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 1611.0,
+        "wage_yoy_pct": 9.3,
+        "wage_spread_pp": 2.6,
+        "emp": 546,
+        "emp_yoy_pct": 8.5,
+        "emp_spread_pp": 2.1,
+        "wage_cur": 1611.0,
+        "emp_cur_total": 546,
+        "counties_total": 1,
+        "counties_used": 1,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "19155",
+            "wage": 1611.0,
+            "emp": 546,
+            "wage_yoy_pct": 9.3,
+            "emp_yoy_pct": 8.5
+          }
+        ],
+        "partial": false
+      },
       "sites": 1,
       "mw_disclosed": 500,
       "sites_mw_undisclosed": 0,
@@ -680,6 +1108,35 @@
           "emp_yoy_pct": -5.5
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 1912.0,
+        "wage_yoy_pct": -2.0,
+        "wage_spread_pp": -8.7,
+        "emp": 3580,
+        "emp_yoy_pct": 69.7,
+        "emp_spread_pp": 63.3,
+        "wage_cur": 1912.0,
+        "emp_cur_total": 3580,
+        "counties_total": 2,
+        "counties_used": 1,
+        "counties_suppressed": [
+          "19049"
+        ],
+        "counties": [
+          {
+            "fips": "19153",
+            "wage": 1912.0,
+            "emp": 3580,
+            "wage_yoy_pct": -2.0,
+            "emp_yoy_pct": 69.7
+          }
+        ],
+        "partial": true
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
@@ -721,6 +1178,33 @@
           "emp_yoy_pct": 2.5
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 1691.0,
+        "wage_yoy_pct": 21.0,
+        "wage_spread_pp": 14.3,
+        "emp": 765,
+        "emp_yoy_pct": 23.0,
+        "emp_spread_pp": 16.6,
+        "wage_cur": 1691.0,
+        "emp_cur_total": 765,
+        "counties_total": 1,
+        "counties_used": 1,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "56021",
+            "wage": 1691.0,
+            "emp": 765,
+            "wage_yoy_pct": 21.0,
+            "emp_yoy_pct": 23.0
+          }
+        ],
+        "partial": false
+      },
       "sites": 2,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 2,
@@ -769,6 +1253,35 @@
           "emp_yoy_pct": 4.3
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 2342.0,
+        "wage_yoy_pct": 24.6,
+        "wage_spread_pp": 17.9,
+        "emp": 2096,
+        "emp_yoy_pct": 33.6,
+        "emp_spread_pp": 27.2,
+        "wage_cur": 2342.0,
+        "emp_cur_total": 2096,
+        "counties_total": 2,
+        "counties_used": 1,
+        "counties_suppressed": [
+          "32029"
+        ],
+        "counties": [
+          {
+            "fips": "32031",
+            "wage": 2342.0,
+            "emp": 2096,
+            "wage_yoy_pct": 24.6,
+            "emp_yoy_pct": 33.6
+          }
+        ],
+        "partial": true
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
@@ -810,6 +1323,33 @@
           "emp_yoy_pct": -3.5
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 1968.0,
+        "wage_yoy_pct": 1.4,
+        "wage_spread_pp": -5.3,
+        "emp": 196,
+        "emp_yoy_pct": -10.9,
+        "emp_spread_pp": -17.3,
+        "wage_cur": 1968.0,
+        "emp_cur_total": 196,
+        "counties_total": 1,
+        "counties_used": 1,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "53025",
+            "wage": 1968.0,
+            "emp": 196,
+            "wage_yoy_pct": 1.4,
+            "emp_yoy_pct": -10.9
+          }
+        ],
+        "partial": false
+      },
       "sites": 2,
       "mw_disclosed": 18,
       "sites_mw_undisclosed": 1,
@@ -851,6 +1391,33 @@
           "emp_yoy_pct": 6.7
         }
       ],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 1768.0,
+        "wage_yoy_pct": 27.7,
+        "wage_spread_pp": 21.0,
+        "emp": 10461,
+        "emp_yoy_pct": 66.0,
+        "emp_spread_pp": 59.6,
+        "wage_cur": 1768.0,
+        "emp_cur_total": 10461,
+        "counties_total": 1,
+        "counties_used": 1,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "48029",
+            "wage": 1768.0,
+            "emp": 10461,
+            "wage_yoy_pct": 27.7,
+            "emp_yoy_pct": 66.0
+          }
+        ],
+        "partial": false
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
@@ -886,6 +1453,33 @@
       "wage_cur": null,
       "emp_cur_total": null,
       "counties": [],
+      "elec": {
+        "as_of": "2026-01-01",
+        "base_date": "2025-01-01",
+        "available": true,
+        "yoy_basis": "like_for_like",
+        "wage": 2165.0,
+        "wage_yoy_pct": 5.9,
+        "wage_spread_pp": -0.8,
+        "emp": 1743,
+        "emp_yoy_pct": 2.2,
+        "emp_spread_pp": -4.2,
+        "wage_cur": 2165.0,
+        "emp_cur_total": 1743,
+        "counties_total": 1,
+        "counties_used": 1,
+        "counties_suppressed": [],
+        "counties": [
+          {
+            "fips": "41067",
+            "wage": 2165.0,
+            "emp": 1743,
+            "wage_yoy_pct": 5.9,
+            "emp_yoy_pct": 2.2
+          }
+        ],
+        "partial": false
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
@@ -895,6 +1489,13 @@
       "mw_operating": 0
     }
   ],
+  "elec_national": {
+    "wage": 1869.0,
+    "wage_yoy_pct": 6.7,
+    "emp": 802677,
+    "emp_yoy_pct": 6.4,
+    "as_of": "2026-01-01"
+  },
   "as_of_curated": "2026-07-25",
   "note": "Tight core counties \u2014 the counties where data centers actually are, not the MSA. Broader metro definitions dilute the signal: when the method was chosen (2026-07, QCEW 2025Q4) Northern Virginia read +9.9% wage YoY on the tight Loudoun + Prince William definition vs +7.7% across the 11-county metro, because Arlington and Alexandria average in mature non-DC construction. Live values are in the market rows.",
   "coverage_note": "Competition MW is drawn from the /capacity tracker: 27 public companies plus 2 private builders (xAI, OpenAI / Stargate), hand-curated from filings. Private operators (CyrusOne, Vantage, Aligned, STACK, QTS, EdgeConneX) and hyperscaler leased space inside their shells are not tracked, and sites with undisclosed locations carry no market. MW under construction counts only sites tagged st=\"c\" -- operating, planned and secured MW are published separately, never folded in -- so treat it as a floor on what is actually being built, never a census."

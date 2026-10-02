@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-01T18:43:02Z",
+  "published_at": "2026-10-02T16:54:03Z",
   "window": 36,
   "targets": {
     "cpi": {
@@ -895,18 +895,6 @@
       "kind": "level_k",
       "rows": [
         {
-          "reference_period": "2023-09",
-          "first_value": 156874.0,
-          "first_release_date": "2023-10-06",
-          "latest_value": 156417.0,
-          "latest_vintage": "2026-07-11",
-          "n_vintages": 7,
-          "revision_k": -457.0,
-          "change_first_k": 336.0,
-          "change_latest_k": 156.0,
-          "change_revision_k": -180.0
-        },
-        {
           "reference_period": "2023-10",
           "first_value": 156923.0,
           "first_release_date": "2023-11-03",
@@ -1306,32 +1294,44 @@
           "reference_period": "2026-07",
           "first_value": 158858.0,
           "first_release_date": "2026-08-07",
-          "latest_value": 158913.0,
-          "latest_vintage": "2026-09-04",
-          "n_vintages": 2,
-          "revision_k": 55.0,
+          "latest_value": 158882.0,
+          "latest_vintage": "2026-10-02",
+          "n_vintages": 3,
+          "revision_k": 24.0,
           "change_first_k": -23.0,
-          "change_latest_k": 21.0,
-          "change_revision_k": 44.0
+          "change_latest_k": -10.0,
+          "change_revision_k": 13.0
         },
         {
           "reference_period": "2026-08",
           "first_value": 159075.0,
           "first_release_date": "2026-09-04",
-          "latest_value": 159075.0,
-          "latest_vintage": "2026-09-04",
+          "latest_value": 159015.0,
+          "latest_vintage": "2026-10-02",
+          "n_vintages": 2,
+          "revision_k": -60.0,
+          "change_first_k": 162.0,
+          "change_latest_k": 133.0,
+          "change_revision_k": -29.0
+        },
+        {
+          "reference_period": "2026-09",
+          "first_value": 159044.0,
+          "first_release_date": "2026-10-02",
+          "latest_value": 159044.0,
+          "latest_vintage": "2026-10-02",
           "n_vintages": 1,
           "revision_k": 0.0,
-          "change_first_k": 162.0,
-          "change_latest_k": 162.0,
+          "change_first_k": 29.0,
+          "change_latest_k": 29.0,
           "change_revision_k": 0.0
         }
       ],
       "summary": {
         "n": 36,
         "n_revised": 35,
-        "mean_abs_change_revision_k": 81.361,
-        "mean_revision": -71.75
+        "mean_abs_change_revision_k": 76.306,
+        "mean_revision": -68.417
       }
     }
   }

@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-01T18:43:02Z",
+  "published_at": "2026-10-02T16:54:03Z",
   "as_of": "2026-08",
   "legs": {
     "strict": {
@@ -1002,7 +1002,7 @@
         "h12": 1.942,
         "h24": 2.521,
         "h36": 3.394,
-        "h48": 4.681
+        "h48": 4.68
       }
     },
     {
@@ -1017,7 +1017,7 @@
         "h12": 2.705,
         "h24": 2.656,
         "h36": 3.631,
-        "h48": 5.008
+        "h48": 5.007
       }
     },
     {
@@ -1181,7 +1181,7 @@
       "realized": {
         "h12": 3.103,
         "h24": 4.127,
-        "h36": 5.611,
+        "h36": 5.609,
         "h48": null
       }
     },
@@ -1196,7 +1196,7 @@
       "realized": {
         "h12": 2.606,
         "h24": 4.097,
-        "h36": 5.787,
+        "h36": 5.785,
         "h48": null
       }
     },
@@ -1360,7 +1360,7 @@
       },
       "realized": {
         "h12": 5.162,
-        "h24": 6.887,
+        "h24": 6.884,
         "h36": null,
         "h48": null
       }
@@ -1375,7 +1375,7 @@
       },
       "realized": {
         "h12": 5.609,
-        "h24": 7.415,
+        "h24": 7.412,
         "h36": null,
         "h48": null
       }
@@ -1539,7 +1539,7 @@
         "current_momentum": 5.153
       },
       "realized": {
-        "h12": 8.641,
+        "h12": 8.634,
         "h24": null,
         "h36": null,
         "h48": null
@@ -1554,7 +1554,7 @@
         "current_momentum": 5.709
       },
       "realized": {
-        "h12": 9.252,
+        "h12": 9.245,
         "h24": null,
         "h36": null,
         "h48": null
@@ -3822,7 +3822,7 @@
         "h12": 1.942,
         "h24": 2.521,
         "h36": 3.394,
-        "h48": 4.681
+        "h48": 4.68
       }
     },
     {
@@ -3837,7 +3837,7 @@
         "h12": 2.705,
         "h24": 2.656,
         "h36": 3.631,
-        "h48": 5.008
+        "h48": 5.007
       }
     },
     {
@@ -4001,7 +4001,7 @@
       "realized": {
         "h12": 3.103,
         "h24": 4.127,
-        "h36": 5.611,
+        "h36": 5.609,
         "h48": null
       }
     },
@@ -4016,7 +4016,7 @@
       "realized": {
         "h12": 2.606,
         "h24": 4.097,
-        "h36": 5.787,
+        "h36": 5.785,
         "h48": null
       }
     },
@@ -4180,7 +4180,7 @@
       },
       "realized": {
         "h12": 5.162,
-        "h24": 6.887,
+        "h24": 6.884,
         "h36": null,
         "h48": null
       }
@@ -4195,7 +4195,7 @@
       },
       "realized": {
         "h12": 5.609,
-        "h24": 7.415,
+        "h24": 7.412,
         "h36": null,
         "h48": null
       }
@@ -4359,7 +4359,7 @@
         "current_momentum": 5.162
       },
       "realized": {
-        "h12": 8.641,
+        "h12": 8.634,
         "h24": null,
         "h36": null,
         "h48": null
@@ -4374,7 +4374,7 @@
         "current_momentum": 5.609
       },
       "realized": {
-        "h12": 9.252,
+        "h12": 9.245,
         "h24": null,
         "h36": null,
         "h48": null
@@ -4535,8 +4535,8 @@
       "leg": "extended",
       "bases": {
         "long_run": 3.748,
-        "trailing_3yr": 5.611,
-        "current_momentum": 8.641
+        "trailing_3yr": 5.609,
+        "current_momentum": 8.634
       },
       "realized": {
         "h12": null,
@@ -4549,9 +4549,9 @@
       "m": "2026-08",
       "leg": "extended",
       "bases": {
-        "long_run": 3.77,
-        "trailing_3yr": 5.787,
-        "current_momentum": 9.252
+        "long_run": 3.769,
+        "trailing_3yr": 5.785,
+        "current_momentum": 9.245
       },
       "realized": {
         "h12": null,
@@ -4601,7 +4601,7 @@
         "profile": [
           {
             "lag": 0,
-            "corr": 0.508
+            "corr": 0.505
           },
           {
             "lag": 1,
@@ -4851,7 +4851,7 @@
         "profile": [
           {
             "lag": 0,
-            "corr": 0.462
+            "corr": 0.461
           },
           {
             "lag": 1,
@@ -4976,7 +4976,7 @@
         "profile": [
           {
             "lag": 0,
-            "corr": 0.102
+            "corr": 0.101
           },
           {
             "lag": 1,
@@ -5121,7 +5121,7 @@
     "transform": "year_ratio",
     "smooth_days": 7,
     "as_of": "2026-08-01",
-    "proxy_history_days": 2799,
+    "proxy_history_days": 2800,
     "months_graded": 75,
     "min_months": 6,
     "months_dropped": 0,
@@ -5134,7 +5134,7 @@
     "best_max": 52.094,
     "lambda_ols": 0.1838,
     "regime_min_move": 0.5,
-    "proxy_yoy_pct": 558.8,
+    "proxy_yoy_pct": 561.5,
     "regime_active": true,
     "verdict": "PASS",
     "tail_active": true,

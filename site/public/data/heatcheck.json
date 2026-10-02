@@ -1,24 +1,24 @@
 {
-  "published_at": "2026-10-01T18:43:02Z",
-  "score": -4.7,
+  "published_at": "2026-10-02T16:54:03Z",
+  "score": -9.0,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": -0.7645799999999999,
+      "z": -0.75038,
       "weight": 25,
       "available": 5,
       "expected": 5,
       "active_weight": 25.0
     },
     "real_economy": {
-      "z": 0.03168,
+      "z": -0.255,
       "weight": 25,
       "available": 5,
       "expected": 5,
       "active_weight": 25.0
     },
     "pipeline": {
-      "z": 0.196075,
+      "z": 0.0949,
       "weight": 20,
       "available": 4,
       "expected": 4,
@@ -32,7 +32,7 @@
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": 0.9051,
+      "z": 0.9191333333333334,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -78,26 +78,26 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-09-30",
-      "momentum": 0.1,
-      "z": 0.284
+      "as_of": "2026-10-01",
+      "momentum": 0.12,
+      "z": 0.355
     },
     {
       "code": "PAYEMS",
       "group": "real_economy",
       "direction": 1,
-      "as_of": "2026-08-01",
-      "momentum": 0.1347,
-      "z": -0.919
+      "as_of": "2026-09-01",
+      "momentum": 0.0957,
+      "z": -1.0034
     },
     {
       "code": "UNRATE",
       "group": "real_economy",
       "direction": -1,
       "mode": "diff",
-      "as_of": "2026-08-01",
-      "momentum": -0.2,
-      "z": 0.6745
+      "as_of": "2026-09-01",
+      "momentum": 0.0,
+      "z": -0.6745
     },
     {
       "code": "INDPRO",
@@ -154,9 +154,9 @@
       "group": "pipeline",
       "direction": -1,
       "mode": "diff",
-      "as_of": "2026-08-01",
-      "momentum": 0.0,
-      "z": -0.0
+      "as_of": "2026-09-01",
+      "momentum": 0.12,
+      "z": -0.4047
     },
     {
       "code": "HOUST",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-09-30",
-      "momentum": 0.1,
-      "z": 0.5059
+      "as_of": "2026-10-01",
+      "momentum": 0.11,
+      "z": 0.548
     }
   ]
 }

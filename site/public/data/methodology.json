@@ -1,9 +1,9 @@
 {
-  "published_at": "2026-10-01T18:43:02Z",
+  "published_at": "2026-10-02T16:54:03Z",
   "stats": {
-    "series_count": 723,
-    "obs_count": 208068,
-    "source_count": 33,
+    "series_count": 823,
+    "obs_count": 210684,
+    "source_count": 35,
     "tracker_corr": 0.9978,
     "live_coverage_pct": 39.08,
     "engine_version": "1.1",
@@ -158,7 +158,7 @@
         "eia_gasreg_w"
       ],
       "official_series": "CUUR0000SETB01",
-      "yoy_pct": 40.27
+      "yoy_pct": 39.88
     },
     {
       "code": "electricity",
@@ -214,9 +214,9 @@
     }
   ],
   "freshness": {
-    "fresh_count": 716,
-    "total": 723,
-    "expected_absent": 6
+    "fresh_count": 816,
+    "total": 823,
+    "expected_absent": 7
   },
   "inventory": [
     {
@@ -335,7 +335,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-30",
+      "latest_obs": "2026-10-01",
       "fresh": true,
       "absence": null
     },
@@ -565,7 +565,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -885,7 +885,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -895,7 +895,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -905,7 +905,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -915,7 +915,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -925,7 +925,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -935,7 +935,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -945,7 +945,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -955,7 +955,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -965,7 +965,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -975,7 +975,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -985,7 +985,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -995,7 +995,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -1005,7 +1005,7 @@
       "source": "TREASURY",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-29",
+      "latest_obs": "2026-09-30",
       "fresh": true,
       "absence": null
     },
@@ -2055,7 +2055,7 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-09-21",
+      "latest_obs": "2026-09-28",
       "fresh": true,
       "absence": null
     },
@@ -2065,7 +2065,7 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-09-25",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2075,7 +2075,7 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-09-21",
+      "latest_obs": "2026-09-28",
       "fresh": true,
       "absence": null
     },
@@ -2085,7 +2085,7 @@
       "source": "USDA",
       "route": "API",
       "cadence": "weekly",
-      "latest_obs": "2026-09-21",
+      "latest_obs": "2026-09-28",
       "fresh": true,
       "absence": null
     },
@@ -2105,7 +2105,7 @@
       "source": "MND",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2115,7 +2115,7 @@
       "source": "AAA",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2125,7 +2125,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2135,7 +2135,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2145,7 +2145,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2155,7 +2155,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2165,7 +2165,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2175,7 +2175,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2185,7 +2185,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2195,7 +2195,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2205,7 +2205,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2215,7 +2215,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2225,7 +2225,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2235,7 +2235,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2245,7 +2245,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2255,7 +2255,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2265,7 +2265,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2275,7 +2275,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2285,7 +2285,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2295,7 +2295,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2305,7 +2305,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2315,7 +2315,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2325,7 +2325,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2335,7 +2335,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2345,7 +2345,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2355,7 +2355,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2365,7 +2365,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2375,7 +2375,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2385,7 +2385,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2395,7 +2395,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2405,7 +2405,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2415,7 +2415,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2425,7 +2425,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2435,7 +2435,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2445,7 +2445,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2455,7 +2455,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2465,7 +2465,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2475,7 +2475,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2485,7 +2485,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2495,7 +2495,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2505,7 +2505,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2515,7 +2515,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2525,7 +2525,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2535,7 +2535,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2545,7 +2545,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2555,7 +2555,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2565,7 +2565,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2575,7 +2575,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2585,7 +2585,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2595,7 +2595,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2605,7 +2605,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2615,7 +2615,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2625,7 +2625,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2645,7 +2645,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -2725,7 +2725,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -2820,12 +2820,62 @@
       "absence": null
     },
     {
+      "code": "nyfed_sce_1y",
+      "name": "NY Fed SCE median 1-year-ahead expected inflation (%)",
+      "source": "NYFED",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-08-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "nyfed_sce_3y",
+      "name": "NY Fed SCE median 3-year-ahead expected inflation (%)",
+      "source": "NYFED",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-08-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "nyfed_sce_5y",
+      "name": "NY Fed SCE median 5-year-ahead expected inflation (%)",
+      "source": "NYFED",
+      "route": "CSV",
+      "cadence": "monthly",
+      "latest_obs": "2026-08-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "atl_bie_1y_median",
+      "name": "Atlanta Fed BIE median year-ahead unit-cost expectation (%; monthly, by survey month)",
+      "source": "ATLFED",
+      "route": "XLSX",
+      "cadence": "monthly",
+      "latest_obs": "2026-09-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "atl_bie_lt_mean",
+      "name": "Atlanta Fed BIE mean 5-10-year unit-cost expectation (%; quarterly, by survey month)",
+      "source": "ATLFED",
+      "route": "XLSX",
+      "cadence": "monthly",
+      "latest_obs": "2026-09-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
       "code": "T5YIE",
       "name": "5-year breakeven inflation",
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-30",
+      "latest_obs": "2026-10-01",
       "fresh": true,
       "absence": null
     },
@@ -2855,7 +2905,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -2865,7 +2915,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -2935,7 +2985,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-30",
+      "latest_obs": "2026-10-01",
       "fresh": true,
       "absence": null
     },
@@ -3005,8 +3055,8 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
-      "fresh": false,
+      "latest_obs": "2026-09-01",
+      "fresh": true,
       "absence": null
     },
     {
@@ -3015,7 +3065,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-30",
+      "latest_obs": "2026-10-01",
       "fresh": true,
       "absence": null
     },
@@ -3045,7 +3095,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-01",
+      "latest_obs": "2026-08-01",
       "fresh": true,
       "absence": null
     },
@@ -3095,7 +3145,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-30",
+      "latest_obs": "2026-10-01",
       "fresh": true,
       "absence": null
     },
@@ -3115,7 +3165,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-29",
+      "latest_obs": "2026-09-30",
       "fresh": true,
       "absence": null
     },
@@ -3125,7 +3175,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-29",
+      "latest_obs": "2026-09-30",
       "fresh": true,
       "absence": null
     },
@@ -3135,7 +3185,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-29",
+      "latest_obs": "2026-09-30",
       "fresh": true,
       "absence": null
     },
@@ -3145,7 +3195,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-29",
+      "latest_obs": "2026-09-30",
       "fresh": true,
       "absence": null
     },
@@ -3155,7 +3205,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-29",
+      "latest_obs": "2026-09-30",
       "fresh": true,
       "absence": null
     },
@@ -3165,7 +3215,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-29",
+      "latest_obs": "2026-09-30",
       "fresh": true,
       "absence": null
     },
@@ -3175,7 +3225,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-29",
+      "latest_obs": "2026-09-30",
       "fresh": true,
       "absence": null
     },
@@ -3185,7 +3235,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-29",
+      "latest_obs": "2026-09-30",
       "fresh": true,
       "absence": null
     },
@@ -3195,7 +3245,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-30",
+      "latest_obs": "2026-10-01",
       "fresh": true,
       "absence": null
     },
@@ -3225,7 +3275,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-23",
+      "latest_obs": "2026-09-30",
       "fresh": true,
       "absence": null
     },
@@ -3235,7 +3285,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-23",
+      "latest_obs": "2026-09-30",
       "fresh": true,
       "absence": null
     },
@@ -3795,7 +3845,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -3915,7 +3965,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-01",
+      "latest_obs": "2026-08-01",
       "fresh": true,
       "absence": null
     },
@@ -3925,7 +3975,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-01",
+      "latest_obs": "2026-08-01",
       "fresh": true,
       "absence": null
     },
@@ -3935,7 +3985,67 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-01",
+      "latest_obs": "2026-08-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "fred_uo_electrical_sa",
+      "name": "Unfilled orders, electrical equipment (SA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-08-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "fred_uo_turbines_sa",
+      "name": "Unfilled orders, turbines & generators (SA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-08-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "fred_ship_electrical_sa",
+      "name": "Value of shipments, electrical equipment (SA, monthly)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-08-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "fred_ship_turbines_sa",
+      "name": "Value of shipments, turbines & generators (SA, monthly)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-08-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "CP0000EZCCM086NEST",
+      "name": "Euro-area HICP, all items (changing composition, NSA index)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-08-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "TOTNRGFOODEA20MI15XM",
+      "name": "Euro-area core HICP ex energy, food, alcohol & tobacco (NSA index)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-08-01",
       "fresh": true,
       "absence": null
     },
@@ -3945,7 +4055,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -4095,7 +4205,7 @@
       "source": "DRAMEX",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4105,7 +4215,7 @@
       "source": "DRAMEX",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4115,7 +4225,7 @@
       "source": "DRAMEX",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4125,7 +4235,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4165,7 +4275,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4175,7 +4285,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4186,7 +4296,7 @@
       "route": "SCRAPE",
       "cadence": "daily",
       "latest_obs": "2026-09-24",
-      "fresh": true,
+      "fresh": false,
       "absence": "discontinued"
     },
     {
@@ -4195,7 +4305,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4205,7 +4315,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4215,7 +4325,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4225,7 +4335,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4235,7 +4345,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4245,7 +4355,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4255,7 +4365,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4265,7 +4375,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4275,7 +4385,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4285,7 +4395,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4295,7 +4405,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4305,7 +4415,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4335,7 +4445,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -4345,7 +4455,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6750,12 +6860,902 @@
       "absence": null
     },
     {
+      "code": "qcew_wage238212_us",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (US)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_us",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (US)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c51107",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Loudoun County, VA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c51107",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Loudoun County, VA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c51107",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Loudoun County, VA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c51153",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Prince William County, VA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c51153",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Prince William County, VA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c51153",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Prince William County, VA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c48113",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Dallas County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c48113",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Dallas County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c48113",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Dallas County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c48439",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Tarrant County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c48439",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Tarrant County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c48439",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Tarrant County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c48139",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Ellis County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c48139",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Ellis County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c48139",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Ellis County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c17031",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Cook County, IL)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c17031",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Cook County, IL)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c17031",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Cook County, IL)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c17043",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (DuPage County, IL)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c17043",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (DuPage County, IL)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c17043",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (DuPage County, IL)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c04013",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Maricopa County, AZ)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c04013",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Maricopa County, AZ)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c04013",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Maricopa County, AZ)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c04021",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Pinal County, AZ)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c04021",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Pinal County, AZ)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c04021",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Pinal County, AZ)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c13097",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Douglas County, GA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c13097",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Douglas County, GA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c13097",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Douglas County, GA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c13121",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Fulton County, GA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c13121",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Fulton County, GA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c13121",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Fulton County, GA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c06085",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Santa Clara County, CA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c06085",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Santa Clara County, CA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c06085",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Santa Clara County, CA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c39049",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Franklin County, OH)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c39049",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Franklin County, OH)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c39049",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Franklin County, OH)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c39089",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Licking County, OH)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c39089",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Licking County, OH)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c39089",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Licking County, OH)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c49035",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Salt Lake County, UT)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c49035",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Salt Lake County, UT)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c49035",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Salt Lake County, UT)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c49049",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Utah County, UT)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c49049",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Utah County, UT)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c49049",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Utah County, UT)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c48441",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Taylor County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c48441",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Taylor County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c48441",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Taylor County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c18141",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (St. Joseph County, IN)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c18141",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (St. Joseph County, IN)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c18141",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (St. Joseph County, IN)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c55101",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Racine County, WI)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c55101",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Racine County, WI)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c55101",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Racine County, WI)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c22083",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Richland Parish, LA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": true,
+      "absence": "suppressed"
+    },
+    {
+      "code": "qcew_emp238212_c22083",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Richland Parish, LA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": true,
+      "absence": "suppressed"
+    },
+    {
+      "code": "qcew_aemp238212_c22083",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Richland Parish, LA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": true,
+      "absence": "suppressed"
+    },
+    {
+      "code": "qcew_wage238212_c47157",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Shelby County, TN)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c47157",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Shelby County, TN)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c47157",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Shelby County, TN)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c19155",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Pottawattamie County, IA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c19155",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Pottawattamie County, IA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c19155",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Pottawattamie County, IA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c19153",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Polk County, IA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c19153",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Polk County, IA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c19153",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Polk County, IA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c19049",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Dallas County, IA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": true,
+      "absence": "suppressed"
+    },
+    {
+      "code": "qcew_emp238212_c19049",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Dallas County, IA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": true,
+      "absence": "suppressed"
+    },
+    {
+      "code": "qcew_aemp238212_c19049",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Dallas County, IA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2025-10-01",
+      "fresh": true,
+      "absence": "suppressed"
+    },
+    {
+      "code": "qcew_wage238212_c56021",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Laramie County, WY)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c56021",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Laramie County, WY)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c56021",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Laramie County, WY)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c32031",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Washoe County, NV)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c32031",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Washoe County, NV)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c32031",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Washoe County, NV)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c53025",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Grant County, WA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c53025",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Grant County, WA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c53025",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Grant County, WA)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c48029",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Bexar County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c48029",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Bexar County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c48029",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Bexar County, TX)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_wage238212_c41067",
+      "name": "QCEW avg weekly wage, nonresidential electrical contractors (NAICS 238212) (Washington County, OR)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_emp238212_c41067",
+      "name": "QCEW employment, nonresidential electrical contractors (NAICS 238212) (Washington County, OR)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "qcew_aemp238212_c41067",
+      "name": "QCEW average monthly employment, nonresidential electrical contractors (NAICS 238212) (Washington County, OR)",
+      "source": "QCEW_238212",
+      "route": "CSV",
+      "cadence": "quarterly",
+      "latest_obs": "2026-01-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
       "code": "caiso_sp15_da",
       "name": "CAISO SP15 day-ahead LMP, daily avg ($/MWh)",
       "source": "CAISO",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6765,7 +7765,7 @@
       "source": "MISO",
       "route": "CSV",
       "cadence": "daily",
-      "latest_obs": "2026-09-30",
+      "latest_obs": "2026-10-01",
       "fresh": true,
       "absence": null
     },
@@ -6815,7 +7815,7 @@
       "source": "KALSHI_DC",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6825,7 +7825,7 @@
       "source": "KALSHI_DC",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6835,7 +7835,7 @@
       "source": "KALSHI_FED",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6895,7 +7895,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6905,7 +7905,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6915,7 +7915,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6925,7 +7925,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6935,7 +7935,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6945,7 +7945,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6955,7 +7955,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6965,7 +7965,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6975,7 +7975,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6985,7 +7985,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -6995,7 +7995,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7005,7 +8005,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7015,7 +8015,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7025,7 +8025,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7035,7 +8035,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7045,7 +8045,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7055,7 +8055,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7065,7 +8065,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7075,7 +8075,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7085,7 +8085,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7095,7 +8095,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7105,7 +8105,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7115,7 +8115,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7125,7 +8125,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7135,7 +8135,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7145,7 +8145,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7155,7 +8155,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7165,7 +8165,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7175,7 +8175,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7185,7 +8185,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7195,7 +8195,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7205,7 +8205,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7215,7 +8215,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7225,7 +8225,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7235,7 +8235,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7245,7 +8245,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7255,7 +8255,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7265,7 +8265,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7275,7 +8275,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7285,7 +8285,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7295,7 +8295,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7305,7 +8305,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7315,7 +8315,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7325,7 +8325,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7335,7 +8335,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7345,7 +8345,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7355,7 +8355,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7365,7 +8365,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7375,7 +8375,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7385,7 +8385,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7395,7 +8395,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7405,7 +8405,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7415,7 +8415,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7425,7 +8425,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7435,7 +8435,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     },
@@ -7445,7 +8445,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-02",
       "fresh": true,
       "absence": null
     }
@@ -7500,6 +8500,11 @@
     "The daily history is a hindsight series: each monthly official print is applied from its reference month, ~6 weeks before release. The per-variant validation stats use it; the real-time record (compare.json `realtime`, and the homepage lead-lag) applies each print only from its release date."
   ],
   "changelog": [
+    {
+      "date": "2026-10-02",
+      "area": "datacenter",
+      "change": "The DC Hardware storage component rides NAND spot prices again past the last storage-device PPI, under a stricter rule. NAND history now reaches back to 2019 through Wayback Machine snapshots of the same DRAMeXchange page, and the PPI's own release history (ALFRED) makes the backtest grade what readers actually saw. The tail rides only while NAND is more than 50% away from its level a year earlier; in calmer markets carrying the last print forward wins, because half of this PPI's first prints since 2020 repeat the prior month. Its worst graded month must be no worse than carry-forward's, replacing a fixed 10-point bound no rule could meet in the 2026 memory shock (carry-forward itself missed July 2026 by 58.6 YoY points). The 50% threshold and the relative bound were both set after seeing the 2020-26 backtest. Over 75 graded months the switched tail at pass-through 0.1 averaged 2.81 YoY points of error against 2.99 for carry-forward. Hardware YoY 29.3% (storage official, Aug +87.2%) to 32.1% (storage tail +105.7% through Oct 1)."
+    },
     {
       "date": "2026-09-28",
       "area": "gate",
@@ -7596,5 +8601,5 @@
       "change": "Headline YoY is the weighted mean of each component's own like-month YoY (not an index ratio), so lagging components compare like month to like month."
     }
   ],
-  "methodology_version": "2026-09-28"
+  "methodology_version": "2026-10-02"
 }
