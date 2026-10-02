@@ -90,6 +90,6 @@ test("small dead fields render: continued claims, indicator signs, fetched count
 
 test("/capacity timeline tab renders the published curve", async ({ page }) => {
   await page.goto("/capacity?tab=Timeline");
-  await expect(page.getByRole("button", { name: "Timeline", pressed: true })).toBeVisible();
+  await expect(page.getByRole("tab", { name: "Timeline", selected: true })).toBeVisible();
   await expect(page.locator("svg path").first()).toBeVisible();
 });

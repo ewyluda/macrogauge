@@ -19,8 +19,8 @@ const COHORTS: [CapacityCohortKey, string][] = [
 ];
 const TABS = ["Capacity", "Valuation × Execution", "Demand map", "Timeline", "Geo map"] as const;
 const SORTS: [string, string][] = [
-  ["total", "Total"], ["op", "Operational"], ["con", "Construction"],
-  ["plan", "Planned"], ["ev_per_mw", "EV / MW"], ["cap", "Mkt cap"],
+  ["total", "Total MW"], ["op", "Operational MW"], ["con", "Construction MW"],
+  ["plan", "Planned MW"], ["ev_per_mw", "EV per MW"], ["cap", "Market cap"],
 ];
 
 function sortVal(c: CapacityCompany, key: string): number {
@@ -50,43 +50,46 @@ export function CapacityClient({ data }: { data: Capacity }) {
       .sort((a, b) => sortVal(b, sort) - sortVal(a, sort));
   }, [data, cohort, query, sort]);
 
-  const btn = (on: boolean): React.CSSProperties => ({
-    font: "inherit", fontSize: 13, cursor: "pointer", padding: "6px 12px",
-    borderRadius: 8, border: "1px solid var(--border)",
-    background: on ? "var(--chip-bg)" : "none",
-    color: on ? "var(--text)" : "var(--muted)",
-  });
+  const tabIds = (t: string) => `cap-tab-${t.toLowerCase().replace(/[^a-z]+/g, "-")}`;
+  const onTabKey = (e: React.KeyboardEvent<HTMLButtonElement>, i: number) => {
+    const step = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+    if (!step) return;
+    e.preventDefault();
+    const next = TABS[(i + step + TABS.length) % TABS.length];
+    setTab(next);
+    document.getElementById(tabIds(next))?.focus();
+  };
 
   return (
     <div className="capacity-workspace">
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, margin: "18px 0 6px" }}>
-        {TABS.map((t) => (
-          <button key={t} style={btn(tab === t)}
-            aria-pressed={tab === t} onClick={() => setTab(t)}>{t}</button>
+      <div className="cap-tabs" role="tablist" aria-label="Capacity views">
+        {TABS.map((t, i) => (
+          <button key={t} id={tabIds(t)} type="button" role="tab" className="cap-tab"
+            aria-selected={tab === t} aria-controls="cap-panel" tabIndex={tab === t ? 0 : -1}
+            onClick={() => setTab(t)} onKeyDown={(e) => onTabKey(e, i)}>{t}</button>
         ))}
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", margin: "8px 0 14px" }}>
-        {COHORTS.map(([k, label]) => (
-          <button key={k} style={btn(cohort === k)}
-            aria-pressed={cohort === k} onClick={() => setCohort(k)}>{label}</button>
-        ))}
-        <CopyLink />
+      <div className="cap-toolbar">
+        <div className="cap-cohort" role="group" aria-label="Cohort">
+          {COHORTS.map(([k, label]) => (
+            <button key={k} type="button" aria-pressed={cohort === k} onClick={() => setCohort(k)}>
+              {label} <span className="cap-count">{data.cohorts[k].companies}</span>
+            </button>
+          ))}
+        </div>
+        <input type="search" className="cap-search" value={query} onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search ticker, company or customer" aria-label="Search companies" />
         {tab === "Capacity" && (
-          <>
-            <span style={{ color: "var(--muted)", fontSize: 12, marginLeft: 8 }}>sort</span>
-            {SORTS.map(([k, label]) => (
-              <button key={k} style={btn(sort === k)}
-                aria-pressed={sort === k} onClick={() => setSort(k)}>{label}</button>
-            ))}
-          </>
+          <label className="cap-sort">
+            <span>Sort by</span>
+            <select value={sort} onChange={(e) => setSort(e.target.value)}>
+              {SORTS.map(([k, label]) => <option key={k} value={k}>{label}</option>)}
+            </select>
+          </label>
         )}
-        <input value={query} onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search ticker, company, customer…" aria-label="Search companies"
-          style={{ flex: "1 1 200px", minWidth: 160, font: "inherit", fontSize: 13,
-                   padding: "6px 10px", borderRadius: 8,
-                   border: "1px solid var(--border)", background: "none",
-                   color: "var(--text)" }} />
+        <CopyLink />
       </div>
+      <div id="cap-panel" role="tabpanel" aria-labelledby={tabIds(tab)}>
       {tab === "Capacity" && <CapacityBars rows={rows} />}
       {tab === "Valuation × Execution" && <ValuationScatter rows={rows} />}
       {tab === "Demand map" && <DemandMap data={data} visible={new Set(rows.map((r) => r.t))} />}
@@ -98,6 +101,7 @@ export function CapacityClient({ data }: { data: Capacity }) {
         <TimelineChart timeline={query.trim() ? buildTimeline(rows) : (data.timeline?.[cohort] ?? buildTimeline(rows))} />
       )}
       {tab === "Geo map" && <GeoMap data={data} visible={new Set(rows.map((r) => r.t))} />}
+      </div>
     </div>
   );
 }
