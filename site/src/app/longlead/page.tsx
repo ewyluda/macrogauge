@@ -5,11 +5,14 @@ import { DownloadData } from "@/components/DownloadData";
 import { flattenRow } from "@/lib/csv";
 import { fmtSigned } from "@/lib/format";
 import { BASIS_LABELS, fmtFigure, fmtWeightPct, noteSegments } from "@/lib/longLead";
-import type { LongLead, LongLeadPackage, LongLeadVendor } from "@/lib/types";
+import type { BacklogMonths, LongLead, LongLeadPackage, LongLeadVendor } from "@/lib/types";
+import { LinesChart } from "@/components/LinesChart";
+import { C } from "@/lib/chartTheme";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
 
 const data = artifact<"longlead", LongLead>("longlead", llJson);
+const backlogGroups = Object.entries(data.backlog_months ?? {});
 
 export const metadata: Metadata = {
   title: "Long-Lead Board: vendor order books vs equipment prices",
@@ -70,7 +73,7 @@ function VendorRow({ vendor }: { vendor: LongLeadVendor }) {
   );
 }
 
-function PackageSection({ pkg }: { pkg: LongLeadPackage }) {
+function PackageSection({ pkg, backlog }: { pkg: LongLeadPackage; backlog?: BacklogMonths }) {
   return (
     <section>
       <h2>
@@ -80,6 +83,7 @@ function PackageSection({ pkg }: { pkg: LongLeadPackage }) {
           {pkg.price_yoy_pct === null
             ? "price YoY unavailable"
             : `PPI ${fmtSigned(pkg.price_yoy_pct)} YoY as of ${pkg.price_last_obs}`}
+          {backlog && ` · ${backlog.latest.toFixed(1)} months of backlog (Census M3, ${backlog.latest_month}${backlog.change_1y == null ? "" : `, ${backlog.change_1y >= 0 ? "+" : ""}${backlog.change_1y.toFixed(1)} over 1y`})`}
         </span>
       </h2>
       <div className="table-card">
@@ -159,8 +163,29 @@ export default function Page() {
           accent="amber"
         />
       </div>
+      {backlogGroups.length > 0 && (
+        <section>
+          <h2>Months of backlog <span className="subtitle">Census M3: unfilled orders ÷ monthly shipments, both seasonally adjusted</span></h2>
+          <div className="kpi-row">
+            {backlogGroups.map(([key, b]) => (
+              <KpiCard key={key} label={b.label} value={`${b.latest.toFixed(1)} mo`}
+                context={`${b.latest_month}${b.change_1y == null ? "" : ` · ${b.change_1y >= 0 ? "+" : ""}${b.change_1y.toFixed(1)} mo over 1y`}`}
+                accent={key === "turbines" ? "violet" : "sky"} />
+            ))}
+          </div>
+          <LinesChart ariaTitle="Months of backlog, Census M3" yUnit=" mo" recessions={false} height={280}
+            series={backlogGroups.map(([key, b]) => ({ name: b.label, x: b.months.map((m) => `${m}-01`), y: b.ratio,
+              color: key === "turbines" ? C.violet : C.sky }))} />
+          <p className="method">
+            How many months current shipments would take to clear the order book — an industry-wide, primary-source
+            lead-time proxy that complements the vendors&apos; own figures below. Electrical equipment maps to switchgear
+            and transformers; turbines, generators &amp; power transmission maps to generator sets. Data: FRED
+            A35CUO/A35CVS and ATGPUO/ATGPVS (Census M3, monthly, about one month behind).
+          </p>
+        </section>
+      )}
       {data.packages.map((pkg) => (
-        <PackageSection key={pkg.code} pkg={pkg} />
+        <PackageSection key={pkg.code} pkg={pkg} backlog={pkg.backlog_group ? data.backlog_months?.[pkg.backlog_group] : undefined} />
       ))}
       <h2>Reading the bases</h2>
       <p className="method">

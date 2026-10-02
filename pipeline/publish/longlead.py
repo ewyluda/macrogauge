@@ -40,7 +40,48 @@ def _vendor_dict(key: str, vendor, today: str) -> dict:
             "null_note": vendor.null_note}
 
 
-def build(cfg, build_components, dc_result: dict | None, today: str) -> dict:
+# Census M3 months of backlog = unfilled orders ÷ monthly shipments, both
+# seasonally adjusted (one basis; seasonality is most of the month-to-month
+# noise, and a trailing average would add ~6 weeks of lag to a series that is
+# already a month behind). Package -> M3 industry group, owner-decided
+# 2026-10-01: turbines -> generators; electrical equipment -> switchgear and
+# transformers. hvac_equip has no M3 counterpart here.
+BACKLOG_GROUPS = {
+    "electrical": {"label": "Electrical equipment (NAICS 335)",
+                   "unfilled": "fred_uo_electrical_sa", "shipments": "fred_ship_electrical_sa"},
+    "turbines": {"label": "Turbines, generators & power transmission (NAICS 333611)",
+                 "unfilled": "fred_uo_turbines_sa", "shipments": "fred_ship_turbines_sa"},
+}
+PACKAGE_BACKLOG = {"switchgear": "electrical", "transformers": "electrical",
+                   "generators": "turbines"}
+BACKLOG_START = "2015-01-01"
+
+
+def backlog_months(conn) -> dict:
+    """{group: {label, months, ratio, latest, latest_month, change_1y}} from
+    the vintage store; a group with no overlapping data is omitted."""
+    from pipeline.store import vintage
+    out = {}
+    for key, g in BACKLOG_GROUPS.items():
+        uo = dict(vintage.latest(conn, g["unfilled"]))
+        sh = dict(vintage.latest(conn, g["shipments"]))
+        months = sorted(m for m in uo if m in sh and sh[m] and m >= BACKLOG_START)
+        if not months:
+            continue
+        ratio = [round(uo[m] / sh[m], 2) for m in months]
+        last = months[-1]
+        y, mo = int(last[:4]), int(last[5:7])
+        year_ago = f"{y - 1:04d}-{mo:02d}-01"
+        prev = (round(uo[year_ago] / sh[year_ago], 2)
+                if year_ago in uo and sh.get(year_ago) else None)
+        out[key] = {"label": g["label"], "months": [m[:7] for m in months], "ratio": ratio,
+                    "latest": ratio[-1], "latest_month": last[:7],
+                    "change_1y": None if prev is None else round(ratio[-1] - prev, 2)}
+    return out
+
+
+def build(cfg, build_components, dc_result: dict | None, today: str,
+          backlog: dict | None = None) -> dict:
     by_code = {c.code: c for c in build_components}
     engine = (dc_result or {}).get("indexes", {}).get("build", {}) \
         .get("components", {})
@@ -59,6 +100,7 @@ def build(cfg, build_components, dc_result: dict | None, today: str) -> dict:
             # the UNROUNDED engine yoy (never the rounded price_yoy_pct above)
             "contribution_pp": None if yoy is None else round(comp.weight * yoy, 2),
             "null_note": p.null_note,
+            "backlog_group": PACKAGE_BACKLOG.get(p.code) if backlog and PACKAGE_BACKLOG.get(p.code) in backlog else None,
             "vendors": [_vendor_dict(k, cfg.vendors[k], today)
                         for k in p.vendor_keys]})
     teaser = []
@@ -76,7 +118,8 @@ def build(cfg, build_components, dc_result: dict | None, today: str) -> dict:
             "build_weight_covered": round(
                 sum(by_code[p.code].weight for p in cfg.packages), 4),
             "teaser": teaser,
-            "packages": packages}
+            "packages": packages,
+            "backlog_months": backlog or {}}
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:

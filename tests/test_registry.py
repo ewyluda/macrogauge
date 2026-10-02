@@ -23,14 +23,14 @@ def test_load_real_registry():
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC", "KALSHI_CORE",
-                            "EIA_STATE_RES", "KALSHI_FED", "NYFED"}
-    assert len(series) == 723  # +nyfed_mct; +KXFED/DFEDTARU/tariff/GSCPI/B300 (measures) +4 PPIs/CSUSHPISA/SASL2RS (PCE, methodology)
+                            "EIA_STATE_RES", "KALSHI_FED", "NYFED", "ATLFED", "QCEW_238212"}
+    assert len(series) == 823  # +89 QCEW_238212; +M3 SA backlog x4, euro HICP x2, SCE x3, BIE x2 (10-01); +nyfed_mct; +KXFED/DFEDTARU/tariff/GSCPI/B300 (measures) +4 PPIs/CSUSHPISA/SASL2RS (PCE, methodology)
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 171
+    assert len(fred) == 177
     # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
     # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
     # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
@@ -39,6 +39,9 @@ def test_load_real_registry():
         "CPIAUCNS": "CPIAUCNS",
         "CPILFENS": "CPILFENS",
         "CPIAUCSL": "CPIAUCSL",
+        "fred_uo_electrical_sa": "A35CUO", "fred_uo_turbines_sa": "ATGPUO",
+        "fred_ship_electrical_sa": "A35CVS", "fred_ship_turbines_sa": "ATGPVS",
+        "CP0000EZCCM086NEST": "CP0000EZCCM086NEST", "TOTNRGFOODEA20MI15XM": "TOTNRGFOODEA20MI15XM",
         "CPILFESL": "CPILFESL",
         "CUUR0000SASL2RS": "CUUR0000SASL2RS",
         **{c: c for c in ("COREFLEXCPIM159SFRBATL", "PCEPILFE", "T5YIFR", "EXPINF1YR",
@@ -150,6 +153,25 @@ def test_load_real_registry():
     # correct wage weight for multi-county aggregation in dcmarkets.py.
     # month3 (~emp) is unchanged and still backs the displayed headcount.
     assert sum(1 for s in series if s.source == "QCEW") == 137
+    # 89 = 2 national (qcew_{wage,emp}238212_us) + 29 DC-market counties x
+    # wage/emp/aemp for private NAICS 238212 (nonresidential electrical
+    # contractors), on its own isolation key. 29, not 30: Storey County NV
+    # (32029) last printed 238212 in 2023 Q4 and has been suppressed every
+    # quarter since (live 2026-10-01), outside the 10-quarter fetch window --
+    # a registered series could never hold an observation (freshness NEVER,
+    # which an absence policy cannot excuse), so it is deliberately absent
+    # and the market engine reports it as suppressed.
+    assert sources["QCEW_238212"].secret is None and sources["QCEW_238212"].route == "CSV"
+    elec = [s for s in series if s.source == "QCEW_238212"]
+    assert len(elec) == 89
+    assert not [s for s in elec if s.code.endswith("_c32029")]
+    for s in elec:
+        fips = s.source_id.split("~")[0]
+        metric = s.code.split("238212")[0].removeprefix("qcew_")
+        suffix = {"wage": "", "emp": "~emp", "aemp": "~aemp"}[metric]
+        tail = "us" if fips == "US000" else f"c{fips}"
+        assert s.code == f"qcew_{metric}238212_{tail}" and s.source_id == f"{fips}{suffix}", s.code
+        assert s.max_staleness_days == 400, s.code
     # Power spike (wave 4): pin the exact source_ids — ice_ercot_north was
     # dropped from scope (does not exist in the ICE workbook) and Henry Hub
     # rides the v2 seriesid NG.RNGWHHD.D, not a v1 route.
@@ -349,8 +371,22 @@ def test_registry_absence_policies_are_explicit_and_bounded():
             assert a.max_absence_days is not None, code
     # The Hillsboro (Washington County OR) QCEW cell is suppressed as a unit --
     # all three metrics from that row carry the same policy, none is left out.
-    hillsboro = {c for c in by if c.endswith("_c41067")}
+    # (238212 Washington Co. OR prints -- only the NAICS 23 cell is suppressed.)
+    hillsboro = {c for c in by if c.endswith("_c41067") and "238212" not in c}
     assert hillsboro == {"qcew_wage23_c41067", "qcew_emp23_c41067", "qcew_aemp23_c41067"}
+    assert all(by[c].absence is None for c in by if c.endswith("238212_c41067"))
+    # NAICS 238212: Dallas County IA and Richland Parish LA are suppressed in
+    # 2026 Q1 (live 2026-10-01) with 2025 Q4 their last print -- each row's
+    # three metrics share one policy, `since` that last print, so the policy
+    # holds while the series is still inside its limit and fails QA the
+    # moment a newer quarter prints.
+    elec_policies = {c for c, a in policies.items() if "238212" in c}
+    assert elec_policies == {f"qcew_{m}238212_c{f}" for m in ("wage", "emp", "aemp")
+                             for f in ("19049", "22083")}
+    for c in elec_policies:
+        a = policies[c]
+        assert (a.kind, a.since, a.review_by) == ("suppressed", "2025-10-01", "2027-03-31"), c
+        assert by[c].max_staleness_days == 400, c
     assert all(policies[c].kind == "suppressed" for c in hillsboro)
     # The policy does the tolerating, so a policy series keeps the same limit as
     # its un-exempted siblings — no padded limit (the pre-#10 workaround was 900d,

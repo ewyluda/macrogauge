@@ -90,10 +90,22 @@ Done:
     latest quarter, price-adjustment clause kit (/escalation/clause).
 12. Ops — actions pinned by SHA, persist-credentials false, push token only in the commit step.
 
-Still open (deliberately small or blocked):
-- NY Fed SCE, Atlanta BIE (not on FRED; need connectors), euro-area HICP (placement decision).
-- S-curve midpoint escalation, Census M3 backlog months, NAICS 238210 electrical-contractor labor.
+Connectors round, 2026-10-01 (branch `feat/connectors-2026-10-01`, decisions by Eric):
+- Census M3 months of backlog (SA unfilled ÷ SA shipments) on /longlead — electrical → switchgear &
+  transformers, turbines → generators.
+- Euro-area HICP headline + core via FRED (matrix INTERNATIONAL group); a Eurostat connector only if
+  services/goods or country detail is wanted later.
+- NY Fed SCE 1y/3y/5y medians and Atlanta Fed BIE (new `atlfed` connector: year-ahead median, 5-10y
+  mean) in the matrix EXPECTATIONS group, stored by survey month.
+- NAICS 238212 (nonresidential electrical contractors) on /markets from the QCEW 6-digit industry
+  file (one file per quarter; Storey NV suppressed since 2023Q4, Dallas IA + Richland LA policies).
+- S-curve midpoint escalation on /portfolio (sin² spend curve, optional start month, 24-month default,
+  incurred spend excluded, shown beside the full-carry figure).
+
+Still open:
 - Storage-tail λ needs ~12 months of NAND history (≈2027-08) before the gate can pass.
+- Optional: Eurostat connector for euro-area category/country detail; a thin-base threshold for
+  electrical-contractor headcount.
 
 ### Calendar
 - 2026-10-14 CPI: first SA-graded print; first component miss attribution on /cpi-preview.

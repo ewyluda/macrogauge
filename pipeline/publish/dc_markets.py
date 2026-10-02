@@ -12,6 +12,16 @@ hyperscaler leased space are not in it. Membership is by hand-assigned market
 tag, never a coordinate radius: 70 of 112 geo entries are approx-placed and
 the flag does not identify which coordinates are trustworthy.
 
+Alongside the NAICS 23 construction labor, every market row carries an
+`elec` block -- private NAICS 238212 (NONRESIDENTIAL electrical
+contractors), aggregated by the very same engine (dcmarkets.market_rows:
+average-monthly-employment-weighted wage, like-for-like YoY, suppressed
+counties skipped and listed) against the 238212 national baseline
+(`elec_national`). A county with no 238212 series at all (Storey NV is
+unregistered -- suppressed every quarter since 2023 Q4) is reported as
+suppressed exactly like a disclosure-suppressed one; `partial` flags any
+market whose basis is missing at least one of its counties.
+
 ALL derived math lives here and in engine/dcmarkets.py; the site renders
 only."""
 from pathlib import Path
@@ -63,20 +73,49 @@ def _series(conn, code: str) -> dict[str, float]:
     return dict(vintage.latest(conn, code))
 
 
-def build(conn, markets, cap_cfg: dict, meta: dict) -> dict:
+def _labor(conn, markets, naics: str) -> dict:
+    """dcmarkets.market_rows over one NAICS's county + US series (codes
+    qcew_{wage,emp,aemp}{naics}_c{fips}, qcew_{wage,emp}{naics}_us)."""
     counties = {f for m in markets for f in m.counties}
-    wage = {f: _series(conn, f"qcew_wage23_c{f}") for f in counties}
-    emp = {f: _series(conn, f"qcew_emp23_c{f}") for f in counties}
+    wage = {f: _series(conn, f"qcew_wage{naics}_c{f}") for f in counties}
+    emp = {f: _series(conn, f"qcew_emp{naics}_c{f}") for f in counties}
     # average monthly employment ((m1+m2+m3)/3) -- the wage weight
     # (dcmarkets.py), never the displayed headcount, which stays month3.
-    aemp = {f: _series(conn, f"qcew_aemp23_c{f}") for f in counties}
+    aemp = {f: _series(conn, f"qcew_aemp{naics}_c{f}") for f in counties}
     wage = {f: v for f, v in wage.items() if v}
     emp = {f: v for f, v in emp.items() if v}
     aemp = {f: v for f, v in aemp.items() if v}
 
-    payload = dcmarkets.market_rows(
+    return dcmarkets.market_rows(
         wage, emp, aemp, markets,
-        _series(conn, "qcew_wage23_us"), _series(conn, "qcew_emp23_us"))
+        _series(conn, f"qcew_wage{naics}_us"), _series(conn, f"qcew_emp{naics}_us"))
+
+
+# The engine row fields the elec block republishes. thin_base is left out on
+# purpose: its 1,500-worker bar is calibrated for NAICS 23 construction, and
+# no electrical-contractor threshold has been chosen.
+_ELEC_FIELDS = ("as_of", "base_date", "available", "yoy_basis", "wage",
+                "wage_yoy_pct", "wage_spread_pp", "emp", "emp_yoy_pct",
+                "emp_spread_pp", "wage_cur", "emp_cur_total",
+                "counties_total", "counties_used", "counties_suppressed",
+                "counties")
+
+
+def _elec_block(row: dict) -> dict:
+    out = {f: row[f] for f in _ELEC_FIELDS}
+    # partial: at least one of the market's counties is outside the basis
+    # (disclosure-suppressed, missing a quarter, or unregistered).
+    out["partial"] = bool(row["counties_suppressed"])
+    return out
+
+
+def build(conn, markets, cap_cfg: dict, meta: dict) -> dict:
+    payload = _labor(conn, markets, "23")
+    elec = _labor(conn, markets, "238212")
+    elec_by_key = {r["key"]: r for r in elec["markets"]}
+    for row in payload["markets"]:
+        row["elec"] = _elec_block(elec_by_key[row["key"]])
+    payload["elec_national"] = elec["national"]
 
     # capacity join by hand-assigned tag
     tagged: dict[str, list[dict]] = {}

@@ -477,7 +477,8 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         except Exception:
             dc_result = None  # price legs go null; vendor rows still publish
         ll_path = longlead_json.write(
-            longlead_json.build(cfg, build_components, dc_result, today=today),
+            longlead_json.build(cfg, build_components, dc_result, today=today,
+                                backlog=longlead_json.backlog_months(conn)),
             args.out, published_at=published_at)
         validate.validate_file(ll_path, SCHEMAS / "longlead.schema.json")
         print(f"published: {ll_path}")

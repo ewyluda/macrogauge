@@ -109,6 +109,7 @@ a { transition: color 140ms ease, background 140ms ease; }
 .source-errors { margin: 10px 0 0; padding: 10px 14px; list-style: none; font-size: 13px; line-height: 1.5;
   border: 1px solid color-mix(in srgb, var(--accent-amber) 35%, var(--border)); border-radius: 8px;
   background: color-mix(in srgb, var(--accent-amber) 6%, transparent); }
+.source-errors li, .wrap-anywhere, .method code { overflow-wrap: anywhere; } /* error strings carry long, unbreakable request URLs */
 .source-errors li + li { margin-top: 4px; }
 .source-errors code { font-size: 12px; overflow-wrap: anywhere; }
 
@@ -238,7 +239,10 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
   .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 }
 .chart-loading { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; }
-.table-card, .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: auto; margin: 16px 0; }
+/* position: relative makes the scroller the containing block for absolutely
+   positioned descendants (.sr-only status words in table cells); without it
+   they escape the overflow clip and widen the page on phones (/status, +13px). */
+.table-card, .chart-card { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: auto; margin: 16px 0; }
 .strip-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; padding: 12px 16px; font-size: 13px; }
 .chart-card { padding: 12px 8px 4px; }
 .data-table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }

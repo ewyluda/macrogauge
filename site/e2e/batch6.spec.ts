@@ -66,6 +66,59 @@ test("/portfolio reports a bad month as an error instead of a number, and carrie
   await expect(first.getByText("Base estimate must be greater than $0.")).toBeVisible();
 });
 
+/** anchor = the delivery input's min − 1 month (min = last complete month + 1). */
+async function portfolioAnchor(page: import("@playwright/test").Page): Promise<(n: number) => string> {
+  await page.goto("/portfolio");
+  const min = await page.locator('[data-testid="portfolio-row"]').first().getByLabel("Delivery month").getAttribute("min");
+  const [y, m] = min!.split("-").map(Number);
+  return (n: number) => {
+    const d = new Date(Date.UTC(y, m - 2 + n, 1));
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
+  };
+}
+const dollars = (s: string | null) => Number((s ?? "").match(/-?\$[\d,]+/)![0].replace(/[$,]/g, ""));
+
+test("/portfolio shows the S-curve figure beside the full carry, smaller at a positive basis", async ({ page }) => {
+  const at = await portfolioAnchor(page);
+  // a build half done at the anchor: start = anchor − 12, delivery = anchor + 12
+  const p = [{ id: "sc1", name: "Half built", market: "nova", mw: 100, baseCost: 1_000_000_000, baseMonth: "2024-06",
+    deliveryMonth: at(12), basis: "trailing3y", startMonth: at(-12) }];
+  await page.goto(`/portfolio?p=${encodeURIComponent(JSON.stringify(p))}`);
+  const row = page.locator('[data-testid="portfolio-row"]');
+  await expect(row).toHaveCount(1);
+  await expect(row.getByLabel("Construction start")).toHaveValue(at(-12));
+  await expect(row.getByTestId("start-assumed")).toHaveCount(0);
+  await expect(page.locator(".data-table th", { hasText: "At delivery (full carry)" })).toBeVisible();
+  await expect(page.locator(".data-table th", { hasText: "S-curve (to spend midpoint)" })).toBeVisible();
+  await expect(page.locator(".kpi-label", { hasText: "S-curve (to spend midpoint)" })).toBeVisible();
+  const full = row.getByTestId("full-carry-cell");
+  const sc = row.getByTestId("s-curve-cell");
+  await expect(full).toContainText("12mo carried");
+  // half spent; the rest's spend midpoint is month 16 of 24 = anchor + 4
+  await expect(sc).toContainText(`50% spent · rest to ${at(4)} (4mo)`);
+  const basis = await row.getByLabel("Carry basis").locator("option:checked").textContent();
+  expect(basis).toMatch(/\+\d/); // positive basis
+  const fullUsd = dollars(await full.textContent());
+  const scUsd = dollars(await sc.textContent());
+  expect(scUsd).toBeGreaterThan(0);
+  expect(scUsd).toBeLessThan(fullUsd);
+  await expect(page.getByTestId("s-curve-method")).toContainText("sin²(πu/2)");
+});
+
+test("/portfolio loads an old-format link without startMonth and labels the start assumed", async ({ page }) => {
+  const at = await portfolioAnchor(page);
+  const old = [{ id: "o1", name: "Old link", market: "nova", mw: 50, baseCost: 500_000_000, baseMonth: "2024-01", deliveryMonth: at(24), basis: "trailing3y" }];
+  await page.goto(`/portfolio?p=${encodeURIComponent(JSON.stringify(old))}`);
+  const row = page.locator('[data-testid="portfolio-row"]');
+  await expect(row).toHaveCount(1);
+  await expect(row.getByLabel("Project name")).toHaveValue("Old link");
+  await expect(row.getByLabel("Construction start")).toHaveValue("");
+  await expect(row.getByTestId("start-assumed")).toContainText(`assumed ${at(0)}`);
+  // 24-month build starting at the anchor: nothing spent, midpoint = anchor + 12
+  await expect(row.getByTestId("s-curve-cell")).toContainText(`0% spent · rest to ${at(12)} (12mo)`);
+  await expect(row.getByTestId("full-carry-cell")).toContainText("24mo carried");
+});
+
 test("escalation calculator: whole-dollar formatting, month validation, extracted carry table", async ({ page }) => {
   await page.goto("/escalation?base=2022-01&cost=1000000");
   // #19: no "$1.29M" beside "$72,800" — every dollar figure is whole dollars

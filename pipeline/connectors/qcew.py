@@ -18,6 +18,21 @@ as the expected CSV (the newest quarters 404 until published; a 200 HTML
 maintenance page must not discard the other quarters) — but zero loaded
 quarters raises, and collect's isolation surfaces it. The store's
 value-dedupe makes refetching unchanged quarters free.
+
+The NAICS code is a parameter (default "23", the construction sector every
+pre-existing QCEW series rides). NAICS 238212 -- NONRESIDENTIAL electrical
+contractors; NAICS 2022 split the old 238210 into 238211 residential and
+238212 nonresidential -- is collected under its own source key
+(QCEW_238212) for failure isolation and its own status row, from the SAME
+industry-slice endpoint: verified live 2026-10-01, /industry/238212.csv
+serves every county at agglvl 78 (county x 6-digit), every state at 58 and
+the US at 18, one file per quarter, so no per-county area-file fan-out is
+needed. A 6-digit pull also carries drift guards the NAICS 23 path predates
+(and stays byte-identical without): industry_code must be the one
+requested, agglvl must match the area's level, and wage/headcount must sit
+inside a plausible range -- a violation raises "structure drift?" for that
+quarter, which the per-quarter tolerance turns into a partial warning
+instead of garbage in the store.
 """
 import csv
 import io
@@ -31,6 +46,18 @@ from pipeline.models import Observation
 
 QCEW_URL = "https://data.bls.gov/cew/data/api/{year}/{qtr}/industry/{naics}.csv"
 NAICS = "23"
+NAICS_ELEC = "238212"  # nonresidential electrical contractors (NAICS 2022)
+
+# Drift guards for 6-digit pulls, keyed by NAICS. NAICS 23 is deliberately
+# absent: its path predates the guards and must stay byte-identical.
+# Ranges are generous on purpose -- they catch a mis-parsed column (a wage
+# landing in the headcount field, cents for dollars), not a hot market: the
+# live 2024Q1-2026Q1 DC-county 238212 wages ran $1,091-$6,492/wk (Santa
+# Clara 2024Q3 the outlier) and the US private headcount ~0.8M.
+_GUARDS = {NAICS_ELEC: {"wage": (200.0, 15000.0), "emp": (1.0, 3_000_000.0)}}
+# agglvl_code by area level in a 6-digit industry slice (QCEW agglvl titles:
+# 18 = national x 6-digit, 58 = state x 6-digit, 78 = county x 6-digit).
+_AGGLVL_6 = {"us": "18", "state": "58", "county": "78"}
 EMP_SUFFIX = "~emp"  # employment rides as its own series code rather than a
                      # new Observation field: store rows are append-only and
                      # schema-versionless, and collect.py's id_map is a plain
@@ -95,10 +122,39 @@ def _recent_quarters(today: str, n: int = N_QUARTERS) -> list[tuple[int, int]]:
     return list(reversed(out))  # oldest first
 
 
-def _parse_quarter(text: str, wanted: set[str], vintage: str) -> list[Observation]:
+def _area_level(fips: str) -> str:
+    if fips == "US000":
+        return "us"
+    return "state" if fips.endswith("000") else "county"
+
+
+def _check_row(row: dict, naics: str, guard: dict) -> None:
+    """6-digit drift guards (see _GUARDS). Raises ValueError, so the quarter
+    is tolerated-and-reported, never ingested."""
+    where = f"{row['area_fips']} {row['year']}q{row['qtr']}"
+    if row["industry_code"] != naics:
+        raise ValueError(f"industry_code {row['industry_code']!r} != {naics} "
+                         f"at {where} (structure drift?)")
+    want_lvl = _AGGLVL_6[_area_level(row["area_fips"])]
+    if row["agglvl_code"] != want_lvl:
+        raise ValueError(f"agglvl_code {row['agglvl_code']!r} != {want_lvl} "
+                         f"at {where} (structure drift?)")
+    for field, (lo, hi) in (("avg_wkly_wage", guard["wage"]),
+                            ("month1_emplvl", guard["emp"]),
+                            ("month2_emplvl", guard["emp"]),
+                            ("month3_emplvl", guard["emp"])):
+        v = float(row[field])
+        if not lo <= v <= hi:
+            raise ValueError(f"implausible {field} {v:g} at {where} "
+                             f"(outside {lo:g}-{hi:g}; structure drift?)")
+
+
+def _parse_quarter(text: str, wanted: set[str], vintage: str,
+                   naics: str = NAICS, source: str = "QCEW") -> list[Observation]:
     reader = csv.DictReader(io.StringIO(text))
     if not reader.fieldnames or "own_code" not in reader.fieldnames:
         raise ValueError("unexpected CSV structure (drift?)")
+    guard = _GUARDS.get(naics)
     out: list[Observation] = []
     for row in reader:
         fips = row["area_fips"]
@@ -117,7 +173,9 @@ def _parse_quarter(text: str, wanted: set[str], vintage: str) -> list[Observatio
         # all three metrics.
         if row["disclosure_code"]:
             continue
-        month = (int(row["qtr"]) - 1) * 3 + 1
+        if guard is not None:
+            _check_row(row, naics, guard)
+        month =(int(row["qtr"]) - 1) * 3 + 1
         obs_date = f"{row['year']}-{month:02d}-01"
 
         def _emit(code: str, value: float) -> None:
@@ -125,7 +183,7 @@ def _parse_quarter(text: str, wanted: set[str], vintage: str) -> list[Observatio
                 return
             out.append(Observation(
                 series_code=code, obs_date=obs_date, value=value,
-                vintage_date=vintage, source="QCEW", route="CSV"))
+                vintage_date=vintage, source=source, route="CSV"))
 
         if wage_code in wanted:
             _emit(wage_code, float(row["avg_wkly_wage"]))
@@ -139,7 +197,10 @@ def _parse_quarter(text: str, wanted: set[str], vintage: str) -> list[Observatio
 
 
 def fetch(area_fips: list[str], vintage_date: str | None = None,
-          http_get=None) -> list[Observation]:
+          http_get=None, naics: str = NAICS,
+          source: str = "QCEW") -> list[Observation]:
+    """`naics` picks the industry slice; `source` tags the observations and
+    names the source in error/partial messages (the collect.py source key)."""
     http_get = http_get or requests.get
     vintage = vintage_date or today_et()
     wanted = set(area_fips)
@@ -147,17 +208,17 @@ def fetch(area_fips: list[str], vintage_date: str | None = None,
     loaded, errors = 0, []
     for year, q in _recent_quarters(vintage):
         try:
-            resp = http_get(QCEW_URL.format(year=year, qtr=q, naics=NAICS),
+            resp = http_get(QCEW_URL.format(year=year, qtr=q, naics=naics),
                             timeout=120)  # industry files are large (all counties)
             resp.raise_for_status()
-            rows = _parse_quarter(resp.text, wanted, vintage)
+            rows = _parse_quarter(resp.text, wanted, vintage, naics, source)
         except Exception as e:  # per-quarter: never discard the other quarters
             errors.append((f"{year}q{q}", e))
             continue
         loaded += 1
         out.extend(rows)
     if not loaded:
-        raise RuntimeError("QCEW: no quarter loaded — " + "; ".join(
+        raise RuntimeError(f"{source}: no quarter loaded — " + "; ".join(
             f"{q}: {type(e).__name__}" for q, e in errors))
-    warn_partial("QCEW", errors)
+    warn_partial(source, errors)
     return out

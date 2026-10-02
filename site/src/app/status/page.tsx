@@ -111,6 +111,7 @@ export default function Status() {
                       color: "var(--muted)",
                       maxWidth: 520,
                       whiteSpace: "normal",
+                      overflowWrap: "anywhere",
                     }}
                   >
                     {c.detail}
@@ -171,7 +172,7 @@ export default function Status() {
               .map((s) => (
                 <p
                   key={s.name}
-                  className="method"
+                  className="method wrap-anywhere"
                   style={{ margin: "4px 0", color: "var(--accent-red)" }}
                 >
                   <strong>{s.name}:</strong> {s.error}

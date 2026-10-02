@@ -99,3 +99,49 @@ def test_one_series_failing_is_partial_not_fatal():
                           http_get=_route(mct="<html>moved</html>"))
     assert obs and {o.series_code for o in obs} == {"GSCPI"}
     assert any(issubclass(w.category, PartialFetchWarning) for w in caught)
+
+
+SCE_XLSX = (Path(__file__).parent / "fixtures" / "nyfed_sce.xlsx").read_bytes()
+
+
+class _B:
+    def __init__(self, content):
+        self.content = content
+
+    def raise_for_status(self):
+        pass
+
+
+def test_sce_medians_stored_by_survey_month():
+    # fixture: the live 2026-10-01 workbook trimmed to the title block, the
+    # header row and the last 30 months of the two sheets read (values untouched)
+    obs = nyfed.fetch(["SCE_1Y", "SCE_3Y", "SCE_5Y"], vintage_date="2026-10-01",
+                      http_get=lambda url, timeout=None: _B(SCE_XLSX))
+    last = {o.series_code: (o.obs_date, o.value) for o in obs}
+    assert last["nyfed_sce_1y"] == ("2026-08-01", 3.5794)
+    assert last["nyfed_sce_3y"] == ("2026-08-01", 3.1878)
+    assert last["nyfed_sce_5y"] == ("2026-08-01", 3.0081)
+    assert {(o.source, o.route, o.vintage_date) for o in obs} == {("NYFED", "XLSX", "2026-10-01")}
+
+
+def test_sce_renamed_header_is_drift_and_does_not_take_gscpi_down():
+    import io
+    import warnings
+    import openpyxl
+    from pipeline.connectors.util import PartialFetchWarning
+    wb = openpyxl.load_workbook(io.BytesIO(SCE_XLSX))
+    ws = wb["Inflation expectations"]
+    for row in ws.iter_rows():
+        for c in row:
+            if c.value == "Median one-year ahead expected inflation rate":
+                c.value = "Median 1y expectation"
+    buf = io.BytesIO(); wb.save(buf)
+
+    def get(url, timeout=None):
+        return _B(buf.getvalue()) if url.endswith(".xlsx") else _R(FIXTURE)
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        obs = nyfed.fetch(["GSCPI", "SCE_1Y"], vintage_date="2026-10-01", http_get=get)
+    assert {o.series_code for o in obs} == {"GSCPI"}
+    assert any(issubclass(w.category, PartialFetchWarning) and "structure drift" in str(w.message)
+               for w in caught)

@@ -10,7 +10,7 @@ from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
 
-from pipeline.connectors import (aaa, aptlist, bls, caiso, census, cleveland, dramex, eia, fmp,
+from pipeline.connectors import (aaa, atlfed, aptlist, bls, caiso, census, cleveland, dramex, eia, fmp,
                                  fred, ice, kalshi, manheim, miso, mnd, nyfed, openrouter, pmms, qcew,
                                  sfcompute, treasury, usda, vastai, zillow)
 from pipeline.connectors.util import PartialFetchWarning
@@ -126,6 +126,11 @@ def _qcew(subset, key, http):
     return qcew.fetch([s.source_id for s in subset], http_get=http)
 
 
+def _qcew_238212(subset, key, http):
+    return qcew.fetch([s.source_id for s in subset], http_get=http,
+                      naics=qcew.NAICS_ELEC, source="QCEW_238212")
+
+
 def _dramex(subset, key, http):
     return dramex.fetch([s.source_id for s in subset], http_get=http)
 
@@ -154,6 +159,10 @@ def _nyfed(subset, key, http):
     return nyfed.fetch([s.source_id for s in subset], http_get=http)
 
 
+def _atlfed(subset, key, http):
+    return atlfed.fetch([s.source_id for s in subset], http_get=http)
+
+
 def _ice(subset, key, http):
     return ice.fetch([s.source_id for s in subset], http_get=http)
 
@@ -177,6 +186,11 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             # EIA_STATE is a separate source key only for failure isolation
             # and its own status row — the fetch mechanics are plain EIA.
             "EIA_STATE": _eia, "QCEW": _qcew, "CENSUS": _census,
+            # QCEW_238212: separate isolation key -- the 6-digit electrical-
+            # contractor slice (its own file per quarter, its own drift
+            # guards) must never fail the NAICS 23 rows /states, /markets
+            # and the DC index read (or vice versa).
+            "QCEW_238212": _qcew_238212,
             "DRAMEX": _dramex, "VASTAI": _vastai, "SFCOMPUTE": _sfcompute,
             "OPENROUTER": _openrouter,
             # STEO is a separate source key only for failure isolation — the
@@ -198,7 +212,7 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             # KALSHI_FED: separate isolation key — the FOMC ladders (market-
             # implied Fed path on /rates) must never fail the CPI rows.
             "KALSHI_FED": _kalshi_fed,
-            "NYFED": _nyfed}
+            "NYFED": _nyfed, "ATLFED": _atlfed}
 
 # BLS posts; everything else gets. collect_all passes the right client through.
 POST_SOURCES = {"BLS"}

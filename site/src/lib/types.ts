@@ -341,6 +341,35 @@ export type MarketRow = {
   mw_planned: number;
   mw_secured: number;
   mw_operating: number;
+  // Private NAICS 238212 (nonresidential electrical contractors), same
+  // aggregation as the NAICS 23 fields above. Optional only because
+  // artifacts published before it landed lack it; the writer always emits.
+  elec?: MarketElec;
+};
+
+// One market's NAICS 238212 block (pipeline/publish/dc_markets.py
+// _elec_block). Same two-basis design as MarketRow: wage/emp/YoY on the
+// like-for-like county set, emp_cur_total/wage_cur on every county with
+// current-quarter data. `partial` = at least one of the market's counties is
+// outside the basis (disclosure-suppressed, or -- Storey NV -- unregistered).
+export type MarketElec = {
+  as_of: string | null;
+  base_date: string | null;
+  available: boolean;
+  partial: boolean;
+  yoy_basis: "like_for_like" | null;
+  wage: number | null;
+  wage_yoy_pct: number | null;
+  wage_spread_pp: number | null;
+  emp: number | null;
+  emp_yoy_pct: number | null;
+  emp_spread_pp: number | null;
+  wage_cur: number | null;
+  emp_cur_total: number | null;
+  counties_total: number;
+  counties_used: number;
+  counties_suppressed: string[];
+  counties: MarketCounty[];
 };
 
 export type DcMarkets = {
@@ -357,6 +386,9 @@ export type DcMarkets = {
     emp_yoy_pct: number | null;
     as_of: string | null;
   };
+  // NAICS 238212 national baseline -- same shape as `national`; optional
+  // for the same pre-landing reason as MarketRow.elec.
+  elec_national?: DcMarkets["national"];
   markets: MarketRow[];
 };
 
@@ -530,8 +562,13 @@ export type LongLeadPackage = {
   price_last_obs: string | null;
   contribution_pp: number | null;
   null_note: string | null;
+  /** Census M3 group this package maps to (added 2026-10-01). */
+  backlog_group?: string | null;
   vendors: LongLeadVendor[];
 };
+
+export type BacklogMonths = { label: string; months: string[]; ratio: number[]; latest: number;
+  latest_month: string; change_1y: number | null };
 
 export type LongLead = {
   published_at: string;
@@ -539,6 +576,8 @@ export type LongLead = {
   build_weight_covered: number;
   teaser: { vendor: string; name: string; stale: boolean; figure: LongLeadFigure }[];
   packages: LongLeadPackage[];
+  /** Census M3 months of backlog by group (added 2026-10-01). */
+  backlog_months?: Record<string, BacklogMonths>;
 };
 
 // --- batch 4 (2026-09-03) ---------------------------------------------------

@@ -7,10 +7,18 @@
  *  exactly: the grid's trailing stub month (where the PPIs still hold the
  *  prior print) is neither measured nor skipped. Aggregates are sums of
  *  dollars and dollar-weighted rates. No forecast: the carry is a historical
- *  regime the reader chose. */
+ *  regime the reader chose.
+ *
+ *  Two carried figures sit side by side. "At delivery (full carry)" carries
+ *  the whole to-date cost from the anchor to delivery. "S-curve (to spend
+ *  midpoint)" (sCurve.ts) carries only the share of spend NOT yet incurred
+ *  by the anchor, and only to that remaining spend's midpoint, at the same
+ *  basis; its band is horizon-matched to anchor → midpoint. A project with
+ *  no construction start month assumes delivery − 24 months. */
 import { bridgeWindow, escalate, monthDiff, type BridgeComponent, type EscalationResult } from "./dcEscalation";
 import { band, bases, MAX_HORIZON_MONTHS, MIN_HORIZON_MONTHS, type Band, type Basis } from "./dcContingency";
 import { checkMonth } from "./monthInput";
+import { sCurveCost, spendSchedule, type SpendSchedule } from "./sCurve";
 
 export type Project = {
   id: string;
@@ -21,6 +29,9 @@ export type Project = {
   baseMonth: string;
   deliveryMonth: string;
   basis: string;
+  /** construction start; optional — saved lists from before it existed omit
+   *  it, and an absent start means delivery − 24 months ("assumed"). */
+  startMonth?: string;
 };
 
 export const DEFAULT_BASIS = "trailing3y";
@@ -48,13 +59,18 @@ export function coerceProject(raw: unknown): Project | null {
   if (!Number.isFinite(p.baseCost) || p.baseCost < 0) p.baseCost = 0;
   if (p.baseMonth && !MONTH.test(p.baseMonth)) return null;
   if (p.deliveryMonth && !MONTH.test(p.deliveryMonth)) return null;
+  if (typeof o.startMonth === "string" && o.startMonth) {
+    if (!MONTH.test(o.startMonth)) return null;
+    p.startMonth = o.startMonth;
+  }
   return p;
 }
 
 /** URL / clipboard form: compact JSON array. */
 export function encodeProjects(ps: Project[]): string {
-  return JSON.stringify(ps.map(({ id, name, market, mw, baseCost, baseMonth, deliveryMonth, basis }) =>
-    ({ id, name, market, mw, baseCost, baseMonth, deliveryMonth, basis })));
+  return JSON.stringify(ps.map(({ id, name, market, mw, baseCost, baseMonth, deliveryMonth, basis, startMonth }) =>
+    (startMonth ? { id, name, market, mw, baseCost, baseMonth, deliveryMonth, basis, startMonth }
+      : { id, name, market, mw, baseCost, baseMonth, deliveryMonth, basis })));
 }
 export function decodeProjects(s: string): Project[] | null {
   try {
@@ -82,6 +98,14 @@ export type ProjectEval = {
   atDeliveryP10: number | null;
   atDeliveryP90: number | null;
   perMwAtDelivery: number | null;
+  /** spend schedule seen from the anchor (null without a delivery month) */
+  schedule: SpendSchedule | null;
+  /** S-curve figure: incurred share at toDate, remaining share carried to its spend midpoint */
+  sCurve: number | null;
+  /** band horizon-matched to anchor → spend midpoint (null under MIN_HORIZON_MONTHS) */
+  sCurveBand: Band | null;
+  sCurveP10: number | null;
+  sCurveP90: number | null;
 };
 
 export function evaluateProject(
@@ -102,15 +126,22 @@ export function evaluateProject(
       else deliveryValid = horizon > 0;
     }
   }
+  let schedule: SpendSchedule | null = null;
+  if (p.startMonth && !MONTH.test(p.startMonth)) errors.push(`"${p.startMonth}" is not a month — use YYYY-MM.`);
+  else if (p.deliveryMonth && MONTH.test(p.deliveryMonth)) {
+    schedule = spendSchedule(p.startMonth, p.deliveryMonth, anchor);
+    if (!schedule) errors.push(`Construction start ${p.startMonth} must be before delivery ${p.deliveryMonth}.`);
+  }
   const chosen = basisRows.find((b) => b.key === p.basis) ?? basisRows[0] ?? null;
+  const empty = { band: null, toDate: null, atDelivery: null, atDeliveryP10: null, atDeliveryP90: null, perMwAtDelivery: null, sCurve: null, sCurveBand: null, sCurveP10: null, sCurveP90: null };
   if (errors.length || !bm.ok) {
-    return { project: p, errors, result: null, chosen, horizon, band: null, toDate: null, atDelivery: null, atDeliveryP10: null, atDeliveryP90: null, perMwAtDelivery: null };
+    return { project: p, errors, result: null, chosen, horizon, schedule, ...empty };
   }
   const result = escalate(months, index, bm.month, p.baseCost,
     deliveryValid && chosen ? { deliveryMonth: p.deliveryMonth, annualizedPct: chosen.annualizedPct } : null,
     anchor);
   if (!result) {
-    return { project: p, errors: ["Base month precedes the index."], result: null, chosen, horizon, band: null, toDate: null, atDelivery: null, atDeliveryP10: null, atDeliveryP90: null, perMwAtDelivery: null };
+    return { project: p, errors: ["Base month precedes the index."], result: null, chosen, horizon, schedule, ...empty };
   }
   const bandRow = deliveryValid && horizon >= MIN_HORIZON_MONTHS ? band(months, index, Math.min(horizon, MAX_HORIZON_MONTHS), anchor) : null;
   const toDate = result.escalatedCost;
@@ -118,10 +149,19 @@ export function evaluateProject(
   const yrs = horizon / 12;
   const atP10 = bandRow ? toDate * Math.pow(1 + bandRow.p10 / 100, yrs) : null;
   const atP90 = bandRow ? toDate * Math.pow(1 + bandRow.p90 / 100, yrs) : null;
+  // S-curve leg: same basis, same anchor; only the unspent share, only to its
+  // spend midpoint. With no forward carry (no/past delivery) it equals toDate.
+  const carrySchedule = deliveryValid && chosen && schedule ? schedule : null;
+  const sCurve = carrySchedule ? sCurveCost(toDate, carrySchedule, chosen!.annualizedPct) : toDate;
+  const hMid = carrySchedule?.midpointHorizon ?? 0;
+  const sBand = carrySchedule && hMid >= MIN_HORIZON_MONTHS ? band(months, index, Math.min(hMid, MAX_HORIZON_MONTHS), anchor) : null;
   return {
     project: p, errors, result, chosen, horizon, band: bandRow, toDate, atDelivery,
     atDeliveryP10: atP10, atDeliveryP90: atP90,
     perMwAtDelivery: p.mw > 0 ? atDelivery / p.mw : null,
+    schedule, sCurve, sCurveBand: sBand,
+    sCurveP10: sBand && carrySchedule ? sCurveCost(toDate, carrySchedule, sBand.p10) : null,
+    sCurveP90: sBand && carrySchedule ? sCurveCost(toDate, carrySchedule, sBand.p90) : null,
   };
 }
 
@@ -147,6 +187,13 @@ export type PortfolioTotals = {
   atDeliveryP90: number | null;
   /** how many valid projects contributed a band */
   banded: number;
+  /** S-curve (to spend midpoint) portfolio total and its carry over toDate */
+  sCurve: number;
+  exposureCarrySCurve: number;
+  weightedSCurvePct: number | null;
+  sCurveP10: number | null;
+  sCurveP90: number | null;
+  sCurveBanded: number;
 };
 
 export function totals(evals: ProjectEval[]): PortfolioTotals {
@@ -157,6 +204,10 @@ export function totals(evals: ProjectEval[]): PortfolioTotals {
   const banded = ok.filter((e) => e.atDeliveryP10 != null);
   const p10 = banded.length ? ok.reduce((s, e) => s + (e.atDeliveryP10 ?? e.atDelivery ?? 0), 0) : null;
   const p90 = banded.length ? ok.reduce((s, e) => s + (e.atDeliveryP90 ?? e.atDelivery ?? 0), 0) : null;
+  const sCurve = ok.reduce((s, e) => s + (e.sCurve ?? e.toDate ?? 0), 0);
+  const sBanded = ok.filter((e) => e.sCurveP10 != null);
+  const sP10 = sBanded.length ? ok.reduce((s, e) => s + (e.sCurveP10 ?? e.sCurve ?? 0), 0) : null;
+  const sP90 = sBanded.length ? ok.reduce((s, e) => s + (e.sCurveP90 ?? e.sCurve ?? 0), 0) : null;
   return {
     projects: evals.length, valid: ok.length,
     mw: ok.reduce((s, e) => s + e.project.mw, 0),
@@ -165,6 +216,9 @@ export function totals(evals: ProjectEval[]): PortfolioTotals {
     weightedToDatePct: capital > 0 ? (toDate / capital - 1) * 100 : null,
     weightedAtDeliveryPct: capital > 0 ? (atDelivery / capital - 1) * 100 : null,
     atDeliveryP10: p10, atDeliveryP90: p90, banded: banded.length,
+    sCurve, exposureCarrySCurve: sCurve - toDate,
+    weightedSCurvePct: capital > 0 ? (sCurve / capital - 1) * 100 : null,
+    sCurveP10: sP10, sCurveP90: sP90, sCurveBanded: sBanded.length,
   };
 }
 

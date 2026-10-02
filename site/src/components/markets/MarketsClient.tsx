@@ -1,16 +1,17 @@
 "use client";
 import { useMemo, useState } from "react";
-import { fmtSpread, sortMarkets, tightness, type SortKey } from "@/lib/dcMarkets";
+import { elecCell, fmtSpread, sortMarkets, tightness, type SortKey } from "@/lib/dcMarkets";
 import type { DcMarkets, MarketCounty, MarketRow } from "@/lib/types";
 import { ToneBadge, type Tone } from "@/components/ToneBadge";
 
-// The six sortable columns (bound to dcMarkets.ts's SortKey union). Tightness
+// The seven sortable columns (bound to dcMarkets.ts's SortKey union). Tightness
 // is rendered as an extra, non-sortable column — tightness() buckets two
 // spreads into one call and sortMarkets() has no key for that composite, so
 // it isn't offered as a sort.
 const SORT_COLS: [SortKey, string][] = [
   ["name", "Market"], ["wage", "Wage $/wk"], ["wageYoy", "Wage YoY"],
   ["emp", "Constr. workers"], ["empYoy", "Headcount YoY"], ["mw", "MW under constr."],
+  ["elecYoy", "Electrical contractors (nonres., NAICS 238212)"],
 ];
 
 // Which basis each level column uses (dcmarkets.py's two-basis design):
@@ -25,6 +26,7 @@ const COL_BASIS: Partial<Record<SortKey, string>> = {
   wageYoy: "Like-for-like basis: counties present in both quarters.",
   emp: "Current-quarter basis: every county with current data, independent of last year's disclosure. Third-month (point-in-time) level — the wage above is weighted by each county's quarterly-average level instead, so the two don't share a denominator.",
   empYoy: "Like-for-like basis: counties present in both quarters.",
+  elecYoy: "Private NAICS 238212, nonresidential electrical contractors. Wage YoY (and its spread vs the national 238212 rate) on the like-for-like basis; workers is the current-quarter third-month level. † = at least one county is disclosure-suppressed.",
 };
 
 // One row per tightness() outcome, mapped to a ToneBadge tone + label. All
@@ -96,9 +98,43 @@ export function MarketsClient({ data }: { data: DcMarkets }) {
   );
 }
 
-// 7 columns on screen: Market, Tightness, Wage, Wage YoY, Workers, Headcount
-// YoY, MW. The unavailable branch's colSpan (6) and the expanded receipts
-// row's colSpan (7) must track that count.
+// The electrical-contractor (NAICS 238212) cell. It has its own disclosure
+// state, independent of the construction columns: Hillsboro is NAICS
+// 23-suppressed yet publishes 238212, so it renders on the unavailable
+// branch too. Never a zero -- pending / suppressed / live (dcMarkets.ts).
+function ElecTd({ m }: { m: MarketRow }) {
+  const c = elecCell(m);
+  if (c.state === "pending") {
+    return <td style={{ color: "var(--muted)" }}
+      title="This artifact predates the NAICS 238212 block; it fills on the next publish.">—</td>;
+  }
+  if (c.state === "suppressed") {
+    return (
+      <td style={{ color: "var(--muted)" }}>
+        —
+        <div style={{ fontSize: 11 }}>
+          BLS-suppressed{c.counties.length ? ` (${c.counties.join(", ")})` : ""}
+        </div>
+      </td>
+    );
+  }
+  return (
+    <td>
+      {c.yoy} <small>{c.spread}</small>
+      {c.partial && (
+        <span title="Partial county coverage for NAICS 238212 — expand for the basis"> †</span>
+      )}
+      <div style={{ fontSize: 11, color: "var(--muted)" }}>
+        {c.workers} workers · {c.wage}/wk
+      </div>
+    </td>
+  );
+}
+
+// 8 columns on screen: Market, Tightness, Wage, Wage YoY, Workers, Headcount
+// YoY, MW, Electrical contractors. The unavailable branch's colSpan (6, then
+// the electrical cell) and the expanded receipts row's colSpan (8) must track
+// that count.
 function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () => void }) {
   if (!m.available) {
     return (
@@ -110,6 +146,7 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
             ? ` (${m.counties_suppressed.join(", ")})` : ""}
           {m.note ? `: ${m.note}` : ""}
         </td>
+        <ElecTd m={m} />
       </tr>
     );
   }
@@ -164,10 +201,11 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
             {m.mw_secured ? ` · ${m.mw_secured.toLocaleString("en-US")} MW secured` : ""}
           </div>
         </td>
+        <ElecTd m={m} />
       </tr>
       {open && (
         <tr>
-          <td colSpan={7}>
+          <td colSpan={8}>
             <p style={{ fontSize: 12, color: "var(--muted)", margin: "0 0 4px" }}>
               {m.note}
             </p>
@@ -212,8 +250,47 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
                 real but noisy; a single large project moves it.
               </p>
             )}
+            <ElecReceipts m={m} />
           </td>
         </tr>
+      )}
+    </>
+  );
+}
+
+// Per-county receipts for the NAICS 238212 cell, same layout as the
+// construction receipts above so the aggregation is checkable.
+function ElecReceipts({ m }: { m: MarketRow }) {
+  const e = m.elec;
+  if (!e) return null;
+  return (
+    <>
+      <p style={{ fontSize: 12, color: "var(--muted)", margin: "8px 0 4px" }}>
+        <b>Electrical contractors (nonres., NAICS 238212)</b>
+        {e.as_of ? `, quarter ${e.as_of} vs ${e.base_date ?? "—"}` : ""}:{" "}
+        {e.yoy_basis === "like_for_like"
+          ? `${e.counties_used} of ${e.counties_total} counties counted in both quarters.`
+          : e.available
+            ? `${e.counties_used} of ${e.counties_total} counties counted in the current quarter only — no year-over-year basis available.`
+            : "no county resolves a level this quarter."}
+        {e.counties_suppressed.length
+          ? ` Suppressed or missing for 238212: ${e.counties_suppressed.join(", ")}.`
+          : ""}
+        {e.available
+          ? ` Current-quarter total ${e.wage_cur != null ? `$${e.wage_cur.toLocaleString("en-US")}` : "—"} wage · ${
+              e.emp_cur_total != null ? e.emp_cur_total.toLocaleString("en-US") : "—"} workers.`
+          : ""}
+      </p>
+      {e.counties.length > 0 && (
+        <table className="data-table">
+          <thead>
+            <tr><th>County FIPS</th><th>Wage</th><th>Wage YoY</th>
+              <th>Workers</th><th>Headcount YoY</th></tr>
+          </thead>
+          <tbody>
+            {e.counties.map((c) => <CountyRow key={c.fips} c={c} />)}
+          </tbody>
+        </table>
       )}
     </>
   );

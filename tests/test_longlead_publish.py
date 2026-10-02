@@ -186,3 +186,21 @@ def test_real_config_publishes_and_validates(tmp_path):
     assert payload["build_weight_covered"] == pytest.approx(0.50)
     assert [p["code"] for p in payload["packages"]] == [
         "switchgear", "transformers", "hvac_equip", "generators", "pumps"]
+
+
+def test_backlog_months_is_sa_unfilled_over_sa_shipments_with_1y_change():
+    import sqlite3
+    from pipeline.publish import longlead
+    conn = sqlite3.connect(":memory:")
+    conn.execute("CREATE TABLE observations (series_code TEXT, obs_date TEXT, value REAL, "
+                 "vintage_date TEXT, source TEXT, route TEXT)")
+    rows = [("fred_uo_electrical_sa", "2025-07-01", 60000.0), ("fred_ship_electrical_sa", "2025-07-01", 10000.0),
+            ("fred_uo_electrical_sa", "2026-07-01", 66000.0), ("fred_ship_electrical_sa", "2026-07-01", 12000.0),
+            ("fred_uo_turbines_sa", "2026-07-01", 7000.0)]  # no turbine shipments -> group omitted
+    conn.executemany("INSERT INTO observations VALUES (?, ?, ?, '2026-09-01', 'FRED', 'API')", rows)
+    b = longlead.backlog_months(conn)
+    assert set(b) == {"electrical"}
+    assert b["electrical"]["ratio"] == [6.0, 5.5]
+    assert (b["electrical"]["latest"], b["electrical"]["latest_month"], b["electrical"]["change_1y"]) == (5.5, "2026-07", -0.5)
+    assert longlead.PACKAGE_BACKLOG == {"switchgear": "electrical", "transformers": "electrical",
+                                        "generators": "turbines"}

@@ -12,6 +12,7 @@ import { fmtPp, fmtSigned, fmtUsd } from "@/lib/format";
 import {
   DEFAULT_BASIS, decodeProjects, driversAcross, encodeProjects, evaluateAll, newId, totals, type Project,
 } from "@/lib/portfolio";
+import { DEFAULT_DURATION_MONTHS } from "@/lib/sCurve";
 import { codecs } from "@/lib/urlState";
 import { getUrlParam, useUrlState } from "@/lib/useUrlState";
 
@@ -28,7 +29,9 @@ const input: React.CSSProperties = {
 };
 
 /** The program view (register P6): a reader's projects, escalated to date
- *  and carried to delivery by a basis THEY chose, aggregated in dollars.
+ *  and carried to delivery by a basis THEY chose, aggregated in dollars —
+ *  both as a full carry to delivery and, beside it, as an S-curve carry of
+ *  the unspent share to its spend midpoint.
  *  State lives in the URL (?p=) and localStorage — no login, nothing
  *  leaves the browser. */
 export function PortfolioClient({ data, markets }: { data: EscalationData; markets: { key: string; name: string }[] }) {
@@ -90,6 +93,11 @@ export function PortfolioClient({ data, markets }: { data: EscalationData; marke
     escalated_to_date: e.toDate == null ? null : Math.round(e.toDate), escalation_to_date_pct: e.result?.pct ?? null,
     at_delivery: e.atDelivery == null ? null : Math.round(e.atDelivery), at_delivery_p10: e.atDeliveryP10 == null ? null : Math.round(e.atDeliveryP10),
     at_delivery_p90: e.atDeliveryP90 == null ? null : Math.round(e.atDeliveryP90), per_mw_at_delivery: e.perMwAtDelivery == null ? null : Math.round(e.perMwAtDelivery),
+    start_month: e.schedule?.startMonth ?? e.project.startMonth ?? null, start_assumed: e.schedule ? e.schedule.startAssumed : !e.project.startMonth,
+    incurred_share_at_anchor: e.schedule ? Number(e.schedule.incurredFraction.toFixed(4)) : null,
+    spend_midpoint_month: e.schedule?.midpointMonth ?? null, months_to_spend_midpoint: e.schedule ? e.schedule.midpointHorizon : null,
+    s_curve_to_midpoint: e.sCurve == null ? null : Math.round(e.sCurve),
+    s_curve_p10: e.sCurveP10 == null ? null : Math.round(e.sCurveP10), s_curve_p90: e.sCurveP90 == null ? null : Math.round(e.sCurveP90),
     errors: e.errors.join("; ") || null,
   }));
 
@@ -100,7 +108,9 @@ export function PortfolioClient({ data, markets }: { data: EscalationData; marke
       <div className="kpi-row">
         <KpiCard label="Capital at base" value={fmtUsd(t.capital)} context={`${t.valid} of ${t.projects} projects priced · ${t.mw.toLocaleString("en-US")} MW`} accent="sky" />
         <KpiCard label={`Escalated to ${anchor}`} value={fmtUsd(t.toDate)} context={`${fmtSigned(t.weightedToDatePct)} dollar-weighted · ${fmtUsd(t.exposureToDate)} exposure to date`} accent={(t.exposureToDate ?? 0) >= 0 ? "red" : "emerald"} />
-        <KpiCard label="At delivery, carried" value={fmtUsd(t.atDelivery)} context={`${fmtSigned(t.weightedAtDeliveryPct)} vs base · carry ${fmtUsd(t.exposureCarry)} at each project's chosen basis`} accent="violet" />
+        <KpiCard label="At delivery (full carry)" value={fmtUsd(t.atDelivery)} context={`${fmtSigned(t.weightedAtDeliveryPct)} vs base · carry ${fmtUsd(t.exposureCarry)} at each project's chosen basis`} accent="violet" />
+        <KpiCard label="S-curve (to spend midpoint)" value={fmtUsd(t.sCurve)}
+          context={`${fmtSigned(t.weightedSCurvePct)} vs base · carry ${fmtUsd(t.exposureCarrySCurve)} on unspent dollars only${t.sCurveP10 != null ? ` · band ${fmtUsd(t.sCurveP10)}–${fmtUsd(t.sCurveP90)}` : ""}`} accent="sky" />
         <KpiCard label="Realized band at delivery" value={t.atDeliveryP10 == null ? "—" : `${fmtUsd(t.atDeliveryP10)} – ${fmtUsd(t.atDeliveryP90)}`}
           context={t.banded ? `p10–p90 of like-length history on ${t.banded} project${t.banded === 1 ? "" : "s"} · not a probability` : "set delivery months ≥12 months out for a band"} accent="amber" />
       </div>
@@ -128,8 +138,8 @@ export function PortfolioClient({ data, markets }: { data: EscalationData; marke
         <table className="data-table">
           <thead>
             <tr>
-              <th style={{ textAlign: "left" }}>Project</th><th>Market</th><th>MW</th><th>Base estimate</th><th>Base month</th><th>Deliver by</th><th>Carry basis</th>
-              <th>To {anchor}</th><th>At delivery</th><th>$/MW at delivery</th><th></th>
+              <th style={{ textAlign: "left" }}>Project</th><th>Market</th><th>MW</th><th>Base estimate</th><th>Base month</th><th>Construction start</th><th>Deliver by</th><th>Carry basis</th>
+              <th>To {anchor}</th><th>At delivery (full carry)</th><th>S-curve (to spend midpoint)</th><th>$/MW at delivery</th><th></th>
             </tr>
           </thead>
           <tbody>
@@ -149,6 +159,15 @@ export function PortfolioClient({ data, markets }: { data: EscalationData; marke
                   <td><input type="number" min={0} step={10} value={p.mw} onChange={(ev) => update(p.id, { mw: Number(ev.target.value) || 0 })} style={{ ...input, width: 70 }} aria-label="MW" /></td>
                   <td><input type="number" min={0} step={1_000_000} value={p.baseCost} onChange={(ev) => update(p.id, { baseCost: Number(ev.target.value) || 0 })} style={{ ...input, width: 150 }} aria-label="Base estimate" /></td>
                   <td><input type="month" min={data.months[0]} max={anchor} value={p.baseMonth} onChange={(ev) => update(p.id, { baseMonth: ev.target.value })} style={{ ...input, width: 120 }} aria-label="Base month" /></td>
+                  <td>
+                    <input type="month" max={p.deliveryMonth ? addMonths(p.deliveryMonth, -1) : undefined} value={p.startMonth ?? ""}
+                      onChange={(ev) => update(p.id, { startMonth: ev.target.value || undefined })} style={{ ...input, width: 120 }} aria-label="Construction start" />
+                    {!p.startMonth && (
+                      <div data-testid="start-assumed" style={{ fontSize: 11, color: "var(--muted)", marginTop: 4 }}>
+                        {e.schedule ? `assumed ${e.schedule.startMonth}` : "assumed"} · delivery − {DEFAULT_DURATION_MONTHS} mo
+                      </div>
+                    )}
+                  </td>
                   <td><input type="month" min={addMonths(anchor, 1)} value={p.deliveryMonth} onChange={(ev) => update(p.id, { deliveryMonth: ev.target.value })} style={{ ...input, width: 120 }} aria-label="Delivery month" /></td>
                   <td>
                     <select value={e.chosen?.key ?? DEFAULT_BASIS} onChange={(ev) => update(p.id, { basis: ev.target.value })} style={input} aria-label="Carry basis" disabled={!p.deliveryMonth}>
@@ -156,13 +175,20 @@ export function PortfolioClient({ data, markets }: { data: EscalationData; marke
                     </select>
                   </td>
                   <td>{e.toDate == null ? "—" : <>{fmtUsd(e.toDate)}<div style={{ fontSize: 11, color: "var(--muted)" }}>{fmtSigned(e.result?.pct ?? null)}</div></>}</td>
-                  <td>{e.atDelivery == null ? "—" : <>{fmtUsd(e.atDelivery)}<div style={{ fontSize: 11, color: "var(--muted)" }}>{e.horizon > 0 ? `${e.horizon}mo carried` : "no carry"}{e.atDeliveryP10 != null ? ` · ${fmtUsd(e.atDeliveryP10)}–${fmtUsd(e.atDeliveryP90)}` : ""}</div></>}</td>
+                  <td data-testid="full-carry-cell">{e.atDelivery == null ? "—" : <>{fmtUsd(e.atDelivery)}<div style={{ fontSize: 11, color: "var(--muted)" }}>{e.horizon > 0 ? `${e.horizon}mo carried` : "no carry"}{e.atDeliveryP10 != null ? ` · ${fmtUsd(e.atDeliveryP10)}–${fmtUsd(e.atDeliveryP90)}` : ""}</div></>}</td>
+                  <td data-testid="s-curve-cell">{e.sCurve == null ? "—" : <>{fmtUsd(e.sCurve)}<div style={{ fontSize: 11, color: "var(--muted)" }}>{
+                    e.horizon > 0 && e.schedule
+                      ? (e.schedule.midpointMonth
+                        ? `${Math.round(e.schedule.incurredFraction * 100)}% spent · rest to ${e.schedule.midpointMonth} (${e.schedule.midpointHorizon}mo)`
+                        : "fully spent · no carry")
+                      : "no carry"
+                  }{e.sCurveP10 != null ? ` · ${fmtUsd(e.sCurveP10)}–${fmtUsd(e.sCurveP90)}` : ""}</div></>}</td>
                   <td>{e.perMwAtDelivery == null ? "—" : fmtUsd(e.perMwAtDelivery)}</td>
                   <td><button type="button" className="tool-btn" onClick={() => remove(p.id)} aria-label={`Remove ${p.name}`}>✕</button></td>
                 </tr>
               );
             })}
-            {evals.length === 0 && <tr><td colSpan={11} style={{ color: "var(--muted)", textAlign: "left" }}>No projects yet — add one, or paste a list.</td></tr>}
+            {evals.length === 0 && <tr><td colSpan={13} style={{ color: "var(--muted)", textAlign: "left" }}>No projects yet — add one, or paste a list.</td></tr>}
           </tbody>
         </table>
         <div style={{ fontSize: 12, color: "var(--muted)", padding: "8px 12px" }}>
@@ -171,6 +197,16 @@ export function PortfolioClient({ data, markets }: { data: EscalationData; marke
           a realized historical regime, not a forecast; the carry cap is {MAX_HORIZON_MONTHS} months. The band is the p10–p90 of every
           like-length window in the sample, applied to the to-date figure. Market is a label for your own reporting: escalation is
           national, and the market panel&apos;s labor tightness is on <Link href="/markets">/markets</Link>.
+        </div>
+        <div data-testid="s-curve-method" style={{ fontSize: 12, color: "var(--muted)", padding: "0 12px 10px" }}>
+          <strong>S-curve (to spend midpoint).</strong> Dollars are not all spent at delivery, so the full carry overstates
+          exposure. The S-curve column spreads each project&apos;s spend between its construction start and delivery on a symmetric
+          sine-squared curve — the share spent by progress <i>u</i> is sin²(π<i>u</i>/2): slow at mobilisation, fastest mid-build,
+          slow at commissioning. The share already spent by {anchor} is held at its escalated-to-date value and not carried; the
+          rest is carried at the same basis from {anchor} to the month by which half of it has gone out (for a build that has not
+          started, the midpoint of start and delivery, rounded to a month). The band uses the same anchor-to-midpoint horizon. With
+          no construction start entered the page assumes delivery − {DEFAULT_DURATION_MONTHS} months and labels it
+          &ldquo;assumed&rdquo;. A project already delivered by {anchor} carries nothing under either column.
         </div>
       </div>
 
