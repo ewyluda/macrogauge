@@ -97,3 +97,76 @@ describe("encode / decode / coerce", () => {
     expect(c.id).toHaveLength(6);
   });
 });
+
+describe("S-curve midpoint carry", () => {
+  it("sits next to the full carry: incurred share held, remaining share carried to its spend midpoint", () => {
+    // build half done at the anchor: start = anchor − 12, delivery = anchor + 12
+    const p = proj({ startMonth: addMonths(anchor, -12), deliveryMonth: addMonths(anchor, 12) });
+    const { evals } = evaluateAll([p], D.months, D.index, anchor);
+    const e = evals[0];
+    expect(e.errors).toEqual([]);
+    expect(e.schedule!.startAssumed).toBe(false);
+    expect(e.schedule!.incurredFraction).toBeCloseTo(0.5, 12);
+    expect(e.schedule!.midpointMonth).toBe(addMonths(anchor, 4));
+    const b = e.chosen!.annualizedPct;
+    expect(e.sCurve!).toBeCloseTo(e.toDate! * (0.5 + 0.5 * Math.pow(1 + b / 100, 4 / 12)), 4);
+    // the full-carry figure is unchanged
+    expect(e.atDelivery!).toBeCloseTo(e.toDate! * Math.pow(1 + b / 100, 12 / 12), 4);
+    if (b > 0) expect(e.sCurve!).toBeLessThan(e.atDelivery!);
+    // a 4-month midpoint horizon is under the band's 12-month floor
+    expect(e.sCurveBand).toBeNull();
+    expect(e.sCurveP10).toBeNull();
+  });
+  it("moves the band horizon to anchor → midpoint", () => {
+    // default 24-month build starting at the anchor: midpoint = anchor + 12
+    const p = proj({ deliveryMonth: addMonths(anchor, 24) });
+    const { evals } = evaluateAll([p], D.months, D.index, anchor);
+    const e = evals[0];
+    expect(e.schedule!.startAssumed).toBe(true);
+    expect(e.schedule!.midpointHorizon).toBe(12);
+    expect(e.band!.horizonMonths).toBe(24);
+    expect(e.sCurveBand!.horizonMonths).toBe(12);
+    expect(e.sCurveP10!).toBeLessThan(e.sCurveP90!);
+    expect(e.sCurveP10!).toBeCloseTo(e.toDate! * Math.pow(1 + e.sCurveBand!.p10 / 100, 1), 4);
+    const t = totals(evals);
+    expect(t.sCurve).toBeCloseTo(e.sCurve!, 6);
+    expect(t.sCurveBanded).toBe(1);
+    expect(t.exposureCarrySCurve).toBeCloseTo(e.sCurve! - e.toDate!, 6);
+  });
+  it("carries nothing for a project entirely before the anchor, and nothing without a delivery", () => {
+    const { basisRows } = evaluateAll([], D.months, D.index, anchor);
+    const noDelivery = evaluateProject(proj(), D.months, D.index, anchor, basisRows);
+    expect(noDelivery.sCurve).toBeCloseTo(noDelivery.toDate!, 6);
+    expect(noDelivery.schedule).toBeNull();
+    const done = evaluateProject(proj({ startMonth: "2023-01", deliveryMonth: addMonths(anchor, -1) }), D.months, D.index, anchor, basisRows);
+    expect(done.errors).toEqual([]);
+    expect(done.schedule!.remainingFraction).toBe(0);
+    expect(done.sCurve).toBeCloseTo(done.toDate!, 6);
+    expect(done.atDelivery).toBeCloseTo(done.toDate!, 6);
+  });
+  it("reports a start on or after delivery as an error", () => {
+    const { basisRows } = evaluateAll([], D.months, D.index, anchor);
+    const e = evaluateProject(proj({ startMonth: addMonths(anchor, 30), deliveryMonth: addMonths(anchor, 24) }), D.months, D.index, anchor, basisRows);
+    expect(e.errors[0]).toMatch(/must be before delivery/);
+    expect(e.sCurve).toBeNull();
+  });
+  it("decodes an old-format list without startMonth as an assumed 24-month build", () => {
+    const old = JSON.stringify([{ id: "o1", name: "Old", market: "nova", mw: 50, baseCost: 5e8, baseMonth: "2024-01", deliveryMonth: "2028-06", basis: "trailing3y" }]);
+    const ps = decodeProjects(old)!;
+    expect(ps).toHaveLength(1);
+    expect(ps[0].startMonth).toBeUndefined();
+    expect("startMonth" in ps[0]).toBe(false);
+    const e = evaluateAll(ps, D.months, D.index, anchor).evals[0];
+    expect(e.schedule!.startAssumed).toBe(true);
+    expect(e.schedule!.startMonth).toBe("2026-06");
+    // re-encoding keeps the old shape byte-for-byte
+    expect(encodeProjects(ps)).toBe(old);
+  });
+  it("round-trips an explicit start month and rejects a malformed one", () => {
+    const ps = [proj({ startMonth: "2026-02", deliveryMonth: "2028-02" })];
+    expect(decodeProjects(encodeProjects(ps))).toEqual(ps);
+    expect(decodeProjects(encodeProjects(ps))![0].startMonth).toBe("2026-02");
+    expect(decodeProjects(JSON.stringify([{ ...proj(), startMonth: "Feb 2026" }]))).toBeNull();
+    expect(coerceProject({ ...proj(), startMonth: "" })!.startMonth).toBeUndefined();
+  });
+});
