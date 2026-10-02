@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-02T16:54:03Z",
+  "published_at": "2026-10-02T21:34:09Z",
   "as_of": "2026-01-01",
   "base_date": "2025-01-01",
   "national": {
@@ -577,12 +577,12 @@
         "partial": false
       },
       "sites": 3,
-      "mw_disclosed": 1450,
+      "mw_disclosed": 1221,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 1450
+      "mw_operating": 1221
     },
     {
       "key": "slc",
@@ -993,12 +993,12 @@
         "partial": false
       },
       "sites": 2,
-      "mw_disclosed": 1300,
+      "mw_disclosed": 1400,
       "sites_mw_undisclosed": 0,
-      "mw_construction": 1000,
+      "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 300
+      "mw_operating": 1400
     },
     {
       "key": "councilbluffs",
