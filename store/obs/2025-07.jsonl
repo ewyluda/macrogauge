@@ -49,3 +49,4 @@
 {"obs_date": "2025-04-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 159433.0, "vintage_date": "2025-07-03"}
 {"obs_date": "2025-05-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 159577.0, "vintage_date": "2025-07-03"}
 {"obs_date": "2025-06-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 159724.0, "vintage_date": "2025-07-03"}
+{"obs_date": "2025-06-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 61.01, "vintage_date": "2025-07-16"}

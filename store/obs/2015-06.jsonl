@@ -32,3 +32,5 @@
 {"obs_date": "2014-12-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 242.5, "vintage_date": "2015-06-12"}
 {"obs_date": "2015-04-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 244.8, "vintage_date": "2015-06-12"}
 {"obs_date": "2015-05-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 244.8, "vintage_date": "2015-06-12"}
+{"obs_date": "2015-01-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 60.1, "vintage_date": "2015-06-12"}
+{"obs_date": "2015-05-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 59.2, "vintage_date": "2015-06-12"}

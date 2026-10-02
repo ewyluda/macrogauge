@@ -65,3 +65,30 @@ def test_implausible_value_is_structure_drift():
     with pytest.raises(ValueError, match="structure drift"):
         dramex.fetch(["MLC 64Gb 8GBx8"], vintage_date="2026-07-15",
                      http_get=_get(html))
+
+
+def test_flash_last_update_reads_the_flash_tables_own_stamp():
+    # the fixture's DRAM table says Jul.15, its flash table Jul.6: a
+    # backfilled snapshot is dated by the flash stamp, not the DRAM one
+    assert dramex.flash_last_update(FIXTURE) == "2026-07-06"
+    assert dramex.flash_last_update(FIXTURE.replace(
+        "Last Update: Jul.6 2026", "Last Update: Sept.30 2025")) == "2025-09-30"
+    assert dramex.flash_last_update("<html>no stamp</html>") is None
+
+
+def test_wayback_backfill_parses_a_snapshot_through_the_live_parser():
+    import importlib.util
+    from pathlib import Path
+    path = Path(__file__).parent.parent / "scripts" / "backfill_dramex_wayback.py"
+    spec = importlib.util.spec_from_file_location("backfill_dramex_wayback", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    obs_date, value = mod.parse_snapshot(FIXTURE, "MLC 64Gb 8GBx8", "20260708123456")
+    expected = dramex.fetch(["MLC 64Gb 8GBx8"], vintage_date="2026-07-15",
+                            http_get=_get(FIXTURE))[0].value
+    assert (obs_date, value) == ("2026-07-06", expected)
+    # no flash stamp: fall back to the archive date
+    stripped = FIXTURE.replace('id="NationalFlashSpotPrice_show_day"', "")
+    assert mod.parse_snapshot(stripped, "MLC 64Gb 8GBx8", "20260708123456")[0] == "2026-07-08"
+    with pytest.raises(ValueError, match="structure drift"):
+        mod.parse_snapshot("<html></html>", "MLC 64Gb 8GBx8", "20190101000000")

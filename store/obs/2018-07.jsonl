@@ -21,3 +21,5 @@
 {"obs_date": "2018-02-01", "route": "API", "series_code": "ppi_hvac_equip", "source": "ALFRED", "value": 188.9, "vintage_date": "2018-07-11"}
 {"obs_date": "2018-06-01", "route": "API", "series_code": "ppi_hvac_equip", "source": "ALFRED", "value": 193.0, "vintage_date": "2018-07-11"}
 {"obs_date": "2018-06-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 258.4, "vintage_date": "2018-07-11"}
+{"obs_date": "2018-02-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 56.7, "vintage_date": "2018-07-11"}
+{"obs_date": "2018-06-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 58.5, "vintage_date": "2018-07-11"}

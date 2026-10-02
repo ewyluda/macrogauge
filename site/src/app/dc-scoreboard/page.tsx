@@ -14,6 +14,7 @@ import { BASIS_LABELS, ESCALATION_BASIS_TO_GRADE } from "@/lib/dcGrades";
 import type { DcGrades } from "@/lib/types";
 import { DC_ANCHORS_CSV } from "@/lib/exportSpecs";
 import { artifact } from "@/lib/artifact";
+import { fmtSigned } from "@/lib/format";
 
 const data = artifact<"dc_grades", DcGrades>("dc_grades", gradesJson);
 const strict = data.legs?.strict;
@@ -142,8 +143,10 @@ export default function Page() {
             data.storage_nowcast
               ? `${data.storage_nowcast.months_graded}/${data.storage_nowcast.min_months} months graded · `
                 + (data.storage_nowcast.tail_active
-                  ? `tail rides at λ=${data.storage_nowcast.best_lambda}`
-                  : "Hardware storage is official-only")
+                  ? `tail rides at λ=${data.storage_nowcast.best_lambda} · NAND ${fmtSigned(data.storage_nowcast.proxy_yoy_pct)} YoY`
+                  : data.storage_nowcast.verdict === "PASS"
+                    ? `idle: NAND within ±${Math.round(data.storage_nowcast.regime_min_move * 100)}% of a year ago, storage official-only`
+                    : "Hardware storage is official-only")
               : "publishes with the next daily run"
           }
           accent={

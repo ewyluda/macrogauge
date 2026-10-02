@@ -43,3 +43,4 @@
 {"obs_date": "2022-10-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 334.24, "vintage_date": "2023-01-18"}
 {"obs_date": "2022-11-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 336.675, "vintage_date": "2023-01-18"}
 {"obs_date": "2022-12-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 336.799, "vintage_date": "2023-01-18"}
+{"obs_date": "2022-12-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 65.34, "vintage_date": "2023-01-18"}

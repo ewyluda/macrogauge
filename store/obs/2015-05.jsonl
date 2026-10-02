@@ -10,3 +10,5 @@
 {"obs_date": "2015-04-01", "route": "API", "series_code": "ppi_genset", "source": "ALFRED", "value": 221.0, "vintage_date": "2015-05-14"}
 {"obs_date": "2014-12-01", "route": "API", "series_code": "ppi_hvac_equip", "source": "ALFRED", "value": 179.3, "vintage_date": "2015-05-14"}
 {"obs_date": "2015-04-01", "route": "API", "series_code": "ppi_hvac_equip", "source": "ALFRED", "value": 180.2, "vintage_date": "2015-05-14"}
+{"obs_date": "2014-12-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 60.1, "vintage_date": "2015-05-14"}
+{"obs_date": "2015-04-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 59.5, "vintage_date": "2015-05-14"}

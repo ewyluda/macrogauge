@@ -29,13 +29,15 @@ def _basket(tmp_path, storage=GATED_STORAGE):
     return p
 
 
-def _nand(start="2021-01-01", end="2026-06-30"):
-    """Smooth daily NAND path whose year-over-year growth swings ±25%."""
+def _nand(start="2021-01-01", end="2026-06-30", amp=0.35):
+    """Smooth daily NAND path. amp=0.35: year-over-year growth mostly inside
+    ±50% (the calm regime the switched rule carries through); amp=0.8: YoY
+    swings to -75%/+190%, a memory-price shock regime like 2022 or 2026."""
     d0, d = date.fromisoformat(start), date.fromisoformat(start)
     out = {}
     while d <= date.fromisoformat(end):
         x = (d - d0).days / 365.0
-        out[d.isoformat()] = 30.0 * math.exp(0.35 * math.sin(2 * math.pi * x / 3.1))
+        out[d.isoformat()] = 30.0 * math.exp(amp * math.sin(2 * math.pi * x / 3.1))
         d += timedelta(days=1)
     return out
 
@@ -59,10 +61,10 @@ def _store(tmp_path, ppi: dict[str, float], nand: dict[str, float]):
     return vintage.load(tmp_path / "store")
 
 
-def _passthrough_world(lam=0.5):
+def _passthrough_world(lam=0.5, amp=0.8, nand_end="2026-06-30"):
     """PPI(M) = PPI(M-12) * (1 + lam * (W(mid M)/W(mid M - 365d) - 1)): the
     storage PPI inherits `lam` of NAND's like-month move."""
-    nand = _nand()
+    nand = _nand(end=nand_end, amp=amp)
     ppi = {}
     for m in _months():
         prior = f"{int(m[:4]) - 1}{m[4:]}"
@@ -80,9 +82,14 @@ def test_gate_passes_and_recovers_passthrough_when_the_tail_is_informative(tmp_p
     conn = _store(tmp_path, ppi, nand)
     g = proxygate.grade(conn, "ppi_storage", ("dramex_nand_mlc64",), 7)
     assert g["verdict"] == "PASS" and g["tail_active"] is True
-    assert g["best_lambda"] == 0.5
+    assert g["regime_active"] is True and abs(g["proxy_yoy_pct"]) > 50
+    # The grid pick sits below the true 0.5: the splice anchors at the
+    # first-of-month print date while the world prices mid-month, an error
+    # that big moves magnify and a damped λ absorbs. OLS recovers the truth.
+    assert g["best_lambda"] in (0.25, 0.5)
     assert g["months_graded"] >= proxygate.MIN_MONTHS
     assert g["best_mae"] < g["carry_forward_mae"] and g["best_mae"] < g["zero_lambda_mae"]
+    assert g["best_max"] <= g["carry_forward_max"]
     assert g["lambda_ols"] == pytest.approx(0.5, abs=0.05)
     # dcindex rides the tail at the gate's λ
     result = dcindex.run(conn, today="2026-06-30", basket_path=_basket(tmp_path))
@@ -93,9 +100,9 @@ def test_gate_passes_and_recovers_passthrough_when_the_tail_is_informative(tmp_p
 
 
 def test_gate_fails_and_index_is_official_only_when_the_tail_is_noise(tmp_path):
-    # PPI on a steady +2%/yr trend, NAND swinging ±25% YoY: every λ>0 loses
-    # to zero pass-through, so the storage component must not ride the tail.
-    nand = _nand()
+    # PPI on a steady +2%/yr trend, NAND in its shock regime: every λ>0
+    # loses to carry-forward, so the storage component must not ride the tail.
+    nand = _nand(amp=0.8)
     ppi = {m: 100.0 * 1.02 ** (i / 12) for i, m in enumerate(_months())}
     conn = _store(tmp_path, ppi, nand)
     g = proxygate.grade(conn, "ppi_storage", ("dramex_nand_mlc64",), 7)
@@ -109,7 +116,7 @@ def test_gate_fails_and_index_is_official_only_when_the_tail_is_noise(tmp_path):
 def test_gate_insufficient_with_under_a_year_of_spot_history(tmp_path):
     # the real store on 2026-09-28: NAND spot only since 2026-07-15
     ppi, _ = _passthrough_world(0.5)
-    nand = {d: v for d, v in _nand().items() if d >= "2026-02-15"}
+    nand = {d: v for d, v in _nand(amp=0.8).items() if d >= "2026-02-15"}
     conn = _store(tmp_path, ppi, nand)
     g = proxygate.grade(conn, "ppi_storage", ("dramex_nand_mlc64",), 7)
     assert g["verdict"] == "INSUFFICIENT" and g["months_graded"] == 0
@@ -135,3 +142,55 @@ def test_gate_config_validation(tmp_path):
         dc_basket.load_baskets(_basket(tmp_path, level))
     with pytest.raises(ValueError, match="unknown live_proxy_gate"):
         dc_basket.load_baskets(_basket(tmp_path, {**GATED_STORAGE, "live_proxy_gate": "always"}))
+
+
+def test_passing_gate_idles_while_nand_is_calm(tmp_path):
+    # Same informative world, but spot runs on to 2026-10-31, when NAND is
+    # only ~20% off its year-ago level: the backtest still passes, yet the
+    # switched rule carries in that regime, so storage is official-only.
+    ppi, nand = _passthrough_world(0.5, nand_end="2026-10-31")
+    conn = _store(tmp_path, ppi, nand)
+    g = proxygate.grade(conn, "ppi_storage", ("dramex_nand_mlc64",), 7)
+    assert g["verdict"] == "PASS"
+    assert g["regime_active"] is False and abs(g["proxy_yoy_pct"]) <= 50
+    assert g["tail_active"] is False
+    assert "until NAND moves" in g["note"]
+    result = dcindex.run(conn, today="2026-10-31", basket_path=_basket(tmp_path))
+    assert result["indexes"]["hardware"]["components"]["storage"]["mode"] == "official"
+
+
+def test_calm_months_grade_as_carry_forward(tmp_path):
+    # NAND never leaves ±25% YoY (amp=0.1): every switched λ>0 IS
+    # carry-forward, so its MAE equals carry's exactly and the gate cannot
+    # pass (it must strictly beat carry) however well NAND explains the PPI.
+    ppi, nand = _passthrough_world(0.5, amp=0.1)
+    conn = _store(tmp_path, ppi, nand)
+    g = proxygate.grade(conn, "ppi_storage", ("dramex_nand_mlc64",), 7)
+    assert g["months_graded"] >= proxygate.MIN_MONTHS
+    assert g["best_mae"] == g["carry_forward_mae"]
+    assert g["verdict"] == "FAIL" and g["tail_active"] is False
+
+
+def test_proxy_yoy_reads_sparse_monthly_history_within_tolerance():
+    live = {"2025-01-03": 10.0, "2025-02-02": 11.0, "2026-01-20": 20.0}
+    # base lookup 2025-01-20 -> 2025-01-03 (17 days) ; now -> 2026-01-20
+    assert proxygate.proxy_yoy(live, "2026-01-20") == pytest.approx(1.0)
+    # base 2024-12-01 has nothing at/before it: None, never fabricated
+    assert proxygate.proxy_yoy(live, "2025-12-01") is None
+    # a target more than PROXY_TOLERANCE_DAYS past the last point: None
+    assert proxygate.proxy_yoy(live, "2026-03-15") is None
+    assert proxygate.regime_active(0.51) and proxygate.regime_active(-0.6)
+    assert not proxygate.regime_active(0.5) and not proxygate.regime_active(None)
+
+
+def test_monthly_archived_history_makes_the_gate_gradeable(tmp_path):
+    # The real store after scripts/backfill_dramex_wayback.py: ~monthly
+    # archived points, then daily live collection from 2026-02-15.
+    ppi, daily = _passthrough_world(0.5)
+    nand = {d: v for d, v in daily.items() if d >= "2026-02-15" or d.endswith("-02")}
+    conn = _store(tmp_path, ppi, nand)
+    g = proxygate.grade(conn, "ppi_storage", ("dramex_nand_mlc64",), 7)
+    assert g["months_graded"] >= proxygate.MIN_MONTHS
+    assert g["verdict"] == "PASS"
+    result = dcindex.run(conn, today="2026-06-30", basket_path=_basket(tmp_path))
+    assert result["indexes"]["hardware"]["components"]["storage"]["mode"] == "official+proxy"

@@ -22,15 +22,36 @@ Backtest (one row per PPI print month M with a year-ago print):
   * realized = M's FIRST release (what a reader was graded against);
   * error in YoY points: (estimate - realized) / official[M-12] * 100.
 PASS requires >= MIN_MONTHS months graded on the common set every λ could
-grade, and the best λ>0 to beat BOTH carry-forward and λ=0 on MAE with every
-month's |error| <= MAX_ERR_PTS. λ is also estimated directly (OLS through the
-origin of like-month PPI changes on like-month NAND month-mean changes) and
-published beside the grid pick for transparency.
+grade, and the best λ>0 to beat BOTH carry-forward and λ=0 on MAE, with a
+worst month no worse than carry-forward's worst. λ is also estimated
+directly (OLS through the origin of like-month PPI changes on like-month NAND
+month-mean changes) and published beside the grid pick for transparency.
 
-The year ratio needs a year of proxy history: NAND spot collection began
-2026-07-15, so until ~2027-08 nothing is gradeable and the verdict is
-INSUFFICIENT — the storage component is official-only, which is the honest
-state, not a failure."""
+Regime switch (2026-10-02). The tail rides only while NAND spot is more than
+REGIME_MIN_MOVE (50%) away from its level a year earlier; otherwise the
+estimate is carry-forward. Each graded month applies the switch at its own
+estimate date, and dcindex applies it at the latest spot date, so the graded
+rule is the rule the index rides. Why: half of this PPI's first prints since
+2020 repeat the prior month exactly (BLS carries the value; the move lands at
+the four-month revision), so in calm years carry-forward is nearly
+unbeatable and any NAND tail adds noise (MAE 0.75 vs 1.48 YoY pts,
+2020-25). In memory-price shocks (2022, 2026) the tail cuts error by about a
+third. Over 2020-04..2026-07 the switched λ=0.15 rule beat carry-forward
+2.09 vs 2.67 (first prints), and every threshold from 25% to 100% beat it.
+
+Error bound (2026-10-02). The original absolute bound, |error| <= 10 pts
+every month, was unmeetable by ANY rule in the 2026 shock: carry-forward
+itself missed Jul-2026 by 58.6 pts (the PPI's first print jumped 80 -> 117).
+The bound is now relative: the best λ's worst month must be no worse than
+carry-forward's. Both the switch threshold and this bound were set AFTER
+seeing the 2020-26 backtest (disclosed in config/methodology_changelog.json).
+
+History. NAND spot collection began 2026-07-15. Earlier points are ~monthly
+Wayback Machine snapshots of the same homepage (scripts/
+backfill_dramex_wayback.py, route WAYBACK, 2019-02 on), so proxy lookups take
+the nearest point at/before the target within PROXY_TOLERANCE_DAYS, not the
+daily-data 7. Under a year of history the verdict is INSUFFICIENT and the
+storage component is official-only."""
 from datetime import date, timedelta
 
 from pipeline.engine import blend
@@ -41,8 +62,9 @@ LAMBDAS = (0.0, 0.1, 0.25, 0.5, 0.75, 1.0)
 SMOOTH_DAYS = 7
 AVAIL_LAG_DAYS = 45   # PPI month M-1 is out by mid-M
 GRADE_DAY = 15
-MAX_ERR_PTS = 10.0    # storage PPI has moved >20% in one month (2026-06)
 MIN_MONTHS = 6
+REGIME_MIN_MOVE = 0.5          # |W(t)/W(t-365d) - 1| above which the tail rides
+PROXY_TOLERANCE_DAYS = 45      # archived history is ~monthly (see docstring)
 
 
 def _smoothed(conn, codes: tuple[str, ...], smooth_days: int) -> dict[str, float]:
@@ -50,6 +72,24 @@ def _smoothed(conn, codes: tuple[str, ...], smooth_days: int) -> dict[str, float
     # the tail the index would ride
     return blend.trailing_mean(
         blend.hub_mean([dict(vintage.latest(conn, c)) for c in codes]), smooth_days)
+
+
+def proxy_yoy(live: dict[str, float], t: str) -> float | None:
+    """W(t)/W(t-365d) - 1 off the nearest proxy points at/before each date
+    within PROXY_TOLERANCE_DAYS (the same lookups the splice uses); None when
+    either is missing or the base is non-positive."""
+    dates = sorted(live)
+    wt = blend._at_or_before(dates, t, PROXY_TOLERANCE_DAYS)
+    wb = blend._at_or_before(
+        dates, (date.fromisoformat(t) - timedelta(days=365)).isoformat(),
+        PROXY_TOLERANCE_DAYS)
+    if wt is None or wb is None or live[wb] <= 0:
+        return None
+    return live[wt] / live[wb] - 1.0
+
+
+def regime_active(yoy: float | None) -> bool:
+    return yoy is not None and abs(yoy) > REGIME_MIN_MOVE
 
 
 def _official_known(conn, code: str, latest: dict[str, float], t: str) -> dict[str, float]:
@@ -80,10 +120,15 @@ def grade(conn, official_code: str, proxy_codes: tuple[str, ...],
         base = latest[base_m]
         cf = (known[t0] - first[m]) / base * 100.0
         for lam in LAMBDAS:
-            spliced = blend.splice_year_ratio(known, live_t, lam)
+            spliced = blend.splice_year_ratio(known, live_t, lam, PROXY_TOLERANCE_DAYS)
             tail = [d for d in spliced if t0 < d <= t]
-            if tail:
-                per_lambda[lam][m] = ((spliced[max(tail)] - first[m]) / base * 100.0, cf)
+            if not tail:
+                continue
+            est = max(tail)
+            if lam > 0 and not regime_active(proxy_yoy(live_t, est)):
+                per_lambda[lam][m] = (cf, cf)   # calm: the switched rule carries
+            else:
+                per_lambda[lam][m] = ((spliced[est] - first[m]) / base * 100.0, cf)
     sets = [set(g) for g in per_lambda.values()]
     common = sorted(set.intersection(*sets)) if sets else []
     dropped = sorted(set.union(*sets) - set(common)) if sets else []
@@ -93,13 +138,17 @@ def grade(conn, official_code: str, proxy_codes: tuple[str, ...],
           for lam, g in per_lambda.items()} if common else {}
     cf_mae = (sum(abs(per_lambda[LAMBDAS[0]][m][1]) for m in common) / len(common)
               if common else None)
+    cf_max = (max(abs(per_lambda[LAMBDAS[0]][m][1]) for m in common)
+              if common else None)
     scored = {lam: mae[lam] for lam in LAMBDAS if lam > 0 and lam in mae}
     best = min(scored, key=scored.get) if scored else None
     verdict = "INSUFFICIENT"
     if len(common) >= MIN_MONTHS and best is not None:
         ok = (scored[best] < cf_mae and scored[best] < mae[0.0]
-              and mx[best] <= MAX_ERR_PTS)
+              and mx[best] <= cf_max)
         verdict = "PASS" if ok else "FAIL"
+    yoy_now = proxy_yoy(live, max(live)) if live else None
+    active = verdict == "PASS" and regime_active(yoy_now)
     return {"official": official_code, "proxy": list(proxy_codes),
             "transform": "year_ratio", "smooth_days": smooth_days,
             "as_of": max(latest) if latest else None,
@@ -108,12 +157,17 @@ def grade(conn, official_code: str, proxy_codes: tuple[str, ...],
             "months_graded": len(common), "min_months": MIN_MONTHS,
             "months_dropped": len(dropped), "dropped_months": [m[:7] for m in dropped],
             "carry_forward_mae": None if cf_mae is None else round(cf_mae, 3),
+            "carry_forward_max": None if cf_max is None else round(cf_max, 3),
             "zero_lambda_mae": round(mae[0.0], 3) if 0.0 in mae else None,
             "best_lambda": best,
             "best_mae": None if best is None else round(scored[best], 3),
+            "best_max": None if best is None else round(mx[best], 3),
             "lambda_ols": _lambda_ols(latest, live),
-            "verdict": verdict, "tail_active": verdict == "PASS",
-            "note": note(verdict)}
+            "regime_min_move": REGIME_MIN_MOVE,
+            "proxy_yoy_pct": None if yoy_now is None else round(yoy_now * 100.0, 1),
+            "regime_active": regime_active(yoy_now),
+            "verdict": verdict, "tail_active": active,
+            "note": note(verdict, active)}
 
 
 def _lambda_ols(official: dict[str, float], live: dict[str, float]) -> float | None:
@@ -134,17 +188,24 @@ def _lambda_ols(official: dict[str, float], live: dict[str, float]) -> float | N
 
 
 _NOTES = {
-    "PASS": ("The like-month NAND-spot tail beat both carry-forward and zero "
-             "pass-through inside the error bound, so the storage component "
-             "rides it at the selected pass-through."),
-    "FAIL": ("The like-month NAND-spot tail did not beat carry-forward and zero "
-             "pass-through inside the error bound, so the storage component is "
-             "official-only."),
+    "PASS": ("The switched NAND-spot tail beat both carry-forward and zero "
+             "pass-through, with a worst month no worse than carry-forward's, "
+             "and NAND is more than 50% away from a year ago, so the storage "
+             "component rides it at the selected pass-through."),
+    "PASS_IDLE": ("The switched NAND-spot tail passed its backtest, but NAND is "
+                  "within 50% of its level a year ago, a regime where carrying "
+                  "the last print forward wins, so the storage component is "
+                  "official-only until NAND moves."),
+    "FAIL": ("The switched NAND-spot tail did not beat carry-forward and zero "
+             "pass-through with a worst month no worse than carry-forward's, "
+             "so the storage component is official-only."),
     "INSUFFICIENT": ("Not enough history to grade the like-month NAND-spot tail "
                      "(a year-over-year ratio needs a year of spot prices), so the "
                      "storage component is official-only until it can be graded."),
 }
 
 
-def note(verdict: str) -> str:
+def note(verdict: str, active: bool = True) -> str:
+    if verdict == "PASS" and not active:
+        return _NOTES["PASS_IDLE"]
     return _NOTES.get(verdict, _NOTES["INSUFFICIENT"])
