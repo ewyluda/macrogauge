@@ -246,3 +246,119 @@ def test_average_employment_requested_alone_does_not_emit_wage_or_month3():
     obs = qcew.fetch(["48441~aemp"], vintage_date="2026-07-12", http_get=fake_get)
     assert {o.series_code for o in obs} == {"48441~aemp"}
     assert obs[0].value == pytest.approx((4050 + 4080 + 4106) / 3)
+
+
+# --- NAICS 238212 (nonresidential electrical contractors) -------------------
+# Fixtures are the live 2026/1 and 2025/1 /industry/238212.csv files (fetched
+# 2026-10-01), trimmed to the header plus: US000 own 3 and own 5 (agglvl 18),
+# Virginia 51000 (agglvl 58), and counties 51107/51153/19153/32031 (published)
+# and 19049/32029/22083 (disclosure code N in 2026q1) at agglvl 78.
+
+FIXTURE_ELEC = Path(__file__).parent / "fixtures" / "qcew_industry238212.csv"
+FIXTURE_ELEC_YA = Path(__file__).parent / "fixtures" / "qcew_industry238212_2025q1.csv"
+
+
+def elec_get(url, timeout=None, **kw):
+    assert "data.bls.gov/cew/data/api/" in url and url.endswith("/industry/238212.csv")
+    if "/2026/1/" in url:
+        return _Resp(FIXTURE_ELEC.read_text())
+    if "/2025/1/" in url:
+        return _Resp(FIXTURE_ELEC_YA.read_text())
+    return _Resp("", status=404)
+
+
+def _elec(ids, get=elec_get, vintage="2026-10-01"):
+    return qcew.fetch(ids, vintage_date=vintage, http_get=get,
+                      naics=qcew.NAICS_ELEC, source="QCEW_238212")
+
+
+def test_238212_reads_the_6_digit_industry_slice_tagged_with_its_own_source():
+    obs = _elec(["51107", "51107~emp", "51107~aemp"])
+    got = {(o.series_code, o.obs_date): o.value for o in obs}
+    assert got == {
+        ("51107", "2026-01-01"): 2392.0, ("51107~emp", "2026-01-01"): 13638.0,
+        ("51107~aemp", "2026-01-01"): pytest.approx((12833 + 13248 + 13638) / 3),
+        ("51107", "2025-01-01"): 2218.0, ("51107~emp", "2025-01-01"): 9932.0,
+        ("51107~aemp", "2025-01-01"): pytest.approx((9440 + 9700 + 9932) / 3)}
+    assert all(o.source == "QCEW_238212" and o.route == "CSV" for o in obs)
+
+
+def test_238212_national_row_is_private_ownership_only():
+    obs = _elec(["US000", "US000~emp"])
+    jan = {o.series_code: o.value for o in obs if o.obs_date == "2026-01-01"}
+    assert jan == {"US000": 1869.0, "US000~emp": 802677.0}  # own 5, not own 3 ($1,299)
+
+
+def test_238212_suppressed_counties_are_skipped_never_zero():
+    # Dallas IA, Storey NV, Richland Parish LA print "N" with zeroed cells.
+    obs = _elec([f"{f}{s}" for f in ("19049", "32029", "22083")
+                 for s in ("", "~emp", "~aemp")])
+    # 19049 printed in 2025q1; its 2026q1 is suppressed. 32029/22083: nothing.
+    assert {(o.series_code, o.obs_date) for o in obs} == {
+        ("19049", "2025-01-01"), ("19049~emp", "2025-01-01"),
+        ("19049~aemp", "2025-01-01")}
+    assert all(o.value > 0 for o in obs)
+
+
+def test_238212_wrong_industry_file_is_drift_not_data():
+    # A NAICS 23 body served at the 238212 URL must never be ingested as
+    # electrical contractors: every quarter fails the industry_code guard.
+    def wrong_get(url, timeout=None, **kw):
+        return _Resp(FIXTURE.read_text())
+    with pytest.raises(RuntimeError, match="QCEW_238212: no quarter loaded"):
+        _elec(["US000"], get=wrong_get)
+
+
+def _mutate(text, fips, col, value):
+    lines = text.splitlines()
+    i = [h.strip('"') for h in lines[0].split(",")].index(col)
+    out = []
+    for line in lines:
+        cells = line.split(",")
+        if cells[0] == f'"{fips}"' and cells[1] == '"5"':
+            cells[i] = value
+        out.append(",".join(cells))
+    return "\n".join(out) + "\n"
+
+
+@pytest.mark.parametrize("col,value,msg", [
+    ("agglvl_code", '"74"', "agglvl_code"),                       # 5-digit-level row
+    ("avg_wkly_wage", "239200", "implausible avg_wkly_wage"),      # cents for dollars
+    ("month3_emplvl", "411623715", "implausible month3_emplvl"),   # wages column
+])
+def test_238212_drift_guard_drops_only_the_bad_quarter(col, value, msg):
+    from pipeline.connectors.util import PartialFetchWarning
+    bad = _mutate(FIXTURE_ELEC.read_text(), "51107", col, value)
+
+    def get(url, timeout=None, **kw):
+        if "/2026/1/" in url:
+            return _Resp(bad)
+        return elec_get(url, timeout)
+
+    with pytest.warns(PartialFetchWarning, match=msg):
+        obs = _elec(["51107"], get=get)
+    # the good year-ago quarter still loads; the drifted one is not ingested
+    assert {o.obs_date for o in obs} == {"2025-01-01"}
+
+
+def test_naics_23_path_carries_no_6_digit_guards():
+    # Byte-identical NAICS 23 behaviour: the guards are keyed to 238212 only,
+    # so a NAICS 23 county row (agglvl 74 in the fixture) still ingests.
+    assert qcew.NAICS not in qcew._GUARDS
+    obs = qcew.fetch(["51107"], vintage_date="2026-07-12", http_get=fake_get)
+    assert {o.value for o in obs} == {2264.0}
+
+
+def test_collect_routes_238212_series_to_their_own_codes(tmp_path):
+    from pipeline import collect, registry
+    from pipeline.store import vintage
+    sources, series = registry.load_registry()
+    subset = [s for s in series if s.source == "QCEW_238212"]
+    results = collect.collect_all({"QCEW_238212": sources["QCEW_238212"]}, subset,
+                                  {}, tmp_path, http_get=elec_get, http_post=None)
+    assert [(r.source, r.ok) for r in results] == [("QCEW_238212", True)]
+    conn = vintage.load(tmp_path)
+    assert dict(vintage.latest(conn, "qcew_wage238212_c51107")) == {
+        "2025-01-01": 2218.0, "2026-01-01": 2392.0}
+    # same source_id "51107" under QCEW never leaks into the NAICS 23 code
+    assert dict(vintage.latest(conn, "qcew_wage23_c51107")) == {}

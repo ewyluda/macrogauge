@@ -39,6 +39,20 @@ def test_every_county_has_both_registered_series():
             assert f"qcew_emp23_c{f}" in codes, f"{m.key}: {f} emp unregistered"
 
 
+def test_every_county_has_registered_238212_series_but_storey():
+    # NAICS 238212 (nonresidential electrical contractors) rides the same
+    # roster. Storey NV is the single, documented exclusion (suppressed every
+    # quarter since 2023 Q4 -- see test_registry.py); a roster addition must
+    # register its 238212 trio too, or the market silently reads partial.
+    markets = dc_markets.load()
+    from pipeline import registry
+    _, series = registry.load_registry()
+    codes = {s.code for s in series}
+    missing = {f for m in markets for f in m.counties
+               if not {f"qcew_{k}238212_c{f}" for k in ("wage", "emp", "aemp")} <= codes}
+    assert missing == {"32029"}
+
+
 def test_unknown_series_code_raises(tmp_path):
     raw = {"as_of_curated": "2026-07-25", "note": "x", "markets": [
         {"key": "k", "name": "K", "counties": ["99999"], "state": "VA",
