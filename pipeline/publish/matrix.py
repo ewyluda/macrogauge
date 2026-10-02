@@ -37,6 +37,15 @@ GROUPS = [
         ("T5YIFR", "5y5y forward breakeven", "%", "daily", False),
         ("EXPINF1YR", "Cleveland Fed 1-year expected inflation", "%", "monthly", False),
         ("EXPINF10YR", "Cleveland Fed 10-year expected inflation", "%", "monthly", False),
+        ("nyfed_sce_1y", "NY Fed SCE consumers, 1-year median", "%", "monthly", False),
+        ("nyfed_sce_3y", "NY Fed SCE consumers, 3-year median", "%", "monthly", False),
+        ("nyfed_sce_5y", "NY Fed SCE consumers, 5-year median", "%", "monthly", False),
+        ("atl_bie_1y_median", "Atlanta Fed BIE firms, year-ahead unit costs (median)", "%", "monthly", False),
+        ("atl_bie_lt_mean", "Atlanta Fed BIE firms, 5-10-year unit costs (mean)", "%", "quarterly", False),
+    ]),
+    ("INTERNATIONAL", [
+        ("CP0000EZCCM086NEST", "Euro-area HICP", "% YoY (computed)", "monthly", True),
+        ("TOTNRGFOODEA20MI15XM", "Euro-area core HICP (ex energy, food, alcohol, tobacco)", "% YoY (computed)", "monthly", True),
     ]),
     ("LABOR COSTS", [
         ("ECIALLCIV", "Employment Cost Index, total comp", "% YoY (computed)", "quarterly", True),

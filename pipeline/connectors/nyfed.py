@@ -47,14 +47,79 @@ def fetch(source_ids: list[str], vintage_date: str | None = None,
     http_get = http_get or _default_get
     vintage = vintage_date or today_et()
     out, errors = [], []
-    for sid in source_ids or ["GSCPI"]:
+    ids = source_ids or ["GSCPI"]
+    for sid in [i for i in ids if not i.startswith("SCE_")]:
         try:
             out.extend((_fetch_mct if sid == "MCT" else _fetch_gscpi)(sid, vintage, http_get))
         except Exception as e:  # per-series isolation
             errors.append((sid, e))
+    sce_ids = [i for i in ids if i.startswith("SCE_")]
+    if sce_ids:  # one workbook serves every SCE series
+        try:
+            out.extend(_fetch_sce(sce_ids, vintage, http_get))
+        except Exception as e:
+            errors.append(("SCE", e))
     if errors and not out:
         raise errors[0][1]
     warn_partial("NYFED", errors)
+    return out
+
+
+SCE_URL = ("https://www.newyorkfed.org/medialibrary/interactives/sce/sce/downloads/data/"
+           "frbny-sce-data.xlsx")
+# source_id -> (sheet, exact column header, store series code)
+SCE_SERIES = {
+    "SCE_1Y": ("Inflation expectations", "Median one-year ahead expected inflation rate", "nyfed_sce_1y"),
+    "SCE_3Y": ("Inflation expectations", "Median three-year ahead expected inflation rate", "nyfed_sce_3y"),
+    "SCE_5Y": ("Five-year ahead Infl Exp", "Median five-year ahead expected inflation rate", "nyfed_sce_5y"),
+}
+SCE_PLAUSIBLE = (-5.0, 20.0)  # % expected inflation (1y median peaked ~6.8 in 2022)
+
+
+def _fetch_sce(source_ids: list[str], vintage: str, http_get) -> list[Observation]:
+    """NY Fed Survey of Consumer Expectations medians (verified live
+    2026-10-01): one xlsx, a title block, then a header row whose first cell
+    is empty and whose cells are the series names; data rows start with the
+    survey month as an integer YYYYMM (202608). Stored by survey month (the
+    month the data describes), the release date lives in vintage_date — the
+    repo convention. The full history republishes monthly; the store's
+    value-dedupe keeps only the changes. Sheet names, the exact header strings,
+    the YYYYMM form and a plausible range are pinned."""
+    import openpyxl
+    from pipeline.connectors.util import get_bytes
+    wb = openpyxl.load_workbook(io.BytesIO(get_bytes(SCE_URL, http_get)),
+                                read_only=True, data_only=True)
+    out = []
+    for sid in source_ids:
+        if sid not in SCE_SERIES:
+            raise ValueError(f"nyfed sce: unknown source_id {sid!r}")
+        sheet, header, code = SCE_SERIES[sid]
+        if sheet not in wb.sheetnames:
+            raise ValueError(f"nyfed sce: sheet {sheet!r} missing (structure drift?)")
+        rows = list(wb[sheet].iter_rows(values_only=True))
+        head = next((i for i, r in enumerate(rows[:12]) if r and header in r), None)
+        if head is None:
+            raise ValueError(f"nyfed sce: header {header!r} not found (structure drift?)")
+        col = rows[head].index(header)
+        series = []
+        for r in rows[head + 1:]:
+            if not r or r[0] is None:
+                continue
+            ym = str(r[0]).strip()
+            if not re.fullmatch(r"(19|20)\d{2}(0[1-9]|1[0-2])", ym):
+                raise ValueError(f"nyfed sce: month {r[0]!r} is not YYYYMM (structure drift?)")
+            v = r[col] if col < len(r) else None
+            if v is None:
+                continue
+            v = float(v)
+            if not SCE_PLAUSIBLE[0] <= v <= SCE_PLAUSIBLE[1]:
+                raise ValueError(f"nyfed sce {sid} {ym}: {v} implausible (structure drift?)")
+            series.append(Observation(series_code=code, obs_date=f"{ym[:4]}-{ym[4:]}-01",
+                                      value=round(v, 4), vintage_date=vintage,
+                                      source="NYFED", route="XLSX"))
+        if len(series) < 24:
+            raise ValueError(f"nyfed sce {sid}: only {len(series)} months (structure drift?)")
+        out.extend(series)
     return out
 
 

@@ -530,8 +530,13 @@ export type LongLeadPackage = {
   price_last_obs: string | null;
   contribution_pp: number | null;
   null_note: string | null;
+  /** Census M3 group this package maps to (added 2026-10-01). */
+  backlog_group?: string | null;
   vendors: LongLeadVendor[];
 };
+
+export type BacklogMonths = { label: string; months: string[]; ratio: number[]; latest: number;
+  latest_month: string; change_1y: number | null };
 
 export type LongLead = {
   published_at: string;
@@ -539,6 +544,8 @@ export type LongLead = {
   build_weight_covered: number;
   teaser: { vendor: string; name: string; stale: boolean; figure: LongLeadFigure }[];
   packages: LongLeadPackage[];
+  /** Census M3 months of backlog by group (added 2026-10-01). */
+  backlog_months?: Record<string, BacklogMonths>;
 };
 
 // --- batch 4 (2026-09-03) ---------------------------------------------------

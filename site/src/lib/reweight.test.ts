@@ -1,3 +1,4 @@
+import { weightAt } from "./contribution";
 import { describe, expect, it } from "vitest";
 import replay from "../../public/data/replay.json";
 import compare from "../../public/data/compare.json";
@@ -84,12 +85,14 @@ describe("engine invariant (spec §6, verified against live data)", () => {
     // and compare rounds again (±0.005). compare.json samples each month at
     // its LAST grid date (quilt's convention since the 2026-07-16 audit), so
     // the invariant is evaluated there too.
+    // Since 2026-09-29 the engine weights each date by relative importance
+    // price-updated to that date's YoY base month (replay weights_by_month);
+    // the fixed `weight` is only the latest month's. Rebuild with the weights
+    // in force on each date — the same rule the site's contribution math uses.
     const comps = replay.components as {
       code: string; label: string; weight: number; yoy: (number | null)[];
+      weights_by_month?: Record<string, number>;
     }[];
-    const w = renormalize(
-      Object.fromEntries(comps.map((c) => [c.code, c.weight]))
-    );
     const lastInMonth = new Map<string, number>();
     (replay.dates as string[]).forEach((d, i) => lastInMonth.set(d.slice(0, 7), i));
     let checked = 0;
@@ -97,6 +100,8 @@ describe("engine invariant (spec §6, verified against live data)", () => {
       const g = compare.gauge_yoy_pct[mi];
       const di = lastInMonth.get(m.slice(0, 7)) ?? -1;
       if (g === null || di === -1) return;
+      const date = (replay.dates as string[])[di];
+      const w = renormalize(Object.fromEntries(comps.map((c) => [c.code, weightAt(c, date)])));
       const mine = weightedYoY(comps, w, di);
       if (mine === null) return;
       expect(Math.abs(mine - g)).toBeLessThanOrEqual(0.02);

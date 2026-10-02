@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (1114 tests)
+pytest -q                                     # full suite (1121 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -49,8 +49,8 @@ Data flows in one direction: **collect → store → engine → publish → vali
 live in one repo.
 
 ### 1. Collection (`pipeline/collect.py`, `pipeline/connectors/`)
-One connector module per source — 24 total: API/CSV/XLSX (fred, bls, eia, fmp, treasury, zillow, pmms,
-aptlist, usda, kalshi, qcew, census, vastai, openrouter, caiso, miso, ice, nyfed) and scrape (aaa, mnd,
+One connector module per source — 25 total: API/CSV/XLSX (fred, bls, eia, fmp, treasury, zillow, pmms,
+aptlist, usda, kalshi, qcew, census, vastai, openrouter, caiso, miso, ice, nyfed, atlfed) and scrape (aaa, mnd,
 manheim, cleveland, dramex, sfcompute). One module can serve several source keys for failure
 isolation (`kalshi.py`: KALSHI / KALSHI_CORE / KALSHI_DC / KALSHI_FED). What gets collected is driven entirely by
 `config/series.json` (via `pipeline/registry.py`) — the single source of truth for series,
@@ -67,7 +67,7 @@ registry.
 blocks the run. Carry-forward store semantics make a missed day harmless. Error strings are
 sanitized (API keys redacted) because they get published.
 
-**Scrape/unofficial-API connectors (`aaa.py`, `mnd.py`, `manheim.py`, `dramex.py`, `sfcompute.py`, `vastai.py`, `openrouter.py`, `nyfed.py`, and `kalshi.fetch_fed`) carry drift protection**, not just the
+**Scrape/unofficial-API connectors (`aaa.py`, `mnd.py`, `manheim.py`, `dramex.py`, `sfcompute.py`, `vastai.py`, `openrouter.py`, `nyfed.py` (GSCPI, MCT, SCE), `atlfed.py` (BIE), and `kalshi.fetch_fed`) carry drift protection**, not just the
 generic failure isolation above: a tight regex pinned to a recorded fixture plus a plausible-value
 range check, so a redesigned source page raises a clear "structure drift?" error (caught by the
 same isolation path) instead of silently ingesting garbage.
@@ -119,7 +119,7 @@ YoY bases); writers publish from 2018-01.
 phase 4 composites (`heatcheck`, `stress`, `recession`), plus the DC cost index
 (`datacenter`; Build also publishes an `official_only` variant — official prints, no proxy tail —
 for contract indexation), the geography panel (`metros`, `geo`, `matrix` — which also carries
-GSCPI and the effective tariff rate, customs duties ÷ goods imports, in `tariffs`), the labor dashboard
+GSCPI, the effective tariff rate — customs duties ÷ goods imports, in `tariffs` — NY Fed SCE and Atlanta Fed BIE expectations, and euro-area HICP headline/core), the labor dashboard
 (`labor`), the commodities grid (`commodities`), the AI capacity tracker (`capacity` —
 hand-curated MW × daily FMP_EQ market caps), the DC market panel (`dc_markets` —
 county-QCEW construction labor for 20 real DC markets, plus a denominated capacity-competition
@@ -127,7 +127,7 @@ column keyed by hand-assigned market tag, never a coordinate radius), and the DC
 grading harness (`dc_grades` — vintage-true backtest of the contingency bases on two labelled
 samples, strict and extended, plus the unfilled-orders lead-lag verdict), and the long-lead
 equipment board (`longlead` — hand-curated, stated-only vendor order-book figures joined to the
-five long-lead packages' price legs), and the batch-4 unlocks (2026-09-03): `rates` (Treasury
+five long-lead packages' price legs, plus Census M3 months of backlog — SA unfilled orders ÷ SA monthly shipments — in `backlog_months`), and the batch-4 unlocks (2026-09-03): `rates` (Treasury
 curve, breakevens, HY OAS, dollar, WALCL−TGA−RRP liquidity in $bn, mortgage spread, and the
 Kalshi KXFED market-implied Fed path vs DFEDTARU in `fed_path`), `compute`
 (token and GPU-hour price indexes: equal-weight geometric means renormalized over live roster

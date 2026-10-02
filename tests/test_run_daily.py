@@ -217,6 +217,12 @@ def fake_get(url, params=None, timeout=None, **kw):
                                            "last_price_dollars": "0.5",
                                            "event_ticker": "KXCPI-26JUL",
                                            "close_time": "2026-08-11T00:00:00Z"}]})
+    if "newyorkfed.org" in url and url.endswith("frbny-sce-data.xlsx"):
+        return _BytesResponse((FIXTURES / "nyfed_sce.xlsx").read_bytes())
+    if "newyorkfed.org" in url and "mct-chart-data" in url:
+        return _TextResponse((FIXTURES / "nyfed_mct.csv").read_text())
+    if "atlantafed.org" in url and url.endswith("bie.xlsx"):
+        return _BytesResponse((FIXTURES / "atlfed_bie.xlsx").read_bytes())
     if "newyorkfed.org" in url and "gscpi" in url:
         return _TextResponse((FIXTURES / "nyfed_gscpi.csv").read_text())
     if "fiscaldata.treasury.gov" in url:
@@ -324,7 +330,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "revisions.json", "ledger.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 32  # SFCOMPUTE retired, KALSHI_CORE added 2026-09-26, KALSHI_FED + NYFED 09-28
+    assert len(status["sources"]) == 33  # +ATLFED 10-01; SFCOMPUTE retired, KALSHI_CORE added 2026-09-26, KALSHI_FED + NYFED 09-28
     assert all(s["ok"] for s in status["sources"])
     kalshi_dc_row = [s for s in status["sources"] if s["name"] == "KALSHI_DC"][0]
     assert kalshi_dc_row["ok"] is True
