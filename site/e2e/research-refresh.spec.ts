@@ -94,6 +94,22 @@ test("capacity company details stay usable on a phone", async ({ page }) => {
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
 });
 
+test("capacity dossier names its fields for readers, not by curator keys", async ({ page }) => {
+  await page.goto("/capacity");
+  const company = page.locator(".capacity-company").first();
+  await company.click();
+  const dossier = page.locator(".cap-dossier");
+  await expect(dossier.getByRole("heading", { name: "Valuation" })).toBeVisible();
+  await expect(dossier.locator(".cap-ledger")).toContainText("Under construction");
+  await expect(dossier.locator(".cap-sites th").first()).toHaveText("Site");
+  await expect(dossier).not.toContainText(/\b(revmw|capexmw)\b/i);
+  // Tabs are a real tablist: arrow keys move selection.
+  const tab = page.getByRole("tab", { name: "Capacity", selected: true });
+  await tab.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.getByRole("tab", { name: "Valuation × Execution", selected: true })).toBeFocused();
+});
+
 // CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS
 // fonts happened to fit — pin the wrap rule itself, independent of font metrics.
 test("source-error text can break inside long URLs", async ({ page }) => {

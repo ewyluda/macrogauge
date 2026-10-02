@@ -2,59 +2,176 @@
 import { useState } from "react";
 import type { CapacityCompany } from "@/lib/types";
 
-const SEG = { op: "var(--accent-amber, #f4c64a)", con: "var(--accent-sky, #5eb0ef)", plan: "var(--muted)" };
-const fmtMW = (mw: number) => (mw >= 10_000 ? `${(mw / 1000).toFixed(1)} GW` : `${Math.round(mw).toLocaleString("en-US")} MW`);
+const fmtMW = (mw: number) =>
+  mw >= 1000 ? `${(mw / 1000).toFixed(1)} GW` : `${Math.round(mw).toLocaleString("en-US")} MW`;
 const money = (b: number | null | undefined) =>
-  b == null ? "—" : b >= 1000 ? `$${(b / 1000).toFixed(2)}T` : `$${b.toFixed(b < 10 ? 2 : 1)}B`;
+  b == null ? "—" : Math.abs(b) >= 1000 ? `$${(b / 1000).toFixed(2)}T` : `$${b.toFixed(Math.abs(b) < 10 ? 2 : 1)}B`;
 
-function Detail({ c }: { c: CapacityCompany }) {
-  const kv: [string, string][] = [
-    ["Market cap", c.private ? `${money(c.valuation_b)} (last round, private)`
-      : c.stale && c.cap != null ? `${money(c.cap)} (stale — priced ${c.priced_date})`
-      : money(c.cap)],
-    ["EV", money(c.ev)],
-    ["EV / weighted MW", c.ev_per_mw != null ? `$${c.ev_per_mw.toFixed(1)}M` :
-      c.private ? "— (private)" : c.role === "hyperscaler" ? "— (conglomerate EV; not meaningful per AI MW)" : "—"],
-    ["% energized", c.pct_energized != null ? `${c.pct_energized}%` : "—"],
-    ["Backlog coverage", c.coverage != null ? `${c.coverage}× EV` : "—"],
-    ["Net debt", c.nd != null ? money(c.nd) : "—"],
-    ...(Object.entries(c.econ ?? {}).map(([k, v]) => [k, v] as [string, string])),
-  ];
+const ROLE: Record<CapacityCompany["role"], string> = {
+  neocloud: "Neocloud",
+  landlord: "Powered-shell landlord",
+  operator: "AI cloud operator",
+  hyperscaler: "Hyperscaler",
+  exploratory: "Exploring AI hosting",
+};
+
+// econ keys are curator shorthand; the page names them for readers.
+const ECON: [string, string][] = [
+  ["backlog", "Backlog"],
+  ["anchor", "Anchor customers"],
+  ["contract", "Contract terms"],
+  ["revmw", "Revenue per MW"],
+  ["capexmw", "Capex per MW"],
+  ["margin", "Margins"],
+  ["power", "Power"],
+  ["pricing", "Pricing"],
+];
+const econLabel = (k: string) =>
+  ECON.find(([key]) => key === k)?.[1] ?? k.charAt(0).toUpperCase() + k.slice(1);
+const econOrder = (k: string) => {
+  const i = ECON.findIndex(([key]) => key === k);
+  return i < 0 ? ECON.length : i;
+};
+
+const SITE_STATUS: Record<string, string> = {
+  o: "Operational", c: "Construction", p: "Planned", s: "Secured",
+};
+
+type Seg = "op" | "con" | "plan";
+const SEG_LABEL: Record<Seg, string> = { op: "Operational", con: "Under construction", plan: "Planned" };
+
+function Bar({ c, max }: { c: CapacityCompany; max: number }) {
+  const total = c.op + c.con + c.plan;
   return (
-    <div style={{ padding: "10px 14px 14px", borderTop: "1px solid var(--border)" }}>
-      {c.ndflag && <p style={{ fontSize: 12, color: "var(--muted)", margin: "6px 0" }}>{c.ndflag}</p>}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 8, margin: "10px 0" }}>
-        {kv.map(([k, v]) => (
-          <div key={k} style={{ border: "1px solid var(--border)", borderRadius: 8, padding: "7px 10px" }}>
-            <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: ".08em", color: "var(--muted)" }}>{k}</div>
-            <div style={{ fontSize: 13 }}>{v}</div>
+    <div className="cap-bar" role="img"
+      aria-label={`${fmtMW(c.op)} operational, ${fmtMW(c.con)} under construction, ${fmtMW(c.plan)} planned`}>
+      {(["op", "con", "plan"] as Seg[]).map((k) => {
+        const pct = (c[k] / max) * 100;
+        if (c[k] <= 0) return null;
+        // Inline labels only where the segment is wide enough to hold one;
+        // the dossier always carries the exact figures.
+        return (
+          <span key={k} className={`cap-seg cap-seg-${k}`} style={{ width: `${pct}%` }}>
+            {pct >= 11 && c[k] / total >= 0.12 && <span className="cap-seg-label">{fmtMW(c[k])}</span>}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
+function Stat({ label, value, note }: { label: string; value: string; note?: string }) {
+  return (
+    <div className="cap-stat">
+      <dt>{label}</dt>
+      <dd>
+        {value}
+        {note && <small>{note}</small>}
+      </dd>
+    </div>
+  );
+}
+
+function Dossier({ c }: { c: CapacityCompany }) {
+  const evPerMw = c.ev_per_mw != null ? `$${c.ev_per_mw.toFixed(1)}M`
+    : "n/a";
+  const evPerMwNote = c.ev_per_mw != null ? "EV ÷ weighted MW"
+    : c.private ? "private — no market EV"
+    : c.role === "hyperscaler" ? "conglomerate EV, not meaningful per AI MW" : undefined;
+  const capValue = c.private ? money(c.valuation_b) : money(c.cap);
+  const capNote = c.private ? "last private mark"
+    : c.stale && c.cap != null ? `stale — priced ${c.priced_date}` : c.priced_date ? `priced ${c.priced_date}` : undefined;
+  const econ = Object.entries(c.econ ?? {}).sort(([a], [b]) => econOrder(a) - econOrder(b));
+
+  return (
+    <div className="cap-dossier">
+      <section aria-label="Capacity" className="cap-ledger">
+        {(["op", "con", "plan"] as Seg[]).map((k) => (
+          <div key={k} className="cap-ledger-cell">
+            <span className={`cap-swatch cap-seg-${k}`} aria-hidden />
+            <span className="cap-ledger-label">{SEG_LABEL[k]}</span>
+            <strong>{c[k].toLocaleString("en-US")} <small>MW</small></strong>
           </div>
         ))}
-      </div>
-      {c.sites.length > 0 && (
-        <div className="capacity-site-table">
-        <table style={{ width: "100%", fontSize: 12.5, borderCollapse: "collapse" }}>
-          <tbody>
-            {c.sites.map(([name, mw, st, when], i) => (
-              <tr key={i} style={{ borderBottom: "1px dashed var(--border)" }}>
-                <td style={{ padding: "3px 8px 3px 0", width: 90, color: "var(--muted)" }}>{mw != null ? fmtMW(mw) : "—"}</td>
-                <td style={{ padding: "3px 8px 3px 0" }}>{name}</td>
-                <td style={{ padding: "3px 0", color: "var(--muted)", whiteSpace: "nowrap" }}>
-                  {{ o: "operational", c: "construction", p: "planned", s: "secured" }[st] ?? st} · {when}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="cap-ledger-cell">
+          <span className="cap-ledger-label">Energized</span>
+          <strong>{c.pct_energized != null ? `${c.pct_energized}%` : "—"}</strong>
         </div>
+        {c.pipe && (
+          <p className="cap-ledger-pipe"><span>Long-run pipeline</span> {c.pipe}</p>
+        )}
+      </section>
+
+      {c.flag && (
+        <aside className="cap-note">
+          <h4>{c.confidence === "estimate" ? "How this estimate is built" : "Curator’s note"}</h4>
+          <p>{c.flag}</p>
+        </aside>
       )}
+
+      <section aria-label="Valuation">
+        <h4 className="cap-h">Valuation</h4>
+        <dl className="cap-stats">
+          <Stat label={c.private ? "Valuation" : "Market cap"} value={capValue} note={capNote} />
+          <Stat label="Enterprise value" value={money(c.ev)} />
+          <Stat label={c.nd != null && c.nd < 0 ? "Net cash" : "Net debt"}
+            value={c.nd != null ? money(Math.abs(c.nd)) : "—"} />
+          <Stat label="EV per MW" value={evPerMw} note={evPerMwNote} />
+          <Stat label="Contracted backlog" value={money(c.bk)} />
+          <Stat label="Backlog ÷ EV" value={c.coverage != null ? `${c.coverage}×` : "—"} />
+        </dl>
+        {c.ndflag && <p className="cap-foot"><span>Net debt basis.</span> {c.ndflag}</p>}
+      </section>
+
+      <div className="cap-columns">
+        {econ.length > 0 && (
+          <section aria-label="Business economics">
+            <h4 className="cap-h">Business economics</h4>
+            <dl className="cap-econ">
+              {econ.map(([k, v]) => (
+                <div key={k}>
+                  <dt>{econLabel(k)}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+        {c.sites.length > 0 && (
+          <section aria-label="Sites">
+            <h4 className="cap-h">Sites <small>{c.sites.length}</small></h4>
+            <div className="capacity-site-table">
+              <table className="cap-sites">
+                <thead>
+                  <tr><th scope="col">Site</th><th scope="col" className="num">MW</th><th scope="col">Status and timing</th></tr>
+                </thead>
+                <tbody>
+                  {c.sites.map(([name, mw, st, when], i) => (
+                    <tr key={i}>
+                      <td>{name}</td>
+                      <td className="num">{mw != null ? mw.toLocaleString("en-US") : "n/d"}</td>
+                      <td>
+                        <span className={`cap-status cap-status-${st}`}>{SITE_STATUS[st] ?? st}</span>
+                        <span className="cap-when">{when}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
+      </div>
+
       {c.src.length > 0 && (
-        <p style={{ fontSize: 11.5, color: "var(--muted)", marginTop: 8 }}>
-          Sources:{" "}
-          {c.src.map(([label, url], i) => (
-            <span key={url}>{i > 0 && " · "}<a href={url} target="_blank" rel="noreferrer">{label}</a></span>
-          ))}
-        </p>
+        <section aria-label="Sources" className="cap-sources">
+          <h4 className="cap-h">Sources</h4>
+          <ul>
+            {c.src.map(([label, url]) => (
+              <li key={url}><a href={url} target="_blank" rel="noreferrer">{label}</a></li>
+            ))}
+          </ul>
+        </section>
       )}
     </div>
   );
@@ -65,58 +182,54 @@ export function CapacityBars({ rows }: { rows: CapacityCompany[] }) {
   const max = Math.max(...rows.map((c) => c.op + c.con + c.plan), 1);
   return (
     <div>
-      <p style={{ fontSize: 12, color: "var(--muted)" }}>
-        <span style={{ color: SEG.op }}>■</span> operational{" "}
-        <span style={{ color: SEG.con }}>■</span> construction{" "}
-        <span style={{ color: SEG.plan }}>■</span> planned — critical-IT AI MW, verify-adjusted
-      </p>
-      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+      <div className="cap-legend">
+        <span><i className="cap-swatch cap-seg-op" aria-hidden /> Operational</span>
+        <span><i className="cap-swatch cap-seg-con" aria-hidden /> Under construction</span>
+        <span><i className="cap-swatch cap-seg-plan" aria-hidden /> Planned</span>
+        <span className="cap-legend-note">MW are verify-adjusted critical IT. Select a company to open its full record.</span>
+      </div>
+      {rows.length === 0 && <p className="cap-empty">No company matches that search. Clear it or switch the cohort to see the full list.</p>}
+      <div className="cap-head" aria-hidden>
+        <span /><span>Company</span><span>Critical-IT MW</span><span className="r">Total</span><span className="r">EV per MW</span><span />
+      </div>
+      <ol className="cap-list">
         {rows.map((c, i) => {
           const total = c.op + c.con + c.plan;
+          const isOpen = open === c.t;
           return (
-            <div key={c.t} className="dashboard-panel" style={{ padding: 0 }}>
-              <button className="capacity-company" type="button" onClick={() => setOpen(open === c.t ? null : c.t)}
-                aria-expanded={open === c.t}
-                style={{ display: "grid", gridTemplateColumns: "230px 1fr 110px", gap: 12, width: "100%",
-                         alignItems: "center", padding: "9px 14px", cursor: "pointer", background: "none",
-                         border: 0, color: "inherit", font: "inherit", textAlign: "left" }}>
-                <div style={{ minWidth: 0 }}>
-                  <div style={{ fontSize: 13.5, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                    <span style={{ color: "var(--muted)", marginRight: 6 }}>{i + 1}</span>
-                    {c.n}
-                  </div>
-                  <div style={{ fontSize: 11, color: "var(--muted)" }}>
-                    {c.private ? "private" : c.t} · {c.role}
-                    {c.confidence === "estimate" && <span title="MW footprint is an estimate, not filing-grade"> · est.</span>}
-                    {c.flag && <span style={{ color: "var(--accent-amber, #f4c64a)" }}> · {c.flag}</span>}
-                  </div>
-                </div>
-                <div style={{ display: "flex", height: 22, borderRadius: 5, overflow: "hidden",
-                              border: "1px solid var(--border)" }}>
-                  <div style={{ width: `${(c.op / max) * 100}%`, background: SEG.op }} />
-                  <div style={{ width: `${(c.con / max) * 100}%`, background: SEG.con }} />
-                  <div style={{ width: `${(c.plan / max) * 100}%`, background: SEG.plan, opacity: 0.45 }} />
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <div style={{ fontSize: 13, fontWeight: 700 }}>{fmtMW(total)}</div>
-                  <div style={{ fontSize: 10.5, color: "var(--muted)" }}>
-                    {c.ev_per_mw != null ? (
-                      c.stale
-                        ? <span title={`Stale quote — last priced ${c.priced_date}`}>${c.ev_per_mw.toFixed(0)}M/MW*</span>
-                        : `$${c.ev_per_mw.toFixed(0)}M/MW`
-                    ) : c.stale ? (
-                      c.cap != null
-                        ? <span title={`Stale quote — last priced ${c.priced_date}`}>stale</span>
-                        : "unpriced"
-                    ) : <span title={c.private ? "Private — EV/MW not comparable" : "Conglomerate EV — not meaningful per AI MW"}>—</span>}
-                  </div>
-                </div>
+            <li key={c.t} className={`dashboard-panel cap-row${isOpen ? " is-open" : ""}`}>
+              <button className="capacity-company" type="button" onClick={() => setOpen(isOpen ? null : c.t)}
+                aria-expanded={isOpen}>
+                <span className="cap-rank" aria-hidden>{i + 1}</span>
+                <span className="cap-id">
+                  <span className="cap-name">{c.n}</span>
+                  <span className="cap-meta">
+                    <span className="cap-ticker">{c.private ? "Private" : c.t}</span>
+                    <span>{ROLE[c.role] ?? c.role}</span>
+                    {c.confidence === "estimate"
+                      ? <span className="cap-badge cap-badge-est" title="MW footprint is a curated estimate, not filing-grade">Estimate</span>
+                      : <span className="cap-badge" title="MW figures come from company filings">Filed</span>}
+                  </span>
+                </span>
+                <span className="cap-track"><Bar c={c} max={max} /></span>
+                <span className="cap-total">
+                  <strong>{fmtMW(total)}</strong>
+                  <small>{c.pct_energized != null ? `${Math.round(c.pct_energized)}% energized` : ""}</small>
+                </span>
+                <span className="cap-evmw">
+                  {c.ev_per_mw != null
+                    ? c.stale
+                      ? <span title={`Stale quote — last priced ${c.priced_date}`}>${c.ev_per_mw.toFixed(0)}M*</span>
+                      : `$${c.ev_per_mw.toFixed(0)}M`
+                    : <span className="cap-na" title={c.private ? "Private — no market EV" : "Conglomerate EV — not meaningful per AI MW"}>n/a</span>}
+                </span>
+                <span className="cap-chevron" aria-hidden />
               </button>
-              {open === c.t && <Detail c={c} />}
-            </div>
+              {isOpen && <Dossier c={c} />}
+            </li>
           );
         })}
-      </div>
+      </ol>
     </div>
   );
 }
