@@ -26,8 +26,34 @@ def test_happy_path_parses_session_averages():
     o = obs[0]
     assert o.series_code == "MLC 64Gb 8GBx8"                   # SPIKE-FINAL
     assert o.value == pytest.approx(31.1)                      # SPIKE-FINAL value
-    assert (o.obs_date, o.vintage_date) == ("2026-07-15", "2026-07-15")
+    # dated by the flash table's own stamp (Jul.6), not the run (Jul 15)
+    assert (o.obs_date, o.vintage_date) == ("2026-07-06", "2026-07-15")
     assert (o.source, o.route) == ("DRAMEX", "SCRAPE")
+
+
+def test_each_row_is_dated_by_its_own_tables_stamp():
+    # The fixture's DRAM table says Jul.15, its flash table Jul.6. A run
+    # days after the flash table last moved must not mint a fresh NAND print.
+    labels = ["MLC 64Gb 8GBx8", "DDR5 16Gb (2Gx8) 4800/5600"]
+    obs = dramex.fetch(labels, vintage_date="2026-07-20", http_get=_get(FIXTURE))
+    assert {o.series_code: o.obs_date for o in obs} == {
+        "MLC 64Gb 8GBx8": "2026-07-06", "DDR5 16Gb (2Gx8) 4800/5600": "2026-07-15"}
+    assert {o.vintage_date for o in obs} == {"2026-07-20"}
+
+
+def test_missing_stamp_falls_back_to_the_run_date():
+    html = FIXTURE.replace("Last Update:", "Updated:")
+    assert html != FIXTURE
+    obs = dramex.fetch(["MLC 64Gb 8GBx8"], vintage_date="2026-07-15",
+                       http_get=_get(html))
+    assert obs[0].obs_date == "2026-07-15"
+
+
+def test_stamp_is_clamped_to_the_run_date():
+    # GMT+8 runs ahead of ET; an obs can never postdate its own vintage.
+    obs = dramex.fetch(["DDR5 16Gb (2Gx8) 4800/5600"], vintage_date="2026-07-14",
+                       http_get=_get(FIXTURE))
+    assert obs[0].obs_date == "2026-07-14"
 
 
 def test_all_three_rows_parse():

@@ -205,7 +205,7 @@ def fetch(area_fips: list[str], vintage_date: str | None = None,
     vintage = vintage_date or today_et()
     wanted = set(area_fips)
     out: list[Observation] = []
-    loaded, errors = 0, []
+    loaded, errors, newest = 0, [], None
     for year, q in _recent_quarters(vintage):
         try:
             resp = http_get(QCEW_URL.format(year=year, qtr=q, naics=naics),
@@ -213,12 +213,24 @@ def fetch(area_fips: list[str], vintage_date: str | None = None,
             resp.raise_for_status()
             rows = _parse_quarter(resp.text, wanted, vintage, naics, source)
         except Exception as e:  # per-quarter: never discard the other quarters
-            errors.append((f"{year}q{q}", e))
+            errors.append(((year, q), e))
             continue
         loaded += 1
+        newest = (year, q)
         out.extend(rows)
     if not loaded:
         raise RuntimeError(f"{source}: no quarter loaded — " + "; ".join(
-            f"{q}: {type(e).__name__}" for q, e in errors))
-    warn_partial(source, errors)
+            f"{y}q{q}: {type(e).__name__}" for (y, q), e in errors))
+    # A 404 on a quarter newer than the newest one that loaded is BLS's
+    # ~5-month lag, not a failure — the window requests those on purpose (see
+    # N_QUARTERS). Reporting them made /status carry a permanent "partial"
+    # line. Anything else — a 404 behind a loaded quarter, a 5xx, a 200
+    # maintenance page — still warns.
+    warn_partial(source, [(f"{y}q{q}", e) for (y, q), e in errors
+                          if not ((y, q) > newest and _is_404(e))])
     return out
+
+
+def _is_404(e: Exception) -> bool:
+    resp = getattr(e, "response", None)
+    return isinstance(e, requests.HTTPError) and getattr(resp, "status_code", None) == 404
