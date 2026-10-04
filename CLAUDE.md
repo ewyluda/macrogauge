@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (1149 tests)
+pytest -q                                     # full suite (1171 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -29,7 +29,7 @@ npm run dev        # local dev server
 npm run lint       # ESLint flat config: next core-web-vitals + jsx-a11y + react-hooks (must pass in CI)
 npm run build      # static export (must pass in CI)
 npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/sCurve) + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/portfolio/chartAria/sourcePills/badge
-npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 211 e2e tests, zero console errors
+npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 212 e2e tests, zero console errors
 npm run gen-types  # schemas/*.schema.json -> src/lib/generated/*.ts (gitignored; runs automatically before dev/build/test)
 ```
 
@@ -49,8 +49,8 @@ Data flows in one direction: **collect → store → engine → publish → vali
 live in one repo.
 
 ### 1. Collection (`pipeline/collect.py`, `pipeline/connectors/`)
-One connector module per source — 25 total: API/CSV/XLSX (fred, bls, eia, fmp, treasury, zillow, pmms,
-aptlist, usda, kalshi, qcew, census, vastai, openrouter, caiso, miso, ice, nyfed, atlfed) and scrape (aaa, mnd,
+One connector module per source — 28 total: API/CSV/XLSX (fred, bls, eia, fmp, treasury, zillow, pmms,
+aptlist, usda, kalshi, qcew, census, vastai, openrouter, caiso, miso, ice, ercot, spp, nyiso, nyfed, atlfed) and scrape (aaa, mnd,
 manheim, cleveland, dramex, sfcompute). One module can serve several source keys for failure
 isolation (`kalshi.py`: KALSHI / KALSHI_CORE / KALSHI_DC / KALSHI_FED; `qcew.py`: QCEW for NAICS 23 /
 QCEW_238212 for the 6-digit electrical-contractor slice). What gets collected is driven entirely by

@@ -554,6 +554,43 @@
               },
               "unit": {
                 "type": "string"
+              },
+              "grid": {
+                "type": "string"
+              },
+              "region": {
+                "type": "string"
+              },
+              "product": {
+                "type": "string"
+              },
+              "avg30": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "avg30_yoy_pct": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "spark": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ],
+                  "minItems": 2,
+                  "maxItems": 2
+                }
               }
             }
           }
@@ -631,6 +668,140 @@
                 "number",
                 "null"
               ]
+            }
+          }
+        },
+        "capacity_markets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "iso",
+              "name",
+              "product",
+              "status",
+              "note",
+              "source",
+              "source_url",
+              "asof",
+              "rows"
+            ],
+            "properties": {
+              "iso": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "product": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "auction",
+                  "none"
+                ]
+              },
+              "note": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "source_url": {
+                "type": "string"
+              },
+              "asof": {
+                "type": "string"
+              },
+              "rows": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "period",
+                    "price_mw_day"
+                  ],
+                  "properties": {
+                    "period": {
+                      "type": "string"
+                    },
+                    "price_mw_day": {
+                      "type": "number"
+                    },
+                    "native": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tariffs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "utility",
+              "state",
+              "grid",
+              "tariff",
+              "status",
+              "min_take",
+              "term",
+              "threshold",
+              "pipeline",
+              "source",
+              "source_url",
+              "asof",
+              "confidence"
+            ],
+            "properties": {
+              "utility": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "grid": {
+                "type": "string"
+              },
+              "tariff": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "min_take": {
+                "type": "string"
+              },
+              "term": {
+                "type": "string"
+              },
+              "threshold": {
+                "type": "string"
+              },
+              "pipeline": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "source_url": {
+                "type": "string"
+              },
+              "asof": {
+                "type": "string"
+              },
+              "confidence": {
+                "type": "string",
+                "enum": [
+                  "filed",
+                  "press"
+                ]
+              }
             }
           }
         }

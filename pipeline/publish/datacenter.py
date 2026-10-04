@@ -101,7 +101,9 @@ def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
         "hubs": [{**h, "latest": round(h["latest"], 2)} for h in power["hubs"]],
         "henry_hub": None if power["henry_hub"] is None else {
             **power["henry_hub"], "latest": round(power["henry_hub"]["latest"], 2)},
-        "capacity_auction": power["capacity_auction"]}
+        "capacity_auction": power["capacity_auction"],
+        "capacity_markets": power.get("capacity_markets", []),
+        "tariffs": power.get("tariffs", [])}
     out["context"] = context
     return out
 

@@ -642,7 +642,10 @@ def test_power_block_shape_with_partial_hub_data(tmp_path):
         "nowcast": {"implied_cents_kwh": 8.91, "yoy_pct": 4.27,
                     "asof": "2026-07-14"}}
     assert block["hubs"] == [{"code": "caiso_sp15_da", "label": "CAISO SP15 (day-ahead)",
-                              "latest": 44.7, "asof": "2026-07-14", "unit": "$/MWh"}]
+                              "latest": 44.7, "asof": "2026-07-14", "unit": "$/MWh",
+                              "grid": "", "region": "", "product": "",
+                              "avg30": None, "avg30_yoy_pct": None,   # one print < HUB_MIN_OBS
+                              "spark": [["2026-07-14", 44.7]]}]
     assert block["henry_hub"] == {"code": "eia_henry_hub", "label": "Henry Hub natural gas",
                                   "latest": 2.83, "asof": "2026-07-13", "unit": "$/MMBtu"}
     assert block["capacity_auction"]["multiple"] is None   # single row
@@ -694,6 +697,22 @@ def test_power_block_inactive_tail_shape_unchanged(tmp_path):
         "yoy_pct": 3.0, "last_obs": "2026-04-01"}}}}}
     block = dcindex.power_block(conn, dc_result, _power_cfg(), basket_path=basket)
     assert block["tail"] == {"active": False, "smooth_days": None, "hubs": []}
+
+
+def test_power_block_hub_window_stats(tmp_path):
+    # 30-day trailing average ending at the hub's own last print, against the
+    # same window a year earlier; the sparkline keeps only the last 180 days.
+    rows = [("caiso_sp15_da", f"2026-07-{d:02d}", 50.0) for d in range(8, 15)]
+    rows += [("caiso_sp15_da", f"2025-07-{d:02d}", 40.0) for d in range(8, 15)]
+    rows += [("caiso_sp15_da", "2025-12-01", 99.0)]   # outside both windows
+    conn = make_conn(tmp_path, rows)
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    dc_result = {"indexes": {"ops": {"components": {"power": {"mode": "official"}}}}}
+    hub = dcindex.power_block(conn, dc_result, _power_cfg(), basket_path=basket)["hubs"][0]
+    assert hub["avg30"] == 50.0
+    assert hub["avg30_yoy_pct"] == 25.0
+    assert [d for d, _ in hub["spark"]][0] == "2026-07-08"   # 2025 rows fall outside 180d
+    assert len(hub["spark"]) == 7
 
 
 def test_power_block_capacity_story_math(tmp_path):

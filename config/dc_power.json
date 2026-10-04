@@ -1,14 +1,517 @@
-{"hubs": [
-   {"code": "caiso_sp15_da", "label": "CAISO SP15 (day-ahead)"},
-   {"code": "miso_indiana_da", "label": "MISO Indiana Hub (day-ahead)"},
-   {"code": "ice_pjm_west", "label": "PJM Western Hub (ICE wtd avg)"}],
- "henry_hub": {"code": "eia_henry_hub", "label": "Henry Hub natural gas"},
+{
+ "hubs": [
+  {
+   "code": "ice_pjm_west",
+   "label": "PJM Western Hub",
+   "grid": "PJM",
+   "region": "Mid-Atlantic incl. Northern Virginia",
+   "product": "On-peak, ICE trades"
+  },
+  {
+   "code": "ercot_north_da",
+   "label": "ERCOT North Hub",
+   "grid": "ERCOT",
+   "region": "Texas (Dallas–Fort Worth)",
+   "product": "Day-ahead, all-hours average"
+  },
+  {
+   "code": "miso_indiana_da",
+   "label": "MISO Indiana Hub",
+   "grid": "MISO",
+   "region": "Midwest",
+   "product": "Day-ahead, all-hours average"
+  },
+  {
+   "code": "spp_north_da",
+   "label": "SPP North Hub",
+   "grid": "SPP",
+   "region": "Kansas and Nebraska",
+   "product": "Day-ahead, all-hours average"
+  },
+  {
+   "code": "caiso_sp15_da",
+   "label": "CAISO SP15",
+   "grid": "CAISO",
+   "region": "Southern California",
+   "product": "Day-ahead, all-hours average"
+  },
+  {
+   "code": "ice_palo_verde",
+   "label": "Palo Verde",
+   "grid": "Desert Southwest",
+   "region": "Arizona (Phoenix)",
+   "product": "On-peak, ICE trades"
+  },
+  {
+   "code": "ice_midc",
+   "label": "Mid-Columbia",
+   "grid": "Pacific Northwest",
+   "region": "Washington / Oregon",
+   "product": "On-peak, ICE trades"
+  },
+  {
+   "code": "nyiso_west_da",
+   "label": "NYISO Zone A (West)",
+   "grid": "NYISO",
+   "region": "Western New York",
+   "product": "Day-ahead, all-hours average"
+  },
+  {
+   "code": "ice_mass_hub",
+   "label": "ISO-NE Mass Hub",
+   "grid": "ISO-NE",
+   "region": "New England",
+   "product": "Day-ahead on-peak, ICE trades"
+  }
+ ],
+ "henry_hub": {
+  "code": "eia_henry_hub",
+  "label": "Henry Hub natural gas"
+ },
  "capacity_auction": {
-   "source": "PJM RPM Base Residual Auction results (pjm.com); hand-updated after each auction",
+  "source": "PJM RPM Base Residual Auction results (pjm.com); hand-updated after each auction",
+  "asof": "2026-07-14",
+  "rows": [
+   {
+    "delivery_year": "2024/25",
+    "price_mw_day": 28.92
+   },
+   {
+    "delivery_year": "2025/26",
+    "price_mw_day": 269.92
+   },
+   {
+    "delivery_year": "2026/27",
+    "price_mw_day": 329.17
+   },
+   {
+    "delivery_year": "2027/28",
+    "price_mw_day": 333.44
+   },
+   {
+    "delivery_year": "2028/29",
+    "price_mw_day": 325.0
+   }
+  ]
+ },
+ "tariffs": [
+  {
+   "utility": "Dominion Energy Virginia",
+   "state": "VA",
+   "grid": "PJM",
+   "tariff": "Rate Schedule GS-5",
+   "status": "Approved, Virginia SCC PUR-2025-00058 (Nov 25, 2025); applies to contracts signed from Jan 1, 2027",
+   "min_take": "85% of contracted demand for distribution and transmission; 60% for generation",
+   "term": "14 years, including up to a 4-year ramp",
+   "threshold": "25 MW and a 75% load factor",
+   "pipeline": "53.8 GW contracted, 12.0 GW of it under signed service agreements (Jul 2026)",
+   "source": "Dominion Q2 2026 slides; SCC final order",
+   "source_url": "https://s2.q4cdn.com/510812146/files/doc_financials/2026/q2/2026-07-31-DE-IR-2Q-2026-earnings-call-slides-vTCII.pdf",
+   "asof": "2026-07-31",
+   "confidence": "filed"
+  },
+  {
+   "utility": "AEP Ohio",
+   "state": "OH",
+   "grid": "PJM",
+   "tariff": "Data Center Tariff (Schedule DCT)",
+   "status": "Approved, PUCO 24-0508-EL-ATA (Jul 9, 2025); appeal pending at the Ohio Supreme Court",
+   "min_take": "Up to 85% of contract capacity (tiered formula)",
+   "term": "Ramp of up to 4 years, then 8 years",
+   "threshold": "25 MW of new data-center load",
+   "pipeline": "About 12 GW of AEP's 69 GW contracted load through 2030 is in Ohio (Sep 2026)",
+   "source": "AEP Ohio tariff page",
+   "source_url": "https://www.aepohio.com/company/about/rates/data-center-tariff",
+   "asof": "2026-10-04",
+   "confidence": "filed"
+  },
+  {
+   "utility": "Indiana Michigan Power",
+   "state": "IN",
+   "grid": "PJM",
+   "tariff": "Large Load Terms (Tariff I.P.)",
+   "status": "Approved, IURC Cause 46097 (Feb 19, 2025)",
+   "min_take": "80% of contract capacity",
+   "term": "12 years or more after a ramp of up to 5 years",
+   "threshold": "70 MW per site or 150 MW aggregated",
+   "pipeline": "Indiana peak load 2.8 GW today, more than 7 GW by about 2030",
+   "source": "IURC order 46097",
+   "source_url": "https://www.in.gov/iurc/files/ord_46097_021925.pdf",
+   "asof": "2025-02-19",
+   "confidence": "filed"
+  },
+  {
+   "utility": "ComEd",
+   "state": "IL",
+   "grid": "PJM",
+   "tariff": "Transmission Security Agreements and large-load deposits",
+   "status": "First agreements signed Jan 2026; deposit tariff approved by the ICC (Docket 25-0677, Mar 2026)",
+   "min_take": "Take-or-pay on transmission service, backed by 10 years of collateral",
+   "term": "Not a retail minimum bill",
+   "threshold": "50 MW",
+   "pipeline": "About 9 GW in advanced design plus about 17 GW in cluster studies (Jul 2026)",
+   "source": "Exelon Q2 2026 slides",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1109357/000110935726000077/exc-20260730ex992.htm",
+   "asof": "2026-07-30",
+   "confidence": "filed"
+  },
+  {
+   "utility": "Georgia Power",
+   "state": "GA",
+   "grid": "Southeast (no RTO)",
+   "tariff": "Large-load rules and contracting framework",
+   "status": "Approved, Georgia PSC Docket 44280 (Jan and Apr 2025); base rates frozen through 2028",
+   "min_take": "Minimum bill set to recover transmission and generation cost; no percentage published",
+   "term": "Longer terms; leaving early owes the remaining minimum bills",
+   "threshold": "100 MW",
+   "pipeline": "12.4 GW committed across 31 customers (Mar 2026), plus OpenAI's 3.2 GW (Aug 2026); 76.2 GW pipeline",
+   "source": "Georgia PSC large-load report",
+   "source_url": "https://services.psc.ga.gov/api/v1/External/Public/Get/Document/DownloadFile/226607/107927",
+   "asof": "2026-05-15",
+   "confidence": "filed"
+  },
+  {
+   "utility": "Duke Energy Carolinas and Progress",
+   "state": "NC / SC",
+   "grid": "Southeast (no RTO)",
+   "tariff": "Large-load terms in service agreements; NC tariff proposed",
+   "status": "Terms filed with the NCUC (E-100 Sub 208, Oct 2025); separate large-load tariff proceeding agreed Aug 2026",
+   "min_take": "75% of contract demand",
+   "term": "15 years or more",
+   "threshold": "Proposed tariff: 50 MW (press report)",
+   "pipeline": "7.8 GW of signed data-center service agreements (Aug 2026 call)",
+   "source": "Duke NCUC filing",
+   "source_url": "https://www.theassemblync.com/wp-content/uploads/2026/05/ViewFile.pdf",
+   "asof": "2025-10-10",
+   "confidence": "filed"
+  },
+  {
+   "utility": "Entergy Louisiana",
+   "state": "LA",
+   "grid": "MISO",
+   "tariff": "Customer-specific agreements (Meta)",
+   "status": "Hyperion approved, LPSC U-37425 (Aug 20, 2025); a second 5.3 GW Meta agreement awaits a decision targeted for Dec 2026",
+   "min_take": "Minimum monthly bills plus upfront contributions; percentage not disclosed",
+   "term": "Not disclosed",
+   "threshold": "Bespoke",
+   "pipeline": "7 to 12 GW of potential data-center load beyond the current plan (May 2026)",
+   "source": "Entergy 10-Q, Q2 2026",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/65984/000006598426000283/etr-20260630.htm",
+   "asof": "2026-07-31",
+   "confidence": "filed"
+  },
+  {
+   "utility": "Texas (Oncor, CenterPoint, AEP Texas)",
+   "state": "TX",
+   "grid": "ERCOT",
+   "tariff": "Statewide large-load rules under SB 6",
+   "status": "Interconnection standards adopted, PUCT Project 58481 (effective Oct 8, 2026); 20-year minimum-billing rule proposed (Project 58000)",
+   "min_take": "Proposed: 100% of contracted peak",
+   "term": "Proposed: 20 years of payments",
+   "threshold": "75 MW per site",
+   "pipeline": "ERCOT tracks about 474 GW of large-load requests, about 90% data centers (Jun 2026)",
+   "source": "PUCT order, Project 58481",
+   "source_url": "https://interchange.puc.texas.gov/Documents/58481_218_1684654.PDF",
+   "asof": "2026-09-18",
+   "confidence": "filed"
+  },
+  {
+   "utility": "Evergy",
+   "state": "KS / MO",
+   "grid": "SPP",
+   "tariff": "Large Load Power Service (LLPS)",
+   "status": "Approved, KCC 25-EKME-315-TAR (Nov 6, 2025) and Missouri PSC EO-2025-0154 (Nov 13, 2025)",
+   "min_take": "80% of contract demand",
+   "term": "12 years plus an optional ramp of up to 5 years",
+   "threshold": "75 MW",
+   "pipeline": "About 2.6 GW of data-center service agreements signed in 2026",
+   "source": "Kansas Corporation Commission",
+   "source_url": "https://www.kcc.ks.gov/news-11-6-25",
+   "asof": "2025-11-06",
+   "confidence": "filed"
+  },
+  {
+   "utility": "Ameren Missouri",
+   "state": "MO",
+   "grid": "MISO",
+   "tariff": "Large Load Customer Service (Schedule LLCS)",
+   "status": "Approved, Missouri PSC ET-2025-0184 (Nov 24, 2025)",
+   "min_take": "80% of contract capacity",
+   "term": "12 years plus an optional ramp of up to 5 years",
+   "threshold": "75 MW",
+   "pipeline": "2.8 GW of signed service agreements; 3.4 GW under construction agreements (Jul 2026)",
+   "source": "Missouri PSC stipulation",
+   "source_url": "https://efis.psc.mo.gov/Document/Display/856767",
+   "asof": "2025-11-07",
+   "confidence": "filed"
+  },
+  {
+   "utility": "Xcel Energy (Minnesota)",
+   "state": "MN",
+   "grid": "MISO",
+   "tariff": "Large-load tariff",
+   "status": "Approved, Minnesota PUC M-25-289 (May 2026); Colorado and Wisconsin versions pending",
+   "min_take": "80% minimum bill and exit fee (PUC); Xcel's deck still lists 75%",
+   "term": "15 years; 24-month exit notice",
+   "threshold": "100 MW",
+   "pipeline": "About 2 GW contracted or under construction; more than 20 GW pipeline (Jul 2026)",
+   "source": "Minnesota PUC release",
+   "source_url": "https://content.govdelivery.com/bulletins/gd/MNPUBUC-417d139",
+   "asof": "2026-05-18",
+   "confidence": "filed"
+  },
+  {
+   "utility": "PPL Electric",
+   "state": "PA",
+   "grid": "PJM",
+   "tariff": "Large-load rate class",
+   "status": "Approved in the rate-case settlement, PA PUC R-2025-3057164 (order Jun 11, 2026; rates from Jul 1, 2026)",
+   "min_take": "Not disclosed",
+   "term": "Minimum 10 years (press report)",
+   "threshold": "Large-load class",
+   "pipeline": "31.8 GW in advanced planning; more than 11 GW under signed service agreements (Aug 2026)",
+   "source": "PPL Q2 2026 8-K",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/922224/000092222426000042/ppl-6302026exhibit991.htm",
+   "asof": "2026-08-07",
+   "confidence": "filed"
+  },
+  {
+   "utility": "FirstEnergy",
+   "state": "OH / PA / NJ / MD / WV",
+   "grid": "PJM",
+   "tariff": "Ohio Data Center Tariff",
+   "status": "Pending, PUCO 26-0697-EL-ATA (filed Jun 12, 2026)",
+   "min_take": "Not yet set",
+   "term": "Not yet set",
+   "threshold": "Data-center load",
+   "pipeline": "24.8 GW of data-center demand, 6.4 GW of it contracted (Q2 2026)",
+   "source": "FirstEnergy Q2 2026 8-K",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1031296/000103129626000122/ex9922q26strategicfinanc.htm",
+   "asof": "2026-07-28",
+   "confidence": "filed"
+  },
+  {
+   "utility": "Arizona Public Service",
+   "state": "AZ",
+   "grid": "Western (WEIM)",
+   "tariff": "Rate Schedule XHLF (Extra High Load Factor)",
+   "status": "In effect since Mar 2024; changes pending in rate case E-01345A-25-0105 (ACC vote due by Dec 31, 2026)",
+   "min_take": "Set customer by customer in each supply agreement",
+   "term": "Set in each supply agreement",
+   "threshold": "5 MW at a 92% load factor",
+   "pipeline": "4.5 GW committed; about 20 GW uncommitted (Sep 2026)",
+   "source": "Pinnacle West investor deck",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/764622/000076462226000049/octoberinvestordeck.htm",
+   "asof": "2026-09-30",
+   "confidence": "filed"
+  },
+  {
+   "utility": "Salt River Project",
+   "state": "AZ",
+   "grid": "Western (public power)",
+   "tariff": "Price Plan E-67 (large-load substation service)",
+   "status": "Approved by the SRP board; effective with the Nov 2025 billing cycle",
+   "min_take": "80% of forecast demand",
+   "term": "Set in each service agreement",
+   "threshold": "20 MW, or 20 MW expected within 5 years",
+   "pipeline": "Data centers were 5.1% of SRP's summer 2025 peak; no GW pipeline published",
+   "source": "SRP E-67 price plan",
+   "source_url": "https://www.srpnet.com/assets/srpnet/pdf/price-plans/FY26/TCA%20Ratebooks/2025%20Ratebook%20E-67%20with%20TCA.pdf",
+   "asof": "2025-11-01",
+   "confidence": "filed"
+  },
+  {
+   "utility": "NV Energy",
+   "state": "NV",
+   "grid": "Western (WEIM)",
+   "tariff": "Standard large-load service agreement",
+   "status": "Filed with the 2026 resource plan (May 2026); approval requested by Sep 18, 2026",
+   "min_take": "90% of maximum demand after the ramp",
+   "term": "10 years or more",
+   "threshold": "25 MW",
+   "pipeline": "About 5.7 GW under signed agreements and 11.2 GW in study (Aug 2025)",
+   "source": "NV Energy 2026 IRP, Volume 7",
+   "source_url": "https://www.nvenergy.com/publish/content/dam/nvenergy/brochures_arch/about-nvenergy/rates-regulatory/recent-regulatory-filings/2026-irp/NPC-SPPC-Volume-7.pdf",
+   "asof": "2026-05-01",
+   "confidence": "filed"
+  },
+  {
+   "utility": "PG&E",
+   "state": "CA",
+   "grid": "CAISO",
+   "tariff": "Electric Rule 30 (transmission-level retail service)",
+   "status": "Interim rule approved, D.25-07-039 (Jul 2025); final rule pending in A.24-11-007",
+   "min_take": "Proposed: 75% of contracted capacity in years 1–15",
+   "term": "Proposed: 15 years after a ramp of up to 4 years",
+   "threshold": "20 MW",
+   "pipeline": "12.7 GW of data-center requests (Jun 2026)",
+   "source": "PG&E testimony, A.24-11-007",
+   "source_url": "https://docs.cpuc.ca.gov/PublishedDocs/SupDoc/A2411007/9125/604598933.pdf",
+   "asof": "2026-07-23",
+   "confidence": "filed"
+  }
+ ],
+ "capacity_markets": [
+  {
+   "iso": "PJM",
+   "name": "Base Residual Auction",
+   "product": "RTO clearing price",
+   "status": "auction",
+   "note": "2028/29 cleared at the price cap",
+   "source": "PJM",
+   "source_url": "https://www.pjm.com/markets-and-operations/rpm",
    "asof": "2026-07-14",
    "rows": [
-     {"delivery_year": "2024/25", "price_mw_day": 28.92},
-     {"delivery_year": "2025/26", "price_mw_day": 269.92},
-     {"delivery_year": "2026/27", "price_mw_day": 329.17},
-     {"delivery_year": "2027/28", "price_mw_day": 333.44},
-     {"delivery_year": "2028/29", "price_mw_day": 325.00}]}}
+    {
+     "period": "2024/25",
+     "price_mw_day": 28.92
+    },
+    {
+     "period": "2025/26",
+     "price_mw_day": 269.92
+    },
+    {
+     "period": "2026/27",
+     "price_mw_day": 329.17
+    },
+    {
+     "period": "2027/28",
+     "price_mw_day": 333.44
+    },
+    {
+     "period": "2028/29",
+     "price_mw_day": 325.0
+    }
+   ]
+  },
+  {
+   "iso": "MISO",
+   "name": "Planning Resource Auction",
+   "product": "Annualized North/Central price",
+   "status": "auction",
+   "note": "MISO publishes annualized prices from 2025/26; earlier years are our day-weighted average of its seasonal prices. Summer 2025/26 cleared $666.50",
+   "source": "MISO auction results",
+   "source_url": "https://www.misoenergy.org/meet-miso/media-center/2026---news-releases/misos-planning-resource-auction-shows-sufficient-capacity-for-coming-year",
+   "asof": "2026-04-28",
+   "rows": [
+    {
+     "period": "2023/24",
+     "price_mw_day": 9.25,
+     "native": "seasonal $10 / $15 / $2 / $10 per MW-day"
+    },
+    {
+     "period": "2024/25",
+     "price_mw_day": 20.08,
+     "native": "seasonal $30 / $15 / $0.75 / $34.10 per MW-day"
+    },
+    {
+     "period": "2025/26",
+     "price_mw_day": 217.0,
+     "native": "$217/MW-day annualized (MISO)"
+    },
+    {
+     "period": "2026/27",
+     "price_mw_day": 126.19,
+     "native": "$126.19/MW-day annualized (MISO)"
+    }
+   ]
+  },
+  {
+   "iso": "ISO-NE",
+   "name": "Forward Capacity Auction",
+   "product": "Rest-of-Pool clearing price",
+   "status": "auction",
+   "note": "No auction after 2027/28 until the redesigned market starts in 2028",
+   "source": "ISO-NE",
+   "source_url": "https://isonewswire.com/?p=6453",
+   "asof": "2024-02-21",
+   "rows": [
+    {
+     "period": "2024/25",
+     "price_mw_day": 85.81,
+     "native": "$2.61/kW-month"
+    },
+    {
+     "period": "2025/26",
+     "price_mw_day": 85.15,
+     "native": "$2.59/kW-month"
+    },
+    {
+     "period": "2026/27",
+     "price_mw_day": 85.15,
+     "native": "$2.590/kW-month"
+    },
+    {
+     "period": "2027/28",
+     "price_mw_day": 117.7,
+     "native": "$3.58/kW-month"
+    }
+   ]
+  },
+  {
+   "iso": "NYISO",
+   "name": "ICAP spot auctions",
+   "product": "Rest of State, May–April average",
+   "status": "auction",
+   "note": "New York City (Zone J) averaged $10.98/kW-month in 2025/26, about $361/MW-day",
+   "source": "NYISO market monitor",
+   "source_url": "https://potomaceconomics.com/wp-content/uploads/2026/05/NYISO-2025-SOM-Report__5-19-2026-final.pdf",
+   "asof": "2026-05-19",
+   "rows": [
+    {
+     "period": "2022/23",
+     "price_mw_day": 89.69,
+     "native": "$2.73/kW-month"
+    },
+    {
+     "period": "2023/24",
+     "price_mw_day": 134.89,
+     "native": "$4.10/kW-month"
+    },
+    {
+     "period": "2024/25",
+     "price_mw_day": 101.98,
+     "native": "$3.10/kW-month"
+    },
+    {
+     "period": "2025/26",
+     "price_mw_day": 140.61,
+     "native": "$4.28/kW-month"
+    }
+   ]
+  },
+  {
+   "iso": "ERCOT",
+   "name": "",
+   "product": "",
+   "status": "none",
+   "note": "runs an energy-only market: there is no capacity price, and scarcity pricing pays for new plants.",
+   "source": "Potomac Economics",
+   "source_url": "https://potomaceconomics.com/wp-content/uploads/2025/06/2024-State-of-the-Market-Report.pdf",
+   "asof": "2025-06-01",
+   "rows": []
+  },
+  {
+   "iso": "SPP",
+   "name": "",
+   "product": "",
+   "status": "none",
+   "note": "has no centralized capacity market; utilities must carry 16% summer and 36% winter reserve margins from 2026.",
+   "source": "FERC order",
+   "source_url": "https://www.spp.org/documents/74607/20250819_order%20-%20planning%20reserve%20margin%20(rr%20622)_er25-89-000.pdf",
+   "asof": "2025-08-19",
+   "rows": []
+  },
+  {
+   "iso": "CAISO",
+   "name": "",
+   "product": "",
+   "status": "none",
+   "note": "relies on bilateral resource-adequacy contracts, not an auction; the CPUC reports system contracts averaged about $11.87/kW-month for 2025 (roughly $390/MW-day).",
+   "source": "CPUC 2023 RA report",
+   "source_url": "https://www.cpuc.ca.gov/-/media/cpuc-website/divisions/energy-division/documents/resource-adequacy-homepage/2023-resource-adequacy-reportv2.pdf",
+   "asof": "2025-04-01",
+   "rows": []
+  }
+ ]
+}

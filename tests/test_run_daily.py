@@ -90,6 +90,18 @@ def _caiso_zip():
     return zbuf.getvalue()
 
 
+def _ercot_zip():
+    """One delivery day (today ET) of HB_NORTH hourly DAM prices — the file's
+    own DeliveryDate is the observation date, so it must be fresh."""
+    day = datetime.strptime(today_et(), "%Y-%m-%d").strftime("%m/%d/%Y")
+    body = "DeliveryDate,HourEnding,SettlementPoint,SettlementPointPrice,DSTFlag\n" + "".join(
+        f"{day},{h:02d}:00,HB_NORTH, {35 + h % 4}.0,N\n" for h in range(1, 25))
+    zbuf = io.BytesIO()
+    with zipfile.ZipFile(zbuf, "w") as z:
+        z.writestr("dam.csv", body)
+    return zbuf.getvalue()
+
+
 _ICE_HEADER = ["Price hub", "Trade date", "Delivery start date", "Delivery \nend date",
               "High price $/MWh", "Low price $/MWh", "Wtd avg price $/MWh", "Change",
               "Daily volume MWh", "Number of trades", "Number of counterparties"]
@@ -104,7 +116,8 @@ def _ice_xlsx():
     rows = [
         ["PJM WH Real Time Peak", d1, d1, d1, 75.0, 65.0, 70.11, 0.5, 12345, 42, 7],
         ["PJM WH Real Time Peak", d2, d2, d2, 77.0, 67.0, 72.38, 0.5, 12345, 42, 7],
-    ]
+    ] + [[hub, d, d, d, 60.0, 50.0, 55.0, 0.5, 1000, 10, 4]
+         for hub in ("Mid C Peak", "Palo Verde Peak", "Nepool MH DA LMP Peak") for d in (d1, d2)]
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = year
@@ -166,6 +179,18 @@ def fake_get(url, params=None, timeout=None, **kw):
         return _BytesResponse(_caiso_zip())
     if "docs.misoenergy.org" in url:
         return _text(FIXTURES / "miso_da_expost.csv")
+    if "ercot.com/misapp" in url:
+        return FakeResponse({"ListDocsByRptTypeRes": {"DocumentList": [{"Document": {
+            "FriendlyName": "DAMSPNP4190_csv", "DocID": "1", "PublishDate": "2026-10-03T12:32:39-05:00"}}]}})
+    if "ercot.com/misdownload" in url:
+        return _BytesResponse(_ercot_zip())
+    if "portal.spp.org" in url:
+        head = "Interval,GMTIntervalEnd,BAA,Settlement Location,Pnode,LMP,MLC,MCC,MEC\n"
+        return _TextResponse(head + "".join(
+            f"x,x,SPP,SPPNORTH_HUB,p,{30 + h % 5}.0,0,0,0\n" for h in range(24)))
+    if "mis.nyiso.com" in url:
+        return _TextResponse("Time Stamp,Name,PTID,LBMP ($/MWHr)\n" + "".join(
+            f"x,WEST,61752,{25 + h % 3}.0\n" for h in range(24)))
     if "eia.gov/electricity/wholesale" in url:
         return _BytesResponse(_ice_xlsx())
     if "api.eia.gov" in url:
@@ -332,7 +357,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "revisions.json", "ledger.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 34  # +ATLFED, QCEW_238212 10-01; SFCOMPUTE retired, KALSHI_CORE added 2026-09-26, KALSHI_FED + NYFED 09-28
+    assert len(status["sources"]) == 37  # +ERCOT, SPP, NYISO 10-04; +ATLFED, QCEW_238212 10-01; SFCOMPUTE retired, KALSHI_CORE added 2026-09-26, KALSHI_FED + NYFED 09-28
     assert all(s["ok"] for s in status["sources"])
     kalshi_dc_row = [s for s in status["sources"] if s["name"] == "KALSHI_DC"][0]
     assert kalshi_dc_row["ok"] is True

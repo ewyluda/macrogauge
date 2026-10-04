@@ -1,0 +1,78 @@
+{
+ "ListDocsByRptTypeRes": {
+  "DocumentList": [
+   {
+    "Document": {
+     "ExpiredDate": "2026-11-03T23:59:59-06:00",
+     "ILMStatus": "EXT",
+     "SecurityStatus": "P",
+     "ContentSize": "183312",
+     "Extension": "zip",
+     "ReportTypeID": "12331",
+     "Prefix": "cdr",
+     "FriendlyName": "DAMSPNP4190_csv",
+     "ConstructedName": "cdr.00012331.0000000000000000.20261003.123240246.DAMSPNP4190_csv.zip",
+     "DocID": "1282050068",
+     "PublishDate": "2026-10-03T12:32:39-05:00",
+     "ReportName": "DAM Settlement Point Prices",
+     "DUNS": "0000000000000000",
+     "DocCount": "0"
+    }
+   },
+   {
+    "Document": {
+     "ExpiredDate": "2026-11-03T23:59:59-06:00",
+     "ILMStatus": "EXT",
+     "SecurityStatus": "P",
+     "ContentSize": "216689",
+     "Extension": "zip",
+     "ReportTypeID": "12331",
+     "Prefix": "cdr",
+     "FriendlyName": "DAMSPNP4190_xml",
+     "ConstructedName": "cdr.00012331.0000000000000000.20261003.123240150.DAMSPNP4190_xml.zip",
+     "DocID": "1282049838",
+     "PublishDate": "2026-10-03T12:32:39-05:00",
+     "ReportName": "DAM Settlement Point Prices",
+     "DUNS": "0000000000000000",
+     "DocCount": "0"
+    }
+   },
+   {
+    "Document": {
+     "ExpiredDate": "2026-11-02T23:59:59-06:00",
+     "ILMStatus": "EXT",
+     "SecurityStatus": "P",
+     "ContentSize": "181488",
+     "Extension": "zip",
+     "ReportTypeID": "12331",
+     "Prefix": "cdr",
+     "FriendlyName": "DAMSPNP4190_csv",
+     "ConstructedName": "cdr.00012331.0000000000000000.20261002.123243058.DAMSPNP4190_csv.zip",
+     "DocID": "1281661396",
+     "PublishDate": "2026-10-02T12:32:41-05:00",
+     "ReportName": "DAM Settlement Point Prices",
+     "DUNS": "0000000000000000",
+     "DocCount": "0"
+    }
+   },
+   {
+    "Document": {
+     "ExpiredDate": "2026-11-02T23:59:59-06:00",
+     "ILMStatus": "EXT",
+     "SecurityStatus": "P",
+     "ContentSize": "214313",
+     "Extension": "zip",
+     "ReportTypeID": "12331",
+     "Prefix": "cdr",
+     "FriendlyName": "DAMSPNP4190_xml",
+     "ConstructedName": "cdr.00012331.0000000000000000.20261002.123242655.DAMSPNP4190_xml.zip",
+     "DocID": "1281661638",
+     "PublishDate": "2026-10-02T12:32:41-05:00",
+     "ReportName": "DAM Settlement Point Prices",
+     "DUNS": "0000000000000000",
+     "DocCount": "0"
+    }
+   }
+  ]
+ }
+}
