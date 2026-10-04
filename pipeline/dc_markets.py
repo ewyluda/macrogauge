@@ -30,6 +30,7 @@ class MarketSpec:
     grid: str | None
     utility: str
     note: str
+    county_names: tuple[tuple[str, str], ...] = ()   # (fips, Census county name)
 
 
 def load(path: Path | None = None,
@@ -70,9 +71,17 @@ def load(path: Path | None = None,
             raise ValueError(f"dc_markets: {key} unknown iso {iso!r}")
         if len(m["state"]) != 2 or not m["state"].isalpha():
             raise ValueError(f"dc_markets: {key} state must be 2 letters")
+        # Census county names for the receipts; a county without one falls
+        # back to its FIPS code (tests pin that the real roster names all).
+        cn = m.get("county_names") or {}
+        stray = set(cn) - set(counties)
+        if stray:
+            raise ValueError(f"dc_markets: {key} county_names lists counties "
+                             f"outside the market: {sorted(stray)}")
         markets.append(MarketSpec(
             key=key, name=m["name"], counties=counties, state=m["state"],
-            iso=iso, grid=grid, utility=m["utility"], note=m.get("note", "")))
+            iso=iso, grid=grid, utility=m["utility"], note=m.get("note", ""),
+            county_names=tuple((f, cn.get(f) or f) for f in counties)))
     return tuple(markets)
 
 

@@ -122,7 +122,7 @@ export function elecCell(r: MarketRow): ElecCell {
     yoy,
     spread: fmtSpread(e.wage_spread_pp),
     workers: e.emp_cur_total != null ? e.emp_cur_total.toLocaleString("en-US") : "—",
-    wage: e.wage != null ? `$${e.wage.toLocaleString("en-US")}` : "—",
+    wage: e.wage != null ? `$${Math.round(e.wage).toLocaleString("en-US")}` : "—",
     partial: e.partial || e.yoy_basis === null,
   };
 }

@@ -63,6 +63,15 @@ def test_unknown_series_code_raises(tmp_path):
         dc_markets.load(p, registry_codes=set())
 
 
+def test_every_roster_county_has_a_census_name():
+    for m in dc_markets.load():
+        names = dict(m.county_names)
+        assert set(names) == set(m.counties), m.key
+        assert all(not n.isdigit() for n in names.values()), m.key
+    nova = next(m for m in dc_markets.load() if m.key == "nova")
+    assert dict(nova.county_names)["51107"] == "Loudoun County"
+
+
 def test_duplicate_keys_raise(tmp_path):
     m = {"key": "k", "name": "K", "counties": ["51107"], "state": "VA",
          "iso": "PJM", "grid": None, "utility": "U", "note": ""}
