@@ -126,6 +126,28 @@ test("capacity views each carry a readable table view and no page overflow", asy
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
 });
 
+test("datacenter drivers switch, jump bar and multi-grid power bill", async ({ page }) => {
+  await page.goto("/datacenter");
+  // one drivers table, switched between the three indexes
+  const sw = page.locator(".dc-switch");
+  await expect(sw.getByRole("button", { name: /DC Build/ })).toHaveAttribute("aria-pressed", "true");
+  await sw.getByRole("button", { name: /DC Hardware/ }).click();
+  await expect(page.locator(".dc-drivers-table")).toContainText("Computer storage devices");
+  // jump bar targets exist
+  for (const id of ["dc-drivers", "dc-power", "dc-parity", "dc-method"]) {
+    await expect(page.locator(`.dc-jump a[href="#${id}"]`)).toHaveCount(1);
+    await expect(page.locator(`#${id}`)).toHaveCount(1);
+  }
+  // the power bill covers more than PJM
+  const power = page.locator("#dc-power");
+  expect(await power.locator(".pw-hubs tbody tr").count()).toBeGreaterThanOrEqual(8);
+  await expect(power.locator(".pw-cap figcaption", { hasText: "MISO" })).toBeVisible();
+  await expect(power.locator(".pw-cap-none")).toContainText("ERCOT");
+  expect(await power.locator(".pw-tariffs > li").count()).toBeGreaterThanOrEqual(10);
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+});
+
 // CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS
 // fonts happened to fit — pin the wrap rule itself, independent of font metrics.
 test("source-error text can break inside long URLs", async ({ page }) => {
