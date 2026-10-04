@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-10-02T16:54:03Z",
-  "as_of_curated": "2026-07-26",
+  "published_at": "2026-10-04T19:56:52Z",
+  "as_of_curated": "2026-10-04",
   "build_weight_covered": 0.5,
   "teaser": [
     {
@@ -8,38 +8,38 @@
       "name": "GE Vernova",
       "stale": false,
       "figure": {
-        "metric": "RPO, total company",
-        "kind": "backlog",
-        "basis": "rpo",
-        "scope": "group",
-        "value": 176.3,
-        "unit": "usd_b",
+        "metric": "Book-to-bill, Electrification segment",
+        "kind": "book_to_bill",
+        "basis": "order-backlog",
+        "scope": "segment",
+        "value": 1.7,
+        "unit": "ratio",
         "period": "2026-06-30",
         "asof": "2026-07-22",
-        "quote": "RPO was $176.3 billion and $128.7 billion as of June 30, 2026 and 2025, respectively.",
+        "quote": "Orders of $6.3 billion increased +66% organically, driving a book-to-bill ratio of approximately 1.7, with continued strong demand for...",
         "src": {
-          "label": "GE Vernova Q2 2026 10-Q (SEC EDGAR)",
-          "url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000148/gev-20260630.htm"
+          "label": "GE Vernova Q2 2026 8-K press release, Electrification segment (SEC EDGAR)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000147/gevpressrelease2q26.htm"
         }
       }
     },
     {
-      "vendor": "vrt",
-      "name": "Vertiv",
-      "stale": true,
+      "vendor": "siemens_energy",
+      "name": "Siemens Energy",
+      "stale": false,
       "figure": {
-        "metric": "Book-to-bill, total company",
+        "metric": "Book-to-bill, Grid Technologies segment",
         "kind": "book_to_bill",
         "basis": "order-backlog",
-        "scope": "group",
-        "value": 2.9,
+        "scope": "segment",
+        "value": 1.48,
         "unit": "ratio",
-        "period": "2025-12-31",
-        "asof": "2026-02-11",
-        "quote": "Fourth quarter 2025 book-to-bill ratio was ~2.9x and backlog increased to $15.0 billion, up 109% compared to the same period last year.",
+        "period": "2026-06-30",
+        "asof": "2026-08-05",
+        "quote": "Book-to-bill ratio was 1.48 and the order backlog increased to \u20ac51bn.",
         "src": {
-          "label": "Vertiv Q4 2025 8-K exhibit 99.1 (SEC EDGAR)",
-          "url": "https://www.sec.gov/Archives/edgar/data/1674101/000167410126000006/exhibit991vrt02112026.htm"
+          "label": "Siemens Energy Earnings Release Q3 FY2026, Grid Technologies (siemens-energy.com)",
+          "url": "https://assets.siemens-energy.com/dam/d0147174-31a9-4a78-b062-b49d00428fc4/earnings-release-q3-fy2026-en-pdf_Original%20file.pdf"
         }
       }
     }
@@ -221,6 +221,21 @@
               }
             },
             {
+              "metric": "Equipment backlog, Electrification segment",
+              "kind": "backlog",
+              "basis": "order-backlog",
+              "scope": "segment",
+              "value": 40.6,
+              "unit": "usd_b",
+              "period": "2026-06-30",
+              "asof": "2026-07-22",
+              "quote": "Increased equipment backlog to $40.6 billion, up $16.6 billion, or 69% year-over-year, including $5 billion from Prolec GE.",
+              "src": {
+                "label": "GE Vernova Q2 2026 8-K press release, Electrification segment (SEC EDGAR)",
+                "url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000147/gevpressrelease2q26.htm"
+              }
+            },
+            {
               "metric": "Book-to-bill, Electrification segment",
               "kind": "book_to_bill",
               "basis": "order-backlog",
@@ -278,6 +293,63 @@
           "null_note": null
         },
         {
+          "key": "siemens_energy",
+          "name": "Siemens Energy",
+          "ticker": "ENR.DE",
+          "listed": "Frankfurt (Xetra)",
+          "dc_segment": "Grid Technologies",
+          "cadence": "quarterly",
+          "stale": false,
+          "figures": [
+            {
+              "metric": "Order backlog, Grid Technologies segment",
+              "kind": "backlog",
+              "basis": "order-backlog",
+              "scope": "segment",
+              "value": 51.0,
+              "unit": "eur_b",
+              "period": "2026-06-30",
+              "asof": "2026-08-05",
+              "quote": "Book-to-bill ratio was 1.48 and the order backlog increased to \u20ac51bn.",
+              "src": {
+                "label": "Siemens Energy Earnings Release Q3 FY2026, Grid Technologies (siemens-energy.com)",
+                "url": "https://assets.siemens-energy.com/dam/d0147174-31a9-4a78-b062-b49d00428fc4/earnings-release-q3-fy2026-en-pdf_Original%20file.pdf"
+              }
+            },
+            {
+              "metric": "Book-to-bill, Grid Technologies segment",
+              "kind": "book_to_bill",
+              "basis": "order-backlog",
+              "scope": "segment",
+              "value": 1.48,
+              "unit": "ratio",
+              "period": "2026-06-30",
+              "asof": "2026-08-05",
+              "quote": "Book-to-bill ratio was 1.48 and the order backlog increased to \u20ac51bn.",
+              "src": {
+                "label": "Siemens Energy Earnings Release Q3 FY2026, Grid Technologies (siemens-energy.com)",
+                "url": "https://assets.siemens-energy.com/dam/d0147174-31a9-4a78-b062-b49d00428fc4/earnings-release-q3-fy2026-en-pdf_Original%20file.pdf"
+              }
+            },
+            {
+              "metric": "Order backlog, total company",
+              "kind": "backlog",
+              "basis": "order-backlog",
+              "scope": "group",
+              "value": 162.0,
+              "unit": "eur_b",
+              "period": "2026-06-30",
+              "asof": "2026-08-05",
+              "quote": "Book-to-bill ratio (ratio of orders to revenue) was 1.57, while order backlog increased to \u20ac162bn at quarter-end.",
+              "src": {
+                "label": "Siemens Energy Earnings Release Q3 FY2026 (siemens-energy.com)",
+                "url": "https://assets.siemens-energy.com/dam/d0147174-31a9-4a78-b062-b49d00428fc4/earnings-release-q3-fy2026-en-pdf_Original%20file.pdf"
+              }
+            }
+          ],
+          "null_note": null
+        },
+        {
           "key": "gev",
           "name": "GE Vernova",
           "ticker": "GEV",
@@ -299,6 +371,21 @@
               "src": {
                 "label": "GE Vernova Q2 2026 10-Q (SEC EDGAR)",
                 "url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000148/gev-20260630.htm"
+              }
+            },
+            {
+              "metric": "Equipment backlog, Electrification segment",
+              "kind": "backlog",
+              "basis": "order-backlog",
+              "scope": "segment",
+              "value": 40.6,
+              "unit": "usd_b",
+              "period": "2026-06-30",
+              "asof": "2026-07-22",
+              "quote": "Increased equipment backlog to $40.6 billion, up $16.6 billion, or 69% year-over-year, including $5 billion from Prolec GE.",
+              "src": {
+                "label": "GE Vernova Q2 2026 8-K press release, Electrification segment (SEC EDGAR)",
+                "url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000147/gevpressrelease2q26.htm"
               }
             },
             {
@@ -421,7 +508,7 @@
           "cadence": "quarterly",
           "stale": false,
           "figures": [],
-          "null_note": "Cummins discloses no backlog, order-backlog, orders, or book-to-bill metric in either its Q1 2026 10-Q (SEC EDGAR, filed 2026-05-05, accession 0000026172-26-000016, https://www.sec.gov/Archives/edgar/data/26172/000002617226000016/cmi-20260331.htm) or its matching Q1 2026 earnings release (8-K Ex-99, filed 2026-05-05, accession 0000026172-26-000013, https://www.sec.gov/Archives/edgar/data/26172/000002617226000013/cmi2026q18-kex99.htm) \u2014 both checked live 2026-07-26, zero hits for \"backlog\" or \"book-to-bill\" in either document. The only comparable aggregate is a Topic 606 remaining-transaction-price note in the 10-Q (\"NOTE 2. REVENUE FROM CONTRACTS WITH CUSTOMERS\"), which states $6.9 billion at March 31, 2026 for long-term arrangements the note itself describes as \"primarily long-term maintenance agreements, construction contracts, product sales with associated performance obligations extending beyond a year...\" \u2014 a maintenance-dominated aggregate, not an industrial equipment order-backlog metric comparable to peers on this board. Cummins is excluded on this basis."
+          "null_note": "Cummins discloses no backlog, order-backlog, orders, or book-to-bill metric in its Q2 2026 10-Q (SEC EDGAR, filed 2026-08-04, accession 0000026172-26-000029, https://www.sec.gov/Archives/edgar/data/26172/000002617226000029/cmi-20260630.htm), its matching Q2 2026 earnings release (8-K Ex-99, filed 2026-08-04, accession 0000026172-26-000026, https://www.sec.gov/Archives/edgar/data/26172/000002617226000026/cmi2026q28-kex99.htm), or its Q2 2026 earnings presentation \u2014 all checked live 2026-10-04, zero hits for \"backlog\" or \"book-to-bill\"; the release speaks of \"robust customer orders for standby power for data centers\" without a figure. The only comparable aggregate remains the Topic 606 remaining-transaction-price note in the 10-Q (\"NOTE 2. REVENUE FROM CONTRACTS WITH CUSTOMERS\"), $7.6 billion at June 30, 2026 (up from $6.9 billion at March 31, 2026), for arrangements the note describes as \"primarily long-term maintenance agreements, construction contracts, product sales with associated performance obligations extending beyond a year...\" \u2014 a maintenance-dominated, whole-company aggregate, not an equipment order-backlog metric comparable to peers on this board. Cummins is excluded on this basis."
         }
       ]
     },

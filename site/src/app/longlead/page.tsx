@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import llJson from "../../../public/data/longlead.json";
-import { KpiCard } from "@/components/KpiCard";
 import { DownloadData } from "@/components/DownloadData";
 import { flattenRow } from "@/lib/csv";
 import { fmtSigned } from "@/lib/format";
@@ -38,75 +37,84 @@ function NullNote({ note }: { note: string }) {
   );
 }
 
-function VendorRow({ vendor }: { vendor: LongLeadVendor }) {
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const fmtDate = (d: string) => `${MONTHS[Number(d.slice(5, 7)) - 1]} ${Number(d.slice(8, 10))}, ${d.slice(0, 4)}`;
+const fmtQuarter = (d: string) => `Q${Math.ceil(Number(d.slice(5, 7)) / 3)} ${d.slice(0, 4)}`;
+
+// The one figure a vendor leads with on the summary board: the most direct
+// pressure signal it states — book-to-bill, then backlog growth, then backlog.
+const SIGNAL_ORDER: LongLeadVendor["figures"][number]["kind"][] = ["book_to_bill", "backlog_growth", "backlog", "orders"];
+function headline(v: LongLeadVendor) {
+  for (const k of SIGNAL_ORDER) {
+    const f = v.figures.find((x) => x.kind === k);
+    if (f) return f;
+  }
+  return null;
+}
+const SIGNAL_LABEL: Record<string, string> = {
+  book_to_bill: "book-to-bill", backlog_growth: "backlog", backlog: "backlog", orders: "orders",
+};
+
+function VendorCard({ vendor, seenIn }: { vendor: LongLeadVendor; seenIn?: { label: string; code: string } }) {
   return (
-    <tr>
-      <td>
-        <strong>{vendor.name}</strong>{" "}
-        <span className="badge badge-muted" title={`listed ${vendor.listed}`}>{vendor.ticker} · {vendor.listed}</span>
-        {vendor.cadence === "annual" && (
-          <span className="badge badge-muted">annual</span>
-        )}
-        {vendor.stale && <span className="badge">stale</span>}
-        <div className="subtitle">{vendor.dc_segment}</div>
-      </td>
-      <td style={{ textAlign: "left" }}>
-        {vendor.null_note ? (
-          <NullNote note={vendor.null_note} />
-        ) : (
-          vendor.figures.map((f) => (
-            <div key={`${f.kind}:${f.metric}`} style={{ marginBottom: 6 }}>
-              <strong>{fmtFigure(f.value, f.unit)}</strong>{" "}
-              {f.metric}{" "}
-              <span className="badge badge-muted">{BASIS_LABELS[f.basis]}</span>{" "}
-              <span className="badge badge-muted">{f.scope}</span>{" "}
-              <span className="subtitle">
-                {f.period} · stated {f.asof} ·{" "}
-                <a href={f.src.url}>{f.src.label}</a>
+    <li className="ll-vendor" id={seenIn ? undefined : `ll-v-${vendor.key}`}>
+      <div className="ll-vendor-head">
+        <strong>{vendor.name}</strong>
+        <span className="ll-tag">{vendor.ticker} · {vendor.listed}</span>
+        {vendor.cadence === "annual" && <span className="ll-tag">reports annually</span>}
+        {vendor.stale && <span className="ll-tag ll-tag-stale">stale</span>}
+      </div>
+      <p className="ll-segment">{vendor.dc_segment}</p>
+      {seenIn ? (
+        <p className="ll-seen">Same figures as under <a href={`#ll-${seenIn.code}`}>{seenIn.label}</a>.</p>
+      ) : vendor.null_note ? (
+        <p className="ll-null"><NullNote note={vendor.null_note} /></p>
+      ) : (
+        <ul className="ll-figs">
+          {vendor.figures.map((f) => (
+            <li key={`${f.kind}:${f.metric}`}>
+              <span className="ll-fig-val">{fmtFigure(f.value, f.unit)}</span>
+              <span className="ll-fig-body">
+                <span className="ll-fig-metric">{f.metric}</span>
+                <span className="ll-fig-meta">
+                  <span className="ll-tag">{BASIS_LABELS[f.basis]}</span>
+                  {fmtQuarter(f.period)} · stated {fmtDate(f.asof)} · <a href={f.src.url}>{f.src.label}</a>
+                </span>
+                <details className="ll-quote"><summary>Quote</summary><q>{f.quote}</q></details>
               </span>
-              <div className="method">“{f.quote}”</div>
-            </div>
-          ))
-        )}
-      </td>
-    </tr>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
   );
 }
 
-function PackageSection({ pkg, backlog }: { pkg: LongLeadPackage; backlog?: BacklogMonths }) {
+function PackageSection({ pkg, backlog, seen }: {
+  pkg: LongLeadPackage; backlog?: BacklogMonths; seen: Map<string, { label: string; code: string }>;
+}) {
   return (
-    <section>
-      <h2>
-        {pkg.label}{" "}
-        <span className="subtitle">
-          {fmtWeightPct(pkg.weight)} of Build weight ·{" "}
-          {pkg.price_yoy_pct === null
-            ? "price YoY unavailable"
-            : `PPI ${fmtSigned(pkg.price_yoy_pct)} YoY as of ${pkg.price_last_obs}`}
-          {backlog && ` · ${backlog.latest.toFixed(1)} months of backlog (Census M3, ${backlog.latest_month}${backlog.change_1y == null ? "" : `, ${backlog.change_1y >= 0 ? "+" : ""}${backlog.change_1y.toFixed(1)} over 1y`})`}
-        </span>
-      </h2>
-      <div className="table-card">
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>Vendor</th>
-              <th style={{ textAlign: "left" }}>Stated order-book figures</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pkg.vendors.length === 0 ? (
-              <tr>
-                <td colSpan={2} style={{ textAlign: "left" }}>
-                  {pkg.null_note && <NullNote note={pkg.null_note} />}
-                </td>
-              </tr>
-            ) : (
-              pkg.vendors.map((v) => <VendorRow key={v.key} vendor={v} />)
-            )}
-          </tbody>
-        </table>
+    <section className="ll-package" id={`ll-${pkg.code}`}>
+      <div className="ll-package-head">
+        <h2>{pkg.label}</h2>
+        <dl className="ll-package-stats">
+          <div><dt>Share of DC Build</dt><dd>{fmtWeightPct(pkg.weight)}</dd></div>
+          <div><dt>Price, year over year</dt><dd className={pkg.price_yoy_pct == null ? "" : pkg.price_yoy_pct > 0 ? "up" : "down"}>
+            {pkg.price_yoy_pct === null ? "—" : fmtSigned(pkg.price_yoy_pct)}</dd>
+            <small>{pkg.price_last_obs ? `PPI, ${fmtDate(pkg.price_last_obs)}` : "unavailable"}</small></div>
+          {backlog && (
+            <div><dt>Industry backlog</dt><dd>{backlog.latest.toFixed(1)} mo</dd>
+              <small>Census M3, {backlog.latest_month}{backlog.change_1y == null ? "" : ` · ${backlog.change_1y >= 0 ? "+" : "−"}${Math.abs(backlog.change_1y).toFixed(1)} over 1y`}</small></div>
+          )}
+        </dl>
       </div>
+      {pkg.vendors.length === 0 ? (
+        <p className="ll-null ll-null-pkg">{pkg.null_note && <NullNote note={pkg.null_note} />}</p>
+      ) : (
+        <ul className="ll-vendors">
+          {pkg.vendors.map((v) => <VendorCard key={v.key} vendor={v} seenIn={seen.get(`${pkg.code}:${v.key}`)} />)}
+        </ul>
+      )}
     </section>
   );
 }
@@ -121,7 +129,17 @@ const CAT_Q1_2026_10Q =
   "https://www.sec.gov/Archives/edgar/data/18230/000001823026000021/cat-20260331.htm";
 
 export default function Page() {
-  const priced = data.packages.filter((p) => p.price_yoy_pct !== null);
+  // A vendor that serves two packages (GE Vernova: switchgear and
+  // transformers) prints its figures once; later packages point back.
+  const firstSeen = new Map<string, { label: string; code: string }>();
+  const seen = new Map<string, { label: string; code: string }>();
+  for (const p of data.packages) {
+    for (const v of p.vendors) {
+      const prior = firstSeen.get(v.key);
+      if (prior) seen.set(`${p.code}:${v.key}`, prior);
+      else firstSeen.set(v.key, { label: p.label, code: p.code });
+    }
+  }
   // PageShell already renders the page's <main> landmark (layout.tsx) — a
   // second one here is invalid HTML; the other DC pages use a plain div.
   return (
@@ -144,50 +162,75 @@ export default function Page() {
               ? v.figures.map((f) => ({ package: p.label, vendor: v.name, ticker: v.ticker, stale: v.stale, ...flattenRow(f) }))
               : [{ package: p.label, vendor: v.name, ticker: v.ticker, stale: v.stale, null_note: v.null_note }]))} />
       </div>
-      <div className="kpi-row">
-        <KpiCard
-          label="Packages tracked"
-          value={`${data.packages.length}`}
-          context={`${fmtWeightPct(data.build_weight_covered)} of DC Build weight`}
-        />
-        <KpiCard
-          label="Price legs live"
-          value={`${priced.length}/${data.packages.length}`}
-          context="PPI YoY at each component's own last observation"
-          accent="emerald"
-        />
-        <KpiCard
-          label="Curated"
-          value={data.as_of_curated}
-          context="refreshed each earnings season"
-          accent="amber"
-        />
-      </div>
+      <section className="ll-board" aria-labelledby="ll-board-title">
+        <h2 id="ll-board-title">The board <span className="subtitle">price pressure beside order-book pressure, package by package · vendor figures curated {fmtDate(data.as_of_curated)}</span></h2>
+        <div className="table-card ll-board-table">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th scope="col">Package</th>
+                <th scope="col" className="num">Price YoY</th>
+                <th scope="col" className="num">Industry backlog</th>
+                <th scope="col">What the vendors say</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.packages.map((p) => {
+                const bm = p.backlog_group ? data.backlog_months?.[p.backlog_group] : undefined;
+                return (
+                  <tr key={p.code}>
+                    <td><a href={`#ll-${p.code}`} className="ll-board-pkg">{p.label}</a><small>{fmtWeightPct(p.weight)} of DC Build</small></td>
+                    <td className={`num ll-board-yoy${p.price_yoy_pct == null ? "" : p.price_yoy_pct > 0 ? " up" : " down"}`}>
+                      {p.price_yoy_pct === null ? "—" : fmtSigned(p.price_yoy_pct)}</td>
+                    <td className="num">{bm ? <>{bm.latest.toFixed(1)} mo<small>{bm.change_1y == null ? "" : `${bm.change_1y >= 0 ? "+" : "−"}${Math.abs(bm.change_1y).toFixed(1)} over 1y`}</small></> : "—"}</td>
+                    <td>
+                      {p.vendors.length === 0 ? <span className="ll-muted">No vendor states a usable figure</span> : (
+                        <ul className="ll-signals">
+                          {p.vendors.map((v) => {
+                            const f = headline(v);
+                            return (
+                              <li key={v.key} className={v.stale ? "is-stale" : undefined}>
+                                <strong>{v.name}</strong>{" "}
+                                {f ? <>{fmtFigure(f.value, f.unit)} {SIGNAL_LABEL[f.kind]}<small> · {fmtQuarter(f.period)}{v.stale ? ", stale" : ""}</small></> : <span className="ll-muted">no stated figure</span>}
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <p className="ll-board-note">{data.packages.length} packages cover {fmtWeightPct(data.build_weight_covered)} of the DC Build index. Price is the component&apos;s PPI at its own last reading; industry backlog is Census M3 months of unfilled orders; vendor figures are what each company states, never summed across bases.</p>
+      </section>
       {backlogGroups.length > 0 && (
         <section>
           <h2>Months of backlog <span className="subtitle">Census M3: unfilled orders ÷ monthly shipments, both seasonally adjusted</span></h2>
-          <div className="kpi-row">
-            {backlogGroups.map(([key, b]) => (
-              <KpiCard key={key} label={b.label} value={`${b.latest.toFixed(1)} mo`}
-                context={`${b.latest_month}${b.change_1y == null ? "" : ` · ${b.change_1y >= 0 ? "+" : ""}${b.change_1y.toFixed(1)} mo over 1y`}`}
-                accent={key === "turbines" ? "violet" : "sky"} />
-            ))}
-          </div>
           <LinesChart ariaTitle="Months of backlog, Census M3" yUnit=" mo" recessions={false} height={280}
             series={backlogGroups.map(([key, b]) => ({ name: b.label, x: b.months.map((m) => `${m}-01`), y: b.ratio,
               color: key === "turbines" ? C.violet : C.sky }))} />
           <p className="method">
             How many months current shipments would take to clear the order book — an industry-wide, primary-source
-            lead-time proxy that complements the vendors&apos; own figures below. Electrical equipment maps to switchgear
-            and transformers; turbines, generators &amp; power transmission maps to generator sets. Data: FRED
+            lead-time proxy that complements the vendors&apos; own figures below.{" "}
+            {backlogGroups.map(([key, b], i) => (
+              <span key={key}>{i > 0 && " "}{b.label}: <b>{b.latest.toFixed(1)} months</b> ({b.latest_month}{b.change_1y == null ? "" : `, ${b.change_1y >= 0 ? "+" : "−"}${Math.abs(b.change_1y).toFixed(1)} over a year`}).</span>
+            ))}{" "}
+            Electrical equipment maps to switchgear and transformers; turbines, generators &amp; power transmission maps to generator sets. Data: FRED
             A35CUO/A35CVS and ATGPUO/ATGPVS (Census M3, monthly, about one month behind).
           </p>
         </section>
       )}
       {data.packages.map((pkg) => (
-        <PackageSection key={pkg.code} pkg={pkg} backlog={pkg.backlog_group ? data.backlog_months?.[pkg.backlog_group] : undefined} />
+        <PackageSection key={pkg.code} pkg={pkg} seen={seen}
+          backlog={pkg.backlog_group ? data.backlog_months?.[pkg.backlog_group] : undefined} />
       ))}
-      <h2>Reading the bases</h2>
+      <section className="ll-method" aria-labelledby="ll-method-title">
+      <h2 id="ll-method-title">How to read the board</h2>
+      <div className="dc-method-grid">
+      <div><h3>Reading the bases</h3>
       <p className="method">
         “Backlog” is not one number. <strong>RPO</strong> is ASC-606 remaining
         performance obligations from the financial statements.{" "}
@@ -200,7 +243,8 @@ export default function Page() {
         objects. That is why every figure here carries a basis badge, and why
         figures with different bases are never summed and never share an
         axis.
-      </p>
+      </p></div>
+      <div><h3>Stated-only figures</h3>
       <p className="method">
         Figures are stated-only: each one is published exactly as the vendor
         stated it, with its verbatim sentence and a link to the primary
@@ -210,7 +254,9 @@ export default function Page() {
         that a supplier publishes no order-book figure is itself worth
         knowing. Quarterly figures flag stale after 120 days, annual after
         430. Curated {data.as_of_curated}.
-      </p>
+      </p></div>
+      </div>
+      </section>
     </div>
   );
 }

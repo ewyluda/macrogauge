@@ -165,6 +165,22 @@ test("markets tightness chart ranks markets and opens the row with county names"
   await expect(page.locator("table.data-table").first().locator("> tbody")).not.toContainText(/\$\d[\d,]*\.\d\d\/wk/);
 });
 
+test("long-lead board summarizes every package and prints each vendor once", async ({ page }) => {
+  await page.goto("/longlead");
+  const board = page.locator(".ll-board-table tbody tr");
+  expect(await board.count()).toBe(await page.locator(".ll-package").count());
+  // GE Vernova serves two packages: full figures once, a pointer the second time
+  await expect(page.locator("#ll-transformers .ll-seen")).toContainText("Switchgear");
+  await expect(page.locator("#ll-transformers")).toContainText("Siemens Energy");
+  // quotes are collapsed by default and open on demand
+  const quote = page.locator(".ll-quote").first();
+  await expect(quote.locator("q")).not.toBeVisible();
+  await quote.locator("summary").click();
+  await expect(quote.locator("q")).toBeVisible();
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+});
+
 // CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS
 // fonts happened to fit — pin the wrap rule itself, independent of font metrics.
 test("source-error text can break inside long URLs", async ({ page }) => {
