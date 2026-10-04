@@ -303,6 +303,8 @@ export type MarketRow = {
   grid: string | null;
   utility: string;
   note: string;
+  // Census county names keyed by FIPS (absent in artifacts before 2026-10-04)
+  county_names?: Record<string, string>;
   as_of: string | null;
   base_date: string | null;
   available: boolean;

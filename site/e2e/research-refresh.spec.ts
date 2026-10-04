@@ -148,6 +148,23 @@ test("datacenter drivers switch, jump bar and multi-grid power bill", async ({ p
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
 });
 
+test("markets tightness chart ranks markets and opens the row with county names", async ({ page }) => {
+  await page.goto("/markets");
+  const bars = page.locator(".mk-bars .mk-bar-row");
+  expect(await bars.count()).toBeGreaterThanOrEqual(10);
+  // ranked: the first bar's score is the largest
+  const scores = await page.locator(".mk-bar-val strong").allTextContents();
+  const nums = scores.map((t) => Number(t.replace("+", "")));
+  expect(nums[0]).toBe(Math.max(...nums));
+  // clicking a bar opens that market's row, whose receipts name counties
+  const nova = page.getByRole("button", { name: /^Northern Virginia: tightness/ });
+  await nova.click();
+  await expect(page.locator("#mk-row-nova button[aria-expanded]")).toHaveAttribute("aria-expanded", "true");
+  await expect(page.locator("table.data-table").first()).toContainText("Loudoun County");
+  // no cents in the wage column
+  await expect(page.locator("table.data-table").first().locator("> tbody")).not.toContainText(/\$\d[\d,]*\.\d\d\/wk/);
+});
+
 // CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS
 // fonts happened to fit — pin the wrap rule itself, independent of font metrics.
 test("source-error text can break inside long URLs", async ({ page }) => {

@@ -203,7 +203,7 @@ describe("elecCell", () => {
   it("formats a live market and marks partial coverage", () => {
     expect(elecCell(row({ elec: elec({}) }))).toEqual({
       state: "live", yoy: "+6.9%", spread: "+0.2pp", workers: "14,731",
-      wage: "$2,336.38", partial: false });
+      wage: "$2,336", partial: false });   // whole dollars, like every other wage
     const reno = elecCell(row({ elec: elec({ partial: true, counties_suppressed: ["32029"] }) }));
     expect(reno.state === "live" && reno.partial).toBe(true);
     // no YoY basis is also partial: the level stands, the rate does not

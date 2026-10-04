@@ -73,7 +73,10 @@ export default function Page() {
         a current reading.
       </p>
       <MarketsClient data={data} />
-      <p className="method">
+      <section className="mk-method" aria-labelledby="mk-method-title">
+      <h2 id="mk-method-title">How it&apos;s built</h2>
+      <div className="dc-method-grid">
+      <div><h3>Wages and headcount</h3><p className="method">
         <b>Wage is employment-weighted</b> across each market&apos;s counties, and
         year-over-year uses a like-for-like county set: a county
         disclosure-suppressed in either quarter is excluded from both sides, so
@@ -85,18 +88,23 @@ export default function Page() {
         current-quarter headcount</b> (<code>emp_cur_total</code>), independent
         of whether a county cleared last year&apos;s disclosure bar — expand a
         row for the reconciling current-quarter total and any counties the
-        like-for-like receipts exclude (marked <b>†</b> when partial). <b>
+        like-for-like receipts exclude (marked <b>†</b> when partial).
+      </p></div>
+      <div><h3>Tightness</h3><p className="method"><b>
         Tightness</b> buckets a composite score — the wage spread in
         percentage points plus half the employment spread — at <b>≥10 Hot</b>,{" "}
         <b>≥3 Warm</b>, and <b>above −3 Neutral</b>; <b>−3 or below is Slack</b>.
-        {" "}<b>MW under constr.</b> counts only capacity tagged under
+        The chart draws scores past 40 to the edge and prints the real value.
+      </p></div>
+      <div><h3>Capacity and attributes</h3><p className="method">
+        <b>MW under constr.</b> counts only capacity tagged under
         construction at hand-curated sites; operating capacity is shown
         separately, beside the tracked-site count, because an energized
         campus is a completed draw on the labor pool, not a live one.
         {" "}{data.coverage_note}{" "}
         Utility and ISO are hand-curated attributes of the market, not derived.
-      </p>
-      <p className="method" id="electrical-contractors">
+      </p></div>
+      <div><h3>Electrical contractors</h3><p className="method" id="electrical-contractors">
         <b>Electrical contractors (nonres., NAICS 238212)</b> is private-sector
         QCEW for <b>nonresidential</b> electrical contractors — NAICS 2022 split
         the old 238210 into 238211 (residential) and 238212 (nonresidential),
@@ -115,7 +123,9 @@ export default function Page() {
         zero-filled</b>, a market missing any county for 238212 is marked{" "}
         <b>†</b>, and a market with none reads as suppressed. Expand a row for
         the per-county receipts.
-      </p>
+      </p></div>
+      </div>
+      </section>
     </div>
   );
 }

@@ -117,6 +117,12 @@ def build(conn, markets, cap_cfg: dict, meta: dict) -> dict:
         row["elec"] = _elec_block(elec_by_key[row["key"]])
     payload["elec_national"] = elec["national"]
 
+    # Census county names ride along so receipts read "Loudoun County",
+    # not a bare FIPS code; the curated roster is their single source.
+    spec_by_key = {m.key: m for m in markets}
+    for row in payload["markets"]:
+        row["county_names"] = dict(spec_by_key[row["key"]].county_names)
+
     # capacity join by hand-assigned tag
     tagged: dict[str, list[dict]] = {}
     for g in cap_cfg["geo"]:

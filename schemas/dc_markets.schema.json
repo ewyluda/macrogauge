@@ -54,6 +54,7 @@
           "grid": {"type": ["string", "null"]},
           "utility": {"type": "string"},
           "note": {"type": "string"},
+          "county_names": {"type": "object", "additionalProperties": {"type": "string"}},
           "as_of": {"type": ["string", "null"]},
           "base_date": {"type": ["string", "null"]},
           "available": {"type": "boolean"},

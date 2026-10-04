@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-02T21:34:09Z",
+  "published_at": "2026-10-04T19:26:43Z",
   "as_of": "2026-01-01",
   "base_date": "2025-01-01",
   "national": {
@@ -83,6 +83,10 @@
           }
         ],
         "partial": false
+      },
+      "county_names": {
+        "51107": "Loudoun County",
+        "51153": "Prince William County"
       },
       "sites": 1,
       "mw_disclosed": 0,
@@ -180,6 +184,11 @@
         ],
         "partial": false
       },
+      "county_names": {
+        "48113": "Dallas County",
+        "48439": "Tarrant County",
+        "48139": "Ellis County"
+      },
       "sites": 2,
       "mw_disclosed": 250,
       "sites_mw_undisclosed": 1,
@@ -261,6 +270,10 @@
           }
         ],
         "partial": false
+      },
+      "county_names": {
+        "17031": "Cook County",
+        "17043": "DuPage County"
       },
       "sites": 1,
       "mw_disclosed": 0,
@@ -344,6 +357,10 @@
         ],
         "partial": false
       },
+      "county_names": {
+        "04013": "Maricopa County",
+        "04021": "Pinal County"
+      },
       "sites": 1,
       "mw_disclosed": 200,
       "sites_mw_undisclosed": 0,
@@ -426,6 +443,10 @@
         ],
         "partial": false
       },
+      "county_names": {
+        "13097": "Douglas County",
+        "13121": "Fulton County"
+      },
       "sites": 1,
       "mw_disclosed": 200,
       "sites_mw_undisclosed": 0,
@@ -493,6 +514,9 @@
           }
         ],
         "partial": false
+      },
+      "county_names": {
+        "06085": "Santa Clara County"
       },
       "sites": 0,
       "mw_disclosed": 0,
@@ -576,6 +600,10 @@
         ],
         "partial": false
       },
+      "county_names": {
+        "39049": "Franklin County",
+        "39089": "Licking County"
+      },
       "sites": 3,
       "mw_disclosed": 1221,
       "sites_mw_undisclosed": 0,
@@ -658,6 +686,10 @@
         ],
         "partial": false
       },
+      "county_names": {
+        "49035": "Salt Lake County",
+        "49049": "Utah County"
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
@@ -725,6 +757,9 @@
           }
         ],
         "partial": false
+      },
+      "county_names": {
+        "48441": "Taylor County"
       },
       "sites": 2,
       "mw_disclosed": 1200,
@@ -794,6 +829,9 @@
         ],
         "partial": false
       },
+      "county_names": {
+        "18141": "St. Joseph County"
+      },
       "sites": 1,
       "mw_disclosed": 1725,
       "sites_mw_undisclosed": 0,
@@ -862,6 +900,9 @@
         ],
         "partial": false
       },
+      "county_names": {
+        "55101": "Racine County"
+      },
       "sites": 1,
       "mw_disclosed": 400,
       "sites_mw_undisclosed": 0,
@@ -923,6 +964,9 @@
         ],
         "counties": [],
         "partial": true
+      },
+      "county_names": {
+        "22083": "Richland Parish"
       },
       "sites": 1,
       "mw_disclosed": 1440,
@@ -992,6 +1036,9 @@
         ],
         "partial": false
       },
+      "county_names": {
+        "47157": "Shelby County"
+      },
       "sites": 2,
       "mw_disclosed": 1400,
       "sites_mw_undisclosed": 0,
@@ -1059,6 +1106,9 @@
           }
         ],
         "partial": false
+      },
+      "county_names": {
+        "19155": "Pottawattamie County"
       },
       "sites": 1,
       "mw_disclosed": 500,
@@ -1137,6 +1187,10 @@
         ],
         "partial": true
       },
+      "county_names": {
+        "19153": "Polk County",
+        "19049": "Dallas County"
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
@@ -1204,6 +1258,9 @@
           }
         ],
         "partial": false
+      },
+      "county_names": {
+        "56021": "Laramie County"
       },
       "sites": 2,
       "mw_disclosed": 0,
@@ -1282,6 +1339,10 @@
         ],
         "partial": true
       },
+      "county_names": {
+        "32029": "Storey County",
+        "32031": "Washoe County"
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
@@ -1349,6 +1410,9 @@
           }
         ],
         "partial": false
+      },
+      "county_names": {
+        "53025": "Grant County"
       },
       "sites": 2,
       "mw_disclosed": 18,
@@ -1418,6 +1482,9 @@
         ],
         "partial": false
       },
+      "county_names": {
+        "48029": "Bexar County"
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
@@ -1480,6 +1547,9 @@
         ],
         "partial": false
       },
+      "county_names": {
+        "41067": "Washington County"
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
@@ -1496,7 +1566,7 @@
     "emp_yoy_pct": 6.4,
     "as_of": "2026-01-01"
   },
-  "as_of_curated": "2026-07-25",
+  "as_of_curated": "2026-10-04",
   "note": "Tight core counties \u2014 the counties where data centers actually are, not the MSA. Broader metro definitions dilute the signal: when the method was chosen (2026-07, QCEW 2025Q4) Northern Virginia read +9.9% wage YoY on the tight Loudoun + Prince William definition vs +7.7% across the 11-county metro, because Arlington and Alexandria average in mature non-DC construction. Live values are in the market rows.",
   "coverage_note": "Competition MW is drawn from the /capacity tracker: 27 public companies plus 2 private builders (xAI, OpenAI / Stargate), hand-curated from filings. Private operators (CyrusOne, Vantage, Aligned, STACK, QTS, EdgeConneX) and hyperscaler leased space inside their shells are not tracked, and sites with undisclosed locations carry no market. MW under construction counts only sites tagged st=\"c\" -- operating, planned and secured MW are published separately, never folded in -- so treat it as a floor on what is actually being built, never a census."
 }
