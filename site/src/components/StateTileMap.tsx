@@ -2,7 +2,7 @@
 "use client";
 import { useState } from "react";
 import { SegmentedControl } from "./SegmentedControl";
-import { STOPS, ramp, EMPTY_CELL, textOn } from "@/lib/heat";
+import { EMPTY_CELL, textOn } from "@/lib/heat";
 import { fmtMoney } from "@/lib/format";
 import { TILE_POS } from "@/lib/stateTiles";
 
@@ -19,15 +19,25 @@ type MetricKey = "ops_mult" | "build_mult" | "power_rel" | "wage_rel";
 // All four published state metrics are ratios vs the national average
 // (multipliers/relatives) — per-state ¢/kWh and $/wk levels are not published.
 const METRICS = [
-  { key: "ops_mult", label: "OPS ×" },
-  { key: "build_mult", label: "BUILD ×" },
-  { key: "power_rel", label: "POWER REL" },
-  { key: "wage_rel", label: "WAGE REL" },
+  { key: "ops_mult", label: "Operating cost" },
+  { key: "build_mult", label: "Build cost" },
+  { key: "power_rel", label: "Industrial power price" },
+  { key: "wage_rel", label: "Construction wage" },
 ] as const;
 
-const GRADIENT = `linear-gradient(90deg, ${STOPS.map(
-  ([t, [r, g, b]]) => `rgb(${r},${g},${b}) ${t * 100}%`
-).join(", ")})`;
+// Every metric is a ratio to the national average, so the scale diverges
+// around 1.0: neutral gray at parity, emerald for cheaper, red for pricier.
+// Distance is measured in log-ratio so 0.5× and 2× sit equally far out.
+const CHEAP: [number, number, number] = [14, 138, 109];   // #0E8A6D
+const MID: [number, number, number] = [228, 232, 237];    // #E4E8ED
+const DEAR: [number, number, number] = [187, 69, 69];     // #BB4545
+const mix = (a: number[], b: number[], f: number) =>
+  `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * f)).join(",")})`;
+const diverge = (v: number, reach: number) => {
+  const t = Math.max(-1, Math.min(1, Math.log(v) / reach));
+  return t < 0 ? mix(MID, CHEAP, -t) : mix(MID, DEAR, t);
+};
+const GRADIENT = `linear-gradient(90deg, ${mix(MID, CHEAP, 1)}, rgb(${MID.join(",")}) 50%, ${mix(MID, DEAR, 1)})`;
 
 export function StateTileMap({
   states,
@@ -59,7 +69,7 @@ export function StateTileMap({
   const hasVals = vals.length > 0;
   const min = hasVals ? Math.min(...vals) : 0;
   const max = hasVals ? Math.max(...vals) : 0;
-  const span = max - min || 1;
+  const reach = hasVals ? Math.max(Math.abs(Math.log(min)), Math.abs(Math.log(max)), 0.01) : 1;
   const suppressed = states
     .filter((s) => s[metric] == null)
     .map((s) => s.state);
@@ -87,17 +97,18 @@ export function StateTileMap({
               color: "var(--muted)",
             }}
           >
-            <span>{min.toFixed(2)}×</span>
+            <span>Cheaper</span>
             <span
               style={{
                 display: "inline-block",
-                width: 120,
+                width: 140,
                 height: 8,
                 borderRadius: 4,
                 background: GRADIENT,
               }}
             />
-            <span>{max.toFixed(2)}×</span>
+            <span>Pricier</span>
+            <span style={{ marginLeft: 6 }}>gray = national average · range {min.toFixed(2)}×–{max.toFixed(2)}×</span>
           </div>
         ) : (
           <span style={{ fontSize: 11, color: "var(--muted)" }}>
@@ -117,7 +128,7 @@ export function StateTileMap({
           const pos = TILE_POS[s.state];
           if (!pos) return null;
           const v = s[metric];
-          const bg = v == null ? EMPTY_CELL : ramp((v - min) / span);
+          const bg = v == null ? EMPTY_CELL : diverge(v, reach);
           // tile ink by WCAG luminance — near-white on the amber stretch was ~3:1
           const ink = textOn(bg);
           return (

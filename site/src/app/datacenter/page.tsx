@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import Link from "next/link";
 import dc from "../../../public/data/datacenter.json";
 import gradesJson from "../../../public/data/dc_grades.json";
@@ -15,7 +14,8 @@ import { HardwareGapPanel, type GapRow } from "@/components/HardwareGapPanel";
 import { PowerPanel, type PowerData } from "@/components/PowerPanel";
 import { ContextPanel, type ContextData } from "@/components/ContextPanel";
 import { LongLeadStrip } from "@/components/LongLeadStrip";
-import { fmtDay, fmtSigned, fmtPp } from "@/lib/format";
+import { fmtDay, fmtSigned } from "@/lib/format";
+import { DcDrivers, type DriverComp, type DriverGroup } from "@/components/DcDrivers";
 import type { DcGrades, LongLead } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
@@ -25,14 +25,6 @@ export const metadata: Metadata = {
   title: `Data Center Cost Index: build ${fmtSigned(dc.indexes.build.headline_yoy_pct)} · ops ${fmtSigned(dc.indexes.ops.headline_yoy_pct)} · hardware ${fmtSigned(dc.indexes.hardware.headline_yoy_pct)} YoY`,
   description: "Facility build & operating input costs, indexed daily — no official DC PPI exists, so we built one.",
 };
-
-type Comp = {
-  code: string; label: string; group: string; weight: number; mode: string;
-  last_obs: string; yoy_pct: number | null; contribution_pp: number | null;
-  stale?: boolean;
-};
-
-type GroupSum = { group: string; weight: number; contribution_pp: number | null };
 
 // Official-prints-only Build variant (P8), absent from files published
 // before 2026-09-28 — read through a cast so older artifacts still build.
@@ -99,71 +91,10 @@ const PROJECT_CONTROLS_TOOLS = [
   },
 ] as const;
 
-function ComponentTable({ title, comps, groupHeaders = false, groups }: {
-  title: string; comps: Comp[]; groupHeaders?: boolean; groups?: GroupSum[];
-}) {
-  const sums = groups ? new Map(groups.map((g) => [g.group, g])) : null;
-  const max = Math.max(...comps.map((c) => Math.abs(c.contribution_pp ?? 0)), 0.01);
-  // Group header rows are presentation only — published rows rendered in
-  // published order, no computed group sums.
-  const rows: ReactNode[] = [];
-  // insertion-order grouping (not run-length) so a publish that interleaves
-  // groups can't emit duplicate header keys
-  const byGroup = new Map<string, typeof comps>();
-  for (const c of comps) {
-    const bucket = byGroup.get(c.group);
-    if (bucket) bucket.push(c);
-    else byGroup.set(c.group, [c]);
-  }
-  for (const [group, groupComps] of byGroup) {
-    if (groupHeaders) {
-      rows.push(
-        <tr key={`group-${group}`}>
-          <td colSpan={7} style={{ textAlign: "left", color: "var(--muted)",
-                                   fontSize: 11, fontWeight: 600, textTransform: "uppercase",
-                                   letterSpacing: "0.08em", paddingTop: 12 }}>
-            {GROUPS[group] ?? group}
-            {sums?.get(group) && (
-              <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>
-                {" "}· {(sums.get(group)!.weight * 100).toFixed(0)}% · {fmtPp(sums.get(group)!.contribution_pp)}
-              </span>
-            )}
-          </td>
-        </tr>
-      );
-    }
-    for (const c of groupComps) {
-    rows.push(
-      <tr key={c.code}>
-        <td>{c.label}</td>
-        <td>{GROUPS[group] ?? group}</td>
-        <td>{(c.weight * 100).toFixed(0)}%</td>
-        <td>{fmtSigned(c.yoy_pct)}</td>
-        <td>
-          <span style={{ display: "inline-block", verticalAlign: "middle",
-                         height: 8, borderRadius: 2,
-                         width: `${(Math.abs(c.contribution_pp ?? 0) / max) * 90}px`,
-                         background: (c.contribution_pp ?? 0) >= 0 ? "var(--accent-red)" : "var(--accent-emerald)" }} />
-          <span style={{ marginLeft: 6 }}>{fmtPp(c.contribution_pp)}</span>
-        </td>
-        <td>{c.mode === "official+proxy" ? "monthly + live tail" : "monthly official"}</td>
-        <td>{c.last_obs}{c.stale && (
-          <span style={{ color: "var(--muted)", marginLeft: 6, fontSize: 11 }}>stale</span>
-        )}</td>
-      </tr>
-    );
-    }
-  }
-  return (
-    <div className="table-card">
-      <h2>{title}</h2>
-      <table className="data-table">
-        <thead><tr><th>Component</th><th>Group</th><th>Weight</th><th>YoY</th><th>Contribution</th><th>Data</th><th>Last obs</th></tr></thead>
-        <tbody>{rows}</tbody>
-      </table>
-    </div>
-  );
-}
+const JUMP = [
+  ["dc-indexes", "Indexes"], ["dc-drivers", "Drivers"], ["dc-construction", "Construction"],
+  ["dc-power", "Power"], ["dc-context", "Bigger picture"], ["dc-parity", "State costs"], ["dc-method", "Method"],
+] as const;
 
 export default function Datacenter() {
   const build = dc.indexes.build;
@@ -204,7 +135,10 @@ export default function Datacenter() {
         <h1>Data Center Cost Index</h1>
         <p>Facility build, operating and hardware input costs. Independent indexes with component-level sources and weights.</p>
       </header>
-      <div className="kpi-row dc-headline">
+      <nav className="dc-jump" aria-label="On this page">
+        {JUMP.map(([id, label]) => <a key={id} href={`#${id}`}>{label}</a>)}
+      </nav>
+      <div className="kpi-row dc-headline" id="dc-indexes">
         <KpiCard label="DC Build YoY" value={fmtSigned(build.headline_yoy_pct)}
                  context={`construction input costs · ${fmtDay(build.as_of)}`} accent="sky" />
         <KpiCard label="DC Ops YoY" value={fmtSigned(ops.headline_yoy_pct)}
@@ -230,7 +164,7 @@ export default function Datacenter() {
           <>
             <DownloadData compact={false} filename="macrogauge-dc-build-components" json="datacenter.json"
               citation={`MacroGauge DC Build components, as of ${build.as_of}, ${dc.rebase}`}
-              rows={build.components as Comp[]} csvLabel="Components CSV" />
+              rows={build.components as DriverComp[]} csvLabel="Components CSV" />
             <DownloadData compact={false} filename="macrogauge-dc-build-monthly" json="datacenter.json"
               citation={`MacroGauge DC Build index, monthly (live grid; trailing month carries the proxy tail), ${dc.rebase}`}
               spec={dcBuildMonthlyCsvSpec(buildCodes)} csvLabel="Monthly index CSV" hideJson />
@@ -263,17 +197,20 @@ export default function Datacenter() {
           ))}
         </div>
       </section>
-      <ComponentTable title="DC Build components" comps={build.components as Comp[]}
-                      groups={(build as { groups?: GroupSum[] }).groups} groupHeaders />
-      {/* No groupHeaders (and no groups prop — sums only render under
-          headers): ops maps its 3 components 1:1 onto its 3 groups, so
-          header rows would restate every component line verbatim. */}
-      <ComponentTable title="DC Ops components" comps={ops.components as Comp[]} />
-      <ComponentTable title="DC Hardware components" comps={hardware.components as Comp[]}
-                      groups={(hardware as { groups?: GroupSum[] }).groups} groupHeaders />
+      <section id="dc-drivers" className="dc-section" aria-labelledby="dc-drivers-title">
+        <h2 id="dc-drivers-title">What&apos;s driving each index <span className="subtitle">component weights, moves and contributions</span></h2>
+        <DcDrivers groupLabels={GROUPS} indexes={[
+          { key: "build", label: "DC Build", headline: build.headline_yoy_pct, asOf: build.as_of,
+            comps: build.components as DriverComp[], groups: (build as { groups?: DriverGroup[] }).groups },
+          { key: "ops", label: "DC Ops", headline: ops.headline_yoy_pct, asOf: ops.as_of,
+            comps: ops.components as DriverComp[], groups: (ops as { groups?: DriverGroup[] }).groups },
+          { key: "hardware", label: "DC Hardware", headline: hardware.headline_yoy_pct, asOf: hardware.as_of,
+            comps: hardware.components as DriverComp[], groups: (hardware as { groups?: DriverGroup[] }).groups },
+        ]} />
+      </section>
       <HardwareGapPanel rows={dc.hardware_gap as GapRow[]} />
       {construction && (
-        <>
+        <section id="dc-construction" className="dc-section">
           <h2>The construction boom <span className="subtitle">Census C30 · US data-center construction spend</span></h2>
           <div className="kpi-row">
             <KpiCard label="Construction spend" value={`$${(construction.latest_saar / 1000).toFixed(1)}B/yr`}
@@ -285,13 +222,14 @@ export default function Datacenter() {
           </div>
           <DcConstructionChart months={construction.months} saar={construction.saar}
                                real={construction.real} />
-        </>
+        </section>
       )}
-      {power && <PowerPanel power={power as PowerData} />}
-      {context && <ContextPanel context={context} />}
+      {power && <section id="dc-power" className="dc-section"><PowerPanel power={power as PowerData} /></section>}
+      {context && <section id="dc-context" className="dc-section"><ContextPanel context={context} /></section>}
       {longlead && longlead.teaser.length > 0 && (
         <LongLeadStrip longlead={longlead} />
       )}
+      <section id="dc-parity" className="dc-section">
       <h2>State cost parity <span className="subtitle">multipliers vs national average</span></h2>
       <StateTileMap states={states} national={dc.parity.national} />
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, margin: "12px 0" }}>
@@ -299,7 +237,11 @@ export default function Datacenter() {
         {strip("Priciest to operate", priciest, "var(--accent-red)")}
       </div>
       <ParityTable states={states} mode={dc.parity.mode} />
-      <p className="method">
+      </section>
+      <section id="dc-method" className="dc-section dc-method" aria-labelledby="dc-method-title">
+      <h2 id="dc-method-title">How it&apos;s built</h2>
+      <div className="dc-method-grid">
+      <div><h3>The three indexes</h3><p className="method">
         Input-price indexes ({dc.rebase}), not turnkey build quotes: each component is an
         official PPI/CES/EIA series weighted by published industry cost breakdowns (facility
         only — no servers/GPUs; IT hardware indexes are hedonically adjusted and would mislead
@@ -309,7 +251,9 @@ export default function Datacenter() {
         build = {dc.parity.w_labor} × state construction wage relative (QCEW NAICS-23) + {(1 - dc.parity.w_labor).toFixed(2)};
         ops = {dc.parity.w_power} × state industrial power relative (EIA) + {(1 - dc.parity.w_power).toFixed(2)}.
         Weight citations in the methodology page pattern; sources refresh monthly (power, PPI, CES) and quarterly (QCEW, ~2-quarter lag).
-        {" "}The DC Hardware index uses only transaction-sensitive official series; the
+        </p></div>
+      <div><h3>DC Hardware</h3><p className="method">
+        The DC Hardware index uses only transaction-sensitive official series; the
         hedonically quality-adjusted series (domestic servers PPI, CPI computers, the headline
         semiconductor PPI) are shown above as contrast, not averaged in — the selection rule is
         transaction-based, not hot: imported semiconductors ride in the basket at whatever they
@@ -318,16 +262,27 @@ export default function Datacenter() {
         nowcast tail is the planned upgrade. Hardware is nationally priced — it does not enter
         the state parity table. Weights are cited in the methodology notes; group shares:
         compute 0.65, storage &amp; memory 0.15, network 0.20.
-        {" "}Construction-boom data is Census C30 value-in-place for data centers (monthly,
+        </p></div>
+      <div><h3>Construction spend</h3><p className="method">
+        Construction-boom data is Census C30 value-in-place for data centers (monthly,
         ~2-month lag; no FRED mirror exists — we parse Census&apos;s published workbook). The
         level chart is Census&apos;s seasonally adjusted annual rate; YoY is computed on NSA
         actuals same-month-a-year-ago; the real line deflates nominal spend by our DC Build
         index to constant 2018-01 dollars — a series that requires a DC-specific input-cost
         deflator to exist.
-        {" "}The power bill panel shows wholesale hub prices (CAISO SP15 and MISO Indiana Hub
-        daily day-ahead averages; PJM Western Hub via EIA&apos;s ICE workbook, updated
-        biweekly), Henry Hub gas, and PJM capacity-auction clearing prices — market visibility
-        only. The DC Ops index deliberately stays on official retail data: wholesale swings
+        </p></div>
+      <div><h3>The power bill and the ops nowcast</h3><p className="method">
+        The power bill panel covers every major US grid. Day-ahead hub prices come straight
+        from each operator&apos;s public files (CAISO SP15, MISO Indiana Hub, ERCOT North, SPP
+        North and NYISO Zone A, daily all-hours averages); PJM Western Hub, Palo Verde,
+        Mid-Columbia and ISO-NE Mass Hub are on-peak trade averages from EIA&apos;s ICE
+        workbook, updated about every two weeks. Each hub shows its own 30-day average against
+        the same window a year earlier. Capacity prices are the operators&apos; published
+        auction results (MISO&apos;s seasonal prices are annualized; ISO-NE and NYISO prices
+        converted from $/kW-month), and ERCOT, SPP and CAISO are labeled rather than priced
+        because they run no capacity auction. The utility tariff table is hand-curated from
+        commission orders, tariff sheets and SEC filings, each row citing its source and date.
+        All of it is market visibility only. The DC Ops index deliberately stays on official retail data: wholesale swings
         ~3× seasonally while tariff-smoothed retail is seasonally flat, so a level-spliced
         wholesale tail would fabricate seasonal inflation (we measured it, then pulled it). We
         then built the honest alternative — a like-month year-ratio nowcast, which cancels
@@ -340,7 +295,9 @@ export default function Datacenter() {
           : ""}</span>. Either way {NOWCAST_STANDING}. Wholesale tells you about
         the grid; it does not nowcast tariff-cycle retail rates, and we publish it as market
         visibility only.
-        {" "}The bigger-picture cards are context, not index inputs: colo asking rates (CBRE),
+        </p></div>
+      <div><h3>The bigger-picture cards</h3><p className="method">
+        The bigger-picture cards are context, not index inputs: colo asking rates (CBRE),
         grid-queue volumes (LBNL), and the external calibration panel — annual escalation from
         Turner &amp; Townsend, Turner Construction and BLS shown against our daily DC Build
         index — are hand-updated from their cited publications and each card carries its as-of
@@ -351,7 +308,9 @@ export default function Datacenter() {
         The gap between them is the point of showing them. Kalshi odds are
         market-implied probabilities from thin books, shown only when a live quote exists.
         Diesel (genset fuel) and the water, sewer &amp; trash collection services CPI ride the daily pipeline.
-      </p>
+      </p></div>
+      </div>
+      </section>
     </div>
   );
 }

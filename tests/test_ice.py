@@ -115,3 +115,18 @@ def test_blank_price_cell_skipped():
     obs = ice.fetch([PJM], vintage_date="2026-07-15",
                     http_get=_get(_xlsx(rows=[good, blank])), year=2026)
     assert [o.obs_date for o in obs] == ["2026-07-06"]
+
+
+def test_closed_year_reads_the_archive_workbook():
+    # EIA moves a finished year to xls/archive/ice_electric-YYYYfinal.xlsx;
+    # only the current year sits at the live path.
+    seen = []
+
+    def get(url, timeout=None):
+        seen.append(url)
+        return _BytesResponse(_xlsx(sheet="2025", rows=[_row(PJM, "2025-07-07", 61.0)]))
+
+    obs = ice.fetch([PJM], vintage_date="2026-10-04", http_get=get, year=2025)
+    assert seen == ["https://www.eia.gov/electricity/wholesale/xls/archive/ice_electric-2025final.xlsx"]
+    assert [o.value for o in obs] == [61.0]
+    ice.fetch([PJM], vintage_date="2026-10-04", http_get=_get(_xlsx()), year=2026)

@@ -10,9 +10,10 @@ from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
 
-from pipeline.connectors import (aaa, atlfed, aptlist, bls, caiso, census, cleveland, dramex, eia, fmp,
-                                 fred, ice, kalshi, manheim, miso, mnd, nyfed, openrouter, pmms, qcew,
-                                 sfcompute, treasury, usda, vastai, zillow)
+from pipeline.connectors import (aaa, atlfed, aptlist, bls, caiso, census, cleveland, dramex, eia,
+                                 ercot, fmp, fred, ice, kalshi, manheim, miso, mnd, nyfed, nyiso,
+                                 openrouter, pmms, qcew, sfcompute, spp, treasury, usda, vastai,
+                                 zillow)
 from pipeline.connectors.util import PartialFetchWarning
 from pipeline.registry import Series, Source
 from pipeline.models import Observation
@@ -155,6 +156,18 @@ def _miso(subset, key, http):
     return miso.fetch([s.source_id for s in subset], http_get=http)
 
 
+def _ercot(subset, key, http):
+    return ercot.fetch([s.source_id for s in subset], http_get=http)
+
+
+def _spp(subset, key, http):
+    return spp.fetch([s.source_id for s in subset], http_get=http)
+
+
+def _nyiso(subset, key, http):
+    return nyiso.fetch([s.source_id for s in subset], http_get=http)
+
+
 def _nyfed(subset, key, http):
     return nyfed.fetch([s.source_id for s in subset], http_get=http)
 
@@ -197,6 +210,9 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             # fetch mechanics are plain EIA (v2 seriesid route), like EIA_STATE.
             "STEO": _eia,
             "CAISO": _caiso, "MISO": _miso, "ICE": _ice,
+            # Day-ahead hubs for the remaining grid operators (power-bill panel
+            # only; never splice inputs): one key each for failure isolation.
+            "ERCOT": _ercot, "SPP": _spp, "NYISO": _nyiso,
             # EIA_SPOT is a separate source key only for failure isolation and
             # its own status row — the fetch mechanics are plain EIA (v2
             # seriesid route), same precedent as EIA_STATE/STEO above.

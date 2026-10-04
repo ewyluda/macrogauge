@@ -23,8 +23,9 @@ def test_load_real_registry():
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC", "KALSHI_CORE",
-                            "EIA_STATE_RES", "KALSHI_FED", "NYFED", "ATLFED", "QCEW_238212"}
-    assert len(series) == 823  # +89 QCEW_238212; +M3 SA backlog x4, euro HICP x2, SCE x3, BIE x2 (10-01); +nyfed_mct; +KXFED/DFEDTARU/tariff/GSCPI/B300 (measures) +4 PPIs/CSUSHPISA/SASL2RS (PCE, methodology)
+                            "EIA_STATE_RES", "KALSHI_FED", "NYFED", "ATLFED", "QCEW_238212",
+                            "ERCOT", "SPP", "NYISO"}
+    assert len(series) == 829  # +ICE Mid-C/Palo Verde/Mass Hub, ERCOT/SPP/NYISO hubs (10-04); +89 QCEW_238212; +M3 SA backlog x4, euro HICP x2, SCE x3, BIE x2 (10-01); +nyfed_mct; +KXFED/DFEDTARU/tariff/GSCPI/B300 (measures) +4 PPIs/CSUSHPISA/SASL2RS (PCE, methodology)
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
@@ -181,6 +182,9 @@ def test_load_real_registry():
         "caiso_sp15_da": "TH_SP15_GEN-APND",
         "miso_indiana_da": "INDIANA.HUB",
         "ice_pjm_west": "PJM WH Real Time Peak",
+        "ice_midc": "Mid C Peak",
+        "ice_palo_verde": "Palo Verde Peak",
+        "ice_mass_hub": "Nepool MH DA LMP Peak",
         "eia_henry_hub": "NG.RNGWHHD.D",
     }
     assert sources["EIA_SPOT"].secret == "EIA_API_KEY"

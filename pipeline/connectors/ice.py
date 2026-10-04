@@ -37,6 +37,9 @@ from pipeline.connectors.util import get_bytes
 from pipeline.models import Observation
 
 BASE_URL = "https://www.eia.gov/electricity/wholesale/xls/ice_electric-{year}.xlsx"
+# Closed years move to an archive path with a "final" suffix (EIA wholesale
+# page, verified 2026-10-04); only the current year lives at BASE_URL.
+ARCHIVE_URL = "https://www.eia.gov/electricity/wholesale/xls/archive/ice_electric-{year}final.xlsx"
 HUB_HEADER = "Price hub"
 DATE_HEADER = "Trade date"
 VALUE_HEADER = "Wtd avg price $/MWh"
@@ -58,7 +61,8 @@ def fetch(source_ids: list[str], vintage_date: str | None = None,
     vintage = vintage_date or today_et()
     yr = year or (vintage_date or today_et())[:4]
     sheet = str(yr)
-    url = BASE_URL.format(year=yr)
+    current = (vintage_date or today_et())[:4]
+    url = (ARCHIVE_URL if str(yr) < current else BASE_URL).format(year=yr)
 
     wb = openpyxl.load_workbook(
         io.BytesIO(get_bytes(url, http_get)), read_only=True, data_only=True)
