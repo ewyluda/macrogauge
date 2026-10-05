@@ -19,12 +19,13 @@ const idx = (v: number | null) => (v == null ? "—" : v.toFixed(1));
 export const metadata: Metadata = {
   title: `Compute Prices — token index ${idx(data.token_index.value)}, GPU-hour index ${idx(data.gpu_index.value)}`,
   description:
-    "The cost of a token and of a GPU-hour: OpenRouter model prices and vast.ai / sfcompute GPU rentals, collected daily, with two composite indexes.",
+    "The cost of a token and of a GPU-hour: OpenRouter model prices and vast.ai GPU rentals, collected daily, with two composite indexes.",
 };
 
 export default function ComputePage() {
   const ti = data.token_index;
   const gi = data.gpu_index;
+  const notInIndex = data.gpus.filter((g) => !g.in_index).map((g) => g.label);
   const days = Math.max(ti.history.dates.length, gi.history.dates.length);
   return (
     <div>
@@ -34,7 +35,7 @@ export default function ComputePage() {
       <p className="lede">
         The DC Hardware index prices the inputs to a data center. This page prices what comes out of one: the
         per-token list prices of six frontier and open models on OpenRouter, and the rental price of a GPU-hour
-        on vast.ai and sfcompute. Both composites are chain-linked equal-weight geometric means: each day&apos;s
+        on vast.ai. Both composites are chain-linked equal-weight geometric means: each day&apos;s
         move averages the day-over-day price changes of the members priced on both days, so a SKU missing a
         day, joining, or retiring changes who is averaged but never jumps the index — and a deprecated model
         drops out instead of freezing a dead price into it. Collection began {data.history_start ?? "—"}: the history is short
@@ -109,12 +110,13 @@ export default function ComputePage() {
           </table>
         </div>
         <p className="method">
-          vast.ai rows are the marketplace median for the SKU; sfcompute is its spot average. List prices, not
+          Rows are the vast.ai marketplace median for the SKU (the sfcompute H100 spot feed retired 2026-09-24;
+          its history stays chain-linked in the index). List prices, not
           negotiated rates — the same caveat the DC Hardware index carries for OEM inputs. Series are config
           (config/series.json); a stale series (7-day limit) shows on <Link href="/status">/status</Link> and leaves the mean.
           vast.ai medians cover the whole on-demand market: the API caps a query at 64 offers, so a saturated
-          SKU is re-queried in price bands and the bands merged. Rows marked &ldquo;not in index&rdquo; (B300, first
-          collected 2026-09-29) are priced but kept out of the GPU-hour index, whose base is the first day every
+          SKU is re-queried in price bands and the bands merged. Rows marked &ldquo;not in index&rdquo;
+          {notInIndex.length ? ` (${notInIndex.join(", ")})` : ""} are priced but kept out of the GPU-hour index, whose base is the first day every
           member was priced.
         </p>
       </Section>

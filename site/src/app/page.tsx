@@ -551,8 +551,10 @@ export default function Home() {
           </ul>
         )}
         <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 12 }}>
-          All figures from official/public sources (BLS, FRED, EIA, Zillow, Freddie
-          Mac, U.S. Treasury, FMP) — collected daily, published with as-of dates. The
+          All figures from {status.sources.length} official and public sources (BLS, FRED, EIA,
+          Zillow, Freddie Mac, U.S. Treasury, FMP, the grid operators and more — full list
+          on <Link href="/status">/status</Link>), each on its own cadence and published with
+          as-of dates. The
           independent macrogauge index re-prices the CPI basket daily from live
           market and public data ({pulse.gauge.coverage_pct.toFixed(0)}% of basket
           weight today; the rest carries official BLS values forward between

@@ -104,7 +104,7 @@ export default function RatesPage() {
       </h1>
       <p className="lede">
         Eight Treasury tenors, breakevens, the high-yield spread, the dollar, the Fed&apos;s balance sheet and the
-        mortgage spread — daily FRED series the pipeline was already collecting and never showed. Every derived
+        mortgage spread, all daily FRED series. Every derived
         number here is arithmetic on those levels: 2s10s is DGS10 − DGS2, the real 10-year is DGS10 − T10YIE,
         net liquidity is WALCL − TGA − RRP.
       </p>

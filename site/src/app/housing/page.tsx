@@ -45,8 +45,7 @@ export default function HousingPage() {
         Housing <span className="subtitle">prices, rents, sales — and what the payment takes out of a paycheck</span>
       </h1>
       <p className="lede">
-        Three price indexes, two rent indexes, existing-home sales and the mortgage rate were all in the store and
-        never on a page. The affordability line reuses the Cost of Living gauge&apos;s marginal-buyer construction —
+        Three price indexes, two rent indexes, existing-home sales and the mortgage rate in one place. The affordability line reuses the Cost of Living gauge&apos;s marginal-buyer construction —
         {` ${Math.round(data.parameters.ltv * 100)}%`} of the Zillow home value financed over {data.parameters.term_months / 12} years at
         the Freddie Mac rate — and divides the monthly payment by one average private earner&apos;s monthly pay.
       </p>

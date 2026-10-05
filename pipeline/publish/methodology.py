@@ -67,8 +67,8 @@ VARIANTS = {
     "col": "Cost-of-living: shelter_owned rides the marginal home-buyer's "
            "monthly payment — P = L*r*(1+r)^360 / ((1+r)^360 - 1), "
            "L = 0.80 * ZHVI, r = the 30yr mortgage rate / 12 — instead of "
-           "the market-rent blend; everything else gauge rides live, col "
-           "rides live too. Graded vs official CPI.",
+           "the market-rent blend; every other component rides live exactly "
+           "as in gauge. Graded vs official CPI.",
     "tracker": "Official shelter dynamics; only fuel, electricity and piped "
                "gas ride live — built to re-track the print.",
     "supercore": "Approximation of BLS 'services less rent of shelter' over "

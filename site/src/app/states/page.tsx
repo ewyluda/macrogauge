@@ -10,11 +10,12 @@ import { fmtSigned, fmtMonth, yoyColor } from "@/lib/format";
 import type { Geo } from "@/lib/types";
 
 const data = geoJson as Geo;
+const wageBlank = data.states.filter((s) => s.wage_weekly.value == null).length;
 
 export const metadata: Metadata = {
   title: "State Cost Map — gas, electricity, wages, unemployment",
   description:
-    "A 50-state map of pump prices, residential and industrial electricity, construction wages, and unemployment — every series the pipeline already collects for the data-center index, unlocked.",
+    "A map of all 50 states and DC: pump prices, residential and industrial electricity, construction wages, and unemployment — the same state series that feed the data-center cost index.",
 };
 
 const nat = data.national;
@@ -47,9 +48,9 @@ export default function States() {
         <span className="subtitle">gas, power, wages &amp; jobs by state</span>
       </h1>
       <p className="lede">
-        Every series here is already collected for the data-center cost index —
-        pump prices, residential and industrial electricity, private construction
-        wages, and unemployment — now unlocked as a 50-state view. Pick a metric to
+        The state series behind the data-center cost index — pump prices,
+        residential and industrial electricity, private construction wages, and
+        unemployment — mapped across all 50 states and DC. Pick a metric to
         recolor the map.
       </p>
 
@@ -140,9 +141,9 @@ export default function States() {
         unemployment shows the percentage-point change, not a percent change.
         Construction wages use one shared quarter: the latest quarter in the
         national QCEW series. A state missing that quarter is blank rather than
-        silently showing an older, non-comparable wage; seven states are
-        structurally suppressed by BLS, and occasional state-quarter gaps can
-        add temporary blanks. Gas year-over-year is blank until a year of daily
+        silently showing an older, non-comparable wage
+        ({wageBlank} {wageBlank === 1 ? "state is" : "states are"} blank this quarter — some are
+        structurally suppressed by BLS, others are temporary state-quarter gaps). Gas year-over-year is blank until a year of daily
         state history accrues.
       </p>
     </div>

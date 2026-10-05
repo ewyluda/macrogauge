@@ -22,7 +22,7 @@ const hottest = live
 export const metadata: Metadata = {
   title: `DC Market Panel: construction labor across ${live.length} data-center markets`,
   description:
-    "Construction wages and headcount where the data centers actually are — county resolution, against the national rate, for 20 real DC markets.",
+    `Construction wages and headcount where the data centers actually are — county resolution, against the national rate, for ${data.markets.length} real DC markets.`,
 };
 
 export default function Page() {

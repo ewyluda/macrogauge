@@ -43,6 +43,10 @@ GPUS = [("vast_h100_sxm", "H100 SXM (vast.ai)"), ("vast_h200", "H200 (vast.ai)")
 # even with one, a late entrant moves the base and restates history.
 # Admitting a member is a roster decision, not a registry side effect.
 DISPLAY_ONLY = {"vast_b300"}
+# Retired SKUs: still index members (their history is chain-linked into
+# gpu_index and drops out after its carry limit), but no longer a table row —
+# a frozen price with a 30-day change reads as live.
+RETIRED = {"sfc_h100"}
 BLEND_IN, BLEND_OUT = 0.75, 0.25
 MIN_MEMBERS = 3
 TAIL_OBS = 90
@@ -153,6 +157,8 @@ def _gpu_rows(conn):
         in_index = code not in DISPLAY_ONLY
         if as_of is not None and in_index:
             members[code] = obs
+        if code in RETIRED:
+            continue
         rows.append({"code": code, "label": label, "usd_per_gpu_hr": value, "as_of": as_of,
                      "chg_30d_pct": pct_change_daily(obs, as_of, 30) if as_of else None,
                      "tail": tail(obs, TAIL_OBS), "in_index": in_index})

@@ -3,7 +3,7 @@
 export const GLOSSARY = {
   laspeyres: {
     term: "Laspeyres index",
-    def: "A fixed-weight index: each component's price change is weighted by its share of the base-period basket, so the weights never chase what people substituted into. CPI-U is Laspeyres-type, and so is the gauge — its 14 weights sum to one and are published.",
+    def: "A fixed-basket index: each component's price change is weighted by its share of a reference-period basket, so the weights never chase what people substituted into. CPI-U is Laspeyres-type, and so is the gauge — its 14 weights are BLS relative importances, which drift with relative prices between the annual December weight updates, sum to one at every date, and are published.",
   },
   rebase: {
     term: "Rebase",
