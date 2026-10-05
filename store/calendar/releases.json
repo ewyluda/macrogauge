@@ -1,5 +1,5 @@
 {
-  "_refreshed": "2026-10-02",
+  "_refreshed": "2026-10-05",
   "_source": "FRED release/dates",
   "cpi": [
     {
@@ -32,10 +32,6 @@
     }
   ],
   "nfp": [
-    {
-      "reference_month": "2026-05",
-      "release_date": "2026-06-05"
-    },
     {
       "reference_month": "2026-06",
       "release_date": "2026-07-02"

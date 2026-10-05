@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-02T16:54:03Z",
+  "published_at": "2026-10-05T12:50:03Z",
   "as_of": "2026-08",
   "legs": {
     "strict": {
@@ -5134,7 +5134,7 @@
     "best_max": 52.094,
     "lambda_ols": 0.1838,
     "regime_min_move": 0.5,
-    "proxy_yoy_pct": 561.5,
+    "proxy_yoy_pct": 564.2,
     "regime_active": true,
     "verdict": "PASS",
     "tail_active": true,

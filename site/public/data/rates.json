@@ -1,136 +1,135 @@
 {
-  "published_at": "2026-10-02T16:54:03Z",
+  "published_at": "2026-10-05T12:50:03Z",
   "curve": [
     {
       "code": "DGS1MO",
       "label": "1M",
       "years": 0.0833,
-      "value": 4.02,
-      "as_of": "2026-09-30",
-      "chg_1d_pp": -0.02,
-      "chg_30d_pp": 0.17,
-      "chg_1y_pp": -0.18,
+      "value": 4.06,
+      "as_of": "2026-10-01",
+      "chg_1d_pp": 0.04,
+      "chg_30d_pp": 0.21,
+      "chg_1y_pp": -0.11,
       "value_30d_ago": 3.85,
-      "value_1y_ago": 4.2
+      "value_1y_ago": 4.17
     },
     {
       "code": "DGS3MO",
       "label": "3M",
       "years": 0.25,
-      "value": 4.2,
-      "as_of": "2026-09-30",
-      "chg_1d_pp": -0.05,
-      "chg_30d_pp": 0.29,
-      "chg_1y_pp": 0.18,
-      "value_30d_ago": 3.91,
-      "value_1y_ago": 4.02
+      "value": 4.17,
+      "as_of": "2026-10-01",
+      "chg_1d_pp": -0.03,
+      "chg_30d_pp": 0.25,
+      "chg_1y_pp": 0.16,
+      "value_30d_ago": 3.92,
+      "value_1y_ago": 4.01
     },
     {
       "code": "DGS6MO",
       "label": "6M",
       "years": 0.5,
-      "value": 4.33,
-      "as_of": "2026-09-30",
-      "chg_1d_pp": -0.03,
-      "chg_30d_pp": 0.34,
-      "chg_1y_pp": 0.5,
-      "value_30d_ago": 3.99,
-      "value_1y_ago": 3.83
+      "value": 4.27,
+      "as_of": "2026-10-01",
+      "chg_1d_pp": -0.06,
+      "chg_30d_pp": 0.27,
+      "chg_1y_pp": 0.47,
+      "value_30d_ago": 4.0,
+      "value_1y_ago": 3.8
     },
     {
       "code": "DGS1",
       "label": "1Y",
       "years": 1.0,
-      "value": 4.54,
-      "as_of": "2026-09-30",
-      "chg_1d_pp": -0.04,
-      "chg_30d_pp": 0.38,
-      "chg_1y_pp": 0.86,
-      "value_30d_ago": 4.16,
-      "value_1y_ago": 3.68
+      "value": 4.44,
+      "as_of": "2026-10-01",
+      "chg_1d_pp": -0.1,
+      "chg_30d_pp": 0.26,
+      "chg_1y_pp": 0.82,
+      "value_30d_ago": 4.18,
+      "value_1y_ago": 3.62
     },
     {
       "code": "DGS2",
       "label": "2Y",
       "years": 2.0,
-      "value": 4.88,
-      "as_of": "2026-09-30",
-      "chg_1d_pp": -0.01,
-      "chg_30d_pp": 0.54,
-      "chg_1y_pp": 1.28,
-      "value_30d_ago": 4.34,
-      "value_1y_ago": 3.6
+      "value": 4.78,
+      "as_of": "2026-10-01",
+      "chg_1d_pp": -0.1,
+      "chg_30d_pp": 0.39,
+      "chg_1y_pp": 1.23,
+      "value_30d_ago": 4.39,
+      "value_1y_ago": 3.55
     },
     {
       "code": "DGS5",
       "label": "5Y",
       "years": 5.0,
-      "value": 5.09,
-      "as_of": "2026-09-30",
-      "chg_1d_pp": 0.03,
-      "chg_30d_pp": 0.6,
-      "chg_1y_pp": 1.35,
-      "value_30d_ago": 4.49,
-      "value_1y_ago": 3.74
+      "value": 5.01,
+      "as_of": "2026-10-01",
+      "chg_1d_pp": -0.08,
+      "chg_30d_pp": 0.46,
+      "chg_1y_pp": 1.33,
+      "value_30d_ago": 4.55,
+      "value_1y_ago": 3.68
     },
     {
       "code": "DGS10",
       "label": "10Y",
       "years": 10.0,
-      "value": 5.29,
-      "as_of": "2026-09-30",
-      "chg_1d_pp": 0.03,
-      "chg_30d_pp": 0.54,
-      "chg_1y_pp": 1.13,
-      "value_30d_ago": 4.75,
-      "value_1y_ago": 4.16
+      "value": 5.24,
+      "as_of": "2026-10-01",
+      "chg_1d_pp": -0.05,
+      "chg_30d_pp": 0.45,
+      "chg_1y_pp": 1.12,
+      "value_30d_ago": 4.79,
+      "value_1y_ago": 4.12
     },
     {
       "code": "DGS30",
       "label": "30Y",
       "years": 30.0,
-      "value": 5.64,
-      "as_of": "2026-09-30",
-      "chg_1d_pp": 0.05,
-      "chg_30d_pp": 0.39,
-      "chg_1y_pp": 0.91,
-      "value_30d_ago": 5.25,
-      "value_1y_ago": 4.73
+      "value": 5.61,
+      "as_of": "2026-10-01",
+      "chg_1d_pp": -0.03,
+      "chg_30d_pp": 0.34,
+      "chg_1y_pp": 0.89,
+      "value_30d_ago": 5.27,
+      "value_1y_ago": 4.72
     }
   ],
   "spreads": {
     "s2s10s": {
       "label": "2s10s",
-      "value": 0.41,
-      "as_of": "2026-09-30",
-      "chg_30d_pp": 0.0,
-      "chg_1y_pp": -0.15
+      "value": 0.46,
+      "as_of": "2026-10-01",
+      "chg_30d_pp": 0.06,
+      "chg_1y_pp": -0.11
     },
     "s3m10y": {
       "label": "3m10y",
-      "value": 1.09,
-      "as_of": "2026-09-30",
-      "chg_30d_pp": 0.25,
-      "chg_1y_pp": 0.95
+      "value": 1.07,
+      "as_of": "2026-10-01",
+      "chg_30d_pp": 0.2,
+      "chg_1y_pp": 0.96
     },
     "real_10y": {
       "label": "10y real (DGS10 - T10YIE)",
-      "value": 2.93,
-      "as_of": "2026-09-30",
-      "chg_30d_pp": 0.49,
-      "chg_1y_pp": 1.13
+      "value": 2.88,
+      "as_of": "2026-10-01",
+      "chg_30d_pp": 0.44,
+      "chg_1y_pp": 1.11
     }
   },
   "breakevens": {
     "t5yie": {
       "code": "T5YIE",
-      "value": 2.36,
-      "as_of": "2026-10-01",
-      "chg_30d": -0.01,
-      "chg_1y": -0.03,
+      "value": 2.37,
+      "as_of": "2026-10-02",
+      "chg_30d": 0.02,
+      "chg_1y": 0.0,
       "tail": {
         "dates": [
-          "2026-07-09",
           "2026-07-10",
           "2026-07-13",
           "2026-07-14",
@@ -189,10 +188,10 @@
           "2026-09-28",
           "2026-09-29",
           "2026-09-30",
-          "2026-10-01"
+          "2026-10-01",
+          "2026-10-02"
         ],
         "values": [
-          2.28,
           2.28,
           2.31,
           2.28,
@@ -251,19 +250,19 @@
           2.33,
           2.34,
           2.36,
-          2.36
+          2.36,
+          2.37
         ]
       }
     },
     "t10yie": {
       "code": "T10YIE",
       "value": 2.36,
-      "as_of": "2026-10-01",
-      "chg_30d": 0.01,
-      "chg_1y": 0.01,
+      "as_of": "2026-10-02",
+      "chg_30d": 0.02,
+      "chg_1y": 0.02,
       "tail": {
         "dates": [
-          "2026-07-09",
           "2026-07-10",
           "2026-07-13",
           "2026-07-14",
@@ -322,10 +321,10 @@
           "2026-09-28",
           "2026-09-29",
           "2026-09-30",
-          "2026-10-01"
+          "2026-10-01",
+          "2026-10-02"
         ],
         "values": [
-          2.23,
           2.24,
           2.26,
           2.25,
@@ -383,6 +382,7 @@
           2.34,
           2.34,
           2.35,
+          2.36,
           2.36,
           2.36
         ]
@@ -3148,10 +3148,10 @@
       "as_of": "2026-10-01"
     },
     "mnd_30yr_daily": {
-      "value": 7.49,
-      "as_of": "2026-10-02"
+      "value": 7.57,
+      "as_of": "2026-10-05"
     },
-    "spread_to_10y_pp": 1.99,
+    "spread_to_10y_pp": 2.04,
     "history": {
       "dates": [
         "2018-01-04",
@@ -4528,16 +4528,16 @@
         1.81,
         2.01,
         1.85,
-        1.99
+        2.04
       ]
     }
   },
   "fed_path": {
-    "as_of": "2026-10-02",
+    "as_of": "2026-10-05",
     "reference_upper": 4.0,
     "target_upper": {
       "value": 4.0,
-      "as_of": "2026-10-02"
+      "as_of": "2026-10-05"
     },
     "effective": {
       "value": 3.75,
@@ -4547,27 +4547,24 @@
     "meetings": [
       {
         "date": "2026-10-28",
-        "expected_upper": 4.0475,
-        "implied_change_bp": 4.8,
-        "p_cut": 0.0075,
-        "p_hold": 0.8025,
-        "p_hike": 0.19
+        "expected_upper": 4.045,
+        "implied_change_bp": 4.5,
+        "p_cut": 0.005,
+        "p_hold": 0.82,
+        "p_hike": 0.175
       },
       {
         "date": "2026-12-09",
-        "expected_upper": 4.2387,
-        "implied_change_bp": 23.9,
-        "p_cut": 0.055,
-        "p_hold": 0.175,
-        "p_hike": 0.77
+        "expected_upper": 4.225,
+        "implied_change_bp": 22.5,
+        "p_cut": 0.05,
+        "p_hold": 0.22,
+        "p_hike": 0.73
       }
     ],
     "method": "Kalshi KXFED ladders (upper bound above X% after each FOMC meeting): bid/ask mids, rungs wider than 10c dropped, survival curve forced monotone; a meeting publishes only when its liquid rungs bracket the distribution. Expected upper bound on the 25bp grid; cut/hold/hike are vs the upper bound now in effect (last settled KXFED meeting), cumulative to each meeting.",
     "history": {
       "dates": [
-        "2024-10-02",
-        "2024-10-03",
-        "2024-10-04",
         "2024-10-05",
         "2024-10-06",
         "2024-10-07",
@@ -5295,7 +5292,10 @@
         "2026-09-29",
         "2026-09-30",
         "2026-10-01",
-        "2026-10-02"
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05"
       ],
       "target_upper": [
         5.0,
@@ -5332,9 +5332,6 @@
         5.0,
         5.0,
         5.0,
-        5.0,
-        5.0,
-        5.0,
         4.75,
         4.75,
         4.75,
@@ -6013,6 +6010,9 @@
         3.75,
         3.75,
         3.75,
+        4.0,
+        4.0,
+        4.0,
         4.0,
         4.0,
         4.0,
@@ -8220,7 +8220,8 @@
       "2026-09-25",
       "2026-09-28",
       "2026-09-29",
-      "2026-09-30"
+      "2026-09-30",
+      "2026-10-01"
     ],
     "dgs3mo": [
       1.44,
@@ -10409,7 +10410,8 @@
       4.24,
       4.28,
       4.25,
-      4.2
+      4.2,
+      4.17
     ],
     "dgs2": [
       1.92,
@@ -12598,7 +12600,8 @@
       4.81,
       4.92,
       4.89,
-      4.88
+      4.88,
+      4.78
     ],
     "dgs10": [
       2.46,
@@ -14787,7 +14790,8 @@
       5.17,
       5.24,
       5.26,
-      5.29
+      5.29,
+      5.24
     ],
     "t5yie": [
       1.9,
@@ -16976,6 +16980,7 @@
       2.34,
       2.33,
       2.34,
+      2.36,
       2.36
     ],
     "t10yie": [
@@ -19165,6 +19170,7 @@
       2.34,
       2.34,
       2.35,
+      2.36,
       2.36
     ],
     "hy_oas": [
@@ -21354,7 +21360,8 @@
       2.93,
       3.02,
       3.08,
-      3.12
+      3.12,
+      3.24
     ],
     "dollar": [
       109.6445,
@@ -23541,6 +23548,7 @@
       120.1169,
       120.5521,
       120.33,
+      null,
       null,
       null,
       null
@@ -25732,7 +25740,8 @@
       0.36,
       0.32,
       0.37,
-      0.41
+      0.41,
+      0.46
     ],
     "spread_3m10y": [
       1.02,
@@ -27921,7 +27930,8 @@
       0.93,
       0.96,
       1.01,
-      1.09
+      1.09,
+      1.07
     ],
     "real_10y": [
       0.46,
@@ -30110,7 +30120,8 @@
       2.83,
       2.9,
       2.91,
-      2.93
+      2.93,
+      2.88
     ]
   }
 }

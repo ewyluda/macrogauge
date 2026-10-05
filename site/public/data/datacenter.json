@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-04T16:58:11Z",
+  "published_at": "2026-10-05T12:50:03Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -15,8 +15,8 @@
   },
   "indexes": {
     "build": {
-      "as_of": "2026-10-02",
-      "headline_yoy_pct": 8.39,
+      "as_of": "2026-10-05",
+      "headline_yoy_pct": 8.52,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -3215,7 +3215,10 @@
         "2026-09-29",
         "2026-09-30",
         "2026-10-01",
-        "2026-10-02"
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05"
       ],
       "index": [
         100.0,
@@ -6414,7 +6417,10 @@
         170.45,
         170.34,
         170.13,
-        170.08
+        170.08,
+        170.08,
+        170.08,
+        170.28
       ],
       "yoy_pct": [
         3.05,
@@ -9613,7 +9619,10 @@
         9.01,
         8.94,
         8.42,
-        8.39
+        8.39,
+        8.39,
+        8.39,
+        8.52
       ],
       "components": [
         {
@@ -9677,9 +9686,9 @@
           "group": "materials",
           "weight": 0.055,
           "mode": "official+proxy",
-          "last_obs": "2026-10-02",
-          "yoy_pct": 22.79,
-          "contribution_pp": 1.25,
+          "last_obs": "2026-10-05",
+          "yoy_pct": 24.36,
+          "contribution_pp": 1.34,
           "stale": false
         },
         {
@@ -9688,9 +9697,9 @@
           "group": "materials",
           "weight": 0.03,
           "mode": "official+proxy",
-          "last_obs": "2026-10-02",
-          "yoy_pct": 15.94,
-          "contribution_pp": 0.48,
+          "last_obs": "2026-10-05",
+          "yoy_pct": 17.27,
+          "contribution_pp": 0.52,
           "stale": false
         },
         {
@@ -10206,7 +10215,7 @@
           169.3111,
           170.611,
           170.3396,
-          170.0757
+          170.2818
         ],
         "components": {
           "constr_wages": [
@@ -11581,7 +11590,7 @@
             195.8628,
             206.3461,
             204.3531,
-            202.1839
+            204.7702
           ],
           "alum_shapes": [
             96.7196,
@@ -11810,7 +11819,7 @@
             205.3164,
             196.0408,
             189.7972,
-            184.9778
+            187.1069
           ],
           "switchgear": [
             85.7335,
@@ -16157,7 +16166,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 3.37
+          "contribution_pp": 3.5
         },
         {
           "group": "electrical",
@@ -26333,7 +26342,7 @@
     },
     "hardware": {
       "as_of": "2026-10-02",
-      "headline_yoy_pct": 32.15,
+      "headline_yoy_pct": 32.21,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -32727,11 +32736,11 @@
         130.61,
         130.61,
         130.61,
-        130.67,
         130.73,
         130.79,
-        132.14,
-        132.2
+        130.85,
+        132.2,
+        132.26
       ],
       "yoy_pct": [
         0.07,
@@ -35926,11 +35935,11 @@
         31.88,
         31.88,
         31.88,
-        31.94,
         31.99,
         32.05,
         32.1,
-        32.15
+        32.15,
+        32.21
       ],
       "components": [
         {
@@ -35973,8 +35982,8 @@
           "weight": 0.15,
           "mode": "official+proxy",
           "last_obs": "2026-10-02",
-          "yoy_pct": 106.04,
-          "contribution_pp": 15.91,
+          "yoy_pct": 106.4,
+          "contribution_pp": 15.96,
           "stale": false
         },
         {
@@ -36227,8 +36236,8 @@
           121.0066,
           125.6752,
           129.402,
-          130.787,
-          132.1984
+          130.8456,
+          132.2592
         ],
         "components": {
           "hw_imported": [
@@ -36708,8 +36717,8 @@
             178.0696,
             202.6922,
             214.2905,
-            223.5242,
-            232.9335
+            223.9145,
+            233.3389
           ],
           "network": [
             99.8853,
@@ -36842,7 +36851,7 @@
         {
           "group": "storage",
           "weight": 0.15,
-          "contribution_pp": 15.91
+          "contribution_pp": 15.96
         },
         {
           "group": "network",
@@ -38466,23 +38475,15 @@
       {
         "code": "ercot_north_da",
         "label": "ERCOT North Hub",
-        "latest": 42.29,
-        "asof": "2026-10-03",
+        "latest": 48.51,
+        "asof": "2026-10-05",
         "unit": "$/MWh",
         "grid": "ERCOT",
         "region": "Texas (Dallas\u2013Fort Worth)",
         "product": "Day-ahead, all-hours average",
-        "avg30": 38.88,
-        "avg30_yoy_pct": 30.7,
+        "avg30": 39.5,
+        "avg30_yoy_pct": 35.2,
         "spark": [
-          [
-            "2026-04-07",
-            18.41
-          ],
-          [
-            "2026-04-08",
-            20.1
-          ],
           [
             "2026-04-09",
             16.88
@@ -39194,33 +39195,29 @@
           [
             "2026-10-03",
             42.29
+          ],
+          [
+            "2026-10-04",
+            37.03
+          ],
+          [
+            "2026-10-05",
+            48.51
           ]
         ]
       },
       {
         "code": "miso_indiana_da",
         "label": "MISO Indiana Hub",
-        "latest": 86.98,
-        "asof": "2026-10-01",
+        "latest": 33.48,
+        "asof": "2026-10-04",
         "unit": "$/MWh",
         "grid": "MISO",
         "region": "Midwest",
         "product": "Day-ahead, all-hours average",
-        "avg30": 58.57,
-        "avg30_yoy_pct": 43.2,
+        "avg30": 52.14,
+        "avg30_yoy_pct": 22.0,
         "spark": [
-          [
-            "2026-04-05",
-            30.93
-          ],
-          [
-            "2026-04-06",
-            39.82
-          ],
-          [
-            "2026-04-07",
-            45.75
-          ],
           [
             "2026-04-08",
             42.37
@@ -39928,25 +39925,33 @@
           [
             "2026-10-01",
             86.98
+          ],
+          [
+            "2026-10-02",
+            49.42
+          ],
+          [
+            "2026-10-03",
+            35.36
+          ],
+          [
+            "2026-10-04",
+            33.48
           ]
         ]
       },
       {
         "code": "spp_north_da",
         "label": "SPP North Hub",
-        "latest": 36.05,
-        "asof": "2026-10-04",
+        "latest": 31.36,
+        "asof": "2026-10-05",
         "unit": "$/MWh",
         "grid": "SPP",
         "region": "Kansas and Nebraska",
         "product": "Day-ahead, all-hours average",
-        "avg30": 32.41,
-        "avg30_yoy_pct": -0.3,
+        "avg30": 31.9,
+        "avg30_yoy_pct": -0.9,
         "spark": [
-          [
-            "2026-04-08",
-            6.28
-          ],
           [
             "2026-04-09",
             30.39
@@ -40662,33 +40667,25 @@
           [
             "2026-10-04",
             36.05
+          ],
+          [
+            "2026-10-05",
+            31.36
           ]
         ]
       },
       {
         "code": "caiso_sp15_da",
         "label": "CAISO SP15",
-        "latest": 50.28,
-        "asof": "2026-10-02",
+        "latest": 84.15,
+        "asof": "2026-10-05",
         "unit": "$/MWh",
         "grid": "CAISO",
         "region": "Southern California",
         "product": "Day-ahead, all-hours average",
-        "avg30": 42.89,
-        "avg30_yoy_pct": 14.8,
+        "avg30": 46.11,
+        "avg30_yoy_pct": 33.5,
         "spark": [
-          [
-            "2026-04-06",
-            15.1
-          ],
-          [
-            "2026-04-07",
-            5.5
-          ],
-          [
-            "2026-04-08",
-            7.32
-          ],
           [
             "2026-04-09",
             14.0
@@ -41304,6 +41301,10 @@
           [
             "2026-10-02",
             50.28
+          ],
+          [
+            "2026-10-05",
+            84.15
           ]
         ]
       },
@@ -44014,10 +44015,10 @@
     ],
     "transformer": null,
     "kalshi": {
-      "dc_count_expected": 5270.0,
-      "count_asof": "2026-10-02",
+      "dc_count_expected": 5251.0,
+      "count_asof": "2026-10-05",
       "nuclear_by_2030_prob": 0.49,
-      "nuclear_asof": "2026-10-02"
+      "nuclear_asof": "2026-10-05"
     },
     "diesel": {
       "latest": 6.38,
