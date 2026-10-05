@@ -26,7 +26,6 @@ GROUPS = [
         ("dramex_ddr4_16g", "DDR4 16Gb spot", "$"),
         ("dramex_nand_mlc64", "NAND 64Gb spot", "$"),
         ("vast_h100_sxm", "H100 SXM (vast.ai median)", "$/GPU-hr"),
-        ("sfc_h100", "H100 (sfcompute spot)", "$/GPU-hr"),
         ("caiso_sp15_da", "CAISO SP15 day-ahead", "$/MWh"),
         ("ice_pjm_west", "PJM Western Hub", "$/MWh"),
     ]),

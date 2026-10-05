@@ -22,7 +22,7 @@ export default function ClausePage() {
         carry and contingency, use the <Link href="/escalation">escalation calculator</Link>.
       </p>
       {series.length === 0 ? (
-        <p className="method">The official series for the clause kit publish with the next daily run.</p>
+        <p className="method">The official series for the clause kit are missing from this publish.</p>
       ) : (
         <ClauseKitClient series={series} />
       )}

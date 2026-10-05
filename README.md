@@ -20,7 +20,7 @@ The dedicated [Data Centers page](https://macrogauge.vercel.app/datacenter) trac
 - **DC Build Index** — construction labor, steel, concrete, copper and aluminum, switchgear, transformers, generators, HVAC equipment, and pumps.
 - **DC Ops Index** — industrial electricity, facilities and operations labor, and machinery maintenance.
 - **DC Hardware Index** — transaction-sensitive official price series for compute, storage and memory, and networking equipment.
-- **Live commodity tails** — copper and aluminum futures extend the relevant monthly PPIs beyond their latest official print without overwriting official history.
+- **Live market tails** — copper and aluminum futures extend the relevant monthly PPIs beyond their latest official print, and DRAMeXchange NAND spot prices extend the storage-device PPI during large memory-price swings, without overwriting official history.
 - **State cost parity** — build and operating-cost multipliers combine QCEW construction wages and EIA industrial electricity prices with nationally priced inputs.
 - **Full receipts** — component weights, contributions, last observations, quality holds, and the contrast between transaction-sensitive and hedonically adjusted hardware series.
 
@@ -71,7 +71,7 @@ Official + market + alternative sources
        Next.js static site → Vercel
 ```
 
-The weekday workflow runs at 8:40 AM Eastern, with backup scheduling for delayed GitHub cron delivery. It collects new observations, recomputes the products, validates every artifact, and commits the resulting store and site data. A new data commit is the pipeline heartbeat; a green workflow that skipped its publication gate is not counted as a publish. On CPI/PPI release days the gate lets a later firing republish when the day's print has not yet reached the store, so a cron that lands before FRED propagates the release cannot leave the site a month stale.
+The weekday workflow is triggered by an external scheduler at 8:45 AM, 10:45 AM and 1:45 PM Eastern, with GitHub crons (8:40 AM Eastern plus backups) as the fallback for missed triggers; a publish gate keeps it to one publish per day. It collects new observations, recomputes the products, validates every artifact, and commits the resulting store and site data. A new data commit is the pipeline heartbeat; a green workflow that skipped its publication gate is not counted as a publish. On CPI/PPI release days the gate lets a later firing republish when the day's print has not yet reached the store, so a cron that lands before FRED propagates the release cannot leave the site a month stale.
 
 Reliability is built around a few hard rules:
 

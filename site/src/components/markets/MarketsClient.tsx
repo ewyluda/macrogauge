@@ -187,7 +187,7 @@ function ElecTd({ m }: { m: MarketRow }) {
   const c = elecCell(m);
   if (c.state === "pending") {
     return <td style={{ color: "var(--muted)" }}
-      title="This artifact predates the NAICS 238212 block; it fills on the next publish.">—</td>;
+      title="NAICS 238212 data is missing from this publish.">—</td>;
   }
   if (c.state === "suppressed") {
     return (

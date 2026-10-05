@@ -253,13 +253,15 @@ export default function Datacenter() {
         Weight citations in the methodology page pattern; sources refresh monthly (power, PPI, CES) and quarterly (QCEW, ~2-quarter lag).
         </p></div>
       <div><h3>DC Hardware</h3><p className="method">
-        The DC Hardware index uses only transaction-sensitive official series; the
+        The DC Hardware index is built on transaction-sensitive official series; the
         hedonically quality-adjusted series (domestic servers PPI, CPI computers, the headline
         semiconductor PPI) are shown above as contrast, not averaged in — the selection rule is
         transaction-based, not hot: imported semiconductors ride in the basket at whatever they
         print. No official DRAM or memory price index exists (BLS catalogs verified 2026-07-15;
-        the microprocessor PPI was discontinued in 2015), which is why a market-data memory
-        nowcast tail is the planned upgrade. Hardware is nationally priced — it does not enter
+        the microprocessor PPI was discontinued in 2015), so storage &amp; memory carries a
+        market-data tail: past the last storage-device PPI it rides DRAMeXchange NAND spot
+        prices, but only while NAND is more than 50% away from its level a year earlier —
+        in calmer markets the last print carries forward. Hardware is nationally priced — it does not enter
         the state parity table. Weights are cited in the methodology notes; group shares:
         compute 0.65, storage &amp; memory 0.15, network 0.20.
         </p></div>

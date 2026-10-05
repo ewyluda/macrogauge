@@ -391,3 +391,14 @@ def test_pulse_carries_prev_reading():
     assert p["tracker"]["prev_yoy_pct"] is None
     p0 = pulse.build(gr, cpi)
     assert p0["gauge"]["prev_yoy_pct"] is None
+
+
+def test_retired_sku_stays_in_the_index_but_leaves_the_table(tmp_path):
+    days = ["2026-09-23", "2026-09-24", "2026-09-25"]
+    prices = {c: {d: 1.0 for d in days}
+              for c in ("vast_h100_sxm", "vast_a100_sxm", "vast_rtx4090")}
+    prices["sfc_h100"] = {"2026-09-23": 2.0, "2026-09-24": 2.2}
+    p = compute.build(_gpu_store(tmp_path, prices),
+                      staleness={c: 7 for c, _ in compute.GPUS})
+    assert "sfc_h100" not in {g["code"] for g in p["gpus"]}
+    assert p["gpu_index"]["history"]["members"] == [4, 4, 4]

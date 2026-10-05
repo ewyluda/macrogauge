@@ -135,8 +135,7 @@ export default function Pce() {
         </div>
         {!hasOfficialHistory && (
           <p className="method">
-            The official PCEPI history line publishes with the next daily run (the field was added 2026-09-03);
-            until then only the gauge is drawn. The validation stats above already grade against PCEPI.
+            The official PCEPI history line is missing from this publish, so only the gauge is drawn. The validation stats above already grade against PCEPI.
           </p>
         )}
       </Section>

@@ -9,7 +9,7 @@ test("/methodology has the glossary and inline terms link into it", async ({ pag
   await page.goto("/gap");
   const term = page.locator("a.term").first();
   await expect(term).toHaveAttribute("href", "/methodology#term-laspeyres");
-  await expect(term).toHaveAttribute("title", /fixed-weight index/);
+  await expect(term).toHaveAttribute("title", /fixed-basket index/);
 });
 
 test("parity table headers are buttons with aria-sort (#28)", async ({ page }) => {

@@ -139,8 +139,7 @@ export default function Page() {
       <p className="method">
         Futures are front-month closes (FMP); DRAM/NAND are DRAMeXchange
         session averages, published as derived readings with attribution;
-        GPU-hours are marketplace medians (vast.ai) and spot averages
-        (sfcompute); wholesale power is day-ahead hub LMPs (CAISO, MISO, PJM
+        GPU-hours are vast.ai marketplace medians; wholesale power is day-ahead hub LMPs (CAISO, MISO, PJM
         via EIA/ICE). 30-day and YoY compare against the observation nearest
         that far back (±3 days — markets close on weekends). Sparklines trace
         the last 60 observations; new sources fill in as history accrues.
