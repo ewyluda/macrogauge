@@ -1,9 +1,9 @@
 {
-  "published_at": "2026-10-07T12:49:40Z",
+  "published_at": "2026-10-07T18:51:57Z",
   "stats": {
-    "series_count": 829,
-    "obs_count": 215648,
-    "source_count": 38,
+    "series_count": 852,
+    "obs_count": 215774,
+    "source_count": 42,
     "tracker_corr": 0.9978,
     "live_coverage_pct": 39.08,
     "engine_version": "1.1",
@@ -214,9 +214,9 @@
     }
   ],
   "freshness": {
-    "fresh_count": 821,
-    "total": 829,
-    "expected_absent": 8
+    "fresh_count": 845,
+    "total": 852,
+    "expected_absent": 7
   },
   "inventory": [
     {
@@ -995,7 +995,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3245,7 +3245,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-05",
+      "latest_obs": "2026-10-06",
       "fresh": true,
       "absence": null
     },
@@ -3295,7 +3295,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -4235,7 +4235,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -4245,8 +4245,8 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-28",
-      "fresh": false,
+      "latest_obs": "2026-10-07",
+      "fresh": true,
       "absence": "intermittent"
     },
     {
@@ -4300,8 +4300,8 @@
       "absence": "discontinued"
     },
     {
-      "code": "or_gpt4o_in",
-      "name": "OpenRouter GPT-4o input ($/Mtok)",
+      "code": "or_gpt56_terra_in",
+      "name": "OpenRouter GPT-5.6 Terra input ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
@@ -4310,8 +4310,8 @@
       "absence": null
     },
     {
-      "code": "or_gpt4o_out",
-      "name": "OpenRouter GPT-4o output ($/Mtok)",
+      "code": "or_gpt56_terra_out",
+      "name": "OpenRouter GPT-5.6 Terra output ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
@@ -4320,8 +4320,8 @@
       "absence": null
     },
     {
-      "code": "or_claude_sonnet_in",
-      "name": "OpenRouter Claude Sonnet input ($/Mtok)",
+      "code": "or_claude_sonnet55_in",
+      "name": "OpenRouter Claude Sonnet 5.5 input ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
@@ -4330,8 +4330,8 @@
       "absence": null
     },
     {
-      "code": "or_claude_sonnet_out",
-      "name": "OpenRouter Claude Sonnet output ($/Mtok)",
+      "code": "or_claude_sonnet55_out",
+      "name": "OpenRouter Claude Sonnet 5.5 output ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
@@ -4340,8 +4340,8 @@
       "absence": null
     },
     {
-      "code": "or_llama70b_in",
-      "name": "OpenRouter Llama 70B input ($/Mtok)",
+      "code": "or_gemini38_flash_in",
+      "name": "OpenRouter Gemini 3.8 Flash input ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
@@ -4350,8 +4350,8 @@
       "absence": null
     },
     {
-      "code": "or_llama70b_out",
-      "name": "OpenRouter Llama 70B output ($/Mtok)",
+      "code": "or_gemini38_flash_out",
+      "name": "OpenRouter Gemini 3.8 Flash output ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
@@ -4360,8 +4360,8 @@
       "absence": null
     },
     {
-      "code": "or_deepseek_in",
-      "name": "OpenRouter DeepSeek input ($/Mtok)",
+      "code": "or_grok47_in",
+      "name": "OpenRouter Grok 4.7 input ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
@@ -4370,8 +4370,8 @@
       "absence": null
     },
     {
-      "code": "or_deepseek_out",
-      "name": "OpenRouter DeepSeek output ($/Mtok)",
+      "code": "or_grok47_out",
+      "name": "OpenRouter Grok 4.7 output ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
@@ -4380,8 +4380,8 @@
       "absence": null
     },
     {
-      "code": "or_gemini_flash_in",
-      "name": "OpenRouter Gemini Flash input ($/Mtok)",
+      "code": "or_deepseek_v41_flash_in",
+      "name": "OpenRouter DeepSeek V4.1 Flash input ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
@@ -4390,8 +4390,8 @@
       "absence": null
     },
     {
-      "code": "or_gemini_flash_out",
-      "name": "OpenRouter Gemini Flash output ($/Mtok)",
+      "code": "or_deepseek_v41_flash_out",
+      "name": "OpenRouter DeepSeek V4.1 Flash output ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
@@ -4400,8 +4400,8 @@
       "absence": null
     },
     {
-      "code": "or_mistral_large_in",
-      "name": "OpenRouter Mistral Large input ($/Mtok)",
+      "code": "or_qwen38_max_in",
+      "name": "OpenRouter Qwen3.8 Max input ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
@@ -4410,10 +4410,240 @@
       "absence": null
     },
     {
-      "code": "or_mistral_large_out",
-      "name": "OpenRouter Mistral Large output ($/Mtok)",
+      "code": "or_qwen38_max_out",
+      "name": "OpenRouter Qwen3.8 Max output ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "or_mistral_large4_in",
+      "name": "OpenRouter Mistral Large 4 input ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "or_mistral_large4_out",
+      "name": "OpenRouter Mistral Large 4 output ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "or_llama4_maverick_in",
+      "name": "OpenRouter Llama 4 Maverick input ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "or_llama4_maverick_out",
+      "name": "OpenRouter Llama 4 Maverick output ($/Mtok)",
+      "source": "OPENROUTER",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "aws_h100",
+      "name": "AWS p5.48xlarge on-demand, per H100 ($/GPU-hr)",
+      "source": "AWS_GPU",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "aws_h200",
+      "name": "AWS p5en.48xlarge on-demand, per H200 ($/GPU-hr)",
+      "source": "AWS_GPU",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "aws_b200",
+      "name": "AWS p6-b200.48xlarge on-demand, per B200 ($/GPU-hr)",
+      "source": "AWS_GPU",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "aws_b300",
+      "name": "AWS p6-b300.48xlarge on-demand, per B300 ($/GPU-hr)",
+      "source": "AWS_GPU",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "aws_a100",
+      "name": "AWS p4de.24xlarge on-demand, per A100 80GB ($/GPU-hr)",
+      "source": "AWS_GPU",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "az_h100",
+      "name": "Azure ND96isr H100 v5 pay-as-you-go, per H100 ($/GPU-hr)",
+      "source": "AZURE_GPU",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "az_h200",
+      "name": "Azure ND96isr H200 v5 pay-as-you-go, per H200 ($/GPU-hr)",
+      "source": "AZURE_GPU",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "az_gb200",
+      "name": "Azure ND128isr GB200 v6 pay-as-you-go, per GB200 GPU ($/GPU-hr)",
+      "source": "AZURE_GPU",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "oci_h100",
+      "name": "Oracle Cloud H100 pay-as-you-go ($/GPU-hr)",
+      "source": "OCI_GPU",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "oci_h200",
+      "name": "Oracle Cloud H200 pay-as-you-go ($/GPU-hr)",
+      "source": "OCI_GPU",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "oci_b200",
+      "name": "Oracle Cloud B200 pay-as-you-go ($/GPU-hr)",
+      "source": "OCI_GPU",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "oci_gb200",
+      "name": "Oracle Cloud GB200 pay-as-you-go ($/GPU-hr)",
+      "source": "OCI_GPU",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "oci_b300",
+      "name": "Oracle Cloud B300 pay-as-you-go ($/GPU-hr)",
+      "source": "OCI_GPU",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "oci_a100",
+      "name": "Oracle Cloud A100 pay-as-you-go ($/GPU-hr)",
+      "source": "OCI_GPU",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "cw_h100",
+      "name": "CoreWeave HGX H100 on-demand, per GPU ($/GPU-hr)",
+      "source": "COREWEAVE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "cw_h200",
+      "name": "CoreWeave HGX H200 on-demand, per GPU ($/GPU-hr)",
+      "source": "COREWEAVE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "cw_b200",
+      "name": "CoreWeave HGX B200 on-demand, per GPU ($/GPU-hr)",
+      "source": "COREWEAVE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "cw_gb200",
+      "name": "CoreWeave GB200 NVL72 on-demand, per GPU ($/GPU-hr)",
+      "source": "COREWEAVE",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-10-07",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "cw_a100",
+      "name": "CoreWeave A100 on-demand, per GPU ($/GPU-hr)",
+      "source": "COREWEAVE",
+      "route": "SCRAPE",
       "cadence": "daily",
       "latest_obs": "2026-10-07",
       "fresh": true,
@@ -7775,7 +8005,7 @@
       "source": "ERCOT",
       "route": "CSV",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -7845,7 +8075,7 @@
       "source": "EIA_SPOT",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-29",
+      "latest_obs": "2026-10-06",
       "fresh": true,
       "absence": null
     },
@@ -7955,7 +8185,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -7965,7 +8195,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -7975,7 +8205,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -7985,7 +8215,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -7995,7 +8225,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8005,7 +8235,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8015,7 +8245,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8025,7 +8255,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8035,7 +8265,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8045,7 +8275,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8055,7 +8285,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8065,7 +8295,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8075,7 +8305,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8085,7 +8315,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8095,7 +8325,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8105,7 +8335,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8115,7 +8345,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8125,7 +8355,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8135,7 +8365,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8145,7 +8375,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8155,7 +8385,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8165,7 +8395,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8175,7 +8405,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8185,7 +8415,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8195,7 +8425,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8205,7 +8435,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8215,7 +8445,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8225,7 +8455,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8235,7 +8465,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8245,7 +8475,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8255,7 +8485,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8265,7 +8495,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8275,7 +8505,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8285,7 +8515,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8295,7 +8525,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8305,7 +8535,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8315,7 +8545,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8325,7 +8555,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8335,7 +8565,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8345,7 +8575,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8355,7 +8585,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8365,7 +8595,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8375,7 +8605,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8385,7 +8615,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8395,7 +8625,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8405,7 +8635,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8415,7 +8645,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8425,7 +8655,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8435,7 +8665,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8445,7 +8675,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8455,7 +8685,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8465,7 +8695,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8475,7 +8705,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8485,7 +8715,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8495,7 +8725,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8505,7 +8735,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     }
@@ -8560,6 +8790,11 @@
     "The daily history is a hindsight series: each monthly official print is applied from its reference month, ~6 weeks before release. The per-variant validation stats use it; the real-time record (compare.json `realtime`, and the homepage lead-lag) applies each print only from its release date."
   ],
   "changelog": [
+    {
+      "date": "2026-10-07",
+      "area": "compute",
+      "change": "The token price index moves to a current model roster: GPT-5.6 Terra, Claude Sonnet 5.5, Gemini 3.8 Flash, Grok 4.7, DeepSeek V4.1 Flash, Qwen3.8 Max, Mistral Large 4 and Llama 4 Maverick, replacing GPT-4o, Claude Sonnet 5, Llama 3.1 70B, DeepSeek Chat, Gemini 3.5 Flash and the 2024 Mistral Large. Nothing is restated: the index keeps its July base. The old models link up to their last collected price and drop out the next day, and the new models join the links as they are priced, so the roster change alters which price moves are averaged, not the level. A link with fewer than three models priced on both days (for example, a changeover with no common day) is flat. /compute also adds on-demand list prices per GPU-hour from AWS, Azure, Oracle Cloud and CoreWeave. All A100 rows are the 80GB part. A quote older than its staleness limit shows its date and drops out of the price ranges and the cheapest-price mark. These prices sit beside the vast.ai marketplace medians and never enter the GPU index."
+    },
     {
       "date": "2026-10-02",
       "area": "datacenter",
@@ -8661,5 +8896,5 @@
       "change": "Headline YoY is the weighted mean of each component's own like-month YoY (not an index ratio), so lagging components compare like month to like month."
     }
   ],
-  "methodology_version": "2026-10-02"
+  "methodology_version": "2026-10-07"
 }

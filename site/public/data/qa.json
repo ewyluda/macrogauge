@@ -145,19 +145,19 @@
       "name": "connectors_ok",
       "critical": false,
       "pass": true,
-      "detail": "37/37 ok"
+      "detail": "41/41 ok"
     },
     {
       "name": "sources_fresh",
       "critical": false,
       "pass": true,
-      "detail": "809/809 fresh (20 under an expected-absence policy, judged separately)"
+      "detail": "832/832 fresh (20 under an expected-absence policy, judged separately)"
     },
     {
       "name": "expected_absence",
       "critical": false,
       "pass": true,
-      "detail": "20 series under an expected-absence policy (3 discontinued, 4 intermittent, 13 suppressed) \u2014 APU0000702212 [discontinued, 159d, review_by 2027-01-15], APU0000704211 [discontinued, 159d, review_by 2027-01-15], APU0000711311 [intermittent, 67d], APU0000713111 [intermittent, 98d, review_by 2027-01-15], vast_h200 [intermittent, 9d, review_by 2027-03-31], vast_b200 [intermittent, 7d, review_by 2027-03-31], sfc_h100 [discontinued, 13d, review_by 2027-03-31], qcew_wage23_de [suppressed, 371d, review_by 2027-03-31], qcew_wage23_ks [suppressed, 371d, review_by 2027-03-31], qcew_wage23_nc [suppressed, 371d, review_by 2027-03-31], qcew_wage23_pa [suppressed, 371d, review_by 2027-03-31], qcew_wage23_c41067 [suppressed, 554d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 554d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 554d, review_by 2027-03-31], qcew_wage238212_c22083 [suppressed, 371d, review_by 2027-03-31], qcew_emp238212_c22083 [suppressed, 371d, review_by 2027-03-31], qcew_aemp238212_c22083 [suppressed, 371d, review_by 2027-03-31], qcew_wage238212_c19049 [suppressed, 371d, review_by 2027-03-31], qcew_emp238212_c19049 [suppressed, 371d, review_by 2027-03-31], qcew_aemp238212_c19049 [suppressed, 371d, review_by 2027-03-31]"
+      "detail": "20 series under an expected-absence policy (3 discontinued, 4 intermittent, 13 suppressed) \u2014 APU0000702212 [discontinued, 159d, review_by 2027-01-15], APU0000704211 [discontinued, 159d, review_by 2027-01-15], APU0000711311 [intermittent, 67d], APU0000713111 [intermittent, 98d, review_by 2027-01-15], vast_h200 [intermittent, 0d, review_by 2027-03-31], vast_b200 [intermittent, 7d, review_by 2027-03-31], sfc_h100 [discontinued, 13d, review_by 2027-03-31], qcew_wage23_de [suppressed, 371d, review_by 2027-03-31], qcew_wage23_ks [suppressed, 371d, review_by 2027-03-31], qcew_wage23_nc [suppressed, 371d, review_by 2027-03-31], qcew_wage23_pa [suppressed, 371d, review_by 2027-03-31], qcew_wage23_c41067 [suppressed, 554d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 554d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 554d, review_by 2027-03-31], qcew_wage238212_c22083 [suppressed, 371d, review_by 2027-03-31], qcew_emp238212_c22083 [suppressed, 371d, review_by 2027-03-31], qcew_aemp238212_c22083 [suppressed, 371d, review_by 2027-03-31], qcew_wage238212_c19049 [suppressed, 371d, review_by 2027-03-31], qcew_emp238212_c19049 [suppressed, 371d, review_by 2027-03-31], qcew_aemp238212_c19049 [suppressed, 371d, review_by 2027-03-31]"
     },
     {
       "name": "fuel_sources_agree",

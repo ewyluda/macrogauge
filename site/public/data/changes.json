@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-10-07T12:49:40Z",
-  "prev_published_at": "2026-10-06T12:49:37Z",
+  "published_at": "2026-10-07T18:51:57Z",
+  "prev_published_at": "2026-10-07T12:49:40Z",
   "headline": [
     {
       "key": "gauge",
@@ -8,9 +8,9 @@
       "kind": "gauge",
       "value": 3.18,
       "as_of": "2026-10-07",
-      "prev_value": 3.21,
-      "prev_as_of": "2026-10-06",
-      "delta_pp": -0.03
+      "prev_value": 3.18,
+      "prev_as_of": "2026-10-07",
+      "delta_pp": 0.0
     },
     {
       "key": "tracker",
@@ -18,19 +18,19 @@
       "kind": "gauge",
       "value": 3.66,
       "as_of": "2026-10-07",
-      "prev_value": 3.7,
-      "prev_as_of": "2026-10-06",
-      "delta_pp": -0.04
+      "prev_value": 3.66,
+      "prev_as_of": "2026-10-07",
+      "delta_pp": 0.0
     },
     {
       "key": "col",
       "label": "Cost of Living",
       "kind": "gauge",
-      "value": 5.99,
+      "value": 6.19,
       "as_of": "2026-10-07",
-      "prev_value": 6.17,
-      "prev_as_of": "2026-10-06",
-      "delta_pp": -0.18
+      "prev_value": 5.99,
+      "prev_as_of": "2026-10-07",
+      "delta_pp": 0.2
     },
     {
       "key": "supercore",
@@ -48,19 +48,19 @@
       "kind": "gauge",
       "value": 3.18,
       "as_of": "2026-10-07",
-      "prev_value": 3.2,
-      "prev_as_of": "2026-10-06",
-      "delta_pp": -0.02
+      "prev_value": 3.18,
+      "prev_as_of": "2026-10-07",
+      "delta_pp": 0.0
     },
     {
       "key": "dc_build",
       "label": "DC Build",
       "kind": "datacenter",
-      "value": 8.5,
+      "value": 8.51,
       "as_of": "2026-10-07",
-      "prev_value": 8.51,
-      "prev_as_of": "2026-10-06",
-      "delta_pp": -0.01
+      "prev_value": 8.5,
+      "prev_as_of": "2026-10-07",
+      "delta_pp": 0.01
     },
     {
       "key": "dc_ops",
@@ -85,15 +85,6 @@
   ],
   "components": [
     {
-      "component": "fuel",
-      "label": "Gasoline",
-      "mode": "live",
-      "yoy_pct": 37.9,
-      "prev_yoy_pct": 39.01,
-      "delta_pp": -1.11,
-      "bls_yoy_pct": 27.4
-    },
-    {
       "component": "shelter_owned",
       "label": "Shelter (owned)",
       "mode": "live",
@@ -101,6 +92,15 @@
       "prev_yoy_pct": 1.52,
       "delta_pp": 0.0,
       "bls_yoy_pct": 3.08
+    },
+    {
+      "component": "fuel",
+      "label": "Gasoline",
+      "mode": "live",
+      "yoy_pct": 37.9,
+      "prev_yoy_pct": 37.9,
+      "delta_pp": 0.0,
+      "bls_yoy_pct": 27.4
     },
     {
       "component": "shelter_rent",
@@ -219,64 +219,48 @@
   },
   "sources_landed": [
     {
-      "source": "FRED",
-      "new_rows": 503
-    },
-    {
-      "source": "NYFED",
-      "new_rows": 327
-    },
-    {
       "source": "FMP_EQ",
       "new_rows": 56
     },
     {
-      "source": "AAA_STATE",
-      "new_rows": 51
-    },
-    {
-      "source": "STEO",
-      "new_rows": 35
+      "source": "OPENROUTER",
+      "new_rows": 16
     },
     {
       "source": "FMP",
       "new_rows": 14
     },
     {
-      "source": "OPENROUTER",
-      "new_rows": 12
-    },
-    {
       "source": "KALSHI_FED",
-      "new_rows": 9
+      "new_rows": 6
     },
     {
-      "source": "CLEVELAND",
-      "new_rows": 2
+      "source": "OCI_GPU",
+      "new_rows": 6
     },
     {
-      "source": "DRAMEX",
-      "new_rows": 2
+      "source": "AWS_GPU",
+      "new_rows": 5
     },
     {
-      "source": "EIA",
-      "new_rows": 2
+      "source": "COREWEAVE",
+      "new_rows": 5
     },
     {
-      "source": "KALSHI_DC",
-      "new_rows": 2
+      "source": "EIA_SPOT",
+      "new_rows": 5
     },
     {
       "source": "VASTAI",
+      "new_rows": 4
+    },
+    {
+      "source": "AZURE_GPU",
+      "new_rows": 3
+    },
+    {
+      "source": "FRED",
       "new_rows": 2
-    },
-    {
-      "source": "AAA",
-      "new_rows": 1
-    },
-    {
-      "source": "CAISO",
-      "new_rows": 1
     },
     {
       "source": "ERCOT",
@@ -291,23 +275,7 @@
       "new_rows": 1
     },
     {
-      "source": "MISO",
-      "new_rows": 1
-    },
-    {
       "source": "MND",
-      "new_rows": 1
-    },
-    {
-      "source": "NYISO",
-      "new_rows": 1
-    },
-    {
-      "source": "SPP",
-      "new_rows": 1
-    },
-    {
-      "source": "TREASURY",
       "new_rows": 1
     }
   ],

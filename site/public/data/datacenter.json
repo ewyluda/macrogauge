@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-07T12:49:40Z",
+  "published_at": "2026-10-07T18:51:57Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -16,7 +16,7 @@
   "indexes": {
     "build": {
       "as_of": "2026-10-07",
-      "headline_yoy_pct": 8.5,
+      "headline_yoy_pct": 8.51,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -6424,7 +6424,7 @@
         170.08,
         170.28,
         170.27,
-        170.25
+        170.28
       ],
       "yoy_pct": [
         3.05,
@@ -9628,7 +9628,7 @@
         8.39,
         8.52,
         8.51,
-        8.5
+        8.51
       ],
       "components": [
         {
@@ -9693,8 +9693,8 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-10-07",
-          "yoy_pct": 24.42,
-          "contribution_pp": 1.34,
+          "yoy_pct": 24.74,
+          "contribution_pp": 1.36,
           "stale": false
         },
         {
@@ -9704,8 +9704,8 @@
           "weight": 0.03,
           "mode": "official+proxy",
           "last_obs": "2026-10-07",
-          "yoy_pct": 16.49,
-          "contribution_pp": 0.49,
+          "yoy_pct": 16.54,
+          "contribution_pp": 0.5,
           "stale": false
         },
         {
@@ -10221,7 +10221,7 @@
           169.3111,
           170.611,
           170.3396,
-          170.2499
+          170.2809
         ],
         "components": {
           "constr_wages": [
@@ -11596,7 +11596,7 @@
             195.8628,
             206.3461,
             204.3531,
-            204.8722
+            205.3975
           ],
           "alum_shapes": [
             96.7196,
@@ -11825,7 +11825,7 @@
             205.3164,
             196.0408,
             189.7972,
-            185.8553
+            185.9273
           ],
           "switchgear": [
             85.7335,
@@ -16172,7 +16172,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 3.48
+          "contribution_pp": 3.49
         },
         {
           "group": "electrical",
@@ -38481,19 +38481,15 @@
       {
         "code": "ercot_north_da",
         "label": "ERCOT North Hub",
-        "latest": 57.39,
-        "asof": "2026-10-07",
+        "latest": 59.7,
+        "asof": "2026-10-08",
         "unit": "$/MWh",
         "grid": "ERCOT",
         "region": "Texas (Dallas\u2013Fort Worth)",
         "product": "Day-ahead, all-hours average",
-        "avg30": 40.09,
-        "avg30_yoy_pct": 35.2,
+        "avg30": 40.76,
+        "avg30_yoy_pct": 35.1,
         "spark": [
-          [
-            "2026-04-11",
-            30.66
-          ],
           [
             "2026-04-12",
             27.66
@@ -39209,6 +39205,10 @@
           [
             "2026-10-07",
             57.39
+          ],
+          [
+            "2026-10-08",
+            59.7
           ]
         ]
       },
@@ -43398,8 +43398,8 @@
     "henry_hub": {
       "code": "eia_henry_hub",
       "label": "Henry Hub natural gas",
-      "latest": 3.18,
-      "asof": "2026-09-29",
+      "latest": 3.03,
+      "asof": "2026-10-06",
       "unit": "$/MMBtu"
     },
     "capacity_auction": {
