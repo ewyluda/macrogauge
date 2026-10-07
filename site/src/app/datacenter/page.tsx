@@ -11,7 +11,7 @@ import { DcConstructionChart } from "@/components/DcConstructionChart";
 import { ParityTable, type ParityRow } from "@/components/ParityTable";
 import { StateTileMap } from "@/components/StateTileMap";
 import { HardwareGapPanel, type GapRow } from "@/components/HardwareGapPanel";
-import type { PowerData } from "@/components/PowerPanel";
+import { PowerKpis, type PowerData } from "@/components/PowerPanel";
 import { ContextPanel, type ContextData } from "@/components/ContextPanel";
 import { LongLeadStrip } from "@/components/LongLeadStrip";
 import { NewsFeed } from "@/components/NewsFeed";
@@ -75,7 +75,11 @@ const headline = dcHeadline([
 // The hardware run-up (memory and chips, 2025-26) is the story of the chart:
 // shade it from its recent low, in words the data still supports.
 const hwSurge = surgeFromLow("Hardware", dc.indexes.hardware.dates, dc.indexes.hardware.index);
-const powerSum = powerSummary(dc.power as PowerData | null);
+// Read through PowerData | null: the schema allows "power": null (a bootstrap
+// publish with no hub observations), and a direct JSON import would otherwise
+// type it from whichever artifact happens to be committed.
+const power = (dc.power ?? null) as PowerData | null;
+const powerSum = powerSummary(power);
 
 // The strip shows the five newest AI-infra STORIES (lib/newsTape). Ship only
 // their posts to the client — the client re-clusters them into the same five
@@ -196,26 +200,11 @@ export default function Datacenter() {
                                real={construction.real} />
         </section>
       )}
-      {powerSum.headline && (
+      {power && (
         <section id="dc-power" className="dc-section" aria-labelledby="dc-power-title">
-          <h2 id="dc-power-title">The power bill <span className="subtitle">{powerSum.headline}</span></h2>
-          <div className="kpi-row">
-            {powerSum.hub && (
-              <KpiCard label={`${powerSum.hub.label} · 30-day avg`}
-                value={powerSum.hub.avg30 != null ? `$${powerSum.hub.avg30.toFixed(2)}/MWh` : "—"}
-                context={`${fmtSigned(powerSum.hub.avg30_yoy_pct ?? null)} vs a year earlier`} accent="red" />
-            )}
-            {powerSum.capacity && (
-              <KpiCard label={`${powerSum.capacity.iso} capacity · ${powerSum.capacity.period}`}
-                value={`$${Math.round(powerSum.capacity.price).toLocaleString("en-US")}/MW-day`}
-                context={`from $${Math.round(powerSum.capacity.firstPrice).toLocaleString("en-US")} for ${powerSum.capacity.first}`} accent="violet" />
-            )}
-            {powerSum.tariffs > 0 && (
-              <KpiCard label="Large-load tariffs" value={String(powerSum.tariffs)}
-                context="minimum bills, terms and pipelines by utility" accent="sky" />
-            )}
-          </div>
-          <p className="dc-more"><Link href="/power">All {dc.power?.hubs.length ?? ""} hubs, capacity prices by operator and every tariff →</Link></p>
+          <h2 id="dc-power-title">The power bill{powerSum.headline && <> <span className="subtitle">{powerSum.headline}</span></>}</h2>
+          <PowerKpis sum={powerSum} />
+          <p className="dc-more"><Link href="/power">All {power.hubs.length} hubs, capacity prices by operator and every tariff →</Link></p>
         </section>
       )}
       {context && <section id="dc-context" className="dc-section"><ContextPanel context={context} /></section>}

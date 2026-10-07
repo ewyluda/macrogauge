@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import dc from "../../../public/data/datacenter.json";
 import gradesJson from "../../../public/data/dc_grades.json";
-import { KpiCard } from "@/components/KpiCard";
-import { PowerPanel, type PowerData } from "@/components/PowerPanel";
+import { PowerKpis, PowerPanel, type PowerData } from "@/components/PowerPanel";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
 import { powerSummary } from "@/lib/dcHub";
-import { fmtDay, fmtSigned } from "@/lib/format";
+import { fmtDay } from "@/lib/format";
 import type { DcGrades } from "@/lib/types";
 
 // Split out of /datacenter (2026-10-07): the power bill is its own question —
@@ -39,14 +38,16 @@ const NOWCAST_CLAUSE: Record<string, string> = {
 const NOWCAST_STANDING =
   "the ops index stays on official retail data and the machinery ships config-gated";
 const pn = artifact<"dc_grades", DcGrades>("dc_grades", gradesJson).power_nowcast;
+// the publish date in ET (the daily run's clock): a 9 PM ET publish is already
+// tomorrow in UTC
+const published = new Date(dc.published_at).toLocaleDateString("en-CA", { timeZone: "America/New_York" });
 
 export default function Power() {
-  const asOf = power?.hubs.reduce((d, h) => (h.asof > d ? h.asof : d), "") || dc.indexes.ops.as_of;
   return (
     <div className="datacenter-dashboard">
       <StaleBanner publishedAt={[dc.published_at, gradesJson.published_at]} />
       <header className="research-intro">
-        <div className="research-eyebrow">AI infrastructure · Power &amp; Tariffs <span>Updated {fmtDay(asOf)}</span></div>
+        <div className="research-eyebrow">AI infrastructure · Power &amp; Tariffs <span>Published {fmtDay(published)}</span></div>
         <h1>{sum.headline ?? "Power & Tariffs"}</h1>
         <p>What a data center pays for power: wholesale prices at every major hub, the capacity charges grid operators
           pass through, and the large-load tariffs utilities now require. Part of the{" "}
@@ -56,22 +57,7 @@ export default function Power() {
         <p className="method">Power data is unavailable in this publish.</p>
       ) : (
         <>
-          <div className="kpi-row">
-            {sum.hub && (
-              <KpiCard label={`${sum.hub.label} · 30-day avg`}
-                value={sum.hub.avg30 != null ? `$${sum.hub.avg30.toFixed(2)}/MWh` : "—"}
-                context={`${fmtSigned(sum.hub.avg30_yoy_pct ?? null)} vs a year earlier · the hottest hub this month`} accent="red" />
-            )}
-            {sum.capacity && (
-              <KpiCard label={`${sum.capacity.iso} capacity · ${sum.capacity.period}`}
-                value={`$${Math.round(sum.capacity.price).toLocaleString("en-US")}/MW-day`}
-                context={`from $${Math.round(sum.capacity.firstPrice).toLocaleString("en-US")} for ${sum.capacity.first}`} accent="violet" />
-            )}
-            {sum.tariffs > 0 && (
-              <KpiCard label="Large-load tariffs" value={String(sum.tariffs)}
-                context="utilities' data-center terms, each from a filing or order" accent="sky" />
-            )}
-          </div>
+          <PowerKpis sum={sum} />
           <section className="dc-section" id="power-bill"><PowerPanel power={power} /></section>
         </>
       )}

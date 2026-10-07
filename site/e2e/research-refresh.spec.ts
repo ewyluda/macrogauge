@@ -156,6 +156,10 @@ test("datacenter drivers switch, jump bar, power summary and edge-collapsed stat
 test("power page covers every grid, capacity on one scale, tariffs as a matrix", async ({ page }) => {
   await page.goto("/power");
   await expect(page.locator("h1")).toContainText("on the year");
+  // the featured hub is dated with its own window, and the eyebrow says
+  // "Published" (the artifact), never a hub's delivery date
+  await expect(page.locator(".kpi-card").first()).toContainText("30 days to");
+  await expect(page.locator(".research-eyebrow")).toContainText("Published");
   expect(await page.locator(".pw-hubs tbody tr").count()).toBeGreaterThanOrEqual(8);
   await expect(page.locator(".pw-cap figcaption", { hasText: "MISO" })).toBeVisible();
   await expect(page.locator(".pw-cap-unit")).toContainText("$/MW-day");

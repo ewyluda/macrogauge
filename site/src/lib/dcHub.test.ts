@@ -51,8 +51,26 @@ describe("powerSummary", () => {
     expect(s.hub?.label).toBe("PJM Western Hub");
     expect(s.capacity).toEqual({ iso: "PJM", period: "2028/29", price: 325, first: "2024/25", firstPrice: 28.92 });
     expect(s.tariffs).toBe(3);
-    expect(s.headline).toBe("Wholesale power at PJM Western Hub is up 61.9% on the year; PJM capacity costs 11× what it did for 2024/25");
+    expect(s.headline).toBe("Wholesale power at PJM Western Hub is up 61.9% on the year (30 days to Oct 7); PJM capacity costs 11× what it did for 2024/25");
   });
+  it("falls back to PJM's capacity_auction when capacity_markets is absent or empty (older artifacts)", () => {
+    const legacy = { ...power, capacity_markets: undefined,
+      capacity_auction: { source: "PJM", asof: "2026-07-22",
+        rows: [{ delivery_year: "2024/25", price_mw_day: 28.92 }, { delivery_year: "2028/29", price_mw_day: 325 }] } } as PowerData;
+    for (const p of [legacy, { ...legacy, capacity_markets: [] }]) {
+      expect(powerSummary(p).capacity).toEqual({ iso: "PJM", period: "2028/29", price: 325, first: "2024/25", firstPrice: 28.92 });
+    }
+  });
+
+  it("keeps the readings when no headline sentence is supported", () => {
+    const flat = { ...power, hubs: [hub("SPP North Hub", null)],
+      capacity_markets: [{ ...power.capacity_markets![1], rows: [{ period: "2027/28", price_mw_day: 100 }, { period: "2028/29", price_mw_day: 150 }] }] } as PowerData;
+    const s = powerSummary(flat);
+    expect(s.headline).toBeNull();
+    expect(s.capacity?.price).toBe(150);
+    expect(s.tariffs).toBe(3);
+  });
+
   it("is empty without power data", () => {
     expect(powerSummary(null)).toEqual({ hub: null, capacity: null, tariffs: 0, headline: null });
   });

@@ -1,4 +1,6 @@
-import { fmtSigned } from "@/lib/format";
+import { KpiCard } from "./KpiCard";
+import { fmtDay, fmtSigned } from "@/lib/format";
+import { capacityMarkets, type PowerSummary } from "@/lib/dcHub";
 
 export type PowerHub = {
   code: string;
@@ -132,18 +134,37 @@ function CapacityChart({ markets }: { markets: CapacityMarket[] }) {
   );
 }
 
+/** The three power readings shown on /power and the /datacenter hub. Each
+ *  carries its own date: hubs refresh on different cadences. */
+export function PowerKpis({ sum }: { sum: PowerSummary }) {
+  const { hub, capacity, tariffs } = sum;
+  if (!hub && !capacity && !tariffs) return null;
+  return (
+    <div className="kpi-row">
+      {hub && (
+        <KpiCard label={`${hub.label} · 30-day avg`}
+          value={hub.avg30 != null ? `$${hub.avg30.toFixed(2)}/MWh` : "—"}
+          context={`${fmtSigned(hub.avg30_yoy_pct ?? null)} vs a year earlier · 30 days to ${fmtDay(hub.asof)}`} accent="red" />
+      )}
+      {capacity && (
+        <KpiCard label={`${capacity.iso} capacity · ${capacity.period}`}
+          value={`$${Math.round(capacity.price).toLocaleString("en-US")}/MW-day`}
+          context={`from $${Math.round(capacity.firstPrice).toLocaleString("en-US")} for ${capacity.first}`} accent="violet" />
+      )}
+      {tariffs > 0 && (
+        <KpiCard label="Large-load tariffs" value={String(tariffs)}
+          context="minimum bills, terms and pipelines, each from a filing or order" accent="sky" />
+      )}
+    </div>
+  );
+}
+
 /** The power bill: wholesale hubs, capacity prices and large-load tariffs —
  *  the body of /power, one h2 per block. */
 export function PowerPanel({ power }: { power: PowerData }) {
   const { hubs, henry_hub, capacity_auction } = power;
   const rows = capacity_auction.rows;
-  // Older artifacts carry only the PJM table; render it through the same chart.
-  const markets: CapacityMarket[] = power.capacity_markets?.length ? power.capacity_markets : [{
-    iso: "PJM", name: "Base Residual Auction", product: "RTO clearing price, $/MW-day",
-    status: "auction", note: "", source: "PJM", source_url: "https://www.pjm.com/markets-and-operations/rpm",
-    asof: capacity_auction.asof,
-    rows: rows.map((r) => ({ period: r.delivery_year, price_mw_day: r.price_mw_day })),
-  }];
+  const markets = capacityMarkets(power);
   const tariffs = power.tariffs ?? [];
   const newestYear = hubs.reduce((y, h) => (h.asof.slice(0, 4) > y ? h.asof.slice(0, 4) : y), "0000");
   return (
