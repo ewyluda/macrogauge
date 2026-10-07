@@ -55,7 +55,29 @@
         }
       }
     },
-    "gpu_index": {"$ref": "#/$defs/index"}
+    "gpu_index": {"$ref": "#/$defs/index"},
+    "cloud_gpus": {
+      "description": "Cloud on-demand LIST prices per GPU-hour: display-only, never gpu_index members. Added 2026-10-07; optional so older compute.json files still validate.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "provider", "gpu", "instance", "gpus_per_instance", "region",
+                     "usd_per_gpu_hr", "usd_per_instance_hr", "as_of", "chg_30d_pct"],
+        "additionalProperties": false,
+        "properties": {
+          "code": {"type": "string"},
+          "provider": {"type": "string"},
+          "gpu": {"type": "string"},
+          "instance": {"type": "string"},
+          "gpus_per_instance": {"type": "integer", "minimum": 1},
+          "region": {"type": "string"},
+          "usd_per_gpu_hr": {"$ref": "#/$defs/num"},
+          "usd_per_instance_hr": {"$ref": "#/$defs/num"},
+          "as_of": {"$ref": "#/$defs/day"},
+          "chg_30d_pct": {"$ref": "#/$defs/num"}
+        }
+      }
+    }
   },
   "$defs": {
     "num": {"type": ["number", "null"]},

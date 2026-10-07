@@ -147,10 +147,57 @@ def test_compute_index_geometric_mean_renormalizes_and_rebases(tmp_path):
     assert ti0["history"]["index"][2] == pytest.approx(79.37, abs=1e-3)
     ti0 = compute.build(conn, staleness={f"or_llama70b_{s}": 0 for s in ("in", "out")})["token_index"]
     assert ti0["history"]["index"][2] is None and ti0["history"]["members"][2] == 2
+    # gpt4o / deepseek / llama70b are the pre-2026-10-07 roster: link-only, no
+    # table rows. With no current model priced yet they carry the index alone.
     models = {m["key"]: m for m in p["models"]}
-    assert models["gpt4o"]["blended_usd_mtok"] == 4.0
-    assert models["claude_sonnet"]["as_of"] is None  # never collected -> null row
+    assert {k for k, _ in compute.RETIRED_MODELS}.isdisjoint(models)
+    assert models["claude_sonnet55"]["as_of"] is None  # never collected -> null row
     path = compute.write(p, tmp_path / "out", "2026-09-03T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "compute.schema.json")
+
+
+def test_compute_roster_change_hands_the_index_from_retired_to_current_models(tmp_path):
+    """The old roster carries the history to the first day every current model
+    is priced (the base, = 100); after it only current models move the index —
+    a retired model's flat list price no longer dilutes the moves."""
+    old_days = ["2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04"]
+    new_days = ["2026-10-03", "2026-10-04", "2026-10-05"]
+    rows = {}
+    for key in ("gpt4o", "deepseek", "llama70b"):          # retired: flat, then doubling once
+        for d in ("in", "out"):
+            rows[f"or_{key}_{d}"] = {day: 1.0 for day in old_days}
+            rows[f"or_{key}_{d}"]["2026-10-02"] = 2.0
+            rows[f"or_{key}_{d}"]["2026-10-03"] = 2.0
+            rows[f"or_{key}_{d}"]["2026-10-04"] = 2.0
+    for key, _ in compute.MODELS:                         # current: halve on 10-05
+        for d in ("in", "out"):
+            rows[f"or_{key}_{d}"] = {day: 4.0 for day in new_days}
+            rows[f"or_{key}_{d}"]["2026-10-05"] = 2.0
+    p = compute.build(_store(tmp_path, rows, source="OPENROUTER"))
+    ti = p["token_index"]
+    by = dict(zip(ti["history"]["dates"], ti["history"]["index"]))
+    assert ti["base_date"] == "2026-10-03"                # first day every current model is priced
+    assert by["2026-10-03"] == 100.0
+    assert by["2026-10-01"] == pytest.approx(50.0)        # old roster's doubling, chained in
+    # 10-04 -> 10-05: only current models link (the retired 2.0s are cut at the
+    # base), so the move is the current roster's halving, undiluted
+    assert by["2026-10-05"] == pytest.approx(50.0)
+    assert {m["key"] for m in p["models"]} == {k for k, _ in compute.MODELS}
+
+
+def test_compute_cloud_gpu_rows_are_per_gpu_and_display_only(tmp_path):
+    rows = {"aws_h100": {"2026-10-07": 6.88}, "az_gb200": {"2026-10-07": 27.04},
+            "vast_h100_sxm": {"2026-10-07": 1.9}, "vast_a100_sxm": {"2026-10-07": 1.0},
+            "vast_rtx4090": {"2026-10-07": 0.4}}
+    p = compute.build(_store(tmp_path, rows, source="VASTAI"))
+    cloud = {r["code"]: r for r in p["cloud_gpus"]}
+    assert cloud["aws_h100"]["usd_per_instance_hr"] == pytest.approx(55.04)
+    assert cloud["az_gb200"]["usd_per_instance_hr"] == pytest.approx(108.16)
+    assert cloud["az_gb200"]["gpus_per_instance"] == 4 and cloud["az_gb200"]["region"] == "East US 2"
+    assert cloud["oci_h100"]["usd_per_gpu_hr"] is None     # never collected -> null row
+    # list prices never enter the GPU index
+    assert p["gpu_index"]["history"]["members"][-1] == 3
+    path = compute.write(p, tmp_path / "out", "2026-10-07T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "compute.schema.json")
 
 

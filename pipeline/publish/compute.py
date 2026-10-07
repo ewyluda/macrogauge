@@ -29,9 +29,21 @@ from pipeline.publish.util import latest_point, pct_change_daily, tail, write_js
 from pipeline.registry import load_registry
 from pipeline.store import vintage
 
-MODELS = [("gpt4o", "GPT-4o"), ("claude_sonnet", "Claude Sonnet"),
-          ("llama70b", "Llama 3.1 70B"), ("deepseek", "DeepSeek"),
-          ("gemini_flash", "Gemini Flash"), ("mistral_large", "Mistral Large")]
+# The token roster (2026-10-07): each lab's current workhorse model, pinned to
+# a versioned OpenRouter id in config/series.json. Models turn over every few
+# months; a deprecated id surfaces as per-series staleness, and a refresh is a
+# roster change here plus a methodology changelog entry.
+MODELS = [("gpt56_terra", "GPT-5.6 Terra"), ("claude_sonnet55", "Claude Sonnet 5.5"),
+          ("gemini38_flash", "Gemini 3.8 Flash"), ("grok47", "Grok 4.7"),
+          ("deepseek_v41_flash", "DeepSeek V4.1 Flash"), ("qwen38_max", "Qwen3.8 Max"),
+          ("mistral_large4", "Mistral Large 4"), ("llama4_maverick", "Llama 4 Maverick")]
+# The roster before 2026-10-07. Link-only members: their history carries the
+# token index up to the new roster's base date (the first day every current
+# model is priced), and they drop out of every link after it, so year-old
+# list prices can no longer flatten the index. No table rows.
+RETIRED_MODELS = [("gpt4o", "GPT-4o"), ("claude_sonnet", "Claude Sonnet 5"),
+                  ("llama70b", "Llama 3.1 70B"), ("deepseek", "DeepSeek Chat"),
+                  ("gemini_flash", "Gemini 3.5 Flash"), ("mistral_large", "Mistral Large (2024)")]
 GPUS = [("vast_h100_sxm", "H100 SXM (vast.ai)"), ("vast_h200", "H200 (vast.ai)"),
         ("vast_b200", "B200 (vast.ai)"), ("vast_a100_sxm", "A100 SXM (vast.ai)"),
         ("vast_rtx4090", "RTX 4090 (vast.ai)"), ("sfc_h100", "H100 (sfcompute spot)"),
@@ -47,6 +59,25 @@ DISPLAY_ONLY = {"vast_b300"}
 # gpu_index and drops out after its carry limit), but no longer a table row —
 # a frozen price with a 30-day change reads as live.
 RETIRED = {"sfc_h100"}
+# Cloud list prices (/compute's buyer table): display-only, never index
+# members. List prices move in steps a few times a year, and a marketplace
+# median and a posted list price are different instruments.
+# (code, provider, GPU, instance or part, GPUs per instance)
+CLOUD_GPUS = [
+    ("aws_h100", "AWS", "H100", "p5.48xlarge", 8), ("aws_h200", "AWS", "H200", "p5en.48xlarge", 8),
+    ("aws_b200", "AWS", "B200", "p6-b200.48xlarge", 8), ("aws_b300", "AWS", "B300", "p6-b300.48xlarge", 8),
+    ("aws_a100", "AWS", "A100", "p4d.24xlarge", 8),
+    ("az_h100", "Azure", "H100", "ND96isr H100 v5", 8), ("az_h200", "Azure", "H200", "ND96isr H200 v5", 8),
+    ("az_gb200", "Azure", "GB200", "ND128isr GB200 v6", 4),
+    ("oci_h100", "Oracle", "H100", "per-GPU list price", 1), ("oci_h200", "Oracle", "H200", "per-GPU list price", 1),
+    ("oci_b200", "Oracle", "B200", "per-GPU list price", 1), ("oci_gb200", "Oracle", "GB200", "per-GPU list price", 1),
+    ("oci_b300", "Oracle", "B300", "per-GPU list price", 1), ("oci_a100", "Oracle", "A100", "per-GPU list price", 1),
+    ("cw_h100", "CoreWeave", "H100", "HGX H100", 8), ("cw_h200", "CoreWeave", "H200", "HGX H200", 8),
+    ("cw_b200", "CoreWeave", "B200", "HGX B200", 8), ("cw_gb200", "CoreWeave", "GB200", "GB200 NVL72", 4),
+    ("cw_a100", "CoreWeave", "A100", "A100", 8),
+]
+CLOUD_REGION = {"AWS": "US East (N. Virginia)", "Azure": "East US 2", "Oracle": "list price, all regions",
+                "CoreWeave": "list price"}
 BLEND_IN, BLEND_OUT = 0.75, 0.25
 MIN_MEMBERS = 3
 TAIL_OBS = 90
@@ -80,7 +111,8 @@ def _carried(obs: dict, dates: list[str], limit_days: int) -> dict:
     return out
 
 
-def _index(members: dict[str, dict], limits: dict[str, int] | None = None) -> dict:
+def _index(members: dict[str, dict], limits: dict[str, int] | None = None,
+           retired: frozenset[str] = frozenset()) -> dict:
     """Chain-linked equal-weight geometric mean, rebased to 100 on the first
     date on which EVERY member has a value.
 
@@ -93,9 +125,18 @@ def _index(members: dict[str, dict], limits: dict[str, int] | None = None) -> di
     whoever was present, so a day missing the two dearest SKUs jumped the
     index (+7.0% 2026-09-24 -> 09-25 on membership alone). A date with fewer
     than MIN_MEMBERS present is null and the next date links back to the last
-    non-null one."""
+    non-null one.
+
+    `retired` members are link-only (a roster change): the base date is the
+    first date every CURRENT member is priced, and a retired member takes part
+    in links up to that date and never after — so the old roster carries the
+    history and the new roster alone moves the index from its base on. Until
+    any current member is priced, the retired members act as the roster."""
     dates = sorted(set().union(*(set(s) for s in members.values()))) if members else []
-    full = [d for d in dates if all(d in s for s in members.values())]
+    current = {k: s for k, s in members.items() if k not in retired and s}
+    if not current:
+        current, retired = members, frozenset()
+    full = [d for d in dates if all(d in s for s in current.values())]
     if not full:
         return {"base_date": None, "history": {"dates": [], "index": [], "members": []},
                 "value": None, "as_of": None, "chg_30d_pct": None}
@@ -103,6 +144,8 @@ def _index(members: dict[str, dict], limits: dict[str, int] | None = None) -> di
     limits = limits or {}
     eff = {k: _carried(s, dates, limits.get(k, DEFAULT_CARRY_DAYS))
            for k, s in members.items()}
+    for k in retired & set(eff):
+        eff[k] = {d: v for d, v in eff[k].items() if d <= base_date}
     level: dict[str, float] = {}
     count: list[int] = []
     prev = None                      # last date with a chained level
@@ -134,6 +177,10 @@ def _index(members: dict[str, dict], limits: dict[str, int] | None = None) -> di
 
 def _model_rows(conn):
     rows, members = [], {}
+    for key, _ in RETIRED_MODELS:
+        blended = _blended(_rows(conn, f"or_{key}_in"), _rows(conn, f"or_{key}_out"))
+        if blended:
+            members[key] = blended
     for key, label in MODELS:
         inp, out = _rows(conn, f"or_{key}_in"), _rows(conn, f"or_{key}_out")
         blended = _blended(inp, out)
@@ -165,6 +212,20 @@ def _gpu_rows(conn):
     return rows, members
 
 
+def _cloud_rows(conn):
+    rows = []
+    for code, provider, gpu, instance, per in CLOUD_GPUS:
+        obs = _rows(conn, code)
+        as_of, value = latest_point(obs)
+        rows.append({"code": code, "provider": provider, "gpu": gpu, "instance": instance,
+                     "gpus_per_instance": per, "region": CLOUD_REGION[provider],
+                     "usd_per_gpu_hr": value,
+                     "usd_per_instance_hr": None if value is None else round(value * per, 2),
+                     "as_of": as_of,
+                     "chg_30d_pct": pct_change_daily(obs, as_of, 30) if as_of else None})
+    return rows
+
+
 def _limits(staleness: dict[str, int] | None) -> tuple[dict, dict]:
     """Per-member carry limits off the registry's max_staleness_days. A token
     member is two series (in/out); it carries only as long as BOTH would."""
@@ -173,7 +234,7 @@ def _limits(staleness: dict[str, int] | None) -> tuple[dict, dict]:
         staleness = {s.code: s.max_staleness_days for s in series}
     model_lim = {k: min(staleness.get(f"or_{k}_in", DEFAULT_CARRY_DAYS),
                         staleness.get(f"or_{k}_out", DEFAULT_CARRY_DAYS))
-                 for k, _ in MODELS}
+                 for k, _ in MODELS + RETIRED_MODELS}
     gpu_lim = {c: staleness.get(c, DEFAULT_CARRY_DAYS) for c, _ in GPUS}
     return model_lim, gpu_lim
 
@@ -191,8 +252,11 @@ def build(conn, staleness: dict[str, int] | None = None) -> dict:
                                 "of the members priced on both days (a member's last price "
                                 "carries at most its staleness limit), rebased to 100 on "
                                 "the first day every member was priced"},
-            "models": model_rows, "token_index": _index(model_members, model_lim),
-            "gpus": gpu_rows, "gpu_index": _index(gpu_members, gpu_lim)}
+            "models": model_rows,
+            "token_index": _index(model_members, model_lim,
+                                  retired=frozenset(k for k, _ in RETIRED_MODELS)),
+            "gpus": gpu_rows, "gpu_index": _index(gpu_members, gpu_lim),
+            "cloud_gpus": _cloud_rows(conn)}
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:

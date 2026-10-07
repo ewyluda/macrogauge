@@ -640,6 +640,12 @@ export type Compute = {
   token_index: ComputeIndex;
   gpus: { code: string; label: string; usd_per_gpu_hr: number | null; as_of: string | null; chg_30d_pct: number | null; tail: Tail; in_index?: boolean }[];
   gpu_index: ComputeIndex;
+  /** cloud on-demand list prices (2026-10-07+); absent on older files */
+  cloud_gpus?: CloudGpu[];
+};
+export type CloudGpu = {
+  code: string; provider: string; gpu: string; instance: string; gpus_per_instance: number; region: string;
+  usd_per_gpu_hr: number | null; usd_per_instance_hr: number | null; as_of: string | null; chg_30d_pct: number | null;
 };
 
 export type HousingMeasure = { code: string; label: string; unit: string; value: number | null; as_of: string | null; yoy_pct: number | null };

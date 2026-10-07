@@ -10,7 +10,7 @@ from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
 
-from pipeline.connectors import (aaa, atlfed, aptlist, bls, caiso, census, cleveland, dramex, eia,
+from pipeline.connectors import (aaa, atlfed, aptlist, bls, caiso, census, cleveland, cloudgpu, dramex, eia,
                                  ercot, fmp, fred, ice, kalshi, manheim, miso, mnd, nyfed, nyiso,
                                  openrouter, pmms, qcew, sfcompute, spp, treasury, usda, vastai,
                                  zillow)
@@ -148,6 +148,22 @@ def _openrouter(subset, key, http):
     return openrouter.fetch([s.source_id for s in subset], http_get=http)
 
 
+def _aws_gpu(subset, key, http):
+    return cloudgpu.fetch_aws([s.source_id for s in subset], http_get=http)
+
+
+def _azure_gpu(subset, key, http):
+    return cloudgpu.fetch_azure([s.source_id for s in subset], http_get=http)
+
+
+def _oci_gpu(subset, key, http):
+    return cloudgpu.fetch_oci([s.source_id for s in subset], http_get=http)
+
+
+def _coreweave(subset, key, http):
+    return cloudgpu.fetch_coreweave([s.source_id for s in subset], http_get=http)
+
+
 def _caiso(subset, key, http):
     return caiso.fetch([s.source_id for s in subset], http_get=http)
 
@@ -206,6 +222,11 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             "QCEW_238212": _qcew_238212,
             "DRAMEX": _dramex, "VASTAI": _vastai, "SFCOMPUTE": _sfcompute,
             "OPENROUTER": _openrouter,
+            # Cloud GPU list prices (/compute): one key per provider for
+            # failure isolation — one cloud's redesigned price feed must
+            # never take down another's row.
+            "AWS_GPU": _aws_gpu, "AZURE_GPU": _azure_gpu, "OCI_GPU": _oci_gpu,
+            "COREWEAVE": _coreweave,
             # STEO is a separate source key only for failure isolation — the
             # fetch mechanics are plain EIA (v2 seriesid route), like EIA_STATE.
             "STEO": _eia,

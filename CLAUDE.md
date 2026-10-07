@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (1187 tests)
+pytest -q                                     # full suite (1199 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -28,8 +28,8 @@ cd site && npm ci
 npm run dev        # local dev server
 npm run lint       # ESLint flat config: next core-web-vitals + jsx-a11y + react-hooks (must pass in CI)
 npm run build      # static export (must pass in CI)
-npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/news/newsTape/homeBrief) + dcWeightBasis + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/chartAria/sourcePills/badge
-npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 214 e2e tests, zero console errors
+npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/news/newsTape/homeBrief/cloudGpu) + dcWeightBasis + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/chartAria/sourcePills/badge
+npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 215 e2e tests, zero console errors
 npm run gen-types  # schemas/*.schema.json -> src/lib/generated/*.ts (gitignored; runs automatically before dev/build/test)
 ```
 
@@ -49,10 +49,10 @@ Data flows in one direction: **collect → store → engine → publish → vali
 live in one repo.
 
 ### 1. Collection (`pipeline/collect.py`, `pipeline/connectors/`)
-One connector module per source — 28 total: API/CSV/XLSX (fred, bls, eia, fmp, treasury, zillow, pmms,
+One connector module per source — 29 total: API/CSV/XLSX (fred, bls, eia, fmp, treasury, zillow, pmms,
 aptlist, usda, kalshi, qcew, census, vastai, openrouter, caiso, miso, ice, ercot, spp, nyiso, nyfed, atlfed) and scrape (aaa, mnd,
-manheim, cleveland, dramex, sfcompute). One module can serve several source keys for failure
-isolation (`kalshi.py`: KALSHI / KALSHI_CORE / KALSHI_DC / KALSHI_FED; `qcew.py`: QCEW for NAICS 23 /
+manheim, cleveland, dramex, sfcompute), plus `cloudgpu` (AWS_GPU / AZURE_GPU / OCI_GPU / COREWEAVE: cloud on-demand GPU list prices). One module can serve several source keys for failure
+isolation (`kalshi.py`: KALSHI / KALSHI_CORE / KALSHI_DC / KALSHI_FED; `cloudgpu.py`: one key per cloud; `qcew.py`: QCEW for NAICS 23 /
 QCEW_238212 for the 6-digit electrical-contractor slice). What gets collected is driven entirely by
 `config/series.json` (via `pipeline/registry.py`) — the single source of truth for series,
 sources, and per-series `max_staleness_days`. A series that is legitimately absent past its
@@ -68,7 +68,7 @@ registry.
 blocks the run. Carry-forward store semantics make a missed day harmless. Error strings are
 sanitized (API keys redacted) because they get published.
 
-**Scrape/unofficial-API connectors (`aaa.py`, `mnd.py`, `manheim.py`, `dramex.py`, `sfcompute.py`, `vastai.py`, `openrouter.py`, `nyfed.py` (GSCPI, MCT, SCE), `atlfed.py` (BIE), and `kalshi.fetch_fed`) carry drift protection**, not just the
+**Scrape/unofficial-API connectors (`aaa.py`, `mnd.py`, `manheim.py`, `dramex.py`, `sfcompute.py`, `vastai.py`, `openrouter.py`, `nyfed.py` (GSCPI, MCT, SCE), `atlfed.py` (BIE), `cloudgpu.py` (AWS pricing JSON, CoreWeave page), and `kalshi.fetch_fed`) carry drift protection**, not just the
 generic failure isolation above: a tight regex pinned to a recorded fixture plus a plausible-value
 range check, so a redesigned source page raises a clear "structure drift?" error (caught by the
 same isolation path) instead of silently ingesting garbage.
@@ -133,7 +133,8 @@ five long-lead packages' price legs, plus Census M3 months of backlog — SA unf
 curve, breakevens, HY OAS, dollar, WALCL−TGA−RRP liquidity in $bn, mortgage spread, and the
 Kalshi KXFED market-implied Fed path vs DFEDTARU in `fed_path`), `compute`
 (token and GPU-hour price indexes: equal-weight geometric means renormalized over live roster
-members; display-only SKUs carry `in_index: false`), `housing` (prices, rents, sales, payment-to-income affordability off 0.80×ZHVI at the
+members; display-only SKUs carry `in_index: false`; retired models are link-only up to the current
+roster's base date; `cloud_gpus` = AWS/Azure/Oracle/CoreWeave on-demand list $/GPU-hr, display-only), `housing` (prices, rents, sales, payment-to-income affordability off 0.80×ZHVI at the
 PMMS rate ÷ AHE×2080/12), and `changes` (what moved since the previous publish — run_daily
 snapshots pulse/gaptable/datacenter BEFORE the engine phase and this writer diffs today's files
 against it; `grocery_basket` also gained a USDA `wholesale[]` block and `pulse` variants carry
