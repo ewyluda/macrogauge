@@ -123,6 +123,11 @@ test("capacity leads with a takeaway and the valuation scatter, and bars scale p
     expect(c.ev_per_mw).toBeNull();
     await expect(page.locator(".cap-viz-note")).toContainText(c.t);
   }
+  // the valuation table compares EV/MW only within a business type: GPU
+  // clouds and landlords are separate groups, each with its own median
+  const typeGroups = page.locator(".cap-table tr.cap-table-group");
+  expect(await typeGroups.count()).toBeGreaterThanOrEqual(2);
+  await expect(typeGroups.first()).toContainText("median");
   // with both cohorts in view the bars split into two groups, each on its own scale
   await page.getByRole("tab", { name: "Capacity" }).click();
   const heads = page.locator(".cap-group-head");

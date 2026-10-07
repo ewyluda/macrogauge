@@ -18,6 +18,11 @@ const LOG_TICKS = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000];
 const fmtM = (v: number) => `$${v >= 100 ? Math.round(v) : v.toFixed(1)}M`;
 const fmtMW = (mw: number) => (mw >= 1000 ? `${(mw / 1000).toFixed(1)} GW` : `${Math.round(mw).toLocaleString("en-US")} MW`);
 
+function medianOf(v: number[]): number {
+  const s = [...v].sort((a, b) => a - b);
+  return s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2;
+}
+
 type Box = { x: number; y: number; w: number; h: number };
 const hit = (a: Box, b: Box) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
 
@@ -39,8 +44,7 @@ export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
   const Y = (v: number) => H - M.b - ((Math.log(v) - Math.log(lo)) / (Math.log(hi) - Math.log(lo))) * (H - M.t - M.b);
   const maxW = Math.max(...pts.map((c) => c.wmw), 1);
   const R = (c: CapacityCompany) => 5 + Math.sqrt(c.wmw / maxW) * 20;
-  const sorted = [...evs].sort((a, b) => a - b);
-  const median = sorted.length % 2 ? sorted[(sorted.length - 1) / 2] : (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2;
+  const median = medianOf(evs);
 
   // Greedy label placement: biggest dots claim space first; a label that
   // can't find a clear slot is dropped (the tooltip and the table carry it).
@@ -127,7 +131,7 @@ export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
       </div>
       <div className="capacity-site-table">
         <table className="cap-table">
-          <caption>Cheapest per megawatt first</caption>
+          <caption>Cheapest per megawatt first, within each business type</caption>
           <thead>
             <tr>
               <th scope="col">Company</th><th scope="col">Type</th>
@@ -135,18 +139,33 @@ export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
               <th scope="col" className="num">Weighted MW</th><th scope="col" className="num">Backlog ÷ EV</th>
             </tr>
           </thead>
-          <tbody>
-            {[...pts].sort((a, b) => (a.ev_per_mw as number) - (b.ev_per_mw as number)).map((c) => (
-              <tr key={c.t}>
-                <td><i className={`cap-dot cap-dot-${groupOf(c)}`} aria-hidden /> {c.n} <span className="cap-muted">{c.t}</span></td>
-                <td className="cap-muted">{GROUP[groupOf(c)].short}</td>
-                <td className="num">{fmtM(c.ev_per_mw as number)}{c.stale ? "*" : ""}</td>
-                <td className="num">{c.pct_energized}%</td>
-                <td className="num">{fmtMW(c.wmw)}</td>
-                <td className="num">{c.coverage != null ? `${c.coverage}×` : "—"}</td>
-              </tr>
-            ))}
-          </tbody>
+          {/* GPU clouds rent out compute; landlords lease powered shells.
+              Different businesses, so EV per MW is only compared within a type,
+              each with its own median. */}
+          {groups.map((g) => {
+            const grp = pts.filter((c) => groupOf(c) === g)
+              .sort((a, b) => (a.ev_per_mw as number) - (b.ev_per_mw as number));
+            return (
+              <tbody key={g}>
+                <tr className="cap-table-group">
+                  <th scope="colgroup" colSpan={6}>
+                    <i className={`cap-dot cap-dot-${g}`} aria-hidden /> {GROUP[g].label}
+                    <span className="cap-muted"> · {grp.length} · median {fmtM(medianOf(grp.map((c) => c.ev_per_mw as number)))} per MW</span>
+                  </th>
+                </tr>
+                {grp.map((c) => (
+                  <tr key={c.t}>
+                    <td><i className={`cap-dot cap-dot-${g}`} aria-hidden /> {c.n} <span className="cap-muted">{c.t}</span></td>
+                    <td className="cap-muted">{GROUP[g].short}</td>
+                    <td className="num">{fmtM(c.ev_per_mw as number)}{c.stale ? "*" : ""}</td>
+                    <td className="num">{c.pct_energized}%</td>
+                    <td className="num">{fmtMW(c.wmw)}</td>
+                    <td className="num">{c.coverage != null ? `${c.coverage}×` : "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            );
+          })}
         </table>
       </div>
       <p className="cap-viz-note">
