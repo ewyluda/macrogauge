@@ -3,17 +3,7 @@ import { useMemo } from "react";
 import { EChart } from "./EChart";
 import { C, baseOption } from "@/lib/chartTheme";
 import { addMonths, monthDiff } from "@/lib/dcEscalation";
-import { fmtUsd } from "@/lib/format";
-
-/** "$9.6M" / "$840K" / "$950" — axis and end labels, where full dollars crowd. */
-export function compactUsd(v: number): string {
-  const a = Math.abs(v);
-  const s = v < 0 ? "−" : "";
-  if (a >= 1e9) return `${s}$${(a / 1e9).toFixed(2)}B`;
-  if (a >= 1e6) return `${s}$${(a / 1e6).toFixed(a >= 1e8 ? 0 : 2)}M`;
-  if (a >= 1e3) return `${s}$${(a / 1e3).toFixed(0)}K`;
-  return `${s}$${a.toFixed(0)}`;
-}
+import { fmtUsd, fmtUsdCompact as compactUsd } from "@/lib/format";
 
 export type ForwardPath = {
   deliveryMonth: string;

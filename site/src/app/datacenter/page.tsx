@@ -78,6 +78,8 @@ const DC_COVERAGE = [
     description: "Operational, under-construction and planned critical-IT MW by company, filing behind each." },
   { href: "/compute", eyebrow: "Output", title: "Compute prices",
     description: "What a token and a GPU-hour cost — the price of what the facility produces." },
+  { href: "/as-of", eyebrow: "Claims", title: "Point in time",
+    description: "What every index read as published on any past date, DC Build included — for claims and change orders." },
 ] as const;
 
 const JUMP = [

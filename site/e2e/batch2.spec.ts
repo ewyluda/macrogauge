@@ -29,9 +29,8 @@ test("/pce and /cpi-preview show the next-PCE-print nowcast", async ({ page }) =
   await expect(page.getByText("PCE nowcast · MoM (SA)", { exact: true })).toBeVisible();
 });
 
-test("/escalation grading record shows the storage-tail gate verdict", async ({ page }) => {
-  await page.goto("/escalation");
-  await page.locator("details.grades-record > summary").click();
+test("/escalation/grades shows the storage-tail gate verdict", async ({ page }) => {
+  await page.goto("/escalation/grades");
   await expect(page.getByText("Storage (NAND) tail")).toBeVisible();
 });
 
@@ -42,12 +41,8 @@ test("/supercore shows the monthly history against its official reference with v
   await expect(page.locator("canvas")).toHaveCount(2);
 });
 
-test("/escalation anchor scatter recomputes the published grade for the selected cell", async ({ page }) => {
-  // the scatter's own URL state opens the grading record by itself
-  await page.goto("/escalation?leg=strict&sb=long_run&sh=12");
-  await expect(page.locator("details.grades-record")).toHaveAttribute("open", "");
-  // the anchor rows load only when the scatter's slot scrolls into view
-  await page.getByText("Loading every vintage anchor").scrollIntoViewIfNeeded();
+test("/escalation/grades anchor scatter recomputes the published grade for the selected cell", async ({ page }) => {
+  await page.goto("/escalation/grades?leg=strict&sb=long_run&sh=12");
   await expect(page.getByText("Expected vs realized — every vintage anchor")).toBeVisible();
   const g = (grades as { legs: Record<string, { grades: Record<string, Record<string, { n: number; shortfall_rate_pct: number }>> }> })
     .legs.strict.grades.long_run.h12;
@@ -61,9 +56,8 @@ test("/escalation anchor scatter recomputes the published grade for the selected
   await expect(page.locator("th", { hasText: /downturn/ })).toHaveCount(2);
 });
 
-test("/escalation lead-lag section plots the correlation profiles", async ({ page }) => {
-  await page.goto("/escalation");
-  await page.locator("details.grades-record > summary").click();
+test("/escalation/grades lead-lag section plots the correlation profiles", async ({ page }) => {
+  await page.goto("/escalation/grades");
   await expect(page.getByText("Solid = cleared the gate")).toBeVisible();
 });
 

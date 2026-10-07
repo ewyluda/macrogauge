@@ -17,7 +17,7 @@
     },
     {
       "source": "/dc-scoreboard",
-      "destination": "/escalation#grades",
+      "destination": "/escalation/grades",
       "permanent": true
     }
   ],

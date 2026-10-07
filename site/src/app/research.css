@@ -812,13 +812,8 @@ body.research-site .footer-meta { font-size: 12px; }
 .br-extended { background: var(--accent-violet); }
 .br-val { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
 .br-note { grid-column: 2 / -1; color: var(--muted); font-style: italic; }
-.grades-record { margin-top: 20px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); }
-.grades-record > summary { cursor: pointer; padding: 14px 16px; font-size: 14px; font-weight: 600; color: var(--accent-sky); list-style: none; }
-.grades-record > summary::-webkit-details-marker { display: none; }
-.grades-record > summary::before { content: "▸ "; }
-.grades-record[open] > summary::before { content: "▾ "; }
-.grades-record > summary:focus-visible { outline: 2px solid var(--accent-sky); outline-offset: -2px; border-radius: 10px; }
-.grades-record-body { padding: 0 16px 16px; border-top: 1px solid var(--border); }
+.grades-record-link { display: inline-block; margin-top: 16px; color: var(--accent-sky); font-size: 14px; font-weight: 600; text-decoration: none; }
+.grades-record-link:hover { text-decoration: underline; }
 .escalation-method { display: grid; gap: 12px; max-width: 860px; }
 .escalation-method p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
 .escalation-method b { color: var(--text); font-weight: 600; }

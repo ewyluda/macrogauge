@@ -68,3 +68,16 @@ export function fmtUsd(v: number | null | undefined): string {
   const s = r < 0 ? "−" : "";
   return `${s}$${Math.abs(r).toLocaleString("en-US")}`;
 }
+
+/** Compact dollars for chart axes and end labels: "$12.4M", "$840K",
+ *  "$52.5K", "$5,200". Below $10K it prints whole dollars, so adjacent axis
+ *  ticks on a small base cost never collapse into the same label. */
+export function fmtUsdCompact(v: number): string {
+  const a = Math.abs(v);
+  const s = v < 0 ? "−" : "";
+  if (a >= 1e9) return `${s}$${(a / 1e9).toFixed(2)}B`;
+  if (a >= 1e6) return `${s}$${(a / 1e6).toFixed(a >= 1e8 ? 0 : 2)}M`;
+  if (a >= 1e5) return `${s}$${(a / 1e3).toFixed(0)}K`;
+  if (a >= 1e4) return `${s}$${(a / 1e3).toFixed(1)}K`;
+  return `${s}$${Math.round(a).toLocaleString("en-US")}`;
+}

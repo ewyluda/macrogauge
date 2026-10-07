@@ -1,40 +1,40 @@
 import {
   BASIS_LABELS,
   HORIZONS,
-  WITHHELD_REASON,
   basisShortfallRanges,
   fmtRange,
   formatHorizonList,
   horizonKey,
+  pairedShortfall,
   type GradeLegs,
+  type LegShortfall,
 } from "@/lib/dcGrades";
-import type { Leg } from "@/lib/types";
 
 const LEGS = [
   { key: "strict", name: "Vintage-true", cls: "strict" },
   { key: "extended", name: "Final-revision", cls: "extended" },
 ] as const;
 
-/** One cell: a bar for a graded figure, the editorial reason for a withheld
- *  one, a plain dash for a real absence. The three never look alike — the
- *  same three states pairedShortfall() keeps apart. */
-function LegBar({ leg, basis, h, name, cls }: { leg?: Leg; basis: string; h: number; name: string; cls: string }) {
-  if (leg && !leg.published_horizons.includes(h)) {
+/** One cell, classified by pairedShortfall() — the only sanctioned read of a
+ *  leg's shortfall rate — so these bars can never disagree with the verdict
+ *  line on the same page: a bar for a graded figure, the editorial reason for
+ *  a withheld one, plain words for a real absence. */
+function LegBar({ state, draws, name, cls }: { state: LegShortfall; draws: number | null; name: string; cls: string }) {
+  if (state.status === "withheld") {
     return (
-      <div className="br-bar br-withheld" title={WITHHELD_REASON}>
+      <div className="br-bar br-withheld" title={state.reason}>
         <span className="br-leg">{name}</span><span className="br-note">withheld</span>
       </div>
     );
   }
-  const s = leg?.grades?.[basis]?.[horizonKey(h)];
-  if (!s) {
+  if (state.status === "not_gradeable") {
     return <div className="br-bar"><span className="br-leg">{name}</span><span className="br-note">not gradeable</span></div>;
   }
   return (
-    <div className="br-bar" title={`${s.independent_draws.toFixed(1)} independent draws`}>
+    <div className="br-bar" title={draws != null ? `${draws.toFixed(1)} independent draws` : undefined}>
       <span className="br-leg">{name}</span>
-      <span className="br-track"><span className={`br-fill br-${cls}`} style={{ width: `${s.shortfall_rate_pct}%` }} /></span>
-      <span className="br-val">{s.shortfall_rate_pct.toFixed(0)}%</span>
+      <span className="br-track"><span className={`br-fill br-${cls}`} style={{ width: `${state.shortfallPct}%` }} /></span>
+      <span className="br-val">{state.shortfallPct.toFixed(0)}%</span>
     </div>
   );
 }
@@ -65,16 +65,20 @@ export function BasisRecord({ grades }: { grades: GradeLegs }) {
         {Object.keys(BASIS_LABELS).map((basis) => (
           <div className="br-card" key={basis}>
             <h3>{BASIS_LABELS[basis]}</h3>
-            {HORIZONS.map((h) => (
-              <div className="br-row" key={h}>
-                <span className="br-h">{h} mo</span>
-                <div className="br-pair">
-                  {LEGS.map((l) => (
-                    <LegBar key={l.key} leg={l.key === "strict" ? strict : extended} basis={basis} h={h} name={l.name} cls={l.cls} />
-                  ))}
+            {HORIZONS.map((h) => {
+              const pair = pairedShortfall(grades, basis, h);
+              return (
+                <div className="br-row" key={h}>
+                  <span className="br-h">{h} mo</span>
+                  <div className="br-pair">
+                    {LEGS.map((l) => (
+                      <LegBar key={l.key} state={pair[l.key]} name={l.name} cls={l.cls}
+                        draws={grades.legs?.[l.key]?.grades?.[basis]?.[horizonKey(h)]?.independent_draws ?? null} />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ))}
       </div>

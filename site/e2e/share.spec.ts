@@ -26,8 +26,7 @@ test("escalation calculator deep-link sets base month, cost and basis", async ({
   await expect(months.first()).toHaveValue("2022-01");
   await expect(page.locator('input[type="number"]').first()).toHaveValue("1000000");
   // the citation string carries the live query so the setting cites itself
-  // first = the calculator's own citation (the grading record below carries its own)
-  await expect(page.locator(".citation-text").first()).toContainText("/escalation?base=2022-01");
+  await expect(page.locator(".citation-text")).toContainText("/escalation?base=2022-01");
 });
 
 test("quilt window chip is mirrored into the query string", async ({ page }) => {

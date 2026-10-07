@@ -1,7 +1,7 @@
 import Link from "next/link";
 /** Renders dc_grades.json (site/public/data/dc_grades.json), the escalation
- *  grading harness behind /escalation's "full grading record" (it was
- *  /dc-scoreboard until 2026-10-07, which now redirects there).
+ *  grading harness behind /escalation/grades (it was /dc-scoreboard until
+ *  2026-10-07, which now redirects there).
  *
  *  Two rules govern every section below and are not negotiable:
  *
@@ -378,8 +378,8 @@ function ScenarioSection({ scenarios }: { scenarios: DcGrades["scenarios"] }) {
     <Section title="Hand-picked regimes — ungradeable by design">
       <div className="section-featured" style={{ marginTop: 0 }}>
         <p className="lede" style={{ margin: 0 }}>
-          The Carry menu above also offers either of these hand-picked historical regimes instead of a
-          rolling rule. Both windows were chosen with hindsight, after the fact, from realized history — so
+          The escalation calculator's Carry menu also offers either of these hand-picked historical regimes
+          instead of a rolling rule. Both windows were chosen with hindsight, after the fact, from realized history — so
           neither is graded above or anywhere else on this page. They publish a rate and a window only: no
           shortfall rate, no MAE, no independent-draw count. Computing one would score hindsight against itself.
         </p>
@@ -630,8 +630,8 @@ function MethodologySection({
         <p className="method">
           <b>The index graded here is reconstructed from official releases only.</b> Every component is read from its
           published PPI/CES series and nothing else. The DC Build index on{" "}
-          <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link> and in the calculator
-          above additionally splices a live
+          <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link> and in the{" "}
+          <Link href="/escalation" style={{ color: "var(--accent-sky)" }}>escalation calculator</Link> additionally splices a live
           futures tail onto {reconstruction.proxyLabels.join(" and ")} ({reconstruction.proxyWeightPct.toFixed(1)}% of
           Build weight) past their last official print, so the two indexes agree in every month where that splice is
           inactive and differ where it is not — and the latest anchor, the month every basis above is read at, is such
@@ -673,8 +673,7 @@ export function GradesClient({
   anchorsN,
 }: {
   data: GradesPageData;
-  /** The expected-vs-realized scatter, passed in so the host page decides
-   *  how its 286 anchor rows arrive (/escalation loads them on demand). */
+  /** The expected-vs-realized scatter (it carries the 286 anchor rows). */
   scatter: React.ReactNode;
   reconstruction?: ReconstructionNote | null;
   anchorsN: number;
