@@ -97,13 +97,34 @@ function Tags({ p, onTicker, active }: { p: NewsPost; onTicker?: (t: string) => 
 const Source = ({ p }: { p: NewsPost }) =>
   p.url ? <a className="news-src" href={p.url} target="_blank" rel="noopener noreferrer nofollow">source ↗</a> : null;
 
-/** One story: its lead headline, tags and source; the lead's bullet points
- *  and the repeats of the same story open on demand. */
+/** A post's bullet points and read-through tickers. */
+function PostDetail({ p }: { p: NewsPost }) {
+  return (
+    <>
+      {p.points.length > 0 && (
+        <ul className="news-points">
+          {p.points.map((pt, i) => (
+            <li key={i}>{pt.label && <strong>{pt.label}: </strong>}{pt.text}</li>
+          ))}
+        </ul>
+      )}
+      {p.impacted.length > 0 && (
+        <p className="subtitle news-impacted">Also read-through: {p.impacted.join(", ")}</p>
+      )}
+    </>
+  );
+}
+const hasDetail = (p: NewsPost) => p.points.length > 0 || p.impacted.length > 0;
+
+/** One story: its lead headline, tags and source, and — when a later post
+ *  exists — that newest development on its own line, so a terse update
+ *  ("…CANCELS…") is never hidden behind the fuller report it follows. The
+ *  lead's details and every repeat (with ITS details) open on demand. */
 function StoryItem({ s, compact, onTicker, active }: {
   s: Story; compact: boolean; onTicker?: (t: string) => void; active: string | null;
 }) {
   const p = s.lead;
-  const hasDetail = p.points.length > 0 || p.impacted.length > 0;
+  const newest = [p, ...s.also].reduce((n, x) => (x.ts > n.ts ? x : n), p);
   return (
     <li className="news-item" data-testid="news-item">
       <div className="news-meta">
@@ -111,29 +132,25 @@ function StoryItem({ s, compact, onTicker, active }: {
             day group follows the story's newest post, so name the day when
             the lead is from an earlier one */}
         <time dateTime={p.ts}>{etDay(p.ts) !== etDay(s.latest) && `${etDay(p.ts)} `}{etTime(p.ts)}</time>
-        {s.latest !== p.ts && <span className="news-updated">updated {etTime(s.latest)}</span>}
         {p.category === "earnings" && <span className="badge">earnings</span>}
       </div>
       <div className="news-body">
         <p className="news-headline">{p.headline}</p>
+        {newest !== p && (
+          <p className="news-latest" data-testid="news-latest">
+            <span className="news-latest-tag">Latest · <time dateTime={newest.ts}>{etDay(newest.ts)} {etTime(newest.ts)}</time></span>{" "}
+            {newest.headline} <Source p={newest} />
+          </p>
+        )}
         <div className="news-tags">
           <Tags p={p} onTicker={onTicker} active={active} />
           {compact && s.also.length > 0 && <span className="subtitle news-also-n">+{s.also.length} more on this story</span>}
           <Source p={p} />
         </div>
-        {!compact && hasDetail && (
+        {!compact && hasDetail(p) && (
           <details className="news-more">
             <summary>Details</summary>
-            {p.points.length > 0 && (
-              <ul className="news-points">
-                {p.points.map((pt, i) => (
-                  <li key={i}>{pt.label && <strong>{pt.label}: </strong>}{pt.text}</li>
-                ))}
-              </ul>
-            )}
-            {p.impacted.length > 0 && (
-              <p className="subtitle news-impacted">Also read-through: {p.impacted.join(", ")}</p>
-            )}
+            <PostDetail p={p} />
           </details>
         )}
         {!compact && s.also.length > 0 && (
@@ -143,6 +160,12 @@ function StoryItem({ s, compact, onTicker, active }: {
               {s.also.map((a) => (
                 <li key={a.id}>
                   <time dateTime={a.ts}>{etDay(a.ts)} {etTime(a.ts)}</time> {a.headline} <Source p={a} />
+                  {hasDetail(a) && (
+                    <details className="news-more news-also-detail">
+                      <summary>Details</summary>
+                      <PostDetail p={a} />
+                    </details>
+                  )}
                 </li>
               ))}
             </ol>

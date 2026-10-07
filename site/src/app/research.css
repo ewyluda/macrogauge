@@ -850,6 +850,10 @@ body.research-site .footer-meta { font-size: 12px; }
   .news-numbers li { grid-template-columns: 64px minmax(0, 1fr); }
   .news-numbers li .subtitle { display: none; }
 }
-.news-updated { font-size: 11px; color: var(--muted); }
 a.news-numbers-headline { color: var(--text); text-decoration: none; }
 a.news-numbers-headline:hover { color: var(--accent-sky); text-decoration: underline; }
+.news-latest { margin: 6px 0 0; padding-left: 10px; border-left: 2px solid var(--accent-amber); font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+.news-latest-tag { color: var(--accent-amber); font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.news-latest-tag time { text-transform: none; letter-spacing: 0; }
+.news-latest .news-src { margin-left: 6px; }
+.news-also-detail { margin-top: 2px; }

@@ -608,25 +608,44 @@ test("news tape filters by layer and the datacenter strip links to it", async ({
 });
 
 test("news tape folds repeats into stories and defaults to the AI-infra build-out", async ({ page }) => {
+  // Reads whatever the daily publish baked into news.json, so every branch
+  // below must hold for any tape: empty, no infra stories, repeats only past
+  // the first page.
   const posts = news.posts as NewsPost[];
   const stories = clusterStories(posts);
   const infra = stories.filter((s) => s.infra);
+  const PAGE = 40;
   await page.goto("/news");
   const feed = page.getByTestId("news-feed");
   const items = feed.getByTestId("news-item");
   await expect(feed.getByRole("button", { name: `AI-infra stories · ${infra.length}` })).toHaveAttribute("aria-pressed", "true");
-  await expect(items).toHaveCount(Math.min(infra.length, 40));
-  await expect(page.getByTestId("news-mode-note")).toContainText(`${posts.length} posts on the tape, folded into ${stories.length} stories`);
-  // noise never leads a row in the default view
-  await expect(items.filter({ hasText: /Here's a full recap|\d+[CP] \d{1,2}\/\d{1,2}\/\d{4} for/ })).toHaveCount(0);
-  // a folded story keeps its repeats one click away
-  const folded = infra.find((s) => s.also.length > 0);
+  if (posts.length === 0) {
+    await expect(page.getByTestId("news-mode-note")).toHaveCount(0);
+  } else {
+    await expect(page.getByTestId("news-mode-note")).toContainText(`${posts.length} posts on the tape, folded into ${stories.length} stories`);
+  }
+  if (infra.length === 0) {
+    if (posts.length > 0) await expect(page.getByTestId("news-no-infra")).toContainText("No AI-infra stories");
+  } else {
+    await expect(items).toHaveCount(Math.min(infra.length, PAGE));
+    // noise never leads a row in the default view
+    await expect(items.filter({ hasText: /Here's a full recap|\d+[CP] \d{1,2}\/\d{1,2}\/\d{4} for/ })).toHaveCount(0);
+  }
+  // a folded story on the first page keeps its repeats, and each repeat its own details
+  const folded = infra.slice(0, PAGE).find((s) => s.also.length > 0);
   if (folded) {
     const row = items.filter({ hasText: folded.lead.headline.slice(0, 60) }).first();
     // the row's time is its headline's own post, never a newer repeat's
-    await expect(row.locator("time").first()).toHaveAttribute("datetime", folded.lead.ts);
-    await row.getByText(new RegExp(`${folded.also.length} more posts? on this story`)).click();
-    await expect(row.getByTestId("news-also").locator("li")).toHaveCount(folded.also.length);
+    await expect(row.locator(".news-meta time")).toHaveAttribute("datetime", folded.lead.ts);
+    const also = row.getByTestId("news-also");
+    await also.locator("> summary").click();
+    await expect(also.locator(".news-also > li")).toHaveCount(folded.also.length);
+    const detailed = folded.also.find((a) => a.points.length > 0);
+    if (detailed) {
+      const li = also.locator(".news-also > li").filter({ hasText: detailed.headline.slice(0, 40) }).first();
+      await li.locator("summary").click();
+      await expect(li).toContainText(detailed.points[0].text.slice(0, 40));
+    }
   }
   if (topFigures(infra, "capacity", 1).length || topFigures(infra, "dollars", 1).length) {
     await expect(page.getByTestId("news-numbers")).toBeVisible();
@@ -634,16 +653,16 @@ test("news tape folds repeats into stories and defaults to the AI-infra build-ou
   // Everything is one click away and lives in the URL
   await feed.getByRole("button", { name: /^Everything/ }).click();
   await expect.poll(() => page.evaluate(() => location.search)).toContain("tape=all");
-  await expect(items).toHaveCount(Math.min(stories.length, 40));
-  if (stories.length > 40) {
+  await expect(items).toHaveCount(Math.min(stories.length, PAGE));
+  if (stories.length > PAGE) {
     await feed.getByRole("button", { name: /older stories/ }).click();
-    await expect(items).toHaveCount(Math.min(stories.length, 80));
+    await expect(items).toHaveCount(Math.min(stories.length, 2 * PAGE));
   }
   // the /datacenter strip shows the newest AI-infra stories, never noise
   await page.goto("/datacenter");
   const strip = page.getByTestId("news-strip").getByTestId("news-item");
   await expect(strip).toHaveCount(Math.min(infra.length, 5));
-  await expect(strip.first()).toContainText(infra[0].lead.headline.slice(0, 40));
+  if (infra.length > 0) await expect(strip.first()).toContainText(infra[0].lead.headline.slice(0, 40));
 });
 
 test("datacenter long-lead strip links to the board", async ({ page }) => {

@@ -165,3 +165,95 @@ describe("story filters and counts", () => {
     expect(storyLayerCounts(stories, ["AI Compute", "Power & Grid", "Cooling"])).toEqual([["AI Compute", 2], ["Power & Grid", 2]]);
   });
 });
+
+// Cases from the 2026-10-07 PR #60 review (docs/reviews/2026-10-07-pr-60-review.md).
+// Microsoft headlines below are CONTROLLED examples, not real announcements.
+describe("review 2026-10-07 — story identity, lead, figures", () => {
+  const msft = [{ ticker: "MSFT", layer: "Cloud Delivery" }];
+  const m = (headline: string, ts: string, over: Partial<NewsPost> = {}) => post(headline, { tickers: msft, ts, ...over });
+
+  it("F1: a shared amount alone doesn't make two events one story", () => {
+    const power = m("$MSFT Microsoft signed a $5 billion nuclear electricity contract with a utility", "2026-10-06T12:00:00Z");
+    const cyber = m("$MSFT Microsoft agreed a $5 billion cybersecurity acquisition", "2026-10-06T15:00:00Z");
+    expect(sameStory(power, cyber)).toBe(false);
+  });
+
+  it("F1: different capacities are different events, however similar the wording", () => {
+    const tx = m("$MSFT Microsoft opens 200 MW data center in Texas", "2026-10-06T12:00:00Z");
+    const fi = m("$MSFT Microsoft opens 900 MW data center in Finland", "2026-10-06T13:00:00Z");
+    expect(sameStory(tx, fi)).toBe(false);
+    expect(clusterStories([fi, tx])).toHaveLength(2);
+  });
+
+  it("F2: a newer reversal leads, and its story leaves the numbers strip", () => {
+    const deal = m("$MSFT Microsoft secured a 500 MW nuclear power agreement with Constellation", "2026-10-06T12:00:00Z");
+    const off = m("MICROSOFT CANCELS 500 MW NUCLEAR POWER AGREEMENT WITH CONSTELLATION", "2026-10-07T09:00:00Z", { points: [] });
+    const [story] = clusterStories([off, deal]);
+    expect(story.lead).toBe(off);
+    expect(story.also).toEqual([deal]);
+    expect(topFigures([story], "capacity", 4)).toEqual([]);
+  });
+
+  it("F4: grouped thousands with a decimal parse whole", () => {
+    expect(figures(m("$MSFT Microsoft signed for 1,250.5 MW of capacity in Virginia", "2026-10-06T12:00:00Z"))).toEqual([
+      { kind: "capacity", value: 1250.5, label: "1.25 GW" },
+    ]);
+    expect(figures(m("$MSFT Microsoft signed for 2,500 MW in Ohio", "2026-10-06T12:00:00Z"))[0].value).toBe(2500);
+  });
+
+  it("F5: revenue and valuation amounts are not deal dollars", () => {
+    expect(figures(m("$MSFT Microsoft reported $100 billion of revenue and signed a $5 billion data center financing deal", "2026-10-06T12:00:00Z")))
+      .toEqual([{ kind: "dollars", value: 5e9, label: "$5B" }]);
+    // real tape headline
+    expect(figures(post("AI infrastructure provider Lambda is seeking up to $4 billion in a Blackstone- and Coatue-led funding round at a $14.5 billion pre-money valuation")))
+      .toEqual([{ kind: "dollars", value: 4e9, label: "$4B" }]);
+  });
+
+  it("F6: contract dates and the noun 'project' are not forecasts", () => {
+    // real tape headline (Black Hills / Google, 2026-10-06)
+    const bkh = post("$BKH Black Hills signed definitive agreements through 2048 to supply power for $GOOGL Google's planned Cheyenne, Wyoming data center, including up to 590 MW of grid service and management of roughly 2.1 GW of third-party resources.");
+    expect(figures(bkh).map((f) => f.value)).toEqual([590, 2100]);
+    expect(figures(m("$MSFT Microsoft completed its 500 MW Quincy project", "2026-10-06T12:00:00Z"))[0].value).toBe(500);
+  });
+
+  it("F7: a short headline-only flash that names something is not a stub", () => {
+    expect(noiseReason(post("NVIDIA HALTS GPU SHIPMENTS", { points: [] }))).toBeNull();
+    expect(noiseReason(post("AI, semiconductors & technology", { points: [] }))).toBe("stub");
+  });
+
+  it("F9: a chain of matches can't stretch a story past the window", () => {
+    const h = "$MSFT Microsoft expands its Wisconsin AI data center campus with Fairwater";
+    const stories = clusterStories([
+      m(h, "2026-10-07T12:00:00Z"), m(h, "2026-10-04T12:00:00Z"), m(h, "2026-10-01T12:00:00Z"),
+    ]);
+    for (const s of stories) {
+      const ts = [s.lead, ...s.also].map((p) => Date.parse(p.ts));
+      expect(Math.max(...ts) - Math.min(...ts)).toBeLessThanOrEqual(96 * 3_600_000);
+    }
+    expect(stories).toHaveLength(2);
+  });
+
+  it("F10: 'may' is a forecast in any case; the month May is not", () => {
+    for (const h of ["MICROSOFT MAY ADD 500 MW OF DATA CENTER CAPACITY IN TEXAS",
+      "$MSFT Microsoft may add 500 MW in Texas", "$MSFT Microsoft May Add 500 MW In Texas"]) {
+      expect(figures(m(h, "2026-10-06T12:00:00Z")), h).toEqual([]);
+    }
+    for (const h of ["$MSFT Microsoft energized 500 MW in May", "MICROSOFT ENERGIZED 500 MW IN MAY",
+      "$MSFT Microsoft energized 500 MW on May 12"]) {
+      expect(figures(m(h, "2026-10-06T12:00:00Z")).map((f) => f.value), h).toEqual([500]);
+    }
+  });
+});
+
+describe("topFigures — one row per deal", () => {
+  it("shows a figure repeated by the same company once, at its newest story", () => {
+    const avgo = [{ ticker: "AVGO", layer: "AI Compute" }];
+    const early = post("Broadcom ($AVGO) and its banking syndicate are beginning efforts to arrange approximately $60 billion for Anthropic",
+      { tickers: avgo, ts: "2026-10-02T12:03:00Z" });
+    const late = post("Wall Street banks are launching a record $60 billion financing package to fund $AVGO Broadcom AI chips",
+      { tickers: avgo, ts: "2026-10-05T21:05:00Z" });
+    const rows = topFigures([{ lead: late, also: [], latest: late.ts, infra: true }, { lead: early, also: [], latest: early.ts, infra: true }], "dollars", 4);
+    expect(rows).toHaveLength(1);
+    expect(rows[0].story.lead).toBe(late);
+  });
+});
