@@ -55,6 +55,7 @@ const ROUTES: [string, string][] = [
   ["/stress", "Consumer Stress Index"],
   ["/recession", "six transparent signals"],
   ["/datacenter", "Data Center Cost Index"],
+  ["/power", "What the utilities charge data centers"],
   ["/status", "Data-integrity self-test"],
   ["/releases", "the evidence base for vintage-true grading"],
   ["/grocery", "every BLS average-price staple, monthly since 2018"],
@@ -515,10 +516,10 @@ test("escalation renders the ungradeable note for a hindsight-selected regime", 
     .toBeVisible();
 });
 
-test("datacenter renders the power-nowcast grade from the artifact", async ({
+test("power page renders the power-nowcast grade from the artifact", async ({
   page,
 }) => {
-  await page.goto("/datacenter");
+  await page.goto("/power");
   await expect(page.getByText(/like-month year-ratio nowcast/)).toBeVisible();
   // the stale hardcoded pair must be gone, from anywhere on the page
   await expect(page.getByText("best MAE 8.5 vs 5.2 YoY pts")).toHaveCount(0);
@@ -732,17 +733,21 @@ test("header self-test severity distinguishes advisory and critical failures", a
   }
 });
 
-test("data-center readings and chart precede the coverage hub, which links all six pages", async ({
+test("data-center readings and chart precede the coverage hub, which links all nine pages", async ({
   page,
 }) => {
   await page.goto("/datacenter");
   const cards = page.locator(".project-tool-card");
-  // escalation grades folded into the calculator; Point in time joined (2026-10-07)
-  await expect(cards).toHaveCount(6);
+  // escalation grades folded into the calculator; Point in time joined, and
+  // Power & tariffs, State costs and Build inputs make a 3×3 grid (2026-10-07)
+  await expect(cards).toHaveCount(9);
   await expect(cards).toHaveText([
     /Escalation calculator/,
     /Long-lead board/,
+    /Power & tariffs/,
     /DC markets/,
+    /State costs/,
+    /Build inputs/,
     /AI capacity/,
     /Compute prices/,
     /Point in time/,

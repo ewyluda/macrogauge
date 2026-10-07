@@ -98,6 +98,7 @@ function CapacityChart({ markets }: { markets: CapacityMarket[] }) {
   const max = Math.max(...auctions.flatMap((m) => m.rows.map((r) => r.price_mw_day)), 1);
   return (
     <>
+      <p className="pw-cap-unit">Clearing price, $/MW-day, one scale for every operator.</p>
       <div className="pw-cap-grid">
         {auctions.map((m) => (
           <figure key={m.iso} className="pw-cap">
@@ -106,7 +107,8 @@ function CapacityChart({ markets }: { markets: CapacityMarket[] }) {
             </figcaption>
             <ol className="pw-cap-bars" aria-label={`${m.iso} capacity clearing price by period`}>
               {m.rows.map((r) => (
-                <li key={r.period} title={r.native ? `${r.period}: ${r.native}` : undefined}>
+                <li key={r.period} title={r.native ? `${r.period}: ${r.native}` : undefined}
+                    aria-label={`${r.period}: $${Math.round(r.price_mw_day).toLocaleString("en-US")} per MW-day`}>
                   <span className="pw-cap-val">${Math.round(r.price_mw_day).toLocaleString("en-US")}</span>
                   <span className="pw-cap-bar" style={{ height: `${Math.max(2, (r.price_mw_day / max) * 100)}%` }} />
                   <span className="pw-cap-period">{r.period}</span>
@@ -130,6 +132,8 @@ function CapacityChart({ markets }: { markets: CapacityMarket[] }) {
   );
 }
 
+/** The power bill: wholesale hubs, capacity prices and large-load tariffs —
+ *  the body of /power, one h2 per block. */
 export function PowerPanel({ power }: { power: PowerData }) {
   const { hubs, henry_hub, capacity_auction } = power;
   const rows = capacity_auction.rows;
@@ -144,14 +148,9 @@ export function PowerPanel({ power }: { power: PowerData }) {
   const newestYear = hubs.reduce((y, h) => (h.asof.slice(0, 4) > y ? h.asof.slice(0, 4) : y), "0000");
   return (
     <>
-      <h2>
-        The power bill{" "}
-        <span className="subtitle">wholesale prices, capacity charges and the utility tariffs data centers sign</span>
-      </h2>
-
-      <div className="pw-block">
+      <div className="pw-block" id="pw-wholesale">
         <div className="pw-block-head">
-          <h3>Wholesale power across the grid</h3>
+          <h2>Wholesale power across the grid</h2>
           <p>Thirty-day average at each hub, against the same thirty days a year earlier. On-peak ICE trades and all-hours day-ahead averages measure different things, so compare each hub with its own history rather than across rows.</p>
         </div>
         <div className="table-card pw-hubs">
@@ -200,9 +199,9 @@ export function PowerPanel({ power }: { power: PowerData }) {
         </div>
       </div>
 
-      <div className="pw-block">
+      <div className="pw-block" id="pw-capacity">
         <div className="pw-block-head">
-          <h3>Capacity prices by grid operator</h3>
+          <h2>Capacity prices by grid operator</h2>
           <p>
             What grid operators pay to have enough power plants on call, which utilities pass through to large customers.
             {capacity_auction.multiple != null && capacity_auction.years_span != null && (
@@ -214,33 +213,43 @@ export function PowerPanel({ power }: { power: PowerData }) {
       </div>
 
       {tariffs.length > 0 && (
-        <div className="pw-block">
+        <div className="pw-block" id="pw-tariffs">
           <div className="pw-block-head">
-            <h3>What the utilities charge data centers</h3>
-            <p>Large-load tariffs where most new data-center demand is landing: the minimum share of contracted capacity a customer pays for whether or not it uses it, how long it is locked in, and how much load is lined up.</p>
+            <h2>What the utilities charge data centers</h2>
+            <p>Large-load tariffs where most new data-center demand is landing: the minimum share of contracted capacity a customer pays for whether or not it uses it, how long it is locked in, the size at which the tariff applies, and how much load is lined up.</p>
           </div>
-          <ul className="pw-tariffs">
-            {tariffs.map((t) => (
-              <li key={t.utility}>
-                <div className="pw-t-head">
-                  <strong>{t.utility}</strong>
-                  <span className="pw-grid">{t.grid}</span>
-                </div>
-                <p className="pw-t-tariff">{t.tariff} <span>· {t.state}</span></p>
-                <p className="pw-t-status">{t.status}</p>
-                <dl className="pw-t-terms">
-                  <div><dt>Minimum bill</dt><dd>{t.min_take}</dd></div>
-                  <div><dt>Term</dt><dd>{t.term}</dd></div>
-                  <div><dt>Applies at</dt><dd>{t.threshold}</dd></div>
-                </dl>
-                <p className="pw-t-pipe"><span>Pipeline</span> {t.pipeline}</p>
-                <p className="pw-t-src">
-                  <a href={t.source_url} target="_blank" rel="noreferrer">{t.source}</a>, {fmtDate(t.asof)}, {t.asof.slice(0, 4)}
-                  {t.confidence === "press" && " · press report"}
-                </p>
-              </li>
-            ))}
-          </ul>
+          <div className="table-card pw-tariffs">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Utility and tariff</th>
+                  <th scope="col">Minimum bill</th>
+                  <th scope="col">Term</th>
+                  <th scope="col">Applies at</th>
+                  <th scope="col">Pipeline</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tariffs.map((t) => (
+                  <tr key={t.utility}>
+                    <td className="pw-t-who">
+                      <span className="pw-t-head"><strong>{t.utility}</strong> <span className="pw-grid">{t.grid}</span></span>
+                      <span className="pw-t-tariff">{t.tariff} · {t.state}</span>
+                      <span className="pw-t-status">{t.status}</span>
+                      <span className="pw-t-src">
+                        <a href={t.source_url} target="_blank" rel="noreferrer">{t.source}</a>, {fmtDate(t.asof)}, {t.asof.slice(0, 4)}
+                        {t.confidence === "press" && " · press report"}
+                      </span>
+                    </td>
+                    <td data-label="Minimum bill">{t.min_take}</td>
+                    <td data-label="Term">{t.term}</td>
+                    <td data-label="Applies at">{t.threshold}</td>
+                    <td data-label="Pipeline">{t.pipeline}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </>

@@ -9,6 +9,7 @@ import { EChart } from "./EChart";
 import { SegmentedControl } from "./SegmentedControl";
 import { C, baseOption } from "@/lib/chartTheme";
 import { ToolDisclosure } from "./ToolDisclosure";
+import type { Surge } from "@/lib/dcHub";
 
 type Mode = "level" | "yoy";
 const MODES = [
@@ -33,7 +34,12 @@ export type DcSeries = {
 
 const LINE_COLORS = [C.sky, C.violet, C.amber];
 
-export function DcIndexChart({ series, actions, exportData }: { series: DcSeries[]; actions?: ReactNode; exportData?: ReactNode }) {
+/** title: the takeaway (falls back to a label). surge: one series' run-up
+ *  from its recent low, shaded and labelled on that series. */
+export function DcIndexChart({ series, actions, exportData, title, surge }: {
+  series: DcSeries[]; actions?: ReactNode; exportData?: ReactNode;
+  title?: string | null; surge?: (Surge & { seriesKey: string }) | null;
+}) {
   const [mode, setMode] = useUrlState<Mode>("view", "level", codecs.enumOf(["level", "yoy"] as const));
   const chartRef = useRef<ECharts | null>(null);
 
@@ -55,14 +61,29 @@ export function DcIndexChart({ series, actions, exportData }: { series: DcSeries
       yAxis: level
         ? { ...base.yAxis, axisLabel: { color: C.muted }, scale: true }
         : { ...base.yAxis, scale: true },
-      series: series.map((s, i) => ({
-        name: s.label, type: "line", showSymbol: false,
-        data: pair(s.dates, level ? s.index : s.yoy),
-        lineStyle: { width: 2, color: LINE_COLORS[i % LINE_COLORS.length] },
-        itemStyle: { color: LINE_COLORS[i % LINE_COLORS.length] },
-      })),
+      series: series.map((s, i) => {
+        const color = LINE_COLORS[i % LINE_COLORS.length];
+        const mark = surge && surge.seriesKey === s.key ? {
+          markArea: {
+            silent: true,
+            itemStyle: { color, opacity: 0.08 },
+            // the shaded run-up is narrow at full history, so the note sits to
+            // its LEFT, right-aligned against the shading
+            label: { show: true, position: [-6, 10], align: "right", color, fontSize: 11, fontWeight: 600,
+                     formatter: surge.label },
+            data: [[{ xAxis: surge.from }, { xAxis: surge.to }]],
+          },
+        } : {};
+        return {
+          name: s.label, type: "line", showSymbol: false,
+          data: pair(s.dates, level ? s.index : s.yoy),
+          lineStyle: { width: 2, color },
+          itemStyle: { color },
+          ...mark,
+        };
+      }),
     };
-  }, [mode, series]);
+  }, [mode, series, surge]);
 
   const exportPng = () => {
     const chart = chartRef.current;
@@ -85,7 +106,7 @@ export function DcIndexChart({ series, actions, exportData }: { series: DcSeries
   return (
     <div>
       <div className="section-heading">
-        <h2 id="dc-trend-title" className="section-title">The cost of building and operating</h2>
+        <h2 id="dc-trend-title" className="section-title">{title ?? "The cost of building and operating"}</h2>
         <div className="chart-actions">
         {actions}
         <CopyLink plain />
