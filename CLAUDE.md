@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (1202 tests)
+pytest -q                                     # full suite (1205 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -133,8 +133,8 @@ five long-lead packages' price legs, plus Census M3 months of backlog — SA unf
 curve, breakevens, HY OAS, dollar, WALCL−TGA−RRP liquidity in $bn, mortgage spread, and the
 Kalshi KXFED market-implied Fed path vs DFEDTARU in `fed_path`), `compute`
 (token and GPU-hour price indexes: equal-weight geometric means renormalized over live roster
-members; display-only SKUs carry `in_index: false`; retired models are link-only up to the current
-roster's base date; `cloud_gpus` = AWS/Azure/Oracle/CoreWeave on-demand list $/GPU-hr, display-only), `housing` (prices, rents, sales, payment-to-income affordability off 0.80×ZHVI at the
+members; display-only SKUs carry `in_index: false`; a roster change never rebases — retired models
+link up to their own last price, thin links are flat; table rows carry `stale` past the registry limit; `cloud_gpus` = AWS/Azure/Oracle/CoreWeave on-demand list $/GPU-hr, display-only), `housing` (prices, rents, sales, payment-to-income affordability off 0.80×ZHVI at the
 PMMS rate ÷ AHE×2080/12), and `changes` (what moved since the previous publish — run_daily
 snapshots pulse/gaptable/datacenter BEFORE the engine phase and this writer diffs today's files
 against it; `grocery_basket` also gained a USDA `wholesale[]` block and `pulse` variants carry
