@@ -822,3 +822,31 @@ body.research-site .footer-meta { font-size: 12px; }
 /* five dollar-valued tiles in one row: keep each figure on one line */
 .research-page .escalation-kpis .kpi-value { font-size: clamp(22px, 2.1vw, 30px) !important; white-space: nowrap; overflow-wrap: normal; }
 @media (max-width: 720px) { .escalation-path-title { font-size: 16px; } }
+
+/* --- /news: stories, modes, details on demand, biggest numbers --- */
+.news-modes { display: flex; gap: 6px; flex-wrap: wrap; }
+.news-mode-note { max-width: 860px; margin: 0 0 12px; font-size: 13px; line-height: 1.6; }
+.news-also-n { font-size: 12px; }
+.news-more { margin-top: 6px; }
+.news-more > summary { cursor: pointer; width: fit-content; color: var(--accent-sky); font-size: 12px; font-weight: 600; }
+.news-more > summary:focus-visible { outline: 2px solid var(--accent-sky); outline-offset: 2px; border-radius: 3px; }
+.news-more .news-points, .news-more .news-impacted { margin-top: 6px; }
+.news-also { list-style: none; margin: 6px 0 0; padding: 0 0 0 12px; border-left: 2px solid var(--border); display: grid; gap: 6px; font-size: 13px; line-height: 1.5; }
+.news-also time { color: var(--muted); font-size: 12px; margin-right: 4px; font-variant-numeric: tabular-nums; }
+.news-also .news-src { margin-left: 6px; }
+.news-older { margin: 16px 0 0; }
+.news-numbers { margin: 4px 0 16px; padding: 16px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
+.news-numbers h2 { margin: 0 0 12px; font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
+.news-numbers h3 { margin: 0 0 8px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.news-numbers-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 28px; }
+.news-numbers ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.news-numbers li { display: grid; grid-template-columns: 76px minmax(0, 1fr) auto; gap: 10px; align-items: baseline; font-size: 13px; }
+.news-figure { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--accent-sky); }
+.news-numbers-headline { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.news-numbers li .subtitle { font-size: 12px; white-space: nowrap; }
+.news-numbers > .subtitle { margin: 12px 0 0; font-size: 12px; }
+@media (max-width: 720px) {
+  .news-numbers-grid { grid-template-columns: 1fr; }
+  .news-numbers li { grid-template-columns: 64px minmax(0, 1fr); }
+  .news-numbers li .subtitle { display: none; }
+}

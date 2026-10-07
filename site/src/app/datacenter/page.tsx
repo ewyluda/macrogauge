@@ -16,6 +16,7 @@ import { PowerPanel, type PowerData } from "@/components/PowerPanel";
 import { ContextPanel, type ContextData } from "@/components/ContextPanel";
 import { LongLeadStrip } from "@/components/LongLeadStrip";
 import { NewsFeed } from "@/components/NewsFeed";
+import { clusterStories } from "@/lib/newsTape";
 import { fmtDay, fmtSigned } from "@/lib/format";
 import { DcDrivers, type DriverComp, type DriverGroup } from "@/components/DcDrivers";
 import type { DcGrades, LongLead } from "@/lib/types";
@@ -87,10 +88,15 @@ const JUMP = [
   ["dc-power", "Power"], ["dc-context", "Bigger picture"], ["dc-parity", "State costs"], ["dc-method", "Method"],
 ] as const;
 
-// The strip shows five posts; ship only those to the client (the live
-// overlay replaces them wholesale when the R2 object is newer).
+// The strip shows the five newest AI-infra STORIES (lib/newsTape). Ship only
+// their posts to the client — the client re-clusters them into the same five
+// stories — rather than the whole tape; the live overlay replaces them
+// wholesale when the R2 object is newer.
 const newsAll = artifact("news", newsJson);
-const newsStrip = { ...newsAll, posts: newsAll.posts.slice(0, 5) };
+const stripIds = new Set(
+  clusterStories(newsAll.posts).filter((s) => s.infra).slice(0, 5).flatMap((s) => [s.lead, ...s.also].map((p) => p.id)),
+);
+const newsStrip = { ...newsAll, posts: newsAll.posts.filter((p) => stripIds.has(p.id)) };
 
 export default function Datacenter() {
   const build = dc.indexes.build;

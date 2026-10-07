@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import newsJson from "../../public/data/news.json";
 import { artifact } from "./artifact";
 import {
-  FEED_SCHEMA, filterPosts, groupByEtDay, layerCounts, parseLiveFeed, pickNewer, relTime,
-  snapshotView, tickerCounts, type NewsPost,
+  FEED_SCHEMA, groupByEtDay, parseLiveFeed, pickNewer, relTime,
+  snapshotView, type NewsPost,
 } from "./news";
 
 const LAYERS = ["AI Compute", "Power & Grid"];
@@ -57,24 +57,15 @@ describe("pickNewer", () => {
   });
 });
 
-describe("filters and grouping", () => {
+describe("grouping and time", () => {
   const posts = [
     post({ id: "a", tickers: [{ ticker: "NVDA", layer: "AI Compute" }, { ticker: "VST", layer: "Power & Grid" }] }),
     post({ id: "b", ts: "2026-10-06T03:00:00Z", tickers: [{ ticker: "VST", layer: "Power & Grid" }] }),
     post({ id: "c", ts: "2026-10-05T15:00:00Z" }),
   ];
-  it("filters by layer and ticker together", () => {
-    expect(filterPosts(posts, { layer: "Power & Grid", ticker: null }).map((p) => p.id)).toEqual(["a", "b"]);
-    expect(filterPosts(posts, { layer: "Power & Grid", ticker: "NVDA" }).map((p) => p.id)).toEqual(["a"]);
-    expect(filterPosts(posts, { layer: null, ticker: null })).toHaveLength(3);
-  });
-  it("counts tickers and layers", () => {
-    expect(tickerCounts(posts)).toEqual([["NVDA", 2], ["VST", 2]]);
-    expect(layerCounts(posts, [...LAYERS, "Cooling"])).toEqual([["AI Compute", 2], ["Power & Grid", 2]]);
-  });
   it("groups under New York days (03:00Z is still the previous evening in NY)", () => {
-    const g = groupByEtDay(posts);
-    expect(g.map((d) => [d.day, d.posts.map((p) => p.id)])).toEqual([
+    const g = groupByEtDay(posts, (p) => p.ts);
+    expect(g.map((d) => [d.day, d.items.map((p) => p.id)])).toEqual([
       ["2026-10-06", ["a"]],
       ["2026-10-05", ["b", "c"]],
     ]);

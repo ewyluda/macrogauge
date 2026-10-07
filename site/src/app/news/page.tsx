@@ -18,9 +18,10 @@ export default function NewsPage() {
         AI Infra News Tape <span className="subtitle">what the tape is saying about AI and data-center names</span>
       </h1>
       <p className="lede">
-        Every market-news post from the last {news.window_days} days that names one of {news.universe_size} AI-infrastructure
-        companies, from semiconductor equipment through power, cooling, cloud and data-center REITs. Options-flow prints and
-        macro or geopolitics posts are left out. The page refreshes itself every two minutes while it is open. Pair it with
+        The last {news.window_days} days of market-news posts that name one of {news.universe_size} AI-infrastructure
+        companies, from semiconductor equipment through power, cooling, cloud and data-center REITs. Repeats of the same
+        story fold into one row, and the default view keeps the stories about the build-out itself; everything else is one
+        click away. The page refreshes itself every two minutes while it is open. Pair it with
         the <Link href="/capacity">AI capacity tracker</Link> and the <Link href="/datacenter">data-center cost indexes</Link>.
       </p>
       <p className="lede">
@@ -40,6 +41,16 @@ export default function NewsPage() {
           run also bakes that object into <Link href="/data/news.json">/data/news.json</Link> after re-filtering it against
           the same config, so the page still renders a snapshot if the live object is unreachable. A ticker that a post only{" "}
           <em>impacts</em> is listed as a read-through, and it never puts a post on the tape by itself.
+        </p>
+        <p className="method">
+          This page then edits the tape in your browser, the same way for the snapshot and the live object. Options-flow
+          prints, multi-stock recaps and roundups, and headline-only stubs are set aside. Posts within four days that share a
+          ticker and either a stated figure (&quot;240 MW&quot;, &quot;$40 billion&quot;) or most of their wording become one story,
+          led by its newest post with detail. A story counts as AI infrastructure when any of its posts scores on keyword
+          rules: capacity, power, chips and memory supply, data centers and cooling count strongly; financing, contracts and
+          backlogs count weakly; consumer products, apps and analyst calls count against. The rules are plain keyword
+          matches, not a model, and they will misjudge some posts, which is why Everything stays one click away. The
+          biggest-numbers strip reads figures only from headlines, and only from sentences that report rather than forecast.
         </p>
       </section>
     </div>

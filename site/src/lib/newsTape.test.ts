@@ -1,0 +1,153 @@
+import { describe, expect, it } from "vitest";
+import newsJson from "../../public/data/news.json";
+import type { NewsPost } from "./news";
+import {
+  clusterStories, figures, infraScore, isAllCaps, isInfra, noiseReason, sameStory, storyLayerCounts, storyMatches,
+  storyTickerCounts, topFigures,
+} from "./newsTape";
+
+let n = 0;
+const post = (headline: string, over: Partial<NewsPost> = {}): NewsPost => ({
+  id: `p${++n}`, ts: "2026-10-06T12:00:00Z", category: "company", kind: "text", headline,
+  points: [{ label: "Detail", text: "Supporting detail." }],
+  tickers: [{ ticker: "NVDA", layer: "AI Compute" }], impacted: [], url: null, has_media: false, ...over,
+});
+
+// Headlines below are real posts from the tape (2026-09-30 .. 10-07).
+describe("noiseReason", () => {
+  it("flags posts that carry no story", () => {
+    expect(noiseReason(post("$MU 1065C 10/9/2026 for $7.1M"))).toBe("options flow");
+    expect(noiseReason(post("Here's a full recap:"))).toBe("recap");
+    expect(noiseReason(post("Latest episode of Basis Points"))).toBe("recap");
+    expect(noiseReason(post("Bank of America named $NVDA Nvidia, $INTC Intel and $MU Micron as its top semiconductor picks"))).toBe("roundup");
+    expect(noiseReason(post("Nike ($NKE) fell more than 10% premarket after a revenue miss, while onsemi ($ON) rose"))).toBe("roundup");
+    expect(noiseReason(post("AI, semiconductors & technology"))).toBe("stub");
+    const many = Array.from({ length: 9 }, (_, i) => ({ ticker: `T${i}`, layer: "AI Compute" }));
+    expect(noiseReason(post("Analysts moved a dozen names across chips and power", { tickers: many }))).toBe("roundup");
+  });
+
+  it("leaves real stories alone, including six-ticker deals", () => {
+    const six = ["AMZN", "CEG", "GOOGL", "MSFT", "TLN", "VST"].map((t) => ({ ticker: t, layer: "Power & Grid" }));
+    expect(noiseReason(post("$GOOGL Google and $CEG Constellation Energy agreed to add 890 MW of nuclear capacity by upgrading 11 existing plants", { tickers: six }))).toBeNull();
+    expect(noiseReason(post("US TO OFFER $4 BILLION LOAN FOR $VST VISTRA TO BOOST NUCLEAR OUTPUT", { points: [] }))).toBeNull();
+  });
+});
+
+describe("infraScore / isInfra", () => {
+  it("keeps the build-out: capacity, power, chips, financing", () => {
+    for (const h of [
+      "$CRWV CoreWeave plans to enter India with 240 MW of AI data-center capacity at AdaniConneX's Taloja campus",
+      "SPACEX SAID TO SEEK $40BN FINANCING LED BY APOLLO FOR NVIDIA CHIPS - FT",
+      "$ORCL ORACLE WILL TAKE ON ABOUT $300 MILLION IN POINT BEACH ENERGY EXPENSES TO COMPLETELY FINANCE PROJECT LIGHTHOUSE ENERGY COSTS.",
+      "Tencent signed a five-year lease with $ORCL Oracle for access to about 100,000 advanced AI chips across Southeast Asian data centers",
+    ]) expect(isInfra(post(h)), h).toBe(true);
+  });
+
+  it("drops consumer, app and analyst-call posts that share the universe's tickers", () => {
+    for (const h of [
+      "$GOOGL Google and $U Unity announced a strategic AI gaming partnership centered on Playground",
+      "XREAL priced its AURA spatial-computing glasses from $1,279, combining Android XR and $GOOGL Google Gemini",
+      "$GOOGL Alphabet's Waymo increased its inaugural private-debt financing to $5 billion as the robotaxi company raises capital",
+      "$META Meta and Sierra are developing an open Personal Agent Protocol to standardize how personal AI agents interact",
+      "$META Meta remains an Overweight at Wells Fargo, which raised its price target to $1,000 from $796",
+      "Anthropic is expanding its Cyber Verification Program and using $MSFT Microsoft Foundry to deliver Claude capabilities",
+    ]) expect(isInfra(post(h, { points: [] })), h).toBe(false);
+  });
+
+  it("scores consumer terms below zero even beside a chip mention", () => {
+    expect(infraScore(post("Google has increased Pixel 10a prices by $100 as memory and storage constraints raise device costs", { points: [] }))).toBeLessThan(2);
+  });
+});
+
+describe("figures", () => {
+  it("reads capacity and deal dollars from the headline", () => {
+    expect(figures(post("$APLD Applied Digital secured access to up to 1 GW of power capacity in Finland"))).toEqual([
+      { kind: "capacity", value: 1000, label: "1 GW" },
+    ]);
+    expect(figures(post("Wall Street banks are launching a record $60 billion financing package to fund $AVGO Broadcom AI chips")))
+      .toEqual([{ kind: "dollars", value: 60e9, label: "$60B" }]);
+    expect(figures(post("SPACEX SAID TO SEEK $40BN FINANCING LED BY APOLLO FOR NVIDIA CHIPS"))[0].value).toBe(40e9);
+  });
+
+  it("ignores forecasts, revenue targets and the supporting detail", () => {
+    expect(figures(post("$AMZN Amazon Web Services could more than double revenue from $129B in 2025 to $334B by 2028"))).toEqual([]);
+    expect(figures(post("$MRVL Marvell raised its growth ambitions, targeting $70B–$90B of FY31 revenue"))).toEqual([]);
+    expect(figures(post("Some lenders want stronger guarantees for loans backed by $NVDA Nvidia chips",
+      { points: [{ label: null, text: "Nvidia has $500 billion of loans in view." }] }))).toEqual([]);
+  });
+});
+
+describe("clusterStories", () => {
+  const crwv = [{ ticker: "CRWV", layer: "Cloud Delivery" }];
+  const a = post("$CRWV CoreWeave plans to enter India with 240 MW of AI data-center capacity at AdaniConneX's Taloja campus",
+    { ts: "2026-10-07T12:08:00Z", tickers: crwv });
+  const b = post("$CRWV CoreWeave is entering India with its first data centers, taking 240 MW at AdaniConneX's Taloja campus",
+    { ts: "2026-10-07T11:37:00Z", tickers: crwv });
+  const flash = post("COREWEAVE TO ENTER INDIA WITH 240 MW AT ADANICONNEX TALOJA CAMPUS", { ts: "2026-10-07T12:30:00Z", tickers: crwv, points: [] });
+  const other = post("$CRWV CoreWeave said its NVIDIA Vera Rubin NVL72 system is now available", { ts: "2026-10-07T10:00:00Z", tickers: crwv });
+
+  it("collapses repeats of one story behind its newest detailed post", () => {
+    const stories = clusterStories([flash, a, b, other]);
+    expect(stories).toHaveLength(2);
+    expect(stories[0].lead).toBe(a); // prose with detail beats the newer capitals flash
+    expect(stories[0].also).toEqual([flash, b]);
+    expect(stories[0].latest).toBe(flash.ts);
+    expect(stories[0].infra).toBe(true);
+  });
+
+  it("never merges across tickers, outside the window, or through a recap", () => {
+    expect(sameStory(a, { ...b, tickers: [{ ticker: "NBIS", layer: "Cloud Delivery" }] })).toBe(false);
+    expect(sameStory(a, { ...b, ts: "2026-10-01T00:00:00Z" })).toBe(false);
+    const recap = post("Here's a full recap:", { tickers: crwv, points: [{ label: null, text: "CoreWeave took 240 MW in India." }] });
+    expect(sameStory(a, recap)).toBe(false);
+  });
+
+  it("judges relevance per story, so a terse flash rides with its story", () => {
+    const s = clusterStories([flash, a]);
+    expect(isInfra(flash)).toBe(true);
+    expect(s).toHaveLength(1);
+  });
+
+  it("on the published tape: fewer stories than posts, no recap leads an infra story", () => {
+    const posts = newsJson.posts as NewsPost[];
+    const stories = clusterStories(posts);
+    expect(stories.length).toBeLessThanOrEqual(posts.length);
+    expect(stories.reduce((k, s) => k + 1 + s.also.length, 0)).toBe(posts.length);
+    for (const s of stories.filter((x) => x.infra)) expect(noiseReason(s.lead)).toBeNull();
+  });
+});
+
+describe("topFigures", () => {
+  it("takes each story's first figure, largest first", () => {
+    const s = clusterStories([
+      post("$CRWV CoreWeave takes 240 MW in India with an option to expand to 480 MW", { tickers: [{ ticker: "CRWV", layer: "Cloud Delivery" }] }),
+      post("$APLD Applied Digital secured access to up to 1 GW of power capacity in Finland", { tickers: [{ ticker: "APLD", layer: "DC Real Estate" }] }),
+    ]);
+    expect(topFigures(s, "capacity", 5).map((r) => r.figure.label)).toEqual(["1 GW", "240 MW"]);
+  });
+});
+
+describe("isAllCaps", () => {
+  it("spots wire flashes but not cashtags in prose", () => {
+    expect(isAllCaps("NVIDIA SHARES RISE 2.7% TO HIT FIRST RECORD HIGH SINCE MAY")).toBe(true);
+    expect(isAllCaps("$NVDA Nvidia shares rose 2.7% to a record")).toBe(false);
+  });
+});
+
+describe("story filters and counts", () => {
+  const nv = { ticker: "NVDA", layer: "AI Compute" };
+  const vst = { ticker: "VST", layer: "Power & Grid" };
+  const stories = clusterStories([
+    post("$VST Vistra signs 1 GW nuclear power agreement for a data center campus", { tickers: [vst], ts: "2026-10-06T14:00:00Z" }),
+    post("$NVDA Nvidia ships Rubin racks to a 300 MW AI campus", { tickers: [nv, vst], ts: "2026-10-06T13:00:00Z" }),
+    post("$NVDA Nvidia expands HBM supply agreements for Blackwell GPUs", { tickers: [nv], ts: "2026-10-05T13:00:00Z" }),
+  ]);
+  it("matches a story by any of its posts' tickers and layers", () => {
+    expect(stories.filter((s) => storyMatches(s, { layer: "Power & Grid", ticker: null }))).toHaveLength(2);
+    expect(stories.filter((s) => storyMatches(s, { layer: "Power & Grid", ticker: "NVDA" }))).toHaveLength(1);
+  });
+  it("counts stories, not posts", () => {
+    expect(storyTickerCounts(stories)).toEqual([["NVDA", 2], ["VST", 2]]);
+    expect(storyLayerCounts(stories, ["AI Compute", "Power & Grid", "Cooling"])).toEqual([["AI Compute", 2], ["Power & Grid", 2]]);
+  });
+});

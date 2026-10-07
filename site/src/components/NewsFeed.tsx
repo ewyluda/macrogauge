@@ -4,12 +4,18 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { NewsArtifact } from "@/lib/generated";
 import {
-  etDay, etTime, filterPosts, groupByEtDay, layerCounts, parseLiveFeed, pickNewer, relTime,
-  snapshotView, tickerCounts, type FeedView, type NewsFilter, type NewsPost,
+  etDay, etTime, groupByEtDay, parseLiveFeed, pickNewer, relTime, snapshotView, type FeedView, type NewsFilter, type NewsPost,
 } from "@/lib/news";
+import {
+  clusterStories, storyLayerCounts, storyMatches, storyTickerCounts, topFigures, type Story,
+} from "@/lib/newsTape";
+import { useUrlState } from "@/lib/useUrlState";
+import { codecs } from "@/lib/urlState";
 
 const POLL_MS = 120_000;
 const TOP_TICKERS = 14;
+const PAGE = 40;
+const MODES = ["infra", "all"] as const;
 
 /** Polls the live R2 object while the tab is visible. Automated browsers
  *  (navigator.webdriver — Playwright) stay on the baked snapshot so e2e
@@ -73,57 +79,123 @@ function FeedStatus({ view, now, snapshot }: { view: FeedView; now: number | nul
   );
 }
 
-function PostItem({ p, compact, onTicker, active }: {
-  p: NewsPost; compact: boolean; onTicker?: (t: string) => void; active: string | null;
+function Tags({ p, onTicker, active }: { p: NewsPost; onTicker?: (t: string) => void; active: string | null }) {
+  return (
+    <>
+      {p.tickers.map((t) =>
+        onTicker ? (
+          <button key={t.ticker} type="button" className="news-chip" aria-pressed={active === t.ticker}
+                  title={t.layer} onClick={() => onTicker(t.ticker)}>{t.ticker}</button>
+        ) : (
+          <span key={t.ticker} className="news-chip" title={t.layer}>{t.ticker}</span>
+        ),
+      )}
+    </>
+  );
+}
+
+const Source = ({ p }: { p: NewsPost }) =>
+  p.url ? <a className="news-src" href={p.url} target="_blank" rel="noopener noreferrer nofollow">source ↗</a> : null;
+
+/** One story: its lead headline, tags and source; the lead's bullet points
+ *  and the repeats of the same story open on demand. */
+function StoryItem({ s, compact, onTicker, active }: {
+  s: Story; compact: boolean; onTicker?: (t: string) => void; active: string | null;
 }) {
+  const p = s.lead;
+  const hasDetail = p.points.length > 0 || p.impacted.length > 0;
   return (
     <li className="news-item" data-testid="news-item">
       <div className="news-meta">
-        <time dateTime={p.ts}>{etTime(p.ts)}</time>
+        <time dateTime={s.latest}>{etTime(s.latest)}</time>
         {p.category === "earnings" && <span className="badge">earnings</span>}
       </div>
       <div className="news-body">
         <p className="news-headline">{p.headline}</p>
-        {!compact && p.points.length > 0 && (
-          <ul className="news-points">
-            {p.points.map((pt, i) => (
-              <li key={i}>{pt.label && <strong>{pt.label}: </strong>}{pt.text}</li>
-            ))}
-          </ul>
-        )}
         <div className="news-tags">
-          {p.tickers.map((t) =>
-            onTicker ? (
-              <button key={t.ticker} type="button" className="news-chip" aria-pressed={active === t.ticker}
-                      title={t.layer} onClick={() => onTicker(t.ticker)}>{t.ticker}</button>
-            ) : (
-              <span key={t.ticker} className="news-chip" title={t.layer}>{t.ticker}</span>
-            ),
-          )}
-          {!compact && p.impacted.length > 0 && (
-            <span className="subtitle news-impacted">also read-through: {p.impacted.join(", ")}</span>
-          )}
-          {p.url && (
-            <a className="news-src" href={p.url} target="_blank" rel="noopener noreferrer nofollow">source ↗</a>
-          )}
+          <Tags p={p} onTicker={onTicker} active={active} />
+          {compact && s.also.length > 0 && <span className="subtitle news-also-n">+{s.also.length} more on this story</span>}
+          <Source p={p} />
         </div>
+        {!compact && hasDetail && (
+          <details className="news-more">
+            <summary>Details</summary>
+            {p.points.length > 0 && (
+              <ul className="news-points">
+                {p.points.map((pt, i) => (
+                  <li key={i}>{pt.label && <strong>{pt.label}: </strong>}{pt.text}</li>
+                ))}
+              </ul>
+            )}
+            {p.impacted.length > 0 && (
+              <p className="subtitle news-impacted">Also read-through: {p.impacted.join(", ")}</p>
+            )}
+          </details>
+        )}
+        {!compact && s.also.length > 0 && (
+          <details className="news-more" data-testid="news-also">
+            <summary>{s.also.length} more {s.also.length === 1 ? "post" : "posts"} on this story</summary>
+            <ol className="news-also">
+              {s.also.map((a) => (
+                <li key={a.id}>
+                  <time dateTime={a.ts}>{etDay(a.ts)} {etTime(a.ts)}</time> {a.headline} <Source p={a} />
+                </li>
+              ))}
+            </ol>
+          </details>
+        )}
       </div>
     </li>
+  );
+}
+
+/** The week's largest stated capacity and deal-dollar figures, one per story. */
+function BigNumbers({ stories }: { stories: Story[] }) {
+  const cols = [
+    { kind: "capacity" as const, title: "Capacity" },
+    { kind: "dollars" as const, title: "Deal dollars" },
+  ].map((c) => ({ ...c, rows: topFigures(stories, c.kind, 4) })).filter((c) => c.rows.length > 0);
+  if (!cols.length) return null;
+  return (
+    <section className="news-numbers" aria-labelledby="news-numbers-title" data-testid="news-numbers">
+      <h2 id="news-numbers-title">Biggest numbers on the tape this week</h2>
+      <div className="news-numbers-grid">
+        {cols.map((c) => (
+          <div key={c.kind}>
+            <h3>{c.title}</h3>
+            <ol>
+              {c.rows.map(({ story, figure }) => (
+                <li key={story.lead.id}>
+                  <span className="news-figure">{figure.label}</span>
+                  <span className="news-numbers-headline">{story.lead.headline}</span>
+                  <span className="subtitle">{etDay(story.latest)}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </div>
+      <p className="subtitle">As stated in each post&apos;s headline; forecasts and revenue targets are left out. Unverified.</p>
+    </section>
   );
 }
 
 /** Full tape (/news) or the compact latest-N strip (/datacenter). */
 export function NewsFeed({ snapshot, compact = false, limit }: { snapshot: NewsArtifact; compact?: boolean; limit?: number }) {
   const [view, now] = useLiveFeed(snapshot);
+  const [mode, setMode] = useUrlState<(typeof MODES)[number]>("tape", "infra", codecs.enumOf(MODES));
   const [filter, setFilter] = useState<NewsFilter>({ layer: null, ticker: null });
-  const shown = useMemo(() => {
-    const f = filterPosts(view.posts, filter);
-    return limit ? f.slice(0, limit) : f;
-  }, [view.posts, filter, limit]);
-  const layers = useMemo(() => layerCounts(view.posts, snapshot.layers), [view.posts, snapshot.layers]);
-  const tickers = useMemo(() => tickerCounts(filterPosts(view.posts, { ...filter, ticker: null })).slice(0, TOP_TICKERS),
-    [view.posts, filter]);
+  const [pages, setPages] = useState(1);
+  const stories = useMemo(() => clusterStories(view.posts), [view.posts]);
+  const infraStories = useMemo(() => stories.filter((s) => s.infra), [stories]);
+  const pool = compact || mode === "infra" ? infraStories : stories;
+  const matched = useMemo(() => pool.filter((s) => storyMatches(s, filter)), [pool, filter]);
+  const shown = limit ? matched.slice(0, limit) : matched.slice(0, PAGE * pages);
+  const layers = useMemo(() => storyLayerCounts(pool, snapshot.layers), [pool, snapshot.layers]);
+  const tickers = useMemo(() => storyTickerCounts(pool.filter((s) => storyMatches(s, { ...filter, ticker: null }))).slice(0, TOP_TICKERS),
+    [pool, filter]);
   const toggleTicker = (t: string) => setFilter((f) => ({ ...f, ticker: f.ticker === t ? null : t }));
+  const pick = (f: NewsFilter) => { setFilter(f); setPages(1); };
 
   if (compact) {
     return (
@@ -134,28 +206,47 @@ export function NewsFeed({ snapshot, compact = false, limit }: { snapshot: NewsA
           <Link href="/news">All AI-infra news →</Link>
         </div>
         {shown.length === 0 ? (
-          <p className="subtitle news-empty">No posts on the tape yet.</p>
+          <p className="subtitle news-empty">No AI-infra stories on the tape yet.</p>
         ) : (
           <ol className="news-list">
-            {shown.map((p) => <PostItem key={p.id} p={p} compact active={null} />)}
+            {shown.map((s) => <StoryItem key={s.lead.id} s={s} compact active={null} />)}
           </ol>
         )}
       </div>
     );
   }
 
+  const hiddenPosts = view.posts.length - infraStories.reduce((n, s) => n + 1 + s.also.length, 0);
   return (
     <div data-testid="news-feed">
       <div className="news-toolbar">
         <FeedStatus view={view} now={now} snapshot={snapshot} />
+        <div className="news-modes" role="group" aria-label="Which posts to show">
+          <button type="button" className="news-chip" aria-pressed={mode === "infra"}
+                  onClick={() => { setMode("infra"); pick({ layer: null, ticker: null }); }}>
+            AI-infra stories · {infraStories.length}
+          </button>
+          <button type="button" className="news-chip" aria-pressed={mode === "all"}
+                  onClick={() => { setMode("all"); pick({ layer: null, ticker: null }); }}>
+            Everything · {stories.length}
+          </button>
+        </div>
       </div>
+      {mode === "infra" && view.posts.length > 0 && (
+        <p className="subtitle news-mode-note" data-testid="news-mode-note">
+          {view.posts.length} posts on the tape, folded into {stories.length} stories. Showing the {infraStories.length} about
+          the build-out: capacity, power, chips, memory and the money behind them. {hiddenPosts} posts on apps, consumer
+          products, analyst calls and market color are under Everything.
+        </p>
+      )}
+      {mode === "infra" && !filter.layer && !filter.ticker && <BigNumbers stories={infraStories} />}
       {layers.length > 0 && (
         <div className="news-filters" role="group" aria-label="Filter by AI-infra layer">
           <button type="button" className="news-chip" aria-pressed={filter.layer === null}
-                  onClick={() => setFilter({ layer: null, ticker: null })}>All · {view.posts.length}</button>
+                  onClick={() => pick({ layer: null, ticker: null })}>All · {pool.length}</button>
           {layers.map(([l, n]) => (
             <button key={l} type="button" className="news-chip" aria-pressed={filter.layer === l}
-                    onClick={() => setFilter({ layer: filter.layer === l ? null : l, ticker: null })}>{l} · {n}</button>
+                    onClick={() => pick({ layer: filter.layer === l ? null : l, ticker: null })}>{l} · {n}</button>
           ))}
         </div>
       )}
@@ -178,18 +269,25 @@ export function NewsFeed({ snapshot, compact = false, limit }: { snapshot: NewsA
             : `No AI-infra posts on the tape in the last ${snapshot.window_days} days.`}
         </p>
       ) : shown.length === 0 ? (
-        <p className="subtitle news-empty">No posts match these filters.</p>
+        <p className="subtitle news-empty">No stories match these filters.</p>
       ) : (
-        groupByEtDay(shown).map((g) => (
-          <section key={g.day} className="news-day" aria-label={g.label}>
-            <h3 className="news-day-head">{g.label} <span className="subtitle">· {g.posts.length}</span></h3>
-            <ol className="news-list">
-              {g.posts.map((p) => (
-                <PostItem key={p.id} p={p} compact={false} onTicker={toggleTicker} active={filter.ticker} />
-              ))}
-            </ol>
-          </section>
-        ))
+        <>
+          {groupByEtDay(shown, (s) => s.latest).map((g) => (
+            <section key={g.day} className="news-day" aria-label={g.label}>
+              <h3 className="news-day-head">{g.label} <span className="subtitle">· {g.items.length}</span></h3>
+              <ol className="news-list">
+                {g.items.map((s) => (
+                  <StoryItem key={s.lead.id} s={s} compact={false} onTicker={toggleTicker} active={filter.ticker} />
+                ))}
+              </ol>
+            </section>
+          ))}
+          {matched.length > shown.length && (
+            <button type="button" className="tool-btn news-older" onClick={() => setPages((n) => n + 1)}>
+              Show {Math.min(PAGE, matched.length - shown.length)} older stories ({matched.length - shown.length} left)
+            </button>
+          )}
+        </>
       )}
     </div>
   );
