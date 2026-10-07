@@ -110,22 +110,17 @@ test("capacity dossier names its fields for readers, not by curator keys", async
   await expect(page.getByRole("tab", { name: "Valuation × Execution", selected: true })).toBeFocused();
 });
 
-test("capacity leads with a takeaway and the valuation scatter, and bars scale per cohort", async ({ page, request }) => {
-  const cap = await (await request.get("/data/capacity.json")).json();
+test("capacity leads with a takeaway and the valuation scatter, and bars scale per cohort", async ({ page }) => {
   await page.goto("/capacity");
-  await expect(page.locator("h1")).toContainText("live today");
+  // the tracked, estimated universe — never a market-wide share
+  await expect(page.locator("h1")).toContainText("tracked operational AI capacity");
+  await expect(page.getByTestId("cap-takeaway")).toContainText("market cap");
   // the default view is the scatter: market cap ≠ megawatts, above the fold
   await expect(page.getByRole("tab", { name: "Valuation × Execution", selected: true })).toBeVisible();
   await expect(page.locator(".cap-viz svg")).toBeVisible();
   // one dashed median per business type, never a pooled one
   await expect(page.locator(".cap-viz .cap-median")).toHaveCount(2);
   await expect(page.locator(".cap-viz .cap-median text").first()).toContainText("median");
-  // a row whose EV prices a much larger business publishes no EV/MW and is
-  // never plotted
-  for (const c of cap.companies.filter((x: { ev_note?: string }) => x.ev_note)) {
-    expect(c.ev_per_mw).toBeNull();
-    await expect(page.locator(".cap-viz-note")).toContainText(c.t);
-  }
   // the valuation table compares EV/MW only within a business type: GPU
   // clouds and landlords are separate groups, each with its own median
   const typeGroups = page.locator(".cap-table tr.cap-table-group");
@@ -311,6 +306,28 @@ test("long-lead board leads with stated lead times once the daily run publishes 
   for (const li of await page.locator(".ll-leads > li").all()) {
     await expect(li.locator(".ll-fig-meta")).toContainText("stated");
     await expect(li.locator(".ll-fig-meta a")).toHaveAttribute("href", /^https:\/\//);
+  }
+});
+
+// Runs once the published capacity.json carries the ev_note contract (the
+// daily run after this branch merges); until then it SKIPS, stating so, rather
+// than passing with zero assertions against the old artifact.
+test("capacity withholds EV/MW for AKAM, MARA and EQIX and says why", async ({ page, request }) => {
+  const cap = await (await request.get("/data/capacity.json")).json();
+  const noted = cap.companies.filter((c: { ev_note?: string }) => c.ev_note);
+  test.skip(noted.length === 0, "published capacity.json predates ev_note (lands with the next daily publish)");
+  expect(noted.map((c: { t: string }) => c.t).sort()).toEqual(["AKAM", "EQIX", "MARA"]);
+  await page.goto("/capacity");
+  for (const c of noted) {
+    expect(c.ev_per_mw).toBeNull();
+    // never plotted, never in the priced table
+    await expect(page.locator(".cap-viz .cap-label", { hasText: new RegExp(`^${c.t}$`) })).toHaveCount(0);
+    await expect(page.locator(".cap-table tbody tr", { hasText: c.t })).toHaveCount(0);
+  }
+  // searching one lands on an empty scatter that gives ITS reason
+  for (const c of noted) {
+    await page.goto(`/capacity?q=${c.t}`);
+    await expect(page.locator(".cap-withheld")).toContainText(c.ev_note);
   }
 });
 

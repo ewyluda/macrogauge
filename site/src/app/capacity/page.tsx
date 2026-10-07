@@ -6,6 +6,7 @@ import type { Capacity } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
 import { capacityHeadline } from "@/lib/capacityCohort";
+import { fmtDay } from "@/lib/format";
 
 const data = artifact<"capacity", Capacity>("capacity", capacityJson);
 const all = data.cohorts.all;
@@ -23,7 +24,7 @@ export default function Page() {
   // de-duplicated rows that publish an EV/MW — a hyperscaler's conglomerate EV
   // is suppressed on its row, so it is not summed back in here either.
   const evRows = data.companies.filter((c) => c.dupe == null && c.ev_per_mw != null).length;
-  const headline = capacityHeadline(data.cohorts, ref, evRows);
+  const headline = capacityHeadline(data.cohorts, ref, evRows, fmtDay(data.as_of_curated));
   return (
     <div>
       <StaleBanner publishedAt={capacityJson.published_at} />

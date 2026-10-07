@@ -18,6 +18,15 @@ const LOG_TICKS = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000];
 const fmtM = (v: number) => `$${v >= 100 ? Math.round(v) : v.toFixed(1)}M`;
 const fmtMW = (mw: number) => (mw >= 1000 ? `${(mw / 1000).toFixed(1)} GW` : `${Math.round(mw).toLocaleString("en-US")} MW`);
 
+/** Why a row has no dot: its curated ev_note first, then the standing rules. */
+function withheld(c: CapacityCompany): string {
+  if (c.ev_note) return c.ev_note;
+  if (c.private) return "Private — no market enterprise value.";
+  if (c.role === "hyperscaler") return "Hyperscaler — a conglomerate EV isn't tied to AI megawatts.";
+  if (c.dupe === "parent") return "Parent row — repeats its subsidiary's MW and EV.";
+  return "No current market quote, so no EV per MW.";
+}
+
 function medianOf(v: number[]): number {
   const s = [...v].sort((a, b) => a - b);
   return s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2;
@@ -33,7 +42,17 @@ export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
   const pts = rows.filter((c) => c.ev_per_mw != null && c.pct_energized != null && c.dupe !== "parent");
   const excluded = rows.filter((c) => !pts.includes(c));
   if (!pts.length) {
-    return <p className="cap-empty">No priced rows in this cohort. EV per MW is withheld for hyperscalers and private builders, whose enterprise value isn&apos;t tied to AI megawatts.</p>;
+    // nothing to plot: say why for each row in view (a search for MARA lands
+    // here), or that nothing matched at all
+    if (!rows.length) return <p className="cap-empty">No company matches that search. Clear it or switch the cohort.</p>;
+    return (
+      <div className="cap-empty">
+        <p>No company in this view has a plotted EV per MW:</p>
+        <ul className="cap-withheld">
+          {rows.map((c) => <li key={c.t}><strong>{c.n}</strong> <span className="cap-muted">{c.t}</span> — {withheld(c)}</li>)}
+        </ul>
+      </div>
+    );
   }
   const evs = pts.map((c) => c.ev_per_mw as number);
   const lo = Math.max(1, Math.min(...evs) * 0.7), hi = Math.max(...evs) * 1.4;
