@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import type { CapacityCompany } from "@/lib/types";
-import { cohortOf } from "@/lib/capacityCohort";
+import { BUSINESS, businessOf, type Business } from "@/lib/capacityCohort";
 
 const fmtMW = (mw: number) =>
   mw >= 1000 ? `${(mw / 1000).toFixed(1)} GW` : `${Math.round(mw).toLocaleString("en-US")} MW`;
@@ -180,21 +180,19 @@ function Dossier({ c }: { c: CapacityCompany }) {
 }
 
 // One linear scale across hyperscalers and pure plays turned every neocloud
-// and ex-miner into a sliver beside Amazon's 34 GW. With both cohorts in view
-// the list splits into two groups, each on its own scale (stated in its
-// header); a filtered cohort keeps one list.
-const GROUPS: { key: "hyperscaler" | "neocloud"; label: string }[] = [
-  { key: "hyperscaler", label: "Hyperscalers and AI labs" },
-  { key: "neocloud", label: "Neoclouds, ex-miners and landlords" },
-];
+// and ex-miner into a sliver beside Amazon's 34 GW. The list splits by
+// business (hyperscalers, GPU clouds, landlords), each group on its own scale
+// stated in its header; a view holding only one business keeps one list.
+const GROUPS: Business[] = ["hyperscaler", "cloud", "landlord"];
 
 export function CapacityBars({ rows }: { rows: CapacityCompany[] }) {
   const [open, setOpen] = useState<string | null>(null);
   const total = (c: CapacityCompany) => c.op + c.con + c.plan;
-  const present = GROUPS.filter((g) => rows.some((c) => cohortOf(c) === g.key));
+  const present = GROUPS.filter((g) => rows.some((c) => businessOf(c) === g));
   const groups = present.length > 1
-    ? present.map((g) => ({ ...g, rows: rows.filter((c) => cohortOf(c) === g.key) }))
-    : [{ key: "all", label: "", rows }];
+    ? present.map((g) => ({ key: g, label: BUSINESS[g].label, detail: BUSINESS[g].detail,
+                            rows: rows.filter((c) => businessOf(c) === g) }))
+    : [{ key: "all", label: "", detail: "", rows }];
   let rank = 0;
   return (
     <div>
@@ -213,7 +211,7 @@ export function CapacityBars({ rows }: { rows: CapacityCompany[] }) {
         return (
       <section key={g.key} className="cap-group" aria-label={g.label || undefined}>
       {g.label && (
-        <h3 className="cap-group-head">{g.label} <small>{g.rows.length} · bars scaled to {fmtMW(max)}</small></h3>
+        <h3 className="cap-group-head">{g.label} <small>{g.detail} · {g.rows.length} · bars scaled to {fmtMW(max)}</small></h3>
       )}
       <ol className="cap-list" start={rank + 1}>
         {g.rows.map((c) => {

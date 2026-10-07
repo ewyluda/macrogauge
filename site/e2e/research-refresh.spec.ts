@@ -117,6 +117,9 @@ test("capacity leads with a takeaway and the valuation scatter, and bars scale p
   // the default view is the scatter: market cap ≠ megawatts, above the fold
   await expect(page.getByRole("tab", { name: "Valuation × Execution", selected: true })).toBeVisible();
   await expect(page.locator(".cap-viz svg")).toBeVisible();
+  // one dashed median per business type, never a pooled one
+  await expect(page.locator(".cap-viz .cap-median")).toHaveCount(2);
+  await expect(page.locator(".cap-viz .cap-median text").first()).toContainText("median");
   // a row whose EV prices a much larger business publishes no EV/MW and is
   // never plotted
   for (const c of cap.companies.filter((x: { ev_note?: string }) => x.ev_note)) {
@@ -128,16 +131,22 @@ test("capacity leads with a takeaway and the valuation scatter, and bars scale p
   const typeGroups = page.locator(".cap-table tr.cap-table-group");
   expect(await typeGroups.count()).toBeGreaterThanOrEqual(2);
   await expect(typeGroups.first()).toContainText("median");
-  // with both cohorts in view the bars split into two groups, each on its own scale
+  // the bars split by business — hyperscalers, GPU clouds, landlords — each
+  // group on its own scale
   await page.getByRole("tab", { name: "Capacity" }).click();
   const heads = page.locator(".cap-group-head");
-  await expect(heads).toHaveCount(2);
+  await expect(heads).toHaveCount(3);
+  await expect(heads.nth(1)).toContainText("GPU clouds and operators");
+  await expect(heads.nth(2)).toContainText("Landlords");
   await expect(heads.first()).toContainText("bars scaled to");
   // rank numbering runs on across the groups
   const ranks = await page.locator(".cap-rank").allTextContents();
   expect(ranks.map(Number)).toEqual(ranks.map((_, i) => i + 1));
-  // one cohort: one list, no group headers
+  // the Neoclouds cohort still separates GPU clouds from landlords
   await page.locator(".cap-cohort button", { hasText: "Neoclouds" }).click();
+  await expect(heads).toHaveCount(2);
+  // a single business (hyperscalers): one list, no group headers
+  await page.locator(".cap-cohort button", { hasText: "Hyperscalers" }).click();
   await expect(heads).toHaveCount(0);
 });
 

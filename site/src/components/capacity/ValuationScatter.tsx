@@ -7,7 +7,7 @@ const W = 1000, H = 500, M = { l: 64, r: 24, t: 24, b: 48 };
 type Group = "cloud" | "landlord" | "other";
 const GROUP: Record<Group, { label: string; short: string; color: string }> = {
   cloud: { label: "GPU clouds and operators", short: "GPU cloud / operator", color: "var(--cap-cloud)" },
-  landlord: { label: "Powered-shell landlords", short: "Landlord", color: "var(--cap-landlord)" },
+  landlord: { label: "Landlords and power developers", short: "Landlord", color: "var(--cap-landlord)" },
   other: { label: "Exploratory or context rows", short: "Exploratory / context", color: "var(--cap-plan)" },
 };
 const groupOf = (c: CapacityCompany): Group =>
@@ -44,7 +44,18 @@ export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
   const Y = (v: number) => H - M.b - ((Math.log(v) - Math.log(lo)) / (Math.log(hi) - Math.log(lo))) * (H - M.t - M.b);
   const maxW = Math.max(...pts.map((c) => c.wmw), 1);
   const R = (c: CapacityCompany) => 5 + Math.sqrt(c.wmw / maxW) * 20;
-  const median = medianOf(evs);
+  // One median per business type, never pooled: a GPU cloud and a landlord
+  // are different businesses (only types with 2+ priced rows get a line).
+  const medians = (["cloud", "landlord"] as Group[])
+    .map((g) => ({ g, v: pts.filter((c) => groupOf(c) === g).map((c) => c.ev_per_mw as number) }))
+    .filter((m) => m.v.length >= 2)
+    .map((m) => ({ g: m.g, median: medianOf(m.v) }));
+  // labels sit above their line at the right edge; a second label too close
+  // to the first drops below its own line instead
+  const medLabels = medians.map((m) => ({ ...m, y: Y(m.median) - 6 }));
+  for (let i = 1; i < medLabels.length; i++) {
+    if (Math.abs(medLabels[i].y - medLabels[i - 1].y) < 14) medLabels[i].y = Y(medLabels[i].median) + 15;
+  }
 
   // Greedy label placement: biggest dots claim space first; a label that
   // can't find a clear slot is dropped (the tooltip and the table carry it).
@@ -82,7 +93,7 @@ export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
       <div className="cap-viz-head">
         <div>
           <h3>What the market pays per megawatt, against how much is already live</h3>
-          <p>Each dot is a company: enterprise value per weighted MW (log scale) against the share of its capacity that is energized. Dot area is weighted MW.</p>
+          <p>Each dot is a company: enterprise value per weighted MW (log scale) against the share of its capacity that is energized. Dot area is weighted MW. Dashed lines are each business type&apos;s median, since GPU clouds and landlords are priced as different businesses.</p>
         </div>
         <ul className="cap-key">
           {groups.map((g) => (
@@ -92,7 +103,7 @@ export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
       </div>
       <div className="dashboard-panel cap-chart" ref={wrap} onPointerLeave={hide}>
         <svg viewBox={`0 0 ${W} ${H}`} role="img"
-          aria-label={`EV per megawatt against percent energized for ${pts.length} companies; median ${fmtM(median)} per MW. Full values in the table below.`}>
+          aria-label={`EV per megawatt against percent energized for ${pts.length} companies; ${medians.map((m) => `${GROUP[m.g].label} median ${fmtM(m.median)} per MW`).join("; ")}. Full values in the table below.`}>
           {ticks.map((t) => (
             <g key={t}>
               <line x1={M.l} y1={Y(t)} x2={W - M.r} y2={Y(t)} className="cap-grid" />
@@ -106,8 +117,16 @@ export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
             </g>
           ))}
           <line x1={M.l} y1={H - M.b} x2={W - M.r} y2={H - M.b} className="cap-axis" />
-          <line x1={M.l} y1={Y(median)} x2={W - M.r} y2={Y(median)} className="cap-ref" />
-          <text x={W - M.r - 4} y={Y(median) - 6} textAnchor="end" className="cap-ref-label">median {fmtM(median)} per MW</text>
+          {medLabels.map((m) => (
+            <g key={m.g} className="cap-median">
+              <line x1={M.l} y1={Y(m.median)} x2={W - M.r} y2={Y(m.median)} stroke={GROUP[m.g].color}
+                strokeWidth={1.5} strokeDasharray="6 4" />
+              <text x={W - M.r - 4} y={m.y} textAnchor="end" className="cap-ref-label" fill={GROUP[m.g].color}
+                style={{ fill: GROUP[m.g].color }}>
+                {GROUP[m.g].short} median {fmtM(m.median)} per MW
+              </text>
+            </g>
+          ))}
           <text x={M.l + 8} y={M.t + 12} className="cap-corner">Priced for capacity not yet built</text>
           <text x={W - M.r - 8} y={H - M.b - 10} textAnchor="end" className="cap-corner">Energized and cheaper per MW</text>
           <text x={(M.l + W - M.r) / 2} y={H - 8} textAnchor="middle" className="cap-axis-title">Share of capacity energized (operational ÷ total)</text>

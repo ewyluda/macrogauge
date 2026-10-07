@@ -5,6 +5,21 @@ export function cohortOf(c: CapacityCompany): CapacityCohortKey {
   return c.role === "hyperscaler" ? "hyperscaler" : "neocloud";
 }
 
+/** The business a pure-play row is in, for like-with-like comparisons: GPU
+ *  clouds and operators rent out compute; landlords and power developers
+ *  (ex-miners, colocation, sites still seeking an AI tenant) lease powered
+ *  shells. EV per MW and MW scale are only compared within one. */
+export type Business = "hyperscaler" | "cloud" | "landlord";
+export function businessOf(c: CapacityCompany): Business {
+  if (c.role === "hyperscaler") return "hyperscaler";
+  return c.role === "landlord" || c.role === "exploratory" ? "landlord" : "cloud";
+}
+export const BUSINESS: Record<Business, { label: string; detail: string }> = {
+  hyperscaler: { label: "Hyperscalers and AI labs", detail: "self-build for their own clouds and models" },
+  cloud: { label: "Neoclouds: GPU clouds and operators", detail: "rent out GPU compute" },
+  landlord: { label: "Landlords and power developers", detail: "ex-miners, colocation landlords and sites still seeking AI tenants" },
+};
+
 const gw = (mw: number) => `${(mw / 1000).toFixed(1)} GW`;
 
 /**

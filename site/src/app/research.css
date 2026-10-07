@@ -429,6 +429,7 @@ body.research-site .footer-meta { font-size: 12px; }
 .cap-axis-title { font-size: 12.5px; fill: var(--muted); }
 .cap-ref { stroke: var(--text); stroke-width: 1; stroke-opacity: .35; }
 .cap-ref-label { font-size: 12px; fill: var(--muted); }
+.cap-median .cap-ref-label { font-weight: 600; }
 .cap-corner { font-size: 12.5px; fill: #8C99A6; font-style: italic; }
 .cap-mark { cursor: pointer; transition: fill-opacity 120ms ease; }
 .cap-mark:hover, .cap-mark:focus-visible { fill-opacity: 1; outline: none; stroke: var(--text); }
