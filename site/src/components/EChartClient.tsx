@@ -42,7 +42,7 @@ export type EChartClientProps = {
 };
 
 /** ECharts implementation loaded asynchronously by the public EChart wrapper.
- *  Init on mount, update when options change, resize with the window, and
+ *  Init on mount, update when options change, resize with its own box, and
  *  dispose on unmount. The wrapper owns the numeric height; this module fills
  *  that reserved box only after its runtime has loaded. */
 export function EChartClient({
@@ -57,10 +57,14 @@ export function EChartClient({
     const chart = echarts.init(ref.current!);
     ownedInstanceRef.current = chart;
     if (instanceRef) instanceRef.current = chart;
-    const onResize = () => chart.resize();
-    window.addEventListener("resize", onResize);
+    // Observe the chart's own box, not the window: a box that narrows without a
+    // window resize (layout change, late content) otherwise keeps a stale
+    // canvas. resize() only resizes the painter inside this box, never the box
+    // itself, so it cannot re-trigger the observer.
+    const observer = new ResizeObserver(() => chart.resize());
+    observer.observe(ref.current!);
     return () => {
-      window.removeEventListener("resize", onResize);
+      observer.disconnect();
       chart.dispose();
       ownedInstanceRef.current = null;
       if (instanceRef) instanceRef.current = null;

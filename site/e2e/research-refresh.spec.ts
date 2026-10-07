@@ -151,8 +151,9 @@ test("datacenter drivers switch, jump bar and multi-grid power bill", async ({ p
 // The overflow check above raced ECharts: its painter kept the 1280px layout's
 // pixel width until the resize event a frame later, and /datacenter's charts sit
 // outside any clipping .chart-card (+830px, ~1 run in 3). Narrow and shift each
-// chart's box with no window resize, so ECharts never re-lays out — the painter
-// is deterministically stale and only the CSS clip keeps the page width.
+// chart's box and measure in the same task — before the chart's ResizeObserver
+// can fire — so the painter is deterministically stale and only the CSS clip
+// keeps the page width.
 test("a stale-width chart painter never widens the page", async ({ page }) => {
   await page.goto("/datacenter");
   await expect(page.locator(".echart-root canvas")).toHaveCount(2);
@@ -163,6 +164,26 @@ test("a stale-width chart painter never widens the page", async ({ page }) => {
     return document.documentElement.scrollWidth - innerWidth;
   });
   expect(over).toBeLessThanOrEqual(1);
+});
+
+// Charts used to resize only on window resize, so a box that narrowed for any
+// other reason (layout change, late content) kept a stale, clipped canvas
+// forever. They now observe their own box.
+test("a chart redraws to fit its box when only the box changes width", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(String(e)));
+  await page.goto("/datacenter");
+  const canvases = page.locator(".echart-root canvas");
+  await expect(canvases).toHaveCount(2);
+  await page.evaluate(() => {
+    for (const root of document.querySelectorAll<HTMLElement>(".echart-root")) {
+      root.parentElement!.style.width = "300px";
+    }
+  });
+  for (const canvas of await canvases.all()) {
+    await expect.poll(() => canvas.evaluate((c) => c.getBoundingClientRect().width)).toBe(300);
+  }
+  expect(errors).toEqual([]);
 });
 
 test("markets tightness chart ranks markets and opens the row with county names", async ({ page }) => {
