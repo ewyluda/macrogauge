@@ -4,7 +4,7 @@ import status from "../public/data/sources_status.json";
 /** a11y backlog (review 2026-09-01 B14/B15/B16). No axe dependency: these
  *  assert the specific structures the review found missing. */
 
-for (const route of ["/", "/gap", "/datacenter", "/methodology"]) {
+for (const route of ["/", "/gap", "/datacenter", "/power", "/methodology"]) {
   test(`${route}: banner, nav and footer sit outside the single <main>`, async ({ page }) => {
     await page.goto(route);
     await expect(page.locator("main")).toHaveCount(1);

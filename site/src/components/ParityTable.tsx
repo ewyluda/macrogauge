@@ -24,9 +24,12 @@ function fmt(v: number | null): string {
   return v == null ? "—" : v.toFixed(3);
 }
 
-export function ParityTable({ states, mode }: { states: ParityRow[]; mode: string }) {
+/** `edge`: show only the first and last `edge` rows of the current sort
+ *  (the extremes the sort is for) until the reader asks for every state. */
+export function ParityTable({ states, mode, edge }: { states: ParityRow[]; mode: string; edge?: number }) {
   const [key, setKey] = useState<Key>("ops_mult");
   const [asc, setAsc] = useState(false);
+  const [all, setAll] = useState(false);
   const rows = [...states].sort((a, b) => {
     const av = a[key], bv = b[key];
     if (av == null && bv == null) return 0;
@@ -35,6 +38,20 @@ export function ParityTable({ states, mode }: { states: ParityRow[]; mode: strin
     const cmp = av < bv ? -1 : av > bv ? 1 : 0;
     return asc ? cmp : -cmp;
   });
+  const hidden = edge && !all && rows.length > 2 * edge ? rows.length - 2 * edge : 0;
+  const row = (r: ParityRow) => (
+    <tr key={r.state}>
+      <td>{r.state}</td>
+      <td>{fmt(r.build_mult)}{r.wage_lagged && r.wage_asof ? (
+        <span style={{ color: "var(--muted)", fontSize: 11 }}> ({quarterLabel(r.wage_asof)})</span>
+      ) : null}</td>
+      <td>{fmt(r.ops_mult)}</td>
+      <td>{fmt(r.wage_rel)}</td><td>{fmt(r.power_rel)}</td>
+      <td>{r.power_cents != null ? r.power_cents.toFixed(2) : "—"}</td>
+      <td>{r.wage_level != null ? `$${r.wage_level.toLocaleString("en-US")}` : "—"}</td>
+      <td>{r.wage_asof ?? "—"}</td><td>{r.power_asof}</td>
+    </tr>
+  );
   // Sortable headers are real buttons with aria-sort (todo #28) — the same
   // pattern /markets uses — so they are reachable by keyboard and announce
   // which column drives the order.
@@ -56,19 +73,19 @@ export function ParityTable({ states, mode }: { states: ParityRow[]; mode: strin
           <th>Wage rel</th><th>Power rel</th><th>Power ¢/kWh</th><th>QCEW wage</th>
           <th>Wage as-of</th><th>Power as-of</th>
         </tr></thead>
-        <tbody>{rows.map((r) => (
-          <tr key={r.state}>
-            <td>{r.state}</td>
-            <td>{fmt(r.build_mult)}{r.wage_lagged && r.wage_asof ? (
-              <span style={{ color: "var(--muted)", fontSize: 11 }}> ({quarterLabel(r.wage_asof)})</span>
-            ) : null}</td>
-            <td>{fmt(r.ops_mult)}</td>
-            <td>{fmt(r.wage_rel)}</td><td>{fmt(r.power_rel)}</td>
-            <td>{r.power_cents != null ? r.power_cents.toFixed(2) : "—"}</td>
-            <td>{r.wage_level != null ? `$${r.wage_level.toLocaleString("en-US")}` : "—"}</td>
-            <td>{r.wage_asof ?? "—"}</td><td>{r.power_asof}</td>
-          </tr>
-        ))}</tbody>
+        <tbody>{hidden ? (
+          <>
+            {rows.slice(0, edge).map(row)}
+            <tr className="parity-more">
+              <td colSpan={9}>
+                <button type="button" className="tool-btn" onClick={() => setAll(true)}>
+                  Show the {hidden} states in between
+                </button>
+              </td>
+            </tr>
+            {rows.slice(-edge!).map(row)}
+          </>
+        ) : rows.map(row)}</tbody>
       </table>
       {mode === "ops_only" ? (
         <p className="method">Build parity unavailable this run (QCEW wages missing) — showing power-driven ops parity only.</p>

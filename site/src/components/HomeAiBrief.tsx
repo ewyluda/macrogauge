@@ -45,7 +45,7 @@ export function HomeAiBrief() {
   const pjm = dc.power?.hubs.find((h) => h.code === "ice_pjm_west");
   if (pjm?.avg30 != null) {
     readings.push({
-      key: "power", href: "/datacenter#dc-power", label: "Power · PJM West",
+      key: "power", href: "/power", label: "Power · PJM West",
       value: `$${pjm.avg30.toFixed(2)}/MWh`,
       context: `30-day avg · ${fmtSigned(pjm.avg30_yoy_pct ?? null)} vs a year ago`,
       spark: (pjm.spark ?? []).map((p) => (typeof p[1] === "number" ? p[1] : null)),

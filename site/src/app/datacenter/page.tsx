@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import dc from "../../../public/data/datacenter.json";
-import gradesJson from "../../../public/data/dc_grades.json";
 import llJson from "../../../public/data/longlead.json";
 import newsJson from "../../../public/data/news.json";
 import { KpiCard } from "@/components/KpiCard";
@@ -12,14 +11,15 @@ import { DcConstructionChart } from "@/components/DcConstructionChart";
 import { ParityTable, type ParityRow } from "@/components/ParityTable";
 import { StateTileMap } from "@/components/StateTileMap";
 import { HardwareGapPanel, type GapRow } from "@/components/HardwareGapPanel";
-import { PowerPanel, type PowerData } from "@/components/PowerPanel";
+import { PowerKpis, type PowerData } from "@/components/PowerPanel";
 import { ContextPanel, type ContextData } from "@/components/ContextPanel";
 import { LongLeadStrip } from "@/components/LongLeadStrip";
 import { NewsFeed } from "@/components/NewsFeed";
 import { clusterStories } from "@/lib/newsTape";
 import { fmtDay, fmtSigned } from "@/lib/format";
 import { DcDrivers, type DriverComp, type DriverGroup } from "@/components/DcDrivers";
-import type { DcGrades, LongLead } from "@/lib/types";
+import type { LongLead } from "@/lib/types";
+import { dcHeadline, powerSummary, surgeFromLow } from "@/lib/dcHub";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
 import { dcBuildMonthlyCsvSpec } from "@/lib/exportSpecs";
@@ -37,44 +37,23 @@ const buildOfficial = (dc.indexes.build as unknown as {
 const buildCodes = dc.indexes.build.components.map((c) => c.code);
 
 const GROUPS = dc.group_labels as Record<string, string>;
-// power_nowcast is nullable in the schema (and its numeric fields can be
-// null on a degraded run) — the methodology paragraph below reads as a
-// complete sentence with or without it.
-const pn = artifact<"dc_grades", DcGrades>("dc_grades", gradesJson).power_nowcast;
 const longlead = artifact<"longlead", LongLead>("longlead", llJson);
 
-// What the backtest DECIDED, in English, derived from the verdict the gate
-// recomputes every run. The page used to assert "it lost to simple
-// carry-forward at every pass-through level tested" unconditionally while the
-// numbers beside it came from the artifact: a flip to PASS would have printed
-// a falsehood next to correct figures, which is precisely the defect this
-// branch exists to remove. Prose and figures now come from the same object.
-// FAIL states the GATE, not a specific comparison: the verdict fires when the
-// selected candidate misses any of its three conditions (beat carry-forward,
-// beat zero pass-through, error inside the bound), so naming one loss would
-// be false whenever a different condition missed.
-const NOWCAST_CLAUSE: Record<string, string> = {
-  FAIL: "its best pass-through candidate failed the pre-registered backtest gate",
-  PASS:
-    "it beat both naive baselines — carry-forward and zero pass-through — inside " +
-    "the pre-registered error bound, a result still under review",
-  INSUFFICIENT:
-    "the backtest could not be graded on this publish, so nothing is claimed either way",
-};
-// True under every verdict: clearing the backtest is a precondition for
-// changing the index, not the change itself. Stated separately from the
-// clause above so it never reads as a consequence of a specific outcome.
-const NOWCAST_STANDING =
-  "the ops index stays on official retail data and the machinery ships config-gated";
-
-// The rest of the DC coverage, one card per page — this page is the hub.
+// The rest of the DC coverage, one card per page — this page is the hub
+// (nine cards: a full 3×3 grid).
 const DC_COVERAGE = [
   { href: "/escalation", eyebrow: "Basis of estimate", title: "Escalation calculator",
     description: "Escalate your own base estimate, carry it to delivery, and see how often each contingency basis has run short." },
   { href: "/longlead", eyebrow: "Procurement", title: "Long-lead board",
     description: "Switchgear, transformers, generators and HVAC prices beside vendors' stated order books." },
+  { href: "/power", eyebrow: "Energy", title: "Power & tariffs",
+    description: "Wholesale power at every major hub, capacity prices by grid operator, and utilities' large-load tariffs." },
   { href: "/markets", eyebrow: "Labor", title: "DC markets",
     description: "County-level construction wages and headcount across real data-center markets." },
+  { href: "/states", eyebrow: "Site selection", title: "State costs",
+    description: "Industrial power and construction wages in every state, mapped: the series behind the parity table." },
+  { href: "/commodities", eyebrow: "Materials", title: "Build inputs",
+    description: "Copper, aluminum, DRAM, wholesale power and GPU-hours, priced daily beside the wider commodity board." },
   { href: "/capacity", eyebrow: "Supply", title: "AI capacity",
     description: "Operational, under-construction and planned critical-IT MW by company, filing behind each." },
   { href: "/compute", eyebrow: "Output", title: "Compute prices",
@@ -87,6 +66,20 @@ const JUMP = [
   ["dc-indexes", "Indexes"], ["dc-drivers", "Drivers"], ["dc-construction", "Construction"],
   ["dc-power", "Power"], ["dc-context", "Bigger picture"], ["dc-parity", "State costs"], ["dc-method", "Method"],
 ] as const;
+
+const headline = dcHeadline([
+  { label: "Build", yoy: dc.indexes.build.headline_yoy_pct },
+  { label: "Ops", yoy: dc.indexes.ops.headline_yoy_pct },
+  { label: "Hardware", yoy: dc.indexes.hardware.headline_yoy_pct },
+]);
+// The hardware run-up (memory and chips, 2025-26) is the story of the chart:
+// shade it from its recent low, in words the data still supports.
+const hwSurge = surgeFromLow("Hardware", dc.indexes.hardware.dates, dc.indexes.hardware.index);
+// Read through PowerData | null: the schema allows "power": null (a bootstrap
+// publish with no hub observations), and a direct JSON import would otherwise
+// type it from whichever artifact happens to be committed.
+const power = (dc.power ?? null) as PowerData | null;
+const powerSum = powerSummary(power);
 
 // The strip shows the five newest AI-infra STORIES (lib/newsTape). Ship only
 // their posts to the client — the client re-clusters them into the same five
@@ -103,7 +96,6 @@ export default function Datacenter() {
   const ops = dc.indexes.ops;
   const hardware = dc.indexes.hardware;
   const construction = dc.construction;
-  const power = dc.power;
   const context = (dc as { context?: ContextData }).context;
   const gateFlags = [
     ...(build.gate_flags as string[]),
@@ -111,27 +103,9 @@ export default function Datacenter() {
     ...(hardware.gate_flags as string[]),
   ];
   const states = dc.parity.states as ParityRow[];
-  const rankedOps = states
-    .filter((s) => s.ops_mult != null)
-    .sort((a, b) => a.ops_mult - b.ops_mult);
-  const cheapest = rankedOps.slice(0, 5);
-  const priciest = rankedOps.slice(-5).reverse();
-  const strip = (label: string, rows: ParityRow[], color: string) => (
-    <div>
-      <div style={{ fontSize: 11, color: "var(--muted)", textTransform: "uppercase",
-                    letterSpacing: "0.08em", marginBottom: 6 }}>{label}</div>
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-        {rows.map((s) => (
-          <span key={s.state} className="badge badge-muted" style={{ color }}>
-            {s.state} {s.ops_mult.toFixed(3)}×
-          </span>
-        ))}
-      </div>
-    </div>
-  );
   return (
     <div className="datacenter-dashboard">
-      <StaleBanner publishedAt={[dc.published_at, gradesJson.published_at, llJson.published_at]} />
+      <StaleBanner publishedAt={[dc.published_at, llJson.published_at]} />
       <header className="research-intro">
         <div className="research-eyebrow">AI infrastructure <span>Updated {fmtDay(build.as_of)}</span></div>
         <h1>Data Center Cost Index</h1>
@@ -159,7 +133,7 @@ export default function Datacenter() {
         </div>
       )}
       <section className="section section-featured dc-trend" aria-labelledby="dc-trend-title">
-        <DcIndexChart actions={<>
+        <DcIndexChart title={headline} surge={hwSurge && { ...hwSurge, seriesKey: "hardware" }} actions={<>
           <Citation compact series="DC Build Index" asOf={build.as_of} rebase={dc.rebase}
             value={`${fmtSigned(build.headline_yoy_pct)} YoY`} path="/datacenter" />
         </>} exportData={
@@ -226,7 +200,13 @@ export default function Datacenter() {
                                real={construction.real} />
         </section>
       )}
-      {power && <section id="dc-power" className="dc-section"><PowerPanel power={power as PowerData} /></section>}
+      {power && (
+        <section id="dc-power" className="dc-section" aria-labelledby="dc-power-title">
+          <h2 id="dc-power-title">The power bill{powerSum.headline && <> <span className="subtitle">{powerSum.headline}</span></>}</h2>
+          <PowerKpis sum={powerSum} />
+          <p className="dc-more"><Link href="/power">All {power.hubs.length} hubs, capacity prices by operator and every tariff →</Link></p>
+        </section>
+      )}
       {context && <section id="dc-context" className="dc-section"><ContextPanel context={context} /></section>}
       {longlead && longlead.teaser.length > 0 && (
         <LongLeadStrip longlead={longlead} />
@@ -235,11 +215,7 @@ export default function Datacenter() {
       <section id="dc-parity" className="dc-section">
       <h2>State cost parity <span className="subtitle">multipliers vs national average</span></h2>
       <StateTileMap states={states} national={dc.parity.national} />
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 24, margin: "12px 0" }}>
-        {strip("Cheapest to operate", cheapest, "var(--accent-emerald)")}
-        {strip("Priciest to operate", priciest, "var(--accent-red)")}
-      </div>
-      <ParityTable states={states} mode={dc.parity.mode} />
+      <ParityTable states={states} mode={dc.parity.mode} edge={10} />
       </section>
       <section id="dc-method" className="dc-section dc-method" aria-labelledby="dc-method-title">
       <h2 id="dc-method-title">How it&apos;s built</h2>
@@ -276,30 +252,10 @@ export default function Datacenter() {
         index to constant 2018-01 dollars — a series that requires a DC-specific input-cost
         deflator to exist.
         </p></div>
-      <div><h3>The power bill and the ops nowcast</h3><p className="method">
-        The power bill panel covers every major US grid. Day-ahead hub prices come straight
-        from each operator&apos;s public files (CAISO SP15, MISO Indiana Hub, ERCOT North, SPP
-        North and NYISO Zone A, daily all-hours averages); PJM Western Hub, Palo Verde,
-        Mid-Columbia and ISO-NE Mass Hub are on-peak trade averages from EIA&apos;s ICE
-        workbook, updated about every two weeks. Each hub shows its own 30-day average against
-        the same window a year earlier. Capacity prices are the operators&apos; published
-        auction results (MISO&apos;s seasonal prices are annualized; ISO-NE and NYISO prices
-        converted from $/kW-month), and ERCOT, SPP and CAISO are labeled rather than priced
-        because they run no capacity auction. The utility tariff table is hand-curated from
-        commission orders, tariff sheets and SEC filings, each row citing its source and date.
-        All of it is market visibility only. The DC Ops index deliberately stays on official retail data: wholesale swings
-        ~3× seasonally while tariff-smoothed retail is seasonally flat, so a level-spliced
-        wholesale tail would fabricate seasonal inflation (we measured it, then pulled it). We
-        then built the honest alternative — a like-month year-ratio nowcast, which cancels
-        seasonality by construction — and backtested it against realized retail prints
-        before letting it touch the index: <span data-testid="power-nowcast-grade">
-        {pn ? NOWCAST_CLAUSE[pn.verdict] ?? NOWCAST_CLAUSE.INSUFFICIENT : "the backtest result is unavailable in this publish"}
-        {pn ? ` — ${pn.verdict}` : ""}
-        {pn && pn.best_mae != null && pn.carry_forward_mae != null && pn.as_of != null
-          ? ` (best MAE ${pn.best_mae.toFixed(3)} vs ${pn.carry_forward_mae.toFixed(3)} YoY pts over ${pn.months_graded} months, as of ${pn.as_of})`
-          : ""}</span>. Either way {NOWCAST_STANDING}. Wholesale tells you about
-        the grid; it does not nowcast tariff-cycle retail rates, and we publish it as market
-        visibility only.
+      <div><h3>The power bill</h3><p className="method">
+        Wholesale hub prices, capacity auction results and the large-load tariff table are market visibility, not
+        index inputs: the DC Ops index stays on official retail power. Their sources, and the backtest that keeps a
+        wholesale nowcast out of the index, are on <Link href="/power">Power &amp; Tariffs</Link>.
         </p></div>
       <div><h3>The bigger-picture cards</h3><p className="method">
         The bigger-picture cards are context, not index inputs: colo asking rates (CBRE),

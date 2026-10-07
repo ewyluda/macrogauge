@@ -126,7 +126,7 @@ test("capacity views each carry a readable table view and no page overflow", asy
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
 });
 
-test("datacenter drivers switch, jump bar and multi-grid power bill", async ({ page }) => {
+test("datacenter drivers switch, jump bar, power summary and edge-collapsed states", async ({ page }) => {
   await page.goto("/datacenter");
   // one drivers table, switched between the three indexes
   const sw = page.locator(".dc-switch");
@@ -138,12 +138,35 @@ test("datacenter drivers switch, jump bar and multi-grid power bill", async ({ p
     await expect(page.locator(`.dc-jump a[href="#${id}"]`)).toHaveCount(1);
     await expect(page.locator(`#${id}`)).toHaveCount(1);
   }
-  // the power bill covers more than PJM
+  // the hub summarises the power bill and hands off to /power
   const power = page.locator("#dc-power");
-  expect(await power.locator(".pw-hubs tbody tr").count()).toBeGreaterThanOrEqual(8);
-  await expect(power.locator(".pw-cap figcaption", { hasText: "MISO" })).toBeVisible();
-  await expect(power.locator(".pw-cap-none")).toContainText("ERCOT");
-  expect(await power.locator(".pw-tariffs > li").count()).toBeGreaterThanOrEqual(10);
+  await expect(power.locator(".kpi-card")).toHaveCount(3);
+  await expect(power.getByRole("link", { name: /every tariff/ })).toHaveAttribute("href", "/power");
+  // the surge annotation and the takeaway title come from the data
+  await expect(page.locator("#dc-trend-title")).toContainText("on the year");
+  // 51 states collapse to the ten at each end of the sort until asked
+  const parity = page.locator("#dc-parity tbody tr");
+  await expect(parity).toHaveCount(21);
+  await page.getByRole("button", { name: /states in between/ }).click();
+  expect(await parity.count()).toBeGreaterThan(40);
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+});
+
+test("power page covers every grid, capacity on one scale, tariffs as a matrix", async ({ page }) => {
+  await page.goto("/power");
+  await expect(page.locator("h1")).toContainText("on the year");
+  // the featured hub is dated with its own window, and the eyebrow says
+  // "Published" (the artifact), never a hub's delivery date
+  await expect(page.locator(".kpi-card").first()).toContainText("30 days to");
+  await expect(page.locator(".research-eyebrow")).toContainText("Published");
+  expect(await page.locator(".pw-hubs tbody tr").count()).toBeGreaterThanOrEqual(8);
+  await expect(page.locator(".pw-cap figcaption", { hasText: "MISO" })).toBeVisible();
+  await expect(page.locator(".pw-cap-unit")).toContainText("$/MW-day");
+  await expect(page.locator(".pw-cap-none")).toContainText("ERCOT");
+  const tariffs = page.locator(".pw-tariffs tbody tr");
+  expect(await tariffs.count()).toBeGreaterThanOrEqual(10);
+  await expect(page.locator(".pw-tariffs thead")).toContainText("Minimum bill");
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
 });

@@ -62,7 +62,7 @@ test("/supercore claims 'daily' only when something rides live", async ({ page }
 // expectation is computed from the same JSON the build read.
 const STALE_ROUTES: [string, string[]][] = [
   ["/rates", ["rates"]], ["/housing", ["housing"]], ["/labor", ["labor"]],
-  ["/datacenter", ["datacenter", "dc_grades", "longlead"]], ["/markets", ["dc_markets"]],
+  ["/datacenter", ["datacenter", "longlead"]], ["/power", ["datacenter", "dc_grades"]], ["/markets", ["dc_markets"]],
   ["/capacity", ["capacity"]], ["/longlead", ["longlead"]], ["/commodities", ["commodities"]], ["/outlook", ["outlook"]],
 ];
 for (const [route, files] of STALE_ROUTES) {
