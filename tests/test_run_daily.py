@@ -286,6 +286,14 @@ def fake_get(url, params=None, timeout=None, **kw):
         return _text(FIXTURES / "sfcompute.html")
     if "openrouter.ai" in url:
         return FakeResponse(json.loads((FIXTURES / "openrouter_models.json").read_text()))
+    if "b0.p.awsstatic.com/pricing" in url:
+        return FakeResponse(json.loads((FIXTURES / "aws_gpu_prices.json").read_text()))
+    if "prices.azure.com" in url:
+        return FakeResponse(json.loads((FIXTURES / "azure_gpu_prices.json").read_text()))
+    if "apexapps.oracle.com" in url:
+        return FakeResponse(json.loads((FIXTURES / "oci_products.json").read_text()))
+    if "coreweave.com/pricing" in url:
+        return _text(FIXTURES / "coreweave_pricing.html")
     if url.endswith("/ai-news.json"):
         return FakeResponse(json.loads((FIXTURES / "ai_news_feed.json").read_text()))
     raise AssertionError(f"unexpected url {url}")
@@ -359,7 +367,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "revisions.json", "news.json", "ledger.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 37  # +ERCOT, SPP, NYISO 10-04; +ATLFED, QCEW_238212 10-01; SFCOMPUTE retired, KALSHI_CORE added 2026-09-26, KALSHI_FED + NYFED 09-28
+    assert len(status["sources"]) == 41  # +AWS_GPU, AZURE_GPU, OCI_GPU, COREWEAVE 10-07; +ERCOT, SPP, NYISO 10-04; +ATLFED, QCEW_238212 10-01; SFCOMPUTE retired, KALSHI_CORE added 2026-09-26, KALSHI_FED + NYFED 09-28
     assert all(s["ok"] for s in status["sources"])
     kalshi_dc_row = [s for s in status["sources"] if s["name"] == "KALSHI_DC"][0]
     assert kalshi_dc_row["ok"] is True

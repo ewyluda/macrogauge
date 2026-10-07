@@ -124,14 +124,14 @@ def test_rates_fed_path_from_kalshi_fetch_against_dfedtaru(tmp_path):
 def test_compute_index_geometric_mean_renormalizes_and_rebases(tmp_path):
     days = ["2026-07-15", "2026-07-16", "2026-07-17"]
     rows = {}
-    for key, base in (("gpt4o", 4.0), ("deepseek", 1.0), ("llama70b", 2.0)):
+    for key, base in (("gpt56_terra", 4.0), ("deepseek_v41_flash", 1.0), ("llama4_maverick", 2.0)):
         rows[f"or_{key}_in"] = {d: base for d in days}
         rows[f"or_{key}_out"] = {d: base for d in days}
     # deepseek halves on day 3; llama missing on day 3
-    rows["or_deepseek_in"]["2026-07-17"] = 0.5
-    rows["or_deepseek_out"]["2026-07-17"] = 0.5
-    del rows["or_llama70b_in"]["2026-07-17"]
-    del rows["or_llama70b_out"]["2026-07-17"]
+    rows["or_deepseek_v41_flash_in"]["2026-07-17"] = 0.5
+    rows["or_deepseek_v41_flash_out"]["2026-07-17"] = 0.5
+    del rows["or_llama4_maverick_in"]["2026-07-17"]
+    del rows["or_llama4_maverick_out"]["2026-07-17"]
     conn = _store(tmp_path, rows, source="OPENROUTER")
     p = compute.build(conn)
     ti = p["token_index"]
@@ -142,15 +142,119 @@ def test_compute_index_geometric_mean_renormalizes_and_rebases(tmp_path):
     # this pinned a null: the fixed-base mean had no carry, so 2 < MIN_MEMBERS.)
     assert ti["history"]["index"][2] == pytest.approx(79.37, abs=1e-3)
     assert ti["history"]["members"][2] == 3
-    # with no carry allowed, llama is absent -> 2 members < MIN_MEMBERS -> null
     ti0 = compute.build(conn, staleness={})["token_index"]  # unlisted -> default
     assert ti0["history"]["index"][2] == pytest.approx(79.37, abs=1e-3)
-    ti0 = compute.build(conn, staleness={f"or_llama70b_{s}": 0 for s in ("in", "out")})["token_index"]
+    # with no carry allowed, llama is absent -> 2 members < MIN_MEMBERS -> null
+    ti0 = compute.build(conn, staleness={f"or_llama4_maverick_{s}": 0 for s in ("in", "out")})["token_index"]
     assert ti0["history"]["index"][2] is None and ti0["history"]["members"][2] == 2
     models = {m["key"]: m for m in p["models"]}
-    assert models["gpt4o"]["blended_usd_mtok"] == 4.0
-    assert models["claude_sonnet"]["as_of"] is None  # never collected -> null row
+    assert models["claude_sonnet55"]["as_of"] is None  # never collected -> null row
     path = compute.write(p, tmp_path / "out", "2026-09-03T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "compute.schema.json")
+
+
+def _roster(retired: dict, current: dict) -> dict:
+    """{key: {date: price}} for retired and current models -> store rows."""
+    return {f"or_{k}_{side}": dict(px) for k, px in {**retired, **current}.items() for side in ("in", "out")}
+
+
+OLD = ("gpt4o", "deepseek", "llama70b")
+NEW = [k for k, _ in compute.MODELS]
+
+
+def test_compute_roster_change_keeps_the_base_and_drops_retired_models_at_their_last_price(tmp_path):
+    """No rebase: the base stays the chain's first day. Retired models link
+    up to their own last observation and are never carried past it, so the
+    current roster's first move is undiluted by flat retired prices."""
+    old = {k: {"2026-10-01": 1.0, "2026-10-02": 2.0, "2026-10-03": 2.0, "2026-10-04": 2.0} for k in OLD}
+    new = {k: {"2026-10-03": 4.0, "2026-10-04": 4.0, "2026-10-05": 2.0} for k in NEW}
+    p = compute.build(_store(tmp_path, _roster(old, new), source="OPENROUTER"))
+    ti = p["token_index"]
+    by = dict(zip(ti["history"]["dates"], ti["history"]["index"]))
+    assert ti["base_date"] == "2026-10-01" and by["2026-10-01"] == 100.0
+    assert by["2026-10-02"] == pytest.approx(200.0)       # the old roster's doubling
+    assert by["2026-10-04"] == pytest.approx(200.0)
+    assert by["2026-10-05"] == pytest.approx(100.0)       # the current roster's halving, undiluted
+    assert ti["history"]["members"][-1] == len(NEW)       # retired gone the day after their last price
+    assert {m["key"] for m in p["models"]} == set(NEW)
+    assert p["token_roster"] == {"since": compute.ROSTER_SINCE,
+                                 "retired": [label for _, label in compute.RETIRED_MODELS]}
+
+
+def test_compute_changeover_with_no_overlapping_day_links_flat_and_recovers(tmp_path):
+    """The old roster ends 10-06; the new one is first collected 10-14 (an
+    outage longer than any carry). No common member bridges the gap, so the
+    link is flat and the index goes on — history kept, never nulled."""
+    old = {k: {"2026-10-05": 1.0, "2026-10-06": 1.1} for k in OLD}
+    new = {k: {"2026-10-14": 2.0, "2026-10-15": 2.0, "2026-10-16": 2.2} for k in NEW}
+    ti = compute.build(_store(tmp_path, _roster(old, new), source="OPENROUTER"))["token_index"]
+    by = dict(zip(ti["history"]["dates"], ti["history"]["index"]))
+    assert ti["base_date"] == "2026-10-05" and by["2026-10-05"] == 100.0
+    assert by["2026-10-06"] == pytest.approx(110.0)
+    assert by["2026-10-14"] == pytest.approx(110.0)       # flat across the gap
+    assert by["2026-10-16"] == pytest.approx(121.0)       # the new roster's +10%
+    assert ti["value"] == pytest.approx(121.0) and ti["as_of"] == "2026-10-16"
+
+
+def test_compute_partially_collected_new_roster_freezes_visibly_until_three_link(tmp_path):
+    """Only one current model priced and seven never observed: no day is
+    declared a new base and no thin day is published. The index stops at the
+    old roster's last day (as_of shows the lag) until MIN_MEMBERS link."""
+    old = {k: {"2026-10-05": 1.0, "2026-10-06": 1.0} for k in OLD}
+    new = {NEW[0]: {"2026-10-07": 3.0, "2026-10-08": 6.0}}
+    ti = compute.build(_store(tmp_path, _roster(old, new), source="OPENROUTER"))["token_index"]
+    assert ti["base_date"] == "2026-10-05"
+    assert ti["history"]["index"] == [100.0, 100.0, None, None]
+    assert ti["history"]["members"] == [3, 3, 1, 1]
+    assert ti["value"] == 100.0 and ti["as_of"] == "2026-10-06"
+
+
+def test_compute_token_index_stays_live_while_the_new_roster_phases_in(tmp_path):
+    """Current models priced, but never all on one day, while the old roster
+    is still collected: the index stays live off whoever links."""
+    days = ["2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"]
+    old = {k: {d: 1.0 for d in days} for k in OLD}
+    new = {k: {days[i % 2]: 2.0} for i, k in enumerate(NEW)}   # each priced on one day only
+    ti = compute.build(_store(tmp_path, _roster(old, new), source="OPENROUTER"))["token_index"]
+    assert ti["base_date"] == "2026-10-05"
+    assert ti["value"] == 100.0 and ti["as_of"] == "2026-10-08"
+
+
+def test_compute_cloud_gpu_rows_are_per_gpu_and_display_only(tmp_path):
+    rows = {"aws_h100": {"2026-10-07": 6.88}, "az_gb200": {"2026-10-07": 27.04},
+            "vast_h100_sxm": {"2026-10-07": 1.9}, "vast_a100_sxm": {"2026-10-07": 1.0},
+            "vast_rtx4090": {"2026-10-07": 0.4}}
+    p = compute.build(_store(tmp_path, rows, source="VASTAI"), today="2026-10-07")
+    cloud = {r["code"]: r for r in p["cloud_gpus"]}
+    assert cloud["aws_h100"]["usd_per_instance_hr"] == pytest.approx(55.04)
+    assert cloud["aws_a100"]["instance"] == "p4de.24xlarge"  # the 80GB A100, like the other clouds' rows
+    assert cloud["az_gb200"]["usd_per_instance_hr"] == pytest.approx(108.16)
+    assert cloud["az_gb200"]["gpus_per_instance"] == 4 and cloud["az_gb200"]["region"] == "East US 2"
+    assert cloud["oci_h100"]["usd_per_gpu_hr"] is None     # never collected -> null row
+    # list prices never enter the GPU index
+    assert p["gpu_index"]["history"]["members"][-1] == 3
+    path = compute.write(p, tmp_path / "out", "2026-10-07T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "compute.schema.json")
+
+
+def test_compute_rows_past_their_staleness_limit_are_flagged_stale(tmp_path):
+    """A quote older than its registry limit keeps its value and date but is
+    flagged, so the page can keep it out of current ranges and the cheapest
+    emphasis (a stale AWS H100 must not undercut today's Azure quote)."""
+    rows = {"aws_h100": {"2026-10-07": 6.88}, "az_h100": {"2026-10-21": 12.29},
+            "vast_h100_sxm": {"2026-10-07": 1.92}, "vast_h200": {"2026-10-21": 2.5}}
+    lim = {"aws_h100": 7, "az_h100": 7, "vast_h100_sxm": 7, "vast_h200": 7}
+    p = compute.build(_store(tmp_path, rows, source="VASTAI"), staleness=lim, today="2026-10-21")
+    cloud = {r["code"]: r for r in p["cloud_gpus"]}
+    gpus = {g["code"]: g for g in p["gpus"]}
+    assert cloud["aws_h100"]["stale"] is True and cloud["aws_h100"]["usd_per_gpu_hr"] == 6.88
+    assert cloud["az_h100"]["stale"] is False
+    assert cloud["oci_h100"]["stale"] is True             # never collected
+    assert gpus["vast_h100_sxm"]["stale"] is True and gpus["vast_h200"]["stale"] is False
+    # within the limit is fresh: 7 days old on a 7-day limit
+    p = compute.build(_store(tmp_path / "b", rows, source="VASTAI"), staleness=lim, today="2026-10-14")
+    assert {r["code"]: r["stale"] for r in p["cloud_gpus"]}["aws_h100"] is False
+    path = compute.write(p, tmp_path / "out", "2026-10-21T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "compute.schema.json")
 
 
@@ -206,9 +310,8 @@ def test_gpu_index_permanent_exit_links_without_a_jump(tmp_path):
 
 
 def test_display_only_b300_is_priced_but_never_joins_the_index(tmp_path):
-    # vast_b300 enters (09-29) after sfc_h100 retired (09-24). As a member it
-    # would leave no day on which EVERY member was priced -> a null index.
-    # Display-only: its row is priced, the index is untouched.
+    # vast_b300 enters (09-29) after sfc_h100 retired (09-24). Display-only:
+    # its row is priced, the index is untouched.
     days = ["2026-09-23", "2026-09-24", "2026-09-29", "2026-09-30"]
     prices = {c: {d: 1.0 for d in days}
               for c in ("vast_h100_sxm", "vast_a100_sxm", "vast_rtx4090")}
@@ -271,7 +374,7 @@ def test_gpu_index_chg_30d_compares_chained_levels(tmp_path):
 def test_compute_geometric_mean_value(tmp_path):
     days = ["2026-07-15", "2026-07-16"]
     rows = {}
-    for key, b0, b1 in (("gpt4o", 4.0, 8.0), ("deepseek", 1.0, 0.5), ("llama70b", 2.0, 2.0)):
+    for key, b0, b1 in (("gpt56_terra", 4.0, 8.0), ("deepseek_v41_flash", 1.0, 0.5), ("llama4_maverick", 2.0, 2.0)):
         rows[f"or_{key}_in"] = {days[0]: b0, days[1]: b1}
         rows[f"or_{key}_out"] = {days[0]: b0, days[1]: b1}
     p = compute.build(_store(tmp_path, rows, source="OPENROUTER"))

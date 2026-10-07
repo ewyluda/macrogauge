@@ -38,6 +38,16 @@
       }
     },
     "token_index": {"$ref": "#/$defs/index"},
+    "token_roster": {
+      "description": "The date the current model roster took over and the models it replaced (link-only up to the base date). Added 2026-10-07; optional.",
+      "type": "object",
+      "required": ["since", "retired"],
+      "additionalProperties": false,
+      "properties": {
+        "since": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "retired": {"type": "array", "items": {"type": "string"}}
+      }
+    },
     "gpus": {
       "type": "array",
       "items": {
@@ -51,11 +61,35 @@
           "as_of": {"$ref": "#/$defs/day"},
           "chg_30d_pct": {"$ref": "#/$defs/num"},
           "tail": {"$ref": "#/$defs/tail"},
-          "in_index": {"type": "boolean"}
+          "in_index": {"type": "boolean"},
+          "stale": {"type": "boolean", "description": "last obs older than the registry staleness limit (2026-10-07+)"}
         }
       }
     },
-    "gpu_index": {"$ref": "#/$defs/index"}
+    "gpu_index": {"$ref": "#/$defs/index"},
+    "cloud_gpus": {
+      "description": "Cloud on-demand LIST prices per GPU-hour: display-only, never gpu_index members. Added 2026-10-07; optional so older compute.json files still validate.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "provider", "gpu", "instance", "gpus_per_instance", "region",
+                     "usd_per_gpu_hr", "usd_per_instance_hr", "as_of", "chg_30d_pct", "stale"],
+        "additionalProperties": false,
+        "properties": {
+          "code": {"type": "string"},
+          "provider": {"type": "string"},
+          "gpu": {"type": "string"},
+          "instance": {"type": "string"},
+          "gpus_per_instance": {"type": "integer", "minimum": 1},
+          "region": {"type": "string"},
+          "usd_per_gpu_hr": {"$ref": "#/$defs/num"},
+          "usd_per_instance_hr": {"$ref": "#/$defs/num"},
+          "as_of": {"$ref": "#/$defs/day"},
+          "chg_30d_pct": {"$ref": "#/$defs/num"},
+          "stale": {"type": "boolean", "description": "last obs older than the registry staleness limit: shown with its date, kept out of current ranges"}
+        }
+      }
+    }
   },
   "$defs": {
     "num": {"type": ["number", "null"]},

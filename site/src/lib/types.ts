@@ -638,8 +638,18 @@ export type Compute = {
   models: { key: string; label: string; in_usd_mtok: number | null; out_usd_mtok: number | null; blended_usd_mtok: number | null;
             as_of: string | null; chg_30d_pct: number | null; tail: Tail }[];
   token_index: ComputeIndex;
-  gpus: { code: string; label: string; usd_per_gpu_hr: number | null; as_of: string | null; chg_30d_pct: number | null; tail: Tail; in_index?: boolean }[];
+  gpus: { code: string; label: string; usd_per_gpu_hr: number | null; as_of: string | null; chg_30d_pct: number | null; tail: Tail; in_index?: boolean; stale?: boolean }[];
   gpu_index: ComputeIndex;
+  /** cloud on-demand list prices (2026-10-07+); absent on older files */
+  cloud_gpus?: CloudGpu[];
+  /** when the current token roster took over, and the models it replaced */
+  token_roster?: { since: string; retired: string[] };
+};
+export type CloudGpu = {
+  code: string; provider: string; gpu: string; instance: string; gpus_per_instance: number; region: string;
+  usd_per_gpu_hr: number | null; usd_per_instance_hr: number | null; as_of: string | null; chg_30d_pct: number | null;
+  /** older than its registry staleness limit: shown dated, kept out of current ranges */
+  stale: boolean;
 };
 
 export type HousingMeasure = { code: string; label: string; unit: string; value: number | null; as_of: string | null; yoy_pct: number | null };

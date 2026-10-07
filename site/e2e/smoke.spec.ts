@@ -6,6 +6,7 @@ import pulse from "../public/data/pulse.json";
 import { dcTakeaway } from "../src/lib/homeBrief";
 import { fmtSigned } from "../src/lib/format";
 import news from "../public/data/news.json";
+import compute from "../public/data/compute.json";
 import type { NewsPost } from "../src/lib/news";
 import { clusterStories, topFigures } from "../src/lib/newsTape";
 
@@ -663,6 +664,18 @@ test("news tape folds repeats into stories and defaults to the AI-infra build-ou
   const strip = page.getByTestId("news-strip").getByTestId("news-item");
   await expect(strip).toHaveCount(Math.min(infra.length, 5));
   if (infra.length > 0) await expect(strip.first()).toContainText(infra[0].lead.headline.slice(0, 40));
+});
+
+test("/compute shows cloud GPU list prices once the daily run publishes them", async ({ page }) => {
+  const cloud = (compute as { cloud_gpus?: { usd_per_gpu_hr: number | null }[] }).cloud_gpus ?? [];
+  await page.goto("/compute");
+  if (cloud.some((c) => c.usd_per_gpu_hr != null)) {
+    await expect(page.locator("#cloud-gpus")).toBeVisible();
+    await expect(page.getByTestId("cloud-takeaway")).toContainText("per GPU-hour across");
+  } else {
+    // files published before 2026-10-07 carry no cloud block: no empty table
+    await expect(page.locator("#cloud-gpus")).toHaveCount(0);
+  }
 });
 
 test("datacenter long-lead strip links to the board", async ({ page }) => {

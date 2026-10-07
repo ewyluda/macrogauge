@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import changes from "../public/data/changes.json";
+import compute from "../public/data/compute.json";
 
 /** Batch 4 — pipeline unlocks: rates, compute, housing, USDA wholesale, since-yesterday. */
 
@@ -12,12 +13,12 @@ test("/rates renders the curve table with eight tenors and the liquidity KPIs", 
   await expect(page.locator("canvas").first()).toBeVisible();
 });
 
-test("/compute renders both composites and six models", async ({ page }) => {
+test("/compute renders both composites and one row per published model", async ({ page }) => {
   await page.goto("/compute");
   await expect(page.locator(".kpi-label", { hasText: "Token price index" })).toBeVisible();
   await expect(page.locator(".kpi-label", { hasText: "GPU-hour index" })).toBeVisible();
   const models = page.locator("table.data-table").first();
-  await expect(models.locator("tbody tr")).toHaveCount(6);
+  await expect(models.locator("tbody tr")).toHaveCount(compute.models.length);   // roster size follows the artifact
 });
 
 test("/housing affordability KPI matches the artifact", async ({ page }) => {

@@ -9,17 +9,21 @@ import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
 import { C } from "@/lib/chartTheme";
 import { computeIndexRows } from "@/lib/computeCsv";
+import { cloudRows, cloudTakeaway, GPU_LABEL, PROVIDERS } from "@/lib/cloudGpu";
 import { fmtSigned, yoyColor } from "@/lib/format";
 import type { Compute } from "@/lib/types";
+import { artifact } from "@/lib/artifact";
 
-const data = computeJson as Compute;
+const data = artifact<"compute", Compute>("compute", computeJson);
+const hasCloud = cloudRows(data).length > 0;
 const usd = (v: number | null, d = 2) => (v == null ? "—" : `$${v.toFixed(d)}`);
 const idx = (v: number | null) => (v == null ? "—" : v.toFixed(1));
 
 export const metadata: Metadata = {
   title: `Compute Prices — token index ${idx(data.token_index.value)}, GPU-hour index ${idx(data.gpu_index.value)}`,
-  description:
-    "The cost of a token and of a GPU-hour: OpenRouter model prices and vast.ai GPU rentals, collected daily, with two composite indexes.",
+  description: hasCloud
+    ? "The cost of a token and of a GPU-hour: current model prices on OpenRouter, GPU list prices at AWS, Azure, Oracle and CoreWeave, and vast.ai marketplace rentals, collected daily."
+    : "The cost of a token and of a GPU-hour: current model prices on OpenRouter and vast.ai marketplace rentals, collected daily, with two composite indexes.",
 };
 
 export default function ComputePage() {
@@ -27,6 +31,12 @@ export default function ComputePage() {
   const gi = data.gpu_index;
   const notInIndex = data.gpus.filter((g) => !g.in_index).map((g) => g.label);
   const days = Math.max(ti.history.dates.length, gi.history.dates.length);
+  const cloud = cloudRows(data);
+  const cloudLead = cloudTakeaway(cloud);
+  const move = (label: string, v: number | null) =>
+    v == null ? null : `${label} ${v > 0 ? "up" : v < 0 ? "down" : "flat"}${v === 0 ? "" : ` ${Math.abs(v).toFixed(1)}%`}`;
+  const indexTitle = [move("Token prices", ti.chg_30d_pct), move("GPU-hours", gi.chg_30d_pct)].filter(Boolean).join(", ");
+  const roster = data.token_roster;
   return (
     <div>
       <h1>
@@ -34,8 +44,9 @@ export default function ComputePage() {
       </h1>
       <p className="lede">
         The DC Hardware index prices the inputs to a data center. This page prices what comes out of one: the
-        per-token list prices of six frontier and open models on OpenRouter, and the rental price of a GPU-hour
-        on vast.ai. Both composites are chain-linked equal-weight geometric means: each day&apos;s
+        per-token list prices of {data.models.length} current models on OpenRouter, one workhorse model per lab;
+        {cloud.length > 0 && " what AWS, Azure, Oracle and CoreWeave list for a GPU-hour;"}{" "}and what a GPU-hour
+        rents for on the vast.ai marketplace. The two composites are chain-linked equal-weight geometric means: each day&apos;s
         move averages the day-over-day price changes of the members priced on both days, so a SKU missing a
         day, joining, or retiring changes who is averaged but never jumps the index — and a deprecated model
         drops out instead of freezing a dead price into it. Collection began {data.history_start ?? "—"}: the history is short
@@ -52,14 +63,14 @@ export default function ComputePage() {
       </div>
       <Citation series="Token price index" asOf={ti.as_of ?? data.published_at.slice(0, 10)} rebase={`${ti.base_date ?? "—"}=100`} value={idx(ti.value)} path="/compute" />
 
-      <Section title="Composite indexes" featured>
+      <Section title={indexTitle ? `${indexTitle} in 30 days` : "Composite indexes"} featured>
         <div className="section-tools">
           <DownloadData filename="macrogauge-compute-indexes" json="compute.json"
             citation={`MacroGauge token and GPU-hour price indexes, ${ti.base_date ?? "—"}=100`}
             rows={computeIndexRows(ti.history, gi.history)} />
         </div>
         <div className="chart-card">
-          <LinesChart height={300} recessions={false} refLine={100} refLabel="base" yUnit=""
+          <LinesChart height={300} recessions={false} refLine={100} refLabel="base" yUnit="" fitY
             series={[
               { name: "Token price index", x: ti.history.dates, y: ti.history.index, color: C.sky },
               { name: "GPU-hour index", x: gi.history.dates, y: gi.history.index, color: C.amber },
@@ -68,6 +79,11 @@ export default function ComputePage() {
         <p className="method">
           {data.blend.method}. Token prices blend {Math.round(data.blend.in * 100)}% input and {Math.round(data.blend.out * 100)}%
           output per million tokens. A day with fewer than {data.blend.min_members} members publishes null.
+          {roster && (
+            <> The model roster changed on {roster.since}. History before it is the previous roster
+              ({roster.retired.join(", ")}), chained in without a rebase: each retired model leaves the index the day
+              after its last collected price.</>
+          )}
         </p>
       </Section>
 
@@ -92,7 +108,58 @@ export default function ComputePage() {
         </div>
       </Section>
 
-      <Section title="GPU rentals — $ per GPU-hour">
+      {cloud.length > 0 && (
+        <Section id="cloud-gpus" title="GPU list prices: what the clouds charge per GPU-hour">
+          {cloudLead && <p className="lede" data-testid="cloud-takeaway">{cloudLead}</p>}
+          <div className="table-card">
+            <table className="data-table cloud-gpu-table">
+              <thead>
+                <tr>
+                  <th style={{ textAlign: "left" }}>GPU</th>
+                  {PROVIDERS.map((p) => <th key={p}>{p}</th>)}
+                  <th>vast.ai median</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cloud.map((r) => (
+                  <tr key={r.gpu}>
+                    <td style={{ textAlign: "left" }}><strong>{GPU_LABEL[r.gpu] ?? r.gpu}</strong></td>
+                    {PROVIDERS.map((p) => {
+                      const c = r.cells[p];
+                      if (!c || c.usd_per_gpu_hr == null) return <td key={p} style={{ color: "var(--muted)" }}>—</td>;
+                      const cheapest = !c.stale && c.usd_per_gpu_hr === r.low && r.fresh > 1 && r.low !== r.high;
+                      return (
+                        <td key={p} className={c.stale ? "cloud-stale" : undefined}
+                          title={`${c.instance} · ${c.gpus_per_instance > 1 ? `$${c.usd_per_instance_hr?.toFixed(2)}/hr for ${c.gpus_per_instance} GPUs · ` : ""}${c.region} · as of ${c.as_of}`}>
+                          {cheapest ? <strong>{usd(c.usd_per_gpu_hr)}</strong> : usd(c.usd_per_gpu_hr)}
+                          <span className="cloud-inst">{c.stale ? `stale · as of ${c.as_of}` : c.instance}</span>
+                        </td>
+                      );
+                    })}
+                    <td style={{ color: "var(--muted)" }}>
+                      {r.market ? usd(r.market.usd) : "—"}
+                      {r.market?.stale && <span className="cloud-inst cloud-market-stale">stale · as of {r.market.as_of}</span>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="method">
+            On-demand list prices with no commitment, per GPU-hour: an instance&apos;s hourly price divided by its GPU
+            count (8 for HGX-class nodes, 4 for a GB200 node). AWS is US East (N. Virginia) and Azure is East US 2,
+            Linux. Oracle publishes per GPU-hour for all regions, and CoreWeave lists one on-demand price per node.
+            Every A100 row is the 80GB part; the vast.ai A100 median pools 40GB and 80GB cards. Bold marks the
+            lowest current list price for the GPU. A quote older than its staleness limit keeps its cell, marked
+            with its date, and drops out of the range, the bold and the summary line. Spot, reserved and
+            committed-use prices, which several of these clouds also publish, are left out, as are negotiated
+            discounts. List prices change a few times a year, so these rows stay out of the GPU-hour index, which
+            tracks the vast.ai marketplace. Google Cloud is not covered: its price catalog needs an API key.
+          </p>
+        </Section>
+      )}
+
+      <Section title="GPU rentals on the vast.ai marketplace: $ per GPU-hour">
         <div className="table-card">
           <table className="data-table">
             <thead><tr><th style={{ textAlign: "left" }}>SKU</th><th>$/GPU-hr</th><th>30d</th><th>As of</th><th>90d</th></tr></thead>
@@ -102,7 +169,9 @@ export default function ComputePage() {
                   <td style={{ textAlign: "left" }}>{g.label} <span style={{ color: "var(--muted)", fontSize: 11 }}>{g.code}{g.in_index === false ? " · not in index" : ""}</span></td>
                   <td><strong>{usd(g.usd_per_gpu_hr, 3)}</strong></td>
                   <td style={{ color: yoyColor(g.chg_30d_pct) }}>{fmtSigned(g.chg_30d_pct)}</td>
-                  <td style={{ color: "var(--muted)" }}>{g.as_of ?? "not collected"}</td>
+                  <td style={{ color: g.stale && g.as_of ? "var(--accent-amber)" : "var(--muted)" }}>
+                    {g.as_of ?? "not collected"}{g.stale && g.as_of ? " · stale" : ""}
+                  </td>
                   <td><TailSpark tail={g.tail.values} label={g.label} /></td>
                 </tr>
               ))}
@@ -116,8 +185,8 @@ export default function ComputePage() {
           (config/series.json); a stale series (7-day limit) shows on <Link href="/status">/status</Link> and leaves the mean.
           vast.ai medians cover the whole on-demand market: the API caps a query at 64 offers, so a saturated
           SKU is re-queried in price bands and the bands merged. Rows marked &ldquo;not in index&rdquo;
-          {notInIndex.length ? ` (${notInIndex.join(", ")})` : ""} are priced but kept out of the GPU-hour index, whose base is the first day every
-          member was priced.
+          {notInIndex.length ? ` (${notInIndex.join(", ")})` : ""} are priced but kept out of the GPU-hour index: admitting a member is a roster
+          decision, made once it has enough history.
         </p>
       </Section>
     </div>

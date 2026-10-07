@@ -501,7 +501,7 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     # Compute price index (/compute): token and GPU-hour composites over the
     # OpenRouter / vast.ai / sfcompute series (batch 4b).
     def _compute_phase():
-        c_path = compute_json.write(compute_json.build(conn), args.out,
+        c_path = compute_json.write(compute_json.build(conn, staleness=staleness, today=today), args.out,
                                     published_at=published_at)
         validate.validate_file(c_path, SCHEMAS / "compute.schema.json")
         print(f"published: {c_path}")

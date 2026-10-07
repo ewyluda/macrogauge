@@ -36,6 +36,7 @@ export function LinesChart({
   yUnit = "%",
   yPrefix = "",
   ariaTitle,
+  fitY = false,
 }: {
   series: LineSeries[];
   height?: number;
@@ -48,6 +49,9 @@ export function LinesChart({
   yPrefix?: string;
   /** chart text alternative's lead (B15); series + latest values follow */
   ariaTitle?: string;
+  /** fit the y-axis to the data instead of starting at zero — for an index
+   *  near 100 whose moves a zero-based axis flattens */
+  fitY?: boolean;
 }) {
   const option = useMemo(
     () => {
@@ -57,6 +61,15 @@ export function LinesChart({
         yAxis: { ...base.yAxis, axisLabel: { ...(base.yAxis as { axisLabel?: object }).axisLabel, formatter: fmt } },
         tooltip: { ...base.tooltip, valueFormatter: (v: unknown) => (typeof v === "number" ? fmt(v) : "—") },
       };
+      if (fitY) {
+        const y = ("yAxis" in axis ? axis.yAxis : base.yAxis) as object;
+        // fitted to the data, but never so tight the reference line drops out
+        const bounds = refLine == null ? {} : {
+          min: (v: { min: number }) => Math.floor(Math.min(v.min, refLine)),
+          max: (v: { max: number }) => Math.ceil(Math.max(v.max, refLine)),
+        };
+        Object.assign(axis, { yAxis: { ...y, scale: true, ...bounds } });
+      }
       return {
       ...base,
       ...axis,
@@ -91,7 +104,7 @@ export function LinesChart({
       })),
       };
     },
-    [series, recessions, refLine, refLabel, yUnit, yPrefix],
+    [series, recessions, refLine, refLabel, yUnit, yPrefix, fitY],
   );
   return <EChart option={option} height={height} ariaTitle={ariaTitle} />;
 }
