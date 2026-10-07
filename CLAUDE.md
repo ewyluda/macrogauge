@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (1173 tests)
+pytest -q                                     # full suite (1187 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -28,8 +28,8 @@ cd site && npm ci
 npm run dev        # local dev server
 npm run lint       # ESLint flat config: next core-web-vitals + jsx-a11y + react-hooks (must pass in CI)
 npm run build      # static export (must pass in CI)
-npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/sCurve) + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/portfolio/chartAria/sourcePills/badge
-npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 214 e2e tests, zero console errors
+npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/sCurve/news) + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/portfolio/chartAria/sourcePills/badge
+npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 217 e2e tests, zero console errors
 npm run gen-types  # schemas/*.schema.json -> src/lib/generated/*.ts (gitignored; runs automatically before dev/build/test)
 ```
 
@@ -112,7 +112,7 @@ weights that **must sum to 1.0** (validated on load). Grid start is 2017-01 inte
 YoY bases); writers publish from 2018-01.
 
 ### 4. Publish (`pipeline/publish/`) + orchestration (`pipeline/run_daily.py`)
-42 published files, each with a JSON Schema in `schemas/` validated inline as it lands:
+43 published files, each with a JSON Schema in `schemas/` validated inline as it lands:
 `sources_status`, `pulse`, `gauge_daily`, `replay`, `quilt_months_24`, `quilt_months_48`,
 `quilt_months_all`, `grocery_basket`, `compare`, `gaptable`, `methodology`, `official`,
 `real_wages`, `qa`, plus phase 3 (`nowcast_latest`, `nextprint`, `releases`, `backtest`,
@@ -138,7 +138,9 @@ PMMS rate ÷ AHE×2080/12), and `changes` (what moved since the previous publish
 snapshots pulse/gaptable/datacenter BEFORE the engine phase and this writer diffs today's files
 against it; `grocery_basket` also gained a USDA `wholesale[]` block and `pulse` variants carry
 `prev_yoy_pct`), and the batch-5 receipts: `revisions` (first print vs latest value per
-reference period for CPI/PCE/payrolls, straight off the vintage store) and `ledger` (every
+reference period for CPI/PCE/payrolls, straight off the vintage store) and `news` (the AI/data-center news tape: posts from the Kepler caktus.db market-news feed that
+mention a `config/ai_news.json` universe ticker — the notebook's 11-layer AI-infra taxonomy — baked
+daily from the live exporter's public R2 object; see "Live news tape" below), and `ledger` (every
 publish's headline readings, appended to the append-only `store/ledger/pulse.jsonl` after every
 other phase and never restated — `scripts/backfill_ledger.py` seeded it from the git history of
 `pulse.json`; `replay` components also carry `last_obs` + `gate_flags` for `/components/[code]`).
@@ -152,9 +154,9 @@ is BLS average-price staples.
 - The gauge engine, nowcast, outlook, composites, DC cost index, geography panel, labor
   dashboard, commodities grid, AI capacity tracker, DC market panel, DC escalation grading
   harness, long-lead board, rates panel, compute index, housing panel, since-yesterday diff,
-  revisions panel and publish ledger run in eighteen ISOLATED `try/except` blocks — a failure in any one still publishes
+  revisions panel, news tape and publish ledger run in nineteen ISOLATED `try/except` blocks — a failure in any one still publishes
   status + qa (exit 0, visible on-site via `engine_ok` / `nowcast_ok` / `outlook_ok` /
-  `composites_ok` / `datacenter_ok` / `geography_ok` / `labor_ok` / `commodities_ok` / `capacity_ok` / `markets_ok` / `grades_ok` / `longlead_ok` / `rates_ok` / `compute_ok` / `housing_ok` / `changes_ok` / `revisions_ok` / `ledger_ok`) instead of a hard crash or
+  `composites_ok` / `datacenter_ok` / `geography_ok` / `labor_ok` / `commodities_ok` / `capacity_ok` / `markets_ok` / `grades_ok` / `longlead_ok` / `rates_ok` / `compute_ok` / `housing_ok` / `changes_ok` / `revisions_ok` / `news_ok` / `ledger_ok`) instead of a hard crash or
   suppressing the other phases. `changes` diffs every artifact just written; `ledger` runs LAST and appends this run's readings.
 - **`jsonschema.ValidationError` re-raises and fails the run** (caught *before* the generic
   `Exception`) — a schema-invalid artifact must never deploy. This ordering is pinned by tests.
@@ -194,3 +196,15 @@ is BLS average-price staples.
   author email doesn't match a GitHub account.
 - Production: https://macrogauge.vercel.app (public, indexable; the team alias macrogauge-cloudten.vercel.app serves the same deploy but Vercel sends `x-robots-tag: noindex` on it; Vercel Auth protects preview
   deployments only).
+- **Live news tape** (`/news` + the `/datacenter` strip): the only artifact with a sub-daily path.
+  `scripts/news/caktus_ai_news.py` (stdlib, py3.9-safe) runs on the Mac every 5 min via the
+  `com.macrogauge.news-exporter` LaunchAgent (`scripts/news/install_live_exporter.sh`): stable
+  snapshot of the Kepler caktus follower (falls back to a verified Litestream restore from R2) →
+  filter to the universe, categories company/earnings/other (flow, macro, geopolitics dropped),
+  non-duplicates → SigV4 PUT of `ai-news.json` to a public R2 bucket (Keychain
+  `com.macrogauge.news-r2.*`). The site polls `live_url` client-side (skipped under
+  `navigator.webdriver`, so e2e stays offline) and swaps it in when newer than the baked
+  `news.json`. The daily `news` phase re-filters the object against config (it is untrusted
+  input: categories/tickers/layers re-derived, bad posts dropped and counted) — a wrong-shaped
+  object is structure drift (`news_ok` false), `live_url: null` publishes status
+  `unconfigured`. Universe refresh: `python3 scripts/news/sync_universe.py`, then reinstall.

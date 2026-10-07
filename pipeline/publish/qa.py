@@ -27,7 +27,7 @@ GAUGE_COVERAGE_FLOOR = 35.0
 # here — fails its check instead of silently reading "completed".
 PHASES = ("nowcast", "outlook", "composites", "datacenter", "geography",
           "labor", "commodities", "capacity", "markets", "grades", "longlead",
-          "rates", "compute", "housing", "changes", "revisions", "ledger")
+          "rates", "compute", "housing", "changes", "revisions", "news", "ledger")
 _PHASE_DONE = {"nowcast": "nowcast completed",
                "outlook": "12-month outlook completed",
                "composites": "composites completed",
@@ -44,6 +44,7 @@ _PHASE_DONE = {"nowcast": "nowcast completed",
                "housing": "housing panel completed",
                "changes": "since-yesterday diff completed",
                "revisions": "revisions panel completed",
+               "news": "news tape completed",
                "ledger": "publish ledger completed"}
 
 

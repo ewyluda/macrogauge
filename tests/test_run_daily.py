@@ -286,6 +286,8 @@ def fake_get(url, params=None, timeout=None, **kw):
         return _text(FIXTURES / "sfcompute.html")
     if "openrouter.ai" in url:
         return FakeResponse(json.loads((FIXTURES / "openrouter_models.json").read_text()))
+    if url.endswith("/ai-news.json"):
+        return FakeResponse(json.loads((FIXTURES / "ai_news_feed.json").read_text()))
     raise AssertionError(f"unexpected url {url}")
 
 
@@ -354,7 +356,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "commodities.json", "capacity.json", "dc_markets.json",
                  "dc_grades.json", "longlead.json",
                  "rates.json", "compute.json", "housing.json", "changes.json",
-                 "revisions.json", "ledger.json"):
+                 "revisions.json", "news.json", "ledger.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
     assert len(status["sources"]) == 37  # +ERCOT, SPP, NYISO 10-04; +ATLFED, QCEW_238212 10-01; SFCOMPUTE retired, KALSHI_CORE added 2026-09-26, KALSHI_FED + NYFED 09-28
@@ -375,10 +377,10 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok
     # + geography_ok + labor_ok + commodities_ok + capacity_ok + markets_ok + grades_ok
-    # + longlead_ok + rates_ok + compute_ok + housing_ok + changes_ok + revisions_ok + ledger_ok
-    # + expected_absence (todo #10)
-    assert qa["total"] == 35
-    for phase in ("rates", "compute", "housing", "changes", "revisions", "ledger"):
+    # + longlead_ok + rates_ok + compute_ok + housing_ok + changes_ok + revisions_ok + news_ok
+    # + ledger_ok + expected_absence (todo #10)
+    assert qa["total"] == 36
+    for phase in ("rates", "compute", "housing", "changes", "revisions", "news", "ledger"):
         assert [c for c in qa["checks"] if c["name"] == f"{phase}_ok"][0]["pass"] is True, phase
     # backlog #10a: the KXFED fake's one liquid ladder reaches rates.json
     fed = json.loads((out / "rates.json").read_text())["fed_path"]
@@ -1156,6 +1158,56 @@ def test_batch4_schema_violation_fails_run(tmp_path, monkeypatch, module):
     set_keys(monkeypatch)
     monkeypatch.setattr(getattr(run_daily, module), "build", lambda *a, **k: {"bogus": True})
     store, out = tmp_path / "store", tmp_path / "out"
+    with pytest.raises(jsonschema.ValidationError):
+        run_daily.main(["--store", str(store), "--out", str(out)],
+                       http_get=fake_get, http_post=fake_post)
+    assert not (out / "qa.json").exists()
+
+
+def test_news_bakes_the_live_feed_when_configured(tmp_path, monkeypatch):
+    """live_url set: the NEWS phase fetches the exporter's public object
+    (fixture) and bakes a schema-valid live tape; the fetch goes through the
+    injected http_get like every connector."""
+    set_keys(monkeypatch)
+    store, out = tmp_path / "s", tmp_path / "o"
+    cfg = run_daily.news_json.load_config()
+    monkeypatch.setattr(run_daily.news_json, "load_config",
+                        lambda: {**cfg, "live_url": "https://pub.example.r2.dev/ai-news.json",
+                                 "stale_after_hours": 1e6})
+    assert run_daily.main(["--store", str(store), "--out", str(out)],
+                          http_get=fake_get, http_post=fake_post) == 0
+    tape = json.loads((out / "news.json").read_text())
+    assert tape["status"] == "live" and len(tape["posts"]) == 3
+    assert tape["live_url"] == "https://pub.example.r2.dev/ai-news.json"
+
+
+def test_news_failure_does_not_block_publish(tmp_path, monkeypatch):
+    """A broken/redesigned feed object is structure drift: news_ok goes false,
+    no news.json is written, neighbours and the ledger still publish."""
+    set_keys(monkeypatch)
+    store, out = tmp_path / "s", tmp_path / "o"
+    cfg = run_daily.news_json.load_config()
+    monkeypatch.setattr(run_daily.news_json, "load_config",
+                        lambda: {**cfg, "live_url": "https://pub.example.r2.dev/ai-news.json"})
+
+    def drifted_get(url, *a, **kw):
+        if url.endswith("/ai-news.json"):
+            return FakeResponse({"posts": "redesigned"})
+        return fake_get(url, *a, **kw)
+
+    assert run_daily.main(["--store", str(store), "--out", str(out)],
+                          http_get=drifted_get, http_post=fake_post) == 0
+    checks = {c["name"]: c for c in json.loads((out / "qa.json").read_text())["checks"]}
+    assert checks["news_ok"]["pass"] is False
+    assert "structure drift" in checks["news_ok"]["detail"]
+    assert not (out / "news.json").exists()
+    assert (out / "ledger.json").exists() and (out / "revisions.json").exists()
+
+
+def test_news_schema_violation_fails_run(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+    store, out = tmp_path / "s", tmp_path / "o"
+    monkeypatch.setattr(run_daily.news_json, "build", lambda *a, **kw: {"posts": 1})
     with pytest.raises(jsonschema.ValidationError):
         run_daily.main(["--store", str(store), "--out", str(out)],
                        http_get=fake_get, http_post=fake_post)

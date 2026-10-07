@@ -15,7 +15,7 @@ def _all_ok():
 def test_all_green_when_fresh():
     r = qa.run_checks(FRESH, today="2026-07-07", phase_errors=_all_ok())
     # headline_current, yoy_finite, engine_ok + the 17 qa.PHASES checks
-    assert (r["passed"], r["total"]) == (20, 20)
+    assert (r["passed"], r["total"]) == (21, 21)
     assert all(c["pass"] for c in r["checks"])
 
 
@@ -24,7 +24,7 @@ def test_stale_headline_fails():
                       phase_errors=_all_ok())
     by_name = {c["name"]: c for c in r["checks"]}
     assert by_name["headline_current"]["pass"] is False
-    assert r["passed"] == 19
+    assert r["passed"] == 20
 
 
 def test_nan_yoy_fails():
@@ -51,7 +51,7 @@ def test_connector_and_freshness_checks_green():
                       freshness=[{"code": "CPIAUCNS", "latest_obs": "2026-05-01",
                                   "limit_days": 80}])
     # + connectors_ok + sources_fresh + expected_absence
-    assert (r["passed"], r["total"]) == (23, 23)
+    assert (r["passed"], r["total"]) == (24, 24)
     by = {c["name"]: c for c in r["checks"]}
     assert by["expected_absence"]["detail"] == "no series under an expected-absence policy"
 

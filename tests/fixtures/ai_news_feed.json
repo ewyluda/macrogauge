@@ -1,0 +1,89 @@
+{
+ "schema": "macrogauge.ai_news.v1",
+ "generated_at": "2026-10-07T03:03:01Z",
+ "source": {
+  "name": "caktus.db (Kepler feed)",
+  "snapshot": "r2",
+  "tape_last_post_at": "2026-10-07T03:00:36Z"
+ },
+ "window_days": 7,
+ "universe_size": 94,
+ "posts": [
+  {
+   "id": "3A4DFCBE8F122E1C5936",
+   "ts": "2026-10-06T22:36:19Z",
+   "category": "company",
+   "kind": "image",
+   "headline": "$SPCX SpaceX is seeking roughly $40 billion of debt financing led by $APO Apollo to fund a major purchase of $NVDA Nvidia chips, deepening its commitment to Nvidia’s Vera Rubin platform as AI infrastructure spending accelerates.",
+   "points": [
+    {
+     "label": "Financing structure",
+     "text": "SpaceX is pursuing about $10B of bank loans and $30B of investment-grade debt, with Apollo expected to lead the transaction and distribute the debt to a broad investor base; closing is targeted for 2027."
+    },
+    {
+     "label": "Nvidia commitment",
+     "text": "Elon Musk said SpaceX intends to build its AI infrastructure exclusively around Nvidia because it views Vera Rubin as the strongest available architecture."
+    },
+    {
+     "label": "Credit profile",
+     "text": "SpaceX carries a BBB investment-grade rating, allowing insurance and pension funds to participate, though its 2056 bonds trade near 85 cents on the dollar at roughly 227 basis points over Treasuries."
+    },
+    {
+     "label": "Capital intensity",
+     "text": "The financing follows SpaceX’s $86B June IPO and $25B high-grade bond sale, highlighting the enormous capital requirements of its AI and data-center expansion."
+    },
+    {
+     "label": "Broader AI financing",
+     "text": "Apollo previously led a $35B financing tied to $AVGO Broadcom chips and is part of Nvidia’s planned $500B infrastructure-financing platform, underscoring Wall Street’s growing role in funding AI compute buildouts."
+    }
+   ],
+   "tickers": [
+    {
+     "ticker": "AVGO",
+     "layer": "AI Compute"
+    },
+    {
+     "ticker": "NVDA",
+     "layer": "AI Compute"
+    }
+   ],
+   "impacted": [],
+   "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18261",
+   "has_media": true
+  },
+  {
+   "id": "3A6295CE2C1AD0B1368E",
+   "ts": "2026-10-06T22:30:20Z",
+   "category": "company",
+   "kind": "text",
+   "headline": "SPACEX SAID TO SEEK $40BN FINANCING LED BY APOLLO FOR NVIDIA CHIPS - FT",
+   "points": [],
+   "tickers": [
+    {
+     "ticker": "NVDA",
+     "layer": "AI Compute"
+    }
+   ],
+   "impacted": [],
+   "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18260",
+   "has_media": false
+  },
+  {
+   "id": "3AB2F9FB55001134B969",
+   "ts": "2026-10-06T13:35:16Z",
+   "category": "earnings",
+   "kind": "text",
+   "headline": "$MRVL CEO: EXPECTS TOTAL REVENUE BETWEEN $70 BLN AND $90 BLN IN FY31",
+   "points": [],
+   "tickers": [
+    {
+     "ticker": "MRVL",
+     "layer": "AI Compute"
+    }
+   ],
+   "impacted": [],
+   "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18163",
+   "has_media": false
+  }
+ ]
+}

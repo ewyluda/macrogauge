@@ -3,6 +3,7 @@ import Link from "next/link";
 import dc from "../../../public/data/datacenter.json";
 import gradesJson from "../../../public/data/dc_grades.json";
 import llJson from "../../../public/data/longlead.json";
+import newsJson from "../../../public/data/news.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
@@ -14,6 +15,7 @@ import { HardwareGapPanel, type GapRow } from "@/components/HardwareGapPanel";
 import { PowerPanel, type PowerData } from "@/components/PowerPanel";
 import { ContextPanel, type ContextData } from "@/components/ContextPanel";
 import { LongLeadStrip } from "@/components/LongLeadStrip";
+import { NewsFeed } from "@/components/NewsFeed";
 import { fmtDay, fmtSigned } from "@/lib/format";
 import { DcDrivers, type DriverComp, type DriverGroup } from "@/components/DcDrivers";
 import type { DcGrades, LongLead } from "@/lib/types";
@@ -95,6 +97,11 @@ const JUMP = [
   ["dc-indexes", "Indexes"], ["dc-drivers", "Drivers"], ["dc-construction", "Construction"],
   ["dc-power", "Power"], ["dc-context", "Bigger picture"], ["dc-parity", "State costs"], ["dc-method", "Method"],
 ] as const;
+
+// The strip shows five posts; ship only those to the client (the live
+// overlay replaces them wholesale when the R2 object is newer).
+const newsAll = artifact("news", newsJson);
+const newsStrip = { ...newsAll, posts: newsAll.posts.slice(0, 5) };
 
 export default function Datacenter() {
   const build = dc.indexes.build;
@@ -229,6 +236,7 @@ export default function Datacenter() {
       {longlead && longlead.teaser.length > 0 && (
         <LongLeadStrip longlead={longlead} />
       )}
+      <NewsFeed snapshot={newsStrip} compact limit={5} />
       <section id="dc-parity" className="dc-section">
       <h2>State cost parity <span className="subtitle">multipliers vs national average</span></h2>
       <StateTileMap states={states} national={dc.parity.national} />
