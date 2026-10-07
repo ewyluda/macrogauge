@@ -148,6 +148,23 @@ test("datacenter drivers switch, jump bar and multi-grid power bill", async ({ p
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
 });
 
+// The overflow check above raced ECharts: its painter kept the 1280px layout's
+// pixel width until the resize event a frame later, and /datacenter's charts sit
+// outside any clipping .chart-card (+830px, ~1 run in 3). Narrow and shift each
+// chart's box with no window resize, so ECharts never re-lays out — the painter
+// is deterministically stale and only the CSS clip keeps the page width.
+test("a stale-width chart painter never widens the page", async ({ page }) => {
+  await page.goto("/datacenter");
+  await expect(page.locator(".echart-root canvas")).toHaveCount(2);
+  const over = await page.evaluate(() => {
+    for (const root of document.querySelectorAll<HTMLElement>(".echart-root")) {
+      Object.assign(root.parentElement!.style, { width: "200px", marginLeft: "600px" });
+    }
+    return document.documentElement.scrollWidth - innerWidth;
+  });
+  expect(over).toBeLessThanOrEqual(1);
+});
+
 test("markets tightness chart ranks markets and opens the row with county names", async ({ page }) => {
   await page.goto("/markets");
   const bars = page.locator(".mk-bars .mk-bar-row");
