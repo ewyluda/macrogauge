@@ -37,7 +37,17 @@ def _vendor_dict(key: str, vendor, today: str) -> dict:
             "listed": vendor.listed, "dc_segment": vendor.dc_segment,
             "cadence": vendor.cadence, "stale": _stale(vendor, today),
             "figures": [_figure_dict(f) for f in vendor.figures],
-            "null_note": vendor.null_note}
+            "null_note": vendor.null_note,
+            "disclosure_note": vendor.disclosure_note}
+
+
+def _lead_dict(lt, today: str) -> dict:
+    """Stated-only passthrough, like a figure. Lead-time surveys and outlooks
+    publish about yearly, so a reading ages on the annual allowance."""
+    return {"item": lt.item, "weeks": lt.weeks, "through": lt.through,
+            "basis": lt.basis, "period": lt.period, "asof": lt.asof,
+            "stale": _aged(lt.asof, "annual", today), "quote": lt.quote,
+            "src": {"label": lt.src_label, "url": lt.src_url}}
 
 
 # Census M3 months of backlog = unfilled orders ÷ monthly shipments, both
@@ -74,9 +84,21 @@ def backlog_months(conn) -> dict:
         year_ago = f"{y - 1:04d}-{mo:02d}-01"
         prev = (round(uo[year_ago] / sh[year_ago], 2)
                 if year_ago in uo and sh.get(year_ago) else None)
+        # the two legs of the ratio's move (unfilled-orders STOCK and shipments
+        # flow), so the page can say which one moved it. Neither leg measures
+        # new orders: the ratio alone can't say whether demand cooled. Each leg
+        # guards its own denominator — a zero year-ago unfilled balance is a
+        # valid 0.0 ratio, and a percent change off zero is undefined, so that
+        # leg is omitted rather than failing the whole board.
+        legs = {}
+        for name, series in (("unfilled_yoy_pct", uo), ("shipments_yoy_pct", sh)):
+            base = series.get(year_ago)
+            if base:
+                legs[name] = round((series[last] / base - 1) * 100, 1)
         out[key] = {"label": g["label"], "months": [m[:7] for m in months], "ratio": ratio,
                     "latest": ratio[-1], "latest_month": last[:7],
-                    "change_1y": None if prev is None else round(ratio[-1] - prev, 2)}
+                    "change_1y": None if prev is None else round(ratio[-1] - prev, 2),
+                    **legs}
     return out
 
 
@@ -101,6 +123,7 @@ def build(cfg, build_components, dc_result: dict | None, today: str,
             "contribution_pp": None if yoy is None else round(comp.weight * yoy, 2),
             "null_note": p.null_note,
             "backlog_group": PACKAGE_BACKLOG.get(p.code) if backlog and PACKAGE_BACKLOG.get(p.code) in backlog else None,
+            "lead_times": [_lead_dict(lt, today) for lt in p.lead_times],
             "vendors": [_vendor_dict(k, cfg.vendors[k], today)
                         for k in p.vendor_keys]})
     teaser = []
@@ -119,6 +142,8 @@ def build(cfg, build_components, dc_result: dict | None, today: str,
                 sum(by_code[p.code].weight for p in cfg.packages), 4),
             "teaser": teaser,
             "packages": packages,
+            "lead_time_benchmark": None if cfg.lead_time_benchmark is None
+            else _lead_dict(cfg.lead_time_benchmark, today),
             "backlog_months": backlog or {}}
 
 

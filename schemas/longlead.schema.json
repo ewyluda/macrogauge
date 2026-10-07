@@ -156,6 +156,13 @@
                     "string",
                     "null"
                   ]
+                },
+                "disclosure_note": {
+                  "description": "why the newest figures are older than the cadence implies; added 2026-10-07",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               }
             }
@@ -165,6 +172,13 @@
               "string",
               "null"
             ]
+          },
+          "lead_times": {
+            "description": "Stated lead times (survey weeks or a vendor's order horizon); added 2026-10-07, optional so older files validate",
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/lead_time"
+            }
           }
         }
       }
@@ -211,9 +225,28 @@
               "number",
               "null"
             ]
+          },
+          "unfilled_yoy_pct": {
+            "type": "number",
+            "description": "unfilled orders, % vs a year earlier (added 2026-10-07)"
+          },
+          "shipments_yoy_pct": {
+            "type": "number",
+            "description": "shipments, % vs a year earlier (added 2026-10-07)"
           }
         }
       }
+    },
+    "lead_time_benchmark": {
+      "description": "one all-equipment reference lead time; added 2026-10-07",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/lead_time"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "$defs": {
@@ -282,6 +315,81 @@
         "asof": {
           "type": "string",
           "minLength": 1
+        },
+        "quote": {
+          "type": "string",
+          "minLength": 1
+        },
+        "src": {
+          "type": "object",
+          "required": [
+            "label",
+            "url"
+          ],
+          "properties": {
+            "label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "url": {
+              "type": "string",
+              "pattern": "^https://"
+            }
+          }
+        }
+      }
+    },
+    "lead_time": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "item",
+        "weeks",
+        "through",
+        "basis",
+        "period",
+        "asof",
+        "stale",
+        "quote",
+        "src"
+      ],
+      "properties": {
+        "item": {
+          "type": "string",
+          "minLength": 1
+        },
+        "weeks": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "through": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^\\d{4}$"
+        },
+        "basis": {
+          "type": "string",
+          "enum": [
+            "industry-survey",
+            "industry-report",
+            "vendor-statement"
+          ]
+        },
+        "period": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "asof": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "stale": {
+          "type": "boolean"
         },
         "quote": {
           "type": "string",

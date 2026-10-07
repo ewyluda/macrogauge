@@ -1,0 +1,123 @@
+{
+  "head": "7111a5756480d6c977a0bb8e3c7d9aeb372df5c2",
+  "base": "5f589a0ddeb68b27add1fb4c6c26a7a62dbceaee",
+  "results": [
+    {
+      "finding": "control",
+      "name": "Counterexample satisfies the backlog accounting identity",
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "finding": "F1",
+      "name": "The methodology does not categorically rule out cooling demand",
+      "pass": false,
+      "actual": true,
+      "expected": false
+    },
+    {
+      "finding": "F2",
+      "name": "Partial survey updates preserve both observation periods in the headline",
+      "pass": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "finding": "F2",
+      "name": "The vendor horizon clause includes its own observation or statement date",
+      "pass": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "finding": "control",
+      "name": "A single survey retains its original quarter in the headline",
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "finding": "F3",
+      "name": "A zero year-ago unfilled-order balance does not abort backlog_months",
+      "pass": false,
+      "actual": "ZeroDivisionError: float division by zero",
+      "expected": null
+    },
+    {
+      "finding": "control",
+      "name": "The base computes valid backlog ratios for the same zero-base fixture",
+      "pass": true,
+      "actual": [
+        0,
+        6
+      ],
+      "expected": [
+        0,
+        6
+      ]
+    },
+    {
+      "finding": "control",
+      "name": "The publisher ages the JLL benchmark to stale on April 1, 2027",
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "finding": "F4",
+      "name": "The displayed benchmark communicates its published stale status",
+      "pass": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "finding": "control",
+      "name": "A stale package lead-time row already carries a stale badge",
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "finding": "control",
+      "name": "Fresh, mixed-period and aged fixtures satisfy the schema",
+      "pass": true,
+      "actual": true,
+      "expected": true
+    }
+  ],
+  "failed": 5,
+  "diagnostics": {
+    "freshHeadline": "Generator step-up transformers average 143 weeks from order, power transformers 128, switchgear 44 (industry survey, Q2 2025); Caterpillar diesel standby gen sets: orders taken into 2028.",
+    "mixedHeadline": "Generator step-up transformers average 143 weeks from order, power transformers 128, switchgear 44; Caterpillar diesel standby gen sets: orders taken into 2028.",
+    "agedBenchmark": "5 packages cover 50% of the DC Build index. Lead time is a stated survey average or a vendor&#x27;s order horizon, dated to the period it measures; across all data-center equipment the US average is 42 wk ( JLL 2026 Global Data Center Outlook (Jan 6, 2026) ); price is the component&#x27;s PPI at its own last reading; industry backlog is Census M3 months of unfilled orders, and switchgear and transformers share one industry group; vendor figures are what each company states, never summed across bases.",
+    "zeroBacklog": {
+      "result": null,
+      "error": "ZeroDivisionError: float division by zero"
+    },
+    "demandCounterexample": [
+      {
+        "period": "year_ago",
+        "start": 100,
+        "orders": 100,
+        "shipments": 100,
+        "end": 100
+      },
+      {
+        "period": "current",
+        "start": 150,
+        "orders": 70,
+        "shipments": 120,
+        "end": 100
+      }
+    ],
+    "counterexampleRatio": [
+      1,
+      0.8333333333333334
+    ],
+    "counterexampleNewOrdersYoY": -30,
+    "counterexampleShipmentsYoY": 20,
+    "counterexampleUnfilledYoY": 0,
+    "browserFinding": "F5 requires the browser reflow steps in the review report."
+  }
+}

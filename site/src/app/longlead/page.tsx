@@ -3,8 +3,8 @@ import llJson from "../../../public/data/longlead.json";
 import { DownloadData } from "@/components/DownloadData";
 import { flattenRow } from "@/lib/csv";
 import { fmtSigned } from "@/lib/format";
-import { BASIS_LABELS, fmtFigure, fmtWeightPct, noteSegments } from "@/lib/longLead";
-import type { BacklogMonths, LongLead, LongLeadPackage, LongLeadVendor } from "@/lib/types";
+import { BASIS_LABELS, LEAD_BASIS_LABELS, backlogMove, fmtFigure, fmtLead, fmtWeightPct, leadTakeaway, noteSegments } from "@/lib/longLead";
+import type { BacklogMonths, LeadTime, LongLead, LongLeadPackage, LongLeadVendor } from "@/lib/types";
 import { LinesChart } from "@/components/LinesChart";
 import { C } from "@/lib/chartTheme";
 import { StaleBanner } from "@/components/StaleBanner";
@@ -12,9 +12,19 @@ import { artifact } from "@/lib/artifact";
 
 const data = artifact<"longlead", LongLead>("longlead", llJson);
 const backlogGroups = Object.entries(data.backlog_months ?? {});
+const allLeads = data.packages.flatMap((p) => p.lead_times ?? []);
+const takeaway = leadTakeaway(allLeads);
+// an M3 group several packages map to (NAICS 335 serves switchgear AND
+// transformers) — say so, or two identical figures read as a coincidence
+const groupUsers = new Map<string, string[]>();
+for (const p of data.packages) {
+  if (p.backlog_group) groupUsers.set(p.backlog_group, [...(groupUsers.get(p.backlog_group) ?? []), p.label]);
+}
+const sharedWith = (p: LongLeadPackage) =>
+  (p.backlog_group ? groupUsers.get(p.backlog_group) ?? [] : []).filter((l) => l !== p.label);
 
 export const metadata: Metadata = {
-  title: "Long-Lead Board: vendor order books vs equipment prices",
+  title: takeaway ? `Long-Lead Board: ${takeaway.replace(/\.$/, "")}` : "Long-Lead Board: vendor order books vs equipment prices",
   description:
     "Switchgear, transformers, generators, HVAC, pumps — the PPI YoY we already publish beside what each vendor's own filings say about its order book.",
 };
@@ -26,9 +36,9 @@ function NullNote({ note }: { note: string }) {
     <span className="method">
       {noteSegments(note).map((s, i) =>
         s.kind === "link" ? (
-          <a key={i} href={s.url}>
-            {s.url}
-          </a>
+          // the note already names the filing; the link is its receipt, not
+          // 120 characters of EDGAR path
+          <a key={i} href={s.url} className="ll-note-link">{new URL(s.url).hostname.replace(/^www\./, "")} ↗</a>
         ) : (
           <span key={i}>{s.text}</span>
         ),
@@ -86,7 +96,30 @@ function VendorCard({ vendor, seenIn }: { vendor: LongLeadVendor; seenIn?: { lab
           ))}
         </ul>
       )}
+      {vendor.disclosure_note && <p className="ll-null ll-disclosure"><NullNote note={vendor.disclosure_note} /></p>}
     </li>
+  );
+}
+
+/** Stated lead times, each with its basis, date and verbatim receipt. */
+function LeadTimes({ leads }: { leads: LeadTime[] }) {
+  return (
+    <ul className="ll-figs ll-leads">
+      {leads.map((l) => (
+        <li key={l.item}>
+          <span className="ll-fig-val">{fmtLead(l)}</span>
+          <span className="ll-fig-body">
+            <span className="ll-fig-metric">{l.item}</span>
+            <span className="ll-fig-meta">
+              <span className="ll-tag">{LEAD_BASIS_LABELS[l.basis]}</span>
+              {l.stale && <span className="ll-tag ll-tag-stale">stale</span>}
+              {fmtQuarter(l.period)} · stated {fmtDate(l.asof)} · <a href={l.src.url}>{l.src.label}</a>
+            </span>
+            <details className="ll-quote"><summary>Quote</summary><q>{l.quote}</q></details>
+          </span>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -102,12 +135,18 @@ function PackageSection({ pkg, backlog, seen }: {
           <div><dt>Price, year over year</dt><dd className={pkg.price_yoy_pct == null ? "" : pkg.price_yoy_pct > 0 ? "up" : "down"}>
             {pkg.price_yoy_pct === null ? "—" : fmtSigned(pkg.price_yoy_pct)}</dd>
             <small>{pkg.price_last_obs ? `PPI, ${fmtDate(pkg.price_last_obs)}` : "unavailable"}</small></div>
+          {pkg.lead_times?.[0] && (
+            <div><dt>Lead time</dt><dd>{fmtLead(pkg.lead_times[0])}</dd>
+              <small>{pkg.lead_times[0].item.replace(/, US average$/, "")}, {fmtQuarter(pkg.lead_times[0].period)}</small></div>
+          )}
           {backlog && (
             <div><dt>Industry backlog</dt><dd>{backlog.latest.toFixed(1)} mo</dd>
-              <small>Census M3, {backlog.latest_month}{backlog.change_1y == null ? "" : ` · ${backlog.change_1y >= 0 ? "+" : "−"}${Math.abs(backlog.change_1y).toFixed(1)} over 1y`}</small></div>
+              <small>Census M3, {backlog.latest_month}{backlog.change_1y == null ? "" : ` · ${backlog.change_1y >= 0 ? "+" : "−"}${Math.abs(backlog.change_1y).toFixed(1)} over 1y`}
+                {sharedWith(pkg).length > 0 && ` · one industry group, shared with ${sharedWith(pkg).join(", ").toLowerCase()}`}</small></div>
           )}
         </dl>
       </div>
+      {(pkg.lead_times?.length ?? 0) > 0 && <LeadTimes leads={pkg.lead_times!} />}
       {pkg.vendors.length === 0 ? (
         <p className="ll-null ll-null-pkg">{pkg.null_note && <NullNote note={pkg.null_note} />}</p>
       ) : (
@@ -146,13 +185,14 @@ export default function Page() {
     <div>
       <StaleBanner publishedAt={llJson.published_at} />
       <h1>Long-Lead Board</h1>
+      {takeaway && <p className="ll-takeaway" data-testid="ll-takeaway">{takeaway}</p>}
       <p className="lede">
         The binding constraint in DC delivery is availability, not just price.
-        This board joins the equipment PPI YoY we already publish with what
-        each vendor&apos;s own filings and earnings documents say about its
-        order book — a directional proxy for lead-time pressure, not a
-        lead-time quote in weeks. Every figure links to the company document
-        that states it.
+        This board joins the equipment PPI YoY we already publish with stated
+        lead times — industry-survey averages in weeks and vendors&apos; own
+        order horizons — and what each vendor&apos;s filings say about its
+        order book. Survey averages are not a quote for your project. Every
+        figure links to the document that states it.
       </p>
       <div className="section-tools">
         <DownloadData filename="macrogauge-longlead" json="longlead.json"
@@ -169,6 +209,7 @@ export default function Page() {
             <thead>
               <tr>
                 <th scope="col">Package</th>
+                <th scope="col" className="num">Lead time</th>
                 <th scope="col" className="num">Price YoY</th>
                 <th scope="col" className="num">Industry backlog</th>
                 <th scope="col">What the vendors say</th>
@@ -180,10 +221,15 @@ export default function Page() {
                 return (
                   <tr key={p.code}>
                     <td><a href={`#ll-${p.code}`} className="ll-board-pkg">{p.label}</a><small>{fmtWeightPct(p.weight)} of DC Build</small></td>
-                    <td className={`num ll-board-yoy${p.price_yoy_pct == null ? "" : p.price_yoy_pct > 0 ? " up" : " down"}`}>
+                    <td className="num ll-board-lead" data-label="Lead time">
+                      {(p.lead_times?.length ?? 0) === 0 ? <span className="ll-muted">no published figure</span> : p.lead_times!.map((l) => (
+                        <span key={l.item} className="ll-lead">{fmtLead(l)}<small>{l.item.replace(/, US average$/, "")} · {fmtQuarter(l.period)}{l.stale ? ", stale" : ""}</small></span>
+                      ))}
+                    </td>
+                    <td data-label="Price YoY" className={`num ll-board-yoy${p.price_yoy_pct == null ? "" : p.price_yoy_pct > 0 ? " up" : " down"}`}>
                       {p.price_yoy_pct === null ? "—" : fmtSigned(p.price_yoy_pct)}</td>
-                    <td className="num">{bm ? <>{bm.latest.toFixed(1)} mo<small>{bm.change_1y == null ? "" : `${bm.change_1y >= 0 ? "+" : "−"}${Math.abs(bm.change_1y).toFixed(1)} over 1y`}</small></> : "—"}</td>
-                    <td>
+                    <td className="num" data-label="Industry backlog">{bm ? <>{bm.latest.toFixed(1)} mo<small>{bm.change_1y == null ? "" : `${bm.change_1y >= 0 ? "+" : "−"}${Math.abs(bm.change_1y).toFixed(1)} over 1y`}</small></> : "—"}</td>
+                    <td data-label="What the vendors say">
                       {p.vendors.length === 0 ? <span className="ll-muted">No vendor states a usable figure</span> : (
                         <ul className="ll-signals">
                           {p.vendors.map((v) => {
@@ -204,20 +250,29 @@ export default function Page() {
             </tbody>
           </table>
         </div>
-        <p className="ll-board-note">{data.packages.length} packages cover {fmtWeightPct(data.build_weight_covered)} of the DC Build index. Price is the component&apos;s PPI at its own last reading; industry backlog is Census M3 months of unfilled orders; vendor figures are what each company states, never summed across bases.</p>
+        <p className="ll-board-note">{data.packages.length} packages cover {fmtWeightPct(data.build_weight_covered)} of the DC Build index. Lead time is a stated survey average or a vendor&apos;s order horizon, dated to the period it measures;
+          {data.lead_time_benchmark && (data.lead_time_benchmark.stale
+            ? <> across all data-center equipment the US average <i>was</i> <b>{fmtLead(data.lead_time_benchmark)}</b> as last reported <span className="ll-tag ll-tag-stale">stale</span> (<a href={data.lead_time_benchmark.src.url}>{data.lead_time_benchmark.src.label}</a>);</>
+            : <> across all data-center equipment the US average is <b>{fmtLead(data.lead_time_benchmark)}</b> (<a href={data.lead_time_benchmark.src.url}>{data.lead_time_benchmark.src.label}</a>);</>)}
+          {" "}price is the component&apos;s PPI at its own last reading; industry backlog is Census M3 months of unfilled orders, and switchgear and transformers share one industry group; vendor figures are what each company states, never summed across bases.</p>
       </section>
       {backlogGroups.length > 0 && (
         <section>
           <h2>Months of backlog <span className="subtitle">Census M3: unfilled orders ÷ monthly shipments, both seasonally adjusted</span></h2>
+          <ul className="ll-backlog-moves">
+            {backlogGroups.map(([key, b]) => <li key={key}><strong>{b.label}</strong> {backlogMove(b)}</li>)}
+          </ul>
           <LinesChart ariaTitle="Months of backlog, Census M3" yUnit=" mo" recessions={false} height={280}
+            bands={[{ from: "2020-02-01", to: "2020-12-01", label: "2020: shipments fell, unfilled orders didn't" }]}
             series={backlogGroups.map(([key, b]) => ({ name: b.label, x: b.months.map((m) => `${m}-01`), y: b.ratio,
               color: key === "turbines" ? C.violet : C.sky }))} />
           <p className="method">
             How many months current shipments would take to clear the order book — an industry-wide, primary-source
-            lead-time proxy that complements the vendors&apos; own figures below.{" "}
-            {backlogGroups.map(([key, b], i) => (
-              <span key={key}>{i > 0 && " "}{b.label}: <b>{b.latest.toFixed(1)} months</b> ({b.latest_month}{b.change_1y == null ? "" : `, ${b.change_1y >= 0 ? "+" : "−"}${Math.abs(b.change_1y).toFixed(1)} over a year`}).</span>
-            ))}{" "}
+            lead-time proxy that complements the vendors&apos; own figures below. The ratio moves with either leg, so read
+            it with them: the 2020 turbine spike came from shipments falling about a quarter while unfilled orders held
+            flat. Unfilled orders are a stock — last month&apos;s balance plus new orders, less shipments and
+            cancellations — so neither leg is new orders, and the ratio alone cannot say whether demand rose or
+            cooled. Shipments are in dollars, so their growth mixes price with volume.{" "}
             Electrical equipment maps to switchgear and transformers; turbines, generators &amp; power transmission maps to generator sets. Data: FRED
             A35CUO/A35CVS and ATGPUO/ATGPVS (Census M3, monthly, about one month behind).
           </p>

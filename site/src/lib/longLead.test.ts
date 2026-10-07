@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { BASIS_LABELS, KIND_LABELS, fmtFigure, fmtWeightPct, noteSegments } from "./longLead";
+import { BASIS_LABELS, KIND_LABELS, backlogMove, fmtFigure, fmtLead, fmtWeightPct, leadTakeaway, noteSegments } from "./longLead";
+import type { LeadTime } from "./types";
 
 describe("fmtFigure", () => {
   it("formats dollar billions", () => {
@@ -93,5 +94,56 @@ describe("labels", () => {
       ["mdna-backlog", "order-backlog", "rpo"]);
     expect(Object.keys(KIND_LABELS).sort()).toEqual(
       ["backlog", "backlog_growth", "book_to_bill", "orders"]);
+  });
+});
+
+const lead = (item: string, weeks: number | null, through: string | null = null): LeadTime => ({
+  item, weeks, through, basis: weeks != null ? "industry-survey" : "vendor-statement",
+  period: "2025-06-30", asof: "2025-10-15", stale: false, quote: "q", src: { label: "s", url: "https://x.test" },
+});
+
+describe("lead times", () => {
+  it("formats weeks and order horizons", () => {
+    expect(fmtLead({ weeks: 128, through: null })).toBe("128 wk");
+    expect(fmtLead({ weeks: null, through: "2028" })).toBe("orders into 2028");
+  });
+
+  it("writes the takeaway longest first, then vendor horizons", () => {
+    expect(leadTakeaway([
+      lead("Switchgear, US average", 44),
+      lead("Power transformers, US average", 128),
+      lead("Generator step-up transformers, US average", 143),
+      lead("Caterpillar diesel standby gen sets", null, "2028"),
+    ])).toBe("Generator step-up transformers average 143 weeks from order, power transformers 128, switchgear 44 " +
+             "(industry survey, Q2 2025); " +
+             "Caterpillar diesel standby gen sets: orders taken into 2028 (vendor statement, Q2 2025).");
+    expect(leadTakeaway([])).toBeNull();
+  });
+
+  it("keeps every reading dated when packages come from different periods or bases", () => {
+    const newer = { ...lead("Switchgear, US average", 44), period: "2026-06-30" };
+    const report = { ...lead("Breakers, US average", 30), basis: "industry-report" as const };
+    expect(leadTakeaway([lead("Power transformers, US average", 128), newer, report]))
+      .toBe("Power transformers average 128 weeks from order (industry survey, Q2 2025); " +
+            "switchgear 44 weeks (industry survey, Q2 2026); breakers 30 weeks (industry report, Q2 2025).");
+  });
+
+  it("dates a vendor horizon on its own", () => {
+    expect(leadTakeaway([{ ...lead("Caterpillar diesel standby gen sets", null, "2028"), period: "2026-06-30" }]))
+      .toBe("Caterpillar diesel standby gen sets: orders taken into 2028 (vendor statement, Q2 2026).");
+  });
+});
+
+describe("backlogMove", () => {
+  const b = { label: "x", months: [], ratio: [], latest: 7.19, latest_month: "2026-08", change_1y: -1.27 };
+  it("names which leg moved the ratio", () => {
+    expect(backlogMove({ ...b, unfilled_yoy_pct: 1.4, shipments_yoy_pct: 19.4 }))
+      .toBe("7.2 months, down 1.3 in a year: shipments +19.4%, unfilled orders +1.4%");
+  });
+  it("degrades without a year-ago reading or legs", () => {
+    expect(backlogMove({ ...b, change_1y: null })).toBe("7.2 months");
+    expect(backlogMove({ ...b, change_1y: 0.02 })).toBe("7.2 months, flat on the year");
+    // a leg omitted off a zero base (writer) leaves the other standing
+    expect(backlogMove({ ...b, shipments_yoy_pct: 0 })).toBe("7.2 months, down 1.3 in a year: shipments 0.0%");
   });
 });

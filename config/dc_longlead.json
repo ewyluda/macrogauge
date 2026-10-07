@@ -1,11 +1,16 @@
 {
   "schema_version": 1,
-  "as_of_curated": "2026-10-04",
+  "as_of_curated": "2026-10-07",
+  "lead_time_benchmark": {"item": "Data-center equipment, US average", "weeks": 42, "basis": "industry-report", "period": "2026-01-06", "asof": "2026-01-06", "quote": "For instance, in the U.S., the average equipment lead time of 42 weeks is 83% above 2019 levels.", "src": ["JLL 2026 Global Data Center Outlook (Jan 6, 2026)", "https://www.jll.com/content/dam/jllcom/en/global/documents/reports/research-reports/26-research-global-data-center-outlook-new.pdf"]},
   "packages": [
-    {"code": "switchgear", "vendors": ["etn", "abb", "schneider", "gev"], "null_note": null},
-    {"code": "transformers", "vendors": ["hitachi_energy", "siemens_energy", "gev"], "null_note": null},
+    {"code": "switchgear", "vendors": ["etn", "abb", "schneider", "gev"], "null_note": null,
+     "lead_times": [{"item": "Switchgear, US average", "weeks": 44, "basis": "industry-survey", "period": "2025-06-30", "asof": "2025-10-15", "quote": "Power transformer lead times also eased in Q2, falling by 10 weeks to an average of 128 weeks, while switchgear edged down to an average of 44 weeks.", "src": ["Wood Mackenzie, \"Mind the gap: tackling supply-chain challenges in the electric T&D sector\" (Oct 15, 2025)", "https://www.woodmac.com/news/opinion/mind-the-gap-tackling-supply-chain-challenges-in-the-electric-td-sector/"]}]},
+    {"code": "transformers", "vendors": ["hitachi_energy", "siemens_energy", "gev"], "null_note": null,
+     "lead_times": [{"item": "Power transformers, US average", "weeks": 128, "basis": "industry-survey", "period": "2025-06-30", "asof": "2025-10-15", "quote": "Power transformer lead times also eased in Q2, falling by 10 weeks to an average of 128 weeks, while switchgear edged down to an average of 44 weeks.", "src": ["Wood Mackenzie, \"Mind the gap: tackling supply-chain challenges in the electric T&D sector\" (Oct 15, 2025)", "https://www.woodmac.com/news/opinion/mind-the-gap-tackling-supply-chain-challenges-in-the-electric-td-sector/"]},
+                    {"item": "Generator step-up transformers, US average", "weeks": 143, "basis": "industry-survey", "period": "2025-06-30", "asof": "2025-10-15", "quote": "GSUs saw a slight decline quarter over quarter in Q2, easing to 143 weeks on average, although the Trump administration’s trade tariffs could well undo any improvements here, as supply chains will take time to adapt.", "src": ["Wood Mackenzie, \"Mind the gap: tackling supply-chain challenges in the electric T&D sector\" (Oct 15, 2025)", "https://www.woodmac.com/news/opinion/mind-the-gap-tackling-supply-chain-challenges-in-the-electric-td-sector/"]}]},
     {"code": "hvac_equip", "vendors": ["vrt"], "null_note": null},
-    {"code": "generators", "vendors": ["cat", "cmi"], "null_note": null},
+    {"code": "generators", "vendors": ["cat", "cmi"], "null_note": null,
+     "lead_times": [{"item": "Caterpillar diesel standby gen sets", "through": "2028", "basis": "vendor-statement", "period": "2026-06-30", "asof": "2026-08-04", "quote": "Our diesel gen sets are extended as well. We’re taking orders out well into 2028 on diesel gen sets.", "src": ["Caterpillar Q2 2026 earnings call, CEO Joe Creed (transcript, Investing.com)", "https://www.investing.com/news/transcripts/earnings-call-transcript-caterpillar-q2-2026-beats-forecasts-shares-jump-9-93CH-4834724"]}]},
     {"code": "pumps", "vendors": [], "null_note": "One search pass across Flowserve, Xylem, and Grundfos (2026-07-26) found no primary-source pump order-backlog metric with data-center relevance. Flowserve's Q1 2026 10-Q (SEC EDGAR, period ended 2026-03-31, https://www.sec.gov/Archives/edgar/data/30625/000003062526000012/fls-20260331.htm) reports one company-wide backlog of $2.9 billion, broken out only by aftermarket share and four generic end-market categories (energy, chemical, power generation, general industries) — \"data center\" appears zero times in the filing. Xylem and Grundfos publish narrative data-center-cooling product marketing but no order-backlog figure segmented (or even unsegmented, in Grundfos's case as a private foundation-owned company with no 10-K/10-Q) at a level meeting this board's primary-source bar. No pump maker is added to the long-lead board."}
   ],
   "vendors": {
@@ -87,7 +92,8 @@
           "src": ["Vertiv Q4 2025 8-K exhibit 99.1 (SEC EDGAR)", "https://www.sec.gov/Archives/edgar/data/1674101/000167410126000006/exhibit991vrt02112026.htm"]
         }
       ],
-      "null_note": null
+      "null_note": null,
+      "disclosure_note": "Vertiv has not stated a backlog or book-to-bill figure since Q4 2025. Its Q1 2026 earnings release (8-K Ex-99.1, filed 2026-04-22, https://www.sec.gov/Archives/edgar/data/1674101/000162828026026379/q12026exhibit991vrt04222026.htm), Q2 2026 release (8-K Ex-99.1, filed 2026-07-29, https://www.sec.gov/Archives/edgar/data/1674101/000162828026050323/q22026exhibit991vrt07292026.htm), Q2 2026 results presentation and Q2 2026 10-Q (https://www.sec.gov/Archives/edgar/data/1674101/000162828026050609/vrt-20260630.htm) were checked 2026-10-07: backlog appears only in risk-factor boilerplate and as \"strong backlog\" without a figure, and the 10-Q has no remaining-performance-obligation note. The Q4 2025 figures stay as the last stated, flagged stale."
     },
     "abb": {
       "name": "ABB",

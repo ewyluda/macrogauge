@@ -37,6 +37,7 @@ export function LinesChart({
   yPrefix = "",
   ariaTitle,
   fitY = false,
+  bands,
 }: {
   series: LineSeries[];
   height?: number;
@@ -52,6 +53,9 @@ export function LinesChart({
   /** fit the y-axis to the data instead of starting at zero — for an index
    *  near 100 whose moves a zero-based axis flattens */
   fitY?: boolean;
+  /** labelled date ranges shaded behind the lines (an episode the reader
+   *  must not misread, e.g. a ratio spike from a shipments collapse) */
+  bands?: { from: string; to: string; label: string }[];
 }) {
   const option = useMemo(
     () => {
@@ -81,12 +85,19 @@ export function LinesChart({
         step: s.step ? "end" : undefined,
         lineStyle: { width: s.width ?? (i === 0 ? 2 : 1.5), color: s.color, type: s.dashed ? "dashed" : "solid" },
         itemStyle: { color: s.color },
-        ...(i === 0 && recessions
+        ...(i === 0 && (recessions || bands?.length)
           ? {
               markArea: {
                 silent: true,
                 itemStyle: { color: "rgba(139, 152, 165, 0.08)" },
-                data: NBER_RECESSIONS.map(([a, b]) => [{ xAxis: a }, { xAxis: b }]),
+                label: { color: C.muted, fontSize: 11, position: "insideTop" },
+                data: [
+                  ...(recessions ? NBER_RECESSIONS.map(([a, b]) => [{ xAxis: a }, { xAxis: b }]) : []),
+                  ...(bands ?? []).map((b) => [
+                    { xAxis: b.from, name: b.label, itemStyle: { color: "rgba(139, 152, 165, 0.16)" } },
+                    { xAxis: b.to },
+                  ]),
+                ],
               },
             }
           : {}),
@@ -104,7 +115,7 @@ export function LinesChart({
       })),
       };
     },
-    [series, recessions, refLine, refLabel, yUnit, yPrefix, fitY],
+    [series, recessions, refLine, refLabel, yUnit, yPrefix, fitY, bands],
   );
   return <EChart option={option} height={height} ariaTitle={ariaTitle} />;
 }
