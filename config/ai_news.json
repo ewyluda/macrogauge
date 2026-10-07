@@ -2,7 +2,7 @@
   "schema_version": 1,
   "as_of_curated": "2026-10-06",
   "note": "AI/data-center news tape (/news). Posts come from the Kepler caktus.db market-news tape (one WhatsApp channel, LLM-tagged), replicated to R2 by Litestream. scripts/news/caktus_ai_news.py runs on the Mac next to the follower, filters to this universe and uploads the live JSON to live_url; the daily `news` phase bakes that JSON into news.json as the static fallback. Universe copied from notebook/public-equity/data/ai_infra_taxonomy.json (11 layers) — refresh by re-running scripts/news/sync_universe.py, then reinstall the exporter.",
-  "live_url": null,
+  "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "max_posts": 250,
   "stale_after_hours": 24,

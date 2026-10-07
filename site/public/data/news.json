@@ -1,6 +1,6 @@
 {
   "published_at": "2026-10-06T12:49:37Z",
-  "live_url": null,
+  "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
   "layers": [
@@ -19,11 +19,109 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-07T03:03:01Z",
+  "feed_generated_at": "2026-10-07T03:45:37Z",
   "tape_last_post_at": "2026-10-07T03:00:36Z",
-  "age_hours": 0.09,
+  "age_hours": 0.02,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3A8E490C70C09009D8FA",
+      "ts": "2026-10-07T03:00:36Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Here's a full recap:",
+      "points": [
+        {
+          "label": null,
+          "text": "1. SpaceX $SPCX is reportedly seeking $40B in financing, led by Apollo, to fund a massive purchase of NVIDIA $NVDA AI chips, according to the Financial Times. The proposed financing includes roughly $10B in bank loans and $30B of investment-grade debt, with the transaction expected to close in 2027. Elon Musk said in August that SpaceX had \u201cdecided to build exclusively on NVIDIA,\u201d specifically highlighting the company's Vera Rubin architecture as SpaceX accelerates investment in AI compute and data center infrastructure."
+        },
+        {
+          "label": null,
+          "text": "2. AMD $AMD CEO Lisa Su said AI compute demand continues to outpace supply and expects strong demand to persist for the next several years, with AMD planning to substantially increase supply in 2027. Su said AMD has already expanded supply this year but \u201ccould definitely use more,\u201d thanking TSMC for bringing additional manufacturing capacity online while noting that memory remains broadly supply constrained. She added that AMD is working closely with memory suppliers and customers to ensure capacity ramps in sync while keeping its current business model unchanged. Su also described Taiwan as\u2026"
+        },
+        {
+          "label": null,
+          "text": "3. Uber $UBER is acquiring ezCater for $2.3B in cash, expanding Uber Eats into the workplace catering market. ezCater has more than 140,000 restaurant partners, generates over $2.5B in trailing 12-month gross bookings, is growing at a high-teens annual rate, and has average order values above $400 while remaining profitable on a non-GAAP operating income basis. Following the acquisition, ezCater will be integrated with Uber Eats and Uber for Business, strengthening Uber's position in high-value group orders and enterprise food delivery. Uber said the transaction is expected to be margin accre\u2026"
+        },
+        {
+          "label": null,
+          "text": "4. Penguin Solutions $PENG just delivered a blowout Q4, with revenue of $566.7M versus $521M expected, up 68% YoY, while adjusted EPS of $1.00 beat the $0.77 estimate by roughly 30%. Adjusted EBITDA surged 115% YoY to $93M, while FY2026 revenue reached $1.73B and adjusted EPS came in at $2.87, both ahead of expectations. The bigger story was guidance, with Penguin now expecting FY2027 revenue around a $2.43B midpoint, implying roughly 40% growth and coming in about 10% above consensus, while adjusted EPS is expected at $4.45 \u00b1 $0.70 versus $3.38 expected. AI infrastructure momentum also accel\u2026"
+        },
+        {
+          "label": null,
+          "text": "5. Google $GOOGL and Constellation Energy $CEG signed a 20-year agreement to add 890 MW of nuclear power to the PJM grid through upgrades at 11 reactors, backed by $4.3B of investment. The companies also signed a separate 15-year power supply agreement covering an additional 2.7 GW, with the first reactor uprate expected to come online in 2028. The announcement lifted sentiment across the power sector, with Vistra $VST surging 12% as investors continued to price in growing electricity demand from AI data centers and hyperscale infrastructure."
+        },
+        {
+          "label": null,
+          "text": "6. The top 10 most active options today by contracts traded were $NVDA with 2.4M contracts, $TSLA with 1.2M contracts, $SPCX with 1.1M contracts, $INTC with 914K contracts, $AAPL with 802K contracts, $AMZN with 798K contracts, $AVGO with 702K contracts, $MU with 699K contracts, $AMD with 627K contracts, and $MSFT with 511K contracts."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMD",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "AVGO",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "CEG",
+          "layer": "Power & Grid"
+        },
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "INTC",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "MRVL",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "MU",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "SKHY",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "SNDK",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "STX",
+          "layer": "Servers & Storage"
+        },
+        {
+          "ticker": "VST",
+          "layer": "Power & Grid"
+        },
+        {
+          "ticker": "WDC",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18266",
+      "has_media": true
+    },
     {
       "id": "3A4DFCBE8F122E1C5936",
       "ts": "2026-10-06T22:36:19Z",
