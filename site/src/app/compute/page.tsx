@@ -12,15 +12,18 @@ import { computeIndexRows } from "@/lib/computeCsv";
 import { cloudRows, cloudTakeaway, PROVIDERS } from "@/lib/cloudGpu";
 import { fmtSigned, yoyColor } from "@/lib/format";
 import type { Compute } from "@/lib/types";
+import { artifact } from "@/lib/artifact";
 
-const data = computeJson as Compute;
+const data = artifact<"compute", Compute>("compute", computeJson);
+const hasCloud = cloudRows(data).length > 0;
 const usd = (v: number | null, d = 2) => (v == null ? "—" : `$${v.toFixed(d)}`);
 const idx = (v: number | null) => (v == null ? "—" : v.toFixed(1));
 
 export const metadata: Metadata = {
   title: `Compute Prices — token index ${idx(data.token_index.value)}, GPU-hour index ${idx(data.gpu_index.value)}`,
-  description:
-    "The cost of a token and of a GPU-hour: current model prices on OpenRouter, GPU list prices at AWS, Azure, Oracle and CoreWeave, and vast.ai marketplace rentals, collected daily.",
+  description: hasCloud
+    ? "The cost of a token and of a GPU-hour: current model prices on OpenRouter, GPU list prices at AWS, Azure, Oracle and CoreWeave, and vast.ai marketplace rentals, collected daily."
+    : "The cost of a token and of a GPU-hour: current model prices on OpenRouter and vast.ai marketplace rentals, collected daily, with two composite indexes.",
 };
 
 export default function ComputePage() {
@@ -33,8 +36,9 @@ export default function ComputePage() {
   const move = (label: string, v: number | null) =>
     v == null ? null : `${label} ${v > 0 ? "up" : v < 0 ? "down" : "flat"}${v === 0 ? "" : ` ${Math.abs(v).toFixed(1)}%`}`;
   const indexTitle = [move("Token prices", ti.chg_30d_pct), move("GPU-hours", gi.chg_30d_pct)].filter(Boolean).join(", ");
-  // the 2026-10-07 roster change rebased the token index on its first full day
-  const rosterRebased = ti.base_date != null && ti.base_date >= "2026-10-07";
+  // a roster change rebases the token index on the new roster's first full day
+  const roster = data.token_roster;
+  const rosterRebased = roster != null && ti.base_date != null && ti.base_date >= roster.since;
   return (
     <div>
       <h1>
@@ -42,9 +46,9 @@ export default function ComputePage() {
       </h1>
       <p className="lede">
         The DC Hardware index prices the inputs to a data center. This page prices what comes out of one: the
-        per-token list prices of {data.models.length} current models on OpenRouter, one workhorse model per lab; what
-        AWS, Azure, Oracle and CoreWeave list for a GPU-hour; and what a GPU-hour rents for on the vast.ai
-        marketplace. The two composites are chain-linked equal-weight geometric means: each day&apos;s
+        per-token list prices of {data.models.length} current models on OpenRouter, one workhorse model per lab;
+        {cloud.length > 0 && " what AWS, Azure, Oracle and CoreWeave list for a GPU-hour;"}{" "}and what a GPU-hour
+        rents for on the vast.ai marketplace. The two composites are chain-linked equal-weight geometric means: each day&apos;s
         move averages the day-over-day price changes of the members priced on both days, so a SKU missing a
         day, joining, or retiring changes who is averaged but never jumps the index — and a deprecated model
         drops out instead of freezing a dead price into it. Collection began {data.history_start ?? "—"}: the history is short
@@ -77,9 +81,10 @@ export default function ComputePage() {
         <p className="method">
           {data.blend.method}. Token prices blend {Math.round(data.blend.in * 100)}% input and {Math.round(data.blend.out * 100)}%
           output per million tokens. A day with fewer than {data.blend.min_members} members publishes null.
-          {rosterRebased && (
-            <> The model roster changed on 2026-10-07: the index is based on {ti.base_date}, the first day every
-              current model was priced, and earlier history is the previous roster chained in.</>
+          {rosterRebased && roster && (
+            <> The model roster changed on {roster.since}: the index is based on {ti.base_date}, the first day every
+              current model was priced, and earlier history is the previous roster ({roster.retired.join(", ")})
+              chained in.</>
           )}
         </p>
       </Section>

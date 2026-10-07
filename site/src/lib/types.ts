@@ -642,6 +642,8 @@ export type Compute = {
   gpu_index: ComputeIndex;
   /** cloud on-demand list prices (2026-10-07+); absent on older files */
   cloud_gpus?: CloudGpu[];
+  /** when the current token roster took over, and the models it replaced */
+  token_roster?: { since: string; retired: string[] };
 };
 export type CloudGpu = {
   code: string; provider: string; gpu: string; instance: string; gpus_per_instance: number; region: string;

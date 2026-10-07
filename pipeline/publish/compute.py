@@ -37,10 +37,14 @@ MODELS = [("gpt56_terra", "GPT-5.6 Terra"), ("claude_sonnet55", "Claude Sonnet 5
           ("gemini38_flash", "Gemini 3.8 Flash"), ("grok47", "Grok 4.7"),
           ("deepseek_v41_flash", "DeepSeek V4.1 Flash"), ("qwen38_max", "Qwen3.8 Max"),
           ("mistral_large4", "Mistral Large 4"), ("llama4_maverick", "Llama 4 Maverick")]
-# The roster before 2026-10-07. Link-only members: their history carries the
+# The roster before ROSTER_SINCE. Link-only members: their history carries the
 # token index up to the new roster's base date (the first day every current
 # model is priced), and they drop out of every link after it, so year-old
-# list prices can no longer flatten the index. No table rows.
+# list prices can no longer flatten the index. No table rows. Their series
+# left config/series.json with the change (no longer collected): the store's
+# history is what the chain reads, and their last price carries DEFAULT_CARRY_DAYS
+# into the hand-off.
+ROSTER_SINCE = "2026-10-07"
 RETIRED_MODELS = [("gpt4o", "GPT-4o"), ("claude_sonnet", "Claude Sonnet 5"),
                   ("llama70b", "Llama 3.1 70B"), ("deepseek", "DeepSeek Chat"),
                   ("gemini_flash", "Gemini 3.5 Flash"), ("mistral_large", "Mistral Large (2024)")]
@@ -133,14 +137,22 @@ def _index(members: dict[str, dict], limits: dict[str, int] | None = None,
     history and the new roster alone moves the index from its base on. Until
     any current member is priced, the retired members act as the roster."""
     dates = sorted(set().union(*(set(s) for s in members.values()))) if members else []
+
+    def first_full(group: dict) -> str | None:
+        return next((d for d in dates if group and all(d in s for s in group.values())), None)
+
     current = {k: s for k, s in members.items() if k not in retired and s}
-    if not current:
-        current, retired = members, frozenset()
-    full = [d for d in dates if all(d in s for s in current.values())]
-    if not full:
+    base_date = first_full(current)
+    if base_date is None:
+        # The new roster has never been priced in full on one day (no data
+        # yet, or members missing on different days): the old roster stays
+        # the base and stays in every link until it is.
+        retired = frozenset()
+        base_date = first_full({k: s for k, s in members.items() if s and k not in current}) \
+            or first_full(members)
+    if base_date is None:
         return {"base_date": None, "history": {"dates": [], "index": [], "members": []},
                 "value": None, "as_of": None, "chg_30d_pct": None}
-    base_date = full[0]
     limits = limits or {}
     eff = {k: _carried(s, dates, limits.get(k, DEFAULT_CARRY_DAYS))
            for k, s in members.items()}
@@ -255,6 +267,7 @@ def build(conn, staleness: dict[str, int] | None = None) -> dict:
             "models": model_rows,
             "token_index": _index(model_members, model_lim,
                                   retired=frozenset(k for k, _ in RETIRED_MODELS)),
+            "token_roster": {"since": ROSTER_SINCE, "retired": [label for _, label in RETIRED_MODELS]},
             "gpus": gpu_rows, "gpu_index": _index(gpu_members, gpu_lim),
             "cloud_gpus": _cloud_rows(conn)}
 

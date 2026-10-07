@@ -58,6 +58,19 @@ def test_aws_missing_instance_is_skipped_but_none_found_is_drift():
         cloudgpu.fetch_aws(["p5.48xlarge/8"], vintage_date=V, http_get=_get({"regions": {}}))
 
 
+def test_aws_conflicting_rows_for_a_tracked_instance_are_drift_and_others_are_ignored():
+    bad = copy.deepcopy(AWS)
+    rows = bad["regions"][cloudgpu.AWS_REGION]
+    p5 = next(v for v in rows.values() if v["Instance Type"] == "p5.48xlarge")
+    rows["p5 48xlarge capacity block"] = {**p5, "price": "31.464"}
+    with pytest.raises(ValueError, match="distinct on-demand prices"):
+        cloudgpu.fetch_aws(["p5.48xlarge/8"], vintage_date=V, http_get=_get(bad))
+    # a malformed row for an untracked instance can't fail the source
+    ok = copy.deepcopy(AWS)
+    ok["regions"][cloudgpu.AWS_REGION]["junk"] = {"Instance Type": "c6a.12xlarge", "price": "n/a"}
+    assert _by(cloudgpu.fetch_aws(["p5.48xlarge/8"], vintage_date=V, http_get=_get(ok)))
+
+
 def test_aws_implausible_price_raises():
     bad = copy.deepcopy(AWS)
     for row in bad["regions"][cloudgpu.AWS_REGION].values():
@@ -133,6 +146,15 @@ def test_coreweave_node_price_per_gpu():
     assert v["NVIDIA GB200 NVL72/4"] == pytest.approx(42.0 / 4)
     assert v["NVIDIA A100/8"] == pytest.approx(21.6 / 8)
     assert {(o.source, o.route) for o in obs} == {("COREWEAVE", "SCRAPE")}
+
+
+def test_coreweave_price_must_be_the_labelled_on_demand_one():
+    # a page whose table cell no longer matches the on-demand label (a column
+    # reorder putting Spot first) fails instead of storing the spot price
+    swapped = COREWEAVE.replace("<div>$49.24</div>", "<div>$19.71</div>")
+    assert swapped != COREWEAVE
+    with pytest.raises(ValueError, match="labelled on-demand"):
+        cloudgpu.fetch_coreweave(["NVIDIA HGX H100/8"], vintage_date=V, http_get=_get(text=swapped))
 
 
 def test_coreweave_wrong_gpu_count_and_redesign_are_drift():

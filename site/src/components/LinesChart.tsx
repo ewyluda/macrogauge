@@ -63,7 +63,12 @@ export function LinesChart({
       };
       if (fitY) {
         const y = ("yAxis" in axis ? axis.yAxis : base.yAxis) as object;
-        Object.assign(axis, { yAxis: { ...y, scale: true } });
+        // fitted to the data, but never so tight the reference line drops out
+        const bounds = refLine == null ? {} : {
+          min: (v: { min: number }) => Math.floor(Math.min(v.min, refLine)),
+          max: (v: { max: number }) => Math.ceil(Math.max(v.max, refLine)),
+        };
+        Object.assign(axis, { yAxis: { ...y, scale: true, ...bounds } });
       }
       return {
       ...base,

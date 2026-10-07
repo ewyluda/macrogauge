@@ -75,15 +75,25 @@ def fetch_aws(source_ids: list[str], vintage_date: str | None = None, http_get=N
     regions = resp.json().get("regions")
     if not isinstance(regions, dict) or AWS_REGION not in regions:
         raise ValueError(f"AWS_GPU: no {AWS_REGION!r} region map (structure drift?)")
-    price = {}
+    tracked = {_split(sid, "/")[0] for sid in source_ids}
+    # Only tracked instance types are read, so a malformed row for any of the
+    # other ~1,300 instances can't fail the source; a tracked type listed
+    # twice at different prices is drift (as on Azure), never last-row-wins.
+    prices: dict[str, set[float]] = {}
     for row in regions[AWS_REGION].values():
-        if isinstance(row, dict) and row.get("Instance Type") and row.get("price") not in (None, ""):
-            price[row["Instance Type"]] = float(row["price"])
+        inst = row.get("Instance Type") if isinstance(row, dict) else None
+        if inst in tracked and row.get("price") not in (None, ""):
+            prices.setdefault(inst, set()).add(float(row["price"]))
     out = []
     for sid in source_ids:
         inst, gpus = _split(sid, "/")
-        if inst in price:
-            out.append(_obs(sid, price[inst] / int(gpus), vintage, "AWS_GPU", "API"))
+        found = prices.get(inst)
+        if not found:
+            continue
+        if len(found) > 1:
+            raise ValueError(f"AWS_GPU {inst}: {len(found)} distinct on-demand prices "
+                             f"{sorted(found)} (structure drift?)")
+        out.append(_obs(sid, found.pop() / int(gpus), vintage, "AWS_GPU", "API"))
     return _need(out, "AWS_GPU")
 
 
@@ -163,7 +173,10 @@ def fetch_oci(source_ids: list[str], vintage_date: str | None = None, http_get=N
 def fetch_coreweave(source_ids: list[str], vintage_date: str | None = None, http_get=None) -> list[Observation]:
     """source_id = '<row name>/<gpus>' e.g. 'NVIDIA HGX H100/8'. The row's GPU
     count on the page must equal the source_id's, so a reconfigured node
-    (a different GPU count) fails loudly instead of mispricing per GPU."""
+    (a different GPU count) fails loudly instead of mispricing per GPU. The
+    price is the one the page LABELS on-demand ("<name> On-Demand Price: $X /
+    Hour"), and the table cell must agree with it — a reordered or added
+    price column (spot, reserved) fails loudly instead of being stored."""
     http_get = http_get or requests.get
     vintage = vintage_date or today_et()
     resp = http_get(COREWEAVE_URL, timeout=60, headers=UA)
@@ -181,5 +194,12 @@ def fetch_coreweave(source_ids: list[str], vintage_date: str | None = None, http
         if m.group(1) != gpus:
             raise ValueError(f"COREWEAVE {name}: page lists {m.group(1)} GPUs per node, "
                              f"source_id says {gpus} (structure drift?)")
-        out.append(_obs(sid, float(m.group(2).replace(",", "")) / int(gpus), vintage, "COREWEAVE", "SCRAPE"))
+        label = re.search(rf"{re.escape(name)} On-Demand Price: \$([\d,]+\.\d{{2}}) / Hour", text)
+        if not label:
+            raise ValueError(f"COREWEAVE {name}: no labelled on-demand price (structure drift?)")
+        cell, labelled = (float(x.replace(",", "")) for x in (m.group(2), label.group(1)))
+        if cell != labelled:
+            raise ValueError(f"COREWEAVE {name}: table ${cell} vs labelled on-demand ${labelled} "
+                             "(structure drift?)")
+        out.append(_obs(sid, labelled / int(gpus), vintage, "COREWEAVE", "SCRAPE"))
     return _need(out, "COREWEAVE")

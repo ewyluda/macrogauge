@@ -185,6 +185,26 @@ def test_compute_roster_change_hands_the_index_from_retired_to_current_models(tm
     assert {m["key"] for m in p["models"]} == {k for k, _ in compute.MODELS}
 
 
+def test_compute_token_index_stays_live_while_the_new_roster_is_incomplete(tmp_path):
+    """Current models priced, but never all on one day: the index must not go
+    null — the old roster stays its base and stays in every link."""
+    days = ["2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"]
+    rows = {}
+    for key in ("gpt4o", "deepseek", "llama70b"):
+        for d in ("in", "out"):
+            rows[f"or_{key}_{d}"] = {day: 1.0 for day in days}
+    current = [k for k, _ in compute.MODELS]
+    for i, key in enumerate(current):          # each current model priced on one day only
+        for d in ("in", "out"):
+            rows[f"or_{key}_{d}"] = {days[i % 2]: 2.0}
+    p = compute.build(_store(tmp_path, rows, source="OPENROUTER"))
+    ti = p["token_index"]
+    assert ti["base_date"] == "2026-10-05"     # the old roster's base
+    assert ti["value"] is not None
+    assert p["token_roster"] == {"since": compute.ROSTER_SINCE,
+                                 "retired": [label for _, label in compute.RETIRED_MODELS]}
+
+
 def test_compute_cloud_gpu_rows_are_per_gpu_and_display_only(tmp_path):
     rows = {"aws_h100": {"2026-10-07": 6.88}, "az_gb200": {"2026-10-07": 27.04},
             "vast_h100_sxm": {"2026-10-07": 1.9}, "vast_a100_sxm": {"2026-10-07": 1.0},
