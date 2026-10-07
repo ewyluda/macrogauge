@@ -239,6 +239,13 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
   .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 }
 .chart-loading { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; }
+/* ECharts' painter (the root's first child) carries an inline pixel width from
+   its last resize; when the box narrows it stays that wide until the window
+   resize event fires a frame later. Outside an overflow-clipping .chart-card
+   (/datacenter's index + construction charts) that stale width widened the
+   whole page (+830px going 1280 -> 390). Clip the painter, not the root: the
+   HTML tooltip is the root's later child and must still escape the box. */
+.echart-root > div:first-child { max-width: 100%; overflow: hidden; }
 /* position: relative makes the scroller the containing block for absolutely
    positioned descendants (.sr-only status words in table cells); without it
    they escape the overflow clip and widen the page on phones (/status, +13px). */

@@ -74,5 +74,5 @@ export function EChartClient({
     ownedInstanceRef.current?.setOption({ aria: { enabled: true }, ...option }, { notMerge });
   }, [option, notMerge]);
 
-  return <div ref={ref} style={{ width: "100%", height: "100%" }} />;
+  return <div ref={ref} className="echart-root" style={{ width: "100%", height: "100%" }} />;
 }
