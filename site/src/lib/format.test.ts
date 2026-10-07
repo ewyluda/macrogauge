@@ -30,3 +30,18 @@ describe("fmtUsd", () => {
     expect(fmtUsd(NaN)).toBe("—");
   });
 });
+
+import { fmtUsdCompact } from "./format";
+
+describe("fmtUsdCompact", () => {
+  it("scales to B/M/K and keeps small costs distinguishable", () => {
+    expect(fmtUsdCompact(1.25e9)).toBe("$1.25B");
+    expect(fmtUsdCompact(11_633_187)).toBe("$11.63M");
+    expect(fmtUsdCompact(250_000_000)).toBe("$250M");
+    expect(fmtUsdCompact(840_000)).toBe("$840K");
+    expect(fmtUsdCompact(52_480)).toBe("$52.5K");
+    // adjacent ticks on a $5,000 base must not all read "$5K"
+    expect([5000, 5200, 5400].map(fmtUsdCompact)).toEqual(["$5,000", "$5,200", "$5,400"]);
+    expect(fmtUsdCompact(-2_500_000)).toBe("−$2.50M");
+  });
+});

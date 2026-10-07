@@ -29,8 +29,8 @@ test("/pce and /cpi-preview show the next-PCE-print nowcast", async ({ page }) =
   await expect(page.getByText("PCE nowcast · MoM (SA)", { exact: true })).toBeVisible();
 });
 
-test("/dc-scoreboard shows the storage-tail gate verdict", async ({ page }) => {
-  await page.goto("/dc-scoreboard");
+test("/escalation/grades shows the storage-tail gate verdict", async ({ page }) => {
+  await page.goto("/escalation/grades");
   await expect(page.getByText("Storage (NAND) tail")).toBeVisible();
 });
 
@@ -41,8 +41,8 @@ test("/supercore shows the monthly history against its official reference with v
   await expect(page.locator("canvas")).toHaveCount(2);
 });
 
-test("/dc-scoreboard anchor scatter recomputes the published grade for the selected cell", async ({ page }) => {
-  await page.goto("/dc-scoreboard?leg=strict&sb=long_run&sh=12");
+test("/escalation/grades anchor scatter recomputes the published grade for the selected cell", async ({ page }) => {
+  await page.goto("/escalation/grades?leg=strict&sb=long_run&sh=12");
   await expect(page.getByText("Expected vs realized — every vintage anchor")).toBeVisible();
   const g = (grades as { legs: Record<string, { grades: Record<string, Record<string, { n: number; shortfall_rate_pct: number }>> }> })
     .legs.strict.grades.long_run.h12;
@@ -56,8 +56,8 @@ test("/dc-scoreboard anchor scatter recomputes the published grade for the selec
   await expect(page.locator("th", { hasText: /downturn/ })).toHaveCount(2);
 });
 
-test("/dc-scoreboard lead-lag section plots the correlation profiles", async ({ page }) => {
-  await page.goto("/dc-scoreboard");
+test("/escalation/grades lead-lag section plots the correlation profiles", async ({ page }) => {
+  await page.goto("/escalation/grades");
   await expect(page.getByText("Solid = cleared the gate")).toBeVisible();
 });
 

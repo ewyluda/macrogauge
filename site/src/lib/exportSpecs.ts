@@ -37,7 +37,7 @@ export function heroCsvSpec(from: string | undefined): CsvSpec {
   };
 }
 
-/** /dc-scoreboard — every grading anchor, flattened. */
+/** /escalation#grades — every grading anchor, flattened. */
 export const DC_ANCHORS_CSV: CsvSpec = { kind: "rows", path: "anchors", flatten: true };
 
 /** /datacenter — the DC Build index on its monthly grid, headline plus every

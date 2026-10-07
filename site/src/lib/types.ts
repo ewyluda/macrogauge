@@ -394,7 +394,7 @@ export type DcMarkets = {
   markets: MarketRow[];
 };
 
-// dc_grades.json -- the escalation grading harness behind /dc-scoreboard.
+// dc_grades.json -- the escalation grading harness behind /escalation#grades.
 // Keep in sync with schemas/dc_grades.schema.json.
 
 export type GradeStat = {

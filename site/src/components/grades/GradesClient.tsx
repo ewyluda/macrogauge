@@ -1,6 +1,7 @@
 import Link from "next/link";
 /** Renders dc_grades.json (site/public/data/dc_grades.json), the escalation
- *  grading harness behind /dc-scoreboard.
+ *  grading harness behind /escalation/grades (it was /dc-scoreboard until
+ *  2026-10-07, which now redirects there).
  *
  *  Two rules govern every section below and are not negotiable:
  *
@@ -43,11 +44,10 @@ import {
   type LegPick,
   type PairedBasisMeans,
 } from "@/lib/dcGrades";
-import type { DcGrades, DcGradesAnchor, GradeStat, Leg } from "@/lib/types";
-import { AnchorScatter } from "./AnchorScatter";
+import type { DcGrades, GradeStat, Leg } from "@/lib/types";
 import { LeadLagProfile } from "./LeadLagProfile";
 
-/** Everything /dc-scoreboard renders, minus the `anchors` receipts it does
+/** Everything the grading record renders, minus the `anchors` receipts it does
  *  not read. The full artifact remains available to the server page for its
  *  reconstruction check and through the methodology download link. */
 export type GradesPageData = Omit<DcGrades, "anchors">;
@@ -369,17 +369,17 @@ function InversionSection({ data }: { data: GradesPageData }) {
 function ScenarioSection({ scenarios }: { scenarios: DcGrades["scenarios"] }) {
   if (!scenarios.length) {
     return (
-      <Section title="Regimes carried on /escalation — ungradeable by design">
+      <Section title="Hand-picked regimes — ungradeable by design">
         <p className="method">No hindsight-selected regimes were published on this run.</p>
       </Section>
     );
   }
   return (
-    <Section title="Regimes carried on /escalation — ungradeable by design">
+    <Section title="Hand-picked regimes — ungradeable by design">
       <div className="section-featured" style={{ marginTop: 0 }}>
         <p className="lede" style={{ margin: 0 }}>
-          /escalation also lets a reader carry either of these hand-picked historical regimes instead of a
-          rolling rule. Both windows were chosen with hindsight, after the fact, from realized history — so
+          The escalation calculator's Carry menu also offers either of these hand-picked historical regimes
+          instead of a rolling rule. Both windows were chosen with hindsight, after the fact, from realized history — so
           neither is graded above or anywhere else on this page. They publish a rate and a window only: no
           shortfall rate, no MAE, no independent-draw count. Computing one would score hindsight against itself.
         </p>
@@ -630,8 +630,8 @@ function MethodologySection({
         <p className="method">
           <b>The index graded here is reconstructed from official releases only.</b> Every component is read from its
           published PPI/CES series and nothing else. The DC Build index on{" "}
-          <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link> and{" "}
-          <Link href="/escalation" style={{ color: "var(--accent-sky)" }}>/escalation</Link> additionally splices a live
+          <Link href="/datacenter" style={{ color: "var(--accent-sky)" }}>/datacenter</Link> and in the{" "}
+          <Link href="/escalation" style={{ color: "var(--accent-sky)" }}>escalation calculator</Link> additionally splices a live
           futures tail onto {reconstruction.proxyLabels.join(" and ")} ({reconstruction.proxyWeightPct.toFixed(1)}% of
           Build weight) past their last official print, so the two indexes agree in every month where that splice is
           inactive and differ where it is not — and the latest anchor, the month every basis above is read at, is such
@@ -642,7 +642,7 @@ function MethodologySection({
               Measured at {reconstruction.month}, the widest gap is{" "}
               {BASIS_LABELS[reconstruction.worst.basis] ?? reconstruction.worst.basis}, which grades here at{" "}
               {reconstruction.worst.graded.toFixed(2)}%/yr against the {reconstruction.worst.published.toFixed(2)}%/yr
-              /escalation shows for the same rule.
+              the calculator shows for the same rule.
             </>
           ) : null}{" "}
           The statistics above are barely touched — only the handful of anchor-horizon pairs whose anchor falls in a
@@ -668,13 +668,13 @@ function MethodologySection({
 
 export function GradesClient({
   data,
-  anchors,
+  scatter,
   reconstruction = null,
   anchorsN,
 }: {
   data: GradesPageData;
-  /** The per-anchor rows (batch 2c) — the scatter's input. */
-  anchors: DcGradesAnchor[];
+  /** The expected-vs-realized scatter (it carries the 286 anchor rows). */
+  scatter: React.ReactNode;
   reconstruction?: ReconstructionNote | null;
   anchorsN: number;
 }) {
@@ -684,7 +684,7 @@ export function GradesClient({
   return (
     <>
       <PairedGradingSection data={data} strict={strict} extended={extended} />
-      <AnchorScatter anchors={anchors} legs={data.legs} />
+      {scatter}
       <InversionSection data={data} />
       <ScenarioSection scenarios={data.scenarios} />
       <LeadLagSection leadlag={data.leadlag} />

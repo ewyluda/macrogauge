@@ -69,9 +69,7 @@ const NOWCAST_STANDING =
 // The rest of the DC coverage, one card per page — this page is the hub.
 const DC_COVERAGE = [
   { href: "/escalation", eyebrow: "Basis of estimate", title: "Escalation calculator",
-    description: "Escalate your own base estimate between any two months, with the bridge showing which packages moved it." },
-  { href: "/dc-scoreboard", eyebrow: "Contingency", title: "Escalation grades",
-    description: "Every contingency basis graded vintage-true since 2018 — expected vs what the index actually did." },
+    description: "Escalate your own base estimate, carry it to delivery, and see how often each contingency basis has run short." },
   { href: "/longlead", eyebrow: "Procurement", title: "Long-lead board",
     description: "Switchgear, transformers, generators and HVAC prices beside vendors' stated order books." },
   { href: "/markets", eyebrow: "Labor", title: "DC markets",
@@ -80,6 +78,8 @@ const DC_COVERAGE = [
     description: "Operational, under-construction and planned critical-IT MW by company, filing behind each." },
   { href: "/compute", eyebrow: "Output", title: "Compute prices",
     description: "What a token and a GPU-hour cost — the price of what the facility produces." },
+  { href: "/as-of", eyebrow: "Claims", title: "Point in time",
+    description: "What every index read as published on any past date, DC Build included — for claims and change orders." },
 ] as const;
 
 const JUMP = [

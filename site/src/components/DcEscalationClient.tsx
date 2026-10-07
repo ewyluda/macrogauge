@@ -1,9 +1,11 @@
 "use client";
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import { useUrlState } from "@/lib/useUrlState";
-import { codecs } from "@/lib/urlState";
+import { codecs, type Codec } from "@/lib/urlState";
 import { CopyLink } from "./CopyLink";
 import { CarryTable } from "./CarryTable";
+import { EscalationPathChart } from "./EscalationPathChart";
 import { checkMonth } from "@/lib/monthInput";
 import type { EscalationData } from "@/lib/escalationData";
 import { KpiCard } from "./KpiCard";
@@ -31,6 +33,22 @@ import {
 import { fmtPp, fmtSigned, fmtUsd } from "@/lib/format";
 
 export type { EscalationData };
+
+/** ?delivery= is three-state: absent ("auto"), deliberately cleared ("none"),
+ *  or a YYYY-MM month. "none" is what makes a cleared field linkable — an
+ *  empty value would fail to parse and fall back to the default on reload. */
+const MONTH = codecs.month();
+const DELIVERY_CODEC: Codec<string> = {
+  parse: (s) => (s === "none" ? s : MONTH.parse(s)),
+  format: (v) => v,
+};
+/** The params this calculator owns. A visit carrying any of them is a shared
+ *  setting, and a shared setting without ?delivery means "measured only" —
+ *  which is what every link minted before the 24-month default meant. */
+const STATE_KEYS = ["base", "cost", "delivery", "basis", "index"];
+/** Months past the last complete print a bare visit opens on: the longest
+ *  horizon BOTH grading legs publish, so the paired verdict shows two figures. */
+const DEFAULT_HORIZON = 24;
 
 const usd = fmtUsd;
 
@@ -76,7 +94,22 @@ export function DcEscalationClient({
   // picker's own minimum must be the month after it. Offering `endMonth` as the
   // min let the native picker propose a value the page then rejected.
   const minDelivery = addMonths(endMonth, 1);
-  const [deliveryMonth, setDeliveryMonth] = useUrlState("delivery", "", codecs.month());
+  // A bare visit opens on a DEFAULT_HORIZON delivery so the first view is a
+  // complete answer (forward leg, band, P80, grade). The default is derived,
+  // never written to the URL, and follows whichever index is selected.
+  const [deliveryRaw, setDeliveryRaw] = useUrlState("delivery", "auto", DELIVERY_CODEC);
+  // Static HTML renders the bare-visit view; a link carrying calculator state
+  // corrects it on mount. Declared after the useUrlState hooks, so it reads the
+  // address bar before any of them can write to it.
+  const [bareVisit, setBareVisit] = useState(true);
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    setBareVisit(!STATE_KEYS.some((k) => q.has(k)));
+  }, []);
+  const deliveryMonth =
+    deliveryRaw === "none" ? ""
+    : deliveryRaw === "auto" ? (bareVisit ? addMonths(endMonth, DEFAULT_HORIZON) : "")
+    : deliveryRaw;
   const [basisKey, setBasisKey] = useUrlState("basis", "trailing3y", codecs.str(30));
 
   const basisRows = anchor ? bases(data.months, data.index, anchor) : [];
@@ -120,6 +153,25 @@ export function DcEscalationClient({
   const p80 = result?.forward && chosen && bandRow
     ? p80Carry(bandRow, result.escalatedCost, result.forward.monthsAhead, chosen.annualizedPct)
     : null;
+
+  // Primitive deps, so the chart's option only rebuilds when the carried leg
+  // actually changes — not on every render of this component.
+  const fwdDelivery = result?.forward?.deliveryMonth ?? null;
+  const fwdRate = chosen?.annualizedPct ?? null;
+  const fwdLabel = chosen?.label ?? null;
+  const bandP10 = bandRow?.p10 ?? null;
+  const bandP80 = bandRow?.p80 ?? null;
+  const bandP90 = bandRow?.p90 ?? null;
+  const forwardPath = useMemo(
+    () => fwdDelivery && fwdRate != null && fwdLabel
+      ? {
+          deliveryMonth: fwdDelivery, ratePct: fwdRate, label: fwdLabel,
+          band: bandP10 != null && bandP80 != null && bandP90 != null
+            ? { p10: bandP10, p80: bandP80, p90: bandP90 } : null,
+        }
+      : null,
+    [fwdDelivery, fwdRate, fwdLabel, bandP10, bandP80, bandP90],
+  );
 
   const rows = bridgeWindow(
     data.months, data.componentIndex, data.components,
@@ -205,7 +257,7 @@ export function DcEscalationClient({
             min={minDelivery}
             max={maxDelivery}
             value={deliveryMonth}
-            onChange={(e) => setDeliveryMonth(e.target.value)}
+            onChange={(e) => setDeliveryRaw(e.target.value || "none")}
             style={input}
           />
         </label>
@@ -264,23 +316,23 @@ export function DcEscalationClient({
                   releases only, with no live futures tail — so the rate it
                   grades and the rate shown above can differ slightly in the
                   months where that tail is spliced in. A one-clause flag
-                  here, with the measured gap on /dc-scoreboard's methodology,
+                  here, with the measured gap in the grading record's methodology,
                   rather than either a silent difference or a paragraph of
                   arithmetic inside a one-line verdict. */}
               {useOfficial
                 ? "Graded on a reconstruction from official prints only — the same basis as the index chosen above."
                 : "Graded on a reconstruction from official prints only, which can differ slightly in months carrying a live futures tail."}{" "}
-              <Link href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
+              <a href="#grades" style={{ color: "var(--accent-sky)" }}>
                 See how each basis has held up →
-              </Link>
+              </a>
             </>
           ) : (
             <>
               This is a hindsight-selected historical episode, not a rule — it
               carries no grade.{" "}
-              <Link href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
+              <a href="#grades" style={{ color: "var(--accent-sky)" }}>
                 See the bases that do →
-              </Link>
+              </a>
             </>
           )}
         </p>
@@ -322,7 +374,7 @@ export function DcEscalationClient({
 
       {result && validBaseCost && (
         <>
-          <div className="kpi-row">
+          <div className="kpi-row escalation-kpis">
             <KpiCard
               label={`Escalated to ${result.endMonth}`}
               value={usd(result.escalatedCost)}
@@ -386,6 +438,31 @@ export function DcEscalationClient({
               </span>
             </p>
           )}
+
+          <section className="chart-card escalation-path" data-testid="escalation-path">
+            <h2 className="escalation-path-title">
+              Your {usd(baseCost)} from {result.baseMonth} is {usd(result.escalatedCost)} at the last full
+              print ({result.endMonth})
+              {result.forward && chosen
+                ? <>, and {usd(result.totalCost)} by {result.forward.deliveryMonth} carrying the {chosen.label} rate ({chosen.annualizedPct.toFixed(2)}%/yr).</>
+                : "."}
+            </h2>
+            <EscalationPathChart
+              months={data.months}
+              index={data.index}
+              baseMonth={result.baseMonth}
+              endMonth={result.endMonth}
+              baseCost={baseCost}
+              forward={forwardPath}
+            />
+            <p className="chart-caption">
+              Solid: your cost along the DC Build index, measured to the last month every component has
+              printed. Nothing past that line is asserted.
+              {result.forward && chosen && (bandRow
+                ? ` Dashed: carried at the ${chosen.label} rate. Shaded: the p10–p90 range of the ${bandRow.windows} realized ${bandRow.horizonMonths}-month windows since ${bandRow.sampleStartMonth}; dotted: the P80 allowance. A range of precedents, not a forecast.`
+                : ` Dashed: carried at the ${chosen.label} rate. No realized range under ${MIN_HORIZON_MONTHS} months.`)}
+            </p>
+          </section>
 
           <div className="table-card" style={{ marginTop: 16 }}>
             <h2>
