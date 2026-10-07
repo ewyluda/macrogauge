@@ -1,0 +1,122 @@
+{
+  "head": "4399a5cfa0a6c089f24e5f4ff6d4b61113715008",
+  "base": "7936a6a45607170c0d6a38521529717654007fcf",
+  "results": [
+    {
+      "finding": "F1",
+      "name": "A schema-valid null power block still typechecks",
+      "pass": false,
+      "actual": 1,
+      "expected": 0
+    },
+    {
+      "finding": "control",
+      "name": "The base revision typechecks with the same null power block",
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "finding": "F2",
+      "name": "The selected power KPI discloses its own September 29 observation date",
+      "pass": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "finding": "F2",
+      "name": "Updated is not later than the artifact publication day",
+      "pass": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "finding": "control",
+      "name": "The selected PJM headline uses the published 61.9 percent value",
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "finding": "F3",
+      "name": "The summary retains the required PJM auction when optional markets are absent",
+      "pass": false,
+      "actual": null,
+      "expected": 325
+    },
+    {
+      "finding": "control",
+      "name": "The detailed panel already renders the legacy PJM auction",
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "finding": "F4",
+      "name": "The hub keeps its power section when capacity and tariffs are available",
+      "pass": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "finding": "control",
+      "name": "The thin-history fixture still has a capacity reading",
+      "pass": true,
+      "actual": 150,
+      "expected": 150
+    },
+    {
+      "finding": "control",
+      "name": "The thin-history fixture still has 17 tariff rows",
+      "pass": true,
+      "actual": 17,
+      "expected": 17
+    },
+    {
+      "finding": "control",
+      "name": "The dead Power jump link remains in the thin-history render",
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "finding": "control",
+      "name": "All three synthetic artifacts pass the JSON schema",
+      "pass": true,
+      "actual": "valid",
+      "expected": "valid"
+    }
+  ],
+  "diagnostics": {
+    "nullPowerHead": [
+      {
+        "code": 2339,
+        "file": "site/src/app/datacenter/page.tsx",
+        "line": 218,
+        "message": "Property 'hubs' does not exist on type 'never'."
+      }
+    ],
+    "nullPowerBase": [],
+    "powerDates": {
+      "publishedAt": "2026-10-07T18:51:57Z",
+      "selectedHub": "PJM Western Hub",
+      "selectedAsOf": "2026-09-29",
+      "newestDeliveryDate": "2026-10-08",
+      "visibleHero": "  AI infrastructure · Power &amp; Tariffs  Updated Oct 8, 2026   Wholesale power at PJM Western Hub is up 61.9% on the year; PJM capacity costs 11× what it did for 2024/25  What a data center pays for power: wholesale prices at every major hub, the capacity charges grid operators pass through, and the large-load tariffs utilities now require. Part of the  Data Center Cost Index .  ",
+      "visibleKpis": "   PJM Western Hub · 30-day avg  $85.72/MWh  +61.9% vs a year earlier · the hottest hub this month    PJM capacity · 2028/29  $325/MW-day  from $29 for 2024/25    Large-load tariffs  17  utilities&#x27; data-center terms, each from a filing or order   <section"
+    },
+    "thinHistory": {
+      "hub": null,
+      "capacity": {
+        "iso": "PJM",
+        "period": "2028/29",
+        "price": 150,
+        "first": "2024/25",
+        "firstPrice": 100
+      },
+      "tariffs": 17,
+      "headline": null
+    }
+  },
+  "failed": 5
+}
