@@ -28,8 +28,8 @@ cd site && npm ci
 npm run dev        # local dev server
 npm run lint       # ESLint flat config: next core-web-vitals + jsx-a11y + react-hooks (must pass in CI)
 npm run build      # static export (must pass in CI)
-npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/news/homeBrief) + dcWeightBasis + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/chartAria/sourcePills/badge
-npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 212 e2e tests, zero console errors
+npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/news/newsTape/homeBrief) + dcWeightBasis + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/chartAria/sourcePills/badge
+npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 214 e2e tests, zero console errors
 npm run gen-types  # schemas/*.schema.json -> src/lib/generated/*.ts (gitignored; runs automatically before dev/build/test)
 ```
 
@@ -208,3 +208,9 @@ is BLS average-price staples.
   input: categories/tickers/layers re-derived, bad posts dropped and counted) — a wrong-shaped
   object is structure drift (`news_ok` false), `live_url: null` publishes status
   `unconfigured`. Universe refresh: `python3 scripts/news/sync_universe.py`, then reinstall.
+  **Editorial pass is client-side by design** (`site/src/lib/newsTape.ts`): the page folds repeats
+  into stories, sets aside noise (options flow, recaps, roundups, stubs) and defaults to stories that
+  clear keyword relevance rules, identically for the baked snapshot and the live object. `news.json`,
+  `/data/news.json` and the R2 object stay the raw tape (147 posts vs ~64 infra stories is expected);
+  `/datacenter` runs the same functions at build time to pick its five strip stories. The rules are
+  keyword heuristics — retune by adding the misjudged real headline to `newsTape.test.ts`.

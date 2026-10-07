@@ -96,28 +96,6 @@ export function pickNewer(current: FeedView, live: FeedView | null): FeedView {
 
 export type NewsFilter = { layer: string | null; ticker: string | null };
 
-export function filterPosts(posts: NewsPost[], f: NewsFilter): NewsPost[] {
-  return posts.filter(
-    (p) =>
-      (!f.layer || p.tickers.some((t) => t.layer === f.layer)) &&
-      (!f.ticker || p.tickers.some((t) => t.ticker === f.ticker)),
-  );
-}
-
-/** [ticker, posts] by count desc, ticker asc on ties. */
-export function tickerCounts(posts: NewsPost[]): [string, number][] {
-  const n = new Map<string, number>();
-  for (const p of posts) for (const t of p.tickers) n.set(t.ticker, (n.get(t.ticker) ?? 0) + 1);
-  return [...n.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
-}
-
-/** Layers in config order, with how many posts touch each (zero-count dropped). */
-export function layerCounts(posts: NewsPost[], layers: readonly string[]): [string, number][] {
-  return layers
-    .map((l): [string, number] => [l, posts.filter((p) => p.tickers.some((t) => t.layer === l)).length])
-    .filter(([, n]) => n > 0);
-}
-
 const ET_DAY = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", weekday: "short", month: "short", day: "numeric" });
 const ET_TIME = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
 const ET_KEY = new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" });
@@ -126,15 +104,16 @@ const ET_KEY = new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York", 
 export const etTime = (iso: string) => ET_TIME.format(new Date(iso));
 export const etDay = (iso: string) => ET_DAY.format(new Date(iso));
 
-/** Posts grouped under New York calendar days, newest day first (input is newest-first). */
-export function groupByEtDay(posts: NewsPost[]): { day: string; label: string; posts: NewsPost[] }[] {
-  const out: { day: string; label: string; posts: NewsPost[] }[] = [];
-  for (const p of posts) {
-    const d = new Date(p.ts);
+/** Items grouped under the New York calendar day of `ts(item)`, in input
+ *  order (newest first in, newest day first out). */
+export function groupByEtDay<T>(items: T[], ts: (item: T) => string): { day: string; label: string; items: T[] }[] {
+  const out: { day: string; label: string; items: T[] }[] = [];
+  for (const it of items) {
+    const d = new Date(ts(it));
     const day = ET_KEY.format(d);
     const last = out[out.length - 1];
-    if (last && last.day === day) last.posts.push(p);
-    else out.push({ day, label: ET_DAY.format(d), posts: [p] });
+    if (last && last.day === day) last.items.push(it);
+    else out.push({ day, label: ET_DAY.format(d), items: [it] });
   }
   return out;
 }
