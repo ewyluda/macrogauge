@@ -57,7 +57,7 @@ describe("lazy export recipes reproduce the inline rows", () => {
     expect(old.length).toBeGreaterThan(600);
     expect(toCsv(rowsFromSpec(gaugeDaily, heroCsvSpec(start)))).toBe(toCsv(old));
   });
-  it("/dc-scoreboard anchors", () => {
+  it("/escalation grading anchors", () => {
     const old = dcGrades.anchors.map((a) => flattenRow(a));
     expect(old.length).toBeGreaterThan(0);
     expect(toCsv(rowsFromSpec(dcGrades, DC_ANCHORS_CSV))).toBe(toCsv(old));

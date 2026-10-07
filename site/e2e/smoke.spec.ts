@@ -63,7 +63,7 @@ const ROUTES: [string, string][] = [
   ["/capacity", "the gap is the whole point"],
   ["/escalation", "the math is a ratio, so the unit is yours"],
   ["/markets", "construction wages and headcount where the shovels are"],
-  ["/dc-scoreboard", "did the basis you carried hold?"],
+  ["/escalation#grades", "Did the basis carry enough?"],
   ["/longlead", "not a lead-time quote in weeks"],
   ["/news", "what the tape is saying about AI and data-center names"],
 ];
@@ -330,10 +330,14 @@ test("escalation calculator projects forward when a delivery month is set", asyn
   // draws behind it..."), both present on first load. "overlapping windows"
   // (no "historical" in between) is unique to the band sentence itself — the
   // Methodology copy's parallel phrase is "overlapping historical windows".
+  // The page opens on a 24-month delivery (2026-10-07), so clear it first to
+  // see the measured-only state: no forward leg, no band sentence.
+  const deliver = page.locator('input[type="month"]').nth(1);
+  await expect(deliver).not.toHaveValue("");
+  await deliver.fill("");
   await expect(page.getByText("What you could carry")).toBeVisible();
   await expect(page.getByText("overlapping windows")).toHaveCount(0);
 
-  const deliver = page.locator('input[type="month"]').nth(1);
   const max = await deliver.getAttribute("max");
   expect(max).toBeTruthy();
   await deliver.fill(max!);
@@ -341,6 +345,25 @@ test("escalation calculator projects forward when a delivery month is set", asyn
   await expect(page.getByText("What you could carry")).toBeVisible();
   await expect(page.getByText("overlapping windows")).toBeVisible();
   await expect(page.getByText(/Escalated to /).last()).toBeVisible();
+});
+
+test("escalation opens on a complete answer: path chart, carried leg and the basis record", async ({ page }) => {
+  await page.goto("/escalation");
+  const path = page.getByTestId("escalation-path");
+  await expect(path.locator("canvas")).toBeVisible();
+  // prefilled 24-month delivery: the title names both the last print and the carried total
+  await expect(path.locator("h2")).toContainText("at the last full print");
+  await expect(path.locator("h2")).toContainText(/by \d{4}-\d{2} carrying the /);
+  await expect(page.getByTestId("p80-contingency")).toBeVisible();
+  // the record states every rule's range on both samples, closed detail below it
+  const lead = page.getByTestId("basis-record-lead");
+  for (const label of ["long-run", "trailing 3yr", "current momentum"]) await expect(lead).toContainText(label);
+  await expect(lead).toContainText("across both samples");
+  await expect(page.locator(".br-withheld").first()).toContainText("withheld");
+  await expect(page.locator("details.grades-record")).not.toHaveAttribute("open", "");
+  // the 286 anchor rows never ride in the page HTML; the scatter fetches them
+  const html = await (await page.request.get("/escalation")).text();
+  expect(html).not.toMatch(/realized\\?":\{\\?"h12/);
 });
 
 test("escalation calculator refuses a delivery month past the cap", async ({ page }) => {
@@ -491,10 +514,11 @@ test("datacenter renders the power-nowcast grade from the artifact", async ({
   expect(text).not.toContain("lost to simple carry-forward");
 });
 
-test("dc-scoreboard never renders the lead-lag verdict without its caveats and conclusion", async ({
+test("grading record never renders the lead-lag verdict without its caveats and conclusion", async ({
   page,
 }) => {
-  await page.goto("/dc-scoreboard");
+  await page.goto("/escalation");
+  await page.locator("details.grades-record > summary").click();
   // Rule 2 of the grades feature: the verdict / weight_stable figure and the
   // gate's caveats + standing conclusion live in ONE visual block -- a reader
   // must not be able to screenshot the positive alone. Pin the adjacency by
@@ -512,10 +536,11 @@ test("dc-scoreboard never renders the lead-lag verdict without its caveats and c
   }
 });
 
-test("dc-scoreboard's cross-horizon means name the horizons they cover", async ({
+test("grading record's cross-horizon means name the horizons they cover", async ({
   page,
 }) => {
-  await page.goto("/dc-scoreboard");
+  await page.goto("/escalation");
+  await page.locator("details.grades-record > summary").click();
   // The inversion's means are page-level aggregates, so the page must say
   // which horizons they span — and they must span the SAME set on both legs.
   const inversion = page.getByText(/Every mean in this section covers/);
@@ -610,15 +635,15 @@ test("header self-test severity distinguishes advisory and critical failures", a
   }
 });
 
-test("data-center readings and chart precede the coverage hub, which links all six pages", async ({
+test("data-center readings and chart precede the coverage hub, which links all five pages", async ({
   page,
 }) => {
   await page.goto("/datacenter");
   const cards = page.locator(".project-tool-card");
-  await expect(cards).toHaveCount(6);
+  // escalation grades folded into the calculator (2026-10-07)
+  await expect(cards).toHaveCount(5);
   await expect(cards).toHaveText([
     /Escalation calculator/,
-    /Escalation grades/,
     /Long-lead board/,
     /DC markets/,
     /AI capacity/,

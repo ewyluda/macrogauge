@@ -4,6 +4,7 @@ import { useUrlState } from "@/lib/useUrlState";
 import { codecs } from "@/lib/urlState";
 import { CopyLink } from "./CopyLink";
 import { CarryTable } from "./CarryTable";
+import { EscalationPathChart } from "./EscalationPathChart";
 import { checkMonth } from "@/lib/monthInput";
 import type { EscalationData } from "@/lib/escalationData";
 import { KpiCard } from "./KpiCard";
@@ -76,7 +77,12 @@ export function DcEscalationClient({
   // picker's own minimum must be the month after it. Offering `endMonth` as the
   // min let the native picker propose a value the page then rejected.
   const minDelivery = addMonths(endMonth, 1);
-  const [deliveryMonth, setDeliveryMonth] = useUrlState("delivery", "", codecs.month());
+  // Opens on a 24-month delivery so the first view is a complete answer —
+  // forward leg, band, P80 and grade — rather than a half-filled form. 24 is
+  // the longest horizon BOTH grading legs publish, so the paired verdict
+  // below shows two figures, not a withheld one. Clearing the field still
+  // drops the forward leg for the session.
+  const [deliveryMonth, setDeliveryMonth] = useUrlState("delivery", addMonths(endMonth, 24), codecs.month());
   const [basisKey, setBasisKey] = useUrlState("basis", "trailing3y", codecs.str(30));
 
   const basisRows = anchor ? bases(data.months, data.index, anchor) : [];
@@ -264,23 +270,23 @@ export function DcEscalationClient({
                   releases only, with no live futures tail — so the rate it
                   grades and the rate shown above can differ slightly in the
                   months where that tail is spliced in. A one-clause flag
-                  here, with the measured gap on /dc-scoreboard's methodology,
+                  here, with the measured gap in the grading record's methodology,
                   rather than either a silent difference or a paragraph of
                   arithmetic inside a one-line verdict. */}
               {useOfficial
                 ? "Graded on a reconstruction from official prints only — the same basis as the index chosen above."
                 : "Graded on a reconstruction from official prints only, which can differ slightly in months carrying a live futures tail."}{" "}
-              <Link href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
+              <a href="#grades" style={{ color: "var(--accent-sky)" }}>
                 See how each basis has held up →
-              </Link>
+              </a>
             </>
           ) : (
             <>
               This is a hindsight-selected historical episode, not a rule — it
               carries no grade.{" "}
-              <Link href="/dc-scoreboard" style={{ color: "var(--accent-sky)" }}>
+              <a href="#grades" style={{ color: "var(--accent-sky)" }}>
                 See the bases that do →
-              </Link>
+              </a>
             </>
           )}
         </p>
@@ -322,7 +328,7 @@ export function DcEscalationClient({
 
       {result && validBaseCost && (
         <>
-          <div className="kpi-row">
+          <div className="kpi-row escalation-kpis">
             <KpiCard
               label={`Escalated to ${result.endMonth}`}
               value={usd(result.escalatedCost)}
@@ -386,6 +392,36 @@ export function DcEscalationClient({
               </span>
             </p>
           )}
+
+          <section className="chart-card escalation-path" data-testid="escalation-path">
+            <h2 className="escalation-path-title">
+              Your {usd(baseCost)} from {result.baseMonth} is {usd(result.escalatedCost)} at the last full
+              print ({result.endMonth})
+              {result.forward && chosen
+                ? <>, and {usd(result.totalCost)} by {result.forward.deliveryMonth} carrying the {chosen.label} rate ({chosen.annualizedPct.toFixed(2)}%/yr).</>
+                : "."}
+            </h2>
+            <EscalationPathChart
+              months={data.months}
+              index={data.index}
+              baseMonth={result.baseMonth}
+              endMonth={result.endMonth}
+              baseCost={baseCost}
+              forward={result.forward && chosen ? {
+                deliveryMonth: result.forward.deliveryMonth,
+                ratePct: chosen.annualizedPct,
+                label: chosen.label,
+                band: bandRow ? { p10: bandRow.p10, p80: bandRow.p80, p90: bandRow.p90 } : null,
+              } : null}
+            />
+            <p className="chart-caption">
+              Solid: your cost along the DC Build index, measured to the last month every component has
+              printed. Nothing past that line is asserted.
+              {result.forward && chosen && (bandRow
+                ? ` Dashed: carried at the ${chosen.label} rate. Shaded: the p10–p90 range of the ${bandRow.windows} realized ${bandRow.horizonMonths}-month windows since ${bandRow.sampleStartMonth}; dotted: the P80 allowance. A range of precedents, not a forecast.`
+                : ` Dashed: carried at the ${chosen.label} rate. No realized range under ${MIN_HORIZON_MONTHS} months.`)}
+            </p>
+          </section>
 
           <div className="table-card" style={{ marginTop: 16 }}>
             <h2>

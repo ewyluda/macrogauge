@@ -11,6 +11,9 @@ import {
   pickBestMae,
   pickWorstShortfall,
   sharedHorizons,
+  basisShortfallRanges,
+  fmtRange,
+  type GradeLegs,
   WITHHELD_REASON,
   type LegPick,
   type PairedBasisMeans,
@@ -410,5 +413,35 @@ describe("maeClaim", () => {
     expect(maeClaim(strictPick, null)).toEqual({ scope: "single", basis: "long_run" });
     expect(maeClaim(null, extendedDisagrees)).toEqual({ scope: "single", basis: "trailing_3yr" });
     expect(maeClaim(null, null)).toBeNull();
+  });
+});
+
+describe("basisShortfallRanges", () => {
+  const stat = (p: number) => ({ n: 50, independent_draws: 4, shortfall_rate_pct: p, mean_shortfall_pp: 1,
+    worst_shortfall_pp: 2, bias_pp: 0, mae_pp: 1 });
+  const leg = (hs: number[], g: Record<string, Record<string, number>>) => ({
+    provenance: "", span: ["2018-01", "2026-08"], anchors_n: 10, contains_downturn: false,
+    published_horizons: hs,
+    grades: Object.fromEntries(Object.entries(g).map(([b, cells]) =>
+      [b, Object.fromEntries(Object.entries(cells).map(([h, p]) => [h, stat(p)]))])),
+  });
+
+  it("ranges each rule over both legs at the shared horizons only, best first", () => {
+    const data = { legs: {
+      strict: leg([12, 24], { long_run: { h12: 62, h24: 76 }, trailing_3yr: { h12: 41, h24: 46 },
+        current_momentum: { h12: 50, h24: 51 } }),
+      extended: leg([12, 24, 36, 48], { long_run: { h12: 47, h24: 54, h36: 99, h48: 99 },
+        trailing_3yr: { h12: 41.2, h24: 43.6, h36: 99, h48: 99 },
+        current_momentum: { h12: 54, h24: 54, h36: 99, h48: 99 } }),
+    } } as unknown as GradeLegs;
+    const { horizons, rows } = basisShortfallRanges(data);
+    expect(horizons).toEqual([12, 24]);
+    expect(rows.map((r) => r.basis)).toEqual(["trailing_3yr", "current_momentum", "long_run"]);
+    expect(fmtRange(rows[0])).toBe("41–46%");
+    expect(fmtRange(rows[2])).toBe("47–76%");
+  });
+
+  it("returns nothing rather than a one-sided range when a leg is missing", () => {
+    expect(basisShortfallRanges({ legs: {} } as unknown as GradeLegs).rows).toEqual([]);
   });
 });

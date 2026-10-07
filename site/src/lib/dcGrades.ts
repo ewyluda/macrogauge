@@ -33,11 +33,11 @@ export const BASIS_LABELS: Record<string, string> = {
  *  accessors silently returns nothing. Total over /escalation's five keys:
  *  `gfc` and `covid` map to `null` on purpose. They are hindsight-selected
  *  historical episodes, not rules, and carry no grade anywhere in this
- *  feature (see /dc-scoreboard's Scenario section) — a `null` means "render
+ *  feature (see the grading record's Scenario section) — a `null` means "render
  *  the ungradeable note", not "grade unavailable this publish".
  *
  *  Lives here, beside the vocabulary it bridges, so /escalation (which reads
- *  it forwards) and /dc-scoreboard (which reads it backwards, to line the
+ *  it forwards) and its grading record (which reads it backwards, to line the
  *  graded reconstruction up against the published index) cannot drift into
  *  two disagreeing copies. */
 export const ESCALATION_BASIS_TO_GRADE: Record<string, string | null> = {
@@ -55,7 +55,7 @@ export const ESCALATION_BASIS_TO_GRADE: Record<string, string | null> = {
  *  ~58KB, dominated by the 286-row `anchors` array that page never reads —
  *  so the page passes this instead (~4KB) and the accessors below type
  *  against it. `DcGrades` is structurally assignable to it, so
- *  /dc-scoreboard's fuller object still works unchanged. */
+ *  the grading record's fuller object still works unchanged. */
 export type GradeLegs = { legs: Record<string, Leg> };
 
 /** Purpose-built payload for /escalation's inline paired verdict. Named
@@ -322,4 +322,44 @@ export function formatPairedVerdict(basis: string, months: number, pair: PairedS
       : `${label} has no figure at a ${h}-month horizon on either sample.`;
 
   return notes.length > 0 ? `${lead} (${notes.join("; ")}.)` : lead;
+}
+
+// ---------------------------------------------------------------------------
+// /escalation's summary line: each rule's shortfall RANGE across both legs
+// ---------------------------------------------------------------------------
+
+export type BasisRange = { basis: string; label: string; minPct: number; maxPct: number };
+
+/** Per rule basis, the lowest and highest shortfall rate across BOTH legs at
+ *  the horizons both legs publish (sharedHorizons). A range spanning both
+ *  samples is the paired-legs rule applied to a one-line summary: neither
+ *  sample's figure appears without the other's. Sorted best (lowest ceiling)
+ *  first. Empty when either leg is missing. */
+export function basisShortfallRanges(data: GradeLegs): { horizons: number[]; rows: BasisRange[] } {
+  const strict = data.legs?.["strict"];
+  const extended = data.legs?.["extended"];
+  if (!strict || !extended) return { horizons: [], rows: [] };
+  const horizons = sharedHorizons([strict, extended]);
+  const rows: BasisRange[] = [];
+  for (const basis of Object.keys(BASIS_LABELS)) {
+    const vals: number[] = [];
+    for (const leg of [strict, extended]) {
+      for (const h of horizons) {
+        const s = leg.grades?.[basis]?.[horizonKey(h)];
+        if (s) vals.push(s.shortfall_rate_pct);
+      }
+    }
+    // a basis missing any cell on either leg would be a one-sided range
+    if (vals.length !== horizons.length * 2 || vals.length === 0) continue;
+    rows.push({ basis, label: BASIS_LABELS[basis], minPct: Math.min(...vals), maxPct: Math.max(...vals) });
+  }
+  rows.sort((a, b) => a.maxPct - b.maxPct || a.minPct - b.minPct);
+  return { horizons, rows };
+}
+
+/** "41–46%" — whole percents, collapsed to one figure when they round equal. */
+export function fmtRange(r: BasisRange): string {
+  const lo = Math.round(r.minPct);
+  const hi = Math.round(r.maxPct);
+  return lo === hi ? `${lo}%` : `${lo}–${hi}%`;
 }
