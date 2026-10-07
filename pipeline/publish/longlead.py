@@ -84,11 +84,17 @@ def backlog_months(conn) -> dict:
         year_ago = f"{y - 1:04d}-{mo:02d}-01"
         prev = (round(uo[year_ago] / sh[year_ago], 2)
                 if year_ago in uo and sh.get(year_ago) else None)
-        # the two legs of the ratio's move: a falling ratio with flat unfilled
-        # orders is faster shipping, not cooling demand
-        legs = {} if prev is None else {
-            "unfilled_yoy_pct": round((uo[last] / uo[year_ago] - 1) * 100, 1),
-            "shipments_yoy_pct": round((sh[last] / sh[year_ago] - 1) * 100, 1)}
+        # the two legs of the ratio's move (unfilled-orders STOCK and shipments
+        # flow), so the page can say which one moved it. Neither leg measures
+        # new orders: the ratio alone can't say whether demand cooled. Each leg
+        # guards its own denominator — a zero year-ago unfilled balance is a
+        # valid 0.0 ratio, and a percent change off zero is undefined, so that
+        # leg is omitted rather than failing the whole board.
+        legs = {}
+        for name, series in (("unfilled_yoy_pct", uo), ("shipments_yoy_pct", sh)):
+            base = series.get(year_ago)
+            if base:
+                legs[name] = round((series[last] / base - 1) * 100, 1)
         out[key] = {"label": g["label"], "months": [m[:7] for m in months], "ratio": ratio,
                     "latest": ratio[-1], "latest_month": last[:7],
                     "change_1y": None if prev is None else round(ratio[-1] - prev, 2),

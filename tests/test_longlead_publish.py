@@ -229,5 +229,19 @@ def test_backlog_months_is_sa_unfilled_over_sa_shipments_with_1y_change():
     assert (b["electrical"]["latest"], b["electrical"]["latest_month"], b["electrical"]["change_1y"]) == (5.5, "2026-07", -0.5)
     # the ratio fell because shipments grew faster (+20%) than the order book (+10%)
     assert (b["electrical"]["unfilled_yoy_pct"], b["electrical"]["shipments_yoy_pct"]) == (10.0, 20.0)
+
+
+def test_backlog_months_survives_a_zero_year_ago_unfilled_balance():
+    import sqlite3
+    conn = sqlite3.connect(":memory:")
+    conn.execute("CREATE TABLE observations (series_code TEXT, obs_date TEXT, value REAL, "
+                 "vintage_date TEXT, source TEXT, route TEXT)")
+    rows = [("fred_uo_electrical_sa", "2025-07-01", 0.0), ("fred_ship_electrical_sa", "2025-07-01", 100.0),
+            ("fred_uo_electrical_sa", "2026-07-01", 600.0), ("fred_ship_electrical_sa", "2026-07-01", 100.0)]
+    conn.executemany("INSERT INTO observations VALUES (?, ?, ?, '2026-09-01', 'FRED', 'API')", rows)
+    e = longlead.backlog_months(conn)["electrical"]
+    # the ratio series and its change stand; only the undefined leg is omitted
+    assert (e["ratio"], e["change_1y"]) == ([0.0, 6.0], 6.0)
+    assert "unfilled_yoy_pct" not in e and e["shipments_yoy_pct"] == 0.0
     assert longlead.PACKAGE_BACKLOG == {"switchgear": "electrical", "transformers": "electrical",
                                         "generators": "turbines"}

@@ -116,8 +116,21 @@ describe("lead times", () => {
       lead("Caterpillar diesel standby gen sets", null, "2028"),
     ])).toBe("Generator step-up transformers average 143 weeks from order, power transformers 128, switchgear 44 " +
              "(industry survey, Q2 2025); " +
-             "Caterpillar diesel standby gen sets: orders taken into 2028.");
+             "Caterpillar diesel standby gen sets: orders taken into 2028 (vendor statement, Q2 2025).");
     expect(leadTakeaway([])).toBeNull();
+  });
+
+  it("keeps every reading dated when packages come from different periods or bases", () => {
+    const newer = { ...lead("Switchgear, US average", 44), period: "2026-06-30" };
+    const report = { ...lead("Breakers, US average", 30), basis: "industry-report" as const };
+    expect(leadTakeaway([lead("Power transformers, US average", 128), newer, report]))
+      .toBe("Power transformers average 128 weeks from order (industry survey, Q2 2025); " +
+            "switchgear 44 weeks (industry survey, Q2 2026); breakers 30 weeks (industry report, Q2 2025).");
+  });
+
+  it("dates a vendor horizon on its own", () => {
+    expect(leadTakeaway([{ ...lead("Caterpillar diesel standby gen sets", null, "2028"), period: "2026-06-30" }]))
+      .toBe("Caterpillar diesel standby gen sets: orders taken into 2028 (vendor statement, Q2 2026).");
   });
 });
 
@@ -130,5 +143,7 @@ describe("backlogMove", () => {
   it("degrades without a year-ago reading or legs", () => {
     expect(backlogMove({ ...b, change_1y: null })).toBe("7.2 months");
     expect(backlogMove({ ...b, change_1y: 0.02 })).toBe("7.2 months, flat on the year");
+    // a leg omitted off a zero base (writer) leaves the other standing
+    expect(backlogMove({ ...b, shipments_yoy_pct: 0 })).toBe("7.2 months, down 1.3 in a year: shipments 0.0%");
   });
 });

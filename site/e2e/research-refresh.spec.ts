@@ -251,6 +251,13 @@ test("long-lead board summarizes every package and prints each vendor once", asy
   const vendors = page.locator('.ll-board-table td[data-label="What the vendors say"]').first();
   const box = (await vendors.boundingBox())!;
   expect(box.x + box.width).toBeLessThanOrEqual(390);
+  // and its TEXT reflows at 320px: a grid cell can fit while unwrapped
+  // contents overflow it, so measure the document and every vendor line
+  await page.setViewportSize({ width: 320, height: 700 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+  const overflow = await page.locator(".ll-board-table .ll-signals li").evaluateAll((lis) =>
+    lis.filter((li) => li.scrollWidth > li.clientWidth + 1).length);
+  expect(overflow).toBe(0);
 });
 
 test("long-lead board leads with stated lead times once the daily run publishes them", async ({ page, request }) => {

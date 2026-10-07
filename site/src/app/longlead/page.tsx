@@ -251,7 +251,9 @@ export default function Page() {
           </table>
         </div>
         <p className="ll-board-note">{data.packages.length} packages cover {fmtWeightPct(data.build_weight_covered)} of the DC Build index. Lead time is a stated survey average or a vendor&apos;s order horizon, dated to the period it measures;
-          {data.lead_time_benchmark && <> across all data-center equipment the US average is <b>{fmtLead(data.lead_time_benchmark)}</b> (<a href={data.lead_time_benchmark.src.url}>{data.lead_time_benchmark.src.label}</a>);</>}
+          {data.lead_time_benchmark && (data.lead_time_benchmark.stale
+            ? <> across all data-center equipment the US average <i>was</i> <b>{fmtLead(data.lead_time_benchmark)}</b> as last reported <span className="ll-tag ll-tag-stale">stale</span> (<a href={data.lead_time_benchmark.src.url}>{data.lead_time_benchmark.src.label}</a>);</>
+            : <> across all data-center equipment the US average is <b>{fmtLead(data.lead_time_benchmark)}</b> (<a href={data.lead_time_benchmark.src.url}>{data.lead_time_benchmark.src.label}</a>);</>)}
           {" "}price is the component&apos;s PPI at its own last reading; industry backlog is Census M3 months of unfilled orders, and switchgear and transformers share one industry group; vendor figures are what each company states, never summed across bases.</p>
       </section>
       {backlogGroups.length > 0 && (
@@ -261,14 +263,16 @@ export default function Page() {
             {backlogGroups.map(([key, b]) => <li key={key}><strong>{b.label}</strong> {backlogMove(b)}</li>)}
           </ul>
           <LinesChart ariaTitle="Months of backlog, Census M3" yUnit=" mo" recessions={false} height={280}
-            bands={[{ from: "2020-02-01", to: "2020-12-01", label: "2020: shipments fell, orders didn't" }]}
+            bands={[{ from: "2020-02-01", to: "2020-12-01", label: "2020: shipments fell, unfilled orders didn't" }]}
             series={backlogGroups.map(([key, b]) => ({ name: b.label, x: b.months.map((m) => `${m}-01`), y: b.ratio,
               color: key === "turbines" ? C.violet : C.sky }))} />
           <p className="method">
             How many months current shipments would take to clear the order book — an industry-wide, primary-source
             lead-time proxy that complements the vendors&apos; own figures below. The ratio moves with either leg, so read
             it with them: the 2020 turbine spike came from shipments falling about a quarter while unfilled orders held
-            flat, and a falling ratio with a flat order book means factories are shipping faster, not that demand cooled.{" "}
+            flat. Unfilled orders are a stock — last month&apos;s balance plus new orders, less shipments and
+            cancellations — so neither leg is new orders, and the ratio alone cannot say whether demand rose or
+            cooled. Shipments are in dollars, so their growth mixes price with volume.{" "}
             Electrical equipment maps to switchgear and transformers; turbines, generators &amp; power transmission maps to generator sets. Data: FRED
             A35CUO/A35CVS and ATGPUO/ATGPVS (Census M3, monthly, about one month behind).
           </p>
