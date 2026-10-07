@@ -151,7 +151,7 @@ export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
       </div>
       <p className="cap-viz-note">
         Weighted MW = operational + half of construction + a quarter of planned. Valuations reprice every morning.
-        {excluded.length > 0 && <> Not plotted: {excluded.map((c) => c.t).join(", ")} — EV per MW is withheld for hyperscalers and private builders (enterprise value isn&apos;t tied to AI megawatts){excluded.some((c) => c.dupe === "parent") ? ", and parent rows that repeat a subsidiary" : ""}.</>}
+        {excluded.length > 0 && <> Not plotted: {excluded.map((c) => c.t).join(", ")} — EV per MW is withheld for hyperscalers and private builders (enterprise value isn&apos;t tied to AI megawatts){excluded.some((c) => c.ev_note) ? <>, for companies whose EV prices a much larger business than their AI megawatts ({excluded.filter((c) => c.ev_note).map((c) => c.t).join(", ")})</> : ""}{excluded.some((c) => c.dupe === "parent") ? ", and parent rows that repeat a subsidiary" : ""}.</>}
       </p>
     </div>
   );

@@ -298,6 +298,10 @@ body.research-site .footer-meta { font-size: 12px; }
 .cap-empty { color: var(--muted); padding: 24px 0; }
 
 .cap-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.cap-group + .cap-group { margin-top: 22px; }
+.cap-group-head { margin: 0 0 10px; font-size: 15px; font-weight: 600; }
+.cap-group-head small { margin-left: 6px; font-size: 12.5px; font-weight: 400; color: var(--muted); }
+.cap-takeaway { max-width: 860px; margin: 2px 0 10px; font-size: 18px; line-height: 1.5; font-weight: 500; }
 .research-page .cap-row { padding: 0; border-radius: 8px; overflow: hidden; }
 .cap-row.is-open { border-color: #B5C9EA; box-shadow: 0 6px 24px #17212B0D; }
 .cap-head, .capacity-company { display: grid; grid-template-columns: 28px minmax(200px, 270px) minmax(0, 1fr) 112px 84px 16px; }

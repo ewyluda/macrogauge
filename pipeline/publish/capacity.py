@@ -3,8 +3,8 @@
 Hand-curated MW layer (config/capacity.json) x daily FMP_EQ market caps from
 the store. ALL derived analytics live here (the site renders only): EV = cap +
 net debt; weighted MW = op + 0.5*con + 0.25*plan; EV/MW in $M/MW — published
-null for hyperscaler-role and private rows where a conglomerate EV over an
-AI-DC slice would mislead; %energized; coverage = backlog / EV. The energization
+null for hyperscaler-role and private rows, and rows carrying a curated
+ev_note, where an EV over an AI-DC slice would mislead; %energized; coverage = backlog / EV. The energization
 timeline dates each construction site by its curated `energize_q` (5th sites
 element) and falls back to parsing the free-text `when` (parse_quarter).
 A missing quote degrades the row (cap null, stale true) — never drops it; a
@@ -132,7 +132,7 @@ def _latest(conn, code):
     return (rows[-1][0], rows[-1][1]) if rows else (None, None)
 
 
-_PASSTHROUGH = ("t", "n", "role", "dupe", "private", "confidence", "flag",
+_PASSTHROUGH = ("t", "n", "role", "dupe", "private", "confidence", "flag", "ev_note",
                 "dom", "pipe", "op", "con", "plan", "nd", "ndflag", "bk",
                 "valuation_b", "econ", "sites", "src")
 
@@ -147,7 +147,9 @@ def _company_row(conn, c: dict, today: str | None = None,
     total = c["op"] + c["con"] + c["plan"]
     wmw = c["op"] + 0.5 * c["con"] + 0.25 * c["plan"]
     ev = round(cap + (c.get("nd") or 0), 2) if cap is not None else None
-    suppress = private or c["role"] == "hyperscaler"
+    # a curated ev_note withholds EV/MW where the EV prices a business the
+    # tracked AI MW is a sliver of (Akamai's CDN, a miner with no AI MW)
+    suppress = private or c["role"] == "hyperscaler" or bool(c.get("ev_note"))
     # Carry-forward semantics make an old quote harmless, but never fresh:
     # the row keeps its value + priced_date and flags stale once the quote
     # ages past the registry limit for its fmp_cap_* series.

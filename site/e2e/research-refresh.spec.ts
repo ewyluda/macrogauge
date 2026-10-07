@@ -86,7 +86,7 @@ test("toolbar menus dismiss with Escape and outside clicks", async ({ page }) =>
 
 test("capacity company details stay usable on a phone", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/capacity");
+  await page.goto("/capacity?tab=Capacity");
   const company = page.locator(".capacity-company").first();
   await company.click();
   await expect(company).toHaveAttribute("aria-expanded", "true");
@@ -95,7 +95,7 @@ test("capacity company details stay usable on a phone", async ({ page }) => {
 });
 
 test("capacity dossier names its fields for readers, not by curator keys", async ({ page }) => {
-  await page.goto("/capacity");
+  await page.goto("/capacity?tab=Capacity");
   const company = page.locator(".capacity-company").first();
   await company.click();
   const dossier = page.locator(".cap-dossier");
@@ -106,8 +106,34 @@ test("capacity dossier names its fields for readers, not by curator keys", async
   // Tabs are a real tablist: arrow keys move selection.
   const tab = page.getByRole("tab", { name: "Capacity", selected: true });
   await tab.focus();
-  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("ArrowLeft");
   await expect(page.getByRole("tab", { name: "Valuation × Execution", selected: true })).toBeFocused();
+});
+
+test("capacity leads with a takeaway and the valuation scatter, and bars scale per cohort", async ({ page, request }) => {
+  const cap = await (await request.get("/data/capacity.json")).json();
+  await page.goto("/capacity");
+  await expect(page.locator("h1")).toContainText("live today");
+  // the default view is the scatter: market cap ≠ megawatts, above the fold
+  await expect(page.getByRole("tab", { name: "Valuation × Execution", selected: true })).toBeVisible();
+  await expect(page.locator(".cap-viz svg")).toBeVisible();
+  // a row whose EV prices a much larger business publishes no EV/MW and is
+  // never plotted
+  for (const c of cap.companies.filter((x: { ev_note?: string }) => x.ev_note)) {
+    expect(c.ev_per_mw).toBeNull();
+    await expect(page.locator(".cap-viz-note")).toContainText(c.t);
+  }
+  // with both cohorts in view the bars split into two groups, each on its own scale
+  await page.getByRole("tab", { name: "Capacity" }).click();
+  const heads = page.locator(".cap-group-head");
+  await expect(heads).toHaveCount(2);
+  await expect(heads.first()).toContainText("bars scaled to");
+  // rank numbering runs on across the groups
+  const ranks = await page.locator(".cap-rank").allTextContents();
+  expect(ranks.map(Number)).toEqual(ranks.map((_, i) => i + 1));
+  // one cohort: one list, no group headers
+  await page.locator(".cap-cohort button", { hasText: "Neoclouds" }).click();
+  await expect(heads).toHaveCount(0);
 });
 
 test("capacity views each carry a readable table view and no page overflow", async ({ page }) => {

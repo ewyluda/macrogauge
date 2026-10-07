@@ -76,6 +76,10 @@ def load_capacity(path: Path | None = None,
             raise ValueError(f"{c['t']}: n must be a non-empty string")
         if c.get("dupe") is not None and not isinstance(c["dupe"], str):
             raise ValueError(f"{c['t']}: dupe must be a string or null")
+        # ev_note withholds EV/MW with its reason: the EV prices a business
+        # the tracked AI MW is a sliver of (the hyperscaler rule, row by row)
+        if c.get("ev_note") is not None and not (isinstance(c["ev_note"], str) and c["ev_note"]):
+            raise ValueError(f"{c['t']}: ev_note must be a non-empty string or absent")
         for field in ("nd", "bk", "valuation_b"):
             _require_num_or_none(c["t"], field, c.get(field))
         # sites rows feed publish/capacity._events positionally, and

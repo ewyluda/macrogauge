@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import type { CapacityCompany } from "@/lib/types";
+import { cohortOf } from "@/lib/capacityCohort";
 
 const fmtMW = (mw: number) =>
   mw >= 1000 ? `${(mw / 1000).toFixed(1)} GW` : `${Math.round(mw).toLocaleString("en-US")} MW`;
@@ -77,6 +78,7 @@ function Dossier({ c }: { c: CapacityCompany }) {
     : "n/a";
   const evPerMwNote = c.ev_per_mw != null ? "EV ÷ weighted MW"
     : c.private ? "private — no market EV"
+    : c.ev_note ? `withheld: ${c.ev_note}`
     : c.role === "hyperscaler" ? "conglomerate EV, not meaningful per AI MW" : undefined;
   const capValue = c.private ? money(c.valuation_b) : money(c.cap);
   const capNote = c.private ? "last private mark"
@@ -177,9 +179,23 @@ function Dossier({ c }: { c: CapacityCompany }) {
   );
 }
 
+// One linear scale across hyperscalers and pure plays turned every neocloud
+// and ex-miner into a sliver beside Amazon's 34 GW. With both cohorts in view
+// the list splits into two groups, each on its own scale (stated in its
+// header); a filtered cohort keeps one list.
+const GROUPS: { key: "hyperscaler" | "neocloud"; label: string }[] = [
+  { key: "hyperscaler", label: "Hyperscalers and AI labs" },
+  { key: "neocloud", label: "Neoclouds, ex-miners and landlords" },
+];
+
 export function CapacityBars({ rows }: { rows: CapacityCompany[] }) {
   const [open, setOpen] = useState<string | null>(null);
-  const max = Math.max(...rows.map((c) => c.op + c.con + c.plan), 1);
+  const total = (c: CapacityCompany) => c.op + c.con + c.plan;
+  const present = GROUPS.filter((g) => rows.some((c) => cohortOf(c) === g.key));
+  const groups = present.length > 1
+    ? present.map((g) => ({ ...g, rows: rows.filter((c) => cohortOf(c) === g.key) }))
+    : [{ key: "all", label: "", rows }];
+  let rank = 0;
   return (
     <div>
       <div className="cap-legend">
@@ -192,9 +208,16 @@ export function CapacityBars({ rows }: { rows: CapacityCompany[] }) {
       <div className="cap-head" aria-hidden>
         <span /><span>Company</span><span>Critical-IT MW</span><span className="r">Total</span><span className="r">EV per MW</span><span />
       </div>
-      <ol className="cap-list">
-        {rows.map((c, i) => {
-          const total = c.op + c.con + c.plan;
+      {groups.map((g) => {
+        const max = Math.max(...g.rows.map(total), 1);
+        return (
+      <section key={g.key} className="cap-group" aria-label={g.label || undefined}>
+      {g.label && (
+        <h3 className="cap-group-head">{g.label} <small>{g.rows.length} · bars scaled to {fmtMW(max)}</small></h3>
+      )}
+      <ol className="cap-list" start={rank + 1}>
+        {g.rows.map((c) => {
+          const i = rank++;
           const isOpen = open === c.t;
           return (
             <li key={c.t} className={`dashboard-panel cap-row${isOpen ? " is-open" : ""}`}>
@@ -213,7 +236,7 @@ export function CapacityBars({ rows }: { rows: CapacityCompany[] }) {
                 </span>
                 <span className="cap-track"><Bar c={c} max={max} /></span>
                 <span className="cap-total">
-                  <strong>{fmtMW(total)}</strong>
+                  <strong>{fmtMW(total(c))}</strong>
                   <small>{c.pct_energized != null ? `${Math.round(c.pct_energized)}% energized` : ""}</small>
                 </span>
                 <span className="cap-evmw">
@@ -221,7 +244,7 @@ export function CapacityBars({ rows }: { rows: CapacityCompany[] }) {
                     ? c.stale
                       ? <span title={`Stale quote — last priced ${c.priced_date}`}>${c.ev_per_mw.toFixed(0)}M*</span>
                       : `$${c.ev_per_mw.toFixed(0)}M`
-                    : <span className="cap-na" title={c.private ? "Private — no market EV" : "Conglomerate EV — not meaningful per AI MW"}>n/a</span>}
+                    : <span className="cap-na" title={c.private ? "Private — no market EV" : c.ev_note ?? "Conglomerate EV — not meaningful per AI MW"}>n/a</span>}
                 </span>
                 <span className="cap-chevron" aria-hidden />
               </button>
@@ -230,6 +253,9 @@ export function CapacityBars({ rows }: { rows: CapacityCompany[] }) {
           );
         })}
       </ol>
+      </section>
+        );
+      })}
     </div>
   );
 }
