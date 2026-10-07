@@ -17,7 +17,9 @@ export { cohortOf } from "@/lib/capacityCohort";
 const COHORTS: [CapacityCohortKey, string][] = [
   ["all", "All"], ["neocloud", "Neoclouds"], ["hyperscaler", "Hyperscalers"],
 ];
-const TABS = ["Capacity", "Valuation × Execution", "Demand map", "Timeline", "Geo map"] as const;
+// The valuation view leads: market cap ≠ megawatts is the page's point, and
+// the scatter is where it shows (scorecard 2026-10-07).
+const TABS = ["Valuation × Execution", "Capacity", "Demand map", "Timeline", "Geo map"] as const;
 const SORTS: [string, string][] = [
   ["total", "Total MW"], ["op", "Operational MW"], ["con", "Construction MW"],
   ["plan", "Planned MW"], ["ev_per_mw", "EV per MW"], ["cap", "Market cap"],
@@ -35,7 +37,7 @@ function sortVal(c: CapacityCompany, key: string): number {
 }
 
 export function CapacityClient({ data }: { data: Capacity }) {
-  const [tab, setTab] = useUrlState<(typeof TABS)[number]>("tab", "Capacity", codecs.enumOf(TABS));
+  const [tab, setTab] = useUrlState<(typeof TABS)[number]>("tab", "Valuation × Execution", codecs.enumOf(TABS));
   const [cohort, setCohort] = useUrlState<CapacityCohortKey>("cohort", "all", codecs.enumOf(COHORTS.map((c) => c[0])));
   const [query, setQuery] = useUrlState("q", "", codecs.str(60));
   const [sort, setSort] = useUrlState("sort", "total", codecs.str(20));

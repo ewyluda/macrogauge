@@ -5,6 +5,8 @@ import { CapacityClient } from "@/components/capacity/CapacityClient";
 import type { Capacity } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
+import { capacityHeadline } from "@/lib/capacityCohort";
+import { fmtDay } from "@/lib/format";
 
 const data = artifact<"capacity", Capacity>("capacity", capacityJson);
 const all = data.cohorts.all;
@@ -22,12 +24,14 @@ export default function Page() {
   // de-duplicated rows that publish an EV/MW — a hyperscaler's conglomerate EV
   // is suppressed on its row, so it is not summed back in here either.
   const evRows = data.companies.filter((c) => c.dupe == null && c.ev_per_mw != null).length;
+  const headline = capacityHeadline(data.cohorts, ref, evRows, fmtDay(data.as_of_curated));
   return (
     <div>
       <StaleBanner publishedAt={capacityJson.published_at} />
       <h1>
-        AI Capacity <span className="subtitle">who has the megawatts?</span>
+        {headline?.title ?? "AI Capacity"} <span className="subtitle">AI capacity tracker</span>
       </h1>
+      {headline && <p className="cap-takeaway" data-testid="cap-takeaway">{headline.detail}</p>}
       <p className="lede">
         Sellable and self-use <b>AI critical-IT megawatts</b> across the
         pure-play GPU clouds, the ex-bitcoin-miners pivoting into AI

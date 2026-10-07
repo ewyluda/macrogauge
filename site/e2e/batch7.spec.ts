@@ -30,7 +30,7 @@ test("expandable rows keep row semantics and expose a button control (#29)", asy
   await ctl.focus();
   await page.keyboard.press("Enter");
   await expect(ctl).toHaveAttribute("aria-expanded", "true");
-  await page.goto("/capacity");
+  await page.goto("/capacity?tab=Capacity");
   expect(await page.locator('div[role="button"]').count()).toBe(0);
   const bar = page.locator(".dashboard-panel button[aria-expanded]").first();
   await bar.click();

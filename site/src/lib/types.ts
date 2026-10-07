@@ -250,6 +250,8 @@ export type CapacityCompany = {
   t: string; n: string; role: "neocloud" | "landlord" | "operator" | "hyperscaler" | "exploratory";
   dupe: string | null; private: boolean; confidence: "filed" | "estimate";
   flag?: string | null; dom?: string | null; pipe?: string | null;
+  /** why EV/MW is withheld for this row (2026-10-07+) */
+  ev_note?: string | null;
   op: number; con: number; plan: number;
   nd?: number | null; ndflag?: string | null; bk?: number | null;
   valuation_b: number | null;

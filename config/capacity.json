@@ -1360,6 +1360,7 @@
    "note": null,
    "dom": "mara.com",
    "flag": "⚠ zero AI MW, zero signed AI leases (still, Q2'26) — mgmt targets ≥1 lease by YE 2026; Long Ridge awaiting FERC; Matagorda rights secured post-qtr",
+   "ev_note": "EV prices a bitcoin-mining business with no AI megawatts energized and no AI lease signed.",
    "econ": {
     "backlog": "$0 AI (lease discussions progressing across multiple Starwood sites)",
     "revmw": "— (no AI revenue)",
@@ -1496,6 +1497,7 @@
    "note": "../markets/companies/saas-platform/akam-akamai.md",
    "dom": "akamai.com",
    "flag": "⚠ context row (excluded from cohort totals) — EV is mostly security/CDN, NOT capacity-linked, so EV/MW is meaningless. Anthropic expanded to $11.6B/7-yr (8-K 9/24/26) for CPU workloads; Akamai says the ~$14.4B CIS portfolio needs ~95–105 MW of power at ~$22M rev/MW (9/24 call, press) — op/con/plan 20/30/50 (Oppenheimer-based) totals ~100 and is kept; split is analyst estimate",
+   "ev_note": "EV is mostly Akamai's security and CDN business; the ~100 MW of AI compute is a sliver of what the market prices.",
    "econ": {
     "backlog": "~$14.4B CIS commitments: Anthropic $11.6B/7-yr CPU expansion (9/24/26; option to +$9B ≈ $20B total; warrant up to ~5%) + earlier ~$2.8B 2026 commitments (Anthropic $1.8B/7-yr + ~$600M/4-yr US robotics-tech GPU deal + other)",
     "revmw": "n/m — EV not capacity-linked (CIS rev $99.3M +39% YoY Q2'26)",
@@ -2392,6 +2394,7 @@
    "ndflag": "Q2'26 10-Q: total indebtedness ~$22.2B − cash $0.98B ≈ $21.2B (cash-only basis, as Q1). $3.0B senior notes issued 8/06/26 — net-neutral at issuance.",
    "bk": null,
    "flag": "⚠ op/con/plan are the hyperscale/AI-attributable slice (xScale + neocloud/AI deployments); the ~270-IBX retail-colo portfolio is EXCLUDED. Equinix does not publish a single AI-MW figure - split is an estimate off filed xScale/JV/atNorth totals.",
+   "ev_note": "EV prices the whole ~270-IBX retail colocation portfolio this row excludes; the tracked AI slice is a minority of it.",
    "dom": "equinix.com",
    "econ": {
     "backlog": "no capacity leasing backlog line; Q2'26 record $424M annualized gross bookings (+23% y/y); 134 MW of xScale leases closed in Q2 (incl Hampton, ~$120M non-recurring fees); atNorth acquisition CLOSED 9/02/26 (CPP ~51% / EQIX ~34% / Partners Group ~10%)",

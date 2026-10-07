@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (1216 tests)
+pytest -q                                     # full suite (1220 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -28,8 +28,8 @@ cd site && npm ci
 npm run dev        # local dev server
 npm run lint       # ESLint flat config: next core-web-vitals + jsx-a11y + react-hooks (must pass in CI)
 npm run build      # static export (must pass in CI)
-npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/news/newsTape/homeBrief/cloudGpu/dcHub) + dcWeightBasis + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/chartAria/sourcePills/badge
-npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 221 e2e tests, zero console errors
+npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/news/newsTape/homeBrief/cloudGpu/dcHub/capacityHeadline) + dcWeightBasis + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/chartAria/sourcePills/badge
+npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 223 e2e tests, zero console errors
 npm run gen-types  # schemas/*.schema.json -> src/lib/generated/*.ts (gitignored; runs automatically before dev/build/test)
 ```
 
@@ -122,7 +122,7 @@ phase 4 composites (`heatcheck`, `stress`, `recession`), plus the DC cost index
 for contract indexation), the geography panel (`metros`, `geo`, `matrix` — which also carries
 GSCPI, the effective tariff rate — customs duties ÷ goods imports, in `tariffs` — NY Fed SCE and Atlanta Fed BIE expectations, and euro-area HICP headline/core), the labor dashboard
 (`labor`), the commodities grid (`commodities`), the AI capacity tracker (`capacity` —
-hand-curated MW × daily FMP_EQ market caps), the DC market panel (`dc_markets` —
+hand-curated MW × daily FMP_EQ market caps; EV/MW is null for hyperscalers, private rows and rows with a curated `ev_note` whose EV prices a much larger business), the DC market panel (`dc_markets` —
 county-QCEW construction labor for 20 real DC markets, a per-market `elec` block of private NAICS
 238212 nonresidential electrical contractors aggregated the same way, plus a denominated capacity-competition
 column keyed by hand-assigned market tag, never a coordinate radius), and the DC escalation

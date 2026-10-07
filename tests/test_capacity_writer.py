@@ -64,6 +64,21 @@ def test_hyperscaler_and_private_suppress_ev_per_mw(tmp_path):
     assert rows["PPP"]["stale"] is False           # private is never "stale"
 
 
+def test_ev_note_withholds_ev_per_mw_and_leaves_the_cohort_ev(tmp_path):
+    # Akamai-style: the EV prices a business the tracked AI MW is a sliver
+    # of. EV itself still publishes; EV/MW is withheld with its reason, and
+    # the row drops out of the cohort-EV sum like a hyperscaler's.
+    conn = _conn(tmp_path, [("fmp_cap_aaa", "2026-07-20", 90.0), ("fmp_cap_sss", "2026-07-20", 15.0)])
+    cfg = _cfg([_co(), _co(t="SSS", ev_note="EV is mostly CDN, not AI capacity.")])
+    out = writer.build(conn, cfg)
+    rows = {r["t"]: r for r in out["companies"]}
+    assert rows["SSS"]["ev"] == 25.0 and rows["SSS"]["ev_per_mw"] is None
+    assert rows["SSS"]["ev_note"] == "EV is mostly CDN, not AI capacity."
+    assert rows["AAA"]["ev_note"] is None and rows["AAA"]["ev_per_mw"] is not None
+    assert out["reference"]["cohort_ev_b"] == pytest.approx(100.0)   # AAA only
+    jsonschema.validate({"published_at": "x", **out}, SCHEMA)
+
+
 def test_missing_cap_degrades_not_drops(tmp_path):
     conn = _conn(tmp_path, [])
     row = writer.build(conn, _cfg([_co()]))["companies"][0]

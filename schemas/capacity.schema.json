@@ -25,6 +25,7 @@
           "role": {"enum": ["neocloud", "landlord", "operator",
                             "hyperscaler", "exploratory"]},
           "dupe": {"type": ["string", "null"]},
+          "ev_note": {"type": ["string", "null"], "description": "why EV/MW is withheld for this row (2026-10-07+)"},
           "private": {"type": "boolean"},
           "confidence": {"enum": ["filed", "estimate"]},
           "op": {"type": "number", "minimum": 0},

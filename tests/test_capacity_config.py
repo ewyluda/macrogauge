@@ -219,3 +219,18 @@ def test_untagged_geo_entries_are_allowed():
     _, series = registry.load_registry()
     cfg = capacity_cfg.load_capacity(registry_codes={s.code for s in series})
     assert any("market" not in g for g in cfg["geo"])
+
+
+@pytest.mark.parametrize("note", ["", 42])
+def test_bad_ev_note_raises(tmp_path, note):
+    cfg = json.loads(_mini(tmp_path).read_text())
+    cfg["companies"][0]["ev_note"] = note
+    p = tmp_path / "ev.json"
+    p.write_text(json.dumps(cfg))
+    with pytest.raises(ValueError, match="ev_note"):
+        capacity.load_capacity(p, market_keys=set())
+
+
+def test_real_config_withholds_ev_per_mw_where_ai_mw_is_a_sliver():
+    notes = {c["t"]: c.get("ev_note") for c in capacity.load_capacity()["companies"]}
+    assert {t for t, n in notes.items() if n} == {"AKAM", "MARA", "EQIX"}
