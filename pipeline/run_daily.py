@@ -24,8 +24,9 @@ order-book figures joined to the DC engine's price legs (surfaces via
 longlead_ok), (13) the rates panel (rates_ok), (14) the compute price
 index (compute_ok), (15) the housing panel (housing_ok), and (16) the
 since-yesterday diff, which diffs every artifact just written against a
-pre-run snapshot (changes_ok), (17) the revisions panel (revisions_ok) and
-(18) the append-only publish ledger, LAST, because it records the headline
+pre-run snapshot (changes_ok), (17) the revisions panel (revisions_ok), (18)
+the AI/data-center news tape, baked from the live exporter's public R2 object
+(news_ok), and (19) the append-only publish ledger, LAST, because it records the headline
 readings this run just wrote (ledger_ok). A failure in any one phase still publishes status+qa (rc 0)
 without blocking the others — but a jsonschema.ValidationError re-raises and
 fails the run in every phase: a schema-invalid artifact must never deploy.
@@ -61,7 +62,8 @@ from pipeline.publish import (capacity as capacity_json, changes as changes_json
                               dc_markets as dc_markets_json, gaptable,
                               gauge_daily, geo as geo_json, grocery, labor as labor_json,
                               longlead as longlead_json, matrix as matrix_json,
-                              methodology, metros as metros_json, outlook as outlook_json, phase3, pulse, qa,
+                              methodology, metros as metros_json, news as news_json,
+                              outlook as outlook_json, phase3, pulse, qa,
                               quilt, real_wages, replay, sources_status, validate)
 from pipeline.store import vintage
 
@@ -540,6 +542,19 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         print(f"published: {rv_path}")
 
     _run_phase("REVISIONS", _revisions_phase, phase_errors, "revisions")
+
+    # AI/data-center news tape (/news + /datacenter strip): bakes the live
+    # exporter's public R2 object (scripts/news/caktus_ai_news.py) into a
+    # static fallback. Re-filters it against config — the object is untrusted.
+    def _news_phase():
+        cfg = news_json.load_config()
+        feed = news_json.fetch(cfg["live_url"], http_get) if cfg["live_url"] else None
+        n_path = news_json.write(news_json.build(cfg, feed, datetime.now(timezone.utc)),
+                                 args.out, published_at=published_at)
+        validate.validate_file(n_path, SCHEMAS / "news.schema.json")
+        print(f"published: {n_path}")
+
+    _run_phase("NEWS", _news_phase, phase_errors, "news")
 
     # Publish ledger (/as-of): appends THIS run's headline readings to the
     # append-only store/ledger and publishes every row — what the site said

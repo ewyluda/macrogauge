@@ -1,0 +1,415 @@
+{
+  "schema_version": 1,
+  "as_of_curated": "2026-10-06",
+  "note": "AI/data-center news tape (/news). Posts come from the Kepler caktus.db market-news tape (one WhatsApp channel, LLM-tagged), replicated to R2 by Litestream. scripts/news/caktus_ai_news.py runs on the Mac next to the follower, filters to this universe and uploads the live JSON to live_url; the daily `news` phase bakes that JSON into news.json as the static fallback. Universe copied from notebook/public-equity/data/ai_infra_taxonomy.json (11 layers) — refresh by re-running scripts/news/sync_universe.py, then reinstall the exporter.",
+  "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
+  "window_days": 7,
+  "max_posts": 250,
+  "stale_after_hours": 24,
+  "include_categories": [
+    "company",
+    "earnings",
+    "other"
+  ],
+  "layers": [
+    "Semi Equipment",
+    "Foundry & Fab",
+    "Adv Packaging",
+    "AI Compute",
+    "Semi Testing",
+    "Servers & Storage",
+    "Networking",
+    "Power & Grid",
+    "Cooling",
+    "Cloud Delivery",
+    "DC Real Estate"
+  ],
+  "extra_universe": {
+    "GOOG": {
+      "name": "Alphabet (class C)",
+      "layer": "Cloud Delivery"
+    },
+    "HUT": {
+      "name": "Hut 8",
+      "layer": "Cloud Delivery"
+    }
+  },
+  "universe": {
+    "AAOI": {
+      "name": "Applied Optoelectronics",
+      "layer": "Networking"
+    },
+    "AEHR": {
+      "name": "Aehr Test Systems",
+      "layer": "Semi Testing"
+    },
+    "AKAM": {
+      "name": "Akamai",
+      "layer": "Cloud Delivery"
+    },
+    "ALAB": {
+      "name": "Astera Labs",
+      "layer": "Networking"
+    },
+    "AMAT": {
+      "name": "Applied Materials",
+      "layer": "Semi Equipment"
+    },
+    "AMD": {
+      "name": "AMD",
+      "layer": "AI Compute"
+    },
+    "AMKR": {
+      "name": "Amkor Technology",
+      "layer": "Adv Packaging"
+    },
+    "AMZN": {
+      "name": "Amazon",
+      "layer": "Cloud Delivery"
+    },
+    "ANET": {
+      "name": "Arista Networks",
+      "layer": "Networking"
+    },
+    "APH": {
+      "name": "Amphenol",
+      "layer": "Networking"
+    },
+    "APLD": {
+      "name": "Applied Digital",
+      "layer": "Cloud Delivery"
+    },
+    "ARM": {
+      "name": "Arm Holdings",
+      "layer": "AI Compute"
+    },
+    "ASML": {
+      "name": "ASML Holding",
+      "layer": "Semi Equipment"
+    },
+    "ASX": {
+      "name": "ASE Technology",
+      "layer": "Adv Packaging"
+    },
+    "AVGO": {
+      "name": "Broadcom",
+      "layer": "AI Compute"
+    },
+    "AXTI": {
+      "name": "AXT Inc",
+      "layer": "Adv Packaging"
+    },
+    "BE": {
+      "name": "Bloom Energy",
+      "layer": "Power & Grid"
+    },
+    "BESIY": {
+      "name": "BE Semiconductor (Besi)",
+      "layer": "Semi Equipment"
+    },
+    "BTDR": {
+      "name": "Bitdeer Technologies",
+      "layer": "Cloud Delivery"
+    },
+    "CDNS": {
+      "name": "Cadence Design",
+      "layer": "Semi Equipment"
+    },
+    "CEG": {
+      "name": "Constellation Energy",
+      "layer": "Power & Grid"
+    },
+    "CIEN": {
+      "name": "Ciena",
+      "layer": "Networking"
+    },
+    "CIFR": {
+      "name": "Cipher Mining",
+      "layer": "Cloud Delivery"
+    },
+    "CLS": {
+      "name": "Celestica",
+      "layer": "Servers & Storage"
+    },
+    "COHR": {
+      "name": "Coherent Corp",
+      "layer": "Networking"
+    },
+    "COHU": {
+      "name": "Cohu",
+      "layer": "Semi Testing"
+    },
+    "CORZ": {
+      "name": "Core Scientific",
+      "layer": "Cloud Delivery"
+    },
+    "CRWV": {
+      "name": "CoreWeave",
+      "layer": "Cloud Delivery"
+    },
+    "CSCO": {
+      "name": "Cisco Systems",
+      "layer": "Networking"
+    },
+    "DELL": {
+      "name": "Dell Technologies",
+      "layer": "Servers & Storage"
+    },
+    "DLR": {
+      "name": "Digital Realty",
+      "layer": "DC Real Estate"
+    },
+    "DOCN": {
+      "name": "DigitalOcean",
+      "layer": "Cloud Delivery"
+    },
+    "DSCSY": {
+      "name": "Disco Corporation",
+      "layer": "Semi Equipment"
+    },
+    "EQIX": {
+      "name": "Equinix",
+      "layer": "DC Real Estate"
+    },
+    "ETN": {
+      "name": "Eaton Corporation",
+      "layer": "Power & Grid"
+    },
+    "FCEL": {
+      "name": "FuelCell Energy",
+      "layer": "Power & Grid"
+    },
+    "FISN": {
+      "name": "Deep Fission",
+      "layer": "Power & Grid"
+    },
+    "FIX": {
+      "name": "Comfort Systems USA",
+      "layer": "Cooling"
+    },
+    "FLNC": {
+      "name": "Fluence Energy",
+      "layer": "Power & Grid"
+    },
+    "FN": {
+      "name": "Fabrinet",
+      "layer": "Networking"
+    },
+    "GEV": {
+      "name": "GE Vernova",
+      "layer": "Power & Grid"
+    },
+    "GFS": {
+      "name": "GlobalFoundries",
+      "layer": "Foundry & Fab"
+    },
+    "GLW": {
+      "name": "Corning",
+      "layer": "Networking"
+    },
+    "GLXY": {
+      "name": "Galaxy Digital",
+      "layer": "Cloud Delivery"
+    },
+    "GOOG": {
+      "name": "Alphabet (class C)",
+      "layer": "Cloud Delivery"
+    },
+    "GOOGL": {
+      "name": "Alphabet",
+      "layer": "Cloud Delivery"
+    },
+    "HPE": {
+      "name": "HPE",
+      "layer": "Servers & Storage"
+    },
+    "HUT": {
+      "name": "Hut 8",
+      "layer": "Cloud Delivery"
+    },
+    "INTC": {
+      "name": "Intel",
+      "layer": "Foundry & Fab"
+    },
+    "IREN": {
+      "name": "IREN",
+      "layer": "Cloud Delivery"
+    },
+    "IRM": {
+      "name": "Iron Mountain",
+      "layer": "DC Real Estate"
+    },
+    "KEEL": {
+      "name": "Keel Infrastructure",
+      "layer": "Cloud Delivery"
+    },
+    "KLAC": {
+      "name": "KLA Corporation",
+      "layer": "Semi Equipment"
+    },
+    "LITE": {
+      "name": "Lumentum",
+      "layer": "Networking"
+    },
+    "LRCX": {
+      "name": "Lam Research",
+      "layer": "Semi Equipment"
+    },
+    "LSRCY": {
+      "name": "Lasertec",
+      "layer": "Semi Equipment"
+    },
+    "META": {
+      "name": "Meta Platforms",
+      "layer": "Cloud Delivery"
+    },
+    "MOD": {
+      "name": "Modine Manufacturing",
+      "layer": "Cooling"
+    },
+    "MRVL": {
+      "name": "Marvell Technology",
+      "layer": "AI Compute"
+    },
+    "MSFT": {
+      "name": "Microsoft",
+      "layer": "Cloud Delivery"
+    },
+    "MU": {
+      "name": "Micron Technology",
+      "layer": "Foundry & Fab"
+    },
+    "NBIS": {
+      "name": "Nebius Group",
+      "layer": "Cloud Delivery"
+    },
+    "NET": {
+      "name": "Cloudflare",
+      "layer": "Cloud Delivery"
+    },
+    "NVDA": {
+      "name": "NVIDIA",
+      "layer": "AI Compute"
+    },
+    "NVT": {
+      "name": "nVent Electric",
+      "layer": "Power & Grid"
+    },
+    "NVTS": {
+      "name": "Navitas Semiconductor",
+      "layer": "Power & Grid"
+    },
+    "ONTO": {
+      "name": "Onto Innovation",
+      "layer": "Semi Equipment"
+    },
+    "ORCL": {
+      "name": "Oracle",
+      "layer": "Cloud Delivery"
+    },
+    "PH": {
+      "name": "Parker Hannifin",
+      "layer": "Cooling"
+    },
+    "PWR": {
+      "name": "Quanta Services",
+      "layer": "Power & Grid"
+    },
+    "QCOM": {
+      "name": "Qualcomm",
+      "layer": "AI Compute"
+    },
+    "RIOT": {
+      "name": "Riot Platforms",
+      "layer": "Cloud Delivery"
+    },
+    "SHAZ": {
+      "name": "SharonAI",
+      "layer": "Cloud Delivery"
+    },
+    "SKHY": {
+      "name": "SK Hynix",
+      "layer": "Foundry & Fab"
+    },
+    "SMCI": {
+      "name": "Super Micro Computer",
+      "layer": "Servers & Storage"
+    },
+    "SNDK": {
+      "name": "Sandisk",
+      "layer": "Foundry & Fab"
+    },
+    "SNPS": {
+      "name": "Synopsys",
+      "layer": "Semi Equipment"
+    },
+    "SSNLF": {
+      "name": "Samsung Electronics",
+      "layer": "Foundry & Fab"
+    },
+    "STX": {
+      "name": "Seagate",
+      "layer": "Servers & Storage"
+    },
+    "TE": {
+      "name": "T1 Energy",
+      "layer": "Power & Grid"
+    },
+    "TEL": {
+      "name": "TE Connectivity",
+      "layer": "Networking"
+    },
+    "TER": {
+      "name": "Teradyne",
+      "layer": "Semi Testing"
+    },
+    "TLN": {
+      "name": "Talen Energy",
+      "layer": "Power & Grid"
+    },
+    "TOELY": {
+      "name": "Tokyo Electron",
+      "layer": "Semi Equipment"
+    },
+    "TSEM": {
+      "name": "Tower Semiconductor",
+      "layer": "Foundry & Fab"
+    },
+    "TSM": {
+      "name": "TSMC",
+      "layer": "Foundry & Fab"
+    },
+    "TT": {
+      "name": "Trane Technologies",
+      "layer": "Cooling"
+    },
+    "TTMI": {
+      "name": "TTM Technologies",
+      "layer": "Adv Packaging"
+    },
+    "VRT": {
+      "name": "Vertiv Holdings",
+      "layer": "Power & Grid"
+    },
+    "VST": {
+      "name": "Vistra Corp",
+      "layer": "Power & Grid"
+    },
+    "WDC": {
+      "name": "Western Digital",
+      "layer": "Foundry & Fab"
+    },
+    "WULF": {
+      "name": "TeraWulf",
+      "layer": "Cloud Delivery"
+    },
+    "WYFI": {
+      "name": "WhiteFiber",
+      "layer": "Cloud Delivery"
+    },
+    "XE": {
+      "name": "X-energy",
+      "layer": "Power & Grid"
+    }
+  }
+}

@@ -63,6 +63,7 @@ const ROUTES: [string, string][] = [
   ["/markets", "construction wages and headcount where the shovels are"],
   ["/dc-scoreboard", "did the basis you carried hold?"],
   ["/longlead", "not a lead-time quote in weeks"],
+  ["/news", "what the tape is saying about AI and data-center names"],
 ];
 
 for (const [path, text] of ROUTES) {
@@ -486,6 +487,31 @@ test("dc-scoreboard's cross-horizon means name the horizons they cover", async (
   // "of that weight" would make the cleared share read ~2.2x too small.
   await expect(page.getByText(/of Build weight cleared the pre-registered gate/))
     .toBeVisible();
+});
+
+test("news tape filters by layer and the datacenter strip links to it", async ({ page }) => {
+  // Playwright sets navigator.webdriver, so the page stays on the baked
+  // snapshot (no live R2 fetch) — these assertions read public/data/news.json.
+  await page.goto("/news");
+  const feed = page.getByTestId("news-feed");
+  await expect(feed).toBeVisible();
+  const items = feed.getByTestId("news-item");
+  const total = await items.count();
+  if (total > 0) {
+    const layer = feed.getByRole("group", { name: "Filter by AI-infra layer" }).getByRole("button").nth(1);
+    const n = Number((await layer.innerText()).split("·").pop()!.trim());
+    await layer.click();
+    await expect(layer).toHaveAttribute("aria-pressed", "true");
+    await expect(items).toHaveCount(n);
+  } else {
+    await expect(feed.getByText(/not connected yet|No AI-infra posts/)).toBeVisible();
+  }
+  await page.goto("/datacenter");
+  const strip = page.getByTestId("news-strip");
+  await expect(strip).toBeVisible();
+  expect(await strip.getByTestId("news-item").count()).toBeLessThanOrEqual(5);
+  await strip.getByRole("link", { name: /all ai-infra news/i }).click();
+  await expect(page).toHaveURL(/\/news\/?$/);
 });
 
 test("datacenter long-lead strip links to the board", async ({ page }) => {

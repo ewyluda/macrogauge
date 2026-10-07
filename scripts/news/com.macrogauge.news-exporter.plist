@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.macrogauge.news-exporter</string>
+
+  <!-- install_live_exporter.sh fills MACROGAUGE_NEWS_BUCKET in at install time -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>exec /usr/bin/python3 "$HOME/.local/share/macrogauge-news/caktus_ai_news.py" --config "$HOME/.local/share/macrogauge-news/ai_news.json" --upload --bucket "__BUCKET__" &gt;&gt; "$HOME/Library/Logs/Kepler/macrogauge-news-exporter.log" 2&gt;&amp;1</string>
+  </array>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <!-- every 5 minutes; a run takes ~1-2 min when it has to restore from R2 -->
+  <key>StartInterval</key>
+  <integer>300</integer>
+
+  <key>ProcessType</key>
+  <string>Background</string>
+</dict>
+</plist>

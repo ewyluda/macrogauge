@@ -95,6 +95,7 @@ export const NAV: NavEntry[] = [
           { href: "/markets", label: "DC Markets", emoji: "🏗️" },
           { href: "/longlead", label: "Long-Lead Board", emoji: "⏳" },
           { href: "/compute", label: "Compute Prices", emoji: "🧮" },
+          { href: "/news", label: "AI Infra News", emoji: "📰" },
         ],
       },
     ],

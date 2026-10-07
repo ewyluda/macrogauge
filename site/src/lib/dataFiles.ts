@@ -38,6 +38,7 @@ export const DATA_FILES: DataFile[] = [
   { file: "dc_markets.json", description: "County-level construction labor for 20 DC markets" },
   { file: "capacity.json", description: "AI capacity tracker: MW by company and status" },
   { file: "longlead.json", description: "Long-lead equipment prices and vendor order books" },
+  { file: "news.json", description: "AI-infra news tape: posts naming AI/data-center companies (daily snapshot of the live feed)" },
   { file: "sources_status.json", description: "Per-source freshness and errors" },
   { file: "qa.json", description: "Data-integrity self-test results" },
   { file: "methodology.json", description: "Basket, series inventory, validation" },
