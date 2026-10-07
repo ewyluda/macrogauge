@@ -45,7 +45,11 @@ test("every chart canvas has a role=img text alternative with latest values", as
 
 test("sparklines carry text alternatives", async ({ page }) => {
   await page.goto("/");
-  const sparks = page.locator("svg[role=img]");
+  const trails = page.getByTestId("ai-pulse").locator("svg[role=img]");
+  expect(await trails.count()).toBeGreaterThan(0);
+  await expect(trails.first()).toHaveAttribute("aria-label", /trend: \d+ points, from .+ to latest .+/);
+  await page.goto("/grocery");
+  const sparks = page.locator('svg[role=img][aria-label*="price history"]');
   expect(await sparks.count()).toBeGreaterThan(0);
   await expect(sparks.first()).toHaveAttribute("aria-label", /price history: \d+ monthly points, latest \$/);
 });

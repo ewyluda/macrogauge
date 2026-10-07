@@ -17,12 +17,13 @@ const methodologyVersion = methodologyMeta.methodology_version;
 const realtime = (compareJson as { realtime?: CompareRealtime }).realtime;
 import { Section } from "@/components/Section";
 import { MethodologyInventory } from "@/components/MethodologyInventory";
+import { DcMethodology } from "@/components/DcMethodology";
 import { fmtSigned } from "@/lib/format";
 import { artifact } from "@/lib/artifact";
 
 export const metadata: Metadata = {
   title: "Methodology",
-  description: "How the gauge is built — five pure stages, every series inventoried, generated from config and live validation.",
+  description: "How the CPI gauge and the data-center cost indexes are built: weights and their sources, every series inventoried, generated from config and live validation.",
 };
 
 const statChip: React.CSSProperties = {
@@ -89,6 +90,10 @@ export default function Methodology() {
 
       <Section title="Glossary — the words this site uses precisely">
         <GlossaryList />
+      </Section>
+
+      <Section id="data-center" title="Data-center indexes — what they price and how">
+        <DcMethodology />
       </Section>
 
       <Section title="How the gauge is built — five stages">
