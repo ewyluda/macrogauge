@@ -174,6 +174,31 @@ def test_degraded_payload_validates(tmp_path):
     validate.validate_file(path, SCHEMAS / "longlead.schema.json")
 
 
+def test_lead_times_pass_through_stated_and_age_on_the_annual_allowance(tmp_path):
+    lt = dc_longlead.LeadTime(item="Switchgear, US average", weeks=44.0, through=None,
+                              basis="industry-survey", period="2025-06-30", asof="2025-10-15",
+                              quote="switchgear edged down to an average of 44 weeks",
+                              src_label="Wood Mackenzie", src_url="https://example.test/wm")
+    base = _cfg()
+    cfg = dc_longlead.LongLeadConfig(
+        as_of_curated=base.as_of_curated,
+        packages=(dc_longlead.Package(code="switchgear", vendor_keys=("gev",), null_note=None,
+                                      lead_times=(lt,)),) + base.packages[1:],
+        vendors=base.vendors, teaser=(), lead_time_benchmark=lt)
+    fresh = longlead.build(cfg, COMPONENTS, DC_RESULT, today="2026-10-07")
+    row = fresh["packages"][0]["lead_times"][0]
+    assert row == {"item": "Switchgear, US average", "weeks": 44.0, "through": None,
+                   "basis": "industry-survey", "period": "2025-06-30", "asof": "2025-10-15",
+                   "stale": False, "quote": "switchgear edged down to an average of 44 weeks",
+                   "src": {"label": "Wood Mackenzie", "url": "https://example.test/wm"}}
+    assert fresh["packages"][1]["lead_times"] == []
+    assert fresh["lead_time_benchmark"]["weeks"] == 44.0
+    # more than 430 days past the source document, a survey reading flags stale
+    assert longlead.build(cfg, COMPONENTS, DC_RESULT, today="2026-12-20")["packages"][0]["lead_times"][0]["stale"] is True
+    path = longlead.write(fresh, tmp_path, published_at="2026-10-07T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "longlead.schema.json")
+
+
 def test_real_config_publishes_and_validates(tmp_path):
     # CI gate: the committed config must publish a valid artifact even with
     # the engine down
@@ -202,5 +227,7 @@ def test_backlog_months_is_sa_unfilled_over_sa_shipments_with_1y_change():
     assert set(b) == {"electrical"}
     assert b["electrical"]["ratio"] == [6.0, 5.5]
     assert (b["electrical"]["latest"], b["electrical"]["latest_month"], b["electrical"]["change_1y"]) == (5.5, "2026-07", -0.5)
+    # the ratio fell because shipments grew faster (+20%) than the order book (+10%)
+    assert (b["electrical"]["unfilled_yoy_pct"], b["electrical"]["shipments_yoy_pct"]) == (10.0, 20.0)
     assert longlead.PACKAGE_BACKLOG == {"switchgear": "electrical", "transformers": "electrical",
                                         "generators": "turbines"}

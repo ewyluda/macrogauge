@@ -1,4 +1,4 @@
-import type { LongLeadFigure } from "./types";
+import type { BacklogMonths, LeadTime, LongLeadFigure } from "./types";
 
 // Number formatting only — the values themselves are company-stated and
 // pass through verbatim from the artifact (stated-only, spec §3).
@@ -69,4 +69,57 @@ export function noteSegments(note: string): NoteSegment[] {
   }
   if (last < note.length) out.push({ kind: "text", text: note.slice(last) });
   return out;
+}
+
+// --- lead times (2026-10-07) -------------------------------------------------
+
+export const LEAD_BASIS_LABELS: Record<LeadTime["basis"], string> = {
+  "industry-survey": "Industry survey",
+  "industry-report": "Industry report",
+  "vendor-statement": "Vendor statement",
+};
+
+/** "128 wk" / "orders into 2028" */
+export function fmtLead(lt: Pick<LeadTime, "weeks" | "through">): string {
+  return lt.weeks != null ? `${Math.round(lt.weeks)} wk` : `orders into ${lt.through}`;
+}
+
+const quarter = (d: string) => `Q${Math.ceil(Number(d.slice(5, 7)) / 3)} ${d.slice(0, 4)}`;
+const bare = (item: string) => item.replace(/, US average$/, "");
+const lower = (s: string) => (/^[A-Z][a-z]/.test(s) ? s[0].toLowerCase() + s.slice(1) : s);
+
+/**
+ * The board's opening line, written from the stated lead times: the survey
+ * weeks first (longest first), then vendors' order horizons. Null with none.
+ * "Power transformers average 128 weeks from order, switchgear 44; Caterpillar
+ * diesel standby gen sets: orders taken into 2028."
+ */
+export function leadTakeaway(leads: LeadTime[]): string | null {
+  const weeks = leads.filter((l) => l.weeks != null).sort((a, b) => b.weeks! - a.weeks!);
+  const through = leads.filter((l) => l.through != null);
+  const parts: string[] = [];
+  if (weeks.length) {
+    const [first, ...rest] = weeks;
+    // one shared basis and period (a single survey) is stated once, so the
+    // headline never passes a year-old survey off as today's reading
+    const same = weeks.every((l) => l.basis === first.basis && l.period === first.period);
+    const when = same ? ` (${LEAD_BASIS_LABELS[first.basis].toLowerCase()}, ${quarter(first.period)})` : "";
+    parts.push(`${bare(first.item)} average ${Math.round(first.weeks!)} weeks from order` +
+      rest.map((l) => `, ${lower(bare(l.item))} ${Math.round(l.weeks!)}`).join("") + when);
+  }
+  for (const l of through) parts.push(`${l.item}: orders taken into ${l.through}`);
+  return parts.length ? `${parts.join("; ")}.` : null;
+}
+
+/** "7.2 months, down 1.3 in a year: shipments +19.4%, unfilled orders +1.4%" —
+ *  which leg moved the ratio, so a falling backlog isn't read as cooling demand. */
+export function backlogMove(b: BacklogMonths): string {
+  const head = `${b.latest.toFixed(1)} months`;
+  if (b.change_1y == null) return head;
+  const d = b.change_1y;
+  const move = Math.abs(d) < 0.05 ? "flat on the year" : `${d > 0 ? "up" : "down"} ${Math.abs(d).toFixed(1)} in a year`;
+  const sign = (v: number) => `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v).toFixed(1)}%`;
+  const legs = b.shipments_yoy_pct != null && b.unfilled_yoy_pct != null
+    ? `: shipments ${sign(b.shipments_yoy_pct)}, unfilled orders ${sign(b.unfilled_yoy_pct)}` : "";
+  return `${head}, ${move}${legs}`;
 }

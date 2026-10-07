@@ -191,3 +191,49 @@ def test_garbled_config_rejected(tmp_path, mutate, match):
 def test_membership_check_rejects_non_build_code(tmp_path):
     with pytest.raises(ValueError, match="not a Build component code"):
         dc_longlead.load(_write(tmp_path), build_codes={"transformers"})
+
+
+def _lead(**overrides):
+    raw = {"item": "Switchgear, US average", "weeks": 44, "basis": "industry-survey",
+           "period": "2025-06-30", "asof": "2025-10-15",
+           "quote": "switchgear edged down to an average of 44 weeks",
+           "src": ["Wood Mackenzie", "https://example.test/wm"]}
+    raw.update(overrides)
+    return raw
+
+
+def test_lead_times_and_disclosure_note_load(tmp_path):
+    vendors = {"gev": {"name": "GE Vernova", "ticker": "GEV", "listed": "NYSE",
+                       "dc_segment": "Electrification", "cadence": "quarterly",
+                       "figures": [_figure()], "null_note": None,
+                       "disclosure_note": "Stopped stating backlog after Q4."}}
+    packages = [{"code": "switchgear", "vendors": ["gev"], "null_note": None,
+                 "lead_times": [_lead(), _lead(item="Gen sets", weeks=None, through="2028",
+                                               basis="vendor-statement")]},
+                {"code": "pumps", "vendors": [], "null_note": "No roster vendor."}]
+    cfg = dc_longlead.load(_write(tmp_path, packages=packages, vendors=vendors,
+                                  top={"lead_time_benchmark": _lead(item="All equipment", weeks=42,
+                                                                    basis="industry-report")}))
+    sw = cfg.packages[0]
+    assert [(lt.weeks, lt.through) for lt in sw.lead_times] == [(44.0, None), (None, "2028")]
+    assert cfg.packages[1].lead_times == ()          # optional
+    assert cfg.lead_time_benchmark.weeks == 42.0
+    assert cfg.vendors["gev"].disclosure_note == "Stopped stating backlog after Q4."
+
+
+@pytest.mark.parametrize("bad, match", [
+    ({"weeks": 44, "through": "2028"}, "exactly one of weeks or through"),
+    ({"weeks": None}, "exactly one of weeks or through"),
+    ({"weeks": 0}, "positive"),
+    ({"weeks": None, "through": "late 2028"}, "year string"),
+    ({"basis": "rumour"}, "basis must be one of"),
+    ({"quote": ""}, "quote must be non-empty"),
+    ({"src": ["Wood Mackenzie", "http://example.test"]}, "https"),
+    ({"asof": "20251015"}, "YYYY-MM-DD"),
+])
+def test_garbled_lead_time_rejected(tmp_path, bad, match):
+    packages = [{"code": "switchgear", "vendors": ["gev"], "null_note": None,
+                 "lead_times": [_lead(**bad)]},
+                {"code": "pumps", "vendors": [], "null_note": "No roster vendor."}]
+    with pytest.raises(ValueError, match=match):
+        dc_longlead.load(_write(tmp_path, packages=packages))

@@ -238,8 +238,33 @@ test("long-lead board summarizes every package and prints each vendor once", asy
   await expect(quote.locator("q")).not.toBeVisible();
   await quote.locator("summary").click();
   await expect(quote.locator("q")).toBeVisible();
+  // the board has a lead-time column; packages without a stated one say so
+  await expect(page.locator(".ll-board-table thead")).toContainText("Lead time");
+  await expect(page.locator(".ll-board-table tbody tr").first().locator("td.ll-board-lead")).toBeVisible();
+  // a null note's EDGAR receipts read as short links, never raw 100-char paths
+  for (const a of await page.locator(".ll-note-link").all()) {
+    expect((await a.textContent())!.length).toBeLessThan(30);
+  }
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+  // on a phone the board stacks: the vendor column stays on screen
+  const vendors = page.locator('.ll-board-table td[data-label="What the vendors say"]').first();
+  const box = (await vendors.boundingBox())!;
+  expect(box.x + box.width).toBeLessThanOrEqual(390);
+});
+
+test("long-lead board leads with stated lead times once the daily run publishes them", async ({ page, request }) => {
+  const ll = await (await request.get("/data/longlead.json")).json();
+  const leads = ll.packages.flatMap((p: { lead_times?: unknown[] }) => p.lead_times ?? []);
+  test.skip(leads.length === 0, "artifact predates lead times (2026-10-07)");
+  await page.goto("/longlead");
+  await expect(page.getByTestId("ll-takeaway")).toContainText("weeks from order");
+  await expect(page.locator(".ll-leads").first()).toBeVisible();
+  // every lead time is dated and links its source
+  for (const li of await page.locator(".ll-leads > li").all()) {
+    await expect(li.locator(".ll-fig-meta")).toContainText("stated");
+    await expect(li.locator(".ll-fig-meta a")).toHaveAttribute("href", /^https:\/\//);
+  }
 });
 
 // CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS

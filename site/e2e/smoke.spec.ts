@@ -69,7 +69,7 @@ const ROUTES: [string, string][] = [
   ["/escalation", "the math is a ratio, so the unit is yours"],
   ["/markets", "construction wages and headcount where the shovels are"],
   ["/escalation/grades", "did you carry enough"],
-  ["/longlead", "not a lead-time quote in weeks"],
+  ["/longlead", "Survey averages are not a quote for your project"],
   ["/news", "what the tape is saying about AI and data-center names"],
 ];
 

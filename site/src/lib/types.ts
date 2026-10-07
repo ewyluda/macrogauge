@@ -560,6 +560,17 @@ export type LongLeadVendor = {
   stale: boolean;
   figures: LongLeadFigure[];
   null_note: string | null;
+  /** why the newest figures are older than the cadence implies (2026-10-07+) */
+  disclosure_note?: string | null;
+};
+
+/** A stated lead time: a survey/report average in weeks, or the year a vendor
+ *  says it is taking orders into (exactly one of weeks / through). */
+export type LeadTime = {
+  item: string; weeks: number | null; through: string | null;
+  basis: "industry-survey" | "industry-report" | "vendor-statement";
+  period: string; asof: string; stale: boolean; quote: string;
+  src: { label: string; url: string };
 };
 
 export type LongLeadPackage = {
@@ -572,11 +583,15 @@ export type LongLeadPackage = {
   null_note: string | null;
   /** Census M3 group this package maps to (added 2026-10-01). */
   backlog_group?: string | null;
+  /** stated lead times (2026-10-07+) */
+  lead_times?: LeadTime[];
   vendors: LongLeadVendor[];
 };
 
 export type BacklogMonths = { label: string; months: string[]; ratio: number[]; latest: number;
-  latest_month: string; change_1y: number | null };
+  latest_month: string; change_1y: number | null;
+  /** the ratio's two legs vs a year earlier (2026-10-07+) */
+  unfilled_yoy_pct?: number; shipments_yoy_pct?: number };
 
 export type LongLead = {
   published_at: string;
@@ -586,6 +601,8 @@ export type LongLead = {
   packages: LongLeadPackage[];
   /** Census M3 months of backlog by group (added 2026-10-01). */
   backlog_months?: Record<string, BacklogMonths>;
+  /** one all-equipment reference lead time (2026-10-07+) */
+  lead_time_benchmark?: LeadTime | null;
 };
 
 // --- batch 4 (2026-09-03) ---------------------------------------------------
