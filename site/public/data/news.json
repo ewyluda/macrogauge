@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-06T12:49:37Z",
+  "published_at": "2026-10-07T12:49:40Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,361 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-07T03:45:37Z",
-  "tape_last_post_at": "2026-10-07T03:00:36Z",
-  "age_hours": 0.02,
+  "feed_generated_at": "2026-10-07T12:46:59Z",
+  "tape_last_post_at": "2026-10-07T12:40:21Z",
+  "age_hours": 0.05,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3ADDF02C799734FED86C",
+      "ts": "2026-10-07T12:25:40Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "$GOOGL Google was ordered to halt construction work on two planned data centers in Finland until required environmental impact assessments are completed.",
+      "points": [
+        {
+          "label": "Projects affected",
+          "text": "Finland\u2019s LVV ordered work suspended at the Muhos and Kajaani sites, including clearing, excavation, quarrying and road construction; planning and easily reversible survey work can continue."
+        },
+        {
+          "label": "Deadline",
+          "text": "Google must halt the affected work by Oct. 23. The company said it would follow the regulator\u2019s guidance and acknowledged it had fallen short of its own standards."
+        },
+        {
+          "label": "Investment",
+          "text": "The projects are part of Google\u2019s previously announced $15B Finland investment through 2028 covering data centers and supporting energy infrastructure, its largest planned investment in Europe."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18288",
+      "has_media": true
+    },
+    {
+      "id": "3A87173EA24DF19984BB",
+      "ts": "2026-10-07T12:25:07Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "$MRVL Marvell Technology was upgraded to Buy from Hold at TD Cowen after its investor day reinforced confidence in AI-driven connectivity growth and reduced risk around custom silicon programs.",
+      "points": [
+        {
+          "label": "Price target",
+          "text": "TD Cowen raised its target to $350 from $245, implying about 22% upside from Tuesday\u2019s close."
+        },
+        {
+          "label": "Growth outlook",
+          "text": "Marvell lifted its revenue target to $20B from $18B and set a long-term goal of $70B\u2013$90B."
+        },
+        {
+          "label": "Rationale",
+          "text": "Analyst Sean O\u2019Loughlin said Marvell\u2019s connectivity portfolio now drives the thesis, while concentration and margin risks tied to custom processors have been largely reduced."
+        },
+        {
+          "label": "Street view",
+          "text": "Marvell shares are up 238% YTD; 41 of 45 analysts tracked by LSEG rate the stock Buy or Strong Buy."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MRVL",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18287",
+      "has_media": true
+    },
+    {
+      "id": "3A5258A9906E2A74E7C3",
+      "ts": "2026-10-07T12:08:34Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "$CRWV CoreWeave plans to enter India with 240 MW of AI data-center capacity at AdaniConneX\u2019s Taloja campus in Navi Mumbai, deploying $NVDA NVIDIA Vera Rubin infrastructure for AI training, inference, reasoning and agentic workloads.",
+      "points": [
+        {
+          "label": "Buildout",
+          "text": "The campus will comprise three 80 MW buildings with direct liquid cooling and non-evaporative chilled water systems; CoreWeave will be the sole tenant."
+        },
+        {
+          "label": "Timeline",
+          "text": "The first phase is expected in mid-2028, with additional capacity added in stages and an option to expand by another 240 MW."
+        },
+        {
+          "label": "India presence",
+          "text": "CoreWeave also plans a local office and hiring as it expands its global AI-cloud footprint; the company reported about 4.2 GW of contracted power as of August 11."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18281",
+      "has_media": true
+    },
+    {
+      "id": "3A87A46100D6E925E8A8",
+      "ts": "2026-10-07T12:05:46Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "$GOOGL Google and $U Unity announced a strategic AI gaming partnership centered on Playground and the upcoming Unity Spark platform, aiming to let more users create and distribute games through natural-language tools.",
+      "points": [
+        {
+          "label": "Playground",
+          "text": "Google\u2019s experimental platform is available now for users 18+, allowing playable games to be generated and customized from text prompts without coding."
+        },
+        {
+          "label": "Unity Spark",
+          "text": "Launching later this year, Spark will add professional mechanics, high-fidelity 3D capabilities and Unity\u2019s runtime while keeping creation accessible."
+        },
+        {
+          "label": "Distribution",
+          "text": "Google plans to surface standout creations across its consumer ecosystem, while Google Play Games provides profiles, leaderboards, multiplayer matchmaking and community features."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18280",
+      "has_media": true
+    },
+    {
+      "id": "3ABA09BDB48BF82630D8",
+      "ts": "2026-10-07T12:03:48Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "XREAL priced its AURA spatial-computing glasses from $1,279, combining Android XR, $GOOGL Google Gemini and $QCOM Qualcomm\u2019s Snapdragon Reality Elite in a lightweight tethered design launching this year.",
+      "points": [
+        {
+          "label": "Hardware",
+          "text": "AURA uses sub-95g optical see-through glasses with a 70\u00b0 field of view, hand tracking and Bose audio, paired with an Android XR compute puck that also functions as a trackpad."
+        },
+        {
+          "label": "Pricing",
+          "text": "The 12GB/256GB configuration costs $1,279 and the 16GB/512GB model $1,499. Preorders are initially limited to prior reservation holders."
+        },
+        {
+          "label": "Launch",
+          "text": "Shipping is planned soon in the U.S., Canada, Japan and South Korea, with additional markets expected in 2027 and general orders opening at launch."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "QCOM",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18279",
+      "has_media": true
+    },
+    {
+      "id": "3A68360A5DED74767421",
+      "ts": "2026-10-07T11:46:11Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "$AMD Advanced Micro Devices CEO Lisa Su said the company continues to explore memory and foundry partnerships with Samsung Electronics as tight memory supply and strong data-center demand persist.",
+      "points": [
+        {
+          "label": "Samsung talks",
+          "text": "AMD and Samsung signed an MOU in March covering AI-memory supply and potential foundry cooperation for next-generation AMD products."
+        },
+        {
+          "label": "Memory supply",
+          "text": "Su said AMD is working with customers to optimize memory use and urged suppliers to expand capacity faster; she described Samsung and SK Hynix as critical to AMD\u2019s data-center ambitions."
+        },
+        {
+          "label": "Demand",
+          "text": "Su said data-center demand remains very strong across AMD\u2019s product portfolio."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMD",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18274",
+      "has_media": true
+    },
+    {
+      "id": "3A2871A3F0325CF2F154",
+      "ts": "2026-10-07T11:44:45Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "AVerMedia and Stereolabs, an $OUST Ouster company, added $NVDA NVIDIA JetPack 7.2 support across Stereolabs ZED X GMSL cameras and AVerMedia Jetson carrier boards, targeting faster production deployment of robotics and edge-AI systems.",
+      "points": [
+        {
+          "label": "Integration",
+          "text": "AVerMedia handles carrier-board integration, drivers and validation while Stereolabs focuses on camera firmware, ISP performance and its ZED SDK, allowing hardware and software development to proceed in parallel."
+        },
+        {
+          "label": "Platforms",
+          "text": "Support spans Jetson Orin and Jetson Thor, with reproducible Debian packages and official Yocto support for production software management."
+        },
+        {
+          "label": "Memory efficiency",
+          "text": "JetPack 7.2 agent skills can optimize bootloader, kernel, services and inference memory, freeing capacity for camera processing, AI models and robotics workloads."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18273",
+      "has_media": true
+    },
+    {
+      "id": "3A56275EB699CB49E9F5",
+      "ts": "2026-10-07T11:43:25Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Elon Musk said $TSLA Tesla and $SPCX SpaceX will build and operate Terafab themselves, potentially limiting $TSM TSMC\u2019s role while $INTC Intel remains the sole named manufacturing partner.",
+      "points": [
+        {
+          "label": "TSMC role",
+          "text": "Musk said talks with TSMC are only discussions and suggested any involvement could be limited to a site sublease. TSMC ADRs fell 1.3% premarket."
+        },
+        {
+          "label": "Intel",
+          "text": "CEO Lip-Bu Tan said Intel remains involved in Terafab, using its I4A process. Intel shares rose 1.6% premarket after falling 3.2% Tuesday."
+        },
+        {
+          "label": "Scale",
+          "text": "Terafab targets more than 1 TW of annual AI compute capacity, with $16.8B of initial investment potentially expanding to $119B."
+        },
+        {
+          "label": "Use cases",
+          "text": "The project could support Optimus, Cybercabs, SpaceX and xAI infrastructure."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "INTC",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "TSM",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18272",
+      "has_media": true
+    },
+    {
+      "id": "3A5D803340D5438A1CD8",
+      "ts": "2026-10-07T11:41:12Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "$AEHR Aehr Test Systems received about $6M in follow-on production orders from its lead hyperscale customer for Sonoma package-level burn-in of a next-generation AI processor used in data-center training and inference.",
+      "points": [
+        {
+          "label": "Order scope",
+          "text": "The deal includes Sonoma systems, turnkey burn-in modules, device-specific sockets and software upgrades, with deployment at the customer\u2019s Taiwan OSAT partner over the next six months."
+        },
+        {
+          "label": "2027 ramp",
+          "text": "The processor is the customer\u2019s second AI device using Sonoma and is expected to enter a larger production ramp in 2027 than its first processor, which is already in high-volume production."
+        },
+        {
+          "label": "Future demand",
+          "text": "Aehr is also discussing reliability qualification and burn-in for future higher-power AI devices using both Sonoma package-level and FOX-XP wafer-level platforms."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AEHR",
+          "layer": "Semi Testing"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18271",
+      "has_media": false
+    },
+    {
+      "id": "3A24666265B24CB9B0E8",
+      "ts": "2026-10-07T11:37:50Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "$CRWV CoreWeave is entering India with its first data centers, taking 240 MW at AdaniConneX\u2019s Taloja campus in Navi Mumbai with an option to expand to 480 MW.",
+      "points": [
+        {
+          "label": "Partnership",
+          "text": "AdaniConneX is a joint venture between Adani Group and EdgeConneX and will provide the campus capacity for CoreWeave\u2019s India expansion."
+        },
+        {
+          "label": "Scale",
+          "text": "Total investment is expected to reach multiple billions of dollars if the project develops as planned."
+        },
+        {
+          "label": "Timing",
+          "text": "CoreWeave is targeting mid-2028 for its first India data centers."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18269",
+      "has_media": true
+    },
+    {
+      "id": "3AA9B2977028927EE173",
+      "ts": "2026-10-07T11:37:34Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "$CRWV CoreWeave is entering India with its first data centers, securing 240 MW at AdaniConneX\u2019s Taloja campus in Navi Mumbai with an option to double capacity to 480 MW.",
+      "points": [
+        {
+          "label": "Expansion",
+          "text": "The project extends CoreWeave\u2019s Asian AI-cloud footprint into India through AdaniConneX, a joint venture between Adani Group and EdgeConneX."
+        },
+        {
+          "label": "Scale and timing",
+          "text": "Total investment is expected to reach multiple billions of dollars, with the first India data centers targeted for mid-2028."
+        },
+        {
+          "label": "Capacity",
+          "text": "Exercising the expansion option would increase CoreWeave\u2019s planned footprint at the campus from 240 MW to as much as 480 MW."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18268",
+      "has_media": true
+    },
     {
       "id": "3A8E490C70C09009D8FA",
       "ts": "2026-10-07T03:00:36Z",
@@ -4953,171 +5303,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17455",
       "has_media": true
-    },
-    {
-      "id": "3AD2F6ED8F899FCB7C10",
-      "ts": "2026-09-30T12:43:13Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$TSM Taiwan Semiconductor Manufacturing Co. is evaluating a possible Texas investment to expand U.S. chip production, Reuters reported, citing people familiar with the matter.",
-      "points": [
-        {
-          "label": "Decision status",
-          "text": "The Texas plans have not been finalized, and TSMC did not immediately respond to a request for comment."
-        },
-        {
-          "label": "Arizona commitment",
-          "text": "Any Texas investment would add to TSMC\u2019s stated $265 billion commitment to its Arizona operations."
-        },
-        {
-          "label": "Analyst view",
-          "text": "Wells Fargo analyst Joe Quatrochi called Texas a possible second-campus location and said expanded 2-nanometer production could benefit chip-equipment makers."
-        },
-        {
-          "label": "Existing production",
-          "text": "TSMC\u2019s first Phoenix plant began volume production of 4-nanometer chips in late 2024."
-        },
-        {
-          "label": "Next facility",
-          "text": "Its second Phoenix plant is expected to start producing 3-nanometer chips in the second half of next year, according to the supplied report."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "TSM",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17447",
-      "has_media": true
-    },
-    {
-      "id": "3A7EA25D45F89B822BC0",
-      "ts": "2026-09-30T12:23:25Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$AIB 12-year, 50 MW capacity deal with $NBIS",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "NBIS",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17442",
-      "has_media": true
-    },
-    {
-      "id": "3A4E0F549905A1D21528",
-      "ts": "2026-09-30T12:21:03Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$AIB AIB signed a binding 12-year agreement to provide $NBIS Nebius with 50 MW of critical IT capacity at its southeastern U.S. facility.",
-      "points": [
-        {
-          "label": "Capacity delivery",
-          "text": "AIB plans to provide the contracted capacity across two data halls."
-        },
-        {
-          "label": "Development funding",
-          "text": "AIB expects customer prepayments, project-level debt, and preferred equity to fund most development costs, limiting anticipated shareholder dilution."
-        },
-        {
-          "label": "Power agreement",
-          "text": "The site has an existing 15-year electric service agreement for 65 MW."
-        },
-        {
-          "label": "Electrical work",
-          "text": "AIB says the project will not require major electrical upgrades under that agreement."
-        },
-        {
-          "label": "Portfolio capacity",
-          "text": "AIB\u2019s total contracted power capacity reached about 120 MW after a separate Texas acquisition."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NBIS",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17441",
-      "has_media": false
-    },
-    {
-      "id": "3A1C4F3AEB677B17CD26",
-      "ts": "2026-09-30T12:20:39Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Data provider Aterio says meaningful power at Vantage\u2019s Port Washington campus may arrive closer to mid-2028 than $ORCL Oracle\u2019s 2027 delivery target.",
-      "points": [
-        {
-          "label": "Guidance risk",
-          "text": "Aterio sees a material risk that the campus misses Oracle\u2019s second-half 2027 delivery guidance."
-        },
-        {
-          "label": "Grid dependency",
-          "text": "The site needs a new high-voltage interconnection that requires approval from Wisconsin\u2019s Public Service Commission."
-        },
-        {
-          "label": "Review status",
-          "text": "The regulator revoked its completeness finding in August. American Transmission Co. refiled the application in September."
-        },
-        {
-          "label": "Aterio base case",
-          "text": "The provider projects partial power around December 2027 and full 1.3 GW capacity around October 2028."
-        },
-        {
-          "label": "Next milestone",
-          "text": "Aterio expects a commission completeness decision around October 19, 2026, and cautions that actual timing could differ materially."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "ORCL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17440",
-      "has_media": false
-    },
-    {
-      "id": "3A3985D3432BB543E193",
-      "ts": "2026-09-30T12:19:30Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$AIB DATA CENTERS SIGNS CONTRACT TO PROVIDE AI DATA CENTER CAPACITY TO NEBIUS.",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "NBIS",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17439",
-      "has_media": false
-    },
-    {
-      "id": "3A88AF223D383044F2F5",
-      "ts": "2026-09-30T12:18:29Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$ORCL ORACLE SHARES MOVE LOWER AFTER ATERIO FLAGS A POTENTIAL DELAY TO THE COMPANY\u2019S 1.3-GIGAWATT WISCONSIN DATA CENTER PROJECT.",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "ORCL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17438",
-      "has_media": false
     }
   ]
 }
