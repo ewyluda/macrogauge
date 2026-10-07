@@ -42,8 +42,6 @@ const ROUTES: [string, string][] = [
   ["/as-of", "what the site said on any publish, never restated"],
   ["/data", "every artifact, its schema, and how to cite it"],
   ["/components/fuel", "of the basket"],
-  ["/project-controls", "escalation you can put in a document"],
-  ["/portfolio", "escalation exposure, project by project"],
   ["/next-print", "who’s where"],
   ["/heatcheck", "Economy Heat Check"],
   ["/stress", "Consumer Stress Index"],
@@ -568,17 +566,19 @@ test("header self-test severity distinguishes advisory and critical failures", a
   }
 });
 
-test("data-center readings and chart precede the toolkit, which links all four tools", async ({
+test("data-center readings and chart precede the coverage hub, which links all six pages", async ({
   page,
 }) => {
   await page.goto("/datacenter");
   const cards = page.locator(".project-tool-card");
-  await expect(cards).toHaveCount(4);
+  await expect(cards).toHaveCount(6);
   await expect(cards).toHaveText([
     /Escalation calculator/,
-    /Market tightness/,
-    /AI capacity/,
+    /Escalation grades/,
     /Long-lead board/,
+    /DC markets/,
+    /AI capacity/,
+    /Compute prices/,
   ]);
   const toolkitBox = (await page.locator(".project-toolkit").boundingBox())!;
   const chart = (await page.locator(".dc-trend").boundingBox())!;

@@ -4,7 +4,7 @@ import { fmtSigned } from "@/lib/format";
 
 /** "What you could carry" — the realized-regime basis table and the
  *  horizon-matched band under it. Extracted from DcEscalationClient (todo
- *  #37) so /portfolio can show the same copy-stable block. Not a forecast;
+ *  #37) as a copy-stable block. Not a forecast;
  *  every sentence below says so. */
 export function CarryTable({
   basisRows, chosenKey, deliveryValid, horizon, bandRow, anchor,

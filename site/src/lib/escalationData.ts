@@ -15,9 +15,8 @@ export type EscalationData = {
 
 const build = dc.indexes.build;
 
-/** The DC Build monthly grid sliced for the escalation calculator and the
- *  portfolio view — the monthly arrays (~30KB), never the 3,000-point daily
- *  series. One definition so both pages carry the identical basis. */
+/** The DC Build monthly grid sliced for the escalation calculator — the
+ *  monthly arrays (~30KB), never the 3,000-point daily series. */
 export const ESCALATION_DATA: EscalationData = {
   months: build.monthly.months,
   index: build.monthly.index,

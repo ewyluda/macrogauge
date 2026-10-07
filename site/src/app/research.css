@@ -61,10 +61,6 @@ body.research-site .status-pill { font-size: 12px; letter-spacing: 0; text-trans
 .research-page .calculator-controls input, .research-page .calculator-controls select { width: 100% !important; background: var(--card) !important; }
 .research-page .calculator-controls > span { grid-column: 1 / -1; font-size: 13px !important; }
 .research-page .calculator-controls > button { justify-self: start; }
-.research-page .portfolio-workspace .data-table { font-size: 13px; }
-.research-page .portfolio-workspace .data-table th,
-.research-page .portfolio-workspace .data-table td { padding: 12px; }
-.research-page .portfolio-workspace input[type="month"] { min-width: 160px; }
 .research-page .glossary { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px; }
 .research-page .glossary-row { padding: 18px; }
 .research-page .glossary dt { font-size: 16px; margin-bottom: 6px; }

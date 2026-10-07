@@ -256,7 +256,7 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
 .project-toolkit-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 9px; }
 .project-toolkit-heading > span { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 .project-toolkit-heading small { color: var(--muted); font-size: 11px; }
-.project-toolkit-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.project-toolkit-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .project-tool-card { display: flex; min-width: 0; min-height: 132px; flex-direction: column; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--text); text-decoration: none; }
 .project-tool-card:hover { border-color: rgba(56, 189, 248, .45); background: rgba(56, 189, 248, .06); }
 .project-tool-card:focus-visible { outline: 2px solid var(--accent-sky); outline-offset: 2px; }
