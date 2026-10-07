@@ -20,10 +20,17 @@ describe("noiseReason", () => {
     expect(noiseReason(post("Here's a full recap:"))).toBe("recap");
     expect(noiseReason(post("Latest episode of Basis Points"))).toBe("recap");
     expect(noiseReason(post("Bank of America named $NVDA Nvidia, $INTC Intel and $MU Micron as its top semiconductor picks"))).toBe("roundup");
-    expect(noiseReason(post("Nike ($NKE) fell more than 10% premarket after a revenue miss, while onsemi ($ON) rose"))).toBe("roundup");
+    expect(noiseReason(post("Nike ($NKE) fell more than 10% premarket after a revenue miss, while onsemi ($ON) and Synaptics ($SYNA) rose"))).toBe("roundup");
     expect(noiseReason(post("AI, semiconductors & technology"))).toBe("stub");
     const many = Array.from({ length: 9 }, (_, i) => ({ ticker: `T${i}`, layer: "AI Compute" }));
     expect(noiseReason(post("Analysts moved a dozen names across chips and power", { tickers: many }))).toBe("roundup");
+  });
+
+  it("keeps a single company's market move and a short headline that names something", () => {
+    expect(noiseReason(post("$VRT Vertiv stock rose 8% premarket after winning a 1 GW liquid-cooling order"))).toBeNull();
+    expect(isInfra(post("$VRT Vertiv stock rose 8% premarket after winning a 1 GW liquid-cooling order"))).toBe(true);
+    expect(noiseReason(post("Micron raises HBM guidance"))).toBeNull();
+    expect(noiseReason(post("AI, semiconductors & technology"))).toBe("stub");
   });
 
   it("leaves real stories alone, including six-ticker deals", () => {
@@ -67,6 +74,13 @@ describe("figures", () => {
     expect(figures(post("Wall Street banks are launching a record $60 billion financing package to fund $AVGO Broadcom AI chips")))
       .toEqual([{ kind: "dollars", value: 60e9, label: "$60B" }]);
     expect(figures(post("SPACEX SAID TO SEEK $40BN FINANCING LED BY APOLLO FOR NVIDIA CHIPS"))[0].value).toBe(40e9);
+  });
+
+  it("reads the month May as a month, not a forecast", () => {
+    expect(figures(post("$APLD Applied Digital energized 200 MW at Polaris Forge in May"))).toEqual([
+      { kind: "capacity", value: 200, label: "200 MW" },
+    ]);
+    expect(figures(post("$APLD Applied Digital may add 200 MW at Polaris Forge"))).toEqual([]);
   });
 
   it("ignores forecasts, revenue targets and the supporting detail", () => {

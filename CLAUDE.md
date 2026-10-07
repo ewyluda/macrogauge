@@ -208,3 +208,9 @@ is BLS average-price staples.
   input: categories/tickers/layers re-derived, bad posts dropped and counted) — a wrong-shaped
   object is structure drift (`news_ok` false), `live_url: null` publishes status
   `unconfigured`. Universe refresh: `python3 scripts/news/sync_universe.py`, then reinstall.
+  **Editorial pass is client-side by design** (`site/src/lib/newsTape.ts`): the page folds repeats
+  into stories, sets aside noise (options flow, recaps, roundups, stubs) and defaults to stories that
+  clear keyword relevance rules, identically for the baked snapshot and the live object. `news.json`,
+  `/data/news.json` and the R2 object stay the raw tape (147 posts vs ~64 infra stories is expected);
+  `/datacenter` runs the same functions at build time to pick its five strip stories. The rules are
+  keyword heuristics — retune by adding the misjudged real headline to `newsTape.test.ts`.

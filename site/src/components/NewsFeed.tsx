@@ -107,7 +107,11 @@ function StoryItem({ s, compact, onTicker, active }: {
   return (
     <li className="news-item" data-testid="news-item">
       <div className="news-meta">
-        <time dateTime={s.latest}>{etTime(s.latest)}</time>
+        {/* the lead's own time — the row's headline and source are its; the
+            day group follows the story's newest post, so name the day when
+            the lead is from an earlier one */}
+        <time dateTime={p.ts}>{etDay(p.ts) !== etDay(s.latest) && `${etDay(p.ts)} `}{etTime(p.ts)}</time>
+        {s.latest !== p.ts && <span className="news-updated">updated {etTime(s.latest)}</span>}
         {p.category === "earnings" && <span className="badge">earnings</span>}
       </div>
       <div className="news-body">
@@ -167,7 +171,12 @@ function BigNumbers({ stories }: { stories: Story[] }) {
               {c.rows.map(({ story, figure }) => (
                 <li key={story.lead.id}>
                   <span className="news-figure">{figure.label}</span>
-                  <span className="news-numbers-headline">{story.lead.headline}</span>
+                  {story.lead.url ? (
+                    <a className="news-numbers-headline" href={story.lead.url} title={story.lead.headline}
+                       target="_blank" rel="noopener noreferrer nofollow">{story.lead.headline}</a>
+                  ) : (
+                    <span className="news-numbers-headline" title={story.lead.headline}>{story.lead.headline}</span>
+                  )}
                   <span className="subtitle">{etDay(story.latest)}</span>
                 </li>
               ))}
@@ -191,6 +200,8 @@ export function NewsFeed({ snapshot, compact = false, limit }: { snapshot: NewsA
   const pool = compact || mode === "infra" ? infraStories : stories;
   const matched = useMemo(() => pool.filter((s) => storyMatches(s, filter)), [pool, filter]);
   const shown = limit ? matched.slice(0, limit) : matched.slice(0, PAGE * pages);
+  // day headers count the whole day, not just the rows on this page
+  const perDay = useMemo(() => new Map(groupByEtDay(matched, (s) => s.latest).map((g) => [g.day, g.items.length])), [matched]);
   const layers = useMemo(() => storyLayerCounts(pool, snapshot.layers), [pool, snapshot.layers]);
   const tickers = useMemo(() => storyTickerCounts(pool.filter((s) => storyMatches(s, { ...filter, ticker: null }))).slice(0, TOP_TICKERS),
     [pool, filter]);
@@ -269,12 +280,21 @@ export function NewsFeed({ snapshot, compact = false, limit }: { snapshot: NewsA
             : `No AI-infra posts on the tape in the last ${snapshot.window_days} days.`}
         </p>
       ) : shown.length === 0 ? (
-        <p className="subtitle news-empty">No stories match these filters.</p>
+        mode === "infra" && !filter.layer && !filter.ticker ? (
+          <p className="subtitle news-empty" data-testid="news-no-infra">
+            No AI-infra stories on the tape in the last {snapshot.window_days} days.{" "}
+            <button type="button" className="tool-btn" onClick={() => { setMode("all"); pick({ layer: null, ticker: null }); }}>
+              Show everything · {stories.length}
+            </button>
+          </p>
+        ) : (
+          <p className="subtitle news-empty">No stories match these filters.</p>
+        )
       ) : (
         <>
           {groupByEtDay(shown, (s) => s.latest).map((g) => (
             <section key={g.day} className="news-day" aria-label={g.label}>
-              <h3 className="news-day-head">{g.label} <span className="subtitle">· {g.items.length}</span></h3>
+              <h3 className="news-day-head">{g.label} <span className="subtitle">· {perDay.get(g.day) ?? g.items.length}</span></h3>
               <ol className="news-list">
                 {g.items.map((s) => (
                   <StoryItem key={s.lead.id} s={s} compact={false} onTicker={toggleTicker} active={filter.ticker} />

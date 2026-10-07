@@ -850,3 +850,6 @@ body.research-site .footer-meta { font-size: 12px; }
   .news-numbers li { grid-template-columns: 64px minmax(0, 1fr); }
   .news-numbers li .subtitle { display: none; }
 }
+.news-updated { font-size: 11px; color: var(--muted); }
+a.news-numbers-headline { color: var(--text); text-decoration: none; }
+a.news-numbers-headline:hover { color: var(--accent-sky); text-decoration: underline; }

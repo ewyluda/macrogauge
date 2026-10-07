@@ -623,6 +623,8 @@ test("news tape folds repeats into stories and defaults to the AI-infra build-ou
   const folded = infra.find((s) => s.also.length > 0);
   if (folded) {
     const row = items.filter({ hasText: folded.lead.headline.slice(0, 60) }).first();
+    // the row's time is its headline's own post, never a newer repeat's
+    await expect(row.locator("time").first()).toHaveAttribute("datetime", folded.lead.ts);
     await row.getByText(new RegExp(`${folded.also.length} more posts? on this story`)).click();
     await expect(row.getByTestId("news-also").locator("li")).toHaveCount(folded.also.length);
   }

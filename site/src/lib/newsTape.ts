@@ -36,16 +36,27 @@ export function isAllCaps(s: string): boolean {
 
 const OPTIONS_FLOW = /^\$?[A-Z.]{1,6}\s+\d+(?:\.\d+)?[CP]\s+\d{1,2}\/\d{1,2}\/\d{2,4}\b/;
 const RECAP = /^(here'?s (a|the) (full )?recap|latest episode|market close|premarket movers)/i;
-const ROUNDUP = /\b(top (semiconductor )?picks?|buy-rated stocks|upgrades, downgrades|premarket|stocks? (rose|fell|gained)|shares rose today)\b/i;
+// Lists of names: a roundup whatever else the headline says.
+const ROUNDUP_LIST = /\b(top (semiconductor )?picks?|buy-rated stocks|upgrades, downgrades|premarket mov\w+)\b/i;
+// Market-move phrasing: a roundup only when the headline names several
+// companies — "Vertiv stock rose 8% after a 1 GW order" is a story.
+const MARKET_MOVE = /\b(premarket|stocks? (rose|fell|gained|declined)|shares? (rose|fell|gained|declined))\b/i;
+const CASHTAG = /\$[A-Z]{1,6}\b/g;
 
 /** Why a post is not a story, or null when it is one. */
 export function noiseReason(p: NewsPost): "options flow" | "recap" | "roundup" | "stub" | null {
   const h = p.headline.trim();
   if (OPTIONS_FLOW.test(h)) return "options flow";
   if (RECAP.test(h)) return "recap";
-  if (p.tickers.length >= 9 || ROUNDUP.test(h)) return "roundup";
-  const words = h.split(/\s+/).filter(Boolean).length;
-  if (words < 5 || (p.points.length === 0 && words < 8 && !/\d/.test(h))) return "stub";
+  const names = Math.max(p.tickers.length, (h.match(CASHTAG) ?? []).length);
+  if (p.tickers.length >= 9 || ROUNDUP_LIST.test(h) || (MARKET_MOVE.test(h) && names >= 3)) return "roundup";
+  const words = h.split(/\s+/).filter(Boolean);
+  // A section title ("AI, semiconductors & technology") names nothing: no
+  // figure, no cashtag, no proper noun after its first word. A short headline
+  // that does ("Micron raises HBM guidance") is a story.
+  const namesSomething = /\d|\$[A-Z]/.test(h) || words.slice(1).some((w) => /^[A-Z]/.test(w));
+  if (words.length < 5 && !namesSomething) return "stub";
+  if (p.points.length === 0 && words.length < 8 && !/\d/.test(h)) return "stub";
   return null;
 }
 
@@ -103,7 +114,9 @@ const CAPACITY = /\b(\d+(?:[.,]\d+)?)\s?(gw|mw|gigawatts?|megawatts?)\b/gi;
 const DOLLARS = /\$\s?(\d+(?:\.\d+)?)\s?(trillion|tn|billion|bn|b)\b/gi;
 const DEAL_WORDS = /\b(?:financing|arrang\w*|debt|loan|lend|deal|invest(?:ment|s|ing)?|funding|raise[sd]?|round|capex|capital spending|lease|contract|agreement|orders?|acquir\w+|purchase|buy|facility|package|commit\w*)\b/i;
 // A sentence that projects rather than reports: its figures are estimates.
-const FORECAST = /\b(?:forecast\w*|estimat\w*|could|may|might|projects?|projected|expects?|expected|targets?|targeting|by (?:the end of )?20\d\d|through 20\d\d)\b/i;
+const FORECAST = /\b(?:forecast\w*|estimat\w*|could|might|projects?|projected|expects?|expected|targets?|targeting|by (?:the end of )?20\d\d|through 20\d\d)\b/i;
+// Modal "may" is lowercase; "May" mid-sentence is the month ("energized in May").
+const MODAL_MAY = /(?:^|[^A-Za-z])may\b/;
 
 const num = (s: string) => Number(s.replace(/,/g, ""));
 
@@ -113,20 +126,18 @@ const num = (s: string) => Number(s.replace(/,/g, ""));
  *  price targets don't), and a sentence that forecasts contributes nothing. */
 export function figures(p: NewsPost): Figure[] {
   const out: Figure[] = [];
-  for (const src of [p.headline]) {
-    for (const sentence of src.split(/(?<=[.;])\s+/)) {
-      if (FORECAST.test(sentence)) continue;
-      for (const m of sentence.matchAll(CAPACITY)) {
-        const unit = m[2].toLowerCase();
-        const mw = num(m[1]) * (unit.startsWith("g") ? 1000 : 1);
-        if (mw > 0) out.push({ kind: "capacity", value: mw, label: mw >= 1000 ? `${+(mw / 1000).toFixed(2)} GW` : `${Math.round(mw)} MW` });
-      }
-      if (!DEAL_WORDS.test(sentence)) continue;
-      for (const m of sentence.matchAll(DOLLARS)) {
-        const u = m[2].toLowerCase();
-        const usd = num(m[1]) * (u.startsWith("t") ? 1e12 : 1e9);
-        out.push({ kind: "dollars", value: usd, label: usd >= 1e12 ? `$${+(usd / 1e12).toFixed(2)}T` : `$${+(usd / 1e9).toFixed(1)}B` });
-      }
+  for (const sentence of p.headline.split(/(?<=[.;])\s+/)) {
+    if (FORECAST.test(sentence) || MODAL_MAY.test(sentence)) continue;
+    for (const m of sentence.matchAll(CAPACITY)) {
+      const unit = m[2].toLowerCase();
+      const mw = num(m[1]) * (unit.startsWith("g") ? 1000 : 1);
+      if (mw > 0) out.push({ kind: "capacity", value: mw, label: mw >= 1000 ? `${+(mw / 1000).toFixed(2)} GW` : `${Math.round(mw)} MW` });
+    }
+    if (!DEAL_WORDS.test(sentence)) continue;
+    for (const m of sentence.matchAll(DOLLARS)) {
+      const u = m[2].toLowerCase();
+      const usd = num(m[1]) * (u.startsWith("t") ? 1e12 : 1e9);
+      out.push({ kind: "dollars", value: usd, label: usd >= 1e12 ? `$${+(usd / 1e12).toFixed(2)}T` : `$${+(usd / 1e9).toFixed(1)}B` });
     }
   }
   return out;
@@ -152,19 +163,34 @@ function jaccard(a: Set<string>, b: Set<string>): number {
   for (const w of a) if (b.has(w)) n++;
   return n / (a.size + b.size - n);
 }
-const figureKeys = (p: NewsPost) => new Set(figures(p).map((f) => `${f.kind}:${f.value}`));
+/** Everything sameStory compares, computed once per post rather than once
+ *  per pair: clustering is O(n²) and reruns on every live refresh. */
+type Features = { t: number; tickers: Set<string>; noise: boolean; figs: Set<string>; words: Set<string> };
+function features(p: NewsPost): Features {
+  return {
+    t: Date.parse(p.ts),
+    tickers: new Set(p.tickers.map((x) => x.ticker)),
+    noise: noiseReason(p) !== null,
+    figs: new Set(figures(p).map((f) => `${f.kind}:${f.value}`)),
+    words: words(p),
+  };
+}
+
+/** Cheapest test first: time window, shared ticker, noise, then figures and
+ *  wording. A recap or roundup shares tickers and figures with everything; it
+ *  never joins (or leads) a story. */
+function sameStoryF(a: Features, b: Features): boolean {
+  if (Math.abs(a.t - b.t) > STORY_WINDOW_H * 3_600_000) return false;
+  let shared = false;
+  for (const t of b.tickers) if (a.tickers.has(t)) { shared = true; break; }
+  if (!shared || a.noise || b.noise) return false;
+  for (const k of b.figs) if (a.figs.has(k)) return true;
+  return jaccard(a.words, b.words) >= 0.3;
+}
 
 /** True when two posts are the same story (see module docstring). */
 export function sameStory(a: NewsPost, b: NewsPost): boolean {
-  // a recap or roundup shares tickers and figures with everything; it never
-  // joins (or leads) a story
-  if (noiseReason(a) || noiseReason(b)) return false;
-  if (Math.abs(Date.parse(a.ts) - Date.parse(b.ts)) > STORY_WINDOW_H * 3_600_000) return false;
-  const ta = new Set(a.tickers.map((t) => t.ticker));
-  if (!b.tickers.some((t) => ta.has(t.ticker))) return false;
-  const fa = figureKeys(a);
-  for (const k of figureKeys(b)) if (fa.has(k)) return true;
-  return jaccard(words(a), words(b)) >= 0.3;
+  return sameStoryF(features(a), features(b));
 }
 
 /** The post to lead a story with: prose over a capitals flash, then one with
@@ -181,13 +207,14 @@ function better(a: NewsPost, b: NewsPost): boolean {
 /** Newest-first posts -> newest-first stories. Greedy single pass: each post
  *  joins the first story it matches any member of, else starts its own. */
 export function clusterStories(posts: NewsPost[]): Story[] {
-  const groups: NewsPost[][] = [];
+  const groups: { members: NewsPost[]; feats: Features[] }[] = [];
   for (const p of posts) {
-    const g = groups.find((members) => members.some((m) => sameStory(m, p)));
-    if (g) g.push(p);
-    else groups.push([p]);
+    const f = features(p);
+    const g = groups.find((x) => x.feats.some((m) => sameStoryF(m, f)));
+    if (g) { g.members.push(p); g.feats.push(f); }
+    else groups.push({ members: [p], feats: [f] });
   }
-  return groups.map((members) => {
+  return groups.map(({ members }) => {
     const lead = members.reduce((best, p) => (better(p, best) ? p : best));
     const latest = members.reduce((t, p) => (p.ts > t ? p.ts : t), members[0].ts);
     return { lead, also: members.filter((p) => p !== lead), latest, infra: members.some(isInfra) };
