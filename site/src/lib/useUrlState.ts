@@ -36,7 +36,7 @@ export function useUrlState<T>(
   // skips. In the other order the read set hydrated=true and the write then
   // ran in the same commit with `value` still `initial`, stripping the
   // param from the address bar until the adopted value re-wrote it — and any
-  // later effect in that commit (PortfolioClient's hydrate) read a URL with
+  // later effect in that commit (a component hydrating from the URL) read a URL with
   // the shared state already gone.
   useEffect(() => {
     if (!hydrated.current) return;

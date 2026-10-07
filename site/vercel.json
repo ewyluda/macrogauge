@@ -4,6 +4,18 @@
       "dependabot/**": false
     }
   },
+  "redirects": [
+    {
+      "source": "/project-controls",
+      "destination": "/datacenter",
+      "permanent": true
+    },
+    {
+      "source": "/portfolio",
+      "destination": "/escalation",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

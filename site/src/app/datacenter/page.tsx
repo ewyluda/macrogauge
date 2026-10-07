@@ -66,31 +66,20 @@ const NOWCAST_CLAUSE: Record<string, string> = {
 const NOWCAST_STANDING =
   "the ops index stays on official retail data and the machinery ships config-gated";
 
-const PROJECT_CONTROLS_TOOLS = [
-  {
-    href: "/escalation",
-    eyebrow: "Estimate",
-    title: "Escalation calculator",
-    description: "Apply the DC Build index to your own project basis.",
-  },
-  {
-    href: "/markets",
-    eyebrow: "Labor",
-    title: "Market tightness",
-    description: "Compare wages and headcount across real DC markets.",
-  },
-  {
-    href: "/capacity",
-    eyebrow: "Supply",
-    title: "AI capacity",
-    description: "Track operational, construction and planned critical-IT MW.",
-  },
-  {
-    href: "/longlead",
-    eyebrow: "Procurement",
-    title: "Long-lead board",
-    description: "Read equipment prices beside vendor order-book receipts.",
-  },
+// The rest of the DC coverage, one card per page — this page is the hub.
+const DC_COVERAGE = [
+  { href: "/escalation", eyebrow: "Basis of estimate", title: "Escalation calculator",
+    description: "Escalate your own base estimate between any two months, with the bridge showing which packages moved it." },
+  { href: "/dc-scoreboard", eyebrow: "Contingency", title: "Escalation grades",
+    description: "Every contingency basis graded vintage-true since 2018 — expected vs what the index actually did." },
+  { href: "/longlead", eyebrow: "Procurement", title: "Long-lead board",
+    description: "Switchgear, transformers, generators and HVAC prices beside vendors' stated order books." },
+  { href: "/markets", eyebrow: "Labor", title: "DC markets",
+    description: "County-level construction wages and headcount across real data-center markets." },
+  { href: "/capacity", eyebrow: "Supply", title: "AI capacity",
+    description: "Operational, under-construction and planned critical-IT MW by company, filing behind each." },
+  { href: "/compute", eyebrow: "Output", title: "Compute prices",
+    description: "What a token and a GPU-hour cost — the price of what the facility produces." },
 ] as const;
 
 const JUMP = [
@@ -190,11 +179,11 @@ export default function Datacenter() {
       </section>
       <section className="project-toolkit" aria-labelledby="project-toolkit-title">
         <div className="project-toolkit-heading">
-          <span id="project-toolkit-title">Project controls toolkit</span>
-          <small>From estimate through procurement</small>
+          <span id="project-toolkit-title">Data center coverage</span>
+          <small>Cost to build · capacity · compute</small>
         </div>
         <div className="project-toolkit-grid">
-          {PROJECT_CONTROLS_TOOLS.map((tool) => (
+          {DC_COVERAGE.map((tool) => (
             <Link key={tool.href} href={tool.href} className="project-tool-card">
               <span className="project-tool-eyebrow">{tool.eyebrow}</span>
               <strong>{tool.title}</strong>

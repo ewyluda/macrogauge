@@ -79,21 +79,19 @@ export const NAV: NavEntry[] = [
     label: "AI Infra",
     sections: [
       {
-        title: "For Project Controls",
+        title: "Cost to build",
         items: [
-          { href: "/project-controls", label: "Start here", emoji: "🧭" },
-          { href: "/portfolio", label: "Portfolio", emoji: "📁" },
+          { href: "/datacenter", label: "Data Centers", emoji: "🏭" },
+          { href: "/escalation", label: "Escalation", emoji: "🪜" },
+          { href: "/dc-scoreboard", label: "Escalation Grades", emoji: "🎯" },
+          { href: "/longlead", label: "Long-Lead Board", emoji: "⏳" },
+          { href: "/markets", label: "DC Markets", emoji: "🏗️" },
         ],
       },
       {
-        title: "Indexes & panels",
+        title: "Capacity & compute",
         items: [
-          { href: "/datacenter", label: "Data Centers", emoji: "🏭" },
           { href: "/capacity", label: "AI Capacity", emoji: "⚡" },
-          { href: "/escalation", label: "Escalation", emoji: "🪜" },
-          { href: "/dc-scoreboard", label: "Escalation Grades", emoji: "🎯" },
-          { href: "/markets", label: "DC Markets", emoji: "🏗️" },
-          { href: "/longlead", label: "Long-Lead Board", emoji: "⏳" },
           { href: "/compute", label: "Compute Prices", emoji: "🧮" },
           { href: "/news", label: "AI Infra News", emoji: "📰" },
         ],
