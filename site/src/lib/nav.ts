@@ -8,7 +8,7 @@ export type NavEntry = { kind: "link"; href: string; label: string } | NavGroup;
 
 /** One tagline, used by both the <meta> description and the footer. */
 export const SITE_DESCRIPTION =
-  "An independent daily gauge that re-prices the CPI basket from live market data — published with full receipts, graded against every official print.";
+  "Independent daily indexes of what it costs to build and run AI infrastructure, beside a gauge that re-prices the CPI basket from live market data. Every number ships with its sources and is graded against the official prints.";
 
 export const NAV: NavEntry[] = [
   { kind: "link", href: "/", label: "Home" },

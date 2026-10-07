@@ -1,6 +1,10 @@
 import { expect, test, type Locator } from "@playwright/test";
 import qa from "../public/data/qa.json";
 import gaugeDaily from "../public/data/gauge_daily.json";
+import dc from "../public/data/datacenter.json";
+import pulse from "../public/data/pulse.json";
+import { dcTakeaway } from "../src/lib/homeBrief";
+import { fmtSigned } from "../src/lib/format";
 
 /** A delivery month `horizon` months past the END OF THE GRID, read off the
  *  picker's own `min` (which the page sets to grid-end + 1 month).
@@ -182,7 +186,47 @@ test("quilt module renders month cells and grocery cards render prices", async (
   await page.goto("/");
   await page.waitForLoadState("networkidle");
   await expect(page.getByText("OURS: CPI-Comparable")).toBeVisible();
-  await expect(page.getByText("Eggs (dozen)")).toBeVisible();
+  // grocery cards moved off the homepage (2026-10-07 rework); they live on /grocery
+  await page.goto("/grocery");
+  await expect(page.getByText("Eggs, grade A · per dozen")).toBeVisible();
+});
+
+test("methodology documents the DC indexes: every group, its weight and its cited basis", async ({ page }) => {
+  await page.goto("/methodology#data-center");
+  const section = page.locator("#data-center");
+  await expect(section).toBeVisible();
+  for (const key of ["build", "ops", "hardware"] as const) {
+    const card = section.locator(`#method-${key}`);
+    await expect(card.locator("tbody tr:not(.dc-method-group)")).toHaveCount(dc.indexes[key].components.length);
+    await expect(card.locator("tr.dc-method-group")).toHaveCount(dc.indexes[key].groups.length);
+  }
+  const elec = dc.indexes.build.groups.find((g) => g.group === "electrical")!;
+  await expect(section.locator("#method-build tr.dc-method-group",
+    { hasText: `${dc.group_labels.electrical} · ${+(elec.weight * 100).toFixed(1)}%` })).toBeVisible();
+  await expect(section.getByRole("link", { name: /Turner & Townsend/ }).first()).toHaveAttribute("href", /turnerandtownsend\.com/);
+  await expect(section.locator("#method-compute")).toBeVisible();
+  await expect(section.locator("#method-capacity")).toBeVisible();
+});
+
+test("homepage leads with the AI-infrastructure track, written from the published DC indexes", async ({ page }) => {
+  await page.goto("/");
+  const track = page.locator("#ai-infrastructure");
+  await expect(track).toBeVisible();
+  // AI infrastructure sits above the inflation track
+  const aiTop = (await track.boundingBox())!.y;
+  const cpiTop = (await page.locator("#us-inflation").boundingBox())!.y;
+  expect(aiTop).toBeLessThan(cpiTop);
+  const build = dc.indexes.build;
+  await expect(track.locator(".home-ai-primary .kpi-value")).toHaveText(fmtSigned(build.headline_yoy_pct));
+  await expect(page.getByTestId("ai-takeaway")).toContainText(
+    dcTakeaway({ build: build.headline_yoy_pct, ops: dc.indexes.ops.headline_yoy_pct,
+      hardware: dc.indexes.hardware.headline_yoy_pct, comps: build.components })!,
+  );
+  // every reading is a link into an AI Infra page
+  for (const href of ["/compute", "/capacity", "/longlead", "/rates"]) {
+    await expect(page.getByTestId("ai-pulse").locator(`a[href="${href}"]`)).toHaveCount(1);
+  }
+  await expect(page.getByTestId("inflation-takeaway")).toContainText(`Macrogauge reads ${pulse.gauge.yoy_pct.toFixed(2)}%`);
 });
 
 test("peer calibration panel labels every column's basis", async ({ page }) => {
