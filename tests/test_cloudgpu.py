@@ -42,11 +42,11 @@ def _by(obs):
 
 def test_aws_divides_the_instance_price_by_its_gpus():
     obs = cloudgpu.fetch_aws(["p5.48xlarge/8", "p5en.48xlarge/8", "p6-b200.48xlarge/8",
-                              "p6-b300.48xlarge/8", "p4d.24xlarge/8"], vintage_date=V, http_get=_get(AWS))
+                              "p6-b300.48xlarge/8", "p4de.24xlarge/8"], vintage_date=V, http_get=_get(AWS))
     v = _by(obs)
     assert v["p5.48xlarge/8"] == pytest.approx(55.04 / 8)        # $6.88 / H100-hr
     assert v["p6-b200.48xlarge/8"] == pytest.approx(113.9328 / 8, abs=1e-4)
-    assert v["p4d.24xlarge/8"] == pytest.approx(21.957642 / 8, abs=1e-4)
+    assert v["p4de.24xlarge/8"] == pytest.approx(27.44705 / 8, abs=1e-4)   # A100 80GB, not p4d's 40GB
     assert {(o.source, o.route, o.obs_date) for o in obs} == {("AWS_GPU", "API", V)}
 
 

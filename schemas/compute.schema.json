@@ -61,7 +61,8 @@
           "as_of": {"$ref": "#/$defs/day"},
           "chg_30d_pct": {"$ref": "#/$defs/num"},
           "tail": {"$ref": "#/$defs/tail"},
-          "in_index": {"type": "boolean"}
+          "in_index": {"type": "boolean"},
+          "stale": {"type": "boolean", "description": "last obs older than the registry staleness limit (2026-10-07+)"}
         }
       }
     },
@@ -72,7 +73,7 @@
       "items": {
         "type": "object",
         "required": ["code", "provider", "gpu", "instance", "gpus_per_instance", "region",
-                     "usd_per_gpu_hr", "usd_per_instance_hr", "as_of", "chg_30d_pct"],
+                     "usd_per_gpu_hr", "usd_per_instance_hr", "as_of", "chg_30d_pct", "stale"],
         "additionalProperties": false,
         "properties": {
           "code": {"type": "string"},
@@ -84,7 +85,8 @@
           "usd_per_gpu_hr": {"$ref": "#/$defs/num"},
           "usd_per_instance_hr": {"$ref": "#/$defs/num"},
           "as_of": {"$ref": "#/$defs/day"},
-          "chg_30d_pct": {"$ref": "#/$defs/num"}
+          "chg_30d_pct": {"$ref": "#/$defs/num"},
+          "stale": {"type": "boolean", "description": "last obs older than the registry staleness limit: shown with its date, kept out of current ranges"}
         }
       }
     }

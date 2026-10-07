@@ -136,6 +136,22 @@
     "Operating System": "Linux",
     "Pre Installed S/W": "NA",
     "License Model": "No License required"
+   },
+   "p4de 24xlarge US East N. Virginia Linux": {
+    "rateCode": "9YGSXBKY3DFY79G8.JRTCKXETXF.6YS6EN2CT7",
+    "price": "27.4470500000",
+    "Location": "US East (N. Virginia)",
+    "Instance Family": "GPU instance",
+    "vCPU": "96",
+    "Instance Type": "p4de.24xlarge",
+    "Memory": "1152 GiB",
+    "Storage": "8 x 1000 SSD",
+    "Network Performance": "400 Gigabit",
+    "plc:OperatingSystem": "Linux",
+    "plc:InstanceFamily": "Accelerated Computing",
+    "Operating System": "Linux",
+    "Pre Installed S/W": "NA",
+    "License Model": "No License required"
    }
   }
  },

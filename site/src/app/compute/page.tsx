@@ -9,7 +9,7 @@ import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
 import { C } from "@/lib/chartTheme";
 import { computeIndexRows } from "@/lib/computeCsv";
-import { cloudRows, cloudTakeaway, PROVIDERS } from "@/lib/cloudGpu";
+import { cloudRows, cloudTakeaway, GPU_LABEL, PROVIDERS } from "@/lib/cloudGpu";
 import { fmtSigned, yoyColor } from "@/lib/format";
 import type { Compute } from "@/lib/types";
 import { artifact } from "@/lib/artifact";
@@ -36,9 +36,7 @@ export default function ComputePage() {
   const move = (label: string, v: number | null) =>
     v == null ? null : `${label} ${v > 0 ? "up" : v < 0 ? "down" : "flat"}${v === 0 ? "" : ` ${Math.abs(v).toFixed(1)}%`}`;
   const indexTitle = [move("Token prices", ti.chg_30d_pct), move("GPU-hours", gi.chg_30d_pct)].filter(Boolean).join(", ");
-  // a roster change rebases the token index on the new roster's first full day
   const roster = data.token_roster;
-  const rosterRebased = roster != null && ti.base_date != null && ti.base_date >= roster.since;
   return (
     <div>
       <h1>
@@ -81,10 +79,10 @@ export default function ComputePage() {
         <p className="method">
           {data.blend.method}. Token prices blend {Math.round(data.blend.in * 100)}% input and {Math.round(data.blend.out * 100)}%
           output per million tokens. A day with fewer than {data.blend.min_members} members publishes null.
-          {rosterRebased && roster && (
-            <> The model roster changed on {roster.since}: the index is based on {ti.base_date}, the first day every
-              current model was priced, and earlier history is the previous roster ({roster.retired.join(", ")})
-              chained in.</>
+          {roster && (
+            <> The model roster changed on {roster.since}. History before it is the previous roster
+              ({roster.retired.join(", ")}), chained in without a rebase: each retired model leaves the index the day
+              after its last collected price.</>
           )}
         </p>
       </Section>
@@ -125,19 +123,23 @@ export default function ComputePage() {
               <tbody>
                 {cloud.map((r) => (
                   <tr key={r.gpu}>
-                    <td style={{ textAlign: "left" }}><strong>{r.gpu}</strong></td>
+                    <td style={{ textAlign: "left" }}><strong>{GPU_LABEL[r.gpu] ?? r.gpu}</strong></td>
                     {PROVIDERS.map((p) => {
                       const c = r.cells[p];
                       if (!c || c.usd_per_gpu_hr == null) return <td key={p} style={{ color: "var(--muted)" }}>—</td>;
-                      const cheapest = c.usd_per_gpu_hr === r.low && r.low !== r.high;
+                      const cheapest = !c.stale && c.usd_per_gpu_hr === r.low && r.fresh > 1 && r.low !== r.high;
                       return (
-                        <td key={p} title={`${c.instance} · ${c.gpus_per_instance > 1 ? `$${c.usd_per_instance_hr?.toFixed(2)}/hr for ${c.gpus_per_instance} GPUs · ` : ""}${c.region} · as of ${c.as_of}`}>
+                        <td key={p} className={c.stale ? "cloud-stale" : undefined}
+                          title={`${c.instance} · ${c.gpus_per_instance > 1 ? `$${c.usd_per_instance_hr?.toFixed(2)}/hr for ${c.gpus_per_instance} GPUs · ` : ""}${c.region} · as of ${c.as_of}`}>
                           {cheapest ? <strong>{usd(c.usd_per_gpu_hr)}</strong> : usd(c.usd_per_gpu_hr)}
-                          <span className="cloud-inst">{c.instance}</span>
+                          <span className="cloud-inst">{c.stale ? `stale · as of ${c.as_of}` : c.instance}</span>
                         </td>
                       );
                     })}
-                    <td style={{ color: "var(--muted)" }}>{usd(r.market)}</td>
+                    <td style={{ color: "var(--muted)" }}>
+                      {r.market ? usd(r.market.usd) : "—"}
+                      {r.market?.stale && <span className="cloud-inst cloud-market-stale">stale · as of {r.market.as_of}</span>}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -147,10 +149,12 @@ export default function ComputePage() {
             On-demand list prices with no commitment, per GPU-hour: an instance&apos;s hourly price divided by its GPU
             count (8 for HGX-class nodes, 4 for a GB200 node). AWS is US East (N. Virginia) and Azure is East US 2,
             Linux. Oracle publishes per GPU-hour for all regions, and CoreWeave lists one on-demand price per node.
-            Bold marks the lowest list price for the GPU. Reserved, committed-use and spot rates run well below these
-            and are not published per SKU. List prices change a few times a year, so these rows stay out of the
-            GPU-hour index, which tracks the vast.ai marketplace. Google Cloud is not covered: its price catalog
-            needs an API key.
+            Every A100 row is the 80GB part; the vast.ai A100 median pools 40GB and 80GB cards. Bold marks the
+            lowest current list price for the GPU. A quote older than its staleness limit keeps its cell, marked
+            with its date, and drops out of the range, the bold and the summary line. Spot, reserved and
+            committed-use prices, which several of these clouds also publish, are left out, as are negotiated
+            discounts. List prices change a few times a year, so these rows stay out of the GPU-hour index, which
+            tracks the vast.ai marketplace. Google Cloud is not covered: its price catalog needs an API key.
           </p>
         </Section>
       )}
@@ -165,7 +169,9 @@ export default function ComputePage() {
                   <td style={{ textAlign: "left" }}>{g.label} <span style={{ color: "var(--muted)", fontSize: 11 }}>{g.code}{g.in_index === false ? " · not in index" : ""}</span></td>
                   <td><strong>{usd(g.usd_per_gpu_hr, 3)}</strong></td>
                   <td style={{ color: yoyColor(g.chg_30d_pct) }}>{fmtSigned(g.chg_30d_pct)}</td>
-                  <td style={{ color: "var(--muted)" }}>{g.as_of ?? "not collected"}</td>
+                  <td style={{ color: g.stale && g.as_of ? "var(--accent-amber)" : "var(--muted)" }}>
+                    {g.as_of ?? "not collected"}{g.stale && g.as_of ? " · stale" : ""}
+                  </td>
                   <td><TailSpark tail={g.tail.values} label={g.label} /></td>
                 </tr>
               ))}
@@ -179,8 +185,8 @@ export default function ComputePage() {
           (config/series.json); a stale series (7-day limit) shows on <Link href="/status">/status</Link> and leaves the mean.
           vast.ai medians cover the whole on-demand market: the API caps a query at 64 offers, so a saturated
           SKU is re-queried in price bands and the bands merged. Rows marked &ldquo;not in index&rdquo;
-          {notInIndex.length ? ` (${notInIndex.join(", ")})` : ""} are priced but kept out of the GPU-hour index, whose base is the first day every
-          member was priced.
+          {notInIndex.length ? ` (${notInIndex.join(", ")})` : ""} are priced but kept out of the GPU-hour index: admitting a member is a roster
+          decision, made once it has enough history.
         </p>
       </Section>
     </div>

@@ -475,7 +475,7 @@
     {"code": "aws_h200", "source": "AWS_GPU", "source_id": "p5en.48xlarge/8", "name": "AWS p5en.48xlarge on-demand, per H200 ($/GPU-hr)", "max_staleness_days": 7},
     {"code": "aws_b200", "source": "AWS_GPU", "source_id": "p6-b200.48xlarge/8", "name": "AWS p6-b200.48xlarge on-demand, per B200 ($/GPU-hr)", "max_staleness_days": 7},
     {"code": "aws_b300", "source": "AWS_GPU", "source_id": "p6-b300.48xlarge/8", "name": "AWS p6-b300.48xlarge on-demand, per B300 ($/GPU-hr)", "max_staleness_days": 7},
-    {"code": "aws_a100", "source": "AWS_GPU", "source_id": "p4d.24xlarge/8", "name": "AWS p4d.24xlarge on-demand, per A100 ($/GPU-hr)", "max_staleness_days": 7},
+    {"code": "aws_a100", "source": "AWS_GPU", "source_id": "p4de.24xlarge/8", "name": "AWS p4de.24xlarge on-demand, per A100 80GB ($/GPU-hr)", "max_staleness_days": 7},
     {"code": "az_h100", "source": "AZURE_GPU", "source_id": "Standard_ND96isr_H100_v5/8", "name": "Azure ND96isr H100 v5 pay-as-you-go, per H100 ($/GPU-hr)", "max_staleness_days": 7},
     {"code": "az_h200", "source": "AZURE_GPU", "source_id": "Standard_ND96isr_H200_v5/8", "name": "Azure ND96isr H200 v5 pay-as-you-go, per H200 ($/GPU-hr)", "max_staleness_days": 7},
     {"code": "az_gb200", "source": "AZURE_GPU", "source_id": "Standard_ND128isr_NDR_GB200_v6/4", "name": "Azure ND128isr GB200 v6 pay-as-you-go, per GB200 GPU ($/GPU-hr)", "max_staleness_days": 7},
