@@ -56,6 +56,31 @@ def test_wages_block(tmp_path):
     assert w["as_of"] == "2026-06-01"
 
 
+def test_construction_band_compares_like_months(tmp_path):
+    conn = _store_with(tmp_path, {
+        "USCONS": {"2025-08-01": 8200.0, "2026-07-01": 8290.0, "2026-08-01": 8282.0},
+        # construction AHE ends a month before all-private: the premium
+        # compares both at the construction series' own month
+        "ces_constr_ahe": {"2025-07-01": 40.0, "2026-07-01": 41.6},
+        "CES0500000003": {"2025-07-01": 30.0, "2025-08-01": 30.1,
+                          "2026-07-01": 31.2, "2026-08-01": 32.0},
+        "JTS2300JOL": {"2025-08-01": 288.0, "2026-08-01": 251.0},
+        "JTS2300JOR": {"2026-08-01": 2.94},
+        "PAYEMS": {"2026-08-01": 160000.0}})   # the history axis is payrolls' months
+    c = labor.build(conn)["construction"]
+    assert c["employment_k"] == 8282 and c["mom_change_k"] == -8
+    assert c["employment_yoy_pct"] == 1.0          # 8282/8200
+    assert c["ahe"] == 41.6 and c["ahe_yoy_pct"] == 4.0 and c["ahe_as_of"] == "2026-07-01"
+    assert c["private_ahe_yoy_pct"] == 4.0         # 31.2/30.0, July not August
+    assert (c["openings_k"], c["openings_1y_ago_k"], c["openings_rate"]) == (251, 288, 2.9)
+    assert labor.build(conn)["history"]["monthly"]["construction_yoy_pct"][-1] == 1.0
+
+
+def test_construction_band_empty_store_is_all_null(tmp_path):
+    conn = _store_with(tmp_path, {"PAYEMS": {"2026-06-01": 1.0}})
+    assert set(labor.build(conn)["construction"].values()) == {None}
+
+
 def test_history_tails_capped(tmp_path):
     payems = {f"{2022 + (m - 1) // 12}-{(m - 1) % 12 + 1:02d}-01": 150000.0 + m * 100
               for m in range(1, 49)}  # 48 months -> monthly tail keeps last 36

@@ -44,6 +44,25 @@
         "as_of": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}
       }
     },
+    "construction": {
+      "description": "Construction labour band (USCONS, CES2000000003 vs all-private AHE at the same month, JOLTS construction openings). Added 2026-10-08; optional so older labor.json files still validate.",
+      "type": "object", "additionalProperties": false,
+      "required": ["employment_k", "mom_change_k", "employment_yoy_pct", "employment_as_of", "ahe", "ahe_yoy_pct", "private_ahe_yoy_pct", "ahe_as_of", "openings_k", "openings_1y_ago_k", "openings_rate", "openings_as_of"],
+      "properties": {
+        "employment_k": {"type": ["number", "null"]},
+        "mom_change_k": {"type": ["number", "null"]},
+        "employment_yoy_pct": {"type": ["number", "null"]},
+        "employment_as_of": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "ahe": {"type": ["number", "null"]},
+        "ahe_yoy_pct": {"type": ["number", "null"]},
+        "private_ahe_yoy_pct": {"type": ["number", "null"]},
+        "ahe_as_of": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "openings_k": {"type": ["number", "null"]},
+        "openings_1y_ago_k": {"type": ["number", "null"]},
+        "openings_rate": {"type": ["number", "null"]},
+        "openings_as_of": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}
+      }
+    },
     "history": {
       "type": "object", "additionalProperties": false,
       "required": ["monthly", "weekly"],
@@ -54,6 +73,7 @@
           "properties": {
             "months": {"type": "array", "items": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}},
             "payrolls_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
+            "construction_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}, "description": "Construction employment (USCONS) YoY; optional, added 2026-10-08"},
             "unemployment_rate": {"type": "array", "items": {"type": ["number", "null"]}}
           }
         },

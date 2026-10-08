@@ -13,6 +13,9 @@ import { RaiseCalculator } from "@/components/RaiseCalculator";
 import { WageChart } from "@/components/WageChart";
 import type { Labor, Nowcast } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
+import { LinesChart } from "@/components/LinesChart";
+import { C } from "@/lib/chartTheme";
+import Link from "next/link";
 
 const d = laborJson as Labor;
 // real-wage panel (was /real-wages, folded 2026-10-08); the construction
@@ -64,6 +67,8 @@ export default function LaborPage() {
         print.
       </p>
 
+      <ConstructionBand />
+
       <div className="kpi-row">
         <KpiCard label="Payrolls (MoM)" value={signedK(d.payrolls.mom_change_k)}
           context={`${k(d.payrolls.level_k)}k total · ${d.payrolls.as_of ? fmtMonth(d.payrolls.as_of) : "—"}`} accent="sky" />
@@ -105,6 +110,40 @@ export default function LaborPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+function ConstructionBand() {
+  const c = d.construction;
+  if (!c) return null;
+  const m = d.history.monthly;
+  const premium = c.ahe_yoy_pct != null && c.private_ahe_yoy_pct != null ? c.ahe_yoy_pct - c.private_ahe_yoy_pct : null;
+  return (
+    <Section title="Construction labour — the trades a data-center build competes for" id="construction">
+      <div className="kpi-row" data-testid="construction-band">
+        <KpiCard label="Construction jobs" value={c.employment_k == null ? "—" : `${k(c.employment_k)}k`}
+          context={`${signedK(c.mom_change_k)} on the month · ${fmtSigned(c.employment_yoy_pct)} YoY · ${c.employment_as_of ? fmtMonth(c.employment_as_of) : "—"}`} accent="sky" />
+        <KpiCard label="Construction pay" value={c.ahe == null ? "—" : `$${c.ahe.toFixed(2)}/hr`}
+          context={`${fmtSigned(c.ahe_yoy_pct)} YoY vs ${fmtSigned(c.private_ahe_yoy_pct)} all private${premium == null ? "" : ` (${premium >= 0 ? "+" : "−"}${Math.abs(premium).toFixed(1)}pp)`} · ${c.ahe_as_of ? fmtMonth(c.ahe_as_of) : "—"}`} accent="amber" />
+        <KpiCard label="Construction openings" value={c.openings_k == null ? "—" : `${k(c.openings_k)}k`}
+          context={`${c.openings_rate == null ? "—" : `${c.openings_rate.toFixed(1)}%`} openings rate · ${c.openings_1y_ago_k == null ? "—" : `${k(c.openings_1y_ago_k)}k`} a year earlier · ${c.openings_as_of ? fmtMonth(c.openings_as_of) : "—"}`} accent="violet" />
+      </div>
+      {m.construction_yoy_pct && m.construction_yoy_pct.some((v) => v != null) && (
+        <div className="chart-card" style={{ padding: "12px 8px 4px" }}>
+          <LinesChart height={240} recessions={false} ariaTitle="Construction jobs vs all payrolls, year over year"
+            series={[
+              { name: "Construction jobs YoY", x: m.months, y: m.construction_yoy_pct, color: C.sky },
+              { name: "All payrolls YoY", x: m.months, y: m.payrolls_yoy_pct, color: C.muted },
+            ]} />
+        </div>
+      )}
+      <p className="method">
+        BLS construction employment (USCONS) and average hourly earnings (CES2000000003), the latter set against all
+        private workers in the same month; JOLTS construction job openings and openings rate (JTS2300JOL, JTS2300JOR),
+        which publish about two months behind. National totals: county-level construction headcount and wages for 20
+        data-center markets are on <Link href="/markets">Markets</Link>.
+      </p>
+    </Section>
   );
 }
 

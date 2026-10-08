@@ -109,3 +109,18 @@ test("/macro-cycle puts heat, stress and the recession rules on one page (was /h
   // (the number keeps the "Distance to trigger" header out of the count)
   await expect(page.getByTestId("recession-rules").locator("tbody").getByText(/\d(pp| pts)? to trigger$|past$/)).toHaveCount(withTest);
 });
+
+test("/matrix leads with the escalation inputs and /labor with the construction band", async ({ page, request }) => {
+  const matrix = await (await request.get("/data/matrix.json")).json() as { groups: { group: string; rows: { trail?: unknown }[] }[] };
+  const labor = await (await request.get("/data/labor.json")).json() as { construction?: unknown };
+  const inputs = matrix.groups.filter((g) => g.group === "PIPELINE" || g.group === "LABOR COSTS").flatMap((g) => g.rows);
+  await page.goto("/matrix");
+  const rows = page.getByTestId("escalation-inputs").locator("tbody tr");
+  await expect(rows).toHaveCount(inputs.length);
+  await expect(rows.first()).toContainText("PPI all commodities");
+  // a published trail draws a sparkline; the nowcast block is gone
+  await expect(page.getByTestId("escalation-inputs").locator("svg[role=img]")).toHaveCount(inputs.filter((r) => r.trail).length);
+  await expect(page.getByText("CPI bridge")).toHaveCount(0);
+  await page.goto("/labor");
+  await expect(page.getByTestId("construction-band")).toHaveCount(labor.construction ? 1 : 0);
+});

@@ -10,7 +10,7 @@ blocks: a new writer must never be able to take down the publish block.
 from pathlib import Path
 
 from pipeline.dates import months_back, prior_month
-from pipeline.publish.real_wages import AHE, WGT
+from pipeline.publish.real_wages import AHE, CONSTR, WGT
 from pipeline.publish.util import write_json, yoy_pct
 from pipeline.store import vintage
 
@@ -18,6 +18,9 @@ PAYEMS = "PAYEMS"
 UNRATE = "UNRATE"
 ICSA = "ICSA"
 CCSA = "CCSA"
+# construction band: the trades a data-center build competes for (headcount,
+# pay against all private workers, JOLTS openings); CONSTR is the AHE series
+CONS_EMP, CONS_OPEN, CONS_OPEN_RATE = "USCONS", "JTS2300JOL", "JTS2300JOR"
 # wage series codes are shared with the real-wages writer — one definition
 MONTHLY_TAIL = 36
 WEEKLY_TAIL = 52
@@ -79,12 +82,31 @@ def _wages(ahe, wgt):
             "as_of": max(as_ofs) if as_ofs else None}
 
 
-def _history(payems, unrate, icsa):
+def _construction(emp, c_ahe, ahe, openings, rate):
+    jobs = _payrolls(emp)
+    w = max(c_ahe) if c_ahe else None
+    o = max(openings) if openings else None
+    base = None if o is None else openings.get(months_back(o, 12))
+    return {"employment_k": jobs["level_k"], "mom_change_k": jobs["mom_change_k"],
+            "employment_yoy_pct": jobs["yoy_pct"], "employment_as_of": jobs["as_of"],
+            "ahe": None if w is None else round(c_ahe[w], 2),
+            "ahe_yoy_pct": None if w is None else yoy_pct(c_ahe, w),
+            # all-private AHE at the construction series' own month: like months
+            "private_ahe_yoy_pct": None if w is None else yoy_pct(ahe, w),
+            "ahe_as_of": w,
+            "openings_k": None if o is None else round(openings[o]),
+            "openings_1y_ago_k": None if base is None else round(base),
+            "openings_rate": None if o is None or o not in rate else round(rate[o], 1),
+            "openings_as_of": o}
+
+
+def _history(payems, unrate, icsa, cons):
     months = sorted(set(payems) | set(unrate))[-MONTHLY_TAIL:]
 
     weeks = sorted(icsa)[-WEEKLY_TAIL:]
     return {"monthly": {"months": months,
                         "payrolls_yoy_pct": [yoy_pct(payems, m) for m in months],
+                        "construction_yoy_pct": [yoy_pct(cons, m) for m in months],
                         "unemployment_rate": [None if m not in unrate
                                               else round(unrate[m], 1) for m in months]},
             "weekly": {"dates": weeks,
@@ -95,11 +117,14 @@ def build(conn) -> dict:
     payems, unrate = _rows(conn, PAYEMS), _rows(conn, UNRATE)
     icsa, ccsa = _rows(conn, ICSA), _rows(conn, CCSA)
     ahe, wgt = _rows(conn, AHE), _rows(conn, WGT)
+    cons = _rows(conn, CONS_EMP)
     return {"payrolls": _payrolls(payems),
             "unemployment": _unemployment(unrate),
             "claims": _claims(icsa, ccsa),
             "wages": _wages(ahe, wgt),
-            "history": _history(payems, unrate, icsa)}
+            "construction": _construction(cons, _rows(conn, CONSTR), ahe,
+                                          _rows(conn, CONS_OPEN), _rows(conn, CONS_OPEN_RATE)),
+            "history": _history(payems, unrate, icsa, cons)}
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:

@@ -7,6 +7,7 @@ them — a new writer must never take down the publish block.
 """
 from pathlib import Path
 
+from pipeline.dates import months_back
 from pipeline.publish.util import write_json, yoy_pct
 from pipeline.store import vintage
 
@@ -54,16 +55,39 @@ GROUPS = [
 ]
 
 
+# Escalation inputs (scorecard session 4): /matrix leads with these groups,
+# each row carrying a 24-month trail of its raw level and its 3- and 12-month
+# change — an index moves in %, a score or rate (GSCPI, the tariff rate) in
+# points. Escalation clauses index to the level, so the trail is the level.
+ESCALATION = ("PIPELINE", "LABOR COSTS")
+TRAIL_MONTHS = 24
+
+
+def _moves(obs: dict, as_of: str, chg_unit: str) -> dict:
+    def chg(n):
+        base = obs.get(months_back(as_of, n))
+        if base is None or (chg_unit == "%" and not base):
+            return None
+        return round((obs[as_of] / base - 1) * 100 if chg_unit == "%" else obs[as_of] - base, 2)
+    start = months_back(as_of, TRAIL_MONTHS - 1)
+    dates = sorted(d for d in obs if start <= d <= as_of)
+    return {"chg_3m": chg(3), "chg_12m": chg(12), "chg_unit": chg_unit,
+            "trail": {"dates": dates, "values": [round(obs[d], 3) for d in dates]}}
+
+
 def _row(conn, code: str, label: str, unit: str, cadence: str,
-         computed_yoy: bool) -> dict:
+         computed_yoy: bool, moves: bool = False) -> dict:
     obs = dict(vintage.latest(conn, code))
     if not obs:
         return {"code": code, "label": label, "value": None,
                 "unit": unit, "as_of": None, "cadence": cadence}
     as_of = max(obs)
     value = yoy_pct(obs, as_of) if computed_yoy else round(obs[as_of], 2)
-    return {"code": code, "label": label, "value": value,
-            "unit": unit, "as_of": as_of, "cadence": cadence}
+    row = {"code": code, "label": label, "value": value,
+           "unit": unit, "as_of": as_of, "cadence": cadence}
+    if moves:
+        row.update(_moves(obs, as_of, "%" if computed_yoy else "pts"))
+    return row
 
 
 # Effective tariff rate (backlog #10b): federal customs duties / imports of
@@ -93,16 +117,20 @@ def _tariffs(conn) -> dict:
 
 
 def _tariff_row(t: dict) -> dict:
-    return {"code": TARIFF_CODE, "label": TARIFF_LABEL,
-            "value": None if t["rate_pct"] is None else round(t["rate_pct"], 2),
-            "unit": "% of goods imports", "as_of": t["as_of"], "cadence": "quarterly"}
+    row = {"code": TARIFF_CODE, "label": TARIFF_LABEL,
+           "value": None if t["rate_pct"] is None else round(t["rate_pct"], 2),
+           "unit": "% of goods imports", "as_of": t["as_of"], "cadence": "quarterly"}
+    if t["as_of"]:
+        h = t["history"]
+        row.update(_moves(dict(zip(h["dates"], h["rate_pct"])), t["as_of"], "pp"))
+    return row
 
 
 def build(conn) -> dict:
     tariffs = _tariffs(conn)
     groups = []
     for name, rows in GROUPS:
-        out = [_row(conn, *r) for r in rows]
+        out = [_row(conn, *r, moves=name in ESCALATION) for r in rows]
         if name == "PIPELINE":
             out.append(_tariff_row(tariffs))
         groups.append({"group": name, "rows": out})
