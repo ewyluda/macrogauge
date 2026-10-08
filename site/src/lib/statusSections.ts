@@ -40,7 +40,7 @@ export const CHECK_SECTION: Record<string, string> = {
 };
 
 export const SOURCE_SECTION: Record<string, string> = {
-  AWS_GPU: "AI Infra", AZURE_GPU: "AI Infra", OCI_GPU: "AI Infra", COREWEAVE: "AI Infra", NEBIUS: "AI Infra",
+  AWS_GPU: "AI Infra", AZURE_GPU: "AI Infra", AZURE_GPU_RESERVED: "AI Infra", OCI_GPU: "AI Infra", COREWEAVE: "AI Infra", NEBIUS: "AI Infra",
   VASTAI: "AI Infra", SFCOMPUTE: "AI Infra", OPENROUTER: "AI Infra", DRAMEX: "AI Infra", FMP_EQ: "AI Infra",
   QCEW: "AI Infra", QCEW_238212: "AI Infra", CENSUS: "AI Infra", CAISO: "AI Infra", MISO: "AI Infra",
   ERCOT: "AI Infra", SPP: "AI Infra", NYISO: "AI Infra", ICE: "AI Infra", EIA_SPOT: "AI Infra",

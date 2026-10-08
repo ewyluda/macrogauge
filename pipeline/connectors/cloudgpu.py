@@ -1,14 +1,17 @@
 """Cloud GPU list prices — on-demand $/GPU-hour from the big clouds.
 
-Four source keys, one per provider, for failure isolation (the kalshi.py
-pattern): a redesigned pricing page or a renamed SKU at one provider never
-fails another's row.
+One source key per provider (plus Azure's reservations), for failure
+isolation (the kalshi.py pattern): a redesigned pricing page or a renamed SKU
+at one provider never fails another's row.
 
   AWS_GPU    EC2 on-demand, Linux, US East (N. Virginia). The JSON the public
              pricing page reads (b0.p.awsstatic.com) — keyless but
              undocumented, so it carries drift protection like a scrape.
   AZURE_GPU  Azure Retail Prices API (documented, keyless): pay-as-you-go
              Linux VMs in East US 2, which lists every SKU tracked here.
+  AZURE_GPU_RESERVED  the same API's 1- and 3-year reservations for those
+             SKUs (fetch_azure_reserved): the one cloud here that publishes
+             commitment prices per SKU in a small keyless feed.
   OCI_GPU    Oracle Cloud's public price list API (documented, keyless). OCI
              prices GPU shapes per GPU-hour already.
   COREWEAVE  coreweave.com/pricing (scrape): the largest neocloud's on-demand
@@ -26,8 +29,11 @@ part number being reassigned), "<row name>" for Nebius (already per GPU). A SKU 
 tracked SKU at all, raises "structure drift?" into the collect-layer
 isolation. Every value is range-checked per GPU-hour.
 
-These are LIST prices: what a buyer pays with no commitment. Reserved and
-committed-use discounts are deeper and not published per SKU.
+These are LIST prices: what a buyer pays with no commitment, except
+AZURE_GPU_RESERVED's posted reservation rates. AWS publishes commitment prices
+only in a ~437 MB Savings Plan file, Oracle's price list is pay-as-you-go only,
+and CoreWeave and Nebius quote commitments on request; negotiated discounts
+are never published.
 """
 import html
 import re
@@ -146,6 +152,78 @@ def fetch_azure(source_ids: list[str], vintage_date: str | None = None, http_get
                              f"{sorted(found)} (structure drift?)")
         out.append(_obs(sid, found.pop() / int(gpus), vintage, "AZURE_GPU", "API"))
     return _need(out, "AZURE_GPU")
+
+
+HOURS_PER_YEAR = 8760   # 365 × 24, Azure's own 730 hours a month
+
+
+def fetch_azure_reserved(source_ids: list[str], vintage_date: str | None = None,
+                         http_get=None) -> list[Observation]:
+    """source_id = '<armSkuName>/<gpus>/<years>y' e.g. 'Standard_ND96isr_H100_v5/8/3y'.
+
+    AZURE_GPU_RESERVED: its own key so a drifted reservation row never fails the
+    on-demand rows. Same Retail Prices API and region as AZURE_GPU. A
+    reservation row says unitOfMeasure '1 Hour' but its unitPrice is the TOTAL
+    for the whole term (the H100 VM's 1-year row is $551,221), so the stored
+    value is total / (years × 8760) / GPUs. The same response carries the SKU's
+    Linux on-demand row, and the hourly rate must sit below it and above a
+    tenth of it: a term total re-published as a true hourly rate (or as a
+    monthly one) fails loudly instead of being stored."""
+    http_get = http_get or requests.get
+    vintage = vintage_date or today_et()
+    terms = []
+    for sid in source_ids:
+        rest, years = _split(sid, "/")
+        sku, gpus = _split(rest, "/")
+        if not re.fullmatch(r"[1-9]y", years):
+            raise ValueError(f"cloudgpu: malformed reservation term in {sid!r}")
+        terms.append((sid, sku, int(gpus), int(years[:-1])))
+    flt = (f"serviceName eq 'Virtual Machines' and armRegionName eq '{AZURE_REGION}' "
+           "and (priceType eq 'Reservation' or priceType eq 'Consumption') and ("
+           + " or ".join(f"armSkuName eq '{s}'" for s in sorted({t[1] for t in terms})) + ")")
+    url = f"{AZURE_URL}?$filter={urllib.parse.quote(flt)}"
+    reserved: dict[tuple[str, int], set[float]] = {}
+    ondemand: dict[str, set[float]] = {}
+    pages = 0
+    while url:
+        pages += 1
+        if pages > 10:
+            raise ValueError("AZURE_GPU_RESERVED: more than 10 result pages (structure drift?)")
+        resp = http_get(url, timeout=60, headers=UA)
+        resp.raise_for_status()
+        body = resp.json()
+        items = body.get("Items")
+        if not isinstance(items, list):
+            raise ValueError("AZURE_GPU_RESERVED: no 'Items' list (structure drift?)")
+        for it in items:
+            product, meter = str(it.get("productName", "")), str(it.get("meterName", ""))
+            if "Windows" in product or "Spot" in meter or "Low Priority" in meter:
+                continue
+            sku = it.get("armSkuName")
+            if it.get("type") == "Consumption":
+                ondemand.setdefault(sku, set()).add(float(it["unitPrice"]))
+            elif it.get("type") == "Reservation":
+                m = re.fullmatch(r"([1-9]) Years?", str(it.get("reservationTerm", "")))
+                if not m:
+                    raise ValueError(f"AZURE_GPU_RESERVED {sku}: reservation term "
+                                     f"{it.get('reservationTerm')!r} (structure drift?)")
+                reserved.setdefault((sku, int(m.group(1))), set()).add(float(it["unitPrice"]))
+        url = body.get("NextPageLink")
+    out = []
+    for sid, sku, gpus, years in terms:
+        found, od = reserved.get((sku, years)), ondemand.get(sku)
+        if not found or not od:
+            continue
+        if len(found) > 1 or len(od) > 1:
+            raise ValueError(f"AZURE_GPU_RESERVED {sku}: {len(found)} {years}-year and {len(od)} "
+                             "on-demand Linux prices (structure drift?)")
+        # read, never pop: the SKU's on-demand set is shared by its terms
+        hourly, od_hourly = min(found) / (years * HOURS_PER_YEAR), min(od)
+        if not (0.1 * od_hourly < hourly < od_hourly):
+            raise ValueError(f"AZURE_GPU_RESERVED {sku} {years}y: ${hourly:.2f}/hr against "
+                             f"${od_hourly:.2f}/hr on demand — not a term total? (structure drift?)")
+        out.append(_obs(sid, hourly / gpus, vintage, "AZURE_GPU_RESERVED", "API"))
+    return _need(out, "AZURE_GPU_RESERVED")
 
 
 def fetch_oci(source_ids: list[str], vintage_date: str | None = None, http_get=None) -> list[Observation]:

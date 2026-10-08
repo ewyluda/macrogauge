@@ -732,12 +732,27 @@ export type Compute = {
   cloud_gpus?: CloudGpu[];
   /** when the current token roster took over, and the models it replaced */
   token_roster?: { since: string; retired: string[] };
+  /** why each provider without a `reserved` block has no reservation price (2026-10-08+) */
+  reserved_notes?: Record<string, string>;
+  /** $ per dense BF16 PFLOP-hour by GPU generation (2026-10-08+) */
+  capability?: Capability;
 };
+export type Capability = {
+  basis: string; basis_note: string; publisher: string; as_of_curated: string;
+  by_generation: { gpu: string; dense_bf16_tflops: number; spec_url: string;
+                   list_median_usd_per_gpu_hr: number | null; list_quotes: number;
+                   list_usd_per_pflop_hr: number | null; reserved_3y_usd_per_pflop_hr: number | null;
+                   market_usd_per_pflop_hr: number | null }[];
+};
+export type ReservedTerm = { term_years: number; usd_per_gpu_hr: number | null; discount_pct: number | null;
+                             as_of: string | null; stale: boolean };
 export type CloudGpu = {
   code: string; provider: string; gpu: string; instance: string; gpus_per_instance: number; region: string;
   usd_per_gpu_hr: number | null; usd_per_instance_hr: number | null; as_of: string | null; chg_30d_pct: number | null;
   /** older than its registry staleness limit: shown dated, kept out of current ranges */
   stale: boolean;
+  /** the provider's posted reservations for this SKU (Azure only, 2026-10-08+) */
+  reserved?: ReservedTerm[];
 };
 
 export type HousingMeasure = { code: string; label: string; unit: string; value: number | null; as_of: string | null; yoy_pct: number | null };

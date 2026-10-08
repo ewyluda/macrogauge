@@ -1,4 +1,4 @@
-import type { CloudGpu, Compute } from "./types";
+import type { Capability, CloudGpu, Compute, ReservedTerm } from "./types";
 
 /** /compute's buyer table: cloud list prices per GPU-hour pivoted to one row
  *  per GPU, one column per provider, beside the vast.ai marketplace median.
@@ -66,4 +66,46 @@ export function cloudTakeaway(rows: CloudRow[]): string | null {
   const article = /^[AEIOU8]|^H\d/.test(label) ? "An" : "A";
   return `${article} ${label} lists at ${range} per GPU-hour across ${n} cloud${n === 1 ? "" : "s"}` +
     (lead.market && !lead.market.stale ? `, against a ${$(lead.market.usd)} vast.ai marketplace median.` : ".");
+}
+
+export type ReservedRow = { gpu: string; provider: string; instance: string; onDemand: CloudGpu;
+                            terms: Record<number, ReservedTerm | undefined> };
+
+/** /compute's commitment table: one row per SKU whose provider posts reservations (Azure today),
+ *  on-demand beside each term. A row with no priced term is left out. */
+export function reservedRows(data: Pick<Compute, "cloud_gpus">): ReservedRow[] {
+  return GPU_ORDER.flatMap((gpu) => (data.cloud_gpus ?? [])
+    .filter((c) => c.gpu === gpu && (c.reserved ?? []).some((t) => t.usd_per_gpu_hr != null))
+    .map((c) => ({ gpu, provider: c.provider, instance: c.instance, onDemand: c,
+                   terms: Object.fromEntries((c.reserved ?? []).map((t) => [t.term_years, t])) })));
+}
+
+/** "A 3-year Azure reservation cuts an H100 GPU-hour from $12.29 on demand to $5.40, 56% less." —
+ *  the lead GPU with a fresh on-demand price and a fresh 3-year term. */
+export function reservedTakeaway(rows: ReservedRow[]): string | null {
+  const live = rows.filter((r) => !r.onDemand.stale && r.onDemand.usd_per_gpu_hr != null &&
+    r.terms[3]?.usd_per_gpu_hr != null && !r.terms[3]?.stale && r.terms[3]?.discount_pct != null);
+  const lead = live.find((r) => r.gpu === "H100") ?? live[0];
+  if (!lead) return null;
+  const t = lead.terms[3]!;
+  const label = GPU_LABEL[lead.gpu] ?? lead.gpu;
+  const article = /^[AEIOU8]|^H\d/.test(label) ? "an" : "a";
+  return `A 3-year ${lead.provider} reservation cuts ${article} ${label} GPU-hour from ${$(lead.onDemand.usd_per_gpu_hr!)} ` +
+    `on demand to ${$(t.usd_per_gpu_hr!)}, ${Math.round(t.discount_pct!)}% less.`;
+}
+
+/** "A B200 delivers the cheapest dense BF16 PFLOP-hour on cloud list prices, $6.22, 43% below an
+ *  A100's $10.99." — the cheapest generation against the oldest one priced. */
+export function capabilityTakeaway(cap: Capability | undefined): string | null {
+  const priced = (cap?.by_generation ?? []).filter((g) => g.list_usd_per_pflop_hr != null);
+  if (priced.length < 2) return null;
+  const oldest = priced[0];
+  const cheapest = priced.reduce((a, b) => (b.list_usd_per_pflop_hr! < a.list_usd_per_pflop_hr! ? b : a));
+  const an = (g: string) => (/^[AEIOU8]|^H\d/.test(g) ? `an ${g}` : `a ${g}`);
+  const cap1 = (s: string) => s[0].toUpperCase() + s.slice(1);
+  if (cheapest.gpu === oldest.gpu)
+    return `${cap1(an(oldest.gpu))} still delivers the cheapest dense BF16 PFLOP-hour on cloud list prices, ${$(oldest.list_usd_per_pflop_hr!)}.`;
+  const pct = Math.round(100 * (1 - cheapest.list_usd_per_pflop_hr! / oldest.list_usd_per_pflop_hr!));
+  return `${cap1(an(cheapest.gpu))} delivers the cheapest dense BF16 PFLOP-hour on cloud list prices, ` +
+    `${$(cheapest.list_usd_per_pflop_hr!)}, ${pct}% below ${an(oldest.gpu)}'s ${$(oldest.list_usd_per_pflop_hr!)}.`;
 }

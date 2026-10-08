@@ -1,6 +1,7 @@
 import csv
 import io
 import json
+import urllib.parse
 import zipfile
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -288,6 +289,8 @@ def fake_get(url, params=None, timeout=None, **kw):
         return FakeResponse(json.loads((FIXTURES / "openrouter_models.json").read_text()))
     if "b0.p.awsstatic.com/pricing" in url:
         return FakeResponse(json.loads((FIXTURES / "aws_gpu_prices.json").read_text()))
+    if "prices.azure.com" in url and "Reservation" in urllib.parse.unquote(url):
+        return FakeResponse(json.loads((FIXTURES / "azure_gpu_reserved.json").read_text()))
     if "prices.azure.com" in url:
         return FakeResponse(json.loads((FIXTURES / "azure_gpu_prices.json").read_text()))
     if "apexapps.oracle.com" in url:
@@ -369,7 +372,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "revisions.json", "news.json", "ledger.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 42  # +NEBIUS 10-08; +AWS_GPU, AZURE_GPU, OCI_GPU, COREWEAVE 10-07; +ERCOT, SPP, NYISO 10-04; +ATLFED, QCEW_238212 10-01; SFCOMPUTE retired, KALSHI_CORE added 2026-09-26, KALSHI_FED + NYFED 09-28
+    assert len(status["sources"]) == 43  # +AZURE_GPU_RESERVED, NEBIUS 10-08; +AWS_GPU, AZURE_GPU, OCI_GPU, COREWEAVE 10-07; +ERCOT, SPP, NYISO 10-04; +ATLFED, QCEW_238212 10-01; SFCOMPUTE retired, KALSHI_CORE added 2026-09-26, KALSHI_FED + NYFED 09-28
     assert all(s["ok"] for s in status["sources"])
     kalshi_dc_row = [s for s in status["sources"] if s["name"] == "KALSHI_DC"][0]
     assert kalshi_dc_row["ok"] is True
@@ -377,6 +380,14 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     # 6-digit industry slice, aggregated into every /markets row's elec block.
     elec_row = [s for s in status["sources"] if s["name"] == "QCEW_238212"][0]
     assert elec_row["ok"] is True and elec_row["error"] is None
+    # Azure's reservations ride their own key into the cloud rows, and the
+    # spec table prices a PFLOP-hour by generation off the same publish
+    comp = json.loads((out / "compute.json").read_text())
+    az = {r["code"]: r for r in comp["cloud_gpus"]}["az_h100"]
+    assert [t["term_years"] for t in az["reserved"]] == [1, 3]
+    assert az["reserved"][0]["usd_per_gpu_hr"] == pytest.approx(551221 / 8760 / 8, abs=1e-4)
+    h100 = {g["gpu"]: g for g in comp["capability"]["by_generation"]}["H100"]
+    assert h100["reserved_3y_usd_per_pflop_hr"] is not None and h100["list_quotes"] >= 1
     mkts = json.loads((out / "dc_markets.json").read_text())
     assert mkts["elec_national"]["wage"] == 1869.0  # US000 own_code 5, not own 3
     by_key = {m["key"]: m["elec"] for m in mkts["markets"]}

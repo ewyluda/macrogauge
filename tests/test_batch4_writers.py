@@ -333,6 +333,52 @@ def test_compute_rows_past_their_staleness_limit_are_flagged_stale(tmp_path):
     validate.validate_file(path, SCHEMAS / "compute.schema.json")
 
 
+def test_compute_azure_rows_carry_their_reservations_beside_on_demand(tmp_path):
+    rows = {"az_h100": {"2026-10-08": 12.29}, "az_h100_r1y": {"2026-10-08": 7.8655},
+            "az_h100_r3y": {"2026-10-08": 5.3953}, "az_h200_r1y": {"2026-09-01": 5.8151}}
+    p = compute.build(_store(tmp_path, rows, source="AZURE_GPU"), today="2026-10-08",
+                      staleness={c: 7 for c in rows})
+    cloud = {r["code"]: r for r in p["cloud_gpus"]}
+    h100 = {t["term_years"]: t for t in cloud["az_h100"]["reserved"]}
+    assert h100[1]["usd_per_gpu_hr"] == 7.8655 and h100[1]["discount_pct"] == 36.0
+    assert h100[3]["discount_pct"] == 56.1 and h100[3]["stale"] is False
+    # a reservation with no on-demand price beside it has no discount; an old one is stale
+    h200 = {t["term_years"]: t for t in cloud["az_h200"]["reserved"]}
+    assert h200[1]["discount_pct"] is None and h200[1]["stale"] is True
+    assert h200[3]["usd_per_gpu_hr"] is None
+    # only Azure publishes reservations; every other provider gets one note
+    assert "reserved" not in cloud["aws_h100"]
+    assert set(p["reserved_notes"]) == {"AWS", "Oracle", "CoreWeave", "Nebius"}
+    assert "capability" not in p          # no spec table passed
+    path = compute.write(p, tmp_path / "out", "2026-10-08T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "compute.schema.json")
+
+
+def test_compute_capability_prices_a_pflop_hour_by_generation(tmp_path):
+    from pipeline import gpu_specs
+    rows = {"aws_h100": {"2026-10-08": 6.88}, "az_h100": {"2026-10-08": 12.29},
+            "oci_h100": {"2026-10-08": 10.0}, "cw_h100": {"2026-09-01": 6.16},   # stale: left out
+            "az_h100_r3y": {"2026-10-08": 5.3953},
+            "vast_h100_sxm": {"2026-10-08": 1.92}, "oci_b200": {"2026-10-08": 14.0},
+            "az_gb200": {"2026-10-08": 27.04}}
+    p = compute.build(_store(tmp_path, rows, source="VASTAI"), today="2026-10-08",
+                      staleness={c: 7 for c in rows}, specs=gpu_specs.load())
+    cap = p["capability"]
+    gen = {g["gpu"]: g for g in cap["by_generation"]}
+    assert [g["gpu"] for g in cap["by_generation"]] == ["A100", "H100", "H200", "B200", "GB200", "B300"]
+    h100 = gen["H100"]
+    assert h100["list_quotes"] == 3 and h100["list_median_usd_per_gpu_hr"] == 10.0
+    assert h100["list_usd_per_pflop_hr"] == round(10.0 / 0.9895, 2)          # $10.11
+    assert h100["reserved_3y_usd_per_pflop_hr"] == round(5.3953 / 0.9895, 2)
+    assert h100["market_usd_per_pflop_hr"] == round(1.92 / 0.9895, 2)
+    assert gen["B200"]["list_usd_per_pflop_hr"] == round(14.0 / 2.25, 2)
+    assert gen["GB200"]["market_usd_per_pflop_hr"] is None                   # no marketplace row
+    assert gen["A100"]["list_usd_per_pflop_hr"] is None and gen["A100"]["list_quotes"] == 0
+    assert cap["basis"].startswith("dense BF16")
+    path = compute.write(p, tmp_path / "out", "2026-10-08T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "compute.schema.json")
+
+
 def _gpu_store(tmp_path, prices):
     """prices: {code: {date: $/hr}} -> conn (VASTAI source for every row)."""
     return _store(tmp_path, prices, source="VASTAI")

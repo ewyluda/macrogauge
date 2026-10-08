@@ -88,7 +88,59 @@
           "usd_per_instance_hr": {"$ref": "#/$defs/num"},
           "as_of": {"$ref": "#/$defs/day"},
           "chg_30d_pct": {"$ref": "#/$defs/num"},
-          "stale": {"type": "boolean", "description": "last obs older than the registry staleness limit: shown with its date, kept out of current ranges"}
+          "stale": {"type": "boolean", "description": "last obs older than the registry staleness limit: shown with its date, kept out of current ranges"},
+          "reserved": {
+            "description": "the provider's posted reservation prices for this SKU, per GPU-hour (Azure only; 2026-10-08+)",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["term_years", "usd_per_gpu_hr", "discount_pct", "as_of", "stale"],
+              "additionalProperties": false,
+              "properties": {
+                "term_years": {"type": "integer", "minimum": 1},
+                "usd_per_gpu_hr": {"$ref": "#/$defs/num"},
+                "discount_pct": {"$ref": "#/$defs/num", "description": "vs the row's on-demand price"},
+                "as_of": {"$ref": "#/$defs/day"},
+                "stale": {"type": "boolean"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "reserved_notes": {
+      "description": "why each other provider has no reserved price here (2026-10-08+)",
+      "type": "object",
+      "additionalProperties": {"type": "string"}
+    },
+    "capability": {
+      "description": "$ per dense BF16 PFLOP-hour by GPU generation, over the curated NVIDIA spec table (2026-10-08+)",
+      "type": "object",
+      "required": ["basis", "basis_note", "publisher", "as_of_curated", "by_generation"],
+      "additionalProperties": false,
+      "properties": {
+        "basis": {"type": "string"},
+        "basis_note": {"type": "string"},
+        "publisher": {"type": "string"},
+        "as_of_curated": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "by_generation": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["gpu", "dense_bf16_tflops", "spec_url", "list_median_usd_per_gpu_hr", "list_quotes",
+                         "list_usd_per_pflop_hr", "reserved_3y_usd_per_pflop_hr", "market_usd_per_pflop_hr"],
+            "additionalProperties": false,
+            "properties": {
+              "gpu": {"type": "string"},
+              "dense_bf16_tflops": {"type": "number", "exclusiveMinimum": 0},
+              "spec_url": {"type": "string"},
+              "list_median_usd_per_gpu_hr": {"$ref": "#/$defs/num"},
+              "list_quotes": {"type": "integer", "minimum": 0},
+              "list_usd_per_pflop_hr": {"$ref": "#/$defs/num"},
+              "reserved_3y_usd_per_pflop_hr": {"$ref": "#/$defs/num"},
+              "market_usd_per_pflop_hr": {"$ref": "#/$defs/num"}
+            }
+          }
         }
       }
     }

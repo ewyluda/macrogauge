@@ -13,6 +13,8 @@ import compute from "../public/data/compute.json";
 import fuelJson from "../public/data/fuel.json";
 import type { NewsPost } from "../src/lib/news";
 import { clusterStories, topFigures } from "../src/lib/newsTape";
+import { capabilityTakeaway, reservedRows, reservedTakeaway } from "../src/lib/cloudGpu";
+import type { Compute } from "../src/lib/types";
 
 /** A delivery month `horizon` months past the END OF THE GRID, read off the
  *  picker's own `min` (which the page sets to grid-end + 1 month).
@@ -690,6 +692,39 @@ test("/compute shows cloud GPU list prices once the daily run publishes them", a
     // files published before 2026-10-07 carry no cloud block: no empty table
     await expect(page.locator("#cloud-gpus")).toHaveCount(0);
   }
+});
+
+test("/compute shows Azure reservations beside on-demand once the daily run publishes them", async ({ page }) => {
+  // expectation computed from the same JSON the build read: passes before
+  // the first publish with reservations (no section) and after it
+  const data = artifact<"compute", Compute>("compute", compute);
+  const rows = reservedRows(data);
+  await page.goto("/compute");
+  const section = page.locator("#reserved");
+  if (rows.length === 0) {
+    await expect(section).toHaveCount(0);
+    return;
+  }
+  await expect(section.locator("tbody tr")).toHaveCount(rows.length);
+  await expect(section.locator("thead th")).toHaveText(["GPU", "On demand", "1-year reserved", "3-year reserved"]);
+  const lead = reservedTakeaway(rows);
+  if (lead) await expect(page.getByTestId("reserved-takeaway")).toHaveText(lead);
+  for (const note of Object.values(data.reserved_notes ?? {})) await expect(section).toContainText(note);
+});
+
+test("/compute prices a PFLOP-hour by GPU generation once the daily run publishes it", async ({ page }) => {
+  const cap = artifact<"compute", Compute>("compute", compute).capability;
+  await page.goto("/compute");
+  const section = page.locator("#capability");
+  if (!cap || !cap.by_generation.some((g) => g.list_usd_per_pflop_hr != null)) {
+    await expect(section).toHaveCount(0);
+    return;
+  }
+  await expect(section.locator("tbody tr")).toHaveCount(cap.by_generation.length);
+  const lead = capabilityTakeaway(cap);
+  if (lead) await expect(page.getByTestId("capability-takeaway")).toHaveText(lead);
+  // every spec figure links to the NVIDIA page it was read from
+  await expect(section.locator("tbody a[href^='https://www.nvidia.com/']")).toHaveCount(cap.by_generation.length);
 });
 
 test("datacenter long-lead strip links to the board", async ({ page }) => {

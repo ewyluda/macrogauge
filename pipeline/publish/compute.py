@@ -25,8 +25,16 @@ MIN_MEMBERS members priced on both days links flat. History starts 2026-07
 Every table row (vast.ai and cloud) carries `stale`: its last obs is older
 than the registry staleness limit, so the page shows its date and keeps it
 out of the current ranges and the cheapest-quote emphasis.
+
+Commitment and capability (Session 5, 2026-10-08): Azure cloud rows carry
+`reserved` — its posted 1- and 3-year reservations per GPU-hour beside the
+on-demand price — and `reserved_notes` says once why every other cloud's
+cell is empty. `capability` prices a unit of compute by GPU generation: the
+median fresh cloud list $/GPU-hr (and the 3-year reserved and vast.ai
+medians) over dense BF16 PFLOPS from config/gpu_specs.json.
 """
 import math
+import statistics
 from datetime import date
 from pathlib import Path
 
@@ -98,6 +106,20 @@ CLOUD_GPUS = [
     ("neb_b200", "Nebius", "B200", "per-GPU list price", 1),
     ("neb_b300", "Nebius", "B300", "per-GPU list price", 1),
 ]
+# Azure's posted reservations (AZURE_GPU_RESERVED): on-demand row -> (years, series)
+RESERVED = {"az_h100": [(1, "az_h100_r1y"), (3, "az_h100_r3y")],
+            "az_h200": [(1, "az_h200_r1y"), (3, "az_h200_r3y")],
+            "az_gb200": [(1, "az_gb200_r1y"), (3, "az_gb200_r3y")]}
+# Why no other cloud has a reserved price here (checked 2026-10-08)
+RESERVED_NOTES = {
+    "AWS": "AWS publishes commitment prices only in a ~437 MB Savings Plan price file, which is not collected.",
+    "Oracle": "Oracle's public price list is pay-as-you-go only.",
+    "CoreWeave": "CoreWeave quotes reserved capacity on request.",
+    "Nebius": "Nebius offers commitment discounts on request, without published prices.",
+}
+# The vast.ai marketplace row each GPU generation is compared with (none for GB200)
+MARKET_GPU = {"A100": "vast_a100_sxm", "H100": "vast_h100_sxm", "H200": "vast_h200",
+              "B200": "vast_b200", "B300": "vast_b300"}
 CLOUD_REGION = {"AWS": "US East (N. Virginia)", "Azure": "East US 2", "Oracle": "list price, all regions",
                 "CoreWeave": "list price", "Nebius": "list price"}
 BLEND_IN, BLEND_OUT = 0.75, 0.25
@@ -235,19 +257,65 @@ def _gpu_rows(conn, limits: dict, today: str):
     return rows, members
 
 
+def _reserved(conn, code: str, on_demand: float | None, staleness: dict, today: str) -> list[dict]:
+    out = []
+    for years, rcode in RESERVED[code]:
+        as_of, value = latest_point(_rows(conn, rcode))
+        out.append({"term_years": years, "usd_per_gpu_hr": value, "as_of": as_of,
+                    "discount_pct": None if value is None or not on_demand
+                    else round(100 * (1 - value / on_demand), 1),
+                    "stale": _stale(as_of, staleness.get(rcode, DEFAULT_CARRY_DAYS), today)})
+    return out
+
+
 def _cloud_rows(conn, staleness: dict, today: str):
     rows = []
     for code, provider, gpu, instance, per in CLOUD_GPUS:
         obs = _rows(conn, code)
         as_of, value = latest_point(obs)
-        rows.append({"code": code, "provider": provider, "gpu": gpu, "instance": instance,
-                     "gpus_per_instance": per, "region": CLOUD_REGION[provider],
-                     "usd_per_gpu_hr": value,
-                     "usd_per_instance_hr": None if value is None else round(value * per, 2),
-                     "as_of": as_of,
-                     "chg_30d_pct": pct_change_daily(obs, as_of, 30) if as_of else None,
-                     "stale": _stale(as_of, staleness.get(code, DEFAULT_CARRY_DAYS), today)})
+        row = {"code": code, "provider": provider, "gpu": gpu, "instance": instance,
+               "gpus_per_instance": per, "region": CLOUD_REGION[provider],
+               "usd_per_gpu_hr": value,
+               "usd_per_instance_hr": None if value is None else round(value * per, 2),
+               "as_of": as_of,
+               "chg_30d_pct": pct_change_daily(obs, as_of, 30) if as_of else None,
+               "stale": _stale(as_of, staleness.get(code, DEFAULT_CARRY_DAYS), today)}
+        if code in RESERVED:
+            row["reserved"] = _reserved(conn, code, value, staleness, today)
+        rows.append(row)
     return rows
+
+
+def _median(vals: list[float]) -> float | None:
+    return round(statistics.median(vals), 4) if vals else None
+
+
+def _per_pflop(usd: float | None, pflops: float) -> float | None:
+    return None if usd is None else round(usd / pflops, 2)
+
+
+def _capability(specs, cloud_rows: list[dict], gpu_rows: list[dict]) -> dict:
+    """$ per dense-BF16 PFLOP-hour by GPU generation. Only FRESH quotes count:
+    the cloud list median over providers, the 3-year reservation median (Azure
+    alone today) and the vast.ai marketplace median for the same GPU."""
+    market = {g["code"]: g for g in gpu_rows}
+    rows = []
+    for gpu, spec in specs.gpus.items():
+        pflops = spec.dense_bf16_tflops / 1000
+        cloud = [r for r in cloud_rows if r["gpu"] == gpu]
+        lst = [r["usd_per_gpu_hr"] for r in cloud if r["usd_per_gpu_hr"] is not None and not r["stale"]]
+        res3 = [t["usd_per_gpu_hr"] for r in cloud for t in r.get("reserved", [])
+                if t["term_years"] == 3 and t["usd_per_gpu_hr"] is not None and not t["stale"]]
+        m = market.get(MARKET_GPU.get(gpu, ""))
+        mkt = m["usd_per_gpu_hr"] if m and not m["stale"] else None
+        list_med, res_med = _median(lst), _median(res3)
+        rows.append({"gpu": gpu, "dense_bf16_tflops": spec.dense_bf16_tflops, "spec_url": spec.url,
+                     "list_median_usd_per_gpu_hr": list_med, "list_quotes": len(lst),
+                     "list_usd_per_pflop_hr": _per_pflop(list_med, pflops),
+                     "reserved_3y_usd_per_pflop_hr": _per_pflop(res_med, pflops),
+                     "market_usd_per_pflop_hr": _per_pflop(mkt, pflops)})
+    return {"basis": specs.basis, "basis_note": specs.basis_note, "publisher": specs.publisher,
+            "as_of_curated": specs.as_of_curated, "by_generation": rows}
 
 
 def _limits(staleness: dict[str, int]) -> tuple[dict, dict]:
@@ -260,9 +328,11 @@ def _limits(staleness: dict[str, int]) -> tuple[dict, dict]:
     return model_lim, gpu_lim
 
 
-def build(conn, staleness: dict[str, int] | None = None, today: str | None = None) -> dict:
+def build(conn, staleness: dict[str, int] | None = None, today: str | None = None,
+          specs=None) -> dict:
     """staleness: {series_code: max_staleness_days}; None reads the registry.
-    today: the publish date the table rows' `stale` flags are judged against."""
+    today: the publish date the table rows' `stale` flags are judged against.
+    specs: the gpu_specs table; None publishes without `capability`."""
     if staleness is None:
         _, series = load_registry()
         staleness = {s.code: s.max_staleness_days for s in series}
@@ -271,6 +341,8 @@ def build(conn, staleness: dict[str, int] | None = None, today: str | None = Non
     model_rows, model_members = _model_rows(conn)
     gpu_rows, gpu_members = _gpu_rows(conn, gpu_lim, today)
     all_dates = [d for m in list(model_members.values()) + list(gpu_members.values()) for d in m]
+    cloud_rows = _cloud_rows(conn, staleness, today)
+    extra = {} if specs is None else {"capability": _capability(specs, cloud_rows, gpu_rows)}
     return {"history_start": min(all_dates) if all_dates else None,
             "blend": {"in": BLEND_IN, "out": BLEND_OUT, "min_members": MIN_MEMBERS,
                       "method": "chain-linked equal-weight geometric mean: each day's move "
@@ -285,7 +357,7 @@ def build(conn, staleness: dict[str, int] | None = None, today: str | None = Non
                                   retired=frozenset(k for k, _ in RETIRED_MODELS)),
             "token_roster": {"since": ROSTER_SINCE, "retired": [label for _, label in RETIRED_MODELS]},
             "gpus": gpu_rows, "gpu_index": _index(gpu_members, gpu_lim),
-            "cloud_gpus": _cloud_rows(conn, staleness, today)}
+            "cloud_gpus": cloud_rows, "reserved_notes": RESERVED_NOTES, **extra}
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:
