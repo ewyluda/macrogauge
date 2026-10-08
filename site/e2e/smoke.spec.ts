@@ -34,7 +34,6 @@ async function deliveryAtHorizon(input: Locator, horizon: number): Promise<strin
 const ROUTES: [string, string][] = [
   ["/", "Inflation quilt — every component, every month"],
   ["/methodology", "generated from config + live validation"],
-  ["/supercore", "Supercore Services"],
   ["/my-inflation", "the official basket isn"],
   ["/calculator", "The Since-Date Calculator"],
   ["/real-wages", "Real Wage Tracker"],
@@ -44,7 +43,6 @@ const ROUTES: [string, string][] = [
   // (hidden) on every page, so bare page names would resolve to those first
   ["/matrix", "models × targets"],
   ["/gap", "where ours differs from BLS"],
-  ["/vs-bls", "Macrogauge vs BLS"],
   ["/pce", "the Fed's index, re-priced daily under BEA shares"],
   ["/rates", "The market benchmarks that financing a build is priced against"],
   ["/compute", "what a token and a GPU-hour cost, indexed daily"],
@@ -119,7 +117,7 @@ test("calculator receives its narrow series at build time", async ({ page }) => 
 });
 
 test("the lazy ECharts runtime paints a chart", async ({ page }) => {
-  await page.goto("/supercore");
+  await page.goto("/gap");
   await expect(page.locator("canvas").first()).toBeVisible();
 });
 

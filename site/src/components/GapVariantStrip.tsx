@@ -7,9 +7,9 @@ export type RefPrint = { yoy_pct: number | null; month: string };
 
 const LABELS: Record<string, { label: string; href?: string }> = {
   gauge: { label: "Macrogauge (CPI-comparable)" },
-  tracker: { label: "CPI-Tracker", href: "/vs-bls" },
+  tracker: { label: "CPI-Tracker", href: "/gap#validation" },
   col: { label: "Cost of Living", href: "/cost-of-living" },
-  supercore: { label: "Supercore", href: "/supercore" },
+  supercore: { label: "Supercore", href: "/gap#supercore" },
   pce: { label: "PCE-weighted", href: "/pce" },
 };
 

@@ -51,12 +51,12 @@ test("/as-of says there is no publish before the ledger starts, not a later one"
   await expect(page.getByTestId("asof-status")).toContainText(/^publish /);
 });
 
-test("/supercore claims 'daily' only when something rides live", async ({ page }) => {
-  await page.goto("/supercore");
+test("/gap's supercore line claims 'daily' only when something rides live (was /supercore)", async ({ page }) => {
+  await page.goto("/gap");
   const live = gaptable.variants.supercore.coverage_pct > 0;
-  await expect(page.getByText(/tracked daily/)).toHaveCount(live ? 1 : 0);
-  await expect(page.locator(".kpi-label").first()).toHaveText(live ? "Supercore YoY (today)" : /^Supercore YoY \(\w{3} \d{4} BLS\)$/);
-  if (!live) await expect(page.getByText(/latest monthly BLS-derived reading/)).toBeVisible();
+  const line = page.getByTestId("supercore-takeaway");
+  await expect(line.getByText(/tracked daily/)).toHaveCount(live ? 1 : 0);
+  if (!live) await expect(line).toContainText(/latest monthly BLS-derived reading \(\w{3} \d{4}\)/);
 });
 
 // The banner is data-driven: it must appear exactly when a page's artifact

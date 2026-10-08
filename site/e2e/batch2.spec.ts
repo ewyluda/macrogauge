@@ -34,11 +34,12 @@ test("/escalation/grades shows the storage-tail gate verdict", async ({ page }) 
   await expect(page.getByText("Storage (NAND) tail")).toBeVisible();
 });
 
-test("/supercore shows the monthly history against its official reference with validation stats", async ({ page }) => {
-  await page.goto("/supercore");
+test("/gap carries supercore's monthly history against its official reference, and the gauge's validation (was /supercore, /vs-bls)", async ({ page }) => {
+  await page.goto("/gap");
   await expect(page.getByText("Supercore vs its official reference — monthly, full history")).toBeVisible();
   await expect(page.getByText(/Correlation .* mean absolute gap/)).toBeVisible();
-  await expect(page.locator("canvas")).toHaveCount(2);
+  await expect(page.getByTestId("validation-stats")).toContainText(/the gauge correlates [\d.]+ with a mean absolute gap of [\d.]+pp/);
+  await expect(page.locator("#validation canvas").first()).toBeVisible();
 });
 
 test("/escalation/grades anchor scatter recomputes the published grade for the selected cell", async ({ page }) => {
