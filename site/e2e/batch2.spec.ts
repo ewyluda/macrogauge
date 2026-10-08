@@ -124,3 +124,21 @@ test("/matrix leads with the escalation inputs and /labor with the construction 
   await page.goto("/labor");
   await expect(page.getByTestId("construction-band")).toHaveCount(labor.construction ? 1 : 0);
 });
+
+test("/calculator compares cost indexes since a bid month, rebased to 100", async ({ page }) => {
+  await page.goto("/calculator");
+  const rows = page.getByTestId("since-table").locator("tbody tr");
+  // the default picks: DC Build, switchgear, transformers, plus CPI-U once clause_series carries it
+  const dc = await (await page.request.get("/data/datacenter.json")).json() as { clause_series?: { code: string }[] };
+  const cpi = (dc.clause_series ?? []).some((c) => c.code === "cpi_u") ? 1 : 0;
+  await expect(rows).toHaveCount(3 + cpi);
+  await expect(rows.first()).toContainText("DC Build index");
+  await page.getByTestId("since-picker").getByLabel("DC Hardware index").check();
+  await expect(rows).toHaveCount(4 + cpi);
+  await expect.poll(() => page.evaluate(() => location.search)).toContain("dc_hardware");
+  // a shared link restores the bid month; the chart draws one line per pick
+  await page.goto("/calculator?since=2021-01&series=dc_build,dc_ops");
+  await expect(page.getByTestId("since-table").locator("thead")).toContainText("Since 2021-01");
+  await expect(rows).toHaveCount(2);
+  await expect(page.locator(".chart-card canvas")).toHaveCount(1);
+});

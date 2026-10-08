@@ -9,7 +9,7 @@
  *  dollars  = contract value · escalable share · adjusted
  */
 export type ClauseSeries = {
-  basket: "build" | "ops"; code: string; label: string; series: string; source_id: string;
+  basket: "build" | "ops" | "reference"; code: string; label: string; series: string; source_id: string;
   months: string[]; latest: number[]; first_print: (number | null)[]; first_release: (string | null)[];
 };
 export type Vintage = "first_print" | "latest";

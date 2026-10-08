@@ -102,14 +102,14 @@ for (const [route, artifact, what] of [
 }
 
 test("calculator receives its narrow series at build time", async ({ page }) => {
-  let gaugeRequests = 0;
+  let artifactRequests = 0;
   page.on("request", (request) => {
-    if (request.url().endsWith("/data/gauge_daily.json")) gaugeRequests += 1;
+    if (/\/data\/(gauge_daily|datacenter|longlead)\.json$/.test(request.url())) artifactRequests += 1;
   });
   await page.goto("/calculator");
-  await expect(page.getByText("Prices since 2020-01-01")).toBeVisible();
+  await expect(page.getByTestId("since-table")).toBeVisible();
   await page.waitForLoadState("networkidle");
-  expect(gaugeRequests).toBe(0);
+  expect(artifactRequests).toBe(0);
 });
 
 test("the lazy ECharts runtime paints a chart", async ({ page }) => {

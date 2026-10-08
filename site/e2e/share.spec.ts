@@ -7,20 +7,20 @@ import metrosJson from "../public/data/metros.json";
  *  downloads, citation copy, and the build-time discoverability files. */
 
 test("calculator inputs hydrate from the URL and write back to it", async ({ page }) => {
-  await page.goto("/calculator?since=2021-06-15&amount=250");
-  await expect(page.locator('input[type="date"]')).toHaveValue("2021-06-15");
+  await page.goto("/calculator?since=2021-06&amount=250");
+  await expect(page.locator('input[type="month"]')).toHaveValue("2021-06");
   await expect(page.locator('input[type="number"]')).toHaveValue("250");
   await page.locator('input[type="number"]').fill("400");
   await expect.poll(() => page.evaluate(() => location.search)).toContain("amount=400");
   // back to the default removes the param
-  await page.locator('input[type="number"]').fill("100");
+  await page.locator('input[type="number"]').fill("1000000");
   await expect.poll(() => page.evaluate(() => location.search)).not.toContain("amount=");
 });
 
 test("invalid URL state is ignored, not applied", async ({ page }) => {
   await page.goto("/calculator?since=not-a-date&amount=-5");
-  await expect(page.locator('input[type="date"]')).toHaveValue("2020-01-01");
-  await expect(page.locator('input[type="number"]')).toHaveValue("100");
+  await expect(page.locator('input[type="month"]')).toHaveValue(/^\d{4}-\d{2}$/);
+  await expect(page.locator('input[type="number"]')).toHaveValue("1000000");
 });
 
 test("escalation calculator deep-link sets base month, cost and basis", async ({ page }) => {
