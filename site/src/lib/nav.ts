@@ -56,9 +56,7 @@ export const NAV: NavEntry[] = [
     sections: [
       {
         items: [
-          { href: "/heatcheck", label: "Heat Check", emoji: "🌡️" },
-          { href: "/stress", label: "Consumer Stress", emoji: "🩺" },
-          { href: "/recession", label: "Recession Risk", emoji: "📉" },
+          { href: "/macro-cycle", label: "Macro Cycle", emoji: "🌡️" },
           { href: "/labor", label: "Labor Market", emoji: "💼" },
           { href: "/housing", label: "Housing", emoji: "🏠" },
         ],

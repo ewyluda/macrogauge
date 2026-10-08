@@ -122,3 +122,48 @@ def test_recession_composite_uses_available_signals_only():
         {"name": "missing", "triggered": None}])
     assert result["probability_pct"] == 50
     assert result["available"] == 2
+
+
+def test_month_ends_run_oldest_first_across_a_year_boundary():
+    from pipeline.publish.composites import _month_ends
+    assert _month_ends("2026-02-10", 3) == ["2025-12-31", "2026-01-31", "2026-02-28"]
+
+
+def test_histories_end_on_today_s_reading_and_replay_truncated_data(tmp_path):
+    """The last history point is the published score at its own date; an
+    earlier month-end replays only the observations on or before it."""
+    from pipeline.models import Observation
+    from pipeline.publish import composites as pc
+    from pipeline.store import vintage
+    import json as _json
+    cfg = {"heatcheck": {"group_weights": {"prices": 1.0},
+                         "indicators": [{"code": "X", "group": "prices", "direction": 1}]},
+           "stress": [{"code": "Y", "weight": 100, "direction": 1}]}
+    path = tmp_path / "composites.json"
+    path.write_text(_json.dumps(cfg))
+    months = [f"{2019 + i // 12}-{i % 12 + 1:02d}-01" for i in range(84)]
+    obs = [Observation(series_code="X", obs_date=m, value=100 + i * (1 if i < 60 else 3),
+                       vintage_date="2026-01-01", source="FRED", route="API") for i, m in enumerate(months)]
+    obs += [Observation(series_code="Y", obs_date=m, value=float(i), vintage_date="2026-01-01",
+                        source="FRED", route="API") for i, m in enumerate(months)]
+    vintage.append(obs, tmp_path / "store")
+    conn = vintage.load(tmp_path / "store")
+    h = pc.build_heatcheck(conn, path, history_months=12)
+    assert len(h["history"]["dates"]) == 12 and h["history"]["dates"][-1] == months[-1]
+    assert h["history"]["score"][-1] == h["score"]
+    s = pc.build_stress(conn, path, history_months=12)
+    assert s["history"]["score"][-1] == s["score"]
+    # a rising series percentile-scores at the top at every month-end
+    assert all(v == s["score"] for v in s["history"]["score"])
+
+
+def test_recession_rules_publish_their_numeric_test(tmp_path):
+    from pipeline.models import Observation
+    from pipeline.publish import composites as pc
+    from pipeline.store import vintage
+    vintage.append([Observation(series_code="T10Y3M", obs_date="2026-10-07", value=-0.2,
+                                vintage_date="2026-10-07", source="FRED", route="API")], tmp_path)
+    sig = {s["code"]: s for s in pc.build_recession(vintage.load(tmp_path))["signals"]}
+    assert (sig["T10Y3M"]["op"], sig["T10Y3M"]["threshold"], sig["T10Y3M"]["triggered"]) == ("<", 0.0, True)
+    assert (sig["CFNAIMA3"]["op"], sig["CFNAIMA3"]["threshold"]) == ("<", -0.7)
+    assert sig["SAHMREALTIME"]["triggered"] is None          # no data, still states its rule

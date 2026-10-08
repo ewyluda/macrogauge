@@ -51,9 +51,7 @@ const ROUTES: [string, string][] = [
   ["/as-of", "every published reading, never restated"],
   ["/data", "every artifact, its schema, and how to cite it"],
   ["/components/fuel", "of the basket"],
-  ["/heatcheck", "Economy Heat Check"],
-  ["/stress", "Consumer Stress Index"],
-  ["/recession", "six transparent signals"],
+  ["/macro-cycle", "heat, consumer stress and recession rules"],
   ["/datacenter", "Data Center Cost Index"],
   ["/power", "What the utilities charge data centers"],
   ["/status", "Data-integrity self-test"],
@@ -852,8 +850,8 @@ test("home headline grid leaves no empty cells at tablet widths", async ({
 
 test("single-card KPI rows stay content-sized on desktop", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto("/stress");
-  const card = (await page.locator(".kpi-row .kpi-card").first().boundingBox())!;
+  await page.goto("/macro-cycle");
+  const card = (await page.locator("#stress .kpi-row .kpi-card").first().boundingBox())!;
   expect(card.width).toBeLessThan(700);
 });
 

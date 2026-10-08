@@ -1,5 +1,16 @@
-"""Writers for Phase-4 heat, stress, and recession composites."""
+"""Writers for Phase-4 heat, stress, and recession composites.
+
+/macro-cycle (2026-10-08) adds a `history`: the heat and stress scores
+recomputed at each of the last HISTORY_MONTHS month-ends from the SAME
+latest-vintage series, truncated to that date. It is today's data replayed,
+not what the score read at the time (revised series such as payrolls move
+under it), and the page says so. Each recession rule also publishes its
+numeric `threshold` and comparison `op`, so the page can draw the distance
+to a trigger without parsing the rule text."""
+import calendar
 import json
+from bisect import bisect_right
+from datetime import date
 from pathlib import Path
 
 from pipeline.engine import composites
@@ -9,6 +20,22 @@ from pipeline.store import vintage
 
 CONFIG = Path(__file__).parent.parent.parent / "config" / "composites.json"
 SCHEMAS = Path(__file__).parent.parent.parent / "schemas"
+HISTORY_MONTHS = 60
+
+
+def _month_ends(last_day: str, n: int) -> list[str]:
+    """The n month-end dates ending with last_day's month, oldest first."""
+    y, m = int(last_day[:4]), int(last_day[5:7])
+    out = []
+    for _ in range(n):
+        out.append(date(y, m, calendar.monthrange(y, m)[1]).isoformat())
+        y, m = (y, m - 1) if m > 1 else (y - 1, 12)
+    return out[::-1]
+
+
+def _upto(rows: list[tuple[str, float]], day: str) -> list[tuple[str, float]]:
+    """rows (date-sorted) observed on or before day."""
+    return rows[:bisect_right([d for d, _ in rows], day)]
 
 
 def _write(name: str, payload: dict, out_dir: Path, published_at: str) -> Path:
@@ -18,19 +45,31 @@ def _write(name: str, payload: dict, out_dir: Path, published_at: str) -> Path:
     return path
 
 
-def build_heatcheck(conn, config_path: Path = CONFIG) -> dict:
-    cfg = json.loads(config_path.read_text())["heatcheck"]
+def _heat(cfg: dict, series: dict, upto: str | None = None) -> dict:
     indicators = []
     for item in cfg["indicators"]:
+        rows = series[item["code"]] if upto is None else _upto(series[item["code"]], upto)
         # mode "diff" for rates/spreads (zero-crossing bases break % change);
         # periods scale the ~3-month horizon to the series cadence.
-        result = composites.latest_z(vintage.latest(conn, item["code"]),
-                                     periods=item.get("periods", 3),
+        result = composites.latest_z(rows, periods=item.get("periods", 3),
                                      direction=item["direction"],
                                      percent=item.get("mode", "pct") != "diff")
         indicators.append({**item, **(result or {"as_of": None, "momentum": None,
                                                  "z": None})})
     return composites.heat_check(indicators, cfg["group_weights"])
+
+
+def build_heatcheck(conn, config_path: Path = CONFIG, history_months: int = HISTORY_MONTHS) -> dict:
+    cfg = json.loads(config_path.read_text())["heatcheck"]
+    series = {item["code"]: vintage.latest(conn, item["code"]) for item in cfg["indicators"]}
+    out = _heat(cfg, series)
+    last = max((r["as_of"] for r in out["indicators"] if r.get("as_of")), default=None)
+    if last:
+        # month-ends, but the last point is today's reading at its own date
+        # (a current-month end would be a date in the future)
+        ends = _month_ends(last, history_months)[:-1] + [last]
+        out["history"] = {"dates": ends, "score": [_heat(cfg, series, e)["score"] for e in ends]}
+    return out
 
 
 def _yoy(rows: list[tuple[str, float]]) -> list[tuple[str, float]]:
@@ -46,20 +85,32 @@ def _yoy(rows: list[tuple[str, float]]) -> list[tuple[str, float]]:
     return out
 
 
-def build_stress(conn, config_path: Path = CONFIG) -> dict:
-    cfg = json.loads(config_path.read_text())["stress"]
+def _stress(cfg: list, series: dict, upto: str | None = None) -> dict:
     indicators = []
     for item in cfg:
-        series = vintage.latest(conn, item["code"])
-        if item.get("transform") == "yoy":
-            # transform on the FULL history, then window: the 2019 cut
-            # would otherwise eat the first year of computable changes.
-            series = _yoy(series)
-        rows = [(d, v) for d, v in series if d >= "2019-01-01"]
+        rows = series[item["code"]] if upto is None else _upto(series[item["code"]], upto)
         if rows:
             indicators.append({**item, "value": rows[-1][1], "as_of": rows[-1][0],
                                "history": [v for _, v in rows]})
     return composites.stress_index(indicators)
+
+
+def build_stress(conn, config_path: Path = CONFIG, history_months: int = HISTORY_MONTHS) -> dict:
+    cfg = json.loads(config_path.read_text())["stress"]
+    series = {}
+    for item in cfg:
+        s = vintage.latest(conn, item["code"])
+        if item.get("transform") == "yoy":
+            # transform on the FULL history, then window: the 2019 cut
+            # would otherwise eat the first year of computable changes.
+            s = _yoy(s)
+        series[item["code"]] = [(d, v) for d, v in s if d >= "2019-01-01"]
+    out = _stress(cfg, series)
+    last = max((r["as_of"] for r in out["indicators"] if r.get("as_of")), default=None)
+    if last:
+        ends = _month_ends(last, history_months)[:-1] + [last]
+        out["history"] = {"dates": ends, "score": [_stress(cfg, series, e)["score"] for e in ends]}
+    return out
 
 
 def _last(conn, code):
@@ -76,21 +127,25 @@ def build_recession(conn) -> dict:
         # avg), not the latest weekly print — "197000" next to "> 110%" read
         # as nonsense.
         claims_ratio = round(100 * (sum(claims[-13:]) / 13) / (sum(claims[-52:]) / 52), 1)
+    # (name, code, rule text, op, threshold): the rule text is the page's
+    # label; op/threshold are the same test as data, published beside it
     definitions = [
-        ("Sahm", "SAHMREALTIME", ">= +0.50pp", lambda value: value >= 0.5),
-        ("10Y–3M", "T10Y3M", "< 0", lambda value: value < 0),
-        ("NFCI", "NFCI", "> 0", lambda value: value > 0),
-        ("Claims", "ICSA", "13-week avg > 110% of 52-week avg", lambda value: value > 110),
-        ("CFNAI", "CFNAIMA3", "< -0.70", lambda value: value < -0.7),
-        ("Chauvet-Piger", "RECPROUSM156N", "> 20%", lambda value: value > 20),
+        ("Sahm", "SAHMREALTIME", ">= +0.50pp", ">=", 0.5),
+        ("10Y–3M", "T10Y3M", "< 0", "<", 0.0),
+        ("NFCI", "NFCI", "> 0", ">", 0.0),
+        ("Claims", "ICSA", "13-week avg > 110% of 52-week avg", ">", 110.0),
+        ("CFNAI", "CFNAIMA3", "< -0.70", "<", -0.7),
+        ("Chauvet-Piger", "RECPROUSM156N", "> 20%", ">", 20.0),
     ]
+    tests = {">=": lambda v, t: v >= t, ">": lambda v, t: v > t, "<": lambda v, t: v < t}
     signals = []
-    for name, code, rule, fn in definitions:
+    for name, code, rule, op, threshold in definitions:
         rows = icsa if code == "ICSA" else vintage.latest(conn, code)
         value = claims_ratio if code == "ICSA" else (rows[-1][1] if rows else None)
         signals.append({"name": name, "code": code, "rule": rule, "value": value,
                         "as_of": rows[-1][0] if rows else None,
-                        "triggered": None if value is None else fn(value)})
+                        "op": op, "threshold": threshold,
+                        "triggered": None if value is None else tests[op](value, threshold)})
     return composites.recession_composite(signals)
 
 
