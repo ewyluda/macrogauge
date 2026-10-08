@@ -19,7 +19,7 @@ const quarter = (d: string | null) => (d ? `Q${Math.ceil(Number(d.slice(5, 7)) /
 export const metadata: Metadata = {
   title: `Site Costs: ${headline ?? "industrial power, construction wages and more by state"}`,
   description:
-    "Data-center site costs by state: industrial and residential electricity, private construction wages, pump prices and unemployment for all 50 states and DC — the state series behind the data-center cost index.",
+    "Data-center site costs by state: EIA state-average industrial and residential electricity prices (a screening proxy, not a tariff), private construction wages, pump prices and unemployment for all 50 states and DC — the state series behind the data-center cost index.",
 };
 
 const price = (v: number | null, unit: "$gal" | "cents" | "$wk") => {
@@ -37,11 +37,13 @@ export default function States() {
       <div className="research-eyebrow">AI infrastructure · Site costs</div>
       <h1>{headline ?? "Site Costs"}</h1>
       <p className="lede">
-        What it costs to build and run a data center, state by state: the industrial power price a
-        large load pays, the private construction wage its crews earn, and the residential power,
-        pump-price and jobless context around them. These are the state series behind the{" "}
-        <Link href="/datacenter#dc-parity">data-center cost index&apos;s parity table</Link>. Pick a metric to
-        recolor the map and re-rank the table.
+        What it costs to build and run a data center, state by state: the industrial power price,
+        the private construction wage, and the residential power, pump-price and jobless context
+        around them. These are the state series behind the{" "}
+        <Link href="/datacenter#dc-parity">data-center cost index&apos;s parity table</Link>. Industrial
+        power is EIA&apos;s state industrial-sector <b>average</b> price (sector revenue ÷ sales), a
+        screening proxy: a project&apos;s actual bill is set by its utility tariff and contract (see{" "}
+        <Link href="/power">Power &amp; Tariffs</Link>). Pick a metric to recolor the map and re-rank the table.
       </p>
 
       <div className="section-tools">
@@ -51,7 +53,7 @@ export default function States() {
       </div>
       <div className="kpi-row">
         <KpiCard
-          label="US industrial power"
+          label="US industrial power (avg)"
           value={price(nat.elec_ind_cents.value, "cents")}
           context={`${fmtSigned(nat.elec_ind_cents.yoy_pct)} YoY · per kWh · ${nat.elec_ind_cents.as_of ? fmtMonth(nat.elec_ind_cents.as_of) : "—"}`}
           accent="sky"
@@ -59,7 +61,7 @@ export default function States() {
         <KpiCard
           label="US construction wage"
           value={price(nat.wage_weekly.value, "$wk")}
-          context={`per week · ${quarter(nat.wage_weekly.as_of)} — QCEW publishes about 7 months after the quarter`}
+          context={`per week · ${quarter(nat.wage_weekly.as_of)} — QCEW publishes about 5–6 months after the quarter ends`}
           accent="violet"
         />
         <KpiCard

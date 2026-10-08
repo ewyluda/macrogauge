@@ -1,6 +1,6 @@
 "use client";
 import { SegmentedControl } from "./SegmentedControl";
-import { LEVEL_STOPS, levelRamp, EMPTY_CELL, textOn } from "@/lib/heat";
+import { LEVEL_STOPS, levelRamp, levelInk, EMPTY_CELL, textOn } from "@/lib/heat";
 import { TILE_POS } from "@/lib/stateTiles";
 import { METRICS, valueOf, type MetricKey } from "@/lib/siteCosts";
 import type { GeoStateRow, GeoPanel } from "@/lib/types";
@@ -112,7 +112,9 @@ export function GeoStateMap({
           const v = valueOf(s, metric);
           const bg = v == null ? EMPTY_CELL : levelRamp((v - min) / span);
           // tile ink by WCAG luminance — near-white on the amber stretch was ~3:1
-          const ink = textOn(bg);
+          // level tiles: black/white ink, which clears 4.5:1 across the ramp
+          // (textOn's #17212B does not between ~t=0.55 and 0.65)
+          const ink = v == null ? textOn(bg) : levelInk(bg);
           return (
             <div
               key={s.state}

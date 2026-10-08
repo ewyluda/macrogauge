@@ -18,9 +18,26 @@ describe("sortByMetric", () => {
 });
 
 describe("siteCostsHeadline", () => {
-  it("states the contiguous-48 spread (Hawaii and DC left out) and the US average", () => {
-    expect(siteCostsHeadline(states, { ...panel(9.77), elec_ind_cents: m(9.77, 4.72) }))
-      .toBe("Across the 48 contiguous states, industrial power costs 3.4× as much in California (25.1¢/kWh) as in Oklahoma (7.4¢); the US average is 9.77¢, up 4.7% on the year");
+  const nat = { ...panel(9.77), elec_ind_cents: m(9.77, 4.72) };
+  const full = [st("OK", "Oklahoma", 7.4), st("HI", "Hawaii", 29.5), st("CA", "California", 25.1),
+    st("AL", "Alabama", 8.42), st("DC", "District of Columbia", 32.1)];
+
+  it("names the full contiguous cohort and its one month (Hawaii and DC left out)", () => {
+    expect(siteCostsHeadline(full, nat)).toBe(
+      "Across the 3 contiguous states, the average industrial power price in Jul 2026 is 3.4× higher in " +
+      "California (25.1¢/kWh) than in Oklahoma (7.4¢); the US average is 9.77¢, up 4.7% on the year");
+  });
+  it("says how many report when one is missing — never claims the full cohort", () => {
+    // the highest-price state unreported: the spread is a different comparison
+    const missing = [...full.filter((s) => s.state !== "CA"), st("CA", "California", null)];
+    expect(siteCostsHeadline(missing, nat)).toMatch(
+      /^Across 2 of 3 contiguous states reporting, .* 1\.1× higher in Alabama \(8\.4¢\/kWh\) than in Oklahoma/);
+  });
+  it("dates each end when they come from different months", () => {
+    const mixed = full.map((s) => s.state === "CA"
+      ? { ...s, elec_ind_cents: { ...s.elec_ind_cents, as_of: "2026-06-01" } } : s);
+    expect(siteCostsHeadline(mixed, nat)).toContain(
+      "price is 3.4× higher in California (25.1¢/kWh, Jun 2026) than in Oklahoma (7.4¢, Jul 2026)");
   });
   it("is null without two priced states", () => {
     expect(siteCostsHeadline([st("OK", "Oklahoma", 7.4)], panel(9.77))).toBeNull();

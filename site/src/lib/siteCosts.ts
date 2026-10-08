@@ -4,7 +4,9 @@ import type { GeoPanel, GeoStateRow } from "./types";
 
 export type MetricKey = "elec_ind" | "elec_res" | "wage" | "gas" | "unemployment";
 
-/** Industrial power leads: it is the site-selection cost a data center pays. */
+/** Industrial power leads: the EIA state industrial-sector average price is
+ *  the closest published screen for what a large load pays (its actual bill
+ *  is its utility tariff and contract — see /power). */
 export const METRICS: { key: MetricKey; label: string; noun: string }[] = [
   { key: "elec_ind", label: "Industrial ¢/kWh", noun: "industrial power price" },
   { key: "wage", label: "Construction $/wk", noun: "construction wage" },
@@ -35,23 +37,36 @@ export function sortByMetric(states: GeoStateRow[], m: MetricKey): GeoStateRow[]
   });
 }
 
-/** The headline spread is the 48 contiguous states, where data-center
- *  siting actually competes: Hawaii and Alaska run isolated grids, and the
- *  District of Columbia is a city with little industrial load. The table
- *  still ranks all 51. */
+/** The headline spread is the contiguous states, where data-center siting
+ *  actually competes: Hawaii and Alaska run isolated grids, and the District
+ *  of Columbia is a city with little industrial load. The table ranks all 51. */
 const OFF_GRID = new Set(["HI", "AK", "DC"]);
 
-/** "Across the 48 contiguous states, industrial power costs 6.0× as much in California
- *  (25.1¢/kWh) as in New Mexico (4.2¢); the US average is 9.77¢, up 4.7% on
- *  the year" — null without data. */
+const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const month = (d: string | null) => (d ? `${MON[Number(d.slice(5, 7)) - 1]} ${d.slice(0, 4)}` : "date unknown");
+
+/**
+ * The page's takeaway: the spread in the EIA state industrial-sector AVERAGE
+ * price (revenue ÷ sales — a screening proxy, not any customer's tariff).
+ * Its cohort and period are stated, never assumed: "Across the 48 contiguous
+ * states" only when all of them report, else "Across 47 of 48 contiguous
+ * states reporting"; one month when both ends share it, else each end dated.
+ * Null without two priced states.
+ */
 export function siteCostsHeadline(states: GeoStateRow[], national: GeoPanel): string | null {
-  const priced = sortByMetric(states.filter((s) => !OFF_GRID.has(s.state)), "elec_ind")
-    .filter((s) => s.elec_ind_cents.value != null);
+  const contiguous = states.filter((s) => !OFF_GRID.has(s.state));
+  const priced = sortByMetric(contiguous, "elec_ind").filter((s) => s.elec_ind_cents.value != null);
   if (priced.length < 2) return null;
   const hi = priced[0], lo = priced[priced.length - 1];
   const x = hi.elec_ind_cents.value! / lo.elec_ind_cents.value!;
-  let s = `Across the 48 contiguous states, industrial power costs ${x.toFixed(1)}× as much in ${hi.name} (${hi.elec_ind_cents.value!.toFixed(1)}¢/kWh) ` +
-    `as in ${lo.name} (${lo.elec_ind_cents.value!.toFixed(1)}¢)`;
+  const cohort = priced.length === contiguous.length
+    ? `Across the ${contiguous.length} contiguous states`
+    : `Across ${priced.length} of ${contiguous.length} contiguous states reporting`;
+  const sameMonth = hi.elec_ind_cents.as_of != null && hi.elec_ind_cents.as_of === lo.elec_ind_cents.as_of;
+  const at = (st: GeoStateRow, unit: string) =>
+    `${st.elec_ind_cents.value!.toFixed(1)}${unit}${sameMonth ? "" : `, ${month(st.elec_ind_cents.as_of)}`}`;
+  let s = `${cohort}, the average industrial power price${sameMonth ? ` in ${month(hi.elec_ind_cents.as_of)}` : ""} ` +
+    `is ${x.toFixed(1)}× higher in ${hi.name} (${at(hi, "¢/kWh")}) than in ${lo.name} (${at(lo, "¢")})`;
   const nat = national.elec_ind_cents;
   if (nat.value != null) {
     s += `; the US average is ${nat.value.toFixed(2)}¢`;

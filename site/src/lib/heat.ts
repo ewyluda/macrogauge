@@ -90,3 +90,13 @@ export function contrast(a: string, b: string): number {
 export function textOn(bg: string): string {
   return contrast(bg, TEXT_DARK) >= contrast(bg, TEXT_LIGHT) ? TEXT_DARK : TEXT_LIGHT;
 }
+
+
+/** Tile ink for levelRamp backgrounds: pure black or white, whichever
+ *  contrasts more. Any continuous light-to-dark ramp crosses a luminance band
+ *  (~0.18–0.25) where neither the site's #17212B ink nor white reaches 4.5:1;
+ *  with pure black the two options overlap, so the better one always clears
+ *  it (worst case ~4.58:1). textOn() stays as is for its other consumers. */
+export function levelInk(bg: string): string {
+  return contrast(bg, "#000000") >= contrast(bg, TEXT_LIGHT) ? "#000000" : TEXT_LIGHT;
+}
