@@ -1,9 +1,9 @@
 // Client math for /markets. Kept out of the .tsx because vitest collects
 // only src/**/*.test.ts in the node env — logic inside a component is
 // untestable except through Playwright.
-import type { MarketRow } from "./types";
+import type { MarketPipelineSource, MarketRow } from "./types";
 
-export type SortKey = "name" | "wage" | "wageYoy" | "emp" | "empYoy" | "mw" | "elecYoy";
+export type SortKey = "name" | "wage" | "wageYoy" | "emp" | "empYoy" | "mw" | "pipeline" | "elecYoy";
 
 const VALUE: Record<SortKey, (r: MarketRow) => number | string | null> = {
   name: (r) => r.name,
@@ -37,6 +37,9 @@ const VALUE: Record<SortKey, (r: MarketRow) => number | string | null> = {
   // with. An artifact published before the block landed has no `elec` --
   // that sorts as null, never as a zero.
   elecYoy: (r) => (r.elec?.available ? r.elec.wage_yoy_pct : null),
+  // the broker's MW under construction; a null_note market has no figure and
+  // sorts as null (sinks), never as a zero
+  pipeline: (r) => r.market_pipeline?.mw_uc ?? null,
 };
 
 // Which availability flag decides "sinks to the bottom" for a key. The
@@ -45,6 +48,9 @@ const VALUE: Record<SortKey, (r: MarketRow) => number | string | null> = {
 // sink it with the construction-unavailable rows.
 const AVAILABLE: Partial<Record<SortKey, (r: MarketRow) => boolean>> = {
   elecYoy: (r) => r.elec?.available === true,
+  // broker figures don't depend on QCEW disclosure: Hillsboro is NAICS
+  // 23-suppressed yet has a C&W figure, so it sorts with the figures
+  pipeline: (r) => r.market_pipeline?.mw_uc != null,
 };
 
 /** Sort a copy. Unavailable markets always sink to the bottom — a suppressed
@@ -125,4 +131,27 @@ export function elecCell(r: MarketRow): ElecCell {
     wage: e.wage != null ? `$${Math.round(e.wage).toLocaleString("en-US")}` : "—",
     partial: e.partial || e.yoy_basis === null,
   };
+}
+
+/** What the "Market pipeline" cell shows. Three states, never a zero:
+ *  - pending: this publish has no column (artifact predates it, or the config
+ *    failed to load);
+ *  - none: the broker does not break the market out (its null_note);
+ *  - live: MW under construction as the broker states it, and the broker's
+ *    region whenever it is not the same metro as our counties (fit ≠ close) —
+ *    "7,355 MW" beside Northern Virginia must say Virginia (statewide).
+ *  Operating and planned MW from the same box go in the expanded row's
+ *  receipt, not the cell: the table must fit its card at desktop width. */
+export type PipelineCell =
+  | { state: "pending" }
+  | { state: "none"; note: string }
+  | { state: "live"; mw: string; region: string | null; stale: boolean };
+
+export const mwFmt = (v: number) => `${v.toLocaleString("en-US")} MW`;
+
+export function pipelineCell(r: MarketRow, src: MarketPipelineSource | null | undefined): PipelineCell {
+  const p = r.market_pipeline;
+  if (!p || !src) return { state: "pending" };
+  if (p.mw_uc == null) return { state: "none", note: p.null_note ?? "Not broken out by the source." };
+  return { state: "live", mw: mwFmt(p.mw_uc), region: p.fit === "close" ? null : p.label, stale: src.stale };
 }

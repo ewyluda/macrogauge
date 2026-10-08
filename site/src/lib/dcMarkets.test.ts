@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { elecCell, fmtSpread, sortMarkets, tightness, tightnessScore } from "./dcMarkets";
-import type { MarketElec, MarketRow } from "./types";
+import { elecCell, fmtSpread, pipelineCell, sortMarkets, tightness, tightnessScore } from "./dcMarkets";
+import type { MarketElec, MarketPipeline, MarketPipelineSource, MarketRow } from "./types";
 
 const row = (over: Partial<MarketRow>): MarketRow =>
   ({
@@ -226,5 +226,59 @@ describe("sortMarkets elecYoy", () => {
       .toEqual(["hillsboro", "nova"]);
     expect(sortMarkets(rows, "elecYoy", false).map((r) => r.key).slice(0, 2))
       .toEqual(["nova", "hillsboro"]);
+  });
+});
+
+const SRC: MarketPipelineSource = {
+  publisher: "Cushman & Wakefield", doc: "Americas Data Center Update H1 2026",
+  doc_date: "2026-09-14", period: "2026-06-30", url: "https://example.com",
+  basis: "colo+hyperscale-self-build", basis_note: "x", stale_after_days: 430, stale: false,
+};
+const fig = (over: Partial<MarketPipeline>): MarketPipeline => ({
+  region: "Virginia", label: "Virginia (statewide)", fit: "wider", map_labels: [],
+  region_note: null, mw_uc: 7355, mw_operating: 12338, mw_planned: 39340, page: 8,
+  quote: "q", null_note: null, ...over,
+});
+const none = fig({ region: null, label: null, fit: null, mw_uc: null, mw_operating: null,
+  mw_planned: null, page: null, quote: null, null_note: "Not broken out." });
+
+describe("pipelineCell", () => {
+  it("names the broker's region beside the figure whenever it is wider than our counties", () => {
+    expect(pipelineCell(row({ market_pipeline: fig({}) }), SRC)).toEqual({
+      state: "live", mw: "7,355 MW", region: "Virginia (statewide)", stale: false });
+  });
+
+  it("omits the region only when it is the same metro", () => {
+    const c = pipelineCell(row({ market_pipeline: fig({ fit: "close", label: "Phoenix", mw_uc: 1597 }) }), SRC);
+    expect(c).toMatchObject({ state: "live", mw: "1,597 MW", region: null });
+  });
+
+  it("reads a null-note market as not broken out, never a zero", () => {
+    expect(pipelineCell(row({ market_pipeline: none }), SRC)).toEqual({ state: "none", note: "Not broken out." });
+  });
+
+  it("is pending when the publish has no column (older artifact, or the config failed)", () => {
+    expect(pipelineCell(row({}), SRC)).toEqual({ state: "pending" });
+    expect(pipelineCell(row({ market_pipeline: null }), null)).toEqual({ state: "pending" });
+    expect(pipelineCell(row({ market_pipeline: fig({}) }), null)).toEqual({ state: "pending" });
+  });
+
+  it("carries the source's stale flag", () => {
+    expect(pipelineCell(row({ market_pipeline: fig({}) }), { ...SRC, stale: true }))
+      .toMatchObject({ stale: true });
+  });
+});
+
+describe("sortMarkets by market pipeline", () => {
+  it("ranks figures by MW, sinks null notes, and ignores QCEW suppression", () => {
+    const rows = [
+      row({ key: "none", market_pipeline: none }),
+      row({ key: "small", market_pipeline: fig({ mw_uc: 160 }) }),
+      // NAICS 23-suppressed (Hillsboro) still has a broker figure
+      row({ key: "sup", available: false, market_pipeline: fig({ mw_uc: 729 }) }),
+      row({ key: "big", market_pipeline: fig({ mw_uc: 7355 }) }),
+    ];
+    expect(sortMarkets(rows, "pipeline", true).map((r) => r.key)).toEqual(["big", "sup", "small", "none"]);
+    expect(sortMarkets(rows, "pipeline", false).map((r) => r.key)).toEqual(["small", "sup", "big", "none"]);
   });
 });

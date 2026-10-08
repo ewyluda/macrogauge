@@ -1,19 +1,20 @@
 "use client";
 import { useMemo, useState } from "react";
-import { elecCell, fmtSpread, sortMarkets, tightness, tightnessScore, type SortKey } from "@/lib/dcMarkets";
-import type { DcMarkets, MarketCounty, MarketRow } from "@/lib/types";
+import { elecCell, fmtSpread, mwFmt, pipelineCell, sortMarkets, tightness, tightnessScore, type SortKey } from "@/lib/dcMarkets";
+import type { DcMarkets, MarketCounty, MarketPipelineSource, MarketRow } from "@/lib/types";
 import { ToneBadge, type Tone } from "@/components/ToneBadge";
 import { TailSpark } from "@/components/TailSpark";
 
 const qLabel = (ym: string) => `Q${Math.ceil(Number(ym.slice(5, 7)) / 3)} ${ym.slice(0, 4)}`;
 
-// The seven sortable columns (bound to dcMarkets.ts's SortKey union). Tightness
+// The eight sortable columns (bound to dcMarkets.ts's SortKey union). Tightness
 // is rendered as an extra, non-sortable column — tightness() buckets two
 // spreads into one call and sortMarkets() has no key for that composite, so
 // it isn't offered as a sort.
 const SORT_COLS: [SortKey, string][] = [
   ["name", "Market"], ["wage", "Wage $/wk"], ["wageYoy", "Wage YoY"],
   ["emp", "Constr. workers"], ["empYoy", "Headcount YoY"], ["mw", "Tracked AI projects"],
+  ["pipeline", "Market pipeline (C&W)"],
   ["elecYoy", "Electrical contractors (nonres., NAICS 238212)"],
 ];
 
@@ -30,6 +31,7 @@ const COL_BASIS: Partial<Record<SortKey, string>> = {
   emp: "Current-quarter basis: every county with current data, independent of last year's disclosure. Third-month (point-in-time) level — the wage above is weighted by each county's quarterly-average level instead, so the two don't share a denominator.",
   empYoy: "Like-for-like basis: counties present in both quarters.",
   mw: "From the AI capacity tracker: the sites it itemizes, tagged to this market. Not the market's whole pipeline (most colocation and hyperscaler campuses are not itemized). Sorts by MW under construction.",
+  pipeline: "Cushman & Wakefield's MW under construction for its market: colocation plus hyperscale self-build, excluding captive and ICT; IT vs facility MW not stated. C&W markets are regions, not our counties, so the region is named whenever it is wider. Sorts by MW under construction.",
   elecYoy: "Private NAICS 238212, nonresidential electrical contractors. Wage YoY (and its spread vs the national 238212 rate) on the like-for-like basis; workers is the current-quarter third-month level. † = at least one county is disclosure-suppressed.",
 };
 
@@ -90,7 +92,9 @@ export function MarketsClient({ data }: { data: DcMarkets }) {
                  textAlign: "inherit" }}>
         {k === "elecYoy"
           ? <>Electrical contractors <small className="mk-th-sub">(nonres., NAICS 238212)</small></>
-          : label}{key === k ? (desc ? " ▾" : " ▴") : ""}
+          : k === "pipeline"
+            ? <>Market pipeline <small className="mk-th-sub">(C&amp;W, under construction)</small></>
+            : label}{key === k ? (desc ? " ▾" : " ▴") : ""}
       </button>
     </th>
   );
@@ -110,7 +114,7 @@ export function MarketsClient({ data }: { data: DcMarkets }) {
         </thead>
         <tbody>
           {rows.map((m) => (
-            <Row key={m.key} m={m}
+            <Row key={m.key} m={m} src={data.market_pipeline_source}
               open={open === m.key}
               onToggle={() => setOpen(open === m.key ? null : m.key)} />
           ))}
@@ -216,23 +220,72 @@ function ElecTd({ m }: { m: MarketRow }) {
   );
 }
 
-// 8 columns on screen: Market, Tightness, Wage, Wage YoY, Workers, Headcount
-// YoY, MW, Electrical contractors. The unavailable branch's colSpan (6, then
-// the electrical cell) and the expanded receipts row's colSpan (8) must track
-// that count.
-function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () => void }) {
+// The broker's market-level figure (C&W). Independent of QCEW disclosure, so
+// it renders on the unavailable branch too. Never a zero: pending / none /
+// live (dcMarkets.ts pipelineCell).
+function PipelineTd({ m, src }: { m: MarketRow; src: MarketPipelineSource | null | undefined }) {
+  const c = pipelineCell(m, src);
+  if (c.state === "pending") {
+    return <td style={{ color: "var(--muted)" }}
+      title="The market pipeline column is missing from this publish.">—</td>;
+  }
+  if (c.state === "none") {
+    return (
+      <td style={{ color: "var(--muted)" }} title={c.note}>
+        —
+        <div style={{ fontSize: 11 }}>not broken out by C&amp;W</div>
+      </td>
+    );
+  }
+  return (
+    <td>
+      <span style={{ whiteSpace: "nowrap" }}>{c.mw}</span>
+      {c.stale && <> <ToneBadge tone="amber">stale</ToneBadge></>}
+      {c.region && <div style={{ fontSize: 11 }}><b className="mk-region">{c.region}</b></div>}
+    </td>
+  );
+}
+
+function MarketToggle({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () => void }) {
+  return (
+    <button type="button" aria-expanded={open} onClick={(e) => { e.stopPropagation(); onToggle(); }}
+      style={{ background: "none", border: 0, padding: 0, color: "inherit", font: "inherit",
+               cursor: "pointer", textAlign: "left" }}>
+      {open ? "▾ " : "▸ "}{m.name}{m.thin_base ? " ⚠" : ""}
+    </button>
+  );
+}
+
+// 9 columns on screen: Market, Tightness, Wage, Wage YoY, Workers, Headcount
+// YoY, Tracked AI projects, Market pipeline, Electrical contractors. The
+// unavailable branch's colSpan (6, then the pipeline and electrical cells) and
+// the expanded receipts row's colSpan (9) must track that count.
+function Row({ m, src, open, onToggle }: {
+  m: MarketRow; src: MarketPipelineSource | null | undefined; open: boolean; onToggle: () => void;
+}) {
   if (!m.available) {
     return (
-      <tr id={`mk-row-${m.key}`}>
-        <td className="mk-market">{m.name}</td>
+      <>
+      <tr id={`mk-row-${m.key}`} onClick={onToggle} style={{ cursor: "pointer" }} className={open ? "is-open" : undefined}>
+        <td className="mk-market"><MarketToggle m={m} open={open} onToggle={onToggle} /></td>
         <td colSpan={6} style={{ color: "var(--muted)" }}>
           not available — BLS disclosure suppression
           {m.counties_suppressed.length
             ? ` (${m.counties_suppressed.map((f) => countyName(m, f)).join(", ")})` : ""}
           {m.note ? `: ${m.note}` : ""}
         </td>
+        <PipelineTd m={m} src={src} />
         <ElecTd m={m} />
       </tr>
+      {open && (
+        <tr>
+          <td colSpan={9}>
+            <PipelineReceipts m={m} src={src} />
+            <ElecReceipts m={m} />
+          </td>
+        </tr>
+      )}
+      </>
     );
   }
   return (
@@ -243,11 +296,7 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
           for mouse readers. */}
       <tr id={`mk-row-${m.key}`} onClick={onToggle} style={{ cursor: "pointer" }} className={open ? "is-open" : undefined}>
         <td className="mk-market">
-          <button type="button" aria-expanded={open} onClick={(e) => { e.stopPropagation(); onToggle(); }}
-            style={{ background: "none", border: 0, padding: 0, color: "inherit", font: "inherit",
-                     cursor: "pointer", textAlign: "left" }}>
-            {open ? "▾ " : "▸ "}{m.name}{m.thin_base ? " ⚠" : ""}
-          </button>
+          <MarketToggle m={m} open={open} onToggle={onToggle} />
           {(m.counties_used < m.counties_total || m.yoy_basis === null) && (
             <span title="Partial county coverage this quarter — expand for the basis"> †</span>
           )}
@@ -311,11 +360,12 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
             {m.mw_secured ? ` · ${m.mw_secured.toLocaleString("en-US")} MW secured` : ""}
           </div>
         </td>
+        <PipelineTd m={m} src={src} />
         <ElecTd m={m} />
       </tr>
       {open && (
         <tr>
-          <td colSpan={8}>
+          <td colSpan={9}>
             <p style={{ fontSize: 12, color: "var(--muted)", margin: "0 0 4px" }}>
               {m.note}
             </p>
@@ -360,11 +410,43 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
                 real but noisy; a single large project moves it.
               </p>
             )}
+            <PipelineReceipts m={m} src={src} />
             <ElecReceipts m={m} />
           </td>
         </tr>
       )}
     </>
+  );
+}
+
+// The broker figure's receipt: document, page, the broker's region and the
+// verbatim key-indicators quote the MW came from.
+function PipelineReceipts({ m, src }: { m: MarketRow; src: MarketPipelineSource | null | undefined }) {
+  const p = m.market_pipeline;
+  if (!p || !src) return null;
+  const doc = <a href={src.url}>{src.publisher}, {src.doc}</a>;
+  if (p.mw_uc == null) {
+    return (
+      <p className="mk-pipe-receipt" data-testid={`mk-pipe-receipt-${m.key}`}>
+        <b>Market pipeline:</b> {p.null_note} (checked: {doc}, {src.doc_date}.)
+      </p>
+    );
+  }
+  return (
+    <p className="mk-pipe-receipt" data-testid={`mk-pipe-receipt-${m.key}`}>
+      <b>Market pipeline</b>, {doc} ({src.doc_date}; key indicators for the half ending {src.period}),
+      flipbook p. {p.page}. C&amp;W market: <b>{p.region}</b>
+      {p.fit === "close" ? " — the same metro as the counties above" : p.fit === "proxy"
+        ? " — a wider region in which this market is one of several named places"
+        : " — a wider region containing the counties above"}
+      {p.map_labels.length ? ` (map: ${p.map_labels.join(", ")})` : ""}.
+      {p.region_note ? ` ${p.region_note}` : ""} Same key-indicators box:{" "}
+      <b>{mwFmt(p.mw_uc)} under construction</b>
+      {p.mw_operating != null ? `, ${mwFmt(p.mw_operating)} in operation` : ""}
+      {p.mw_planned != null ? `, ${mwFmt(p.mw_planned)} planned` : ""} — separate stages, never
+      summed. Quote: <q>{p.quote}</q>
+      {src.stale && <> <ToneBadge tone="amber">stale</ToneBadge> past {src.stale_after_days} days from the report date; a newer edition is due.</>}
+    </p>
   );
 }
 

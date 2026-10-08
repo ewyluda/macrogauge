@@ -381,6 +381,10 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert by_key["nova"]["available"] is True and by_key["nova"]["as_of"] == "2026-01-01"
     # Storey (unregistered) + Washoe: partial, never zero-filled
     assert by_key["reno"]["counties_suppressed"] == ["32029"] and by_key["reno"]["partial"]
+    # the broker pipeline column rides the same phase off curated config
+    assert mkts["market_pipeline_source"]["publisher"] == "Cushman & Wakefield"
+    pipe = {m["key"]: m["market_pipeline"] for m in mkts["markets"]}
+    assert pipe["nova"]["mw_uc"] == 7355 and pipe["memphis"]["null_note"]
     qa = json.loads((out / "qa.json").read_text())
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok
@@ -1009,6 +1013,25 @@ def test_markets_failure_does_not_block_publish(tmp_path, monkeypatch):
     assert (out / "qa.json").exists()
 
 
+def test_bad_market_pipeline_config_drops_only_the_column(tmp_path, monkeypatch):
+    set_keys(monkeypatch)
+    store, out = tmp_path / "s", tmp_path / "o"
+
+    def bad(*args, **kwargs):
+        raise ValueError("dc_market_pipeline: keys must match the /markets roster")
+
+    monkeypatch.setattr(run_daily.dc_market_pipeline_cfg, "load", bad)
+    rc = run_daily.main(["--store", str(store), "--out", str(out)],
+                        http_get=fake_get, http_post=fake_post)
+    assert rc == 0
+    checks = {c["name"]: c for c in json.loads((out / "qa.json").read_text())["checks"]}
+    assert checks["markets_ok"]["pass"] is True
+    mkts = json.loads((out / "dc_markets.json").read_text())
+    assert mkts["market_pipeline_source"] is None
+    assert all(m["market_pipeline"] is None for m in mkts["markets"])
+    assert all("elec" in m for m in mkts["markets"])
+
+
 def test_markets_schema_violation_fails_run(tmp_path, monkeypatch):
     # The markets block's ValidationError re-raise must stay ahead of its
     # generic Exception handler — a schema-invalid dc_markets.json must crash
@@ -1220,3 +1243,24 @@ def test_news_schema_violation_fails_run(tmp_path, monkeypatch):
         run_daily.main(["--store", str(store), "--out", str(out)],
                        http_get=fake_get, http_post=fake_post)
     assert not (out / "qa.json").exists()
+
+
+@pytest.mark.parametrize("malformed", [None, {"schema_version": 1, "markets": [None]}])
+def test_malformed_market_pipeline_config_preserves_labor_publish(tmp_path, monkeypatch, malformed):
+    set_keys(monkeypatch)
+    cfg_path = tmp_path / "bad-market-pipeline.json"
+    if isinstance(malformed, dict):
+        real = json.loads(run_daily.dc_market_pipeline_cfg.DEFAULT_PATH.read_text())
+        malformed = {**real, **malformed}
+    cfg_path.write_text(json.dumps(malformed))
+    monkeypatch.setattr(run_daily.dc_market_pipeline_cfg, "DEFAULT_PATH", cfg_path)
+    out = tmp_path / "out"
+    assert run_daily.main(["--store", str(tmp_path / "store"), "--out", str(out)],
+                          http_get=fake_get, http_post=fake_post) == 0
+    checks = {c["name"]: c for c in json.loads((out / "qa.json").read_text())["checks"]}
+    assert checks["markets_ok"]["pass"] is True
+    markets = json.loads((out / "dc_markets.json").read_text())
+    assert markets["market_pipeline_source"] is None
+    assert all(m["market_pipeline"] is None for m in markets["markets"])
+    assert any(m["available"] for m in markets["markets"])
+    assert all("elec" in m for m in markets["markets"])

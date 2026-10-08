@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (1228 tests)
+pytest -q                                     # full suite (1265 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -29,7 +29,7 @@ npm run dev        # local dev server
 npm run lint       # ESLint flat config: next core-web-vitals + jsx-a11y + react-hooks (must pass in CI)
 npm run build      # static export (must pass in CI)
 npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/news/newsTape/homeBrief/cloudGpu/dcHub/capacityHeadline/buildInputs/siteCosts/ratesHeadline/ledgerSeries) + dcWeightBasis + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/chartAria/sourcePills/badge
-npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 229 e2e tests, zero console errors
+npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 230 e2e tests, zero console errors
 npm run gen-types  # schemas/*.schema.json -> src/lib/generated/*.ts (gitignored; runs automatically before dev/build/test)
 ```
 
@@ -125,7 +125,7 @@ GSCPI, the effective tariff rate — customs duties ÷ goods imports, in `tariff
 hand-curated MW × daily FMP_EQ market caps; EV/MW is null for hyperscalers, private rows and rows with a curated `ev_note` whose EV prices a much larger business), the DC market panel (`dc_markets` —
 county-QCEW construction labor for 20 real DC markets, a per-market `elec` block of private NAICS
 238212 nonresidential electrical contractors aggregated the same way, plus a denominated capacity-competition
-column keyed by hand-assigned market tag, never a coordinate radius — shown as "Tracked AI projects", the tracker's itemized sites, not a market's whole pipeline — and an 8-quarter `history` of headcount/wage over the counties reported in all of them), and the DC escalation
+column keyed by hand-assigned market tag, never a coordinate radius — shown as "Tracked AI projects", the tracker's itemized sites, not a market's whole pipeline — and an 8-quarter `history` of headcount/wage over the counties reported in all of them, and a per-market `market_pipeline` — one broker's market-level MW under construction from `config/dc_market_pipeline.json` (Cushman & Wakefield *Americas Data Center Update H1 2026*, one basis for the whole column, the broker's region + `fit` close/wider/proxy named beside any figure whose region is wider than our counties, the verbatim quote checked against the figure at load and against the committed text layer in tests, a `null_note` where C&W does not break the market out; source + `stale` once in `market_pipeline_source`; a bad config nulls the column, never the panel), and the DC escalation
 grading harness (`dc_grades` — vintage-true backtest of the contingency bases on two labelled
 samples, strict and extended, plus the unfilled-orders lead-lag verdict), and the long-lead
 equipment board (`longlead` — hand-curated, stated-only vendor order-book figures joined to the

@@ -371,3 +371,41 @@ def test_history_is_empty_when_no_county_is_reported_throughout():
     assert hist["hillsboro"] == {"quarters": [], "emp": [], "wage": [], "counties": 0, "fips": []}
     assert hist["nova"]["emp"] == [22372, 26151] and hist["nova"]["counties"] == 1
     jsonschema.validate(p | {"published_at": "x"}, SCHEMA)
+
+
+def _pipeline_cfg():
+    # the real config against the real roster (the fixture MARKETS is a subset)
+    from pipeline import dc_market_pipeline, dc_markets
+    return dc_market_pipeline.load(market_keys={m.key for m in dc_markets.load()})
+
+
+def test_market_pipeline_passes_through_per_row_with_one_source_block():
+    cfg = _pipeline_cfg()
+    p = writer.build(_conn(), MARKETS, CAP_CFG, META, pipeline=cfg, today="2026-10-08")
+    jsonschema.validate({"published_at": "x", **p}, SCHEMA)
+    src = p["market_pipeline_source"]
+    assert (src["publisher"], src["doc_date"], src["basis"], src["stale"]) == (
+        "Cushman & Wakefield", "2026-09-14", "colo+hyperscale-self-build", False)
+    nova = next(r for r in p["markets"] if r["key"] == "nova")["market_pipeline"]
+    assert (nova["mw_uc"], nova["mw_operating"], nova["mw_planned"]) == (7355, 12338, 39340)
+    assert nova["label"] == "Virginia (statewide)" and nova["null_note"] is None
+    # the labor fields are untouched by the join
+    assert next(r for r in p["markets"] if r["key"] == "nova")["emp"] == 26151
+
+
+def test_market_pipeline_null_rows_and_stale_flag():
+    memphis = (MarketSpec(key="memphis", name="Memphis", counties=("47157",), state="TN",
+                          iso=None, grid="TVA", utility="MLGW", note=""),)
+    p = writer.build(_conn(), memphis, CAP_CFG, META, pipeline=_pipeline_cfg(), today="2027-11-19")
+    jsonschema.validate({"published_at": "x", **p}, SCHEMA)
+    row = p["markets"][0]["market_pipeline"]
+    assert row["mw_uc"] is None and row["null_note"].startswith("Not broken out")
+    assert p["market_pipeline_source"]["stale"] is True
+
+
+def test_without_a_pipeline_config_the_column_is_null_not_missing():
+    # a config that failed to load drops the column; the labor panel publishes
+    p = writer.build(_conn(), MARKETS, CAP_CFG, META)
+    jsonschema.validate({"published_at": "x", **p}, SCHEMA)
+    assert p["market_pipeline_source"] is None
+    assert all(r["market_pipeline"] is None for r in p["markets"])

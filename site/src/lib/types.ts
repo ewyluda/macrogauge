@@ -356,6 +356,39 @@ export type MarketRow = {
   // aggregation as the NAICS 23 fields above. Optional only because
   // artifacts published before it landed lack it; the writer always emits.
   elec?: MarketElec;
+  // The broker's market-level MW under construction for the region holding
+  // this market (config/dc_market_pipeline.json). Absent before 2026-10-08;
+  // null when the config failed to load that publish.
+  market_pipeline?: MarketPipeline | null;
+};
+
+// One market's broker figure, or a null_note where the broker does not break
+// the market out. region is the broker's own market (not our counties); fit
+// says how it compares. Operating/planned are the same box, never summed.
+export type MarketPipeline = {
+  region: string | null;
+  label: string | null;
+  fit: "close" | "wider" | "proxy" | null;
+  map_labels: string[];
+  region_note: string | null;
+  mw_uc: number | null;
+  mw_operating: number | null;
+  mw_planned: number | null;
+  page: number | null;
+  quote: string | null;
+  null_note: string | null;
+};
+
+export type MarketPipelineSource = {
+  publisher: string;
+  doc: string;
+  doc_date: string;
+  period: string;
+  url: string;
+  basis: "colo+hyperscale-self-build";
+  basis_note: string;
+  stale_after_days: number;
+  stale: boolean;
 };
 
 // One market's NAICS 238212 block (pipeline/publish/dc_markets.py
@@ -400,6 +433,7 @@ export type DcMarkets = {
   // NAICS 238212 national baseline -- same shape as `national`; optional
   // for the same pre-landing reason as MarketRow.elec.
   elec_national?: DcMarkets["national"];
+  market_pipeline_source?: MarketPipelineSource | null;
   markets: MarketRow[];
 };
 

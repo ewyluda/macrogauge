@@ -13,6 +13,7 @@ import { artifact } from "@/lib/artifact";
 const data = artifact<"dc_markets", DcMarkets>("dc_markets", marketsJson);
 const nat = data.national;
 const elecNat = data.elec_national;
+const pipeSrc = data.market_pipeline_source;
 const live = data.markets.filter((m) => m.available);
 // Ranked by the same composite the table's tightness badge uses — wage
 // spread alone can crown a different market than the hottest badge.
@@ -111,6 +112,22 @@ export default function Page() {
         because an energized campus is a completed draw on the labor pool, not a live one.
         {" "}{data.coverage_note}{" "}
         Utility and ISO are hand-curated attributes of the market, not derived.
+      </p></div>
+      <div><h3>Market pipeline (C&amp;W)</h3><p className="method" id="market-pipeline">
+        {pipeSrc ? <>
+        <b>Market pipeline</b> is MW under construction for each market as{" "}
+        <a href={pipeSrc.url}>{pipeSrc.publisher}&apos;s {pipeSrc.doc}</a> ({pipeSrc.doc_date}) states it,
+        for the half ending {pipeSrc.period}. {pipeSrc.basis_note}{" "}
+        <b>The region is C&amp;W&apos;s, not ours</b>: Northern Virginia&apos;s figure is all of Virginia,
+        Abilene&apos;s is West Texas, Des Moines&apos;s is Iowa, so every row whose C&amp;W market is
+        wider than its counties names that region beside the number. One publisher fills the column on
+        one basis; other brokers count differently (CBRE&apos;s colocation-only figures, for one, put
+        Atlanta above C&amp;W), so none is mixed in. Markets C&amp;W does not break out read
+        &ldquo;not broken out&rdquo;, never zero. Operating and planned MW from the same report are in
+        the expanded row, never added to the under-construction figure. The figure is marked stale{" "}
+        {pipeSrc.stale_after_days} days after the report date, by when a newer edition is due.
+        {pipeSrc.stale && <> <b>It is stale now.</b></>}
+        </> : <>The market pipeline column is missing from this publish.</>}
       </p></div>
       <div><h3>Electrical contractors</h3><p className="method" id="electrical-contractors">
         <b>Electrical contractors (nonres., NAICS 238212)</b> is private-sector
