@@ -8,17 +8,17 @@ test("hero chart rate control switches to 3m annualized and lives in the URL", a
   await expect.poll(() => page.evaluate(() => location.search)).toContain("rate=ann3");
   await expect(page.getByText(/annualized off the daily index/).first()).toBeVisible();
   // deep link applies on load (the same key drives every momentum chart)
-  await page.goto("/vs-bls?rate=ann6");
+  await page.goto("/gap?rate=ann6");
   await expect(page.getByRole("button", { name: "6m ann.", exact: true })).toBeVisible();
   await expect(page.getByText(/annualized off the daily index/)).toBeVisible();
   // short-window annualized rates carry seasonality — the NSA caveat rides with them
   await expect(page.getByTestId("rate-nsa-note").first()).toContainText("not seasonally adjusted");
 });
 
-test("cost-of-living and supercore charts carry the same rate control", async ({ page }) => {
+test("cost-of-living and /gap's validation chart carry the same rate control", async ({ page }) => {
   await page.goto("/cost-of-living?rate=ann3");
   await expect(page.getByText(/annualized off the daily index/)).toBeVisible();
-  await page.goto("/supercore?rate=ann3");
+  await page.goto("/gap?rate=ann3");
   await expect(page.getByText(/annualized off the daily index/)).toBeVisible();
   await expect(page.getByTestId("rate-nsa-note").first()).toContainText("not seasonally adjusted");
 });

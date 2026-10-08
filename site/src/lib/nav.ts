@@ -19,10 +19,8 @@ export const NAV: NavEntry[] = [
       {
         title: "The gauge",
         items: [
-          { href: "/supercore", label: "Supercore", emoji: "📈" },
           { href: "/cost-of-living", label: "Cost of Living", emoji: "🔑" },
           { href: "/gap", label: "Gauge Gap", emoji: "📐" },
-          { href: "/vs-bls", label: "vs BLS", emoji: "⚖️" },
           { href: "/pce", label: "PCE Gauge", emoji: "🏦" },
           { href: "/changes", label: "Since Yesterday", emoji: "🕗" },
         ],

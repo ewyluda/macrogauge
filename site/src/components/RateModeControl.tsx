@@ -9,7 +9,7 @@ const RATE_CODEC = codecs.enumOf(RATE_MODES.map((m) => m.key));
 
 /** Shared `?rate=` state for every chart that can show YoY or an
  *  annualized 3m/6m momentum: one key, so a link carries the same view
- *  across the hero, /vs-bls, /cost-of-living and /supercore. */
+ *  across the hero, /gap and /cost-of-living. */
 export function useRateMode(): [RateMode, (m: RateMode) => void] {
   return useUrlState<RateMode>("rate", "yoy", RATE_CODEC);
 }

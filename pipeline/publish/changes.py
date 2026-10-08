@@ -140,7 +140,7 @@ def _readings(out_dir: Path) -> dict:
     for key, label in VARIANT_LABELS.items():
         b = pulse.get(key) if key in ("gauge", "tracker") else variants.get(key)
         if b and b.get("yoy_pct") is not None:
-            out[f"gauge_{key}"] = _r(f"{label} YoY", "Inflation", "yoy", "%", "gauge_yoy", "/" if key == "gauge" else "/vs-bls",
+            out[f"gauge_{key}"] = _r(f"{label} YoY", "Inflation", "yoy", "%", "gauge_yoy", "/" if key == "gauge" else "/gap",
                                      b["yoy_pct"], b.get("as_of"))
     return out
 

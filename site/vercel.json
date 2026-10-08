@@ -29,6 +29,16 @@
       "source": "/releases",
       "destination": "/revisions",
       "permanent": true
+    },
+    {
+      "source": "/vs-bls",
+      "destination": "/gap",
+      "permanent": true
+    },
+    {
+      "source": "/supercore",
+      "destination": "/gap",
+      "permanent": true
     }
   ],
   "headers": [
