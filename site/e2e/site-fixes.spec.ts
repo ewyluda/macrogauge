@@ -129,3 +129,21 @@ test("trust pages print rounded values and readable stamps, never raw floats or 
   expect(status).not.toMatch(ISO_TIME);
   if (!artifactRaw) expect(status).not.toMatch(RAW_FLOAT);
 });
+
+test("methodology inventory is collapsed behind its source chips, every row still findable", async ({ page }) => {
+  const inv = (methodology as { inventory: { source: string }[] }).inventory;
+  await page.goto("/methodology");
+  const details = page.locator("details.inv-details");
+  await expect(details).not.toHaveAttribute("open", "");
+  // closed, yet every series row stays in the DOM, so Ctrl-F finds it
+  await expect(details.locator("tbody tr")).toHaveCount(inv.length);
+  await expect(details.locator("tbody tr").first()).toBeHidden();
+  // a source chip opens the list filtered to that source
+  const src = "OPENROUTER";
+  await page.getByTestId("inv-chip").filter({ hasText: new RegExp(`^${src} `) }).click();
+  await expect(details).toHaveAttribute("open", "");
+  await expect(details.locator("tbody tr")).toHaveCount(inv.filter((r) => r.source === src).length);
+  await expect(details.locator("summary")).toContainText(`${src}: `);
+  await page.getByRole("button", { name: `All (${inv.length})` }).click();
+  await expect(details.locator("tbody tr")).toHaveCount(inv.length);
+});

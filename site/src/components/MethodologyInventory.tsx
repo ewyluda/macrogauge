@@ -13,10 +13,23 @@ type Row = {
   absence?: string | null;
 };
 
+/** The series inventory, collapsed: the source chips summarize every source
+ *  (series count, and how many are stale), and the rows sit in a closed
+ *  <details> that a chip opens, filtered to its source. The rows stay in the
+ *  DOM, so Ctrl-F still finds a series code (browsers search and auto-open
+ *  closed <details>). */
 export function MethodologyInventory({ rows }: { rows: Row[] }) {
   const sources = Array.from(new Set(rows.map((r) => r.source))).sort();
+  const stale = (src: string | null) =>
+    rows.filter((r) => (src === null || r.source === src) && !r.fresh && !r.absence).length;
+  const count = (src: string) => rows.filter((r) => r.source === src).length;
   const [filter, setFilter] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
   const shown = filter ? rows.filter((r) => r.source === filter) : rows;
+  const pick = (src: string | null) => {
+    setFilter(src);
+    setOpen(true);
+  };
   const chip = (active: boolean): React.CSSProperties => ({
     border: `1px solid ${active ? "rgba(56,189,248,0.5)" : "var(--border)"}`,
     background: active ? "rgba(56,189,248,0.12)" : "var(--chip-bg)",
@@ -34,15 +47,23 @@ export function MethodologyInventory({ rows }: { rows: Row[] }) {
   return (
     <div>
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
-        <button type="button" aria-pressed={filter === null} style={chip(filter === null)} onClick={() => setFilter(null)}>
+        <button type="button" aria-pressed={open && filter === null} style={chip(open && filter === null)} onClick={() => pick(null)}>
           All ({rows.length})
         </button>
         {sources.map((s) => (
-          <button key={s} type="button" aria-pressed={filter === s} style={chip(filter === s)} onClick={() => setFilter(s)}>
-            {s}
+          <button key={s} type="button" aria-pressed={open && filter === s} style={chip(open && filter === s)} onClick={() => pick(s)}
+            data-testid="inv-chip">
+            {s} {count(s)}
+            {stale(s) > 0 && <span className="inv-chip-stale"> · {stale(s)} stale</span>}
           </button>
         ))}
       </div>
+      <details className="inv-details" open={open} onToggle={(e) => setOpen(e.currentTarget.open)}>
+        <summary>
+          {filter ? `${filter}: ${shown.length} series` : `All ${rows.length} series`}
+          {stale(filter) > 0 ? ` · ${stale(filter)} stale` : ""}
+          {open ? "" : " — pick a source above, or open the full list"}
+        </summary>
       <div
         style={{
           background: "var(--card)",
@@ -88,6 +109,7 @@ export function MethodologyInventory({ rows }: { rows: Row[] }) {
           </tbody>
         </table>
       </div>
+      </details>
     </div>
   );
 }
