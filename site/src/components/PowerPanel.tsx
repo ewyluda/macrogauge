@@ -1,6 +1,7 @@
 import { KpiCard } from "./KpiCard";
 import { fmtDay, fmtSigned } from "@/lib/format";
 import { capacityMarkets, type PowerSummary } from "@/lib/dcHub";
+import { HubMap } from "./HubMap";
 
 export type PowerHub = {
   code: string;
@@ -174,6 +175,7 @@ export function PowerPanel({ power }: { power: PowerData }) {
           <h2>Wholesale power across the grid</h2>
           <p>Thirty-day average at each hub, against the same thirty days a year earlier. On-peak ICE trades and all-hours day-ahead averages measure different things, so compare each hub with its own history rather than across rows.</p>
         </div>
+        <HubMap hubs={hubs} />
         <div className="table-card pw-hubs">
           <table className="data-table">
             <thead>
