@@ -442,3 +442,24 @@ def test_expected_absence_survives_schema(tmp_path):
          "absence": {"kind": "suppressed", "note": "n", "review_by": "2027-03-31",
                      "max_absence_days": None}}])
     validate.validate_file(qa.write(r, tmp_path), SCHEMAS / "qa.schema.json")
+
+
+def test_details_print_rounded_numbers_never_raw_reprs():
+    # /status prints details verbatim: qa.json once carried
+    # "yoy=3.3965478924364856", "39.0773%" and a Python dict repr
+    import re
+    cpi = {**FRESH, "yoy_pct": 3.3965478924364856, "prev_yoy_pct": 3.364825041479902}
+    g = dict(GAUGE_OK, coverage_pct=39.0773, weights_sum=0.9999999999999999, tracker_corr=0.99781)
+    nowcast = {"cpi": {"as_of": "2026-07-08"},
+               "ensemble": {"value": 0.48, "weights": {"macrogauge": 0.3333, "cleveland": 0.3333, "kalshi": 0.3333}}}
+    r = qa.run_checks(cpi, today="2026-07-08", gauge=g, artifacts={"nowcast": nowcast})
+    assert _by_name(r, "yoy_finite")["detail"] == "yoy=3.40 prev=3.36"
+    assert _by_name(r, "gauge_coverage")["detail"].startswith("gauge live coverage 39.1% ")
+    assert _by_name(r, "basket_weights_sum")["detail"] == "sum(weights) = 1.0000"
+    assert _by_name(r, "tracker_corr")["detail"].startswith("tracker monthly-YoY corr vs official = 0.998 ")
+    assert _by_name(r, "ensemble_computed")["detail"] == "ensemble=0.48 weights: macrogauge 33%, cleveland 33%, kalshi 33%"
+    for c in r["checks"]:
+        assert not re.search(r"\d+\.\d{5,}|\{'", c["detail"]), c
+    # a non-finite value still reads as what failed
+    nan = qa.run_checks({**FRESH, "yoy_pct": float("nan")}, today="2026-07-07")
+    assert _by_name(nan, "yoy_finite")["detail"].startswith("yoy=nan ")
