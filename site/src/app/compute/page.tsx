@@ -286,7 +286,9 @@ export default function ComputePage() {
           negotiated rates — the same caveat the DC Hardware index carries for OEM inputs. Series are config
           (config/series.json); a stale series (7-day limit) shows on <Link href="/status">/status</Link> and leaves the mean.
           vast.ai medians cover the whole on-demand market: the API caps a query at 64 offers, so a saturated
-          SKU is re-queried in price bands and the bands merged. Rows marked &ldquo;not in index&rdquo;
+          SKU is re-queried in price bands and the bands merged. A day prices only when whole-GPU offers come
+          from at least three different hosts, so one seller&apos;s listings never stand in for a market;
+          thin SKUs (B200, B300, sometimes H200) skip days and keep their last price, dated. Rows marked &ldquo;not in index&rdquo;
           {notInIndex.length ? ` (${notInIndex.join(", ")})` : ""} are priced but kept out of the GPU-hour index: admitting a member is a roster
           decision, made once it has enough history.
         </p>

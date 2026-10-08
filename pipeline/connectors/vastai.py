@@ -4,9 +4,13 @@ Keyless public search API. Undocumented endpoint, so it is treated like a
 scrape: required-field checks raise "structure drift?" and the collect-layer
 isolation contains any failure. The median over live on-demand full-GPU
 offers is this connector's one computation — a documented measurement, not
-modeling. Thin-market honesty: days with fewer than MIN_OFFERS offers are
-skipped entirely (the store's carry-forward absorbs the gap) rather than
-storing a junk median.
+modeling. Thin-market honesty: a day whose offers come from fewer than
+MIN_HOSTS distinct hosts is skipped entirely (the store's carry-forward
+absorbs the gap) rather than storing one seller's price as a market median.
+Counting hosts, not offers (2026-10-08): live, B200's three whole-GPU offers
+were two hosts' identical $60.01/hr listings, which the old >=3-offers rule
+published as the median. The median itself stays over offers, so a deep
+market's value is unchanged by the rule.
 
 Coverage (backlog #9, verified live 2026-09-28): the server returns at most
 CAP (64) offers per query whatever `limit` says, and without an `order` the
@@ -32,7 +36,7 @@ from pipeline.connectors.util import warn_partial
 from pipeline.models import Observation
 
 URL = "https://console.vast.ai/api/v0/bundles/"
-MIN_OFFERS = 3
+MIN_HOSTS = 3              # distinct host_id among the priced offers
 PLAUSIBLE = (0.05, 50.0)   # $/GPU-hr
 CAP = 64                   # server-side per-query offer cap (live 2026-09-28)
 ORDER = [["dph_total", "asc"]]
@@ -142,14 +146,15 @@ def fetch(source_ids: list[str], vintage_date: str | None = None,
 def _sku(http_get, sid: str, vintage: str) -> list[Observation]:
     out = []
     offers = _all_offers(http_get, sid)
-    prices = []
+    prices, hosts = [], set()
     for o in offers:
-        if "dph_total" not in o or "num_gpus" not in o:
+        if "dph_total" not in o or "num_gpus" not in o or "host_id" not in o:
             raise ValueError(f"vast.ai {sid}: offer missing dph_total/"
-                             "num_gpus (structure drift?)")
+                             "num_gpus/host_id (structure drift?)")
         if o["num_gpus"]:
             prices.append(o["dph_total"] / o["num_gpus"])
-    if len(prices) < MIN_OFFERS:
+            hosts.add(o["host_id"])
+    if len(hosts) < MIN_HOSTS:
         return out   # thin market today — skip; carry-forward absorbs it
     value = round(statistics.median(prices), 4)
     if not (PLAUSIBLE[0] <= value <= PLAUSIBLE[1]):
