@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { useUrlState } from "@/lib/useUrlState";
+import { setUrlParam, useUrlState } from "@/lib/useUrlState";
 import { codecs, type Codec } from "@/lib/urlState";
 import { CopyLink } from "./CopyLink";
 import { CarryTable } from "./CarryTable";
@@ -34,12 +34,14 @@ import { fmtPp, fmtSigned, fmtUsd } from "@/lib/format";
 
 export type { EscalationData };
 
-/** ?delivery= is three-state: absent ("auto"), deliberately cleared ("none"),
- *  or a YYYY-MM month. "none" is what makes a cleared field linkable — an
- *  empty value would fail to parse and fall back to the default on reload. */
+/** ?delivery= is four-state: absent ("auto" on a bare visit, measured only
+ *  on a shared link), "auto" written explicitly (the default horizon, kept
+ *  through a share), deliberately cleared ("none"), or a YYYY-MM month.
+ *  "none" is what makes a cleared field linkable — an empty value would fail
+ *  to parse and fall back to the default on reload. */
 const MONTH = codecs.month();
 const DELIVERY_CODEC: Codec<string> = {
-  parse: (s) => (s === "none" ? s : MONTH.parse(s)),
+  parse: (s) => (s === "none" || s === "auto" ? s : MONTH.parse(s)),
   format: (v) => v,
 };
 /** The params this calculator owns. A visit carrying any of them is a shared
@@ -102,15 +104,28 @@ export function DcEscalationClient({
   // corrects it on mount. Declared after the useUrlState hooks, so it reads the
   // address bar before any of them can write to it.
   const [bareVisit, setBareVisit] = useState(true);
+  const [autoInUrl, setAutoInUrl] = useState(false);
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     setBareVisit(!STATE_KEYS.some((k) => q.has(k)));
+    setAutoInUrl(q.get("delivery") === "auto");
   }, []);
   const deliveryMonth =
     deliveryRaw === "none" ? ""
-    : deliveryRaw === "auto" ? (bareVisit ? addMonths(endMonth, DEFAULT_HORIZON) : "")
+    : deliveryRaw === "auto" ? (bareVisit || autoInUrl ? addMonths(endMonth, DEFAULT_HORIZON) : "")
     : deliveryRaw;
   const [basisKey, setBasisKey] = useUrlState("basis", "trailing3y", codecs.str(30));
+  // A bare visit's default delivery is derived, not in the URL, so the first
+  // edit writes the MODE there (?delivery=auto), never a month the reader
+  // didn't choose: the link they now hold reopens on the same default forward
+  // leg, still following the selected index (audit F1 — ?cost= alone
+  // reopened as measured only). A link minted without ?delivery still means
+  // "measured only". Written directly: useUrlState drops a value equal to its
+  // initial, and "auto" is the initial.
+  const pinAutoDelivery = () => {
+    if (deliveryRaw !== "auto" || !(bareVisit || autoInUrl)) return;
+    setUrlParam("delivery", "auto");
+  };
 
   const basisRows = anchor ? bases(data.months, data.index, anchor) : [];
   const chosen = basisRows.find((b) => b.key === basisKey) ?? basisRows[0] ?? null;
@@ -227,7 +242,7 @@ export function DcEscalationClient({
             min={firstMonth}
             max={endMonth}
             value={baseMonth}
-            onChange={(e) => setBaseMonth(e.target.value)}
+            onChange={(e) => { pinAutoDelivery(); setBaseMonth(e.target.value); }}
             style={input}
           />
         </label>
@@ -245,6 +260,7 @@ export function DcEscalationClient({
               // paste, programmatic set) falls back to that same 0 rather
               // than letting NaN propagate into every downstream figure.
               const v = Number(e.target.value);
+              pinAutoDelivery();
               setBaseCost(Number.isFinite(v) ? v : 0);
             }}
             style={{ ...input, width: 140 }}
@@ -266,7 +282,7 @@ export function DcEscalationClient({
             Index{" "}
             <select
               value={useOfficial ? "official" : "live"}
-              onChange={(e) => setIndexKey(e.target.value)}
+              onChange={(e) => { pinAutoDelivery(); setIndexKey(e.target.value); }}
               style={input}
               data-testid="index-basis"
             >
@@ -281,7 +297,7 @@ export function DcEscalationClient({
             <select
               data-testid="carry-basis"
               value={chosen?.key ?? ""}
-              onChange={(e) => setBasisKey(e.target.value)}
+              onChange={(e) => { pinAutoDelivery(); setBasisKey(e.target.value); }}
               style={input}
               disabled={!deliveryValid}
             >

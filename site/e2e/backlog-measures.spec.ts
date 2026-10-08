@@ -39,3 +39,39 @@ test("/escalation states the P80 carry and its dollar allowance for a forward le
   await expect(line).toContainText("24-month windows");
   await expect(line).toContainText(/\$[\d,]+/);
 });
+
+test("an edited bare /escalation link reopens with the forward estimate its sender saw (audit F1)", async ({ page, context }) => {
+  const chartLabel = (p: typeof page) => p.locator('[aria-label^="Escalated cost"]').first().getAttribute("aria-label");
+  const deliver = (p: typeof page) => p.getByLabel("Deliver by").inputValue();
+  const edits: [string, (p: typeof page) => Promise<void>][] = [
+    ["cost", (p) => p.getByLabel("Base cost ($)").fill("10000000")],
+    ["base", (p) => p.getByLabel("Base month").fill("2023-01")],
+    ["basis", async (p) => { await p.getByTestId("carry-basis").selectOption({ index: 1 }); }],
+  ];
+  for (const [what, edit] of edits) {
+    await page.goto("/escalation");
+    const defaultDelivery = await deliver(page);
+    expect(defaultDelivery, what).toMatch(/^\d{4}-\d{2}$/);     // a bare visit opens on a forward leg
+    await edit(page);
+    // the default MODE is written, never a month the reader didn't choose
+    await expect(page, what).toHaveURL(/delivery=auto/);
+    const seen = await chartLabel(page);
+    expect(seen, what).toContain("Carried at");
+    const fresh = await context.newPage();
+    await fresh.goto(page.url());
+    expect(await deliver(fresh), what).toBe(defaultDelivery);
+    await expect.poll(() => chartLabel(fresh), { message: what }).toBe(seen);
+    await fresh.close();
+  }
+  // a link minted without ?delivery still means "measured only"
+  await page.goto("/escalation?cost=1000000");
+  await expect.poll(() => deliver(page)).toBe("");
+});
+
+test("the escalation chart's accessible name states the p10–p90 endpoints (audit F10)", async ({ page }) => {
+  await page.goto("/escalation");
+  const label = page.locator('[aria-label^="Escalated cost"]').first();
+  await expect(label).toHaveAttribute("aria-label", /Realized range \(p10–p90\) at \d{4}-\d{2}: \$[\d,]+ to \$[\d,]+; P80 allowance \$[\d,]+\./);
+  // the stacked band's hidden floor series is never announced
+  await expect(label).not.toHaveAttribute("aria-label", /\bp10 [\d,]+ at /);
+});

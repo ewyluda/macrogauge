@@ -401,12 +401,17 @@ test("escalation keeps a shared link's meaning: no ?delivery means measured only
   await page.reload();
   await expect(deliver).toHaveValue("");
   await expect(page.getByTestId("p80-contingency")).toHaveCount(0);
-  // switching index never writes a delivery the reader didn't choose
+  // switching index never writes a delivery MONTH the reader didn't choose:
+  // it records the default mode (?delivery=auto, audit F1), which keeps
+  // following the selected index
   await page.goto("/escalation");
   const index = page.getByTestId("index-basis");
   if (await index.count()) {
     await index.selectOption("official");
-    await expect.poll(() => page.evaluate(() => location.search)).not.toContain("delivery=");
+    await expect.poll(() => page.evaluate(() => location.search)).toContain("delivery=auto");
+    expect(await page.evaluate(() => location.search)).not.toMatch(/delivery=\d/);
+    await page.reload();
+    await expect(deliver).not.toHaveValue("");
   }
 });
 

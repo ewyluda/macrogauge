@@ -4,6 +4,7 @@ import { EChart } from "./EChart";
 import { C, baseOption } from "@/lib/chartTheme";
 import { addMonths, monthDiff } from "@/lib/dcEscalation";
 import { fmtUsd, fmtUsdCompact as compactUsd } from "@/lib/format";
+import { escalationAriaLabel, type EscalationAriaInput } from "@/lib/escalationAria";
 
 export type ForwardPath = {
   deliveryMonth: string;
@@ -29,7 +30,7 @@ export function EscalationPathChart({
   baseCost: number;
   forward: ForwardPath | null;
 }) {
-  const option = useMemo(() => {
+  const built = useMemo(() => {
     const bi = months.indexOf(baseMonth);
     const ei = months.indexOf(endMonth);
     if (bi < 0 || ei < bi) return null;
@@ -46,6 +47,7 @@ export function EscalationPathChart({
     });
 
     const base = baseOption();
+    let aria: EscalationAriaInput["forward"] = null;
     const series: object[] = [
       { name: "DC Build index, measured", type: "line", showSymbol: false, data: measured,
         endLabel: endLabel(C.sky),
@@ -53,9 +55,12 @@ export function EscalationPathChart({
     ];
     if (forward && fwdMonths.length > 1) {
       const central = at(forward.ratePct);
+      const last = <T,>(xs: T[]) => xs[xs.length - 1];
+      aria = { deliveryMonth: forward.deliveryMonth, label: forward.label, carried: last(central)[1], band: null };
       if (forward.band) {
         const lo = at(forward.band.p10);
         const hi = at(forward.band.p90);
+        aria.band = { p10: last(lo)[1], p90: last(hi)[1], p80: last(at(forward.band.p80))[1] };
         // stacked pair: an invisible floor at p10, then the p10→p90 gap shaded
         series.push(
           { name: "p10", type: "line", stack: "band", showSymbol: false, data: lo,
@@ -72,7 +77,8 @@ export function EscalationPathChart({
         data: central, endLabel: endLabel(C.violet),
         lineStyle: { width: 2.5, type: "dashed", color: C.violet }, itemStyle: { color: C.violet }, z: 3 });
     }
-    return {
+    const ariaLabel = escalationAriaLabel({ baseMonth, endMonth, measuredEnd: startCost, forward: aria });
+    return { ariaLabel, option: {
       ...base,
       grid: { ...base.grid, left: 64, right: 72, top: 52 },
       legend: { ...base.legend, data: series.map((s) => (s as { name: string }).name).filter((n) => n !== "p10") },
@@ -88,12 +94,9 @@ export function EscalationPathChart({
           label: { color: C.muted, fontSize: 11, position: "insideEndTop", formatter: `last full print · ${endMonth}` },
           data: [{ xAxis: endMonth }] } }] : []),
       ],
-    };
+    } };
   }, [months, index, baseMonth, endMonth, baseCost, forward]);
 
-  if (!option) return null;
-  return (
-    <EChart option={option} height={340}
-      ariaTitle={forward ? `Escalated cost from ${baseMonth} to ${forward.deliveryMonth}` : `Escalated cost from ${baseMonth} to ${endMonth}`} />
-  );
+  if (!built) return null;
+  return <EChart option={built.option} height={340} ariaLabel={built.ariaLabel} />;
 }
