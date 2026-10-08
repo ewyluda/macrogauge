@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import marketsJson from "../../../public/data/dc_markets.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DownloadData } from "@/components/DownloadData";
@@ -76,6 +77,11 @@ export default function Page() {
       <section className="mk-method" aria-labelledby="mk-method-title">
       <h2 id="mk-method-title">How it&apos;s built</h2>
       <div className="dc-method-grid">
+      <div><h3>Eight-quarter trend</h3><p className="method">
+        The sparkline under each market&apos;s worker count is its construction headcount over the
+        last eight QCEW quarters, summed over the counties reported in <b>all</b> of them, so the
+        line moves on hiring, never on a county dropping in or out of disclosure.
+      </p></div>
       <div><h3>Wages and headcount</h3><p className="method">
         <b>Wage is employment-weighted</b> across each market&apos;s counties, and
         year-over-year uses a like-for-like county set: a county
@@ -96,11 +102,13 @@ export default function Page() {
         <b>≥3 Warm</b>, and <b>above −3 Neutral</b>; <b>−3 or below is Slack</b>.
         The chart draws scores past 40 to the edge and prints the real value.
       </p></div>
-      <div><h3>Capacity and attributes</h3><p className="method">
-        <b>MW under constr.</b> counts only capacity tagged under
-        construction at hand-curated sites; operating capacity is shown
-        separately, beside the tracked-site count, because an energized
-        campus is a completed draw on the labor pool, not a live one.
+      <div><h3>Tracked AI projects and attributes</h3><p className="method">
+        <b>Tracked AI projects</b> are the sites the{" "}
+        <Link href="/capacity">AI capacity tracker</Link> itemizes, tagged to each market by hand. It is
+        not the market&apos;s whole pipeline: most colocation and hyperscaler campuses are not
+        itemized, which is why Northern Virginia, the largest market, shows a single site. The
+        figure is MW under construction at those sites; operating capacity is shown separately,
+        because an energized campus is a completed draw on the labor pool, not a live one.
         {" "}{data.coverage_note}{" "}
         Utility and ISO are hand-curated attributes of the market, not derived.
       </p></div>
