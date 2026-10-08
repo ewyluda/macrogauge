@@ -134,11 +134,15 @@ def _level(conn, code, pct=True):
 
 def _bbb_move(conn):
     """The BBB effective yield's and BBB OAS's annual changes on ONE shared
-    window: the latest date both series have, against the same year-ago
-    date (nearest common date within ±3 days). Each _level() dates its own
-    change, and a carried-forward spread beside a fresh yield would otherwise
-    compare a September window with an October one. Null when no shared end
-    date or baseline exists."""
+    window: the latest date both series have, against the yield's own
+    year-ago date for that end, chosen exactly as delta_daily chooses it
+    (the target day first, then ±1..3). Each _level() dates its own change,
+    and a carried-forward spread beside a fresh yield would otherwise compare
+    a September window with an October one. Taking the yield's baseline,
+    never the first day both series share, means a block that ends on the
+    yield's latest date measures exactly bbb_yield.chg_1y: a nearby common
+    day once let a falling shared window explain a rising yield. Null when
+    no shared end exists or the spread has no reading on that baseline."""
     y, o = _rows(conn, "BAMLC0A4CBBBEY"), _rows(conn, "BAMLC0A4CBBB")
     common = sorted(set(y) & set(o))
     if not common:
@@ -146,8 +150,8 @@ def _bbb_move(conn):
     end = common[-1]
     target = date.fromisoformat(end) - timedelta(days=365)
     base = next((d for d in ((target + timedelta(days=k)).isoformat() for k in (0, -1, 1, -2, 2, -3, 3))
-                 if d in y and d in o), None)
-    if base is None:
+                 if d in y), None)
+    if base is None or base not in o:
         return None
     return {"as_of": end, "base_date": base,
             "yield_chg_1y": round(y[end] - y[base], 4), "oas_chg_1y": round(o[end] - o[base], 4)}

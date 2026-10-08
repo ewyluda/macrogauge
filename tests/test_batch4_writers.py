@@ -117,6 +117,27 @@ def test_rates_bbb_move_uses_one_shared_window(tmp_path):
     assert rates.build(conn2)["credit"]["bbb_move"] is None
 
 
+def test_rates_bbb_move_takes_the_yield_s_own_baseline(tmp_path):
+    """Same end date, but the spread misses the yield's year-ago day: a common
+    day three days earlier would measure a -12bp window beside the yield's own
+    +10bp, and the headline would explain a rise with a fall. No block."""
+    conn = _store(tmp_path, {
+        "BAMLC0A4CBBBEY": {"2025-10-03": 5.22, "2025-10-06": 5.00, "2026-10-06": 5.10},
+        "BAMLC0A4CBBB": {"2025-10-03": 1.02, "2026-10-06": 0.90},
+    })
+    c = rates.build(conn)["credit"]
+    assert c["bbb_yield"]["chg_1y"] == 0.1 and c["bbb_yield"]["as_of"] == "2026-10-06"
+    assert c["bbb_move"] is None
+    # the yield's own baseline off the target day (no 10-06 row): the block follows it
+    conn2 = _store(tmp_path / "b", {
+        "BAMLC0A4CBBBEY": {"2025-10-03": 5.22, "2025-10-07": 5.00, "2026-10-06": 5.10},
+        "BAMLC0A4CBBB": {"2025-10-03": 1.02, "2025-10-07": 0.95, "2026-10-06": 0.90},
+    })
+    c2 = rates.build(conn2)["credit"]
+    assert c2["bbb_move"] == {"as_of": "2026-10-06", "base_date": "2025-10-07",
+                              "yield_chg_1y": c2["bbb_yield"]["chg_1y"], "oas_chg_1y": -0.05}
+
+
 # --- compute ------------------------------------------------------------
 
 def test_rates_fed_path_from_kalshi_fetch_against_dfedtaru(tmp_path):

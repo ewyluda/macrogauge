@@ -11,8 +11,8 @@ describe("ratesHeadline", () => {
       title: "BBB corporate debt yields 6.19%, up 119bp on the year, mostly from Treasury rates",
       detail: "The 10-year Treasury is 5.31% (+113bp on the year); over the year to Oct 6 the BBB spread moved +8bp of the index yield's +119bp.",
     });
-    expect(ratesHeadline(ten, yld, move(1.0, 0.9))?.title).toContain("mostly from the credit spread");
-    expect(ratesHeadline(ten, yld, move(1.0, 0.5))?.title).toContain("from both rates and the credit spread");
+    expect(ratesHeadline(ten, yld, move(1.19, 1.0))?.title).toContain("mostly from the credit spread");
+    expect(ratesHeadline(ten, yld, move(1.19, 0.6))?.title).toContain("from both rates and the credit spread");
   });
   it("uses the shared window's own changes when the spread lags the yield, and keeps them out of the title", () => {
     // yield's own 1y change is to Oct 6 (+119bp); the shared window ends Sep 8
@@ -23,6 +23,11 @@ describe("ratesHeadline", () => {
     // opposite directions across the two windows: no attribution in the title
     expect(ratesHeadline(ten, yld, move(-1.1, -1.0, "2026-09-08"))?.title)
       .toBe("BBB corporate debt yields 6.19%, up 119bp on the year");
+    // same end date, different baseline (the R1 fixture: the yield's own year
+    // is +10bp, a common day three days earlier gives −12bp): no attribution
+    expect(ratesHeadline(ten, { value: 5.10, chg_1y: 0.1, as_of: "2026-10-06" },
+      { as_of: "2026-10-06", base_date: "2025-10-03", yield_chg_1y: -0.12, oas_chg_1y: -0.12 })?.title)
+      .toBe("BBB corporate debt yields 5.10%, up 10bp on the year");
     // no latest-year change: nothing for an attribution to explain
     expect(ratesHeadline(ten, { ...yld, chg_1y: null }, move(1.19, 0.08))?.title).toBe("BBB corporate debt yields 6.19%");
   });
