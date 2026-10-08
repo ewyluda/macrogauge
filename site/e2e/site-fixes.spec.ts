@@ -1,6 +1,8 @@
 import { expect, test } from "@playwright/test";
 import gaptable from "../public/data/gaptable.json";
 import methodology from "../public/data/methodology.json";
+import { CURATED_INPUTS } from "../src/lib/statusSections";
+import qa from "../public/data/qa.json";
 
 /** Site calc/a11y/state fixes (2026-09-26 review). */
 
@@ -146,4 +148,18 @@ test("methodology inventory is collapsed behind its source chips, every row stil
   await expect(details.locator("summary")).toContainText(`${src}: `);
   await page.getByRole("button", { name: `All (${inv.length})` }).click();
   await expect(details.locator("tbody tr")).toHaveCount(inv.length);
+});
+
+test("/status groups checks and sources by section, AI Infra first, with freshness bars and curated reviews", async ({ page }) => {
+  await page.goto("/status");
+  const [checks, sources, curated] = [0, 1, 2].map((i) => page.locator("table.data-table").nth(i));
+  // every check sits under a section row; AI Infra leads both tables
+  await expect(checks.locator("tr.status-group").first()).toContainText("AI Infra");
+  await expect(sources.locator("tr.status-group").first()).toContainText("AI Infra");
+  const checkRows = await checks.locator("tbody tr:not(.status-group)").count();
+  expect(checkRows).toBe(qa.checks.length);
+  // one freshness bar per source that has inventory rows
+  await expect(sources.locator(".status-fresh").first()).toBeVisible();
+  await expect(curated.locator("tbody tr")).toHaveCount(CURATED_INPUTS.length);
+  await expect(curated).toContainText("Last reviewed");
 });
