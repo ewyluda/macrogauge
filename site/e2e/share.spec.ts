@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { DATA_FILES, DATA_SECTIONS } from "../src/lib/dataFiles";
+import realWagesJson from "../public/data/real_wages.json";
+import metrosJson from "../public/data/metros.json";
 
 /** Batch 1 — share & export foundation: URL state round-trips, CSV/JSON
  *  downloads, citation copy, and the build-time discoverability files. */
@@ -93,6 +95,21 @@ test("/data groups files by section, AI Infra first, with newest data, field pre
   await fields.first().locator("summary").click();
   await expect(fields.first().locator("li").first()).toBeVisible();
   await expect(table.locator("tr.data-more").first()).toContainText("Export data");
+});
+
+test("/labor carries the real-wage panel and /housing the metro table (was /real-wages, /metros)", async ({ page }) => {
+  const rw = realWagesJson as { series: { construction_ahe_yoy_pct?: (number | null)[] } };
+  await page.goto("/labor#real-wages");
+  const panel = page.locator("#real-wages");
+  await expect(panel.locator(".kpi-label", { hasText: "Real wage growth" })).toBeVisible();
+  await expect(panel.locator(".kpi-label", { hasText: "Construction trades, real" }))
+    .toHaveCount(rw.series.construction_ahe_yoy_pct?.some((v) => v != null) ? 1 : 0);
+  await expect(page.getByTestId("raise-calculator").locator("summary")).toContainText("your own raise");
+  await page.goto("/housing#metros");
+  const table = page.getByTestId("metro-table");
+  await expect(table.locator("tbody tr")).toHaveCount((metrosJson as { metros: unknown[] }).metros.length);
+  await table.locator("summary").click();
+  await expect(table.locator("tbody tr").first().locator("a")).toHaveAttribute("href", /^\/metros\//);
 });
 
 test("feed, sitemap, robots and the OG image are emitted by the export", async ({ page }) => {

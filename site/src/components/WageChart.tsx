@@ -2,17 +2,20 @@
 import { EChart } from "./EChart";
 import { C, baseOption } from "@/lib/chartTheme";
 
-/** Wages vs inflation — WGT (emerald), AHE (violet), gauge (amber, area). */
+/** Wages vs inflation — WGT (emerald), AHE (violet), construction trades'
+ *  AHE (sky, dashed, when published), gauge (amber, area). */
 export function WageChart({
   months,
   wgt,
   ahe,
+  construction,
   gaugeMonths,
   gaugeYoy,
 }: {
   months: string[];
   wgt: (number | null)[];
   ahe: (number | null)[];
+  construction?: (number | null)[];
   gaugeMonths: string[];
   gaugeYoy: (number | null)[];
 }) {
@@ -31,6 +34,11 @@ export function WageChart({
         type: "line", showSymbol: false, lineStyle: { width: 1.5 },
         color: C.violet, data: pair(months, ahe),
       },
+      ...(construction ? [{
+        name: "Construction trades AHE YoY",
+        type: "line", showSymbol: false, lineStyle: { width: 1.5, type: "dashed" },
+        color: C.sky, data: pair(months, construction),
+      }] : []),
       {
         name: "Macrogauge YoY",
         type: "line", showSymbol: false, lineStyle: { width: 1.5 },

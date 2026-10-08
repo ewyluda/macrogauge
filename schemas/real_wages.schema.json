@@ -24,7 +24,7 @@
         "months": {"type": "array",
                    "items": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}},
         "atlanta_wgt_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}},
-        "ahe_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}}
+        "ahe_yoy_pct": {"type": "array", "items": {"type": ["number", "null"]}}, "construction_ahe_yoy_pct": {"description": "Construction trades average hourly earnings (CES2000000003) YoY on the same month grid. Added 2026-10-08; optional.", "type": "array", "items": {"type": ["number", "null"]}}
       }
     }
   }

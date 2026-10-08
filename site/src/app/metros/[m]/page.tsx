@@ -46,7 +46,7 @@ export default async function MetroPage({ params }: { params: Promise<{ m: strin
   return (
     <div>
       <h1>{m.name} <span className="subtitle">market rent &amp; home values</span></h1>
-      <p className="lede">Zillow’s typical market rent (ZORI) and home value (ZHVI) for the {m.name} metro — the asking-price signals that lead CPI shelter by about a year. All metros: <Link href="/metros">/metros</Link>.</p>
+      <p className="lede">Zillow’s typical market rent (ZORI) and home value (ZHVI) for the {m.name} metro — the asking-price signals that lead CPI shelter by about a year. All metros: <Link href="/housing#metros">the metro table on /housing</Link>.</p>
       <Section title="Rent"><Block label="Typical market rent" b={m.zori} us={metros.national.zori} money={(x) => `${usd(x)}/mo`} /></Section>
       <Section title="Home values"><Block label="Typical home value" b={m.zhvi} us={metros.national.zhvi} money={usd} /></Section>
       <p className="method">Data: <a href="/data/metros.json">metros.json</a> (Zillow Research, monthly).</p>

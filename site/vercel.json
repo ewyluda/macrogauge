@@ -39,6 +39,16 @@
       "source": "/supercore",
       "destination": "/gap",
       "permanent": true
+    },
+    {
+      "source": "/real-wages",
+      "destination": "/labor#real-wages",
+      "permanent": true
+    },
+    {
+      "source": "/metros",
+      "destination": "/housing#metros",
+      "permanent": true
     }
   ],
   "headers": [
