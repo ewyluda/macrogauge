@@ -28,6 +28,13 @@ def test_roster_is_pinned():
     assert len({f for m in markets for f in m.counties}) == 30
 
 
+def test_newcarlisle_is_pjm():
+    # Indiana Michigan Power is a PJM member — PJM's 2026 load forecast lists
+    # "INM Indiana Michigan Power, sub-zone of AEP". It was mis-tagged MISO.
+    m = next(m for m in dc_markets.load() if m.key == "newcarlisle")
+    assert (m.iso, m.utility) == ("PJM", "AEP Indiana Michigan")
+
+
 def test_every_county_has_both_registered_series():
     markets = dc_markets.load()
     from pipeline import registry
