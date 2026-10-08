@@ -161,31 +161,33 @@ def test_rates_fed_path_from_kalshi_fetch_against_dfedtaru(tmp_path):
 def test_compute_index_geometric_mean_renormalizes_and_rebases(tmp_path):
     days = ["2026-07-15", "2026-07-16", "2026-07-17"]
     rows = {}
-    for key, base in (("gpt56_terra", 4.0), ("deepseek_v41_flash", 1.0), ("llama4_maverick", 2.0)):
+    for key, base in (("claude_opus55", 4.0), ("deepseek_v41_flash", 1.0), ("gpt6_luna", 2.0)):
         rows[f"or_{key}_in"] = {d: base for d in days}
         rows[f"or_{key}_out"] = {d: base for d in days}
-    # deepseek halves on day 3; llama missing on day 3
+    # deepseek halves on day 3; luna missing on day 3
     rows["or_deepseek_v41_flash_in"]["2026-07-17"] = 0.5
     rows["or_deepseek_v41_flash_out"]["2026-07-17"] = 0.5
-    del rows["or_llama4_maverick_in"]["2026-07-17"]
-    del rows["or_llama4_maverick_out"]["2026-07-17"]
+    del rows["or_gpt6_luna_in"]["2026-07-17"]
+    del rows["or_gpt6_luna_out"]["2026-07-17"]
     conn = _store(tmp_path, rows, source="OPENROUTER")
     p = compute.build(conn)
     ti = p["token_index"]
     assert ti["base_date"] == "2026-07-15"
     assert ti["history"]["index"][0] == 100.0 and ti["history"]["members"][0] == 3
-    # day 3 (chain-linked, registry 7d carry): llama's 07-16 price carries, so
+    # day 3 (chain-linked, registry 7d carry): luna's 07-16 price carries, so
     # 3 members link and the move is geomean(1, 0.5, 1) = 0.7937. (Pre-chain
     # this pinned a null: the fixed-base mean had no carry, so 2 < MIN_MEMBERS.)
     assert ti["history"]["index"][2] == pytest.approx(79.37, abs=1e-3)
     assert ti["history"]["members"][2] == 3
     ti0 = compute.build(conn, staleness={})["token_index"]  # unlisted -> default
     assert ti0["history"]["index"][2] == pytest.approx(79.37, abs=1e-3)
-    # with no carry allowed, llama is absent -> 2 members < MIN_MEMBERS -> null
-    ti0 = compute.build(conn, staleness={f"or_llama4_maverick_{s}": 0 for s in ("in", "out")})["token_index"]
+    # with no carry allowed, luna is absent -> 2 members < MIN_MEMBERS -> null
+    ti0 = compute.build(conn, staleness={f"or_gpt6_luna_{s}": 0 for s in ("in", "out")})["token_index"]
     assert ti0["history"]["index"][2] is None and ti0["history"]["members"][2] == 2
     models = {m["key"]: m for m in p["models"]}
-    assert models["claude_sonnet55"]["as_of"] is None  # never collected -> null row
+    assert models["kimi_k3"]["as_of"] is None  # never collected -> null row
+    # every row carries its tier label; the tier never touches the index
+    assert {m["key"]: m["tier"] for m in p["models"]} == compute.TIERS
     path = compute.write(p, tmp_path / "out", "2026-09-03T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "compute.schema.json")
 
@@ -216,6 +218,21 @@ def test_compute_roster_change_keeps_the_base_and_drops_retired_models_at_their_
     assert {m["key"] for m in p["models"]} == set(NEW)
     assert p["token_roster"] == {"since": compute.ROSTER_SINCE,
                                  "retired": [label for _, label in compute.RETIRED_MODELS]}
+
+
+def test_compute_roster_matches_the_registry_and_every_model_has_a_tier():
+    """The roster is collected iff it is current: each current model has its
+    in/out series registered, no retired model is still collected (it would
+    keep pricing a link-only member), and every current model is tiered."""
+    from pipeline.registry import load_registry
+    _, series = load_registry()
+    codes = {s.code for s in series}
+    for k, _ in compute.MODELS:
+        assert {f"or_{k}_in", f"or_{k}_out"} <= codes, k
+    for k, _ in compute.RETIRED_MODELS:
+        assert not {f"or_{k}_in", f"or_{k}_out"} & codes, k
+    assert set(compute.TIERS) == {k for k, _ in compute.MODELS}
+    assert set(compute.TIERS.values()) <= {"frontier", "standard", "light"}
 
 
 def test_compute_changeover_with_no_overlapping_day_links_flat_and_recovers(tmp_path):
@@ -411,7 +428,7 @@ def test_gpu_index_chg_30d_compares_chained_levels(tmp_path):
 def test_compute_geometric_mean_value(tmp_path):
     days = ["2026-07-15", "2026-07-16"]
     rows = {}
-    for key, b0, b1 in (("gpt56_terra", 4.0, 8.0), ("deepseek_v41_flash", 1.0, 0.5), ("llama4_maverick", 2.0, 2.0)):
+    for key, b0, b1 in (("claude_opus55", 4.0, 8.0), ("deepseek_v41_flash", 1.0, 0.5), ("gpt6_luna", 2.0, 2.0)):
         rows[f"or_{key}_in"] = {days[0]: b0, days[1]: b1}
         rows[f"or_{key}_out"] = {days[0]: b0, days[1]: b1}
     p = compute.build(_store(tmp_path, rows, source="OPENROUTER"))

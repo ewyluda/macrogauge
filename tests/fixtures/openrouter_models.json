@@ -810,6 +810,51 @@
         "prompt": "0.0000001875",
         "completion": "0.0000006525"
       }
+    },
+    {
+      "id": "anthropic/claude-opus-5.5",
+      "name": "anthropic/claude-opus-5.5",
+      "created": 1743881822,
+      "pricing": {
+        "prompt": "0.000004",
+        "completion": "0.00002"
+      }
+    },
+    {
+      "id": "openai/gpt-6.1-sol",
+      "name": "openai/gpt-6.1-sol",
+      "created": 1743881822,
+      "pricing": {
+        "prompt": "0.000002",
+        "completion": "0.00001"
+      }
+    },
+    {
+      "id": "moonshotai/kimi-k3",
+      "name": "moonshotai/kimi-k3",
+      "created": 1743881822,
+      "pricing": {
+        "prompt": "0.00000062",
+        "completion": "0.0000123"
+      }
+    },
+    {
+      "id": "z-ai/glm-5.3",
+      "name": "z-ai/glm-5.3",
+      "created": 1743881822,
+      "pricing": {
+        "prompt": "0.000000049",
+        "completion": "0.00000339"
+      }
+    },
+    {
+      "id": "openai/gpt-6-luna",
+      "name": "openai/gpt-6-luna",
+      "created": 1743881822,
+      "pricing": {
+        "prompt": "0.0000001",
+        "completion": "0.0000005"
+      }
     }
   ]
 }
