@@ -69,7 +69,33 @@
       }
     },
     "sources_failed": {"type": "array", "items": {"type": "string"}},
-    "gate_holds": {"type": "array"}
+    "gate_holds": {"type": "array"},
+    "movers": {
+      "description": "Every page's lead numbers against the previous publish, ranked by |delta| / notable (a stated threshold per reading). delta is a % change for a level, bp for a rate or spread, pp for a YoY. Added 2026-10-08; optional.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["key", "label", "section", "kind", "unit", "notable", "href", "value", "as_of", "prev_value",
+                     "prev_as_of", "delta", "delta_unit", "significance"],
+        "properties": {
+          "key": {"type": "string"},
+          "label": {"type": "string"},
+          "section": {"type": "string"},
+          "kind": {"enum": ["level", "rate", "yoy"]},
+          "unit": {"type": "string"},
+          "notable": {"type": "number"},
+          "href": {"type": "string"},
+          "value": {"$ref": "#/$defs/num"},
+          "as_of": {"type": ["string", "null"]},
+          "prev_value": {"$ref": "#/$defs/num"},
+          "prev_as_of": {"type": ["string", "null"]},
+          "delta": {"$ref": "#/$defs/num"},
+          "delta_unit": {"enum": ["%", "bp", "pp"]},
+          "significance": {"$ref": "#/$defs/num"}
+        }
+      }
+    }
   },
   "$defs": {"num": {"type": ["number", "null"]}}
 }
