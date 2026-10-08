@@ -8,7 +8,7 @@ import { C } from "@/lib/chartTheme";
 import { fmtPct, fmtPp, fmtSigned, fmtStamp } from "@/lib/format";
 import { codecs } from "@/lib/urlState";
 import { useUrlState } from "@/lib/useUrlState";
-import { LEDGER_SERIES, ledgerCommitsUrl, type LedgerKey } from "@/lib/ledgerSeries";
+import { LEDGER_SERIES, rowVerify, type LedgerKey, type LedgerProvenance } from "@/lib/ledgerSeries";
 import { SegmentedControl } from "./SegmentedControl";
 import type { LedgerRow } from "@/lib/types";
 
@@ -17,11 +17,12 @@ const num = (v: number | null | undefined) => (v == null ? "—" : fmtSigned(v))
 /** Pick a publish date and read exactly what the site said that day; pick a
  *  series (DC Build by default) to chart it as published against today's
  *  history. Both live in the URL so a reading can be cited by link. */
-export function AsOfClient({ rows, today, repo }: {
+export function AsOfClient({ rows, today, repo, provenance }: {
   rows: LedgerRow[];
   /** each series' value in TODAY's history at every publish's reference date */
   today: Record<LedgerKey, (number | null)[]>;
   repo: string;
+  provenance: LedgerProvenance;
 }) {
   const latest = rows[rows.length - 1];
   const [date, setDate] = useUrlState("date", latest.date, codecs.date());
@@ -38,6 +39,7 @@ export function AsOfClient({ rows, today, repo }: {
     const before = rows.filter((r) => r.date < date);
     return before.length ? before[before.length - 1] : null;
   }, [rows, date]);
+  const verify = row && rowVerify(repo, row.published_at, provenance);
   const asPublished = rows.map((r) => r[series.value] ?? null);
   const dates = rows.map((r) => r.date);
   const options = LEDGER_SERIES.map((s) => ({ key: s.key, label: s.label }));
@@ -55,9 +57,9 @@ export function AsOfClient({ rows, today, repo }: {
             : row.date === date ? `publish ${fmtStamp(row.published_at)}` : `no publish on ${date} — showing the last one before it, ${fmtStamp(row.published_at)}`}
         </span>
         <CopyLink />
-        {row && (
-          <a className="asof-verify" href={ledgerCommitsUrl(repo, row.published_at)} data-testid="asof-commit"
-            target="_blank" rel="noreferrer">Verify: the commit that appended this row ↗</a>
+        {verify && (
+          <a className="asof-verify" href={verify.href} data-testid="asof-commit"
+            target="_blank" rel="noreferrer">{verify.label} ↗</a>
         )}
       </div>
       {row == null ? (

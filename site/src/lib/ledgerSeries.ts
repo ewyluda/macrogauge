@@ -27,12 +27,29 @@ export function todayAtPublishes(rows: LedgerRow[], asOf: DateField,
   });
 }
 
-/** GitHub's history of the append-only ledger file, filtered to the days
- *  around a publish: it lists the commit that appended the row, with its SHA.
- *  A row cannot carry its own commit (it is written before that commit). */
-export function ledgerCommitsUrl(repo: string, publishedAt: string): string {
+/** config/ledger_provenance.json: the rows backfilled on 2026-09-03 (published
+ *  before the ledger file existed), each mapped to the commit that originally
+ *  published its artifacts, plus the one commit that appended them all. */
+export type LedgerProvenance = { appended_commit: string; appended_at: string; sources: Record<string, string> };
+
+export type RowVerify = { href: string; label: string; backfilled: boolean };
+
+/** Where a reader verifies a row. A backfilled row links the exact commit
+ *  that published its reading (pulse.json, gaptable.json, datacenter.json in
+ *  that commit carry the numbers); the ledger append weeks later is a
+ *  different commit, so a publish-day filter would find nothing. A live row is
+ *  appended by its own publish commit, which it cannot name (the row is
+ *  written first), so it links the ledger file's history from its publish day
+ *  through the next two, wide enough for a commit that lands past midnight UTC. */
+export function rowVerify(repo: string, publishedAt: string, prov: LedgerProvenance): RowVerify {
+  const src = prov.sources[publishedAt];
+  if (src) {
+    return { href: `https://github.com/${repo}/commit/${src}`, backfilled: true,
+             label: "Verify: the commit that published this reading" };
+  }
   const d = new Date(publishedAt);
   const day = (x: Date) => x.toISOString().slice(0, 10);
-  const until = new Date(d.getTime() + 864e5);
-  return `https://github.com/${repo}/commits/main/store/ledger/pulse.jsonl?since=${day(d)}&until=${day(until)}`;
+  const until = new Date(d.getTime() + 2 * 864e5);
+  return { href: `https://github.com/${repo}/commits/main/store/ledger/pulse.jsonl?since=${day(d)}&until=${day(until)}`,
+           backfilled: false, label: "Verify: the commit that appended this row" };
 }

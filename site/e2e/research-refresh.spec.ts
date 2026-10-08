@@ -450,9 +450,15 @@ test("index ledger: DC Build by default, a series switch in the URL, and commit 
   await page.getByRole("button", { name: "DC Hardware" }).click();
   await expect(page).toHaveURL(/series=dc_hardware/);
   await expect(page.getByTestId("asof-chart-title")).toContainText("DC Hardware");
-  // each row links to the ledger file's history for its publish day
+  // a live row links the ledger file's history for its publish day
   await expect(page.getByTestId("asof-commit")).toHaveAttribute("href",
     /^https:\/\/github\.com\/ewyluda\/macrogauge\/commits\/main\/store\/ledger\/pulse\.jsonl\?since=\d{4}-\d{2}-\d{2}&until=\d{4}-\d{2}-\d{2}$/);
+  // a backfilled row links the exact commit that published its reading, not
+  // the 2026-09-03 append (PR #69 review F1)
+  await page.goto("/as-of?date=2026-08-12&series=dc_hardware");
+  await expect(page.getByTestId("asof-commit")).toHaveAttribute("href",
+    "https://github.com/ewyluda/macrogauge/commit/71a428c5bcc4064ad93023af5c73b7a72fa08388");
+  await expect(page.getByTestId("asof-commit")).toContainText("published this reading");
   // the page states the commit it was built from
   await expect(page.getByTestId("build-sha")).toHaveAttribute("href", /\/commit\/[0-9a-f]{40}$/);
 });
