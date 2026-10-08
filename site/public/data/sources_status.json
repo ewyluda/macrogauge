@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-08T03:33:13Z",
+  "generated_at": "2026-10-08T12:49:22Z",
   "sources": [
     {
       "name": "AAA",
@@ -7,11 +7,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-08T03:32:26Z",
+      "finished_at": "2026-10-08T12:48:27Z",
       "series_count": 1,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "AAA_STATE",
@@ -19,11 +19,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 51,
-      "new_rows": 0,
+      "new_rows": 51,
       "error": null,
-      "finished_at": "2026-10-08T03:32:26Z",
+      "finished_at": "2026-10-08T12:48:27Z",
       "series_count": 51,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "APTLIST",
@@ -33,7 +33,7 @@
       "fetched": 117,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:31:36Z",
+      "finished_at": "2026-10-08T12:47:41Z",
       "series_count": 1,
       "latest_obs": "2026-09-01"
     },
@@ -45,7 +45,7 @@
       "fetched": 240,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:33:11Z",
+      "finished_at": "2026-10-08T12:49:20Z",
       "series_count": 2,
       "latest_obs": "2026-09-01"
     },
@@ -55,11 +55,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 5,
-      "new_rows": 0,
+      "new_rows": 5,
       "error": null,
-      "finished_at": "2026-10-08T03:32:49Z",
+      "finished_at": "2026-10-08T12:48:53Z",
       "series_count": 5,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "AZURE_GPU",
@@ -67,11 +67,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 3,
-      "new_rows": 0,
+      "new_rows": 3,
       "error": null,
-      "finished_at": "2026-10-08T03:32:49Z",
+      "finished_at": "2026-10-08T12:48:53Z",
       "series_count": 3,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "BLS",
@@ -81,7 +81,7 @@
       "fetched": 3121,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:31:32Z",
+      "finished_at": "2026-10-08T12:47:37Z",
       "series_count": 28,
       "latest_obs": "2026-08-01"
     },
@@ -91,11 +91,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-08T03:32:51Z",
+      "finished_at": "2026-10-08T12:48:55Z",
       "series_count": 1,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "CENSUS",
@@ -105,7 +105,7 @@
       "fetched": 304,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:32:39Z",
+      "finished_at": "2026-10-08T12:48:42Z",
       "series_count": 2,
       "latest_obs": "2026-08-01"
     },
@@ -117,7 +117,7 @@
       "fetched": 8,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:32:28Z",
+      "finished_at": "2026-10-08T12:48:29Z",
       "series_count": 4,
       "latest_obs": "2026-10-01"
     },
@@ -127,11 +127,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 5,
-      "new_rows": 0,
+      "new_rows": 5,
       "error": null,
-      "finished_at": "2026-10-08T03:32:50Z",
+      "finished_at": "2026-10-08T12:48:54Z",
       "series_count": 5,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "DRAMEX",
@@ -141,9 +141,9 @@
       "fetched": 3,
       "new_rows": 2,
       "error": null,
-      "finished_at": "2026-10-08T03:32:40Z",
+      "finished_at": "2026-10-08T12:48:43Z",
       "series_count": 3,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "EIA",
@@ -153,7 +153,7 @@
       "fetched": 4433,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:31:33Z",
+      "finished_at": "2026-10-08T12:47:38Z",
       "series_count": 4,
       "latest_obs": "2026-10-05"
     },
@@ -165,7 +165,7 @@
       "fetched": 4999,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:33:09Z",
+      "finished_at": "2026-10-08T12:49:18Z",
       "series_count": 1,
       "latest_obs": "2026-10-06"
     },
@@ -177,7 +177,7 @@
       "fetched": 15964,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:32:31Z",
+      "finished_at": "2026-10-08T12:48:31Z",
       "series_count": 52,
       "latest_obs": "2026-07-01"
     },
@@ -189,7 +189,7 @@
       "fetched": 15655,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:32:34Z",
+      "finished_at": "2026-10-08T12:48:34Z",
       "series_count": 51,
       "latest_obs": "2026-07-01"
     },
@@ -201,7 +201,7 @@
       "fetched": 5,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:32:54Z",
+      "finished_at": "2026-10-08T12:48:59Z",
       "series_count": 1,
       "latest_obs": "2026-10-08"
     },
@@ -213,9 +213,9 @@
       "fetched": 14,
       "new_rows": 13,
       "error": null,
-      "finished_at": "2026-10-08T03:31:33Z",
+      "finished_at": "2026-10-08T12:47:38Z",
       "series_count": 14,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "FMP_EQ",
@@ -223,9 +223,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 56,
-      "new_rows": 51,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:31:33Z",
+      "finished_at": "2026-10-08T12:47:38Z",
       "series_count": 56,
       "latest_obs": "2026-10-07"
     },
@@ -234,12 +234,12 @@
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 64911,
-      "new_rows": 4478,
+      "fetched": 64915,
+      "new_rows": 6,
       "error": null,
-      "finished_at": "2026-10-08T03:31:31Z",
+      "finished_at": "2026-10-08T12:47:36Z",
       "series_count": 181,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "ICE",
@@ -249,7 +249,7 @@
       "fetched": 675,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:32:51Z",
+      "finished_at": "2026-10-08T12:48:56Z",
       "series_count": 4,
       "latest_obs": "2026-09-29"
     },
@@ -261,7 +261,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-08T03:32:28Z",
+      "finished_at": "2026-10-08T12:48:29Z",
       "series_count": 1,
       "latest_obs": "2026-09-01"
     },
@@ -273,7 +273,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-08T03:33:09Z",
+      "finished_at": "2026-10-08T12:49:18Z",
       "series_count": 1,
       "latest_obs": "2026-09-01"
     },
@@ -283,11 +283,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 2,
-      "new_rows": 0,
+      "new_rows": 2,
       "error": null,
-      "finished_at": "2026-10-08T03:33:09Z",
+      "finished_at": "2026-10-08T12:49:18Z",
       "series_count": 2,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "KALSHI_FED",
@@ -295,9 +295,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 11,
-      "new_rows": 4,
+      "new_rows": 10,
       "error": null,
-      "finished_at": "2026-10-08T03:33:10Z",
+      "finished_at": "2026-10-08T12:49:19Z",
       "series_count": 6,
       "latest_obs": "2026-12-09"
     },
@@ -307,9 +307,9 @@
       "cadence": "monthly",
       "ok": true,
       "fetched": 2,
-      "new_rows": 1,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:32:27Z",
+      "finished_at": "2026-10-08T12:48:28Z",
       "series_count": 1,
       "latest_obs": "2026-09-01"
     },
@@ -319,11 +319,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 4,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-08T03:32:51Z",
+      "finished_at": "2026-10-08T12:48:56Z",
       "series_count": 1,
-      "latest_obs": "2026-10-06"
+      "latest_obs": "2026-10-07"
     },
     {
       "name": "MND",
@@ -333,9 +333,9 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-08T03:32:27Z",
+      "finished_at": "2026-10-08T12:48:27Z",
       "series_count": 1,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "NYFED",
@@ -345,7 +345,7 @@
       "fetched": 1148,
       "new_rows": 0,
       "error": "partial: NYFED: 1 item(s) failed \u2014 SCE: ValueError: nyfed sce: sheet 'Five-year ahead Infl Exp' missing (structure drift?)",
-      "finished_at": "2026-10-08T03:33:10Z",
+      "finished_at": "2026-10-08T12:49:20Z",
       "series_count": 5,
       "latest_obs": "2026-09-01"
     },
@@ -355,11 +355,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 5,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-08T03:33:09Z",
+      "finished_at": "2026-10-08T12:49:18Z",
       "series_count": 1,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "OCI_GPU",
@@ -367,11 +367,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 6,
-      "new_rows": 0,
+      "new_rows": 6,
       "error": null,
-      "finished_at": "2026-10-08T03:32:49Z",
+      "finished_at": "2026-10-08T12:48:54Z",
       "series_count": 6,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "OPENROUTER",
@@ -379,11 +379,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 16,
-      "new_rows": 0,
+      "new_rows": 16,
       "error": null,
-      "finished_at": "2026-10-08T03:32:48Z",
+      "finished_at": "2026-10-08T12:48:53Z",
       "series_count": 16,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "PMMS",
@@ -393,7 +393,7 @@
       "fetched": 509,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:31:36Z",
+      "finished_at": "2026-10-08T12:47:40Z",
       "series_count": 1,
       "latest_obs": "2026-10-01"
     },
@@ -405,7 +405,7 @@
       "fetched": 934,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:32:37Z",
+      "finished_at": "2026-10-08T12:48:38Z",
       "series_count": 137,
       "latest_obs": "2026-01-01"
     },
@@ -417,7 +417,7 @@
       "fetched": 605,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:32:38Z",
+      "finished_at": "2026-10-08T12:48:41Z",
       "series_count": 89,
       "latest_obs": "2026-01-01"
     },
@@ -427,11 +427,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 4,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-08T03:33:07Z",
+      "finished_at": "2026-10-08T12:49:16Z",
       "series_count": 1,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "STEO",
@@ -441,7 +441,7 @@
       "fetched": 672,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:32:50Z",
+      "finished_at": "2026-10-08T12:48:55Z",
       "series_count": 2,
       "latest_obs": "2027-12-01"
     },
@@ -451,9 +451,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 2451,
-      "new_rows": 1,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:31:34Z",
+      "finished_at": "2026-10-08T12:47:39Z",
       "series_count": 1,
       "latest_obs": "2026-10-06"
     },
@@ -465,7 +465,7 @@
       "fetched": 2218,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:32:26Z",
+      "finished_at": "2026-10-08T12:48:27Z",
       "series_count": 5,
       "latest_obs": "2026-10-02"
     },
@@ -477,9 +477,9 @@
       "fetched": 3,
       "new_rows": 3,
       "error": null,
-      "finished_at": "2026-10-08T03:32:48Z",
+      "finished_at": "2026-10-08T12:48:53Z",
       "series_count": 6,
-      "latest_obs": "2026-10-07"
+      "latest_obs": "2026-10-08"
     },
     {
       "name": "ZILLOW",
@@ -489,7 +489,7 @@
       "fetched": 11831,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-08T03:31:36Z",
+      "finished_at": "2026-10-08T12:47:40Z",
       "series_count": 102,
       "latest_obs": "2026-08-01"
     }

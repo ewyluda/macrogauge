@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-10-08T03:33:13Z",
+  "published_at": "2026-10-08T12:49:22Z",
   "stats": {
     "series_count": 856,
-    "obs_count": 220330,
+    "obs_count": 220460,
     "source_count": 42,
     "tracker_corr": 0.9978,
     "live_coverage_pct": 39.08,
@@ -158,7 +158,7 @@
         "eia_gasreg_w"
       ],
       "official_series": "CUUR0000SETB01",
-      "yoy_pct": 37.9
+      "yoy_pct": 37.78
     },
     {
       "code": "electricity",
@@ -214,9 +214,9 @@
     }
   ],
   "freshness": {
-    "fresh_count": 849,
+    "fresh_count": 847,
     "total": 856,
-    "expected_absent": 7
+    "expected_absent": 8
   },
   "inventory": [
     {
@@ -885,7 +885,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -895,7 +895,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -905,7 +905,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -915,7 +915,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -925,7 +925,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -935,7 +935,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -945,7 +945,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -955,7 +955,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -965,7 +965,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -975,7 +975,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -985,7 +985,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2105,7 +2105,7 @@
       "source": "MND",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2115,7 +2115,7 @@
       "source": "AAA",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2125,7 +2125,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2135,7 +2135,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2145,7 +2145,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2155,7 +2155,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2165,7 +2165,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2175,7 +2175,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2185,7 +2185,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2195,7 +2195,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2205,7 +2205,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2215,7 +2215,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2225,7 +2225,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2235,7 +2235,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2245,7 +2245,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2255,7 +2255,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2265,7 +2265,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2275,7 +2275,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2285,7 +2285,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2295,7 +2295,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2305,7 +2305,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2315,7 +2315,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2325,7 +2325,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2335,7 +2335,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2345,7 +2345,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2355,7 +2355,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2365,7 +2365,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2375,7 +2375,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2385,7 +2385,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2395,7 +2395,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2405,7 +2405,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2415,7 +2415,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2425,7 +2425,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2435,7 +2435,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2445,7 +2445,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2455,7 +2455,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2465,7 +2465,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2475,7 +2475,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2485,7 +2485,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2495,7 +2495,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2505,7 +2505,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2515,7 +2515,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2525,7 +2525,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2535,7 +2535,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2545,7 +2545,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2555,7 +2555,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2565,7 +2565,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2575,7 +2575,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2585,7 +2585,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2595,7 +2595,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2605,7 +2605,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2615,7 +2615,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2625,7 +2625,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2655,7 +2655,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-26",
+      "latest_obs": "2026-10-03",
       "fresh": true,
       "absence": null
     },
@@ -2885,7 +2885,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-19",
+      "latest_obs": "2026-09-26",
       "fresh": true,
       "absence": null
     },
@@ -2915,7 +2915,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -3285,7 +3285,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4255,7 +4255,7 @@
       "source": "DRAMEX",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4265,7 +4265,7 @@
       "source": "DRAMEX",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4275,7 +4275,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4296,7 +4296,7 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-30",
-      "fresh": true,
+      "fresh": false,
       "absence": "intermittent"
     },
     {
@@ -4306,7 +4306,7 @@
       "route": "API",
       "cadence": "daily",
       "latest_obs": "2026-09-30",
-      "fresh": true,
+      "fresh": false,
       "absence": null
     },
     {
@@ -4315,7 +4315,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4325,7 +4325,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4345,7 +4345,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4355,7 +4355,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4365,7 +4365,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4375,7 +4375,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4385,7 +4385,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4395,7 +4395,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4405,7 +4405,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4415,7 +4415,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4425,7 +4425,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4435,7 +4435,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4445,7 +4445,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4455,7 +4455,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4465,7 +4465,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4475,7 +4475,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4485,7 +4485,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4495,7 +4495,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4505,7 +4505,7 @@
       "source": "AWS_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4515,7 +4515,7 @@
       "source": "AWS_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4525,7 +4525,7 @@
       "source": "AWS_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4535,7 +4535,7 @@
       "source": "AWS_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4545,7 +4545,7 @@
       "source": "AWS_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4555,7 +4555,7 @@
       "source": "AZURE_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4565,7 +4565,7 @@
       "source": "AZURE_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4575,7 +4575,7 @@
       "source": "AZURE_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4585,7 +4585,7 @@
       "source": "OCI_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4595,7 +4595,7 @@
       "source": "OCI_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4605,7 +4605,7 @@
       "source": "OCI_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4615,7 +4615,7 @@
       "source": "OCI_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4625,7 +4625,7 @@
       "source": "OCI_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4635,7 +4635,7 @@
       "source": "OCI_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4645,7 +4645,7 @@
       "source": "COREWEAVE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4655,7 +4655,7 @@
       "source": "COREWEAVE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4665,7 +4665,7 @@
       "source": "COREWEAVE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4675,7 +4675,7 @@
       "source": "COREWEAVE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4685,7 +4685,7 @@
       "source": "COREWEAVE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4715,7 +4715,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -4725,7 +4725,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8025,7 +8025,7 @@
       "source": "CAISO",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8035,7 +8035,7 @@
       "source": "MISO",
       "route": "CSV",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -8055,7 +8055,7 @@
       "source": "SPP",
       "route": "CSV",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8065,7 +8065,7 @@
       "source": "NYISO",
       "route": "CSV",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8145,7 +8145,7 @@
       "source": "KALSHI_DC",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8155,7 +8155,7 @@
       "source": "KALSHI_DC",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8165,7 +8165,7 @@
       "source": "KALSHI_FED",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },

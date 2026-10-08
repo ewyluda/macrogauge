@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-08T03:33:13Z",
+  "published_at": "2026-10-08T12:49:22Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,201 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-08T03:33:06Z",
-  "tape_last_post_at": "2026-10-08T03:01:52Z",
-  "age_hours": 0.0,
+  "feed_generated_at": "2026-10-08T12:46:53Z",
+  "tape_last_post_at": "2026-10-08T12:46:09Z",
+  "age_hours": 0.04,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3AEF0726EB37C166D60E",
+      "ts": "2026-10-08T12:36:00Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "$GFS GlobalFoundries signed a five-year manufacturing agreement with $TSM TSMC to produce advanced AI-chip packaging components in New York, with volume production expected to ramp in the first half of 2028.",
+      "points": [
+        {
+          "label": "Manufacturing",
+          "text": "GlobalFoundries will produce silicon interposers and advanced deep-trench capacitors at its Malta, New York facility, supporting TSMC\u2019s CoWoS packaging technology for AI and high-performance computing."
+        },
+        {
+          "label": "U.S. supply chain",
+          "text": "The agreement aims to establish the first domestic silicon interposer supply source, reducing reliance on overseas manufacturing and potentially easing AI-chip packaging bottlenecks."
+        },
+        {
+          "label": "Capacity expansion",
+          "text": "GlobalFoundries plans to expand its Malta fabrication capacity, with provisions for additional production as customer demand grows."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GFS",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "TSM",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18464",
+      "has_media": false
+    },
+    {
+      "id": "3AF15991030D142DA0C3",
+      "ts": "2026-10-08T12:22:07Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "$GOOG Google Cloud introduced Gemini, a universal AI agent designed to complete work across business applications using persistent memory, autonomous execution, specialized tools and multiple AI models, with enterprise security and cost controls.",
+      "points": [
+        {
+          "label": "Model selection and costs",
+          "text": "Gemini can route work between Google's models and Anthropic's Claude models, using Smart Routing to optimize cost and performance. Project spending caps automatically pause agents when limits are reached."
+        },
+        {
+          "label": "Agent capabilities",
+          "text": "Gemini can answer questions, create content, write and run code, schedule tasks and execute multistep workflows. It can coordinate specialized sub-agents and continue working in the cloud across devices and sessions."
+        },
+        {
+          "label": "Memory and tools",
+          "text": "Four memory types preserve task context, organizational knowledge, workflows and past activity. Reusable skills, enterprise connectors and MCP tools let agents access business systems and complete tasks."
+        },
+        {
+          "label": "Security and analytics",
+          "text": "Agents operate with controlled permissions, isolated execution, audit trails and policy enforcement. New data tools support natural-language analysis, while specialized financial-services and legal agents enter preview."
+        },
+        {
+          "label": "Adoption and infrastructure",
+          "text": "Google says nearly 80% of Cloud customers use its AI products and almost 90% of Fortune 100 companies use Gemini Enterprise. Its new TPU 8i reportedly delivers 80% better price-performance than the previous generation."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOG",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18460",
+      "has_media": true
+    },
+    {
+      "id": "3A2AB5728D3099657016",
+      "ts": "2026-10-08T12:14:21Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "GLOBALFOUNDRIES SIGNS $2 BILLION PACT WITH TSMC FOR SILICON INTERPOSERS. $TSM",
+      "points": [
+        {
+          "label": null,
+          "text": "GLOBALFOUNDRIES\u2019 PACT WITH TSMC HAS AN INITIAL FIVE-YEAR TERM."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "TSM",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [
+        "GFS"
+      ],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18456",
+      "has_media": false
+    },
+    {
+      "id": "3A92A3A83D5716A3C285",
+      "ts": "2026-10-08T12:07:51Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "TD Cowen reiterated its Buy rating on $META Meta Platforms and maintained its $865 price target, implying 19.92% upside from $721.31, citing strong advertising growth supported by AI despite rising costs.",
+      "points": [
+        {
+          "label": "Q3 outlook",
+          "text": "Analyst John Blackledge expects strong but slightly slowing revenue growth, with revenue 1% above consensus, supported by continued AI-driven engagement gains."
+        },
+        {
+          "label": "Margin pressure",
+          "text": "Rising AI spending is expected to further compress operating margins, although TD Cowen left its estimates unchanged."
+        },
+        {
+          "label": "Earnings focus",
+          "text": "Investors will watch for updated 2026 operating expense and capital spending guidance, 2027 investment plans and early results from Meta\u2019s Muse AI agent offering."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18452",
+      "has_media": false
+    },
+    {
+      "id": "3A430BAF0D69BF69A5D1",
+      "ts": "2026-10-08T11:54:30Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "$NVDA NVIDIA-backed Australian data-center operator Firmus is reportedly considering cutting the size and price of its planned $5B IPO, sending investor Maas Group\u2019s shares down 22.4% Thursday.",
+      "points": [
+        {
+          "label": "IPO terms",
+          "text": "Local reports say the offering price could fall from A$11 to A$8.25 per share. Bookbuilding closed Thursday, but final terms remain undecided."
+        },
+        {
+          "label": "Investor concerns",
+          "text": "Despite early indications of demand exceeding the offering, some investors cited high valuations, heavy debt and execution risks. Overseas demand was reportedly weaker than expected."
+        },
+        {
+          "label": "Maas selloff",
+          "text": "Maas, which owns 3.2% of Firmus, fell as much as 30% intraday before closing down 22.4%, erasing roughly A$517M ($360M) in market value."
+        },
+        {
+          "label": "Company response",
+          "text": "Maas attributed market sentiment to IPO speculation and reported no undisclosed information explaining the decline. Fund manager Datt Group estimated that a price cut to A$9 would reduce Maas\u2019s stake value by about A$75M, substantially less than its market-value loss."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18444",
+      "has_media": true
+    },
+    {
+      "id": "3A1FF3972A53D4F360FA",
+      "ts": "2026-10-08T11:52:24Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "$TSM TSMC reported September 2026 revenue of NT$511.86B, up 54.6% YoY but down 0.6% from August, extending strong annual growth despite a slight monthly decline.",
+      "points": [
+        {
+          "label": "Monthly comparison",
+          "text": "Revenue totaled NT$514.81B in August and NT$330.98B in September 2025."
+        },
+        {
+          "label": "Nine-month results",
+          "text": "January\u2013September revenue reached NT$3.90T, up 41.1% YoY from NT$2.76T, an increase of approximately NT$1.14T."
+        },
+        {
+          "label": "AI demand",
+          "text": "The supplied commentary links strong revenue growth to semiconductor and AI-chip demand, with upcoming earnings expected to provide further insight into profit margins, AI demand and guidance."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "TSM",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18443",
+      "has_media": false
+    },
     {
       "id": "3A70A9B73574BE7287E8",
       "ts": "2026-10-08T02:18:25Z",
@@ -5230,302 +5420,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17637",
       "has_media": true
-    },
-    {
-      "id": "3A6CCBE89F401CC54BB8",
-      "ts": "2026-10-01T12:41:52Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Japan\u2019s JERA signed a memorandum of understanding with $DELL Dell Technologies and RHAELM to develop a repeatable AI infrastructure model, starting with a $15 billion Chiba project.",
-      "points": [
-        {
-          "label": "Site capacity",
-          "text": "The planned hyperscale data center will have roughly 400 MW of capacity near Tokyo and is expected to begin phased operations in 2028."
-        },
-        {
-          "label": "Power commitment",
-          "text": "JERA will provide adjacent land and 400 MW of power capacity for 15\u201325 years; full data-center capacity is targeted for 2029."
-        },
-        {
-          "label": "Partner roles",
-          "text": "RHAELM will develop, finance and operate the site; Dell will supply standardized rack-scale AI infrastructure."
-        },
-        {
-          "label": "Investment role",
-          "text": "$APO Apollo Global Management plans to act as a strategic investment and financial partner for RHAELM."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "DELL",
-          "layer": "Servers & Storage"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17633",
-      "has_media": true
-    },
-    {
-      "id": "3A272420B01B57D296CD",
-      "ts": "2026-10-01T12:33:43Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$GOOGL Alphabet plans to test Google AI chips in orbit Thursday on a $PL Planet Labs prototype launched by a SpaceX Falcon 9 rocket.",
-      "points": [
-        {
-          "label": "Launch timing",
-          "text": "The Falcon 9 launch is scheduled for 11:15 a.m. Pacific time."
-        },
-        {
-          "label": "Test hardware",
-          "text": "The Planet Labs prototype will carry Google tensor processing units for the first orbital test under Project Suncatcher."
-        },
-        {
-          "label": "Project aim",
-          "text": "Alphabet is exploring solar-powered AI computing in space and eventually envisions interconnected satellites handling larger workloads."
-        },
-        {
-          "label": "Solar potential",
-          "text": "Orbital satellites could generate up to eight times more solar power; that is a projection, not a result from this test."
-        },
-        {
-          "label": "Separate effort",
-          "text": "SpaceX is pursuing its own GPU-equipped orbital data-center plans and targets space-based supercomputing capabilities in 2027."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "GOOGL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17631",
-      "has_media": false
-    },
-    {
-      "id": "3A1D08A17C143026045E",
-      "ts": "2026-10-01T12:23:16Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "CNBC reported Thursday premarket moves led by a 17% gain for $ACN Accenture after its fiscal fourth-quarter results.",
-      "points": [
-        {
-          "label": "AI and semiconductors",
-          "text": "$GOOGL Alphabet rose 2% after unveiling Gemini 4 Argon; $MU Micron slipped despite beating earnings estimates."
-        },
-        {
-          "label": "Sector funds",
-          "text": "Roundhill Memory ETF ($DRAM) gained more than 1%, while VanEck Semiconductor ETF ($SMH) advanced 1%."
-        },
-        {
-          "label": "IT and aerospace",
-          "text": "$ACN Accenture gained 17% after beating revenue and earnings expectations; $RKLB Rocket Lab rose 4.5% on a 20-launch Synspective contract."
-        },
-        {
-          "label": "Consumer companies",
-          "text": "$MKC McCormick rose nearly 5% after beating earnings and revenue estimates; $DLTR Dollar Tree gained 1.3% after a buy upgrade."
-        },
-        {
-          "label": "Digital banking",
-          "text": "$NU Nu Holdings gained nearly 6% after saying it was not pursuing a transaction with Monzo."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "GOOGL",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "MU",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17628",
-      "has_media": true
-    },
-    {
-      "id": "3A6A7F5ACC3646BB16E4",
-      "ts": "2026-10-01T12:01:47Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$DOCN DigitalOcean introduced Agent Droplets, monthly plans bundling compute, memory, storage, hosted-model inference and tool access for building AI agents.",
-      "points": [
-        {
-          "label": "Plan pricing",
-          "text": "Pro costs $50 per month with a 15% discount on included resource usage; Team costs $200 with a 20% discount."
-        },
-        {
-          "label": "Usage controls",
-          "text": "Customers can stop spending at the plan allowance or pay list prices for additional usage."
-        },
-        {
-          "label": "Model charges",
-          "text": "DigitalOcean-hosted models are covered by plan resources; models such as Claude and GPT are billed separately at list price."
-        },
-        {
-          "label": "Tool access",
-          "text": "Plans include governed access to more than 16,000 tools, unlimited agents and no per-seat charges."
-        },
-        {
-          "label": "Prepaid option",
-          "text": "A separate Inference and Agents Balance lets customers prepay $5 to $500 for eligible agent services."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "DOCN",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17624",
-      "has_media": false
-    },
-    {
-      "id": "3A6F852065AF9D6B2B39",
-      "ts": "2026-10-01T11:58:35Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$NBIS Nebius acquired Inferize, adding its technology and engineering team to Nebius Token Factory, the company\u2019s managed inference platform for production AI.",
-      "points": [
-        {
-          "label": "Launch speed",
-          "text": "Inferize\u2019s technology shortens the time needed to launch and scale large AI models, according to Nebius."
-        },
-        {
-          "label": "Idle capacity",
-          "text": "Nebius says the technology reduces GPU idle time during model loading, demand spikes and model-weight updates."
-        },
-        {
-          "label": "Efficiency goal",
-          "text": "The integration aims to make capacity track actual usage more closely, improving utilization and token economics."
-        },
-        {
-          "label": "Engineering team",
-          "text": "Inferize\u2019s engineers will work across Token Factory, starting with the integration of their technology."
-        },
-        {
-          "label": "Existing stack",
-          "text": "The acquisition adds to optimizations from Eigen AI and system-level inference and orchestration from Clarifai\u2019s core team and licensed technology."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NBIS",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17621",
-      "has_media": true
-    },
-    {
-      "id": "3AD66B0A53DA8A1A5433",
-      "ts": "2026-10-01T11:57:20Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Tencent signed a five-year lease with $ORCL Oracle for access to about 100,000 advanced AI chips across Southeast Asian data centers, the Financial Times reported, citing people familiar.",
-      "points": [
-        {
-          "label": "Estimated value",
-          "text": "The Financial Times estimates the agreement at about $7 billion, with about 30% payable upfront."
-        },
-        {
-          "label": "Lease scope",
-          "text": "Tencent agreed to the lease this year across multiple Oracle data centers; the report describes it as Tencent\u2019s largest overseas lease."
-        },
-        {
-          "label": "Chip access",
-          "text": "The reported arrangement provides access to advanced AI chips unavailable in China."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "ORCL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17620",
-      "has_media": true
-    },
-    {
-      "id": "3A62C34DFB48BF31944B",
-      "ts": "2026-10-01T11:55:17Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$AVGO Broadcom agreed to lend Anthropic up to $42 billion for infrastructure spending, according to Anthropic\u2019s IPO prospectus, alongside a $125.2 billion five-year TPU computing lease commitment.",
-      "points": [
-        {
-          "label": "Lease funding",
-          "text": "The convertible note could finance about one-third of Anthropic\u2019s TPU lease commitment."
-        },
-        {
-          "label": "Equity conversion",
-          "text": "Broadcom could designate a financing partner, and the debt instruments could convert into Anthropic shares."
-        },
-        {
-          "label": "Issuance timing",
-          "text": "Anthropic does not expect any notes to be sold before it completes its IPO."
-        },
-        {
-          "label": "Supplier conflicts",
-          "text": "Anthropic warns that Broadcom\u2019s hardware-supply and financing roles create potential conflicts affecting access to computing power."
-        },
-        {
-          "label": "Default exposure",
-          "text": "Certain payment or performance defaults could accelerate substantial lease obligations while limiting access to the $42 billion facility."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AVGO",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17619",
-      "has_media": true
-    },
-    {
-      "id": "3AA811455D3738A3BA7F",
-      "ts": "2026-10-01T11:52:50Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$SHAZ SharonAI Holdings announced its first $356 million committed senior secured, GPU-backed SPV debt facility on October 1, priced at a fixed 9.95% rate excluding fees.",
-      "points": [
-        {
-          "label": "Funding purpose",
-          "text": "Proceeds will support compute infrastructure dedicated to customer contracts; GPUs and associated cash flows will secure the facility."
-        },
-        {
-          "label": "Investor participation",
-          "text": "Investors include Goldman Sachs and select large private credit funds; Jarden Australia served as sole financial adviser and arranger."
-        },
-        {
-          "label": "Deployment target",
-          "text": "The company expects additional GPU financings to support deployment of over 68,000 NVIDIA GPUs by mid-2027."
-        },
-        {
-          "label": "Capital raised",
-          "text": "Sharon AI says the transaction brings institutional debt and equity capital secured over the past 10 months to over $2.6 billion."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "SHAZ",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17617",
-      "has_media": false
     }
   ]
 }

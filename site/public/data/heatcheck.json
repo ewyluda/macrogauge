@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-10-08T03:33:13Z",
-  "score": -9.0,
+  "published_at": "2026-10-08T12:49:22Z",
+  "score": -9.1,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
@@ -18,7 +18,7 @@
       "active_weight": 25.0
     },
     "pipeline": {
-      "z": 0.0949,
+      "z": 0.09135,
       "weight": 20,
       "available": 4,
       "expected": 4,
@@ -128,18 +128,18 @@
       "group": "pipeline",
       "direction": -1,
       "periods": 13,
-      "as_of": "2026-09-26",
+      "as_of": "2026-10-03",
       "momentum": -9.2166,
-      "z": 0.7581
+      "z": 0.7578
     },
     {
       "code": "CCSA",
       "group": "pipeline",
       "direction": -1,
       "periods": 13,
-      "as_of": "2026-09-19",
-      "momentum": -5.814,
-      "z": 0.722
+      "as_of": "2026-09-26",
+      "momentum": -5.7661,
+      "z": 0.7081
     },
     {
       "code": "PCUOMFGOMFG",

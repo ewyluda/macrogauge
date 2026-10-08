@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-08T03:33:13Z",
+  "published_at": "2026-10-08T12:49:22Z",
   "history_start": "2026-06-16",
   "blend": {
     "in": 0.75,
@@ -14,13 +14,15 @@
       "in_usd_mtok": 2.0,
       "out_usd_mtok": 12.0,
       "blended_usd_mtok": 4.5,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "tail": {
         "dates": [
-          "2026-10-07"
+          "2026-10-07",
+          "2026-10-08"
         ],
         "values": [
+          4.5,
           4.5
         ]
       }
@@ -31,13 +33,15 @@
       "in_usd_mtok": 2.0,
       "out_usd_mtok": 10.0,
       "blended_usd_mtok": 4.0,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "tail": {
         "dates": [
-          "2026-10-07"
+          "2026-10-07",
+          "2026-10-08"
         ],
         "values": [
+          4.0,
           4.0
         ]
       }
@@ -48,13 +52,15 @@
       "in_usd_mtok": 0.75,
       "out_usd_mtok": 3.75,
       "blended_usd_mtok": 1.5,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "tail": {
         "dates": [
-          "2026-10-07"
+          "2026-10-07",
+          "2026-10-08"
         ],
         "values": [
+          1.5,
           1.5
         ]
       }
@@ -65,13 +71,15 @@
       "in_usd_mtok": 2.0,
       "out_usd_mtok": 6.0,
       "blended_usd_mtok": 3.0,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "tail": {
         "dates": [
-          "2026-10-07"
+          "2026-10-07",
+          "2026-10-08"
         ],
         "values": [
+          3.0,
           3.0
         ]
       }
@@ -79,17 +87,19 @@
     {
       "key": "deepseek_v41_flash",
       "label": "DeepSeek V4.1 Flash",
-      "in_usd_mtok": 0.3,
-      "out_usd_mtok": 1.2,
-      "blended_usd_mtok": 0.525,
-      "as_of": "2026-10-07",
+      "in_usd_mtok": 0.0356,
+      "out_usd_mtok": 1.0,
+      "blended_usd_mtok": 0.2767,
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "tail": {
         "dates": [
-          "2026-10-07"
+          "2026-10-07",
+          "2026-10-08"
         ],
         "values": [
-          0.525
+          0.525,
+          0.2767
         ]
       }
     },
@@ -99,13 +109,15 @@
       "in_usd_mtok": 2.0,
       "out_usd_mtok": 6.0,
       "blended_usd_mtok": 3.0,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "tail": {
         "dates": [
-          "2026-10-07"
+          "2026-10-07",
+          "2026-10-08"
         ],
         "values": [
+          3.0,
           3.0
         ]
       }
@@ -116,13 +128,15 @@
       "in_usd_mtok": 0.68,
       "out_usd_mtok": 2.09,
       "blended_usd_mtok": 1.0325,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "tail": {
         "dates": [
-          "2026-10-07"
+          "2026-10-07",
+          "2026-10-08"
         ],
         "values": [
+          1.0325,
           1.0325
         ]
       }
@@ -133,13 +147,15 @@
       "in_usd_mtok": 0.1875,
       "out_usd_mtok": 0.6525,
       "blended_usd_mtok": 0.3037,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "tail": {
         "dates": [
-          "2026-10-07"
+          "2026-10-07",
+          "2026-10-08"
         ],
         "values": [
+          0.3037,
           0.3037
         ]
       }
@@ -210,7 +226,8 @@
         "2026-10-02",
         "2026-10-05",
         "2026-10-06",
-        "2026-10-07"
+        "2026-10-07",
+        "2026-10-08"
       ],
       "index": [
         100.0,
@@ -274,7 +291,8 @@
         104.278,
         104.278,
         104.278,
-        104.278
+        104.278,
+        96.255
       ],
       "members": [
         6,
@@ -338,12 +356,13 @@
         6,
         6,
         6,
-        14
+        14,
+        8
       ]
     },
-    "value": 104.278,
-    "as_of": "2026-10-07",
-    "chg_30d_pct": -0.45
+    "value": 96.255,
+    "as_of": "2026-10-08",
+    "chg_30d_pct": -8.11
   },
   "token_roster": {
     "since": "2026-10-07",
@@ -360,9 +379,9 @@
     {
       "code": "vast_h100_sxm",
       "label": "H100 SXM (vast.ai)",
-      "usd_per_gpu_hr": 2.1783,
-      "as_of": "2026-10-07",
-      "chg_30d_pct": 35.96,
+      "usd_per_gpu_hr": 2.2083,
+      "as_of": "2026-10-08",
+      "chg_30d_pct": 37.83,
       "tail": {
         "dates": [
           "2026-07-15",
@@ -420,7 +439,8 @@
           "2026-10-01",
           "2026-10-02",
           "2026-10-06",
-          "2026-10-07"
+          "2026-10-07",
+          "2026-10-08"
         ],
         "values": [
           2.0003,
@@ -478,7 +498,8 @@
           1.7491,
           1.6019,
           1.9218,
-          2.1783
+          2.1783,
+          2.2083
         ]
       },
       "in_index": true,
@@ -658,14 +679,14 @@
         ]
       },
       "in_index": true,
-      "stale": false
+      "stale": true
     },
     {
       "code": "vast_a100_sxm",
       "label": "A100 SXM (vast.ai)",
       "usd_per_gpu_hr": 0.8022,
-      "as_of": "2026-10-07",
-      "chg_30d_pct": 3.26,
+      "as_of": "2026-10-08",
+      "chg_30d_pct": 15.46,
       "tail": {
         "dates": [
           "2026-07-15",
@@ -727,7 +748,8 @@
           "2026-10-02",
           "2026-10-05",
           "2026-10-06",
-          "2026-10-07"
+          "2026-10-07",
+          "2026-10-08"
         ],
         "values": [
           0.9335,
@@ -789,6 +811,7 @@
           0.6689,
           0.7481,
           0.8015,
+          0.8022,
           0.8022
         ]
       },
@@ -798,9 +821,9 @@
     {
       "code": "vast_rtx4090",
       "label": "RTX 4090 (vast.ai)",
-      "usd_per_gpu_hr": 0.4696,
-      "as_of": "2026-10-07",
-      "chg_30d_pct": 25.29,
+      "usd_per_gpu_hr": 0.4803,
+      "as_of": "2026-10-08",
+      "chg_30d_pct": 28.01,
       "tail": {
         "dates": [
           "2026-07-15",
@@ -862,7 +885,8 @@
           "2026-10-02",
           "2026-10-05",
           "2026-10-06",
-          "2026-10-07"
+          "2026-10-07",
+          "2026-10-08"
         ],
         "values": [
           0.3621,
@@ -924,7 +948,8 @@
           0.4822,
           0.4944,
           0.4944,
-          0.4696
+          0.4696,
+          0.4803
         ]
       },
       "in_index": true,
@@ -945,7 +970,7 @@
         ]
       },
       "in_index": false,
-      "stale": false
+      "stale": true
     }
   ],
   "gpu_index": {
@@ -1061,7 +1086,8 @@
         "2026-10-02",
         "2026-10-05",
         "2026-10-06",
-        "2026-10-07"
+        "2026-10-07",
+        "2026-10-08"
       ],
       "index": [
         null,
@@ -1173,7 +1199,8 @@
         93.999,
         96.608,
         102.865,
-        104.803
+        104.803,
+        105.756
       ],
       "members": [
         1,
@@ -1285,12 +1312,13 @@
         5,
         5,
         4,
-        5
+        5,
+        4
       ]
     },
-    "value": 104.803,
-    "as_of": "2026-10-07",
-    "chg_30d_pct": 17.21
+    "value": 105.756,
+    "as_of": "2026-10-08",
+    "chg_30d_pct": 34.64
   },
   "cloud_gpus": [
     {
@@ -1302,7 +1330,7 @@
       "region": "US East (N. Virginia)",
       "usd_per_gpu_hr": 6.88,
       "usd_per_instance_hr": 55.04,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1315,7 +1343,7 @@
       "region": "US East (N. Virginia)",
       "usd_per_gpu_hr": 7.912,
       "usd_per_instance_hr": 63.3,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1328,7 +1356,7 @@
       "region": "US East (N. Virginia)",
       "usd_per_gpu_hr": 14.2416,
       "usd_per_instance_hr": 113.93,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1341,7 +1369,7 @@
       "region": "US East (N. Virginia)",
       "usd_per_gpu_hr": 17.802,
       "usd_per_instance_hr": 142.42,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1354,7 +1382,7 @@
       "region": "US East (N. Virginia)",
       "usd_per_gpu_hr": 3.4309,
       "usd_per_instance_hr": 27.45,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1367,7 +1395,7 @@
       "region": "East US 2",
       "usd_per_gpu_hr": 12.29,
       "usd_per_instance_hr": 98.32,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1380,7 +1408,7 @@
       "region": "East US 2",
       "usd_per_gpu_hr": 10.6,
       "usd_per_instance_hr": 84.8,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1393,7 +1421,7 @@
       "region": "East US 2",
       "usd_per_gpu_hr": 27.04,
       "usd_per_instance_hr": 108.16,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1406,7 +1434,7 @@
       "region": "list price, all regions",
       "usd_per_gpu_hr": 10.0,
       "usd_per_instance_hr": 10.0,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1419,7 +1447,7 @@
       "region": "list price, all regions",
       "usd_per_gpu_hr": 10.0,
       "usd_per_instance_hr": 10.0,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1432,7 +1460,7 @@
       "region": "list price, all regions",
       "usd_per_gpu_hr": 14.0,
       "usd_per_instance_hr": 14.0,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1445,7 +1473,7 @@
       "region": "list price, all regions",
       "usd_per_gpu_hr": 16.0,
       "usd_per_instance_hr": 16.0,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1458,7 +1486,7 @@
       "region": "list price, all regions",
       "usd_per_gpu_hr": 15.0,
       "usd_per_instance_hr": 15.0,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1471,7 +1499,7 @@
       "region": "list price, all regions",
       "usd_per_gpu_hr": 4.0,
       "usd_per_instance_hr": 4.0,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1484,7 +1512,7 @@
       "region": "list price",
       "usd_per_gpu_hr": 6.155,
       "usd_per_instance_hr": 49.24,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1497,7 +1525,7 @@
       "region": "list price",
       "usd_per_gpu_hr": 6.305,
       "usd_per_instance_hr": 50.44,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1510,7 +1538,7 @@
       "region": "list price",
       "usd_per_gpu_hr": 8.6,
       "usd_per_instance_hr": 68.8,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1523,7 +1551,7 @@
       "region": "list price",
       "usd_per_gpu_hr": 10.5,
       "usd_per_instance_hr": 42.0,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     },
@@ -1536,7 +1564,7 @@
       "region": "list price",
       "usd_per_gpu_hr": 2.7,
       "usd_per_instance_hr": 21.6,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "chg_30d_pct": null,
       "stale": false
     }

@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-08T03:33:13Z",
+  "published_at": "2026-10-08T12:49:22Z",
   "target": "CPI",
   "release_date": "2026-10-14",
   "core_benchmarks": {
@@ -8,8 +8,8 @@
       "as_of": "2026-09-11"
     },
     "kalshi": {
-      "value": 0.177,
-      "as_of": "2026-10-07"
+      "value": 0.179,
+      "as_of": "2026-10-08"
     }
   },
   "core_ensemble": {
@@ -32,8 +32,8 @@
       "basis": "SA",
       "weight_share": 0.7937
     },
-    "yoy_pct": 3.18,
-    "as_of": "2026-10-07",
+    "yoy_pct": 3.17,
+    "as_of": "2026-10-08",
     "status": "live",
     "parameters": {},
     "components": [
@@ -156,7 +156,7 @@
     },
     "reference_month": "2026-09",
     "release_date": "2026-10-29",
-    "as_of": "2026-10-07",
+    "as_of": "2026-10-08",
     "core": {
       "mom_pct": 0.19,
       "parameters": {
@@ -189,7 +189,7 @@
     }
   },
   "nfp": {
-    "change_thousands": 69,
+    "change_thousands": 70,
     "status": "live",
     "reference_month": "2026-10",
     "parameters": {
@@ -200,7 +200,7 @@
     },
     "inputs": {
       "payroll_momentum": 50.67,
-      "claims_delta_thousands": -7.5
+      "claims_delta_thousands": -8.25
     }
   },
   "benchmarks": {
@@ -209,8 +209,8 @@
       "as_of": "2026-09-30"
     },
     "kalshi": {
-      "value": 0.488,
-      "as_of": "2026-10-07"
+      "value": 0.491,
+      "as_of": "2026-10-08"
     }
   },
   "ensemble": {

@@ -1,23 +1,23 @@
 {
-  "published_at": "2026-10-08T03:33:13Z",
-  "prev_published_at": "2026-10-07T18:51:57Z",
+  "published_at": "2026-10-08T12:49:22Z",
+  "prev_published_at": "2026-10-08T03:33:13Z",
   "headline": [
     {
       "key": "gauge",
       "label": "Macrogauge (CPI-comparable)",
       "kind": "gauge",
-      "value": 3.18,
-      "as_of": "2026-10-07",
+      "value": 3.17,
+      "as_of": "2026-10-08",
       "prev_value": 3.18,
       "prev_as_of": "2026-10-07",
-      "delta_pp": 0.0
+      "delta_pp": -0.01
     },
     {
       "key": "tracker",
       "label": "CPI-Tracker",
       "kind": "gauge",
       "value": 3.66,
-      "as_of": "2026-10-07",
+      "as_of": "2026-10-08",
       "prev_value": 3.66,
       "prev_as_of": "2026-10-07",
       "delta_pp": 0.0
@@ -27,10 +27,10 @@
       "label": "Cost of Living",
       "kind": "gauge",
       "value": 6.07,
-      "as_of": "2026-10-07",
-      "prev_value": 6.19,
+      "as_of": "2026-10-08",
+      "prev_value": 6.07,
       "prev_as_of": "2026-10-07",
-      "delta_pp": -0.12
+      "delta_pp": 0.0
     },
     {
       "key": "supercore",
@@ -47,20 +47,20 @@
       "label": "PCE-weighted",
       "kind": "gauge",
       "value": 3.17,
-      "as_of": "2026-10-07",
-      "prev_value": 3.18,
+      "as_of": "2026-10-08",
+      "prev_value": 3.17,
       "prev_as_of": "2026-10-07",
-      "delta_pp": -0.01
+      "delta_pp": 0.0
     },
     {
       "key": "dc_build",
       "label": "DC Build",
       "kind": "datacenter",
-      "value": 8.61,
-      "as_of": "2026-10-07",
-      "prev_value": 8.51,
+      "value": 8.45,
+      "as_of": "2026-10-08",
+      "prev_value": 8.61,
       "prev_as_of": "2026-10-07",
-      "delta_pp": 0.1
+      "delta_pp": -0.16
     },
     {
       "key": "dc_ops",
@@ -85,13 +85,13 @@
   ],
   "components": [
     {
-      "component": "used_vehicles",
-      "label": "Used cars & trucks",
+      "component": "fuel",
+      "label": "Gasoline",
       "mode": "live",
-      "yoy_pct": -1.79,
-      "prev_yoy_pct": -1.64,
-      "delta_pp": -0.15,
-      "bls_yoy_pct": -2.32
+      "yoy_pct": 37.78,
+      "prev_yoy_pct": 37.9,
+      "delta_pp": -0.12,
+      "bls_yoy_pct": 27.4
     },
     {
       "component": "shelter_owned",
@@ -103,15 +103,6 @@
       "bls_yoy_pct": 3.08
     },
     {
-      "component": "fuel",
-      "label": "Gasoline",
-      "mode": "live",
-      "yoy_pct": 37.9,
-      "prev_yoy_pct": 37.9,
-      "delta_pp": 0.0,
-      "bls_yoy_pct": 27.4
-    },
-    {
       "component": "shelter_rent",
       "label": "Rent",
       "mode": "live",
@@ -119,6 +110,15 @@
       "prev_yoy_pct": 1.52,
       "delta_pp": 0.0,
       "bls_yoy_pct": 2.75
+    },
+    {
+      "component": "used_vehicles",
+      "label": "Used cars & trucks",
+      "mode": "live",
+      "yoy_pct": -1.79,
+      "prev_yoy_pct": -1.79,
+      "delta_pp": 0.0,
+      "bls_yoy_pct": -2.32
     },
     {
       "component": "other",
@@ -219,12 +219,12 @@
   },
   "sources_landed": [
     {
-      "source": "FRED",
-      "new_rows": 4478
+      "source": "AAA_STATE",
+      "new_rows": 51
     },
     {
-      "source": "FMP_EQ",
-      "new_rows": 51
+      "source": "OPENROUTER",
+      "new_rows": 16
     },
     {
       "source": "FMP",
@@ -232,7 +232,27 @@
     },
     {
       "source": "KALSHI_FED",
-      "new_rows": 4
+      "new_rows": 10
+    },
+    {
+      "source": "FRED",
+      "new_rows": 6
+    },
+    {
+      "source": "OCI_GPU",
+      "new_rows": 6
+    },
+    {
+      "source": "AWS_GPU",
+      "new_rows": 5
+    },
+    {
+      "source": "COREWEAVE",
+      "new_rows": 5
+    },
+    {
+      "source": "AZURE_GPU",
+      "new_rows": 3
     },
     {
       "source": "VASTAI",
@@ -243,6 +263,18 @@
       "new_rows": 2
     },
     {
+      "source": "KALSHI_DC",
+      "new_rows": 2
+    },
+    {
+      "source": "AAA",
+      "new_rows": 1
+    },
+    {
+      "source": "CAISO",
+      "new_rows": 1
+    },
+    {
       "source": "KALSHI",
       "new_rows": 1
     },
@@ -251,7 +283,7 @@
       "new_rows": 1
     },
     {
-      "source": "MANHEIM",
+      "source": "MISO",
       "new_rows": 1
     },
     {
@@ -259,7 +291,11 @@
       "new_rows": 1
     },
     {
-      "source": "TREASURY",
+      "source": "NYISO",
+      "new_rows": 1
+    },
+    {
+      "source": "SPP",
       "new_rows": 1
     }
   ],

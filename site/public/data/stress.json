@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-10-08T03:33:13Z",
-  "score": 60.8,
+  "published_at": "2026-10-08T12:49:22Z",
+  "score": 61.0,
   "coverage_pct": 100.0,
   "indicators": [
     {
@@ -56,9 +56,9 @@
       "code": "CCSA",
       "weight": 10,
       "direction": 1,
-      "value": 1701000.0,
-      "as_of": "2026-09-19",
-      "score": 24.1
+      "value": 1716000.0,
+      "as_of": "2026-09-26",
+      "score": 27.0
     }
   ]
 }
