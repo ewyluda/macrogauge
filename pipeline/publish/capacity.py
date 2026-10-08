@@ -9,7 +9,12 @@ timeline dates each construction site by its curated `energize_q` (5th sites
 element) and falls back to parsing the free-text `when` (parse_quarter).
 A missing quote degrades the row (cap null, stale true) — never drops it; a
 carried-forward quote older than the registry staleness limit keeps its value
-(and priced_date) but flags stale so the page can label it."""
+(and priced_date) but flags stale so the page can label it.
+
+`power_deals` (2026-10-08+): the curated PPAs and other supply deals behind
+these companies (config/power_deals.json, pipeline/power_deals.py), ordered
+signed -> pending -> MOU/LOI/option, then by MW; totals keep a literal PPA
+apart from utility-built supply and development deals."""
 import re
 from datetime import date
 from pathlib import Path
@@ -229,8 +234,33 @@ def _timeline(rows: list[dict]) -> dict:
             "milestones": {_quarter_label(o): m for o, m in sorted(miles.items())}}
 
 
+_STATUS_ORDER = {"signed": 0, "pending": 1, "mou": 2, "loi": 2, "option": 2}
+
+
+def _power_deals(deals_cfg, names: dict[str, str]) -> dict:
+    deals = sorted(deals_cfg.deals, key=lambda d: (_STATUS_ORDER[d.status], -d.mw_total, d.t))
+    signed = [d for d in deals if d.status == "signed"]
+    return {"as_of_curated": deals_cfg.as_of_curated, "basis": deals_cfg.basis,
+            "mw_note": deals_cfg.mw_note,
+            "totals": {"signed_mw": sum(d.mw_total for d in signed),
+                       "signed_ppa_mw": sum(d.mw_total for d in signed if d.kind == "ppa"),
+                       "pending_mw": sum(d.mw_total for d in deals if d.status == "pending"),
+                       "preliminary_mw": sum(d.mw_total for d in deals
+                                             if d.status in ("mou", "loi", "option")),
+                       "deals": len(deals)},
+            "deals": [{"t": d.t, "name": names.get(d.t, d.t), "counterparty": d.counterparty,
+                       "facility": d.facility, "technology": d.technology, "mw": d.mw,
+                       "sites": d.sites, "mw_total": d.mw_total, "mw_basis": d.mw_basis,
+                       "status": d.status, "kind": d.kind, "instrument": d.instrument,
+                       "announced": d.announced, "term_years": d.term_years, "start": d.start,
+                       "source": {"publisher": d.src_publisher, "title": d.src_title,
+                                  "url": d.src_url},
+                       "quote": d.quote, "note": d.note} for d in deals]}
+
+
 def build(conn, cfg: dict, today: str | None = None,
-          staleness: dict[str, int] | None = None) -> dict:
+          staleness: dict[str, int] | None = None, power_deals=None) -> dict:
+    """power_deals: the loaded power_deals config; None publishes without the block."""
     rows = [_company_row(conn, c, today, staleness) for c in cfg["companies"]]
     neo = [r for r in rows if _cohort(r) == "neocloud"]
     hyp = [r for r in rows if _cohort(r) == "hyperscaler"]
@@ -255,7 +285,9 @@ def build(conn, cfg: dict, today: str | None = None,
             "tenants": cfg["tenants"], "geo": cfg["geo"],
             "geo_unmapped": cfg["geo_unmapped"], "geo_note": cfg["geo_note"],
             "reference": {"nvda_cap_b": round(nvda_cap, 1) if nvda_cap is not None else None,
-                          "cohort_ev_b": round(sum(evs), 1) if evs else None}}
+                          "cohort_ev_b": round(sum(evs), 1) if evs else None},
+            **({} if power_deals is None else
+               {"power_deals": _power_deals(power_deals, {c["t"]: c["n"] for c in cfg["companies"]})})}
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:

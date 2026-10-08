@@ -1,0 +1,23 @@
+# Evidence: capacity energize-date research (docs/research/2026-10-capacity-energize-dates.md)
+# Retrieved 2026-10-08. Excerpts are verbatim from the fetched page text (HTML tags stripped,
+# whitespace collapsed); '[…]' marks the cut points of an excerpt window.
+
+URL: https://investor.equinix.com/news-events/press-releases/detail/48/equinix-and-gic-to-add-3-9b-to-expand-xscale-data-center
+Title: Equinix and GIC to Add $3.9B to Expand xScale Data Center Program
+Publisher: Equinix
+Date: 2021-06-14
+Method: curl
+
+[…] s It is expected that the xScale portfolio of 32 facilities will provide more than 600 megawatts (MW) of power capacity when fully built out. With xSc […]
+
+------------------------------------------------------------------------
+
+URL: https://www.sec.gov/Archives/edgar/data/1101239/000110123926000147/eqix-20260630.htm
+Title: Equinix, Inc. Form 10-Q for the quarter ended 2026-06-30
+Publisher: Equinix (SEC EDGAR)
+Date: 2026-07-29 (filed)
+Method: curl from sec.gov
+
+[…] r recent IBX data center openings and acquisitions, as well as xScale TM data center investments, have expanded our total global footprint to 282 data centers, including 23 xScale data centers and the MC1 and SN1 data centers that are held in unconsolidated joint ventures, across 77 markets around the world. We […]
+
+------------------------------------------------------------------------

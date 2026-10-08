@@ -1,0 +1,20 @@
+# Powering Indiana's Future: How NIPSCO, GenCo, and Amazon Keep Energy Reliable and Affordable
+# Source: https://www.nisource.com/news/article/powering-indiana-s-future-how-nipsco-genco-and-amazon-keep-energy-reliable-and-affordable-20251124
+# Publisher: NiSource Inc. (news article)
+# Date: 2025-11-24
+# Retrieved 2026-10-08 (HTML tags stripped, whitespace collapsed; excerpt = the passage stating the 3 GW)
+
+By operating as a separate entity, GenCo isolates the cost of new growth to data centers. The data center companies that drive new demand for electricity will fund the generation and transmission infrastructure they require, ensuring that regular customers don't shoulder those costs, even if the customer leaves before contract completion. Amazon's partnership with NIPSCO and GenCo is a cornerstone of this approach, enabling the development of data center campuses that will be powered by up to 3 gigawatts of new generation capacity to serve Amazon's needs, with any excess generation enhancing grid reliability for all NIPSCO customers. Powering a Winning Partnership for Indiana GenCo's and NIPSCO's first major partnership represents a nearly $7 billion
+
+# Corroborating passages (technology and approval status), NiSource Inc. Form 10-Q for the quarter ended June 30, 2026
+# Source: https://www.sec.gov/Archives/edgar/data/1111711/000111171126000088/nix-20260630.htm (filed 2026-08-05; rendered page text via browser)
+
+ADS Amazon Data Services, Inc. ADS Contract NIPSCO agreement to provide electricity to ADS' data centers
+
+[...]
+
+application with the IURC seeking approval of (i) the ADS Contract, (ii) a related power purchase agreement between NIPSCO and GenCo, and (iii) an alternative regulatory plan and associated accounting treatment. An order was received in June 2026, fully approving the Stipulation and Settlement Agreement filed with the IURC by NIPSCO, GenCo, the OUCC and NIPSCO industrial resolving all issues.
+
+[...]
+
+Construction Update GenCo continues to advance development of its new combined‑cycle natural gas‑fired generation facility to support the ADS Contract.

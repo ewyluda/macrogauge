@@ -1,0 +1,7 @@
+# How we're working with utilities to create a new model for clean energy
+# Source: https://blog.google/outreach-initiatives/sustainability/google-clean-energy-partnership/
+# Publisher: Google (The Keyword blog)
+# Date: 2024-06-11
+# Retrieved 2026-10-08 (HTML tags stripped, whitespace collapsed; excerpt = the passage the quote is read from)
+
+NV Energy is the first utility to operationalize this new approach through a first-of-its-kind energy supply agreement with Google. Together, we assessed solutions to bring clean capacity to the local grid and landed on enhanced geothermal. NV Energy then worked with developer Fervo Energy to include 115 MW of new, enhanced geothermal power in our CTT partnership and deliver its full capacity value to Google. Finally, we worked together to propose a framework that can be customized to work in varying state regulatory environments to address state and customer goals. Our partnership with NV Energy builds on our recent commercial pilot with Fervo in Nevada, which proved Fervo’s technology can deliver enhanced geothermal power at a commercial scale. Since then, Fervo has achieved remarkable reductions in the time and cost of its drilling process, demonstrating the power of early customer de

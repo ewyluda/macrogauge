@@ -1,0 +1,25 @@
+# Evidence: capacity energize-date research (docs/research/2026-10-capacity-energize-dates.md)
+# Retrieved 2026-10-08. Excerpts are verbatim from the fetched page text (HTML tags stripped,
+# whitespace collapsed); '[…]' marks the cut points of an excerpt window.
+
+URL: https://www.fool.com/earnings/call-transcripts/2026/04/23/digital-realty-dlr-q1-2026-earnings-transcript/
+Title: Digital Realty (DLR) Q1 2026 Earnings Call Transcript
+Publisher: The Motley Fool (transcript of the company's 2026-04-23 call)
+Date: 2026-04-23
+Method: curl
+
+[…] d the ability and expertise necessary to source, position, and then lease hyperscale IT capacity for development in less than 18 months. Building on this success in Charlotte, we have a second 200 megawatt building that will follow Building One, and we launched construction on another 200 megawatt development site in Atlanta. We also have in position today, or are preparing, substantial capacity for dev […]
+
+[…] what we just leased—200 megawatts in the first half of that campus, abutting the Charlotte airport. We have another 200 megawatts that I view as very attractive to customers under construction. In Atlanta, we have a larger project, but before that, we have another 200 megawatts targeting 2028 delivery in a great location. That campus will have an extension of our colo footprint and be prized for hyperscale customers looking to grow cloud availability zones and AI infe […]
+
+------------------------------------------------------------------------
+
+URL: https://www.marketbeat.com/earnings/reports/2026-7-23-digital-realty-trust-inc-stock/
+Title: Digital Realty Trust Q2 2026 Earnings Call Transcript
+Publisher: MarketBeat (transcript of the company's 2026-07-23 call)
+Date: 2026-07-23
+Method: curl
+
+[…] n the Americas, reflecting outsized demand from hyperscale cloud and AI-oriented workloads. Matt Mercier CFO at Digital Realty 00:28:08 While Northern Virginia remains our largest development market, we also have significant activity underway in Charlotte, Atlanta, and SÃ£o Paulo, and expect to begin construction in Kansas City during the second half of the year, further expanding our capacity in markets where […]
+
+------------------------------------------------------------------------

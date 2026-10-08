@@ -1,0 +1,33 @@
+# Evidence: capacity energize-date research (docs/research/2026-10-capacity-energize-dates.md)
+# Retrieved 2026-10-08. Excerpts are verbatim from the fetched page text (HTML tags stripped,
+# whitespace collapsed); '[…]' marks the cut points of an excerpt window.
+
+URL: https://www.sec.gov/Archives/edgar/data/1859392/000185939226000009/glxy-20251231xpressrelease_.htm
+Title: Galaxy Q4 & FY 2025 results release (8-K exhibit)
+Publisher: Galaxy Digital Inc. (SEC EDGAR)
+Date: 2026-02-03
+Method: curl from sec.gov
+
+[…] pacity to more than 1.6 gigawatts and positioning the campus to support continued multi-phase development in 2026 and beyond. 1.6GW Total Approved Power Capacity at Helios CoreWeave Contracted Capacity Phase I Phase II Phase III Phase I + II + III 133MW 260MW 133MW 526MW Contracted Critical IT Load 1 Contracted Critical IT Load 1 Contracted Critical IT Load 1 Total Contracted Critical IT Load 1 1H26 2027 2028 $1B+ Expected Delivery Date 2 Expected Delivery Date 2 Expected Delivery Date 2 Anticipated Average Annual Revenue 3 (1) Approximately 200 MW of gross power capacity for Phase I, 400 MW of gross power capacity for Phase II, and 200 MW of gross power capacity for Phase III, for a total gross power capacity of 800 MW. (2) Will be completed in phases, with the full capacity for Phase I expected to be delivered by the end of the first half of 2026, Phase II expected throughout 2027 and Phase III expecting to commence in 2028. (3) Based on committed contractual terms, internal estimat […]
+
+------------------------------------------------------------------------
+
+URL: https://www.sec.gov/Archives/edgar/data/1859392/000185939226000091/glxy-20260630.htm
+Title: Galaxy Digital Inc. Form 10-Q for the quarter ended 2026-06-30
+Publisher: Galaxy Digital Inc. (SEC EDGAR)
+Date: 2026-08-10 (filed)
+Method: curl from sec.gov
+
+[…] Council of Texas (“ERCOT”) has approved over 1.6 gigawatts (“GW”) of gross power capacity at our Helios campus. In addition to the initial 200 MW described above, 600 MW of this gross power capacity will support the incremental 393 MW of critical IT load leased to CoreWeave under the Phase II (the “Phase II Lease”) and Phase III (the “Phase III Lease”) leases pursuant to the Lease Agreement, and is expected to be delivered starting in the second quarter of 2027. The remaining 830 MW of approved power capacity remains available to be contra […]
+
+------------------------------------------------------------------------
+
+URL: https://www.sec.gov/Archives/edgar/data/1859392/000185939226000084/glxy-20260630xpressrelease.htm
+Title: Galaxy Q2 2026 results release (8-K exhibit)
+Publisher: Galaxy Digital Inc. (SEC EDGAR)
+Date: 2026-08-05
+Method: curl from sec.gov
+
+[…] struction on Phase II of Helios, a 260 MW critical IT capacity expansion, with HITT Contracting serving as general contractor. HITT has been mobilized and on site since April 2026, with earthwork complete and structural foundation work now underway. Data hall deliveries under Phase II are expected to begin in the second quarter of 2027. • On July […]
+
+------------------------------------------------------------------------

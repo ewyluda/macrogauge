@@ -1,0 +1,35 @@
+# Evidence: capacity energize-date research (docs/research/2026-10-capacity-energize-dates.md)
+# Retrieved 2026-10-08. Excerpts are verbatim from the fetched page text (HTML tags stripped,
+# whitespace collapsed); '[…]' marks the cut points of an excerpt window.
+
+URL: https://www.amazoninnovationinpa.com/salem-township-innovation-campus/
+Title: Salem Township Innovation Campus - Amazon Innovation Campuses in Pennsylvania
+Publisher: Amazon
+Date: undated page; retrieved 2026-10-08 (lists events through Aug 2026)
+Method: curl
+
+[…] n throughout the planning and public review process. 2025 Pre-Construction/ Permitting October 2025 Construction Starts TBD Commissioning of Buildings TBD In Operation Upcoming […]
+
+------------------------------------------------------------------------
+
+URL: https://www.sec.gov/Archives/edgar/data/1622536/000162828025030559/a20250611pressreleasebusin.htm
+Title: Talen Energy press release (8-K exhibit): expanded PPA with Amazon
+Publisher: Talen Energy Corp (SEC EDGAR)
+Date: 2025-06-11
+Method: curl from sec.gov
+
+[…] expanded PPA, at the full contract quantity, Talen will provide Amazon with 1,920 megawatts of carbon-free nuclear power through 2042, with options to further extend its duration. The power delivery schedule will ramp over time, expecting to achieve the full volume no later than 2032, with the potential to meaningfully accelerate. This long-t […]
+
+------------------------------------------------------------------------
+
+URL: https://www.wsoctv.com/news/local/10-billion-amazon-project-takes-shape-richmond-county/I3CRV5TRNVH6XJHSXJ6MGBRR6I/
+Title: Construction begins on $10B Amazon project in Richmond County
+Publisher: WSOC-TV (Gina Esposito)
+Date: 2025-10-30
+Method: curl
+
+[…] ins said. Amazon will be building over the next seven years or so. Hamlet Fi […]
+
+[…] of trees. When the project is completed, there will 20 buildings, each the size of Walmart. Th […]
+
+------------------------------------------------------------------------

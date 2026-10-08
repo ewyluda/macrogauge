@@ -548,8 +548,8 @@
      "Helios Phase III",
      133,
      "c",
-     "final CoreWeave option",
-     null
+     "final CoreWeave option; 'expecting to commence in 2028' (Q4'25 8-K)",
+     "2028Q4"
     ],
     [
      "Helios expansion (830 MW)",
@@ -1866,7 +1866,7 @@
    "op": 6000,
    "con": 5000,
    "plan": 6500,
-   "pipe": "TX $40B (Armstrong+2x Haskell), MO New Florence >1GW, India Vizag 1GW->multi-GW, OK $9B (Pryor/Stillwater/Muskogee), VA Chesterfield 900MW phased to 2032, SC/IA/AL later phases.; Columbia County GA (~8M sq ft, $17B MOU 8/27, press); Finland €13B 2027–28 + Loviisa nuclear (9/9); Lea County NM exploratory (9/14); Tulsa Co. OK 'Project Clydesdale' w/ Beale (press)",
+   "pipe": "TX $40B (Armstrong+2x Haskell), MO New Florence >1GW, India Vizag 1GW->multi-GW, OK $9B (Pryor/Stillwater/Muskogee), VA Chesterfield (Bermuda Hundred, MW undisclosed), SC/IA/AL later phases.; Columbia County GA (~8M sq ft, $17B MOU 8/27, press); Finland €13B 2027–28 + Loviisa nuclear (9/9); Lea County NM exploratory (9/14); Tulsa Co. OK 'Project Clydesdale' w/ Beale (press)",
    "nd": -142.3,
    "ndflag": "Net CASH ~$142.3B at Q2'26 10-Q: cash+ST investments $242.5B − funded debt $100.2B (LT $98.2B + current portion $2.0B; corrects prior −144.3 which omitted the current portion). CAVEAT: ST investments include $80.0B of SpaceX shares under short-term sale restrictions (+$14.1B long-term restricted in non-current) — ex-restricted SpaceX net cash ≈ $62.3B. The Q1→Q2 cash build came from that stake plus H1 equity raises ($30.5B common + $19.1B mandatory convertible preferred), not investment-gain marks. Post-qtr: $25B notes closed 8/10/26; $40B ATM program active since 6/1. Excludes $14.6B lease liabilities.",
    "bk": null,
@@ -1897,9 +1897,9 @@
     ],
     [
      "Chesterfield, VA (Bermuda Hundred)",
-     900,
+     null,
      "c",
-     "constr. late 2026, phased to 2032",
+     "first building late 2027, MW undisclosed (the 900 MW Dominion filing is Upper Magnolia Green, customer unnamed)",
      null
     ],
     [
@@ -2508,8 +2508,8 @@
      "Atlanta, GA - 200MW development",
      200,
      "c",
-     "construction launched Q1'26",
-     null
+     "construction launched Q1'26; 'targeting 2028 delivery' (Q1'26 call)",
+     "2028Q4"
     ],
     [
      "Ashburn / Northern Virginia hub",
@@ -3683,11 +3683,11 @@
   {
    "t": "GOOGL",
    "site": "Chesterfield VA (Bermuda Hundred)",
-   "mw": 900,
+   "mw": null,
    "st": "c",
    "lat": 37.38,
    "lng": -77.51,
-   "when": "constr late 2026, phased to 2032",
+   "when": "first building late 2027, MW undisclosed",
    "approx": true
   },
   {

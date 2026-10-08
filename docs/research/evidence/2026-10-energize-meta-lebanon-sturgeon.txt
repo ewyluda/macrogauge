@@ -1,0 +1,43 @@
+# Evidence: capacity energize-date research (docs/research/2026-10-capacity-energize-dates.md)
+# Retrieved 2026-10-08. Excerpts are verbatim from the fetched page text (HTML tags stripped,
+# whitespace collapsed); '[…]' marks the cut points of an excerpt window.
+
+URL: https://news.bgov.com/tech-and-telecom-law/meta-to-spend-more-than-10-billion-on-indiana-based-data-center
+Title: Meta to Spend More Than $10 Billion on Indiana-Based Data Center
+Publisher: Bloomberg News (Riley Griffin), via Bloomberg Government
+Date: 2026-02-11
+Method: curl
+
+[…] s largest artificial intelligence infrastructure investments to date. Meta on Wednesday broke ground on the Lebanon site, which it expects to deliver one gigawatt of power to potentially support both its AI projects and core social media business. The data center will span 4 million square feet and is expected to be operational at the end of 2027 or in early 2028, according to Rachel Peterson, Meta’s vice president of data centers. Peterson […]
+
+------------------------------------------------------------------------
+
+URL: https://indianacapitalchronicle.com/2026/02/11/details-on-long-expected-meta-data-center-campus-unveiled/
+Title: Details on long-expected Meta data center campus unveiled
+Publisher: Indiana Capital Chronicle
+Date: 2026-02-11
+Method: Browser pane innerText (curl returns 403)
+
+[…] Peterson said Meta hopes to be online with the first phase by late 2027 or early 2028. […]
+
+------------------------------------------------------------------------
+
+URL: https://about.fb.com/news/2026/02/metas-new-data-center-lebanon-indiana-marks-milestone-ai-investment/
+Title: Meta’s New Data Center in Lebanon, Indiana Marks a Milestone AI Investment
+Publisher: Meta Newsroom
+Date: 2026-02-11
+Method: curl; no date/phase/year for operation in text
+
+[…] nfrastructure that will benefit the area. Built to Deliver 1GW This new data center is our second site in Indiana , and is designed to deliver 1GW of capacity once operational. As AI advances and compute demands con […]
+
+------------------------------------------------------------------------
+
+URL: https://about.fb.com/news/2026/07/breaking-ground-on-metas-first-data-center-in-canada/
+Title: Breaking Ground on Meta’s First Data Center in Canada
+Publisher: Meta Newsroom
+Date: 2026-07-08
+Method: curl; no operational date in text
+
+[…] aded infrastructure. We worked closely with Greenlight Limited Partnership, Altalink, Capitol Power, and the Alberta Electric System Operator to plan for and meet our energy needs years in advance of this data center coming online. In Alber […]
+
+------------------------------------------------------------------------
