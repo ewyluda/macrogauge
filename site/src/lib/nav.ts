@@ -44,7 +44,6 @@ export const NAV: NavEntry[] = [
           { href: "/cpi-preview", label: "CPI Preview", emoji: "📅" },
           { href: "/outlook", label: "12-Month Outlook", emoji: "🔮" },
           { href: "/scoreboard", label: "Scoreboard", emoji: "🏆" },
-          { href: "/matrix", label: "Nowcast Matrix", emoji: "🔢" },
           { href: "/revisions", label: "Revisions", emoji: "✏️" },
         ],
       },
@@ -57,6 +56,7 @@ export const NAV: NavEntry[] = [
       {
         items: [
           { href: "/macro-cycle", label: "Macro Cycle", emoji: "🌡️" },
+          { href: "/matrix", label: "Inflation Matrix", emoji: "🔢" },
           { href: "/labor", label: "Labor Market", emoji: "💼" },
           { href: "/housing", label: "Housing", emoji: "🏠" },
         ],

@@ -106,3 +106,30 @@ def test_written_file_validates(tmp_path):
     text = path.read_text()
     assert text.startswith('{\n  "published_at"')
     assert text.endswith("\n")
+
+
+def test_escalation_rows_carry_trail_and_moves(tmp_path):
+    ppi = {f"{2024 + (m - 1) // 12}-{(m - 1) % 12 + 1:02d}-01": 200.0 + m for m in range(1, 33)}
+    conn = _store_with(tmp_path, {
+        "PPIACO": ppi,                                   # 2024-01 .. 2026-08
+        "GSCPI": {"2025-09-01": 0.5, "2026-06-01": 1.0, "2026-09-01": 1.28},
+        "ECIALLCIV": {"2025-04-01": 170.0, "2026-01-01": 174.0, "2026-04-01": 175.75},
+        "MICH": {"2026-08-01": 4.0},
+        "B235RC1Q027SBEA": {"2025-04-01": 100.0, "2026-01-01": 300.0, "2026-04-01": 320.0},
+        "A255RC1Q027SBEA": {"2025-04-01": 4000.0, "2026-01-01": 4000.0, "2026-04-01": 4000.0}})
+    rows = {r["code"]: r for g in matrix.build(conn)["groups"] for r in g["rows"]}
+    p = rows["PPIACO"]
+    assert len(p["trail"]["dates"]) == 24 and p["trail"]["dates"][-1] == "2026-08-01"
+    assert p["trail"]["values"][-1] == 232.0
+    assert p["chg_unit"] == "%"
+    assert p["chg_3m"] == 1.31                         # 232/229
+    assert p["chg_12m"] == p["value"] == 5.45          # 232/220
+    g = rows["GSCPI"]                                  # a score moves in points
+    assert (g["chg_unit"], g["chg_3m"], g["chg_12m"]) == ("pts", 0.28, 0.78)
+    e = rows["ECIALLCIV"]                              # quarterly: one quarter back
+    assert (e["chg_3m"], e["chg_12m"]) == (1.01, 3.38)
+    t = rows["B235RC1Q027SBEA/A255RC1Q027SBEA"]        # 2.5% -> 7.5% -> 8.0%
+    assert (t["chg_unit"], t["chg_3m"], t["chg_12m"]) == ("pp", 0.5, 5.5)
+    assert "trail" not in rows["MICH"]                 # not an escalation input
+    path = matrix.write(matrix.build(conn), tmp_path / "out", "2026-10-08T12:00:00Z")
+    validate.validate_file(path, SCHEMA)

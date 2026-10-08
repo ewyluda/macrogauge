@@ -1,25 +1,22 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import nowcastJson from "../../../public/data/nowcast_latest.json";
+import Link from "next/link";
 import pulseJson from "../../../public/data/pulse.json";
 import officialJson from "../../../public/data/official.json";
 import matrixJson from "../../../public/data/matrix.json";
-import { KpiCard } from "@/components/KpiCard";
 import { DownloadData } from "@/components/DownloadData";
-import { ForecastHero } from "@/components/ForecastHero";
+import { TailSpark } from "@/components/TailSpark";
 import { fmtDay, fmtMonth } from "@/lib/format";
-import type { Nowcast, Matrix } from "@/lib/types";
+import type { Matrix, MatrixRow } from "@/lib/types";
 import { BREADTH_LATEST } from "@/components/BreadthPanel";
 import { LinesChart } from "@/components/LinesChart";
 import { C } from "@/lib/chartTheme";
 
 export const metadata: Metadata = {
-  title: "Inflation Matrix — every measure, one table",
+  title: "Inflation Matrix — escalation inputs and every measure",
   description:
-    "Our daily gauge, the official prints, and the underlying/expectations measures the Fed watches — CPI, PCE and NFP nowcasts on top, side by side.",
+    "The cost inputs construction escalation clauses index to — PPI, import prices, the tariff rate, employment costs — with 24-month trails, then every underlying and expected inflation measure in one table.",
 };
-
-const nowcast = nowcastJson as Nowcast;
 const pulse = pulseJson as {
   gauge: { yoy_pct: number; as_of: string };
   tracker: { yoy_pct: number; as_of: string };
@@ -41,6 +38,17 @@ type Row = {
   cadence: string;
 };
 type Section = { group: string; rows: Row[] };
+
+// escalation inputs lead the page (scorecard session 4): PPI, imports, the
+// tariff rate and employment costs first, then the rest of the pipeline
+// group; every other group stays in the measures table below
+const ESCALATION_GROUPS = ["PIPELINE", "LABOR COSTS"];
+const ESCALATION_ORDER = ["PPIACO", "IREXPETCOM", "CHNTOT", "B235RC1Q027SBEA/A255RC1Q027SBEA", "ECIALLCIV", "ULCNFB"];
+const rank = (code: string) => (ESCALATION_ORDER.indexOf(code) + 1 || ESCALATION_ORDER.length + 1);
+const INPUTS: MatrixRow[] = matrix.groups
+  .filter((g) => ESCALATION_GROUPS.includes(g.group))
+  .flatMap((g) => g.rows)
+  .sort((a, b) => rank(a.code) - rank(b.code));
 
 const SECTIONS: Section[] = [
   {
@@ -69,7 +77,7 @@ const SECTIONS: Section[] = [
         unit: "% YoY", as_of: official.headline.core.month, cadence: "monthly" },
     ],
   },
-  ...matrix.groups.map((g) => ({
+  ...matrix.groups.filter((g) => !ESCALATION_GROUPS.includes(g.group)).map((g) => ({
     group: g.group,
     rows: g.rows.map((r) => ({
       label: r.label, value: r.value, unit: r.unit,
@@ -77,6 +85,69 @@ const SECTIONS: Section[] = [
     })),
   })),
 ];
+
+function fmtChg(v: number | null | undefined, unit: MatrixRow["chg_unit"]): string {
+  if (v == null) return "—";
+  const sign = v > 0 ? "+" : v < 0 ? "−" : "";
+  return `${sign}${Math.abs(v).toFixed(2)}${unit === "%" ? "%" : unit === "pp" ? "pp" : ""}`;
+}
+
+/** an index row's 12-month change is its YoY; before the 2026-10-08 fields
+ *  publish, fall back to the computed YoY the row already carries */
+function chg12(r: MatrixRow): number | null {
+  if (r.chg_12m !== undefined) return r.chg_12m;
+  return r.unit.startsWith("% YoY") ? r.value : null;
+}
+
+function takeaway(): string | null {
+  const by = (code: string) => INPUTS.find((r) => r.code === code);
+  const ppi = by("PPIACO");
+  const eci = by("ECIALLCIV");
+  const p12 = ppi ? chg12(ppi) : null;
+  const e12 = eci ? chg12(eci) : null;
+  if (p12 == null || e12 == null) return null;
+  const p3 = ppi?.chg_3m;
+  return `Producer prices are ${fmtChg(p12, "%")} over 12 months${p3 != null ? ` (${fmtChg(p3, "%")} in the last three)` : ""}; employment costs ${fmtChg(e12, "%")}.`;
+}
+
+function EscalationInputs() {
+  const lead = takeaway();
+  return (
+    <div className="section" id="inputs">
+      <h2 style={{ fontSize: 18, margin: "0 0 4px" }}>Construction &amp; escalation inputs</h2>
+      {lead && <p className="lede" data-testid="inputs-takeaway" style={{ marginTop: 0 }}>{lead}</p>}
+      <div className="table-card">
+        <table className="data-table" data-testid="escalation-inputs">
+          <thead>
+            <tr><th>Input</th><th>3-month</th><th>12-month</th><th>Last 24 months</th><th>As of</th></tr>
+          </thead>
+          <tbody>
+            {INPUTS.map((r) => (
+              <tr key={r.code}>
+                <td>{r.label}
+                  {r.chg_unit !== "%" && r.value != null && !r.unit.startsWith("% YoY") && (
+                    <small style={{ display: "block", color: "var(--muted)" }}>now {r.value.toFixed(2)} {r.unit}</small>)}
+                </td>
+                <td>{fmtChg(r.chg_3m, r.chg_unit)}</td>
+                <td>{fmtChg(chg12(r), r.chg_unit ?? "%")}</td>
+                <td>{r.trail ? <TailSpark tail={r.trail.values} stroke="var(--accent-sky)" label={r.label} /> : "—"}</td>
+                <td>{r.as_of ? fmtMonth(r.as_of) : "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="method">
+        The series construction escalation clauses most often index to. An index (PPI, import prices, the
+        Employment Cost Index, unit labor costs) moves in percent of its level; the supply-chain pressure index
+        moves in points and the effective tariff rate in percentage points. Quarterly series step one quarter for
+        the 3-month change. The trail is the raw level over the last 24 months, not its year-over-year rate. Build
+        materials and equipment PPIs are on <Link href="/commodities">Build Inputs</Link>; construction wages and openings
+        on <Link href="/labor#construction">Labor</Link>.
+      </p>
+    </div>
+  );
+}
 
 function MeasureRows({ section }: { section: Section }) {
   const out: ReactNode[] = [
@@ -110,48 +181,30 @@ function MeasureRows({ section }: { section: Section }) {
 }
 
 export default function Matrix() {
-  const nfp = nowcast.nfp;
   return (
     <div>
       <h1>
-        Inflation Matrix <span className="subtitle">models × targets</span>
+        Inflation Matrix <span className="subtitle">escalation inputs, then every measure</span>
       </h1>
-      <ForecastHero />
       <div className="section-tools">
         <DownloadData filename="macrogauge-matrix" json="matrix.json"
           citation={`MacroGauge inflation matrix, published ${matrix.published_at}`}
-          rows={SECTIONS.flatMap((s) => s.rows.map((r) => ({ group: s.group, ...r })))} />
+          rows={[
+            ...INPUTS.map((r) => ({ group: "ESCALATION INPUTS", label: r.label, value: r.value, unit: r.unit, as_of: r.as_of,
+              cadence: r.cadence, chg_3m: r.chg_3m ?? null, chg_12m: chg12(r), chg_unit: r.chg_unit ?? null })),
+            ...SECTIONS.flatMap((s) => s.rows.map((r) => ({ group: s.group, ...r }))),
+          ]} />
       </div>
-      <div className="kpi-row">
-        <KpiCard
-          label="CPI bridge"
-          value={nowcast.cpi.mom_pct == null ? "—" : `${nowcast.cpi.mom_pct.toFixed(2)}%`}
-          context={`${nowcast.reference_month ?? "TBA"} MoM · ${nowcast.cpi.status.toUpperCase()}`}
-          accent="sky"
-        />
-        <KpiCard
-          label="PCE bridge"
-          value={nowcast.pce.mom_pct == null ? "—" : `${nowcast.pce.mom_pct.toFixed(2)}%`}
-          context={`${nowcast.pce.reference_month ?? nowcast.reference_month ?? "TBA"} MoM · ${nowcast.pce.parameters.observations ?? "—"} rolling observations`}
-          accent="violet"
-        />
-        <KpiCard
-          label="NFP"
-          value={nfp ? `${nfp.change_thousands}k` : "—"}
-          context={nfp ? "payroll momentum − claims delta" : "awaiting sufficient history"}
-          accent="emerald"
-        />
-      </div>
-
+      <EscalationInputs />
       <div className="section">
         <h2 style={{ fontSize: 18, margin: "0 0 4px" }}>Every inflation measure</h2>
         <p className="method" style={{ marginTop: 0 }}>
           Our daily gauge and tracker, the official CPI prints, the Fed&apos;s
-          underlying-inflation cuts, pipeline pressure, and market expectations —
-          one table, each with its own as-of and cadence. Values are shown
-          verbatim from source except the pipeline price indexes, which are computed
-          year-over-year off a raw index level, and the effective tariff rate, which is
-          customs duties divided by goods imports.
+          underlying-inflation cuts, market and survey expectations, and the euro
+          area — one table, each with its own as-of and cadence. Values are shown
+          verbatim from source except rows marked computed, which are
+          year-over-year off a raw index level. Next-print nowcasts are on{" "}
+          <Link href="/cpi-preview">CPI Preview</Link>, <Link href="/pce">PCE</Link> and <Link href="/labor">Labor</Link>.
         </p>
         <div className="table-card">
           <table className="data-table">

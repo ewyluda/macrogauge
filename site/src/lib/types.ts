@@ -146,6 +146,12 @@ export type MatrixRow = {
   unit: string;
   as_of: string | null;
   cadence: string;
+  /** escalation-input rows only (PIPELINE, LABOR COSTS), 2026-10-08+:
+   *  3- and 12-month change in chg_unit, and the raw level's last 24 months */
+  chg_3m?: number | null;
+  chg_12m?: number | null;
+  chg_unit?: "%" | "pts" | "pp";
+  trail?: { dates: string[]; values: number[] };
 };
 export type MatrixTariffs = {
   as_of: string | null;
@@ -188,8 +194,14 @@ export type Labor = {
   unemployment: { rate: number | null; delta_1y_pp: number | null; as_of: string | null };
   claims: { initial: number | null; initial_4wk_avg: number | null; continued: number | null; as_of: string | null };
   wages: { ahe_yoy_pct: number | null; atlanta_wgt_pct: number | null; as_of: string | null };
+  /** construction band (USCONS, CES2000000003, JOLTS construction), 2026-10-08+ */
+  construction?: {
+    employment_k: number | null; mom_change_k: number | null; employment_yoy_pct: number | null; employment_as_of: string | null;
+    ahe: number | null; ahe_yoy_pct: number | null; private_ahe_yoy_pct: number | null; ahe_as_of: string | null;
+    openings_k: number | null; openings_1y_ago_k: number | null; openings_rate: number | null; openings_as_of: string | null;
+  };
   history: {
-    monthly: { months: string[]; payrolls_yoy_pct: (number | null)[]; unemployment_rate: (number | null)[] };
+    monthly: { months: string[]; payrolls_yoy_pct: (number | null)[]; unemployment_rate: (number | null)[]; construction_yoy_pct?: (number | null)[] };
     weekly: { dates: string[]; initial_claims: (number | null)[] };
   };
 };

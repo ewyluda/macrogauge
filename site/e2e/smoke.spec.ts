@@ -40,7 +40,7 @@ const ROUTES: [string, string][] = [
   ["/scoreboard", "Forecast Scoreboard"],
   // markers must be unique to the page body — nav/footer link labels appear
   // (hidden) on every page, so bare page names would resolve to those first
-  ["/matrix", "models × targets"],
+  ["/matrix", "escalation inputs, then every measure"],
   ["/gap", "where ours differs from BLS"],
   ["/pce", "the Fed's index, re-priced daily under BEA shares"],
   ["/rates", "The market benchmarks that financing a build is priced against"],
