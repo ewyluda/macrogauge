@@ -36,7 +36,6 @@ const ROUTES: [string, string][] = [
   ["/methodology", "generated from config + live validation"],
   ["/my-inflation", "the official basket isn"],
   ["/calculator", "The Since-Date Calculator"],
-  ["/real-wages", "Real Wage Tracker"],
   ["/cpi-preview", "Component receipts"],
   ["/scoreboard", "Forecast Scoreboard"],
   // markers must be unique to the page body — nav/footer link labels appear
@@ -62,7 +61,6 @@ const ROUTES: [string, string][] = [
   ["/outlook", "the next 12 months, component by component"],
   ["/cost-of-living", "the buy-in premium"],
   ["/states", "What it costs to build and run a data center, state by state"],
-  ["/metros", "the 50 largest metros, ranked by rent inflation"],
   ["/labor", "the jobs market, in receipts"],
   ["/commodities", "the AI data-center build-out is bidding for"],
   ["/capacity", "the gap is the whole point"],

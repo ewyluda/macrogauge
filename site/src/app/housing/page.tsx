@@ -11,6 +11,7 @@ import { columnsToRows } from "@/lib/csv";
 import { fmtMonth, fmtSigned, yoyColor } from "@/lib/format";
 import type { Housing, HousingMeasure } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
+import { MetroTable } from "@/components/MetroTable";
 
 const data = housingJson as Housing;
 const a = data.affordability;
@@ -98,9 +99,13 @@ export default function HousingPage() {
         </div>
         <p className="method">
           Case-Shiller and FHFA are indexes (level shown, YoY is the comparable number); Zillow values and rents are
-          dollars. Existing-home sales are a seasonally adjusted annual rate. Metro-level rents live on{" "}
-          <Link href="/metros">/metros</Link>; the marginal-buyer shelter variant is on <Link href="/cost-of-living">/cost-of-living</Link>.
+          dollars. Existing-home sales are a seasonally adjusted annual rate. Metro-level rents are{" "}
+          <a href="#metros">below</a>; the marginal-buyer shelter variant is on <Link href="/cost-of-living">/cost-of-living</Link>.
         </p>
+      </Section>
+
+      <Section title="By metro — rent and home value, 50 largest" id="metros">
+        <MetroTable />
       </Section>
     </div>
   );

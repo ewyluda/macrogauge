@@ -4,7 +4,7 @@ from pipeline.models import Observation
 from pipeline.publish import real_wages
 from pipeline.store import vintage
 
-WGT, AHE = real_wages.WGT, real_wages.AHE
+WGT, AHE, CONSTR = real_wages.WGT, real_wages.AHE, real_wages.CONSTR
 
 
 def _store_with(tmp_path, code_to_rows):
@@ -51,4 +51,16 @@ def test_empty_store_publishes_nulls_never_raises(tmp_path):
     assert p["kpis"] == {"wage_growth_pct": None, "wage_as_of": None,
                          "real_wage_growth_pct": None}
     assert p["series"] == {"months": [], "atlanta_wgt_yoy_pct": [],
-                           "ahe_yoy_pct": []}
+                           "ahe_yoy_pct": [], "construction_ahe_yoy_pct": []}
+
+
+def test_construction_trades_series_rides_the_same_month_grid(tmp_path):
+    conn = _store_with(tmp_path, {
+        WGT: {"2025-05-01": 4.0, "2026-05-01": 3.5},
+        AHE: {"2025-05-01": 30.00, "2026-05-01": 31.50},
+        CONSTR: {"2025-05-01": 38.00, "2026-05-01": 40.28, "2026-06-01": 41.0}})
+    s = real_wages.build(conn, _gauge())["series"]
+    # 40.28 / 38.00 - 1 = 6.0%; months stay the all-private grid
+    assert s["months"] == ["2025-05-01", "2026-05-01"]
+    assert s["construction_ahe_yoy_pct"] == [None, 6.0]
+

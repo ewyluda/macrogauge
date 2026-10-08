@@ -4,11 +4,26 @@ import nowcastJson from "../../../public/data/nowcast_latest.json";
 import nfpJson from "../../../public/data/accountability_nfp.json";
 import { KpiCard } from "@/components/KpiCard";
 import { LaborMonthlyChart, LaborClaimsChart } from "@/components/LaborCharts";
-import { fmtSigned, fmtMonth } from "@/lib/format";
+import { fmtSigned, fmtMonth, fmtPct } from "@/lib/format";
+import realWagesJson from "../../../public/data/real_wages.json";
+import pulse from "../../../public/data/pulse.json";
+import compare from "../../../public/data/compare.json";
+import { Section } from "@/components/Section";
+import { RaiseCalculator } from "@/components/RaiseCalculator";
+import { WageChart } from "@/components/WageChart";
 import type { Labor, Nowcast } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 
 const d = laborJson as Labor;
+// real-wage panel (was /real-wages, folded 2026-10-08); the construction
+// trades series is optional on older real_wages.json files
+const rw = realWagesJson as typeof realWagesJson & { series: { construction_ahe_yoy_pct?: (number | null)[] } };
+const real = (wagePct: number, inflPct: number) => ((1 + wagePct / 100) / (1 + inflPct / 100) - 1) * 100;
+function lastOf(months: string[], xs: (number | null)[] | undefined) {
+  if (!xs) return null;
+  for (let i = xs.length - 1; i >= 0; i--) if (xs[i] != null) return { v: xs[i] as number, month: months[i] };
+  return null;
+}
 const nowcast = nowcastJson as Nowcast;
 // accountability_nfp.graded is an array of graded prints (error = forecast −
 // actual, thousands); empty until the first NFP print grades after 2026-07.
@@ -68,6 +83,8 @@ export default function LaborPage() {
         <LaborClaimsChart dates={w.dates} initialClaims={w.initial_claims} />
       </div>
 
+      <RealWagePanel />
+
       <div className="section">
         <h2 style={{ fontSize: 18, margin: "0 0 4px" }}>Next jobs report</h2>
         <div className="kpi-row">
@@ -90,3 +107,42 @@ export default function LaborPage() {
     </div>
   );
 }
+
+function RealWagePanel() {
+  const k = rw.kpis;
+  const constr = lastOf(rw.series.months, rw.series.construction_ahe_yoy_pct);
+  const constrReal = constr ? real(constr.v, pulse.gauge.yoy_pct) : null;
+  return (
+    <Section title="Real wages — pay against inflation" id="real-wages">
+      <div className="kpi-row">
+        <KpiCard label="Wage growth (Atlanta Fed)" value={k.wage_growth_pct == null ? "—" : fmtPct(k.wage_growth_pct)}
+          context={`median, 3mo MA · ${k.wage_as_of ? fmtMonth(k.wage_as_of) : "—"}`} accent="emerald" />
+        <KpiCard label="Inflation right now" value={fmtPct(pulse.gauge.yoy_pct)}
+          context={`macrogauge, daily · ${pulse.gauge.as_of}`} accent="amber" />
+        <KpiCard label="Real wage growth" value={k.real_wage_growth_pct == null ? "—" : fmtPct(k.real_wage_growth_pct)}
+          context={`${k.wage_as_of ? fmtMonth(k.wage_as_of) : "—"} wages deflated by ${pulse.gauge.as_of} inflation — mixed periods`}
+          accent={k.real_wage_growth_pct != null && k.real_wage_growth_pct < 0 ? "red" : "emerald"} />
+        {constr && constrReal != null && (
+          <KpiCard label="Construction trades, real" value={fmtPct(constrReal)}
+            context={`hourly earnings ${fmtSigned(constr.v)} YoY (${fmtMonth(constr.month)}) against ${fmtPct(pulse.gauge.yoy_pct)} inflation`}
+            accent={constrReal < 0 ? "red" : "sky"} />
+        )}
+      </div>
+      <div className="chart-card" style={{ padding: "12px 8px 4px" }}>
+        <WageChart months={rw.series.months} wgt={rw.series.atlanta_wgt_yoy_pct} ahe={rw.series.ahe_yoy_pct}
+          construction={rw.series.construction_ahe_yoy_pct} gaugeMonths={compare.months} gaugeYoy={compare.gauge_yoy_pct} />
+      </div>
+      <details className="inv-details" data-testid="raise-calculator">
+        <summary>Check your own raise, in real terms</summary>
+        <RaiseCalculator gaugeYoy={pulse.gauge.yoy_pct} officialYoy={pulse.official.yoy_pct} officialMonth={pulse.official.month} />
+      </details>
+      <p className="method">
+        When a wage line sits above the amber gauge, pay is beating prices. Atlanta Fed Wage Growth Tracker (unweighted
+        median, 3-month moving average, same-person wages); BLS average hourly earnings for all private workers and for
+        construction (CES2000000003), the trades the data-center build-out competes for. Real change = (1 + wage growth)
+        ÷ (1 + inflation) − 1, mixing each wage series&apos; latest month with today&apos;s gauge.
+      </p>
+    </Section>
+  );
+}
+
