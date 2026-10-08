@@ -123,6 +123,8 @@ const ET_KEY = new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York", 
 /** "6:36 PM" in New York — deterministic on server and client (no hydration drift). */
 export const etTime = (iso: string) => ET_TIME.format(new Date(iso));
 export const etDay = (iso: string) => ET_DAY.format(new Date(iso));
+/** "2026-10-07": the New York calendar day of an instant, sortable. */
+export const etDayKey = (iso: string) => ET_KEY.format(new Date(iso));
 
 /** Items grouped under the New York calendar day of `ts(item)`, in input
  *  order (newest first in, newest day first out). */

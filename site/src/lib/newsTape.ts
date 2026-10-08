@@ -1,4 +1,4 @@
-import type { NewsPost } from "./news";
+import { etDayKey, type NewsPost } from "./news";
 
 /** Editorial pass over the AI-infra news tape, applied in the browser to
  *  whichever feed the page shows (the baked snapshot or the live object), so
@@ -42,6 +42,10 @@ const ROUNDUP_LIST = /\b(top (semiconductor )?picks?|buy-rated stocks|upgrades, 
 // companies — "Vertiv stock rose 8% after a 1 GW order" is a story.
 const MARKET_MOVE = /\b(premarket|stocks? (rose|fell|gained|declined)|shares? (rose|fell|gained|declined))\b/i;
 const CASHTAG = /\$[A-Z]{1,6}\b/g;
+// What a company DOES in a short flash: a deal or build verb (reversals are
+// REVERSAL, below). With a capitalised first word and no list punctuation,
+// a headline like "Nvidia halts chip shipments" names a subject and an act.
+const ACTION = /\b(?:sign\w*|acquir\w*|buy\w*|bought|rais\w*|cut\w*|win\w*|won|launch\w*|open\w*|expand\w*|announc\w*|invest\w*|plan\w*|build\w*|built|order\w*|agree\w*|partner\w*|deliver\w*|ship\w*|award\w*)\b/i;
 
 /** Why a post is not a story, or null when it is one. */
 export function noiseReason(p: NewsPost): "options flow" | "recap" | "roundup" | "stub" | null {
@@ -56,7 +60,12 @@ export function noiseReason(p: NewsPost): "options flow" | "recap" | "roundup" |
   // that does ("Micron raises HBM guidance") is a story.
   // The same test applies to headline-only posts, so a short wire flash that
   // names a company and an action ("NVIDIA HALTS GPU SHIPMENTS") stays.
-  const namesSomething = /\d|\$[A-Z]/.test(h) || words.slice(1).some((w) => /^[A-Z]/.test(w));
+  // A sentence-case flash ("Microsoft cancels nuclear power agreement") has
+  // its only proper noun FIRST, so it also counts when the first word is
+  // capitalised, the headline is not a comma/ampersand list (section titles
+  // are) and it states an action (audit F6).
+  const subjectActs = /^[A-Z]/.test(words[0] ?? "") && !/[,&]/.test(h) && (REVERSAL.test(h) || ACTION.test(h));
+  const namesSomething = /\d|\$[A-Z]/.test(h) || words.slice(1).some((w) => /^[A-Z]/.test(w)) || subjectActs;
   if (!namesSomething && (words.length < 5 || (p.points.length === 0 && words.length < 8))) return "stub";
   return null;
 }
@@ -200,8 +209,21 @@ function jaccard(a: Set<string>, b: Set<string>): number {
  *  per pair: clustering is O(n²) and reruns on every live refresh. */
 type Features = {
   t: number; tickers: Set<string>; noise: boolean; figs: Set<string>; words: Set<string>;
-  capacity: Set<number>; dollars: Set<number>;
+  capacity: Set<number>; dollars: Set<number>; places: Set<string>;
 };
+
+/** The places a prose headline sites its story at: the capitalised word after
+ *  "in", "at", "near" or "outside" ("… data center in Texas"), lower-cased.
+ *  Only prepositional places, never every capitalised word: a rewrite that
+ *  adds a counterparty or a wire credit is still the same event. A capitals
+ *  flash or Title Case headline capitalises its prepositions, so it yields
+ *  none and never vetoes. */
+const PLACE = /\b(?:in|at|near|outside)\s+(?:the\s+)?([A-Z][A-Za-z\u2019'.-]+)/g;
+function places(p: NewsPost): Set<string> {
+  return new Set([...p.headline.matchAll(PLACE)]
+    .map((m) => m[1].replace(/[\u2019']s$/i, "").replace(/[^A-Za-z]/g, "").toLowerCase())
+    .filter((w) => w.length >= 3));
+}
 function features(p: NewsPost): Features {
   const fs = figures(p);
   return {
@@ -212,9 +234,13 @@ function features(p: NewsPost): Features {
     words: words(p),
     capacity: new Set(fs.filter((f) => f.kind === "capacity").map((f) => f.value)),
     dollars: new Set(fs.filter((f) => f.kind === "dollars").map((f) => f.value)),
+    places: places(p),
   };
 }
 const disjoint = (a: Set<number>, b: Set<number>) => a.size > 0 && b.size > 0 && ![...a].some((v) => b.has(v));
+/** Both headlines site their story and at no shared place: different events,
+ *  whatever company, figure and verbs they share. */
+const differentPlaces = (a: Set<string>, b: Set<string>) => a.size > 0 && b.size > 0 && ![...a].some((n) => b.has(n));
 
 /** Cheapest test first: time window, shared ticker, noise, then figures and
  *  wording. A recap or roundup shares tickers and figures with everything; it
@@ -228,6 +254,9 @@ function sameStoryF(a: Features, b: Features): boolean {
   for (const t of b.tickers) if (a.tickers.has(t)) { shared = true; break; }
   if (!shared || a.noise || b.noise) return false;
   if (disjoint(a.capacity, b.capacity) || disjoint(a.dollars, b.dollars)) return false;
+  // "500 MW data center in Texas" vs "… in Finland": matching company, figure
+  // and generic verbs never override two different named places (audit F7)
+  if (differentPlaces(a.places, b.places)) return false;
   const overlap = jaccard(a.words, b.words);
   for (const k of b.figs) if (a.figs.has(k)) return overlap >= 0.15;
   return overlap >= 0.3;
@@ -295,13 +324,17 @@ export function topFigures(stories: Story[], kind: Figure["kind"], n: number): {
     if (first) rows.push({ story: s, figure: first });
   }
   rows.sort((a, b) => b.figure.value - a.figure.value);
-  // The same figure for the same company is the same deal reported twice,
-  // even when the two reports didn't fold into one story (Broadcom's $60B
-  // package on Oct 2 and Oct 5): show it once, at its newest story.
+  // The same figure for the same company on DIFFERENT New York days is one
+  // deal reported twice, even when the reports didn't fold into one story
+  // (Broadcom's $60B package on Oct 2 and Oct 5): show it once, at its newest
+  // story. On the same day, two stories the clustering kept apart are two
+  // deals, equal size or not (audit F8; plan D10).
   const out: typeof rows = [];
   for (const r of rows) {
     const tickers = new Set(storyTickers(r.story).map((t) => t.ticker));
-    const dupe = out.find((o) => o.figure.value === r.figure.value && storyTickers(o.story).some((t) => tickers.has(t.ticker)));
+    const day = etDayKey(r.story.latest);
+    const dupe = out.find((o) => o.figure.value === r.figure.value && etDayKey(o.story.latest) !== day &&
+      storyTickers(o.story).some((t) => tickers.has(t.ticker)));
     if (!dupe) out.push(r);
     else if (r.story.latest > dupe.story.latest) out[out.indexOf(dupe)] = r;
     if (out.length === n) break;
