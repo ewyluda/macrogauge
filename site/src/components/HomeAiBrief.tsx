@@ -4,21 +4,11 @@ import computeJson from "../../public/data/compute.json";
 import capacityJson from "../../public/data/capacity.json";
 import ratesJson from "../../public/data/rates.json";
 import { artifact } from "@/lib/artifact";
-import { dcTakeaway } from "@/lib/homeBrief";
-import { fmtDay, fmtMonth, fmtPp, fmtSigned } from "@/lib/format";
+import { dcTakeaway, homeReadings } from "@/lib/homeBrief";
+import { fmtDay, fmtSigned } from "@/lib/format";
 import { KpiCard } from "./KpiCard";
 import { TailSpark } from "./TailSpark";
 
-type Reading = {
-  key: string;
-  href: string;
-  label: string;
-  value: string;
-  context: string;
-  spark?: (number | null)[];
-};
-
-const gw = (mw: number) => (mw / 1000).toFixed(1);
 // price-level trails: a neutral stroke, since yoyColor reads a level as a rate
 const SPARK = "var(--accent-sky)";
 
@@ -41,59 +31,7 @@ export function HomeAiBrief() {
       })
     : null;
 
-  const readings: Reading[] = [];
-  const pjm = dc.power?.hubs.find((h) => h.code === "ice_pjm_west");
-  if (pjm?.avg30 != null) {
-    readings.push({
-      key: "power", href: "/power", label: "Power · PJM West",
-      value: `$${pjm.avg30.toFixed(2)}/MWh`,
-      context: `30-day avg · ${fmtSigned(pjm.avg30_yoy_pct ?? null)} vs a year ago`,
-      spark: (pjm.spark ?? []).map((p) => (typeof p[1] === "number" ? p[1] : null)),
-    });
-  }
-  const h100 = compute.gpus.find((g) => g.code === "vast_h100_sxm");
-  if (h100?.usd_per_gpu_hr != null) {
-    readings.push({
-      key: "gpu", href: "/compute", label: "GPU-hour · H100",
-      value: `$${h100.usd_per_gpu_hr.toFixed(2)}/hr`,
-      context: `vast.ai median · ${fmtSigned(h100.chg_30d_pct)} in 30 days`,
-      spark: h100.tail.values,
-    });
-  }
-  const all = capacity.cohorts.all;
-  if (all) {
-    readings.push({
-      key: "capacity", href: "/capacity", label: "AI capacity",
-      value: `${gw(all.op)} GW live`,
-      context: `of ${gw(all.op + all.con + all.plan)} GW tracked across ${all.companies} companies`,
-    });
-  }
-  const spend = dc.construction;
-  if (spend) {
-    readings.push({
-      key: "construction", href: "/datacenter#dc-construction", label: "DC construction spend",
-      value: `$${(spend.latest_saar / 1000).toFixed(1)}B/yr`,
-      context: `${fmtSigned(spend.yoy_pct)} YoY · Census · ${fmtMonth(spend.as_of)}`,
-      spark: spend.saar.slice(-36),
-    });
-  }
-  const switchgear = build?.components.find((c) => c.code === "switchgear");
-  if (switchgear?.yoy_pct != null) {
-    readings.push({
-      key: "switchgear", href: "/longlead", label: "Switchgear prices",
-      value: `${fmtSigned(switchgear.yoy_pct)} YoY`,
-      context: `PPI · ${fmtMonth(switchgear.last_obs)} · long-lead package`,
-    });
-  }
-  const t10 = rates.curve.find((c) => c.code === "DGS10");
-  if (t10?.value != null) {
-    readings.push({
-      key: "rates", href: "/rates", label: "Cost of capital · 10y",
-      value: `${t10.value.toFixed(2)}%`,
-      context: `${fmtPp(t10.chg_1y_pp)} in a year${t10.as_of ? ` · ${fmtDay(t10.as_of)}` : ""}`,
-      spark: rates.history.dgs10.slice(-260),
-    });
-  }
+  const readings = homeReadings(dc, compute, capacity, rates);
 
   return (
     <section className="home-track" id="ai-infrastructure" aria-labelledby="home-ai-title">

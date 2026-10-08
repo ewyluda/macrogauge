@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import dc from "../../public/data/datacenter.json";
-import { dcTakeaway, moveWords } from "./homeBrief";
+import { dcTakeaway, homeReadings, moveWords } from "./homeBrief";
+import dcJson from "../../public/data/datacenter.json";
+import computeJson from "../../public/data/compute.json";
+import capacityJson from "../../public/data/capacity.json";
+import ratesJson from "../../public/data/rates.json";
+import { artifact } from "./artifact";
 
 describe("moveWords", () => {
   it("rounds before choosing a direction", () => {
@@ -50,5 +55,34 @@ describe("dcTakeaway", () => {
     const s = dcTakeaway({ build: b.headline_yoy_pct, ops: dc.indexes.ops.headline_yoy_pct,
       hardware: dc.indexes.hardware.headline_yoy_pct, comps: b.components })!;
     expect(s).toContain(moveWords(b.headline_yoy_pct));
+  });
+});
+
+describe("homeReadings (audit F3)", () => {
+  const dc = artifact("datacenter", dcJson);
+  const compute = artifact("compute", computeJson);
+  const capacity = artifact("capacity", capacityJson);
+  const rates = artifact("rates", ratesJson);
+  const by = (rs: ReturnType<typeof homeReadings>, key: string) => rs.find((r) => r.key === key)!;
+
+  it("dates the PJM card to its own window end, not the homepage publish", () => {
+    const pjm = dc.power!.hubs.find((h) => h.code === "ice_pjm_west")!;
+    const shifted = { ...dc, power: { ...dc.power!, hubs: dc.power!.hubs.map((h) =>
+      h.code === "ice_pjm_west" ? { ...h, asof: "2026-09-29", avg30: 85.72, avg30_yoy_pct: 61.9 } : h) } };
+    expect(pjm).toBeDefined();
+    expect(by(homeReadings(shifted, compute, capacity, rates), "power").context)
+      .toBe("30-day avg to Sep 29, 2026 · +61.9% vs a year ago");
+  });
+
+  it("marks a stale GPU quote stale, with its date and no recent-period change", () => {
+    const gpus = compute.gpus.map((g) => g.code === "vast_h100_sxm"
+      ? { ...g, usd_per_gpu_hr: 2.18, as_of: "2026-09-01", chg_30d_pct: 36, stale: true } : g);
+    const stale = by(homeReadings(dc, { ...compute, gpus }, capacity, rates), "gpu").context;
+    expect(stale).toBe("vast.ai median · stale, as of Sep 1, 2026");
+    expect(stale).not.toContain("in 30 days");
+    const fresh = compute.gpus.map((g) => g.code === "vast_h100_sxm"
+      ? { ...g, usd_per_gpu_hr: 2.21, as_of: "2026-10-08", chg_30d_pct: 1.5, stale: false } : g);
+    expect(by(homeReadings(dc, { ...compute, gpus: fresh }, capacity, rates), "gpu").context)
+      .toBe("vast.ai median · +1.5% in 30 days · Oct 8, 2026");
   });
 });

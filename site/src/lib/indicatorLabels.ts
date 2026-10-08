@@ -45,3 +45,22 @@ export const INDICATOR_LABELS: Record<string, string> = {
 export function indicatorLabel(code: string): string {
   return INDICATOR_LABELS[code] ?? code;
 }
+
+/** How a composite input's published `value` reads. Percent-valued inputs
+ *  (rates, ratios, YoY growth) carry two decimals; counts are compacted.
+ *  Unlisted codes fall back to a two-decimal number, never a raw float. */
+const INDICATOR_UNITS: Record<string, "pct" | "count"> = {
+  DRCCLACBS: "pct", TERMCBCCALLNS: "pct", PSAVERT: "pct", TDSP: "pct",
+  REVOLSL: "pct", DRSFRMACBS: "pct", CCSA: "count", ICSA: "count",
+};
+
+/** 11.111439 -> "11.11%"; 1716000 -> "1.72M"; 1234.5678 -> "1,234.57" */
+export function fmtIndicatorValue(code: string, value: number): string {
+  const unit = INDICATOR_UNITS[code];
+  if (unit === "pct") return `${value.toFixed(2)}%`;
+  if (unit === "count") {
+    return value >= 1e6 ? `${(value / 1e6).toFixed(2)}M`
+      : value >= 1e3 ? `${(value / 1e3).toFixed(0)}K` : `${Math.round(value)}`;
+  }
+  return value.toLocaleString("en-US", { maximumFractionDigits: 2 });
+}

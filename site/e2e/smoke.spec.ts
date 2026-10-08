@@ -3,7 +3,10 @@ import qa from "../public/data/qa.json";
 import gaugeDaily from "../public/data/gauge_daily.json";
 import dc from "../public/data/datacenter.json";
 import pulse from "../public/data/pulse.json";
-import { dcTakeaway } from "../src/lib/homeBrief";
+import { dcTakeaway, homeReadings } from "../src/lib/homeBrief";
+import { artifact } from "../src/lib/artifact";
+import capacityJson from "../public/data/capacity.json";
+import ratesJson from "../public/data/rates.json";
 import { fmtSigned } from "../src/lib/format";
 import news from "../public/data/news.json";
 import compute from "../public/data/compute.json";
@@ -235,6 +238,13 @@ test("homepage leads with the AI-infrastructure track, written from the publishe
   // every reading is a link into an AI Infra page
   for (const href of ["/compute", "/capacity", "/longlead", "/rates"]) {
     await expect(page.getByTestId("ai-pulse").locator(`a[href="${href}"]`)).toHaveCount(1);
+  }
+  // each reading carries its own date (audit F3): the rendered cards are
+  // exactly homeReadings() over the committed artifacts
+  const readings = homeReadings(artifact("datacenter", dc), artifact("compute", compute),
+    artifact("capacity", capacityJson), artifact("rates", ratesJson));
+  for (const r of readings) {
+    await expect(page.getByTestId("ai-pulse").locator(`a[href="${r.href}"]`)).toContainText(r.context);
   }
   await expect(page.getByTestId("inflation-takeaway")).toContainText(`Macrogauge reads ${pulse.gauge.yoy_pct.toFixed(2)}%`);
 });

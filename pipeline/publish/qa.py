@@ -51,6 +51,15 @@ _PHASE_DONE = {"nowcast": "nowcast completed",
 CALENDAR_HORIZON_MIN = 45  # days of scheduled CPI releases still ahead
 
 
+def _num(x, nd: int) -> str:
+    """A check detail's number as /status prints it: rounded, never a raw
+    float repr (yoy=3.3965478924364856); a non-finite or missing value is
+    shown as itself, since that is what the check reports."""
+    if x is None:
+        return "None"
+    return f"{x:.{nd}f}" if math.isfinite(x) else str(x)
+
+
 def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                freshness: list[dict] | None = None, gauge: dict | None = None,
                engine_error: str | None = None, fuel_divergence: dict | None = None,
@@ -79,7 +88,7 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
             {"name": "yoy_finite", "critical": True,
              "pass": math.isfinite(cpi["yoy_pct"])
                      and math.isfinite(cpi["prev_yoy_pct"]),
-             "detail": f"yoy={cpi['yoy_pct']} prev={cpi['prev_yoy_pct']}"},
+             "detail": f"yoy={_num(cpi['yoy_pct'], 2)} prev={_num(cpi['prev_yoy_pct'], 2)}"},
         ]
     else:
         detail = (f"engine failed: {engine_error}" if engine_error
@@ -231,8 +240,9 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                            "detail": f"CPI nowcast as-of {nowcast['cpi']['as_of']}"})
             checks.append({"name": "ensemble_computed", "critical": False,
                            "pass": nowcast["ensemble"]["value"] is not None,
-                           "detail": f"ensemble={nowcast['ensemble']['value']} "
-                                     f"weights={nowcast['ensemble']['weights']}"})
+                           "detail": f"ensemble={_num(nowcast['ensemble']['value'], 2)} weights: "
+                                     + ", ".join(f"{k} {w * 100:.0f}%" for k, w in
+                                                 (nowcast['ensemble']['weights'] or {}).items())})
     if gauge is not None:
         gauge_age = (date.fromisoformat(today)
                      - date.fromisoformat(gauge["as_of"])).days
@@ -250,17 +260,17 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                                     if gated else "")})
         checks.append({"name": "basket_weights_sum", "critical": True,
                        "pass": abs(gauge["weights_sum"] - 1.0) <= 1e-9,
-                       "detail": f"sum(weights) = {gauge['weights_sum']}"})
+                       "detail": f"sum(weights) = {_num(gauge['weights_sum'], 4)}"})
         checks.append({"name": "gauge_coverage", "critical": False,
                        "pass": gauge["coverage_pct"] >= GAUGE_COVERAGE_FLOOR,
                        "detail": f"gauge live coverage "
-                                 f"{gauge['coverage_pct']}% "
+                                 f"{_num(gauge['coverage_pct'], 1)}% "
                                  f"(floor {GAUGE_COVERAGE_FLOOR:g}: shelter + fuel + used cars; EIA utilities count only while they extend past the BLS print)"})
         corr = gauge["tracker_corr"]
         checks.append({"name": "tracker_corr", "critical": False,
                        "pass": corr is not None and corr >= 0.95,
                        "detail": f"tracker monthly-YoY corr vs official = "
-                                 f"{corr} (floor 0.95)"})
+                                 f"{_num(corr, 3)} (floor 0.95)"})
     return {"generated_at": today, "passed": sum(c["pass"] for c in checks),
             "total": len(checks), "checks": checks}
 

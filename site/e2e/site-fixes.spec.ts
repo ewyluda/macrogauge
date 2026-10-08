@@ -108,3 +108,24 @@ test("component sources table shows each series' own latest obs, not the whole s
   await expect(row).toContainText(own);
   await expect(page.locator("th", { hasText: "Series latest obs" })).toHaveCount(1);
 });
+
+test("trust pages print rounded values and readable stamps, never raw floats or ISO times", async ({ page, request }) => {
+  const RAW_FLOAT = /\d+\.\d{5,}/;
+  const ISO_TIME = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/;
+  for (const path of ["/stress", "/heatcheck"]) {
+    await page.goto(path);
+    const text = await page.locator("main").innerText();
+    expect(text, path).not.toMatch(RAW_FLOAT);
+    expect(text, path).not.toMatch(ISO_TIME);
+  }
+  // /status prints qa.json's check details verbatim: the pipeline rounds
+  // them (qa._num), so this holds from the first publish after the fix —
+  // value-driven, never skipped: a raw float still in the served artifact
+  // must still be the artifact's, not the page's
+  const qa = await (await request.get("/data/qa.json")).json() as { checks: { detail: string }[] };
+  const artifactRaw = qa.checks.some((c) => RAW_FLOAT.test(c.detail));
+  await page.goto("/status");
+  const status = await page.locator("main").innerText();
+  expect(status).not.toMatch(ISO_TIME);
+  if (!artifactRaw) expect(status).not.toMatch(RAW_FLOAT);
+});
