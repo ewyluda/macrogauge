@@ -17,7 +17,7 @@ const headline = siteCostsHeadline(data.states, nat);
 const quarter = (d: string | null) => (d ? `Q${Math.ceil(Number(d.slice(5, 7)) / 3)} ${d.slice(0, 4)}` : "—");
 
 export const metadata: Metadata = {
-  title: `Site Costs: ${headline ?? "industrial power, construction wages and more by state"}`,
+  title: `Site Costs: ${headline?.title ?? "industrial power, construction wages and more by state"}`,
   description:
     "Data-center site costs by state: EIA state-average industrial and residential electricity prices (a screening proxy, not a tariff), private construction wages, pump prices and unemployment for all 50 states and DC — the state series behind the data-center cost index.",
 };
@@ -35,7 +35,8 @@ export default function States() {
   return (
     <div>
       <div className="research-eyebrow">AI infrastructure · Site costs</div>
-      <h1>{headline ?? "Site Costs"}</h1>
+      <h1>{headline?.title ?? "Site Costs"}</h1>
+      {headline && <p className="ll-takeaway" data-testid="st-takeaway">{headline.detail}</p>}
       <p className="lede">
         What it costs to build and run a data center, state by state: the industrial power price,
         the private construction wage, and the residential power, pump-price and jobless context

@@ -100,6 +100,10 @@ export function ContextPanel({ context }: { context: ContextData }) {
             ))}
           </tbody>
         </table>
+      </div>
+      {/* notes sit below the card, on the page's text column (not flush
+          against the card border) */}
+      <div className="dc-peer-notes">
         <p className="method">
           Annual external calibration for a daily index. These peers do not measure the same
           thing we do — an em dash means the publisher printed no figure for that year, never a

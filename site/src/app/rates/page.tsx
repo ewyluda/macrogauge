@@ -23,13 +23,11 @@ const two = data.curve.find((r) => r.code === "DGS2");
 const s = data.spreads;
 const cr = data.credit;
 const sofr = data.funding?.sofr_30d;
+// one claim as the H1; the 10-year and the attribution window read as a takeaway line
 const headline = ratesHeadline(ten, cr.bbb_yield, cr.bbb_move);
-// the yields lead as the H1; the rates-vs-credit clause reads as a takeaway line
-const [h1Text, ...why] = (headline ?? "").split("; ");
-const whyText = why.length ? `${why.join("; ")[0].toUpperCase()}${why.join("; ").slice(1)}.` : null;
 
 export const metadata: Metadata = {
-  title: `Cost of Capital: ${headline ?? `10y ${pct(ten?.value ?? null)}, 2s10s ${fmtPp(s.s2s10s.value)}`}`,
+  title: `Cost of Capital: ${headline?.title ?? `10y ${pct(ten?.value ?? null)}, 2s10s ${fmtPp(s.s2s10s.value)}`}`,
   description:
     "The cost of capital for building AI infrastructure: the Treasury curve, investment-grade, BBB and high-yield spreads, BBB all-in yield, 30-day SOFR, breakevens, the dollar, Fed liquidity and the market-implied Fed path — daily FRED series.",
 };
@@ -108,8 +106,8 @@ export default function RatesPage() {
     <div>
       <StaleBanner publishedAt={ratesJson.published_at} />
       <div className="research-eyebrow">AI infrastructure · Cost of capital</div>
-      <h1>{h1Text || "Rates & Liquidity"}</h1>
-      {whyText && <p className="ll-takeaway" data-testid="rates-takeaway">{whyText}</p>}
+      <h1>{headline?.title ?? "Rates & Liquidity"}</h1>
+      {headline?.detail && <p className="ll-takeaway" data-testid="rates-takeaway">{headline.detail}</p>}
       <p className="lede">
         The market benchmarks that financing a build is priced against: the Treasury curve, the investment-grade
         and BBB corporate bond spreads and the BBB index&apos;s all-in yield, and 30-day average SOFR — plus
