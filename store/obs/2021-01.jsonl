@@ -25,3 +25,6 @@
 {"obs_date": "2020-12-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 269.8, "vintage_date": "2021-01-15"}
 {"obs_date": "2020-08-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 58.1, "vintage_date": "2021-01-15"}
 {"obs_date": "2020-12-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 58.1, "vintage_date": "2021-01-15"}
+{"obs_date": "2020-08-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 194.3, "vintage_date": "2021-01-15"}
+{"obs_date": "2020-12-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 200.6, "vintage_date": "2021-01-15"}
+{"obs_date": "2020-10-01", "route": "API", "series_code": "ECIALLCIV", "source": "ALFRED", "value": 142.4, "vintage_date": "2021-01-29"}

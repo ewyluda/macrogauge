@@ -12,3 +12,4 @@
 {"obs_date": "2025-09-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 159593.0, "vintage_date": "2025-12-16"}
 {"obs_date": "2025-10-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 159488.0, "vintage_date": "2025-12-16"}
 {"obs_date": "2025-11-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 159552.0, "vintage_date": "2025-12-16"}
+{"obs_date": "2025-07-01", "route": "API", "series_code": "ECIALLCIV", "source": "ALFRED", "value": 172.745, "vintage_date": "2025-12-10"}

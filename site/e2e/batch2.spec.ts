@@ -142,3 +142,26 @@ test("/calculator compares cost indexes since a bid month, rebased to 100", asyn
   await expect(rows).toHaveCount(2);
   await expect(page.locator(".chart-card canvas")).toHaveCount(1);
 });
+
+test("/cpi-preview leads with the call and the forecaster spread; receipts sort by |contribution|", async ({ page }) => {
+  await page.goto("/cpi-preview");
+  await expect(page.getByTestId("cpi-preview-takeaway")).toContainText(/CPI.*the forecasters average [+−]\d\.\d\d% on the month/);
+  await expect(page.getByTestId("forecaster-dots").locator(".fc-dots-dot").first()).toBeVisible();
+  const cells = page.locator("section", { hasText: "Component receipts" }).locator("tbody tr td:nth-child(4)");
+  const vals = (await cells.allInnerTexts()).map((t) => Math.abs(parseFloat(t.replace("−", "-"))));
+  expect(vals.length).toBeGreaterThan(1);
+  expect(vals).toEqual([...vals].sort((a, b) => b - a));
+});
+
+test("/outlook titles its chart with the takeaway and exports the component paths", async ({ page }) => {
+  await page.goto("/outlook");
+  await expect(page.locator("h2", { hasText: /^Inflation (climbs|rises|eases|holds) / })).toHaveCount(1);
+  const section = page.locator("section", { hasText: "Component paths" });
+  await section.locator("summary", { hasText: "Export data" }).click();
+  const [download] = await Promise.all([page.waitForEvent("download"), section.getByRole("button", { name: /CSV/ }).click()]);
+  expect(download.suggestedFilename()).toBe("macrogauge-outlook-component-paths.csv");
+  // the citation rides as a leading "#" comment line; the header follows
+  const lines = (await (await import("node:fs/promises")).readFile(await download.path(), "utf8")).split(/\r?\n/);
+  const head = lines.find((l) => !l.startsWith("#"));
+  expect(head).toBe("component,month,mom_pct,index");
+});

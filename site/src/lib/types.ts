@@ -782,13 +782,18 @@ export type RevisionIndexRow = { reference_period: string; first_value: number; 
 export type RevisionLevelRow = { reference_period: string; first_value: number; first_release_date: string; latest_value: number;
   latest_vintage: string | null; n_vintages: number; revision_k: number; change_first_k: number | null;
   change_latest_k: number | null; change_revision_k: number | null };
+export type RevisionIndexTarget = { code: string; kind: "index"; rows: RevisionIndexRow[]; summary: { n: number; n_revised: number; mean_abs_yoy_revision_pp: number | null; mean_revision: number | null } };
+export type RevisionLevelSummary = { n: number; n_revised: number; mean_abs_change_revision_k: number | null; mean_revision: number | null };
 export type Revisions = {
   published_at: string;
   window: number;
   targets: {
-    cpi: { code: string; kind: "index"; rows: RevisionIndexRow[]; summary: { n: number; n_revised: number; mean_abs_yoy_revision_pp: number | null; mean_revision: number | null } };
-    pce: { code: string; kind: "index"; rows: RevisionIndexRow[]; summary: { n: number; n_revised: number; mean_abs_yoy_revision_pp: number | null; mean_revision: number | null } };
-    nfp: { code: string; kind: "level_k"; rows: RevisionLevelRow[]; summary: { n: number; n_revised: number; mean_abs_change_revision_k: number | null; mean_revision: number | null } };
+    cpi: RevisionIndexTarget;
+    pce: RevisionIndexTarget;
+    nfp: { code: string; kind: "level_k"; rows: RevisionLevelRow[]; summary: RevisionLevelSummary };
+    /** PPI all commodities and the quarterly ECI, 2026-10-08+ */
+    ppi?: RevisionIndexTarget;
+    eci?: RevisionIndexTarget;
   };
 };
 

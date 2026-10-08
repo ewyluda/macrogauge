@@ -80,7 +80,10 @@ export type CsvSpec =
       series: { name: string; path: string }[];
       from?: string;
     }
-  | { kind: "rows"; path: string; flatten?: boolean };
+  | { kind: "rows"; path: string; flatten?: boolean }
+  /** an object of arrays ({code: [{month, ...}]}): one row per element, led
+   *  by its key under `keyName` (outlook.json component_paths) */
+  | { kind: "keyed"; path: string; keyName: string };
 
 /** Value at a dotted path ("liquidity.history.dates"); undefined if absent. */
 export function getPath(obj: unknown, path: string): unknown {
@@ -99,6 +102,12 @@ export function rowsFromSpec(data: unknown, spec: CsvSpec): CsvRow[] {
   if (spec.kind === "rows") {
     const rows = asArray(getPath(data, spec.path)) as object[];
     return spec.flatten ? rows.map((r) => flattenRow(r)) : (rows as CsvRow[]);
+  }
+  if (spec.kind === "keyed") {
+    const obj = getPath(data, spec.path);
+    if (!obj || typeof obj !== "object" || Array.isArray(obj)) return [];
+    return Object.entries(obj).flatMap(([k, arr]) =>
+      (asArray(arr) as object[]).map((r) => ({ [spec.keyName]: k, ...r }) as CsvRow));
   }
   const key = asArray(getPath(data, spec.key.path));
   const series = spec.series.map((s) => ({ name: s.name, values: asArray(getPath(data, s.path)) }));

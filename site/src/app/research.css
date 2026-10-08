@@ -66,6 +66,15 @@ body.research-site .status-pill { font-size: 12px; letter-spacing: 0; text-trans
 .since-picker legend { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0 4px; }
 .since-picker label { font-size: 13px; display: flex; gap: 6px; align-items: center; }
 .since-picker > p { flex-basis: 100%; }
+.fc-dots { padding: 14px 16px 10px; }
+.fc-dots-row { display: grid; grid-template-columns: 76px minmax(0, 1fr); align-items: center; gap: 8px; }
+.fc-dots-label { font-size: 12px; color: var(--text); }
+.fc-dots-track { position: relative; height: 34px; margin: 0 8px; border-bottom: 1px solid var(--border); }
+.fc-dots-grid { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--border); opacity: 0.6; }
+.fc-dots-ens { position: absolute; top: 5px; bottom: -6px; width: 2px; margin-left: -1px; background: var(--text); }
+.fc-dots-dot { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; opacity: 0.88; }
+.fc-dots-axis { position: relative; height: 18px; margin: 0 8px; }
+.fc-dots-axis > span { position: absolute; transform: translateX(-50%); font-size: 11px; color: var(--muted); white-space: nowrap; }
 .research-page .glossary { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px; }
 .research-page .glossary-row { padding: 18px; }
 .research-page .glossary dt { font-size: 16px; margin-bottom: 6px; }

@@ -4,11 +4,14 @@ import { COMPONENT_BY_CODE, componentHref } from "@/lib/components";
 import { Term } from "@/components/Term";
 import nowcastJson from "../../../public/data/nowcast_latest.json";
 import fuelJson from "../../../public/data/fuel.json";
+import nextprintJson from "../../../public/data/nextprint.json";
+import { ForecasterDots } from "@/components/ForecasterDots";
+import { previewTakeaway } from "@/lib/cpiPreview";
 import { ForecastHero } from "@/components/ForecastHero";
 import { PceForecastHero } from "@/components/PceForecastHero";
 import { LastPrint } from "@/components/LastPrint";
 import { Section } from "@/components/Section";
-import type { Fuel, Nowcast } from "@/lib/types";
+import type { Fuel, NextPrint, Nowcast } from "@/lib/types";
 
 export const metadata: Metadata = {
   title: "CPI Preview",
@@ -17,15 +20,24 @@ export const metadata: Metadata = {
 
 const nowcast = nowcastJson as Nowcast;
 const fuel = fuelJson as Fuel;
+const nextprint = nextprintJson as NextPrint;
+// receipts lead with what moves the call most, either way
+const receipts = [...nowcast.cpi.components].sort((a, b) => Math.abs(b.contribution_pp) - Math.abs(a.contribution_pp));
+const lead = previewTakeaway(nextprint);
 
 export default function CpiPreview() {
   return <div><h1>CPI Preview <span className="subtitle">evergreen forecast → result</span></h1>
-    <p className="lede">Bottom-up forecast for {nowcast.reference_month ?? "the next print (release calendar awaiting refresh)"}, frozen and graded when the BLS print arrives.</p>
+    {lead && <p className="lede" data-testid="cpi-preview-takeaway">{lead}</p>}
+    <ForecasterDots rows={[
+      { label: "CPI", ensemble: nextprint.ensemble.value, forecasters: nextprint.forecasters },
+      ...(nextprint.core ? [{ label: "Core CPI", ensemble: nextprint.core.ensemble.value, forecasters: nextprint.core.forecasters }] : []),
+    ]} />
+    <p className="method">Bottom-up forecast for {nowcast.reference_month ?? "the next print (release calendar awaiting refresh)"}, frozen and graded when the BLS print arrives.</p>
     <ForecastHero />
     <Section title="Next PCE print"><PceForecastHero /><p className="method">PCE targets its own release (<Link href="/pce">more on /pce</Link>): it rides the published CPI once that month is out, our CPI nowcast before.</p></Section>
     <LastPrint />
-    <Section title="Component receipts"><div className="table-card"><table className="data-table"><thead><tr><th>Component</th><th>MoM</th><th>Weight</th><th>Contribution</th></tr></thead><tbody>
-      {nowcast.cpi.components.map((row) => <tr key={row.component}><td><Link href={componentHref(row.component)}>{COMPONENT_BY_CODE[row.component]?.label ?? row.component}</Link>
+    <Section title="Component receipts — largest contribution first"><div className="table-card"><table className="data-table"><thead><tr><th>Component</th><th>MoM</th><th>Weight</th><th>Contribution</th></tr></thead><tbody>
+      {receipts.map((row) => <tr key={row.component}><td><Link href={componentHref(row.component)}>{COMPONENT_BY_CODE[row.component]?.label ?? row.component}</Link>
         {/* the fuel two-week forward (was /next-print) rides gasoline's own receipt */}
         {row.component === "fuel" && fuel.forward_2wk != null && <small data-testid="fuel-forward" style={{ display: "block", color: "var(--muted)" }}
           title={`Formula: ${fuel.formula}. Proxy substitutions are disclosed; they are never presented as the named source.`}>

@@ -3,10 +3,15 @@ import Link from "next/link";
 import { componentHref } from "@/lib/components";
 import outlookJson from "../../../public/data/outlook.json";
 import quiltJson from "../../../public/data/quilt_months_24.json";
+import gaugeDaily from "../../../public/data/gauge_daily.json";
+import { DownloadData } from "@/components/DownloadData";
+import { OUTLOOK_PATHS_CSV } from "@/lib/exportSpecs";
+import { monthlyAverage } from "@/lib/escalationSince";
+import { outlookShape } from "@/lib/outlookHeadline";
 import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
 import { OutlookChart } from "@/components/OutlookChart";
-import { fmtMonth, yoyColor } from "@/lib/format";
+import { fmtMonth } from "@/lib/format";
 import type { Outlook } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 
@@ -106,6 +111,12 @@ const fmtMom = (v: number | undefined) =>
 const rows = [...quiltComponents].sort((a, b) => b.weight - a.weight);
 const terminal = outlook.forecast[outlook.forecast.length - 1];
 
+// the chart's title is its takeaway; a hump is marked and its year-ago legs
+// named off the gauge's own monthly averages (server-side; strings only)
+const gm = monthlyAverage(gaugeDaily.variants.gauge.dates, gaugeDaily.variants.gauge.index);
+const shape = outlookShape(outlook.origin_month, outlook.latest_complete_month_yoy_pct, outlook.forecast,
+  Object.fromEntries(gm.months.map((m, i) => [m, gm.values[i]])));
+
 export default function OutlookPage() {
   return (
     <div>
@@ -141,8 +152,14 @@ export default function OutlookPage() {
         />
       </div>
 
-      <Section title="Headline path — next 12 months" featured>
-        <OutlookChart outlook={outlookForChart} />
+      <Section title={shape.title} featured>
+        <OutlookChart outlook={outlookForChart} peak={shape.peak} />
+        {shape.baseNote && (
+          <p className="method" data-testid="outlook-base-note">
+            {shape.baseNote} The dotted violet line is that arithmetic alone: the path with every component held to a flat{" "}
+            {parameters.baseline_annual_pct}% a year.
+          </p>
+        )}
       </Section>
 
       <Section title="Model parameters — published with every run">
@@ -158,6 +175,10 @@ export default function OutlookPage() {
       </Section>
 
       <Section title="Component paths">
+        <div className="section-tools">
+          <DownloadData filename="macrogauge-outlook-component-paths" json="outlook.json" spec={OUTLOOK_PATHS_CSV}
+            citation={`MacroGauge 12-month outlook component paths, published ${outlookJson.published_at}`} />
+        </div>
         <div className="table-card">
           <table className="data-table">
             <thead>
@@ -184,13 +205,13 @@ export default function OutlookPage() {
                   <tr key={c.code}>
                     <td><Link href={componentHref(c.code)}>{c.label}</Link></td>
                     <td>{(c.weight * 100).toFixed(1)}%</td>
-                    <td style={{ color: yoyColor(nowYoy) }}>
+                    <td>
                       {nowYoy === null ? "—" : `${nowYoy.toFixed(2)}%`}
                     </td>
                     {HORIZONS.map((h) => {
                       const mom = path?.[h.idx]?.mom_pct;
                       return (
-                        <td key={h.label} style={{ color: yoyColor(mom ?? null) }}>
+                        <td key={h.label}>
                           {fmtMom(mom)}
                         </td>
                       );

@@ -6,14 +6,15 @@ import { Section } from "@/components/Section";
 import { RevisionChart } from "@/components/RevisionChart";
 import { DownloadData } from "@/components/DownloadData";
 import { fmtPp } from "@/lib/format";
-import type { Revisions, RevisionIndexRow, RevisionLevelRow } from "@/lib/types";
+import { payrollTakeaway } from "@/lib/revisionsHeadline";
+import type { Revisions, RevisionIndexRow, RevisionIndexTarget, RevisionLevelRow } from "@/lib/types";
 
 const data = revisionsJson as Revisions;
 const k = (v: number | null) => (v == null ? "—" : `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v).toFixed(0)}k`);
 
 export const metadata: Metadata = {
   title: "Revisions — first print vs where the number ended up",
-  description: "Every CPI, PCE and payrolls print as first released beside its latest value, from the vintage store. The scoreboard grades against first prints; this shows how far those moved.",
+  description: "Every payrolls, PCE, PPI, ECI and CPI print as first released beside its latest value, from the vintage store. The scoreboard grades against first prints, and escalation clauses settle on one vintage; this shows how far first prints moved.",
 };
 
 function IndexTable({ rows, label }: { rows: RevisionIndexRow[]; label: string }) {
@@ -42,24 +43,38 @@ function IndexTable({ rows, label }: { rows: RevisionIndexRow[]; label: string }
   );
 }
 
+function IndexSection({ t, title, id, children }: { t: RevisionIndexTarget; title: string; id: string; children: React.ReactNode }) {
+  return (
+    <Section title={title} id={id}>
+      <div className="section-tools"><DownloadData filename={`macrogauge-revisions-${id}`} json="revisions.json" rows={t.rows} citation={`MacroGauge ${t.code} revisions (first print vs latest)`} /></div>
+      <div className="chart-card"><RevisionChart months={t.rows.map((r) => r.reference_period)} values={t.rows.map((r) => r.yoy_revision_pp)} unit="pp" /></div>
+      <IndexTable rows={t.rows} label={t.code} />
+      <p className="method">{children}</p>
+    </Section>
+  );
+}
+
 export default function RevisionsPage() {
-  const { cpi, pce, nfp } = data.targets;
+  const { cpi, pce, nfp, ppi, eci } = data.targets;
+  const lead = payrollTakeaway(nfp.summary);
   return (
     <div>
       <h1>
         Revisions <span className="subtitle">first print vs where the number ended up</span>
       </h1>
-      <p className="lede">
+      {lead && <p className="lede" data-testid="revisions-takeaway">{lead}</p>}
+      <p className="method">
         The store keeps every release of each series it collects — a re-published value appends a new vintage row,
-        never overwrites. So for every reference period we can show the number as it first landed and the number it
-        became. The <Link href="/scoreboard">scoreboard</Link> grades our calls against first prints; this page is how far
-        those first prints later moved. CPI is not revised by design (seasonal factors aside); PCE and payrolls are. The
+        never overwrites — so for every reference period we can show the number as it first landed and the number it
+        became. The <Link href="/scoreboard">scoreboard</Link> grades our calls against first prints, and an escalation
+        clause settles on whichever vintage it names. Payrolls, PCE, PPI and the ECI are revised; CPI-U is not. The
         frozen first-print log itself is published as <a href="/data/releases.json">releases.json</a>.
       </p>
       <div className="kpi-row">
-        <KpiCard label="CPI · YoY revision" value={fmtPp(cpi.summary.mean_abs_yoy_revision_pp)} context={`mean |revision| over ${cpi.summary.n} periods · ${cpi.summary.n_revised} carry >1 vintage`} accent="sky" />
-        <KpiCard label="PCE · YoY revision" value={fmtPp(pce.summary.mean_abs_yoy_revision_pp)} context={`mean |revision| over ${pce.summary.n} periods · bias ${fmtPp(pce.summary.mean_revision)}`} accent="violet" />
         <KpiCard label="Payrolls · change revision" value={k(nfp.summary.mean_abs_change_revision_k)} context={`mean |revision| to the monthly change over ${nfp.summary.n} periods · bias ${k(nfp.summary.mean_revision)}`} accent="amber" />
+        <KpiCard label="PCE · YoY revision" value={fmtPp(pce.summary.mean_abs_yoy_revision_pp)} context={`mean |revision| over ${pce.summary.n} periods · bias ${fmtPp(pce.summary.mean_revision)}`} accent="violet" />
+        {ppi && <KpiCard label="PPI · YoY revision" value={fmtPp(ppi.summary.mean_abs_yoy_revision_pp)} context={`mean |revision| over ${ppi.summary.n} months · bias ${fmtPp(ppi.summary.mean_revision)}`} accent="sky" />}
+        {eci && <KpiCard label="ECI · YoY revision" value={fmtPp(eci.summary.mean_abs_yoy_revision_pp)} context={`mean |revision| over ${eci.summary.n} quarters · bias ${fmtPp(eci.summary.mean_revision)}`} accent="emerald" />}
       </div>
 
       <Section title="Payrolls — monthly change, first print vs latest (thousands)" featured>
@@ -87,18 +102,37 @@ export default function RevisionsPage() {
         </div>
       </Section>
 
-      <Section title="PCE price index — YoY as first printed vs latest">
-        <div className="section-tools"><DownloadData filename="macrogauge-revisions-pce" json="revisions.json" rows={pce.rows} citation="MacroGauge PCE revisions (first print vs latest)" /></div>
-        <div className="chart-card"><RevisionChart months={pce.rows.map((r) => r.reference_period)} values={pce.rows.map((r) => r.yoy_revision_pp)} unit="pp" /></div>
-        <IndexTable rows={pce.rows} label="PCEPI" />
-      </Section>
+      {ppi && (
+        <IndexSection t={ppi} title="PPI all commodities — YoY as first printed vs latest" id="ppi">
+          The producer price index construction escalation clauses most often name. A clause that settles on the first
+          print and one that settles on the revised value can disagree: the YoY moves by{" "}
+          {fmtPp(ppi.summary.mean_abs_yoy_revision_pp)} on average after release, as BLS revises each month four months
+          on. First prints are ALFRED release vintages.
+        </IndexSection>
+      )}
+      {eci && (
+        <IndexSection t={eci} title="Employment Cost Index — YoY as first printed vs latest (quarterly)" id="eci">
+          Total compensation, civilian workers (ECIALLCIV), the labor leg of many escalation clauses; each period is the
+          quarter&apos;s first month. Its revisions are small, from annual seasonal-factor updates. First prints are
+          ALFRED release vintages.
+        </IndexSection>
+      )}
 
-      <Section title="CPI — YoY as first printed vs latest">
-        <div className="section-tools"><DownloadData filename="macrogauge-revisions-cpi" json="revisions.json" rows={cpi.rows} citation="MacroGauge CPI revisions (first print vs latest)" /></div>
-        <IndexTable rows={cpi.rows} label="CPIAUCNS" />
+      <IndexSection t={pce} title="PCE price index — YoY as first printed vs latest" id="pce">
+        BEA revises PCE with each monthly release for the months before it, and again in its annual update.
+      </IndexSection>
+
+      <Section title="CPI" id="cpi">
+        <p className="method" data-testid="cpi-line">
+          CPI-U, not seasonally adjusted: mean YoY revision {fmtPp(cpi.summary.mean_abs_yoy_revision_pp)} over{" "}
+          {cpi.summary.n} months — not revised by design. Vintage counts above one come from the ALFRED backfill and daily
+          re-collection re-publishing the same value.
+        </p>
+        <details className="inv-details">
+          <summary>CPI first print vs latest, every month</summary>
+          <IndexTable rows={cpi.rows} label="CPIAUCNS" />
+        </details>
         <p className="method">
-          Vintage counts above one for CPI come from the ALFRED backfill and daily re-collection re-publishing the same
-          value; the level revisions are zero to the third decimal, which is the receipt that CPI-U NSA is not revised.
           First-print YoY uses the first value over the latest base — the base was already final when the print landed —
           so the YoY revision isolates the print&apos;s own change. Window: last {data.window} periods per target.
         </p>

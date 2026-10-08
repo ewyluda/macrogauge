@@ -51,3 +51,8 @@
 {"obs_date": "2025-03-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 159340.0, "vintage_date": "2025-05-02"}
 {"obs_date": "2025-04-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 159517.0, "vintage_date": "2025-05-02"}
 {"obs_date": "2025-04-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 62.388, "vintage_date": "2025-05-15"}
+{"obs_date": "2024-12-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 253.423, "vintage_date": "2025-05-15"}
+{"obs_date": "2025-01-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 257.376, "vintage_date": "2025-05-15"}
+{"obs_date": "2025-02-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 259.581, "vintage_date": "2025-05-15"}
+{"obs_date": "2025-03-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 258.711, "vintage_date": "2025-05-15"}
+{"obs_date": "2025-04-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 258.712, "vintage_date": "2025-05-15"}
