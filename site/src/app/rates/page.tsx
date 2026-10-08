@@ -14,6 +14,7 @@ import type { FedPath, Rates } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
 import { ratesHeadline } from "@/lib/ratesHeadline";
+import { issuerTakeaway } from "@/lib/issuerBonds";
 
 const data = artifact<"rates", Rates>("rates", ratesJson);
 const pct = (v: number | null, d = 2) => (v == null ? "—" : `${v.toFixed(d)}%`);
@@ -224,6 +225,60 @@ export default function RatesPage() {
             ]} />
         </div>
       </Section>
+
+      {data.issuers && data.issuers.deals.length > 0 && (
+        <Section title="What the builders pay to borrow — latest new-issue terms">
+          {issuerTakeaway(data.issuers.deals) && <p className="lede" data-testid="issuer-takeaway">{issuerTakeaway(data.issuers.deals)}</p>}
+          <div className="table-card">
+            <table className="data-table" data-testid="issuer-table">
+              <thead>
+                <tr>
+                  <th style={{ textAlign: "left" }}>Issuer</th>
+                  <th style={{ textAlign: "left" }}>Notes</th>
+                  <th>Priced</th>
+                  <th>Size</th>
+                  <th>Yield at issue</th>
+                  <th>Spread to Treasury</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.issuers.deals.map((d) => (
+                  <tr key={`${d.issuer}-${d.tranche}`} title={d.quote}>
+                    <td style={{ textAlign: "left" }}>
+                      <strong>{d.name}</strong> <span className="badge badge-muted">{d.cohort}</span>
+                    </td>
+                    <td style={{ textAlign: "left" }}>
+                      {d.tranche}
+                      {!d.comparable && <small style={{ display: "block", color: "var(--muted)" }}>convertible: the coupon prices an equity option, not credit</small>}
+                    </td>
+                    <td style={{ whiteSpace: "nowrap" }}>{fmtDay(d.deal_date)}</td>
+                    <td>${+d.amount_usd_b.toFixed(2)}B</td>
+                    <td>
+                      {d.yield_pct == null ? "—" : pct(d.yield_pct)}
+                      {d.yield_basis === "par coupon" && <small style={{ display: "block", color: "var(--muted)" }}>coupon, priced at par</small>}
+                    </td>
+                    <td>
+                      {d.spread_bp == null ? "—" : `+${Math.round(d.spread_bp)}bp`}
+                      {d.spread_basis && <small style={{ display: "block", color: "var(--muted)" }}>
+                        {d.spread_basis === "stated" ? (d.benchmark ?? "stated") : "computed vs the curve that day"}</small>}
+                    </td>
+                    <td><a href={d.source_url} target="_blank" rel="noreferrer" title={d.source}>Filing ↗</a></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="method">
+            Each issuer&apos;s most recent USD deal, from its own filing: a pricing term sheet or prospectus supplement
+            for the shelf issuers, an 8-K or its press release for privately placed notes. These are new-issue terms on
+            the pricing date, not today&apos;s market yields. A spread the term sheet states is shown as stated; otherwise
+            it is the yield at issue minus the Treasury curve that day at the note&apos;s maturity (computed by us).
+            Convertible notes are listed but not compared: their coupon reflects an equity option. Hover a row for the
+            verbatim terms. {data.issuers.note} Curated {fmtDay(data.issuers.as_of_curated)}.
+          </p>
+        </Section>
+      )}
 
       <Section title="Fed liquidity — balance sheet, TGA, reverse repo">
         <div className="kpi-row">

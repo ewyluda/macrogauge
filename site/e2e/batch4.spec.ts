@@ -61,3 +61,21 @@ test("feed body carries the since-yesterday sentence", async ({ page }) => {
   const feed = await page.request.get("/feed.xml");
   expect(await feed.text()).toContain("Since the previous publish:");
 });
+
+test("/rates lists what the builders paid on their latest notes, once the daily run publishes them", async ({ page, request }) => {
+  const rates = await (await request.get("/data/rates.json")).json() as
+    { issuers?: { deals: { name: string; comparable: boolean; spread_bp: number | null }[] } | null };
+  await page.goto("/rates");
+  const table = page.getByTestId("issuer-table");
+  if (!rates.issuers?.deals.length) {
+    // files published before 2026-10-08 carry no block: no empty section
+    await expect(table).toHaveCount(0);
+    return;
+  }
+  await expect(table.locator("tbody tr")).toHaveCount(rates.issuers.deals.length);
+  // a convertible is listed, never given a spread
+  for (const d of rates.issuers.deals.filter((x) => !x.comparable)) {
+    await expect(table.locator("tr", { hasText: d.name })).toContainText("convertible");
+  }
+  await expect(page.getByTestId("issuer-takeaway")).toContainText("over Treasuries");
+});
