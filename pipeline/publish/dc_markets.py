@@ -109,6 +109,27 @@ def _elec_block(row: dict) -> dict:
     return out
 
 
+HISTORY_QUARTERS = 8
+
+
+def _history(conn, spec, quarters: list[str]) -> dict:
+    """The market's last HISTORY_QUARTERS of construction headcount (month-3
+    level, summed) and employment-weighted wage, over ONE county set: the
+    counties reported in every quarter of the window. A county that drops in
+    or out (disclosure suppression) would otherwise move the line on
+    composition alone. Empty when no county is reported throughout."""
+    series = {f: (_series(conn, f"qcew_emp23_c{f}"), _series(conn, f"qcew_wage23_c{f}"),
+                  _series(conn, f"qcew_aemp23_c{f}")) for f in spec.counties}
+    keep = [f for f, (e, w, a) in series.items()
+            if all(q in e and q in w and a.get(q) for q in quarters)]
+    if not keep or not quarters:
+        return {"quarters": [], "emp": [], "wage": [], "counties": 0}
+    emp = [int(sum(series[f][0][q] for f in keep)) for q in quarters]
+    wage = [round(sum(series[f][1][q] * series[f][2][q] for f in keep)
+                  / sum(series[f][2][q] for f in keep)) for q in quarters]
+    return {"quarters": [q[:7] for q in quarters], "emp": emp, "wage": wage, "counties": len(keep)}
+
+
 def build(conn, markets, cap_cfg: dict, meta: dict) -> dict:
     payload = _labor(conn, markets, "23")
     elec = _labor(conn, markets, "238212")
@@ -122,6 +143,11 @@ def build(conn, markets, cap_cfg: dict, meta: dict) -> dict:
     spec_by_key = {m.key: m for m in markets}
     for row in payload["markets"]:
         row["county_names"] = dict(spec_by_key[row["key"]].county_names)
+
+    # 8-quarter trend window: the national series' latest quarters
+    us_q = sorted(_series(conn, "qcew_emp23_us"))[-HISTORY_QUARTERS:]
+    for row in payload["markets"]:
+        row["history"] = _history(conn, spec_by_key[row["key"]], us_q)
 
     # capacity join by hand-assigned tag
     tagged: dict[str, list[dict]] = {}

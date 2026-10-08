@@ -3,6 +3,9 @@ import { useMemo, useState } from "react";
 import { elecCell, fmtSpread, sortMarkets, tightness, tightnessScore, type SortKey } from "@/lib/dcMarkets";
 import type { DcMarkets, MarketCounty, MarketRow } from "@/lib/types";
 import { ToneBadge, type Tone } from "@/components/ToneBadge";
+import { TailSpark } from "@/components/TailSpark";
+
+const qLabel = (ym: string) => `Q${Math.ceil(Number(ym.slice(5, 7)) / 3)} ${ym.slice(0, 4)}`;
 
 // The seven sortable columns (bound to dcMarkets.ts's SortKey union). Tightness
 // is rendered as an extra, non-sortable column — tightness() buckets two
@@ -10,7 +13,7 @@ import { ToneBadge, type Tone } from "@/components/ToneBadge";
 // it isn't offered as a sort.
 const SORT_COLS: [SortKey, string][] = [
   ["name", "Market"], ["wage", "Wage $/wk"], ["wageYoy", "Wage YoY"],
-  ["emp", "Constr. workers"], ["empYoy", "Headcount YoY"], ["mw", "MW under constr."],
+  ["emp", "Constr. workers"], ["empYoy", "Headcount YoY"], ["mw", "Tracked AI projects"],
   ["elecYoy", "Electrical contractors (nonres., NAICS 238212)"],
 ];
 
@@ -26,6 +29,7 @@ const COL_BASIS: Partial<Record<SortKey, string>> = {
   wageYoy: "Like-for-like basis: counties present in both quarters.",
   emp: "Current-quarter basis: every county with current data, independent of last year's disclosure. Third-month (point-in-time) level — the wage above is weighted by each county's quarterly-average level instead, so the two don't share a denominator.",
   empYoy: "Like-for-like basis: counties present in both quarters.",
+  mw: "From the AI capacity tracker: the sites it itemizes, tagged to this market. Not the market's whole pipeline (most colocation and hyperscaler campuses are not itemized). Sorts by MW under construction.",
   elecYoy: "Private NAICS 238212, nonresidential electrical contractors. Wage YoY (and its spread vs the national 238212 rate) on the like-for-like basis; workers is the current-quarter third-month level. † = at least one county is disclosure-suppressed.",
 };
 
@@ -256,7 +260,18 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
         </ToneBadge></td>
         <td>{money(m.wage)}</td>
         <td>{pct(m.wage_yoy_pct)}<small className="mk-vs">{fmtSpread(m.wage_spread_pp)} vs US</small></td>
-        <td>{m.emp_cur_total != null ? m.emp_cur_total.toLocaleString("en-US") : "—"}</td>
+        <td>
+          {m.emp_cur_total != null ? m.emp_cur_total.toLocaleString("en-US") : "—"}
+          {/* 8 quarters over one county set (publish/dc_markets._history), so
+              the line moves on hiring, not on a county dropping in or out */}
+          {m.history && m.history.emp.length > 1 && (
+            <span className="mk-trend">
+              <TailSpark tail={m.history.emp}
+                label={`${m.name} construction workers, ${qLabel(m.history.quarters[0])} to ${qLabel(m.history.quarters.at(-1)!)}`} />
+              <small>{qLabel(m.history.quarters[0])}–{qLabel(m.history.quarters.at(-1)!)}</small>
+            </span>
+          )}
+        </td>
         <td>{pct(m.emp_yoy_pct)}<small className="mk-vs">{fmtSpread(m.emp_spread_pp)} vs US</small></td>
         <td>
           {/* A zero with undisclosed-MW sites is an unknown, not a measured
@@ -266,9 +281,10 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
           {m.sites === 0 ||
           (m.mw_construction === 0 && m.sites_mw_undisclosed > 0)
             ? "—"
-            : `${m.mw_construction.toLocaleString("en-US")} MW under constr.`}
+            : <span style={{ whiteSpace: "nowrap" }}>{m.mw_construction.toLocaleString("en-US")} MW building</span>}
           <div style={{ fontSize: 11, color: "var(--muted)" }}>
-            {m.sites} tracked site{m.sites === 1 ? "" : "s"}
+            {m.sites === 0 ? "none itemized in the AI capacity tracker"
+              : `${m.sites} tracked site${m.sites === 1 ? "" : "s"}`}
             {m.mw_operating
               ? ` · ${m.mw_operating.toLocaleString("en-US")} MW operating`
               : ""}

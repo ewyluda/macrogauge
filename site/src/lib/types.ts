@@ -312,6 +312,8 @@ export type MarketRow = {
   note: string;
   // Census county names keyed by FIPS (absent in artifacts before 2026-10-04)
   county_names?: Record<string, string>;
+  /** last 8 QCEW quarters over the counties reported in all of them (2026-10-07+) */
+  history?: { quarters: string[]; emp: number[]; wage: number[]; counties: number };
   as_of: string | null;
   base_date: string | null;
   available: boolean;

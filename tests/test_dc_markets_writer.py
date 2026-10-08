@@ -341,3 +341,33 @@ def test_elec_block_is_always_emitted_and_never_touches_naics_23_fields():
     strip = lambda p: [{k: v for k, v in m.items() if k != "elec"} for m in p["markets"]]
     assert strip(bare) == strip(full)
     assert bare["national"] == full["national"]
+
+
+def test_history_uses_one_county_set_across_the_window():
+    """Two counties, one missing a quarter: the history drops it for every
+    quarter, so the line can't jump on composition."""
+    conn = sqlite3.connect(":memory:")
+    conn.execute("CREATE TABLE observations (series_code TEXT, obs_date TEXT, "
+                 "value REAL, vintage_date TEXT)")
+    qs = ["2025-04-01", "2025-07-01", "2025-10-01"]
+    rows = [("qcew_emp23_us", q, 8e6) for q in qs] + [("qcew_wage23_us", q, 1800.0) for q in qs]
+    for i, q in enumerate(qs):
+        rows += [("qcew_emp23_c51107", q, 100.0 + i), ("qcew_wage23_c51107", q, 2000.0),
+                 ("qcew_aemp23_c51107", q, 100.0)]
+        if q != "2025-07-01":           # 51153 suppressed one quarter
+            rows += [("qcew_emp23_c51153", q, 900.0), ("qcew_wage23_c51153", q, 1000.0),
+                     ("qcew_aemp23_c51153", q, 900.0)]
+    conn.executemany("INSERT INTO observations VALUES (?,?,?,'2026-07-25')", rows)
+    two = (MarketSpec(key="nova", name="Northern Virginia", counties=("51107", "51153"),
+                      state="VA", iso="PJM", grid=None, utility="Dominion", note=""),)
+    h = writer.build(conn, two, {"geo": []}, META)["markets"][0]["history"]
+    assert h == {"quarters": ["2025-04", "2025-07", "2025-10"], "emp": [100, 101, 102],
+                 "wage": [2000, 2000, 2000], "counties": 1}
+
+
+def test_history_is_empty_when_no_county_is_reported_throughout():
+    p = writer.build(_conn(), MARKETS, CAP_CFG, META)
+    hist = {m["key"]: m["history"] for m in p["markets"]}
+    assert hist["hillsboro"] == {"quarters": [], "emp": [], "wage": [], "counties": 0}
+    assert hist["nova"]["emp"] == [22372, 26151] and hist["nova"]["counties"] == 1
+    jsonschema.validate(p | {"published_at": "x"}, SCHEMA)

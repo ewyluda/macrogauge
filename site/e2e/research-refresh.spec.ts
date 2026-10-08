@@ -369,6 +369,22 @@ test("build inputs: each stand-in change and trend span renders in its own row",
   }
 });
 
+test("markets: the capacity column says it is the tracker's projects, and each market trends 8 quarters", async ({ page, request }) => {
+  await page.goto("/markets");
+  await expect(page.locator(".mk-table thead")).toContainText("Tracked AI projects");
+  await expect(page.locator(".mk-table thead")).not.toContainText("MW under constr.");
+  const data = await (await request.get("/data/dc_markets.json")).json();
+  type H = { key: string; history?: { emp: number[]; quarters: string[] } };
+  const withHist = data.markets.filter((m: H) => (m.history?.emp.length ?? 0) > 1);
+  // publish-gated: the history field lands with the next daily run
+  test.skip(withHist.length === 0, "published dc_markets.json predates history (lands with the next daily publish)");
+  for (const m of withHist as H[]) {
+    const trend = page.locator(`#mk-row-${m.key} .mk-trend`);
+    await expect(trend.locator("svg")).toBeVisible();
+    await expect(trend.locator("small")).toContainText("–");
+  }
+});
+
 // CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS
 // fonts happened to fit — pin the wrap rule itself, independent of font metrics.
 test("source-error text can break inside long URLs", async ({ page }) => {
