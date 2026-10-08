@@ -508,6 +508,36 @@ def test_changes_first_run_has_null_prev_and_validates(tmp_path):
     validate.validate_file(path, SCHEMAS / "changes.schema.json")
 
 
+def test_changes_movers_rank_every_page_s_lead_numbers_on_one_scale(tmp_path):
+    """A 4% move at a power hub (notable 3%), a 12bp move in the 10-year
+    (notable 5bp) and a 0.3% move in the token index (notable 1%) rank by
+    |change| / notable; a reading the previous publish lacked has no change;
+    an unchanged reading has significance 0."""
+    out = tmp_path / "out"
+
+    def publish(token, hub, ten, ev=None):
+        _write(out, "pulse.json", {"published_at": "T", "gauge": {"yoy_pct": 3.0, "as_of": "2026-10-07"}})
+        _write(out, "compute.json", {"token_index": {"value": token, "as_of": "2026-10-07"}})
+        _write(out, "datacenter.json", {"power": {"hubs": [{"code": "ice_pjm_west", "label": "PJM Western Hub",
+                                                            "avg30": hub, "asof": "2026-10-06"}]}})
+        _write(out, "rates.json", {"curve": [{"code": "DGS10", "value": ten, "as_of": "2026-10-06"}]})
+        _write(out, "capacity.json", {"reference": {"cohort_ev_b": ev}} if ev is not None else {})
+
+    publish(100.0, 80.0, 5.00)
+    prev = changes.read_previous(out)
+    publish(100.3, 83.2, 5.12, ev=250.0)
+    m = {r["key"]: r for r in changes.build(prev, out, [], None)["movers"]}
+    assert (m["hub_ice_pjm_west"]["delta"], m["hub_ice_pjm_west"]["delta_unit"]) == (4.0, "%")
+    assert (m["rates_dgs10"]["delta"], m["rates_dgs10"]["delta_unit"]) == (12.0, "bp")
+    assert m["compute_token_index"]["delta"] == 0.3
+    assert m["capacity_ev"]["delta"] is None and m["capacity_ev"]["significance"] is None   # new reading
+    assert m["gauge_gauge"]["significance"] == 0                                              # unchanged
+    order = [r["key"] for r in changes.build(prev, out, [], None)["movers"]]
+    assert order[:3] == ["rates_dgs10", "hub_ice_pjm_west", "compute_token_index"]           # 2.4, 1.33, 0.3
+    path = changes.write(changes.build(prev, out, [], None), out, "T1")
+    validate.validate_file(path, SCHEMAS / "changes.schema.json")
+
+
 def test_changes_diffs_against_previous_snapshot(tmp_path):
     out = tmp_path / "out"
     _write(out, "pulse.json", {"published_at": "T0", "gauge": {"yoy_pct": 2.9, "as_of": "2026-09-02"},

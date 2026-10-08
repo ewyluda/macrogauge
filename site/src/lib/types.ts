@@ -753,6 +753,13 @@ export type Changes = {
   sources_landed: { source: string; new_rows: number }[];
   sources_failed: string[];
   gate_holds: unknown[];
+  /** every page's lead numbers vs the previous publish, ranked (2026-10-08+); absent on older files */
+  movers?: Mover[];
+};
+export type Mover = {
+  key: string; label: string; section: string; kind: "level" | "rate" | "yoy"; unit: string; notable: number;
+  href: string; value: number | null; as_of: string | null; prev_value: number | null; prev_as_of: string | null;
+  delta: number | null; delta_unit: "%" | "bp" | "pp"; significance: number | null;
 };
 
 // --- batch 5 (2026-09-03) ---------------------------------------------------

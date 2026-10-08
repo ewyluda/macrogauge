@@ -11,6 +11,15 @@ pulse.json) publishes prev=null and the site says "first reading".
 Isolated like every phase: it reads the CURRENT artifacts back from disk
 rather than sharing another phase's local result, so a failed engine phase
 degrades the headline block to null instead of taking this writer down.
+
+`movers` (2026-10-08) widens the diff past the CPI readings to every page's
+lead numbers — compute indexes, each power hub, rates and credit, copper,
+the capacity tracker, the long-lead packages, the DC and gauge headlines —
+read the same way from the previous and the current artifacts (_readings).
+Each carries a STATED notable move (NOTABLE: a design threshold, not a
+fitted volatility), and movers rank by |change| / notable, so a 6bp move in
+the 10-year and a 4% move at a power hub sort on one scale. A level reads as
+a % change, a rate or spread in bp, a YoY in pp.
 """
 import json
 from pathlib import Path
@@ -49,7 +58,113 @@ def _snapshot(out_dir: Path) -> dict | None:
 
 def read_previous(out_dir: Path) -> dict | None:
     """Snapshot of the previous publish; call BEFORE any writer runs."""
-    return _snapshot(out_dir)
+    snap = _snapshot(out_dir)
+    if snap is not None:
+        snap["readings"] = _readings(out_dir)
+    return snap
+
+
+# kind -> (how a change is measured, its unit); NOTABLE: the move that counts
+# as notable for one reading of that kind (stated, see module docstring)
+KINDS = {"level": "%", "rate": "bp", "yoy": "pp"}
+NOTABLE = {"index": 1.0, "hub": 3.0, "copper": 2.0, "ev": 3.0, "mw": 0.5,
+           "treasury": 5.0, "credit": 5.0, "hy": 10.0, "sofr": 3.0,
+           "pkg_yoy": 0.5, "dc_yoy": 0.1, "gauge_yoy": 0.05}
+
+
+def _r(label, section, kind, unit, notable, href, value, as_of):
+    return {"label": label, "section": section, "kind": kind, "unit": unit,
+            "notable": NOTABLE[notable], "href": href, "value": value, "as_of": as_of}
+
+
+def _readings(out_dir: Path) -> dict:
+    """{key: reading} for every page's lead numbers, from the artifacts on
+    disk. A missing file or field drops its readings, never the rest."""
+    out = {}
+
+    def get(name):
+        d = _read(out_dir, name)
+        return d if isinstance(d, dict) else {}
+
+    c = get("compute.json")
+    for k, label in (("token_index", "Token price index"), ("gpu_index", "GPU-hour index")):
+        b = c.get(k) or {}
+        if b.get("value") is not None:
+            out[f"compute_{k}"] = _r(label, "AI Infra", "level", "index", "index", "/compute", b["value"], b.get("as_of"))
+    dc = get("datacenter.json")
+    for h in (dc.get("power") or {}).get("hubs") or []:
+        if h.get("avg30") is not None:
+            out[f"hub_{h['code']}"] = _r(f"{h['label']} 30-day average", "AI Infra", "level", "$/MWh", "hub",
+                                         "/power", h["avg30"], h.get("asof"))
+    for k, label in DC_LABELS.items():
+        b = (dc.get("indexes") or {}).get(k) or {}
+        if b.get("headline_yoy_pct") is not None:
+            out[f"dc_{k}"] = _r(f"{label} index YoY", "AI Infra", "yoy", "%", "dc_yoy", "/datacenter",
+                                b["headline_yoy_pct"], b.get("as_of"))
+    r = get("rates.json")
+    ten = next((x for x in r.get("curve") or [] if x.get("code") == "DGS10"), None)
+    if ten and ten.get("value") is not None:
+        out["rates_dgs10"] = _r("10-year Treasury yield", "AI Infra", "rate", "%", "treasury", "/rates",
+                                ten["value"], ten.get("as_of"))
+    credit = r.get("credit") or {}
+    for k, label, n in (("bbb_yield", "BBB corporate bond yield", "credit"),
+                        ("hy_oas", "High-yield spread (OAS)", "hy")):
+        b = credit.get(k) or {}
+        if b.get("value") is not None:
+            out[f"rates_{k}"] = _r(label, "AI Infra", "rate", "%", n, "/rates", b["value"], b.get("as_of"))
+    sofr = (r.get("funding") or {}).get("sofr_30d") or {}
+    if sofr.get("value") is not None:
+        out["rates_sofr_30d"] = _r("30-day average SOFR", "AI Infra", "rate", "%", "sofr", "/rates",
+                                   sofr["value"], sofr.get("as_of"))
+    cm = get("commodities.json")
+    for g in cm.get("groups") or []:
+        for row in g.get("rows") or []:
+            if row.get("code") == "fmp_copper" and row.get("value") is not None:
+                out["copper"] = _r("Copper front month", "AI Infra", "level", "$/lb", "copper", "/commodities",
+                                   row["value"], row.get("as_of"))
+    cap = get("capacity.json")
+    op = ((cap.get("cohorts") or {}).get("all") or {}).get("op")
+    if op is not None:
+        out["capacity_op_mw"] = _r("Tracked operational AI capacity", "AI Infra", "level", "MW", "mw", "/capacity",
+                                   op, cap.get("as_of_curated"))
+    ev = (cap.get("reference") or {}).get("cohort_ev_b")
+    if ev is not None:
+        out["capacity_ev"] = _r("Priced neocloud enterprise value", "AI Infra", "level", "$B", "ev", "/capacity",
+                                ev, cap.get("priced_date"))
+    for p in get("longlead.json").get("packages") or []:
+        if p.get("price_yoy_pct") is not None:
+            out[f"longlead_{p['code']}"] = _r(f"{p.get('label', p['code'])} price YoY", "AI Infra", "yoy", "%",
+                                              "pkg_yoy", "/longlead", p["price_yoy_pct"], p.get("price_last_obs"))
+    pulse = get("pulse.json")
+    variants = get("gaptable.json").get("variants") or {}
+    for key, label in VARIANT_LABELS.items():
+        b = pulse.get(key) if key in ("gauge", "tracker") else variants.get(key)
+        if b and b.get("yoy_pct") is not None:
+            out[f"gauge_{key}"] = _r(f"{label} YoY", "Inflation", "yoy", "%", "gauge_yoy", "/" if key == "gauge" else "/vs-bls",
+                                     b["yoy_pct"], b.get("as_of"))
+    return out
+
+
+def _movers(cur: dict, prev: dict | None) -> list[dict]:
+    """Every current reading against the previous publish's, ranked by
+    |change| / notable; a reading the previous publish lacked has no change."""
+    rows = []
+    for key, r in cur.items():
+        p = (prev or {}).get(key) or {}
+        pv, v = p.get("value"), r["value"]
+        if pv is None or v is None:
+            delta = None
+        elif r["kind"] == "level":
+            delta = None if pv == 0 else round((v / pv - 1) * 100, 2)
+        elif r["kind"] == "rate":
+            delta = round((v - pv) * 100, 1)
+        else:
+            delta = round(v - pv, 2)
+        sig = None if delta is None else round(abs(delta) / r["notable"], 2)
+        rows.append({"key": key, **r, "prev_value": pv, "prev_as_of": p.get("as_of"),
+                     "delta": delta, "delta_unit": KINDS[r["kind"]], "significance": sig})
+    rows.sort(key=lambda x: (-(x["significance"] or 0), x["key"]))
+    return rows
 
 
 def _delta(cur, prev):
@@ -121,7 +236,8 @@ def build(prev: dict | None, out_dir: Path, source_results, gate_flags=None) -> 
             "official": _official(cur, prev),
             "sources_landed": landed,
             "sources_failed": failed,
-            "gate_holds": list(gate_flags or [])}
+            "gate_holds": list(gate_flags or []),
+            "movers": _movers(_readings(out_dir), (prev or {}).get("readings"))}
 
 
 def write(payload: dict, out_dir: Path, published_at: str) -> Path:

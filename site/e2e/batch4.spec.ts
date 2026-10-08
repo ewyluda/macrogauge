@@ -79,3 +79,22 @@ test("/rates lists what the builders paid on their latest notes, once the daily 
   }
   await expect(page.getByTestId("issuer-takeaway")).toContainText("over Treasuries");
 });
+
+test("/changes ranks every page's lead numbers and leads with the day's biggest AI-infra move", async ({ page, request }) => {
+  const ch = await (await request.get("/data/changes.json")).json() as
+    { movers?: { delta: number | null; section: string }[] };
+  await page.goto("/changes");
+  const table = page.getByTestId("movers-table");
+  if (!ch.movers?.length) {
+    // files published before 2026-10-08 carry no movers: no empty section
+    await expect(table).toHaveCount(0);
+    return;
+  }
+  const moved = ch.movers.filter((m) => m.delta != null && m.delta !== 0);
+  await expect(table.locator("tbody tr")).toHaveCount(Math.max(moved.length, 1));
+  const unchanged = ch.movers.length - moved.length;
+  if (unchanged) await expect(page.getByTestId("movers-unchanged").locator("summary")).toContainText(`${unchanged} unchanged`);
+  if (moved.some((m) => m.section === "AI Infra")) {
+    await expect(page.getByTestId("changes-lead")).toContainText(/AI-infra|AI infrastructure/);
+  }
+});
