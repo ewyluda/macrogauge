@@ -1,0 +1,122 @@
+{
+  "head": "cbd0be9006b1c478a3a1c2cc82c18e01d08c98cc",
+  "schemaValidFixtures": [
+    "lagged_spread",
+    "small_yield_move",
+    "missing_yield",
+    "missing_year_base"
+  ],
+  "diagnostics": {
+    "lagged": {
+      "treasuryAsOf": "2026-10-06",
+      "yieldAsOf": "2026-10-06",
+      "spreadAsOf": "2026-09-08",
+      "headline": "The 10-year Treasury is 5.30% (+110bp on the year) and BBB corporate debt yields 6.19% (+119bp); almost all of that is rates, not credit: the BBB spread moved +8bp"
+    },
+    "capitalStrip": "Cost of capital what a build is financed at 10-year Treasury 5.30% the base every fixed-rate loan prices off · +110bp on the year BBB corporate yield 6.19% all-in, ICE BofA · +119bp on the year 30-day average SOFR 3.79% floating-rate construction debt The curve, credit spreads and the market-implied Fed path →",
+    "bbbCard": "BBB corporate yield 6.19% all-in, ICE BofA · spread +1.02pp · 1y +1.19pp",
+    "publishGate": {
+      "small_yield_move": {
+        "skipped": false,
+        "hasBbb": true,
+        "hasTakeaway": false,
+        "value": 6.19,
+        "chg_1y": 0.05
+      },
+      "missing_yield": {
+        "skipped": false,
+        "hasBbb": false,
+        "hasTakeaway": false,
+        "value": null,
+        "chg_1y": null
+      },
+      "missing_year_base": {
+        "skipped": false,
+        "hasBbb": true,
+        "hasTakeaway": false,
+        "value": 6.19,
+        "chg_1y": null
+      }
+    },
+    "historyCsvHeader": "date,dgs3mo,dgs2,dgs10,t5yie,t10yie,hy_oas,dollar,spread_2s10s,spread_3m10y,real_10y"
+  },
+  "results": [
+    {
+      "finding": "F1",
+      "name": "Do not attribute the latest yield move using a spread from a different reporting window",
+      "pass": false,
+      "actual": true,
+      "expected": false
+    },
+    {
+      "finding": "F2",
+      "name": "The funding strip distinguishes financing benchmarks from a project borrowing quote",
+      "pass": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "finding": "F1",
+      "name": "The capital strip discloses observation dates even when the artifact publish is current",
+      "pass": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "finding": "F1",
+      "name": "The new BBB yield card displays its observation date",
+      "pass": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "finding": "F3",
+      "name": "small_yield_move: valid data must not violate the publish-gated browser assertions",
+      "pass": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "finding": "F3",
+      "name": "missing_yield: valid data must not violate the publish-gated browser assertions",
+      "pass": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "finding": "F3",
+      "name": "missing_year_base: valid data must not violate the publish-gated browser assertions",
+      "pass": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "finding": "F4",
+      "name": "Rates-history CSV includes the new IG and BBB spread columns",
+      "pass": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "finding": "control",
+      "name": "The committed pre-series artifact keeps the Treasury-only headline",
+      "pass": true,
+      "actual": "The 10-year Treasury is 5.31% (+113bp on the year)",
+      "expected": "The 10-year Treasury is 5.31% (+113bp on the year)"
+    },
+    {
+      "finding": "control",
+      "name": "The writer preserves the small year-over-year move rather than rounding it away",
+      "pass": true,
+      "actual": 0.05,
+      "expected": 0.05
+    },
+    {
+      "finding": "control",
+      "name": "A current artifact timestamp alone does not detect stale source observations",
+      "pass": true,
+      "actual": null,
+      "expected": null
+    }
+  ]
+}
