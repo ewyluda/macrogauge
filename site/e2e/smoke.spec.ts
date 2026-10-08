@@ -61,7 +61,7 @@ const ROUTES: [string, string][] = [
   ["/grocery", "every BLS average-price staple, monthly since 2018"],
   ["/outlook", "the next 12 months, component by component"],
   ["/cost-of-living", "the buy-in premium"],
-  ["/states", "gas, power, wages"],
+  ["/states", "What it costs to build and run a data center, state by state"],
   ["/metros", "the 50 largest metros, ranked by rent inflation"],
   ["/labor", "the jobs market, in receipts"],
   ["/commodities", "the AI data-center build-out is bidding for"],

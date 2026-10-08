@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contrast, EMPTY_CELL, heatColor, luminance, ramp, TEXT_DARK, TEXT_LIGHT, textOn } from "./heat";
+import { contrast, EMPTY_CELL, heatColor, levelRamp, luminance, ramp, TEXT_DARK, TEXT_LIGHT, textOn } from "./heat";
 
 describe("luminance / contrast", () => {
   it("matches the WCAG reference points", () => {
@@ -30,5 +30,15 @@ describe("textOn", () => {
       // with the better choice the ramp never drops below 4:1 anywhere
       expect(contrast(bg, chosen)).toBeGreaterThan(4);
     }
+  });
+});
+
+
+describe("levelRamp", () => {
+  it("runs light to dark monotonically, and tile ink stays readable across it", () => {
+    const ts = [0, 0.25, 0.5, 0.75, 1];
+    const lum = ts.map((t) => luminance(levelRamp(t)));
+    for (let i = 1; i < lum.length; i++) expect(lum[i]).toBeLessThan(lum[i - 1]);
+    for (const t of ts) expect(contrast(levelRamp(t), textOn(levelRamp(t)))).toBeGreaterThanOrEqual(4.5);
   });
 });

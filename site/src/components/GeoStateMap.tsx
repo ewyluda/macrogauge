@@ -1,32 +1,12 @@
 "use client";
-import { useState } from "react";
 import { SegmentedControl } from "./SegmentedControl";
-import { STOPS, ramp, EMPTY_CELL, textOn } from "@/lib/heat";
+import { LEVEL_STOPS, levelRamp, EMPTY_CELL, textOn } from "@/lib/heat";
 import { TILE_POS } from "@/lib/stateTiles";
+import { METRICS, valueOf, type MetricKey } from "@/lib/siteCosts";
 import type { GeoStateRow, GeoPanel } from "@/lib/types";
 
-type MetricKey = "gas" | "elec_res" | "elec_ind" | "wage" | "unemployment";
-
-const METRICS = [
-  { key: "gas", label: "GAS $/gal" },
-  { key: "elec_res", label: "ELEC RES ¢" },
-  { key: "elec_ind", label: "ELEC IND ¢" },
-  { key: "wage", label: "WAGE $/wk" },
-  { key: "unemployment", label: "UNEMP %" },
-] as const;
-
-function valueOf(panel: GeoPanel, m: MetricKey): number | null {
-  switch (m) {
-    case "gas": return panel.gas_regular.value;
-    case "elec_res": return panel.elec_res_cents.value;
-    case "elec_ind": return panel.elec_ind_cents.value;
-    case "wage": return panel.wage_weekly.value;
-    case "unemployment": return panel.unemployment_pct.value;
-  }
-}
-
 /** Full form for tooltip/legend/national line. */
-function fmtFull(v: number | null, m: MetricKey): string {
+export function fmtFull(v: number | null, m: MetricKey): string {
   if (v == null) return "—";
   switch (m) {
     case "gas": return `$${v.toFixed(3)}/gal`;
@@ -49,18 +29,23 @@ function fmtTile(v: number | null, m: MetricKey): string {
   }
 }
 
-const GRADIENT = `linear-gradient(90deg, ${STOPS.map(
+const GRADIENT = `linear-gradient(90deg, ${LEVEL_STOPS.map(
   ([t, [r, g, b]]) => `rgb(${r},${g},${b}) ${t * 100}%`
 ).join(", ")})`;
 
+/** Controlled: the page's StatesExplorer owns the metric (in the URL) so the
+ *  map and the ranked table always show the same one. */
 export function GeoStateMap({
   states,
   national,
+  metric,
+  onMetric,
 }: {
   states: GeoStateRow[];
   national: GeoPanel;
+  metric: MetricKey;
+  onMetric: (m: MetricKey) => void;
 }) {
-  const [metric, setMetric] = useState<MetricKey>("gas");
   const vals = states
     .map((s) => valueOf(s, metric))
     .filter((v): v is number => v != null);
@@ -84,7 +69,7 @@ export function GeoStateMap({
           marginBottom: 10,
         }}
       >
-        <SegmentedControl options={METRICS} value={metric} onChange={setMetric} />
+        <SegmentedControl options={METRICS} value={metric} onChange={onMetric} />
         {hasVals ? (
           <div
             style={{
@@ -125,7 +110,7 @@ export function GeoStateMap({
           const pos = TILE_POS[s.state];
           if (!pos) return null;
           const v = valueOf(s, metric);
-          const bg = v == null ? EMPTY_CELL : ramp((v - min) / span);
+          const bg = v == null ? EMPTY_CELL : levelRamp((v - min) / span);
           // tile ink by WCAG luminance — near-white on the amber stretch was ~3:1
           const ink = textOn(bg);
           return (
@@ -155,7 +140,7 @@ export function GeoStateMap({
       <p className="method" style={{ marginBottom: 0 }}>
         US average: {fmtFull(valueOf(national, metric), metric)}. Colored by {metric === "wage"
           ? "the latest shared national QCEW quarter"
-          : "each state’s own latest reading"} (min–max across states); higher = warmer.
+          : "each state’s own latest reading"} (min–max across states); higher = darker.
         {suppressed.length > 0 &&
           ` Greyed (${suppressed.join(", ")}): no published value${
             metric === "wage"
