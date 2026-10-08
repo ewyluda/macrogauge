@@ -142,6 +142,24 @@ test("/calculator compares cost indexes since a bid month, rebased to 100", asyn
   await expect(page.locator(".chart-card canvas")).toHaveCount(1);
 });
 
+test("every DC component page's compare link keeps the component and its index in the calculator", async ({ page }) => {
+  const dc = await (await page.request.get("/data/datacenter.json")).json() as
+    { indexes: Record<string, { components: { code: string; label: string }[] }> };
+  for (const [key, ix] of Object.entries(dc.indexes)) {
+    for (const c of ix.components) {
+      await page.goto(`/datacenter/components/${c.code}`);
+      await page.locator('a[href^="/calculator?series="]').click();
+      // decoded: the page may re-write the param (comma as %2C) once it hydrates
+      await expect.poll(() => page.evaluate(() => new URLSearchParams(location.search).get("series"))).toBe(`${c.code},dc_${key}`);
+      const rows = page.getByTestId("since-table").locator("tbody tr");
+      await expect(rows).toHaveCount(2);
+      await expect(page.getByTestId("since-picker").getByLabel(c.label, { exact: true })).toBeChecked();
+      await expect(rows.filter({ hasText: c.label })).toHaveCount(1);
+      await expect(page.getByTestId("since-table")).not.toContainText("No level");
+    }
+  }
+});
+
 test("/cpi-preview leads with the call and the forecaster spread; receipts sort by |contribution|", async ({ page }) => {
   await page.goto("/cpi-preview");
   await expect(page.getByTestId("cpi-preview-takeaway")).toContainText(/CPI.*the forecasters average [+−]\d\.\d\d% on the month/);

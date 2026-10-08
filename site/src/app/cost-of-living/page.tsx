@@ -31,8 +31,10 @@ export default function CostOfLiving() {
   const colAsOf = last >= 0 ? col.dates[last] : null;
   const spread = colYoy == null ? null : colYoy - pulse.gauge.yoy_pct;
 
-  // the latest rate-driven jump, if any: the daily rate now vs the monthly
-  // rate a year before it (housing.json's affordability history)
+  // the latest cost-of-living jump, if any, beside the daily rate now vs the
+  // monthly rate a year before it (housing.json's affordability history). The
+  // marker never says "rate-driven": the trigger reads only the COL YoY, and
+  // nothing here measures the rate's share of the jump
   const housing = artifact("housing", housingJson);
   const mnd = housing.mortgage.mnd_30yr_daily;
   const h = housing.affordability.history;
@@ -97,7 +99,7 @@ export default function CostOfLiving() {
             gaugeIndex={gauge.index.slice(from)}
             months={compare.months.slice(mFrom)}
             official={compare.official_yoy_pct.slice(mFrom)}
-            markFrom={jump ? { date: jump.from, label: "rate-driven jump" } : null}
+            markFrom={jump ? { date: jump.from, label: "cost-of-living jump" } : null}
           />
         </div>
         {jump && <p className="method" data-testid="col-jump">{jump.text}</p>}

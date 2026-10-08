@@ -293,6 +293,19 @@ describe("audit F6–F8 (docs/reviews/2026-10-08-pr-54-70-review-coverage-audit.
     expect(clusterStories([g1, g2])).toHaveLength(1);
   });
 
+  it("multiword places keep their whole name: New York and New Jersey stay apart, a longer same-place headline folds", () => {
+    const at12 = at("2026-10-07T12:00:00Z");
+    for (const [a, b] of [["New York", "New Jersey"], ["North Carolina", "North Dakota"], ["San Jose", "San Antonio"]]) {
+      const x = post(`Microsoft opens a 500 MW data center in ${a}`, { id: "x", ...at12 });
+      const y = post(`Microsoft opens a 500 MW data center in ${b}`, { id: "y", ...at12 });
+      expect(sameStory(x, y)).toBe(false);
+      expect(clusterStories([x, y])).toHaveLength(2);
+    }
+    const ny = post("Microsoft opens a 500 MW data center in New York", { id: "ny", ...at12 });
+    const nyLong = post("Microsoft's new 500 MW data center in New York State opens, Bloomberg reports", { id: "ny2", ...at("2026-10-07T13:00:00Z") });
+    expect(sameStory(ny, nyLong)).toBe(true);
+  });
+
   it("F8: two same-day equal-dollar deals both make the strip; one deal reported on two days shows once", () => {
     const duke = post("Microsoft signs $5 billion contract with Duke Energy for nuclear electricity", { id: "d", ...at("2026-10-07T12:00:00Z") });
     const fab = post("Microsoft acquires chipmaking startup for $5 billion to expand semiconductor fabrication", { id: "f", ...at("2026-10-07T12:00:00Z") });

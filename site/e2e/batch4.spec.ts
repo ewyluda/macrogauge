@@ -54,7 +54,8 @@ test("since-yesterday strip on the homepage and the /changes page agree on the p
   }
   await page.goto("/changes");
   await expect(page.locator(".kpi-label", { hasText: "Previous publish" })).toBeVisible();
-  await expect(page.locator("table.data-table").nth(1).locator("tbody tr")).toHaveCount(14);
+  // by id, not position: the movers tables (2026-10-08) sit above it once published
+  await expect(page.getByTestId("components-table").locator("tbody tr")).toHaveCount(14);
 });
 
 test("feed body carries the since-yesterday sentence", async ({ page }) => {

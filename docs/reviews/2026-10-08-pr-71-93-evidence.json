@@ -1,0 +1,1376 @@
+{
+  "reviewed_commit": "a235fe378cb96c44955be96b7e91ec8a9739fd2e",
+  "review_date": "2026-10-08",
+  "prs": [
+    {
+      "number": 71,
+      "title": "fix(site): one-claim H1s on /power, /states, /rates, /capacity; peer notes below the card",
+      "url": "https://github.com/ewyluda/macrogauge/pull/71",
+      "headRefOid": "97995f363046f5ea372d80d41fadd0bb84060569",
+      "baseRefOid": "4ccd8068cfb65f130cbf3ce68f0f84fecf9c563c",
+      "mergedAt": "2026-10-08T13:36:42Z",
+      "mergeCommit": {
+        "oid": "c41363a54ec6b97e312c7b697379043fa36bcb6b"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T13:25:08Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37784007961/job/113333992399",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T13:23:53Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T13:26:49Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37784007961/job/113333992893",
+          "name": "site",
+          "startedAt": "2026-10-08T13:23:54Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T13:24:37Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/HvR52c83cSuGjscY7RvpGVd4iueB"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T13:24:40Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T13:24:40Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 72,
+      "title": "feat(compute): token roster = OpenRouter's most-used models by paid spend, with tier tags",
+      "url": "https://github.com/ewyluda/macrogauge/pull/72",
+      "headRefOid": "443a50f147cb460d31928444fa6ec45db957ab08",
+      "baseRefOid": "c41363a54ec6b97e312c7b697379043fa36bcb6b",
+      "mergedAt": "2026-10-08T13:46:57Z",
+      "mergeCommit": {
+        "oid": "efcfddecfbbd8a878e77b69bf98c1c2639f55496"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T13:39:40Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37785795245/job/113340070636",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T13:37:20Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T13:40:46Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37785795245/job/113340070324",
+          "name": "site",
+          "startedAt": "2026-10-08T13:37:21Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T13:38:55Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/DEKcDgkT1pBuqkGHfTNNpx7bK76M"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T13:38:56Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T13:38:56Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 73,
+      "title": "feat(compute): Nebius on-demand GPU list prices; provider columns follow the data",
+      "url": "https://github.com/ewyluda/macrogauge/pull/73",
+      "headRefOid": "75b04a06191c753c1b08df867f1e19ace43913e2",
+      "baseRefOid": "efcfddecfbbd8a878e77b69bf98c1c2639f55496",
+      "mergedAt": "2026-10-08T14:10:54Z",
+      "mergeCommit": {
+        "oid": "1c4d24d51930433f42312d2fe3c602d9b25100df"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T13:50:08Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37787158901/job/113344743662",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T13:47:31Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T13:51:10Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37787158901/job/113344743858",
+          "name": "site",
+          "startedAt": "2026-10-08T13:47:31Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T13:48:50Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/DyTdRbmFpfXTP2Z2AtALNTmaxNH3"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T13:48:52Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T13:48:52Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 74,
+      "title": "fix(news): reject impossible post timestamps and future-dated feeds (audit F4, F5)",
+      "url": "https://github.com/ewyluda/macrogauge/pull/74",
+      "headRefOid": "9555a572947634e02575de960ab5c9ba7d342ef7",
+      "baseRefOid": "efcfddecfbbd8a878e77b69bf98c1c2639f55496",
+      "mergedAt": "2026-10-08T14:10:58Z",
+      "mergeCommit": {
+        "oid": "9170d81d9f81886b5db5b32bb9c7da39d47f2333"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:00:24Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37788580832/job/113349623662",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T13:58:02Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:03:21Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37788580832/job/113349623469",
+          "name": "site",
+          "startedAt": "2026-10-08T13:58:02Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T13:59:27Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/79P5RnJLsfjtNJPsqYyXipaiZQ3R"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T13:59:28Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T13:59:28Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 75,
+      "title": "feat(longlead): gas turbines and fuel cells on the generators row; pumps off the board; /commodities power on 30-day averages",
+      "url": "https://github.com/ewyluda/macrogauge/pull/75",
+      "headRefOid": "6be82aa84e6bb0b8b041f8df2d776dd7ba3705f1",
+      "baseRefOid": "9170d81d9f81886b5db5b32bb9c7da39d47f2333",
+      "mergedAt": "2026-10-08T14:25:44Z",
+      "mergeCommit": {
+        "oid": "dc8ee33d7b6bc117d05b0f3b03d0bcecb102acb7"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:15:56Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37790741637/job/113357144046",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T14:13:49Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:16:36Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37790741637/job/113357144354",
+          "name": "site",
+          "startedAt": "2026-10-08T14:13:49Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T14:14:32Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/EUfZmggYqscgwMMK6iekEHjui8PR"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:14:33Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T14:14:33Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 76,
+      "title": "fix(trust): no raw floats or ISO stamps on /stress, /heatcheck, /status; dated, stale-aware home readings (audit F3)",
+      "url": "https://github.com/ewyluda/macrogauge/pull/76",
+      "headRefOid": "c49adf86a1eabde7a770933e1ca42fcffb4f53c3",
+      "baseRefOid": "dc8ee33d7b6bc117d05b0f3b03d0bcecb102acb7",
+      "mergedAt": "2026-10-08T14:33:50Z",
+      "mergeCommit": {
+        "oid": "3b5523677c94c6e96fcbe0a11d4b63734cb76278"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:30:36Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37792709775/job/113364030451",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T14:28:13Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:31:57Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37792709775/job/113364030811",
+          "name": "site",
+          "startedAt": "2026-10-08T14:28:13Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T14:28:57Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/7zoxLg6TsdagMHksLUHQnsqV6Efh"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:28:58Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T14:28:58Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 77,
+      "title": "feat(methodology): collapse the series inventory behind its source chips",
+      "url": "https://github.com/ewyluda/macrogauge/pull/77",
+      "headRefOid": "26d77a5174fe20dea32587aec5b15bdc98f76fd6",
+      "baseRefOid": "3b5523677c94c6e96fcbe0a11d4b63734cb76278",
+      "mergedAt": "2026-10-08T14:46:23Z",
+      "mergeCommit": {
+        "oid": "d949e2b37f4134cb1c859b6851750a7d9c0eaebd"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:38:12Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37793751413/job/113367668164",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T14:35:46Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:38:23Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37793751413/job/113367667545",
+          "name": "site",
+          "startedAt": "2026-10-08T14:35:46Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T14:36:50Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/8hsZ9wUtXr3BqJzW3Fb6TexCZXW7"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:36:51Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T14:36:51Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 78,
+      "title": "feat(status): group checks and sources by section, AI Infra first; series freshness bars; curated-input reviews",
+      "url": "https://github.com/ewyluda/macrogauge/pull/78",
+      "headRefOid": "7dcf43744eaae5fb5c5184cddf96d7d1b7302722",
+      "baseRefOid": "d949e2b37f4134cb1c859b6851750a7d9c0eaebd",
+      "mergedAt": "2026-10-08T14:52:58Z",
+      "mergeCommit": {
+        "oid": "52c146aae37cb141cef2aa07ef60c24688249a1c"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:50:40Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37795453459/job/113373605611",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T14:48:16Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:52:29Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37795453459/job/113373605162",
+          "name": "site",
+          "startedAt": "2026-10-08T14:48:15Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T14:49:23Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/Hmk3uqBxUpPHPoYofnuQU4X4GNmG"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:49:27Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T14:49:27Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 79,
+      "title": "feat(data): group files by section, AI Infra first; newest data per file; field previews and CSV for DC and compute files",
+      "url": "https://github.com/ewyluda/macrogauge/pull/79",
+      "headRefOid": "ba7bcf28938d1ff9588a29e4e33acd444f34bf84",
+      "baseRefOid": "52c146aae37cb141cef2aa07ef60c24688249a1c",
+      "mergedAt": "2026-10-08T15:08:10Z",
+      "mergeCommit": {
+        "oid": "fddda4802429e6617171b00ebe808e52c2fcf6be"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:56:59Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37796342640/job/113376663268",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T14:54:38Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:57:57Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37796342640/job/113376662851",
+          "name": "site",
+          "startedAt": "2026-10-08T14:54:38Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T14:56:06Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/AVEzRVYoMVmiH2QZW4SBA3CEzugF"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T14:56:07Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T14:56:07Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 80,
+      "title": "fix(escalation): edited links keep the default forward leg; chart aria states the p10-p90 endpoints (audit F1, F10)",
+      "url": "https://github.com/ewyluda/macrogauge/pull/80",
+      "headRefOid": "f0ffd9206c80a26abbdb50432fa06593ff103bae",
+      "baseRefOid": "fddda4802429e6617171b00ebe808e52c2fcf6be",
+      "mergedAt": "2026-10-08T15:19:16Z",
+      "mergeCommit": {
+        "oid": "0c846ae95339bb53bb6e5657ff7aa821b6a27d96"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T15:12:11Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37798452272/job/113383977326",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T15:09:52Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T15:13:12Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37798452272/job/113383976484",
+          "name": "site",
+          "startedAt": "2026-10-08T15:09:52Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T15:10:48Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/AzmHvPcpAgr5x24TtzJPFBqmfWKJ"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T15:10:49Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T15:10:49Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 81,
+      "title": "fix(news): sentence-case flashes are stories; different named places never merge; same-day equal deals both make the strip (audit F6-F8)",
+      "url": "https://github.com/ewyluda/macrogauge/pull/81",
+      "headRefOid": "4f8ef19dca8ea84c6cab2e2106cb2729d5ec580b",
+      "baseRefOid": "0c846ae95339bb53bb6e5657ff7aa821b6a27d96",
+      "mergedAt": "2026-10-08T15:33:21Z",
+      "mergeCommit": {
+        "oid": "4b1e9ea282489bb5b227e909f2fa7b9e4fa9c08e"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T15:23:01Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37800004170/job/113389354129",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T15:20:56Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T15:25:04Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37800004170/job/113389354543",
+          "name": "site",
+          "startedAt": "2026-10-08T15:20:56Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T15:21:54Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/2bonFZ1Y7oRBx2DagMWeGofc2GDk"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T15:21:57Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T15:21:57Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 82,
+      "title": "feat(rates): what the AI builders paid on their latest notes, from their own filings",
+      "url": "https://github.com/ewyluda/macrogauge/pull/82",
+      "headRefOid": "d5a665d97910cb94592c8de1605ddab100a3b423",
+      "baseRefOid": "4b1e9ea282489bb5b227e909f2fa7b9e4fa9c08e",
+      "mergedAt": "2026-10-08T15:57:44Z",
+      "mergeCommit": {
+        "oid": "d940ab0638d3234a7e9ac238306ad272bd43e41c"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T15:38:12Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37802062498/job/113396536430",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T15:35:51Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T15:39:46Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37802062498/job/113396537092",
+          "name": "site",
+          "startedAt": "2026-10-08T15:35:51Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T15:37:06Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/7QqmuPbouXfF9KzgRatSMcgejhLZ"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T15:37:07Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T15:37:07Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 83,
+      "title": "feat(power): wholesale hubs on a US map",
+      "url": "https://github.com/ewyluda/macrogauge/pull/83",
+      "headRefOid": "7836f1482e4927056c34696a6965a95ba1b0a0d9",
+      "baseRefOid": "d940ab0638d3234a7e9ac238306ad272bd43e41c",
+      "mergedAt": "2026-10-08T16:18:06Z",
+      "mergeCommit": {
+        "oid": "a3d5fe3c754f312514f87027b09311fb788999fd"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T16:00:49Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37805219424/job/113407618207",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T15:59:25Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T16:02:54Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37805219424/job/113407617928",
+          "name": "site",
+          "startedAt": "2026-10-08T15:59:25Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T16:01:02Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/9cPhwPbX3PVK3rKzn4jprjwbgRGb"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T16:01:03Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T16:01:03Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 84,
+      "title": "feat(changes): diff every page's lead numbers, ranked, led by the day's biggest AI-infra move",
+      "url": "https://github.com/ewyluda/macrogauge/pull/84",
+      "headRefOid": "050c9d1ada29607b03393fb1ac680606e6d003f6",
+      "baseRefOid": "a3d5fe3c754f312514f87027b09311fb788999fd",
+      "mergedAt": "2026-10-08T16:25:04Z",
+      "mergeCommit": {
+        "oid": "b9c14fa82af2b08106d415356edc4c9cd63b22c9"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T16:22:19Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37808021662/job/113417306372",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T16:20:36Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T16:24:22Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37808021662/job/113417306843",
+          "name": "site",
+          "startedAt": "2026-10-08T16:20:35Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T16:21:38Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/GHRQQH9H6Srfrz4ewXtd6KPNoFWR"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T16:21:39Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T16:21:39Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 85,
+      "title": "feat(routes): /next-print -> /cpi-preview, /releases -> /revisions",
+      "url": "https://github.com/ewyluda/macrogauge/pull/85",
+      "headRefOid": "20a9309a5d9d605f8b73d46f6d8ee451b0eb2c79",
+      "baseRefOid": "b9c14fa82af2b08106d415356edc4c9cd63b22c9",
+      "mergedAt": "2026-10-08T16:34:16Z",
+      "mergeCommit": {
+        "oid": "7607b1859aa66b56f5eac99aadbaf0fb9522fc11"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T16:29:02Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37808821168/job/113420050750",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T16:26:41Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T16:30:14Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37808821168/job/113420050501",
+          "name": "site",
+          "startedAt": "2026-10-08T16:26:42Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T16:27:47Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/FyJvWb4VXQD8kmM5rQjRnQCcJUQN"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T16:27:48Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T16:27:48Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 86,
+      "title": "feat(routes): fold /vs-bls and /supercore into /gap",
+      "url": "https://github.com/ewyluda/macrogauge/pull/86",
+      "headRefOid": "0fa396c41d5a048da2cca531cc859968e08853c4",
+      "baseRefOid": "7607b1859aa66b56f5eac99aadbaf0fb9522fc11",
+      "mergedAt": "2026-10-08T16:54:31Z",
+      "mergeCommit": {
+        "oid": "43c7fd9268937a05788aebff2c8e0de0371aa30b"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T16:39:13Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37810195055/job/113424746498",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T16:37:06Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T16:40:20Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37810195055/job/113424746031",
+          "name": "site",
+          "startedAt": "2026-10-08T16:37:06Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T16:38:11Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/EdAfB8fDoVgMUqFtwMYgBxQ3Hbkd"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T16:38:11Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T16:38:11Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 87,
+      "title": "feat(routes): fold /real-wages into /labor and /metros into /housing",
+      "url": "https://github.com/ewyluda/macrogauge/pull/87",
+      "headRefOid": "6dcb0bdaab6f8188dcaef4ce5300b004a37e6bf8",
+      "baseRefOid": "43c7fd9268937a05788aebff2c8e0de0371aa30b",
+      "mergedAt": "2026-10-08T17:07:03Z",
+      "mergeCommit": {
+        "oid": "f9a68d073afade31e5e8d07936c057bfe8af7d84"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T16:58:11Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37812749514/job/113433496056",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T16:56:54Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T17:00:17Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37812749514/job/113433496544",
+          "name": "site",
+          "startedAt": "2026-10-08T16:56:55Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T16:57:53Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/H9WvJX8jTvHTAXDfR9ij43u3asoK"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T16:57:54Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T16:57:54Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 88,
+      "title": "feat(routes): fold /heatcheck, /stress and /recession into /macro-cycle",
+      "url": "https://github.com/ewyluda/macrogauge/pull/88",
+      "headRefOid": "5ac027fbce083b6c95e2d4bebf76d26a59e7e6fb",
+      "baseRefOid": "f9a68d073afade31e5e8d07936c057bfe8af7d84",
+      "mergedAt": "2026-10-08T17:24:10Z",
+      "mergeCommit": {
+        "oid": "eb3ebe6bee49d07371a14ab2113d64889226cefb"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T17:09:11Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37814119031/job/113438212429",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T17:07:31Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T17:11:05Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37814119031/job/113438211845",
+          "name": "site",
+          "startedAt": "2026-10-08T17:07:31Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T17:09:36Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/5atzPJ37u46ppEYbFd14XGdFQ1te"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T17:09:37Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T17:09:37Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 89,
+      "title": "feat(matrix,labor): escalation inputs lead /matrix; construction band on /labor",
+      "url": "https://github.com/ewyluda/macrogauge/pull/89",
+      "headRefOid": "0a5db3df3249959aa611acfc913a3aaa60423d06",
+      "baseRefOid": "eb3ebe6bee49d07371a14ab2113d64889226cefb",
+      "mergedAt": "2026-10-08T17:38:47Z",
+      "mergeCommit": {
+        "oid": "eb281f2fecc407bd4b63f84119b6e166dfda4a55"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T17:26:20Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37816315332/job/113445745725",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T17:24:33Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T17:28:13Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37816315332/job/113445746217",
+          "name": "site",
+          "startedAt": "2026-10-08T17:24:33Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T17:26:50Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/FMfy65ZAx3rvy3CzgSio4KjnPHP9"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T17:26:51Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T17:26:51Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 90,
+      "title": "feat(calculator): compare cost indexes since a bid or NTP month",
+      "url": "https://github.com/ewyluda/macrogauge/pull/90",
+      "headRefOid": "0ab0deb45e2339a6a7f1a11c9ead948718af6601",
+      "baseRefOid": "eb281f2fecc407bd4b63f84119b6e166dfda4a55",
+      "mergedAt": "2026-10-08T17:54:26Z",
+      "mergeCommit": {
+        "oid": "8181c507199db575384ecd2d22f360e4c0b5381c"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T17:41:29Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37818210344/job/113452201945",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T17:39:09Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T17:42:43Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37818210344/job/113452202334",
+          "name": "site",
+          "startedAt": "2026-10-08T17:39:09Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T17:41:10Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/BDpH88E7AMcaHzwoNPUwoUXtXZbz"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T17:41:11Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T17:41:11Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 91,
+      "title": "feat(revisions,cpi-preview,outlook): takeaways first; PPI and ECI revisions",
+      "url": "https://github.com/ewyluda/macrogauge/pull/91",
+      "headRefOid": "29f43b78f37932789c00adb649683fd2f41e7b94",
+      "baseRefOid": "8181c507199db575384ecd2d22f360e4c0b5381c",
+      "mergedAt": "2026-10-08T18:12:29Z",
+      "mergeCommit": {
+        "oid": "14858f8dd9626044e5fea74586e1321cb2c400d3"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T17:56:49Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37820230218/job/113459069411",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T17:54:57Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T17:58:15Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37820230218/job/113459069047",
+          "name": "site",
+          "startedAt": "2026-10-08T17:54:57Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T17:56:53Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/5DRVBGZ51wsQibJ4H5d7zQvFYkwp"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T17:56:54Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T17:56:54Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 92,
+      "title": "feat(datacenter,components): DC component drill-down; 36-month default; neutral gaps",
+      "url": "https://github.com/ewyluda/macrogauge/pull/92",
+      "headRefOid": "00dc9199d75bc6fd445647ee48e88ac08d08dac4",
+      "baseRefOid": "14858f8dd9626044e5fea74586e1321cb2c400d3",
+      "mergedAt": "2026-10-08T18:29:26Z",
+      "mergeCommit": {
+        "oid": "a9bf3b85a4965f41b51895f2577b6ab2bf0c0881"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T18:14:43Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37822533221/job/113466956271",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T18:12:56Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T18:16:02Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37822533221/job/113466956027",
+          "name": "site",
+          "startedAt": "2026-10-08T18:12:54Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T18:14:54Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/AHfLuhybmCk21Nc6fv5NfNibYzTj"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T18:14:55Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T18:14:55Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    },
+    {
+      "number": 93,
+      "title": "feat(household): takeaways first on /pce, /scoreboard, /cost-of-living, /housing, /grocery, /my-inflation",
+      "url": "https://github.com/ewyluda/macrogauge/pull/93",
+      "headRefOid": "87e0ecd631c6c56d5be087079da61f691c56a0bf",
+      "baseRefOid": "a9bf3b85a4965f41b51895f2577b6ab2bf0c0881",
+      "mergedAt": "2026-10-08T18:34:18Z",
+      "mergeCommit": {
+        "oid": "1401dac2f937d2860f3221aca55c12ffca20a121"
+      },
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T18:31:32Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37824720620/job/113474480387",
+          "name": "pipeline",
+          "startedAt": "2026-10-08T18:29:51Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T18:33:53Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37824720620/job/113474479994",
+          "name": "site",
+          "startedAt": "2026-10-08T18:29:51Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-08T18:31:44Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/B5DLEjXYmUrP6CDPP2HB3ipkF7ru"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-08T18:31:45Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-08T18:31:45Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ]
+    }
+  ],
+  "javascript_probes": {
+    "reviewed_commit": "a235fe378cb96c44955be96b7e91ec8a9739fd2e",
+    "fixtures_are_synthetic_except_hardware_roster": true,
+    "findings": {
+      "rates_window": {
+        "title": "BBB corporate debt yields 6.19%, up 119bp on the year, mostly from the credit spread",
+        "detail": "The 10-year Treasury is 5.00% (+100bp on the year); over the year to Sep 30 the BBB spread moved \u2212100bp of the index yield's \u2212110bp."
+      },
+      "multiword_places": {
+        "headlines": [
+          "Microsoft opens a 500 MW data center in New York",
+          "Microsoft opens a 500 MW data center in New Jersey"
+        ],
+        "sameStory": true,
+        "stories": 1
+      },
+      "power_map": {
+        "mixed_price_radii": [
+          "18",
+          "NaN"
+        ],
+        "negative_price_invalid": true,
+        "all_zero_invalid": true
+      },
+      "same_month": {
+        "sinceRow": null,
+        "rebased": {
+          "months": [
+            "2026-09"
+          ],
+          "values": [
+            100
+          ]
+        }
+      },
+      "amount_roundtrip": {
+        "typed": -100,
+        "displayed_escalated": -102,
+        "url_decoded": null,
+        "reload_fallback": 1000000
+      },
+      "outlook_causality": {
+        "title": "Inflation climbs to a 3.0% peak in Oct 2026, then eases to 2.0% by Nov 2026",
+        "peak": {
+          "month": "2026-10",
+          "yoy": 3
+        },
+        "baseNote": "Much of the hump is base effect. The climb to Oct 2026 drops Oct 2025\u2013Oct 2025 out of the comparison, when the gauge rose 0.0%; the fall to Nov 2026 drops Nov 2025\u2013Nov 2025, when it rose 0.0%."
+      },
+      "weighted_legend": {
+        "ensemble": 0.16,
+        "arithmetic_mean": 0.25,
+        "legend": "equal-weight ensemble"
+      },
+      "hardware_links": [
+        {
+          "code": "hw_imported",
+          "offered_in_calculator": false,
+          "url": "/calculator?series=hw_imported,dc_hardware"
+        },
+        {
+          "code": "semis_components",
+          "offered_in_calculator": false,
+          "url": "/calculator?series=semis_components,dc_hardware"
+        },
+        {
+          "code": "imported_semis",
+          "offered_in_calculator": false,
+          "url": "/calculator?series=imported_semis,dc_hardware"
+        },
+        {
+          "code": "storage",
+          "offered_in_calculator": false,
+          "url": "/calculator?series=storage,dc_hardware"
+        },
+        {
+          "code": "network",
+          "offered_in_calculator": false,
+          "url": "/calculator?series=network,dc_hardware"
+        }
+      ],
+      "scoreboard_windows": {
+        "takeaway": "Macrogauge has the smallest miss on CPI over the last 1 graded print: 0.500pp mean absolute error, against Cleveland Fed 0.600pp. 1 prints is too few to call a winner.",
+        "common_month": "2026-08",
+        "common_errors": {
+          "macrogauge": 1,
+          "cleveland": 0.6
+        }
+      },
+      "col_causality": {
+        "from": "2026-08-01",
+        "to": "2026-09-30",
+        "colFrom": 3,
+        "colTo": 5,
+        "gaugeFrom": 3,
+        "gaugeTo": 5,
+        "text": "Since 2026-08-01, cost of living has jumped from 3.0% to 5.0% while the gauge went from 3.0% to 5.0%. The 30-year mortgage rate is 6.0% (2026-09-30), against 6.0% a year earlier, and the buyer's payment rides the rate; rental-equivalence shelter does not."
+      },
+      "personal_gap_unit": {
+        "axis_formatter": "{value}%",
+        "gap_block_overrides_axis": false,
+        "tooltip_uses_pp": true
+      },
+      "negative_power_headline": "The biggest AI-infra move since the last publish: Example hub fell 200.0% to $10.00/MWh."
+    }
+  },
+  "python_probes": {
+    "negative_price_mover": {
+      "key": "hub",
+      "label": "Example hub",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "$/MWh",
+      "notable": 3.0,
+      "href": "/power",
+      "value": 10,
+      "as_of": "2026-10-08",
+      "prev_value": -10,
+      "prev_as_of": "2026-10-07",
+      "delta": -200.0,
+      "delta_unit": "%",
+      "significance": 66.67
+    },
+    "supported_weighted_ensemble": {
+      "value": 0.16,
+      "weights": {
+        "macrogauge": 0.8,
+        "cleveland": 0.2
+      }
+    },
+    "pr91_append_only_control": {
+      "partitions_checked": 114,
+      "old_rows_preserved": 187475,
+      "rows_appended": 450
+    },
+    "nebius_fixture_control": {
+      "NVIDIA HGX H100": 4.5,
+      "NVIDIA HGX H200": 5.4,
+      "NVIDIA HGX B200": 8.5,
+      "NVIDIA HGX B300": 9.5
+    }
+  },
+  "isolated_generated_artifacts": {
+    "datacenter": {
+      "sha256": "3538c6dec05cfc9d4e040e6442e5ae3cd5f038c7953a6273054b600a078618c9",
+      "published_at": "2026-10-08T19:00:00Z"
+    },
+    "longlead": {
+      "sha256": "112eb01033aa22467daf6b1084982ac0ee45375bcbd487c5dc0fb682a5b3a9de",
+      "published_at": "2026-10-08T19:00:00Z"
+    },
+    "rates": {
+      "sha256": "305fbf737fd89af718b3268915b6bb4a8ab72dab5823d43a7119d3cc148e86e7",
+      "published_at": "2026-10-08T19:00:00Z"
+    },
+    "compute": {
+      "sha256": "3cb25f276f94c9a36203e3d47e01e845c366becc9e2f09489dc6e2f11205edc6",
+      "published_at": "2026-10-08T19:00:00Z"
+    },
+    "matrix": {
+      "sha256": "3b5cebe04b56ab3f5cc6396a49c0d8d14c905a03ffadc5c2d811c9226f6bd2bd",
+      "published_at": "2026-10-08T19:00:00Z"
+    },
+    "labor": {
+      "sha256": "2466c90c31ec57967058f21235525860ac54906c66eff7ae7d349e41203682e9",
+      "published_at": "2026-10-08T19:00:00Z"
+    },
+    "revisions": {
+      "sha256": "4f7b462467c78f8064e90f13f7f4e924c2ae45744239982177f9f96e57278906",
+      "published_at": "2026-10-08T19:00:00Z"
+    },
+    "commodities": {
+      "sha256": "11f20f3204961997bb0779735630473e66898605be70700193148ef574c5a280",
+      "published_at": "2026-10-08T19:00:00Z"
+    },
+    "heatcheck": {
+      "sha256": "2d64a675e98a691570fa008fffc87f134c244d10e786c01e669837ff31449f05",
+      "published_at": "2026-10-08T19:00:00Z"
+    },
+    "stress": {
+      "sha256": "946f725a10366cb35824452886c41e9903afcfcc8254cd7567470db7b8c2675d",
+      "published_at": "2026-10-08T19:00:00Z"
+    },
+    "recession": {
+      "sha256": "4cac42c484c532fbad96c571283cf13853e98de4b8e5a6c36c2329aff7cefbda",
+      "published_at": "2026-10-08T19:00:00Z"
+    },
+    "real_wages": {
+      "sha256": "f66b967ff11ad5a080aff1ceef2aa2e3bdffb424b430cc18367bb5e979f2a8b2",
+      "published_at": "2026-10-08T19:00:00Z"
+    },
+    "changes": {
+      "sha256": "140c3031859bed24315cbcf3f2478ce70879dd4b618a7ab1e36096e85317726b",
+      "published_at": "2026-10-08T19:00:00Z"
+    }
+  },
+  "notes": [
+    "Regeneration uses a synthetic publish stamp and does not represent a live collection.",
+    "Synthetic edge cases are separated from current-file reproductions in the report.",
+    "Negative amount browser: -100 -> -133; same URL after reload: 1000000 -> 1331958.",
+    "Latest-month browser: No level for 2026-10: this series runs 2017-01 to 2026-10."
+  ],
+  "checks": {
+    "pytest": "1294 passed",
+    "vitest": "454 passed, 66 files",
+    "lint": "passed",
+    "build": "passed",
+    "baseline_browser": "232 passed; sole failure due to absent Git build metadata in archive",
+    "regenerated_browser": "232 passed; sole failure e2e/batch4.spec.ts:57 Expected14 Received30; proper GITHUB_SHA supplied",
+    "representative_fixture_browser": "232 passed, 1 failed (46.7s); F1 at batch4.spec.ts:57 Expected14 Received30",
+    "representative_fixture_roster": {
+      "priced_models": 7,
+      "cloud_gpu_rows": 23,
+      "priced_nebius_rows": 4,
+      "nonnull_construction_wage_observations": 105
+    },
+    "frozen_tree_still_current": "At completion, git diff --name-only a235fe378cb96c44955be96b7e91ec8a9739fd2e 53462dec10ba776e78f9548892e4d275529e5fdf returned no changes."
+  },
+  "generated_browser_failure": "  1) e2e/batch4.spec.ts:46:5 \u203a since-yesterday strip on the homepage and the /changes page agree on the previous publish \n\n    Error: expect(locator).toHaveCount(expected) failed\n\n    Locator:  locator('table.data-table').nth(1).locator('tbody tr')\n    Expected: 14\n    Received: 30\n    Timeout:  5000ms\n\n    Call log:\n      - Expect \"toHaveCount\" locator('table.data-table').nth(1).locator('tbody tr') with timeout 5000ms\n      - waiting for locator('table.data-table').nth(1).locator('tbody tr')\n        13 \u00d7 locator resolved to 30 elements\n           - unexpected value \"30\"\n\n\n      55 |   await page.goto(\"/changes\");\n      56 |   await expect(page.locator(\".kpi-label\", { hasText: \"Previous publish\" })).toBeVisible();\n    > 57 |   await expect(page.locator(\"table.data-table\").nth(1).locator(\"tbody tr\")).toHaveCount(14);\n         |                                                                             ^\n      58 | });\n      59 |\n      60 | test(\"feed body carries the since-yesterday sentence\", async ({ page }) => {\n        at /private/tmp/macrogauge-review-71-93/snapshot/site/e2e/batch4.spec.ts:57:77\n\n    Error Context: test-results/batch4-since-yesterday-str-c57f4-ree-on-the-previous-publish/error-context.md\n\n    attachment #2: trace (application/zip) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n    test-results/batch4-since-yesterday-str-c57f4-ree-on-the-previous-publish/trace.zip\n    Usage:\n\n        npx playwright show-trace test-results/batch4-since-yesterday-str-c57f4-ree-on-the-previous-publish/trace.zip\n\n    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n  1 failed\n    e2e/batch4.spec.ts:46:5 \u203a since-yesterday strip on the homepage and the /changes page agree on the previous publish \n  232 passed (50.9s)\n",
+  "final_fixture_browser_failure": "  1) e2e/batch4.spec.ts:46:5 \u203a since-yesterday strip on the homepage and the /changes page agree on the previous publish \n\n    Error: expect(locator).toHaveCount(expected) failed\n\n    Locator:  locator('table.data-table').nth(1).locator('tbody tr')\n    Expected: 14\n    Received: 30\n    Timeout:  5000ms\n\n    Call log:\n      - Expect \"toHaveCount\" locator('table.data-table').nth(1).locator('tbody tr') with timeout 5000ms\n      - waiting for locator('table.data-table').nth(1).locator('tbody tr')\n        14 \u00d7 locator resolved to 30 elements\n           - unexpected value \"30\"\n\n\n      55 |   await page.goto(\"/changes\");\n      56 |   await expect(page.locator(\".kpi-label\", { hasText: \"Previous publish\" })).toBeVisible();\n    > 57 |   await expect(page.locator(\"table.data-table\").nth(1).locator(\"tbody tr\")).toHaveCount(14);\n         |                                                                             ^\n      58 | });\n      59 |\n      60 | test(\"feed body carries the since-yesterday sentence\", async ({ page }) => {\n        at /private/tmp/macrogauge-review-71-93/snapshot/site/e2e/batch4.spec.ts:57:77\n\n    Error Context: test-results/batch4-since-yesterday-str-c57f4-ree-on-the-previous-publish/error-context.md\n\n    attachment #2: trace (application/zip) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n    test-results/batch4-since-yesterday-str-c57f4-ree-on-the-previous-publish/trace.zip\n    Usage:\n\n        npx playwright show-trace test-results/batch4-since-yesterday-str-c57f4-ree-on-the-previous-publish/trace.zip\n\n    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n  1 failed\n    e2e/batch4.spec.ts:46:5 \u203a since-yesterday strip on the homepage and the /changes page agree on the previous publish \n  232 passed (46.7s)\n"
+}

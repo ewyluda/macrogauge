@@ -771,7 +771,7 @@ export type Changes = {
 export type Mover = {
   key: string; label: string; section: string; kind: "level" | "rate" | "yoy"; unit: string; notable: number;
   href: string; value: number | null; as_of: string | null; prev_value: number | null; prev_as_of: string | null;
-  delta: number | null; delta_unit: "%" | "bp" | "pp"; significance: number | null;
+  delta: number | null; delta_unit: "%" | "bp" | "pp" | "$/MWh"; significance: number | null;
 };
 
 // --- batch 5 (2026-09-03) ---------------------------------------------------

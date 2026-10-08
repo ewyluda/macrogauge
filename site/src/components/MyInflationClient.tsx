@@ -258,6 +258,8 @@ export function MyInflationClient({
           option={{
             ...baseOption(),
             legend: { show: false },
+            // a difference of two rates: percentage points, not the base option's "%"
+            yAxis: { ...baseOption().yAxis, axisLabel: { ...baseOption().yAxis.axisLabel, formatter: "{value}pp" } },
             tooltip: { ...baseOption().tooltip, valueFormatter: (v: unknown) => (typeof v === "number" ? `${v > 0 ? "+" : ""}${v.toFixed(2)}pp` : "—") },
             series: [
               {

@@ -4,12 +4,29 @@ import type { Forecaster } from "@/lib/types";
 
 const COLOR: Record<string, string> = { Macrogauge: C.sky, Cleveland: C.amber, Kalshi: C.violet };
 
+const isEqual = (w: Record<string, number>) => {
+  const v = Object.values(w);
+  return v.every((x) => Math.abs(x - v[0]) < 1e-3);
+};
+const method = (w: Record<string, number>) => (isEqual(w) ? "equal-weight" : "weighted by past accuracy");
+
+/** The ensemble's legend from the weights each row was built with: headline
+ *  CPI goes inverse-MAE once every forecaster earns a graded record, while
+ *  core stays equal-weight (nowcast.models) — so when the rows differ the
+ *  legend names each row's method instead of one for both. */
+export function ensembleLabel(rows: { label: string; weights: Record<string, number> }[]): string {
+  const methods = rows.map((r) => method(r.weights));
+  if (methods.every((m) => m === "equal-weight")) return "equal-weight ensemble";
+  if (methods.every((m) => m !== "equal-weight")) return "ensemble, weighted by past accuracy";
+  return `ensemble (${rows.map((r, i) => `${r.label}: ${methods[i]}`).join("; ")})`;
+}
+
 /** Each forecaster's call as a dot on one shared MoM axis per target, the
  *  ensemble as a tick — how far apart the calls are, at a glance. HTML with
  *  percentage positions, not a scaled SVG, so the text stays legible on a
  *  phone. */
 export function ForecasterDots({ rows }: {
-  rows: { label: string; ensemble: number | null; forecasters: Forecaster[] }[];
+  rows: { label: string; ensemble: number | null; weights: Record<string, number>; forecasters: Forecaster[] }[];
 }) {
   const live = rows.filter((r) => r.forecasters.length > 0);
   if (live.length === 0) return null;
@@ -47,7 +64,7 @@ export function ForecasterDots({ rows }: {
         {names.map((n) => (
           <span key={n}><span aria-hidden style={{ display: "inline-block", width: 9, height: 9, borderRadius: 5, background: COLOR[n] ?? C.muted, marginRight: 5 }} />{n}</span>
         ))}
-        <span><span aria-hidden style={{ display: "inline-block", width: 2, height: 11, background: C.text, marginRight: 5, verticalAlign: "middle" }} />equal-weight ensemble</span>
+        <span><span aria-hidden style={{ display: "inline-block", width: 2, height: 11, background: C.text, marginRight: 5, verticalAlign: "middle" }} />{ensembleLabel(live)}</span>
       </p>
     </div>
   );

@@ -25,7 +25,7 @@ function MoverRow({ m }: { m: Mover }) {
       <td style={{ color: "var(--muted)" }}>{fmtReading(m, m.prev_value)}<small style={{ display: "block" }}>{m.prev_as_of ?? "—"}</small></td>
       <td style={{ fontWeight: strong ? 700 : 400, color: strong ? "var(--text)" : "var(--muted)" }}>{fmtDelta(m)}</td>
       <td style={{ color: "var(--muted)" }}>{m.significance == null ? "—" : `${m.significance.toFixed(1)}×`}
-        <small style={{ display: "block" }}>notable {m.notable}{m.delta_unit}</small></td>
+        <small style={{ display: "block" }}>notable {m.delta_unit === "$/MWh" ? `$${m.notable}/MWh` : `${m.notable}${m.delta_unit}`}</small></td>
     </tr>
   );
 }
@@ -126,7 +126,7 @@ export default function ChangesPage() {
           <DownloadData filename="macrogauge-changes-components" json="changes.json" rows={c.components} citation={`MacroGauge component deltas, ${c.published_at}`} />
         </div>
         <div className="table-card">
-          <table className="data-table">
+          <table className="data-table" data-testid="components-table">
             <thead><tr><th style={{ textAlign: "left" }}>Component</th><th>Data</th><th>YoY now</th><th>Previous</th><th>Δ</th><th>BLS YoY</th></tr></thead>
             <tbody>
               {c.components.map((x) => (

@@ -29,8 +29,8 @@ export default function CpiPreview() {
   return <div><h1>CPI Preview <span className="subtitle">evergreen forecast → result</span></h1>
     {lead && <p className="lede" data-testid="cpi-preview-takeaway">{lead}</p>}
     <ForecasterDots rows={[
-      { label: "CPI", ensemble: nextprint.ensemble.value, forecasters: nextprint.forecasters },
-      ...(nextprint.core ? [{ label: "Core CPI", ensemble: nextprint.core.ensemble.value, forecasters: nextprint.core.forecasters }] : []),
+      { label: "CPI", ensemble: nextprint.ensemble.value, weights: nextprint.ensemble.weights, forecasters: nextprint.forecasters },
+      ...(nextprint.core ? [{ label: "Core CPI", ensemble: nextprint.core.ensemble.value, weights: nextprint.core.ensemble.weights, forecasters: nextprint.core.forecasters }] : []),
     ]} />
     <p className="method">Bottom-up forecast for {nowcast.reference_month ?? "the next print (release calendar awaiting refresh)"}, frozen and graded when the BLS print arrives.</p>
     <ForecastHero />

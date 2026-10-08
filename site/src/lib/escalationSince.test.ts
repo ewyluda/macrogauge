@@ -21,9 +21,13 @@ describe("sinceRow", () => {
     expect(sinceRow(ppi, "2025-07", 1)!.annualizedPct).toBeNull();
   });
 
-  it("is null when the base month has no level or is the last print", () => {
+  it("is null when the base month has no level, before or after the series", () => {
     expect(sinceRow(ppi, "2024-01", 1)).toBeNull();
-    expect(sinceRow(ppi, "2026-06", 1)).toBeNull();
+    expect(sinceRow(ppi, "2026-07", 1)).toBeNull();
+  });
+
+  it("reads a base at the last print as no elapsed time, not a missing level", () => {
+    expect(sinceRow(ppi, "2026-06", 1000)).toMatchObject({ months: 0, changePct: 0, annualizedPct: null, escalated: 1000, lastMonth: "2026-06" });
   });
 });
 

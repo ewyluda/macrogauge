@@ -212,16 +212,19 @@ type Features = {
   capacity: Set<number>; dollars: Set<number>; places: Set<string>;
 };
 
-/** The places a prose headline sites its story at: the capitalised word after
- *  "in", "at", "near" or "outside" ("… data center in Texas"), lower-cased.
+/** The places a prose headline sites its story at: the run of capitalised
+ *  words after "in", "at", "near" or "outside" ("… data center in New York"),
+ *  lower-cased and space-joined, so New York and New Jersey stay apart.
  *  Only prepositional places, never every capitalised word: a rewrite that
  *  adds a counterparty or a wire credit is still the same event. A capitals
  *  flash or Title Case headline capitalises its prepositions, so it yields
  *  none and never vetoes. */
-const PLACE = /\b(?:in|at|near|outside)\s+(?:the\s+)?([A-Z][A-Za-z\u2019'.-]+)/g;
+const PLACE = /\b(?:in|at|near|outside)\s+(?:the\s+)?([A-Z][A-Za-z\u2019'.-]+(?:\s+[A-Z][A-Za-z\u2019'.-]+)*)/g;
 function places(p: NewsPost): Set<string> {
   return new Set([...p.headline.matchAll(PLACE)]
-    .map((m) => m[1].replace(/[\u2019']s$/i, "").replace(/[^A-Za-z]/g, "").toLowerCase())
+    .map((m) => m[1].split(/\s+/)
+      .map((w) => w.replace(/[\u2019']s$/i, "").replace(/[^A-Za-z]/g, "").toLowerCase())
+      .filter(Boolean).join(" "))
     .filter((w) => w.length >= 3));
 }
 function features(p: NewsPost): Features {
@@ -238,9 +241,14 @@ function features(p: NewsPost): Features {
   };
 }
 const disjoint = (a: Set<number>, b: Set<number>) => a.size > 0 && b.size > 0 && ![...a].some((v) => b.has(v));
+/** One place names the other whole-word first: "texas" and "texas ai" (a
+ *  capitalised word that trails the place) are one place; "new york" and
+ *  "new jersey" are not. */
+const samePlace = (a: string, b: string) => a === b || a.startsWith(`${b} `) || b.startsWith(`${a} `);
 /** Both headlines site their story and at no shared place: different events,
  *  whatever company, figure and verbs they share. */
-const differentPlaces = (a: Set<string>, b: Set<string>) => a.size > 0 && b.size > 0 && ![...a].some((n) => b.has(n));
+const differentPlaces = (a: Set<string>, b: Set<string>) =>
+  a.size > 0 && b.size > 0 && ![...a].some((n) => [...b].some((m) => samePlace(n, m)));
 
 /** Cheapest test first: time window, shared ticker, noise, then figures and
  *  wording. A recap or roundup shares tickers and figures with everything; it

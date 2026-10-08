@@ -1,6 +1,6 @@
 // /rates headline: the financing benchmarks, written from rates.json.
 
-type Level = { value: number | null; chg_1y: number | null };
+type Level = { value: number | null; chg_1y: number | null; as_of?: string | null };
 /** BBB yield and OAS annual changes on ONE shared window (publish/rates._bbb_move). */
 export type BbbMove = { as_of: string | null; base_date: string | null; yield_chg_1y: number; oas_chg_1y: number };
 
@@ -19,8 +19,14 @@ const moved = (pp: number) => (Math.round(pp * 100) === 0 ? "flat" : `${pp > 0 ?
  * The attribution reads ONLY the shared-window block (both changes end on one
  * date, from one baseline) and the detail names that end date; it is an
  * indication, not an exact decomposition (OAS is measured against a spot
- * Treasury curve, not the 10-year). Clauses drop when inputs are missing;
- * without a BBB reading the 10-year leads; null without a 10-year reading.
+ * Treasury curve, not the 10-year). The title carries it only when that window
+ * IS the title's window: it ends on the yield's own date and its yield change
+ * is the title's change (the publisher takes the yield's own baseline, so the
+ * two agree; a file from before 2026-10-08 could start the window on a nearby
+ * common day instead). Otherwise it explains a different year than the
+ * title's change, so it stays in the dated detail. Clauses drop
+ * when inputs are missing; without a BBB reading the 10-year leads; null
+ * without a 10-year reading.
  */
 export function ratesHeadline(ten: { value: number | null; chg_1y_pp: number | null } | undefined,
                               bbbYield?: Level | null, move?: BbbMove | null): { title: string; detail: string | null } | null {
@@ -35,7 +41,9 @@ export function ratesHeadline(ten: { value: number | null; chg_1y_pp: number | n
   let detail = `The 10-year Treasury is ${ten.value.toFixed(2)}%${tenChg}`;
   if (move && move.as_of && Math.abs(move.yield_chg_1y) >= 0.1) {
     const share = move.oas_chg_1y / move.yield_chg_1y;
-    title += Math.abs(share) < 0.25 ? ", mostly from Treasury rates"
+    const sameWindow = bbbYield.chg_1y != null && bbbYield.as_of === move.as_of &&
+      Math.round(bbbYield.chg_1y * 100) === Math.round(move.yield_chg_1y * 100);
+    if (sameWindow) title += Math.abs(share) < 0.25 ? ", mostly from Treasury rates"
       : share > 0.75 ? ", mostly from the credit spread" : ", from both rates and the credit spread";
     detail += `; over the year to ${day(move.as_of)} the BBB spread moved ${bp(move.oas_chg_1y)} of the index yield's ` +
       `${bp(move.yield_chg_1y)}`;

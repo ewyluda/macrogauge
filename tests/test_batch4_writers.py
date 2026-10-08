@@ -117,6 +117,27 @@ def test_rates_bbb_move_uses_one_shared_window(tmp_path):
     assert rates.build(conn2)["credit"]["bbb_move"] is None
 
 
+def test_rates_bbb_move_takes_the_yield_s_own_baseline(tmp_path):
+    """Same end date, but the spread misses the yield's year-ago day: a common
+    day three days earlier would measure a -12bp window beside the yield's own
+    +10bp, and the headline would explain a rise with a fall. No block."""
+    conn = _store(tmp_path, {
+        "BAMLC0A4CBBBEY": {"2025-10-03": 5.22, "2025-10-06": 5.00, "2026-10-06": 5.10},
+        "BAMLC0A4CBBB": {"2025-10-03": 1.02, "2026-10-06": 0.90},
+    })
+    c = rates.build(conn)["credit"]
+    assert c["bbb_yield"]["chg_1y"] == 0.1 and c["bbb_yield"]["as_of"] == "2026-10-06"
+    assert c["bbb_move"] is None
+    # the yield's own baseline off the target day (no 10-06 row): the block follows it
+    conn2 = _store(tmp_path / "b", {
+        "BAMLC0A4CBBBEY": {"2025-10-03": 5.22, "2025-10-07": 5.00, "2026-10-06": 5.10},
+        "BAMLC0A4CBBB": {"2025-10-03": 1.02, "2025-10-07": 0.95, "2026-10-06": 0.90},
+    })
+    c2 = rates.build(conn2)["credit"]
+    assert c2["bbb_move"] == {"as_of": "2026-10-06", "base_date": "2025-10-07",
+                              "yield_chg_1y": c2["bbb_yield"]["chg_1y"], "oas_chg_1y": -0.05}
+
+
 # --- compute ------------------------------------------------------------
 
 def test_rates_fed_path_from_kalshi_fetch_against_dfedtaru(tmp_path):
@@ -536,6 +557,31 @@ def test_changes_movers_rank_every_page_s_lead_numbers_on_one_scale(tmp_path):
     assert order[:3] == ["rates_dgs10", "hub_ice_pjm_west", "compute_token_index"]           # 2.4, 1.33, 0.3
     path = changes.write(changes.build(prev, out, [], None), out, "T1")
     validate.validate_file(path, SCHEMAS / "changes.schema.json")
+
+
+def test_changes_power_hub_off_a_nonpositive_average_reads_an_absolute_change(tmp_path):
+    """A % change off a nonpositive price runs backwards (-$10 -> +$10 read
+    -200%, a rise ranked as the day's biggest fall): off a nonpositive
+    previous average a hub reads its $/MWh change against its own notable
+    move; an ordinary positive base still reads in %."""
+    out = tmp_path / "out"
+
+    def publish(hubs):
+        _write(out, "pulse.json", {"published_at": "T"})
+        _write(out, "datacenter.json", {"power": {"hubs": [
+            {"code": c, "label": c, "avg30": v, "asof": "2026-10-06"} for c, v in hubs.items()]}})
+
+    publish({"neg_pos": -10.0, "neg_neg": -10.0, "zero": 0.0, "pos": 80.0})
+    prev = changes.read_previous(out)
+    publish({"neg_pos": 10.0, "neg_neg": -5.0, "zero": 3.0, "pos": 83.2})
+    p = changes.build(prev, out, [], None)
+    m = {r["key"]: r for r in p["movers"]}
+    assert (m["hub_neg_pos"]["delta"], m["hub_neg_pos"]["delta_unit"]) == (20.0, "$/MWh")
+    assert m["hub_neg_pos"]["notable"] == 2.0 and m["hub_neg_pos"]["significance"] == 10.0
+    assert (m["hub_neg_neg"]["delta"], m["hub_neg_neg"]["delta_unit"]) == (5.0, "$/MWh")
+    assert (m["hub_zero"]["delta"], m["hub_zero"]["delta_unit"]) == (3.0, "$/MWh")
+    assert (m["hub_pos"]["delta"], m["hub_pos"]["delta_unit"], m["hub_pos"]["notable"]) == (4.0, "%", 3.0)
+    validate.validate_file(changes.write(p, out, "T1"), SCHEMAS / "changes.schema.json")
 
 
 def test_changes_diffs_against_previous_snapshot(tmp_path):

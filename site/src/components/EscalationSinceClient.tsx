@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import Link from "next/link";
 import { useUrlState } from "@/lib/useUrlState";
 import { codecs } from "@/lib/urlState";
@@ -9,6 +10,8 @@ import { CopyLink } from "./CopyLink";
 import { LinesChart } from "./LinesChart";
 
 const MAX_PICKS = 6;
+// one validator for a typed amount and a shared link's `amount=`
+const AMOUNT = codecs.float(1, 1e12);
 const PALETTE = [C.sky, C.amber, C.emerald, C.violet, C.red, C.col];
 
 const signed = (v: number, digits = 1) => `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v).toFixed(digits)}%`;
@@ -24,7 +27,20 @@ export function EscalationSinceClient({
 }) {
   const [since, setSince] = useUrlState("since", defaultSince, codecs.month());
   const [picksRaw, setPicksRaw] = useUrlState("series", defaultPicks.join(","), codecs.str(200));
-  const [amount, setAmount] = useUrlState("amount", 1_000_000, codecs.float(1, 1e12));
+  const [amount, setAmount] = useUrlState("amount", 1_000_000, AMOUNT);
+  // what the box shows while it holds an invalid entry (null: the valid amount);
+  // an invalid entry never reaches the URL or the results
+  const [draft, setDraft] = useState<string | null>(null);
+  const amountOk = draft == null;
+  const onAmount = (v: string) => {
+    const n = AMOUNT.parse(v.trim());
+    if (n === undefined) {
+      setDraft(v);
+    } else {
+      setAmount(n);
+      setDraft(null);
+    }
+  };
 
   const known = new Set(series.map((s) => s.key));
   const picks = picksRaw.split(",").filter((k) => known.has(k)).slice(0, MAX_PICKS);
@@ -57,9 +73,15 @@ export function EscalationSinceClient({
         </label>
         <label style={{ fontSize: 12, color: "var(--muted)" }}>
           Amount at that month ($){" "}
-          <input type="number" min={1} value={amount} onChange={(e) => setAmount(Number(e.target.value))}
+          <input type="number" min={1} max={1e12} value={draft ?? amount} onChange={(e) => onAmount(e.target.value)}
+            aria-invalid={!amountOk} aria-describedby={amountOk ? undefined : "amount-invalid"}
             style={{ ...input, width: 130 }} />
         </label>
+        {!amountOk && (
+          <span id="amount-invalid" role="alert" data-testid="amount-invalid" style={{ fontSize: 12, color: "var(--accent-red)" }}>
+            Enter an amount from $1 to $1 trillion.
+          </span>
+        )}
         <CopyLink />
       </div>
 
@@ -90,15 +112,15 @@ export function EscalationSinceClient({
           <div className="table-card">
             <table className="data-table" data-testid="since-table">
               <thead>
-                <tr><th>Index</th><th>Since {since}</th><th>Annualized</th><th>{fmtUsd(amount)} becomes</th><th>Through</th></tr>
+                <tr><th>Index</th><th>Since {since}</th><th>Annualized</th><th>{amountOk ? `${fmtUsd(amount)} becomes` : "Amount becomes"}</th><th>Through</th></tr>
               </thead>
               <tbody>
                 {rows.map(({ s, row }) => row ? (
                   <tr key={s.key}>
                     <td>{s.label}<small style={{ display: "block", color: "var(--muted)" }}>{s.source}</small></td>
                     <td>{signed(row.changePct, 2)}</td>
-                    <td>{row.annualizedPct == null ? "under a year" : `${signed(row.annualizedPct)}/yr`}</td>
-                    <td>{fmtUsd(row.escalated)}</td>
+                    <td>{row.annualizedPct != null ? `${signed(row.annualizedPct)}/yr` : row.months === 0 ? "no time elapsed" : "under a year"}</td>
+                    <td>{amountOk ? fmtUsd(row.escalated) : "—"}</td>
                     <td>{row.lastMonth}</td>
                   </tr>
                 ) : (
