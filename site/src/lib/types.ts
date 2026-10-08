@@ -171,6 +171,11 @@ export type CommodityRow = {
   yoy_pct: number | null;
   chg_30d_pct: number | null;
   spark: number[];
+  /** the period the sparkline covers (2026-10-07+): ~3 months for a daily
+   *  series, years for a monthly PPI, delivery years for an auction */
+  spark_span?: string;
+  /** a dated stand-in where no true YoY exists (2026-10-07+) */
+  chg_alt?: { pct: number; label: string };
 };
 export type Commodities = {
   published_at: string;

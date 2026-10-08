@@ -29,7 +29,13 @@
                 "as_of": {"type": ["string", "null"]},
                 "yoy_pct": {"type": ["number", "null"]},
                 "chg_30d_pct": {"type": ["number", "null"]},
-                "spark": {"type": "array", "items": {"type": "number"}}
+                "spark": {"type": "array", "items": {"type": "number"}},
+                "spark_span": {"type": "string", "description": "the period the sparkline covers, from its own first and last points (2026-10-07+)"},
+                "chg_alt": {
+                  "description": "a dated stand-in where no true YoY exists (2026-10-07+): vs the reading nearest a year back, since the first reading, or vs the prior auction",
+                  "type": "object", "required": ["pct", "label"], "additionalProperties": false,
+                  "properties": {"pct": {"type": "number"}, "label": {"type": "string", "minLength": 1}}
+                }
               }
             }
           }

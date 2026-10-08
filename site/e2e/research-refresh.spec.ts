@@ -331,6 +331,44 @@ test("capacity withholds EV/MW for AKAM, MARA and EQIX and says why", async ({ p
   }
 });
 
+test("build inputs page leads with a takeaway and never shows an unlabeled stand-in", async ({ page, request }) => {
+  const data = await (await request.get("/data/commodities.json")).json();
+  await page.goto("/commodities");
+  await expect(page.locator("h1")).toContainText("on the year");
+  // no KPI label carries a bit/byte unit the uppercase style would corrupt
+  for (const label of await page.locator(".kpi-label").allTextContents()) expect(label).not.toMatch(/\d+\s*gb/i);
+  // the page renders exactly the artifact's rows (de-duplication itself is
+  // the writer's contract, pinned in test_commodities_writer)
+  const rowCount = data.groups.reduce((n: number, g: { rows: unknown[] }) => n + g.rows.length, 0);
+  await expect(page.locator("table.data-table tbody tr")).toHaveCount(rowCount);
+});
+
+// Runs once the published commodities.json carries chg_alt (the daily run
+// after this branch merges); until then it SKIPS, saying so, instead of
+// passing with zero assertions. Each check is scoped to its own row, so three
+// rows sharing "since Jul 15, 2026" can't vouch for one another.
+type CmRow = { code: string; label: string; chg_alt?: { pct: number; label: string }; spark_span?: string };
+test("build inputs: each stand-in change and trend span renders in its own row", async ({ page, request }) => {
+  const data = await (await request.get("/data/commodities.json")).json();
+  const rows: CmRow[] = data.groups.flatMap((g: { rows: CmRow[] }) => g.rows);
+  const alts = rows.filter((r) => r.chg_alt);
+  test.skip(alts.length === 0, "published commodities.json predates chg_alt (lands with the next daily publish)");
+  expect(alts.map((r) => r.code).sort()).toEqual(
+    ["dramex_ddr4_16g", "dramex_ddr5_16g", "dramex_nand_mlc64", "pjm_capacity", "vast_h100_sxm"]);
+  await page.goto("/commodities");
+  const fmt = (v: number) => `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v).toFixed(1)}%`;
+  for (const r of alts) {
+    const cell = page.locator("tr", { has: page.locator("td", { hasText: new RegExp(`^${r.label.replace(/[()]/g, "\\$&")}$`) }) })
+      .locator(".cm-alt");
+    await expect(cell).toContainText(fmt(r.chg_alt!.pct));
+    await expect(cell.locator("small")).toHaveText(r.chg_alt!.label);
+  }
+  for (const r of rows.filter((x) => x.spark_span)) {
+    const row = page.locator("tr", { has: page.locator("td", { hasText: new RegExp(`^${r.label.replace(/[()]/g, "\\$&")}$`) }) });
+    await expect(row.locator(".cm-spark small")).toHaveText(r.spark_span!);
+  }
+});
+
 // CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS
 // fonts happened to fit — pin the wrap rule itself, independent of font metrics.
 test("source-error text can break inside long URLs", async ({ page }) => {
