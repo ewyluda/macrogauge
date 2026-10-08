@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "as_of_curated": "2026-10-08",
+  "note": "The roughly 10-year fixed-rate tranche of each issuer's most recent USD senior deal, read from its own filing. Microsoft has issued no new-money USD bonds since January 2017 (its 3.300% notes due 2027 priced at +85bp then), so it is left out of the comparison. CoreWeave also borrows through secured delayed-draw term loans backed by GPUs and customer contracts, at SOFR + 2.25% to 5.50% (2026 8-Ks); Nebius has issued only convertible bonds, plus a secured term loan at SOFR + 2.50%. Loans are a different instrument and are not shown as rows.",
+  "deals": [
+    {
+      "issuer": "META",
+      "name": "Meta Platforms",
+      "cohort": "hyperscaler",
+      "deal_date": "2026-04-30",
+      "instrument": "senior notes",
+      "tranche": "5.250% Senior Notes due 2036",
+      "coupon": 5.25,
+      "maturity": "2036-05-15",
+      "yield_pct": 5.286,
+      "spread_bp": 90,
+      "benchmark": "UST 4.125% due February 15, 2036",
+      "amount_usd_b": 6.0,
+      "quote": "Coupon (Interest Rate): … 2036 Notes: 5.250% … Yield to Maturity: … 2036 Notes: 5.286% … Spread to Benchmark Treasury: … 2036 Notes: T + 90 bps … Benchmark Treasury: … 2036 Notes: UST 4.125% due February 15, 2036",
+      "src": [
+        "Meta Platforms FWP pricing term sheet, April 30, 2026",
+        "https://www.sec.gov/Archives/edgar/data/1326801/000119312526197902/d148113dfwp.htm"
+      ]
+    },
+    {
+      "issuer": "AMZN",
+      "name": "Amazon",
+      "cohort": "hyperscaler",
+      "deal_date": "2026-07-07",
+      "instrument": "senior notes",
+      "tranche": "5.300% Notes due 2036",
+      "coupon": 5.3,
+      "maturity": "2036-07-09",
+      "yield_pct": 5.341,
+      "spread_bp": 80,
+      "benchmark": "UST 4.375% due May 15, 2036",
+      "amount_usd_b": 4.5,
+      "quote": "Coupon (Interest Rate): … 2036 Notes: 5.300% per annum, accruing from July 9, 2026 … Yield to Maturity: … 2036 Notes: 5.341% … Spread to Benchmark Treasury: … 2036 Notes: T + 80 bps … Benchmark Treasury: … 2036 Notes: 4.375% due May 15, 2036",
+      "src": [
+        "Amazon.com FWP final term sheet, July 7, 2026",
+        "https://www.sec.gov/Archives/edgar/data/1018724/000110465926081334/tm2619352d3_fwp.htm"
+      ]
+    },
+    {
+      "issuer": "GOOGL",
+      "name": "Alphabet",
+      "cohort": "hyperscaler",
+      "deal_date": "2026-08-06",
+      "instrument": "senior notes",
+      "tranche": "5.450% Notes due 2036",
+      "coupon": 5.45,
+      "maturity": "2036-08-15",
+      "yield_pct": 5.52,
+      "spread_bp": 85,
+      "benchmark": "UST 4.375% due May 15, 2036",
+      "amount_usd_b": 4.5,
+      "quote": "Coupon (Interest Rate): … 2036 Notes: 5.450% per annum … Yield to Maturity: … 2036 Notes: 5.520% … Spread to Benchmark Treasury: … 2036 Notes: T + 85 bps … Benchmark Treasury: … 2036 Notes: 4.375% due May 15, 2036",
+      "src": [
+        "Alphabet FWP pricing term sheet, August 6, 2026",
+        "https://www.sec.gov/Archives/edgar/data/1652044/000119312526338750/d159970dfwp.htm"
+      ]
+    },
+    {
+      "issuer": "ORCL",
+      "name": "Oracle",
+      "cohort": "hyperscaler",
+      "deal_date": "2026-02-02",
+      "instrument": "senior notes",
+      "tranche": "5.700% Notes due 2036",
+      "coupon": 5.7,
+      "maturity": "2036-02-04",
+      "yield_pct": 5.729,
+      "spread_bp": 145,
+      "benchmark": "UST 4.000% due November 15, 2035",
+      "amount_usd_b": 5.0,
+      "quote": "Coupon: 5.700% … Benchmark Treasury: 4.000% due November 15, 2035 Benchmark Treasury Yield: 4.279% Spread to Benchmark Treasury: +145 basis points Yield to Maturity: 5.729%",
+      "src": [
+        "Oracle FWP pricing term sheet, February 2, 2026",
+        "https://www.sec.gov/Archives/edgar/data/1341439/000119312526033882/d44245dfwp.htm"
+      ]
+    },
+    {
+      "issuer": "CRWV",
+      "name": "CoreWeave",
+      "cohort": "neocloud",
+      "deal_date": "2026-06-11",
+      "instrument": "senior notes",
+      "tranche": "9.625% Senior Notes due 2032",
+      "coupon": 9.625,
+      "maturity": "2032-07-15",
+      "yield_pct": null,
+      "spread_bp": null,
+      "benchmark": null,
+      "issued_at_par": true,
+      "amount_usd_b": 1.25,
+      "quote": "announced today that it priced a private offering of $1.25 billion aggregate principal amount of 9.625% senior notes due 2032 and €2 billion aggregate principal amount of 8.500% senior notes due 2032 (collectively, the “Notes”). The Notes will have a maturity date of July 15, 2032. […] The Notes will be issued at par and guaranteed on a senior unsecured basis by certain wholly-owned subsidiaries of CoreWeave.",
+      "src": [
+        "CoreWeave pricing press release, June 11, 2026 (closing 8-K filed June 18, 2026)",
+        "https://investors.coreweave.com/news/news-details/2026/CoreWeave-Announces-Pricing-of-1-25-Billion-of-Senior-Notes-and-2-Billion-of-Senior-Notes/default.aspx"
+      ]
+    },
+    {
+      "issuer": "NBIS",
+      "name": "Nebius Group",
+      "cohort": "neocloud",
+      "deal_date": "2026-08-19",
+      "instrument": "convertible notes",
+      "tranche": "0.50% Convertible Notes due 2030",
+      "coupon": 0.5,
+      "maturity": "2030-02-15",
+      "yield_pct": null,
+      "spread_bp": null,
+      "benchmark": null,
+      "amount_usd_b": 3.0,
+      "quote": "today announced the pricing of its offering of $5.0 billion aggregate original principal amount of convertible senior notes, in two series: $3.0 billion aggregate original principal amount of 0.50% convertible notes due 2030 (the “2030 Notes”) and $2.0 billion aggregate original principal amount of 4.50% convertible notes due 2034",
+      "src": [
+        "Nebius Group 6-K filed August 20, 2026, Ex-99.1 pricing release",
+        "https://www.sec.gov/Archives/edgar/data/1513845/000110465926098924/tm2623617d1_ex99-1.htm"
+      ]
+    }
+  ]
+}

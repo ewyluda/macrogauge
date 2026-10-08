@@ -12,6 +12,7 @@ rows publishes a null block: a new writer must never take down the run.
 from datetime import date, timedelta
 from pathlib import Path
 
+from pipeline import issuer_bonds
 from pipeline.engine.gauge import PUBLISH_START
 from pipeline.publish.util import (delta_daily, latest_point, nearest_on_or_before,
                                    pct_change_daily, tail, write_json)
@@ -236,7 +237,62 @@ def _fed_path(conn):
                         "target_upper": [round(target[d], 4) for d in hist_dates]}}
 
 
-def build(conn) -> dict:
+def treasury_at(dgs: dict, day: str, years: float) -> float | None:
+    """The Treasury curve on `day` (each tenor's obs on or within a week
+    before it) read at `years` to maturity: linear between the two
+    bracketing tenors, flat past either end. None with under two tenors."""
+    pts = sorted((y, v) for code, _, y in TENORS
+                 if (v := nearest_on_or_before(dgs.get(code, {}), day)) is not None)
+    if len(pts) < 2:
+        return None
+    if years <= pts[0][0]:
+        return pts[0][1]
+    if years >= pts[-1][0]:
+        return pts[-1][1]
+    for (y0, v0), (y1, v1) in zip(pts, pts[1:]):
+        if y0 <= years <= y1:
+            return v0 + (v1 - v0) * (years - y0) / (y1 - y0)
+    return None
+
+
+def _issuers(dgs: dict, cfg) -> dict:
+    """The builders' latest new-issue terms. Yield at issue is the term
+    sheet's re-offer yield, else the coupon of a note the source says priced
+    at par; the spread is the term sheet's, else that yield minus the
+    Treasury curve on the pricing date at the note's maturity (`computed`).
+    Convertibles publish their coupon only: an equity option is priced in."""
+    rows = []
+    for d in cfg.deals:
+        years = (date.fromisoformat(d.maturity) - date.fromisoformat(d.deal_date)).days / 365.25
+        yld, y_basis = ((d.yield_pct, "stated") if d.yield_pct is not None
+                        else (d.coupon, "par coupon") if d.issued_at_par and d.comparable
+                        else (None, None))
+        spread, s_basis = None, None
+        if d.comparable and d.spread_bp is not None:
+            spread, s_basis = d.spread_bp, "stated"
+        elif d.comparable and yld is not None:
+            ust = treasury_at(dgs, d.deal_date, years)
+            if ust is not None:
+                spread, s_basis = round((yld - ust) * 100), "computed"
+        rows.append({"issuer": d.issuer, "name": d.name, "cohort": d.cohort, "deal_date": d.deal_date,
+                     "instrument": d.instrument, "comparable": d.comparable, "tranche": d.tranche,
+                     "coupon_pct": d.coupon, "maturity": d.maturity, "years": round(years, 1),
+                     "amount_usd_b": d.amount_usd_b, "yield_pct": yld, "yield_basis": y_basis,
+                     "spread_bp": spread, "spread_basis": s_basis, "benchmark": d.benchmark,
+                     "quote": d.quote, "source": d.src_label, "source_url": d.src_url})
+    return {"as_of_curated": cfg.as_of_curated, "note": cfg.note, "deals": rows}
+
+
+def _issuers_or_none(dgs: dict, cfg=None) -> dict | None:
+    """A broken config nulls the block, never the panel."""
+    try:
+        return _issuers(dgs, cfg or issuer_bonds.load())
+    except Exception:
+        return None
+
+
+def build(conn, bonds_cfg=None) -> dict:
+    """bonds_cfg: an issuer_bonds.Config; None loads config/issuer_bonds.json."""
     dgs = {code: _rows(conn, code) for code, _, _ in TENORS}
     t10 = _rows(conn, "T10YIE")
     return {"curve": _curve(conn),
@@ -263,6 +319,7 @@ def build(conn) -> dict:
             "liquidity": _liquidity(conn),
             "mortgage": _mortgage(conn),
             "fed_path": _fed_path(conn),
+            "issuers": _issuers_or_none(dgs, bonds_cfg),
             "history": _history(conn)}
 
 

@@ -149,6 +149,47 @@
         }
       }
     },
+    "issuers": {
+      "description": "The AI builders' latest new-issue debt terms, hand-curated from each issuer's own filing (config/issuer_bonds.json). Added 2026-10-08; optional, null when the config fails to load.",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["as_of_curated", "note", "deals"],
+      "properties": {
+        "as_of_curated": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "note": {"type": "string"},
+        "deals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["issuer", "name", "cohort", "deal_date", "instrument", "comparable", "tranche", "coupon_pct",
+                         "maturity", "years", "amount_usd_b", "yield_pct", "yield_basis", "spread_bp", "spread_basis",
+                         "benchmark", "quote", "source", "source_url"],
+            "properties": {
+              "issuer": {"type": "string"},
+              "name": {"type": "string"},
+              "cohort": {"enum": ["hyperscaler", "neocloud"]},
+              "deal_date": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+              "instrument": {"enum": ["senior notes", "convertible notes"]},
+              "comparable": {"type": "boolean"},
+              "tranche": {"type": "string"},
+              "coupon_pct": {"type": "number"},
+              "maturity": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+              "years": {"type": "number"},
+              "amount_usd_b": {"type": "number"},
+              "yield_pct": {"type": ["number", "null"]},
+              "yield_basis": {"enum": ["stated", "par coupon", null]},
+              "spread_bp": {"type": ["number", "null"]},
+              "spread_basis": {"enum": ["stated", "computed", null]},
+              "benchmark": {"type": ["string", "null"]},
+              "quote": {"type": "string"},
+              "source": {"type": "string"},
+              "source_url": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
     "history": {
       "type": "object",
       "required": ["dates", "dgs3mo", "dgs2", "dgs10", "t5yie", "t10yie", "hy_oas", "dollar",

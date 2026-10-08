@@ -666,7 +666,16 @@ export type FedPath = {
   history: { dates: string[]; target_upper: (number | null)[] };
 };
 
+export type IssuerDeal = {
+  issuer: string; name: string; cohort: "hyperscaler" | "neocloud"; deal_date: string;
+  instrument: "senior notes" | "convertible notes"; comparable: boolean; tranche: string; coupon_pct: number;
+  maturity: string; years: number; amount_usd_b: number; yield_pct: number | null;
+  yield_basis: "stated" | "par coupon" | null; spread_bp: number | null; spread_basis: "stated" | "computed" | null;
+  benchmark: string | null; quote: string; source: string; source_url: string;
+};
 export type Rates = {
+  /** the AI builders' latest new-issue debt terms (2026-10-08+); absent on older files */
+  issuers?: { as_of_curated: string; note: string; deals: IssuerDeal[] } | null;
   published_at: string;
   curve: { code: string; label: string; years: number; value: number | null; as_of: string | null;
            chg_1d_pp: number | null; chg_30d_pp: number | null; chg_1y_pp: number | null;
