@@ -44,6 +44,10 @@ rows, shown beside (not replacing) the "Tracked AI projects" column.
 
 ## Chosen figure per market (20/20 covered: 15 figures, 5 null notes)
 
+Page numbers are flipbook pages (the text layer's page IDs), which run one ahead of the printed folio.
+West Texas was first recorded by its folio (34); config/dc_market_pipeline.json uses 35, and
+tests/test_dc_market_pipeline.py pins every quote to its page.
+
 "Fit" describes how the C&W geography compares to our county set (`config/dc_markets.json`):
 - **close**: the same metro.
 - **wider**: a larger region containing our counties.
@@ -59,7 +63,7 @@ rows, shown beside (not replacing) the "Tracked AI projects" column.
 | svl | Santa Clara | **Silicon Valley**. Map labels: San Francisco/Oakland, Silicon Valley | wider | 222 | 1,101 | 1,483 | 24 | "H1 2026 KEY INDICATORS* 44 Operators 1,101MW In Operation 222MW Under Construction 5.0 % Colo Vacancy 1483MW Planned -1.6MW H1 2026 Absorption" |
 | columbus | Franklin, Licking | **Columbus**. Map labels: New Albany, Columbus | close | 2,043 | 3,488 | 11,545 | 12 | "H1 2026 KEY INDICATORS* 17 Operators 3,488 MW In Operation 2,043 MW Under Construction 2.2% Colo Vacancy 11,545MW Planned 337MW H1 2026 Absorption" |
 | slc | Salt Lake, Utah | **Salt Lake City**. Map labels: West Jordan, Eagle Mountain | close | 369 | 632 | 2,080 | 30 | "H1 2026 KEY INDICATORS* 9 Operators 632 MW In Operation 369MW Under Construction 0.6 % Colo Vacancy 2,080 MW Planned 1MW H1 2026 Absorption" |
-| abilene | Taylor | **West Texas**. Narrative names the Crusoe/Microsoft Abilene campus and a proposed Fort Bliss (El Paso) campus | proxy | 2,461 | 500 | 16,204 | 34 | "H1 2026 KEY INDICATORS* 6 Operators 500MW In Operation 2,461 MW Under Construction 0.0 % Colo Vacancy 16,204MW Planned 286MW H1 2026 Absorption" |
+| abilene | Taylor | **West Texas**. Narrative names the Crusoe/Microsoft Abilene campus and a proposed Fort Bliss (El Paso) campus | proxy | 2,461 | 500 | 16,204 | 35 (printed folio 34) | "H1 2026 KEY INDICATORS* 6 Operators 500MW In Operation 2,461 MW Under Construction 0.0 % Colo Vacancy 16,204MW Planned 286MW H1 2026 Absorption" |
 | newcarlisle | St. Joseph | none | — | null | | | | No C&W market page covers Indiana; "Indiana" appears only in the Chicago narrative's corridor sentence. |
 | mtpleasant | Racine | none | — | null | | | | No C&W market page for Wisconsin/Milwaukee; no mention of Wisconsin or Mount Pleasant in the text layer. |
 | richland | Richland Parish | none | — | null | | | | No C&W market page for Louisiana. Meta's Rayville, LA land purchase (1,420 acres, Jul-25) appears only in the national land table (p.4). |

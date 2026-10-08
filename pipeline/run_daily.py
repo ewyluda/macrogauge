@@ -46,6 +46,7 @@ from pipeline import basket as basket_mod
 from pipeline import capacity as capacity_cfg
 from pipeline import calendar_refresh, collect, derived, dc_basket, dc_context, dc_longlead, dc_power, registry, release_calendar
 from pipeline import dc_markets as dc_markets_cfg
+from pipeline import dc_market_pipeline as dc_market_pipeline_cfg
 from pipeline.connectors import fred
 from pipeline.engine import dcindex
 from pipeline.engine import gauge as gauge_engine
@@ -437,9 +438,18 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         registry_codes = {s.code for s in series}
         markets = dc_markets_cfg.load(registry_codes=registry_codes)
         mkt_cfg = capacity_cfg.load_capacity(registry_codes=registry_codes)
+        # The broker pipeline column is curated config with its own failure
+        # mode: a bad file drops the column (market_pipeline null), never
+        # the labor panel. CI loads the real file, so this only bites on a
+        # config edit that skipped CI.
+        try:
+            pipe_cfg = dc_market_pipeline_cfg.load(market_keys={m.key for m in markets})
+        except (ValueError, KeyError, TypeError, OSError, json.JSONDecodeError) as e:
+            print(f"WARN market pipeline config unavailable: {e}")
+            pipe_cfg = None
         mkt_path = dc_markets_json.write(
             dc_markets_json.build(conn, markets, mkt_cfg,
-                                  dc_markets_cfg.meta()),
+                                  dc_markets_cfg.meta(), pipeline=pipe_cfg, today=today),
             args.out, published_at=published_at)
         validate.validate_file(mkt_path, SCHEMAS / "dc_markets.schema.json")
         print(f"published: {mkt_path}")

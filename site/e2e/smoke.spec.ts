@@ -148,15 +148,15 @@ test("markets sortable controls preserve column-header semantics", async ({ page
   // The interactive control belongs INSIDE the th: putting role="button" on
   // the th itself removes its columnheader role and breaks data-cell/header
   // associations for screen-reader table navigation.
-  await expect(head.getByRole("columnheader")).toHaveCount(8);
-  await expect(head.getByRole("button")).toHaveCount(7);
+  await expect(head.getByRole("columnheader")).toHaveCount(9);
+  await expect(head.getByRole("button")).toHaveCount(8);
 
   const wageYoy = head.getByRole("columnheader", { name: /^Wage YoY/ });
   await expect(wageYoy).toHaveAttribute("aria-sort", "descending");
 
-  await head.getByRole("button", { name: /^Market/ }).click();
+  await head.getByRole("button", { name: /^Market( [▾▴])?$/ }).click();
   await expect(
-    head.getByRole("columnheader", { name: /^Market/ })
+    head.getByRole("columnheader", { name: /^Market( [▾▴])?$/ })
   ).toHaveAttribute("aria-sort", "descending");
   await expect(wageYoy).not.toHaveAttribute("aria-sort");
 });
@@ -170,13 +170,13 @@ test("markets carries the NAICS 238212 electrical-contractor column, never a zer
   // sortable like the other columns
   await elecHead.getByRole("button").click();
   await expect(elecHead).toHaveAttribute("aria-sort", "descending");
-  // every market row ends in the electrical cell: 8 cells, or the
-  // unavailable branch's 3 (name, colSpan 6, electrical)
+  // every market row ends in the market-pipeline and electrical cells: 9
+  // cells, or the unavailable branch's 4 (name, colSpan 6, pipeline, electrical)
   const rows = table.locator("tbody > tr");
   const n = await rows.count();
   expect(n).toBeGreaterThan(0);
   for (let i = 0; i < n; i++) {
-    expect([3, 8]).toContain(await rows.nth(i).locator("> td").count());
+    expect([4, 9]).toContain(await rows.nth(i).locator("> td").count());
   }
   // a suppressed or pending cell renders a dash -- never a zero level
   const body = table.locator("tbody");

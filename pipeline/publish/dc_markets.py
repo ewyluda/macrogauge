@@ -22,10 +22,20 @@ unregistered -- suppressed every quarter since 2023 Q4) is reported as
 suppressed exactly like a disclosure-suppressed one; `partial` flags any
 market whose basis is missing at least one of its counties.
 
+Every row also carries `market_pipeline`: one broker's market-level MW under
+construction (config/dc_market_pipeline.json, loaded and validated by
+pipeline/dc_market_pipeline.py), passed through with its region, fit and
+verbatim quote, or a null_note where the broker does not break the market
+out. The source, its single basis and the computed `stale` flag publish once
+at the top level (`market_pipeline_source`). With no config (it failed to
+load), both are null and the panel publishes without the column.
+
 ALL derived math lives here and in engine/dcmarkets.py; the site renders
 only."""
+from dataclasses import asdict
 from pathlib import Path
 
+from pipeline import dc_market_pipeline
 from pipeline.engine import dcmarkets
 from pipeline.publish.util import write_json
 from pipeline.store import vintage
@@ -133,7 +143,21 @@ def _history(conn, spec, quarters: list[str]) -> dict:
             "counties": len(keep), "fips": sorted(keep)}
 
 
-def build(conn, markets, cap_cfg: dict, meta: dict) -> dict:
+def _pipeline_source(cfg, today: str | None) -> dict:
+    return {**asdict(cfg.source), "basis": cfg.basis, "basis_note": cfg.basis_note,
+            "stale_after_days": dc_market_pipeline.STALE_AFTER_DAYS,
+            "stale": today is not None and dc_market_pipeline.is_stale(cfg.source.doc_date, today)}
+
+
+def _pipeline_row(fig) -> dict:
+    out = asdict(fig)
+    del out["key"]
+    out["map_labels"] = list(fig.map_labels)
+    return out
+
+
+def build(conn, markets, cap_cfg: dict, meta: dict, pipeline=None,
+          today: str | None = None) -> dict:
     payload = _labor(conn, markets, "23")
     elec = _labor(conn, markets, "238212")
     elec_by_key = {r["key"]: r for r in elec["markets"]}
@@ -175,7 +199,12 @@ def build(conn, markets, cap_cfg: dict, meta: dict) -> dict:
                 buckets[field] += mw
         row.update({f: int(v) for f, v in buckets.items()})
 
+    for row in payload["markets"]:
+        fig = pipeline.markets.get(row["key"]) if pipeline else None
+        row["market_pipeline"] = _pipeline_row(fig) if fig else None
+
     return {**payload, "as_of_curated": meta["as_of_curated"],
+            "market_pipeline_source": _pipeline_source(pipeline, today) if pipeline else None,
             "note": meta["note"], "coverage_note": coverage_note(cap_cfg.get("companies", []))}
 
 

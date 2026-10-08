@@ -370,6 +370,42 @@ test("build inputs: each stand-in change and trend span renders in its own row",
   }
 });
 
+test("markets: the C&W pipeline column names its region and never reads a null as zero", async ({ page, request }) => {
+  await page.goto("/markets");
+  await expect(page.locator(".mk-table thead")).toContainText("Market pipeline");
+  const data = await (await request.get("/data/dc_markets.json")).json();
+  // publish-gated: market_pipeline lands with the next daily run
+  test.skip(!data.market_pipeline_source, "published dc_markets.json predates market_pipeline (lands with the next daily publish)");
+  type P = { key: string; market_pipeline: { mw_uc: number | null; fit: string | null; label: string | null; null_note: string | null } };
+  // 7,355 MW is statewide Virginia: the row must say so beside the number
+  const nova = page.locator("#mk-row-nova");
+  await expect(nova.locator("td").nth(7)).toHaveText(/^7,355 MW/);
+  await expect(nova).toContainText("Virginia (statewide)");
+  for (const m of data.markets as P[]) {
+    const row = page.locator(`#mk-row-${m.key}`);
+    const p = m.market_pipeline;
+    if (p.mw_uc == null) await expect(row).toContainText("not broken out by C&W");
+    else if (p.fit !== "close") await expect(row).toContainText(p.label!);
+  }
+  // the receipt: document, page and the verbatim quote
+  await page.locator("#mk-row-nova button[aria-expanded]").click();
+  const receipt = page.getByTestId("mk-pipe-receipt-nova");
+  await expect(receipt).toContainText("Americas Data Center Update H1 2026");
+  await expect(receipt).toContainText("flipbook p. 8");
+  await expect(receipt.locator("q")).toContainText("7,355MW Under Construction");
+  // sortable: the largest figure leads
+  await page.locator(".mk-table thead").getByRole("button", { name: /^Market pipeline/ }).click();
+  const top = Math.max(...(data.markets as P[]).map((m) => m.market_pipeline.mw_uc ?? -1));
+  await expect(page.locator(".mk-table tbody > tr").first().locator("td").nth(7)).toHaveText(new RegExp(`^${top.toLocaleString("en-US")} MW`));
+  await expect(page.locator("#market-pipeline")).toContainText("The region is C&W");
+  // a ninth column must still fit the card at desktop width, with a row open
+  // (an unwrapped receipt once stretched the table to 3,250px)
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await expect(receipt).toBeVisible();   // Northern Virginia, still open from above
+  const fits = await page.locator(".mk-table").evaluate((el) => el.scrollWidth <= el.clientWidth + 1);
+  expect(fits).toBe(true);
+});
+
 test("markets: the capacity column says it is the tracker's projects, and each market trends 8 quarters", async ({ page, request }) => {
   await page.goto("/markets");
   await expect(page.locator(".mk-table thead")).toContainText("Tracked AI projects");
