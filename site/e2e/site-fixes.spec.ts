@@ -33,13 +33,13 @@ test("treemap scrubber and state picker have accessible names", async ({ page })
   await expect(state).toHaveValue("US");
 });
 
-test("calculator explains a pre-2018 or cleared date instead of rendering nothing", async ({ page }) => {
-  await page.goto("/calculator?since=2015-06-01");
-  await expect(page.getByTestId("since-empty")).toContainText("No data before 2018-01-01");
+test("calculator explains a month before an index starts, or a cleared month, instead of rendering nothing", async ({ page }) => {
+  await page.goto("/calculator?since=2005-06&series=dc_build");
+  await expect(page.getByTestId("since-table")).toContainText("No level for 2005-06: this series runs 2007-12");
   await page.goto("/calculator");
-  await expect(page.locator(".kpi-card").first()).toBeVisible();
-  await page.locator('input[type="date"]').fill("");
-  await expect(page.getByTestId("since-empty")).toContainText("Pick a start date");
+  await expect(page.getByTestId("since-table")).toBeVisible();
+  await page.locator('input[type="month"]').fill("");
+  await expect(page.getByTestId("since-empty")).toContainText("Pick a bid or NTP month");
 });
 
 test("/as-of says there is no publish before the ledger starts, not a later one", async ({ page }) => {

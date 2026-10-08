@@ -1116,7 +1116,8 @@
           "basket": {
             "enum": [
               "build",
-              "ops"
+              "ops",
+              "reference"
             ]
           },
           "code": {

@@ -39,7 +39,7 @@ test("expandable rows keep row semantics and expose a button control (#29)", asy
 
 test("focus ring is visible on keyboard focus", async ({ page }) => {
   await page.goto("/calculator");
-  const input = page.locator('input[type="date"]');
+  const input = page.locator('input[type="month"]');
   await input.focus();
   const outline = await input.evaluate((el) => getComputedStyle(el).outlineStyle);
   expect(outline).not.toBe("none");

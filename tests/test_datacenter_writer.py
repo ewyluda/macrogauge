@@ -275,3 +275,15 @@ def test_clause_series_publishes_raw_latest_and_first_print(tmp_path):
                     "months": ["2026-07", "2026-08"], "latest": [420.184, 430.247],
                     "first_print": [419.25, 430.247],
                     "first_release": ["2026-08-13", "2026-09-11"]}]
+
+
+def test_clause_series_appends_cpi_u_as_a_reference_series(tmp_path):
+    from pipeline.models import Observation
+    from pipeline.publish import datacenter
+    from pipeline.store import vintage
+    rows = [Observation("CPIAUCNS", "2015-12-01", 236.5, "2016-01-20", "FRED", "API"),   # before CLAUSE_START
+            Observation("CPIAUCNS", "2026-08-01", 324.0, "2026-09-11", "FRED", "API")]
+    vintage.append_vintages(rows, tmp_path)
+    out = datacenter.clause_series(vintage.load(tmp_path), {"build": [], "ops": []}, {"CPIAUCNS": "CPIAUCNS"})
+    assert [(s["basket"], s["code"], s["series"], s["months"]) for s in out] == \
+        [("reference", "cpi_u", "CPIAUCNS", ["2026-08"])]

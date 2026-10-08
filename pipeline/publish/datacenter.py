@@ -111,30 +111,39 @@ def build(dc_result: dict, parity_result: dict, source_ids: dict[str, str],
 CLAUSE_START = "2016-01-01"
 
 
+# A contract may index to a reference series instead of a DC package: CPI-U all
+# items (NSA, the series most escalation clauses name). Published beside the
+# packages for /calculator and the clause kit; never in a DC index.
+REFERENCE = (("cpi_u", "CPI-U, all items (NSA)", "CPIAUCNS"),)
+
+
 def clause_series(conn, baskets: dict, source_ids: dict[str, str]) -> list[dict]:
     """Raw official series behind every DC Build/Ops component, for the
     price-adjustment clause kit (/escalation/clause): contracts settle on the
     agency's own index, not on a MacroGauge composite, and on a NAMED vintage.
     Per component: latest values and first-print values (the value as first
-    published, with its release date) on one month grid. No proxy tails."""
+    published, with its release date) on one month grid. No proxy tails.
+    The REFERENCE series follow as basket "reference"."""
     from pipeline.store import vintage
+    entries = [(basket, c.code, c.label, c.series) for basket in ("build", "ops")
+               for c in baskets.get(basket, [])]
+    entries += [("reference", code, label, series) for code, label, series in REFERENCE]
     out = []
-    for basket in ("build", "ops"):
-        for c in baskets.get(basket, []):
-            latest = {d: v for d, v in vintage.latest(conn, c.series) if d >= CLAUSE_START}
-            if not latest:
-                continue
-            first = {d: (v, rel) for d, v, rel in vintage.first_releases(conn, c.series)
-                     if d >= CLAUSE_START}
-            months = sorted(latest)
-            out.append({"basket": basket, "code": c.code, "label": c.label,
-                        "series": c.series, "source_id": source_ids.get(c.series, c.series),
-                        "months": [m[:7] for m in months],
-                        "latest": [round(latest[m], 3) for m in months],
-                        "first_print": [None if m not in first else round(first[m][0], 3)
-                                        for m in months],
-                        "first_release": [None if m not in first else first[m][1]
-                                          for m in months]})
+    for basket, code, label, series in entries:
+        latest = {d: v for d, v in vintage.latest(conn, series) if d >= CLAUSE_START}
+        if not latest:
+            continue
+        first = {d: (v, rel) for d, v, rel in vintage.first_releases(conn, series)
+                 if d >= CLAUSE_START}
+        months = sorted(latest)
+        out.append({"basket": basket, "code": code, "label": label,
+                    "series": series, "source_id": source_ids.get(series, series),
+                    "months": [m[:7] for m in months],
+                    "latest": [round(latest[m], 3) for m in months],
+                    "first_print": [None if m not in first else round(first[m][0], 3)
+                                    for m in months],
+                    "first_release": [None if m not in first else first[m][1]
+                                      for m in months]})
     return out
 
 

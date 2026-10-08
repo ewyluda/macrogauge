@@ -30,7 +30,6 @@ export const NAV: NavEntry[] = [
         items: [
           { href: "/my-inflation", label: "My Inflation", emoji: "🧮" },
           { href: "/grocery", label: "Grocery Prices", emoji: "🛒" },
-          { href: "/calculator", label: "Since-Date Calculator", emoji: "📆" },
         ],
       },
     ],
@@ -72,6 +71,7 @@ export const NAV: NavEntry[] = [
         items: [
           { href: "/datacenter", label: "Data Centers", emoji: "🏭" },
           { href: "/escalation", label: "Escalation", emoji: "🪜" },
+          { href: "/calculator", label: "Since-Date Calculator", emoji: "📆" },
           { href: "/longlead", label: "Long-Lead Board", emoji: "⏳" },
           { href: "/power", label: "Power & Tariffs", emoji: "🔌" },
           { href: "/commodities", label: "Build Inputs", emoji: "🧱" },
