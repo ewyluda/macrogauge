@@ -393,6 +393,26 @@ test("markets: the capacity column says it is the tracker's projects, and each m
   }
 });
 
+test("site costs: industrial power by default, one metric drives the map and a ranked table", async ({ page }) => {
+  await page.goto("/states");
+  await expect(page.locator("h1")).toContainText("48 contiguous states");
+  await expect(page.getByRole("button", { name: "Industrial ¢/kWh", pressed: true })).toBeVisible();
+  await expect(page.locator(".st-table-title")).toContainText("industrial power price");
+  // ten at each end of the ranking, the middle behind a button
+  const rows = page.locator(".st-table tbody tr");
+  const ranks = (await page.locator(".st-table .st-rank").allTextContents()).filter((t) => t !== "—").map(Number);
+  expect(ranks.slice(0, 10)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  await page.getByRole("button", { name: /states in between/ }).click();
+  expect(await rows.count()).toBeGreaterThan(40);
+  // switching the metric re-ranks the table and lands in the URL
+  await page.getByRole("button", { name: "Construction $/wk" }).click();
+  await expect(page).toHaveURL(/metric=wage/);
+  await expect(page.locator(".st-table-title")).toContainText("construction wage");
+  const wages = (await page.locator(".st-table tbody tr td.st-active").allTextContents())
+    .filter((t) => t.startsWith("$")).map((t) => Number(t.replace(/[$,]/g, "")));
+  expect(wages).toEqual([...wages].sort((a, b) => b - a));
+});
+
 // CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS
 // fonts happened to fit — pin the wrap rule itself, independent of font metrics.
 test("source-error text can break inside long URLs", async ({ page }) => {

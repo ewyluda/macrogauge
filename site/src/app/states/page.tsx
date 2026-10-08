@@ -1,137 +1,84 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { stateSlug } from "@/lib/longtail";
 import geoJson from "../../../public/data/geo.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DownloadData } from "@/components/DownloadData";
 import { flattenRow } from "@/lib/csv";
-import { GeoStateMap } from "@/components/GeoStateMap";
-import { fmtSigned, fmtMonth, yoyColor } from "@/lib/format";
+import { StatesExplorer } from "@/components/StatesExplorer";
+import { fmtSigned, fmtMonth } from "@/lib/format";
+import { siteCostsHeadline } from "@/lib/siteCosts";
+import { artifact } from "@/lib/artifact";
 import type { Geo } from "@/lib/types";
 
-const data = geoJson as Geo;
+const data = artifact<"geo", Geo>("geo", geoJson);
 const wageBlank = data.states.filter((s) => s.wage_weekly.value == null).length;
+const nat = data.national;
+const headline = siteCostsHeadline(data.states, nat);
+const quarter = (d: string | null) => (d ? `Q${Math.ceil(Number(d.slice(5, 7)) / 3)} ${d.slice(0, 4)}` : "—");
 
 export const metadata: Metadata = {
-  title: "State Cost Map — gas, electricity, wages, unemployment",
+  title: `Site Costs: ${headline ?? "industrial power, construction wages and more by state"}`,
   description:
-    "A map of all 50 states and DC: pump prices, residential and industrial electricity, construction wages, and unemployment — the same state series that feed the data-center cost index.",
+    "Data-center site costs by state: EIA state-average industrial and residential electricity prices (a screening proxy, not a tariff), private construction wages, pump prices and unemployment for all 50 states and DC — the state series behind the data-center cost index.",
 };
 
-const nat = data.national;
-
-const price = (v: number | null, unit: "$gal" | "cents" | "$wk" | "pct") => {
+const price = (v: number | null, unit: "$gal" | "cents" | "$wk") => {
   if (v == null) return "—";
   switch (unit) {
     case "$gal": return `$${v.toFixed(3)}`;
     case "cents": return `${v.toFixed(2)}¢`;
     case "$wk": return `$${Math.round(v).toLocaleString("en-US")}`;
-    case "pct": return `${v.toFixed(1)}%`;
   }
 };
 
-// Δpp at 1dp — sign from the ROUNDED value (fmtSigned's rule) so +0.04
-// renders "0.0", never "+0.0"
-const signedPp1 = (pp: number, suffix = ""): string => {
-  const r = Number(pp.toFixed(1));
-  const s = r > 0 ? "+" : r < 0 ? "−" : "";
-  return `${s}${Math.abs(r).toFixed(1)}${suffix}`;
-};
-
 export default function States() {
-  // geo.json states are published alphabetical by full name already
-  const rows = data.states;
   return (
     <div>
-      <h1>
-        State Cost Map{" "}
-        <span className="subtitle">gas, power, wages &amp; jobs by state</span>
-      </h1>
+      <div className="research-eyebrow">AI infrastructure · Site costs</div>
+      <h1>{headline ?? "Site Costs"}</h1>
       <p className="lede">
-        The state series behind the data-center cost index — pump prices,
-        residential and industrial electricity, private construction wages, and
-        unemployment — mapped across all 50 states and DC. Pick a metric to
-        recolor the map.
+        What it costs to build and run a data center, state by state: the industrial power price,
+        the private construction wage, and the residential power, pump-price and jobless context
+        around them. These are the state series behind the{" "}
+        <Link href="/datacenter#dc-parity">data-center cost index&apos;s parity table</Link>. Industrial
+        power is EIA&apos;s state industrial-sector <b>average</b> price (sector revenue ÷ sales), a
+        screening proxy: a project&apos;s actual bill is set by its utility tariff and contract (see{" "}
+        <Link href="/power">Power &amp; Tariffs</Link>). Pick a metric to recolor the map and re-rank the table.
       </p>
 
       <div className="section-tools">
         <DownloadData filename="macrogauge-states" json="geo.json"
-          citation={`MacroGauge state cost map, published ${data.published_at}`}
-          rows={rows.map((s) => flattenRow(s))} />
+          citation={`MacroGauge state site costs, published ${data.published_at}`}
+          rows={data.states.map((s) => flattenRow(s))} />
       </div>
       <div className="kpi-row">
         <KpiCard
-          label="US gas (regular)"
-          value={price(nat.gas_regular.value, "$gal")}
-          context={`per gallon · ${
-            nat.gas_regular.as_of ? fmtMonth(nat.gas_regular.as_of) : "—"
-          }`}
-          accent="amber"
-        />
-        <KpiCard
-          label="US residential power"
-          value={price(nat.elec_res_cents.value, "cents")}
-          context={`${fmtSigned(nat.elec_res_cents.yoy_pct)} YoY · per kWh`}
+          label="US industrial power (avg)"
+          value={price(nat.elec_ind_cents.value, "cents")}
+          context={`${fmtSigned(nat.elec_ind_cents.yoy_pct)} YoY · per kWh · ${nat.elec_ind_cents.as_of ? fmtMonth(nat.elec_ind_cents.as_of) : "—"}`}
           accent="sky"
         />
         <KpiCard
           label="US construction wage"
           value={price(nat.wage_weekly.value, "$wk")}
-          context={`per week · ${
-            nat.wage_weekly.as_of ? fmtMonth(nat.wage_weekly.as_of) : "—"
-          }`}
+          context={`per week · ${quarter(nat.wage_weekly.as_of)} — QCEW publishes about 5–6 months after the quarter ends`}
           accent="violet"
         />
         <KpiCard
-          label="US unemployment"
-          value={price(nat.unemployment_pct.value, "pct")}
-          context={`${
-            nat.unemployment_pct.delta_1y_pp == null
-              ? "—"
-              : signedPp1(nat.unemployment_pct.delta_1y_pp, "pp")
-          } vs 1y ago`}
+          label="US residential power"
+          value={price(nat.elec_res_cents.value, "cents")}
+          context={`${fmtSigned(nat.elec_res_cents.yoy_pct)} YoY · per kWh`}
+          accent="amber"
+        />
+        <KpiCard
+          label="US gas (regular)"
+          value={price(nat.gas_regular.value, "$gal")}
+          context={`per gallon · ${nat.gas_regular.as_of ? fmtMonth(nat.gas_regular.as_of) : "—"}`}
           accent="emerald"
         />
       </div>
 
-      <GeoStateMap states={data.states} national={nat} />
-
-      <div className="table-card">
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>State</th>
-              <th>Gas /gal</th>
-              <th>Elec res</th>
-              <th>Res YoY</th>
-              <th>Elec ind</th>
-              <th>Wage /wk</th>
-              <th>Unemp</th>
-              <th>Δ 1y</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((s) => (
-              <tr key={s.state}>
-                <td><Link href={`/states/${stateSlug(s.state)}`}>{s.name}</Link></td>
-                <td>{price(s.gas_regular.value, "$gal")}</td>
-                <td>{price(s.elec_res_cents.value, "cents")}</td>
-                <td style={{ color: yoyColor(s.elec_res_cents.yoy_pct) }}>
-                  {fmtSigned(s.elec_res_cents.yoy_pct)}
-                </td>
-                <td>{price(s.elec_ind_cents.value, "cents")}</td>
-                <td>{price(s.wage_weekly.value, "$wk")}</td>
-                <td>{price(s.unemployment_pct.value, "pct")}</td>
-                <td>
-                  {s.unemployment_pct.delta_1y_pp == null
-                    ? "—"
-                    : signedPp1(s.unemployment_pct.delta_1y_pp)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <StatesExplorer states={data.states} national={nat} />
 
       <p className="method">
         Sources: AAA (daily state pump prices), EIA (state residential &amp;

@@ -24,9 +24,13 @@ for (const path of pages) {
 }
 
 test("index pages link to the detail pages", async ({ page }) => {
+  // the table ranks by the active metric and collapses its middle, so click
+  // whichever state link is first rather than assuming alphabetical order
   await page.goto("/states");
-  await page.getByRole("link", { name: geo.states[0].name, exact: true }).first().click();
-  await expect(page).toHaveURL(new RegExp(`/states/${stateSlug(geo.states[0].state)}`));
+  const first = page.locator('table a[href^="/states/"]').first();
+  const href = (await first.getAttribute("href"))!;
+  await first.click();
+  await expect(page).toHaveURL(new RegExp(`${href}/?$`));
 });
 
 test("badges are SVG and per-route social cards are PNG", async ({ request }) => {

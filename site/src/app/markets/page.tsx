@@ -69,8 +69,8 @@ export default function Page() {
       </div>
       <p style={{ fontSize: 12, color: "var(--muted)", margin: "4px 0 0" }}>
         QCEW quarter <b>{data.as_of ?? "—"}</b> vs <b>{data.base_date ?? "—"}</b>
-        {" "}· roster curated <b>{data.as_of_curated}</b>. QCEW publishes ~7 months
-        after quarter end — these are the freshest county wages that exist, not
+        {" "}· roster curated <b>{data.as_of_curated}</b>. QCEW publishes about 5–6
+        months after quarter end — these are the freshest county wages that exist, not
         a current reading.
       </p>
       <MarketsClient data={data} />

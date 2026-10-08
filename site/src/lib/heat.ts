@@ -24,6 +24,29 @@ export function ramp(t: number): string {
 
 export const EMPTY_CELL = "#2a3542";
 
+/** Sequential light → deep blue for LEVELS with no natural midpoint (state
+ *  power prices, wages): the diverging STOPS ramp above is for signed rates,
+ *  and its slate middle reads muddy on a min–max level scale. */
+export const LEVEL_STOPS: [number, [number, number, number]][] = [
+  [0.0, [224, 236, 250]],
+  [0.5, [96, 150, 220]],
+  [1.0, [23, 55, 140]],
+];
+export function levelRamp(t: number): string {
+  const x = Math.max(0, Math.min(1, t));
+  for (let i = 1; i < LEVEL_STOPS.length; i++) {
+    if (x <= LEVEL_STOPS[i][0]) {
+      const [t0, c0] = LEVEL_STOPS[i - 1];
+      const [t1, c1] = LEVEL_STOPS[i];
+      const f = (x - t0) / (t1 - t0);
+      const c = c0.map((v, j) => Math.round(v + (c1[j] - v) * f));
+      return `rgb(${c[0]},${c[1]},${c[2]})`;
+    }
+  }
+  const [r, g, b] = LEVEL_STOPS[LEVEL_STOPS.length - 1][1];
+  return `rgb(${r},${g},${b})`;
+}
+
 export function heatColor(v: number | null, domain: [number, number] = [-2, 6]): string {
   return v === null ? EMPTY_CELL : ramp((v - domain[0]) / (domain[1] - domain[0]));
 }
@@ -66,4 +89,14 @@ export function contrast(a: string, b: string): number {
  *  (≈3% YoY) is only ~3.2:1; the site ink there is ~6:1. */
 export function textOn(bg: string): string {
   return contrast(bg, TEXT_DARK) >= contrast(bg, TEXT_LIGHT) ? TEXT_DARK : TEXT_LIGHT;
+}
+
+
+/** Tile ink for levelRamp backgrounds: pure black or white, whichever
+ *  contrasts more. Any continuous light-to-dark ramp crosses a luminance band
+ *  (~0.18–0.25) where neither the site's #17212B ink nor white reaches 4.5:1;
+ *  with pure black the two options overlap, so the better one always clears
+ *  it (worst case ~4.58:1). textOn() stays as is for its other consumers. */
+export function levelInk(bg: string): string {
+  return contrast(bg, "#000000") >= contrast(bg, TEXT_LIGHT) ? "#000000" : TEXT_LIGHT;
 }
