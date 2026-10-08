@@ -25,7 +25,10 @@ UNITS_BN = {"WALCL": 1000.0, "WTREGEN": 1000.0, "RRPONTSYD": 1.0}
 TAIL_OBS = 60
 HISTORY_DAILY_CODES = {"dgs3mo": "DGS3MO", "dgs2": "DGS2", "dgs10": "DGS10",
                        "t5yie": "T5YIE", "t10yie": "T10YIE",
-                       "hy_oas": "BAMLH0A0HYM2", "dollar": "DTWEXBGS"}
+                       "hy_oas": "BAMLH0A0HYM2", "dollar": "DTWEXBGS",
+                       # ICE BofA IG/BBB: FRED serves only the last ~3 years of
+                       # these, so their history columns start in late 2023
+                       "ig_oas": "BAMLC0A0CM", "bbb_oas": "BAMLC0A4CBBB"}
 
 
 def _rows(conn, code):
@@ -128,6 +131,27 @@ def _level(conn, code, pct=True):
             "tail": tail(obs, TAIL_OBS)}
 
 
+def _bbb_move(conn):
+    """The BBB effective yield's and BBB OAS's annual changes on ONE shared
+    window: the latest date both series have, against the same year-ago
+    date (nearest common date within ±3 days). Each _level() dates its own
+    change, and a carried-forward spread beside a fresh yield would otherwise
+    compare a September window with an October one. Null when no shared end
+    date or baseline exists."""
+    y, o = _rows(conn, "BAMLC0A4CBBBEY"), _rows(conn, "BAMLC0A4CBBB")
+    common = sorted(set(y) & set(o))
+    if not common:
+        return None
+    end = common[-1]
+    target = date.fromisoformat(end) - timedelta(days=365)
+    base = next((d for d in ((target + timedelta(days=k)).isoformat() for k in (0, -1, 1, -2, 2, -3, 3))
+                 if d in y and d in o), None)
+    if base is None:
+        return None
+    return {"as_of": end, "base_date": base,
+            "yield_chg_1y": round(y[end] - y[base], 4), "oas_chg_1y": round(o[end] - o[base], 4)}
+
+
 def _gdpnow(conn):
     """GDPNow is a running nowcast of ONE quarter: its obs_date is the
     quarter start (2026-07-01 for Q3) while the value updates several times a
@@ -221,7 +245,18 @@ def build(conn) -> dict:
                         "real_10y": _spread(dgs["DGS10"], t10, "10y real (DGS10 - T10YIE)")},
             "breakevens": {"t5yie": _level(conn, "T5YIE", pct=False),
                            "t10yie": _level(conn, "T10YIE", pct=False)},
-            "credit": {"hy_oas": _level(conn, "BAMLH0A0HYM2", pct=False)},
+            # the cost of capital a data-center developer borrows at: the
+            # investment-grade and BBB spreads, BBB's all-in effective yield
+            # (2026-10-07), beside the high-yield spread
+            "credit": {"hy_oas": _level(conn, "BAMLH0A0HYM2", pct=False),
+                       "ig_oas": _level(conn, "BAMLC0A0CM", pct=False),
+                       "bbb_oas": _level(conn, "BAMLC0A4CBBB", pct=False),
+                       "bbb_yield": _level(conn, "BAMLC0A4CBBBEY", pct=False),
+                       "bbb_move": _bbb_move(conn)},
+            # floating-rate construction debt: 30-day average SOFR. CME Term
+            # SOFR is licensed and not on FRED; this is the compounded
+            # average many loans reference instead.
+            "funding": {"sofr_30d": _level(conn, "SOFR30DAYAVG", pct=False)},
             "dollar": _level(conn, "DTWEXBGS", pct=True),
             "gdpnow": _gdpnow(conn),
             "auto_loan_60m": _level(conn, "RIFLPBCIANM60NM", pct=False),

@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { NAV } from "../src/lib/nav";
+import { ratesHeadline } from "../src/lib/ratesHeadline";
 
 test("research theme stays consistent across client navigation", async ({ page }) => {
   await page.goto("/");
@@ -411,6 +412,35 @@ test("site costs: industrial power by default, one metric drives the map and a r
   const wages = (await page.locator(".st-table tbody tr td.st-active").allTextContents())
     .filter((t) => t.startsWith("$")).map((t) => Number(t.replace(/[$,]/g, "")));
   expect(wages).toEqual([...wages].sort((a, b) => b - a));
+});
+
+test("cost of capital: takeaway H1, credit tiles instead of GDPNow/auto loans, and a /datacenter benchmark strip", async ({ page, request }) => {
+  const rates = await (await request.get("/data/rates.json")).json();
+  // expectations follow the published values and the page's own display
+  // rule, so a small market move or a missing series is a pass, not a flake
+  const expected = ratesHeadline(rates.curve.find((r: { code: string }) => r.code === "DGS10"),
+    rates.credit.bbb_yield, rates.credit.bbb_move);
+  const hasBbb = rates.credit.bbb_yield?.value != null;
+  const hasTakeaway = (expected ?? "").includes("; ");
+
+  await page.goto("/rates");
+  await expect(page.locator("h1")).toContainText("The 10-year Treasury is");
+  const labels = await page.locator(".rt-tile .quote-label").allTextContents();
+  expect(labels).not.toContain("GDPNow");
+  expect(labels).not.toContain("60m auto loan");
+  expect(labels).toContain("HY OAS");
+  // tile meta is a block: no bare separator floats as its own flex item
+  await expect(page.locator(".rt-tile .quote-meta")).toHaveCount(0);
+  await expect(page.getByTestId("rates-takeaway")).toHaveCount(hasTakeaway ? 1 : 0);
+  if (hasTakeaway) await expect(page.getByTestId("rates-takeaway")).toContainText("BBB spread moved");
+
+  await page.goto("/datacenter");
+  const strip = page.locator("#dc-capital");
+  await expect(strip).toContainText("Financing benchmarks");
+  await expect(strip).toContainText("not a project");
+  await expect(strip.locator(".kpi-card").first()).toContainText("10-year Treasury");
+  await expect(strip.locator(".kpi-card", { hasText: "BBB corporate bond yield" })).toHaveCount(hasBbb ? 1 : 0);
+  await expect(strip.locator("a[href='/rates']")).toBeVisible();
 });
 
 // CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS

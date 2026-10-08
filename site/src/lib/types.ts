@@ -639,7 +639,12 @@ export type Rates = {
            value_30d_ago: number | null; value_1y_ago: number | null }[];
   spreads: { s2s10s: RateSpread; s3m10y: RateSpread; real_10y: RateSpread };
   breakevens: { t5yie: RateLevel; t10yie: RateLevel };
-  credit: { hy_oas: RateLevel };
+  /** ig_oas / bbb_oas / bbb_yield added 2026-10-07; absent on older files */
+  credit: { hy_oas: RateLevel; ig_oas?: RateLevel; bbb_oas?: RateLevel; bbb_yield?: RateLevel;
+            /** BBB yield/OAS annual changes on one shared window (null when none) */
+            bbb_move?: { as_of: string | null; base_date: string | null; yield_chg_1y: number; oas_chg_1y: number } | null };
+  /** floating-rate funding (2026-10-07+): 30-day average SOFR */
+  funding?: { sofr_30d: RateLevel };
   dollar: RateLevel;
   gdpnow: RateLevel;
   auto_loan_60m: RateLevel;
@@ -651,7 +656,8 @@ export type Rates = {
   /** Market-implied Fed path (Kalshi KXFED), added 2026-09-28 — absent in older files. */
   fed_path?: FedPath;
   history: { dates: string[]; dgs3mo: (number | null)[]; dgs2: (number | null)[]; dgs10: (number | null)[]; t5yie: (number | null)[];
-             t10yie: (number | null)[]; hy_oas: (number | null)[]; dollar: (number | null)[]; spread_2s10s: (number | null)[];
+             t10yie: (number | null)[]; hy_oas: (number | null)[]; ig_oas?: (number | null)[]; bbb_oas?: (number | null)[];
+             dollar: (number | null)[]; spread_2s10s: (number | null)[];
              spread_3m10y: (number | null)[]; real_10y: (number | null)[] };
 };
 

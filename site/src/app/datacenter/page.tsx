@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import dc from "../../../public/data/datacenter.json";
 import llJson from "../../../public/data/longlead.json";
+import ratesJson from "../../../public/data/rates.json";
 import newsJson from "../../../public/data/news.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DownloadData } from "@/components/DownloadData";
@@ -18,7 +19,7 @@ import { NewsFeed } from "@/components/NewsFeed";
 import { clusterStories } from "@/lib/newsTape";
 import { fmtDay, fmtSigned } from "@/lib/format";
 import { DcDrivers, type DriverComp, type DriverGroup } from "@/components/DcDrivers";
-import type { LongLead } from "@/lib/types";
+import type { LongLead, Rates } from "@/lib/types";
 import { dcHeadline, powerSummary, surgeFromLow } from "@/lib/dcHub";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
@@ -64,7 +65,7 @@ const DC_COVERAGE = [
 
 const JUMP = [
   ["dc-indexes", "Indexes"], ["dc-drivers", "Drivers"], ["dc-construction", "Construction"],
-  ["dc-power", "Power"], ["dc-context", "Bigger picture"], ["dc-parity", "State costs"], ["dc-method", "Method"],
+  ["dc-power", "Power"], ["dc-capital", "Capital"], ["dc-context", "Bigger picture"], ["dc-parity", "State costs"], ["dc-method", "Method"],
 ] as const;
 
 const headline = dcHeadline([
@@ -80,6 +81,16 @@ const hwSurge = surgeFromLow("Hardware", dc.indexes.hardware.dates, dc.indexes.h
 // type it from whichever artifact happens to be committed.
 const power = (dc.power ?? null) as PowerData | null;
 const powerSum = powerSummary(power);
+// The cost of capital a build is financed at — the /rates readings, here as
+// a strip (scorecard 2026-10-07). BBB and SOFR are absent before their first
+// publish; the strip shows whatever exists.
+const rates = artifact<"rates", Rates>("rates", ratesJson);
+const ten = rates.curve.find((r) => r.code === "DGS10");
+const bbb = rates.credit.bbb_yield;
+const sofr = rates.funding?.sofr_30d;
+const pp1y = (v: number | null | undefined) =>
+  v == null ? "" : ` · ${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.round(Math.abs(v) * 100)}bp on the year`;
+const dated = (d: string | null | undefined) => (d ? ` · ${fmtDay(d)}` : "");
 
 // The strip shows the five newest AI-infra STORIES (lib/newsTape). Ship only
 // their posts to the client — the client re-clusters them into the same five
@@ -105,7 +116,7 @@ export default function Datacenter() {
   const states = dc.parity.states as ParityRow[];
   return (
     <div className="datacenter-dashboard">
-      <StaleBanner publishedAt={[dc.published_at, llJson.published_at]} />
+      <StaleBanner publishedAt={[dc.published_at, llJson.published_at, ratesJson.published_at]} />
       <header className="research-intro">
         <div className="research-eyebrow">AI infrastructure <span>Updated {fmtDay(build.as_of)}</span></div>
         <h1>Data Center Cost Index</h1>
@@ -205,6 +216,25 @@ export default function Datacenter() {
           <h2 id="dc-power-title">The power bill{powerSum.headline && <> <span className="subtitle">{powerSum.headline}</span></>}</h2>
           <PowerKpis sum={powerSum} />
           <p className="dc-more"><Link href="/power">All {power.hubs.length} hubs, capacity prices by operator and every tariff →</Link></p>
+        </section>
+      )}
+      {ten?.value != null && (
+        <section id="dc-capital" className="dc-section" aria-labelledby="dc-capital-title">
+          <h2 id="dc-capital-title">Financing benchmarks <span className="subtitle">market reference rates, not a project&apos;s cost of debt</span></h2>
+          <div className="kpi-row">
+            <KpiCard label="10-year Treasury" value={`${ten.value.toFixed(2)}%`}
+              context={`the long-term rate benchmark${pp1y(ten.chg_1y_pp)}${dated(ten.as_of)}`} accent="sky" />
+            {bbb?.value != null && (
+              <KpiCard label="BBB corporate bond yield" value={`${bbb.value.toFixed(2)}%`}
+                context={`ICE BofA BBB index${pp1y(bbb.chg_1y)}${dated(bbb.as_of)}`} accent="violet" />
+            )}
+            {sofr?.value != null && (
+              <KpiCard label="30-day average SOFR" value={`${sofr.value.toFixed(2)}%`}
+                context={`backward-looking base rate, not Term SOFR${pp1y(sofr.chg_1y)}${dated(sofr.as_of)}`} accent="amber" />
+            )}
+          </div>
+          <p className="dc-more">An actual loan prices off a benchmark plus its own spread and fees, on its own terms.{" "}
+            <Link href="/rates">The curve, credit spreads and the market-implied Fed path →</Link></p>
         </section>
       )}
       {context && <section id="dc-context" className="dc-section"><ContextPanel context={context} /></section>}

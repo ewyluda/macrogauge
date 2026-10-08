@@ -30,6 +30,9 @@ describe("lazy export recipes reproduce the inline rows", () => {
     const oldHistory = columnsToRows({ name: "date", values: h.dates }, [
       { name: "dgs3mo", values: h.dgs3mo }, { name: "dgs2", values: h.dgs2 }, { name: "dgs10", values: h.dgs10 },
       { name: "t5yie", values: h.t5yie }, { name: "t10yie", values: h.t10yie }, { name: "hy_oas", values: h.hy_oas },
+      // new columns: empty on an artifact published before them
+      { name: "ig_oas", values: h.ig_oas ?? h.dates.map(() => null) },
+      { name: "bbb_oas", values: h.bbb_oas ?? h.dates.map(() => null) },
       { name: "dollar", values: h.dollar }, { name: "spread_2s10s", values: h.spread_2s10s },
       { name: "spread_3m10y", values: h.spread_3m10y }, { name: "real_10y", values: h.real_10y },
     ]);
@@ -41,6 +44,14 @@ describe("lazy export recipes reproduce the inline rows", () => {
     expect(toCsv(rowsFromSpec(rates, RATES_HISTORY_CSV))).toBe(toCsv(oldHistory));
     expect(toCsv(rowsFromSpec(rates, RATES_LIQUIDITY_CSV))).toBe(toCsv(oldLiq));
     expect(toCsv(rowsFromSpec(rates, RATES_CURVE_CSV))).toBe(toCsv(rates.curve));
+  });
+  it("/rates history exports the IG and BBB spread columns when present", () => {
+    const fresh = { ...rates, history: { ...rates.history, dates: ["2026-10-05", "2026-10-06"],
+      ig_oas: [0.82, 0.83], bbb_oas: [1.01, 1.02] } };
+    const csv = toCsv(rowsFromSpec(fresh, RATES_HISTORY_CSV)).split(/\r?\n/);
+    expect(csv[0]).toBe("date,dgs3mo,dgs2,dgs10,t5yie,t10yie,hy_oas,ig_oas,bbb_oas,dollar,spread_2s10s,spread_3m10y,real_10y");
+    const cols = csv[0].split(","), last = csv[2].split(",");
+    expect([last[cols.indexOf("ig_oas")], last[cols.indexOf("bbb_oas")]]).toEqual(["0.83", "1.02"]);
   });
   it("home hero 24-month window", () => {
     const start = windowStart([gaugeDaily.variants.gauge.dates, compare.months], 24);

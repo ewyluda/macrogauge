@@ -66,7 +66,6 @@ export const NAV: NavEntry[] = [
           { href: "/recession", label: "Recession Risk", emoji: "📉" },
           { href: "/labor", label: "Labor Market", emoji: "💼" },
           { href: "/metros", label: "Metro Rents", emoji: "🏙️" },
-          { href: "/rates", label: "Rates & Liquidity", emoji: "📊" },
           { href: "/housing", label: "Housing", emoji: "🏠" },
         ],
       },
@@ -86,6 +85,7 @@ export const NAV: NavEntry[] = [
           { href: "/commodities", label: "Build Inputs", emoji: "🧱" },
           { href: "/markets", label: "DC Markets", emoji: "🏗️" },
           { href: "/states", label: "Site Costs", emoji: "🗺️" },
+          { href: "/rates", label: "Cost of Capital", emoji: "🏦" },
         ],
       },
       {
