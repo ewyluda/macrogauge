@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-10-07T18:51:57Z",
-  "prev_published_at": "2026-10-07T12:49:40Z",
+  "published_at": "2026-10-08T03:33:13Z",
+  "prev_published_at": "2026-10-07T18:51:57Z",
   "headline": [
     {
       "key": "gauge",
@@ -26,11 +26,11 @@
       "key": "col",
       "label": "Cost of Living",
       "kind": "gauge",
-      "value": 6.19,
+      "value": 6.07,
       "as_of": "2026-10-07",
-      "prev_value": 5.99,
+      "prev_value": 6.19,
       "prev_as_of": "2026-10-07",
-      "delta_pp": 0.2
+      "delta_pp": -0.12
     },
     {
       "key": "supercore",
@@ -46,21 +46,21 @@
       "key": "pce",
       "label": "PCE-weighted",
       "kind": "gauge",
-      "value": 3.18,
+      "value": 3.17,
       "as_of": "2026-10-07",
       "prev_value": 3.18,
       "prev_as_of": "2026-10-07",
-      "delta_pp": 0.0
+      "delta_pp": -0.01
     },
     {
       "key": "dc_build",
       "label": "DC Build",
       "kind": "datacenter",
-      "value": 8.51,
+      "value": 8.61,
       "as_of": "2026-10-07",
-      "prev_value": 8.5,
+      "prev_value": 8.51,
       "prev_as_of": "2026-10-07",
-      "delta_pp": 0.01
+      "delta_pp": 0.1
     },
     {
       "key": "dc_ops",
@@ -84,6 +84,15 @@
     }
   ],
   "components": [
+    {
+      "component": "used_vehicles",
+      "label": "Used cars & trucks",
+      "mode": "live",
+      "yoy_pct": -1.79,
+      "prev_yoy_pct": -1.64,
+      "delta_pp": -0.15,
+      "bls_yoy_pct": -2.32
+    },
     {
       "component": "shelter_owned",
       "label": "Shelter (owned)",
@@ -110,15 +119,6 @@
       "prev_yoy_pct": 1.52,
       "delta_pp": 0.0,
       "bls_yoy_pct": 2.75
-    },
-    {
-      "component": "used_vehicles",
-      "label": "Used cars & trucks",
-      "mode": "live",
-      "yoy_pct": -1.64,
-      "prev_yoy_pct": -1.64,
-      "delta_pp": 0.0,
-      "bls_yoy_pct": -2.32
     },
     {
       "component": "other",
@@ -219,52 +219,28 @@
   },
   "sources_landed": [
     {
-      "source": "FMP_EQ",
-      "new_rows": 56
+      "source": "FRED",
+      "new_rows": 4478
     },
     {
-      "source": "OPENROUTER",
-      "new_rows": 16
+      "source": "FMP_EQ",
+      "new_rows": 51
     },
     {
       "source": "FMP",
-      "new_rows": 14
+      "new_rows": 13
     },
     {
       "source": "KALSHI_FED",
-      "new_rows": 6
-    },
-    {
-      "source": "OCI_GPU",
-      "new_rows": 6
-    },
-    {
-      "source": "AWS_GPU",
-      "new_rows": 5
-    },
-    {
-      "source": "COREWEAVE",
-      "new_rows": 5
-    },
-    {
-      "source": "EIA_SPOT",
-      "new_rows": 5
-    },
-    {
-      "source": "VASTAI",
       "new_rows": 4
     },
     {
-      "source": "AZURE_GPU",
+      "source": "VASTAI",
       "new_rows": 3
     },
     {
-      "source": "FRED",
+      "source": "DRAMEX",
       "new_rows": 2
-    },
-    {
-      "source": "ERCOT",
-      "new_rows": 1
     },
     {
       "source": "KALSHI",
@@ -275,7 +251,15 @@
       "new_rows": 1
     },
     {
+      "source": "MANHEIM",
+      "new_rows": 1
+    },
+    {
       "source": "MND",
+      "new_rows": 1
+    },
+    {
+      "source": "TREASURY",
       "new_rows": 1
     }
   ],

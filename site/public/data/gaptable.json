@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-07T18:51:57Z",
+  "published_at": "2026-10-08T03:33:13Z",
   "as_of": "2026-10-07",
   "official_month": "2026-08-01",
   "rows": [
@@ -38,10 +38,10 @@
       "label": "Used cars & trucks",
       "weight": 0.02411,
       "mode": "live",
-      "ours_yoy_pct": -1.64,
+      "ours_yoy_pct": -1.79,
       "bls_yoy_pct": -2.32,
-      "gap_pp": 0.67,
-      "contribution_pp": 0.02
+      "gap_pp": 0.53,
+      "contribution_pp": 0.01
     },
     {
       "component": "other",
@@ -144,7 +144,7 @@
       "contribution_pp": 0.0
     }
   ],
-  "total_gap_pp": -0.17,
+  "total_gap_pp": -0.18,
   "variants": {
     "gauge": {
       "yoy_pct": 3.18,
@@ -152,7 +152,7 @@
       "coverage_pct": 39.08
     },
     "col": {
-      "yoy_pct": 6.19,
+      "yoy_pct": 6.07,
       "as_of": "2026-10-07",
       "coverage_pct": 39.08
     },
@@ -167,7 +167,7 @@
       "coverage_pct": 0.0
     },
     "pce": {
-      "yoy_pct": 3.18,
+      "yoy_pct": 3.17,
       "as_of": "2026-10-07",
       "coverage_pct": 18.9
     }

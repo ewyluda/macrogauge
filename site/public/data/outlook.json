@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-07T18:51:57Z",
+  "published_at": "2026-10-08T03:33:13Z",
   "model": "macrogauge_outlook_v1",
   "as_of": "2026-10-07",
   "origin_month": "2026-09",
@@ -111,21 +111,21 @@
     {
       "month": "2026-10",
       "central_yoy_pct": 3.45,
-      "mom_pct": 0.208,
+      "mom_pct": 0.207,
       "low_yoy_pct": 2.93,
       "high_yoy_pct": 3.97
     },
     {
       "month": "2026-11",
       "central_yoy_pct": 4.01,
-      "mom_pct": 0.205,
+      "mom_pct": 0.204,
       "low_yoy_pct": 3.27,
       "high_yoy_pct": 4.75
     },
     {
       "month": "2026-12",
       "central_yoy_pct": 4.46,
-      "mom_pct": 0.124,
+      "mom_pct": 0.123,
       "low_yoy_pct": 3.56,
       "high_yoy_pct": 5.36
     },
@@ -145,10 +145,10 @@
     },
     {
       "month": "2027-03",
-      "central_yoy_pct": 2.32,
+      "central_yoy_pct": 2.31,
       "mom_pct": 0.126,
-      "low_yoy_pct": 1.05,
-      "high_yoy_pct": 3.59
+      "low_yoy_pct": 1.04,
+      "high_yoy_pct": 3.58
     },
     {
       "month": "2027-04",
@@ -180,10 +180,10 @@
     },
     {
       "month": "2027-08",
-      "central_yoy_pct": 1.91,
+      "central_yoy_pct": 1.9,
       "mom_pct": 0.136,
-      "low_yoy_pct": 0.18,
-      "high_yoy_pct": 3.64
+      "low_yoy_pct": 0.17,
+      "high_yoy_pct": 3.63
     },
     {
       "month": "2027-09",
@@ -311,9 +311,9 @@
     {
       "key": "used_vehicles",
       "name": "Manheim used wholesale (3mo)",
-      "value": -3.147,
+      "value": -3.2879,
       "unit": "%",
-      "reading": "-3.15%",
+      "reading": "-3.29%",
       "as_of": "2026-09-01",
       "status": "live",
       "effect": "70% retail pass-through over 3 months, on the official used-car trend",
@@ -1111,63 +1111,63 @@
     "used_vehicles": [
       {
         "month": "2026-10",
-        "mom_pct": -0.8042,
-        "index": 134.875849
+        "mom_pct": -0.8376,
+        "index": 134.830459
       },
       {
         "month": "2026-11",
-        "mom_pct": -0.8042,
-        "index": 133.791203
+        "mom_pct": -0.8376,
+        "index": 133.701168
       },
       {
         "month": "2026-12",
-        "mom_pct": -0.8042,
-        "index": 132.715279
+        "mom_pct": -0.8376,
+        "index": 132.581336
       },
       {
         "month": "2027-01",
         "mom_pct": -0.0644,
-        "index": 132.629787
+        "index": 132.49593
       },
       {
         "month": "2027-02",
         "mom_pct": -0.0644,
-        "index": 132.54435
+        "index": 132.410579
       },
       {
         "month": "2027-03",
         "mom_pct": -0.0644,
-        "index": 132.458967
+        "index": 132.325283
       },
       {
         "month": "2027-04",
         "mom_pct": -0.0644,
-        "index": 132.37364
+        "index": 132.240041
       },
       {
         "month": "2027-05",
         "mom_pct": -0.0644,
-        "index": 132.288367
+        "index": 132.154855
       },
       {
         "month": "2027-06",
         "mom_pct": -0.0644,
-        "index": 132.20315
+        "index": 132.069724
       },
       {
         "month": "2027-07",
         "mom_pct": -0.0644,
-        "index": 132.117987
+        "index": 131.984647
       },
       {
         "month": "2027-08",
         "mom_pct": -0.0644,
-        "index": 132.03288
+        "index": 131.899625
       },
       {
         "month": "2027-09",
         "mom_pct": -0.0644,
-        "index": 131.947827
+        "index": 131.814658
       }
     ],
     "nat_gas": [

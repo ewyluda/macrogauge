@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-07T18:51:57Z",
+  "published_at": "2026-10-08T03:33:13Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,550 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-07T18:49:27Z",
-  "tape_last_post_at": "2026-10-07T18:44:51Z",
-  "age_hours": 0.04,
+  "feed_generated_at": "2026-10-08T03:33:06Z",
+  "tape_last_post_at": "2026-10-08T03:01:52Z",
+  "age_hours": 0.0,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3A70A9B73574BE7287E8",
+      "ts": "2026-10-08T02:18:25Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "$AMZN Amazon confirmed another round of layoffs Tuesday, primarily in its Stores business, with fewer than 1,000 employees affected, according to Business Insider",
+      "points": [
+        {
+          "label": "Affected roles",
+          "text": "Internal employee messages indicated cuts across customer service, marketplace support and retail engineering, including positions in India and the UK."
+        },
+        {
+          "label": "Employee uncertainty",
+          "text": "Workers sought answers about severance, internal job opportunities, medical leave and system access during notice periods. Some managers had already scaled back planning amid expectations of further cuts."
+        },
+        {
+          "label": "Broader restructuring",
+          "text": "The layoffs follow roughly 30,000 job cuts late last year and early this year aimed at reducing costs and flattening management, while Amazon prepares a record $220B investment in AI data centers, chips and other infrastructure."
+        },
+        {
+          "label": "Industry trend",
+          "text": "$META Meta eliminated roughly 8,000 positions in May, while $MSFT Microsoft cut more than 5,000 jobs across July and September."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18435",
+      "has_media": true
+    },
+    {
+      "id": "3AED9A2FF818FE7770A6",
+      "ts": "2026-10-07T22:04:05Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "SK Hynix\u2019s Solidigm has selected banks for a potential U.S. IPO as soon as 2027 that could raise about $10B and value the flash-memory unit at up to $100B, though deliberations remain ongoing and terms could change.",
+      "points": [
+        {
+          "label": "Banks",
+          "text": "$GS Goldman Sachs and $MS Morgan Stanley were selected as lead banks and are also working on a pre-IPO funding round. $JPM JPMorgan, $C Citigroup and $UBS UBS have also been tapped, with more banks potentially joining."
+        },
+        {
+          "label": "Status",
+          "text": "SK Hynix said Sept. 30 that no Solidigm funding plan had been decided and that it was considering options to strengthen the unit\u2019s competitiveness."
+        },
+        {
+          "label": "AI storage",
+          "text": "Solidigm, formed after SK Hynix acquired $INTC Intel\u2019s flash-memory business in 2021, now focuses on high-capacity drives for AI data centers and reached an enterprise SSD agreement with $CRWV CoreWeave in August."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "INTC",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18429",
+      "has_media": true
+    },
+    {
+      "id": "3A2D88870F14D0298892",
+      "ts": "2026-10-07T22:03:51Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "$APLD Applied Digital says power is already in its pipeline to support 3.5\u20134.0 GW by 2030, with construction now the main constraint as 2027 capacity tightens and expansion leases price higher.",
+      "points": [
+        {
+          "label": "Buildout path",
+          "text": "Reaching 4 GW would require about 2 GW operational by end-2028, followed by roughly 1 GW of annual delivery in both 2029 and 2030."
+        },
+        {
+          "label": "Leasing",
+          "text": "APLD expects about 250 MW of expansion leases by year-end at rates at least 15% higher. Management says nearly all 2027 capacity is effectively contracted, with discussions shifting to 2028\u20132029."
+        },
+        {
+          "label": "Chronoscale",
+          "text": "The platform could reach several hundred MW across 50\u2013100 MW grid-connected sites in 2027\u20132028, with a significant amount potentially online in 2027."
+        },
+        {
+          "label": "Expansion",
+          "text": "APLD is evaluating about 2.4\u20132.5 GW of generation equipment in North Dakota, while Finland\u2019s first 100 MW is targeted for 2028 and could scale toward 1 GW by 2031."
+        },
+        {
+          "label": "Supply",
+          "text": "APLD says it secured portions of suppliers\u2019 full factory output for about four years and is seeking additional capacity for 2027\u20132029."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "APLD",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18428",
+      "has_media": false
+    },
+    {
+      "id": "3A60928A3E0104FD5EB1",
+      "ts": "2026-10-07T21:05:56Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "AI infrastructure companies are pursuing tens of billions of dollars in new private financing for chips as computing build-outs grow more capital-intensive and buyers seek alternatives to funding hardware entirely through corporate cash flow or bond issuance.",
+      "points": [
+        {
+          "label": "OpenAI/Broadcom",
+          "text": "$AVGO Broadcom is working to arrange more than $50B in financing for OpenAI\u2019s custom AI chips, with $APO Apollo and $BX Blackstone among prospective lenders. The financing could cover several gigawatts of capacity and is expected to close before year-end, though talks remain early and the size could change."
+        },
+        {
+          "label": "Oracle",
+          "text": "$ORCL Oracle is discussing financing with Apollo, $GS Goldman Sachs and others for a large chip purchase, potentially using a separate entity that would buy the hardware and lease it back to Oracle, helping bridge upfront costs and limit additional borrowing."
+        },
+        {
+          "label": "SpaceX",
+          "text": "$SPCX SpaceX has discussed roughly $40B in financing for $NVDA Nvidia chips, according to a person familiar with the talks."
+        },
+        {
+          "label": "Industry shift",
+          "text": "Large cloud providers such as $AMZN Amazon\u2019s AWS and Oracle historically funded hardware largely from cash flow, but massive AI spending has increased reliance on debt and private capital. OpenAI and Anthropic are also seeking greater ownership of infrastructure to lower costs and reduce dependence on cloud providers."
+        },
+        {
+          "label": "OpenAI program",
+          "text": "OpenAI\u2019s custom-chip effort, internally called Nexus, includes first- and second-generation chips known as Jalape\u00f1o and Serrano. OpenAI and Broadcom previously outlined plans to deploy 10 GW of custom systems from the second half of 2026 through 2029."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "AVGO",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "ORCL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18424",
+      "has_media": true
+    },
+    {
+      "id": "3A96B087AF3C6106996B",
+      "ts": "2026-10-07T21:04:51Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "The FCC will vote Oct. 29 on advancing a 25 MHz spectrum auction for direct-to-device satellite services and opening another 482 MHz for supplemental coverage from space, potentially expanding opportunities beyond $SPCX SpaceX and $AMZN Amazon to companies including $ASTS AST SpaceMobile and major wireless carriers.",
+      "points": [
+        {
+          "label": "Spectrum expansion",
+          "text": "The FCC proposal would auction 25 MHz of spectrum for direct-to-device operations and seek comment on making another 482 MHz available for satellite-based supplemental coverage, alongside updated D2D rules."
+        },
+        {
+          "label": "AST SpaceMobile",
+          "text": "AST already has FCC authority to provide U.S. supplemental coverage from space through its 248-satellite constellation using spectrum associated with $T AT&T, $VZ Verizon and FirstNet. Broader SCS spectrum availability and more flexible rules could expand the capacity and regulatory options available to its network."
+        },
+        {
+          "label": "Wireless carriers",
+          "text": "AT&T and Verizon partner with AST SpaceMobile, while $TMUS T-Mobile works with SpaceX on satellite-to-phone service. Broader D2D rules could give carriers additional ways to extend coverage beyond terrestrial networks."
+        },
+        {
+          "label": "Amazon and SpaceX",
+          "text": "Amazon is expanding satellite-to-device connectivity through its Leo network, while SpaceX recently received FCC approval for its expanded direct-to-cell constellation and spectrum use."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18423",
+      "has_media": false
+    },
+    {
+      "id": "3A30008C7BC0023C1084",
+      "ts": "2026-10-07T21:01:57Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "*SPACEX HAS DISCUSSED $40 BILLION IN FINANCING FOR NVIDIA CHIPS, SOURCES SAY: WSJ",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18422",
+      "has_media": false
+    },
+    {
+      "id": "3A3945BB9574408DF71E",
+      "ts": "2026-10-07T20:47:39Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "$NBIS Nebius was initiated at Buy by Rosenblatt with a $304 price target, as analyst John McPeake sees the neocloud benefiting from surging AI training and inference demand while delivering rapid revenue growth.",
+      "points": [
+        {
+          "label": "Growth outlook",
+          "text": "Rosenblatt expects 2026 revenue to grow about 6.5x and forecasts a 98% revenue CAGR from FY2026 through FY2030."
+        },
+        {
+          "label": "Capacity",
+          "text": "The firm estimates Nebius has about one-sixth of $CRWV CoreWeave\u2019s active revenue-generating power today, but says 75% of Nebius\u2019 3.5 GW of contracted power is expected to come online through fully owned sites."
+        },
+        {
+          "label": "Positioning",
+          "text": "Rosenblatt places Nebius just below CoreWeave at the top of the neocloud market and expects massive AI infrastructure spending to support continued hypergrowth."
+        },
+        {
+          "label": "Financing risk",
+          "text": "Despite expected customer prepayments, Rosenblatt models additional debt and/or equity issuance to fund Nebius\u2019 capacity roadmap, citing its $5.75B convertible financing in August."
+        },
+        {
+          "label": "Valuation",
+          "text": "The $304 target is based on a 10-year DCF using a 12% discount rate and a 12x terminal free-cash-flow multiple."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NBIS",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18420",
+      "has_media": false
+    },
+    {
+      "id": "3A1AD6AB4797FAB274B9",
+      "ts": "2026-10-07T20:32:16Z",
+      "category": "earnings",
+      "kind": "text",
+      "headline": "$APLD Applied Digital reported fiscal Q1 2027 revenue of $341.9M, up 322% YoY, as its AI data-center business scaled rapidly, while adjusted EBITDA reached $64.4M and the company expanded its contracted capacity and power pipeline.",
+      "points": [
+        {
+          "label": "Results",
+          "text": "GAAP net loss attributable to common shareholders was $221.0M, or $0.76 per share. Adjusted revenue was $300.4M, adjusted net loss was $4.1M, or $0.01 per share, and net operating income was $58.8M; adjusted measures exclude majority-owned $CHRN ChronoScale."
+        },
+        {
+          "label": "AI hosting",
+          "text": "HPC Hosting generated $262.6M of quarterly revenue and $33.4M of segment operating profit. Polaris Forge 1 reached 250 MW of live capacity on Oct. 1, with total North Dakota delivered capacity expected to reach 300 MW by year-end."
+        },
+        {
+          "label": "Contracted pipeline",
+          "text": "Applied Digital has leases covering about 1.41 GW across five campuses, representing roughly $36B of base-term contracted revenue and about $86B including renewal options. Polaris Forge 1 is leased to $CRWV CoreWeave, with other campuses committed to investment-grade hyperscalers."
+        },
+        {
+          "label": "Expansion",
+          "text": "The company secured up to roughly 1 GW of potential power in Finland and signed a power-purchase agreement tied to a planned 1.2 GW North Dakota gas generation project. It also closed $1.59B of 7% secured notes due 2031 to fund additional Polaris Forge construction."
+        },
+        {
+          "label": "ChronoScale",
+          "text": "The 96%-owned subsidiary announced plans with $MSFT Microsoft for a 50 MW North American AI deployment using $NVDA Nvidia GB300 NVL72 systems and liquid cooling."
+        },
+        {
+          "label": "Balance sheet",
+          "text": "Applied Digital ended Aug. 31 with $3.7B of cash, cash equivalents and restricted cash against $6.4B of debt; quarterly interest expense rose to $77.4M from $8.0M a year earlier."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "APLD",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18418",
+      "has_media": false
+    },
+    {
+      "id": "3A6630DE5C1591F554EA",
+      "ts": "2026-10-07T20:28:35Z",
+      "category": "earnings",
+      "kind": "image",
+      "headline": "$APLD",
+      "points": [
+        {
+          "label": null,
+          "text": "Revenues: $341.9 million, up 322% from the prior year comparable period"
+        },
+        {
+          "label": null,
+          "text": "Net loss attributable to common stockholders: $221.0 million"
+        },
+        {
+          "label": null,
+          "text": "Net loss attributable to common stockholders per basic and diluted share: $0.76"
+        },
+        {
+          "label": null,
+          "text": "Adjusted revenue: $300.4 million"
+        },
+        {
+          "label": null,
+          "text": "Adjusted net loss: $4.1 million"
+        },
+        {
+          "label": null,
+          "text": "Adjusted net loss per diluted share: $0.01"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "APLD",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18417",
+      "has_media": true
+    },
+    {
+      "id": "3A164DA58085DFF122A4",
+      "ts": "2026-10-07T20:04:20Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "$LSCC Lattice Semiconductor and $ARM Arm are collaborating on secure, adaptable AI data-center infrastructure, combining Lattice FPGAs with Arm AGI CPU server platforms and AMI firmware.",
+      "points": [
+        {
+          "label": "Platform role",
+          "text": "Lattice FPGAs will provide secure control, management, connectivity and platform adaptability alongside Arm-based server systems."
+        },
+        {
+          "label": "OCP connectivity",
+          "text": "The solution supports OCP-compliant links between Host Processor Modules and Datacenter Secure Control Modules using LTPI."
+        },
+        {
+          "label": "AI infrastructure",
+          "text": "The collaboration targets modular server architectures that can adapt as AI data-center requirements evolve while maintaining secure platform management."
+        },
+        {
+          "label": "Showcase",
+          "text": "The joint Arm-Lattice server solution will be demonstrated at the OCP Global Summit 2026, Oct. 12\u201315."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "ARM",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18410",
+      "has_media": false
+    },
+    {
+      "id": "3A1441069F2D591AC0F9",
+      "ts": "2026-10-07T19:26:43Z",
+      "category": "other",
+      "kind": "image",
+      "headline": "Trump is set to award six prominent technology leaders the nation\u2019s highest science and technology honors Thursday during the White House\u2019s \u201cScience: A New Golden Age Summit,\u201d according to Fox News.",
+      "points": [
+        {
+          "label": "National Medal of Science",
+          "text": "Elon Musk, CEO of $TSLA Tesla and $SPCX SpaceX; Sergey Brin, co-founder of $GOOGL Alphabet\u2019s Google; $NVDA Nvidia CEO Jensen Huang; and $AMD AMD CEO Lisa Su are expected to receive the honor."
+        },
+        {
+          "label": "Technology medal",
+          "text": "$DELL Dell Technologies CEO Michael Dell and $MSFT Microsoft CEO Satya Nadella are expected to receive the National Medal of Technology and Innovation."
+        },
+        {
+          "label": "Summit",
+          "text": "The event will bring together scientists and technology executives to discuss superintelligence, private-sector investment and accelerating scientific breakthroughs."
+        },
+        {
+          "label": "First for Trump",
+          "text": "Fox reports this will be Trump\u2019s first presentation of either medal across his presidencies."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMD",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "DELL",
+          "layer": "Servers & Storage"
+        },
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18398",
+      "has_media": true
+    },
+    {
+      "id": "3A3609E1944A6B5C4C53",
+      "ts": "2026-10-07T19:06:14Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Trump is expected to attend a White House science summit Thursday as the administration announces more than $1B in private-sector commitments to the Genesis Mission, including support from $AMD AMD, OpenAI, Anthropic and other companies.",
+      "points": [
+        {
+          "label": "Industry funding",
+          "text": "The new commitments are intended to expand AI-driven scientific research as the administration seeks a larger private-sector role in research and development."
+        },
+        {
+          "label": "Compute expansion",
+          "text": "The White House will announce a compute hub spanning more than 14 institutions across 10 Southeastern states, along with a $1B Georgia investment to expand computing access for students and faculty."
+        },
+        {
+          "label": "Federal support",
+          "text": "The National Science Foundation and Department of Energy will invest more than $100M in AI-powered scientific tools."
+        },
+        {
+          "label": "Genesis Mission",
+          "text": "Launched last November and expanded in July to more than 15 federal agencies, the initiative aims to accelerate scientific discovery using advanced AI and computing infrastructure."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMD",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18393",
+      "has_media": true
+    },
+    {
+      "id": "3ABD5FA76310B669C9A5",
+      "ts": "2026-10-07T18:57:54Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "$AMZN Amazon rose about 1.3% Wednesday as analysts highlighted AI-driven growth across AWS, advertising and commerce, with several firms arguing agentic shopping could strengthen rather than disrupt Amazon\u2019s business model.",
+      "points": [
+        {
+          "label": "Analyst targets",
+          "text": "Tigress Financial raised its target to $385 while maintaining Buy, TD Cowen reiterated Buy with a $350 target, and Rosenblatt raised its target to $360 while maintaining Buy. The average analyst target cited is $335."
+        },
+        {
+          "label": "Agentic commerce",
+          "text": "Rosenblatt argues AI agents could reduce shopping friction while Amazon adapts advertising from cost-per-click toward transaction- or action-based models, preserving economics through ads, fees, fulfillment, logistics and storage."
+        },
+        {
+          "label": "AWS",
+          "text": "TD Cowen cited five straight quarters of accelerating AWS growth and said Amazon\u2019s AI business exited Q2 at roughly a $25B annual run rate. Amazon expects AWS capacity constraints through 2026\u201327 despite plans to double capacity by the end of 2027."
+        },
+        {
+          "label": "AI investment",
+          "text": "Tigress says Amazon\u2019s AI flywheel is supporting AWS, advertising, purchases and Prime engagement, while AWS executives defended roughly $220B of infrastructure investment as demand-backed."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18392",
+      "has_media": false
+    },
+    {
+      "id": "3AB90D391E8868B8C39B",
+      "ts": "2026-10-07T18:57:06Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "$AMZN Amazon rose about 1% Wednesday as analysts highlighted AI-driven growth across AWS, advertising and commerce, with several firms arguing agentic shopping could strengthen rather than disrupt Amazon\u2019s business model.",
+      "points": [
+        {
+          "label": "Analyst targets",
+          "text": "Tigress Financial raised its target to $385 while maintaining Buy, TD Cowen reiterated Buy with a $350 target, and Rosenblatt raised its target to $360 while maintaining Buy. The average analyst target cited is $335."
+        },
+        {
+          "label": "Agentic commerce",
+          "text": "Rosenblatt argues AI agents could reduce shopping friction while Amazon adapts advertising from cost-per-click toward transaction- or action-based models, preserving economics through ads, fees, fulfillment, logistics and storage."
+        },
+        {
+          "label": "AWS",
+          "text": "TD Cowen cited five straight quarters of accelerating AWS growth and said Amazon\u2019s AI business exited Q2 at roughly a $25B annual run rate. Amazon expects AWS capacity constraints through 2026\u201327 despite plans to double capacity by the end of 2027."
+        },
+        {
+          "label": "AI investment",
+          "text": "Tigress says Amazon\u2019s AI flywheel is supporting AWS, advertising, purchases and Prime engagement, while AWS executives defended roughly $220B of infrastructure investment as demand-backed."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18391",
+      "has_media": true
+    },
     {
       "id": "3A7C45494ABDE29E6DF2",
       "ts": "2026-10-07T18:26:32Z",
@@ -4987,485 +5526,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17617",
       "has_media": false
-    },
-    {
-      "id": "3AA9E0197D6C06505B8E",
-      "ts": "2026-09-30T23:50:31Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$META\u2019s Muse AI agent surpassed 5 million downloads by September 30, according to Sensor Tower, after launching on September 8 in the U.S. and Canada.",
-      "points": [
-        {
-          "label": "Launch comparison",
-          "text": "Sensor Tower says ChatGPT, Grok and Claude took 56, 103 and 492 days, respectively, to reach 5 million downloads."
-        },
-        {
-          "label": "Historical context",
-          "text": "Muse is not the fastest app to reach that milestone; Sensor Tower cites Disney+, Threads and several games that did so sooner."
-        },
-        {
-          "label": "Advertising reach",
-          "text": "Muse ranked among the top 15 U.S. brands by advertising impressions during the period cited in the report."
-        },
-        {
-          "label": "Revenue plan",
-          "text": "The app is free; Meta says it eventually plans to take a small cut of sales made through the agent."
-        },
-        {
-          "label": "Advertising push",
-          "text": "Sensor Tower says Meta increased Muse advertising on September 16, when downloads rose 73% from the previous day."
-        },
-        {
-          "label": "House ads",
-          "text": "Muse accounted for up to 50% of Meta\u2019s daily house-ad impressions during the two weeks cited by Sensor Tower."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17608",
-      "has_media": true
-    },
-    {
-      "id": "3A7F621BC65A120A9A5C",
-      "ts": "2026-09-30T21:40:18Z",
-      "category": "earnings",
-      "kind": "text",
-      "headline": "Micron expects fiscal 2027 capital spending to exceed $50 billion, up from $27 billion in fiscal 2026, as it invests to expand cleanroom capacity.",
-      "points": [
-        {
-          "label": "Spending schedule",
-          "text": "Micron plans approximately $25 billion of capex in the first half of fiscal 2027 and expects second-half spending to be higher. Most of the increase is construction spending intended to accelerate cleanroom availability in late calendar 2028 and beyond."
-        },
-        {
-          "label": "Record sales",
-          "text": "Fiscal Q4 was Micron\u2019s sixth consecutive quarterly revenue record. DRAM revenue reached $39.8 billion, up 343% year over year, while NAND revenue reached $14.1 billion, up 526%."
-        },
-        {
-          "label": "Pricing drove growth",
-          "text": "Sequential DRAM revenue rose 27%, with bit shipments up a mid-single-digit percentage and prices up a high-teens percentage. NAND revenue rose 42%, with bit shipments up approximately 10% and prices up approximately 30%."
-        },
-        {
-          "label": "Margins",
-          "text": "Fiscal Q4 consolidated gross margin reached 87%, up 210 basis points sequentially, primarily on higher pricing. Micron expects fiscal Q1 2027 to be the year\u2019s gross-margin floor and says margins should rise after that quarter."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MU",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17603",
-      "has_media": false
-    },
-    {
-      "id": "3A41CFE62EE3B2A94E13",
-      "ts": "2026-09-30T20:49:28Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Micron says it has completed agreements for the vast majority of its calendar 2027 high-bandwidth memory bit supply, with significant year-over-year price increases.",
-      "points": [
-        {
-          "label": "HBM margins",
-          "text": "Micron says the higher contracted prices are narrowing HBM\u2019s gross-margin gap with conventional DRAM."
-        },
-        {
-          "label": "Customer commitments",
-          "text": "Financial commitments under its 26 multi-year take-or-pay agreements have risen to $32 billion from $22 billion last quarter. Micron says the vast majority are cash deposits."
-        },
-        {
-          "label": "Longer visibility",
-          "text": "The agreements cover more than 35% of expected revenue through 2030, and some now extend into 2031."
-        },
-        {
-          "label": "Supply constraints",
-          "text": "Micron expects NAND and DRAM to remain supply-constrained in both calendar 2027 and 2028, and says it has no line of sight to when supply and demand will return to balance."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MU",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17594",
-      "has_media": false
-    },
-    {
-      "id": "3ABCF3B212005EE81159",
-      "ts": "2026-09-30T20:45:24Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Micron says memory demand has strengthened since its last earnings call. It also disclosed new details about its high-bandwidth memory roadmap and long-term customer supply agreements.",
-      "points": [
-        {
-          "label": "NVIDIA collaboration",
-          "text": "Micron says it is working with NVIDIA on NVHBM, which it describes as the industry\u2019s first custom HBM4e implementation. Micron expects adoption in next-generation GPUs and NVLink Fusion platforms."
-        },
-        {
-          "label": "Technology roadmap",
-          "text": "Its next-generation DRAM and NAND nodes are on track to begin volume production in the second half of calendar 2027."
-        },
-        {
-          "label": "Supply outlook",
-          "text": "Micron expects memory and storage supply-demand conditions to be much tighter in fiscal 2027 and 2028 than in 2026."
-        },
-        {
-          "label": "Customer agreements",
-          "text": "Micron has signed 26 SCAs that it currently estimates will represent more than 35% of its revenue through 2030. Some agreements now extend into 2031, including two extended by one year."
-        },
-        {
-          "label": "Financial commitments",
-          "text": "Commitments tied to the 26 signed SCAs and extensions have risen to $32 billion; Micron says the vast majority are cash deposits."
-        },
-        {
-          "label": "Physical AI",
-          "text": "Micron says several customers are sampling its next-generation products, and it is increasing technology-roadmap investment to pursue the opportunity."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MU",
-          "layer": "Foundry & Fab"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17592",
-      "has_media": false
-    },
-    {
-      "id": "3AD68EEFC223066AEDD4",
-      "ts": "2026-09-30T20:38:53Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Take-Two and Microsoft entered a new long-term Xbox publisher license agreement that gives Take-Two the right to develop and sell Xbox-compatible products, according to SEC filing summary.",
-      "points": [
-        {
-          "label": "Prior agreements",
-          "text": "The new contract supersedes all existing Xbox publisher license agreements between the companies."
-        },
-        {
-          "label": "Physical products",
-          "text": "Microsoft will charge Take-Two fees and royalties on physical-media products."
-        },
-        {
-          "label": "Digital products",
-          "text": "Microsoft will pay Take-Two a wholesale price and a revenue share for digital products."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17591",
-      "has_media": false
-    },
-    {
-      "id": "3A09B49602A95FF65B92",
-      "ts": "2026-09-30T20:33:27Z",
-      "category": "other",
-      "kind": "image",
-      "headline": "$MU Micron Q4 FY26 (August quarter) - EconomyApp",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "MU",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17588",
-      "has_media": true
-    },
-    {
-      "id": "3AE4E2920EF79F8855F5",
-      "ts": "2026-09-30T20:31:00Z",
-      "category": "earnings",
-      "kind": "image",
-      "headline": "$MU Adding to its earlier fiscal 2027 outlook, Micron provided fiscal first-quarter guidance and said it plans to increase capital spending to expand DRAM cleanroom capacity.",
-      "points": [
-        {
-          "label": "Fiscal Q1 non-GAAP guidance",
-          "text": "Revenue of $61.5 billion, with a stated $1.5 billion guidance range; gross margin of approximately 86.25%; operating expenses of approximately $2.06 billion; and diluted EPS of $38.15, with a stated $1.00 guidance range."
-        },
-        {
-          "label": "Quarterly path",
-          "text": "Micron expects sequential revenue growth in every quarter of fiscal 2027 and says fiscal Q1 should be the year\u2019s gross-margin floor. It expects higher margins thereafter, even with a more moderate pace of price increases."
-        },
-        {
-          "label": "Cost outlook",
-          "text": "Fiscal 2027 operating expenses are projected to rise by approximately $2.5 billion, mainly from research and development and higher incentive compensation. Micron expects a tax rate of around 15.5% for both fiscal Q1 and the full year."
-        },
-        {
-          "label": "NAND outlook",
-          "text": "Industry bit shipments are expected to grow in the low-20% range in calendar 2026 and approximately the mid-20% range in both 2027 and 2028. Micron expects its own 2026 NAND supply growth to trail the industry\u2019s."
-        },
-        {
-          "label": "DRAM outlook",
-          "text": "Industry bit shipments are expected to grow in the mid-20% range in calendar 2026 and approximately the low-20% range in 2027 and 2028. Micron expects high-bandwidth memory bit shipments to grow faster than conventional DRAM through 2028."
-        },
-        {
-          "label": "Investment plans",
-          "text": "Micron plans to raise fiscal 2027 capex above prior plans, mostly for construction intended to bring DRAM cleanroom space online sooner in late calendar 2028 and beyond. It also expects to pull forward some equipment spending."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MU",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17586",
-      "has_media": true
-    },
-    {
-      "id": "3A47A9DCA7135C569F89",
-      "ts": "2026-09-30T20:22:10Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "GOOGLE SAYS IT IS PARTICIPATING IN THE U.S. GOVERNMENT\u2019S VOLUNTARY PROCESS FOR AI MODELS.",
-      "points": [
-        {
-          "label": null,
-          "text": "THE COMPANY ALSO SAYS IT WILL RELEASE ARGON WITHOUT CYBER GUARDRAILS TO TRUSTED DEFENDERS AND ITS OWN INTERNAL TEAMS. $GOOGL"
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "GOOGL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17583",
-      "has_media": false
-    },
-    {
-      "id": "3A19356D3D469CB90CCA",
-      "ts": "2026-09-30T20:19:50Z",
-      "category": "earnings",
-      "kind": "text",
-      "headline": "MICRON EXPECTS MEMORY AND STORAGE SUPPLY-DEMAND CONDITIONS TO BE \u201cMUCH TIGHTER\u201d IN FISCAL 2027 AND 2028 THAN IN FISCAL 2026, ACCORDING TO PREPARED REMARKS. $MU",
-      "points": [
-        {
-          "label": null,
-          "text": "Micron said fiscal fourth-quarter revenue, gross margin and earnings per share each set records and exceeded the high end of its guidance. The company expects fiscal 2027 to be stronger than fiscal 2026."
-        },
-        {
-          "label": "FY26 growth",
-          "text": "Micron said annual revenue was 3.5 times its previous record, while data-center revenue rose fourfold."
-        },
-        {
-          "label": "DRAM",
-          "text": "The company said fiscal 2026 DRAM revenue surpassed $100 billion."
-        },
-        {
-          "label": "Demand outlook",
-          "text": "Micron said industry demand has strengthened since its previous earnings call."
-        },
-        {
-          "label": "Supply outlook",
-          "text": "The company expects memory and storage supply-demand conditions to be much tighter in fiscal 2027 and 2028 than in fiscal 2026."
-        },
-        {
-          "label": "Employee compensation",
-          "text": "Micron said it increased fiscal 2026 incentive compensation for every global team member in recognition of the year\u2019s performance."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MU",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17582",
-      "has_media": false
-    },
-    {
-      "id": "3AABB8E1E6220A54E983",
-      "ts": "2026-09-30T20:13:20Z",
-      "category": "earnings",
-      "kind": "text",
-      "headline": "$SNPS Synopsys is targeting approximately 15% compound annual revenue growth from fiscal 2026 through fiscal 2030, citing demand for AI-driven chip design, custom silicon and engineering software.",
-      "points": [
-        {
-          "label": "FY27 revenue",
-          "text": "$11.1 billion\u2013$11.2 billion, representing approximately 15% year-over-year growth at the midpoint."
-        },
-        {
-          "label": "FY27 profitability",
-          "text": "Non-GAAP operating margin of approximately 44% and non-GAAP earnings per share of $19.04\u2013$19.12."
-        },
-        {
-          "label": "FY27 cash flow",
-          "text": "Approximately $3.6 billion in operating cash flow and $3.1 billion in free cash flow, with roughly $500 million in capital spending."
-        },
-        {
-          "label": "Segment targets through FY30",
-          "text": "Annual revenue growth of at least 13% for EDA, at least 10% for Systems & Analysis and at least 17% for Design IP."
-        },
-        {
-          "label": "FY30 targets",
-          "text": "Non-GAAP operating margin of approximately 50%, with non-GAAP EPS and free cash flow each growing at a mid-20% compound annual rate from FY26."
-        },
-        {
-          "label": "Capital returns",
-          "text": "Synopsys aims to return up to 50% of free cash flow through buybacks and intends to repurchase approximately $1 billion in shares over the coming months, subject to market conditions."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMZN",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "SNPS",
-          "layer": "Semi Equipment"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17581",
-      "has_media": false
-    },
-    {
-      "id": "3A70039B69ED35213EED",
-      "ts": "2026-09-30T20:02:18Z",
-      "category": "earnings",
-      "kind": "image",
-      "headline": "$MU Micron: Record Q4 Revenue and EPS Beat as AI Demand Drives Massive Growth",
-      "points": [
-        {
-          "label": null,
-          "text": "\u2800"
-        },
-        {
-          "label": null,
-          "text": "\ud83d\udcca Results"
-        },
-        {
-          "label": null,
-          "text": "Adj. EPS: $33.42 (Est. $31.82) \u2705"
-        },
-        {
-          "label": null,
-          "text": "Revenue: $54.23B (Est. $51.51B) \u2705, +379% YoY."
-        },
-        {
-          "label": null,
-          "text": "Adj. Gross Margin: 87.0%, vs. 45.7% a year ago."
-        },
-        {
-          "label": null,
-          "text": "Adj. Operating Income: $44.64B, with an 82.3% margin."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MU",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17576",
-      "has_media": true
-    },
-    {
-      "id": "3A00F785136816C4352A",
-      "ts": "2026-09-30T20:02:11Z",
-      "category": "earnings",
-      "kind": "text",
-      "headline": "*MICRON SEES 1Q ADJ EPS $37.15 TO $39.15, EST. $36.02",
-      "points": [
-        {
-          "label": null,
-          "text": "$MU"
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MU",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17575",
-      "has_media": false
-    },
-    {
-      "id": "3AE332FC0EB222BED57F",
-      "ts": "2026-09-30T20:01:32Z",
-      "category": "earnings",
-      "kind": "text",
-      "headline": "*MICRON 4Q AUTOMOTIVE AND EMBEDDED REV $6.82B, EST. $4.73B",
-      "points": [
-        {
-          "label": null,
-          "text": "*MICRON 4Q CLOUD MEMORY REV. $16.28B, EST. $15.14B"
-        },
-        {
-          "label": null,
-          "text": "*MICRON 4Q ADJ GROSS MARGIN 87%, EST. 86.2%"
-        },
-        {
-          "label": null,
-          "text": "*MICRON 4Q MOBILE AND CLIENT REV. $13.11B, EST. $12.95B"
-        },
-        {
-          "label": null,
-          "text": "$MU"
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MU",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17574",
-      "has_media": false
-    },
-    {
-      "id": "3A52DFF2E2F39B125574",
-      "ts": "2026-09-30T19:45:32Z",
-      "category": "other",
-      "kind": "image",
-      "headline": "Market Close and Micron Earnings",
-      "points": [
-        {
-          "label": null,
-          "text": "Join the show"
-        },
-        {
-          "label": null,
-          "text": "https://www.youtube.com/live/tZ7lueBZfxw?is=R7ZX0EprNNQmcgjK"
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MU",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17562",
-      "has_media": true
     }
   ]
 }

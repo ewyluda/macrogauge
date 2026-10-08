@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-07T18:51:57Z",
+  "published_at": "2026-10-08T03:33:13Z",
   "as_of": "2026-01-01",
   "base_date": "2025-01-01",
   "national": {
@@ -88,13 +88,70 @@
         "51107": "Loudoun County",
         "51153": "Prince William County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          37145,
+          37589,
+          38824,
+          38775,
+          41440,
+          42806,
+          43863,
+          44761
+        ],
+        "wage": [
+          1591,
+          1621,
+          1845,
+          1728,
+          1669,
+          1691,
+          2027,
+          1852
+        ],
+        "counties": 2,
+        "fips": [
+          "51107",
+          "51153"
+        ]
+      },
       "sites": 1,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 1,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 0
+      "mw_operating": 0,
+      "market_pipeline": {
+        "region": "Virginia",
+        "label": "Virginia (statewide)",
+        "fit": "wider",
+        "map_labels": [
+          "Ashburn/Sterling",
+          "Manassas",
+          "Culpeper",
+          "Fredericksburg",
+          "Richmond",
+          "Danville"
+        ],
+        "region_note": null,
+        "mw_uc": 7355,
+        "mw_operating": 12338,
+        "mw_planned": 39340,
+        "page": 8,
+        "quote": "H1 2026 KEY INDICATORS* 64 Operators 12,338MW In Operation 7,355MW Under Construction 1.0% Colo Vacancy 39,340M W Planned 1063MW H1 2026 Absorption",
+        "null_note": null
+      }
     },
     {
       "key": "dfw",
@@ -189,13 +246,70 @@
         "48439": "Tarrant County",
         "48139": "Ellis County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          170226,
+          171161,
+          171787,
+          172655,
+          176227,
+          175139,
+          174309,
+          174867
+        ],
+        "wage": [
+          1620,
+          1637,
+          1913,
+          1749,
+          1695,
+          1715,
+          2005,
+          1845
+        ],
+        "counties": 3,
+        "fips": [
+          "48113",
+          "48139",
+          "48439"
+        ]
+      },
       "sites": 2,
       "mw_disclosed": 250,
       "sites_mw_undisclosed": 1,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 250
+      "mw_operating": 250,
+      "market_pipeline": {
+        "region": "Dallas + Fort Worth",
+        "label": "Dallas + Fort Worth",
+        "fit": "close",
+        "map_labels": [
+          "Red Oak",
+          "Fort Worth",
+          "Midlothian",
+          "Plano/Richardson",
+          "Dallas/Irving"
+        ],
+        "region_note": null,
+        "mw_uc": 1720,
+        "mw_operating": 1845,
+        "mw_planned": 15392,
+        "page": 18,
+        "quote": "H1 2026 KEY INDICATORS* 45 Operators 1,845MW In Operation 1,720 MW Under Construction 3.4 % Colo Vacancy 15,392MW Planned 124MW H1 2026 Absorption",
+        "null_note": null
+      }
     },
     {
       "key": "chicago",
@@ -275,13 +389,70 @@
         "17031": "Cook County",
         "17043": "DuPage County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          109676,
+          109796,
+          103085,
+          99476,
+          110794,
+          110540,
+          103101,
+          101266
+        ],
+        "wage": [
+          1793,
+          1809,
+          2371,
+          1932,
+          1881,
+          1921,
+          2237,
+          2078
+        ],
+        "counties": 2,
+        "fips": [
+          "17031",
+          "17043"
+        ]
+      },
       "sites": 1,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 1,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 0
+      "mw_operating": 0,
+      "market_pipeline": {
+        "region": "Chicago",
+        "label": "Chicago region",
+        "fit": "wider",
+        "map_labels": [
+          "Elk Grove Village",
+          "Chicago CBD",
+          "Northlake",
+          "Hoffman Estates",
+          "Aurora",
+          "DeKalb"
+        ],
+        "region_note": null,
+        "mw_uc": 725,
+        "mw_operating": 1526,
+        "mw_planned": 10981,
+        "page": 20,
+        "quote": "H1 2026 KEY INDICATORS* 55 Operators 1,526MW In Operation 725MW Under Construction 3.1% Colo Vacancy 10,981MW Planned 212MW H1 2026 Absorption",
+        "null_note": null
+      }
     },
     {
       "key": "phoenix",
@@ -361,13 +532,68 @@
         "04013": "Maricopa County",
         "04021": "Pinal County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          179972,
+          179601,
+          179111,
+          179055,
+          177519,
+          175078,
+          173902,
+          177067
+        ],
+        "wage": [
+          1541,
+          1548,
+          1768,
+          1657,
+          1638,
+          1606,
+          1831,
+          1742
+        ],
+        "counties": 2,
+        "fips": [
+          "04013",
+          "04021"
+        ]
+      },
       "sites": 1,
       "mw_disclosed": 200,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 200
+      "mw_operating": 200,
+      "market_pipeline": {
+        "region": "Phoenix",
+        "label": "Phoenix",
+        "fit": "close",
+        "map_labels": [
+          "Mesa",
+          "Glendale",
+          "Goodyear",
+          "Chandler"
+        ],
+        "region_note": null,
+        "mw_uc": 1597,
+        "mw_operating": 2492,
+        "mw_planned": 7524,
+        "page": 14,
+        "quote": "H1 2026 KEY INDICATORS* 40 Operators 2,492 MW In Operation 1,597MW Under Construction 2.7% Colo Vacancy 7,524 MW Planned 133MW H1 2026 Absorption",
+        "null_note": null
+      }
     },
     {
       "key": "atlanta",
@@ -447,13 +673,68 @@
         "13097": "Douglas County",
         "13121": "Fulton County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          26666,
+          26534,
+          26622,
+          26896,
+          27097,
+          27091,
+          27077,
+          26414
+        ],
+        "wage": [
+          1812,
+          1794,
+          2165,
+          2248,
+          1916,
+          1871,
+          2274,
+          2371
+        ],
+        "counties": 2,
+        "fips": [
+          "13097",
+          "13121"
+        ]
+      },
       "sites": 1,
       "mw_disclosed": 200,
       "sites_mw_undisclosed": 0,
       "mw_construction": 200,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 0
+      "mw_operating": 0,
+      "market_pipeline": {
+        "region": "Atlanta",
+        "label": "Atlanta region",
+        "fit": "wider",
+        "map_labels": [
+          "Social Circle",
+          "Alpharetta",
+          "Lithia Springs",
+          "South Fulton"
+        ],
+        "region_note": null,
+        "mw_uc": 1715,
+        "mw_operating": 1880,
+        "mw_planned": 18500,
+        "page": 16,
+        "quote": "H1 2026 KEY INDICATORS* 31 Operators 1,880 MW In Operation 1,715MW Under Construction 2.3% Colo Vacancy 18,500MW Planned 128MW H1 2026 Absorption",
+        "null_note": null
+      }
     },
     {
       "key": "svl",
@@ -518,13 +799,65 @@
       "county_names": {
         "06085": "Santa Clara County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          51774,
+          51595,
+          49762,
+          49107,
+          50740,
+          51842,
+          51488,
+          50892
+        ],
+        "wage": [
+          2246,
+          2647,
+          2683,
+          2207,
+          2267,
+          2324,
+          2631,
+          2295
+        ],
+        "counties": 1,
+        "fips": [
+          "06085"
+        ]
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 0
+      "mw_operating": 0,
+      "market_pipeline": {
+        "region": "Silicon Valley",
+        "label": "Silicon Valley + SF/Oakland",
+        "fit": "wider",
+        "map_labels": [
+          "San Francisco/Oakland",
+          "Silicon Valley"
+        ],
+        "region_note": null,
+        "mw_uc": 222,
+        "mw_operating": 1101,
+        "mw_planned": 1483,
+        "page": 24,
+        "quote": "H1 2026 KEY INDICATORS* 44 Operators 1,101MW In Operation 222MW Under Construction 5.0 % Colo Vacancy 1483MW Planned -1.6MW H1 2026 Absorption",
+        "null_note": null
+      }
     },
     {
       "key": "columbus",
@@ -604,13 +937,66 @@
         "39049": "Franklin County",
         "39089": "Licking County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          41981,
+          43234,
+          42959,
+          42780,
+          45399,
+          45677,
+          45343,
+          45657
+        ],
+        "wage": [
+          1639,
+          1723,
+          1980,
+          1797,
+          1743,
+          1861,
+          2090,
+          1928
+        ],
+        "counties": 2,
+        "fips": [
+          "39049",
+          "39089"
+        ]
+      },
       "sites": 3,
       "mw_disclosed": 1221,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 1221
+      "mw_operating": 1221,
+      "market_pipeline": {
+        "region": "Columbus",
+        "label": "Columbus",
+        "fit": "close",
+        "map_labels": [
+          "New Albany",
+          "Columbus"
+        ],
+        "region_note": null,
+        "mw_uc": 2043,
+        "mw_operating": 3488,
+        "mw_planned": 11545,
+        "page": 12,
+        "quote": "H1 2026 KEY INDICATORS* 17 Operators 3,488 MW In Operation 2,043 MW Under Construction 2.2% Colo Vacancy 11,545MW Planned 337MW H1 2026 Absorption",
+        "null_note": null
+      }
     },
     {
       "key": "slc",
@@ -690,13 +1076,66 @@
         "49035": "Salt Lake County",
         "49049": "Utah County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          86016,
+          86860,
+          85667,
+          85544,
+          88432,
+          87667,
+          85686,
+          84862
+        ],
+        "wage": [
+          1369,
+          1394,
+          1579,
+          1496,
+          1484,
+          1451,
+          1689,
+          1567
+        ],
+        "counties": 2,
+        "fips": [
+          "49035",
+          "49049"
+        ]
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 0
+      "mw_operating": 0,
+      "market_pipeline": {
+        "region": "Salt Lake City",
+        "label": "Salt Lake City",
+        "fit": "close",
+        "map_labels": [
+          "West Jordan",
+          "Eagle Mountain"
+        ],
+        "region_note": null,
+        "mw_uc": 369,
+        "mw_operating": 632,
+        "mw_planned": 2080,
+        "page": 30,
+        "quote": "H1 2026 KEY INDICATORS* 9 Operators 632 MW In Operation 369MW Under Construction 0.6 % Colo Vacancy 2,080 MW Planned 1MW H1 2026 Absorption",
+        "null_note": null
+      }
     },
     {
       "key": "abilene",
@@ -761,13 +1200,62 @@
       "county_names": {
         "48441": "Taylor County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          3301,
+          3142,
+          3305,
+          3452,
+          3721,
+          3730,
+          4141,
+          4752
+        ],
+        "wage": [
+          1184,
+          1273,
+          1357,
+          1253,
+          1269,
+          1393,
+          1652,
+          1522
+        ],
+        "counties": 1,
+        "fips": [
+          "48441"
+        ]
+      },
       "sites": 2,
       "mw_disclosed": 1200,
       "sites_mw_undisclosed": 0,
       "mw_construction": 900,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 300
+      "mw_operating": 300,
+      "market_pipeline": {
+        "region": "West Texas",
+        "label": "West Texas",
+        "fit": "proxy",
+        "map_labels": [],
+        "region_note": "C&W's West Texas narrative names the Crusoe/Microsoft Abilene campus and a proposed Fort Bliss (El Paso) campus.",
+        "mw_uc": 2461,
+        "mw_operating": 500,
+        "mw_planned": 16204,
+        "page": 35,
+        "quote": "H1 2026 KEY INDICATORS* 6 Operators 500MW In Operation 2,461 MW Under Construction 0.0 % Colo Vacancy 16,204MW Planned 286MW H1 2026 Absorption",
+        "null_note": null
+      }
     },
     {
       "key": "newcarlisle",
@@ -832,13 +1320,62 @@
       "county_names": {
         "18141": "St. Joseph County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          5858,
+          5826,
+          5591,
+          5803,
+          6556,
+          6853,
+          6911,
+          6550
+        ],
+        "wage": [
+          1346,
+          1404,
+          1608,
+          1474,
+          1582,
+          1657,
+          1859,
+          1643
+        ],
+        "counties": 1,
+        "fips": [
+          "18141"
+        ]
+      },
       "sites": 1,
       "mw_disclosed": 1725,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 1725
+      "mw_operating": 1725,
+      "market_pipeline": {
+        "region": null,
+        "label": null,
+        "fit": null,
+        "map_labels": [],
+        "region_note": null,
+        "mw_uc": null,
+        "mw_operating": null,
+        "mw_planned": null,
+        "page": null,
+        "quote": null,
+        "null_note": "Not broken out. C&W's H1 2026 update has no Indiana market (Indiana appears only in the Chicago narrative), and CBRE's H1 2026 report does not track one. The campus the tracker itemizes is likely most of this market."
+      }
     },
     {
       "key": "mtpleasant",
@@ -903,13 +1440,62 @@
       "county_names": {
         "55101": "Racine County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          3608,
+          3641,
+          3624,
+          3830,
+          4453,
+          4353,
+          3775,
+          3670
+        ],
+        "wage": [
+          1397,
+          1488,
+          1701,
+          1686,
+          1815,
+          1926,
+          1869,
+          1543
+        ],
+        "counties": 1,
+        "fips": [
+          "55101"
+        ]
+      },
       "sites": 1,
       "mw_disclosed": 400,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 400
+      "mw_operating": 400,
+      "market_pipeline": {
+        "region": null,
+        "label": null,
+        "fit": null,
+        "map_labels": [],
+        "region_note": null,
+        "mw_uc": null,
+        "mw_operating": null,
+        "mw_planned": null,
+        "page": null,
+        "quote": null,
+        "null_note": "Not broken out. C&W's H1 2026 update has no Wisconsin or Milwaukee market and never mentions Mount Pleasant; CBRE's H1 2026 report does not track one. The campus the tracker itemizes is likely most of this market."
+      }
     },
     {
       "key": "richland",
@@ -968,13 +1554,62 @@
       "county_names": {
         "22083": "Richland Parish"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          220,
+          268,
+          274,
+          192,
+          266,
+          424,
+          564,
+          2052
+        ],
+        "wage": [
+          1036,
+          1001,
+          1248,
+          909,
+          1172,
+          1604,
+          1963,
+          2559
+        ],
+        "counties": 1,
+        "fips": [
+          "22083"
+        ]
+      },
       "sites": 1,
       "mw_disclosed": 1440,
       "sites_mw_undisclosed": 0,
       "mw_construction": 1440,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 0
+      "mw_operating": 0,
+      "market_pipeline": {
+        "region": null,
+        "label": null,
+        "fit": null,
+        "map_labels": [],
+        "region_note": null,
+        "mw_uc": null,
+        "mw_operating": null,
+        "mw_planned": null,
+        "page": null,
+        "quote": null,
+        "null_note": "Not broken out. C&W's H1 2026 update has no Louisiana market (Meta's Richland Parish land purchase appears only in its national land table); CBRE's H1 2026 report does not track one. The campus the tracker itemizes is likely most of this market."
+      }
     },
     {
       "key": "memphis",
@@ -1039,13 +1674,62 @@
       "county_names": {
         "47157": "Shelby County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          18269,
+          18020,
+          17992,
+          18029,
+          18433,
+          18711,
+          18681,
+          18272
+        ],
+        "wage": [
+          1476,
+          1587,
+          1952,
+          1553,
+          1568,
+          1679,
+          2004,
+          1561
+        ],
+        "counties": 1,
+        "fips": [
+          "47157"
+        ]
+      },
       "sites": 2,
       "mw_disclosed": 1400,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 1400
+      "mw_operating": 1400,
+      "market_pipeline": {
+        "region": null,
+        "label": null,
+        "fit": null,
+        "map_labels": [],
+        "region_note": null,
+        "mw_uc": null,
+        "mw_operating": null,
+        "mw_planned": null,
+        "page": null,
+        "quote": null,
+        "null_note": "Not broken out. C&W's H1 2026 update has no Memphis market (Memphis appears only as a chart label in its cost guide); CBRE's H1 2026 report does not track one. The campuses the tracker itemizes are likely most of this market."
+      }
     },
     {
       "key": "councilbluffs",
@@ -1110,13 +1794,62 @@
       "county_names": {
         "19155": "Pottawattamie County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          2465,
+          2351,
+          2091,
+          2039,
+          2452,
+          2389,
+          2355,
+          2573
+        ],
+        "wage": [
+          1306,
+          1429,
+          1646,
+          1268,
+          1392,
+          1454,
+          1609,
+          1380
+        ],
+        "counties": 1,
+        "fips": [
+          "19155"
+        ]
+      },
       "sites": 1,
       "mw_disclosed": 500,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 500
+      "mw_operating": 500,
+      "market_pipeline": {
+        "region": null,
+        "label": null,
+        "fit": null,
+        "map_labels": [],
+        "region_note": null,
+        "mw_uc": null,
+        "mw_operating": null,
+        "mw_planned": null,
+        "page": null,
+        "quote": null,
+        "null_note": "Not broken out. C&W counts Council Bluffs in an Omaha market it does not publish, and excludes it from its Iowa figures (\"Council Bluffs, Iowa, is considered part of the Omaha market and is excluded from Iowa figures\"); CBRE's H1 2026 report does not track it. The campus the tracker itemizes is likely most of this market."
+      }
     },
     {
       "key": "desmoines",
@@ -1191,13 +1924,63 @@
         "19153": "Polk County",
         "19049": "Dallas County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          23687,
+          23096,
+          21820,
+          20750,
+          23618,
+          23710,
+          22879,
+          22665
+        ],
+        "wage": [
+          1449,
+          1516,
+          1723,
+          1628,
+          1518,
+          1575,
+          1830,
+          1722
+        ],
+        "counties": 2,
+        "fips": [
+          "19049",
+          "19153"
+        ]
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 0
+      "mw_operating": 0,
+      "market_pipeline": {
+        "region": "Iowa",
+        "label": "Iowa (statewide, excl. Council Bluffs)",
+        "fit": "wider",
+        "map_labels": [],
+        "region_note": "Statewide Iowa; C&W counts Council Bluffs in Omaha and excludes it.",
+        "mw_uc": 1248,
+        "mw_operating": 1246,
+        "mw_planned": 4850,
+        "page": 41,
+        "quote": "KEY INDICATORS* 15 / 55 Operators / Data Centers 1,246 MW In Operation 1248MW U/C 22.4 % Colo Vacancy 4,850 MW Planned",
+        "null_note": null
+      }
     },
     {
       "key": "cheyenne",
@@ -1262,13 +2045,62 @@
       "county_names": {
         "56021": "Laramie County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          3516,
+          3629,
+          3637,
+          3864,
+          4265,
+          4151,
+          4025,
+          3962
+        ],
+        "wage": [
+          1290,
+          1349,
+          1519,
+          1346,
+          1426,
+          1502,
+          1686,
+          1503
+        ],
+        "counties": 1,
+        "fips": [
+          "56021"
+        ]
+      },
       "sites": 2,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 2,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 0
+      "mw_operating": 0,
+      "market_pipeline": {
+        "region": "Cheyenne",
+        "label": "Cheyenne",
+        "fit": "close",
+        "map_labels": [],
+        "region_note": null,
+        "mw_uc": 241,
+        "mw_operating": 621,
+        "mw_planned": 4551,
+        "page": 41,
+        "quote": "KEY INDICATORS* 4 / 19 Operators / Data Centers 621MW In Operation 241MW U/C 28.6 % Colo Vacancy 4,551 MW Planned",
+        "null_note": null
+      }
     },
     {
       "key": "reno",
@@ -1343,13 +2175,63 @@
         "32029": "Storey County",
         "32031": "Washoe County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          23038,
+          23242,
+          22687,
+          22281,
+          23572,
+          24054,
+          24442,
+          24044
+        ],
+        "wage": [
+          1459,
+          1485,
+          1724,
+          1487,
+          1581,
+          1637,
+          1893,
+          1746
+        ],
+        "counties": 2,
+        "fips": [
+          "32029",
+          "32031"
+        ]
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 0
+      "mw_operating": 0,
+      "market_pipeline": {
+        "region": "Reno",
+        "label": "Reno",
+        "fit": "close",
+        "map_labels": [],
+        "region_note": null,
+        "mw_uc": 1001,
+        "mw_operating": 357,
+        "mw_planned": 6840,
+        "page": 32,
+        "quote": "H1 2026 KEY INDICATORS* 6 Operators 357MW In Operation 1,001MW Under Construction 1.9% Colo Vacancy 6,840MW Planned 21MW H1 2026 Absorption",
+        "null_note": null
+      }
     },
     {
       "key": "quincy",
@@ -1414,13 +2296,62 @@
       "county_names": {
         "53025": "Grant County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          1800,
+          1795,
+          1808,
+          1629,
+          1729,
+          1670,
+          1615,
+          1572
+        ],
+        "wage": [
+          1567,
+          1548,
+          1611,
+          1477,
+          1583,
+          1520,
+          1875,
+          1521
+        ],
+        "counties": 1,
+        "fips": [
+          "53025"
+        ]
+      },
       "sites": 2,
       "mw_disclosed": 18,
       "sites_mw_undisclosed": 1,
       "mw_construction": 0,
       "mw_planned": 18,
       "mw_secured": 0,
-      "mw_operating": 0
+      "mw_operating": 0,
+      "market_pipeline": {
+        "region": "Central Washington",
+        "label": "Central Washington",
+        "fit": "wider",
+        "map_labels": [],
+        "region_note": "C&W's Central Washington narrative cites Grant County PUD's Quincy transmission program.",
+        "mw_uc": 160,
+        "mw_operating": 726,
+        "mw_planned": 738,
+        "page": 40,
+        "quote": "KEY INDICATORS* 6 / 34 Operators / Data Centers 726MW In Operation 160MW U/C 2.7% Colo Vacancy 738MW Planned",
+        "null_note": null
+      }
     },
     {
       "key": "sanantonio",
@@ -1485,13 +2416,66 @@
       "county_names": {
         "48029": "Bexar County"
       },
+      "history": {
+        "quarters": [
+          "2024-04",
+          "2024-07",
+          "2024-10",
+          "2025-01",
+          "2025-04",
+          "2025-07",
+          "2025-10",
+          "2026-01"
+        ],
+        "emp": [
+          49773,
+          49965,
+          50272,
+          49918,
+          50528,
+          49752,
+          49669,
+          53268
+        ],
+        "wage": [
+          1435,
+          1471,
+          1686,
+          1519,
+          1515,
+          1541,
+          1718,
+          1637
+        ],
+        "counties": 1,
+        "fips": [
+          "48029"
+        ]
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 0
+      "mw_operating": 0,
+      "market_pipeline": {
+        "region": "Austin and San Antonio",
+        "label": "Austin + San Antonio",
+        "fit": "wider",
+        "map_labels": [
+          "Austin",
+          "San Antonio",
+          "San Marcos"
+        ],
+        "region_note": null,
+        "mw_uc": 1438,
+        "mw_operating": 1210,
+        "mw_planned": 15987,
+        "page": 22,
+        "quote": "H1 2026 KEY INDICATORS* 28 Operators 1,210MW In Operation 1,438MW Under Construction 5.0 % Colo Vacancy 15,987MW Planned 53MW H1 2026 Absorption",
+        "null_note": null
+      }
     },
     {
       "key": "hillsboro",
@@ -1550,13 +2534,38 @@
       "county_names": {
         "41067": "Washington County"
       },
+      "history": {
+        "quarters": [],
+        "emp": [],
+        "wage": [],
+        "counties": 0,
+        "fips": []
+      },
       "sites": 0,
       "mw_disclosed": 0,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 0
+      "mw_operating": 0,
+      "market_pipeline": {
+        "region": "Portland/Eastern Oregon",
+        "label": "Portland + Eastern Oregon",
+        "fit": "wider",
+        "map_labels": [
+          "Umatilla",
+          "The Dalles",
+          "Prineville",
+          "Hillsboro"
+        ],
+        "region_note": null,
+        "mw_uc": 729,
+        "mw_operating": 3632,
+        "mw_planned": 5523,
+        "page": 10,
+        "quote": "H1 2026 KEY INDICATORS* 24 Operators 3,632M W In Operation 729 MW Under Construction 2.5% Colo Vacancy 5,52 3MW Planned 312MW H1 2026 Absorption",
+        "null_note": null
+      }
     }
   ],
   "elec_national": {
@@ -1567,6 +2576,17 @@
     "as_of": "2026-01-01"
   },
   "as_of_curated": "2026-10-04",
+  "market_pipeline_source": {
+    "publisher": "Cushman & Wakefield",
+    "doc": "Americas Data Center Update H1 2026",
+    "doc_date": "2026-09-14",
+    "period": "2026-06-30",
+    "url": "https://digital.cushmanwakefield.com/americasdatacenterupdateh12026-09-2026-global-central-en-content-mrsrch-datacentres/",
+    "basis": "colo+hyperscale-self-build",
+    "basis_note": "Colocation plus hyperscale self-build, excluding captive and ICT facilities (C&W's footnote on every market page). C&W does not state whether its MW are IT load or facility power. Its markets are named regions, not county lists, and several are much wider than the core counties above.",
+    "stale_after_days": 430,
+    "stale": false
+  },
   "note": "Tight core counties \u2014 the counties where data centers actually are, not the MSA. Broader metro definitions dilute the signal: when the method was chosen (2026-07, QCEW 2025Q4) Northern Virginia read +9.9% wage YoY on the tight Loudoun + Prince William definition vs +7.7% across the 11-county metro, because Arlington and Alexandria average in mature non-DC construction. Live values are in the market rows.",
   "coverage_note": "Competition MW is drawn from the /capacity tracker: 27 public companies plus 2 private builders (xAI, OpenAI / Stargate), hand-curated from filings. Private operators (CyrusOne, Vantage, Aligned, STACK, QTS, EdgeConneX) and hyperscaler leased space inside their shells are not tracked, and sites with undisclosed locations carry no market. MW under construction counts only sites tagged st=\"c\" -- operating, planned and secured MW are published separately, never folded in -- so treat it as a floor on what is actually being built, never a census."
 }

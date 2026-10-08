@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-10-07T18:51:57Z",
+  "published_at": "2026-10-08T03:33:13Z",
   "stats": {
-    "series_count": 852,
-    "obs_count": 215774,
+    "series_count": 856,
+    "obs_count": 220330,
     "source_count": 42,
     "tracker_corr": 0.9978,
     "live_coverage_pct": 39.08,
@@ -196,7 +196,7 @@
         "manheim_uvvi_m"
       ],
       "official_series": "CUUR0000SETA02",
-      "yoy_pct": -1.64
+      "yoy_pct": -1.79
     },
     {
       "code": "nat_gas",
@@ -214,8 +214,8 @@
     }
   ],
   "freshness": {
-    "fresh_count": 845,
-    "total": 852,
+    "fresh_count": 849,
+    "total": 856,
     "expected_absent": 7
   },
   "inventory": [
@@ -335,7 +335,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -1005,7 +1005,7 @@
       "source": "TREASURY",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-05",
+      "latest_obs": "2026-10-06",
       "fresh": true,
       "absence": null
     },
@@ -2875,7 +2875,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -2985,7 +2985,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3005,7 +3005,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-08-01",
       "fresh": true,
       "absence": null
     },
@@ -3035,7 +3035,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-07-01",
+      "latest_obs": "2026-08-01",
       "fresh": true,
       "absence": null
     },
@@ -3065,7 +3065,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3145,7 +3145,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3165,7 +3165,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-05",
+      "latest_obs": "2026-10-06",
       "fresh": true,
       "absence": null
     },
@@ -3175,7 +3175,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-05",
+      "latest_obs": "2026-10-06",
       "fresh": true,
       "absence": null
     },
@@ -3185,7 +3185,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-05",
+      "latest_obs": "2026-10-06",
       "fresh": true,
       "absence": null
     },
@@ -3195,7 +3195,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-05",
+      "latest_obs": "2026-10-06",
       "fresh": true,
       "absence": null
     },
@@ -3205,7 +3205,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-05",
+      "latest_obs": "2026-10-06",
       "fresh": true,
       "absence": null
     },
@@ -3215,7 +3215,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-05",
+      "latest_obs": "2026-10-06",
       "fresh": true,
       "absence": null
     },
@@ -3225,7 +3225,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-05",
+      "latest_obs": "2026-10-06",
       "fresh": true,
       "absence": null
     },
@@ -3235,7 +3235,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-05",
+      "latest_obs": "2026-10-06",
       "fresh": true,
       "absence": null
     },
@@ -3246,6 +3246,46 @@
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-10-06",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "BAMLC0A0CM",
+      "name": "ICE BofA US corporate (investment grade) OAS",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-10-06",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "BAMLC0A4CBBB",
+      "name": "ICE BofA BBB US corporate OAS",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-10-06",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "BAMLC0A4CBBBEY",
+      "name": "ICE BofA BBB US corporate effective yield",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-10-06",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "SOFR30DAYAVG",
+      "name": "30-day average SOFR",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3325,7 +3365,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-05-01",
+      "latest_obs": "2026-08-01",
       "fresh": true,
       "absence": null
     },

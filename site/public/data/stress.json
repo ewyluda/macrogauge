@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-10-07T18:51:57Z",
-  "score": 59.2,
+  "published_at": "2026-10-08T03:33:13Z",
+  "score": 60.8,
   "coverage_pct": 100.0,
   "indicators": [
     {
@@ -15,9 +15,9 @@
       "code": "TERMCBCCALLNS",
       "weight": 15,
       "direction": 1,
-      "value": 20.94,
-      "as_of": "2026-05-01",
-      "score": 63.3
+      "value": 21.19,
+      "as_of": "2026-08-01",
+      "score": 77.4
     },
     {
       "code": "PSAVERT",
@@ -40,9 +40,9 @@
       "weight": 15,
       "direction": 1,
       "transform": "yoy",
-      "value": 3.58,
-      "as_of": "2026-07-01",
-      "score": 45.1
+      "value": 3.37,
+      "as_of": "2026-08-01",
+      "score": 41.3
     },
     {
       "code": "DRSFRMACBS",

@@ -151,7 +151,7 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": true,
-      "detail": "832/832 fresh (20 under an expected-absence policy, judged separately)"
+      "detail": "836/836 fresh (20 under an expected-absence policy, judged separately)"
     },
     {
       "name": "expected_absence",

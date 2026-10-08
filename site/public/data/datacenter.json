@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-07T18:51:57Z",
+  "published_at": "2026-10-08T03:33:13Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -16,7 +16,7 @@
   "indexes": {
     "build": {
       "as_of": "2026-10-07",
-      "headline_yoy_pct": 8.51,
+      "headline_yoy_pct": 8.61,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -6424,7 +6424,7 @@
         170.08,
         170.28,
         170.27,
-        170.28
+        170.43
       ],
       "yoy_pct": [
         3.05,
@@ -9628,7 +9628,7 @@
         8.39,
         8.52,
         8.51,
-        8.51
+        8.61
       ],
       "components": [
         {
@@ -9693,8 +9693,8 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-10-07",
-          "yoy_pct": 24.74,
-          "contribution_pp": 1.36,
+          "yoy_pct": 26.27,
+          "contribution_pp": 1.44,
           "stale": false
         },
         {
@@ -9704,7 +9704,7 @@
           "weight": 0.03,
           "mode": "official+proxy",
           "last_obs": "2026-10-07",
-          "yoy_pct": 16.54,
+          "yoy_pct": 16.82,
           "contribution_pp": 0.5,
           "stale": false
         },
@@ -10221,7 +10221,7 @@
           169.3111,
           170.611,
           170.3396,
-          170.2809
+          170.4333
         ],
         "components": {
           "constr_wages": [
@@ -11596,7 +11596,7 @@
             195.8628,
             206.3461,
             204.3531,
-            205.3975
+            207.9158
           ],
           "alum_shapes": [
             96.7196,
@@ -11825,7 +11825,7 @@
             205.3164,
             196.0408,
             189.7972,
-            185.9273
+            186.3876
           ],
           "switchgear": [
             85.7335,
@@ -16172,7 +16172,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 3.49
+          "contribution_pp": 3.59
         },
         {
           "group": "electrical",
