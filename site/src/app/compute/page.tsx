@@ -9,20 +9,21 @@ import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
 import { C } from "@/lib/chartTheme";
 import { computeIndexRows } from "@/lib/computeCsv";
-import { cloudRows, cloudTakeaway, GPU_LABEL, PROVIDERS } from "@/lib/cloudGpu";
+import { cloudProviders, cloudRows, cloudTakeaway, GPU_LABEL, listOf } from "@/lib/cloudGpu";
 import { fmtSigned, yoyColor } from "@/lib/format";
 import type { Compute } from "@/lib/types";
 import { artifact } from "@/lib/artifact";
 
 const data = artifact<"compute", Compute>("compute", computeJson);
-const hasCloud = cloudRows(data).length > 0;
+const clouds = cloudProviders(cloudRows(data));
+const hasCloud = clouds.length > 0;
 const usd = (v: number | null, d = 2) => (v == null ? "—" : `$${v.toFixed(d)}`);
 const idx = (v: number | null) => (v == null ? "—" : v.toFixed(1));
 
 export const metadata: Metadata = {
   title: `Compute Prices — token index ${idx(data.token_index.value)}, GPU-hour index ${idx(data.gpu_index.value)}`,
   description: hasCloud
-    ? "The cost of a token and of a GPU-hour: current model prices on OpenRouter, GPU list prices at AWS, Azure, Oracle and CoreWeave, and vast.ai marketplace rentals, collected daily."
+    ? `The cost of a token and of a GPU-hour: current model prices on OpenRouter, GPU list prices at ${listOf(clouds)}, and vast.ai marketplace rentals, collected daily.`
     : "The cost of a token and of a GPU-hour: current model prices on OpenRouter and vast.ai marketplace rentals, collected daily, with two composite indexes.",
 };
 
@@ -45,7 +46,7 @@ export default function ComputePage() {
       <p className="lede">
         The DC Hardware index prices the inputs to a data center. This page prices what comes out of one: the
         per-token list prices of the {data.models.length} most-used models on OpenRouter, ranked by what people pay for them;
-        {cloud.length > 0 && " what AWS, Azure, Oracle and CoreWeave list for a GPU-hour;"}{" "}and what a GPU-hour
+        {cloud.length > 0 && ` what ${listOf(clouds)} list for a GPU-hour;`}{" "}and what a GPU-hour
         rents for on the vast.ai marketplace. The two composites are chain-linked equal-weight geometric means: each day&apos;s
         move averages the day-over-day price changes of the members priced on both days, so a SKU missing a
         day, joining, or retiring changes who is averaged but never jumps the index — and a deprecated model
@@ -121,7 +122,7 @@ export default function ComputePage() {
               <thead>
                 <tr>
                   <th style={{ textAlign: "left" }}>GPU</th>
-                  {PROVIDERS.map((p) => <th key={p}>{p}</th>)}
+                  {clouds.map((p) => <th key={p}>{p}</th>)}
                   <th>vast.ai median</th>
                 </tr>
               </thead>
@@ -129,7 +130,7 @@ export default function ComputePage() {
                 {cloud.map((r) => (
                   <tr key={r.gpu}>
                     <td style={{ textAlign: "left" }}><strong>{GPU_LABEL[r.gpu] ?? r.gpu}</strong></td>
-                    {PROVIDERS.map((p) => {
+                    {clouds.map((p) => {
                       const c = r.cells[p];
                       if (!c || c.usd_per_gpu_hr == null) return <td key={p} style={{ color: "var(--muted)" }}>—</td>;
                       const cheapest = !c.stale && c.usd_per_gpu_hr === r.low && r.fresh > 1 && r.low !== r.high;
@@ -154,6 +155,8 @@ export default function ComputePage() {
             On-demand list prices with no commitment, per GPU-hour: an instance&apos;s hourly price divided by its GPU
             count (8 for HGX-class nodes, 4 for a GB200 node). AWS is US East (N. Virginia) and Azure is East US 2,
             Linux. Oracle publishes per GPU-hour for all regions, and CoreWeave lists one on-demand price per node.
+            Nebius publishes per GPU-hour; when it posts a scheduled price change, the new price counts from its
+            effective date.
             Every A100 row is the 80GB part; the vast.ai A100 median pools 40GB and 80GB cards. Bold marks the
             lowest current list price for the GPU. A quote older than its staleness limit keeps its cell, marked
             with its date, and drops out of the range, the bold and the summary line. Spot, reserved and

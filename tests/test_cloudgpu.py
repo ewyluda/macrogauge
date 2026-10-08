@@ -1,4 +1,5 @@
-"""Cloud GPU list prices — fixtures are trimmed live responses recorded 2026-10-07."""
+"""Cloud GPU list prices — fixtures are trimmed live responses recorded 2026-10-07
+(nebius_prices.html: 2026-10-08, scripts, styles and attributes stripped)."""
 import copy
 import json
 from pathlib import Path
@@ -12,6 +13,8 @@ AWS = json.loads((FX / "aws_gpu_prices.json").read_text())
 AZURE = json.loads((FX / "azure_gpu_prices.json").read_text())
 OCI = json.loads((FX / "oci_products.json").read_text())
 COREWEAVE = (FX / "coreweave_pricing.html").read_text()
+NEBIUS = (FX / "nebius_prices.html").read_text()
+NEB_IDS = ["NVIDIA HGX H100", "NVIDIA HGX H200", "NVIDIA HGX B200", "NVIDIA HGX B300"]
 V = "2026-10-07"
 
 
@@ -165,3 +168,41 @@ def test_coreweave_wrong_gpu_count_and_redesign_are_drift():
     # "Contact sales" rows (no price) are skipped, not misread
     assert cloudgpu.fetch_coreweave(["NVIDIA HGX B300/8", "NVIDIA HGX H100/8"], vintage_date=V,
                                     http_get=_get(text=COREWEAVE))[0].series_code == "NVIDIA HGX H100/8"
+
+
+def test_nebius_uses_the_column_in_effect_on_the_vintage_date():
+    # the page carries today's on-demand column and a scheduled one
+    # ("GPU-hour (Effective October 1, 2026)"): from that date it is the price
+    after = cloudgpu.fetch_nebius(NEB_IDS, vintage_date="2026-10-08", http_get=_get(text=NEBIUS))
+    assert {o.series_code: o.value for o in after} == {
+        "NVIDIA HGX H100": 4.5, "NVIDIA HGX H200": 5.4, "NVIDIA HGX B200": 8.5, "NVIDIA HGX B300": 9.5}
+    assert {o.source for o in after} == {"NEBIUS"} and {o.route for o in after} == {"SCRAPE"}
+    before = cloudgpu.fetch_nebius(NEB_IDS, vintage_date="2026-09-30", http_get=_get(text=NEBIUS))
+    assert {o.series_code: o.value for o in before}["NVIDIA HGX H100"] == 3.85
+
+
+def test_nebius_reads_only_the_on_demand_table():
+    # the spot table below repeats every row "from $0.79": never a list price
+    obs = cloudgpu.fetch_nebius(["NVIDIA HGX H100"], vintage_date=V, http_get=_get(text=NEBIUS))
+    assert [o.value for o in obs] == [4.5]
+    assert cloudgpu.fetch_nebius(["NVIDIA HGX H100", "NVIDIA HGX X999"], vintage_date=V,
+                                 http_get=_get(text=NEBIUS))[0].series_code == "NVIDIA HGX H100"
+
+
+def test_nebius_redesign_is_drift():
+    for page, why in (
+        ("<html>Contact sales</html>", "no on-demand"),
+        (NEBIUS.replace("GPU-hour (Effective October 1, 2026)", "Reserved, GPU-hour"), "unexpected price column"),
+        (NEBIUS.replace("Preemptible", "Spot-market", 1), "no spot table"),
+    ):
+        with pytest.raises(ValueError, match=why):
+            cloudgpu.fetch_nebius(NEB_IDS, vintage_date=V, http_get=_get(text=page))
+    # a tracked row that stops quoting a flat on-demand rate fails loudly
+    i = NEBIUS.index("NVIDIA HGX H100")
+    j = NEBIUS.index("$4.50", i)
+    with pytest.raises(ValueError, match="not a flat on-demand rate"):
+        cloudgpu.fetch_nebius(NEB_IDS, vintage_date=V,
+                              http_get=_get(text=NEBIUS[:j] + "from $4.50" + NEBIUS[j + 5:]))
+    with pytest.raises(ValueError, match="no tracked SKU"):
+        cloudgpu.fetch_nebius(["NVIDIA HGX X999"], vintage_date=V, http_get=_get(text=NEBIUS))
+

@@ -164,6 +164,10 @@ def _coreweave(subset, key, http):
     return cloudgpu.fetch_coreweave([s.source_id for s in subset], http_get=http)
 
 
+def _nebius(subset, key, http):
+    return cloudgpu.fetch_nebius([s.source_id for s in subset], http_get=http)
+
+
 def _caiso(subset, key, http):
     return caiso.fetch([s.source_id for s in subset], http_get=http)
 
@@ -226,7 +230,7 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             # failure isolation — one cloud's redesigned price feed must
             # never take down another's row.
             "AWS_GPU": _aws_gpu, "AZURE_GPU": _azure_gpu, "OCI_GPU": _oci_gpu,
-            "COREWEAVE": _coreweave,
+            "COREWEAVE": _coreweave, "NEBIUS": _nebius,
             # STEO is a separate source key only for failure isolation — the
             # fetch mechanics are plain EIA (v2 seriesid route), like EIA_STATE.
             "STEO": _eia,
