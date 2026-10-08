@@ -1,0 +1,64 @@
+{
+  "reviewedHead": "79623ff81f6e0155a98d6d794853046c9b31c2a4",
+  "diagnostics": {
+    "totalRows": 100,
+    "rowsBeforeLedgerCreation": 73,
+    "unreachableEvenWithInclusiveNextDay": 72,
+    "firstUnreachablePublish": "2026-07-08T15:57:29Z",
+    "lastUnreachablePublish": "2026-09-01T17:06:35Z",
+    "archived": {
+      "publishedAt": "2026-08-12T15:43:29Z",
+      "url": "https://github.com/ewyluda/macrogauge/commits/main/store/ledger/pulse.jsonl?since=2026-08-12&until=2026-08-13",
+      "appendCommit": "1471b1f7b27e138e96a243691566345fef941d2b",
+      "appendCommittedAt": "2026-09-03T16:31:59-04:00",
+      "appendCommitWithinEvenInclusiveWindow": false
+    },
+    "liveControl": {
+      "publishedAt": "2026-10-07T18:51:57Z",
+      "url": "https://github.com/ewyluda/macrogauge/commits/main/store/ledger/pulse.jsonl?since=2026-10-07&until=2026-10-08",
+      "appendCommit": "7936a6a45607170c0d6a38521529717654007fcf",
+      "appendCommittedAt": "2026-10-07T18:52:03Z",
+      "appendCommitWithinEvenInclusiveWindow": true
+    }
+  },
+  "checks": [
+    {
+      "name": "F1: archived row link includes the commit that appended it",
+      "pass": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "name": "Control: latest live row link includes its append commit",
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "Control: dc_build matches every row's reference date",
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "Control: dc_hardware matches every row's reference date",
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "Control: dc_ops matches every row's reference date",
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "Control: gauge matches every row's reference date",
+      "pass": true,
+      "actual": true,
+      "expected": true
+    }
+  ],
+  "passed": 5,
+  "failed": 1
+}

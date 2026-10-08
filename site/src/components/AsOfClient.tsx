@@ -8,20 +8,27 @@ import { C } from "@/lib/chartTheme";
 import { fmtPct, fmtPp, fmtSigned, fmtStamp } from "@/lib/format";
 import { codecs } from "@/lib/urlState";
 import { useUrlState } from "@/lib/useUrlState";
+import { LEDGER_SERIES, rowVerify, type LedgerKey, type LedgerProvenance } from "@/lib/ledgerSeries";
+import { SegmentedControl } from "./SegmentedControl";
 import type { LedgerRow } from "@/lib/types";
 
 const num = (v: number | null | undefined) => (v == null ? "—" : fmtSigned(v));
 
-/** Pick a publish date and read exactly what the site said that day. The
- *  date lives in the URL so a reading can be cited by link. */
-export function AsOfClient({ rows, todayDates, todayGauge }: {
+/** Pick a publish date and read exactly what the site said that day; pick a
+ *  series (DC Build by default) to chart it as published against today's
+ *  history. Both live in the URL so a reading can be cited by link. */
+export function AsOfClient({ rows, today, repo, provenance }: {
   rows: LedgerRow[];
-  /** compare.json months + gauge YoY as published TODAY, for the restatement chart */
-  todayDates: string[];
-  todayGauge: (number | null)[];
+  /** each series' value in TODAY's history at every publish's reference date */
+  today: Record<LedgerKey, (number | null)[]>;
+  repo: string;
+  provenance: LedgerProvenance;
 }) {
   const latest = rows[rows.length - 1];
   const [date, setDate] = useUrlState("date", latest.date, codecs.date());
+  const [key, setKey] = useUrlState<LedgerKey>("series", "dc_build",
+    codecs.enumOf(LEDGER_SERIES.map((s) => s.key)));
+  const series = LEDGER_SERIES.find((s) => s.key === key)!;
   const row = useMemo(() => {
     // exact date, else the last publish on or before it; null when the date
     // precedes the ledger (a ?date= link can go below the picker's min) —
@@ -32,7 +39,10 @@ export function AsOfClient({ rows, todayDates, todayGauge }: {
     const before = rows.filter((r) => r.date < date);
     return before.length ? before[before.length - 1] : null;
   }, [rows, date]);
-  const asPublished = rows.map((r) => [r.date, r.gauge_yoy_pct ?? null] as [string, number | null]);
+  const verify = row && rowVerify(repo, row.published_at, provenance);
+  const asPublished = rows.map((r) => r[series.value] ?? null);
+  const dates = rows.map((r) => r.date);
+  const options = LEDGER_SERIES.map((s) => ({ key: s.key, label: s.label }));
   return (
     <div>
       <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap", margin: "12px 0" }}>
@@ -47,6 +57,10 @@ export function AsOfClient({ rows, todayDates, todayGauge }: {
             : row.date === date ? `publish ${fmtStamp(row.published_at)}` : `no publish on ${date} — showing the last one before it, ${fmtStamp(row.published_at)}`}
         </span>
         <CopyLink />
+        {verify && (
+          <a className="asof-verify" href={verify.href} data-testid="asof-commit"
+            target="_blank" rel="noreferrer">{verify.label} ↗</a>
+        )}
       </div>
       {row == null ? (
         <p className="method" role="status" data-testid="asof-empty">
@@ -56,12 +70,13 @@ export function AsOfClient({ rows, todayDates, todayGauge }: {
       ) : (
       <>
       <div className="kpi-row">
-        <KpiCard label="Macrogauge · YoY" value={row.gauge_yoy_pct == null ? "—" : fmtPct(row.gauge_yoy_pct)} context={`as of ${row.gauge_as_of ?? "—"} · coverage ${row.coverage_pct == null ? "—" : `${row.coverage_pct.toFixed(0)}%`}`} accent="sky" />
-        <KpiCard label="Official CPI · YoY" value={row.official_yoy_pct == null ? "—" : fmtPct(row.official_yoy_pct)} context={`${row.official_month ? row.official_month.slice(0, 7) : "—"} print, as known then`} accent="amber" />
-        <KpiCard label="CPI-Tracker" value={row.tracker_yoy_pct == null ? "—" : fmtPct(row.tracker_yoy_pct)} context={`gap vs official ${row.tracker_yoy_pct != null && row.official_yoy_pct != null ? fmtPp(row.tracker_yoy_pct - row.official_yoy_pct) : "—"}`} accent="violet" />
-        <KpiCard label="DC Build · YoY" value={num(row.dc_build_yoy_pct)} context={row.dc_build_as_of ? `as of ${row.dc_build_as_of} · ops ${num(row.dc_ops_yoy_pct)} · hardware ${num(row.dc_hardware_yoy_pct)}` : "DC index not yet published that day"} accent="emerald" />
+        <KpiCard label="DC Build · YoY" value={num(row.dc_build_yoy_pct)} context={row.dc_build_as_of ? `as of ${row.dc_build_as_of}` : "DC index not yet published that day"} accent="sky" />
+        <KpiCard label="DC Hardware · YoY" value={num(row.dc_hardware_yoy_pct)} context={row.dc_hardware_as_of ? `as of ${row.dc_hardware_as_of} · ops ${num(row.dc_ops_yoy_pct)}` : "—"} accent="amber" />
+        <KpiCard label="Macrogauge · YoY" value={row.gauge_yoy_pct == null ? "—" : fmtPct(row.gauge_yoy_pct)} context={`as of ${row.gauge_as_of ?? "—"} · coverage ${row.coverage_pct == null ? "—" : `${row.coverage_pct.toFixed(0)}%`}`} accent="violet" />
+        <KpiCard label="Official CPI · YoY" value={row.official_yoy_pct == null ? "—" : fmtPct(row.official_yoy_pct)} context={`${row.official_month ? row.official_month.slice(0, 7) : "—"} print, as known then · tracker gap ${row.tracker_yoy_pct != null && row.official_yoy_pct != null ? fmtPp(row.tracker_yoy_pct - row.official_yoy_pct) : "—"}`} accent="emerald" />
       </div>
-      <Citation live series="Macrogauge (CPI-comparable) YoY as published" asOf={row.date} rebase="2018-01=100" value={row.gauge_yoy_pct == null ? "—" : `${fmtPct(row.gauge_yoy_pct)} vs official ${row.official_yoy_pct == null ? "—" : fmtPct(row.official_yoy_pct)}`} path="/as-of" />
+      <Citation live series={`${series.label} YoY as published`} asOf={row.date} rebase="2018-01=100"
+        value={row[series.value] == null ? "—" : fmtPct(row[series.value]!)} path="/as-of" />
       <div className="table-card" style={{ marginTop: 14 }}>
         <table className="data-table">
           <thead><tr><th style={{ textAlign: "left" }}>Reading as published {row.date}</th><th>Value</th><th>As of</th></tr></thead>
@@ -76,11 +91,15 @@ export function AsOfClient({ rows, todayDates, todayGauge }: {
       </div>
       </>
       )}
-      <div className="chart-card" style={{ marginTop: 14 }}>
-        <LinesChart height={300}
+      <div className="asof-chart-head">
+        <h2 data-testid="asof-chart-title">{series.label} YoY as published each day, against today&apos;s history</h2>
+        <SegmentedControl options={options} value={key} onChange={setKey} />
+      </div>
+      <div className="chart-card">
+        <LinesChart height={300} fitY recessions={false} ariaTitle={`${series.label} YoY as published vs today's history`}
           series={[
-            { name: "Macrogauge YoY as published each day", x: asPublished.map((p) => p[0]), y: asPublished.map((p) => p[1]), color: C.sky, step: true },
-            { name: "Same dates in today's history", x: todayDates, y: todayGauge, color: C.muted, dashed: true },
+            { name: `${series.label} YoY as published`, x: dates, y: asPublished, color: C.sky, step: true },
+            { name: "Same dates in today's history", x: dates, y: today[key], color: C.muted, dashed: true },
           ]} />
       </div>
       <p className="method">

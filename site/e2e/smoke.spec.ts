@@ -47,7 +47,7 @@ const ROUTES: [string, string][] = [
   ["/housing", "what the payment takes out of a paycheck"],
   ["/changes", "what this publish changed, reading by reading"],
   ["/revisions", "first print vs where the number ended up"],
-  ["/as-of", "what the site said on any publish, never restated"],
+  ["/as-of", "every published reading, never restated"],
   ["/data", "every artifact, its schema, and how to cite it"],
   ["/components/fuel", "of the basket"],
   ["/next-print", "who’s where"],
@@ -750,7 +750,7 @@ test("data-center readings and chart precede the coverage hub, which links all n
     /Build inputs/,
     /AI capacity/,
     /Compute prices/,
-    /Point in time/,
+    /Index ledger/,
   ]);
   const toolkitBox = (await page.locator(".project-toolkit").boundingBox())!;
   const chart = (await page.locator(".dc-trend").boundingBox())!;

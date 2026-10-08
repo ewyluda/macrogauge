@@ -6,9 +6,17 @@ rows share the live row's shape. Idempotent: append_row dedupes by
 published_at. Run from the repo root:
 
     python scripts/backfill_ledger.py [--store store]
+
+--provenance PATH writes config/ledger_provenance.json instead: each
+backfilled row's published_at -> the commit that originally published its
+artifacts, plus the commit that appended the backfill. The site links those
+exact commits, since a publish-day filter on the ledger file cannot find a
+row appended weeks later. The set is closed (live rows are appended by their
+own publish commit), so the file is generated once.
 """
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -29,12 +37,35 @@ def _show(sha: str, name: str) -> dict | None:
         return None
 
 
+def _provenance(shas: list[str], store: Path, out: Path) -> int:
+    first = subprocess.run(
+        ["git", "log", "--reverse", "--format=%H %cd", "--date=iso-strict-local", "--",
+         str(ledger.ledger_path(store))],
+        capture_output=True, text=True, check=True, env={**os.environ, "TZ": "UTC"},
+    ).stdout.splitlines()[0].split()
+    appended_sha, appended_at = first[0], first[1].replace("+00:00", "Z")
+    sources: dict[str, str] = {}
+    for sha in shas:
+        at = (_show(sha, "pulse.json") or {}).get("published_at")
+        # rows published before the ledger existed; the first commit that
+        # carries a published_at is the one that published it
+        if at and at < appended_at and at not in sources:
+            sources[at] = sha
+    out.write_text(json.dumps({"appended_commit": appended_sha, "appended_at": appended_at,
+                               "sources": dict(sorted(sources.items()))}, indent=1) + "\n")
+    print(f"ledger provenance: {len(sources)} backfilled rows -> {out}")
+    return 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--store", type=Path, default=Path("store"))
+    ap.add_argument("--provenance", type=Path)
     args = ap.parse_args(argv)
     shas = subprocess.run(["git", "log", "--reverse", "--format=%H", "--", f"{DATA}/pulse.json"],
                           capture_output=True, text=True, check=True).stdout.split()
+    if args.provenance:
+        return _provenance(shas, args.store, args.provenance)
     written = skipped = 0
     for sha in shas:
         row = ledger.row_from_artifacts(_show(sha, "pulse.json"), _show(sha, "gaptable.json"),

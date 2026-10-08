@@ -44,7 +44,8 @@ test("/as-of reads a ledger row by date from the URL and cites it", async ({ pag
   await page.goto(`/as-of?date=${first.date}`);
   await expect(page.locator('input[type="date"]')).toHaveValue(first.date);
   if (first.gauge_yoy_pct != null) {
-    await expect(page.locator(".kpi-value").first()).toHaveText(`${first.gauge_yoy_pct.toFixed(1)}%`);
+    // KPIs lead with DC Build now; read the gauge card by its label
+    await expect(page.locator(".kpi-card", { hasText: "Macrogauge · YoY" }).locator(".kpi-value")).toHaveText(`${first.gauge_yoy_pct.toFixed(1)}%`);
   }
   await expect(page.locator(".citation-text")).toContainText(`as published, ${first.date}`);
   await expect(page.locator(".citation-text")).toContainText(`/as-of?date=${first.date}`);

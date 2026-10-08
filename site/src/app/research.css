@@ -299,6 +299,9 @@ body.research-site .footer-meta { font-size: 12px; }
 
 .cap-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .cap-group + .cap-group { margin-top: 22px; }
+.asof-chart-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin: 22px 0 8px; }
+.asof-chart-head h2 { margin: 0; font-size: 18px; }
+.asof-verify { font-size: 12.5px; color: var(--accent-sky); }
 .rt-tile-value { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .rt-tile-meta { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .rt-tile-meta small { flex-basis: 100%; font-size: 11px; }
