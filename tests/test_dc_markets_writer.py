@@ -362,12 +362,12 @@ def test_history_uses_one_county_set_across_the_window():
                       state="VA", iso="PJM", grid=None, utility="Dominion", note=""),)
     h = writer.build(conn, two, {"geo": []}, META)["markets"][0]["history"]
     assert h == {"quarters": ["2025-04", "2025-07", "2025-10"], "emp": [100, 101, 102],
-                 "wage": [2000, 2000, 2000], "counties": 1}
+                 "wage": [2000, 2000, 2000], "counties": 1, "fips": ["51107"]}
 
 
 def test_history_is_empty_when_no_county_is_reported_throughout():
     p = writer.build(_conn(), MARKETS, CAP_CFG, META)
     hist = {m["key"]: m["history"] for m in p["markets"]}
-    assert hist["hillsboro"] == {"quarters": [], "emp": [], "wage": [], "counties": 0}
+    assert hist["hillsboro"] == {"quarters": [], "emp": [], "wage": [], "counties": 0, "fips": []}
     assert hist["nova"]["emp"] == [22372, 26151] and hist["nova"]["counties"] == 1
     jsonschema.validate(p | {"published_at": "x"}, SCHEMA)

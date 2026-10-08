@@ -123,11 +123,14 @@ def _history(conn, spec, quarters: list[str]) -> dict:
     keep = [f for f, (e, w, a) in series.items()
             if all(q in e and q in w and a.get(q) for q in quarters)]
     if not keep or not quarters:
-        return {"quarters": [], "emp": [], "wage": [], "counties": 0}
+        return {"quarters": [], "emp": [], "wage": [], "counties": 0, "fips": []}
     emp = [int(sum(series[f][0][q] for f in keep)) for q in quarters]
     wage = [round(sum(series[f][1][q] * series[f][2][q] for f in keep)
                   / sum(series[f][2][q] for f in keep)) for q in quarters]
-    return {"quarters": [q[:7] for q in quarters], "emp": emp, "wage": wage, "counties": len(keep)}
+    # fips: which counties the line covers, so a partial history (fewer
+    # counties than the market's current headcount) can say so on the page
+    return {"quarters": [q[:7] for q in quarters], "emp": emp, "wage": wage,
+            "counties": len(keep), "fips": sorted(keep)}
 
 
 def build(conn, markets, cap_cfg: dict, meta: dict) -> dict:

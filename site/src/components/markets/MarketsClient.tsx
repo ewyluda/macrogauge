@@ -264,13 +264,26 @@ function Row({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () 
           {m.emp_cur_total != null ? m.emp_cur_total.toLocaleString("en-US") : "—"}
           {/* 8 quarters over one county set (publish/dc_markets._history), so
               the line moves on hiring, not on a county dropping in or out */}
-          {m.history && m.history.emp.length > 1 && (
-            <span className="mk-trend">
-              <TailSpark tail={m.history.emp}
-                label={`${m.name} construction workers, ${qLabel(m.history.quarters[0])} to ${qLabel(m.history.quarters.at(-1)!)}`} />
-              <small>{qLabel(m.history.quarters[0])}–{qLabel(m.history.quarters.at(-1)!)}</small>
-            </span>
-          )}
+          {m.history && m.history.emp.length > 1 && (() => {
+            const h = m.history!;
+            const span = `${qLabel(h.quarters[0])}–${qLabel(h.quarters.at(-1)!)}`;
+            // a county missing any quarter is left out of the whole line, so
+            // the line can cover fewer counties than the headcount above it:
+            // say which, and that its last point is not that headcount
+            const partial = h.counties < m.counties_total;
+            const covers = partial
+              ? `${h.counties} of ${m.counties_total} counties: ${h.fips.map((f) => countyName(m, f)).join(", ")}`
+              : "";
+            return (
+              <span className="mk-trend">
+                {/* neutral: a headcount LEVEL, not a signed rate, so the
+                    red/emerald rate palette (yoyColor) does not apply */}
+                <TailSpark tail={h.emp} stroke="var(--accent-sky)"
+                  label={`${m.name} construction workers, ${span}${partial ? `, ${covers} only (latest ${h.emp.at(-1)!.toLocaleString("en-US")})` : ""}`} />
+                <small>{span}{partial && <> · {covers}</>}</small>
+              </span>
+            );
+          })()}
         </td>
         <td>{pct(m.emp_yoy_pct)}<small className="mk-vs">{fmtSpread(m.emp_spread_pp)} vs US</small></td>
         <td>

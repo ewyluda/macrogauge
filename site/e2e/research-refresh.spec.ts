@@ -374,7 +374,7 @@ test("markets: the capacity column says it is the tracker's projects, and each m
   await expect(page.locator(".mk-table thead")).toContainText("Tracked AI projects");
   await expect(page.locator(".mk-table thead")).not.toContainText("MW under constr.");
   const data = await (await request.get("/data/dc_markets.json")).json();
-  type H = { key: string; history?: { emp: number[]; quarters: string[] } };
+  type H = { key: string; counties_total: number; history?: { emp: number[]; quarters: string[]; counties: number } };
   const withHist = data.markets.filter((m: H) => (m.history?.emp.length ?? 0) > 1);
   // publish-gated: the history field lands with the next daily run
   test.skip(withHist.length === 0, "published dc_markets.json predates history (lands with the next daily publish)");
@@ -382,6 +382,14 @@ test("markets: the capacity column says it is the tracker's projects, and each m
     const trend = page.locator(`#mk-row-${m.key} .mk-trend`);
     await expect(trend.locator("svg")).toBeVisible();
     await expect(trend.locator("small")).toContainText("–");
+    // a headcount level is drawn neutral, never in the rate palette's red
+    await expect(trend.locator("svg polyline")).toHaveAttribute("stroke", "var(--accent-sky)");
+    // a line covering fewer counties than the headcount above it says so
+    if (m.history!.counties < m.counties_total) {
+      await expect(trend.locator("small")).toContainText(`${m.history!.counties} of ${m.counties_total} counties`);
+    } else {
+      await expect(trend.locator("small")).not.toContainText("counties");
+    }
   }
 });
 
