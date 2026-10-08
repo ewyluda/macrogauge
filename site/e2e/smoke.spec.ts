@@ -10,6 +10,7 @@ import ratesJson from "../public/data/rates.json";
 import { fmtSigned } from "../src/lib/format";
 import news from "../public/data/news.json";
 import compute from "../public/data/compute.json";
+import fuelJson from "../public/data/fuel.json";
 import type { NewsPost } from "../src/lib/news";
 import { clusterStories, topFigures } from "../src/lib/newsTape";
 
@@ -53,14 +54,12 @@ const ROUTES: [string, string][] = [
   ["/as-of", "every published reading, never restated"],
   ["/data", "every artifact, its schema, and how to cite it"],
   ["/components/fuel", "of the basket"],
-  ["/next-print", "who’s where"],
   ["/heatcheck", "Economy Heat Check"],
   ["/stress", "Consumer Stress Index"],
   ["/recession", "six transparent signals"],
   ["/datacenter", "Data Center Cost Index"],
   ["/power", "What the utilities charge data centers"],
   ["/status", "Data-integrity self-test"],
-  ["/releases", "the evidence base for vintage-true grading"],
   ["/grocery", "every BLS average-price staple, monthly since 2018"],
   ["/outlook", "the next 12 months, component by component"],
   ["/cost-of-living", "the buy-in premium"],
@@ -873,4 +872,13 @@ test("home hero chart payload is cut to the 24-month window", async ({
   expect(first < "2019-01-01").toBe(true);
   expect(html).not.toContain(first);
   expect(html).toContain(last);
+});
+
+test("/cpi-preview carries the fuel two-week forward in gasoline's receipt row (was /next-print)", async ({ page }) => {
+  const fuel = fuelJson as { forward_2wk: number | null };
+  await page.goto("/cpi-preview");
+  const fwd = page.getByTestId("fuel-forward");
+  if (fuel.forward_2wk == null) { await expect(fwd).toHaveCount(0); return; }
+  await expect(fwd).toContainText(`$${fuel.forward_2wk.toFixed(3)}/gal`);
+  await expect(page.locator("tr", { has: fwd })).toContainText("Gasoline");
 });

@@ -53,7 +53,8 @@ export default function RevisionsPage() {
         The store keeps every release of each series it collects — a re-published value appends a new vintage row,
         never overwrites. So for every reference period we can show the number as it first landed and the number it
         became. The <Link href="/scoreboard">scoreboard</Link> grades our calls against first prints; this page is how far
-        those first prints later moved. CPI is not revised by design (seasonal factors aside); PCE and payrolls are.
+        those first prints later moved. CPI is not revised by design (seasonal factors aside); PCE and payrolls are. The
+        frozen first-print log itself is published as <a href="/data/releases.json">releases.json</a>.
       </p>
       <div className="kpi-row">
         <KpiCard label="CPI · YoY revision" value={fmtPp(cpi.summary.mean_abs_yoy_revision_pp)} context={`mean |revision| over ${cpi.summary.n} periods · ${cpi.summary.n_revised} carry >1 vintage`} accent="sky" />
