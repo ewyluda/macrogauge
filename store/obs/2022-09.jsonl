@@ -41,3 +41,8 @@
 {"obs_date": "2022-07-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 326.728, "vintage_date": "2022-09-14"}
 {"obs_date": "2022-08-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 327.767, "vintage_date": "2022-09-14"}
 {"obs_date": "2022-08-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 62.7, "vintage_date": "2022-09-14"}
+{"obs_date": "2022-04-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 265.31, "vintage_date": "2022-09-14"}
+{"obs_date": "2022-05-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 273.256, "vintage_date": "2022-09-14"}
+{"obs_date": "2022-06-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 280.22, "vintage_date": "2022-09-14"}
+{"obs_date": "2022-07-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 272.082, "vintage_date": "2022-09-14"}
+{"obs_date": "2022-08-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 269.106, "vintage_date": "2022-09-14"}

@@ -415,7 +415,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     # batch 5b: revisions publishes all three targets (rows may be empty on a
     # single-vintage fixture store; the block itself must exist)
     rv = json.loads((out / "revisions.json").read_text())
-    assert set(rv["targets"]) == {"cpi", "pce", "nfp"}
+    assert set(rv["targets"]) == {"cpi", "pce", "nfp", "ppi", "eci"}
     gb = json.loads((out / "grocery_basket.json").read_text())
     assert [w["code"] for w in gb["wholesale"]] == [c for c, *_ in run_daily.grocery.WHOLESALE]
     stamp = [c for c in qa["checks"] if c["name"] == "single_run_stamp"][0]

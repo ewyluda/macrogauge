@@ -30,11 +30,17 @@ test("live component shows its sources and splice; carry-forward component says 
   await expect(page.getByText("No live blend configured")).toBeVisible();
 });
 
-test("/revisions renders three targets with the payrolls bar chart", async ({ page }) => {
+test("/revisions leads with the payrolls takeaway and adds PPI and ECI once published", async ({ page, request }) => {
+  const rev = await (await request.get("/data/revisions.json")).json() as { targets: Record<string, unknown> };
+  const extra = ["ppi", "eci"].filter((t) => rev.targets[t]).length;
   await page.goto("/revisions");
+  await expect(page.getByTestId("revisions-takeaway")).toContainText(/^First payroll prints /);
   await expect(page.locator(".kpi-label", { hasText: "Payrolls · change revision" })).toBeVisible();
   await expect(page.locator("canvas").first()).toBeVisible();
-  await expect(page.locator("table.data-table")).toHaveCount(3);
+  // payrolls, PCE, CPI (collapsed) + PPI and ECI when the artifact carries them
+  await expect(page.locator("table.data-table")).toHaveCount(3 + extra);
+  await expect(page.locator("#ppi")).toHaveCount(rev.targets.ppi ? 1 : 0);
+  await expect(page.getByTestId("cpi-line")).toContainText("not revised by design");
 });
 
 test("/as-of reads a ledger row by date from the URL and cites it", async ({ page }) => {

@@ -4,11 +4,20 @@ import gaugeDaily from "../../public/data/gauge_daily.json";
 import compare from "../../public/data/compare.json";
 import dcGrades from "../../public/data/dc_grades.json";
 import datacenter from "../../public/data/datacenter.json";
+import outlook from "../../public/data/outlook.json";
 import { columnsToRows, flattenRow, getPath, rowsFromSpec, toCsv } from "./csv";
 import { sliceSince, windowStart } from "./chartWindow";
-import { DC_ANCHORS_CSV, dcBuildMonthlyCsvSpec, heroCsvSpec, RATES_CURVE_CSV, RATES_HISTORY_CSV, RATES_LIQUIDITY_CSV, dataPageCsv } from "./exportSpecs";
+import { DC_ANCHORS_CSV, OUTLOOK_PATHS_CSV, dcBuildMonthlyCsvSpec, heroCsvSpec, RATES_CURVE_CSV, RATES_HISTORY_CSV, RATES_LIQUIDITY_CSV, dataPageCsv } from "./exportSpecs";
 
 describe("getPath / rowsFromSpec", () => {
+  it("keyed spec: one row per path step, led by its component (outlook component_paths)", () => {
+    const rows = rowsFromSpec(outlook, OUTLOOK_PATHS_CSV);
+    const paths = (outlook as { component_paths: Record<string, unknown[]> }).component_paths;
+    expect(rows).toHaveLength(Object.values(paths).reduce((n, p) => n + p.length, 0));
+    expect(Object.keys(rows[0])).toEqual(["component", "month", "mom_pct", "index"]);
+    expect(rowsFromSpec({ component_paths: [] }, OUTLOOK_PATHS_CSV)).toEqual([]);
+  });
+
   it("resolves dotted paths and tolerates missing ones", () => {
     expect(getPath({ a: { b: [1] } }, "a.b")).toEqual([1]);
     expect(getPath({ a: 1 }, "a.b.c")).toBeUndefined();

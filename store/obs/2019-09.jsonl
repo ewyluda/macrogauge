@@ -23,3 +23,4 @@
 {"obs_date": "2019-04-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 266.3, "vintage_date": "2019-09-11"}
 {"obs_date": "2019-08-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 266.5, "vintage_date": "2019-09-11"}
 {"obs_date": "2019-08-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 56.3, "vintage_date": "2019-09-11"}
+{"obs_date": "2019-08-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 199.3, "vintage_date": "2019-09-11"}

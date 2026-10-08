@@ -14,7 +14,9 @@
       "properties": {
         "cpi": {"$ref": "#/$defs/index_target"},
         "pce": {"$ref": "#/$defs/index_target"},
-        "nfp": {"$ref": "#/$defs/level_target"}
+        "nfp": {"$ref": "#/$defs/level_target"},
+        "ppi": {"$ref": "#/$defs/index_target", "description": "PPI all commodities (PPIACO); optional, added 2026-10-08"},
+        "eci": {"$ref": "#/$defs/index_target", "description": "Employment Cost Index, total comp (ECIALLCIV, quarterly); optional, added 2026-10-08"}
       }
     }
   },

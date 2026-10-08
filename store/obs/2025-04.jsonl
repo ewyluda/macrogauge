@@ -46,3 +46,17 @@
 {"obs_date": "2025-02-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 159170.0, "vintage_date": "2025-04-04"}
 {"obs_date": "2025-03-01", "route": "API", "series_code": "PAYEMS", "source": "ALFRED", "value": 159398.0, "vintage_date": "2025-04-04"}
 {"obs_date": "2025-03-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 61.215, "vintage_date": "2025-04-11"}
+{"obs_date": "2024-11-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 253.211, "vintage_date": "2025-04-11"}
+{"obs_date": "2024-12-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 253.434, "vintage_date": "2025-04-11"}
+{"obs_date": "2025-01-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 257.387, "vintage_date": "2025-04-11"}
+{"obs_date": "2025-02-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 259.805, "vintage_date": "2025-04-11"}
+{"obs_date": "2025-03-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 258.837, "vintage_date": "2025-04-11"}
+{"obs_date": "2020-07-01", "route": "API", "series_code": "ECIALLCIV", "source": "ALFRED", "value": 141.4, "vintage_date": "2025-04-30"}
+{"obs_date": "2021-10-01", "route": "API", "series_code": "ECIALLCIV", "source": "ALFRED", "value": 148.2, "vintage_date": "2025-04-30"}
+{"obs_date": "2022-10-01", "route": "API", "series_code": "ECIALLCIV", "source": "ALFRED", "value": 155.7, "vintage_date": "2025-04-30"}
+{"obs_date": "2023-01-01", "route": "API", "series_code": "ECIALLCIV", "source": "ALFRED", "value": 157.3, "vintage_date": "2025-04-30"}
+{"obs_date": "2023-07-01", "route": "API", "series_code": "ECIALLCIV", "source": "ALFRED", "value": 160.7, "vintage_date": "2025-04-30"}
+{"obs_date": "2023-10-01", "route": "API", "series_code": "ECIALLCIV", "source": "ALFRED", "value": 162.2, "vintage_date": "2025-04-30"}
+{"obs_date": "2024-01-01", "route": "API", "series_code": "ECIALLCIV", "source": "ALFRED", "value": 163.9, "vintage_date": "2025-04-30"}
+{"obs_date": "2024-04-01", "route": "API", "series_code": "ECIALLCIV", "source": "ALFRED", "value": 165.4, "vintage_date": "2025-04-30"}
+{"obs_date": "2025-01-01", "route": "API", "series_code": "ECIALLCIV", "source": "ALFRED", "value": 169.8, "vintage_date": "2025-04-30"}

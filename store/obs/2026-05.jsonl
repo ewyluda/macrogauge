@@ -56,3 +56,8 @@
 {"obs_date": "2026-04-01", "route": "API", "series_code": "CPIAUCSL", "source": "ALFRED", "value": 332.407, "vintage_date": "2026-05-12"}
 {"obs_date": "2026-04-01", "route": "API", "series_code": "CPILFESL", "source": "ALFRED", "value": 335.423, "vintage_date": "2026-05-12"}
 {"obs_date": "2026-04-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 73.779, "vintage_date": "2026-05-13"}
+{"obs_date": "2025-12-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 261.333, "vintage_date": "2026-05-13"}
+{"obs_date": "2026-01-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 263.537, "vintage_date": "2026-05-13"}
+{"obs_date": "2026-02-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 269.909, "vintage_date": "2026-05-13"}
+{"obs_date": "2026-03-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 276.42, "vintage_date": "2026-05-13"}
+{"obs_date": "2026-04-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 283.764, "vintage_date": "2026-05-13"}

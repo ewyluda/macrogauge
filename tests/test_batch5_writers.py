@@ -50,6 +50,27 @@ def test_revisions_first_vs_latest_and_yoy_revision(tmp_path):
     validate.validate_file(path, SCHEMAS / "revisions.schema.json")
 
 
+def test_revisions_cover_ppi_and_quarterly_eci(tmp_path):
+    obs = [
+        _obs("PPIACO", "2025-08-01", 260.0, "2025-09-11"),
+        _obs("PPIACO", "2026-08-01", 286.0, "2026-09-10"),     # first print +10.0%
+        _obs("PPIACO", "2026-08-01", 288.6, "2026-12-12"),     # revised at four months
+        # quarterly: the YoY base is four quarters (twelve months) back
+        _obs("ECIALLCIV", "2025-04-01", 170.0, "2025-07-31"),
+        _obs("ECIALLCIV", "2026-04-01", 175.1, "2026-07-31"),
+    ]
+    vintage.append(obs, tmp_path)
+    p = revisions.build(vintage.load(tmp_path))
+    ppi = p["targets"]["ppi"]
+    assert ppi["code"] == "PPIACO" and ppi["kind"] == "index"
+    r = ppi["rows"][-1]
+    assert (r["yoy_first_pct"], r["yoy_latest_pct"], r["yoy_revision_pp"]) == (10.0, 11.0, 1.0)
+    e = p["targets"]["eci"]["rows"][-1]
+    assert e["reference_period"] == "2026-04" and e["yoy_first_pct"] == 3.0 and e["n_vintages"] == 1
+    path = revisions.write(p, tmp_path / "out", "2026-10-08T12:00:00Z")
+    validate.validate_file(path, SCHEMAS / "revisions.schema.json")
+
+
 def _write(out, name, payload):
     out.mkdir(parents=True, exist_ok=True)
     (out / name).write_text(json.dumps(payload))

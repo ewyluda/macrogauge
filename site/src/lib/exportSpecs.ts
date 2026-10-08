@@ -42,6 +42,9 @@ export function heroCsvSpec(from: string | undefined): CsvSpec {
 /** /escalation#grades — every grading anchor, flattened. */
 export const DC_ANCHORS_CSV: CsvSpec = { kind: "rows", path: "anchors", flatten: true };
 
+/** /outlook: every component's 12-month path, one row per component-month */
+export const OUTLOOK_PATHS_CSV: CsvSpec = { kind: "keyed", path: "component_paths", keyName: "component" };
+
 /** /datacenter — the DC Build index on its monthly grid, headline plus every
  *  component's rebased index (the same arrays /escalation uses). `official`
  *  selects the official-prints-only variant (no proxy tail; months where every

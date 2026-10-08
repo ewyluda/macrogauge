@@ -19,7 +19,11 @@ from pipeline.dates import months_back, prior_month
 from pipeline.publish.util import write_json
 from pipeline.store import vintage
 
-TARGETS = [("cpi", "CPIAUCNS", "index"), ("pce", "PCEPI", "index"), ("nfp", "PAYEMS", "level_k")]
+# PPI all commodities and the Employment Cost Index (quarterly) are what
+# construction escalation clauses most often index to (scorecard session 4);
+# their first prints come from the ALFRED vintage backfill (2026-10-08)
+TARGETS = [("cpi", "CPIAUCNS", "index"), ("pce", "PCEPI", "index"), ("nfp", "PAYEMS", "level_k"),
+           ("ppi", "PPIACO", "index"), ("eci", "ECIALLCIV", "index")]
 WINDOW = 36
 
 

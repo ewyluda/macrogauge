@@ -24,3 +24,5 @@
 {"obs_date": "2016-11-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 247.0, "vintage_date": "2017-04-13"}
 {"obs_date": "2017-03-01", "route": "API", "series_code": "ppi_pumps", "source": "ALFRED", "value": 249.8, "vintage_date": "2017-04-13"}
 {"obs_date": "2017-03-01", "route": "API", "series_code": "ppi_storage", "source": "ALFRED", "value": 58.3, "vintage_date": "2017-04-13"}
+{"obs_date": "2017-03-01", "route": "API", "series_code": "PPIACO", "source": "ALFRED", "value": 191.3, "vintage_date": "2017-04-13"}
+{"obs_date": "2017-01-01", "route": "API", "series_code": "ECIALLCIV", "source": "ALFRED", "value": 129.0, "vintage_date": "2017-04-28"}

@@ -10,7 +10,11 @@ type Point = [string, number];
 
 const date = (month: string) => `${month}-01`;
 
-export function OutlookChart({ outlook }: { outlook: Outlook }) {
+export function OutlookChart({ outlook, peak }: {
+  outlook: Outlook;
+  /** marks the path's hump on /outlook; the homepage passes none */
+  peak?: { month: string; yoy: number } | null;
+}) {
   const terminal = outlook.forecast[outlook.forecast.length - 1];
   const baselineName = `Base effects only (flat ${outlook.parameters.baseline_annual_pct}% ann.)`;
   const option = useMemo(() => {
@@ -79,6 +83,15 @@ export function OutlookChart({ outlook }: { outlook: Outlook }) {
           showSymbol: false,
           lineStyle: { width: 2, type: "dashed", color: C.emerald },
           itemStyle: { color: C.emerald },
+          ...(peak ? {
+            // a vertical rule at the hump (MarkLine is registered; MarkPoint is not)
+            markLine: {
+              symbol: "none", silent: true,
+              data: [{ xAxis: date(peak.month) }],
+              lineStyle: { color: C.muted, type: "solid", width: 1 },
+              label: { formatter: `peak ${peak.yoy.toFixed(1)}%`, color: C.text, fontSize: 11 },
+            },
+          } : {}),
         },
         {
           name: baselineName,
@@ -90,7 +103,7 @@ export function OutlookChart({ outlook }: { outlook: Outlook }) {
         },
       ],
     };
-  }, [outlook, baselineName]);
+  }, [outlook, baselineName, peak]);
 
   return (
     <div className="outlook-module">
