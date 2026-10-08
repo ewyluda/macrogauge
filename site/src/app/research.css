@@ -922,3 +922,8 @@ a.news-numbers-headline:hover { color: var(--accent-sky); text-decoration: under
 .cloud-inst { display: block; color: var(--muted); font-size: 11px; font-weight: 400; }
 .cloud-stale { color: var(--muted); }
 .cloud-stale .cloud-inst, .cloud-market-stale { color: var(--accent-amber); }
+
+/* /methodology series inventory: collapsed behind its source chips */
+.inv-details > summary { cursor: pointer; font-size: 13px; color: var(--muted); padding: 6px 0 10px; }
+.inv-details > summary:hover { color: var(--text); }
+.inv-chip-stale { color: var(--accent-red); }
