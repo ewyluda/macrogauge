@@ -189,6 +189,20 @@ test("datacenter drivers switch, jump bar, power summary and edge-collapsed stat
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
 });
 
+test("power page maps every hub with a 30-day average, named in its accessible summary", async ({ page, request }) => {
+  const dc = await (await request.get("/data/datacenter.json")).json() as { power: { hubs: { label: string; avg30: number | null }[] } };
+  const priced = dc.power.hubs.filter((h) => h.avg30 != null);
+  await page.goto("/power");
+  const map = page.getByTestId("hub-map");
+  await expect(map.locator("circle")).toHaveCount(priced.length);
+  const label = await map.locator("svg").getAttribute("aria-label");
+  for (const h of priced) expect(label).toContain(h.label);
+  // labels give way to the table on a phone; the page never scrolls sideways
+  await page.setViewportSize({ width: 375, height: 812 });
+  await expect(map.locator(".hub-map-label").first()).toBeHidden();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+});
+
 test("power page covers every grid, capacity on one scale, tariffs as a matrix", async ({ page }) => {
   await page.goto("/power");
   await expect(page.locator("h1")).toContainText("on the year");
