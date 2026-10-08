@@ -7,9 +7,10 @@ import { DownloadData } from "@/components/DownloadData";
 import { Section } from "@/components/Section";
 import { SparklineCard } from "@/components/SparklineCard";
 import { DeltaChip } from "@/components/DeltaChip";
-import { fmtMonth, fmtPp, fmtSigned, fmtStamp, yoyColor } from "@/lib/format";
+import { fmtMonth, fmtPp, fmtSigned, fmtStamp } from "@/lib/format";
 import { TailSpark } from "@/components/TailSpark";
 import { cardLabel, cleanName } from "@/lib/groceryLabels";
+import { spreadTakeaway, UTILITY_CODES } from "@/lib/groceryHeadline";
 
 export const metadata: Metadata = {
   title: "Grocery Prices",
@@ -29,13 +30,15 @@ type GroceryItem = {
 };
 
 export default function Grocery() {
-  const items = (grocery.items as GroceryItem[])
-    .slice()
-    .sort((a, b) => b.yoy_pct - a.yoy_pct);
+  const all = grocery.items as GroceryItem[];
+  // electricity and utility gas ride in the BLS average-price set but are not
+  // groceries: off the shelf here, still in the CSV (the artifact's own rows)
+  const items = all.filter((i) => !UTILITY_CODES.has(i.code)).sort((a, b) => b.yoy_pct - a.yoy_pct);
   const skipped = grocery.skipped as string[];
   const wholesale = (grocery as { wholesale?: Wholesale[] }).wholesale ?? [];
   // items can legally be empty (every staple skipped on a degraded run) —
   // degrade the KPIs, never crash the static export
+  const lead = spreadTakeaway(wholesale, (n) => n.replace(/ \(USDA\)$/, ""));
   const hottest: GroceryItem | undefined = items[0];
   const coolest: GroceryItem | undefined = items[items.length - 1];
 
@@ -44,16 +47,46 @@ export default function Grocery() {
       <h1>
         Grocery Prices{" "}
         <span className="subtitle">
-          every BLS average-price staple, monthly since 2018
+          every BLS average-price food staple, monthly since 2018
         </span>
       </h1>
+
+      {lead && <p className="lede" data-testid="grocery-takeaway">{lead}</p>}
+      <Section title="Farm to shelf — USDA wholesale vs the BLS shelf price" featured>
+        <div className="table-card">
+          <table className="data-table">
+            <thead><tr><th style={{ textAlign: "left" }}>Staple</th><th>Wholesale</th><th>Wholesale YoY</th><th>Retail YoY</th><th>Spread</th><th>Wholesale as of</th><th>2y</th></tr></thead>
+            <tbody>
+              {wholesale.map((w) => {
+                const retail = items.find((i) => i.code === w.retail_code);
+                return (
+                  <tr key={w.code}>
+                    <td style={{ textAlign: "left" }}>{w.name}<div className="subtitle">vs {retail ? cleanName(retail.name).title : w.retail_code}</div></td>
+                    <td>{w.value == null ? "—" : w.value.toFixed(2)}</td>
+                    <td>{fmtSigned(w.yoy_pct)}</td>
+                    <td>{fmtSigned(w.retail_yoy_pct)}</td>
+                    <td style={{ fontWeight: 600 }}>{fmtPp(w.spread_pp)}</td>
+                    <td style={{ color: "var(--muted)" }}>{w.as_of ?? "—"}</td>
+                    <td><TailSpark tail={w.series.values} stroke="var(--accent-sky)" label={w.name} /></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <p className="method">
+          USDA AMS weekly national wholesale prices beside the BLS average retail price they feed. Units differ by
+          design (the broiler composite is ¢/lb, bacon is $/lb) — only the year-over-year rates are compared. A positive
+          spread means the shelf price is rising faster than the farm-gate price: margin, not input cost.
+        </p>
+      </Section>
 
       <div className="section-tools">
         <DownloadData
           filename="macrogauge-grocery"
           json="grocery_basket.json"
           citation={`MacroGauge grocery staples (BLS average prices), published ${grocery.published_at}`}
-          rows={items.map(({ series: _s, ...r }) => r)}
+          rows={all.map(({ series: _s, ...r }) => r)}
         />
       </div>
       <div className="kpi-row">
@@ -78,35 +111,6 @@ export default function Grocery() {
           accent="emerald"
         />
       </div>
-
-      <Section title="Farm to shelf — USDA wholesale vs the BLS shelf price" featured>
-        <div className="table-card">
-          <table className="data-table">
-            <thead><tr><th style={{ textAlign: "left" }}>Staple</th><th>Wholesale</th><th>Wholesale YoY</th><th>Retail YoY</th><th>Spread</th><th>Wholesale as of</th><th>2y</th></tr></thead>
-            <tbody>
-              {wholesale.map((w) => {
-                const retail = items.find((i) => i.code === w.retail_code);
-                return (
-                  <tr key={w.code}>
-                    <td style={{ textAlign: "left" }}>{w.name}<div className="subtitle">vs {retail ? cleanName(retail.name).title : w.retail_code}</div></td>
-                    <td>{w.value == null ? "—" : w.value.toFixed(2)}</td>
-                    <td style={{ color: yoyColor(w.yoy_pct) }}>{fmtSigned(w.yoy_pct)}</td>
-                    <td style={{ color: yoyColor(w.retail_yoy_pct) }}>{fmtSigned(w.retail_yoy_pct)}</td>
-                    <td style={{ color: w.spread_pp == null ? "var(--muted)" : w.spread_pp > 0 ? "var(--accent-red)" : "var(--accent-emerald)", fontWeight: 600 }}>{fmtPp(w.spread_pp)}</td>
-                    <td style={{ color: "var(--muted)" }}>{w.as_of ?? "—"}</td>
-                    <td><TailSpark tail={w.series.values} label={w.name} /></td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-        <p className="method">
-          USDA AMS weekly national wholesale prices beside the BLS average retail price they feed. Units differ by
-          design (the broiler composite is ¢/lb, bacon is $/lb) — only the year-over-year rates are compared. A positive
-          spread means the shelf price is rising faster than the farm-gate price: margin, not input cost.
-        </p>
-      </Section>
 
       <Section title="All staples — sorted hottest to coolest YoY">
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -148,7 +152,9 @@ export default function Grocery() {
       </Section>
 
       <p className="method">
-        BLS Average Price (AP) series, U.S. city average, monthly — national
+        Electricity and utility gas average prices are in the CSV but not on the shelf above: they are household
+        energy, priced on the <Link href="/components/electricity">Electricity</Link> and{" "}
+        <Link href="/components/nat_gas">Piped gas</Link> components. BLS Average Price (AP) series, U.S. city average, monthly — national
         average dollar prices, not indexes. Sparkline = full monthly history
         since Jan 2018. Cards are sorted by published YoY change (hottest
         first); MoM and YoY come from the pipeline as published, nothing is

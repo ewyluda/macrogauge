@@ -10,6 +10,8 @@ import { fmtPp } from "@/lib/format";
 import { GradeTable, reconcileCalls } from "@/components/GradeTable";
 import { Leaderboard, type LeaderboardData } from "@/components/Leaderboard";
 import { artifact } from "@/lib/artifact";
+import { C } from "@/lib/chartTheme";
+import { FORECASTER_NAMES, headToHeadTakeaway } from "@/lib/scoreboardHeadline";
 import type { AccountabilityArtifact } from "@/lib/generated";
 
 // `leaderboard` is not (yet) declared in accountability.schema.json, so it
@@ -30,6 +32,34 @@ function fmtJobsK(v: number | null): string {
   return `${s}${Math.abs(Math.round(v)).toLocaleString("en-US")}k`;
 }
 
+const DOT: Record<string, string> = { macrogauge: C.sky, cleveland: C.amber, kalshi: C.violet };
+
+/** each graded print's miss per forecaster, as a bar of |error| on one scale */
+function ErrorBars({ data }: { data: LeaderboardData }) {
+  const keys = Object.keys(data.stats);
+  const max = Math.max(...data.rows.flatMap((r) => keys.map((k) => Math.abs(r.forecasts[k]?.error ?? 0)))) || 1;
+  return (
+    <div className="chart-card err-bars" data-testid="error-bars">
+      {data.rows.map((r) => (
+        <div key={r.reference_period} className="err-bars-print">
+          <span className="err-bars-month">{r.reference_period} <small>actual {r.actual_sa_mom_pct.toFixed(2)}%</small></span>
+          {keys.map((k) => {
+            const e = r.forecasts[k]?.error;
+            return (
+              <span key={k} className="err-bars-row">
+                <span className="err-bars-name">{FORECASTER_NAMES[k] ?? k}</span>
+                <span className="err-bars-track">{e != null && <i style={{ width: `${(Math.abs(e) / max) * 100}%`, background: DOT[k] ?? C.muted }} />}</span>
+                <span className="err-bars-val">{e == null ? "—" : `${e > 0 ? "+" : e < 0 ? "−" : ""}${Math.abs(e).toFixed(2)}pp`}</span>
+              </span>
+            );
+          })}
+        </div>
+      ))}
+      <p className="method" style={{ margin: "6px 0 0" }}>Bar = size of the miss; the sign says which way (positive ran hot).</p>
+    </div>
+  );
+}
+
 export default function Scoreboard() {
   const summary = backtest.summary as { observations: number; mae_pp: number | null; naive_mae_pp: number | null };
   const rows = backtest.rows as { target_month: string; cutoff?: string; badge: string; forecast_mom_pct: number; naive_mom_pct?: number | null; actual_mom_pct: number; error_pp: number }[];
@@ -38,21 +68,23 @@ export default function Scoreboard() {
   const { graded, pending } = reconcileCalls(accountability);
   const pce = reconcileCalls(accountabilityPce);
   const nfp = reconcileCalls(accountabilityNfp);
+  const lead = leaderboard ? headToHeadTakeaway(leaderboard) : null;
   return <div><h1>Forecast Scoreboard <span className="subtitle">graded in public</span></h1>
-    <div className="kpi-row"><KpiCard label="Vintage-true MAE" value={summary.mae_pp == null ? "—" : `${summary.mae_pp.toFixed(2)}pp`} context={`${summary.observations} BT observations · 3-month-average benchmark, not the live model`} accent="sky" />
-      <KpiCard label="Naive MAE" value={summary.naive_mae_pp == null ? "—" : `${summary.naive_mae_pp.toFixed(2)}pp`} context="Last known monthly print" accent="amber" />
-      <KpiCard label="Live grades" value={String(graded.length)} context={`${pending.length} pending`} accent="emerald" /></div>
-    <Section title="Live grades — real-time calls, receipts included">
-      <div className="section-tools"><DownloadData filename="macrogauge-cpi-grades" json="accountability_cpi.json" citation="MacroGauge live CPI grades" rows={[...graded, ...pending]} /></div>
-      <GradeTable rows={{ graded, pending }} keyPrefix="cpi" />
-      <p className="method">Signed error = forecast − actual (positive = ran hot). Calls freeze at their as-of date and grade automatically when the print lands — nothing is revised after the fact.</p>
-    </Section>
+    {lead && <p className="lede" data-testid="scoreboard-takeaway">{lead}</p>}
     {leaderboard && leaderboard.rows.length > 0 && (
-      <Section title="Head to head — Macrogauge vs Cleveland Fed vs Kalshi">
+      <Section title="Head to head — Macrogauge vs Cleveland Fed vs Kalshi" featured>
+        <ErrorBars data={leaderboard} />
         <Leaderboard data={leaderboard} />
       </Section>
     )}
+    <Section title="Live grades — real-time calls, receipts included">
+      <div className="section-tools"><DownloadData filename="macrogauge-cpi-grades" json="accountability_cpi.json" citation="MacroGauge live CPI grades" rows={[...graded, ...pending]} /></div>
+      <GradeTable rows={{ graded, pending }} keyPrefix="cpi" />
+      <p className="method">{graded.length} graded, {pending.length} pending. Signed error = forecast − actual (positive = ran hot). Calls freeze at their as-of date and grade automatically when the print lands — nothing is revised after the fact.</p>
+    </Section>
     <Section title="Walk-forward backtest — vintage-true history">
+      <div className="kpi-row"><KpiCard label="Benchmark MAE (vintage-true)" value={summary.mae_pp == null ? "—" : `${summary.mae_pp.toFixed(2)}pp`} context={`${summary.observations} backtest observations · 3-month-average benchmark, not the live model`} accent="sky" />
+        <KpiCard label="Naive MAE" value={summary.naive_mae_pp == null ? "—" : `${summary.naive_mae_pp.toFixed(2)}pp`} context="Last known monthly print" accent="amber" /></div>
       <div className="section-tools"><DownloadData filename="macrogauge-cpi-backtest" json="backtest.json" citation="MacroGauge vintage-true CPI backtest" rows={rows} /></div>
       <div className="table-card"><table className="data-table"><thead><tr><th>Month</th><th>Badge</th><th>Vintage cutoff</th><th>Forecast</th><th>Naive (carry-fwd)</th><th>Actual</th><th>Error</th><th>vs naive</th></tr></thead><tbody>{rows.length === 0 && <tr><td colSpan={8} style={{ color: "var(--muted)", textAlign: "left" }}>No backtest rows published on this run — the harness needs the release calendar and at least one vintage-true month.</td></tr>}{rows.slice(-24).reverse().map(row => { const naiveErr = row.naive_mom_pct == null ? null : Math.abs(row.naive_mom_pct - row.actual_mom_pct); const beat = naiveErr == null ? null : Math.abs(row.error_pp) < naiveErr; return <tr key={row.target_month}><td>{row.target_month}</td><td><span className="badge">{row.badge}</span></td><td style={{ color: "var(--muted)" }}>{row.cutoff ?? "—"}</td><td>{row.forecast_mom_pct.toFixed(2)}%</td><td style={{ color: "var(--muted)" }}>{row.naive_mom_pct == null ? "—" : `${row.naive_mom_pct.toFixed(2)}%`}</td><td>{row.actual_mom_pct.toFixed(2)}%</td><td>{row.error_pp.toFixed(2)}pp</td><td>{beat == null ? "—" : <span className={beat ? "badge" : "badge badge-muted"}>{beat ? "beat" : "lost"}</span>}</td></tr>; })}</tbody></table></div>
       <p className="method">BT rows are vintage-true walk-forward values frozen the day before each release — the model never sees data it wouldn&apos;t have had. The backtested model is a three-month average of previously known official prints — a long-history benchmark, not the live bottom-up nowcast graded in the table above (which is too young to backtest vintage-true).</p>

@@ -9,6 +9,8 @@ import basket from "../../../../config/basket.json";
 import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
 import { LinesChart } from "@/components/LinesChart";
+import { Dumbbell } from "@/components/Dumbbell";
+import { overshoot } from "@/lib/pceOvershoot";
 import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
 import { GradeTable, reconcileCalls } from "@/components/GradeTable";
@@ -41,6 +43,10 @@ const from = compare.months.findIndex((m) => m >= "2019-01-01");
 const officialSeries = compare.official_pce_yoy_pct ?? compare.months.map(() => null);
 const hasOfficialHistory = officialSeries.some((v) => v != null);
 const coreSeries = compare.official_core_pce_yoy_pct ?? null;
+// the gauge's 2021–22 overshoot of official PCEPI, shaded and captioned on the chart
+const over = overshoot(compare.months, compare.pce_yoy_pct, officialSeries);
+const cpiPeak = compare.official_yoy_pct.reduce<{ m: string; v: number } | null>(
+  (p, v, i) => (v != null && compare.months[i] >= "2021" && compare.months[i] < "2023" && (!p || v > p.v) ? { m: compare.months[i], v } : p), null);
 const weights = (basket.components as { code: string; label: string; weight: number; pce_weight: number }[])
   .slice()
   .sort((a, b) => b.pce_weight - a.pce_weight);
@@ -131,8 +137,18 @@ export default function Pce() {
             ]}
             refLine={2}
             refLabel="Fed 2% target"
+            bands={over ? [{ from: over.from, to: over.to, label: "gauge overshoot" }] : undefined}
           />
         </div>
+        {over && (
+          <p className="method" data-testid="pce-overshoot">
+            Shaded: {fmtMonth(over.from)} to {fmtMonth(over.to)}, when the gauge ran at least 1pp above PCEPI, by as much as{" "}
+            {over.peakGapPp.toFixed(1)}pp in {fmtMonth(over.peakMonth)}. The gauge prices CPI-comparable items under PCE
+            weights, so it inherits CPI&apos;s run-up{cpiPeak ? ` (CPI peaked at ${cpiPeak.v.toFixed(1)}% in ${fmtMonth(cpiPeak.m)})` : ""}.
+            PCEPI also prices spending CPI leaves out, chiefly medical care paid by employers and government, which no
+            CPI item can stand in for.
+          </p>
+        )}
         {!hasOfficialHistory && (
           <p className="method">
             The official PCEPI history line is missing from this publish, so only the gauge is drawn. The validation stats above already grade against PCEPI.
@@ -166,25 +182,8 @@ export default function Pce() {
       </Section>
 
       <Section title="Weights — CPI relative importance vs BEA PCE share">
-        <div className="table-card">
-          <table className="data-table">
-            <thead>
-              <tr><th>Component</th><th>CPI weight</th><th>PCE weight</th><th>Shift</th></tr>
-            </thead>
-            <tbody>
-              {weights.map((c) => (
-                <tr key={c.code}>
-                  <td style={{ textAlign: "left" }}>{c.label}</td>
-                  <td>{(c.weight * 100).toFixed(1)}%</td>
-                  <td>{(c.pce_weight * 100).toFixed(1)}%</td>
-                  <td style={{ color: c.pce_weight > c.weight ? "var(--accent-red)" : "var(--accent-emerald)" }}>
-                    {fmtPp((c.pce_weight - c.weight) * 100)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Dumbbell testId="pce-weights" aLabel="CPI weight" bLabel="PCE share" fmt={(v) => `${(v * 100).toFixed(1)}%`}
+          rows={weights.map((c) => ({ key: c.code, label: c.label, a: c.weight, b: c.pce_weight }))} />
         <p className="method">
           PCE shares are hand-seeded approximations of BEA&apos;s expenditure weights over our 14 coarse components
           (config/basket.json, <code>pce_weight</code>), not a BEA-published table. They sum to one; the biggest

@@ -140,6 +140,11 @@ export function MyInflationClient({
       number | null,
     ];
   });
+  // one line: your rate minus the gauge's, month by month
+  const gapSeries = personalSeries.map(([m, p], i) => {
+    const g = compareGauge[i];
+    return [m, p == null || g == null ? null : Math.round((p - g) * 100) / 100] as [string, number | null];
+  });
   // contributions() substitutes 0 for missing component YoYs (reweight.ts is
   // spec-verbatim); weightedYoY() propagates null instead. Only compute and
   // render the drivers card when the personal rate itself is non-null, so the
@@ -245,23 +250,25 @@ export function MyInflationClient({
           marginTop: 16,
         }}
       >
+        <div style={{ fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--muted)", padding: "0 8px" }}>
+          Your rate minus everyone&apos;s, percentage points
+        </div>
         <EChart
-          ariaTitle="My inflation vs official CPI, YoY %"
+          ariaTitle="Your inflation rate minus the macrogauge rate, percentage points, monthly"
           option={{
             ...baseOption(),
+            legend: { show: false },
+            tooltip: { ...baseOption().tooltip, valueFormatter: (v: unknown) => (typeof v === "number" ? `${v > 0 ? "+" : ""}${v.toFixed(2)}pp` : "—") },
             series: [
               {
-                name: "MY inflation",
-                type: "line", showSymbol: false, lineStyle: { width: 1.5 },
-                color: C.amber, data: personalSeries,
-              },
-              {
-                name: "Macrogauge (everyone)",
-                type: "line", showSymbol: false, lineStyle: { width: 1.5 },
-                color: C.sky,
-                data: compareMonths.map(
-                  (m, i) => [m, compareGauge[i]] as [string, number | null]
-                ),
+                name: "Your rate − everyone's",
+                type: "line", showSymbol: false, lineStyle: { width: 2 },
+                color: C.text, data: gapSeries,
+                // inside the band the gap is within the approximation: "in line"
+                markArea: { silent: true, itemStyle: { color: "rgba(139, 152, 165, 0.14)" },
+                  label: { show: true, position: "insideRight", color: C.muted, fontSize: 11 },
+                  data: [[{ yAxis: -NEUTRAL_GAP_PP, name: "in line" }, { yAxis: NEUTRAL_GAP_PP }]] },
+                markLine: { silent: true, symbol: "none", data: [{ yAxis: 0 }], lineStyle: { color: C.muted, type: "solid" }, label: { show: false } },
               },
             ],
           }}
