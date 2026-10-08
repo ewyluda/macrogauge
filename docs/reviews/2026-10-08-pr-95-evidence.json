@@ -1,0 +1,592 @@
+{
+  "review_date": "2026-10-08",
+  "recorded_at_utc": "2026-10-08T19:47:26.823965+00:00",
+  "scope": "Reconcile the 13 findings from the PR 71-93 review against PR 95; application code unchanged.",
+  "pr": {
+    "baseRefOid": "53462dec10ba776e78f9548892e4d275529e5fdf",
+    "headRefName": "fix/pr-71-93-review-findings",
+    "headRefOid": "c655fc772af78dd2c4b09f756e1c78f4519d1c10",
+    "number": 95,
+    "state": "OPEN",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T19:33:16Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37832505228/job/113501142055",
+        "name": "pipeline",
+        "startedAt": "2026-10-08T19:30:48Z",
+        "status": "COMPLETED",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T19:34:20Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/37832505228/job/113501141782",
+        "name": "site",
+        "startedAt": "2026-10-08T19:30:48Z",
+        "status": "COMPLETED",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "StatusContext",
+        "context": "Vercel",
+        "startedAt": "2026-10-08T19:31:58Z",
+        "state": "SUCCESS",
+        "targetUrl": "https://vercel.com/cloudten/macrogauge/J7mtWCDQeNMqULWG7HY79xUHkYnu"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T19:31:59Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://vercel.com/github",
+        "name": "Vercel Preview Comments",
+        "startedAt": "2026-10-08T19:31:59Z",
+        "status": "COMPLETED",
+        "workflowName": ""
+      }
+    ],
+    "url": "https://github.com/ewyluda/macrogauge/pull/95"
+  },
+  "fix_diff_base": "49a8c7c566bd02be56dd1e68aaad0524ec76220e",
+  "original_review_head": "a235fe378cb96c44955be96b7e91ec8a9739fd2e",
+  "summary": {
+    "reconciled": 11,
+    "partially_reconciled": 2,
+    "remaining": [
+      {
+        "id": "R1",
+        "original": "F3",
+        "priority": "P2",
+        "path": "site/src/lib/ratesHeadline.ts",
+        "line": 41,
+        "title": "Same end date does not establish a common annual baseline"
+      },
+      {
+        "id": "R2",
+        "original": "F12",
+        "priority": "P3",
+        "path": "site/src/components/ForecasterDots.tsx",
+        "line": 60,
+        "title": "Global weighted legend mislabels the equal-weight Core CPI row"
+      }
+    ]
+  },
+  "status_by_original_finding": {
+    "F1": "reconciled",
+    "F2": "reconciled",
+    "F3": "partially_reconciled",
+    "F4": "reconciled",
+    "F5": "reconciled",
+    "F6": "reconciled",
+    "F7": "reconciled",
+    "F8": "reconciled",
+    "F9": "reconciled",
+    "F10": "reconciled",
+    "F11": "reconciled",
+    "F12": "partially_reconciled",
+    "F13": "reconciled"
+  },
+  "verification": {
+    "pytest": {
+      "passed": 1295,
+      "seconds": 48.73,
+      "exit_code": 0
+    },
+    "vitest": {
+      "passed": 464,
+      "files": 68,
+      "seconds": 1.97,
+      "exit_code": 0
+    },
+    "lint": {
+      "exit_code": 0
+    },
+    "build": {
+      "exit_code": 0,
+      "github_sha": "c655fc772af78dd2c4b09f756e1c78f4519d1c10",
+      "data": "offline regenerated artifacts"
+    },
+    "e2e": {
+      "passed": 236,
+      "seconds": 48.8,
+      "exit_code": 0,
+      "data": "same offline regenerated static export",
+      "notable_controls": [
+        "components-table selected by test id",
+        "every DC component comparison link retains component and index",
+        "latest calculator month displays zero elapsed time",
+        "invalid typed amounts suppress results and preserve last valid URL",
+        "valid amount result identical after reload"
+      ]
+    },
+    "independent_probes": {
+      "python_exit_code": 0,
+      "frontend_exit_code": 0,
+      "note": "The scripts deliberately assert R1 and R2 remain reproducible; a future correct fix should invalidate those assertions."
+    },
+    "log_sha256": {
+      "pytest": "e0a12f7436880601828a5b311684007941956720795c0bbb7c32c3ef500245b3",
+      "vitest": "85402af4df1437b2effcb8234c0f37a5a581724e7284cb57bc20c188b2bcd8a4",
+      "lint": "8a5c00e01f49ff7d88afdcace39a3f4cd657982cf54177dcfaad8f193b58c612",
+      "build": "51c237154d6963807b82cf8f0f1883b66e5c5b83a3b3d2a4f081d0a8f37b293a",
+      "e2e": "2278f015f2f02213ef4084e44aa61505f68802da2dbd38a75332b6055a6dfd4f",
+      "regenerate": "acb210bf6d7408d31d39b69d69ea67331dfdf2bd0e48c4f7830ee1c9cdec42b7"
+    }
+  },
+  "generated_fixture": {
+    "method": "Existing PR 71-93 regeneration script; git archive of reviewed head; frozen store plus recorded OpenRouter/Nebius inputs loaded into in-memory SQLite; no live collection.",
+    "artifact_generated_at": "2026-10-08T19:00:00Z",
+    "schema_validated_artifacts": {
+      "site/public/data/datacenter.json": "3538c6dec05cfc9d4e040e6442e5ae3cd5f038c7953a6273054b600a078618c9",
+      "site/public/data/longlead.json": "112eb01033aa22467daf6b1084982ac0ee45375bcbd487c5dc0fb682a5b3a9de",
+      "site/public/data/rates.json": "305fbf737fd89af718b3268915b6bb4a8ab72dab5823d43a7119d3cc148e86e7",
+      "site/public/data/compute.json": "3cb25f276f94c9a36203e3d47e01e845c366becc9e2f09489dc6e2f11205edc6",
+      "site/public/data/matrix.json": "3b5cebe04b56ab3f5cc6396a49c0d8d14c905a03ffadc5c2d811c9226f6bd2bd",
+      "site/public/data/labor.json": "2466c90c31ec57967058f21235525860ac54906c66eff7ae7d349e41203682e9",
+      "site/public/data/revisions.json": "4f7b462467c78f8064e90f13f7f4e924c2ae45744239982177f9f96e57278906",
+      "site/public/data/commodities.json": "11f20f3204961997bb0779735630473e66898605be70700193148ef574c5a280",
+      "site/public/data/heatcheck.json": "2d64a675e98a691570fa008fffc87f134c244d10e786c01e669837ff31449f05",
+      "site/public/data/stress.json": "946f725a10366cb35824452886c41e9903afcfcc8254cd7567470db7b8c2675d",
+      "site/public/data/recession.json": "4cac42c484c532fbad96c571283cf13853e98de4b8e5a6c36c2329aff7cefbda",
+      "site/public/data/real_wages.json": "f66b967ff11ad5a080aff1ceef2aa2e3bdffb424b430cc18367bb5e979f2a8b2",
+      "site/public/data/changes.json": "d1b1606ed141dd704c95a5d3125d145be9943024d308511e53f1cd3fde0adff4"
+    },
+    "movers": {
+      "total": 30,
+      "changed": 1,
+      "unchanged": 29,
+      "new": 0
+    }
+  },
+  "python_probe": {
+    "reviewed_head": "c655fc772af78dd2c4b09f756e1c78f4519d1c10",
+    "F3_shared_end_different_baselines": {
+      "yield": {
+        "code": "BAMLC0A4CBBBEY",
+        "value": 5.1,
+        "as_of": "2026-10-06",
+        "chg_30d": null,
+        "chg_1y": 0.1,
+        "tail": {
+          "dates": [
+            "2025-10-03",
+            "2025-10-06",
+            "2026-10-06"
+          ],
+          "values": [
+            5.22,
+            5.0,
+            5.1
+          ]
+        }
+      },
+      "move": {
+        "as_of": "2026-10-06",
+        "base_date": "2025-10-03",
+        "yield_chg_1y": -0.12,
+        "oas_chg_1y": -0.12
+      }
+    },
+    "F6_price_cases": [
+      {
+        "key": "hub",
+        "label": "Fixture hub",
+        "section": "AI Infra",
+        "kind": "level",
+        "unit": "$/MWh",
+        "notable": 2.0,
+        "href": "/power",
+        "value": 10,
+        "as_of": "2026-10-08",
+        "prev_value": -10,
+        "prev_as_of": "2026-10-08",
+        "delta": 20,
+        "delta_unit": "$/MWh",
+        "significance": 10.0
+      },
+      {
+        "key": "hub",
+        "label": "Fixture hub",
+        "section": "AI Infra",
+        "kind": "level",
+        "unit": "$/MWh",
+        "notable": 2.0,
+        "href": "/power",
+        "value": -5,
+        "as_of": "2026-10-08",
+        "prev_value": -10,
+        "prev_as_of": "2026-10-08",
+        "delta": 5,
+        "delta_unit": "$/MWh",
+        "significance": 2.5
+      },
+      {
+        "key": "hub",
+        "label": "Fixture hub",
+        "section": "AI Infra",
+        "kind": "level",
+        "unit": "$/MWh",
+        "notable": 2.0,
+        "href": "/power",
+        "value": -10,
+        "as_of": "2026-10-08",
+        "prev_value": -5,
+        "prev_as_of": "2026-10-08",
+        "delta": -5,
+        "delta_unit": "$/MWh",
+        "significance": 2.5
+      },
+      {
+        "key": "hub",
+        "label": "Fixture hub",
+        "section": "AI Infra",
+        "kind": "level",
+        "unit": "$/MWh",
+        "notable": 2.0,
+        "href": "/power",
+        "value": 3,
+        "as_of": "2026-10-08",
+        "prev_value": 0,
+        "prev_as_of": "2026-10-08",
+        "delta": 3,
+        "delta_unit": "$/MWh",
+        "significance": 1.5
+      },
+      {
+        "key": "hub",
+        "label": "Fixture hub",
+        "section": "AI Infra",
+        "kind": "level",
+        "unit": "$/MWh",
+        "notable": 2.0,
+        "href": "/power",
+        "value": -3,
+        "as_of": "2026-10-08",
+        "prev_value": 0,
+        "prev_as_of": "2026-10-08",
+        "delta": -3,
+        "delta_unit": "$/MWh",
+        "significance": 1.5
+      },
+      {
+        "key": "hub",
+        "label": "Fixture hub",
+        "section": "AI Infra",
+        "kind": "level",
+        "unit": "$/MWh",
+        "notable": 3.0,
+        "href": "/power",
+        "value": 83.2,
+        "as_of": "2026-10-08",
+        "prev_value": 80,
+        "prev_as_of": "2026-10-08",
+        "delta": 4.0,
+        "delta_unit": "%",
+        "significance": 1.33
+      },
+      {
+        "key": "hub",
+        "label": "Fixture hub",
+        "section": "AI Infra",
+        "kind": "level",
+        "unit": "$/MWh",
+        "notable": 3.0,
+        "href": "/power",
+        "value": -5,
+        "as_of": "2026-10-08",
+        "prev_value": 5,
+        "prev_as_of": "2026-10-08",
+        "delta": -200.0,
+        "delta_unit": "%",
+        "significance": 66.67
+      },
+      {
+        "key": "hub",
+        "label": "Fixture hub",
+        "section": "AI Infra",
+        "kind": "level",
+        "unit": "$/MWh",
+        "notable": 2.0,
+        "href": "/power",
+        "value": 0,
+        "as_of": "2026-10-08",
+        "prev_value": 0,
+        "prev_as_of": "2026-10-08",
+        "delta": 0,
+        "delta_unit": "$/MWh",
+        "significance": 0.0
+      }
+    ],
+    "F12_real_producer_modes": {
+      "headline": {
+        "value": 0.16,
+        "weights": {
+          "macrogauge": 0.8,
+          "cleveland": 0.2
+        }
+      },
+      "core": {
+        "value": 0.25,
+        "weights": {
+          "macrogauge": 0.5,
+          "cleveland": 0.5
+        }
+      }
+    }
+  },
+  "frontend_probe": {
+    "reviewed_head": "c655fc772af78dd2c4b09f756e1c78f4519d1c10",
+    "controls": {
+      "F3_lagged_end": {
+        "title": "BBB corporate debt yields 6.19%, up 119bp on the year",
+        "detail": "The 10-year Treasury is 5.00% (+100bp on the year); over the year to Sep 30 the BBB spread moved \u2212100bp of the index yield's \u2212110bp."
+      },
+      "F4_common_samples": {
+        "unequal": "Cleveland Fed has the smallest miss on CPI over the 1 graded print every forecaster called: 0.600pp mean absolute error, against Macrogauge 1.000pp. 1 prints is too few to call a winner.",
+        "differentMissing": "Cleveland Fed has the smallest miss on CPI over the 1 graded print every forecaster called: 0.200pp mean absolute error, against Macrogauge 0.500pp. 1 prints is too few to call a winner.",
+        "noOverlap": null
+      },
+      "F5_places": [
+        {
+          "a": "New York",
+          "b": "New Jersey",
+          "count": 2
+        },
+        {
+          "a": "North Carolina",
+          "b": "North Dakota",
+          "count": 2
+        },
+        {
+          "a": "San Jose",
+          "b": "San Antonio",
+          "count": 2
+        }
+      ],
+      "F6_headlines": [
+        "The biggest AI-infra move since the last publish: Fixture hub rose $20.00/MWh to $10.00/MWh.",
+        "The biggest AI-infra move since the last publish: Fixture hub rose $5.00/MWh to \u2212$5.00/MWh.",
+        "The biggest AI-infra move since the last publish: Fixture hub fell $5.00/MWh to \u2212$10.00/MWh.",
+        "The biggest AI-infra move since the last publish: Fixture hub rose $3.00/MWh to $3.00/MWh.",
+        "The biggest AI-infra move since the last publish: Fixture hub fell $3.00/MWh to \u2212$3.00/MWh.",
+        "The biggest AI-infra move since the last publish: Fixture hub rose 4.0% to $83.20/MWh.",
+        "The biggest AI-infra move since the last publish: Fixture hub fell 200.0% to \u2212$5.00/MWh.",
+        "No AI-infra reading changed since the last publish."
+      ],
+      "F7_geometry": [
+        {
+          "values": [
+            20,
+            -5
+          ],
+          "finite": true,
+          "circles": 2
+        },
+        {
+          "values": [
+            0,
+            0
+          ],
+          "finite": true,
+          "circles": 2
+        },
+        {
+          "values": [
+            -10,
+            -5
+          ],
+          "finite": true,
+          "circles": 2
+        },
+        {
+          "values": [
+            null,
+            10
+          ],
+          "finite": true,
+          "circles": 1
+        }
+      ],
+      "F8_base_effects": [
+        {
+          "monthly": {
+            "2025-09": 100,
+            "2025-10": 100,
+            "2025-11": 100
+          },
+          "up": 0,
+          "down": 0,
+          "note": "The climb to Oct 2026 drops Oct 2025\u2013Oct 2025 out of the comparison, when the gauge rose 0.0% (about 0.0pp of the +1.0pp climb); the fall to Nov 2026 drops Nov 2025\u2013Nov 2025, when it rose 0.0% (about 0.0pp of the \u22121.0pp fall)."
+        },
+        {
+          "monthly": {
+            "2025-09": 100,
+            "2025-10": 101,
+            "2025-11": 100
+          },
+          "up": -1.0299999999999976,
+          "down": 1.0099009900990108,
+          "note": "The climb to Oct 2026 drops Oct 2025\u2013Oct 2025 out of the comparison, when the gauge rose 1.0% (about \u22121.0pp of the +1.0pp climb); the fall to Nov 2026 drops Nov 2025\u2013Nov 2025, when it fell 1.0% (about +1.0pp of the \u22121.0pp fall)."
+        },
+        {
+          "monthly": {
+            "2025-09": 100,
+            "2025-10": 99.8,
+            "2025-11": 100
+          },
+          "up": 0.20599999999999508,
+          "down": -0.20440881763528207,
+          "note": "The climb to Oct 2026 drops Oct 2025\u2013Oct 2025 out of the comparison, when the gauge fell 0.2% (about +0.2pp of the +1.0pp climb); the fall to Nov 2026 drops Nov 2025\u2013Nov 2025, when it rose 0.2% (about \u22120.2pp of the \u22121.0pp fall)."
+        },
+        {
+          "monthly": {
+            "2025-09": 100,
+            "2025-10": 99,
+            "2025-11": 100
+          },
+          "up": 1.0299999999999976,
+          "down": -1.0303030303030258,
+          "note": "Much of the hump is base effect. The climb to Oct 2026 drops Oct 2025\u2013Oct 2025 out of the comparison, when the gauge fell 1.0% (about +1.0pp of the +1.0pp climb); the fall to Nov 2026 drops Nov 2025\u2013Nov 2025, when it rose 1.0% (about \u22121.0pp of the \u22121.0pp fall)."
+        }
+      ],
+      "F9_marker": "cost-of-living jump",
+      "F10_same_month": {
+        "key": "fixture",
+        "label": "Fixture",
+        "baseMonth": "2026-09",
+        "lastMonth": "2026-09",
+        "months": 0,
+        "changePct": 0,
+        "annualizedPct": null,
+        "escalated": 1000000
+      },
+      "F12_single_target_labels": {
+        "weighted": "ensemble, weighted by past accuracy",
+        "equal": "equal-weight ensemble"
+      },
+      "F2_hardware": [
+        {
+          "code": "hw_imported",
+          "last_month": "2026-08",
+          "last_obs": "2026-08-01",
+          "changePct": 24.70024667115027
+        },
+        {
+          "code": "semis_components",
+          "last_month": "2026-08",
+          "last_obs": "2026-08-01",
+          "changePct": 30.273235144743516
+        },
+        {
+          "code": "imported_semis",
+          "last_month": "2026-08",
+          "last_obs": "2026-08-01",
+          "changePct": 10.851484825864821
+        },
+        {
+          "code": "storage",
+          "last_month": "2026-10",
+          "last_obs": "2026-10-02",
+          "changePct": 125.45387613601888
+        },
+        {
+          "code": "network",
+          "last_month": "2026-08",
+          "last_obs": "2026-08-01",
+          "changePct": -5.5695585452268155
+        }
+      ],
+      "F13_gap_units": {
+        "axis": "{value}pp",
+        "tooltip": "+1.20pp"
+      }
+    },
+    "remaining": {
+      "F3_baseline_mismatch": {
+        "producer": {
+          "yield": {
+            "code": "BAMLC0A4CBBBEY",
+            "value": 5.1,
+            "as_of": "2026-10-06",
+            "chg_30d": null,
+            "chg_1y": 0.1,
+            "tail": {
+              "dates": [
+                "2025-10-03",
+                "2025-10-06",
+                "2026-10-06"
+              ],
+              "values": [
+                5.22,
+                5,
+                5.1
+              ]
+            }
+          },
+          "move": {
+            "as_of": "2026-10-06",
+            "base_date": "2025-10-03",
+            "yield_chg_1y": -0.12,
+            "oas_chg_1y": -0.12
+          }
+        },
+        "headline": {
+          "title": "BBB corporate debt yields 5.10%, up 10bp on the year, mostly from the credit spread",
+          "detail": "The 10-year Treasury is 5.00% (+100bp on the year); over the year to Oct 6 the BBB spread moved \u221212bp of the index yield's \u221212bp."
+        }
+      },
+      "F12_mixed_legend": {
+        "rows": [
+          {
+            "label": "CPI",
+            "ensemble": 0.16,
+            "weights": {
+              "macrogauge": 0.8,
+              "cleveland": 0.2
+            },
+            "forecasters": [
+              {
+                "name": "Macrogauge",
+                "value": 0.1
+              },
+              {
+                "name": "Cleveland",
+                "value": 0.4
+              }
+            ]
+          },
+          {
+            "label": "Core CPI",
+            "ensemble": 0.25,
+            "weights": {
+              "macrogauge": 0.5,
+              "cleveland": 0.5
+            },
+            "forecasters": [
+              {
+                "name": "Macrogauge",
+                "value": 0.1
+              },
+              {
+                "name": "Cleveland",
+                "value": 0.4
+              }
+            ]
+          }
+        ],
+        "shared_legend": "ensemble, weighted by past accuracy",
+        "core_value": 0.25,
+        "core_if_accuracy_weighted": 0.16
+      }
+    }
+  },
+  "limits": [
+    "Remaining findings are controlled supported-input cases, not asserted production incidents.",
+    "News place extraction remains heuristic.",
+    "Tests and fixtures do not validate future live provider data.",
+    "Existing installed frontend dependencies were reused.",
+    "No application fixes, GitHub review comments, commit, or push were made for this follow-up."
+  ]
+}
