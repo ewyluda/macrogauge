@@ -20,7 +20,12 @@ def _store_with(tmp_path, code_to_rows):
 def test_group_order_pinned(tmp_path):
     p = commodities.build(_store_with(tmp_path, {}))
     assert [g["group"] for g in p["groups"]] == \
-        ["AI BUILD-OUT", "ENERGY & POWER", "METALS", "AGRICULTURE"]
+        ["AI BUILD INPUTS", "ENERGY & POWER", "PRECIOUS METALS", "AGRICULTURE"]
+
+
+def test_each_series_appears_once():
+    codes = [code for _, rows in commodities.GROUPS for code, *_ in rows]
+    assert len(codes) == len(set(codes))       # copper/aluminum no longer twice
 
 
 def test_rows_reference_registered_codes():
@@ -28,7 +33,7 @@ def test_rows_reference_registered_codes():
     codes = {s.code for s in series}
     for _, rows in commodities.GROUPS:
         for code, *_ in rows:
-            assert code in codes
+            assert code in codes or code == commodities.PJM_CAPACITY   # curated, not a series
 
 
 def test_row_values_yoy_and_spark(tmp_path):
@@ -73,4 +78,35 @@ def test_written_file_validates_against_schema(tmp_path):
         "vast_h100_sxm": {"2026-07-20": 2.0}})
     path = commodities.write(commodities.build(conn), tmp_path,
                              published_at="2026-07-20T15:00:00Z")
+    validate.validate_file(path, SCHEMA)
+
+
+def test_missing_yoy_gets_a_dated_stand_in(tmp_path):
+    conn = _store_with(tmp_path, {
+        # first collected under a year ago: change since the first reading
+        "dramex_ddr5_16g": {"2026-07-15": 50.0, "2026-10-07": 60.0},
+        # sparse history: nearest year-ago reading 10 days off -> dated stand-in
+        "dramex_nand_mlc64": {"2025-09-22": 10.0, "2026-10-02": 40.0},
+        # a true YoY exists: no stand-in
+        "fmp_copper": {"2025-10-07": 5.0, "2026-10-07": 6.0}})
+    rows = {r["code"]: r for g in commodities.build(conn, capacity_markets=[])["groups"] for r in g["rows"]}
+    assert rows["dramex_ddr5_16g"]["yoy_pct"] is None
+    assert rows["dramex_ddr5_16g"]["chg_alt"] == {"pct": 20.0, "label": "since Jul 15, 2026"}
+    assert rows["dramex_nand_mlc64"]["chg_alt"] == {"pct": 300.0, "label": "vs Sep 22, 2025"}
+    assert "chg_alt" not in rows["fmp_copper"] and rows["fmp_copper"]["yoy_pct"] == 20.0
+
+
+def test_pjm_capacity_row_is_auction_to_auction(tmp_path):
+    markets = [{"iso": "PJM", "asof": "2026-07-14", "rows": [
+        {"period": "2027/28", "price_mw_day": 333.44}, {"period": "2028/29", "price_mw_day": 325.0}]}]
+    p = commodities.build(_store_with(tmp_path, {}), capacity_markets=markets)
+    row = {r["code"]: r for g in p["groups"] for r in g["rows"]}[commodities.PJM_CAPACITY]
+    assert (row["label"], row["value"], row["as_of"]) == ("PJM capacity, auction clearing (2028/29)", 325.0, "2026-07-14")
+    assert row["chg_alt"] == {"pct": -2.53, "label": "vs 2027/28 auction"}
+    assert row["spark"] == [333.44, 325.0] and row["yoy_pct"] is None
+    # no PJM market (or a broken config): a null row, never a failed publish
+    empty = {r["code"]: r for g in commodities.build(_store_with(tmp_path / "e", {}), capacity_markets=[])["groups"]
+             for r in g["rows"]}[commodities.PJM_CAPACITY]
+    assert empty["value"] is None and "chg_alt" not in empty
+    path = commodities.write(p, tmp_path, published_at="2026-10-07T15:00:00Z")
     validate.validate_file(path, SCHEMA)

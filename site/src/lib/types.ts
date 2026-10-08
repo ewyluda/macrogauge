@@ -171,6 +171,8 @@ export type CommodityRow = {
   yoy_pct: number | null;
   chg_30d_pct: number | null;
   spark: number[];
+  /** a dated stand-in where no true YoY exists (2026-10-07+) */
+  chg_alt?: { pct: number; label: string };
 };
 export type Commodities = {
   published_at: string;

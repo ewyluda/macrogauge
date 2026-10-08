@@ -331,6 +331,22 @@ test("capacity withholds EV/MW for AKAM, MARA and EQIX and says why", async ({ p
   }
 });
 
+test("build inputs page leads with a takeaway and never shows an unlabeled stand-in", async ({ page, request }) => {
+  const data = await (await request.get("/data/commodities.json")).json();
+  await page.goto("/commodities");
+  await expect(page.locator("h1")).toContainText("on the year");
+  // no KPI label carries a bit/byte unit the uppercase style would corrupt
+  for (const label of await page.locator(".kpi-label").allTextContents()) expect(label).not.toMatch(/\d+\s*gb/i);
+  // the page renders exactly the artifact's rows (de-duplication itself is
+  // the writer's contract, pinned in test_commodities_writer)
+  const rowCount = data.groups.reduce((n: number, g: { rows: unknown[] }) => n + g.rows.length, 0);
+  await expect(page.locator("table.data-table tbody tr")).toHaveCount(rowCount);
+  // every stand-in change renders with its dated label
+  const alts = data.groups.flatMap((g: { rows: { chg_alt?: { label: string } }[] }) => g.rows)
+    .filter((r: { chg_alt?: unknown }) => r.chg_alt);
+  for (const r of alts) await expect(page.locator(".cm-alt small", { hasText: r.chg_alt.label }).first()).toBeVisible();
+});
+
 // CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS
 // fonts happened to fit — pin the wrap rule itself, independent of font metrics.
 test("source-error text can break inside long URLs", async ({ page }) => {

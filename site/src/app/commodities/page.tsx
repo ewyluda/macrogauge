@@ -7,8 +7,12 @@ import { TailSpark } from "@/components/TailSpark";
 import { fmtDay, fmtSigned, yoyColor } from "@/lib/format";
 import type { Commodities, CommodityRow } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
+import { artifact } from "@/lib/artifact";
+import { buildInputsHeadline } from "@/lib/buildInputs";
 
-const data = commoditiesJson as Commodities;
+const data = artifact<"commodities", Commodities>("commodities", commoditiesJson);
+const buildRows = data.groups[0]?.rows ?? [];
+const headline = buildInputsHeadline(buildRows);
 
 const rowByCode = new Map<string, CommodityRow>(
   data.groups.flatMap((g) => g.rows.map((r) => [r.code, r]))
@@ -16,13 +20,24 @@ const rowByCode = new Map<string, CommodityRow>(
 const copper = rowByCode.get("fmp_copper");
 const ddr5 = rowByCode.get("dramex_ddr5_16g");
 const h100 = rowByCode.get("vast_h100_sxm");
-const wti = rowByCode.get("fmp_wti");
+const pjm = rowByCode.get("ice_pjm_west");
 
 export const metadata: Metadata = {
-  title: `Commodities — copper ${fmtSigned(copper?.yoy_pct ?? null)} YoY, the AI build-out basket priced daily`,
+  title: `Build Inputs: ${headline ?? "what the AI build-out is bidding for, priced daily"}`,
   description:
-    "Every commodity the pipeline collects — the AI build-out inputs (copper, aluminum, DRAM, GPU-hours, wholesale power) beside energy, metals and agriculture futures, with 3-month sparklines.",
+    "The inputs the AI data-center build-out is bidding for — copper, aluminum, steel, DRAM and NAND, GPU-hours, wholesale power and PJM capacity — priced daily, beside energy, gold and agriculture futures.",
 };
+
+/** YoY, or where none exists yet a dated stand-in that says what it compares. */
+function YoyCell({ r }: { r: CommodityRow }) {
+  if (r.yoy_pct != null || !r.chg_alt) return <Chg pct={r.yoy_pct} />;
+  return (
+    <span className="cm-alt">
+      <Chg pct={r.chg_alt.pct} />
+      <small>{r.chg_alt.label}</small>
+    </span>
+  );
+}
 
 function price(v: number | null): string {
   if (v == null) return "—";
@@ -39,17 +54,15 @@ export default function Page() {
   return (
     <div>
       <StaleBanner publishedAt={commoditiesJson.published_at} />
-      <h1>
-        Commodities{" "}
-        <span className="subtitle">the AI build-out basket, priced daily</span>
-      </h1>
+      <div className="research-eyebrow">AI infrastructure · Build inputs</div>
+      <h1>{headline ?? "Build Inputs"}</h1>
       <p className="lede">
-        Every commodity the pipeline already collects, in one grid. The first
-        group is the cross-cut nobody else publishes as a basket: the inputs
-        the AI datacenter build-out is bidding for — copper and aluminum
-        (feeding the <Link href="/datacenter">DC Build index</Link>), DRAM spot,
-        GPU-hours, and wholesale power. Futures history runs from 2017, so
-        year-over-year is real, not a since-launch approximation.
+        The inputs the AI data-center build-out is bidding for, priced daily as one basket:
+        copper, aluminum and steel (feeding the <Link href="/datacenter">DC Build index</Link>),
+        DRAM and NAND spot, the GPU-hour, wholesale power and PJM&apos;s capacity auction. Futures
+        history runs from 2017, so their year-over-year is real; series we began collecting
+        more recently show a dated change instead, saying exactly what it compares. Energy,
+        gold and agriculture follow below.
       </p>
 
       <div className="section-tools">
@@ -67,23 +80,25 @@ export default function Page() {
           context={`${fmtSigned(copper?.yoy_pct ?? null)} YoY — every rack is wired with it`}
           accent="amber"
         />
+        {/* the unit lives in the context, not the uppercased label:
+            "16Gb" would render as "16GB", a gigabyte */}
         <KpiCard
-          label="DDR5 16Gb spot"
+          label="DDR5 spot"
           value={ddr5?.value != null ? `$${price(ddr5.value)}` : "—"}
-          context="the memory supercycle, sampled daily"
+          context={`per 16-gigabit chip${ddr5?.chg_alt ? ` · ${fmtSigned(ddr5.chg_alt.pct)} ${ddr5.chg_alt.label}` : ""}`}
           accent="violet"
         />
         <KpiCard
           label="H100 GPU-hour"
           value={h100?.value != null ? `$${price(h100.value)}` : "—"}
-          context="vast.ai market median"
+          context={`vast.ai market median${h100?.chg_alt ? ` · ${fmtSigned(h100.chg_alt.pct)} ${h100.chg_alt.label}` : ""}`}
           accent="sky"
         />
         <KpiCard
-          label="WTI crude"
-          value={wti ? `$${price(wti.value)}/bbl` : "—"}
-          context={`${fmtSigned(wti?.yoy_pct ?? null)} YoY`}
-          accent="emerald"
+          label="PJM power"
+          value={pjm?.value != null ? `$${price(pjm.value)}/MWh` : "—"}
+          context={`${fmtSigned(pjm?.yoy_pct ?? null)} YoY · Western Hub, the Northern Virginia grid`}
+          accent="red"
         />
       </div>
 
@@ -118,7 +133,7 @@ export default function Page() {
                       <Chg pct={r.chg_30d_pct} />
                     </td>
                     <td>
-                      <Chg pct={r.yoy_pct} />
+                      <YoyCell r={r} />
                     </td>
                     <td>
                       <TailSpark
@@ -137,11 +152,14 @@ export default function Page() {
       ))}
 
       <p className="method">
-        Futures are front-month closes (FMP); DRAM/NAND are DRAMeXchange
-        session averages, published as derived readings with attribution;
-        GPU-hours are vast.ai marketplace medians; wholesale power is day-ahead hub LMPs (CAISO, MISO, PJM
-        via EIA/ICE). 30-day and YoY compare against the observation nearest
-        that far back (±3 days — markets close on weekends). Sparklines trace
+        Futures are front-month closes (FMP); steel is the BLS producer price index for steel mill
+        products (monthly); DRAM/NAND are DRAMeXchange session averages, published as derived readings
+        with attribution; GPU-hours are vast.ai marketplace medians; wholesale power is day-ahead hub
+        LMPs (CAISO, MISO, PJM via EIA/ICE); PJM capacity is the Base Residual Auction clearing price
+        per delivery year, its change auction to auction, as on <Link href="/power">Power &amp; Tariffs</Link>.
+        30-day and YoY compare against the observation nearest that far back (±3 days — markets close on
+        weekends). Where no year-ago reading exists, the YoY column shows a dated change instead: against
+        the reading nearest a year back (within a month), or since the first reading. Sparklines trace
         the last 60 observations; new sources fill in as history accrues.
         Copper and aluminum also feed the{" "}
         <Link href="/datacenter">Data Center Cost Index</Link> as anchored forward
