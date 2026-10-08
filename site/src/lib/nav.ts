@@ -86,6 +86,7 @@ export const NAV: NavEntry[] = [
           { href: "/markets", label: "DC Markets", emoji: "🏗️" },
           { href: "/states", label: "Site Costs", emoji: "🗺️" },
           { href: "/rates", label: "Cost of Capital", emoji: "🏦" },
+          { href: "/as-of", label: "Index Ledger", emoji: "🗓️" },
         ],
       },
       {
@@ -106,7 +107,6 @@ export const NAV: NavEntry[] = [
         items: [
           { href: "/status", label: "System Status", emoji: "📡" },
           { href: "/methodology", label: "Methodology", emoji: "📖" },
-          { href: "/as-of", label: "Point in Time", emoji: "🗓️" },
           { href: "/data", label: "Open Data", emoji: "🗂️" },
         ],
       },

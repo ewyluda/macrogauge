@@ -31,8 +31,8 @@ describe("lazy export recipes reproduce the inline rows", () => {
       { name: "dgs3mo", values: h.dgs3mo }, { name: "dgs2", values: h.dgs2 }, { name: "dgs10", values: h.dgs10 },
       { name: "t5yie", values: h.t5yie }, { name: "t10yie", values: h.t10yie }, { name: "hy_oas", values: h.hy_oas },
       // new columns: empty on an artifact published before them
-      { name: "ig_oas", values: h.ig_oas ?? h.dates.map(() => null) },
-      { name: "bbb_oas", values: h.bbb_oas ?? h.dates.map(() => null) },
+      { name: "ig_oas", values: (h as { ig_oas?: (number | null)[] }).ig_oas ?? h.dates.map(() => null) },
+      { name: "bbb_oas", values: (h as { bbb_oas?: (number | null)[] }).bbb_oas ?? h.dates.map(() => null) },
       { name: "dollar", values: h.dollar }, { name: "spread_2s10s", values: h.spread_2s10s },
       { name: "spread_3m10y", values: h.spread_3m10y }, { name: "real_10y", values: h.real_10y },
     ]);

@@ -443,6 +443,20 @@ test("cost of capital: takeaway H1, credit tiles instead of GDPNow/auto loans, a
   await expect(strip.locator("a[href='/rates']")).toBeVisible();
 });
 
+test("index ledger: DC Build by default, a series switch in the URL, and commit links", async ({ page }) => {
+  await page.goto("/as-of");
+  await expect(page.getByTestId("asof-chart-title")).toContainText("DC Build YoY as published");
+  await expect(page.getByRole("button", { name: "DC Build", pressed: true })).toBeVisible();
+  await page.getByRole("button", { name: "DC Hardware" }).click();
+  await expect(page).toHaveURL(/series=dc_hardware/);
+  await expect(page.getByTestId("asof-chart-title")).toContainText("DC Hardware");
+  // each row links to the ledger file's history for its publish day
+  await expect(page.getByTestId("asof-commit")).toHaveAttribute("href",
+    /^https:\/\/github\.com\/ewyluda\/macrogauge\/commits\/main\/store\/ledger\/pulse\.jsonl\?since=\d{4}-\d{2}-\d{2}&until=\d{4}-\d{2}-\d{2}$/);
+  // the page states the commit it was built from
+  await expect(page.getByTestId("build-sha")).toHaveAttribute("href", /\/commit\/[0-9a-f]{40}$/);
+});
+
 // CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS
 // fonts happened to fit — pin the wrap rule itself, independent of font metrics.
 test("source-error text can break inside long URLs", async ({ page }) => {
