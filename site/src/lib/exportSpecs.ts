@@ -56,3 +56,21 @@ export function dcBuildMonthlyCsvSpec(codes: string[], variant: "tailed" | "offi
              ...codes.map((c) => ({ name: c, path: `${root}.components.${c}` }))],
   };
 }
+
+/** /data — each DC and compute artifact's main table as one CSV, beside its
+ *  field preview. datacenter.json exports the DC Build monthly grid (the
+ *  /datacenter recipe, so the two downloads are the same file). */
+export function dataPageCsv(file: string, json: unknown): { label: string; spec: CsvSpec } | null {
+  switch (file) {
+    case "datacenter.json": {
+      const comps = (json as { indexes?: { build?: { components?: { code: string }[] } } }).indexes?.build?.components ?? [];
+      return { label: "DC Build monthly CSV", spec: dcBuildMonthlyCsvSpec(comps.map((c) => c.code)) };
+    }
+    case "compute.json": return { label: "Model prices CSV", spec: { kind: "rows", path: "models", flatten: true } };
+    case "capacity.json": return { label: "Companies CSV", spec: { kind: "rows", path: "companies", flatten: true } };
+    case "longlead.json": return { label: "Packages CSV", spec: { kind: "rows", path: "packages", flatten: true } };
+    case "dc_markets.json": return { label: "Markets CSV", spec: { kind: "rows", path: "markets", flatten: true } };
+    case "dc_grades.json": return { label: "Grading anchors CSV", spec: DC_ANCHORS_CSV };
+    default: return null;
+  }
+}

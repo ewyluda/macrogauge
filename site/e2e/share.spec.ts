@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { DATA_FILES, DATA_SECTIONS } from "../src/lib/dataFiles";
 
 /** Batch 1 — share & export foundation: URL state round-trips, CSV/JSON
  *  downloads, citation copy, and the build-time discoverability files. */
@@ -75,6 +76,23 @@ test("footer links to the complete open data catalog and feed", async ({ page })
   await page.locator(".footer-research-data").getByRole("link", { name: "Explore open data" }).click();
   await expect(page.locator("h1")).toContainText("Open Data");
   await expect(page.getByRole("link", { name: "gauge_daily.json", exact: true })).toBeVisible();
+});
+
+test("/data groups files by section, AI Infra first, with newest data, field previews and CSV", async ({ page }) => {
+  await page.goto("/data");
+  const table = page.locator("table.data-table");
+  const groups = table.locator("tr.data-group");
+  await expect(groups.first()).toContainText("AI Infra");
+  await expect(groups).toHaveCount(DATA_SECTIONS.length);
+  // every published file is listed once, under a section
+  await expect(table.locator("a[download]")).toHaveCount(DATA_FILES.length);
+  await expect(table.locator("th", { hasText: "Newest data" })).toHaveCount(1);
+  // the DC and compute files carry a field preview drawn from their schema, and a CSV
+  const fields = page.getByTestId("data-fields");
+  await expect(fields).toHaveCount(6);
+  await fields.first().locator("summary").click();
+  await expect(fields.first().locator("li").first()).toBeVisible();
+  await expect(table.locator("tr.data-more").first()).toContainText("Export data");
 });
 
 test("feed, sitemap, robots and the OG image are emitted by the export", async ({ page }) => {
