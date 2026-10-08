@@ -19,7 +19,10 @@ read the same way from the previous and the current artifacts (_readings).
 Each carries a STATED notable move (NOTABLE: a design threshold, not a
 fitted volatility), and movers rank by |change| / notable, so a 6bp move in
 the 10-year and a 4% move at a power hub sort on one scale. A level reads as
-a % change, a rate or spread in bp, a YoY in pp.
+a % change, a rate or spread in bp, a YoY in pp. A power hub's average can
+sit at or below zero, where a % change runs backwards (−$10 to +$10 reads
+−200%), so off a nonpositive previous average it reads as an absolute
+$/MWh change against its own stated notable move.
 """
 import json
 from pathlib import Path
@@ -67,7 +70,7 @@ def read_previous(out_dir: Path) -> dict | None:
 # kind -> (how a change is measured, its unit); NOTABLE: the move that counts
 # as notable for one reading of that kind (stated, see module docstring)
 KINDS = {"level": "%", "rate": "bp", "yoy": "pp"}
-NOTABLE = {"index": 1.0, "hub": 3.0, "copper": 2.0, "ev": 3.0, "mw": 0.5,
+NOTABLE = {"index": 1.0, "hub": 3.0, "hub_abs": 2.0, "copper": 2.0, "ev": 3.0, "mw": 0.5,
            "treasury": 5.0, "credit": 5.0, "hy": 10.0, "sofr": 3.0,
            "pkg_yoy": 0.5, "dc_yoy": 0.1, "gauge_yoy": 0.05}
 
@@ -152,17 +155,21 @@ def _movers(cur: dict, prev: dict | None) -> list[dict]:
     for key, r in cur.items():
         p = (prev or {}).get(key) or {}
         pv, v = p.get("value"), r["value"]
+        unit, notable = KINDS[r["kind"]], r["notable"]
         if pv is None or v is None:
             delta = None
+        elif r["kind"] == "level" and pv <= 0 and r["unit"] == "$/MWh":
+            # a % change off a nonpositive price reverses its sign
+            delta, unit, notable = round(v - pv, 2), "$/MWh", NOTABLE["hub_abs"]
         elif r["kind"] == "level":
-            delta = None if pv == 0 else round((v / pv - 1) * 100, 2)
+            delta = None if pv <= 0 else round((v / pv - 1) * 100, 2)
         elif r["kind"] == "rate":
             delta = round((v - pv) * 100, 1)
         else:
             delta = round(v - pv, 2)
-        sig = None if delta is None else round(abs(delta) / r["notable"], 2)
-        rows.append({"key": key, **r, "prev_value": pv, "prev_as_of": p.get("as_of"),
-                     "delta": delta, "delta_unit": KINDS[r["kind"]], "significance": sig})
+        sig = None if delta is None else round(abs(delta) / notable, 2)
+        rows.append({"key": key, **r, "notable": notable, "prev_value": pv, "prev_as_of": p.get("as_of"),
+                     "delta": delta, "delta_unit": unit, "significance": sig})
     rows.sort(key=lambda x: (-(x["significance"] or 0), x["key"]))
     return rows
 

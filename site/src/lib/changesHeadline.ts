@@ -9,7 +9,7 @@ export function fmtReading(m: Pick<Mover, "kind" | "unit">, v: number | null): s
   if (m.kind === "yoy") return `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v).toFixed(m.unit === "%" && Math.abs(v) < 10 ? 2 : 1)}%`;
   switch (m.unit) {
     case "%": return `${v.toFixed(2)}%`;
-    case "$/MWh": return `${money(v)}/MWh`;
+    case "$/MWh": return `${v < 0 ? "−" : ""}${money(Math.abs(v))}/MWh`;
     case "$/lb": return `${money(v)}/lb`;
     case "$B": return `$${Math.round(v).toLocaleString("en-US")}B`;
     case "MW": return `${Math.round(v).toLocaleString("en-US")} MW`;
@@ -17,12 +17,14 @@ export function fmtReading(m: Pick<Mover, "kind" | "unit">, v: number | null): s
   }
 }
 
-/** "+4.0%", "−12bp", "+0.30pp". */
+/** "+4.0%", "−12bp", "+0.30pp", "+$20.00/MWh" (a hub off a nonpositive
+ *  previous average, where a % change would run backwards). */
 export function fmtDelta(m: Pick<Mover, "delta" | "delta_unit">): string {
   if (m.delta == null) return "new";
   const s = m.delta > 0 ? "+" : m.delta < 0 ? "−" : "";
   const a = Math.abs(m.delta);
-  return m.delta_unit === "bp" ? `${s}${Math.round(a)}bp` : m.delta_unit === "pp" ? `${s}${a.toFixed(2)}pp` : `${s}${a.toFixed(1)}%`;
+  return m.delta_unit === "bp" ? `${s}${Math.round(a)}bp` : m.delta_unit === "pp" ? `${s}${a.toFixed(2)}pp`
+    : m.delta_unit === "$/MWh" ? `${s}${money(a)}/MWh` : `${s}${a.toFixed(1)}%`;
 }
 
 /** Movers (changed since the previous publish, already ranked by the

@@ -33,11 +33,12 @@ export function monthDiff(from: string, to: string): number {
 }
 
 /** null when the series has no level in the base month (it starts later, or
- *  the month is past its last print) */
+ *  the month is past its last print); a base at the last print is no elapsed
+ *  time: zero change, the amount unchanged, no annualized rate */
 export function sinceRow(s: MonthlySeries, baseMonth: string, amount: number): SinceRow | null {
   const i = s.months.indexOf(baseMonth);
   const last = s.months.length - 1;
-  if (i < 0 || i >= last || !s.values[i]) return null;
+  if (i < 0 || !s.values[i]) return null;
   const ratio = s.values[last] / s.values[i];
   const months = monthDiff(baseMonth, s.months[last]);
   return {

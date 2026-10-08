@@ -71,7 +71,7 @@
     "sources_failed": {"type": "array", "items": {"type": "string"}},
     "gate_holds": {"type": "array"},
     "movers": {
-      "description": "Every page's lead numbers against the previous publish, ranked by |delta| / notable (a stated threshold per reading). delta is a % change for a level, bp for a rate or spread, pp for a YoY. Added 2026-10-08; optional.",
+      "description": "Every page's lead numbers against the previous publish, ranked by |delta| / notable (a stated threshold per reading). delta is a % change for a level, bp for a rate or spread, pp for a YoY; a power hub off a nonpositive previous average reads an absolute $/MWh change. Added 2026-10-08; optional.",
       "type": "array",
       "items": {
         "type": "object",
@@ -91,7 +91,7 @@
           "prev_value": {"$ref": "#/$defs/num"},
           "prev_as_of": {"type": ["string", "null"]},
           "delta": {"$ref": "#/$defs/num"},
-          "delta_unit": {"enum": ["%", "bp", "pp"]},
+          "delta_unit": {"enum": ["%", "bp", "pp", "$/MWh"]},
           "significance": {"$ref": "#/$defs/num"}
         }
       }

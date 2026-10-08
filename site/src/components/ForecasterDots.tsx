@@ -4,12 +4,22 @@ import type { Forecaster } from "@/lib/types";
 
 const COLOR: Record<string, string> = { Macrogauge: C.sky, Cleveland: C.amber, Kalshi: C.violet };
 
+/** The ensemble's legend from the weights it was built with: equal until
+ *  every forecaster earns inverse-MAE weights (nowcast.models). */
+export function ensembleLabel(weights: Record<string, number>[]): string {
+  const equal = weights.every((w) => {
+    const v = Object.values(w);
+    return v.every((x) => Math.abs(x - v[0]) < 1e-3);
+  });
+  return equal ? "equal-weight ensemble" : "ensemble, weighted by past accuracy";
+}
+
 /** Each forecaster's call as a dot on one shared MoM axis per target, the
  *  ensemble as a tick — how far apart the calls are, at a glance. HTML with
  *  percentage positions, not a scaled SVG, so the text stays legible on a
  *  phone. */
 export function ForecasterDots({ rows }: {
-  rows: { label: string; ensemble: number | null; forecasters: Forecaster[] }[];
+  rows: { label: string; ensemble: number | null; weights: Record<string, number>; forecasters: Forecaster[] }[];
 }) {
   const live = rows.filter((r) => r.forecasters.length > 0);
   if (live.length === 0) return null;
@@ -47,7 +57,7 @@ export function ForecasterDots({ rows }: {
         {names.map((n) => (
           <span key={n}><span aria-hidden style={{ display: "inline-block", width: 9, height: 9, borderRadius: 5, background: COLOR[n] ?? C.muted, marginRight: 5 }} />{n}</span>
         ))}
-        <span><span aria-hidden style={{ display: "inline-block", width: 2, height: 11, background: C.text, marginRight: 5, verticalAlign: "middle" }} />equal-weight ensemble</span>
+        <span><span aria-hidden style={{ display: "inline-block", width: 2, height: 11, background: C.text, marginRight: 5, verticalAlign: "middle" }} />{ensembleLabel(live.map((r) => r.weights))}</span>
       </p>
     </div>
   );

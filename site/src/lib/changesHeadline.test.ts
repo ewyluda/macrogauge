@@ -16,6 +16,14 @@ describe("changesHeadline", () => {
       delta_unit: "bp", significance: 2.4 })]))
       .toBe("The biggest AI-infra move since the last publish: 10-year Treasury yield fell 12bp to 5.15%.");
   });
+  it("reads a hub that left a negative average as a $/MWh rise, never a % fall", () => {
+    // the writer's absolute change off a nonpositive base: -$10 -> +$10
+    expect(changesHeadline([m("hub", { label: "Example hub", value: 10, prev_value: -10, delta: 20, delta_unit: "$/MWh",
+      notable: 2, significance: 10 })]))
+      .toBe("The biggest AI-infra move since the last publish: Example hub rose $20.00/MWh to $10.00/MWh.");
+    expect(fmtReading({ kind: "level", unit: "$/MWh" }, -5)).toBe("−$5.00/MWh");
+    expect(fmtDelta({ delta: -5, delta_unit: "$/MWh" })).toBe("−$5.00/MWh");
+  });
   it("calls a sub-threshold day quiet, skips other sections, and says so when nothing moved", () => {
     expect(changesHeadline([m("g", { section: "Inflation", significance: 9 }), m("tok", { label: "Token price index", unit: "index",
       value: 96.6, delta: 0.3, significance: 0.3 })]))

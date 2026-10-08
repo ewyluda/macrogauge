@@ -6,7 +6,8 @@ export type OutlookShape = {
   title: string;
   /** the hump's top, when the path rises and then falls back */
   peak: { month: string; yoy: number } | null;
-  /** the year-ago moves the hump replaces, from the gauge's monthly averages */
+  /** the year-ago moves the hump replaces, from the gauge's monthly averages,
+   *  and how much of each leg they account for */
   baseNote: string | null;
 };
 
@@ -46,8 +47,16 @@ export function outlookShape(originMonth: string, nowYoy: number, forecast: Step
   if (a0 && a1 && a2) {
     const up = (a1 / a0 - 1) * 100;
     const down = (a2 / a1 - 1) * 100;
+    // the base effect on a leg, exactly: the leg-end YoY minus the same
+    // numerator over the leg-start's year-ago level, (1 + yoy)·(1 − D₁/D₀)
+    const climb = top.central_yoy_pct - nowYoy, fall = low.central_yoy_pct - top.central_yoy_pct;
+    const baseUp = (1 + top.central_yoy_pct / 100) * (1 - a1 / a0) * 100;
+    const baseDown = (1 + low.central_yoy_pct / 100) * (1 - a2 / a1) * 100;
     const moved = (v: number) => `${v < 0 ? "fell" : "rose"} ${Math.abs(v).toFixed(1)}%`;
-    baseNote = `Much of the hump is base effect. The climb to ${mon(top.month)} drops ${mon(addMonths(back12(originMonth), 1))}–${mon(back12(top.month))} out of the comparison, when the gauge ${moved(up)}; the fall to ${mon(low.month)} drops ${mon(addMonths(back12(top.month), 1))}–${mon(back12(low.month))}, when it ${moved(down)}.`;
+    const pp = (v: number) => `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v).toFixed(1)}pp`;
+    // "much" only when the year-ago levels carry at least half of both legs
+    const lead = baseUp / climb >= 0.5 && baseDown / fall >= 0.5 ? "Much of the hump is base effect. " : "";
+    baseNote = `${lead}The climb to ${mon(top.month)} drops ${mon(addMonths(back12(originMonth), 1))}–${mon(back12(top.month))} out of the comparison, when the gauge ${moved(up)} (about ${pp(baseUp)} of the ${pp(climb)} climb); the fall to ${mon(low.month)} drops ${mon(addMonths(back12(top.month), 1))}–${mon(back12(low.month))}, when it ${moved(down)} (about ${pp(baseDown)} of the ${pp(fall)} fall).`;
   }
   return { title, peak: { month: top.month, yoy: top.central_yoy_pct }, baseNote };
 }

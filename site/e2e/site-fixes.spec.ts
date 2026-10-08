@@ -42,6 +42,38 @@ test("calculator explains a month before an index starts, or a cleared month, in
   await expect(page.getByTestId("since-empty")).toContainText("Pick a bid or NTP month");
 });
 
+test("calculator reads a base at the latest month as no elapsed time, not a missing level", async ({ page, request }) => {
+  const dc = await (await request.get("/data/datacenter.json")).json() as
+    { indexes: { hardware: { monthly: { months: string[] } } } };
+  const last = dc.indexes.hardware.monthly.months.at(-1)!;
+  await page.goto(`/calculator?since=${last}&series=dc_hardware`);
+  const table = page.getByTestId("since-table");
+  await expect(table).not.toContainText("No level");
+  await expect(table.locator("tbody tr")).toContainText("0.00%");
+  await expect(table.locator("tbody tr")).toContainText("no time elapsed");
+  await expect(table.locator("tbody tr")).toContainText("$1,000,000");
+});
+
+test("calculator amount: an invalid entry shows no result and never reaches a shared link", async ({ page }) => {
+  await page.goto("/calculator?series=dc_build&amount=5000");
+  const box = page.locator('input[type="number"]');
+  const cell = page.getByTestId("since-table").locator("tbody tr td").nth(3);
+  await expect(box).toHaveValue("5000");
+  for (const bad of ["-100", "0", "", "2000000000000"]) {
+    await box.fill(bad);
+    await expect(page.getByTestId("amount-invalid")).toBeVisible();
+    await expect(cell).toHaveText("—");
+    await expect.poll(() => page.evaluate(() => new URLSearchParams(location.search).get("amount"))).toBe("5000");
+  }
+  await box.fill("250000");
+  await expect(page.getByTestId("amount-invalid")).toHaveCount(0);
+  await expect.poll(() => page.evaluate(() => new URLSearchParams(location.search).get("amount"))).toBe("250000");
+  const shown = await cell.textContent();
+  await page.reload();
+  await expect(box).toHaveValue("250000");
+  await expect(cell).toHaveText(shown!);
+});
+
 test("/as-of says there is no publish before the ledger starts, not a later one", async ({ page }) => {
   await page.goto("/as-of?date=2020-01-01");
   await expect(page.getByTestId("asof-status")).toContainText(/no publish on or before 2020-01-01; the earliest is \d{4}-\d{2}-\d{2}/);

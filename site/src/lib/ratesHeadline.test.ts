@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { ratesHeadline } from "./ratesHeadline";
 
 const ten = { value: 5.31, chg_1y_pp: 1.13 };
-const yld = { value: 6.19, chg_1y: 1.19 };
+const yld = { value: 6.19, chg_1y: 1.19, as_of: "2026-10-06" };
 const move = (y: number, o: number, as_of = "2026-10-06") => ({ as_of, base_date: "2025-10-06", yield_chg_1y: y, oas_chg_1y: o });
 
 describe("ratesHeadline", () => {
@@ -14,10 +14,17 @@ describe("ratesHeadline", () => {
     expect(ratesHeadline(ten, yld, move(1.0, 0.9))?.title).toContain("mostly from the credit spread");
     expect(ratesHeadline(ten, yld, move(1.0, 0.5))?.title).toContain("from both rates and the credit spread");
   });
-  it("uses the shared window's own changes when the spread lags the yield", () => {
+  it("uses the shared window's own changes when the spread lags the yield, and keeps them out of the title", () => {
     // yield's own 1y change is to Oct 6 (+119bp); the shared window ends Sep 8
-    expect(ratesHeadline(ten, yld, move(1.1, 0.08, "2026-09-08"))?.detail)
-      .toContain("over the year to Sep 8 the BBB spread moved +8bp of the index yield's +110bp");
+    expect(ratesHeadline(ten, yld, move(1.1, 0.08, "2026-09-08"))).toEqual({
+      title: "BBB corporate debt yields 6.19%, up 119bp on the year",
+      detail: "The 10-year Treasury is 5.31% (+113bp on the year); over the year to Sep 8 the BBB spread moved +8bp of the index yield's +110bp.",
+    });
+    // opposite directions across the two windows: no attribution in the title
+    expect(ratesHeadline(ten, yld, move(-1.1, -1.0, "2026-09-08"))?.title)
+      .toBe("BBB corporate debt yields 6.19%, up 119bp on the year");
+    // no latest-year change: nothing for an attribution to explain
+    expect(ratesHeadline(ten, { ...yld, chg_1y: null }, move(1.19, 0.08))?.title).toBe("BBB corporate debt yields 6.19%");
   });
   it("states no attribution without a shared window, a small move, or a BBB reading", () => {
     const base = { title: "BBB corporate debt yields 6.19%, up 119bp on the year",

@@ -43,7 +43,7 @@ export function ColChart({
   official: (number | null)[];
   colIndex?: (number | null)[];
   gaugeIndex?: (number | null)[];
-  /** a dated vertical marker (the start of a rate-driven jump) */
+  /** a dated vertical marker (the start of a cost-of-living jump) */
   markFrom?: { date: string; label: string } | null;
 }) {
   const [rate, setRate] = useRateMode();
