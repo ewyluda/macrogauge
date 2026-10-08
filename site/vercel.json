@@ -49,6 +49,21 @@
       "source": "/metros",
       "destination": "/housing#metros",
       "permanent": true
+    },
+    {
+      "source": "/heatcheck",
+      "destination": "/macro-cycle#heat",
+      "permanent": true
+    },
+    {
+      "source": "/stress",
+      "destination": "/macro-cycle#stress",
+      "permanent": true
+    },
+    {
+      "source": "/recession",
+      "destination": "/macro-cycle#recession",
+      "permanent": true
     }
   ],
   "headers": [

@@ -114,7 +114,7 @@ test("component sources table shows each series' own latest obs, not the whole s
 test("trust pages print rounded values and readable stamps, never raw floats or ISO times", async ({ page, request }) => {
   const RAW_FLOAT = /\d+\.\d{5,}/;
   const ISO_TIME = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/;
-  for (const path of ["/stress", "/heatcheck"]) {
+  for (const path of ["/macro-cycle"]) {
     await page.goto(path);
     const text = await page.locator("main").innerText();
     expect(text, path).not.toMatch(RAW_FLOAT);

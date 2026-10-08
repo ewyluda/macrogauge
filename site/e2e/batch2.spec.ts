@@ -79,10 +79,9 @@ test("/gap shows every variant's summary strip", async ({ page }) => {
 test("small dead fields render: continued claims, indicator signs, fetched counts, model parameters", async ({ page }) => {
   await page.goto("/labor");
   await expect(page.getByText(/continued [\d,]+k?/i)).toBeVisible();
-  await page.goto("/heatcheck");
-  await expect(page.locator("th", { hasText: /^Sign$/ })).toHaveCount(1);
-  await page.goto("/stress");
-  await expect(page.locator("th", { hasText: /^Sign$/ })).toHaveCount(1);
+  await page.goto("/macro-cycle");
+  await expect(page.locator("#heat th", { hasText: /^Sign$/ })).toHaveCount(1);
+  await expect(page.locator("#stress th", { hasText: /^Sign$/ })).toHaveCount(1);
   await page.goto("/status");
   await expect(page.locator("th", { hasText: "Fetched" })).toHaveCount(1);
   await page.goto("/outlook");
@@ -93,4 +92,20 @@ test("/capacity timeline tab renders the published curve", async ({ page }) => {
   await page.goto("/capacity?tab=Timeline");
   await expect(page.getByRole("tab", { name: "Timeline", selected: true })).toBeVisible();
   await expect(page.locator("svg path").first()).toBeVisible();
+});
+
+test("/macro-cycle puts heat, stress and the recession rules on one page (was /heatcheck, /stress, /recession)", async ({ page, request }) => {
+  const heat = await (await request.get("/data/heatcheck.json")).json() as { history?: unknown };
+  const stress = await (await request.get("/data/stress.json")).json() as { history?: unknown };
+  const rec = await (await request.get("/data/recession.json")).json() as { signals: { op?: string; value: number | null }[] };
+  await page.goto("/macro-cycle");
+  await expect(page.getByTestId("macro-sentence")).toContainText(/recession rules/);
+  await expect(page.locator("#heat canvas")).toHaveCount(heat.history ? 1 : 0);
+  await expect(page.getByTestId("stress-trail")).toHaveCount(stress.history ? 1 : 0);
+  const rows = page.getByTestId("recession-rules").locator("tbody tr");
+  await expect(rows).toHaveCount(rec.signals.length);
+  // a rule with a published numeric test shows its distance to the trigger
+  const withTest = rec.signals.filter((s) => s.op && s.value != null).length;
+  // (the number keeps the "Distance to trigger" header out of the count)
+  await expect(page.getByTestId("recession-rules").locator("tbody").getByText(/\d(pp| pts)? to trigger$|past$/)).toHaveCount(withTest);
 });
