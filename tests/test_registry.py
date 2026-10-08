@@ -25,7 +25,7 @@ def test_load_real_registry():
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC", "KALSHI_CORE",
                             "EIA_STATE_RES", "KALSHI_FED", "NYFED", "ATLFED", "QCEW_238212",
                             "ERCOT", "SPP", "NYISO", "AWS_GPU", "AZURE_GPU", "OCI_GPU", "COREWEAVE"}
-    assert len(series) == 856  # +IG/BBB OAS, BBB effective yield, 30-day SOFR (rates, 10-07); +19 cloud GPU list prices, +8 current models x in/out, -6 retired models x in/out (10-07); +ICE Mid-C/Palo Verde/Mass Hub, ERCOT/SPP/NYISO hubs (10-04); +89 QCEW_238212; +M3 SA backlog x4, euro HICP x2, SCE x3, BIE x2 (10-01); +nyfed_mct; +KXFED/DFEDTARU/tariff/GSCPI/B300 (measures) +4 PPIs/CSUSHPISA/SASL2RS (PCE, methodology)
+    assert len(series) == 854  # 8 -> 7 roster models x in/out (usage roster, 10-08); +IG/BBB OAS, BBB effective yield, 30-day SOFR (rates, 10-07); +19 cloud GPU list prices, +8 current models x in/out, -6 retired models x in/out (10-07); +ICE Mid-C/Palo Verde/Mass Hub, ERCOT/SPP/NYISO hubs (10-04); +89 QCEW_238212; +M3 SA backlog x4, euro HICP x2, SCE x3, BIE x2 (10-01); +nyfed_mct; +KXFED/DFEDTARU/tariff/GSCPI/B300 (measures) +4 PPIs/CSUSHPISA/SASL2RS (PCE, methodology)
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]

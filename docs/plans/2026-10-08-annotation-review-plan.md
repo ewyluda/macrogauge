@@ -32,7 +32,7 @@ excluded (zero or temporary prices).
 | 3 | moonshotai/kimi-k3-20260715 | $1.18M | 1.7T | standard |
 | 4 | deepseek/deepseek-v4.1-flash-20260910 | $1.17M | 33.6T | light |
 | 5 | z-ai/glm-5.3-20260816 | $0.87M | 3.2T | standard |
-| 6 | google/gemini-3.8-flash-20260902 | $0.76M | 2.1T | standard |
+| 6 | google/gemini-3.8-flash-20260902 | $0.76M | 2.1T | light (Flash models sit with the cheap tier) |
 | 11 | openai/gpt-6-luna-20260922 | $0.29M | 6.5T | light |
 
 Not in the week's top 20: Grok 4.7, Qwen 3.8 Max, GPT-6 Astra, Claude Sonnet 5.5, Mistral Large 4.

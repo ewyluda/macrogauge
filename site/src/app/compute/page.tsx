@@ -44,7 +44,7 @@ export default function ComputePage() {
       </h1>
       <p className="lede">
         The DC Hardware index prices the inputs to a data center. This page prices what comes out of one: the
-        per-token list prices of {data.models.length} current models on OpenRouter, one workhorse model per lab;
+        per-token list prices of the {data.models.length} most-used models on OpenRouter, ranked by what people pay for them;
         {cloud.length > 0 && " what AWS, Azure, Oracle and CoreWeave list for a GPU-hour;"}{" "}and what a GPU-hour
         rents for on the vast.ai marketplace. The two composites are chain-linked equal-weight geometric means: each day&apos;s
         move averages the day-over-day price changes of the members priced on both days, so a SKU missing a
@@ -80,9 +80,11 @@ export default function ComputePage() {
           {data.blend.method}. Token prices blend {Math.round(data.blend.in * 100)}% input and {Math.round(data.blend.out * 100)}%
           output per million tokens. A day with fewer than {data.blend.min_members} members publishes null.
           {roster && (
-            <> The model roster changed on {roster.since}. History before it is the previous roster
+            <> The model roster last changed on {roster.since}. History before it is earlier rosters
               ({roster.retired.join(", ")}), chained in without a rebase: each retired model leaves the index the day
-              after its last collected price.</>
+              after its last collected price. The roster is the most-used models by paid spend on OpenRouter,
+              reviewed monthly; each model&apos;s tier (frontier, standard, light) follows Ramp&apos;s split of
+              enterprise model spend and is a label, never an index weight.</>
           )}
         </p>
       </Section>
@@ -94,7 +96,10 @@ export default function ComputePage() {
             <tbody>
               {data.models.map((m) => (
                 <tr key={m.key}>
-                  <td style={{ textAlign: "left" }}>{m.label}</td>
+                  <td style={{ textAlign: "left" }}>
+                    {m.label}
+                    {m.tier && <> <span className="badge badge-muted" data-testid="model-tier">{m.tier}</span></>}
+                  </td>
                   <td>{usd(m.in_usd_mtok)}</td>
                   <td>{usd(m.out_usd_mtok)}</td>
                   <td><strong>{usd(m.blended_usd_mtok, 3)}</strong></td>

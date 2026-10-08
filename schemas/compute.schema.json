@@ -28,6 +28,8 @@
         "properties": {
           "key": {"type": "string"},
           "label": {"type": "string"},
+          "tier": {"description": "Our frontier / standard / light label after Ramp's split of enterprise model spend; a table label, never an index weight. Added 2026-10-08; optional.",
+                   "enum": ["frontier", "standard", "light"]},
           "in_usd_mtok": {"$ref": "#/$defs/num"},
           "out_usd_mtok": {"$ref": "#/$defs/num"},
           "blended_usd_mtok": {"$ref": "#/$defs/num"},

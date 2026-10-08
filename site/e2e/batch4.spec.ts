@@ -19,6 +19,11 @@ test("/compute renders both composites and one row per published model", async (
   await expect(page.locator(".kpi-label", { hasText: "GPU-hour index" })).toBeVisible();
   const models = page.locator("table.data-table").first();
   await expect(models.locator("tbody tr")).toHaveCount(compute.models.length);   // roster size follows the artifact
+  // one tier tag per tiered row: value-driven, so a file published before
+  // tiers existed (no `tier` field) expects none rather than skipping
+  const tiers = (compute.models as { tier?: string }[]).map((m) => m.tier).filter(Boolean) as string[];
+  await expect(models.getByTestId("model-tier")).toHaveCount(tiers.length);
+  if (tiers.length) await expect(models.getByTestId("model-tier")).toHaveText(tiers);
 });
 
 test("/housing affordability KPI matches the artifact", async ({ page }) => {

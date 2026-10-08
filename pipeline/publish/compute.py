@@ -36,22 +36,33 @@ from pipeline.publish.util import latest_point, pct_change_daily, tail, write_js
 from pipeline.registry import load_registry
 from pipeline.store import vintage
 
-# The token roster (2026-10-07): each lab's current workhorse model, pinned to
-# a versioned OpenRouter id in config/series.json. Models turn over every few
-# months; a deprecated id surfaces as per-series staleness, and a refresh is a
-# roster change here plus a methodology changelog entry.
-MODELS = [("gpt56_terra", "GPT-5.6 Terra"), ("claude_sonnet55", "Claude Sonnet 5.5"),
-          ("gemini38_flash", "Gemini 3.8 Flash"), ("grok47", "Grok 4.7"),
-          ("deepseek_v41_flash", "DeepSeek V4.1 Flash"), ("qwen38_max", "Qwen3.8 Max"),
-          ("mistral_large4", "Mistral Large 4"), ("llama4_maverick", "Llama 4 Maverick")]
-# The roster before ROSTER_SINCE. Link-only members, no table rows: their
+# The token roster (2026-10-09): the most-used models on OpenRouter by paid
+# spend (its rankings payload, week to 2026-10-07; free, stealth and preview
+# models excluded), each pinned to a versioned OpenRouter id in
+# config/series.json. Models turn over every few months; a deprecated id
+# surfaces as per-series staleness, and a refresh is a roster change here plus
+# a methodology changelog entry, reviewed monthly against the same rankings.
+MODELS = [("claude_opus55", "Claude Opus 5.5"), ("gpt61_sol", "GPT-6.1 Sol"),
+          ("kimi_k3", "Kimi K3"), ("glm53", "GLM-5.3"),
+          ("deepseek_v41_flash", "DeepSeek V4.1 Flash"), ("gemini38_flash", "Gemini 3.8 Flash"),
+          ("gpt6_luna", "GPT-6 Luna")]
+# Our tier for each model, after Ramp's frontier / standard / light split of
+# enterprise model spend (a16z State of Markets, Sept 2026, p.37): a label for
+# the table, never an index weight.
+TIERS = {"claude_opus55": "frontier", "gpt61_sol": "frontier", "kimi_k3": "standard",
+         "glm53": "standard", "deepseek_v41_flash": "light", "gemini38_flash": "light",
+         "gpt6_luna": "light"}
+# Every earlier roster's models. Link-only members, no table rows: their
 # history carries the token index up to their own last observation and never
 # past it (their series left config/series.json with the change, so they are
 # no longer collected), and the current models join the links as they are
 # priced. No rebase: the index keeps its base, and the roster change is a
 # change in which relatives are averaged, like any other entry or exit.
-ROSTER_SINCE = "2026-10-07"
-RETIRED_MODELS = [("gpt4o", "GPT-4o"), ("claude_sonnet", "Claude Sonnet 5"),
+ROSTER_SINCE = "2026-10-09"
+RETIRED_MODELS = [("gpt56_terra", "GPT-5.6 Terra"), ("claude_sonnet55", "Claude Sonnet 5.5"),
+                  ("grok47", "Grok 4.7"), ("qwen38_max", "Qwen3.8 Max"),
+                  ("mistral_large4", "Mistral Large 4"), ("llama4_maverick", "Llama 4 Maverick"),
+                  ("gpt4o", "GPT-4o"), ("claude_sonnet", "Claude Sonnet 5"),
                   ("llama70b", "Llama 3.1 70B"), ("deepseek", "DeepSeek Chat"),
                   ("gemini_flash", "Gemini 3.5 Flash"), ("mistral_large", "Mistral Large (2024)")]
 GPUS = [("vast_h100_sxm", "H100 SXM (vast.ai)"), ("vast_h200", "H200 (vast.ai)"),
@@ -194,7 +205,7 @@ def _model_rows(conn):
         as_of, value = latest_point(blended)
         if as_of is not None:
             members[key] = blended
-        rows.append({"key": key, "label": label,
+        rows.append({"key": key, "label": label, "tier": TIERS[key],
                      "in_usd_mtok": None if as_of is None else round(inp[as_of], 4),
                      "out_usd_mtok": None if as_of is None else round(out[as_of], 4),
                      "blended_usd_mtok": value, "as_of": as_of,
