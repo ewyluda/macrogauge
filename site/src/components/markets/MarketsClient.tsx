@@ -246,6 +246,16 @@ function PipelineTd({ m, src }: { m: MarketRow; src: MarketPipelineSource | null
   );
 }
 
+function MarketToggle({ m, open, onToggle }: { m: MarketRow; open: boolean; onToggle: () => void }) {
+  return (
+    <button type="button" aria-expanded={open} onClick={(e) => { e.stopPropagation(); onToggle(); }}
+      style={{ background: "none", border: 0, padding: 0, color: "inherit", font: "inherit",
+               cursor: "pointer", textAlign: "left" }}>
+      {open ? "▾ " : "▸ "}{m.name}{m.thin_base ? " ⚠" : ""}
+    </button>
+  );
+}
+
 // 9 columns on screen: Market, Tightness, Wage, Wage YoY, Workers, Headcount
 // YoY, Tracked AI projects, Market pipeline, Electrical contractors. The
 // unavailable branch's colSpan (6, then the pipeline and electrical cells) and
@@ -255,8 +265,9 @@ function Row({ m, src, open, onToggle }: {
 }) {
   if (!m.available) {
     return (
-      <tr id={`mk-row-${m.key}`}>
-        <td className="mk-market">{m.name}</td>
+      <>
+      <tr id={`mk-row-${m.key}`} onClick={onToggle} style={{ cursor: "pointer" }} className={open ? "is-open" : undefined}>
+        <td className="mk-market"><MarketToggle m={m} open={open} onToggle={onToggle} /></td>
         <td colSpan={6} style={{ color: "var(--muted)" }}>
           not available — BLS disclosure suppression
           {m.counties_suppressed.length
@@ -266,6 +277,15 @@ function Row({ m, src, open, onToggle }: {
         <PipelineTd m={m} src={src} />
         <ElecTd m={m} />
       </tr>
+      {open && (
+        <tr>
+          <td colSpan={9}>
+            <PipelineReceipts m={m} src={src} />
+            <ElecReceipts m={m} />
+          </td>
+        </tr>
+      )}
+      </>
     );
   }
   return (
@@ -276,11 +296,7 @@ function Row({ m, src, open, onToggle }: {
           for mouse readers. */}
       <tr id={`mk-row-${m.key}`} onClick={onToggle} style={{ cursor: "pointer" }} className={open ? "is-open" : undefined}>
         <td className="mk-market">
-          <button type="button" aria-expanded={open} onClick={(e) => { e.stopPropagation(); onToggle(); }}
-            style={{ background: "none", border: 0, padding: 0, color: "inherit", font: "inherit",
-                     cursor: "pointer", textAlign: "left" }}>
-            {open ? "▾ " : "▸ "}{m.name}{m.thin_base ? " ⚠" : ""}
-          </button>
+          <MarketToggle m={m} open={open} onToggle={onToggle} />
           {(m.counties_used < m.counties_total || m.yoy_basis === null) && (
             <span title="Partial county coverage this quarter — expand for the basis"> †</span>
           )}

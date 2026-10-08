@@ -12,8 +12,9 @@ market is one of several named places) and the page names the region
 whenever the fit is not close. A market the source does not break out
 carries a null_note naming what was checked -- never a zero.
 
-Every figure must appear in its own verbatim quote: the quote is the receipt
-beside the number, so a typo'd MW fails here rather than publishing. The
+Every figure must appear beside its own MW measure in the verbatim quote:
+operating MW, operator counts and vacancy rates cannot validate construction
+MW. The quote is the receipt beside the number. The
 text layer the quotes come from runs digits together ("39,340M W",
 "5,52 3MW"); matching ignores a space or comma between two digits only.
 
@@ -38,6 +39,11 @@ _DASHED_ISO = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 _FIGURE_KEYS = ("region", "label", "fit", "mw_uc", "mw_operating", "mw_planned",
                 "page", "quote")
 _OPTIONAL_KEYS = ("map_labels", "region_note")
+_QUOTE_LABELS = {
+    "mw_uc": r"(?:Under\s+Construction|U/C)",
+    "mw_operating": r"In\s+Operation",
+    "mw_planned": r"Planned",
+}
 
 
 @dataclass(frozen=True)
@@ -90,9 +96,11 @@ def _text(raw, where: str) -> str:
     return raw
 
 
-def _in_quote(n: int, quote: str) -> bool:
+def _in_quote(n: int, quote: str, field: str) -> bool:
     joined = re.sub(r"(?<=\d)[ ,](?=\d)", "", quote)
-    return re.search(rf"(?<!\d){n}(?!\d)", joined) is not None
+    return re.search(
+        rf"(?<![\d.,+\-]){n}\s*M\s*W\s+{_QUOTE_LABELS[field]}\b",
+        joined, re.IGNORECASE) is not None
 
 
 def _market(key: str, raw: dict) -> MarketFigure:
@@ -119,8 +127,10 @@ def _market(key: str, raw: dict) -> MarketFigure:
         v = raw[k]
         if not isinstance(v, int) or isinstance(v, bool) or v < 0:
             raise ValueError(f"dc_market_pipeline {where}: {k} must be a non-negative integer MW")
-        if not _in_quote(v, quote):
-            raise ValueError(f"dc_market_pipeline {where}: {k} {v} does not appear in its quote")
+        if not _in_quote(v, quote, k):
+            raise ValueError(
+                f"dc_market_pipeline {where}: {k} {v} does not appear in its quote "
+                "with its MW measure label")
         mw[k] = v
     page = raw["page"]
     if not isinstance(page, int) or isinstance(page, bool) or page < 1:
@@ -141,6 +151,8 @@ def load(path: Path | None = None, market_keys: set[str] | None = None) -> Pipel
     """market_keys: the /markets roster (config/dc_markets.json). The column
     covers every market exactly once -- a figure or a null_note."""
     raw = json.loads((path or DEFAULT_PATH).read_text())
+    if not isinstance(raw, dict):
+        raise ValueError("dc_market_pipeline: config must be an object")
     if raw.get("schema_version") != 1:
         raise ValueError("dc_market_pipeline: schema_version must be 1")
     src = raw.get("source")
@@ -160,6 +172,8 @@ def load(path: Path | None = None, market_keys: set[str] | None = None) -> Pipel
         raise ValueError("dc_market_pipeline: markets must be a non-empty list")
     markets: dict[str, MarketFigure] = {}
     for r in rows:
+        if not isinstance(r, dict):
+            raise ValueError("dc_market_pipeline: market row must be an object")
         key = _text(r.get("key"), "market key")
         if key in markets:
             raise ValueError(f"dc_market_pipeline market {key}: duplicate key")

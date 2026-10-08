@@ -404,6 +404,27 @@ test("markets: the C&W pipeline column names its region and never reads a null a
   await expect(receipt).toBeVisible();   // Northern Virginia, still open from above
   const fits = await page.locator(".mk-table").evaluate((el) => el.scrollWidth <= el.clientWidth + 1);
   expect(fits).toBe(true);
+  // QCEW suppression must not hide the independent broker source receipt.
+  // Hillsboro currently takes this branch; use all unavailable rows so the
+  // check follows future disclosure changes too.
+  for (const m of data.markets.filter((r: { available: boolean }) => !r.available)) {
+    const toggle = page.locator(`#mk-row-${m.key} button[aria-expanded]`);
+    await toggle.focus();
+    await page.keyboard.press("Enter");
+    await expect(toggle).toHaveAttribute("aria-expanded", "true");
+    const sourceReceipt = page.getByTestId(`mk-pipe-receipt-${m.key}`);
+    await expect(sourceReceipt).toBeVisible();
+    await expect(sourceReceipt).toContainText(data.market_pipeline_source.doc);
+    if (m.market_pipeline.mw_uc != null) {
+      await expect(sourceReceipt).toContainText(`flipbook p. ${m.market_pipeline.page}`);
+      await expect(sourceReceipt.locator("q")).toHaveText(m.market_pipeline.quote);
+    } else {
+      await expect(sourceReceipt).toContainText(m.market_pipeline.null_note);
+    }
+    await page.keyboard.press("Enter");
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+    await expect(sourceReceipt).toHaveCount(0);
+  }
 });
 
 test("markets: the capacity column says it is the tracker's projects, and each market trends 8 quarters", async ({ page, request }) => {

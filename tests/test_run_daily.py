@@ -1243,3 +1243,24 @@ def test_news_schema_violation_fails_run(tmp_path, monkeypatch):
         run_daily.main(["--store", str(store), "--out", str(out)],
                        http_get=fake_get, http_post=fake_post)
     assert not (out / "qa.json").exists()
+
+
+@pytest.mark.parametrize("malformed", [None, {"schema_version": 1, "markets": [None]}])
+def test_malformed_market_pipeline_config_preserves_labor_publish(tmp_path, monkeypatch, malformed):
+    set_keys(monkeypatch)
+    cfg_path = tmp_path / "bad-market-pipeline.json"
+    if isinstance(malformed, dict):
+        real = json.loads(run_daily.dc_market_pipeline_cfg.DEFAULT_PATH.read_text())
+        malformed = {**real, **malformed}
+    cfg_path.write_text(json.dumps(malformed))
+    monkeypatch.setattr(run_daily.dc_market_pipeline_cfg, "DEFAULT_PATH", cfg_path)
+    out = tmp_path / "out"
+    assert run_daily.main(["--store", str(tmp_path / "store"), "--out", str(out)],
+                          http_get=fake_get, http_post=fake_post) == 0
+    checks = {c["name"]: c for c in json.loads((out / "qa.json").read_text())["checks"]}
+    assert checks["markets_ok"]["pass"] is True
+    markets = json.loads((out / "dc_markets.json").read_text())
+    assert markets["market_pipeline_source"] is None
+    assert all(m["market_pipeline"] is None for m in markets["markets"])
+    assert any(m["available"] for m in markets["markets"])
+    assert all("elec" in m for m in markets["markets"])

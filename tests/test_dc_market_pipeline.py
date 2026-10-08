@@ -89,9 +89,9 @@ def test_a_figure_that_is_not_in_its_quote_is_rejected(tmp_path):
 def test_text_layer_digit_splits_still_match():
     # "5,52 3MW" is 5,523 MW and "39,340M W" is 39,340 -- but a split never
     # lets a figure match across two different numbers
-    assert pipe._in_quote(5523, "5,52 3MW Planned")
-    assert pipe._in_quote(39340, "39,340M W Planned")
-    assert not pipe._in_quote(552, "5,52 3MW Planned")
+    assert pipe._in_quote(5523, "5,52 3MW Planned", "mw_planned")
+    assert pipe._in_quote(39340, "39,340M W Planned", "mw_planned")
+    assert not pipe._in_quote(552, "5,52 3MW Planned", "mw_planned")
 
 
 def test_a_row_with_both_figures_and_a_null_note_is_rejected(tmp_path):
@@ -139,3 +139,29 @@ def test_a_second_basis_is_rejected(tmp_path):
 def test_stale_ages_from_the_document_date():
     assert not pipe.is_stale("2026-09-14", "2027-11-18")   # day 430
     assert pipe.is_stale("2026-09-14", "2027-11-19")       # day 431
+
+
+@pytest.mark.parametrize("raw", [None, [], "invalid"])
+def test_non_object_config_is_rejected(tmp_path, raw):
+    with pytest.raises(ValueError, match="config must be an object"):
+        pipe.load(_write(tmp_path, raw))
+
+
+@pytest.mark.parametrize("row", [None, [], "invalid", 7355])
+def test_non_object_market_is_rejected(tmp_path, row):
+    p = _mutate(tmp_path, lambda r: r["markets"].__setitem__(0, row))
+    with pytest.raises(ValueError, match="market row must be an object"):
+        pipe.load(p, market_keys=ROSTER)
+
+
+@pytest.mark.parametrize("field,value", [
+    ("mw_uc", 12338),  # operating MW is in the quote, but is not construction
+    ("mw_operating", 39340),
+    ("mw_planned", 7355),
+    ("mw_uc", 64),     # operator count
+    ("mw_uc", 1),      # part of 1.0% vacancy
+])
+def test_figure_must_match_its_own_labeled_measure(tmp_path, field, value):
+    p = _mutate(tmp_path, lambda r: _row(r, "nova").update({field: value}))
+    with pytest.raises(ValueError, match=field):
+        pipe.load(p, market_keys=ROSTER)
