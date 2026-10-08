@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import newsJson from "../../public/data/news.json";
 import { artifact } from "./artifact";
 import {
-  FEED_SCHEMA, groupByEtDay, parseLiveFeed, pickNewer, relTime,
+  FEED_SCHEMA, FUTURE_SLACK_MS, groupByEtDay, parseLiveFeed, pickNewer, relTime,
   snapshotView, type NewsPost,
 } from "./news";
 
@@ -43,6 +43,43 @@ describe("parseLiveFeed — the live R2 object is untrusted", () => {
     expect(view.posts.map((p) => p.id)).toEqual(["new", "old"]);
     expect(view.posts[1].url).toBeNull();
     expect(view.tapeLastPostAt).toBe("2026-10-07T02:59:00Z");
+  });
+});
+
+describe("parseLiveFeed — dates (audit F4, F5)", () => {
+  const NOW = Date.parse("2026-10-08T12:00:00Z");
+  const feed = (generated_at: string, posts: unknown[] = []) => ({ schema: FEED_SCHEMA, generated_at, posts });
+
+  it("keeps valid posts and drops impossible or normalizing dates, and grouping never throws", () => {
+    const view = parseLiveFeed(feed("2026-10-08T12:00:00Z", [
+      post({ id: "ok", ts: "2026-10-08T11:00:00Z" }),
+      post({ id: "month99", ts: "2026-99-99T12:00:00Z" }),     // passed the pattern, then threw in Intl
+      post({ id: "feb30", ts: "2026-02-30T12:00:00Z" }),       // Date would roll it into March
+      post({ id: "hour25", ts: "2026-10-08T25:00:00Z" }),
+    ]), LAYERS, NOW)!;
+    expect(view.posts.map((p) => p.id)).toEqual(["ok"]);
+    expect(() => groupByEtDay(view.posts, (p) => p.ts)).not.toThrow();
+  });
+
+  it("rejects a feed dated past the producer's one-hour future slack, and posts past the feed's", () => {
+    expect(parseLiveFeed(feed("2030-01-01T00:00:00Z"), LAYERS, NOW)).toBeNull();
+    expect(parseLiveFeed(feed("2026-10-08T13:30:00Z"), LAYERS, NOW)).toBeNull();
+    const skewed = parseLiveFeed(feed("2026-10-08T12:30:00Z", [
+      post({ id: "inside", ts: "2026-10-08T13:20:00Z" }),
+      post({ id: "beyond", ts: "2026-10-08T13:40:00Z" }),
+    ]), LAYERS, NOW)!;
+    expect(skewed.generatedAt).toBe("2026-10-08T12:30:00Z");   // 30 min of clock skew is allowed
+    expect(skewed.posts.map((p) => p.id)).toEqual(["inside"]);
+    expect(FUTURE_SLACK_MS).toBe(3_600_000);                    // = pipeline/publish/news.py FUTURE_SLACK
+  });
+
+  it("recovers from a selected feed dated past the slack instead of freezing on it", () => {
+    const frozen = { posts: [], generatedAt: "2030-01-01T00:00:00Z", tapeLastPostAt: null, origin: "live" as const };
+    const healthy = { ...frozen, generatedAt: "2026-10-08T11:55:00Z" };
+    expect(pickNewer(frozen, healthy, NOW)).toBe(healthy);
+    // an honest feed a few minutes ahead is still only displaced by a newer one
+    const ahead = { ...frozen, generatedAt: "2026-10-08T12:20:00Z" };
+    expect(pickNewer(ahead, healthy, NOW)).toBe(ahead);
   });
 });
 

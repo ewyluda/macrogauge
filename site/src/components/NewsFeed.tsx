@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { NewsArtifact } from "@/lib/generated";
 import {
-  etDay, etTime, groupByEtDay, parseLiveFeed, pickNewer, relTime, snapshotView, type FeedView, type NewsFilter, type NewsPost,
+  etDay, etTime, FUTURE_SLACK_MS, groupByEtDay, parseLiveFeed, pickNewer, relTime, snapshotView, type FeedView, type NewsFilter, type NewsPost,
 } from "@/lib/news";
 import {
   clusterStories, storyLayerCounts, storyMatches, storyTickerCounts, topFigures, type Story,
@@ -63,7 +63,9 @@ function FeedStatus({ view, now, snapshot }: { view: FeedView; now: number | nul
     return <span className="badge badge-muted">Tape not connected</span>;
   }
   const ageH = now == null ? null : (now - Date.parse(view.generatedAt)) / 3_600_000;
-  const live = view.origin === "live" && ageH != null && ageH <= 1;
+  // "Live" is a fresh feed: under an hour old, and not dated beyond the
+  // future slack (a negative age past it is a bad clock, not a live tape)
+  const live = view.origin === "live" && ageH != null && ageH <= 1 && ageH >= -FUTURE_SLACK_MS / 3_600_000;
   const stale = ageH != null && ageH > snapshot.stale_after_hours;
   return (
     <span className="news-status">

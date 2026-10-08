@@ -21,6 +21,18 @@ export const FEED_SCHEMA = "macrogauge.ai_news.v1";
 const CATEGORIES = new Set(["company", "earnings", "other"]);
 const KINDS = new Set(["text", "image", "video"]);
 const ISO_Z = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
+/** How far ahead of the reader's clock a feed (and a post, of its feed) may
+ *  be dated: the producer's FUTURE_SLACK (pipeline/publish/news.py). */
+export const FUTURE_SLACK_MS = 3_600_000;
+
+/** A real UTC instant in the feed's second-precision form: the pattern alone
+ *  passes "2026-99-99T12:00:00Z" (which later throws in Intl formatting) and
+ *  "2026-02-30T12:00:00Z" (which Date silently rolls into March). */
+function isInstant(s: string): boolean {
+  if (!ISO_Z.test(s)) return false;
+  const ms = Date.parse(s);
+  return !Number.isNaN(ms) && new Date(ms).toISOString() === `${s.slice(0, -1)}.000Z`;
+}
 
 export function snapshotView(a: NewsArtifact): FeedView {
   return { posts: a.posts, generatedAt: a.feed_generated_at, tapeLastPostAt: a.tape_last_post_at, origin: "snapshot" };
@@ -28,10 +40,10 @@ export function snapshotView(a: NewsArtifact): FeedView {
 
 const str = (v: unknown): v is string => typeof v === "string" && v.trim().length > 0;
 
-function parsePost(raw: unknown, layers: Set<string>): NewsPost | null {
+function parsePost(raw: unknown, layers: Set<string>, latestMs: number): NewsPost | null {
   if (!raw || typeof raw !== "object") return null;
   const p = raw as Record<string, unknown>;
-  if (!str(p.id) || !str(p.ts) || !ISO_Z.test(p.ts) || !str(p.headline)) return null;
+  if (!str(p.id) || !str(p.ts) || !isInstant(p.ts) || Date.parse(p.ts) > latestMs || !str(p.headline)) return null;
   if (typeof p.category !== "string" || !CATEGORIES.has(p.category)) return null;
   const tickers = Array.isArray(p.tickers)
     ? p.tickers.filter(
@@ -61,17 +73,21 @@ function parsePost(raw: unknown, layers: Set<string>): NewsPost | null {
   };
 }
 
-/** The live R2 object -> a FeedView, or null when it is not a feed at all. */
-export function parseLiveFeed(x: unknown, layers: readonly string[]): FeedView | null {
+/** The live R2 object -> a FeedView, or null when it is not a feed at all.
+ *  A feed dated more than FUTURE_SLACK_MS past `nowMs` is rejected (the
+ *  producer's own rule): accepted, it would outrank every honest feed after
+ *  it and read as "Live". Posts dated past the feed's own slack are dropped. */
+export function parseLiveFeed(x: unknown, layers: readonly string[], nowMs: number = Date.now()): FeedView | null {
   if (!x || typeof x !== "object") return null;
   const f = x as Record<string, unknown>;
   if (f.schema !== FEED_SCHEMA || !str(f.generated_at) || !Array.isArray(f.posts)) return null;
-  if (Number.isNaN(Date.parse(f.generated_at))) return null;
+  const generatedMs = Date.parse(f.generated_at);
+  if (Number.isNaN(generatedMs) || generatedMs > nowMs + FUTURE_SLACK_MS) return null;
   const allowed = new Set(layers);
   const seen = new Set<string>();
   const posts: NewsPost[] = [];
   for (const raw of f.posts) {
-    const p = parsePost(raw, allowed);
+    const p = parsePost(raw, allowed, generatedMs + FUTURE_SLACK_MS);
     if (p && !seen.has(p.id)) {
       seen.add(p.id);
       posts.push(p);
@@ -87,11 +103,15 @@ export function parseLiveFeed(x: unknown, layers: readonly string[]): FeedView |
   };
 }
 
-/** Live wins only when it is strictly newer than what the page already shows. */
-export function pickNewer(current: FeedView, live: FeedView | null): FeedView {
+/** Live wins only when it is strictly newer than what the page already shows
+ *  — or when what it shows is itself dated past the future slack (it can
+ *  never be outranked, so it would freeze the page). */
+export function pickNewer(current: FeedView, live: FeedView | null, nowMs: number = Date.now()): FeedView {
   if (!live || !live.generatedAt) return current;
   if (!current.generatedAt) return live;
-  return Date.parse(live.generatedAt) > Date.parse(current.generatedAt) ? live : current;
+  const cur = Date.parse(current.generatedAt);
+  if (Number.isNaN(cur) || cur > nowMs + FUTURE_SLACK_MS) return live;
+  return Date.parse(live.generatedAt) > cur ? live : current;
 }
 
 export type NewsFilter = { layer: string | null; ticker: string | null };
