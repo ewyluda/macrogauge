@@ -1,0 +1,5 @@
+# NVIDIA A100 Tensor Core GPU: specifications table, text layer
+# Source: https://www.nvidia.com/en-us/data-center/a100/
+# Retrieved 2026-10-08 (HTML tags stripped, whitespace collapsed; excerpt = the spec table and its footnotes)
+
+A100 80GB PCIe A100 80GB SXM FP64 9.7 TFLOPS FP64 Tensor Core 19.5 TFLOPS FP32 19.5 TFLOPS Tensor Float 32 (TF32) 156 TFLOPS | 312 TFLOPS* BFLOAT16 Tensor Core 312 TFLOPS | 624 TFLOPS* FP16 Tensor Core 312 TFLOPS | 624 TFLOPS* INT8 Tensor Core 624 TOPS | 1248 TOPS* GPU Memory 80GB HBM2e 80GB HBM2e GPU Memory Bandwidth 1,935 GB/s 2,039 GB/s Max Thermal Design Power (TDP) 300W 400W *** Multi-Instance GPU Up to 7 MIGs @ 10GB Up to 7 MIGs @ 10GB Form Factor PCIe Dual-slot air-cooled or single-slot liquid-cooled SXM Interconnect NVIDIA ® NVLink ® Bridge for 2 GPUs: 600 GB/s ** PCIe Gen4: 64 GB/s NVLink: 600 GB/s PCIe Gen4: 64 GB/s Server Options Partner and NVIDIA-Certified Systems™ with 1-8 GPUs NVIDIA HGX™ A100-Partner and NVIDIA-Certified Systems with 4,8, or 16 GPUs NVIDIA DGX™ A100 with 8 GPUs * With sparsity

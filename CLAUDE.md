@@ -134,7 +134,7 @@ curve, breakevens, HY/IG/BBB OAS and BBB effective yield in `credit`, 30-day ave
 Kalshi KXFED market-implied Fed path vs DFEDTARU in `fed_path`), `compute`
 (token and GPU-hour price indexes: equal-weight geometric means renormalized over live roster
 members; display-only SKUs carry `in_index: false`; a roster change never rebases — retired models
-link up to their own last price, thin links are flat; table rows carry `stale` past the registry limit; `cloud_gpus` = AWS/Azure/Oracle/CoreWeave on-demand list $/GPU-hr, display-only), `housing` (prices, rents, sales, payment-to-income affordability off 0.80×ZHVI at the
+link up to their own last price, thin links are flat; table rows carry `stale` past the registry limit; `cloud_gpus` = AWS/Azure/Oracle/CoreWeave/Nebius on-demand list $/GPU-hr, display-only; Azure rows carry `reserved` 1y/3y terms off the `AZURE_GPU_RESERVED` key (the API prices a reservation as a TERM TOTAL), other clouds a `reserved_notes` reason; `capability` = $ per dense-BF16 PFLOP-hour by generation over the quote-checked `config/gpu_specs.json`), `housing` (prices, rents, sales, payment-to-income affordability off 0.80×ZHVI at the
 PMMS rate ÷ AHE×2080/12), and `changes` (what moved since the previous publish — run_daily
 snapshots pulse/gaptable/datacenter BEFORE the engine phase and this writer diffs today's files
 against it; `grocery_basket` also gained a USDA `wholesale[]` block and `pulse` variants carry

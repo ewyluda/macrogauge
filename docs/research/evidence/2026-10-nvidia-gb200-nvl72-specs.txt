@@ -1,0 +1,5 @@
+# NVIDIA GB200 NVL72: specifications table, text layer
+# Source: https://www.nvidia.com/en-us/data-center/gb200-nvl72/
+# Retrieved 2026-10-08 (HTML tags stripped, whitespace collapsed; excerpt = the spec table and its footnotes)
+
+GB200 NVL72 Specs¹ GB200 NVL72 GB200 Grace Blackwell Superchip Configuration 36 Grace CPU | 72 Blackwell GPUs 1 Grace CPU | 2 Blackwell GPU NVFP4 Tensor Core 2 1,440 | 720 PFLOPS 40 | 20 PFLOPS FP8/FP6 Tensor Core 2 720 PFLOPS 20 PFLOPS INT8 Tensor Core 2 720 POPS 20 POPS FP16/BF16 Tensor Core 2 360 PFLOPS 10 PFLOPS TF32 Tensor Core 2 180 PFLOPS 5 PFLOPS FP32 5,760 TFLOPS 160 TFLOPS FP64 / FP64 Tensor Core 2,880 TFLOPS 80 TFLOPS GPU Memory | Bandwidth 13.4 TB HBM3E | 576 TB/s 372 GB HBM3E | 16 TB/s NVLink Bandwidth 130 TB/s 3.6 TB/s CPU Core Count 2,592 Arm® Neoverse V2 cores 72 Arm Neoverse V2 cores CPU Memory | Bandwidth 17 TB LPDDR5X | 14 TB/s Up to 480 GB LPDDR5X | Up to 512 GB/s 1. Specification in sparse | dense. 2. Specification in sparse. Dense is one-half sparse spec shown.

@@ -156,6 +156,10 @@ def _azure_gpu(subset, key, http):
     return cloudgpu.fetch_azure([s.source_id for s in subset], http_get=http)
 
 
+def _azure_gpu_reserved(subset, key, http):
+    return cloudgpu.fetch_azure_reserved([s.source_id for s in subset], http_get=http)
+
+
 def _oci_gpu(subset, key, http):
     return cloudgpu.fetch_oci([s.source_id for s in subset], http_get=http)
 
@@ -231,6 +235,9 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             # never take down another's row.
             "AWS_GPU": _aws_gpu, "AZURE_GPU": _azure_gpu, "OCI_GPU": _oci_gpu,
             "COREWEAVE": _coreweave, "NEBIUS": _nebius,
+            # Azure's reservations: their own key, so a drifted reservation
+            # row never fails the on-demand rows (or vice versa).
+            "AZURE_GPU_RESERVED": _azure_gpu_reserved,
             # STEO is a separate source key only for failure isolation — the
             # fetch mechanics are plain EIA (v2 seriesid route), like EIA_STATE.
             "STEO": _eia,

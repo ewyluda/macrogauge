@@ -9,7 +9,7 @@ import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
 import { C } from "@/lib/chartTheme";
 import { computeIndexRows } from "@/lib/computeCsv";
-import { cloudProviders, cloudRows, cloudTakeaway, GPU_LABEL, listOf } from "@/lib/cloudGpu";
+import { capabilityTakeaway, cloudProviders, cloudRows, cloudTakeaway, GPU_LABEL, listOf, reservedRows, reservedTakeaway } from "@/lib/cloudGpu";
 import { fmtSigned, yoyColor } from "@/lib/format";
 import type { Compute } from "@/lib/types";
 import { artifact } from "@/lib/artifact";
@@ -34,6 +34,11 @@ export default function ComputePage() {
   const days = Math.max(ti.history.dates.length, gi.history.dates.length);
   const cloud = cloudRows(data);
   const cloudLead = cloudTakeaway(cloud);
+  const reserved = reservedRows(data);
+  const reservedLead = reservedTakeaway(reserved);
+  const cap = data.capability;
+  const capLead = capabilityTakeaway(cap);
+  const notes = Object.entries(data.reserved_notes ?? {});
   const move = (label: string, v: number | null) =>
     v == null ? null : `${label} ${v > 0 ? "up" : v < 0 ? "down" : "flat"}${v === 0 ? "" : ` ${Math.abs(v).toFixed(1)}%`}`;
   const indexTitle = [move("Token prices", ti.chg_30d_pct), move("GPU-hours", gi.chg_30d_pct)].filter(Boolean).join(", ");
@@ -159,10 +164,99 @@ export default function ComputePage() {
             effective date.
             Every A100 row is the 80GB part; the vast.ai A100 median pools 40GB and 80GB cards. Bold marks the
             lowest current list price for the GPU. A quote older than its staleness limit keeps its cell, marked
-            with its date, and drops out of the range, the bold and the summary line. Spot, reserved and
-            committed-use prices, which several of these clouds also publish, are left out, as are negotiated
-            discounts. List prices change a few times a year, so these rows stay out of the GPU-hour index, which
-            tracks the vast.ai marketplace. Google Cloud is not covered: its price catalog needs an API key.
+            with its date, and drops out of the range, the bold and the summary line. Posted reservation prices are
+            in the next table; spot prices are left out, since spot is interruptible capacity rather than a
+            contract price, and so are negotiated discounts. List prices change a few times a year, so these rows
+            stay out of the GPU-hour index, which tracks the vast.ai marketplace. Google Cloud is not covered: its
+            price catalog needs an API key.
+          </p>
+        </Section>
+      )}
+
+      {reserved.length > 0 && (
+        <Section id="reserved" title="On commitment: what a 1- or 3-year reservation costs per GPU-hour">
+          {reservedLead && <p className="lede" data-testid="reserved-takeaway">{reservedLead}</p>}
+          <div className="table-card">
+            <table className="data-table reserved-table">
+              <thead>
+                <tr><th style={{ textAlign: "left" }}>GPU</th><th>On demand</th><th>1-year reserved</th><th>3-year reserved</th></tr>
+              </thead>
+              <tbody>
+                {reserved.map((r) => (
+                  <tr key={`${r.provider}-${r.gpu}`}>
+                    <td style={{ textAlign: "left" }}>
+                      <strong>{GPU_LABEL[r.gpu] ?? r.gpu}</strong>
+                      <span className="cloud-inst">{r.provider} · {r.instance}</span>
+                    </td>
+                    <td className={r.onDemand.stale ? "cloud-stale" : undefined}>
+                      {usd(r.onDemand.usd_per_gpu_hr)}
+                      {r.onDemand.stale && <span className="cloud-inst">stale · as of {r.onDemand.as_of}</span>}
+                    </td>
+                    {[1, 3].map((y) => {
+                      const t = r.terms[y];
+                      if (!t || t.usd_per_gpu_hr == null) return <td key={y} style={{ color: "var(--muted)" }}>—</td>;
+                      return (
+                        <td key={y} className={t.stale ? "cloud-stale" : undefined} title={`as of ${t.as_of}`}>
+                          {usd(t.usd_per_gpu_hr)}
+                          <span className="cloud-inst">
+                            {t.stale ? `stale · as of ${t.as_of}` : t.discount_pct != null ? `${Math.round(t.discount_pct)}% below on demand` : ""}
+                          </span>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="method">
+            Azure posts reservation prices for these VMs in the same Retail Prices API as its on-demand rates
+            (East US 2, Linux). It quotes each reservation as one price for the whole term, so the table divides
+            it by the term&apos;s hours (8,760 a year) and by the VM&apos;s GPUs. A reservation is paid whether the GPUs
+            are used or not, so it beats on-demand only for capacity kept busy. Azure also posts a 5-year H100 term;
+            the table shows the 1- and 3-year terms every SKU has.
+            {notes.length > 0 && <> No other cloud here posts reservation prices: {notes.map(([, n]) => n).join(" ")}</>}
+          </p>
+        </Section>
+      )}
+
+      {cap && cap.by_generation.some((g) => g.list_usd_per_pflop_hr != null) && (
+        <Section id="capability" title="Price per unit of compute: $ per PFLOP-hour by GPU generation">
+          {capLead && <p className="lede" data-testid="capability-takeaway">{capLead}</p>}
+          <div className="table-card">
+            <table className="data-table capability-table">
+              <thead>
+                <tr>
+                  <th style={{ textAlign: "left" }}>GPU</th><th>Dense BF16</th><th>Cloud list $/GPU-hr</th>
+                  <th>Cloud list $/PFLOP-hr</th><th>3-year reserved $/PFLOP-hr</th><th>vast.ai $/PFLOP-hr</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cap.by_generation.map((g) => (
+                  <tr key={g.gpu}>
+                    <td style={{ textAlign: "left" }}><strong>{GPU_LABEL[g.gpu] ?? g.gpu}</strong></td>
+                    <td><a href={g.spec_url}>{(g.dense_bf16_tflops / 1000).toFixed(2)} PFLOPS</a></td>
+                    <td>
+                      {usd(g.list_median_usd_per_gpu_hr)}
+                      {g.list_quotes > 0 && <span className="cloud-inst">median of {g.list_quotes} cloud{g.list_quotes === 1 ? "" : "s"}</span>}
+                    </td>
+                    <td><strong>{usd(g.list_usd_per_pflop_hr)}</strong></td>
+                    <td>{usd(g.reserved_3y_usd_per_pflop_hr)}</td>
+                    <td style={{ color: "var(--muted)" }}>{usd(g.market_usd_per_pflop_hr)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="method">
+            A GPU-hour&apos;s price divided by what the GPU can compute in that hour: {cap.basis}, from {cap.publisher}&apos;s
+            spec tables (checked {cap.as_of_curated}). {cap.basis_note} Cloud list is the median of the current
+            on-demand quotes in the table above; 3-year reserved is Azure&apos;s, where it posts one; vast.ai is the
+            marketplace median for the same GPU (A100 pools 40GB and 80GB cards; no GB200 row). A stale quote, cloud
+            or marketplace, is left out, as in the tables above. Peak spec throughput
+            is an upper bound that real workloads reach only in part, and memory, interconnect and software set how
+            much of it a job gets, so this compares price per unit of peak capability across generations, not
+            delivered performance.
           </p>
         </Section>
       )}

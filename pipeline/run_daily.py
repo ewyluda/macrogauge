@@ -47,6 +47,7 @@ from pipeline import capacity as capacity_cfg
 from pipeline import calendar_refresh, collect, derived, dc_basket, dc_context, dc_longlead, dc_power, registry, release_calendar
 from pipeline import dc_markets as dc_markets_cfg
 from pipeline import dc_market_pipeline as dc_market_pipeline_cfg
+from pipeline import gpu_specs as gpu_specs_cfg
 from pipeline.connectors import fred
 from pipeline.engine import dcindex
 from pipeline.engine import gauge as gauge_engine
@@ -511,8 +512,15 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     # Compute price index (/compute): token and GPU-hour composites over the
     # OpenRouter / vast.ai / sfcompute series (batch 4b).
     def _compute_phase():
-        c_path = compute_json.write(compute_json.build(conn, staleness=staleness, today=today), args.out,
-                                    published_at=published_at)
+        # The GPU spec table is curated config: a bad file drops the
+        # capability block, never the page (CI loads the real file).
+        try:
+            specs = gpu_specs_cfg.load()
+        except (ValueError, KeyError, TypeError, OSError, json.JSONDecodeError) as e:
+            print(f"WARN gpu spec table unavailable: {e}")
+            specs = None
+        c_path = compute_json.write(compute_json.build(conn, staleness=staleness, today=today, specs=specs),
+                                    args.out, published_at=published_at)
         validate.validate_file(c_path, SCHEMAS / "compute.schema.json")
         print(f"published: {c_path}")
 

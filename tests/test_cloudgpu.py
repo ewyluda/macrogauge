@@ -11,6 +11,8 @@ from pipeline.connectors import cloudgpu
 FX = Path(__file__).parent / "fixtures"
 AWS = json.loads((FX / "aws_gpu_prices.json").read_text())
 AZURE = json.loads((FX / "azure_gpu_prices.json").read_text())
+# eastus2 Reservation + Consumption rows, recorded 2026-10-08
+AZURE_RES = json.loads((FX / "azure_gpu_reserved.json").read_text())
 OCI = json.loads((FX / "oci_products.json").read_text())
 COREWEAVE = (FX / "coreweave_pricing.html").read_text()
 NEBIUS = (FX / "nebius_prices.html").read_text()
@@ -120,6 +122,55 @@ def test_azure_follows_next_page_links():
         return _R(next(pages))
     assert len(cloudgpu.fetch_azure(AZ_IDS, vintage_date=V, http_get=get)) == 3
     assert len(seen) == 2
+
+
+AZ_RES_IDS = [f"{sid}/{y}y" for sid in AZ_IDS for y in (1, 3)]
+
+
+def test_azure_reserved_converts_the_term_total_to_a_gpu_hour():
+    # the API says '1 Hour' but prices the whole term: $551,221 buys one
+    # ND96isr H100 v5 (8 GPUs) for a year
+    seen = []
+    v = _by(cloudgpu.fetch_azure_reserved(AZ_RES_IDS, vintage_date=V, http_get=_get(AZURE_RES, seen=seen)))
+    assert v["Standard_ND96isr_H100_v5/8/1y"] == pytest.approx(551221 / 8760 / 8, abs=1e-4)       # $7.87
+    assert v["Standard_ND96isr_H100_v5/8/3y"] == pytest.approx(1134310 / (3 * 8760) / 8, abs=1e-4)  # $5.40
+    assert v["Standard_ND96isr_H200_v5/8/3y"] == pytest.approx(1109592 / (3 * 8760) / 8, abs=1e-4)
+    assert v["Standard_ND128isr_NDR_GB200_v6/4/1y"] == pytest.approx(606388 / 8760 / 4, abs=1e-4)
+    assert len(v) == 6
+    assert len(seen) == 1 and "eastus2" in seen[0] and "Reservation" in seen[0]
+
+
+def test_azure_reserved_skips_a_term_the_api_does_not_list():
+    # H100 is the only SKU with a 5-year term; asking for H200's skips that series
+    v = _by(cloudgpu.fetch_azure_reserved(["Standard_ND96isr_H200_v5/8/5y", "Standard_ND96isr_H100_v5/8/5y"],
+                                          vintage_date=V, http_get=_get(AZURE_RES)))
+    assert set(v) == {"Standard_ND96isr_H100_v5/8/5y"}
+
+
+def test_azure_reserved_rejects_an_hourly_rate_republished_as_the_term_price():
+    # a reservation row that is suddenly a true hourly rate would divide down
+    # to cents: below a tenth of on-demand, so it is drift, never stored
+    bad = copy.deepcopy(AZURE_RES)
+    for it in bad["Items"]:
+        if it["type"] == "Reservation" and it["armSkuName"] == "Standard_ND96isr_H100_v5":
+            it["unitPrice"] = 62.92
+    with pytest.raises(ValueError, match="not a term total"):
+        cloudgpu.fetch_azure_reserved(["Standard_ND96isr_H100_v5/8/1y"], vintage_date=V, http_get=_get(bad))
+
+
+def test_azure_reserved_rejects_an_unknown_term_and_a_malformed_id():
+    bad = copy.deepcopy(AZURE_RES)
+    next(it for it in bad["Items"] if it["type"] == "Reservation")["reservationTerm"] = "6 Months"
+    with pytest.raises(ValueError, match="reservation term"):
+        cloudgpu.fetch_azure_reserved(AZ_RES_IDS, vintage_date=V, http_get=_get(bad))
+    with pytest.raises(ValueError, match="malformed"):
+        cloudgpu.fetch_azure_reserved(["Standard_ND96isr_H100_v5/8/1yr"], vintage_date=V, http_get=_get(AZURE_RES))
+
+
+def test_azure_reserved_without_any_tracked_reservation_is_drift():
+    only_od = {"Items": [it for it in AZURE_RES["Items"] if it["type"] == "Consumption"], "NextPageLink": None}
+    with pytest.raises(ValueError, match="no tracked SKU"):
+        cloudgpu.fetch_azure_reserved(AZ_RES_IDS, vintage_date=V, http_get=_get(only_od))
 
 
 # --- Oracle ------------------------------------------------------------------
