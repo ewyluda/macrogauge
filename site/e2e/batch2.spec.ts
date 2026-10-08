@@ -165,3 +165,29 @@ test("/outlook titles its chart with the takeaway and exports the component path
   const head = lines.find((l) => !l.startsWith("#"));
   expect(head).toBe("component,month,mom_pct,index");
 });
+
+test("DC index components drill down from /datacenter to their own page, 36 months by default", async ({ page }) => {
+  await page.goto("/datacenter");
+  await page.locator("#dc-drivers").getByRole("link", { name: "Power & distribution transformers" }).first().click();
+  await expect(page).toHaveURL(/\/datacenter\/components\/transformers$/);
+  await expect(page.locator("h1")).toContainText("of the DC Build index");
+  await expect(page.locator(".kpi-label", { hasText: "Contribution to DC Build" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "36M", pressed: true })).toBeVisible();
+  await expect(page.locator(".chart-card canvas")).toHaveCount(1);
+  // a long-lead package shows its stated lead times
+  await expect(page.getByTestId("dc-lead-times").locator("tbody tr").first()).toBeVisible();
+  await page.getByRole("button", { name: "ALL" }).click();
+  await expect.poll(() => page.evaluate(() => location.search)).toContain("win=all");
+});
+
+test("/components defaults its chart to 36 months; /my-inflation calls a small gap in line", async ({ page }) => {
+  await page.goto("/components/shelter_rent");
+  await expect(page.getByRole("button", { name: "36M", pressed: true })).toBeVisible();
+  await page.goto("/my-inflation");
+  const gap = page.getByTestId("my-gap");
+  await expect(gap).toBeVisible();
+  const text = await gap.innerText();
+  const pp = Number(/(\d+\.\d+)pp/.exec(text)?.[1]);
+  if (pp < 0.25) await expect(gap).toContainText("in line");
+  else await expect(gap).toContainText(/hotter|cooler/);
+});

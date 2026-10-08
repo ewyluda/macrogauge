@@ -16,7 +16,7 @@ import { COMPONENTS, COMPONENT_BY_CODE, componentHref, splicePosition } from "@/
 import { contributionsAt } from "@/lib/contribution";
 import { annualizedAt, lastChange, NSA_NOTE, RATE_LOOKBACK_MONTHS } from "@/lib/momentum";
 import { columnsToRows } from "@/lib/csv";
-import { fmtMonth, fmtPp, fmtSigned, yoyColor } from "@/lib/format";
+import { fmtMonth, fmtPp, fmtSigned } from "@/lib/format";
 import { artifact } from "@/lib/artifact";
 
 // Schema-typed (index/bls_index are non-null number[] per replay.schema.json).
@@ -100,7 +100,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
       <div className="kpi-row">
         <KpiCard label="YoY (ours)" value={fmtSigned(rc.yoy[last])} context={`own last obs ${rc.last_obs ?? replay.dates[own]} · BLS ${fmtSigned(rc.bls_yoy[last])}`} accent="sky" />
         <KpiCard label="Contribution to headline" value={fmtPp(contrib)} context={`weight × own YoY · BLS reconstruction ${fmtPp(blsContrib)}`} accent="violet" />
-        <KpiCard label="Gap vs BLS" value={fmtPp(gapRow?.gap_pp ?? null)} context={gapRow ? `contribution to the headline gap ${fmtPp(gapRow.contribution_pp)} · ${gaptable.as_of}` : "no gap row"} accent={(gapRow?.gap_pp ?? 0) > 0 ? "red" : "emerald"} />
+        <KpiCard label="Gap vs BLS" value={fmtPp(gapRow?.gap_pp ?? null)} context={gapRow ? `contribution to the headline gap ${fmtPp(gapRow.contribution_pp)} · ${gaptable.as_of}` : "no gap row"} accent="amber" />
         <KpiCard label="Momentum" value={fmtSigned(ann3)} context={`3m annualized · 6m ${fmtSigned(ann6)} · at own last obs ${replay.dates[own]}`} accent={(ann3 ?? 0) > (rc.yoy[last] ?? 0) ? "red" : "emerald"} />
       </div>
       <p className="chart-caption" data-testid="momentum-nsa-note">
@@ -108,7 +108,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
       </p>
       <Citation series={`${c.label} component YoY`} asOf={rc.last_obs ?? replay.dates[last]} rebase={replay.rebase} value={`${fmtSigned(rc.yoy[last])} YoY`} path={componentHref(code)} />
 
-      <Section title="Ours vs BLS — daily since 2018" featured>
+      <Section title="Ours vs BLS — daily, last 36 months by default" featured>
         <div className="section-tools">
           <DownloadData filename={`macrogauge-component-${code}`} json="replay.json"
             citation={`MacroGauge ${c.label} component, weekly-sampled daily grid, ${replay.rebase}, as of ${replay.dates[last]}`}
@@ -164,7 +164,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
             <table className="data-table">
               <thead><tr>{path.map((p) => <th key={p.month}>{fmtMonth(`${p.month}-01`)}</th>)}</tr></thead>
               <tbody>
-                <tr>{path.map((p) => <td key={p.month} style={{ color: yoyColor(p.mom_pct) }}>{fmtSigned(p.mom_pct)}</td>)}</tr>
+                <tr>{path.map((p) => <td key={p.month}>{fmtSigned(p.mom_pct)}</td>)}</tr>
               </tbody>
             </table>
           </div>
