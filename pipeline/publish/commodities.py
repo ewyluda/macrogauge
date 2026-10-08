@@ -36,6 +36,14 @@ def _day(d: str) -> str:
     return f"{_MON[int(d[5:7]) - 1]} {int(d[8:10])}, {d[:4]}"
 
 
+def _span(first: str, last: str) -> str:
+    """The period a sparkline covers, from its own first and last dates — a
+    daily series' 60 obs are ~3 months, a monthly PPI's are 5 years."""
+    if first[:4] == last[:4]:
+        return f"{_MON[int(first[5:7]) - 1]} {int(first[8:10])} – {_day(last)}"
+    return f"{_MON[int(first[5:7]) - 1]} {first[:4]} – {_MON[int(last[5:7]) - 1]} {last[:4]}"
+
+
 def _alt_change(obs: dict, as_of: str) -> dict | None:
     """A dated stand-in for a missing YoY: vs the reading nearest a year back
     (within ALT_WINDOW_DAYS), else vs the first reading."""
@@ -99,7 +107,8 @@ def _row(conn, code: str, label: str, unit: str) -> dict:
            "value": round(obs[as_of], 4), "as_of": as_of,
            "yoy_pct": yoy,
            "chg_30d_pct": pct_change_daily(obs, as_of, 30),
-           "spark": [round(obs[d], 4) for d in dates[-SPARK_OBS:]]}
+           "spark": [round(obs[d], 4) for d in dates[-SPARK_OBS:]],
+           "spark_span": _span(dates[-SPARK_OBS:][0], as_of)}
     if yoy is None:
         alt = _alt_change(obs, as_of)
         if alt:
@@ -120,7 +129,8 @@ def _pjm_capacity_row(markets) -> dict:
     row = {"code": PJM_CAPACITY, "label": f"{label} ({last['period']})", "unit": unit,
            "value": round(last["price_mw_day"], 2), "as_of": pjm["asof"],
            "yoy_pct": None, "chg_30d_pct": None,
-           "spark": [round(r["price_mw_day"], 2) for r in rows]}
+           "spark": [round(r["price_mw_day"], 2) for r in rows],
+           "spark_span": f"{rows[0]['period']}–{last['period']} auctions"}
     if len(rows) > 1 and rows[-2]["price_mw_day"]:
         row["chg_alt"] = {"pct": round((last["price_mw_day"] / rows[-2]["price_mw_day"] - 1) * 100, 2),
                           "label": f"vs {rows[-2]['period']} auction"}

@@ -341,10 +341,32 @@ test("build inputs page leads with a takeaway and never shows an unlabeled stand
   // the writer's contract, pinned in test_commodities_writer)
   const rowCount = data.groups.reduce((n: number, g: { rows: unknown[] }) => n + g.rows.length, 0);
   await expect(page.locator("table.data-table tbody tr")).toHaveCount(rowCount);
-  // every stand-in change renders with its dated label
-  const alts = data.groups.flatMap((g: { rows: { chg_alt?: { label: string } }[] }) => g.rows)
-    .filter((r: { chg_alt?: unknown }) => r.chg_alt);
-  for (const r of alts) await expect(page.locator(".cm-alt small", { hasText: r.chg_alt.label }).first()).toBeVisible();
+});
+
+// Runs once the published commodities.json carries chg_alt (the daily run
+// after this branch merges); until then it SKIPS, saying so, instead of
+// passing with zero assertions. Each check is scoped to its own row, so three
+// rows sharing "since Jul 15, 2026" can't vouch for one another.
+type CmRow = { code: string; label: string; chg_alt?: { pct: number; label: string }; spark_span?: string };
+test("build inputs: each stand-in change and trend span renders in its own row", async ({ page, request }) => {
+  const data = await (await request.get("/data/commodities.json")).json();
+  const rows: CmRow[] = data.groups.flatMap((g: { rows: CmRow[] }) => g.rows);
+  const alts = rows.filter((r) => r.chg_alt);
+  test.skip(alts.length === 0, "published commodities.json predates chg_alt (lands with the next daily publish)");
+  expect(alts.map((r) => r.code).sort()).toEqual(
+    ["dramex_ddr4_16g", "dramex_ddr5_16g", "dramex_nand_mlc64", "pjm_capacity", "vast_h100_sxm"]);
+  await page.goto("/commodities");
+  const fmt = (v: number) => `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v).toFixed(1)}%`;
+  for (const r of alts) {
+    const cell = page.locator("tr", { has: page.locator("td", { hasText: new RegExp(`^${r.label.replace(/[()]/g, "\\$&")}$`) }) })
+      .locator(".cm-alt");
+    await expect(cell).toContainText(fmt(r.chg_alt!.pct));
+    await expect(cell.locator("small")).toHaveText(r.chg_alt!.label);
+  }
+  for (const r of rows.filter((x) => x.spark_span)) {
+    const row = page.locator("tr", { has: page.locator("td", { hasText: new RegExp(`^${r.label.replace(/[()]/g, "\\$&")}$`) }) });
+    await expect(row.locator(".cm-spark small")).toHaveText(r.spark_span!);
+  }
 });
 
 // CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS

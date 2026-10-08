@@ -104,9 +104,19 @@ def test_pjm_capacity_row_is_auction_to_auction(tmp_path):
     assert (row["label"], row["value"], row["as_of"]) == ("PJM capacity, auction clearing (2028/29)", 325.0, "2026-07-14")
     assert row["chg_alt"] == {"pct": -2.53, "label": "vs 2027/28 auction"}
     assert row["spark"] == [333.44, 325.0] and row["yoy_pct"] is None
+    assert row["spark_span"] == "2027/28–2028/29 auctions"
     # no PJM market (or a broken config): a null row, never a failed publish
     empty = {r["code"]: r for g in commodities.build(_store_with(tmp_path / "e", {}), capacity_markets=[])["groups"]
              for r in g["rows"]}[commodities.PJM_CAPACITY]
     assert empty["value"] is None and "chg_alt" not in empty
     path = commodities.write(p, tmp_path, published_at="2026-10-07T15:00:00Z")
     validate.validate_file(path, SCHEMA)
+
+
+def test_spark_span_states_the_period_each_sparkline_covers(tmp_path):
+    conn = _store_with(tmp_path, {
+        "fmp_copper": {"2026-07-15": 5.0, "2026-10-07": 6.0},            # daily: same year
+        "ppi_steel": {"2021-09-01": 418.0, "2026-08-01": 381.2}})        # monthly: years
+    rows = {r["code"]: r for g in commodities.build(conn, capacity_markets=[])["groups"] for r in g["rows"]}
+    assert rows["fmp_copper"]["spark_span"] == "Jul 15 – Oct 7, 2026"
+    assert rows["ppi_steel"]["spark_span"] == "Sep 2021 – Aug 2026"

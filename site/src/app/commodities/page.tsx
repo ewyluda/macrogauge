@@ -115,7 +115,7 @@ export default function Page() {
                   <th>Price</th>
                   <th>30-day</th>
                   <th>YoY</th>
-                  <th>3-mo trend</th>
+                  <th>Trend</th>
                   <th>As of</th>
                 </tr>
               </thead>
@@ -136,11 +136,16 @@ export default function Page() {
                       <YoyCell r={r} />
                     </td>
                     <td>
-                      <TailSpark
-                        tail={r.spark}
-                        stroke={yoyColor(r.chg_30d_pct)}
-                        label={r.label}
-                      />
+                      {/* each row states its own span: 60 daily closes are ~3
+                          months, 60 monthly PPI prints are 5 years */}
+                      <span className="cm-spark">
+                        <TailSpark
+                          tail={r.spark}
+                          stroke={yoyColor(r.chg_30d_pct)}
+                          label={r.spark_span ? `${r.label}, ${r.spark_span}` : r.label}
+                        />
+                        {r.spark_span && <small>{r.spark_span}</small>}
+                      </span>
                     </td>
                     <td>{r.as_of ? fmtDay(r.as_of) : "—"}</td>
                   </tr>
@@ -160,7 +165,8 @@ export default function Page() {
         30-day and YoY compare against the observation nearest that far back (±3 days — markets close on
         weekends). Where no year-ago reading exists, the YoY column shows a dated change instead: against
         the reading nearest a year back (within a month), or since the first reading. Sparklines trace
-        the last 60 observations; new sources fill in as history accrues.
+        the last 60 observations, and each states the period that covers: about three months for a daily
+        price, five years for the monthly steel PPI, and the auctions on record for PJM capacity.
         Copper and aluminum also feed the{" "}
         <Link href="/datacenter">Data Center Cost Index</Link> as anchored forward
         tails — this page shows the raw prices.
