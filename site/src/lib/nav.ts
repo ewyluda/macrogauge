@@ -45,11 +45,9 @@ export const NAV: NavEntry[] = [
       {
         items: [
           { href: "/cpi-preview", label: "CPI Preview", emoji: "📅" },
-          { href: "/next-print", label: "Next Print", emoji: "⏱️" },
           { href: "/outlook", label: "12-Month Outlook", emoji: "🔮" },
           { href: "/scoreboard", label: "Scoreboard", emoji: "🏆" },
           { href: "/matrix", label: "Nowcast Matrix", emoji: "🔢" },
-          { href: "/releases", label: "Release Log", emoji: "🧾" },
           { href: "/revisions", label: "Revisions", emoji: "✏️" },
         ],
       },

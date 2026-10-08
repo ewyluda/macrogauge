@@ -8,8 +8,8 @@ test("research theme stays consistent across client navigation", async ({ page }
   await page.locator(".footer-links").getByRole("link", { name: "Data Centers", exact: true }).click();
   await expect(page.locator(".datacenter-dashboard")).toBeVisible();
   await expect(page.locator("body")).toHaveCSS("background-color", "rgb(246, 247, 249)");
-  await page.locator(".footer-links").getByRole("link", { name: "Next Print", exact: true }).click();
-  await expect(page.locator("h1")).toContainText("Next Print");
+  await page.locator(".footer-links").getByRole("link", { name: "CPI Preview", exact: true }).click();
+  await expect(page.locator("h1")).toContainText("CPI Preview");
   await expect(page.locator("body")).toHaveCSS("background-color", "rgb(246, 247, 249)");
 });
 

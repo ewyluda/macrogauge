@@ -19,6 +19,16 @@
       "source": "/dc-scoreboard",
       "destination": "/escalation/grades",
       "permanent": true
+    },
+    {
+      "source": "/next-print",
+      "destination": "/cpi-preview",
+      "permanent": true
+    },
+    {
+      "source": "/releases",
+      "destination": "/revisions",
+      "permanent": true
     }
   ],
   "headers": [
