@@ -765,6 +765,8 @@ body.research-site .footer-meta { font-size: 12px; }
   .ll-board-table td:first-child, .ll-board-table td.ll-board-lead, .ll-board-table td[data-label="What the vendors say"] { grid-column: 1 / -1; }
   .ll-board-table td[data-label]::before { content: attr(data-label); display: block; font-size: 11.5px; font-weight: 400; color: var(--muted); margin-bottom: 2px; }
 }
+.datacenter-dashboard .dc-peer-notes .method { margin: 10px 0 0; line-height: 1.6; max-width: 90ch; }
+.datacenter-dashboard .dc-peer-notes .method:first-child { margin-top: 14px; }
 .ll-board-note { margin: 10px 0 0; font-size: 13px; line-height: 1.6; color: var(--muted); max-width: 90ch; }
 .ll-package { margin-top: 40px; scroll-margin-top: 80px; }
 .ll-package-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 32px; margin-bottom: 14px; }

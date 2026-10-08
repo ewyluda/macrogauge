@@ -43,12 +43,14 @@ export function capacityHeadline(
   const all = cohorts.all, hyp = cohorts.hyperscaler, neo = cohorts.neocloud;
   if (!all.op) return null;
   const share = Math.round((100 * hyp.op) / all.op);
-  const title = `Hyperscalers account for about ${share}% of our estimated ${gw(all.op)} of tracked operational AI capacity`;
+  // "we track": the curated universe, not a market census; "estimated" rides
+  // with the curation date in the detail
+  const title = `Hyperscalers hold about ${share}% of the ${gw(all.op)} of operating AI capacity we track`;
   let detail = `The neoclouds and ex-miners have ${gw(neo.op)} live and ${gw(neo.con + neo.plan)} still to energize`;
   const { nvda_cap_b: nv, cohort_ev_b: ev } = reference;
   if (nv != null && ev != null && ev > 0 && pricedRows > 0) {
     detail += `; the ${pricedRows} priced per megawatt carry $${Math.round(ev)}B of combined enterprise value, ` +
       `and Nvidia's market cap alone ($${(nv / 1000).toFixed(1)}T) is ${Math.round(nv / ev)} times that`;
   }
-  return { title, detail: `${detail}.${curatedAsOf ? ` MW as curated ${curatedAsOf}.` : ""}` };
+  return { title, detail: `${detail}.${curatedAsOf ? ` Estimated MW as curated ${curatedAsOf}.` : ""}` };
 }

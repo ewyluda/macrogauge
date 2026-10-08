@@ -5,7 +5,6 @@ import type { CapacityMarket, PowerData, PowerHub } from "@/components/PowerPane
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export const monthYear = (d: string) => `${MONTHS[Number(d.slice(5, 7)) - 1]} ${d.slice(0, 4)}`;
-const monthDay = (d: string) => `${MONTHS[Number(d.slice(5, 7)) - 1]} ${Number(d.slice(8, 10))}`;
 
 type Yoy = { label: string; yoy: number | null };
 
@@ -69,6 +68,12 @@ export type PowerSummary = {
   headline: string | null;
 };
 
+/** "up 62%" for a big move, "up 3.4%" for a small one: an H1 drops the
+ *  decimal only where it carries no information. */
+function headlineMove(pct: number): string {
+  return Math.abs(pct) >= 10 ? `${pct > 0 ? "up" : "down"} ${Math.round(Math.abs(pct))}%` : moveWords(pct);
+}
+
 /** The three readings the hub shows for the power bill, and the /power H1. */
 export function powerSummary(power: PowerData | null | undefined): PowerSummary {
   if (!power) return { hub: null, capacity: null, tariffs: 0, headline: null };
@@ -83,12 +88,15 @@ export function powerSummary(power: PowerData | null | undefined): PowerSummary 
   } : null;
   const tariffs = power.tariffs?.length ?? 0;
   const parts: string[] = [];
-  // dated: hubs refresh on different cadences (ICE about every two weeks), so
-  // the featured window is the hub's own, never "this month"
-  if (hub) parts.push(`Wholesale power at ${hub.label} is ${moveWords(hub.avg30_yoy_pct!)} on the year (30 days to ${monthDay(hub.asof)})`);
+  // one short claim per clause: the KPI cards beneath date each reading (hubs
+  // refresh on different cadences, ICE about every two weeks, so the featured
+  // window is the hub's own and is stated there, never "this month")
+  if (hub) parts.push(`${hub.label} power is ${headlineMove(hub.avg30_yoy_pct!)} on the year`);
   if (capacity && capacity.firstPrice > 0) {
     const x = capacity.price / capacity.firstPrice;
-    if (x >= 2) parts.push(`${capacity.iso} capacity costs ${Math.round(x)}× what it did for ${capacity.first}`);
+    // the ISO is implied when the featured hub sits in the same grid
+    const iso = hub?.grid === capacity.iso ? "" : `${capacity.iso} `;
+    if (x >= 2) parts.push(`${iso}capacity costs ${Math.round(x)}× its ${capacity.first} price`);
   }
   return { hub, capacity, tariffs, headline: parts.length ? parts.join("; ") : null };
 }

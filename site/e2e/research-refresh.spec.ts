@@ -114,7 +114,7 @@ test("capacity dossier names its fields for readers, not by curator keys", async
 test("capacity leads with a takeaway and the valuation scatter, and bars scale per cohort", async ({ page }) => {
   await page.goto("/capacity");
   // the tracked, estimated universe — never a market-wide share
-  await expect(page.locator("h1")).toContainText("tracked operational AI capacity");
+  await expect(page.locator("h1")).toContainText("operating AI capacity we track");
   await expect(page.getByTestId("cap-takeaway")).toContainText("market cap");
   // the default view is the scatter: market cap ≠ megawatts, above the fold
   await expect(page.getByRole("tab", { name: "Valuation × Execution", selected: true })).toBeVisible();
@@ -453,7 +453,9 @@ test("markets: the capacity column says it is the tracker's projects, and each m
 
 test("site costs: industrial power by default, one metric drives the map and a ranked table", async ({ page }) => {
   await page.goto("/states");
-  await expect(page.locator("h1")).toContainText("48 contiguous states");
+  // one claim as the H1; the cohort, month and US average sit in the takeaway
+  await expect(page.locator("h1")).toContainText("Industrial power costs");
+  await expect(page.getByTestId("st-takeaway")).toContainText("48 contiguous states");
   await expect(page.getByRole("button", { name: "Industrial ¢/kWh", pressed: true })).toBeVisible();
   await expect(page.locator(".st-table-title")).toContainText("industrial power price");
   // ten at each end of the ranking, the middle behind a button
@@ -478,10 +480,12 @@ test("cost of capital: takeaway H1, credit tiles instead of GDPNow/auto loans, a
   const expected = ratesHeadline(rates.curve.find((r: { code: string }) => r.code === "DGS10"),
     rates.credit.bbb_yield, rates.credit.bbb_move);
   const hasBbb = rates.credit.bbb_yield?.value != null;
-  const hasTakeaway = (expected ?? "").includes("; ");
+  const hasTakeaway = expected?.detail != null;
 
   await page.goto("/rates");
-  await expect(page.locator("h1")).toContainText("The 10-year Treasury is");
+  // one claim as the H1: BBB debt leads when it is published, else the 10-year
+  await expect(page.locator("h1")).toHaveText(expected!.title);
+  await expect(page.locator("h1")).toContainText(hasBbb ? "BBB corporate debt yields" : "The 10-year Treasury yields");
   const labels = await page.locator(".rt-tile .quote-label").allTextContents();
   expect(labels).not.toContain("GDPNow");
   expect(labels).not.toContain("60m auto loan");
@@ -489,7 +493,8 @@ test("cost of capital: takeaway H1, credit tiles instead of GDPNow/auto loans, a
   // tile meta is a block: no bare separator floats as its own flex item
   await expect(page.locator(".rt-tile .quote-meta")).toHaveCount(0);
   await expect(page.getByTestId("rates-takeaway")).toHaveCount(hasTakeaway ? 1 : 0);
-  if (hasTakeaway) await expect(page.getByTestId("rates-takeaway")).toContainText("BBB spread moved");
+  if (hasTakeaway) await expect(page.getByTestId("rates-takeaway")).toContainText("The 10-year Treasury is");
+  if (expected?.detail?.includes("BBB spread moved")) await expect(page.getByTestId("rates-takeaway")).toContainText("BBB spread moved");
 
   await page.goto("/datacenter");
   const strip = page.locator("#dc-capital");

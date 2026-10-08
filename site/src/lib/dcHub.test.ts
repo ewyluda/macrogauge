@@ -31,7 +31,8 @@ describe("surgeFromLow", () => {
   });
 });
 
-const hub = (label: string, yoy: number | null) => ({ code: label, label, latest: 50, asof: "2026-10-07", unit: "$/MWh", avg30: 50, avg30_yoy_pct: yoy });
+const hub = (label: string, yoy: number | null, grid = label.split(" ")[0]) =>
+  ({ code: label, label, latest: 50, asof: "2026-10-07", unit: "$/MWh", grid, avg30: 50, avg30_yoy_pct: yoy });
 const power = {
   tail: { active: false, smooth_days: null, hubs: [] },
   hubs: [hub("SPP North Hub", 1.9), hub("PJM Western Hub", 61.9), hub("Mid-Columbia", null)],
@@ -51,7 +52,12 @@ describe("powerSummary", () => {
     expect(s.hub?.label).toBe("PJM Western Hub");
     expect(s.capacity).toEqual({ iso: "PJM", period: "2028/29", price: 325, first: "2024/25", firstPrice: 28.92 });
     expect(s.tariffs).toBe(3);
-    expect(s.headline).toBe("Wholesale power at PJM Western Hub is up 61.9% on the year (30 days to Oct 7); PJM capacity costs 11× what it did for 2024/25");
+    // one claim per clause; the KPI cards carry the 30-day window and its date
+    expect(s.headline).toBe("PJM Western Hub power is up 62% on the year; capacity costs 11× its 2024/25 price");
+  });
+  it("names the capacity market's ISO when the hottest hub is in another grid, and keeps small moves' decimal", () => {
+    const ercot = { ...power, hubs: [hub("ERCOT North Hub", 3.44), hub("PJM Western Hub", 1.2)] } as PowerData;
+    expect(powerSummary(ercot).headline).toBe("ERCOT North Hub power is up 3.4% on the year; PJM capacity costs 11× its 2024/25 price");
   });
   it("falls back to PJM's capacity_auction when capacity_markets is absent or empty (older artifacts)", () => {
     const legacy = { ...power, capacity_markets: undefined,
