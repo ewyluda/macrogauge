@@ -83,9 +83,10 @@ def test_load_real_config():
     _, series = registry.load_registry()
     _, baskets = dc_basket.load_baskets(registry_codes={s.code for s in series})
     cfg = dc_longlead.load(build_codes={c.code for c in baskets["build"]})
-    # the five long-lead packages, weight-descending (spec §4)
+    # the four long-lead packages, weight-descending (spec §4); pumps left the
+    # board 2026-10-08 (no vendor states a figure; the price leg stays in DC Build)
     assert [p.code for p in cfg.packages] == [
-        "switchgear", "transformers", "hvac_equip", "generators", "pumps"]
+        "switchgear", "transformers", "hvac_equip", "generators"]
     assert cfg.teaser  # the /datacenter strip has curated picks
     # every figure carries its receipt
     for vendor in cfg.vendors.values():
@@ -93,8 +94,13 @@ def test_load_real_config():
             assert f.quote and f.src_url.startswith("https://")
     # the two spec-mandated nulls exist
     assert cfg.vendors["cmi"].null_note and not cfg.vendors["cmi"].figures
-    pumps = next(p for p in cfg.packages if p.code == "pumps")
-    assert pumps.null_note and not pumps.vendor_keys
+    # gas turbines ride the generators row: GE Vernova's Power segment and
+    # Siemens Energy Gas Services as their own vendor keys (a vendor carries
+    # one dc_segment), GE's capacity backlog stated in GW
+    gens = next(p for p in cfg.packages if p.code == "generators")
+    assert {"gev_power", "siemens_energy_gas", "bloom"} <= set(gens.vendor_keys)
+    assert any(lt.through == "2031" for lt in gens.lead_times)
+    assert any(f.unit == "gw" for f in cfg.vendors["gev_power"].figures)
 
 
 @pytest.mark.parametrize("mutate,match", [

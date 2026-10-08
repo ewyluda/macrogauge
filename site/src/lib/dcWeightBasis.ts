@@ -58,7 +58,11 @@ export const DC_WEIGHT_BASIS: Record<DcIndexKey, Record<string, WeightBasis>> = 
     },
     mechanical: {
       weight: 0.15,
-      note: "Inside the 15–20% range public cost breakdowns give mechanical and cooling systems.",
+      note: "Inside the 15–20% range public cost breakdowns give mechanical and cooling systems. BNP Paribas Equity " +
+        "Research's illustrative split of AI capex (Aug 2026, as charted in a16z's State of Markets, Sept 2026) puts " +
+        "cooling at about 21% of the facility spend ($7.5 of the $35 that is not chips or networking), with installation " +
+        "inside. No price index covers coolant distribution units or chilled-water loops, which are pumps and heat " +
+        "exchangers, so the pumps & compressors PPI carries that 5% as their proxy.",
       cites: [COST_STRUCTURE],
     },
   },

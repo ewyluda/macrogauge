@@ -120,3 +120,34 @@ def test_spark_span_states_the_period_each_sparkline_covers(tmp_path):
     rows = {r["code"]: r for g in commodities.build(conn, capacity_markets=[])["groups"] for r in g["rows"]}
     assert rows["fmp_copper"]["spark_span"] == "Jul 15 – Oct 7, 2026"
     assert rows["ppi_steel"]["spark_span"] == "Sep 2021 – Aug 2026"
+
+
+def test_power_hubs_publish_the_30_day_average_power_publishes(tmp_path):
+    """A hub row is its trailing 30-day average, that average's YoY and its
+    change on the window 30 days earlier, from dcindex.window_avg: /power
+    and /commodities quote one number. A single spiky print moves the old
+    one-day YoY, never these."""
+    from datetime import date, timedelta
+    from pipeline.engine.dcindex import window_avg
+
+    def days(end: str, n: int, value: float) -> dict:
+        e = date.fromisoformat(end)
+        return {(e - timedelta(days=i)).isoformat(): value for i in range(n)}
+
+    pjm = {**days("2025-09-29", 10, 50.0), **days("2026-08-30", 10, 70.0), **days("2026-09-29", 10, 80.0)}
+    pjm["2026-09-29"] = 400.0                                  # one spike: the latest print
+    conn = _store_with(tmp_path, {"ice_pjm_west": pjm, "caiso_sp15_da": {"2026-09-29": 40.0}})
+    rows = {r["code"]: r for g in commodities.build(conn)["groups"] for r in g["rows"]}
+    r = rows["ice_pjm_west"]
+    avg = (9 * 80.0 + 400.0) / 10
+    assert r["label"].endswith(", 30-day avg") and r["as_of"] == "2026-09-29"
+    assert r["value"] == round(avg, 2)
+    assert r["value"] == round(window_avg(sorted(pjm.items()), date(2026, 9, 29)), 2)
+    assert r["yoy_pct"] == round((avg / 50.0 - 1) * 100, 1)
+    assert r["chg_30d_pct"] == round((avg / 70.0 - 1) * 100, 1)
+    assert r["spark"][-1] == 400.0                            # the sparkline stays daily prints
+    # one print is not an average: the row is dated but null, never a one-day YoY
+    c = rows["caiso_sp15_da"]
+    assert c["value"] is None and c["yoy_pct"] is None and c["as_of"] == "2026-09-29"
+    path = commodities.write(commodities.build(conn), tmp_path / "out", "2026-10-08T12:00:00Z")
+    validate.validate_file(path, SCHEMA)

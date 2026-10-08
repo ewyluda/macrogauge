@@ -208,9 +208,9 @@ def test_real_config_publishes_and_validates(tmp_path):
     payload = longlead.build(cfg, baskets["build"], None, today="2026-07-27")
     path = longlead.write(payload, tmp_path, published_at="2026-07-27T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "longlead.schema.json")
-    assert payload["build_weight_covered"] == pytest.approx(0.50)
+    assert payload["build_weight_covered"] == pytest.approx(0.45)
     assert [p["code"] for p in payload["packages"]] == [
-        "switchgear", "transformers", "hvac_equip", "generators", "pumps"]
+        "switchgear", "transformers", "hvac_equip", "generators"]
 
 
 def test_backlog_months_is_sa_unfilled_over_sa_shipments_with_1y_change():

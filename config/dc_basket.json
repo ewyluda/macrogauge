@@ -21,7 +21,7 @@
     {"code": "transformers",           "label": "Power & distribution transformers","group": "electrical","series": "ppi_transformer", "weight": 0.12},
     {"code": "generators",             "label": "Generator sets & turbines",       "group": "electrical", "series": "ppi_genset",      "weight": 0.09},
     {"code": "hvac_equip",             "label": "AC & refrigeration equipment",    "group": "mechanical", "series": "ppi_hvac_equip",  "weight": 0.10},
-    {"code": "pumps",                  "label": "Industrial pumps",                "group": "mechanical", "series": "ppi_pumps",       "weight": 0.05}
+    {"code": "pumps",                  "label": "Pumps & compressors (cooling-loop proxy)", "group": "mechanical", "series": "ppi_pumps",       "weight": 0.05}
   ],
   "ops": [
     {"code": "power",       "label": "Industrial electricity",        "group": "power",       "series": "eia_elec_ind_us", "weight": 0.55},

@@ -124,13 +124,15 @@ export function DcMethodology() {
           </li>
         )}
         <li>
-          <b>Facility boundary.</b> DC Build excludes servers and GPUs. They sit in DC Hardware, which uses
-          transaction-based series (import prices and producer prices) rather than the quality-adjusted
-          computer price indexes, which fall as performance rises and would understate what buyers pay.
+          <b>Facility boundary.</b> DC Build excludes servers and GPUs. They sit in DC Hardware, which prices
+          them with BLS import and producer price indexes. Those are constant-quality indexes: BLS removes
+          performance and feature changes (with hedonic models where it needs them), so DC Hardware tracks the
+          price of like-for-like equipment, not the dollars a buyer spends as each generation gets faster.
         </li>
         <li>
-          <b>Quality hold.</b> The same one-day gate as the CPI gauge: a move above 5% in a just-arrived
-          observation waits a day before it enters the index.
+          <b>Quality hold.</b> The same one-day gate as the CPI gauge, on the live-proxy tail only: a
+          just-arrived futures or spot point that moves more than 5% waits a day before it enters the index.
+          Official prints are never held.
         </li>
         <li>
           <b>State parity.</b> Nationally priced inputs stay at the national level. Build multiplier ={" "}

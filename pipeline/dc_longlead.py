@@ -29,7 +29,9 @@ _DASHED_ISO = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 KINDS = frozenset({"backlog", "orders", "book_to_bill", "backlog_growth"})
 BASES = frozenset({"rpo", "order-backlog", "mdna-backlog"})
 SCOPES = frozenset({"group", "segment", "product-line"})
-UNITS = frozenset({"usd_b", "eur_b", "jpy_tn", "pct_yoy", "ratio"})
+# gw: capacity a vendor states in gigawatts (gas turbine backlog + slot
+# reservations), never converted to or summed with a currency figure
+UNITS = frozenset({"usd_b", "eur_b", "jpy_tn", "pct_yoy", "ratio", "gw"})
 CADENCES = frozenset({"quarterly", "annual"})
 # Lead times are stated-only too, and as varied in basis as backlog: an
 # industry survey's average weeks, an industry report's average, or a

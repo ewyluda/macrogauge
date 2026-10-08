@@ -97,7 +97,7 @@ export default function Page() {
         <KpiCard
           label="PJM power"
           value={pjm?.value != null ? `$${price(pjm.value)}/MWh` : "—"}
-          context={`${fmtSigned(pjm?.yoy_pct ?? null)} YoY · Western Hub, the Northern Virginia grid`}
+          context={`30-day avg, ${fmtSigned(pjm?.yoy_pct ?? null)} YoY · Western Hub, the Northern Virginia grid`}
           accent="red"
         />
       </div>

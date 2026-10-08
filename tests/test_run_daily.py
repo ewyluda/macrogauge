@@ -535,12 +535,11 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     # DATACENTER phase above already exercised against this store.
     ll_out = json.loads((out / "longlead.json").read_text())
     assert ll_out["published_at"] == run_stamp
-    assert ll_out["build_weight_covered"] == pytest.approx(0.50)
+    assert ll_out["build_weight_covered"] == pytest.approx(0.45)
     codes = [p["code"] for p in ll_out["packages"]]
-    assert codes == ["switchgear", "transformers", "hvac_equip",
-                     "generators", "pumps"]
-    pumps = ll_out["packages"][codes.index("pumps")]
-    assert pumps["vendors"] == [] and pumps["null_note"]
+    assert codes == ["switchgear", "transformers", "hvac_equip", "generators"]
+    gens = ll_out["packages"][codes.index("generators")]
+    assert {"gev_power", "siemens_energy_gas"} <= {v["key"] for v in gens["vendors"]}
     for pkg in ll_out["packages"]:
         for vendor in pkg["vendors"]:
             assert bool(vendor["figures"]) != bool(vendor["null_note"])

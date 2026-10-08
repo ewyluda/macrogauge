@@ -586,7 +586,7 @@ export type LongLeadFigure = {
   basis: "rpo" | "order-backlog" | "mdna-backlog";
   scope: "group" | "segment" | "product-line";
   value: number;
-  unit: "usd_b" | "eur_b" | "jpy_tn" | "pct_yoy" | "ratio";
+  unit: "usd_b" | "eur_b" | "jpy_tn" | "pct_yoy" | "ratio" | "gw";
   period: string;
   asof: string;
   quote: string;
