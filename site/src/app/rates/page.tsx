@@ -12,18 +12,26 @@ import { RATES_CURVE_CSV, RATES_HISTORY_CSV, RATES_LIQUIDITY_CSV } from "@/lib/e
 import { fmtDay, fmtPp } from "@/lib/format";
 import type { FedPath, Rates } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
+import { artifact } from "@/lib/artifact";
+import { ratesHeadline } from "@/lib/ratesHeadline";
 
-const data = ratesJson as Rates;
+const data = artifact<"rates", Rates>("rates", ratesJson);
 const pct = (v: number | null, d = 2) => (v == null ? "—" : `${v.toFixed(d)}%`);
 const bn = (v: number | null) => (v == null ? "—" : v >= 1000 ? `$${(v / 1000).toFixed(2)}T` : `$${v.toFixed(0)}B`);
 const ten = data.curve.find((r) => r.code === "DGS10");
 const two = data.curve.find((r) => r.code === "DGS2");
 const s = data.spreads;
+const cr = data.credit;
+const sofr = data.funding?.sofr_30d;
+const headline = ratesHeadline(ten, cr.bbb_yield, cr.bbb_oas);
+// the yields lead as the H1; the rates-vs-credit clause reads as a takeaway line
+const [h1Text, ...why] = (headline ?? "").split("; ");
+const whyText = why.length ? `${why.join("; ")[0].toUpperCase()}${why.join("; ").slice(1)}.` : null;
 
 export const metadata: Metadata = {
-  title: `Rates & Liquidity — 10y ${pct(ten?.value ?? null)}, 2s10s ${fmtPp(s.s2s10s.value)}`,
+  title: `Cost of Capital: ${headline ?? `10y ${pct(ten?.value ?? null)}, 2s10s ${fmtPp(s.s2s10s.value)}`}`,
   description:
-    "The Treasury curve, breakevens, real yields, high-yield spread, the dollar, Fed liquidity and the mortgage spread — every series the pipeline already collects daily, in one place.",
+    "The cost of capital for building AI infrastructure: the Treasury curve, investment-grade, BBB and high-yield spreads, BBB all-in yield, 30-day SOFR, breakevens, the dollar, Fed liquidity and the market-implied Fed path — daily FRED series.",
 };
 
 function Chg({ v, unit = "pp" }: { v: number | null; unit?: "pp" | "%" }) {
@@ -99,26 +107,38 @@ export default function RatesPage() {
   return (
     <div>
       <StaleBanner publishedAt={ratesJson.published_at} />
-      <h1>
-        Rates &amp; Liquidity <span className="subtitle">the curve, the spreads, and the plumbing behind them</span>
-      </h1>
+      <div className="research-eyebrow">AI infrastructure · Cost of capital</div>
+      <h1>{h1Text || "Rates & Liquidity"}</h1>
+      {whyText && <p className="ll-takeaway" data-testid="rates-takeaway">{whyText}</p>}
       <p className="lede">
-        Eight Treasury tenors, breakevens, the high-yield spread, the dollar, the Fed&apos;s balance sheet and the
-        mortgage spread, all daily FRED series. Every derived
-        number here is arithmetic on those levels: 2s10s is DGS10 − DGS2, the real 10-year is DGS10 − T10YIE,
-        net liquidity is WALCL − TGA − RRP.
+        What it costs to finance a build: the Treasury curve every loan prices off, the investment-grade and BBB
+        corporate spreads and BBB&apos;s all-in yield, 30-day average SOFR for floating-rate construction debt, plus
+        breakevens, the dollar, the Fed&apos;s balance sheet and the market-implied Fed path — all daily FRED
+        series. Every derived number is arithmetic on those levels: 2s10s is DGS10 − DGS2, the real 10-year is
+        DGS10 − T10YIE, net liquidity is WALCL − TGA − RRP.
       </p>
       <div className="kpi-row">
         <KpiCard label="10-year Treasury" value={pct(ten?.value ?? null)}
           context={`${ten?.as_of ? fmtDay(ten.as_of) : "—"} · 30d ${fmtPp(ten?.chg_30d_pp ?? null)} · 1y ${fmtPp(ten?.chg_1y_pp ?? null)}`} accent="sky" />
+        {cr.bbb_yield?.value != null ? (
+          <KpiCard label="BBB corporate yield" value={pct(cr.bbb_yield.value)}
+            context={`all-in, ICE BofA · spread ${fmtPp(cr.bbb_oas?.value ?? null)} · 1y ${fmtPp(cr.bbb_yield.chg_1y)}`}
+            accent="violet" />
+        ) : (
+          <KpiCard label="High-yield OAS" value={fmtPp(cr.hy_oas.value)}
+            context={`ICE BofA · 30d ${fmtPp(cr.hy_oas.chg_30d)} · ${cr.hy_oas.as_of ?? "—"}`}
+            accent={(cr.hy_oas.chg_30d ?? 0) > 0 ? "red" : "emerald"} />
+        )}
+        {sofr?.value != null ? (
+          <KpiCard label="30-day average SOFR" value={pct(sofr.value)}
+            context={`floating-rate base · 1y ${fmtPp(sofr.chg_1y)} · ${sofr.as_of ?? "—"}`} accent="amber" />
+        ) : (
+          <KpiCard label="10y real yield" value={fmtPp(s.real_10y.value)}
+            context={`DGS10 − 10y breakeven ${pct(data.breakevens.t10yie.value)}`} accent="violet" />
+        )}
         <KpiCard label="2s10s" value={fmtPp(s.s2s10s.value)}
           context={`${s.s2s10s.value != null && s.s2s10s.value < 0 ? "inverted · " : ""}2y ${pct(two?.value ?? null)} · 30d ${fmtPp(s.s2s10s.chg_30d_pp)}`}
           accent={s.s2s10s.value != null && s.s2s10s.value < 0 ? "red" : "emerald"} />
-        <KpiCard label="10y real yield" value={fmtPp(s.real_10y.value)}
-          context={`DGS10 − 10y breakeven ${pct(data.breakevens.t10yie.value)}`} accent="violet" />
-        <KpiCard label="High-yield OAS" value={fmtPp(data.credit.hy_oas.value)}
-          context={`ICE BofA · 30d ${fmtPp(data.credit.hy_oas.chg_30d)} · ${data.credit.hy_oas.as_of ?? "—"}`}
-          accent={(data.credit.hy_oas.chg_30d ?? 0) > 0 ? "red" : "emerald"} />
       </div>
       <Citation series="10-year Treasury yield (DGS10)" asOf={ten?.as_of ?? data.published_at.slice(0, 10)} value={pct(ten?.value ?? null)} path="/rates" />
 
@@ -165,30 +185,33 @@ export default function RatesPage() {
         </div>
       </Section>
 
-      <Section title="Inflation compensation, credit and the dollar">
+      <Section title="Credit spreads, inflation compensation and the dollar">
+        {/* GDPNow and the auto-loan rate left this board (2026-10-07): neither
+            is a cost of capital for a build; both stay in rates.json */}
         <div className="quote-board">
-          {[
+          {([
+            ["IG OAS", cr.ig_oas, "pp"],
+            ["BBB OAS", cr.bbb_oas, "pp"],
+            ["HY OAS", cr.hy_oas, "pp"],
             ["5y breakeven", data.breakevens.t5yie, "pp"],
             ["10y breakeven", data.breakevens.t10yie, "pp"],
-            ["HY OAS", data.credit.hy_oas, "pp"],
             ["Broad dollar", data.dollar, "%"],
-            ["GDPNow", data.gdpnow, "pp"],
-            ["60m auto loan", data.auto_loan_60m, "pp"],
-          ].map(([label, lv, unit]) => {
-            const L = lv as Rates["dollar"];
-            return (
-              <div className="quote-tile" key={L.code}>
-                <div className="quote-label">{label as string}</div>
-                <div style={{ fontSize: 22, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
-                  {L.value == null ? "—" : unit === "%" ? L.value.toFixed(1) : `${L.value.toFixed(2)}%`}
-                </div>
-                <div className="quote-meta" style={{ fontSize: 11, color: "var(--muted)" }}>
-                  30d <Chg v={L.chg_30d} unit={unit as "pp" | "%"} /> · 1y <Chg v={L.chg_1y} unit={unit as "pp" | "%"} /> · {L.as_of ?? "—"}
-                </div>
-                <TailSpark tail={L.tail.values} label={label as string} />
+          ] as [string, Rates["dollar"] | undefined, "pp" | "%"][]).filter(([, L]) => L).map(([label, L, unit]) => (
+            <div className="quote-tile rt-tile" key={L!.code}>
+              <div className="quote-label">{label}</div>
+              <div className="rt-tile-value">
+                {L!.value == null ? "—" : unit === "%" ? L!.value.toFixed(1) : `${L!.value.toFixed(2)}%`}
               </div>
-            );
-          })}
+              {/* a block, not the flex .quote-meta: flex split every bare
+                  text node ("30d", "·", "1y") into its own floating item */}
+              <div className="rt-tile-meta">
+                <span>30d <Chg v={L!.chg_30d} unit={unit} /></span>
+                <span>1y <Chg v={L!.chg_1y} unit={unit} /></span>
+                <small>{L!.as_of ? fmtDay(L!.as_of) : "—"}</small>
+              </div>
+              <TailSpark tail={L!.tail.values} label={label} />
+            </div>
+          ))}
         </div>
         <div className="chart-card" style={{ marginTop: 10 }}>
           <LinesChart height={280} refLine={2} refLabel="2%"
@@ -196,6 +219,8 @@ export default function RatesPage() {
               { name: "10y breakeven", x: cut(h.dates), y: cut(h.t10yie), color: C.sky },
               { name: "5y breakeven", x: cut(h.dates), y: cut(h.t5yie), color: C.violet, dashed: true },
               { name: "HY OAS", x: cut(h.dates), y: cut(h.hy_oas), color: C.red },
+              ...(h.bbb_oas ? [{ name: "BBB OAS", x: cut(h.dates), y: cut(h.bbb_oas), color: C.amber }] : []),
+              ...(h.ig_oas ? [{ name: "IG OAS", x: cut(h.dates), y: cut(h.ig_oas), color: C.emerald, dashed: true }] : []),
             ]} />
         </div>
       </Section>

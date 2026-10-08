@@ -48,7 +48,13 @@
       "type": "object",
       "required": ["hy_oas"],
       "additionalProperties": false,
-      "properties": {"hy_oas": {"$ref": "#/$defs/level"}}
+      "properties": {"hy_oas": {"$ref": "#/$defs/level"}, "ig_oas": {"$ref": "#/$defs/level"},
+                     "bbb_oas": {"$ref": "#/$defs/level"}, "bbb_yield": {"$ref": "#/$defs/level"}}
+    },
+    "funding": {
+      "description": "floating-rate funding cost (2026-10-07+): 30-day average SOFR",
+      "type": "object", "required": ["sofr_30d"], "additionalProperties": false,
+      "properties": {"sofr_30d": {"$ref": "#/$defs/level"}}
     },
     "dollar": {"$ref": "#/$defs/level"},
     "gdpnow": {"$ref": "#/$defs/level"},
@@ -151,6 +157,8 @@
         "t5yie": {"$ref": "#/$defs/nums"},
         "t10yie": {"$ref": "#/$defs/nums"},
         "hy_oas": {"$ref": "#/$defs/nums"},
+        "ig_oas": {"$ref": "#/$defs/nums"},
+        "bbb_oas": {"$ref": "#/$defs/nums"},
         "dollar": {"$ref": "#/$defs/nums"},
         "spread_2s10s": {"$ref": "#/$defs/nums"},
         "spread_3m10y": {"$ref": "#/$defs/nums"},

@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (1226 tests)
+pytest -q                                     # full suite (1227 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -28,8 +28,8 @@ cd site && npm ci
 npm run dev        # local dev server
 npm run lint       # ESLint flat config: next core-web-vitals + jsx-a11y + react-hooks (must pass in CI)
 npm run build      # static export (must pass in CI)
-npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/news/newsTape/homeBrief/cloudGpu/dcHub/capacityHeadline/buildInputs/siteCosts) + dcWeightBasis + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/chartAria/sourcePills/badge
-npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 227 e2e tests, zero console errors
+npm test           # vitest — client math (since/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/news/newsTape/homeBrief/cloudGpu/dcHub/capacityHeadline/buildInputs/siteCosts/ratesHeadline) + dcWeightBasis + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/chartAria/sourcePills/badge
+npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause — 228 e2e tests, zero console errors
 npm run gen-types  # schemas/*.schema.json -> src/lib/generated/*.ts (gitignored; runs automatically before dev/build/test)
 ```
 
@@ -129,8 +129,8 @@ column keyed by hand-assigned market tag, never a coordinate radius — shown as
 grading harness (`dc_grades` — vintage-true backtest of the contingency bases on two labelled
 samples, strict and extended, plus the unfilled-orders lead-lag verdict), and the long-lead
 equipment board (`longlead` — hand-curated, stated-only vendor order-book figures joined to the
-five long-lead packages' price legs, stated lead times per package (`lead_times`: a survey's weeks or a vendor's order horizon, each quoted and dated, plus one all-equipment `lead_time_benchmark`), plus Census M3 months of backlog — SA unfilled orders ÷ SA monthly shipments, with both legs' YoY — in `backlog_months`), and the batch-4 unlocks (2026-09-03): `rates` (Treasury
-curve, breakevens, HY OAS, dollar, WALCL−TGA−RRP liquidity in $bn, mortgage spread, and the
+five long-lead packages' price legs, stated lead times per package (`lead_times`: a survey's weeks or a vendor's order horizon, each quoted and dated, plus one all-equipment `lead_time_benchmark`), plus Census M3 months of backlog — SA unfilled orders ÷ SA monthly shipments, with both legs' YoY — in `backlog_months`), and the batch-4 unlocks (2026-09-03): `rates` (shown as Cost of Capital under AI Infra: Treasury
+curve, breakevens, HY/IG/BBB OAS and BBB effective yield in `credit`, 30-day average SOFR in `funding`, dollar, WALCL−TGA−RRP liquidity in $bn, mortgage spread, and the
 Kalshi KXFED market-implied Fed path vs DFEDTARU in `fed_path`), `compute`
 (token and GPU-hour price indexes: equal-weight geometric means renormalized over live roster
 members; display-only SKUs carry `in_index: false`; a roster change never rebases — retired models

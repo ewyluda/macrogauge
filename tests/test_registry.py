@@ -25,13 +25,13 @@ def test_load_real_registry():
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC", "KALSHI_CORE",
                             "EIA_STATE_RES", "KALSHI_FED", "NYFED", "ATLFED", "QCEW_238212",
                             "ERCOT", "SPP", "NYISO", "AWS_GPU", "AZURE_GPU", "OCI_GPU", "COREWEAVE"}
-    assert len(series) == 852  # +19 cloud GPU list prices, +8 current models x in/out, -6 retired models x in/out (10-07); +ICE Mid-C/Palo Verde/Mass Hub, ERCOT/SPP/NYISO hubs (10-04); +89 QCEW_238212; +M3 SA backlog x4, euro HICP x2, SCE x3, BIE x2 (10-01); +nyfed_mct; +KXFED/DFEDTARU/tariff/GSCPI/B300 (measures) +4 PPIs/CSUSHPISA/SASL2RS (PCE, methodology)
+    assert len(series) == 856  # +IG/BBB OAS, BBB effective yield, 30-day SOFR (rates, 10-07); +19 cloud GPU list prices, +8 current models x in/out, -6 retired models x in/out (10-07); +ICE Mid-C/Palo Verde/Mass Hub, ERCOT/SPP/NYISO hubs (10-04); +89 QCEW_238212; +M3 SA backlog x4, euro HICP x2, SCE x3, BIE x2 (10-01); +nyfed_mct; +KXFED/DFEDTARU/tariff/GSCPI/B300 (measures) +4 PPIs/CSUSHPISA/SASL2RS (PCE, methodology)
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 177
+    assert len(fred) == 181
     # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
     # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
     # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
@@ -124,7 +124,7 @@ def test_load_real_registry():
             "DGS1MO": "DGS1MO", "DGS3MO": "DGS3MO", "DGS6MO": "DGS6MO",
             "DGS1": "DGS1", "DGS2": "DGS2", "DGS5": "DGS5",
             "DGS10": "DGS10", "DGS30": "DGS30",
-            "BAMLH0A0HYM2": "BAMLH0A0HYM2", "DTWEXBGS": "DTWEXBGS",
+            "BAMLH0A0HYM2": "BAMLH0A0HYM2", "BAMLC0A0CM": "BAMLC0A0CM", "BAMLC0A4CBBB": "BAMLC0A4CBBB", "BAMLC0A4CBBBEY": "BAMLC0A4CBBBEY", "SOFR30DAYAVG": "SOFR30DAYAVG", "DTWEXBGS": "DTWEXBGS",
             "GDPNOW": "GDPNOW", "WALCL": "WALCL", "WTREGEN": "WTREGEN",
             "RRPONTSYD": "RRPONTSYD", "EXHOSLUSM495S": "EXHOSLUSM495S",
             "USSTHPI": "USSTHPI", "RIFLPBCIANM60NM": "RIFLPBCIANM60NM",

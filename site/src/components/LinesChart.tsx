@@ -107,7 +107,11 @@ export function LinesChart({
                 silent: true,
                 symbol: "none",
                 lineStyle: { type: "dashed", color: C.muted },
-                label: { formatter: refLabel ?? `${refLine}%`, color: C.muted, fontSize: 11, position: "insideEndTop" },
+                // start, not end: at the right edge the label ran past the
+                // plot and clipped ("flat" rendered as "fla")
+                label: { formatter: refLabel ?? `${refLine}%`, color: C.muted, fontSize: 11, position: "insideStartTop",
+                         // a backing box keeps it legible where lines cross the reference
+                         backgroundColor: "rgba(255,255,255,0.85)", padding: [1, 4], borderRadius: 3 },
                 data: [{ yAxis: refLine }],
               },
             }

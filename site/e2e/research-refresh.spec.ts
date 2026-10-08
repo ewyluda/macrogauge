@@ -413,6 +413,27 @@ test("site costs: industrial power by default, one metric drives the map and a r
   expect(wages).toEqual([...wages].sort((a, b) => b - a));
 });
 
+test("cost of capital: takeaway H1, credit tiles instead of GDPNow/auto loans, and a /datacenter strip", async ({ page, request }) => {
+  const rates = await (await request.get("/data/rates.json")).json();
+  await page.goto("/rates");
+  await expect(page.locator("h1")).toContainText("The 10-year Treasury is");
+  const labels = await page.locator(".rt-tile .quote-label").allTextContents();
+  expect(labels).not.toContain("GDPNow");
+  expect(labels).not.toContain("60m auto loan");
+  expect(labels).toContain("HY OAS");
+  // tile meta is a block: no bare separator floats as its own flex item
+  await expect(page.locator(".rt-tile .quote-meta")).toHaveCount(0);
+  await page.goto("/datacenter");
+  await expect(page.locator("#dc-capital .kpi-card").first()).toContainText("10-year Treasury");
+  await expect(page.locator("#dc-capital a[href='/rates']")).toBeVisible();
+  // publish-gated: the BBB/SOFR readings land with the next daily run
+  test.skip(!rates.credit.bbb_yield, "published rates.json predates the BBB/SOFR series (next daily publish)");
+  await expect(page.locator("#dc-capital")).toContainText("BBB corporate yield");
+  await page.goto("/rates");
+  for (const l of ["IG OAS", "BBB OAS"]) expect(await page.locator(".rt-tile .quote-label").allTextContents()).toContain(l);
+  await expect(page.getByTestId("rates-takeaway")).toContainText("BBB spread moved");
+});
+
 // CI (Linux fonts) overflowed /status at 375px on a QCEW error URL that macOS
 // fonts happened to fit — pin the wrap rule itself, independent of font metrics.
 test("source-error text can break inside long URLs", async ({ page }) => {
