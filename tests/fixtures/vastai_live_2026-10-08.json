@@ -1,0 +1,1853 @@
+{
+"recorded": "2026-10-08",
+"note": "live console.vast.ai session for RTX 4090 (saturated: banded) and A100 SXM4 (one request), offers trimmed to the fields the connector reads",
+"responses": {
+"[\"RTX 4090\", null]": {
+"offers": [
+{
+"id": 54083016,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.1362962962962963,
+"dph_base": 0.13333333333333333,
+"rentable": true,
+"host_id": 434175
+},
+{
+"id": 54083028,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.1362962962962963,
+"dph_base": 0.13333333333333333,
+"rentable": true,
+"host_id": 434175
+},
+{
+"id": 54083013,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.1362962962962963,
+"dph_base": 0.13333333333333333,
+"rentable": true,
+"host_id": 434175
+},
+{
+"id": 54045511,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.33555555555555555,
+"dph_base": 0.3333333333333333,
+"rentable": true,
+"host_id": 723331
+},
+{
+"id": 34549084,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.33555555555555555,
+"dph_base": 0.3333333333333333,
+"rentable": true,
+"host_id": 44187
+},
+{
+"id": 50055076,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.3622222222222223,
+"dph_base": 0.36000000000000004,
+"rentable": true,
+"host_id": 58023
+},
+{
+"id": 49421340,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.3755555555555556,
+"dph_base": 0.37333333333333335,
+"rentable": true,
+"host_id": 616091
+},
+{
+"id": 54528036,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.37777777777777777,
+"dph_base": 0.37333333333333335,
+"rentable": true,
+"host_id": 143243
+},
+{
+"id": 49234431,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.3888888888888889,
+"dph_base": 0.38666666666666666,
+"rentable": true,
+"host_id": 122859
+},
+{
+"id": 53366998,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.3888888888888889,
+"dph_base": 0.38666666666666666,
+"rentable": true,
+"host_id": 581647
+},
+{
+"id": 50085897,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.3989629629629629,
+"dph_base": 0.39599999999999996,
+"rentable": true,
+"host_id": 367310
+},
+{
+"id": 49905847,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4022222222222222,
+"dph_base": 0.39999999999999997,
+"rentable": true,
+"host_id": 516162
+},
+{
+"id": 50632846,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4022222222222222,
+"dph_base": 0.39999999999999997,
+"rentable": true,
+"host_id": 516162
+},
+{
+"id": 54923801,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4022222222222222,
+"dph_base": 0.39999999999999997,
+"rentable": true,
+"host_id": 574465
+},
+{
+"id": 53045894,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4022222222222222,
+"dph_base": 0.39999999999999997,
+"rentable": true,
+"host_id": 74292
+},
+{
+"id": 48301711,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4022222222222222,
+"dph_base": 0.39999999999999997,
+"rentable": true,
+"host_id": 102082
+},
+{
+"id": 52867004,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.41555555555555557,
+"dph_base": 0.41333333333333333,
+"rentable": true,
+"host_id": 74292
+},
+{
+"id": 52573551,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.41777777777777775,
+"dph_base": 0.41333333333333333,
+"rentable": true,
+"host_id": 292781
+},
+{
+"id": 53001826,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.42888888888888893,
+"dph_base": 0.4266666666666667,
+"rentable": true,
+"host_id": 74292
+},
+{
+"id": 53098673,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.42888888888888893,
+"dph_base": 0.4266666666666667,
+"rentable": true,
+"host_id": 671207
+},
+{
+"id": 54041100,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.43259259259259264,
+"dph_base": 0.4266666666666667,
+"rentable": true,
+"host_id": 366851
+},
+{
+"id": 46325082,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.44222222222222224,
+"dph_base": 0.44,
+"rentable": true,
+"host_id": 410471
+},
+{
+"id": 34177542,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.44222222222222224,
+"dph_base": 0.44,
+"rentable": true,
+"host_id": 370946
+},
+{
+"id": 54756376,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.44222222222222224,
+"dph_base": 0.44,
+"rentable": true,
+"host_id": 618938
+},
+{
+"id": 54770564,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.44222222222222224,
+"dph_base": 0.44,
+"rentable": true,
+"host_id": 569965
+},
+{
+"id": 53588110,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4592592592592593,
+"dph_base": 0.45333333333333337,
+"rentable": true,
+"host_id": 366851
+},
+{
+"id": 34785269,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.46888888888888886,
+"dph_base": 0.4666666666666666,
+"rentable": true,
+"host_id": 486152
+},
+{
+"id": 50090146,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.46962962962962956,
+"dph_base": 0.4666666666666666,
+"rentable": true,
+"host_id": 306210
+},
+{
+"id": 45843293,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.47222222222222215,
+"dph_base": 0.4666666666666666,
+"rentable": true,
+"host_id": 8478
+},
+{
+"id": 48248663,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.477037037037037,
+"dph_base": 0.4733333333333333,
+"rentable": true,
+"host_id": 607983
+},
+{
+"id": 47469767,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4822222222222223,
+"dph_base": 0.48000000000000004,
+"rentable": true,
+"host_id": 515450
+},
+{
+"id": 48836647,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4822222222222223,
+"dph_base": 0.48000000000000004,
+"rentable": true,
+"host_id": 47308
+},
+{
+"id": 53334700,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4910814814814815,
+"dph_base": 0.48000000000000004,
+"rentable": true,
+"host_id": 172557
+},
+{
+"id": 52214344,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54851218,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54892084,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54018857,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54779133,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54786897,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54786718,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54018878,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54872402,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54551243,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4977777777777777,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 86680
+},
+{
+"id": 49588631,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.534962962962963,
+"dph_base": 0.5333333333333333,
+"rentable": true,
+"host_id": 39051
+},
+{
+"id": 54827672,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.5488888888888889,
+"dph_base": 0.5466666666666666,
+"rentable": true,
+"host_id": 149408
+},
+{
+"id": 51890698,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.5888888888888889,
+"dph_base": 0.5866666666666667,
+"rentable": true,
+"host_id": 631872
+},
+{
+"id": 52125965,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.6014814814814815,
+"dph_base": 0.6,
+"rentable": true,
+"host_id": 670431
+},
+{
+"id": 47554699,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.6022222222222222,
+"dph_base": 0.6,
+"rentable": true,
+"host_id": 102063
+},
+{
+"id": 33435509,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.6688888888888889,
+"dph_base": 0.6666666666666666,
+"rentable": true,
+"host_id": 155385
+},
+{
+"id": 33497496,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.6822222222222223,
+"dph_base": 0.68,
+"rentable": true,
+"host_id": 224600
+},
+{
+"id": 51281566,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.7488888888888889,
+"dph_base": 0.7466666666666667,
+"rentable": true,
+"host_id": 90277
+},
+{
+"id": 27796153,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.8022222222222222,
+"dph_base": 0.7999999999999999,
+"rentable": true,
+"host_id": 39788
+},
+{
+"id": 24912146,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.8022222222222222,
+"dph_base": 0.7999999999999999,
+"rentable": true,
+"host_id": 39788
+},
+{
+"id": 51861346,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.8074074074074074,
+"dph_base": 0.7999999999999999,
+"rentable": true,
+"host_id": 392559
+},
+{
+"id": 52481021,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.8288888888888889,
+"dph_base": 0.8266666666666667,
+"rentable": true,
+"host_id": 154140
+},
+{
+"id": 51950782,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.882962962962963,
+"dph_base": 0.88,
+"rentable": true,
+"host_id": 394957
+},
+{
+"id": 54902864,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.9096296296296297,
+"dph_base": 0.9066666666666667,
+"rentable": true,
+"host_id": 537677
+},
+{
+"id": 54884658,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.9362962962962962,
+"dph_base": 0.9333333333333332,
+"rentable": true,
+"host_id": 564914
+},
+{
+"id": 54227974,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.9370370370370369,
+"dph_base": 0.9333333333333332,
+"rentable": true,
+"host_id": 558496
+},
+{
+"id": 54227969,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.9370370370370369,
+"dph_base": 0.9333333333333332,
+"rentable": true,
+"host_id": 558496
+},
+{
+"id": 54683475,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.9888888888888888,
+"dph_base": 0.9866666666666666,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54822072,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 1.002962962962963,
+"dph_base": 1.0,
+"rentable": true,
+"host_id": 1276
+},
+{
+"id": 53477898,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 1.044711111111111,
+"dph_base": 1.0402666666666665,
+"rentable": true,
+"host_id": 701887
+},
+{
+"id": 54801287,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 1.202222222222222,
+"dph_base": 1.2,
+"rentable": true,
+"host_id": 96690
+}
+]
+},
+"[\"RTX 4090\", {\"gte\": 0.0, \"lt\": 1.0}]": {
+"offers": [
+{
+"id": 54083023,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.1362962962962963,
+"dph_base": 0.13333333333333333,
+"rentable": true,
+"host_id": 434175
+},
+{
+"id": 54083028,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.1362962962962963,
+"dph_base": 0.13333333333333333,
+"rentable": true,
+"host_id": 434175
+},
+{
+"id": 54083013,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.1362962962962963,
+"dph_base": 0.13333333333333333,
+"rentable": true,
+"host_id": 434175
+},
+{
+"id": 54045511,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.33555555555555555,
+"dph_base": 0.3333333333333333,
+"rentable": true,
+"host_id": 723331
+},
+{
+"id": 34549084,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.33555555555555555,
+"dph_base": 0.3333333333333333,
+"rentable": true,
+"host_id": 44187
+},
+{
+"id": 39646545,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.3622222222222223,
+"dph_base": 0.36000000000000004,
+"rentable": true,
+"host_id": 410471
+},
+{
+"id": 50055076,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.3622222222222223,
+"dph_base": 0.36000000000000004,
+"rentable": true,
+"host_id": 58023
+},
+{
+"id": 49421340,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.3755555555555556,
+"dph_base": 0.37333333333333335,
+"rentable": true,
+"host_id": 616091
+},
+{
+"id": 54528036,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.37777777777777777,
+"dph_base": 0.37333333333333335,
+"rentable": true,
+"host_id": 143243
+},
+{
+"id": 46026411,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.3888888888888889,
+"dph_base": 0.38666666666666666,
+"rentable": true,
+"host_id": 554895
+},
+{
+"id": 53366998,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.3888888888888889,
+"dph_base": 0.38666666666666666,
+"rentable": true,
+"host_id": 581647
+},
+{
+"id": 50085897,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.3989629629629629,
+"dph_base": 0.39599999999999996,
+"rentable": true,
+"host_id": 367310
+},
+{
+"id": 49545614,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4008888888888889,
+"dph_base": 0.39866666666666667,
+"rentable": true,
+"host_id": 166741
+},
+{
+"id": 49905847,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4022222222222222,
+"dph_base": 0.39999999999999997,
+"rentable": true,
+"host_id": 516162
+},
+{
+"id": 50632846,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4022222222222222,
+"dph_base": 0.39999999999999997,
+"rentable": true,
+"host_id": 516162
+},
+{
+"id": 54923801,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4022222222222222,
+"dph_base": 0.39999999999999997,
+"rentable": true,
+"host_id": 574465
+},
+{
+"id": 53045894,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4022222222222222,
+"dph_base": 0.39999999999999997,
+"rentable": true,
+"host_id": 74292
+},
+{
+"id": 52360671,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4022222222222222,
+"dph_base": 0.39999999999999997,
+"rentable": true,
+"host_id": 134292
+},
+{
+"id": 51419381,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4044444444444444,
+"dph_base": 0.39999999999999997,
+"rentable": true,
+"host_id": 143243
+},
+{
+"id": 52867004,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.41555555555555557,
+"dph_base": 0.41333333333333333,
+"rentable": true,
+"host_id": 74292
+},
+{
+"id": 52573551,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.41777777777777775,
+"dph_base": 0.41333333333333333,
+"rentable": true,
+"host_id": 292781
+},
+{
+"id": 53001826,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.42888888888888893,
+"dph_base": 0.4266666666666667,
+"rentable": true,
+"host_id": 74292
+},
+{
+"id": 53098673,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.42888888888888893,
+"dph_base": 0.4266666666666667,
+"rentable": true,
+"host_id": 671207
+},
+{
+"id": 54041107,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.43259259259259264,
+"dph_base": 0.4266666666666667,
+"rentable": true,
+"host_id": 366851
+},
+{
+"id": 52985682,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.43259259259259264,
+"dph_base": 0.4266666666666667,
+"rentable": true,
+"host_id": 366851
+},
+{
+"id": 50590094,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.44185185185185183,
+"dph_base": 0.44,
+"rentable": true,
+"host_id": 87213
+},
+{
+"id": 46325082,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.44222222222222224,
+"dph_base": 0.44,
+"rentable": true,
+"host_id": 410471
+},
+{
+"id": 34177542,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.44222222222222224,
+"dph_base": 0.44,
+"rentable": true,
+"host_id": 370946
+},
+{
+"id": 53492622,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4555555555555556,
+"dph_base": 0.45333333333333337,
+"rentable": true,
+"host_id": 102063
+},
+{
+"id": 34785269,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.46888888888888886,
+"dph_base": 0.4666666666666666,
+"rentable": true,
+"host_id": 486152
+},
+{
+"id": 45843293,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.47222222222222215,
+"dph_base": 0.4666666666666666,
+"rentable": true,
+"host_id": 8478
+},
+{
+"id": 48248663,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.477037037037037,
+"dph_base": 0.4733333333333333,
+"rentable": true,
+"host_id": 607983
+},
+{
+"id": 47469767,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4822222222222223,
+"dph_base": 0.48000000000000004,
+"rentable": true,
+"host_id": 515450
+},
+{
+"id": 53334700,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4910814814814815,
+"dph_base": 0.48000000000000004,
+"rentable": true,
+"host_id": 172557
+},
+{
+"id": 52214344,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54851218,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54892084,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54018846,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54779133,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54786897,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54786718,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54018878,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54872402,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4955555555555555,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 53226
+},
+{
+"id": 54551227,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.4977777777777777,
+"dph_base": 0.4933333333333333,
+"rentable": true,
+"host_id": 86680
+},
+{
+"id": 49588631,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.534962962962963,
+"dph_base": 0.5333333333333333,
+"rentable": true,
+"host_id": 39051
+},
+{
+"id": 54315063,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.5355555555555556,
+"dph_base": 0.5333333333333333,
+"rentable": true,
+"host_id": 346441
+},
+{
+"id": 51890698,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.5888888888888889,
+"dph_base": 0.5866666666666667,
+"rentable": true,
+"host_id": 631872
+},
+{
+"id": 52125965,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.6014814814814815,
+"dph_base": 0.6,
+"rentable": true,
+"host_id": 670431
+},
+{
+"id": 53029117,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.6014814814814815,
+"dph_base": 0.6,
+"rentable": true,
+"host_id": 670431
+},
+{
+"id": 29933348,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.6187542222222222,
+"dph_base": 0.616532,
+"rentable": true,
+"host_id": 81522
+},
+{
+"id": 33497496,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.6822222222222223,
+"dph_base": 0.68,
+"rentable": true,
+"host_id": 224600
+},
+{
+"id": 43303090,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.6955555555555556,
+"dph_base": 0.6933333333333334,
+"rentable": true,
+"host_id": 105119
+},
+{
+"id": 51281566,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.7488888888888889,
+"dph_base": 0.7466666666666667,
+"rentable": true,
+"host_id": 90277
+},
+{
+"id": 24912146,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.8022222222222222,
+"dph_base": 0.7999999999999999,
+"rentable": true,
+"host_id": 39788
+},
+{
+"id": 51861346,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.8074074074074074,
+"dph_base": 0.7999999999999999,
+"rentable": true,
+"host_id": 392559
+},
+{
+"id": 52481021,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.8288888888888889,
+"dph_base": 0.8266666666666667,
+"rentable": true,
+"host_id": 154140
+},
+{
+"id": 51950782,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.882962962962963,
+"dph_base": 0.88,
+"rentable": true,
+"host_id": 394957
+},
+{
+"id": 54902864,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.9096296296296297,
+"dph_base": 0.9066666666666667,
+"rentable": true,
+"host_id": 537677
+},
+{
+"id": 54884658,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.9362962962962962,
+"dph_base": 0.9333333333333332,
+"rentable": true,
+"host_id": 564914
+},
+{
+"id": 54227974,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.9370370370370369,
+"dph_base": 0.9333333333333332,
+"rentable": true,
+"host_id": 558496
+},
+{
+"id": 54227969,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.9370370370370369,
+"dph_base": 0.9333333333333332,
+"rentable": true,
+"host_id": 558496
+},
+{
+"id": 54683475,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.9888888888888888,
+"dph_base": 0.9866666666666666,
+"rentable": true,
+"host_id": 53226
+}
+]
+},
+"[\"RTX 4090\", {\"gte\": 1.0, \"lt\": 4.0}]": {
+"offers": [
+{
+"id": 54822072,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 1.002962962962963,
+"dph_base": 1.0,
+"rentable": true,
+"host_id": 1276
+},
+{
+"id": 47334601,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 1.0148148148148146,
+"dph_base": 1.0133333333333332,
+"rentable": true,
+"host_id": 637654
+},
+{
+"id": 53477898,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 1.044711111111111,
+"dph_base": 1.0402666666666665,
+"rentable": true,
+"host_id": 701887
+},
+{
+"id": 54801287,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 1.202222222222222,
+"dph_base": 1.2,
+"rentable": true,
+"host_id": 96690
+},
+{
+"id": 54923765,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 1.3355555555555554,
+"dph_base": 1.3333333333333333,
+"rentable": true,
+"host_id": 80344
+},
+{
+"id": 52812727,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 1.3377777777777777,
+"dph_base": 1.3333333333333333,
+"rentable": true,
+"host_id": 536758
+},
+{
+"id": 50176443,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 1.3416296296296297,
+"dph_base": 1.3386666666666667,
+"rentable": true,
+"host_id": 67245
+},
+{
+"id": 44713759,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 4,
+"dph_total": 1.5488888888888888,
+"dph_base": 1.5466666666666666,
+"rentable": true,
+"host_id": 168135
+},
+{
+"id": 13917961,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 1.6014814814814813,
+"dph_base": 1.5999999999999999,
+"rentable": true,
+"host_id": 50092
+},
+{
+"id": 46218730,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 4,
+"dph_total": 1.602962962962963,
+"dph_base": 1.5999999999999999,
+"rentable": true,
+"host_id": 57528
+},
+{
+"id": 44003621,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 3,
+"dph_total": 1.6814814814814816,
+"dph_base": 1.6800000000000002,
+"rentable": true,
+"host_id": 102349
+},
+{
+"id": 50026580,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 4,
+"dph_total": 1.708888888888889,
+"dph_base": 1.7066666666666668,
+"rentable": true,
+"host_id": 670499
+},
+{
+"id": 25814733,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 5,
+"dph_total": 2.002222222222222,
+"dph_base": 1.9999999999999998,
+"rentable": true,
+"host_id": 1647
+},
+{
+"id": 52814544,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 2.002222222222222,
+"dph_base": 2.0,
+"rentable": true,
+"host_id": 353487
+},
+{
+"id": 29548409,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 4,
+"dph_total": 2.136296296296296,
+"dph_base": 2.1333333333333333,
+"rentable": true,
+"host_id": 20210
+},
+{
+"id": 54821901,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 4,
+"dph_total": 2.200296296296296,
+"dph_base": 2.1973333333333334,
+"rentable": true,
+"host_id": 1276
+},
+{
+"id": 54790876,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 2.402222222222222,
+"dph_base": 2.4,
+"rentable": true,
+"host_id": 96690
+},
+{
+"id": 51119660,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 4,
+"dph_total": 2.402222222222222,
+"dph_base": 2.4,
+"rentable": true,
+"host_id": 307216
+},
+{
+"id": 46255396,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 2.4037037037037035,
+"dph_base": 2.4,
+"rentable": true,
+"host_id": 96690
+},
+{
+"id": 54445143,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 4,
+"dph_total": 2.407981274074074,
+"dph_base": 2.404976,
+"rentable": true,
+"host_id": 670790
+},
+{
+"id": 53177401,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 4,
+"dph_total": 2.457777777777778,
+"dph_base": 2.4533333333333336,
+"rentable": true,
+"host_id": 110266
+},
+{
+"id": 54281655,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 4,
+"dph_total": 2.536074074074074,
+"dph_base": 2.533333333333333,
+"rentable": true,
+"host_id": 35677
+},
+{
+"id": 8993658,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 5,
+"dph_total": 2.668325925925926,
+"dph_base": 2.6666666666666665,
+"rentable": true,
+"host_id": 1647
+},
+{
+"id": 54116662,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 5,
+"dph_total": 2.671037037037037,
+"dph_base": 2.6666666666666665,
+"rentable": true,
+"host_id": 43798
+},
+{
+"id": 36643036,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 4,
+"dph_total": 2.6725925925925926,
+"dph_base": 2.6666666666666665,
+"rentable": true,
+"host_id": 307216
+},
+{
+"id": 51119416,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 5,
+"dph_total": 3.002222222222222,
+"dph_base": 3.0,
+"rentable": true,
+"host_id": 307216
+},
+{
+"id": 53147745,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 8,
+"dph_total": 3.0955555555555554,
+"dph_base": 3.0933333333333333,
+"rentable": true,
+"host_id": 124072
+},
+{
+"id": 54240639,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 6,
+"dph_total": 3.2029629629629626,
+"dph_base": 3.1999999999999997,
+"rentable": true,
+"host_id": 727814
+},
+{
+"id": 24572012,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 8,
+"dph_total": 3.522222222222222,
+"dph_base": 3.52,
+"rentable": true,
+"host_id": 70084
+},
+{
+"id": 43618278,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 8,
+"dph_total": 3.5671111111111102,
+"dph_base": 3.562666666666666,
+"rentable": true,
+"host_id": 150178
+},
+{
+"id": 16391304,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 8,
+"dph_total": 3.7355555555555555,
+"dph_base": 3.7333333333333334,
+"rentable": true,
+"host_id": 49504
+},
+{
+"id": 50113454,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 10,
+"dph_total": 4.001481481481481,
+"dph_base": 3.9999999999999996,
+"rentable": true,
+"host_id": 109790
+},
+{
+"id": 49090529,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 10,
+"dph_total": 4.001481481481481,
+"dph_base": 3.9999999999999996,
+"rentable": true,
+"host_id": 109790
+}
+]
+},
+"[\"RTX 4090\", {\"gte\": 4.0, \"lt\": 16.0}]": {
+"offers": [
+{
+"id": 47089247,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 8,
+"dph_total": 4.112592592592592,
+"dph_base": 4.1066666666666665,
+"rentable": true,
+"host_id": 307216
+},
+{
+"id": 49016397,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 8,
+"dph_total": 4.162962962962963,
+"dph_base": 4.16,
+"rentable": true,
+"host_id": 669263
+},
+{
+"id": 54465081,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 9,
+"dph_total": 4.202222222222223,
+"dph_base": 4.2,
+"rentable": true,
+"host_id": 178654
+},
+{
+"id": 50986322,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 8,
+"dph_total": 4.272592592592592,
+"dph_base": 4.266666666666667,
+"rentable": true,
+"host_id": 307216
+},
+{
+"id": 51126106,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 8,
+"dph_total": 4.485925925925926,
+"dph_base": 4.48,
+"rentable": true,
+"host_id": 307216
+},
+{
+"id": 54679281,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 9,
+"dph_total": 4.802222222222222,
+"dph_base": 4.8,
+"rentable": true,
+"host_id": 178654
+},
+{
+"id": 26537135,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 9,
+"dph_total": 4.802222222222222,
+"dph_base": 4.8,
+"rentable": true,
+"host_id": 178654
+},
+{
+"id": 49038901,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 10,
+"dph_total": 5.070370370370371,
+"dph_base": 5.066666666666667,
+"rentable": true,
+"host_id": 125276
+},
+{
+"id": 45654096,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 14,
+"dph_total": 8.407407407407407,
+"dph_base": 8.399999999999999,
+"rentable": true,
+"host_id": 256524
+},
+{
+"id": 47202811,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 14,
+"dph_total": 14.935555555555554,
+"dph_base": 14.933333333333332,
+"rentable": true,
+"host_id": 96690
+},
+{
+"id": 54914340,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 12,
+"dph_total": 15.202222222222218,
+"dph_base": 15.199999999999996,
+"rentable": true,
+"host_id": 96690
+}
+]
+},
+"[\"RTX 4090\", {\"gte\": 16.0, \"lt\": 64.0}]": {
+"offers": [
+{
+"id": 48598384,
+"gpu_name": "RTX 4090",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 26.66888888888889,
+"dph_base": 26.666666666666668,
+"rentable": true,
+"host_id": 665761
+}
+]
+},
+"[\"RTX 4090\", {\"gte\": 64.0}]": {
+"offers": []
+},
+"[\"A100 SXM4\", null]": {
+"offers": [
+{
+"id": 54149943,
+"gpu_name": "A100 SXM4",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.42888888888888893,
+"dph_base": 0.4266666666666667,
+"rentable": true,
+"host_id": 388199
+},
+{
+"id": 54922514,
+"gpu_name": "A100 SXM4",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.5362962962962963,
+"dph_base": 0.5333333333333333,
+"rentable": true,
+"host_id": 150140
+},
+{
+"id": 53741736,
+"gpu_name": "A100 SXM4",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.577037037037037,
+"dph_base": 0.5733333333333334,
+"rentable": true,
+"host_id": 589293
+},
+{
+"id": 50478594,
+"gpu_name": "A100 SXM4",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.8022222222222222,
+"dph_base": 0.7999999999999999,
+"rentable": true,
+"host_id": 336002
+},
+{
+"id": 47130298,
+"gpu_name": "A100 SXM4",
+"gpu_frac": 1.0,
+"num_gpus": 1,
+"dph_total": 0.8022222222222222,
+"dph_base": 0.7999999999999999,
+"rentable": true,
+"host_id": 336002
+},
+{
+"id": 54907203,
+"gpu_name": "A100 SXM4",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 0.908888888888889,
+"dph_base": 0.9066666666666667,
+"rentable": true,
+"host_id": 556850
+},
+{
+"id": 54891844,
+"gpu_name": "A100 SXM4",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 1.3355555555555554,
+"dph_base": 1.3333333333333333,
+"rentable": true,
+"host_id": 80738
+},
+{
+"id": 52449091,
+"gpu_name": "A100 SXM4",
+"gpu_frac": 1.0,
+"num_gpus": 2,
+"dph_total": 1.6014814814814813,
+"dph_base": 1.5999999999999999,
+"rentable": true,
+"host_id": 704428
+},
+{
+"id": 54730509,
+"gpu_name": "A100 SXM4",
+"gpu_frac": 1.0,
+"num_gpus": 8,
+"dph_total": 7.470370370370371,
+"dph_base": 7.466666666666667,
+"rentable": true,
+"host_id": 733627
+},
+{
+"id": 53873552,
+"gpu_name": "A100 SXM4",
+"gpu_frac": 1.0,
+"num_gpus": 8,
+"dph_total": 15.653197688888888,
+"dph_base": 15.644447999999999,
+"rentable": true,
+"host_id": 637093
+},
+{
+"id": 53572345,
+"gpu_name": "A100 SXM4",
+"gpu_frac": 1.0,
+"num_gpus": 8,
+"dph_total": 15.653430029629629,
+"dph_base": 15.644447999999999,
+"rentable": true,
+"host_id": 637093
+}
+]
+}
+}
+}
