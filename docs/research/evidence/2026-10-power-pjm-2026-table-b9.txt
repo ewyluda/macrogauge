@@ -1,0 +1,60 @@
+# PJM 2026 Long-Term Load Forecast, tables workbook, sheet 'Table B9' (all rows, columns 2026-2041 shown), saved 2026-10-08
+# URL: https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/2026-load-report-tables.xlsx
+# Report: https://www.pjm.com/-/media/DotCom/library/reports-notices/load-forecast/2026-load-report.pdf (zone list lines below from its pdftotext)
+1 [' Back to TOC']
+3 ['Table B-9']
+4 ['Adjustments Above Embedded to Summer Peak Load (MW) for Each PJM Zone and RTO (2026 - 2046)']
+5 ['* Note: This Table was updated 2/6/2026 to correct for an error calculating embedded']
+6 [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039, 2040, 2041]
+7 ['AE', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+8 ['BGE', 18, 25, 43, 110, 176, 243, 307, 355, 355, 355, 355, 354, 354, 354, 354]
+9 ['DPL', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+10 ['JCPL', 0, 0, 0, 1, 77, 80, 112, 193, 245, 245, 245, 245, 245, 245, 245]
+11 ['METED', 0, 0, 0, 10, 75, 75, 126, 187, 234, 234, 233, 233, 233, 233, 234]
+12 ['PECO', 17, 88, 281, 517, 824, 1146, 1414, 1560, 1664, 1698, 1697, 1698, 1698, 1698, 1698]
+13 ['PENLC', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+14 ['PEPCO', 0, 0, 0, 0, 142, 229, 437, 642, 799, 946, 1064, 1064, 1064, 1064, 1064]
+15 ['PL', 189, 394, 1274, 1876, 4996, 5906, 6241, 6285, 6284, 6282, 6279, 6278, 6279, 6280, 6281]
+16 ['PS', 72, 144, 392, 702, 1194, 1686, 2077, 2339, 2358, 2363, 2372, 2389, 2394, 2400, 2429]
+17 ['RECO', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+18 ['UGI', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+19 ['\xa0']
+20 ['AEP', 1913, 3432, 4748, 6311, 7918, 9273, 10636, 12254, 13892, 15524, 17115, 19135, 20019, 19997, 20008]
+21 ['APS', 165, 276, 319, 590, 1213, 1557, 1929, 2197, 2610, 2626, 2624, 2625, 2624, 2624, 2624]
+22 ['ATSI', 132, 165, 299, 431, 1129, 1302, 1538, 1823, 2020, 2169, 2211, 2210, 2210, 2209, 2210]
+23 ['COMED', 478, 861, 1663, 3128, 4838, 6479, 8144, 9520, 10146, 10383, 10405, 10459, 10479, 10497, 10512]
+24 ['DAYTON', 0, 144, 277, 411, 954, 1392, 1821, 2144, 2242, 2242, 2241, 2241, 2241, 2241, 2241]
+25 ['DEOK', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+26 ['DLCO', 0, 0, 0, 0, 46, 75, 87, 87, 87, 87, 87, 87, 87, 87, 87]
+27 ['EKPC', -10, -10, -10, -10, -10, -10, -9, -9, -9, -9, -9, -9, -8, -8, -8]
+28 ['OVEC', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+29 ['\xa0']
+30 ['DOM', 3429, 5266, 6956, 8213, 10135, 12044, 13912, 15512, 16962, 18651, 20451, 22822, 24890, 26408, 27471]
+31 ['\xa0']
+32 ['PJM RTO', 6403, 10785, 16242, 22290, 33707, 41477, 48772, 55089, 59889, 63796, 67370, 71831, 74809, 76329, 77450]
+
+## Report zone definitions (pdftotext lines)
+35:                AEP American Electric Power zone                                                    Oct. 1, 2004
+41:             COMED Commonwealth Edison zone                                                         May 1, 2004
+46:                DOM Dominion Virginia Power zone                                                    May 1, 2005
+52:                INM Indiana Michigan Power, sub-zone of AEP
+68:                OP Ohio Power, sub-zone of AEP
+272:             RECO       UGI                        AEP                           APS                    ATSI
+
+## Report p.5 Load Adjustments block
+Load Adjustments
+The forecasts of the following zones have been adjusted to account for large, unanticipated load changes, market adjustments and peak shaving adjustments (see
+Tables B-9 and B-9b and the Supplement for details):
+
+ Zones                                                                                            Adjusted to account for:
+
+ AEP, ATSI, APS, BGE, COMED, DAYTON,
+                                                    Growth in data center load
+ DLCO, JCPL, METED, PECO, PEPCO, PL
+
+ DOM                                                Growth in data center load and a voltage optimization program
+
+ PS                                                 Growth in data center load and port electrification
+
+ EKPC                                               A peak shaving program that commenced in the 2023 DY
+

@@ -1,0 +1,92 @@
+# JLL 2026 Global Data Center Outlook, pdftotext -layout, PDF pages 18 and 25 (PDF CreationDate 2026-03-03)
+# URL: https://www.jll.com/content/dam/jllcom/en/global/documents/reports/research-reports/26-research-global-data-center-outlook-new.pdf
+==== PDF page 18
+2026 Global Data Center Outlook
+
+
+Behind-the-meter generation and battery storage                                    Grid delays push data centers toward self-generation,
+gain momentum in data center energy strategies                                     PPAs and private wire contracts to expedite projects
+
+Data center operators are expected to increase behind-the-meter power              Average grid connection lead times for new 50 MW data centers (years)
+arrangements and explore colocated battery storage as the average wait time
+                                                                                                         Dallas
+for a grid connection in primary data center markets exceeds four years.
+                                                                                                       Phoenix
+Natural gas is projected to play a major role in alleviating grid constraints in                        Atlanta
+                                                                                         AMER
+the U.S., both for temporary bridge power and increasingly for permanent on-                           Chicago
+site power generation. This can be evidenced by surging global turbine orders.                       N. Virginia
+However, it is worth noting that some of the largest data center tenants are                           Mumbai
+averse to natural gas solutions as they are not viewed as sustainable.                                  Sydney
+                                                                                                          Seoul
+Natural gas as a solution is less prominent in EMEA and APAC. In these regions,          APAC
+                                                                                                     Singapore
+renewables such as solar and wind are seeing increased utilization. In EMEA                              Tokyo
+for instance, projects combining renewables and private wire transmission can                            Dublin     Paused until 2028
+reduce the cost of power for tenants by 40% compared to the grid.                                          Paris
+                                                                                                      Frankfurt
+Due to utility interconnection delays, some data center operators are moving             EMEA
+                                                                                                       London
+beyond power purchase agreements (PPAs) to directly fund their own energy
+                                                                                                    Amsterdam
+generation. Additionally, a number of markets have implemented de facto
+‘bring your own power’ mandates (Dublin, Texas, et al.), which is fueling this                                     0Years    2             4            6            8           10
+trend.
+                                                                                   Source: JLL Research
+
+
+
+18                                                                                                                               © 2026 Jones Lang LaSalle IP, Inc. All rights reserved.
+
+==== PDF page 25
+2026 Global Data Center Outlook
+
+
+Data center construction costs have                       Construction costs are relatively uniform across AMER and EMEA, with
+been increasing at a 7% CAGR                              significant variation in APAC between developed and emerging markets
+
+The industry is expanding at a relentless pace,           2026 average data center construction costs in the largest global markets ($ millions per MW)
+resulting in extended lead times, limited availability
+                                                                                                                                                                      $18
+of skilled trades and escalating development costs.
+
+Between 2020 and 2025, the average global data                                                                                                                                  $15
+                                                              $14                                                   $14
+center construction cost increased from $7.7 to                                                                              $13
+                                                                         $12                                                             $12     $12                  $14
+$10.7 million per MW, equating to 7% CAGR. For                                                                                                               $11                            $12     $12
+                                                                                       $11       $11
+2026, JLL is forecasting the average global cost will                                                     $11
+                                                              $12                                                   $12                                                         $12
+                                                                                                                             $11                 $11
+increase 6% to $11.3 million per MW.                                     $11                                                             $11                                                        $11
+                                                                                       $10       $10      $10                                                $10                                             $7
+Speed to power is the primary criteria driving site                                                                                                                                         $9
+selection, followed by community support, latency                                                                                                                                                            $6
+and proximity to customers. However, as project
+
+
+                                                                                                                                                                                Singapore
+                                                               Chicago                 Phoenix
+                                                                                                                                         Paris
+                                                                                                          Atlanta                                                                                   Sydney
+                                                                                                                                                                                            Seoul
+                                                                                                                                                                                                             Mumbai
+                                                                         N. Virginia
+                                                                                                 Dallas                                                               Tokyo
+                                                                                                                             Frankfurt
+                                                                                                                                                 Amsterdam
+                                                                                                                    London                                   Dublin
+sizes get larger, variations in construction costs may
+weigh more heavily in location decisions.
+
+Note: the figures in the chart only include the cost to
+construct the shell and core. Tenants are typically                                    AMER                                              EMEA                                               APAC
+responsible for the tech fit-out which can cost as        Source: JLL Research
+much as $25 million per MW for AI infrastructure.         Note: Average build costs for the shell and core of a single-tenant 50 MW air-cooled data center. Land acquisition and active IT equipment
+                                                          costs are excluded. Liquid-cooled facilities have a 10% cost premium. Add 20% to construction costs for multistory facilities in AMER.
+
+
+
+25                                                                                                                                                           © 2026 Jones Lang LaSalle IP, Inc. All rights reserved.
+

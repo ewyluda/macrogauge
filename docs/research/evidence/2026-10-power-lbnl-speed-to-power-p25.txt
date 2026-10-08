@@ -1,0 +1,50 @@
+# LBNL, Speed to Power: Solutions for Accelerating Large Load Connections (June 2026; PDF CreationDate 2026-06-09), pdftotext -layout, PDF page 33 (printed p.25) and the ATC footnote on printed p.4
+# URL: https://eta-publications.lbl.gov/sites/default/files/2026-06/lbnl_large_loads_speed_to_power_final_1.pdf
+
+6
+  DOE (2024a). The report does discuss paired load and generation interconnection processes.
+7
+  EPRI (2025); ESIG (2026a); Quint et al. (2025); NERC (2026).
+8
+  For background on transmission permitting reforms, see CRS (2025).
+9
+  For instance, American Transmission Company (ATC) expects that its planning and study process for
+loads will take 6 to 18 months, whereas any construction requiring line extension will take at least 18
+months and potentially as long as 60 months. See ATC (2025).
+
+----
+Figure 8. PGE’s Large Load Study Timelines
+
+
+
+
+Source: PGE’s large load study process website.
+
+S3.8. Interconnection data and queue transparency. Some utilities include information on
+expected timelines for large load studies and network facilities construction in their
+interconnection guidelines,55 but there is limited publicly available information on large load
+interconnection timelines or costs. Information on expected and actual interconnection timelines
+and costs could help large load customers make better siting decisions and reduce speculative
+requests. Publicly available information on actual interconnection timelines and costs could also
+help to inform large load interconnection policy. Interconnection data transparency could extend
+to the post-interconnection agreement construction phase.
+
+Some transmission providers publish information on load interconnection queues. For instance,
+ERCOT publishes monthly information on the status of loads in the interconnection queue in its
+Monthly Operational Overview (Figure 9). However, most transmission owners, transmission
+providers, and distribution utilities do not publish data on load interconnection queues. This type
+of information can be useful for a range of planning activities: transmission planning, resource
+adequacy planning, resource planning, and large load customer expansion planning. Recent
+
+
+
+
+requires more complex planning efforts to reliably serve expected capacity requirements.” See PGE’s
+large load study process website.
+55
+   See, for instance, ATC (2025).
+
+
+                          Speed to Power: Solutions for Accelerating Large Load Connections 25
+improvements in generator interconnection queue transparency could provide insights for the
+design of large load interconnection queues. 56

@@ -1,0 +1,144 @@
+# ERCOT Large Load Interconnection Status Update, March 13, 2026 (TAC report), pdftotext -layout. Charts (incl. 'Distribution by Load Zone', 'Distribution - TSP') are images with no text layer.
+# URL: https://www.ercot.com/files/docs/2026/03/12/March-TAC-Report.pdf
+Large Load Interconnection
+Status Update
+
+Large Load Integration Team
+
+March 13, 2026
+     Large Load Queue – Past 12 Months
+
+
+
+
+         Changes since February Queue Update
+         • Some project cancellations occurred in February/early March, causing overall queue numbers to
+           decrease slightly
+
+PUBLIC                                                                                                     2
+     Current Large Load Interconnection Queue
+                                                • Observed Energized – Projects that have received
+                                                  Approval to Energize from ERCOT Operations and
+                                                  are fully operational. Represented by all time non-
+                                                  simultaneous peak load consumption.
+                                                • Approved to Energize but Not Operational –
+                                                  Projects that have received Approval to Energize from
+                                                  ERCOT Operations but are not observed to be
+                                                  operational.
+                                                • Planning Studies Approved – Projects that have
+                                                  received ERCOT approval of required interconnection
+                                                  studies. Any MWs that were not approved are
+                                                  reclassified as No Studies Submitted.
+                                                • Under ERCOT Review – Projects that have studies
+                                                  under review by ERCOT.
+                                                • No Studies Submitted – Projects that are tracked by
+                                                  ERCOT but that have not yet provided sufficient
+                                                  information for ERCOT to begin review. Additionally,
+                                                  MWs that were not approved by ERCOT after review
+                                                  of planning studies are included in this category until
+                                                  a path to interconnect these MWs is identified, or the
+                                                  customer cancels the interconnection request.
+
+
+
+
+                                                ERCOT has recently received 137 new LLI
+                                                submissions. Preliminary review indicates
+                                                these total approximately 140,000 MW of new
+                                                Large Load by 2036. ERCOT is still
+                                                processing these submissions, and they will
+                                                be reflected in future reports.
+
+PUBLIC                                                                                             3
+     ERCOT Approvals – Past 12 Months
+
+
+
+
+         ERCOT Approvals Since February 2025 (Observations)
+
+
+PUBLIC                                                        4
+     Loads Approved to Energize – By Zone & Project Type
+
+
+
+
+                              *
+
+
+
+
+                           *Other Includes LZ_NORTH, LZ_SOUTH, and LZ_HOUSTON
+
+PUBLIC                                                                          5
+     Loads Approved to Energize – Observations 1
+         •   Of the 9042 MW that have received Approval to Energize, ERCOT has observed a non-simultaneous monthly peak consumption of
+             3883 MW in March 2025 which is a slight decrease since February 2025.
+              – This is calculated as the sum of the maximum value for each individual load per month
+              – This value represents how much approved load ERCOT believes is now operational
+
+
+
+
+PUBLIC                                                                                                                                   6
+     Loads Approved to Energize – Observations 2
+         •   ERCOT has observed a simultaneous monthly peak consumption of 3801 MW in March 2025 which is a slight decrease since
+             February 2025.
+              – This is the maximum value of the sum of all the individual loads per month
+              – This value is the maximum amount of large load that ERCOT has had to serve at a single point in time
+
+
+
+
+PUBLIC                                                                                                                              7
+     Large Load Project Distribution - Size
+
+
+
+
+PUBLIC                                        8
+     Large Load Project Distribution - TSP
+
+
+
+
+PUBLIC         *The Other category includes categories in which there are less than five customers and is aggregated to protect Customer data   9
+     Large Load Project Submittal Date
+
+
+
+
+PUBLIC                                   10
+     Large Load Project In Service Date
+
+
+
+
+PUBLIC                                    11
+     Large Load Project Distribution by Type
+
+
+
+
+PUBLIC                                         12
+     Large Load Project Distribution by Load Zone
+
+
+
+
+PUBLIC                                              13
+     Large Load Project Distribution by Load Zone
+
+
+
+
+PUBLIC                                              14
+         Questions?
+         email: LargeloadInterconnection@ercot.com
+
+
+
+
+PUBLIC                                               15
+
