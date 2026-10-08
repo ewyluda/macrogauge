@@ -13,11 +13,15 @@ fails another's row.
              prices GPU shapes per GPU-hour already.
   COREWEAVE  coreweave.com/pricing (scrape): the largest neocloud's on-demand
              node prices.
+  NEBIUS     nebius.com/prices (scrape): the on-demand GPU table, already per
+             GPU-hour. A scheduled price change is published as a second
+             column "GPU-hour (Effective <date>)"; that column is the list
+             price from its date on.
 
 source_id = "<instance or part>/<gpus per instance>" for AWS, Azure and
 CoreWeave (the stored value is the instance price divided by its GPU count),
 "<part number>:<GPU name>" for OCI (already per GPU; the name guards against a
-part number being reassigned). A SKU missing from a response skips its series
+part number being reassigned), "<row name>" for Nebius (already per GPU). A SKU missing from a response skips its series
 (it then surfaces as staleness); a response that doesn't parse, or matches no
 tracked SKU at all, raises "structure drift?" into the collect-layer
 isolation. Every value is range-checked per GPU-hour.
@@ -25,8 +29,10 @@ isolation. Every value is range-checked per GPU-hour.
 These are LIST prices: what a buyer pays with no commitment. Reserved and
 committed-use discounts are deeper and not published per SKU.
 """
+import html
 import re
 import urllib.parse
+from datetime import datetime
 
 import requests
 
@@ -43,6 +49,7 @@ AZURE_URL = "https://prices.azure.com/api/retail/prices"
 AZURE_REGION = "eastus2"
 OCI_URL = "https://apexapps.oracle.com/pls/apex/cetools/api/v1/products/?currencyCode=USD"
 COREWEAVE_URL = "https://www.coreweave.com/pricing"
+NEBIUS_URL = "https://nebius.com/prices"
 
 
 def _split(sid: str, sep: str) -> tuple[str, str]:
@@ -203,3 +210,62 @@ def fetch_coreweave(source_ids: list[str], vintage_date: str | None = None, http
                              "(structure drift?)")
         out.append(_obs(sid, labelled / int(gpus), vintage, "COREWEAVE", "SCRAPE"))
     return _need(out, "COREWEAVE")
+
+
+def _cells(page: str) -> list[str]:
+    """The page's visible text as an ordered list of non-empty cells."""
+    page = re.sub(r"<script.*?</script>|<style.*?</style>", " ", page, flags=re.S)
+    return [c for c in (html.unescape(x).strip() for x in re.split(r"<[^>]+>", page)) if c]
+
+
+def fetch_nebius(source_ids: list[str], vintage_date: str | None = None, http_get=None) -> list[Observation]:
+    """source_id = '<row name>' e.g. 'NVIDIA HGX H100'. Only the on-demand
+    table is read: it runs from the 'NVIDIA GPU Instances' header row
+    (Item | vCPUs | RAM, GB | <price columns>) to the 'Preemptible' (spot)
+    table. Each price column must be 'On-demand, GPU-hour' or 'GPU-hour
+    (Effective <Month D, YYYY>)'; the price used is the latest column already
+    in effect on the vintage date. Any other header, a row of the wrong width
+    or a tracked row priced as 'from $X' / 'Contact us' fails loudly."""
+    http_get = http_get or requests.get
+    vintage = vintage_date or today_et()
+    resp = http_get(NEBIUS_URL, timeout=60, headers=UA)
+    resp.raise_for_status()
+    cells = _cells(resp.text)
+    head = ["NVIDIA GPU Instances", "Item", "vCPUs", "RAM, GB"]
+    start = next((i for i in range(len(cells) - 3) if cells[i:i + 4] == head), None)
+    if start is None:
+        raise ValueError("NEBIUS: no on-demand 'NVIDIA GPU Instances' table (structure drift?)")
+    i, effective = start + 4, []           # effective date per price column ("" = on-demand)
+    while i < len(cells) and not cells[i].startswith("NVIDIA "):
+        h = cells[i]
+        m = re.fullmatch(r"GPU-hour \(Effective (\w+ \d{1,2}, \d{4})\)", h)
+        if h == "On-demand, GPU-hour":
+            effective.append("")
+        elif m:
+            effective.append(datetime.strptime(m.group(1), "%B %d, %Y").date().isoformat())
+        else:
+            raise ValueError(f"NEBIUS: unexpected price column {h!r} (structure drift?)")
+        i += 1
+    if not effective or effective[0] != "":
+        raise ValueError("NEBIUS: first price column is not 'On-demand, GPU-hour' (structure drift?)")
+    col = max(k for k, d in enumerate(effective) if d <= vintage)
+    end = next((j for j in range(i, len(cells)) if cells[j].startswith("Preemptible")), None)
+    if end is None:
+        raise ValueError("NEBIUS: no spot table after the on-demand table (structure drift?)")
+    width = 3 + len(effective)
+    rows = {}
+    while i < end:
+        if not cells[i].startswith("NVIDIA ") or i + width > end:
+            raise ValueError(f"NEBIUS: row at {cells[i]!r} is not {width} cells wide (structure drift?)")
+        rows[cells[i]] = cells[i + 3:i + width]
+        i += width
+    out = []
+    for sid in source_ids:
+        prices = rows.get(sid)
+        if prices is None:
+            continue
+        m = re.fullmatch(r"\$(\d+\.\d{2})", prices[col])
+        if not m:
+            raise ValueError(f"NEBIUS {sid}: price {prices[col]!r} is not a flat on-demand rate (structure drift?)")
+        out.append(_obs(sid, float(m.group(1)), vintage, "NEBIUS", "SCRAPE"))
+    return _need(out, "NEBIUS")

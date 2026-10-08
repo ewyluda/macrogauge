@@ -93,9 +93,13 @@ CLOUD_GPUS = [
     ("cw_h100", "CoreWeave", "H100", "HGX H100", 8), ("cw_h200", "CoreWeave", "H200", "HGX H200", 8),
     ("cw_b200", "CoreWeave", "B200", "HGX B200", 8), ("cw_gb200", "CoreWeave", "GB200", "GB200 NVL72", 4),
     ("cw_a100", "CoreWeave", "A100", "A100", 8),
+    ("neb_h100", "Nebius", "H100", "per-GPU list price", 1),
+    ("neb_h200", "Nebius", "H200", "per-GPU list price", 1),
+    ("neb_b200", "Nebius", "B200", "per-GPU list price", 1),
+    ("neb_b300", "Nebius", "B300", "per-GPU list price", 1),
 ]
 CLOUD_REGION = {"AWS": "US East (N. Virginia)", "Azure": "East US 2", "Oracle": "list price, all regions",
-                "CoreWeave": "list price"}
+                "CoreWeave": "list price", "Nebius": "list price"}
 BLEND_IN, BLEND_OUT = 0.75, 0.25
 MIN_MEMBERS = 3
 TAIL_OBS = 90

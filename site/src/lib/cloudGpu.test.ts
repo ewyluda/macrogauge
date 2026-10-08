@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cloudRows, cloudTakeaway } from "./cloudGpu";
+import { cloudProviders, cloudRows, cloudTakeaway, listOf } from "./cloudGpu";
 import type { CloudGpu } from "./types";
 
 const c = (provider: string, gpu: string, v: number | null, stale = false): CloudGpu => ({
@@ -35,6 +35,13 @@ describe("cloudRows", () => {
 
   it("is empty on a file published before cloud prices existed", () => {
     expect(cloudRows({ gpus })).toEqual([]);
+  });
+
+  it("gives a column only to providers with a quote, in provider order", () => {
+    const rows = cloudRows({ gpus, cloud_gpus: [c("Nebius", "H100", 4.5), c("AWS", "H100", 6.88), c("Oracle", "B300", null)] });
+    expect(cloudProviders(rows)).toEqual(["AWS", "Nebius"]);         // Oracle's only row has no price
+    expect(listOf(["AWS", "Azure", "Oracle", "CoreWeave", "Nebius"])).toBe("AWS, Azure, Oracle, CoreWeave and Nebius");
+    expect(listOf(["AWS"])).toBe("AWS");
   });
 });
 

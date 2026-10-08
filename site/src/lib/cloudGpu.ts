@@ -6,7 +6,7 @@ import type { CloudGpu, Compute } from "./types";
  *  its cell with its date but never counts toward the current range, the
  *  cheapest-price mark or the takeaway. */
 
-export const PROVIDERS = ["AWS", "Azure", "Oracle", "CoreWeave"] as const;
+export const PROVIDERS = ["AWS", "Azure", "Oracle", "CoreWeave", "Nebius"] as const;
 export const GPU_ORDER = ["H100", "H200", "B200", "B300", "GB200", "A100"] as const;
 /** every cloud A100 row is the 80GB part (AWS p4de, not the 40GB p4d) */
 export const GPU_LABEL: Record<string, string> = { A100: "A100 80GB" };
@@ -38,6 +38,18 @@ export function cloudRows(data: Pick<Compute, "gpus" | "cloud_gpus">): CloudRow[
     return { gpu, cells, low: vals.length ? Math.min(...vals) : null, high: vals.length ? Math.max(...vals) : null,
              fresh: vals.length, market };
   }).filter((r) => Object.values(r.cells).some(Boolean));
+}
+
+/** The providers with at least one quote in the table, in PROVIDERS order: a
+ *  provider added to the pipeline gets a column from its first publish, never
+ *  an all-dash column before it. */
+export function cloudProviders(rows: CloudRow[]): string[] {
+  return PROVIDERS.filter((p) => rows.some((r) => r.cells[p]));
+}
+
+/** "AWS, Azure and Oracle" */
+export function listOf(names: string[]): string {
+  return names.length < 2 ? names.join("") : `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
 }
 
 const $ = (v: number) => `$${v.toFixed(2)}`;

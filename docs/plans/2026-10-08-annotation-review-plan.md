@@ -17,6 +17,7 @@ Baseline: `main` at `f58df0d` · pytest 1265 · `npm test` 388 · e2e 230.
 | D7 | These six PRs run before scorecard handoff Session 1 (Claude's advice: slot S1 after PR 4; Eric to confirm). |
 | D8 | /compute gets a tier tag per model. |
 | D9 | /commodities power-hub rows switch from the single-day print YoY to the **30-day-average YoY** /power uses (PJM read +82.7% one-day vs +61.9% 30-day on 2026-10-08). Ships in PR 4 (`pipeline/publish/commodities.py` rows `ice_pjm_west`, `caiso_sp15_da`; row label names the window). |
+| D10 | F8 numbers-strip dedupe: equal-dollar figures for the same ticker merge **only when the stories fall on different ET days** (a repeat report of one deal); same-day equal figures from distinct stories both stay (Q6 option a, 2026-10-08). |
 
 ### Roster by usage (OpenRouter rankings, week to 2026-10-07)
 
@@ -183,7 +184,45 @@ deal:
 
 ---
 
+## Audit reconciliation — `docs/reviews/2026-10-08-pr-54-70-review-coverage-audit.md`
+
+All ten findings were re-verified against `main` at `c41363a` (2026-10-08) with probes that ran the actual
+helpers, the actual `HomeAiBrief` render, and Playwright against the built export. **All ten still reproduce,
+none fixed**, and none of the cited lines have moved. Probe outputs are summarized below; the probe files stayed
+in a scratch export.
+
+| # | Sev | Finding (current location) | Re-verified evidence | Fix lands in |
+|---|---|---|---|---|
+| F4 | P2 | Impossible post timestamp crashes news render (`news.ts:31-34`, `parsePost` checks shape only) | `2026-99-99T12:00:00Z` accepted → `groupByEtDay` throws `RangeError`; `2026-02-30` silently normalizes | **PR 3b** (news hardening I) |
+| F5 | P2 | Future-dated live feed freezes polling and reads "Live" (`news.ts:65-95`, `NewsFeed.tsx:65-66`) | 2030 feed accepted; healthy feed can't displace it; `ageH -28331.8` → "just now" | **PR 3b** |
+| F2 | P2 | Methodology says DC Hardware avoids quality-adjusted indexes (`DcMethodology.tsx:127-129`) | 38% of Hardware is `IR213COM` (BLS MXP, quality-adjusted) | **PR 4** (already edits DC methodology) |
+| F9 | P3 | Quality-hold copy implies official prints are gated (`DcMethodology.tsx:132-133` vs `dcindex.py:160-171`) | Engine gates only `tail_active`; 3 dcindex tests pass | **PR 4** |
+| F3 | P2 | Home readings drop source date/stale flag (`HomeAiBrief.tsx:45-61`) | Rendered PJM card has no date (asof 09-29); stale H100 renders as live "+37.8% in 30 days" | **Session 1** (trust layer = freshness) |
+| F1 | P2 | Edited escalation link loses its default forward estimate (`DcEscalationClient.tsx:97-112`, `useUrlState.ts:41-46`) | Playwright: `?cost=10000000` shows $12,925,764, the same URL opened fresh shows $11,545,291 | **PR E** (escalation) |
+| F10 | P3 | Escalation chart's aria label reads the p10–p90 band width as the range (`EscalationPathChart.tsx:59-66,94-97`) | aria: "Realized range (p10–p90) 2,083,088"; true p90 ≈ 12,406,534 | **PR E** |
+| F6 | P2 | Sentence-case short flashes treated as stubs (`newsTape.ts:53-60`) | "Nvidia halts chip shipments" → `stub`; uppercase version passes | **PR N** (news heuristics) |
+| F7 | P2 | Separate campuses merge (`newsTape.ts:225-233`) — broader than reported | Texas/Finland 500 MW pair merges, and also merges with no figure at all | **PR N** |
+| F8 | P2 | Numbers strip drops distinct equal-size deals (`newsTape.ts:298-307`) | 2 stories, 1 figure (`$5B` Duke Energy kept, chip startup dropped) | **PR N** — needs Q6 |
+
+### Revised order (supersedes "six PRs" order above)
+
+1. PR 1 ✅ merged (#71) · PR 2 open (#72) · PR 3 Nebius built
+2. **PR 3b — news hardening I (F4, F5)**: the only findings where bad upstream input can break or freeze a live
+   page; small, `news.ts` + `NewsFeed.tsx` only. Fix: round-trip-validate `ts` in `parsePost`; reject
+   `generated_at` > now + 1h (the producer's `FUTURE_SLACK`), let a healthy feed replace a future one, and only
+   call the feed live when `-1h ≤ age ≤ 1h`.
+3. **PR 4 — long-lead + DC labelling + D9 + F2/F9 methodology copy**
+4. **Session 1 — trust layer + raw-value leaks + F3 home freshness** (pull home readings into a pure,
+   tested `homeReadings()`)
+5. **PR E — escalation (F1, F10)**: write the effective delivery month on the first edit from an auto
+   default (legacy `?cost=` links without delivery stay measured-only); explicit p10/p90 endpoint aria label.
+6. **PR N — news heuristics (F6, F7, F8)**: land together (they interact: F6 admits more posts to
+   clustering, F7 changes `sameStory`, F8's dedupe depends on what clustering keeps apart).
+7. PR 5 (issuer bonds) · PR 6 (hub map)
+
 ## Open questions for Eric
+
+Q1–Q6 answered 2026-10-08 (see D4–D8, D10); kept for the record.
 
 1. **Q1 — Final roster.** Proposed tiers:
    - Frontier: Opus 5.5, GPT-6 Astra
@@ -195,6 +234,10 @@ deal:
 3. **Q3 — Map basemap.** Geographic SVG (recommended) or the state tile grid?
 4. **Q4 — Sequencing.** Run these six PRs before scorecard handoff Session 1 (trust layer), or interleave?
 5. **Q5 — Tier column.** Show a frontier/workhorse/open-weight tag on /compute (small schema add)?
+6. **Q6 — F8 dedupe rule.** Equal-dollar figures for the same ticker are currently merged. Options: (a) merge only
+   when the two stories are on different ET days (a repeat report), else keep both; (b) merge only when the
+   counterparty or deal type also matches. (a) is simpler and keeps the Broadcom $60B Oct 2/Oct 5 fixture as one
+   row; (b) is stricter but needs counterparty extraction from headlines. Recommendation: (a).
 
 ## Watch-outs carried forward
 
