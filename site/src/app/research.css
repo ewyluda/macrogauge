@@ -927,3 +927,14 @@ a.news-numbers-headline:hover { color: var(--accent-sky); text-decoration: under
 .inv-details > summary { cursor: pointer; font-size: 13px; color: var(--muted); padding: 6px 0 10px; }
 .inv-details > summary:hover { color: var(--text); }
 .inv-chip-stale { color: var(--accent-red); }
+
+/* /status: section header rows and per-source series freshness bars */
+.status-group th { text-align: left; background: var(--chip-bg); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--text); padding: 8px 12px; }
+.status-group th span { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--muted); margin-left: 6px; }
+.status-fresh { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.status-fresh-bar { display: inline-flex; width: 72px; height: 6px; border-radius: 3px; overflow: hidden; background: var(--border); }
+.status-fresh-bar .is-fresh { background: var(--accent-emerald); }
+.status-fresh-bar .is-stale { background: var(--accent-red); }
+.status-fresh-bar .is-absent { background: var(--muted); opacity: .5; }
+.status-fresh-text { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
