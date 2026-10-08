@@ -95,8 +95,26 @@ def test_rates_cost_of_capital_credit_and_funding(tmp_path):
     assert f["sofr_30d"]["value"] == 4.1
     assert c["hy_oas"]["value"] is None            # absent series: null block, never a crash
     assert p["history"]["bbb_oas"] == [1.1, 1.4] and p["history"]["ig_oas"] == [0.9, 1.1]
+    assert c["bbb_move"] == {"as_of": "2026-10-06", "base_date": "2025-10-06",
+                             "yield_chg_1y": 1.2, "oas_chg_1y": 0.3}
     path = rates.write(p, tmp_path / "out", "2026-10-07T12:00:00Z")
     validate.validate_file(path, SCHEMAS / "rates.schema.json")
+
+
+def test_rates_bbb_move_uses_one_shared_window(tmp_path):
+    """A fresh yield beside a carried-forward spread: each level dates its own
+    change, but the attribution block compares only the shared window."""
+    conn = _store(tmp_path, {
+        "BAMLC0A4CBBBEY": {"2025-09-08": 4.9, "2025-10-06": 5.0, "2026-09-08": 6.0, "2026-10-06": 6.19},
+        "BAMLC0A4CBBB": {"2025-09-08": 0.94, "2026-09-08": 1.02},       # stops in September
+    })
+    c = rates.build(conn)["credit"]
+    assert c["bbb_yield"]["as_of"] == "2026-10-06" and c["bbb_oas"]["as_of"] == "2026-09-08"
+    assert c["bbb_move"] == {"as_of": "2026-09-08", "base_date": "2025-09-08",
+                             "yield_chg_1y": 1.1, "oas_chg_1y": 0.08}
+    # no shared baseline: no attribution at all
+    conn2 = _store(tmp_path / "b", {"BAMLC0A4CBBBEY": {"2026-10-06": 6.19}, "BAMLC0A4CBBB": {"2026-10-06": 1.02}})
+    assert rates.build(conn2)["credit"]["bbb_move"] is None
 
 
 # --- compute ------------------------------------------------------------

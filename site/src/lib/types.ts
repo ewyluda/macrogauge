@@ -640,7 +640,9 @@ export type Rates = {
   spreads: { s2s10s: RateSpread; s3m10y: RateSpread; real_10y: RateSpread };
   breakevens: { t5yie: RateLevel; t10yie: RateLevel };
   /** ig_oas / bbb_oas / bbb_yield added 2026-10-07; absent on older files */
-  credit: { hy_oas: RateLevel; ig_oas?: RateLevel; bbb_oas?: RateLevel; bbb_yield?: RateLevel };
+  credit: { hy_oas: RateLevel; ig_oas?: RateLevel; bbb_oas?: RateLevel; bbb_yield?: RateLevel;
+            /** BBB yield/OAS annual changes on one shared window (null when none) */
+            bbb_move?: { as_of: string | null; base_date: string | null; yield_chg_1y: number; oas_chg_1y: number } | null };
   /** floating-rate funding (2026-10-07+): 30-day average SOFR */
   funding?: { sofr_30d: RateLevel };
   dollar: RateLevel;

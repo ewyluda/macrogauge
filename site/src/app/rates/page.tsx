@@ -23,7 +23,7 @@ const two = data.curve.find((r) => r.code === "DGS2");
 const s = data.spreads;
 const cr = data.credit;
 const sofr = data.funding?.sofr_30d;
-const headline = ratesHeadline(ten, cr.bbb_yield, cr.bbb_oas);
+const headline = ratesHeadline(ten, cr.bbb_yield, cr.bbb_move);
 // the yields lead as the H1; the rates-vs-credit clause reads as a takeaway line
 const [h1Text, ...why] = (headline ?? "").split("; ");
 const whyText = why.length ? `${why.join("; ")[0].toUpperCase()}${why.join("; ").slice(1)}.` : null;
@@ -111,18 +111,20 @@ export default function RatesPage() {
       <h1>{h1Text || "Rates & Liquidity"}</h1>
       {whyText && <p className="ll-takeaway" data-testid="rates-takeaway">{whyText}</p>}
       <p className="lede">
-        What it costs to finance a build: the Treasury curve every loan prices off, the investment-grade and BBB
-        corporate spreads and BBB&apos;s all-in yield, 30-day average SOFR for floating-rate construction debt, plus
-        breakevens, the dollar, the Fed&apos;s balance sheet and the market-implied Fed path — all daily FRED
-        series. Every derived number is arithmetic on those levels: 2s10s is DGS10 − DGS2, the real 10-year is
-        DGS10 − T10YIE, net liquidity is WALCL − TGA − RRP.
+        The market benchmarks that financing a build is priced against: the Treasury curve, the investment-grade
+        and BBB corporate bond spreads and the BBB index&apos;s all-in yield, and 30-day average SOFR — plus
+        breakevens, the dollar, the Fed&apos;s balance sheet and the market-implied Fed path, all daily FRED series.
+        They are reference rates, not a project&apos;s cost of debt: an actual loan adds its own spread and fees on its
+        own terms, and 30-day average SOFR is a backward-looking compounded average, not CME&apos;s forward-looking
+        Term SOFR. Every derived number is arithmetic on published levels: 2s10s is DGS10 − DGS2, the real 10-year
+        is DGS10 − T10YIE, net liquidity is WALCL − TGA − RRP.
       </p>
       <div className="kpi-row">
         <KpiCard label="10-year Treasury" value={pct(ten?.value ?? null)}
           context={`${ten?.as_of ? fmtDay(ten.as_of) : "—"} · 30d ${fmtPp(ten?.chg_30d_pp ?? null)} · 1y ${fmtPp(ten?.chg_1y_pp ?? null)}`} accent="sky" />
         {cr.bbb_yield?.value != null ? (
-          <KpiCard label="BBB corporate yield" value={pct(cr.bbb_yield.value)}
-            context={`all-in, ICE BofA · spread ${fmtPp(cr.bbb_oas?.value ?? null)} · 1y ${fmtPp(cr.bbb_yield.chg_1y)}`}
+          <KpiCard label="BBB corporate bond yield" value={pct(cr.bbb_yield.value)}
+            context={`ICE BofA BBB index · spread ${fmtPp(cr.bbb_oas?.value ?? null)} · 1y ${fmtPp(cr.bbb_yield.chg_1y)} · ${cr.bbb_yield.as_of ? fmtDay(cr.bbb_yield.as_of) : "—"}`}
             accent="violet" />
         ) : (
           <KpiCard label="High-yield OAS" value={fmtPp(cr.hy_oas.value)}
@@ -131,7 +133,7 @@ export default function RatesPage() {
         )}
         {sofr?.value != null ? (
           <KpiCard label="30-day average SOFR" value={pct(sofr.value)}
-            context={`floating-rate base · 1y ${fmtPp(sofr.chg_1y)} · ${sofr.as_of ?? "—"}`} accent="amber" />
+            context={`backward-looking compounded base rate, not Term SOFR · 1y ${fmtPp(sofr.chg_1y)} · ${sofr.as_of ? fmtDay(sofr.as_of) : "—"}`} accent="amber" />
         ) : (
           <KpiCard label="10y real yield" value={fmtPp(s.real_10y.value)}
             context={`DGS10 − 10y breakeven ${pct(data.breakevens.t10yie.value)}`} accent="violet" />

@@ -90,6 +90,7 @@ const bbb = rates.credit.bbb_yield;
 const sofr = rates.funding?.sofr_30d;
 const pp1y = (v: number | null | undefined) =>
   v == null ? "" : ` · ${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.round(Math.abs(v) * 100)}bp on the year`;
+const dated = (d: string | null | undefined) => (d ? ` · ${fmtDay(d)}` : "");
 
 // The strip shows the five newest AI-infra STORIES (lib/newsTape). Ship only
 // their posts to the client — the client re-clusters them into the same five
@@ -219,20 +220,21 @@ export default function Datacenter() {
       )}
       {ten?.value != null && (
         <section id="dc-capital" className="dc-section" aria-labelledby="dc-capital-title">
-          <h2 id="dc-capital-title">Cost of capital <span className="subtitle">what a build is financed at</span></h2>
+          <h2 id="dc-capital-title">Financing benchmarks <span className="subtitle">market reference rates, not a project&apos;s cost of debt</span></h2>
           <div className="kpi-row">
             <KpiCard label="10-year Treasury" value={`${ten.value.toFixed(2)}%`}
-              context={`the base every fixed-rate loan prices off${pp1y(ten.chg_1y_pp)}`} accent="sky" />
+              context={`the long-term rate benchmark${pp1y(ten.chg_1y_pp)}${dated(ten.as_of)}`} accent="sky" />
             {bbb?.value != null && (
-              <KpiCard label="BBB corporate yield" value={`${bbb.value.toFixed(2)}%`}
-                context={`all-in, ICE BofA${pp1y(bbb.chg_1y)}`} accent="violet" />
+              <KpiCard label="BBB corporate bond yield" value={`${bbb.value.toFixed(2)}%`}
+                context={`ICE BofA BBB index${pp1y(bbb.chg_1y)}${dated(bbb.as_of)}`} accent="violet" />
             )}
             {sofr?.value != null && (
               <KpiCard label="30-day average SOFR" value={`${sofr.value.toFixed(2)}%`}
-                context={`floating-rate construction debt${pp1y(sofr.chg_1y)}`} accent="amber" />
+                context={`backward-looking base rate, not Term SOFR${pp1y(sofr.chg_1y)}${dated(sofr.as_of)}`} accent="amber" />
             )}
           </div>
-          <p className="dc-more"><Link href="/rates">The curve, credit spreads and the market-implied Fed path →</Link></p>
+          <p className="dc-more">An actual loan prices off a benchmark plus its own spread and fees, on its own terms.{" "}
+            <Link href="/rates">The curve, credit spreads and the market-implied Fed path →</Link></p>
         </section>
       )}
       {context && <section id="dc-context" className="dc-section"><ContextPanel context={context} /></section>}

@@ -42,7 +42,7 @@ const ROUTES: [string, string][] = [
   ["/gap", "where ours differs from BLS"],
   ["/vs-bls", "Macrogauge vs BLS"],
   ["/pce", "the Fed's index, re-priced daily under BEA shares"],
-  ["/rates", "What it costs to finance a build"],
+  ["/rates", "The market benchmarks that financing a build is priced against"],
   ["/compute", "what a token and a GPU-hour cost, indexed daily"],
   ["/housing", "what the payment takes out of a paycheck"],
   ["/changes", "what this publish changed, reading by reading"],

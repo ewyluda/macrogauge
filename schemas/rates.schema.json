@@ -49,7 +49,12 @@
       "required": ["hy_oas"],
       "additionalProperties": false,
       "properties": {"hy_oas": {"$ref": "#/$defs/level"}, "ig_oas": {"$ref": "#/$defs/level"},
-                     "bbb_oas": {"$ref": "#/$defs/level"}, "bbb_yield": {"$ref": "#/$defs/level"}}
+                     "bbb_oas": {"$ref": "#/$defs/level"}, "bbb_yield": {"$ref": "#/$defs/level"},
+                     "bbb_move": {"description": "BBB yield and OAS annual changes on one shared window (2026-10-07+)",
+                       "anyOf": [{"type": "null"}, {"type": "object", "additionalProperties": false,
+                         "required": ["as_of", "base_date", "yield_chg_1y", "oas_chg_1y"],
+                         "properties": {"as_of": {"$ref": "#/$defs/day"}, "base_date": {"$ref": "#/$defs/day"},
+                                        "yield_chg_1y": {"type": "number"}, "oas_chg_1y": {"type": "number"}}}]}}
     },
     "funding": {
       "description": "floating-rate funding cost (2026-10-07+): 30-day average SOFR",

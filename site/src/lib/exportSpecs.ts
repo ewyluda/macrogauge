@@ -11,7 +11,9 @@ export const RATES_CURVE_CSV: CsvSpec = { kind: "rows", path: "curve" };
 export const RATES_HISTORY_CSV: CsvSpec = {
   kind: "columns",
   key: { name: "date", path: "history.dates" },
-  series: ["dgs3mo", "dgs2", "dgs10", "t5yie", "t10yie", "hy_oas", "dollar", "spread_2s10s", "spread_3m10y", "real_10y"]
+  // ig_oas / bbb_oas: added 2026-10-07; an older artifact without them
+  // exports empty cells (the resolver tolerates absent paths)
+  series: ["dgs3mo", "dgs2", "dgs10", "t5yie", "t10yie", "hy_oas", "ig_oas", "bbb_oas", "dollar", "spread_2s10s", "spread_3m10y", "real_10y"]
     .map((k) => ({ name: k, path: `history.${k}` })),
 };
 
