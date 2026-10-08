@@ -2,9 +2,11 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
-import { DATA_FILES, dataUrl } from "@/lib/dataFiles";
+import { DATA_FILES, DATA_SECTIONS, dataUrl, newestAsOf } from "@/lib/dataFiles";
+import { dataPageCsv } from "@/lib/exportSpecs";
+import { DownloadData } from "@/components/DownloadData";
 import { SITE_URL } from "@/lib/site";
-import { fmtStamp } from "@/lib/format";
+import { fmtDay, fmtStamp } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Open Data — every artifact, its schema, and how to cite it",
@@ -20,12 +22,30 @@ const schemaFor = (file: string) => {
   const candidates = [`${base}.schema.json`, base.startsWith("quilt_months") ? "quilt.schema.json" : "", base.startsWith("accountability") ? "accountability.schema.json" : ""].filter(Boolean);
   return candidates.find((c) => present.has(c)) ?? null;
 };
+type Field = { name: string; type: string; description: string | null };
+/** A schema's top-level fields, for the DC and compute field previews. */
+const fieldsOf = (schema: string | null): Field[] => {
+  if (!schema) return [];
+  try {
+    const s = JSON.parse(readFileSync(path.join(SCHEMA_DIR, schema), "utf8")) as
+      { properties?: Record<string, { type?: string | string[]; description?: string; $ref?: string }> };
+    return Object.entries(s.properties ?? {}).map(([name, v]) => ({
+      name, type: v.type ? [v.type].flat().join(" | ") : v.$ref ? "object" : "—", description: v.description ?? null,
+    }));
+  } catch { return []; }
+};
 const rows = DATA_FILES.map((d) => {
   const p = path.join(DATA_DIR, d.file);
-  let stamp: string | null = null;
-  try { stamp = (JSON.parse(readFileSync(p, "utf8")) as { published_at?: string }).published_at ?? null; } catch { stamp = null; }
-  return { ...d, bytes: statSync(p).size, stamp, schema: schemaFor(d.file) };
+  let json: unknown = null;
+  try { json = JSON.parse(readFileSync(p, "utf8")); } catch { json = null; }
+  const stamp = (json as { published_at?: string } | null)?.published_at ?? null;
+  const schema = schemaFor(d.file);
+  const csv = json ? dataPageCsv(d.file, json) : null;
+  return { ...d, bytes: statSync(p).size, stamp, schema, newest: json ? newestAsOf(json) : null,
+           csv, fields: csv ? fieldsOf(schema) : [] };
 });
+const groups = DATA_SECTIONS.map((section) => ({ section, rows: rows.filter((r) => r.section === section) }))
+  .filter((g) => g.rows.length > 0);
 const kb = (b: number) => (b >= 1_048_576 ? `${(b / 1_048_576).toFixed(1)} MB` : `${Math.round(b / 1024)} KB`);
 
 export default function DataPage() {
@@ -56,22 +76,49 @@ export default function DataPage() {
       </p>
       <div className="table-card">
         <table className="data-table">
-          <thead><tr><th style={{ textAlign: "left" }}>File</th><th style={{ textAlign: "left" }}>What it holds</th><th>Size</th><th>Published</th><th>Schema</th></tr></thead>
+          <thead><tr><th style={{ textAlign: "left" }}>File</th><th style={{ textAlign: "left" }}>What it holds</th><th>Newest data</th><th>Size</th><th>Published</th><th>Schema</th></tr></thead>
           <tbody>
-            {rows.map((r) => (
+            {groups.map((g) => [
+              <tr key={`g-${g.section}`} className="data-group">
+                <th colSpan={6} scope="colgroup">{g.section} <span>{g.rows.length} file{g.rows.length === 1 ? "" : "s"}</span></th>
+              </tr>,
+              ...g.rows.flatMap((r) => [
               <tr key={r.file}>
                 <td style={{ textAlign: "left" }}><a href={dataUrl(r.file)} download style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}>{r.file}</a></td>
                 <td style={{ textAlign: "left", color: "var(--muted)" }}>{r.description}</td>
+                <td style={{ whiteSpace: "nowrap" }}>{r.newest ? fmtDay(r.newest) : "—"}</td>
                 <td>{kb(r.bytes)}</td>
                 <td style={{ color: "var(--muted)" }}>{r.stamp ? fmtStamp(r.stamp) : "—"}</td>
                 <td>{r.schema ? <a href={`/schemas/${r.schema}`} style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 11 }}>{r.schema}</a> : "—"}</td>
-              </tr>
-            ))}
+              </tr>,
+              ...(r.csv ? [
+                <tr key={`${r.file}-more`} className="data-more">
+                  <td colSpan={6} style={{ textAlign: "left" }}>
+                    <div className="data-more-row">
+                      <details className="data-fields" data-testid="data-fields">
+                        <summary>Fields ({r.fields.length})</summary>
+                        <ul>
+                          {r.fields.map((f) => (
+                            <li key={f.name}><code>{f.name}</code> <span className="data-field-type">{f.type}</span>
+                              {f.description && <> — {f.description}</>}</li>
+                          ))}
+                        </ul>
+                      </details>
+                      <DownloadData spec={r.csv.spec} filename={`macrogauge-${r.file.replace(/\.json$/, "")}`} json={r.file}
+                        csvLabel={r.csv.label} hideJson citation={`MacroGauge ${r.file}, ${r.stamp ? fmtStamp(r.stamp) : ""}`} />
+                    </div>
+                  </td>
+                </tr>,
+              ] : []),
+              ]),
+            ])}
           </tbody>
         </table>
       </div>
       <p className="method">
-        {rows.length} artifacts. The RSS feed at <a href="/feed.xml">/feed.xml</a> carries one item per publish. Sizes are of the committed
+        {rows.length} artifacts, grouped by the section of the site they feed. Newest data is the latest observation
+        date anywhere in the file (a curated input&apos;s review date doesn&apos;t count). The AI Infra cost and compute files
+        list their fields and export their main table as CSV. The RSS feed at <a href="/feed.xml">/feed.xml</a> carries one item per publish. Sizes are of the committed
         files; replay.json is the largest because it holds every component&apos;s daily index since 2018.
       </p>
     </div>

@@ -6,7 +6,7 @@ import dcGrades from "../../public/data/dc_grades.json";
 import datacenter from "../../public/data/datacenter.json";
 import { columnsToRows, flattenRow, getPath, rowsFromSpec, toCsv } from "./csv";
 import { sliceSince, windowStart } from "./chartWindow";
-import { DC_ANCHORS_CSV, dcBuildMonthlyCsvSpec, heroCsvSpec, RATES_CURVE_CSV, RATES_HISTORY_CSV, RATES_LIQUIDITY_CSV } from "./exportSpecs";
+import { DC_ANCHORS_CSV, dcBuildMonthlyCsvSpec, heroCsvSpec, RATES_CURVE_CSV, RATES_HISTORY_CSV, RATES_LIQUIDITY_CSV, dataPageCsv } from "./exportSpecs";
 
 describe("getPath / rowsFromSpec", () => {
   it("resolves dotted paths and tolerates missing ones", () => {
@@ -93,5 +93,22 @@ describe("DC Build monthly CSV (backlog #12a)", () => {
       { month: "2026-07", build_index: 170.1, steel: 120 },
       { month: "2026-08", build_index: 170.5, steel: 121 },
     ]);
+  });
+});
+
+describe("dataPageCsv", () => {
+  it("gives each DC and compute artifact a CSV with rows, and nothing else one", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { resolve } = await import("node:path");
+    const files = ["datacenter.json", "compute.json", "capacity.json", "longlead.json", "dc_markets.json", "dc_grades.json"];
+    for (const f of files) {
+      const json = JSON.parse(readFileSync(resolve(__dirname, "../../public/data", f), "utf8"));
+      const csv = dataPageCsv(f, json);
+      expect(csv, f).not.toBeNull();
+      const rows = rowsFromSpec(json, csv!.spec);
+      expect(rows.length, f).toBeGreaterThan(0);
+      expect(Object.keys(rows[0]).length, f).toBeGreaterThan(1);
+    }
+    expect(dataPageCsv("pulse.json", {})).toBeNull();
   });
 });
