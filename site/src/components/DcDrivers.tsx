@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 import { fmtSigned, fmtPp } from "@/lib/format";
 
@@ -85,7 +86,7 @@ export function DcDrivers({ indexes, groupLabels }: { indexes: DriverIndex[]; gr
                   const origin = twoSided ? "50%" : "0%";
                   return (
                     <tr key={c.code}>
-                      <td>{c.label}</td>
+                      <td><Link href={`/datacenter/components/${c.code}`}>{c.label}</Link></td>
                       <td className="num">{(c.weight * 100).toFixed(0)}%</td>
                       <td className="num">{fmtSigned(c.yoy_pct)}</td>
                       <td className="dc-contrib-col">

@@ -59,6 +59,9 @@ const ROWS: {
     ] },
 ];
 
+/** a gap under this is inside the approximation: shown as "in line", uncoloured */
+const NEUTRAL_GAP_PP = 0.25;
+
 /** ?me=rent.average.cook.average.no — one token per questionnaire row, in
  *  ROWS order; any invalid token rejects the whole value (defaults win). */
 const ANSWERS_CODEC = {
@@ -215,17 +218,20 @@ export function MyInflationClient({
           <div style={{ fontSize: 11, color: "var(--muted)" }}>as of {gaugeAsOf}</div>
         </div>
         {diff !== null && (
-          <div style={{ fontSize: 14 }}>
-            Your basket is running{" "}
-            <span
-              style={{
-                fontWeight: 700,
-                color: diff > 0 ? "var(--accent-red)" : "var(--accent-emerald)",
-              }}
-            >
-              {Math.abs(diff).toFixed(2)}pp {diff > 0 ? "hotter" : "cooler"}
-            </span>{" "}
-            than the average consumer&apos;s · as of {gaugeAsOf}
+          <div style={{ fontSize: 14 }} data-testid="my-gap">
+            {/* under a quarter point the difference is inside the approximation:
+                say "in line", in plain ink, never an alarm colour */}
+            {Math.abs(diff) < NEUTRAL_GAP_PP ? (
+              <>Your basket is running <b>in line</b> with the average consumer&apos;s ({diff >= 0 ? "+" : "−"}{Math.abs(diff).toFixed(2)}pp) · as of {gaugeAsOf}</>
+            ) : (
+              <>
+                Your basket is running{" "}
+                <span style={{ fontWeight: 700, color: diff > 0 ? "var(--accent-red)" : "var(--accent-emerald)" }}>
+                  {Math.abs(diff).toFixed(2)}pp {diff > 0 ? "hotter" : "cooler"}
+                </span>{" "}
+                than the average consumer&apos;s · as of {gaugeAsOf}
+              </>
+            )}
           </div>
         )}
       </div>
