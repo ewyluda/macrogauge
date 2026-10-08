@@ -1,0 +1,15 @@
+# Evidence: capacity energize-date research (docs/research/2026-10-capacity-energize-dates.md)
+# Retrieved 2026-10-08. Excerpts are verbatim from the fetched page text (HTML tags stripped,
+# whitespace collapsed); '[…]' marks the cut points of an excerpt window.
+
+URL: https://www.techtarget.com/it-infrastructure/news/366651495/Akamais-potential-20B-Anthropic-deal-scales-AI-beyond-GPUs
+Title: Akamai's potential $20B Anthropic deal scales AI beyond GPUs
+Publisher: TechTarget (Shane Snider)
+Date: 2026-09-28
+Method: curl
+
+[…] thy said. Akamai did not specifically disclose the power requirement for the Anthropic contract. The company said the $14.4 billion portfolio of large, multiyear cloud contracts it has signed this year, including the Anthropic agreement, will require 95-10 […]
+
+[…] ontracts. The company can secure roughly 10-30 MW at individual locations, said Akamai CFO Ed McGowan during an investor call Sept. 24. Some of that capa […]
+
+------------------------------------------------------------------------

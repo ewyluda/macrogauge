@@ -494,6 +494,8 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert crwv["ev"] == pytest.approx(39.78 + crwv["nd"])
     orcl = next(c for c in capacity["companies"] if c["t"] == "ORCL")
     assert orcl["role"] == "hyperscaler" and orcl["ev_per_mw"] is None
+    # the curated power deals ride the same phase off their own config
+    assert capacity["power_deals"]["totals"]["deals"] == 26
     assert checks["capacity_ok"]["pass"] is True
     assert checks["markets_ok"]["pass"] is True
     assert checks["grades_ok"]["pass"] is True

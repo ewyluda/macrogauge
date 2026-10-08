@@ -303,6 +303,22 @@ export type Capacity = {
   geo_unmapped: { t: string; site: string; mw: number | null; st: CapacitySiteStatus; why: string }[];
   geo_note: string;
   reference: { nvda_cap_b: number | null; cohort_ev_b: number | null };
+  /** curated PPAs and other supply deals behind these companies (2026-10-08+) */
+  power_deals?: PowerDeals;
+};
+export type PowerDealStatus = "signed" | "pending" | "mou" | "loi" | "option";
+export type PowerDealKind = "ppa" | "utility supply" | "development / funding" | "other";
+export type PowerDeal = {
+  t: string; name: string; counterparty: string; facility: string; technology: string;
+  mw: number; sites: number; mw_total: number; mw_basis: "contracted" | "nameplate";
+  status: PowerDealStatus; kind: PowerDealKind; instrument: string; announced: string;
+  term_years: number | null; start: string | null;
+  source: { publisher: string; title: string; url: string }; quote: string; note: string | null;
+};
+export type PowerDeals = {
+  as_of_curated: string; basis: string; mw_note: string;
+  totals: { signed_mw: number; signed_ppa_mw: number; pending_mw: number; preliminary_mw: number; deals: number };
+  deals: PowerDeal[];
 };
 
 // Keep in sync with schemas/dc_markets.schema.json.

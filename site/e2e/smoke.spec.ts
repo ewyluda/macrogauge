@@ -14,7 +14,8 @@ import fuelJson from "../public/data/fuel.json";
 import type { NewsPost } from "../src/lib/news";
 import { clusterStories, topFigures } from "../src/lib/newsTape";
 import { capabilityTakeaway, reservedRows, reservedTakeaway } from "../src/lib/cloudGpu";
-import type { Compute } from "../src/lib/types";
+import type { Capacity, Compute } from "../src/lib/types";
+import { powerDealsTakeaway } from "../src/lib/powerDeals";
 
 /** A delivery month `horizon` months past the END OF THE GRID, read off the
  *  picker's own `min` (which the page sets to grid-end + 1 month).
@@ -725,6 +726,22 @@ test("/compute prices a PFLOP-hour by GPU generation once the daily run publishe
   if (lead) await expect(page.getByTestId("capability-takeaway")).toHaveText(lead);
   // every spec figure links to the NVIDIA page it was read from
   await expect(section.locator("tbody a[href^='https://www.nvidia.com/']")).toHaveCount(cap.by_generation.length);
+});
+
+test("/capacity lists the power deals behind the capacity once the daily run publishes them", async ({ page }) => {
+  // expectation computed from the same JSON the build read: no section before
+  // the first publish that carries power_deals, every deal row after it
+  const pd = artifact<"capacity", Capacity>("capacity", capacityJson).power_deals;
+  await page.goto("/capacity");
+  const section = page.locator("#power-deals");
+  if (!pd || pd.deals.length === 0) {
+    await expect(section).toHaveCount(0);
+    return;
+  }
+  await expect(section.locator("tbody tr")).toHaveCount(pd.deals.length);
+  await expect(page.getByTestId("power-deals-takeaway")).toHaveText(powerDealsTakeaway(pd)!);
+  // every facility links to the release or filing its figure was read from
+  await expect(section.locator("tbody a[href^='http']")).toHaveCount(pd.deals.length);
 });
 
 test("datacenter long-lead strip links to the board", async ({ page }) => {

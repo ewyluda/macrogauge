@@ -7,6 +7,8 @@ import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
 import { capacityHeadline } from "@/lib/capacityCohort";
 import { fmtDay } from "@/lib/format";
+import { Section } from "@/components/Section";
+import { KIND_LABEL, STATUS_LABEL, powerDealsTakeaway } from "@/lib/powerDeals";
 
 const data = artifact<"capacity", Capacity>("capacity", capacityJson);
 const all = data.cohorts.all;
@@ -25,6 +27,8 @@ export default function Page() {
   // is suppressed on its row, so it is not summed back in here either.
   const evRows = data.companies.filter((c) => c.dupe == null && c.ev_per_mw != null).length;
   const headline = capacityHeadline(data.cohorts, ref, evRows, fmtDay(data.as_of_curated));
+  const pd = data.power_deals;
+  const pdLead = powerDealsTakeaway(pd);
   return (
     <div>
       <StaleBanner publishedAt={capacityJson.published_at} />
@@ -61,6 +65,54 @@ export default function Page() {
         includes finance leases where disclosed.
       </p>
       <CapacityClient data={data} />
+
+      {pd && pd.deals.length > 0 && (
+        <Section id="power-deals" title="The power behind the capacity: who has signed for it">
+          {pdLead && <p className="lede" data-testid="power-deals-takeaway">{pdLead}</p>}
+          <div className="table-card">
+            <table className="data-table power-deals-table">
+              <thead>
+                <tr>
+                  <th style={{ textAlign: "left" }}>Company</th><th style={{ textAlign: "left" }}>Supplier · facility</th>
+                  <th style={{ textAlign: "left" }}>Technology</th><th>MW</th><th style={{ textAlign: "left" }}>Deal</th>
+                  <th>Announced</th><th style={{ textAlign: "left" }}>Power from</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pd.deals.map((d) => (
+                  <tr key={`${d.t}-${d.counterparty}-${d.facility}`}>
+                    <td style={{ textAlign: "left" }}><strong>{d.name}</strong></td>
+                    <td style={{ textAlign: "left" }}>
+                      {d.counterparty}
+                      <span className="cell-sub">
+                        <a href={d.source.url} title={`“${d.quote}” (${d.source.publisher})`}>{d.facility}</a>
+                      </span>
+                    </td>
+                    <td style={{ textAlign: "left" }}>{d.technology}</td>
+                    <td>
+                      {d.mw_total.toLocaleString("en-US")}
+                      <span className="cell-sub">{d.sites > 1 ? `${d.sites} sites × ${d.mw.toLocaleString("en-US")} · ` : ""}{d.mw_basis}</span>
+                    </td>
+                    <td style={{ textAlign: "left" }} title={d.note ?? d.instrument}>
+                      {STATUS_LABEL[d.status]}
+                      <span className="cell-sub">{KIND_LABEL[d.kind]}</span>
+                    </td>
+                    <td style={{ color: "var(--muted)" }}>{d.announced}</td>
+                    <td style={{ textAlign: "left", color: "var(--muted)" }}>{d.start ?? "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="method">
+            {pd.basis} {pd.mw_note} &ldquo;Deal&rdquo; separates how firm a deal is (signed, pending a regulator&apos;s
+            approval, or an MOU, LOI or option) from what it is: a power purchase agreement; utility supply, where the
+            utility builds the plants under a service agreement or tariff; or a development or funding deal that
+            carries rights to the energy. Each facility links to the release or filing it was read from; hover it for
+            the quoted figure. Hand-curated as of {pd.as_of_curated} and refreshed each earnings season.
+          </p>
+        </Section>
+      )}
     </div>
   );
 }

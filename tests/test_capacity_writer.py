@@ -243,3 +243,22 @@ def test_zero_backlog_publishes_zero_coverage(tmp_path):
     conn = _conn(tmp_path, [("fmp_cap_aaa", "2026-07-20", 90.0)])
     row = writer.build(conn, _cfg([_co(bk=0.0)]))["companies"][0]
     assert row["coverage"] == 0.0
+
+
+def test_power_deals_block_orders_by_firmness_and_keeps_ppas_apart(tmp_path):
+    from pipeline import power_deals
+    real = json.loads((Path(__file__).parent.parent / "config" / "capacity.json").read_text())
+    deals = power_deals.load(tickers={c["t"] for c in real["companies"]})
+    out = writer.build(_conn(tmp_path, []), _cfg([_co(t="META", n="Meta")]), power_deals=deals)
+    jsonschema.validate({"published_at": "x", **out}, SCHEMA)
+    pd = out["power_deals"]
+    assert pd["totals"] == {"signed_mw": 20087, "signed_ppa_mw": 9550, "pending_mw": 5200,
+                            "preliminary_mw": 4850, "deals": 26}
+    status = [d["status"] for d in pd["deals"]]
+    assert status == sorted(status, key=lambda s: {"signed": 0, "pending": 1}.get(s, 2))
+    signed = [d["mw_total"] for d in pd["deals"] if d["status"] == "signed"]
+    assert signed == sorted(signed, reverse=True)
+    meta = next(d for d in pd["deals"] if d["t"] == "META")
+    assert meta["name"] == "Meta"                   # the roster's display name
+    # no config passed -> no block (older behaviour, and the bad-config fallback)
+    assert "power_deals" not in writer.build(_conn(tmp_path / "b", []), _cfg([_co()]))

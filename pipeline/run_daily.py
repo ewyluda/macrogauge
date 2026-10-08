@@ -48,6 +48,7 @@ from pipeline import calendar_refresh, collect, derived, dc_basket, dc_context, 
 from pipeline import dc_markets as dc_markets_cfg
 from pipeline import dc_market_pipeline as dc_market_pipeline_cfg
 from pipeline import gpu_specs as gpu_specs_cfg
+from pipeline import power_deals as power_deals_cfg
 from pipeline.connectors import fred
 from pipeline.engine import dcindex
 from pipeline.engine import gauge as gauge_engine
@@ -424,8 +425,15 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     def _capacity_phase():
         cap_cfg = capacity_cfg.load_capacity(
             registry_codes={s.code for s in series})
+        # Power deals are curated config: a bad file drops the block, never
+        # the tracker (CI loads the real file).
+        try:
+            deals = power_deals_cfg.load(tickers={c["t"] for c in cap_cfg["companies"]})
+        except (ValueError, KeyError, TypeError, OSError, json.JSONDecodeError) as e:
+            print(f"WARN power deals config unavailable: {e}")
+            deals = None
         cap_path = capacity_json.write(
-            capacity_json.build(conn, cap_cfg, today=today, staleness=staleness),
+            capacity_json.build(conn, cap_cfg, today=today, staleness=staleness, power_deals=deals),
             args.out, published_at=published_at)
         validate.validate_file(cap_path, SCHEMAS / "capacity.schema.json")
         print(f"published: {cap_path}")

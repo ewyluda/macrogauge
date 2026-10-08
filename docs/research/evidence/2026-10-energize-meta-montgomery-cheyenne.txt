@@ -1,0 +1,27 @@
+# Evidence: capacity energize-date research (docs/research/2026-10-capacity-energize-dates.md)
+# Retrieved 2026-10-08. Excerpts are verbatim from the fetched page text (HTML tags stripped,
+# whitespace collapsed); '[…]' marks the cut points of an excerpt window.
+
+URL: https://epoch.ai/data/ai-data-centers/directory/meta-montgomery
+Title: Meta Montgomery | AI data centers
+Publisher: Epoch AI (model estimate, not a Meta disclosure)
+Date: Updated 2026-10-05
+Method: curl
+
+[…] United States Meta Montgomery is an operational AI data center with AI chips owned and used by Meta. It hosts an estimated 175k H100-equivalents of AI compute, supported by 153 MW of IT power at a capital cost of $5.8 B. In Q1 2027, we project it to rise to 407k H100-eq AI compute, 358 MW IT power and a cost of $13.6 B. We estimate that it uses Nvidia B300 chips. The timeline of IT power […]
+
+[…] d 6 are under construction. Jun 18, 2026 Satellite explorer We estimate Buildings 1 and 2 are operational. Compute 175k H100-eq IT Power 153 MW Co […]
+
+------------------------------------------------------------------------
+
+URL: https://epoch.ai/data/ai-data-centers/directory/meta-cheyenne
+Title: Meta Cheyenne | AI data centers
+Publisher: Epoch AI (model estimate, not a Meta disclosure)
+Date: Updated 2026-10-05
+Method: curl
+
+[…] , United States Meta Cheyenne is an operational AI data center with AI chips owned and used by Meta. It hosts an estimated 173k H100-equivalents of AI compute, supported by 152 MW of IT power at a capital cost of $5.8 B. In Q1 2027, we project it to rise to 236k H100-eq AI compute, 207 MW IT power and a cost of $7.8 B. We estimate that it uses Nvidia B300 chips. The timeline of IT power a […]
+
+[…] ing 2 roof almost complete. Jul 25, 2026 Satellite explorer Both buildings estimated to be operational. Compute 173k H100-eq IT Power 152 MW Co […]
+
+------------------------------------------------------------------------

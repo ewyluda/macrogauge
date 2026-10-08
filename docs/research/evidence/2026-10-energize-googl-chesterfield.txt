@@ -1,0 +1,49 @@
+# Evidence: capacity energize-date research (docs/research/2026-10-capacity-energize-dates.md)
+# Retrieved 2026-10-08. Excerpts are verbatim from the fetched page text (HTML tags stripped,
+# whitespace collapsed); '[…]' marks the cut points of an excerpt window.
+
+URL: https://richmondbizsense.com/2026/08/27/chesterfield-says-it-wont-approve-any-more-data-center-projects/
+Title: Chesterfield says it won’t approve any more data center projects
+Publisher: Richmond BizSense
+Date: 2026-08-27
+Method: curl
+
+[…] said. Google’s campus on Bermuda Hundred Road codenamed Project Peanut is underway on construction and its first building expected to be complete in late 2027. Google expects its first data center in Chesterfield will be up and running in late 2027. That initial building would operate on the company’s campus at 2700 Bermuda Hundred Road next to Meadowville Technology Park. Construction on the pro […]
+
+[…] le Technology Park. Construction on the project started earlier this year. The 300-plus acre campus is expected to have nearly 856,000 square feet of data center facilities, with each building being about 285,000 square feet, according to filings made in late 2025. The development, which is known by the codename Project Peanut, is expected to be fully built out in 2028. Google de […]
+
+[…] hester Commons. Project Skye is planned to have four data center buildings across about 850 acres at 4201 Moseley Road. Construction on the first building is anticipated to begin in 2027 and would be operational in 2029. The 350-a […]
+
+------------------------------------------------------------------------
+
+URL: https://richmondbizsense.com/2025/08/28/chesterfield-scores-a-google-trifecta-tech-giant-reveals-ties-to-3-massive-sites-across-the-county/
+Title: Chesterfield scores a Google trifecta: Tech giant reveals ties to 3 massive sites across the county
+Publisher: Richmond BizSense
+Date: 2025-08-28
+Method: curl
+
+[…] o Google. Initially, the project would involve construction of one building with an undisclosed square footage and megawatt capacity. Tillman said it would be the first phase of development on what would be a multiphase campus. A general contractor has […]
+
+[…] ut $60 million in multiple transactions that closed in late June. The larger assemblage that includes 4200 Moseley Road is on the northern edge of the planned Upper Magnolia Green technology park property near Moseley, while th […]
+
+------------------------------------------------------------------------
+
+URL: https://www.datacenterdynamics.com/en/news/dominion-to-build-new-high-voltage-lines-to-supply-proposed-900mw-data-center-in-chesterfield-county-virginia/
+Title: Dominion to build new high voltage lines to supply proposed 900MW data center in Chesterfield County, Virginia
+Publisher: DatacenterDynamics (Zachary Skidmore)
+Date: 2025-04-30
+Method: Browser pane document.body.innerText (curl returns 403)
+
+[…] Dominion Energy has filed an application to construct seven miles of new high voltage lines in western Chesterfield County, Virginia, to serve a planned 900MW hyperscale data center. According to local reports, the new transmission infrastructure will cost an estimated $121 million. The identity of the data center developer was not disclosed, but the facility is expected to be located in the Chesterfield County technology park, in Upper Magnolia Green, a housing development on the western outskirts of Richmond. […] In a filing with the State Corporation Commission, Dominion reported that it would supply the power in three 300MW phases. The first phase is slated for completion in 2031, with the following two planned for 2032 and 2033. At full build out the data center will be supplied with 900MW of power. […]
+
+------------------------------------------------------------------------
+
+URL: https://www.datacenterdynamics.com/en/news/google-to-invest-9bn-in-virginia-data-centers-plans-new-campus-in-chesterfield-county/
+Title: Google to invest $9bn in Virginia data centers, plans new campus in Chesterfield County
+Publisher: DatacenterDynamics
+Date: 2025-08 (article date not captured; the page's first <time> is a sidebar date)
+Method: Browser pane innerText; page contains no '900' or 'MW' in the article body
+
+[…] Google hasn’t shared details on development, but said the first phase will feature one building and take around 18-24 months to develop. […]
+
+------------------------------------------------------------------------
