@@ -55,7 +55,7 @@ const ROUTES: [string, string][] = [
   ["/datacenter", "Data Center Cost Index"],
   ["/power", "What the utilities charge data centers"],
   ["/status", "Data-integrity self-test"],
-  ["/grocery", "every BLS average-price staple, monthly since 2018"],
+  ["/grocery", "every BLS average-price food staple, monthly since 2018"],
   ["/outlook", "the next 12 months, component by component"],
   ["/cost-of-living", "the buy-in premium"],
   ["/states", "What it costs to build and run a data center, state by state"],

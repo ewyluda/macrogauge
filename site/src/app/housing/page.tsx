@@ -72,8 +72,7 @@ export default function HousingPage() {
         <div className="chart-card">
           <LinesChart height={300} refLine={a.share_2018_01_pct ?? undefined} refLabel="Jan 2018"
             series={[
-              { name: "Payment ÷ paycheck (%)", x: h.months, y: h.share_pct, color: C.red },
-              { name: "30y rate (%)", x: h.months, y: h.rate_pct, color: C.amber, dashed: true },
+              { name: "Payment ÷ paycheck (%)", x: h.months, y: h.share_pct, color: C.sky },
             ]} />
         </div>
         <div className="chart-card" style={{ marginTop: 10 }}>
@@ -84,7 +83,8 @@ export default function HousingPage() {
             ]} />
         </div>
         <p className="method">
-          Income proxy: {data.parameters.income_proxy}. Rate: {data.parameters.rate}. This is a single-earner
+          Income proxy: {data.parameters.income_proxy}. Rate: {data.parameters.rate}; it moves the payment line
+          below and rides in the CSV, but sits off this chart, whose one line is the share. This is a single-earner
           affordability read, deliberately harsher than household-income measures; the shape over time is the
           point, and the 2018 level is the reference line.
         </p>

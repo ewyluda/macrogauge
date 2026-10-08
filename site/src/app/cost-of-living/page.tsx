@@ -4,6 +4,9 @@ import gaugeDaily from "../../../public/data/gauge_daily.json";
 import pulse from "../../../public/data/pulse.json";
 import compare from "../../../public/data/compare.json";
 import gaptable from "../../../public/data/gaptable.json";
+import housingJson from "../../../public/data/housing.json";
+import { colJump } from "@/lib/colJump";
+import { artifact } from "@/lib/artifact";
 import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
 import { ColChart } from "@/components/ColChart";
@@ -27,6 +30,16 @@ export default function CostOfLiving() {
   const colYoy = last >= 0 ? (col.yoy_pct[last] as number) : null;
   const colAsOf = last >= 0 ? col.dates[last] : null;
   const spread = colYoy == null ? null : colYoy - pulse.gauge.yoy_pct;
+
+  // the latest rate-driven jump, if any: the daily rate now vs the monthly
+  // rate a year before it (housing.json's affordability history)
+  const housing = artifact("housing", housingJson);
+  const mnd = housing.mortgage.mnd_30yr_daily;
+  const h = housing.affordability.history;
+  const yearAgoMonth = mnd.as_of ? `${Number(mnd.as_of.slice(0, 4)) - 1}${mnd.as_of.slice(4, 7)}-01` : null;
+  const yi = yearAgoMonth ? h.months.indexOf(yearAgoMonth) : -1;
+  const jump = mnd.value == null || !mnd.as_of ? null
+    : colJump(col.dates, col.yoy_pct, gauge.yoy_pct, { now: mnd.value, nowAsOf: mnd.as_of, yearAgo: yi >= 0 ? h.rate_pct[yi] : null });
 
   // chart from 2019 — all variants share one publish grid, so one cut serves both lines
   const from = col.dates.findIndex((d) => d >= "2019-01-01");
@@ -67,7 +80,7 @@ export default function CostOfLiving() {
         />
       </div>
 
-      <Section title="Cost of Living vs macrogauge — YoY since 2019">
+      <Section title="Cost of Living vs macrogauge — YoY, last 24 months by default">
         <div
           style={{
             background: "var(--card)",
@@ -84,8 +97,10 @@ export default function CostOfLiving() {
             gaugeIndex={gauge.index.slice(from)}
             months={compare.months.slice(mFrom)}
             official={compare.official_yoy_pct.slice(mFrom)}
+            markFrom={jump ? { date: jump.from, label: "rate-driven jump" } : null}
           />
         </div>
+        {jump && <p className="method" data-testid="col-jump">{jump.text}</p>}
       </Section>
 
       <Section title="Methodology">

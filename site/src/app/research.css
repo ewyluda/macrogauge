@@ -75,6 +75,24 @@ body.research-site .status-pill { font-size: 12px; letter-spacing: 0; text-trans
 .fc-dots-dot { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; opacity: 0.88; }
 .fc-dots-axis { position: relative; height: 18px; margin: 0 8px; }
 .fc-dots-axis > span { position: absolute; transform: translateX(-50%); font-size: 11px; color: var(--muted); white-space: nowrap; }
+.dumbbell { padding: 14px 16px 10px; }
+.dumbbell ul { list-style: none; margin: 0; padding: 0; }
+.dumbbell-row { display: grid; grid-template-columns: minmax(110px, 190px) minmax(0, 1fr) 96px; align-items: center; gap: 10px; padding: 3px 0; font-size: 12px; }
+.dumbbell-track { position: relative; height: 16px; margin: 0 6px; }
+.dumbbell-bar { position: absolute; top: 7px; height: 2px; background: var(--border); }
+.dumbbell-dot { position: absolute; top: 3px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; }
+.dumbbell-vals { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.dumbbell-key { display: inline-block; width: 9px; height: 9px; border-radius: 5px; margin-right: 5px; }
+.err-bars { padding: 14px 16px 10px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px 24px; }
+.err-bars > p { grid-column: 1 / -1; }
+.err-bars-print { display: flex; flex-direction: column; gap: 4px; }
+.err-bars-month { font-size: 12px; font-weight: 600; }
+.err-bars-month small { font-weight: 400; color: var(--muted); margin-left: 6px; }
+.err-bars-row { display: grid; grid-template-columns: 92px minmax(0, 1fr) 62px; align-items: center; gap: 8px; font-size: 12px; }
+.err-bars-track { height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+.err-bars-track i { display: block; height: 100%; border-radius: 4px; }
+.err-bars-val { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
+@media (max-width: 560px) { .dumbbell-row { grid-template-columns: 96px minmax(0, 1fr) 84px; gap: 6px; font-size: 11px; } }
 .research-page .glossary { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px; }
 .research-page .glossary-row { padding: 18px; }
 .research-page .glossary dt { font-size: 16px; margin-bottom: 6px; }

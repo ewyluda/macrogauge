@@ -8,9 +8,8 @@ test("/pce renders the PCE gauge KPI, its weights table and the graded calls", a
   await page.goto("/pce");
   await expect(page.getByText("PCE gauge · YoY")).toBeVisible();
   await expect(page.getByText("Official PCEPI · YoY")).toBeVisible();
-  // weights table lists all 14 components with a PCE column
-  const rows = page.locator("table.data-table").last().locator("tbody tr");
-  await expect(rows).toHaveCount(14);
+  // the weights dumbbell lists all 14 components, CPI weight → PCE share
+  await expect(page.getByTestId("pce-weights").locator(".dumbbell-row")).toHaveCount(14);
   // the graded-calls table is the same component /scoreboard uses; core PCE
   // calls (added 2026-09-28) get a second one once the artifact carries them
   const core = (accountabilityPce as { core?: { graded: unknown[]; pending: unknown[] } }).core;
@@ -190,4 +189,23 @@ test("/components defaults its chart to 36 months; /my-inflation calls a small g
   const pp = Number(/(\d+\.\d+)pp/.exec(text)?.[1]);
   if (pp < 0.25) await expect(gap).toContainText("in line");
   else await expect(gap).toContainText(/hotter|cooler/);
+});
+
+test("household pages lead with their takeaway (session 4E)", async ({ page }) => {
+  await page.goto("/pce");
+  await expect(page.getByTestId("pce-overshoot")).toContainText(/when the gauge ran at least 1pp above PCEPI/);
+  await page.goto("/scoreboard");
+  await expect(page.getByTestId("scoreboard-takeaway")).toContainText(/has the smallest miss on CPI/);
+  await expect(page.getByTestId("error-bars")).toBeVisible();
+  // the benchmark tiles now sit inside the backtest section
+  await expect(page.locator("section", { hasText: "Walk-forward backtest" }).locator(".kpi-label", { hasText: "Naive MAE" })).toBeVisible();
+  await page.goto("/cost-of-living");
+  await expect(page.getByRole("button", { name: "24M", pressed: true })).toBeVisible();
+  await page.goto("/grocery");
+  await expect(page.getByTestId("grocery-takeaway")).toBeVisible();
+  // electricity and utility gas are off the shelf, not out of the data
+  await expect(page.getByText(/^Avg price: electricity/i)).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Piped gas" })).toBeVisible();
+  await page.goto("/my-inflation");
+  await expect(page.getByText("Your rate minus everyone's, percentage points")).toBeVisible();
 });
