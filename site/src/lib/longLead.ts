@@ -23,7 +23,11 @@ export function fmtFigure(value: number, unit: LongLeadFigure["unit"]): string {
       return `${sign}${Math.abs(r)}% YoY`;
     }
     case "ratio":
-      return `${value.toFixed(1)}x`;
+      // up to two decimals, as stated: 2.65 is stored as 2.6499..., so a
+      // one-decimal toFixed would print a stated 2.65 as "2.6x"
+      return `${Number(value.toFixed(2))}x`;
+    case "gw":
+      return `${trim(value)} GW`;
   }
 }
 

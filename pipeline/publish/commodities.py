@@ -15,7 +15,12 @@ ago (DDR5/DDR4 spot, the H100-hour) or a sparse history whose nearest
 year-ago reading falls outside ±3 days (Wayback NAND) — the row carries
 `chg_alt`: the change against the reading nearest a year back (within a
 month), else against the first reading, with that reading's date in the
-label. Never an unlabeled YoY. PJM capacity is the curated auction history
+label. Never an unlabeled YoY. Wholesale power hubs (POWER_HUBS) publish
+their trailing 30-day average, its YoY and its 30-day change, from the same
+window function /power uses (dcindex.window_avg), and say so in the label: a
+single day's print swings several-fold, so a one-day YoY is mostly noise and
+disagreed with /power's (PJM +82.7% one-day vs +61.9% 30-day, 2026-10-08).
+The sparkline stays the daily prints. PJM capacity is the curated auction history
 (config/dc_power.json, the /power page's source): one row per delivery year,
 its change auction-to-auction.
 """
@@ -23,12 +28,14 @@ from datetime import date, timedelta
 from pathlib import Path
 
 from pipeline import dc_power
+from pipeline.engine.dcindex import window_avg
 from pipeline.publish.util import pct_change_daily, write_json
 from pipeline.store import vintage
 
 SPARK_OBS = 60  # ~3 trading months of daily closes per sparkline
 PJM_CAPACITY = "pjm_capacity"   # curated (dc_power), not a store series
 ALT_WINDOW_DAYS = 31            # how far from a year back a dated stand-in may sit
+POWER_HUBS = {"caiso_sp15_da", "ice_pjm_west", "miso_indiana_da"}   # 30-day-average rows
 _MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 
@@ -67,8 +74,8 @@ GROUPS = [
         ("dramex_ddr4_16g", "DDR4 16Gb spot", "$"),
         ("dramex_nand_mlc64", "NAND 64Gb spot", "$"),
         ("vast_h100_sxm", "H100 SXM (vast.ai median)", "$/GPU-hr"),
-        ("caiso_sp15_da", "CAISO SP15 day-ahead", "$/MWh"),
-        ("ice_pjm_west", "PJM Western Hub", "$/MWh"),
+        ("caiso_sp15_da", "CAISO SP15 day-ahead, 30-day avg", "$/MWh"),
+        ("ice_pjm_west", "PJM Western Hub, 30-day avg", "$/MWh"),
         (PJM_CAPACITY, "PJM capacity, auction clearing", "$/MW-day"),
     ]),
     ("ENERGY & POWER", [
@@ -76,7 +83,7 @@ GROUPS = [
         ("fmp_rbob", "RBOB gasoline front month", "$/gal"),
         ("fmp_natgas", "Nat gas futures front month", "$/MMBtu"),
         ("eia_henry_hub", "Henry Hub spot", "$/MMBtu"),
-        ("miso_indiana_da", "MISO Indiana Hub DA", "$/MWh"),
+        ("miso_indiana_da", "MISO Indiana Hub DA, 30-day avg", "$/MWh"),
     ]),
     # copper and aluminum live once, in the build-inputs group
     ("PRECIOUS METALS", [
@@ -102,6 +109,8 @@ def _row(conn, code: str, label: str, unit: str) -> dict:
                 "as_of": None, "yoy_pct": None, "chg_30d_pct": None, "spark": []}
     dates = sorted(obs)
     as_of = dates[-1]
+    if code in POWER_HUBS:
+        return _hub_row(obs, dates, code, label, unit)
     yoy = pct_change_daily(obs, as_of, 365)
     row = {"code": code, "label": label, "unit": unit,
            "value": round(obs[as_of], 4), "as_of": as_of,
@@ -135,6 +144,24 @@ def _pjm_capacity_row(markets) -> dict:
         row["chg_alt"] = {"pct": round((last["price_mw_day"] / rows[-2]["price_mw_day"] - 1) * 100, 2),
                           "label": f"vs {rows[-2]['period']} auction"}
     return row
+
+
+def _hub_row(obs: dict, dates: list[str], code: str, label: str, unit: str) -> dict:
+    """A power hub's trailing 30-day average, its YoY and its change on the
+    window 30 days earlier — all null when a window is too thin."""
+    rows = [(d, obs[d]) for d in dates]
+    end = date.fromisoformat(dates[-1])
+    avg = window_avg(rows, end)
+
+    def vs(days: int) -> float | None:
+        base = window_avg(rows, end - timedelta(days=days))
+        return None if avg is None or not base or base <= 0 else round((avg / base - 1) * 100, 1)
+
+    return {"code": code, "label": label, "unit": unit,
+            "value": None if avg is None else round(avg, 2), "as_of": dates[-1],
+            "yoy_pct": vs(365), "chg_30d_pct": vs(30),
+            "spark": [round(obs[d], 4) for d in dates[-SPARK_OBS:]],
+            "spark_span": _span(dates[-SPARK_OBS:][0], dates[-1])}
 
 
 def build(conn, capacity_markets=None) -> dict:

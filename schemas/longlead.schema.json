@@ -305,7 +305,8 @@
             "eur_b",
             "jpy_tn",
             "pct_yoy",
-            "ratio"
+            "ratio",
+            "gw"
           ]
         },
         "period": {

@@ -211,6 +211,11 @@ test("methodology documents the DC indexes: every group, its weight and its cite
   await expect(section.getByRole("link", { name: /Turner & Townsend/ }).first()).toHaveAttribute("href", /turnerandtownsend\.com/);
   await expect(section.locator("#method-compute")).toBeVisible();
   await expect(section.locator("#method-capacity")).toBeVisible();
+  // audit F2/F9: Hardware's BLS inputs ARE constant-quality, and the hold
+  // gates only the live-proxy tail (dcindex.py; official prints never held)
+  await expect(section).not.toContainText("rather than the quality-adjusted");
+  await expect(section).toContainText("constant-quality indexes");
+  await expect(section).toContainText("Official prints are never held");
 });
 
 test("homepage leads with the AI-infrastructure track, written from the published DC indexes", async ({ page }) => {

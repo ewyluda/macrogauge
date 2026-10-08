@@ -26,7 +26,7 @@ const sharedWith = (p: LongLeadPackage) =>
 export const metadata: Metadata = {
   title: takeaway ? `Long-Lead Board: ${takeaway.replace(/\.$/, "")}` : "Long-Lead Board: vendor order books vs equipment prices",
   description:
-    "Switchgear, transformers, generators, HVAC, pumps — the PPI YoY we already publish beside what each vendor's own filings say about its order book.",
+    "Switchgear, transformers, generators and gas turbines, HVAC — the PPI YoY we already publish beside what each vendor's own filings say about its order book.",
 };
 
 // A null note is a finding with receipts: its inline SEC citations must be
@@ -71,7 +71,7 @@ function VendorCard({ vendor, seenIn }: { vendor: LongLeadVendor; seenIn?: { lab
       <div className="ll-vendor-head">
         <strong>{vendor.name}</strong>
         <span className="ll-tag">{vendor.ticker} · {vendor.listed}</span>
-        {vendor.cadence === "annual" && <span className="ll-tag">reports annually</span>}
+        {vendor.cadence === "annual" && <span className="ll-tag">states figures annually</span>}
         {vendor.stale && <span className="ll-tag ll-tag-stale">stale</span>}
       </div>
       <p className="ll-segment">{vendor.dc_segment}</p>

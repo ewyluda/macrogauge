@@ -18,6 +18,7 @@ Baseline: `main` at `f58df0d` · pytest 1265 · `npm test` 388 · e2e 230.
 | D8 | /compute gets a tier tag per model. |
 | D9 | /commodities power-hub rows switch from the single-day print YoY to the **30-day-average YoY** /power uses (PJM read +82.7% one-day vs +61.9% 30-day on 2026-10-08). Ships in PR 4 (`pipeline/publish/commodities.py` rows `ice_pjm_west`, `caiso_sp15_da`; row label names the window). |
 | D10 | F8 numbers-strip dedupe: equal-dollar figures for the same ticker merge **only when the stories fall on different ET days** (a repeat report of one deal); same-day equal figures from distinct stories both stay (Q6 option a, 2026-10-08). |
+| D11 | PR 4 scope (2026-10-08): a `gw` unit; GE Vernova's Power orders dropped (no stated Power book-to-bill); Siemens Energy Gas Services and **Bloom Energy** (fuel cells) join the generators row. Bloom states a dollar backlog only with full-year results, so it carries `cadence: annual` (tag now reads "states figures annually"). |
 
 ### Roster by usage (OpenRouter rankings, week to 2026-10-07)
 

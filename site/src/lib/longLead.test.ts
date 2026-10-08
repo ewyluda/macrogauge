@@ -25,6 +25,8 @@ describe("fmtFigure", () => {
   it("formats ratios", () => {
     expect(fmtFigure(2.9, "ratio")).toBe("2.9x");
     expect(fmtFigure(1.2, "ratio")).toBe("1.2x");
+    expect(fmtFigure(2.65, "ratio")).toBe("2.65x");   // as stated, not "2.6x" (2.65 is 2.6499... in binary)
+    expect(fmtFigure(116, "gw")).toBe("116 GW");
   });
 });
 

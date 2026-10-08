@@ -387,6 +387,15 @@ HUB_SPARK_DAYS = 180     # history shipped for the sparkline
 HUB_MIN_OBS = 5          # ICE trades ~3x/week; fewer prints is not an average
 
 
+def window_avg(rows: list[tuple[str, float]], stop: date) -> float | None:
+    """The mean of the prints in the HUB_WINDOW_DAYS ending at `stop`, or
+    None with fewer than HUB_MIN_OBS prints (a thin window is noise). Shared
+    with publish/commodities.py so /power and /commodities quote one number."""
+    start = stop - timedelta(days=HUB_WINDOW_DAYS)
+    vals = [v for d, v in rows if start < date.fromisoformat(d) <= stop]
+    return sum(vals) / len(vals) if len(vals) >= HUB_MIN_OBS else None
+
+
 def _hub_stats(rows: list[tuple[str, float]], h) -> dict:
     """Panel context for one hub, from its own store history: grid/region/
     product labels, the trailing 30-day average, the same window a year
@@ -395,15 +404,8 @@ def _hub_stats(rows: list[tuple[str, float]], h) -> dict:
     Windows end at the hub's OWN last print, so a biweekly ICE hub is never
     compared against a calendar window it hasn't reached yet."""
     end = date.fromisoformat(rows[-1][0])
-
-    def window(stop: date) -> list[float]:
-        start = stop - timedelta(days=HUB_WINDOW_DAYS)
-        return [v for d, v in rows if start < date.fromisoformat(d) <= stop]
-
-    cur = window(end)
-    prior = window(end - timedelta(days=365))
-    avg = sum(cur) / len(cur) if len(cur) >= HUB_MIN_OBS else None
-    prior_avg = sum(prior) / len(prior) if len(prior) >= HUB_MIN_OBS else None
+    avg = window_avg(rows, end)
+    prior_avg = window_avg(rows, end - timedelta(days=365))
     yoy = (round((avg / prior_avg - 1) * 100, 1)
            if avg is not None and prior_avg not in (None, 0) and prior_avg > 0 else None)
     spark_from = end - timedelta(days=HUB_SPARK_DAYS)
