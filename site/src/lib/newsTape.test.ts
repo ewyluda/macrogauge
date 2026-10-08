@@ -257,3 +257,54 @@ describe("topFigures — one row per deal", () => {
     expect(rows[0].story.lead).toBe(late);
   });
 });
+
+describe("audit F6–F8 (docs/reviews/2026-10-08-pr-54-70-review-coverage-audit.md)", () => {
+  const msft = [{ ticker: "MSFT", layer: "Cloud Delivery" }];
+  const at = (ts: string) => ({ ts, tickers: msft, points: [] });
+
+  it("F6: a sentence-case flash with a subject and an action is a story, like its capitals twin", () => {
+    for (const h of ["Nvidia halts chip shipments", "Microsoft cancels nuclear power agreement"]) {
+      expect(noiseReason(post(h, { points: [] })), h).toBeNull();
+      expect(noiseReason(post(h.toUpperCase(), { points: [] })), h).toBeNull();
+    }
+    expect(isInfra(post("Nvidia halts chip shipments", { points: [] }))).toBe(true);
+    // a section title is still a stub: a comma/ampersand list, no act
+    expect(noiseReason(post("AI, semiconductors & technology", { points: [] }))).toBe("stub");
+    expect(noiseReason(post("Market update", { points: [] }))).toBe("stub");
+  });
+
+  it("F7: equal-capacity campuses in different named places stay separate; a rewrite of one site still folds", () => {
+    const tx = post("Microsoft opens 500 MW data center in Texas", { id: "tx", ...at("2026-10-07T12:00:00Z") });
+    const fi = post("Microsoft opens 500 MW data center in Finland", { id: "fi", ...at("2026-10-07T12:00:00Z") });
+    expect(sameStory(tx, fi)).toBe(false);
+    expect(clusterStories([tx, fi])).toHaveLength(2);
+    const txNoFig = post("Microsoft opens new data center campus in Texas", { id: "a", ...at("2026-10-07T12:00:00Z") });
+    const fiNoFig = post("Microsoft opens new data center campus in Finland", { id: "b", ...at("2026-10-07T12:00:00Z") });
+    expect(clusterStories([txNoFig, fiNoFig])).toHaveLength(2);
+    const rewrite = post("Microsoft's new 500 MW data center in Texas opens, Bloomberg reports", { id: "tx2", ...at("2026-10-07T13:00:00Z") });
+    expect(sameStory(tx, rewrite)).toBe(true);
+    // real posts (2026-10-06): one deal told twice, naming different
+    // counterparty words but no conflicting place, still folds into one story
+    const goog = [{ ticker: "CEG", layer: "Power & Grid" }, { ticker: "GOOGL", layer: "Cloud Delivery" }];
+    const g1 = post("$GOOGL Google and $CEG Constellation Energy agreed to add 890 MW of nuclear capacity by upgrading 11 existing plants, highlighting a faster and cheaper path for Big Tech to secure power for expanding data-center demand.",
+      { id: "g1", ts: "2026-10-06T15:44:40Z", tickers: goog });
+    const g2 = post("$GOOGL Alphabet is nearing a multi-year deal worth at least $1 billion with $CEG Constellation Energy for nuclear power, as Google secures electricity for expanding AI data-center demand.",
+      { id: "g2", ts: "2026-10-06T12:03:40Z", tickers: goog });
+    expect(clusterStories([g1, g2])).toHaveLength(1);
+  });
+
+  it("F8: two same-day equal-dollar deals both make the strip; one deal reported on two days shows once", () => {
+    const duke = post("Microsoft signs $5 billion contract with Duke Energy for nuclear electricity", { id: "d", ...at("2026-10-07T12:00:00Z") });
+    const fab = post("Microsoft acquires chipmaking startup for $5 billion to expand semiconductor fabrication", { id: "f", ...at("2026-10-07T12:00:00Z") });
+    const stories = clusterStories([duke, fab]);
+    expect(stories).toHaveLength(2);
+    expect(topFigures(stories, "dollars", 4)).toHaveLength(2);
+    // the Broadcom case: the same $60B package on Oct 2 and Oct 5 stays one row
+    const avgo = [{ ticker: "AVGO", layer: "AI Compute" }];
+    const early = post("Broadcom ($AVGO) and its banking syndicate are beginning efforts to arrange approximately $60 billion for Anthropic",
+      { id: "e", ts: "2026-10-02T14:00:00Z", tickers: avgo });
+    const late = post("Wall Street banks are launching a record $60 billion financing package to fund $AVGO Broadcom AI chips",
+      { id: "l", ts: "2026-10-05T14:00:00Z", tickers: avgo });
+    expect(topFigures(clusterStories([late, early]), "dollars", 4)).toHaveLength(1);
+  });
+});
