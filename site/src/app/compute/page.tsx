@@ -10,7 +10,7 @@ import { Citation } from "@/components/Citation";
 import { C } from "@/lib/chartTheme";
 import { computeIndexRows } from "@/lib/computeCsv";
 import { capabilityTakeaway, cloudProviders, cloudRows, cloudTakeaway, GPU_LABEL, listOf, reservedRows, reservedTakeaway } from "@/lib/cloudGpu";
-import { fmtSigned, yoyColor } from "@/lib/format";
+import { fmtDay, fmtSigned, yoyColor } from "@/lib/format";
 import type { Compute } from "@/lib/types";
 import { artifact } from "@/lib/artifact";
 
@@ -45,19 +45,16 @@ export default function ComputePage() {
   const roster = data.token_roster;
   return (
     <div>
-      <h1>
-        Compute Prices <span className="subtitle">what a token and a GPU-hour cost, indexed daily</span>
-      </h1>
-      <p className="lede">
-        The DC Hardware index prices the inputs to a data center. This page prices what comes out of one: the
-        per-token list prices of the {data.models.length} most-used models on OpenRouter, ranked by what people pay for them;
-        {cloud.length > 0 && ` what ${listOf(clouds)} list for a GPU-hour;`}{" "}and what a GPU-hour
-        rents for on the vast.ai marketplace. The two composites are chain-linked equal-weight geometric means: each day&apos;s
-        move averages the day-over-day price changes of the members priced on both days, so a SKU missing a
-        day, joining, or retiring changes who is averaged but never jumps the index — and a deprecated model
-        drops out instead of freezing a dead price into it. Collection began {data.history_start ?? "—"}: the history is short
-        and says so.
-      </p>
+      {/* the shared research-intro header (eyebrow, finding H1, one dek) puts the
+          KPIs in the first screen; the method prose closes the page */}
+      <header className="research-intro">
+        <div className="research-eyebrow">AI infrastructure · Compute prices <span>Updated {fmtDay(data.published_at)}</span></div>
+        <h1>{indexTitle ? `${indexTitle} in 30 days` : "Compute Prices"}</h1>
+        <p>
+          What a token and a GPU-hour cost, indexed daily: list prices of the {data.models.length} most-used models on
+          OpenRouter,{cloud.length > 0 && ` GPU-hour list prices at ${listOf(clouds)},`} and vast.ai marketplace rentals.
+        </p>
+      </header>
       <div className="kpi-row">
         <KpiCard label="Token price index" value={idx(ti.value)}
           context={`${ti.base_date ?? "—"} = 100 · 30d ${fmtSigned(ti.chg_30d_pct)} · as of ${ti.as_of ?? "—"}`}
@@ -67,9 +64,12 @@ export default function ComputePage() {
           accent={(gi.chg_30d_pct ?? 0) > 0 ? "red" : "emerald"} />
         <KpiCard label="History" value={`${days}d`} context={`daily since ${data.history_start ?? "—"} · ${data.models.length} models · ${data.gpus.length} GPU SKUs`} accent="violet" />
       </div>
-      <Citation series="Token price index" asOf={ti.as_of ?? data.published_at.slice(0, 10)} rebase={`${ti.base_date ?? "—"}=100`} value={idx(ti.value)} path="/compute" />
+      <div className="page-asof">
+        <Citation series="Token price index" asOf={ti.as_of ?? data.published_at.slice(0, 10)} rebase={`${ti.base_date ?? "—"}=100`} value={idx(ti.value)} path="/compute" />
+        <span>Collected daily since {data.history_start ? fmtDay(data.history_start) : "—"}: a short history · <a href="#cp-method">How it&apos;s built</a></span>
+      </div>
 
-      <Section title={indexTitle ? `${indexTitle} in 30 days` : "Composite indexes"} featured>
+      <Section title={data.history_start ? `Both indexes, daily since ${fmtDay(data.history_start)}` : "Composite indexes"} featured>
         <div className="section-tools">
           <DownloadData filename="macrogauge-compute-indexes" json="compute.json"
             citation={`MacroGauge token and GPU-hour price indexes, ${ti.base_date ?? "—"}=100`}
@@ -293,6 +293,20 @@ export default function ComputePage() {
           decision, made once it has enough history.
         </p>
       </Section>
+
+      <section id="cp-method" className="page-method" aria-labelledby="cp-method-title">
+        <h2 id="cp-method-title">How it&apos;s built</h2>
+        <p className="method">
+          The DC Hardware index prices the inputs to a data center. This page prices what comes out of one: the
+          per-token list prices of the {data.models.length} most-used models on OpenRouter, ranked by what people pay for them;
+          {cloud.length > 0 && ` what ${listOf(clouds)} list for a GPU-hour;`}{" "}and what a GPU-hour
+          rents for on the vast.ai marketplace. The two composites are chain-linked equal-weight geometric means: each day&apos;s
+          move averages the day-over-day price changes of the members priced on both days, so a SKU missing a
+          day, joining, or retiring changes who is averaged but never jumps the index — and a deprecated model
+          drops out instead of freezing a dead price into it. Collection began {data.history_start ?? "—"}: the history is short
+          and says so.
+        </p>
+      </section>
     </div>
   );
 }
