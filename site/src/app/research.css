@@ -459,7 +459,9 @@ body.research-site .footer-meta { font-size: 12px; }
    the light surface; amber and blue stay reserved for operational /
    construction across the whole page. */
 .capacity-workspace { --cap-cloud: #7356A8; --cap-landlord: #0E8A6D; }
-.cap-viz { display: flex; flex-direction: column; gap: 16px; }
+/* relative: GeoMap anchors its hover card to this wrapper (it spans the main
+   map and the insets); the other views anchor to their .cap-chart. */
+.cap-viz { position: relative; display: flex; flex-direction: column; gap: 16px; }
 .cap-viz-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px 32px; flex-wrap: wrap; }
 .cap-viz-head h3 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: -.015em; }
 .cap-viz-head p { margin: 6px 0 0; max-width: 72ch; font-size: 14px; line-height: 1.6; color: var(--muted); }
