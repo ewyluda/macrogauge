@@ -21,6 +21,13 @@ CCSA = "CCSA"
 # construction band: the trades a data-center build competes for (headcount,
 # pay against all private workers, JOLTS openings); CONSTR is the AHE series
 CONS_EMP, CONS_OPEN, CONS_OPEN_RATE = "USCONS", "JTS2300JOL", "JTS2300JOR"
+# production and nonsupervisory employees: the craft workforce, working
+# supervisors included; all employees less these is the non-craft staff
+CONS_PROD = "CES2000000006"
+# average weekly earnings, all employees (from 2006-03) and craft: payroll =
+# headcount x weekly earnings, BLS's own aggregate-payroll construction
+CONS_AWE, CONS_PROD_AWE = "CES2000000011", "CES2000000030"
+MIX_START = "1990-01-01"  # scripts/backfill_construction_mix.py seeds from here
 # wage series codes are shared with the real-wages writer — one definition
 MONTHLY_TAIL = 36
 WEEKLY_TAIL = 52
@@ -100,6 +107,44 @@ def _construction(emp, c_ahe, ahe, openings, rate):
             "openings_as_of": o}
 
 
+def _construction_mix(emp, prod, awe, prod_awe):
+    """Non-craft share of construction jobs: managers, project managers,
+    estimators, engineers and office staff, as all employees less production
+    and nonsupervisory employees. Monthly from MIX_START over months both
+    series report. The payroll share prices each group at its weekly
+    earnings; null in months without both (all-employee earnings start
+    2006-03)."""
+    months = sorted(m for m in emp if m in prod and m >= MIX_START)
+    noncraft = [emp[m] - prod[m] for m in months]
+    share = [round(100 * n / emp[m], 2) for n, m in zip(noncraft, months)]
+    a = months[-1] if months else None
+    base = None if a is None else months_back(a, 12)
+
+    def pay(m):  # (non-craft share of payroll %, non-craft pay / craft pay)
+        total, craft = emp[m] * awe[m], prod[m] * prod_awe[m]
+        heads = emp[m] - prod[m]  # 0 only in fakes, but must not take labor.json down
+        return (100 * (total - craft) / total,
+                (total - craft) / heads / prod_awe[m] if heads > 0 else None)
+    paid = [m for m in months if m in awe and m in prod_awe]
+    p = paid[-1] if paid else None
+    return {"as_of": a,
+            "craft_k": None if a is None else round(prod[a]),
+            "noncraft_k": None if a is None else round(noncraft[-1]),
+            "noncraft_share_pct": share[-1] if months else None,
+            "noncraft_per_100_craft": None if a is None else round(100 * noncraft[-1] / prod[a], 1),
+            "share_1y_ago_pct": share[months.index(base)] if base in months else None,
+            "payroll_as_of": p,
+            "noncraft_payroll_share_pct": None if p is None else round(pay(p)[0], 2),
+            "noncraft_pay_ratio": None if p is None or pay(p)[1] is None else round(pay(p)[1], 2),
+            "history": {"months": months,
+                        "craft_k": [round(prod[m]) for m in months],
+                        "noncraft_k": [round(n) for n in noncraft],
+                        "noncraft_share_pct": share,
+                        "noncraft_payroll_share_pct": [
+                            round(pay(m)[0], 2) if m in awe and m in prod_awe else None
+                            for m in months]}}
+
+
 def _history(payems, unrate, icsa, cons):
     months = sorted(set(payems) | set(unrate))[-MONTHLY_TAIL:]
 
@@ -124,6 +169,8 @@ def build(conn) -> dict:
             "wages": _wages(ahe, wgt),
             "construction": _construction(cons, _rows(conn, CONSTR), ahe,
                                           _rows(conn, CONS_OPEN), _rows(conn, CONS_OPEN_RATE)),
+            "construction_mix": _construction_mix(cons, _rows(conn, CONS_PROD), _rows(conn, CONS_AWE),
+                                                  _rows(conn, CONS_PROD_AWE)),
             "history": _history(payems, unrate, icsa, cons)}
 
 

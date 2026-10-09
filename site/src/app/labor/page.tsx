@@ -113,10 +113,17 @@ export default function LaborPage() {
   );
 }
 
+// the shared NBER_RECESSIONS starts at 2020 (site charts open in 2018); the
+// non-craft share runs from 1990, so it shades its own
+const RECESSIONS_SINCE_1990 = [["1990-07-01", "1991-03-31"], ["2001-03-01", "2001-11-30"],
+  ["2007-12-01", "2009-06-30"], ["2020-02-01", "2020-04-30"]].map(([from, to]) => ({ from, to, label: "" }));
+
 function ConstructionBand() {
   const c = d.construction;
   if (!c) return null;
   const m = d.history.monthly;
+  const mix = d.construction_mix?.as_of ? d.construction_mix : null;
+  const shareChg = mix?.noncraft_share_pct != null && mix.share_1y_ago_pct != null ? mix.noncraft_share_pct - mix.share_1y_ago_pct : null;
   const premium = c.ahe_yoy_pct != null && c.private_ahe_yoy_pct != null ? c.ahe_yoy_pct - c.private_ahe_yoy_pct : null;
   return (
     <Section title="Construction labour — the trades a data-center build competes for" id="construction">
@@ -137,11 +144,38 @@ function ConstructionBand() {
             ]} />
         </div>
       )}
+      {mix && (
+        <div className="kpi-row" data-testid="noncraft-kpis">
+          <KpiCard label="Non-craft share of jobs" value={mix.noncraft_share_pct == null ? "—" : `${mix.noncraft_share_pct.toFixed(1)}%`}
+            context={`${mix.noncraft_per_100_craft == null ? "—" : mix.noncraft_per_100_craft.toFixed(1)} per 100 craft workers · ${shareChg == null ? "—" : `${shareChg >= 0 ? "+" : "−"}${Math.abs(shareChg).toFixed(1)}pp`} on the year · ${fmtMonth(mix.as_of as string)}`} accent="emerald" />
+          {mix.payroll_as_of && (
+            <KpiCard label="Non-craft share of payroll" value={mix.noncraft_payroll_share_pct == null ? "—" : `${mix.noncraft_payroll_share_pct.toFixed(1)}%`}
+              context={`non-craft staff earn ${mix.noncraft_pay_ratio == null ? "—" : `${mix.noncraft_pay_ratio.toFixed(2)}×`} craft weekly pay · ${fmtMonth(mix.payroll_as_of)}`} accent="violet" />
+          )}
+        </div>
+      )}
+      {mix && mix.history.months.length > 0 && (
+        <div className="chart-card" style={{ padding: "12px 8px 4px" }} data-testid="noncraft-share">
+          <LinesChart height={260} fitY recessions={false} bands={RECESSIONS_SINCE_1990}
+            ariaTitle="Non-craft staff as a share of construction jobs since 1990 and of construction payroll since 2006"
+            series={[
+              { name: "Share of jobs", x: mix.history.months, y: mix.history.noncraft_share_pct, color: C.emerald },
+              { name: "Share of payroll", x: mix.history.months, y: mix.history.noncraft_payroll_share_pct, color: C.violet },
+            ]} />
+        </div>
+      )}
       <p className="method">
         BLS construction employment (USCONS) and average hourly earnings (CES2000000003), the latter set against all
         private workers in the same month; JOLTS construction job openings and openings rate (JTS2300JOL, JTS2300JOR),
         which publish about two months behind. National totals: county-level construction headcount and wages for 20
-        data-center markets are on <Link href="/markets">Markets</Link>.
+        data-center markets are on <Link href="/markets">Markets</Link>. Non-craft staff are all construction employees
+        less production and nonsupervisory employees (CES2000000006: trades, laborers and working foremen), which leaves
+        managers, project managers, estimators, engineers and office staff. A rising share means more of that indirect
+        headcount per craft worker, a cost owners pay per unit of work put in place that no wage or materials index
+        shows. Headcount alone cannot say whether the extra staff is overhead or scope that projects now require.
+        The payroll share prices each group at its average weekly earnings (CES2000000011 for all employees, which
+        starts in March 2006; CES2000000030 for craft): when it rises more slowly than the jobs share, the added
+        non-craft staff are paid less, relative to craft, than before. Shaded: NBER recessions.
       </p>
     </Section>
   );
