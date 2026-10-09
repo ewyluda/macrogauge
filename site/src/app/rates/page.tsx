@@ -136,7 +136,7 @@ export default function RatesPage() {
           context={`${s.s2s10s.value != null && s.s2s10s.value < 0 ? "inverted · " : ""}2y ${pct(two?.value ?? null)} · 30d ${fmtPp(s.s2s10s.chg_30d_pp)}`}
           accent={s.s2s10s.value != null && s.s2s10s.value < 0 ? "red" : "emerald"} />
       </div>
-      <div className="rt-asof">
+      <div className="page-asof">
         <Citation series="10-year Treasury yield (DGS10)" asOf={ten?.as_of ?? data.published_at.slice(0, 10)} value={pct(ten?.value ?? null)} path="/rates" />
         <span>Market reference rates, not a project&apos;s cost of debt · <a href="#rt-method">How it&apos;s built</a></span>
       </div>
@@ -320,7 +320,7 @@ export default function RatesPage() {
         </p>
       </Section>
 
-      <section id="rt-method" className="rt-method" aria-labelledby="rt-method-title">
+      <section id="rt-method" className="page-method" aria-labelledby="rt-method-title">
         <h2 id="rt-method-title">How it&apos;s built</h2>
         <p className="method">
           The market benchmarks that financing a build is priced against: the Treasury curve, the investment-grade
