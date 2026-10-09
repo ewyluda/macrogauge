@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-08T12:49:22Z",
+  "published_at": "2026-10-09T12:49:34Z",
   "headline": {
     "cpi": {
       "month": "2026-08-01",
@@ -213,37 +213,37 @@
       "label": "30yr mortgage",
       "group": "rates",
       "unit": "%",
-      "latest": 7.28,
-      "obs_date": "2026-10-01",
-      "yoy_pct": 15.56,
-      "yoy_pp": 0.98
+      "latest": 7.4,
+      "obs_date": "2026-10-08",
+      "yoy_pct": 16.72,
+      "yoy_pp": 1.06
     },
     {
       "code": "fmp_gold",
       "label": "Gold",
       "group": "markets",
       "unit": "$/oz",
-      "latest": 4146.6,
-      "obs_date": "2026-10-08",
-      "yoy_pct": 1.87
+      "latest": 4205.6,
+      "obs_date": "2026-10-09",
+      "yoy_pct": 5.87
     },
     {
       "code": "fmp_wti",
       "label": "WTI crude",
       "group": "markets",
       "unit": "$/bbl",
-      "latest": 92.44,
-      "obs_date": "2026-10-08",
-      "yoy_pct": 47.79
+      "latest": 91.33,
+      "obs_date": "2026-10-09",
+      "yoy_pct": 48.48
     },
     {
       "code": "fiscal_debt_total",
       "label": "Total public debt",
       "group": "fiscal",
       "unit": "$",
-      "latest": 40273024579219.17,
-      "obs_date": "2026-10-06",
-      "yoy_pct": 6.36
+      "latest": 40284036147367.19,
+      "obs_date": "2026-10-07",
+      "yoy_pct": 6.32
     }
   ]
 }

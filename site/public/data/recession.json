@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-08T12:49:22Z",
+  "published_at": "2026-10-09T12:49:34Z",
   "probability_pct": 0.0,
   "triggered": 0,
   "available": 6,
@@ -10,14 +10,18 @@
       "rule": ">= +0.50pp",
       "value": 0.0,
       "as_of": "2026-09-01",
+      "op": ">=",
+      "threshold": 0.5,
       "triggered": false
     },
     {
       "name": "10Y\u20133M",
       "code": "T10Y3M",
       "rule": "< 0",
-      "value": 1.06,
-      "as_of": "2026-10-07",
+      "value": 0.99,
+      "as_of": "2026-10-08",
+      "op": "<",
+      "threshold": 0.0,
       "triggered": false
     },
     {
@@ -26,6 +30,8 @@
       "rule": "> 0",
       "value": -0.494,
       "as_of": "2026-10-02",
+      "op": ">",
+      "threshold": 0.0,
       "triggered": false
     },
     {
@@ -34,6 +40,8 @@
       "rule": "13-week avg > 110% of 52-week avg",
       "value": 95.1,
       "as_of": "2026-10-03",
+      "op": ">",
+      "threshold": 110.0,
       "triggered": false
     },
     {
@@ -42,6 +50,8 @@
       "rule": "< -0.70",
       "value": 0.01,
       "as_of": "2026-08-01",
+      "op": "<",
+      "threshold": -0.7,
       "triggered": false
     },
     {
@@ -50,6 +60,8 @@
       "rule": "> 20%",
       "value": 0.62,
       "as_of": "2026-08-01",
+      "op": ">",
+      "threshold": 20.0,
       "triggered": false
     }
   ]

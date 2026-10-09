@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-08T12:49:22Z",
+  "published_at": "2026-10-09T12:49:34Z",
   "as_of": "2026-01-01",
   "base_date": "2025-01-01",
   "national": {
@@ -1261,7 +1261,7 @@
       "key": "newcarlisle",
       "name": "New Carlisle IN",
       "state": "IN",
-      "iso": "MISO",
+      "iso": "PJM",
       "grid": null,
       "utility": "AEP Indiana Michigan",
       "note": "St. Joseph County; AWS",

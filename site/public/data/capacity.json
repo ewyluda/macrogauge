@@ -1,7 +1,7 @@
 {
-  "published_at": "2026-10-08T12:49:22Z",
+  "published_at": "2026-10-09T12:49:34Z",
   "as_of_curated": "2026-10-02",
-  "priced_date": "2026-10-07",
+  "priced_date": "2026-10-08",
   "note": "AI critical-IT MW + unit economics across the AI build-out cohort: neoclouds, powered-shell landlords, operators, and hyperscalers (incl. private builders xAI and OpenAI/Stargate). Spec: docs/superpowers/specs/2026-07-21-capacity-tracker-design.md. op/con/plan = verify-adjusted critical-IT AI MW; hyperscaler MW are estimates (no filing-grade critical-IT split is disclosed). cap/nd/bk in $B. Derived analytics (EV, weighted MW, EV/MW, coverage, %energized) are computed at render time, not stored. dupe!=null => excluded from de-duped cohort totals.",
   "basis": {
     "weighted_mw": "op + 0.5*con + 0.25*plan",
@@ -104,9 +104,9 @@
           "https://www.sec.gov/Archives/edgar/data/2097508/000118518526004075/bldc425091626.htm"
         ]
       ],
-      "cap": 48.26,
-      "px": 88.45,
-      "priced_date": "2026-10-07",
+      "cap": 44.51,
+      "px": 81.58,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -125,11 +125,11 @@
           360
         ]
       ],
-      "ev": 78.06,
+      "ev": 74.31,
       "wmw": 2475.0,
-      "ev_per_mw": 31.5,
+      "ev_per_mw": 30.0,
       "pct_energized": 35.7,
-      "coverage": 1.33
+      "coverage": 1.4
     },
     {
       "t": "ORCL",
@@ -211,9 +211,9 @@
           "https://www.cnbc.com/2026/09/24/oracle-data-center-force-majeure.html"
         ]
       ],
-      "cap": 413.52,
-      "px": 143.56,
-      "priced_date": "2026-10-07",
+      "cap": 390.46,
+      "px": 135.555,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -227,11 +227,11 @@
           1400
         ]
       ],
-      "ev": 502.52,
+      "ev": 479.46,
       "wmw": 3225.0,
       "ev_per_mw": null,
       "pct_energized": 31.8,
-      "coverage": 1.32
+      "coverage": 1.38
     },
     {
       "t": "NBIS",
@@ -345,9 +345,9 @@
           "https://www.sec.gov/Archives/edgar/data/2070542/000121390026105865/ea030737801ex99-1.htm"
         ]
       ],
-      "cap": 56.92,
-      "px": 237.15,
-      "priced_date": "2026-10-07",
+      "cap": 52.73,
+      "px": 219.71,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -366,11 +366,11 @@
           50
         ]
       ],
-      "ev": 57.42,
+      "ev": 53.23,
       "wmw": 1635.0,
-      "ev_per_mw": 35.1,
+      "ev_per_mw": 32.6,
       "pct_energized": 3.7,
-      "coverage": 0.7
+      "coverage": 0.75
     },
     {
       "t": "APLD",
@@ -466,9 +466,9 @@
           "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000048/apld-20260531.htm"
         ]
       ],
-      "cap": 6.85,
-      "px": 23.81,
-      "priced_date": "2026-10-07",
+      "cap": 6.87,
+      "px": 23.85,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -497,11 +497,11 @@
           210
         ]
       ],
-      "ev": 7.65,
+      "ev": 7.67,
       "wmw": 830.0,
       "ev_per_mw": 9.2,
       "pct_energized": 17.7,
-      "coverage": 4.71
+      "coverage": 4.69
     },
     {
       "t": "CORZ",
@@ -595,9 +595,9 @@
           "https://investors.corescientific.com/news-events/press-releases/detail/142/core-scientific-completes-acquisition-of-polaris-ds-advancing-planned-muskogee-expansion-to-1-5-gw-of-gross-power"
         ]
       ],
-      "cap": 5.12,
-      "px": 15.94,
-      "priced_date": "2026-10-07",
+      "cap": 4.94,
+      "px": 15.36,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -621,11 +621,11 @@
           530
         ]
       ],
-      "ev": 7.62,
+      "ev": 7.44,
       "wmw": 1118.5,
-      "ev_per_mw": 6.8,
+      "ev_per_mw": 6.7,
       "pct_energized": 17.5,
-      "coverage": 3.15
+      "coverage": 3.23
     },
     {
       "t": "GLXY",
@@ -672,7 +672,7 @@
           "Helios Phase III",
           133,
           "c",
-          "final CoreWeave option"
+          "final CoreWeave option; 'expecting to commence in 2028' (Q4'25 8-K)"
         ],
         [
           "Helios expansion (830 MW)",
@@ -705,22 +705,27 @@
           "https://www.prnewswire.com/news-releases/galaxy-announces-second-quarter-2026-financial-results-302843529.html"
         ]
       ],
-      "cap": 7.1,
-      "px": 21.4,
-      "priced_date": "2026-10-07",
+      "cap": 6.66,
+      "px": 20.085,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
           "2027Q2",
           "Helios Phase II",
           260
+        ],
+        [
+          "2028Q4",
+          "Helios Phase III",
+          133
         ]
       ],
-      "ev": 11.0,
+      "ev": 10.56,
       "wmw": 537.0,
-      "ev_per_mw": 20.5,
+      "ev_per_mw": 19.7,
       "pct_energized": 9.8,
-      "coverage": 1.23
+      "coverage": 1.28
     },
     {
       "t": "WULF",
@@ -814,9 +819,9 @@
           "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000166/wulf-20260630.htm"
         ]
       ],
-      "cap": 7.14,
-      "px": 14.4,
-      "priced_date": "2026-10-07",
+      "cap": 6.76,
+      "px": 13.65,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -835,11 +840,11 @@
           401
         ]
       ],
-      "ev": 9.74,
+      "ev": 9.36,
       "wmw": 1050.5,
-      "ev_per_mw": 9.3,
+      "ev_per_mw": 8.9,
       "pct_energized": 3.2,
-      "coverage": 3.29
+      "coverage": 3.42
     },
     {
       "t": "HUT",
@@ -919,9 +924,9 @@
           "https://www.sec.gov/Archives/edgar/data/1964789/000110465926111154/tm2625691d1_8k.htm"
         ]
       ],
-      "cap": 10.05,
-      "px": 89.3,
-      "priced_date": "2026-10-07",
+      "cap": 8.96,
+      "px": 79.59,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -940,11 +945,11 @@
           352
         ]
       ],
-      "ev": 10.05,
+      "ev": 8.96,
       "wmw": 474.5,
-      "ev_per_mw": 21.2,
+      "ev_per_mw": 18.9,
       "pct_energized": 0.0,
-      "coverage": 2.65
+      "coverage": 2.97
     },
     {
       "t": "CIFR",
@@ -1032,9 +1037,9 @@
           "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000043/barberlakeleaseamendmentpr.htm"
         ]
       ],
-      "cap": 5.96,
-      "px": 14.56,
-      "priced_date": "2026-10-07",
+      "cap": 5.52,
+      "px": 13.5,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -1053,11 +1058,11 @@
           70
         ]
       ],
-      "ev": 10.56,
+      "ev": 10.12,
       "wmw": 314.0,
-      "ev_per_mw": 33.6,
+      "ev_per_mw": 32.2,
       "pct_energized": 0.0,
-      "coverage": 1.57
+      "coverage": 1.64
     },
     {
       "t": "IREN",
@@ -1145,9 +1150,9 @@
           "https://www.globenewswire.com/news-release/2026/07/20/3329624/0/en/iren-signs-2-8bn-in-new-customer-contracts-with-leading-ai-developers-raises-2026-arr-target-to-over-4bn.html"
         ]
       ],
-      "cap": 13.81,
-      "px": 38.69,
-      "priced_date": "2026-10-07",
+      "cap": 12.74,
+      "px": 35.71,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -1161,11 +1166,11 @@
           60
         ]
       ],
-      "ev": 15.51,
+      "ev": 14.44,
       "wmw": 397.5,
-      "ev_per_mw": 39.0,
+      "ev_per_mw": 36.3,
       "pct_energized": 4.5,
-      "coverage": 1.06
+      "coverage": 1.14
     },
     {
       "t": "KEEL",
@@ -1237,9 +1242,9 @@
           "https://www.sec.gov/Archives/edgar/data/1812477/000181247726000021/a202689finalprkeelq22026ea.htm"
         ]
       ],
-      "cap": 2.02,
-      "px": 3.34,
-      "priced_date": "2026-10-07",
+      "cap": 1.9,
+      "px": 3.15,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -1248,9 +1253,9 @@
           350
         ]
       ],
-      "ev": 2.28,
+      "ev": 2.16,
       "wmw": 231.2,
-      "ev_per_mw": 9.9,
+      "ev_per_mw": 9.3,
       "pct_energized": 0.0,
       "coverage": 0.0
     },
@@ -1332,9 +1337,9 @@
           "https://blockspace.media/insight/riot-platforms-signs-ai-lease-rockdale-2026/"
         ]
       ],
-      "cap": 7.01,
-      "px": 18.54,
-      "priced_date": "2026-10-07",
+      "cap": 6.37,
+      "px": 16.84,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -1348,11 +1353,11 @@
           191
         ]
       ],
-      "ev": 7.3,
+      "ev": 6.66,
       "wmw": 170.5,
-      "ev_per_mw": 42.8,
+      "ev_per_mw": 39.1,
       "pct_energized": 6.4,
-      "coverage": 1.34
+      "coverage": 1.47
     },
     {
       "t": "BTDR",
@@ -1460,9 +1465,9 @@
           "https://www.sec.gov/Archives/edgar/data/1899123/000121390026100537/ea030523501ex99-1.htm"
         ]
       ],
-      "cap": 2.43,
-      "px": 10.4,
-      "priced_date": "2026-10-07",
+      "cap": 2.27,
+      "px": 9.72,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -1496,11 +1501,11 @@
           55
         ]
       ],
-      "ev": 3.73,
+      "ev": 3.57,
       "wmw": 411.9,
-      "ev_per_mw": 9.1,
+      "ev_per_mw": 8.7,
       "pct_energized": 0.2,
-      "coverage": 1.26
+      "coverage": 1.32
     },
     {
       "t": "WYFI",
@@ -1592,9 +1597,9 @@
           "https://www.sec.gov/Archives/edgar/data/2042022/000121390026099424/ea030525701ex99-1.htm"
         ]
       ],
-      "cap": 0.65,
-      "px": 16.83,
-      "priced_date": "2026-10-07",
+      "cap": 0.61,
+      "px": 15.75,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -1603,11 +1608,11 @@
           3
         ]
       ],
-      "ev": 0.9,
+      "ev": 0.86,
       "wmw": 81.5,
-      "ev_per_mw": 11.0,
+      "ev_per_mw": 10.6,
       "pct_energized": 28.9,
-      "coverage": 1.04
+      "coverage": 1.08
     },
     {
       "t": "BTBT",
@@ -1651,16 +1656,16 @@
           "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1710350"
         ]
       ],
-      "cap": 0.51,
-      "px": 1.46,
-      "priced_date": "2026-10-07",
+      "cap": 0.47,
+      "px": 1.36,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [],
-      "ev": 0.86,
+      "ev": 0.82,
       "wmw": 81.5,
-      "ev_per_mw": 10.6,
+      "ev_per_mw": 10.1,
       "pct_energized": 28.9,
-      "coverage": 1.08
+      "coverage": 1.14
     },
     {
       "t": "MARA",
@@ -1724,12 +1729,12 @@
           "https://www.sec.gov/Archives/edgar/data/1507605/000095014226002607/eh260835247_8k.htm"
         ]
       ],
-      "cap": 3.95,
-      "px": 10.36,
-      "priced_date": "2026-10-07",
+      "cap": 3.78,
+      "px": 9.91,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [],
-      "ev": 5.95,
+      "ev": 5.78,
       "wmw": 25.0,
       "ev_per_mw": null,
       "pct_energized": 0.0,
@@ -1807,14 +1812,14 @@
           "https://www.sec.gov/Archives/edgar/data/1582961/000110465926106704/tm2625205d1_8k.htm"
         ]
       ],
-      "cap": 14.88,
-      "px": 127.28,
-      "priced_date": "2026-10-07",
+      "cap": 14.48,
+      "px": 123.9,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [],
-      "ev": 15.03,
+      "ev": 14.63,
       "wmw": 107.5,
-      "ev_per_mw": 139.8,
+      "ev_per_mw": 136.1,
       "pct_energized": 45.2,
       "coverage": 0.06
     },
@@ -1878,16 +1883,16 @@
           "https://www.quiverquant.com/news/Akamai+Technologies+shares+fall+as+investors+appear+to+weigh+leverage+and+AI+infrastructure+spending"
         ]
       ],
-      "cap": 15.21,
-      "px": 104.61,
-      "priced_date": "2026-10-07",
+      "cap": 14.67,
+      "px": 100.9,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [],
-      "ev": 18.16,
+      "ev": 17.62,
       "wmw": 47.5,
       "ev_per_mw": null,
       "pct_energized": 20.0,
-      "coverage": 0.79
+      "coverage": 0.82
     },
     {
       "t": "MSFT",
@@ -2023,12 +2028,12 @@
           "https://www.cloudcomputing-news.net/news/microsoft-38gw-data-centre-capacity-2032/"
         ]
       ],
-      "cap": 3933.76,
-      "px": 529.76,
-      "priced_date": "2026-10-07",
+      "cap": 3880.67,
+      "px": 522.61,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [],
-      "ev": 3897.26,
+      "ev": 3844.17,
       "wmw": 7125.0,
       "ev_per_mw": null,
       "pct_energized": 37.5,
@@ -2208,9 +2213,9 @@
           "https://www.enr.com/articles/63464-amazon-discloses-ownership-of-gw-ranch-giant-texas-data-center-power-complex"
         ]
       ],
-      "cap": 2795.99,
-      "px": 259.92,
-      "priced_date": "2026-10-07",
+      "cap": 2732.95,
+      "px": 254.06,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -2219,7 +2224,7 @@
           1034
         ]
       ],
-      "ev": 2805.19,
+      "ev": 2742.15,
       "wmw": 21500.0,
       "ev_per_mw": null,
       "pct_energized": 44.1,
@@ -2235,7 +2240,7 @@
       "flag": "MW estimate-only: Google discloses no total MW. op derived from ~42 TWh 2025 DC electricity (~4.8 GW avg draw -> ~5.5-7 GW provisioned crit-IT); con/plan from capex split + announced campuses. Fluidstack/WULF/CIFR capacity excluded -> TENANTS edges. The '508 MW active IT' tracker figure = colo-leased only, not the self-build fleet.",
       "ev_note": null,
       "dom": "datacenters.google",
-      "pipe": "TX $40B (Armstrong+2x Haskell), MO New Florence >1GW, India Vizag 1GW->multi-GW, OK $9B (Pryor/Stillwater/Muskogee), VA Chesterfield 900MW phased to 2032, SC/IA/AL later phases.; Columbia County GA (~8M sq ft, $17B MOU 8/27, press); Finland \u20ac13B 2027\u201328 + Loviisa nuclear (9/9); Lea County NM exploratory (9/14); Tulsa Co. OK 'Project Clydesdale' w/ Beale (press)",
+      "pipe": "TX $40B (Armstrong+2x Haskell), MO New Florence >1GW, India Vizag 1GW->multi-GW, OK $9B (Pryor/Stillwater/Muskogee), VA Chesterfield (Bermuda Hundred, MW undisclosed), SC/IA/AL later phases.; Columbia County GA (~8M sq ft, $17B MOU 8/27, press); Finland \u20ac13B 2027\u201328 + Loviisa nuclear (9/9); Lea County NM exploratory (9/14); Tulsa Co. OK 'Project Clydesdale' w/ Beale (press)",
       "op": 6000,
       "con": 5000,
       "plan": 6500,
@@ -2268,9 +2273,9 @@
         ],
         [
           "Chesterfield, VA (Bermuda Hundred)",
-          900,
+          null,
           "c",
-          "constr. late 2026, phased to 2032"
+          "first building late 2027, MW undisclosed (the 900 MW Dominion filing is Upper Magnolia Green, customer unnamed)"
         ],
         [
           "Ridgeville / St George, SC (Dorchester Co.)",
@@ -2379,9 +2384,9 @@
           "https://blog.google/innovation-and-ai/infrastructure-and-cloud/global-network/google-ai-commitment-to-finland/"
         ]
       ],
-      "cap": 4241.79,
-      "px": 350.5,
-      "priced_date": "2026-10-07",
+      "cap": 4215.04,
+      "px": 348.29,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -2390,7 +2395,7 @@
           300
         ]
       ],
-      "ev": 4099.49,
+      "ev": 4072.74,
       "wmw": 10125.0,
       "ev_per_mw": null,
       "pct_energized": 34.3,
@@ -2548,9 +2553,9 @@
           "https://about.fb.com/news/2026/07/breaking-ground-on-metas-first-data-center-in-canada/"
         ]
       ],
-      "cap": 1837.53,
-      "px": 721.31,
-      "priced_date": "2026-10-07",
+      "cap": 1836.46,
+      "px": 720.89,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
@@ -2564,7 +2569,7 @@
           720
         ]
       ],
-      "ev": 1830.93,
+      "ev": 1829.86,
       "wmw": 8006.0,
       "ev_per_mw": null,
       "pct_energized": 44.8,
@@ -2653,12 +2658,12 @@
           "https://baxtel.com/data-centers/alibaba-cloud"
         ]
       ],
-      "cap": 256.47,
-      "px": 107.0,
-      "priced_date": "2026-10-07",
+      "cap": 253.35,
+      "px": 105.7,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [],
-      "ev": 225.77,
+      "ev": 222.65,
       "wmw": 3000.0,
       "ev_per_mw": null,
       "pct_energized": 40.0,
@@ -2733,12 +2738,12 @@
           "https://www.scmp.com/tech/big-tech/article/3353573/alibaba-tencent-signal-ai-spending-surge-despite-earnings-pressure-china-chips-ramp"
         ]
       ],
-      "cap": 482.02,
-      "px": 53.49,
-      "priced_date": "2026-10-07",
+      "cap": 475.08,
+      "px": 52.72,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [],
-      "ev": 473.42,
+      "ev": 466.48,
       "wmw": 1875.0,
       "ev_per_mw": null,
       "pct_energized": 36.4,
@@ -2803,12 +2808,12 @@
           "https://www.cnbc.com/2025/11/28/baidu-is-major-ai-chip-player-in-china-to-fill-nvidia-gap.html"
         ]
       ],
-      "cap": 29.01,
-      "px": 85.3,
-      "priced_date": "2026-10-07",
+      "cap": 28.54,
+      "px": 83.92,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [],
-      "ev": 8.81,
+      "ev": 8.34,
       "wmw": 1000.0,
       "ev_per_mw": null,
       "pct_energized": 33.3,
@@ -2897,12 +2902,12 @@
           "https://www.sec.gov/Archives/edgar/data/1101239/000110123926000147/eqix-20260630.htm"
         ]
       ],
-      "cap": 101.81,
-      "px": 1031.77,
-      "priced_date": "2026-10-07",
+      "cap": 99.77,
+      "px": 1011.16,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [],
-      "ev": 123.01,
+      "ev": 120.97,
       "wmw": 1000.0,
       "ev_per_mw": null,
       "pct_energized": 19.6,
@@ -2953,7 +2958,7 @@
           "Atlanta, GA - 200MW development",
           200,
           "c",
-          "construction launched Q1'26"
+          "construction launched Q1'26; 'targeting 2028 delivery' (Q1'26 call)"
         ],
         [
           "Ashburn / Northern Virginia hub",
@@ -3000,20 +3005,25 @@
           "https://www.sec.gov/Archives/edgar/data/1297996/000110465926089296/dlr-20260630x10q.htm"
         ]
       ],
-      "cap": 66.77,
-      "px": 180.47,
-      "priced_date": "2026-10-07",
+      "cap": 65.14,
+      "px": 176.07,
+      "priced_date": "2026-10-08",
       "stale": false,
       "tl": [
         [
           "2028Q4",
           "Charlotte, NC - 200MW AI-inference (AA hyperscaler)",
           200
+        ],
+        [
+          "2028Q4",
+          "Atlanta, GA - 200MW development",
+          200
         ]
       ],
-      "ev": 83.67,
+      "ev": 82.04,
       "wmw": 2950.0,
-      "ev_per_mw": 28.4,
+      "ev_per_mw": 27.8,
       "pct_energized": 45.5,
       "coverage": 0.02
     },
@@ -3315,8 +3325,8 @@
         },
         {
           "q": "2028Q4",
-          "add_mw": 2320,
-          "cum_mw": 56974.799999999996
+          "add_mw": 2653,
+          "cum_mw": 57307.799999999996
         }
       ],
       "milestones": {
@@ -3548,6 +3558,11 @@
             1400
           ],
           [
+            "GLXY",
+            "Helios Phase III",
+            133
+          ],
+          [
             "META",
             "El Paso, TX (BlackRock JV 80/20)",
             720
@@ -3555,6 +3570,11 @@
           [
             "DLR",
             "Charlotte, NC - 200MW AI-inference (AA hyperscaler)",
+            200
+          ],
+          [
+            "DLR",
+            "Atlanta, GA - 200MW development",
             200
           ]
         ]
@@ -3615,8 +3635,8 @@
         },
         {
           "q": "2028Q4",
-          "add_mw": 200,
-          "cum_mw": 11259.8
+          "add_mw": 533,
+          "cum_mw": 11592.8
         }
       ],
       "milestones": {
@@ -3806,8 +3826,18 @@
         ],
         "2028Q4": [
           [
+            "GLXY",
+            "Helios Phase III",
+            133
+          ],
+          [
             "DLR",
             "Charlotte, NC - 200MW AI-inference (AA hyperscaler)",
+            200
+          ],
+          [
+            "DLR",
+            "Atlanta, GA - 200MW development",
             200
           ]
         ]
@@ -4868,11 +4898,11 @@
     {
       "t": "GOOGL",
       "site": "Chesterfield VA (Bermuda Hundred)",
-      "mw": 900,
+      "mw": null,
       "st": "c",
       "lat": 37.38,
       "lng": -77.51,
-      "when": "constr late 2026, phased to 2032",
+      "when": "first building late 2027, MW undisclosed",
       "approx": true
     },
     {
@@ -5503,7 +5533,645 @@
   ],
   "geo_note": "Campus-level site map, added 2026-07-09. lat/lng are town/county centroids, NOT parcel coordinates. approx=true => only the state/country is public (placed at a state-level position; dashed on the map). Sites with undisclosed locations or n/d MW live in geo_unmapped. DOCN (leased colo, locations undisclosed) and AKAM (distributed edge PoPs) are excluded by construction.",
   "reference": {
-    "nvda_cap_b": 5751.8,
-    "cohort_ev_b": 242.5
+    "nvda_cap_b": 5582.5,
+    "cohort_ev_b": 231.7
+  },
+  "power_deals": {
+    "as_of_curated": "2026-10-08",
+    "basis": "Power deals for the companies on /capacity, announced 2024-01-01 or later: power purchase agreements and the other dedicated supply deals that stand behind data-center load (utility-built generation under an electric service agreement or tariff, development or funding agreements with energy rights, and MOUs, LOIs or options). One row per deal of 100 MW or more, each tied to a named facility, fleet of units or program; fleet-wide supply with no named plant (Google-Constellation's 2,700 MW PJM deal) is left out. Generic renewable-portfolio PPAs are out of scope.",
+    "mw_note": "MW is the source's own figure: contracted (the buyer's stated volume) or nameplate (the plant or project's capacity where the buyer's share is not stated), so rows are not additive capacity for the buyer.",
+    "totals": {
+      "signed_mw": 20087,
+      "signed_ppa_mw": 9550,
+      "pending_mw": 5200,
+      "preliminary_mw": 4850,
+      "deals": 26
+    },
+    "deals": [
+      {
+        "t": "AMZN",
+        "name": "Amazon (AWS)",
+        "counterparty": "NIPSCO / NIPSCO GenCo",
+        "facility": "New generation for Amazon data center campuses, northern Indiana (CCGT + BESS)",
+        "technology": "gas",
+        "mw": 3000,
+        "sites": 1,
+        "mw_total": 3000,
+        "mw_basis": "nameplate",
+        "status": "signed",
+        "kind": "utility supply",
+        "instrument": "utility special contract (ADS Contract) + GenCo PPA",
+        "announced": "2025-11-24",
+        "term_years": null,
+        "start": null,
+        "source": {
+          "publisher": "NiSource Inc. (news article)",
+          "title": "Powering Indiana's Future: How NIPSCO, GenCo, and Amazon Keep Energy Reliable and Affordable",
+          "url": "https://www.nisource.com/news/article/powering-indiana-s-future-how-nipsco-genco-and-amazon-keep-energy-reliable-and-affordable-20251124"
+        },
+        "quote": "Amazon's partnership with NIPSCO and GenCo is a cornerstone of this approach, enabling the development of data center campuses that will be powered by up to 3 gigawatts of new generation capacity to serve Amazon's needs",
+        "note": "'Up to' 3 GW. The IURC approved it in June 2026, and the technology (combined-cycle gas) comes from NiSource's Q2-2026 10-Q, both in the same evidence file. The 3 GW figure covers more than the CCGT; secondary sources say two 1,300 MW CCGTs plus 400 MW BESS, which is unverified."
+      },
+      {
+        "t": "ORCL",
+        "name": "Oracle (OCI)",
+        "counterparty": "VoltaGrid (gas via Energy Transfer)",
+        "facility": "Modular natural-gas power infrastructure for OCI AI data centers (sites undisclosed)",
+        "technology": "gas",
+        "mw": 2300,
+        "sites": 1,
+        "mw_total": 2300,
+        "mw_basis": "nameplate",
+        "status": "signed",
+        "kind": "other",
+        "instrument": "deployment / power collaboration (terms undisclosed)",
+        "announced": "2025-10-15",
+        "term_years": null,
+        "start": null,
+        "source": {
+          "publisher": "VoltaGrid (press release)",
+          "title": "VoltaGrid Collaborates with Oracle to Power Next-Gen AI Data Centers",
+          "url": "https://voltagrid.com/voltagrid-collaborates-with-oracle-to-power-next-gen-ai-data-centers"
+        },
+        "quote": "VoltaGrid LLC will deploy 2,300 megawatts (MW) of cutting-edge, ultra-low-emissions infrastructure, supplied by Energy Transfer\u2019s pipeline network, to support the energy demands of Oracle Cloud Infrastructure\u2019s (OCI) next-generation artificial intelligence (AI) data centers.",
+        "note": "The only source is VoltaGrid's release. Oracle's own newsroom post was not found."
+      },
+      {
+        "t": "META",
+        "name": "Meta Platforms",
+        "counterparty": "Entergy Louisiana",
+        "facility": "Franklin Farms Units 1-2 and Waterford 5 CCCTs (Hyperion, Richland Parish, LA)",
+        "technology": "gas",
+        "mw": 2262,
+        "sites": 1,
+        "mw_total": 2262,
+        "mw_basis": "nameplate",
+        "status": "signed",
+        "kind": "utility supply",
+        "instrument": "electric service agreement (utility-built generation)",
+        "announced": "2024-10",
+        "term_years": null,
+        "start": "2028 (Franklin Farms) / 2029 (Waterford 5)",
+        "source": {
+          "publisher": "Entergy Corporation (SEC Form 10-Q, Q3 2025)",
+          "title": "Entergy Corporation Form 10-Q for the quarter ended September 30, 2025",
+          "url": "https://www.sec.gov/Archives/edgar/data/65984/000006598425000132/etr-20250930.htm"
+        },
+        "quote": "in October 2024, Entergy Louisiana filed an application with the LPSC seeking approval of a variety of generation and transmission resources proposed in connection with establishing service to a new data center to be developed by a subsidiary of Meta Platforms, Inc. in north Louisiana, for which an electric service agreement has been executed. The filing requests LPSC certification of three new combined cycle combustion turbine generation resources totaling 2,262 MW",
+        "note": "Customer is 'a subsidiary of Meta Platforms, Inc.'. The ESA was disclosed with the October 2024 application (no exact day, so 'announced' is YYYY-MM). The LPSC accepted the settlement in August 2025; Entergy's 2025-08-20 approval release gives no MW."
+      },
+      {
+        "t": "AMZN",
+        "name": "Amazon (AWS)",
+        "counterparty": "Talen Energy",
+        "facility": "Susquehanna nuclear plant, PA",
+        "technology": "nuclear (existing)",
+        "mw": 1920,
+        "sites": 1,
+        "mw_total": 1920,
+        "mw_basis": "contracted",
+        "status": "signed",
+        "kind": "ppa",
+        "instrument": "PPA",
+        "announced": "2025-06-11",
+        "term_years": null,
+        "start": "ramps to full volume no later than 2032",
+        "source": {
+          "publisher": "Talen Energy (press release, GLOBE NEWSWIRE)",
+          "title": "Talen Energy Expands Nuclear Energy Relationship with Amazon",
+          "url": "https://ir.talenenergy.com/news-releases/news-release-details/talen-energy-expands-nuclear-energy-relationship-amazon"
+        },
+        "quote": "Under the expanded PPA, at the full contract quantity, Talen will provide Amazon with 1,920 megawatts of carbon-free nuclear power through 2042, with options to further extend its duration.",
+        "note": "Runs through 2042 (no year count stated). Replaces the March 2024 co-located arrangement; that earlier deal is not a separate row."
+      },
+      {
+        "t": "META",
+        "name": "Meta Platforms",
+        "counterparty": "Vistra",
+        "facility": "Perry Nuclear Power Plant, OH",
+        "technology": "nuclear (existing)",
+        "mw": 1268,
+        "sites": 1,
+        "mw_total": 1268,
+        "mw_basis": "contracted",
+        "status": "signed",
+        "kind": "ppa",
+        "instrument": "PPA",
+        "announced": "2026-01-09",
+        "term_years": 20,
+        "start": "late 2026 (full by end-2027)",
+        "source": {
+          "publisher": "Vistra Corp. (SEC Form 8-K, Item 7.01)",
+          "title": "Vistra Corp. Form 8-K, January 9, 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1692819/000119312526008508/d20785d8k.htm"
+        },
+        "quote": "In January 2026, Vistra Corp. (\u201cVistra\u201d or the \u201cCompany\u201d) announced that it has entered into 20-year power purchase agreements (\u201cPPAs\u201d) with Meta Platforms, Inc. (\u201cMeta\u201d), pursuant to which the Company has agreed to supply Meta with a total of 2,609 MW of carbon-free power and capacity from the Company\u2019s PJM nuclear power plants as follows: \u2022 1,268 MW of energy and capacity from the Company\u2019s operating Perry Nuclear Power Plant (\u201cPerry\u201d)",
+        "note": null
+      },
+      {
+        "t": "META",
+        "name": "Meta Platforms",
+        "counterparty": "Oklo",
+        "facility": "Pike County, OH advanced nuclear campus (Aurora powerhouses)",
+        "technology": "nuclear (SMR/advanced)",
+        "mw": 1200,
+        "sites": 1,
+        "mw_total": 1200,
+        "mw_basis": "nameplate",
+        "status": "signed",
+        "kind": "development / funding",
+        "instrument": "prepayment / development funding",
+        "announced": "2026-01-09",
+        "term_years": null,
+        "start": "as early as 2030",
+        "source": {
+          "publisher": "Meta Platforms (newsroom)",
+          "title": "Meta Announces Nuclear Energy Projects, Unlocking Up to 6.6 GW to Power American Leadership in AI Innovation",
+          "url": "https://about.fb.com/news/2026/01/meta-nuclear-energy-projects-power-american-ai-leadership/"
+        },
+        "quote": "This advanced nuclear technology campus \u2014 which may come online as early as 2030 \u2014 is poised to add up to 1.2 GW of clean baseload power directly into the PJM market and support our operations in the region.",
+        "note": "'Up to' 1.2 GW. Oklo calls it Meta's 'funding commitment in support of early procurement and development activity'. Not a PPA."
+      },
+      {
+        "t": "META",
+        "name": "Meta Platforms",
+        "counterparty": "Constellation Energy",
+        "facility": "Clinton Clean Energy Center, IL",
+        "technology": "nuclear (existing)",
+        "mw": 1121,
+        "sites": 1,
+        "mw_total": 1121,
+        "mw_basis": "contracted",
+        "status": "signed",
+        "kind": "ppa",
+        "instrument": "PPA",
+        "announced": "2025-06-03",
+        "term_years": 20,
+        "start": "2027-06",
+        "source": {
+          "publisher": "Constellation Energy (press release)",
+          "title": "Constellation, Meta Sign 20-Year Deal for Clean, Reliable Nuclear Energy in Illinois",
+          "url": "https://www.constellationenergy.com/newsroom/2025/constellation-meta-sign-20-year-deal-for-clean-reliable-nuclear-energy-in-illinois.html"
+        },
+        "quote": "Constellation (Nasdaq: CEG) and Meta have signed a 20-year power purchase agreement (PPA) for the output of the Clinton Clean Energy Center to support Meta\u2019s clean energy goals and operations in the region with 1,121 megawatts of emissions-free nuclear energy. Beginning in June of 2027",
+        "note": "PPA for the plant's output; includes a 30 MW uprate."
+      },
+      {
+        "t": "META",
+        "name": "Meta Platforms",
+        "counterparty": "Vistra",
+        "facility": "Davis-Besse Nuclear Power Plant, OH",
+        "technology": "nuclear (existing)",
+        "mw": 908,
+        "sites": 1,
+        "mw_total": 908,
+        "mw_basis": "contracted",
+        "status": "signed",
+        "kind": "ppa",
+        "instrument": "PPA",
+        "announced": "2026-01-09",
+        "term_years": 20,
+        "start": "late 2026 (full by end-2027)",
+        "source": {
+          "publisher": "Vistra Corp. (SEC Form 8-K, Item 7.01)",
+          "title": "Vistra Corp. Form 8-K, January 9, 2026",
+          "url": "https://www.sec.gov/Archives/edgar/data/1692819/000119312526008508/d20785d8k.htm"
+        },
+        "quote": "In January 2026, Vistra Corp. (\u201cVistra\u201d or the \u201cCompany\u201d) announced that it has entered into 20-year power purchase agreements (\u201cPPAs\u201d) with Meta Platforms, Inc. (\u201cMeta\u201d), pursuant to which the Company has agreed to supply Meta with a total of 2,609 MW of carbon-free power and capacity from the Company\u2019s PJM nuclear power plants as follows: \u2022 1,268 MW of energy and capacity from the Company\u2019s operating Perry Nuclear Power Plant (\u201cPerry\u201d) and 908 MW of energy and capacity from the Company\u2019s operating Davis-Besse Nuclear Power Plant (\u201cDavis-Besse\u201d)",
+        "note": null
+      },
+      {
+        "t": "GOOGL",
+        "name": "Alphabet (Google)",
+        "counterparty": "Constellation Energy",
+        "facility": "Uprates at 11 Constellation nuclear units (IL, PA, NJ)",
+        "technology": "nuclear (existing)",
+        "mw": 890,
+        "sites": 1,
+        "mw_total": 890,
+        "mw_basis": "contracted",
+        "status": "signed",
+        "kind": "ppa",
+        "instrument": "PPA",
+        "announced": "2026-10-06",
+        "term_years": 20,
+        "start": "2028 (first uprate)",
+        "source": {
+          "publisher": "Constellation Energy (press release)",
+          "title": "Google and Constellation Announce Landmark Agreement to Bring 890 MW of New Nuclear Capacity to PJM Grid as Part of Long-Term Power Deal",
+          "url": "https://www.constellationenergy.com/news/2026/10/google-and-constellation-announce-landmark-agreement-to-bring-890-mw-of-new-nuclear-capacity-to-pjm-grid.html"
+        },
+        "quote": "Google and Constellation Energy today announced a long-term strategic clean energy collaboration to bring 890 megawatts (MW) of new, reliable nuclear capacity onto the PJM Interconnection grid to meet growing demand and increase grid reliability. The 20-year power purchase agreement will enable investments in new equipment and technology at 11 Constellation-owned nuclear units in Illinois, Pennsylvania, and New Jersey, increasing thermal and electrical efficiency to unlock additional reliable, firm power to serve the grid.",
+        "note": "The companion 15-year, 2,700 MW 'energy supply agreement ... in PJM's fleet' is NOT a row (scope question, see report)."
+      },
+      {
+        "t": "MSFT",
+        "name": "Microsoft",
+        "counterparty": "Constellation Energy",
+        "facility": "Crane Clean Energy Center (Three Mile Island Unit 1), PA",
+        "technology": "nuclear (restart)",
+        "mw": 835,
+        "sites": 1,
+        "mw_total": 835,
+        "mw_basis": "nameplate",
+        "status": "signed",
+        "kind": "ppa",
+        "instrument": "PPA",
+        "announced": "2024-09-20",
+        "term_years": 20,
+        "start": "2028",
+        "source": {
+          "publisher": "Constellation Energy (press release)",
+          "title": "Constellation to Launch Crane Clean Energy Center, Restoring Jobs and Carbon-Free Power to The Grid",
+          "url": "https://www.constellationenergy.com/newsroom/2024/Constellation-to-Launch-Crane-Clean-Energy-Center-Restoring-Jobs-and-Carbon-Free-Power-to-The-Grid.html"
+        },
+        "quote": "Constellation signs its largest-ever power purchase agreement with Microsoft, a deal that will restore TMI Unit 1 to service and keep it online for decades; add approximately 835 megawatts of carbon-free energy to the grid",
+        "note": "Microsoft's contracted share is not stated; 835 MW is the plant's added output. Online date per the 2024 release (2028)."
+      },
+      {
+        "t": "AMZN",
+        "name": "Amazon (AWS)",
+        "counterparty": "Constellation Energy",
+        "facility": "Calvert Cliffs Clean Energy Center, MD (incl. ~190 MW uprate)",
+        "technology": "nuclear (existing)",
+        "mw": 690,
+        "sites": 1,
+        "mw_total": 690,
+        "mw_basis": "contracted",
+        "status": "signed",
+        "kind": "ppa",
+        "instrument": "PPA",
+        "announced": "2026-09-30",
+        "term_years": 20,
+        "start": "uprate 2030-2032",
+        "source": {
+          "publisher": "Constellation Energy (press release)",
+          "title": "Constellation and Amazon Announce 20-Year Power Purchase Agreement at Calvert Cliffs",
+          "url": "https://www.constellationenergy.com/news/2026/09/constellation-and-amazon-announce-20-year-power-purchase-agreement-at-calvert-cliffs.html"
+        },
+        "quote": "The expansion of Calvert Cliffs' generating capacity will be supported by a 20-year agreement, which includes 690 megawatts of power, including the 190 megawatt uprate.",
+        "note": null
+      },
+      {
+        "t": "META",
+        "name": "Meta Platforms",
+        "counterparty": "TerraPower",
+        "facility": "Two Natrium units (site not yet named)",
+        "technology": "nuclear (SMR/advanced)",
+        "mw": 690,
+        "sites": 1,
+        "mw_total": 690,
+        "mw_basis": "nameplate",
+        "status": "signed",
+        "kind": "development / funding",
+        "instrument": "development funding agreement with energy rights",
+        "announced": "2026-01-09",
+        "term_years": null,
+        "start": "as early as 2032",
+        "source": {
+          "publisher": "Meta Platforms (newsroom)",
+          "title": "Meta Announces Nuclear Energy Projects, Unlocking Up to 6.6 GW to Power American Leadership in AI Innovation",
+          "url": "https://about.fb.com/news/2026/01/meta-nuclear-energy-projects-power-american-ai-leadership/"
+        },
+        "quote": "Our agreement with TerraPower will provide funding that supports the development of two new Natrium\u00ae units capable of generating up to 690 MW of firm power with delivery as early as 2032.",
+        "note": "A funding agreement, not a PPA. Meta says 'commercial agreement'."
+      },
+      {
+        "t": "GOOGL",
+        "name": "Alphabet (Google)",
+        "counterparty": "Brookfield Renewable",
+        "facility": "Holtwood and Safe Harbor hydroelectric facilities, PA",
+        "technology": "hydro",
+        "mw": 670,
+        "sites": 1,
+        "mw_total": 670,
+        "mw_basis": "nameplate",
+        "status": "signed",
+        "kind": "ppa",
+        "instrument": "PPA",
+        "announced": "2025-07-15",
+        "term_years": 20,
+        "start": null,
+        "source": {
+          "publisher": "Brookfield Renewable (press release, GLOBE NEWSWIRE)",
+          "title": "Brookfield and Google Sign Hydro Framework Agreement to Deliver up to 3,000 MW of Homegrown Energy in the United States",
+          "url": "https://bep.brookfield.com/press-releases/bep/brookfield-and-google-sign-hydro-framework-agreement-deliver-3000-mw-homegrown"
+        },
+        "quote": "The first contracts executed under the HFA are for Brookfield\u2019s Holtwood and Safe Harbor hydroelectric facilities in Pennsylvania , representing more than $3 billion of power and 670 MW of capacity.",
+        "note": "20-year term appears in the same evidence file. The 3,000 MW Hydro Framework Agreement ceiling is not a row."
+      },
+      {
+        "t": "GOOGL",
+        "name": "Alphabet (Google)",
+        "counterparty": "NextEra Energy",
+        "facility": "Duane Arnold Energy Center, IA",
+        "technology": "nuclear (restart)",
+        "mw": 615,
+        "sites": 1,
+        "mw_total": 615,
+        "mw_basis": "nameplate",
+        "status": "signed",
+        "kind": "ppa",
+        "instrument": "PPA",
+        "announced": "2025-10-27",
+        "term_years": 25,
+        "start": "2029-Q1",
+        "source": {
+          "publisher": "NextEra Energy (press release, PRNewswire)",
+          "title": "NextEra Energy and Google Announce New Collaboration to Accelerate Nuclear Energy Deployment in the U.S.",
+          "url": "https://www.investor.nexteraenergy.com/news-and-events/news-releases/2025/10-27-2025-203948689"
+        },
+        "quote": "Once operational, Google will purchase power from the 615-MW plant as a 24/7 carbon-free energy source to help power Google 's growing cloud and AI infrastructure in Iowa , while also strengthening local grid reliability, creating thousands of direct and indirect jobs, and driving significant economic investment to the Midwest region. In addition to Google 's 25-year agreement to purchase carbon-free nuclear energy from the Duane Arnold plant, one of the plant's current minority owners, Central Iowa Power Cooperative (CIPCO), will purchase the remaining portion of the plant's output on the same terms as Google .",
+        "note": "615 MW is the plant. Google takes most of it and CIPCO takes the rest; Google's exact share is not stated."
+      },
+      {
+        "t": "GOOGL",
+        "name": "Alphabet (Google)",
+        "counterparty": "Kairos Power",
+        "facility": "Fleet of advanced reactors (sites TBD)",
+        "technology": "nuclear (SMR/advanced)",
+        "mw": 500,
+        "sites": 1,
+        "mw_total": 500,
+        "mw_basis": "nameplate",
+        "status": "signed",
+        "kind": "development / funding",
+        "instrument": "master plant development agreement (PPAs to follow per plant)",
+        "announced": "2024-10-14",
+        "term_years": null,
+        "start": "first deployment by 2030; fleet by 2035",
+        "source": {
+          "publisher": "Kairos Power (press release)",
+          "title": "Google and Kairos Power Partner to Deploy 500 MW of Clean Electricity Generation",
+          "url": "https://kairospower.com/external_updates/google-and-kairos-power-partner-to-deploy-500-mw-of-clean-electricity-generation/"
+        },
+        "quote": "Kairos Power and Google have signed a Master Plant Development Agreement, creating a path to deploy a U.S. fleet of advanced nuclear power projects totaling 500 MW by 2035. Under the agreement, Kairos Power will develop, construct, and operate a series of advanced reactor plants and sell energy, ancillary services, and environmental attributes to Google under Power Purchase Agreements (PPAs). Plants will be sited in relevant service territories to supply clean electricity to Google data centers",
+        "note": "The TVA/Hermes 2 50 MW PPA (2025) falls under this fleet and is below the 100 MW floor."
+      },
+      {
+        "t": "META",
+        "name": "Meta Platforms",
+        "counterparty": "Vistra",
+        "facility": "Uprates at Perry, Davis-Besse and Beaver Valley (213 + 80 + 140 MW)",
+        "technology": "nuclear (existing)",
+        "mw": 433,
+        "sites": 1,
+        "mw_total": 433,
+        "mw_basis": "contracted",
+        "status": "signed",
+        "kind": "ppa",
+        "instrument": "PPA",
+        "announced": "2026-01-09",
+        "term_years": 20,
+        "start": "by 2031 (full by end-2034)",
+        "source": {
+          "publisher": "Meta Platforms (newsroom)",
+          "title": "Meta Announces Nuclear Energy Projects, Unlocking Up to 6.6 GW to Power American Leadership in AI Innovation",
+          "url": "https://about.fb.com/news/2026/01/meta-nuclear-energy-projects-power-american-ai-leadership/"
+        },
+        "quote": "Through additional 20-year nuclear energy agreements, we will purchase more than 2.1 GW of energy from two operating Vistra nuclear power plants in Ohio (Perry and Davis-Besse), in addition to the energy from expansions (uprates) at these two Ohio plants and a third Vistra nuclear plant in Pennsylvania (Beaver Valley). All three plants are located in and will continue to deliver power into the PJM grid region, and these expansions will be the largest nuclear uprates supported by a corporate customer in the US. Meta\u2019s commitments ensure that these facilities can continue providing reliable power to the regional electricity grid. The new additional uprate capacity at each of them, totaling 433 MW, is expected to come online in the early 2030s",
+        "note": "Per-plant split (213/80/140 MW) and delivery dates in the Vistra 8-K evidence file; Beaver Valley's 140 MW share alone is above 100 MW."
+      },
+      {
+        "t": "AMZN",
+        "name": "Amazon (AWS)",
+        "counterparty": "Energy Northwest (X-energy Xe-100)",
+        "facility": "Cascade Advanced Energy Facility, Richland, WA (first phase, 4 SMRs)",
+        "technology": "nuclear (SMR/advanced)",
+        "mw": 320,
+        "sites": 1,
+        "mw_total": 320,
+        "mw_basis": "nameplate",
+        "status": "signed",
+        "kind": "development / funding",
+        "instrument": "development agreement",
+        "announced": "2024-10-16",
+        "term_years": null,
+        "start": "early 2030s",
+        "source": {
+          "publisher": "Amazon (About Amazon newsroom)",
+          "title": "Amazon signs agreements for innovative nuclear energy projects to address growing energy demands",
+          "url": "https://www.aboutamazon.com/news/sustainability/amazon-nuclear-small-modular-reactor-net-carbon-zero"
+        },
+        "quote": "In Washington, our agreement with Energy Northwest , a consortium of state public utilities, will enable the development of four advanced SMRs. The reactors will be constructed, owned and operated by Energy Northwest, and are expected to generate roughly 320 megawatts (MW) of capacity for the first phase of the project, with the option to increase to 960 MW total",
+        "note": "Option to expand to 960 MW, not counted. Amazon's offtake rights are not spelled out in this source."
+      },
+      {
+        "t": "GOOGL",
+        "name": "Alphabet (Google)",
+        "counterparty": "Commonwealth Fusion Systems",
+        "facility": "ARC fusion plant, Chesterfield County, VA",
+        "technology": "other",
+        "mw": 200,
+        "sites": 1,
+        "mw_total": 200,
+        "mw_basis": "contracted",
+        "status": "signed",
+        "kind": "ppa",
+        "instrument": "PPA",
+        "announced": "2025-06-30",
+        "term_years": null,
+        "start": "early 2030s",
+        "source": {
+          "publisher": "Commonwealth Fusion Systems (press release)",
+          "title": "Google and Commonwealth Fusion Systems Sign Strategic Partnership",
+          "url": "https://cfs.energy/news-and-media/google-and-commonwealth-fusion-systems-sign-strategic-partnership/"
+        },
+        "quote": "Google signed a power purchase agreement (PPA) for 200 megawatts (MW) of electricity from CFS\u2019 inaugural ARC power plant, which CFS expects will put power on the grid in the early 2030s, in Chesterfield County, Virginia.",
+        "note": "Fusion. Unproven technology, so filed under 'other'."
+      },
+      {
+        "t": "META",
+        "name": "Meta Platforms",
+        "counterparty": "XGS Energy",
+        "facility": "Advanced geothermal project, New Mexico (via PNM grid)",
+        "technology": "geothermal",
+        "mw": 150,
+        "sites": 1,
+        "mw_total": 150,
+        "mw_basis": "nameplate",
+        "status": "signed",
+        "kind": "development / funding",
+        "instrument": "development agreement",
+        "announced": "2025-06-12",
+        "term_years": null,
+        "start": null,
+        "source": {
+          "publisher": "Office of the Governor of New Mexico (press release)",
+          "title": "Governor announces XGS Energy, Meta geothermal partnership \u2013 Nation-leading 150 MW geothermal project on its way to New Mexico",
+          "url": "https://www.governor.nm.gov/newsroom/governor-announces-xgs-energy-meta-geothermal-partnership-nation-leadi-100004482"
+        },
+        "quote": "XGS Energy and Meta have entered into an agreement to develop 150 megawatts of advanced geothermal energy in New Mexico",
+        "note": "Source is the NM Governor's release, a government primary. Meta's own post was not fetched."
+      },
+      {
+        "t": "GOOGL",
+        "name": "Alphabet (Google)",
+        "counterparty": "NV Energy / Fervo Energy",
+        "facility": "Enhanced geothermal (Nevada), via Clean Transition Tariff",
+        "technology": "geothermal",
+        "mw": 115,
+        "sites": 1,
+        "mw_total": 115,
+        "mw_basis": "contracted",
+        "status": "signed",
+        "kind": "utility supply",
+        "instrument": "utility energy supply agreement (Clean Transition Tariff)",
+        "announced": "2024-06-11",
+        "term_years": null,
+        "start": null,
+        "source": {
+          "publisher": "Google (The Keyword blog)",
+          "title": "How we're working with utilities to create a new model for clean energy",
+          "url": "https://blog.google/outreach-initiatives/sustainability/google-clean-energy-partnership/"
+        },
+        "quote": "NV Energy is the first utility to operationalize this new approach through a first-of-its-kind energy supply agreement with Google. Together, we assessed solutions to bring clean capacity to the local grid and landed on enhanced geothermal. NV Energy then worked with developer Fervo Energy to include 115 MW of new, enhanced geothermal power in our CTT partnership and deliver its full capacity value to Google.",
+        "note": "Not a PPA but a utility tariff. It needed PUCN approval, and approval status was not verified here."
+      },
+      {
+        "t": "META",
+        "name": "Meta Platforms",
+        "counterparty": "Entergy Louisiana",
+        "facility": "Seven new CCGTs for the Hyperion expansion",
+        "technology": "gas",
+        "mw": 5200,
+        "sites": 1,
+        "mw_total": 5200,
+        "mw_basis": "nameplate",
+        "status": "pending",
+        "kind": "utility supply",
+        "instrument": "electric service agreement (utility-built generation)",
+        "announced": "2026-03-27",
+        "term_years": null,
+        "start": null,
+        "source": {
+          "publisher": "Entergy (news release)",
+          "title": "Entergy Louisiana announces a new agreement with Meta that will deliver an additional $2B in customer savings",
+          "url": "https://www.entergy.com/news/entergy-louisiana-announces-a-new-agreement-with-meta-that-will-deliver-an-additional-2b-in-customer-savings"
+        },
+        "quote": "Seven new natural gas-fueled combined-cycle power plants totaling more than 5,200 megawatts",
+        "note": "'More than' 5,200 MW. Utility-built generation that still needs LPSC certification (still under review in July 2026 reports); counted as pending, not signed, until approved."
+      },
+      {
+        "t": "META",
+        "name": "Meta Platforms",
+        "counterparty": "TerraPower",
+        "facility": "Up to six further Natrium units",
+        "technology": "nuclear (SMR/advanced)",
+        "mw": 2100,
+        "sites": 1,
+        "mw_total": 2100,
+        "mw_basis": "nameplate",
+        "status": "option",
+        "kind": "development / funding",
+        "instrument": "rights to energy",
+        "announced": "2026-01-09",
+        "term_years": null,
+        "start": "targeted by 2035",
+        "source": {
+          "publisher": "Meta Platforms (newsroom)",
+          "title": "Meta Announces Nuclear Energy Projects, Unlocking Up to 6.6 GW to Power American Leadership in AI Innovation",
+          "url": "https://about.fb.com/news/2026/01/meta-nuclear-energy-projects-power-american-ai-leadership/"
+        },
+        "quote": "The agreement also provides Meta with rights for energy from up to six other Natrium units capable of producing 2.1 GW and targeted for delivery by 2035.",
+        "note": null
+      },
+      {
+        "t": "GOOGL",
+        "name": "Alphabet (Google)",
+        "counterparty": "Elementl Power",
+        "facility": "Three advanced nuclear sites (undisclosed)",
+        "technology": "nuclear (SMR/advanced)",
+        "mw": 600,
+        "sites": 3,
+        "mw_total": 1800,
+        "mw_basis": "nameplate",
+        "status": "option",
+        "kind": "development / funding",
+        "instrument": "early-stage capital + offtake option",
+        "announced": "2025-05-07",
+        "term_years": null,
+        "start": null,
+        "source": {
+          "publisher": "Google (The Keyword blog)",
+          "title": "Google and Elementl Power are collaborating to advance nuclear energy site development.",
+          "url": "https://blog.google/feed/google-and-elementl-nuclear-energy-site-development/"
+        },
+        "quote": "Google will provide early-stage capital to help Elementl prepare three potential sites in the U.S. for advanced nuclear projects, each aiming for at least 600 MW of capacity. This agreement is part of our continued work to source 24/7 baseload energy to support our operations and strengthen power grids. It also helps Elementl advance its goal of bringing significant nuclear capacity online by 2035. This innovative approach links capital investment directly with the growing demand for clean baseload power, with Google having the option for commercial off-take once projects are complete.",
+        "note": "Each of 3 sites targets at least 600 MW, so 1,800 MW across all three (counted that way in report totals)."
+      },
+      {
+        "t": "EQIX",
+        "name": "Equinix",
+        "counterparty": "Oklo",
+        "facility": "Oklo powerhouses for Equinix US data centers (sites TBD)",
+        "technology": "nuclear (SMR/advanced)",
+        "mw": 500,
+        "sites": 1,
+        "mw_total": 500,
+        "mw_basis": "nameplate",
+        "status": "loi",
+        "kind": "ppa",
+        "instrument": "letter of intent (PPA to follow)",
+        "announced": "2024-02-16",
+        "term_years": 20,
+        "start": null,
+        "source": {
+          "publisher": "SEC EDGAR (Exhibit 10.19 to AltC Acquisition Corp./Oklo registration statement)",
+          "title": "Equinix, Inc. Confidential Letter of Intent to Purchase Power, to Oklo Inc.",
+          "url": "https://www.sec.gov/Archives/edgar/data/0001849056/000110465924047344/tm2324337d21_ex10-19.htm"
+        },
+        "quote": "Oklo intends to design, engineer, build, install, license, and operate powerhouses (the \u201cPowerhouse\u201d) capable of generating approximately 500 megawatts (\u201cMW\u201d) and producing 4,380,000 megawatt hour (\u201cMWh\u201d) of electric energy output per year. We\u2019re interested in purchasing electric energy output from Oklo for a 20- year timeline",
+        "note": "Letter dated 2024-02-16 and made public in the April 2024 S-4 exhibit."
+      },
+      {
+        "t": "AMZN",
+        "name": "Amazon (AWS)",
+        "counterparty": "Dominion Energy",
+        "facility": "SMR near North Anna nuclear station, VA",
+        "technology": "nuclear (SMR/advanced)",
+        "mw": 300,
+        "sites": 1,
+        "mw_total": 300,
+        "mw_basis": "nameplate",
+        "status": "mou",
+        "kind": "other",
+        "instrument": "agreement to explore",
+        "announced": "2024-10-16",
+        "term_years": null,
+        "start": null,
+        "source": {
+          "publisher": "Amazon (About Amazon newsroom)",
+          "title": "Amazon signs agreements for innovative nuclear energy projects to address growing energy demands",
+          "url": "https://www.aboutamazon.com/news/sustainability/amazon-nuclear-small-modular-reactor-net-carbon-zero"
+        },
+        "quote": "In Virginia, we\u2019ve signed an agreement with utility company Dominion Energy to explore the development of an SMR project near Dominion\u2019s existing North Anna nuclear power station. This will bring at least 300 megawatts of power to the Virginia region",
+        "note": "'At least' 300 MW."
+      },
+      {
+        "t": "META",
+        "name": "Meta Platforms",
+        "counterparty": "Sage Geosystems",
+        "facility": "Geopressured geothermal project east of the Rockies (site TBD)",
+        "technology": "geothermal",
+        "mw": 150,
+        "sites": 1,
+        "mw_total": 150,
+        "mw_basis": "nameplate",
+        "status": "mou",
+        "kind": "other",
+        "instrument": "partnership (no PPA terms disclosed)",
+        "announced": "2024-08-26",
+        "term_years": null,
+        "start": "2027 (first phase)",
+        "source": {
+          "publisher": "Meta Platforms (newsroom)",
+          "title": "New Geothermal Energy Project to Support Our Data Centers",
+          "url": "https://about.fb.com/news/2024/08/new-geothermal-energy-project-to-support-our-data-centers/"
+        },
+        "quote": "As part of this partnership with Sage, we\u2019ll plan to deliver up to 150 MW of new geothermal baseload power to support our data center growth.",
+        "note": "'Up to' 150 MW. Meta calls it a partnership, so it is recorded as an MOU, the conservative reading."
+      }
+    ]
   }
 }

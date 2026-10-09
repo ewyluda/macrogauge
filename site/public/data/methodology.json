@@ -1,9 +1,9 @@
 {
-  "published_at": "2026-10-08T12:49:22Z",
+  "published_at": "2026-10-09T12:49:34Z",
   "stats": {
-    "series_count": 856,
-    "obs_count": 220460,
-    "source_count": 42,
+    "series_count": 870,
+    "obs_count": 222929,
+    "source_count": 44,
     "tracker_corr": 0.9978,
     "live_coverage_pct": 39.08,
     "engine_version": "1.1",
@@ -158,7 +158,7 @@
         "eia_gasreg_w"
       ],
       "official_series": "CUUR0000SETB01",
-      "yoy_pct": 37.78
+      "yoy_pct": 38.01
     },
     {
       "code": "electricity",
@@ -214,8 +214,8 @@
     }
   ],
   "freshness": {
-    "fresh_count": 847,
-    "total": 856,
+    "fresh_count": 862,
+    "total": 870,
     "expected_absent": 8
   },
   "inventory": [
@@ -335,7 +335,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -885,7 +885,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -895,7 +895,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -905,7 +905,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -915,7 +915,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -925,7 +925,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -935,7 +935,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -945,7 +945,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -955,7 +955,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -965,7 +965,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -975,7 +975,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -985,7 +985,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -995,7 +995,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -1005,7 +1005,7 @@
       "source": "TREASURY",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -2035,7 +2035,7 @@
       "source": "PMMS",
       "route": "CSV",
       "cadence": "weekly",
-      "latest_obs": "2026-10-01",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2105,7 +2105,7 @@
       "source": "MND",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2115,7 +2115,7 @@
       "source": "AAA",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2125,7 +2125,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2135,7 +2135,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2145,7 +2145,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2155,7 +2155,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2165,7 +2165,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2175,7 +2175,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2185,7 +2185,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2195,7 +2195,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2205,7 +2205,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2215,7 +2215,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2225,7 +2225,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2235,7 +2235,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2245,7 +2245,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2255,7 +2255,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2265,7 +2265,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2275,7 +2275,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2285,7 +2285,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2295,7 +2295,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2305,7 +2305,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2315,7 +2315,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2325,7 +2325,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2335,7 +2335,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2345,7 +2345,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2355,7 +2355,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2365,7 +2365,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2375,7 +2375,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2385,7 +2385,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2395,7 +2395,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2405,7 +2405,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2415,7 +2415,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2425,7 +2425,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2435,7 +2435,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2445,7 +2445,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2455,7 +2455,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2465,7 +2465,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2475,7 +2475,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2485,7 +2485,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2495,7 +2495,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2505,7 +2505,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2515,7 +2515,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2525,7 +2525,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2535,7 +2535,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2545,7 +2545,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2555,7 +2555,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2565,7 +2565,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2575,7 +2575,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2585,7 +2585,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2595,7 +2595,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2605,7 +2605,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2615,7 +2615,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2625,7 +2625,7 @@
       "source": "AAA_STATE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2875,7 +2875,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -2915,7 +2915,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -2985,7 +2985,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -3065,7 +3065,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -3145,7 +3145,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -3165,7 +3165,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3175,7 +3175,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3185,7 +3185,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3195,7 +3195,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3205,7 +3205,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3215,7 +3215,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3225,7 +3225,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3235,7 +3235,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3245,7 +3245,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3255,7 +3255,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3265,7 +3265,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3275,7 +3275,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-06",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3285,7 +3285,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -3315,7 +3315,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-30",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3325,7 +3325,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-09-30",
+      "latest_obs": "2026-10-07",
       "fresh": true,
       "absence": null
     },
@@ -3335,7 +3335,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -3890,6 +3890,66 @@
       "absence": null
     },
     {
+      "code": "USCONS",
+      "name": "All employees, construction (thousands, SA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-09-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "CES2000000006",
+      "name": "Production and nonsupervisory employees, construction (thousands, SA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-09-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "CES2000000011",
+      "name": "Avg weekly earnings, all employees, construction ($, SA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-09-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "CES2000000030",
+      "name": "Avg weekly earnings, production and nonsupervisory, construction ($, SA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-09-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "JTS2300JOL",
+      "name": "JOLTS job openings, construction (thousands, SA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-08-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "JTS2300JOR",
+      "name": "JOLTS job openings rate, construction (%, SA)",
+      "source": "FRED",
+      "route": "API",
+      "cadence": "monthly",
+      "latest_obs": "2026-08-01",
+      "fresh": true,
+      "absence": null
+    },
+    {
       "code": "ppi_elec_contr",
       "name": "PPI electrical contractors, nonresidential building work",
       "source": "FRED",
@@ -4255,7 +4315,7 @@
       "source": "DRAMEX",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4265,7 +4325,7 @@
       "source": "DRAMEX",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4285,7 +4345,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": "intermittent"
     },
@@ -4295,8 +4355,8 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-09-30",
-      "fresh": false,
+      "latest_obs": "2026-10-09",
+      "fresh": true,
       "absence": "intermittent"
     },
     {
@@ -4307,7 +4367,7 @@
       "cadence": "daily",
       "latest_obs": "2026-09-30",
       "fresh": false,
-      "absence": null
+      "absence": "intermittent"
     },
     {
       "code": "vast_a100_sxm",
@@ -4315,7 +4375,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4325,7 +4385,7 @@
       "source": "VASTAI",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4340,82 +4400,82 @@
       "absence": "discontinued"
     },
     {
-      "code": "or_gpt56_terra_in",
-      "name": "OpenRouter GPT-5.6 Terra input ($/Mtok)",
+      "code": "or_claude_opus55_in",
+      "name": "OpenRouter Claude Opus 5.5 input ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
     {
-      "code": "or_gpt56_terra_out",
-      "name": "OpenRouter GPT-5.6 Terra output ($/Mtok)",
+      "code": "or_claude_opus55_out",
+      "name": "OpenRouter Claude Opus 5.5 output ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
     {
-      "code": "or_claude_sonnet55_in",
-      "name": "OpenRouter Claude Sonnet 5.5 input ($/Mtok)",
+      "code": "or_gpt61_sol_in",
+      "name": "OpenRouter GPT-6.1 Sol input ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
     {
-      "code": "or_claude_sonnet55_out",
-      "name": "OpenRouter Claude Sonnet 5.5 output ($/Mtok)",
+      "code": "or_gpt61_sol_out",
+      "name": "OpenRouter GPT-6.1 Sol output ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
     {
-      "code": "or_gemini38_flash_in",
-      "name": "OpenRouter Gemini 3.8 Flash input ($/Mtok)",
+      "code": "or_kimi_k3_in",
+      "name": "OpenRouter Kimi K3 input ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
     {
-      "code": "or_gemini38_flash_out",
-      "name": "OpenRouter Gemini 3.8 Flash output ($/Mtok)",
+      "code": "or_kimi_k3_out",
+      "name": "OpenRouter Kimi K3 output ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
     {
-      "code": "or_grok47_in",
-      "name": "OpenRouter Grok 4.7 input ($/Mtok)",
+      "code": "or_glm53_in",
+      "name": "OpenRouter GLM-5.3 input ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
     {
-      "code": "or_grok47_out",
-      "name": "OpenRouter Grok 4.7 output ($/Mtok)",
+      "code": "or_glm53_out",
+      "name": "OpenRouter GLM-5.3 output ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4425,7 +4485,7 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4435,67 +4495,47 @@
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
     {
-      "code": "or_qwen38_max_in",
-      "name": "OpenRouter Qwen3.8 Max input ($/Mtok)",
+      "code": "or_gemini38_flash_in",
+      "name": "OpenRouter Gemini 3.8 Flash input ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
     {
-      "code": "or_qwen38_max_out",
-      "name": "OpenRouter Qwen3.8 Max output ($/Mtok)",
+      "code": "or_gemini38_flash_out",
+      "name": "OpenRouter Gemini 3.8 Flash output ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
     {
-      "code": "or_mistral_large4_in",
-      "name": "OpenRouter Mistral Large 4 input ($/Mtok)",
+      "code": "or_gpt6_luna_in",
+      "name": "OpenRouter GPT-6 Luna input ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
     {
-      "code": "or_mistral_large4_out",
-      "name": "OpenRouter Mistral Large 4 output ($/Mtok)",
+      "code": "or_gpt6_luna_out",
+      "name": "OpenRouter GPT-6 Luna output ($/Mtok)",
       "source": "OPENROUTER",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
-      "fresh": true,
-      "absence": null
-    },
-    {
-      "code": "or_llama4_maverick_in",
-      "name": "OpenRouter Llama 4 Maverick input ($/Mtok)",
-      "source": "OPENROUTER",
-      "route": "API",
-      "cadence": "daily",
-      "latest_obs": "2026-10-08",
-      "fresh": true,
-      "absence": null
-    },
-    {
-      "code": "or_llama4_maverick_out",
-      "name": "OpenRouter Llama 4 Maverick output ($/Mtok)",
-      "source": "OPENROUTER",
-      "route": "API",
-      "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4505,7 +4545,7 @@
       "source": "AWS_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4515,7 +4555,7 @@
       "source": "AWS_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4525,7 +4565,7 @@
       "source": "AWS_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4535,7 +4575,7 @@
       "source": "AWS_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4545,7 +4585,7 @@
       "source": "AWS_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4555,7 +4595,7 @@
       "source": "AZURE_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4565,7 +4605,7 @@
       "source": "AZURE_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4575,7 +4615,67 @@
       "source": "AZURE_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "az_h100_r1y",
+      "name": "Azure ND96isr H100 v5 1-year reservation, per H100 ($/GPU-hr)",
+      "source": "AZURE_GPU_RESERVED",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-09",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "az_h100_r3y",
+      "name": "Azure ND96isr H100 v5 3-year reservation, per H100 ($/GPU-hr)",
+      "source": "AZURE_GPU_RESERVED",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-09",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "az_h200_r1y",
+      "name": "Azure ND96isr H200 v5 1-year reservation, per H200 ($/GPU-hr)",
+      "source": "AZURE_GPU_RESERVED",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-09",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "az_h200_r3y",
+      "name": "Azure ND96isr H200 v5 3-year reservation, per H200 ($/GPU-hr)",
+      "source": "AZURE_GPU_RESERVED",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-09",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "az_gb200_r1y",
+      "name": "Azure ND128isr GB200 v6 1-year reservation, per GB200 GPU ($/GPU-hr)",
+      "source": "AZURE_GPU_RESERVED",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-09",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "az_gb200_r3y",
+      "name": "Azure ND128isr GB200 v6 3-year reservation, per GB200 GPU ($/GPU-hr)",
+      "source": "AZURE_GPU_RESERVED",
+      "route": "API",
+      "cadence": "daily",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4585,7 +4685,7 @@
       "source": "OCI_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4595,7 +4695,7 @@
       "source": "OCI_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4605,7 +4705,7 @@
       "source": "OCI_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4615,7 +4715,7 @@
       "source": "OCI_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4625,7 +4725,7 @@
       "source": "OCI_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4635,7 +4735,7 @@
       "source": "OCI_GPU",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4645,7 +4745,7 @@
       "source": "COREWEAVE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4655,7 +4755,7 @@
       "source": "COREWEAVE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4665,7 +4765,7 @@
       "source": "COREWEAVE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4675,7 +4775,7 @@
       "source": "COREWEAVE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4685,7 +4785,47 @@
       "source": "COREWEAVE",
       "route": "SCRAPE",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "neb_h100",
+      "name": "Nebius HGX H100 on-demand, per GPU ($/GPU-hr)",
+      "source": "NEBIUS",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-10-09",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "neb_h200",
+      "name": "Nebius HGX H200 on-demand, per GPU ($/GPU-hr)",
+      "source": "NEBIUS",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-10-09",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "neb_b200",
+      "name": "Nebius HGX B200 on-demand, per GPU ($/GPU-hr)",
+      "source": "NEBIUS",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-10-09",
+      "fresh": true,
+      "absence": null
+    },
+    {
+      "code": "neb_b300",
+      "name": "Nebius HGX B300 on-demand, per GPU ($/GPU-hr)",
+      "source": "NEBIUS",
+      "route": "SCRAPE",
+      "cadence": "daily",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4715,7 +4855,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -4725,7 +4865,7 @@
       "source": "FMP",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -8025,7 +8165,7 @@
       "source": "CAISO",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -8035,7 +8175,7 @@
       "source": "MISO",
       "route": "CSV",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8045,7 +8185,7 @@
       "source": "ERCOT",
       "route": "CSV",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -8055,7 +8195,7 @@
       "source": "SPP",
       "route": "CSV",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -8065,7 +8205,7 @@
       "source": "NYISO",
       "route": "CSV",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -8145,7 +8285,7 @@
       "source": "KALSHI_DC",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -8155,7 +8295,7 @@
       "source": "KALSHI_DC",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -8165,7 +8305,7 @@
       "source": "KALSHI_FED",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-09",
       "fresh": true,
       "absence": null
     },
@@ -8225,7 +8365,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8235,7 +8375,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8245,7 +8385,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8255,7 +8395,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8265,7 +8405,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8275,7 +8415,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8285,7 +8425,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8295,7 +8435,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8305,7 +8445,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8315,7 +8455,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8325,7 +8465,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8335,7 +8475,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8345,7 +8485,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8355,7 +8495,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8365,7 +8505,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8375,7 +8515,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8385,7 +8525,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8395,7 +8535,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8405,7 +8545,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8415,7 +8555,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8425,7 +8565,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8435,7 +8575,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8445,7 +8585,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8455,7 +8595,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8465,7 +8605,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8475,7 +8615,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8485,7 +8625,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8495,7 +8635,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8505,7 +8645,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8515,7 +8655,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8525,7 +8665,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8535,7 +8675,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8545,7 +8685,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8555,7 +8695,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8565,7 +8705,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8575,7 +8715,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8585,7 +8725,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8595,7 +8735,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8605,7 +8745,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8615,7 +8755,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8625,7 +8765,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8635,7 +8775,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8645,7 +8785,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8655,7 +8795,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8665,7 +8805,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8675,7 +8815,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8685,7 +8825,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8695,7 +8835,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8705,7 +8845,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8715,7 +8855,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8725,7 +8865,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8735,7 +8875,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8745,7 +8885,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8755,7 +8895,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8765,7 +8905,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     },
@@ -8775,7 +8915,7 @@
       "source": "FMP_EQ",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-07",
+      "latest_obs": "2026-10-08",
       "fresh": true,
       "absence": null
     }
@@ -8830,6 +8970,51 @@
     "The daily history is a hindsight series: each monthly official print is applied from its reference month, ~6 weeks before release. The per-variant validation stats use it; the real-time record (compare.json `realtime`, and the homepage lead-lag) applies each print only from its release date."
   ],
   "changelog": [
+    {
+      "date": "2026-10-08",
+      "area": "labor",
+      "change": "labor.json gains construction_mix: the non-craft share of construction jobs, all employees (USCONS) less production and nonsupervisory employees (CES2000000006, a new FRED series: trades, laborers and working foremen), leaving managers, project managers, estimators, engineers and office staff. Monthly from 1990-01, with non-craft staff per 100 craft workers and the share a year earlier. It also publishes the non-craft share of construction payroll, each group priced at its average weekly earnings (CES2000000011 all employees, from 2006-03; CES2000000030 craft; two new FRED series), and what non-craft staff earn per week relative to craft. /labor's construction band shows both shares. History before the daily fetch's 2017 start was backfilled once (scripts/backfill_construction_mix.py) and does not revise."
+    },
+    {
+      "date": "2026-10-08",
+      "area": "revisions",
+      "change": "revisions.json adds PPI all commodities (PPIACO) and the quarterly Employment Cost Index (ECIALLCIV), the series construction escalation clauses most often index to, with the same first-print vs latest method as CPI and PCE. Their first prints come from an ALFRED vintage backfill appended to the store (379 PPI and 71 ECI release rows); before it, every period before collection began carried one bulk-load vintage and would have read as never revised. Latest values are unchanged. /revisions leads with the payrolls takeaway (the average size and direction of payroll revisions) and collapses CPI, which is not revised, to one line."
+    },
+    {
+      "date": "2026-10-08",
+      "area": "datacenter",
+      "change": "datacenter.json's clause_series gains CPI-U all items, not seasonally adjusted (CPIAUCNS), as basket \"reference\": a series a contract may index to instead of a DC package, offered by the clause kit and by /calculator, and never part of a DC index. /calculator is rebuilt from a since-date calculator on the gauge into an escalation comparison: pick a bid or notice-to-proceed month and up to six of the DC Build, Ops and Hardware indexes, the official package series (the long-lead equipment PPIs among them), CPI-U and the gauge as a calendar-month average, each measured to its own latest print and rebased to 100 on that month."
+    },
+    {
+      "date": "2026-10-08",
+      "area": "matrix",
+      "change": "/matrix leads with construction and escalation inputs (PPI all commodities, import prices, the effective tariff rate, the Employment Cost Index, unit labor costs, core goods CPI, GSCPI). Each row in matrix.json's PIPELINE and LABOR COSTS groups gains its 3- and 12-month change (percent for an index, points for GSCPI, percentage points for the tariff rate; a quarterly series steps one quarter for the 3-month change) and a 24-month trail of its raw level. The next-print nowcast block moves off the page; the nowcasts stay on /cpi-preview, /pce and /labor. labor.json gains a construction block: BLS construction employment (USCONS), construction average hourly earnings against all private workers in the same month, and JOLTS construction openings (JTS2300JOL, JTS2300JOR), three new FRED series."
+    },
+    {
+      "date": "2026-10-08",
+      "area": "composites",
+      "change": "The heat check, consumer stress and recession composites now share one /macro-cycle page. heatcheck.json and stress.json gain a five-year monthly history: each score recomputed at every month-end from today's latest-vintage series, so revised inputs move under it (it is not what the score read at the time). Each recession rule now publishes its numeric threshold and comparison beside its text, and the page shows the room left before each rule triggers against a stated design scale per rule. No score's method changes."
+    },
+    {
+      "date": "2026-10-08",
+      "area": "changes",
+      "change": "/changes now diffs every page's lead numbers against the previous publish, not only the CPI readings: the compute indexes, each power hub's 30-day average, the 10-year, BBB yield, high-yield spread and 30-day SOFR, copper, the capacity tracker, the long-lead package prices and the DC and gauge headlines. Movers rank by their change divided by a stated notable move for that reading (for example 3% for a power hub, 5bp for the 10-year), a design threshold rather than a fitted volatility, and the page leads with the day's biggest AI-infrastructure move."
+    },
+    {
+      "date": "2026-10-08",
+      "area": "rates",
+      "change": "/rates adds what the AI builders paid on their latest USD notes: each issuer's most recent deal, read from its own filing (SEC pricing term sheets for Amazon, Alphabet, Meta and Oracle; CoreWeave's pricing release; Nebius's 6-K). These are new-issue terms on the pricing date, not live yields. A spread the term sheet states is shown as stated; CoreWeave's is computed as its coupon (priced at par) minus the Treasury curve that day at the note's maturity. Convertible notes are listed but not compared. Microsoft has issued no USD bonds since 2017 and is left out."
+    },
+    {
+      "date": "2026-10-08",
+      "area": "datacenter",
+      "change": "The long-lead board drops industrial pumps (no vendor states a usable figure) and now covers four packages, 45% of DC Build. Gas turbines and fuel cells join the generator row: GE Vernova's Power segment and Siemens Energy Gas Services as their own vendor entries, with GE's turbine backlog stated in gigawatts and its contracted slots into 2031 as a lead time, and Bloom Energy's fuel-cell backlog, which Bloom states only with its full-year results. In DC Build the pumps line keeps its 5% weight and its series (BLS pumps & compressors PPI); it is relabelled 'Pumps & compressors (cooling-loop proxy)', since no price index covers coolant distribution units or chilled-water loops. Nothing is restated. /commodities now publishes each wholesale power hub's 30-day average, its YoY and its 30-day change (the window /power uses) instead of the latest single day's print, which swings several-fold."
+    },
+    {
+      "date": "2026-10-08",
+      "area": "compute",
+      "change": "The token price index moves to the most-used models on OpenRouter by paid spend (its rankings, week to Oct 7; free, stealth and preview models excluded): Claude Opus 5.5, GPT-6.1 Sol, Kimi K3, GLM-5.3, DeepSeek V4.1 Flash, Gemini 3.8 Flash and GPT-6 Luna. GPT-5.6 Terra, Claude Sonnet 5.5, Grok 4.7, Qwen3.8 Max, Mistral Large 4 and Llama 4 Maverick leave. Nothing is restated: the index keeps its July base, the departing models link up to their last collected price, and the changeover day links flat if fewer than three models are priced on both days. Each model now carries a frontier, standard or light tier label, after Ramp's split of enterprise model spend; the label never weights the index. The roster is reviewed monthly against the same rankings."
+    },
     {
       "date": "2026-10-07",
       "area": "compute",
@@ -8936,5 +9121,5 @@
       "change": "Headline YoY is the weighted mean of each component's own like-month YoY (not an index ratio), so lagging components compare like month to like month."
     }
   ],
-  "methodology_version": "2026-10-07"
+  "methodology_version": "2026-10-08"
 }
