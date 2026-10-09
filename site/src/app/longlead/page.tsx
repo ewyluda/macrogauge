@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import llJson from "../../../public/data/longlead.json";
 import { DownloadData } from "@/components/DownloadData";
 import { flattenRow } from "@/lib/csv";
-import { fmtSigned } from "@/lib/format";
+import { fmtDay, fmtSigned } from "@/lib/format";
 import { BASIS_LABELS, LEAD_BASIS_LABELS, backlogMove, fmtFigure, fmtLead, fmtWeightPct, leadTakeaway, noteSegments } from "@/lib/longLead";
 import type { BacklogMonths, LeadTime, LongLead, LongLeadPackage, LongLeadVendor } from "@/lib/types";
 import { LinesChart } from "@/components/LinesChart";
@@ -184,26 +184,27 @@ export default function Page() {
   return (
     <div>
       <StaleBanner publishedAt={llJson.published_at} />
-      <h1>Long-Lead Board</h1>
-      {takeaway && <p className="ll-takeaway" data-testid="ll-takeaway">{takeaway}</p>}
-      <p className="lede">
-        The binding constraint in DC delivery is availability, not just price.
-        This board joins the equipment PPI YoY we already publish with stated
-        lead times — industry-survey averages in weeks and vendors&apos; own
-        order horizons — and what each vendor&apos;s filings say about its
-        order book. Survey averages are not a quote for your project. Every
-        figure links to the document that states it.
-      </p>
-      <div className="section-tools">
+      {/* the shared research-intro header (eyebrow, H1, one dek) brings the board
+          into the first screen; the lede joins "How to read the board" */}
+      <header className="research-intro">
+        <div className="research-eyebrow">AI infrastructure · Long-lead board <span>Updated {fmtDay(data.published_at)}</span></div>
+        <h1>Long-Lead Board</h1>
+        {takeaway && <p data-testid="ll-takeaway">{takeaway}</p>}
+      </header>
+      <div className="page-asof">
         <DownloadData filename="macrogauge-longlead" json="longlead.json"
           citation={`MacroGauge long-lead board, curated ${data.as_of_curated}`}
           rows={data.packages.flatMap((p) => p.vendors.flatMap((v) =>
             v.figures.length
               ? v.figures.map((f) => ({ package: p.label, vendor: v.name, ticker: v.ticker, stale: v.stale, ...flattenRow(f) }))
               : [{ package: p.label, vendor: v.name, ticker: v.ticker, stale: v.stale, null_note: v.null_note }]))} />
+        <span>
+          Vendor figures curated {fmtDate(data.as_of_curated)} · survey averages are not a quote for your project ·{" "}
+          <a href="#ll-method">How to read the board</a>
+        </span>
       </div>
       <section className="ll-board" aria-labelledby="ll-board-title">
-        <h2 id="ll-board-title">The board <span className="subtitle">price pressure beside order-book pressure, package by package · vendor figures curated {fmtDate(data.as_of_curated)}</span></h2>
+        <h2 id="ll-board-title">The board <span className="subtitle">price pressure beside order-book pressure, package by package</span></h2>
         <div className="table-card ll-board-table">
           <table className="data-table">
             <thead>
@@ -282,9 +283,18 @@ export default function Page() {
         <PackageSection key={pkg.code} pkg={pkg} seen={seen}
           backlog={pkg.backlog_group ? data.backlog_months?.[pkg.backlog_group] : undefined} />
       ))}
-      <section className="ll-method" aria-labelledby="ll-method-title">
+      <section id="ll-method" className="ll-method" aria-labelledby="ll-method-title">
       <h2 id="ll-method-title">How to read the board</h2>
       <div className="dc-method-grid">
+      <div><h3>What the board joins</h3>
+      <p className="method">
+        The binding constraint in DC delivery is availability, not just price.
+        This board joins the equipment PPI YoY we already publish with stated
+        lead times — industry-survey averages in weeks and vendors&apos; own
+        order horizons — and what each vendor&apos;s filings say about its
+        order book. Survey averages are not a quote for your project. Every
+        figure links to the document that states it.
+      </p></div>
       <div><h3>Reading the bases</h3>
       <p className="method">
         “Backlog” is not one number. <strong>RPO</strong> is ASC-606 remaining
