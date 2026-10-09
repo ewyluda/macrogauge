@@ -162,6 +162,19 @@ test("capacity views each carry a readable table view and no page overflow", asy
   expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
 });
 
+test("geo map hover card opens beside the hovered site", async ({ page }) => {
+  await page.goto("/capacity?tab=Geo+map");
+  const site = page.locator(".cap-map:not(.cap-map-inset) circle.cap-site").nth(5);
+  await site.scrollIntoViewIfNeeded();
+  await site.hover();
+  const tip = page.locator(".cap-tip");
+  await expect(tip).toBeInViewport();
+  // The card is anchored at the pointer, so it straddles the site vertically.
+  const s = (await site.boundingBox())!, t = (await tip.boundingBox())!;
+  expect(t.y).toBeLessThan(s.y + s.height);
+  expect(t.y + t.height).toBeGreaterThan(s.y);
+});
+
 test("datacenter drivers switch, jump bar, power summary and edge-collapsed states", async ({ page }) => {
   await page.goto("/datacenter");
   // one drivers table, switched between the three indexes
