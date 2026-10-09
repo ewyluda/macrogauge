@@ -519,19 +519,22 @@ test("cost of capital: takeaway H1, credit tiles instead of GDPNow/auto loans, a
   await expect(strip.locator("a[href='/rates']")).toBeVisible();
 });
 
-// pages moved onto the shared research-intro header: [route, method id, method prose marker]
-for (const [route, method, prose] of [
-  ["/rates", "#rt-method", "The market benchmarks that financing a build is priced against"],
-  ["/compute", "#cp-method", "chain-linked equal-weight geometric means"],
-  ["/capacity", "#cap-method", "the gap is the whole point"],
-  ["/markets", "#mk-method", "State resolution averages Loudoun with Bristol"],
+// pages moved onto the shared research-intro header:
+// [route, method id, method prose marker, first reading]
+for (const [route, method, prose, reading] of [
+  ["/rates", "#rt-method", "The market benchmarks that financing a build is priced against", ".kpi-row .kpi-card"],
+  ["/compute", "#cp-method", "chain-linked equal-weight geometric means", ".kpi-row .kpi-card"],
+  ["/capacity", "#cap-method", "the gap is the whole point", ".kpi-row .kpi-card"],
+  ["/markets", "#mk-method", "State resolution averages Loudoun with Bristol", ".kpi-row .kpi-card"],
+  ["/longlead", "#ll-method", "The binding constraint in DC delivery is availability", ".ll-board-table tbody tr"],
 ]) {
-  test(`${route}: shared header puts a KPI in the first phone screen; the method closes the page`, async ({ page }) => {
+  test(`${route}: shared header puts the first reading in the first phone screen; the method closes the page`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(route);
     await expect(page.locator(".research-intro h1")).toBeVisible();
-    const kpi = await page.locator(".kpi-row .kpi-card").first().boundingBox();
-    expect(kpi!.y + kpi!.height).toBeLessThanOrEqual(844);
+    // a whole KPI card, or a board row's opening (package, lead time, price)
+    const box = await page.locator(reading).first().boundingBox();
+    expect(box!.y + Math.min(box!.height, 200)).toBeLessThanOrEqual(844);
     // the method prose left the header for a closing section the as-of line links to
     await expect(page.locator(".research-intro")).not.toContainText(prose);
     await expect(page.locator(method)).toContainText(prose);
