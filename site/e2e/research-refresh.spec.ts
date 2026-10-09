@@ -524,6 +524,7 @@ for (const [route, method, prose] of [
   ["/rates", "#rt-method", "The market benchmarks that financing a build is priced against"],
   ["/compute", "#cp-method", "chain-linked equal-weight geometric means"],
   ["/capacity", "#cap-method", "the gap is the whole point"],
+  ["/markets", "#mk-method", "State resolution averages Loudoun with Bristol"],
 ]) {
   test(`${route}: shared header puts a KPI in the first phone screen; the method closes the page`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });

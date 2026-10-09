@@ -756,11 +756,14 @@ body.research-site .footer-meta { font-size: 12px; }
 .mk-fips { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .research-page .mk-method, .research-page .page-method { margin-top: 40px; }
 /* shared page-header pieces: the as-of line under the KPI row, the closing method section */
-.page-method { scroll-margin-top: 80px; }
+.page-method, .mk-method { scroll-margin-top: 80px; }
 .page-method .method { max-width: 900px; }
 .page-asof { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: -12px 0 28px; color: var(--muted); font-size: 13px; }
-.page-asof a { color: var(--accent-sky); text-decoration: none; }
-.page-asof a:hover { text-decoration: underline; }
+.page-asof > span { flex: 1 1 320px; min-width: 0; }
+.page-asof > span a { color: var(--accent-sky); text-decoration: none; }
+.page-asof > span a:hover { text-decoration: underline; }
+/* page tools lead the as-of line, so their popovers open rightward, into the page */
+.page-asof .research-popover { left: 0; right: auto; }
 @media (max-width: 640px) {
   .mk-bar-row { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; padding: 10px 14px; }
   .mk-bar-track { grid-column: 1 / -1; grid-row: 2; }

@@ -9,6 +9,7 @@ import { tightnessScore } from "@/lib/dcMarkets";
 import type { DcMarkets } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
+import { fmtDay } from "@/lib/format";
 
 const data = artifact<"dc_markets", DcMarkets>("dc_markets", marketsJson);
 const nat = data.national;
@@ -31,23 +32,16 @@ export default function Page() {
   return (
     <div>
       <StaleBanner publishedAt={marketsJson.published_at} />
-      <h1>
-        DC Market Panel <span className="subtitle">how tight is the labor where you&apos;re building?</span>
-      </h1>
-      <p className="lede">
-        State resolution averages Loudoun with Bristol. This is{" "}
-        <b>construction wages and headcount where the shovels are</b> — tight
-        core counties for {data.markets.length} real data-center markets,
-        measured against the national rate. Craft labor is the constraint
-        nobody prices until it bites: a market adding construction workers
-        twice as fast as the country is a market where your subcontractor
-        coverage is thinning.
-      </p>
-      <div className="section-tools">
-        <DownloadData filename="macrogauge-dc-markets" json="dc_markets.json"
-          citation={`MacroGauge DC market panel, published ${data.published_at}`}
-          rows={data.markets.map((m) => flattenRow(m))} />
-      </div>
+      {/* the shared research-intro header (eyebrow, H1, one dek) puts the KPIs in
+          the first screen; the why-counties prose joins "How it's built" */}
+      <header className="research-intro">
+        <div className="research-eyebrow">AI infrastructure · DC markets <span>Updated {fmtDay(data.published_at)}</span></div>
+        <h1>DC Market Panel</h1>
+        <p>
+          How tight is the labor where you&apos;re building? Construction wages and headcount in the core counties of{" "}
+          {data.markets.length} real data-center markets, measured against the national rate.
+        </p>
+      </header>
       <div className="kpi-row">
         <KpiCard label="National construction wage"
           value={nat.wage != null ? `$${nat.wage.toLocaleString("en-US")}/wk` : "—"}
@@ -68,16 +62,30 @@ export default function Page() {
           value={`${live.length} / ${data.markets.length}`}
           context="the rest are BLS disclosure-suppressed" accent="sky" />
       </div>
-      <p style={{ fontSize: 12, color: "var(--muted)", margin: "4px 0 0" }}>
-        QCEW quarter <b>{data.as_of ?? "—"}</b> vs <b>{data.base_date ?? "—"}</b>
-        {" "}· roster curated <b>{data.as_of_curated}</b>. QCEW publishes about 5–6
-        months after quarter end — these are the freshest county wages that exist, not
-        a current reading.
-      </p>
+      <div className="page-asof">
+        <DownloadData filename="macrogauge-dc-markets" json="dc_markets.json"
+          citation={`MacroGauge DC market panel, published ${data.published_at}`}
+          rows={data.markets.map((m) => flattenRow(m))} />
+        <span>
+          QCEW quarter <b>{data.as_of ?? "—"}</b> vs <b>{data.base_date ?? "—"}</b>
+          {" "}· roster curated <b>{data.as_of_curated}</b>. QCEW publishes about 5–6
+          months after quarter end — these are the freshest county wages that exist, not
+          a current reading · <a href="#mk-method">How it&apos;s built</a>
+        </span>
+      </div>
       <MarketsClient data={data} />
-      <section className="mk-method" aria-labelledby="mk-method-title">
+      <section id="mk-method" className="mk-method" aria-labelledby="mk-method-title">
       <h2 id="mk-method-title">How it&apos;s built</h2>
       <div className="dc-method-grid">
+      <div><h3>Why county resolution</h3><p className="method">
+        State resolution averages Loudoun with Bristol. This is{" "}
+        <b>construction wages and headcount where the shovels are</b> — tight
+        core counties for {data.markets.length} real data-center markets,
+        measured against the national rate. Craft labor is the constraint
+        nobody prices until it bites: a market adding construction workers
+        twice as fast as the country is a market where your subcontractor
+        coverage is thinning.
+      </p></div>
       <div><h3>Eight-quarter trend</h3><p className="method">
         The sparkline under each market&apos;s worker count is its construction headcount over the
         last eight QCEW quarters, summed over the counties reported in <b>all</b> of them, so the
