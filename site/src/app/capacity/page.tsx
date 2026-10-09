@@ -32,18 +32,13 @@ export default function Page() {
   return (
     <div>
       <StaleBanner publishedAt={capacityJson.published_at} />
-      <h1>
-        {headline?.title ?? "AI Capacity"} <span className="subtitle">AI capacity tracker</span>
-      </h1>
-      {headline && <p className="cap-takeaway" data-testid="cap-takeaway">{headline.detail}</p>}
-      <p className="lede">
-        Sellable and self-use <b>AI critical-IT megawatts</b> across the
-        pure-play GPU clouds, the ex-bitcoin-miners pivoting into AI
-        colocation, and the hyperscalers — what each is worth per megawatt,
-        who its customers are, and when the capacity arrives. MW numbers are
-        hand-curated from filings; valuations reprice every morning. Market
-        cap ≠ megawatts — the gap is the whole point.
-      </p>
+      {/* the shared research-intro header (eyebrow, finding H1, one dek) puts the
+          KPIs in the first screen; the method prose closes the page */}
+      <header className="research-intro">
+        <div className="research-eyebrow">AI infrastructure · AI capacity tracker <span>Updated {fmtDay(data.published_at)}</span></div>
+        <h1>{headline?.title ?? "AI Capacity"}</h1>
+        {headline && <p data-testid="cap-takeaway">{headline.detail}</p>}
+      </header>
       <div className="kpi-row">
         <KpiCard label="Tracked capacity" value={`${gw(all.op + all.con + all.plan)} GW`}
           context={`${all.companies} companies · op + construction + planned`} accent="sky" />
@@ -57,13 +52,13 @@ export default function Page() {
             ? `Nvidia market cap vs $${(ref.cohort_ev_b / 1000).toFixed(2)}T combined EV of the ${evRows} rows with a published EV/MW (hyperscaler and private-builder EVs excluded, as on their rows)`
             : "Nvidia market cap (cohort EV pending first repricing)"} accent="sky" />
       </div>
-      <p style={{ fontSize: 12, color: "var(--muted)", margin: "4px 0 0" }}>
-        MW data as of <b>{data.as_of_curated}</b>
-        {data.priced_date ? <> · priced <b>{data.priced_date}</b></> : <> · awaiting first repricing run</>}
-        .{" "}Hyperscaler net debt is funded-debt basis (most run net cash; finance leases and
-        off-balance-sheet SPV debt excluded — see each row&apos;s note); neocloud net debt
-        includes finance leases where disclosed.
-      </p>
+      <div className="page-asof">
+        <span>
+          MW data as of <b>{data.as_of_curated}</b>
+          {data.priced_date ? <> · priced <b>{data.priced_date}</b></> : <> · awaiting first repricing run</>}
+          {" "}· <a href="#cap-method">How it&apos;s built</a>
+        </span>
+      </div>
       <CapacityClient data={data} />
 
       {pd && pd.deals.length > 0 && (
@@ -113,6 +108,23 @@ export default function Page() {
           </p>
         </Section>
       )}
+
+      <section id="cap-method" className="page-method" aria-labelledby="cap-method-title">
+        <h2 id="cap-method-title">How it&apos;s built</h2>
+        <p className="method">
+          Sellable and self-use <b>AI critical-IT megawatts</b> across the
+          pure-play GPU clouds, the ex-bitcoin-miners pivoting into AI
+          colocation, and the hyperscalers — what each is worth per megawatt,
+          who its customers are, and when the capacity arrives. MW numbers are
+          hand-curated from filings; valuations reprice every morning. Market
+          cap ≠ megawatts — the gap is the whole point.
+        </p>
+        <p className="method">
+          Hyperscaler net debt is funded-debt basis (most run net cash; finance leases and
+          off-balance-sheet SPV debt excluded — see each row&apos;s note); neocloud net debt
+          includes finance leases where disclosed.
+        </p>
+      </section>
     </div>
   );
 }
