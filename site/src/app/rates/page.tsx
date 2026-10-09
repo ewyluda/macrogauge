@@ -106,18 +106,13 @@ export default function RatesPage() {
   return (
     <div>
       <StaleBanner publishedAt={ratesJson.published_at} />
-      <div className="research-eyebrow">AI infrastructure · Cost of capital</div>
-      <h1>{headline?.title ?? "Rates & Liquidity"}</h1>
-      {headline?.detail && <p className="ll-takeaway" data-testid="rates-takeaway">{headline.detail}</p>}
-      <p className="lede">
-        The market benchmarks that financing a build is priced against: the Treasury curve, the investment-grade
-        and BBB corporate bond spreads and the BBB index&apos;s all-in yield, and 30-day average SOFR — plus
-        breakevens, the dollar, the Fed&apos;s balance sheet and the market-implied Fed path, all daily FRED series.
-        They are reference rates, not a project&apos;s cost of debt: an actual loan adds its own spread and fees on its
-        own terms, and 30-day average SOFR is a backward-looking compounded average, not CME&apos;s forward-looking
-        Term SOFR. Every derived number is arithmetic on published levels: 2s10s is DGS10 − DGS2, the real 10-year
-        is DGS10 − T10YIE, net liquidity is WALCL − TGA − RRP.
-      </p>
+      {/* the shared research-intro header (eyebrow, finding H1, one dek) puts the
+          KPIs in the first screen; the method prose closes the page */}
+      <header className="research-intro">
+        <div className="research-eyebrow">AI infrastructure · Cost of capital <span>Updated {fmtDay(data.published_at)}</span></div>
+        <h1>{headline?.title ?? "Rates & Liquidity"}</h1>
+        {headline?.detail && <p data-testid="rates-takeaway">{headline.detail}</p>}
+      </header>
       <div className="kpi-row">
         <KpiCard label="10-year Treasury" value={pct(ten?.value ?? null)}
           context={`${ten?.as_of ? fmtDay(ten.as_of) : "—"} · 30d ${fmtPp(ten?.chg_30d_pp ?? null)} · 1y ${fmtPp(ten?.chg_1y_pp ?? null)}`} accent="sky" />
@@ -141,7 +136,10 @@ export default function RatesPage() {
           context={`${s.s2s10s.value != null && s.s2s10s.value < 0 ? "inverted · " : ""}2y ${pct(two?.value ?? null)} · 30d ${fmtPp(s.s2s10s.chg_30d_pp)}`}
           accent={s.s2s10s.value != null && s.s2s10s.value < 0 ? "red" : "emerald"} />
       </div>
-      <Citation series="10-year Treasury yield (DGS10)" asOf={ten?.as_of ?? data.published_at.slice(0, 10)} value={pct(ten?.value ?? null)} path="/rates" />
+      <div className="rt-asof">
+        <Citation series="10-year Treasury yield (DGS10)" asOf={ten?.as_of ?? data.published_at.slice(0, 10)} value={pct(ten?.value ?? null)} path="/rates" />
+        <span>Market reference rates, not a project&apos;s cost of debt · <a href="#rt-method">How it&apos;s built</a></span>
+      </div>
 
       <Section title="The curve — today vs 30 days and a year ago" featured>
         <div className="section-tools">
@@ -321,6 +319,19 @@ export default function RatesPage() {
           in billions. Nothing here feeds the gauge — it is the transmission channel, shown beside it.
         </p>
       </Section>
+
+      <section id="rt-method" className="rt-method" aria-labelledby="rt-method-title">
+        <h2 id="rt-method-title">How it&apos;s built</h2>
+        <p className="method">
+          The market benchmarks that financing a build is priced against: the Treasury curve, the investment-grade
+          and BBB corporate bond spreads and the BBB index&apos;s all-in yield, and 30-day average SOFR — plus
+          breakevens, the dollar, the Fed&apos;s balance sheet and the market-implied Fed path, all daily FRED series.
+          They are reference rates, not a project&apos;s cost of debt: an actual loan adds its own spread and fees on its
+          own terms, and 30-day average SOFR is a backward-looking compounded average, not CME&apos;s forward-looking
+          Term SOFR. Every derived number is arithmetic on published levels: 2s10s is DGS10 − DGS2, the real 10-year
+          is DGS10 − T10YIE, net liquidity is WALCL − TGA − RRP.
+        </p>
+      </section>
     </div>
   );
 }
