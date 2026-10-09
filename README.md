@@ -39,6 +39,12 @@ The page also carries monthly Census C30 data-center construction spending — a
 
 The design is documented in [DC Construction Boom Design](docs/superpowers/specs/2026-07-15-dc-construction-design.md).
 
+### AI capacity tracker
+
+The [AI capacity page](https://macrogauge.vercel.app/capacity) prices neoclouds, ex-miners and hyperscalers per megawatt against how much of their capacity is energized, opens each company's full record, schedules dated construction by quarter (searchable by ticker, company or customer), and maps every campus.
+
+![AI capacity tracker: Valuation × Execution, expanding company records, the energization timeline filtered by customer, and the geo map](docs/media/capacity-showcase.gif)
+
 ## What you can explore
 
 | Area | Pages and capabilities |
