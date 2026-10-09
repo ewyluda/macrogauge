@@ -519,6 +519,19 @@ test("cost of capital: takeaway H1, credit tiles instead of GDPNow/auto loans, a
   await expect(strip.locator("a[href='/rates']")).toBeVisible();
 });
 
+test("cost of capital: shared header puts a KPI in the first phone screen; the method closes the page", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/rates");
+  await expect(page.locator(".research-intro h1")).toBeVisible();
+  const kpi = await page.locator(".kpi-row .kpi-card").first().boundingBox();
+  expect(kpi!.y + kpi!.height).toBeLessThanOrEqual(844);
+  // the method prose left the header for a closing section the as-of line links to
+  await expect(page.locator(".research-intro")).not.toContainText("The market benchmarks");
+  await expect(page.locator("#rt-method")).toContainText("The market benchmarks that financing a build is priced against");
+  await page.locator(".rt-asof a[href='#rt-method']").click();
+  await expect(page.locator("#rt-method")).toBeInViewport();
+});
+
 test("index ledger: DC Build by default, a series switch in the URL, and commit links", async ({ page }) => {
   await page.goto("/as-of");
   await expect(page.getByTestId("asof-chart-title")).toContainText("DC Build YoY as published");

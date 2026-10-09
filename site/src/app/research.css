@@ -32,7 +32,7 @@ body.research-site .nav-emoji { display: none; }
 body.research-site .status-pill { font-size: 12px; letter-spacing: 0; text-transform: none; }
 
 .research-intro { padding: 36px 0 24px; }
-.research-eyebrow { display: flex; justify-content: space-between; gap: 12px; color: var(--accent-sky); font-size: 12px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
+.research-eyebrow { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; color: var(--accent-sky); font-size: 12px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
 .research-eyebrow span { color: var(--muted); font-weight: 400; letter-spacing: 0; text-transform: none; }
 .research-intro h1 { margin: 12px 0 10px; font-size: clamp(30px, 3vw, 42px); line-height: 1.15; letter-spacing: -.035em; font-weight: 650; }
 .research-intro p { max-width: 820px; color: var(--muted); margin: 0; font-size: 16px; line-height: 1.65; }
@@ -755,7 +755,12 @@ body.research-site .footer-meta { font-size: 12px; }
 .mk-pipe-receipt { font-size: 12px; color: var(--muted); margin: 8px 0 4px; white-space: normal; }
 .mk-pipe-receipt q { color: var(--text); }
 .mk-fips { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.research-page .mk-method { margin-top: 40px; }
+.research-page .mk-method, .research-page .rt-method { margin-top: 40px; }
+.rt-method { scroll-margin-top: 80px; }
+.rt-method .method { max-width: 900px; }
+.rt-asof { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: -12px 0 28px; color: var(--muted); font-size: 13px; }
+.rt-asof a { color: var(--accent-sky); text-decoration: none; }
+.rt-asof a:hover { text-decoration: underline; }
 @media (max-width: 640px) {
   .mk-bar-row { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; padding: 10px 14px; }
   .mk-bar-track { grid-column: 1 / -1; grid-row: 2; }
