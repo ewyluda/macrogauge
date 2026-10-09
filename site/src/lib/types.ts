@@ -204,7 +204,8 @@ export type Labor = {
   construction_mix?: {
     as_of: string | null; craft_k: number | null; noncraft_k: number | null;
     noncraft_share_pct: number | null; noncraft_per_100_craft: number | null; share_1y_ago_pct: number | null;
-    history: { months: string[]; craft_k: number[]; noncraft_k: number[]; noncraft_share_pct: number[] };
+    payroll_as_of: string | null; noncraft_payroll_share_pct: number | null; noncraft_pay_ratio: number | null;
+    history: { months: string[]; craft_k: number[]; noncraft_k: number[]; noncraft_share_pct: number[]; noncraft_payroll_share_pct: (number | null)[] };
   };
   history: {
     monthly: { months: string[]; payrolls_yoy_pct: (number | null)[]; unemployment_rate: (number | null)[]; construction_yoy_pct?: (number | null)[] };

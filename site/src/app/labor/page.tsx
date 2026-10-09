@@ -134,10 +134,6 @@ function ConstructionBand() {
           context={`${fmtSigned(c.ahe_yoy_pct)} YoY vs ${fmtSigned(c.private_ahe_yoy_pct)} all private${premium == null ? "" : ` (${premium >= 0 ? "+" : "−"}${Math.abs(premium).toFixed(1)}pp)`} · ${c.ahe_as_of ? fmtMonth(c.ahe_as_of) : "—"}`} accent="amber" />
         <KpiCard label="Construction openings" value={c.openings_k == null ? "—" : `${k(c.openings_k)}k`}
           context={`${c.openings_rate == null ? "—" : `${c.openings_rate.toFixed(1)}%`} openings rate · ${c.openings_1y_ago_k == null ? "—" : `${k(c.openings_1y_ago_k)}k`} a year earlier · ${c.openings_as_of ? fmtMonth(c.openings_as_of) : "—"}`} accent="violet" />
-        {mix && (
-          <KpiCard label="Non-craft share of jobs" value={mix.noncraft_share_pct == null ? "—" : `${mix.noncraft_share_pct.toFixed(1)}%`}
-            context={`${mix.noncraft_per_100_craft == null ? "—" : mix.noncraft_per_100_craft.toFixed(1)} per 100 craft workers · ${shareChg == null ? "—" : `${shareChg >= 0 ? "+" : "−"}${Math.abs(shareChg).toFixed(1)}pp`} on the year · ${fmtMonth(mix.as_of as string)}`} accent="emerald" />
-        )}
       </div>
       {m.construction_yoy_pct && m.construction_yoy_pct.some((v) => v != null) && (
         <div className="chart-card" style={{ padding: "12px 8px 4px" }}>
@@ -148,11 +144,24 @@ function ConstructionBand() {
             ]} />
         </div>
       )}
+      {mix && (
+        <div className="kpi-row" data-testid="noncraft-kpis">
+          <KpiCard label="Non-craft share of jobs" value={mix.noncraft_share_pct == null ? "—" : `${mix.noncraft_share_pct.toFixed(1)}%`}
+            context={`${mix.noncraft_per_100_craft == null ? "—" : mix.noncraft_per_100_craft.toFixed(1)} per 100 craft workers · ${shareChg == null ? "—" : `${shareChg >= 0 ? "+" : "−"}${Math.abs(shareChg).toFixed(1)}pp`} on the year · ${fmtMonth(mix.as_of as string)}`} accent="emerald" />
+          {mix.payroll_as_of && (
+            <KpiCard label="Non-craft share of payroll" value={mix.noncraft_payroll_share_pct == null ? "—" : `${mix.noncraft_payroll_share_pct.toFixed(1)}%`}
+              context={`non-craft staff earn ${mix.noncraft_pay_ratio == null ? "—" : `${mix.noncraft_pay_ratio.toFixed(2)}×`} craft weekly pay · ${fmtMonth(mix.payroll_as_of)}`} accent="violet" />
+          )}
+        </div>
+      )}
       {mix && mix.history.months.length > 0 && (
         <div className="chart-card" style={{ padding: "12px 8px 4px" }} data-testid="noncraft-share">
-          <LinesChart height={240} fitY recessions={false} bands={RECESSIONS_SINCE_1990}
-            ariaTitle="Non-craft staff as a share of all construction jobs, monthly since 1990"
-            series={[{ name: "Non-craft share of construction jobs", x: mix.history.months, y: mix.history.noncraft_share_pct, color: C.emerald }]} />
+          <LinesChart height={260} fitY recessions={false} bands={RECESSIONS_SINCE_1990}
+            ariaTitle="Non-craft staff as a share of construction jobs since 1990 and of construction payroll since 2006"
+            series={[
+              { name: "Share of jobs", x: mix.history.months, y: mix.history.noncraft_share_pct, color: C.emerald },
+              { name: "Share of payroll", x: mix.history.months, y: mix.history.noncraft_payroll_share_pct, color: C.violet },
+            ]} />
         </div>
       )}
       <p className="method">
@@ -164,7 +173,9 @@ function ConstructionBand() {
         managers, project managers, estimators, engineers and office staff. A rising share means more of that indirect
         headcount per craft worker, a cost owners pay per unit of work put in place that no wage or materials index
         shows. Headcount alone cannot say whether the extra staff is overhead or scope that projects now require.
-        Shaded: NBER recessions.
+        The payroll share prices each group at its average weekly earnings (CES2000000011 for all employees, which
+        starts in March 2006; CES2000000030 for craft): when it rises more slowly than the jobs share, the added
+        non-craft staff are paid less, relative to craft, than before. Shaded: NBER recessions.
       </p>
     </Section>
   );

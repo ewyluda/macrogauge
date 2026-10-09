@@ -4,7 +4,9 @@ The daily FRED fetch starts at 2017-01, which leaves the share of construction
 jobs held by non-craft staff (all employees − production and nonsupervisory
 employees) with no baseline before the 2017 build-out it is meant to put in
 context. Both BLS series reach back decades; 1990 covers the flat 1990s, the
-2006 housing peak, the 2011 trough and the recovery. Run locally with
+2006 housing peak, the 2011 trough and the recovery. The payroll share also
+needs average weekly earnings for both groups; all-employee earnings begin
+2006-03, so that pair is checked against 2006-03. Run locally with
 FRED_API_KEY set:
 
     FRED_API_KEY=... python scripts/backfill_construction_mix.py --store store
@@ -19,13 +21,15 @@ import sys
 from pathlib import Path
 
 from pipeline.connectors import fred
-from pipeline.publish.labor import CONS_EMP, CONS_PROD
+from pipeline.publish.labor import CONS_AWE, CONS_EMP, CONS_PROD, CONS_PROD_AWE
 from pipeline.registry import load_registry
 from pipeline.store import vintage
 from scripts.backfill_dc_history import coverage, shortfalls
 
 OBSERVATION_START = "1990-01-01"
-CODES = (CONS_EMP, CONS_PROD)
+EARNINGS_START = "2006-03-01"  # first month of all-employee CES earnings
+HEADCOUNT, EARNINGS = (CONS_EMP, CONS_PROD), (CONS_AWE, CONS_PROD_AWE)
+CODES = HEADCOUNT + EARNINGS
 
 
 def main(argv=None, http_get=None) -> int:
@@ -46,10 +50,12 @@ def main(argv=None, http_get=None) -> int:
 
     obs = fred.fetch([s.source_id for s in entries], key,
                      observation_start=args.observation_start, http_get=http_get)
-    # the share is a ratio of the two: one short series shortens it, and the
+    # the shares are ratios of these: one short series shortens them, and the
     # store is append-only, so verify both before writing anything
     cover = coverage(obs)
-    short = shortfalls(entries, cover, args.observation_start)
+    short = (shortfalls([s for s in entries if s.code in HEADCOUNT], cover, args.observation_start)
+             + shortfalls([s for s in entries if s.code in EARNINGS], cover,
+                          max(args.observation_start, EARNINGS_START)))
     if short:
         sys.exit("incomplete coverage — NOTHING written.\n  " + "\n  ".join(short))
 

@@ -112,7 +112,7 @@ test("/macro-cycle puts heat, stress and the recession rules on one page (was /h
 test("/matrix leads with the escalation inputs and /labor with the construction band", async ({ page, request }) => {
   const matrix = await (await request.get("/data/matrix.json")).json() as { groups: { group: string; rows: { trail?: unknown }[] }[] };
   const labor = await (await request.get("/data/labor.json")).json() as {
-    construction?: unknown; construction_mix?: { as_of: string | null; history: { months: string[] } };
+    construction?: unknown; construction_mix?: { as_of: string | null; payroll_as_of?: string | null; history: { months: string[] } };
   };
   const inputs = matrix.groups.filter((g) => g.group === "PIPELINE" || g.group === "LABOR COSTS").flatMap((g) => g.rows);
   await page.goto("/matrix");
@@ -127,7 +127,8 @@ test("/matrix leads with the escalation inputs and /labor with the construction 
   // the non-craft share chart draws inside the band once both series publish
   const mixDrawn = !!labor.construction && !!labor.construction_mix?.as_of && labor.construction_mix.history.months.length > 0;
   await expect(page.getByTestId("noncraft-share")).toHaveCount(mixDrawn ? 1 : 0);
-  if (mixDrawn) await expect(page.getByTestId("construction-band")).toContainText("Non-craft share of jobs");
+  if (mixDrawn) await expect(page.getByTestId("noncraft-kpis")).toContainText("Non-craft share of jobs");
+  if (mixDrawn && labor.construction_mix?.payroll_as_of) await expect(page.getByTestId("noncraft-kpis")).toContainText("Non-craft share of payroll");
 });
 
 test("/calculator compares cost indexes since a bid month, rebased to 100", async ({ page }) => {
