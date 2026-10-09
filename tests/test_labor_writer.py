@@ -81,6 +81,33 @@ def test_construction_band_empty_store_is_all_null(tmp_path):
     assert set(labor.build(conn)["construction"].values()) == {None}
 
 
+def test_construction_mix_hand_computed(tmp_path):
+    conn = _store_with(tmp_path, {
+        # 1989 is before MIX_START; 2026-09 has no production print yet
+        "USCONS": {"1989-12-01": 5000.0, "2025-08-01": 8200.0,
+                   "2026-08-01": 8300.0, "2026-09-01": 8310.0},
+        "CES2000000006": {"1989-12-01": 3900.0, "2025-08-01": 6000.0,
+                          "2026-08-01": 6050.0}})
+    x = labor.build(conn)["construction_mix"]
+    assert x["as_of"] == "2026-08-01"            # last month BOTH report
+    assert (x["craft_k"], x["noncraft_k"]) == (6050, 2250)
+    assert x["noncraft_share_pct"] == 27.11       # 2250/8300 = 27.108%
+    assert x["noncraft_per_100_craft"] == 37.2    # 2250/6050 = 37.19
+    assert x["share_1y_ago_pct"] == 26.83         # 2200/8200 = 26.829%
+    assert x["history"] == {"months": ["2025-08-01", "2026-08-01"],
+                            "craft_k": [6000, 6050], "noncraft_k": [2200, 2250],
+                            "noncraft_share_pct": [26.83, 27.11]}
+
+
+def test_construction_mix_without_production_series_is_null(tmp_path):
+    conn = _store_with(tmp_path, {"USCONS": {"2026-08-01": 8300.0}})
+    x = labor.build(conn)["construction_mix"]
+    assert x["history"]["months"] == []
+    assert {k: v for k, v in x.items() if k != "history"} == dict.fromkeys(
+        ["as_of", "craft_k", "noncraft_k", "noncraft_share_pct",
+         "noncraft_per_100_craft", "share_1y_ago_pct"])
+
+
 def test_history_tails_capped(tmp_path):
     payems = {f"{2022 + (m - 1) // 12}-{(m - 1) % 12 + 1:02d}-01": 150000.0 + m * 100
               for m in range(1, 49)}  # 48 months -> monthly tail keeps last 36
@@ -106,7 +133,8 @@ def test_empty_store_degrades_and_validates(tmp_path):
 def test_written_file_validates(tmp_path):
     conn = _store_with(tmp_path, {
         "PAYEMS": {"2025-06-01": 159000.0, "2026-06-01": 161650.0},
-        "UNRATE": {"2026-06-01": 4.3}})
+        "UNRATE": {"2026-06-01": 4.3},
+        "USCONS": {"2026-06-01": 8300.0}, "CES2000000006": {"2026-06-01": 6050.0}})
     payload = labor.build(conn)
     path = labor.write(payload, tmp_path / "out", "2026-07-17T12:00:00Z")
     validate.validate_file(path, SCHEMA)
