@@ -71,7 +71,8 @@ SCE_URL = ("https://www.newyorkfed.org/medialibrary/interactives/sce/sce/downloa
 SCE_SERIES = {
     "SCE_1Y": ("Inflation expectations", "Median one-year ahead expected inflation rate", "nyfed_sce_1y"),
     "SCE_3Y": ("Inflation expectations", "Median three-year ahead expected inflation rate", "nyfed_sce_3y"),
-    "SCE_5Y": ("Five-year ahead Infl Exp", "Median five-year ahead expected inflation rate", "nyfed_sce_5y"),
+    # own sheet 'Five-year ahead Infl Exp' until Oct 2026, now a column of the main one
+    "SCE_5Y": ("Inflation expectations", "Median five-year ahead expected inflation rate", "nyfed_sce_5y"),
 }
 SCE_PLAUSIBLE = (-5.0, 20.0)  # % expected inflation (1y median peaked ~6.8 in 2022)
 
