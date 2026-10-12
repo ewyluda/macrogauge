@@ -96,9 +96,6 @@ function Tags({ p, onTicker, active }: { p: NewsPost; onTicker?: (t: string) => 
   );
 }
 
-const Source = ({ p }: { p: NewsPost }) =>
-  p.url ? <a className="news-src" href={p.url} target="_blank" rel="noopener noreferrer nofollow">source ↗</a> : null;
-
 /** A post's bullet points and read-through tickers. */
 function PostDetail({ p }: { p: NewsPost }) {
   return (
@@ -118,7 +115,7 @@ function PostDetail({ p }: { p: NewsPost }) {
 }
 const hasDetail = (p: NewsPost) => p.points.length > 0 || p.impacted.length > 0;
 
-/** One story: its lead headline, tags and source, and — when a later post
+/** One story: its lead headline and tags, and — when a later post
  *  exists — that newest development on its own line, so a terse update
  *  ("…CANCELS…") is never hidden behind the fuller report it follows. The
  *  lead's details and every repeat (with ITS details) open on demand. */
@@ -130,7 +127,7 @@ function StoryItem({ s, compact, onTicker, active }: {
   return (
     <li className="news-item" data-testid="news-item">
       <div className="news-meta">
-        {/* the lead's own time — the row's headline and source are its; the
+        {/* the lead's own time — the row's headline is its; the
             day group follows the story's newest post, so name the day when
             the lead is from an earlier one */}
         <time dateTime={p.ts}>{etDay(p.ts) !== etDay(s.latest) && `${etDay(p.ts)} `}{etTime(p.ts)}</time>
@@ -141,13 +138,12 @@ function StoryItem({ s, compact, onTicker, active }: {
         {newest !== p && (
           <p className="news-latest" data-testid="news-latest">
             <span className="news-latest-tag">Latest · <time dateTime={newest.ts}>{etDay(newest.ts)} {etTime(newest.ts)}</time></span>{" "}
-            {newest.headline} <Source p={newest} />
+            {newest.headline}
           </p>
         )}
         <div className="news-tags">
           <Tags p={p} onTicker={onTicker} active={active} />
           {compact && s.also.length > 0 && <span className="subtitle news-also-n">+{s.also.length} more on this story</span>}
-          <Source p={p} />
         </div>
         {!compact && hasDetail(p) && (
           <details className="news-more">
@@ -161,7 +157,7 @@ function StoryItem({ s, compact, onTicker, active }: {
             <ol className="news-also">
               {s.also.map((a) => (
                 <li key={a.id}>
-                  <time dateTime={a.ts}>{etDay(a.ts)} {etTime(a.ts)}</time> {a.headline} <Source p={a} />
+                  <time dateTime={a.ts}>{etDay(a.ts)} {etTime(a.ts)}</time> {a.headline}
                   {hasDetail(a) && (
                     <details className="news-more news-also-detail">
                       <summary>Details</summary>
@@ -196,12 +192,7 @@ function BigNumbers({ stories }: { stories: Story[] }) {
               {c.rows.map(({ story, figure }) => (
                 <li key={story.lead.id}>
                   <span className="news-figure">{figure.label}</span>
-                  {story.lead.url ? (
-                    <a className="news-numbers-headline" href={story.lead.url} title={story.lead.headline}
-                       target="_blank" rel="noopener noreferrer nofollow">{story.lead.headline}</a>
-                  ) : (
-                    <span className="news-numbers-headline" title={story.lead.headline}>{story.lead.headline}</span>
-                  )}
+                  <span className="news-numbers-headline" title={story.lead.headline}>{story.lead.headline}</span>
                   <span className="subtitle">{etDay(story.latest)}</span>
                 </li>
               ))}

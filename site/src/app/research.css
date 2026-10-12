@@ -934,7 +934,6 @@ body.research-site .footer-meta { font-size: 12px; }
 .news-more .news-points, .news-more .news-impacted { margin-top: 6px; }
 .news-also { list-style: none; margin: 6px 0 0; padding: 0 0 0 12px; border-left: 2px solid var(--border); display: grid; gap: 6px; font-size: 13px; line-height: 1.5; }
 .news-also time { color: var(--muted); font-size: 12px; margin-right: 4px; font-variant-numeric: tabular-nums; }
-.news-also .news-src { margin-left: 6px; }
 .news-older { margin: 16px 0 0; }
 .news-numbers { margin: 4px 0 16px; padding: 16px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
 .news-numbers h2 { margin: 0 0 12px; font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
@@ -951,12 +950,9 @@ body.research-site .footer-meta { font-size: 12px; }
   .news-numbers li { grid-template-columns: 64px minmax(0, 1fr); }
   .news-numbers li .subtitle { display: none; }
 }
-a.news-numbers-headline { color: var(--text); text-decoration: none; }
-a.news-numbers-headline:hover { color: var(--accent-sky); text-decoration: underline; }
 .news-latest { margin: 6px 0 0; padding-left: 10px; border-left: 2px solid var(--accent-amber); font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
 .news-latest-tag { color: var(--accent-amber); font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
 .news-latest-tag time { text-transform: none; letter-spacing: 0; }
-.news-latest .news-src { margin-left: 6px; }
 .news-also-detail { margin-top: 2px; }
 
 /* --- /data: section rows, field previews and CSV beside DC/compute files --- */

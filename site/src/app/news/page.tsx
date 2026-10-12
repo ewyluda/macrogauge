@@ -25,9 +25,10 @@ export default function NewsPage() {
         the <Link href="/capacity">AI capacity tracker</Link> and the <Link href="/datacenter">data-center cost indexes</Link>.
       </p>
       <p className="lede">
-        <strong>Treat this as a secondary source.</strong> Posts come from a single social news feed: real headlines
-        mixed with commentary, unverified and sometimes wrong. Tickers are tagged by machine. Check the primary filing or
-        release before acting on any figure.
+        <strong>About the source.</strong> Posts come from an established market-news service that distributes its headlines
+        through a social channel, much as breaking news runs on X. Headlines run as the service published them. Tickers
+        are tagged by machine, so a tag can occasionally miss, and the primary filing or release stays the last word on any
+        figure.
       </p>
       <NewsFeed snapshot={news} />
       <section className="dc-method" aria-labelledby="news-method-title" style={{ marginTop: 32 }}>
