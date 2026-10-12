@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-12T12:49:18Z",
+  "published_at": "2026-10-12T13:24:20Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -16,7 +16,7 @@
   "indexes": {
     "build": {
       "as_of": "2026-10-12",
-      "headline_yoy_pct": 8.58,
+      "headline_yoy_pct": 8.57,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -6434,7 +6434,7 @@
         170.28,
         170.28,
         170.28,
-        170.39
+        170.38
       ],
       "yoy_pct": [
         3.05,
@@ -9643,7 +9643,7 @@
         8.52,
         8.52,
         8.52,
-        8.58
+        8.57
       ],
       "components": [
         {
@@ -9708,8 +9708,8 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-10-12",
-          "yoy_pct": 27.05,
-          "contribution_pp": 1.49,
+          "yoy_pct": 26.89,
+          "contribution_pp": 1.48,
           "stale": false
         },
         {
@@ -9719,8 +9719,8 @@
           "weight": 0.03,
           "mode": "official+proxy",
           "last_obs": "2026-10-12",
-          "yoy_pct": 14.47,
-          "contribution_pp": 0.43,
+          "yoy_pct": 14.57,
+          "contribution_pp": 0.44,
           "stale": false
         },
         {
@@ -10236,7 +10236,7 @@
           169.3111,
           170.611,
           170.3396,
-          170.391
+          170.3818
         ],
         "components": {
           "constr_wages": [
@@ -11611,7 +11611,7 @@
             195.8628,
             206.3461,
             204.3531,
-            209.195
+            208.9416
           ],
           "alum_shapes": [
             96.7196,
@@ -11840,7 +11840,7 @@
             205.3164,
             196.0408,
             189.7972,
-            182.6328
+            182.7911
           ],
           "switchgear": [
             85.7335,
@@ -16187,7 +16187,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 3.56
+          "contribution_pp": 3.55
         },
         {
           "group": "electrical",

@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-10-12",
-  "passed": 35,
+  "passed": 36,
   "total": 36,
   "checks": [
     {
@@ -144,8 +144,8 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": false,
-      "detail": "41/43 ok; failed \u2014 USDA: ConnectionError: HTTPSConnectionPool(host='marsapi.ams.usda.gov', port=443): Max retries exceeded with url: /services/v1.2/reports/2757/Report%20Details?q=report_begin_date%3D01%2F01%2F2017%3A10%2F12%2F2026%3Btype%3DWHITE+LARGE%3Benvironment%3DConventional%3Bcondition%3DFresh (Caused by NameResolutionError(\"HTTPSConnection(host='marsapi.ams.usda.gov', port=443): Failed to resolve 'marsapi.ams.usda.gov' ([Errno -3] Temporary failure in name resolution)\")); NEBIUS: ValueError: NEBIUS: unexpected price column 'GPU-hour' (structure drift?)"
+      "pass": true,
+      "detail": "43/43 ok"
     },
     {
       "name": "sources_fresh",

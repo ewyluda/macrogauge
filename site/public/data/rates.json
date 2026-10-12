@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-12T12:49:18Z",
+  "published_at": "2026-10-12T13:24:20Z",
   "curve": [
     {
       "code": "DGS1MO",
@@ -5105,10 +5105,10 @@
       },
       {
         "date": "2026-12-09",
-        "expected_upper": 4.245,
-        "implied_change_bp": 24.5,
-        "p_cut": 0.02,
-        "p_hold": 0.16,
+        "expected_upper": 4.2462,
+        "implied_change_bp": 24.6,
+        "p_cut": 0.015,
+        "p_hold": 0.165,
         "p_hike": 0.82
       }
     ],

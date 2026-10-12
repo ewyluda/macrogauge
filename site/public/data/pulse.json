@@ -1,18 +1,18 @@
 {
-  "published_at": "2026-10-12T12:49:18Z",
+  "published_at": "2026-10-12T13:24:20Z",
   "gauge": {
     "yoy_pct": 3.17,
     "as_of": "2026-10-12",
     "coverage_pct": 39.08,
-    "prev_yoy_pct": 3.18,
-    "prev_as_of": "2026-10-09"
+    "prev_yoy_pct": 3.17,
+    "prev_as_of": "2026-10-12"
   },
   "tracker": {
     "yoy_pct": 3.66,
     "as_of": "2026-10-12",
     "coverage_pct": 2.95,
-    "prev_yoy_pct": 3.67,
-    "prev_as_of": "2026-10-09"
+    "prev_yoy_pct": 3.66,
+    "prev_as_of": "2026-10-12"
   },
   "official": {
     "yoy_pct": 3.4,

@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-12T12:49:18Z",
+  "published_at": "2026-10-12T13:24:20Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,311 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-12T12:48:43Z",
-  "tape_last_post_at": "2026-10-12T12:47:11Z",
+  "feed_generated_at": "2026-10-12T13:23:58Z",
+  "tape_last_post_at": "2026-10-12T13:17:11Z",
   "age_hours": 0.01,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3A563B0FE426AF9DA094",
+      "ts": "2026-10-12T13:13:49Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Google ($GOOGL) unveiled Fitbit Edge, a $179.99 AI-powered fitness tracker replacing the Charge 6, with expanded health monitoring, improved GPS and personalized coaching. Availability begins October 27.",
+      "points": [
+        {
+          "label": "AI health coaching",
+          "text": "Google Health Coach provides personalized wellness guidance, while Health Guardian is described as monitoring blood pressure and insulin resistance trends."
+        },
+        {
+          "label": "Fitness tracking",
+          "text": "Supports 50+ exercise modes, automatically recognizes 100 workouts and offers up to 40% improved GPS accuracy."
+        },
+        {
+          "label": "Health sensors",
+          "text": "Includes ECG, continuous heart-rate monitoring and advanced sleep tracking."
+        },
+        {
+          "label": "Display and battery",
+          "text": "Features a Hybrid OLED display with 46% more viewing area, up to seven days of battery life and five-minute fast charging."
+        },
+        {
+          "label": "Pricing",
+          "text": "Standard model starts at $179.99; Stephen Curry Special Edition costs $219.99. Includes a three-month Google Health Premium trial."
+        },
+        {
+          "label": "Market competition",
+          "text": "The launch expands Google's AI-powered wearable offerings, positioning Fitbit more directly against Apple's ($AAPL) health and fitness ecosystem."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18786",
+      "has_media": true
+    },
+    {
+      "id": "3AB688B3CF7B736AEC25",
+      "ts": "2026-10-12T13:11:52Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Microsoft ($MSFT) unveiled Maia 300, its third-generation custom AI processor, with plans for multi-gigawatt deployments beginning in 2027 that could exceed 1 million chips. The company claims 40% greater computing efficiency per megawatt than leading GPU-based systems.",
+      "points": [
+        {
+          "label": "AI performance",
+          "text": "Maia 300 is optimized for complex AI workloads, including coding and autonomous agents. Microsoft claims 40% more useful computing per megawatt but did not disclose which GPU systems were used for comparison."
+        },
+        {
+          "label": "Deployment scale",
+          "text": "Microsoft plans to use Maia 300 across its internal AI services, potentially deploying more than 1 million processors beginning next year."
+        },
+        {
+          "label": "Chip architecture",
+          "text": "Uses a chiplet design combining TSMC ($TSM) 2nm processors with lower-cost 3nm components to optimize computing performance and data movement."
+        },
+        {
+          "label": "Rack specifications",
+          "text": "Maia 300 racks contain 96 chips consuming approximately 167 kW, compared with NVIDIA's ($NVDA) GB300 racks containing 72 GPUs consuming 142 kW."
+        },
+        {
+          "label": "Capital investment",
+          "text": "Microsoft expects more than $175 billion in capital expenditures during calendar 2026 as it expands AI infrastructure."
+        },
+        {
+          "label": "Competitive strategy",
+          "text": "Custom Maia processors aim to improve Microsoft's AI computing efficiency and reduce reliance on third-party GPUs, particularly NVIDIA hardware."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "TSM",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18785",
+      "has_media": false
+    },
+    {
+      "id": "3A7F86D27B78AF1FC3BB",
+      "ts": "2026-10-12T13:11:01Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Marvell Technology ($MRVL) unveiled its second-generation Structera X 3406 and 3506 memory expansion controllers, designed to increase AI inference performance and memory capacity while reducing infrastructure costs. Customer sampling is expected in Q1 2027.",
+      "points": [
+        {
+          "label": "Memory expansion",
+          "text": "Six DDR4/DDR5 channels, 50% more than the previous generation, support up to 9TB of DDR4 or 6TB of DDR5 memory per controller."
+        },
+        {
+          "label": "AI inference performance",
+          "text": "Marvell claims up to 40\u201350% faster time to first token, 2x longer context windows at equivalent latency and 2x higher query throughput for recommendation workloads."
+        },
+        {
+          "label": "Memory efficiency",
+          "text": "Built-in LZ4 compression delivers up to 2\u20133x more effective memory capacity, with 250GB/s compression throughput, 5x the previous generation."
+        },
+        {
+          "label": "Industry partnerships",
+          "text": "AMD ($AMD), Arm ($ARM), Alibaba ($BABA), Samsung and SK hynix are collaborating on CXL integration and memory validation."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMD",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "ARM",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "MRVL",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18784",
+      "has_media": true
+    },
+    {
+      "id": "3A30ED57F3AA03E0A00C",
+      "ts": "2026-10-12T13:06:59Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Astera Labs ($ALAB) unveiled Orion, a modular, GPU- and CPU-agnostic rack-scale architecture designed to accelerate AI infrastructure deployment and improve inference efficiency. Initial reference designs are expected in Q1 2027.",
+      "points": [
+        {
+          "label": "Hardware flexibility",
+          "text": "Orion allows customers to select and replace CPUs and GPUs based on availability, cost and workload requirements without redesigning entire racks."
+        },
+        {
+          "label": "AI performance",
+          "text": "Its 320-lane PCIe switch fabric supports 8\u2013160 accelerators per pod, targeting higher token throughput, lower latency and improved inference economics."
+        },
+        {
+          "label": "Modular infrastructure",
+          "text": "Six production-grade reference designs cover racks, compute trays, fabric trays, memory trays, link boards and compute boards, reducing integration and validation time."
+        },
+        {
+          "label": "Software management",
+          "text": "COSMOS Rack Manager and Fabric Manager provide orchestration, monitoring, diagnostics and fleet-wide infrastructure management."
+        },
+        {
+          "label": "Open standards",
+          "text": "Built around PCIe connectivity, with plans to support additional interconnects, including UALink, to reduce dependence on individual hardware platforms."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "ALAB",
+          "layer": "Networking"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18781",
+      "has_media": false
+    },
+    {
+      "id": "3A5F9D73FAF8529FBEA4",
+      "ts": "2026-10-12T13:04:11Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "MICROSOFT MAIA 300 TO DELIVER 40% MORE TOKENS PER MEGAWATT.",
+      "points": [
+        {
+          "label": null,
+          "text": "MICROSOFT MAIA 300 TO BEGIN PRODUCTION DEPLOYMENTS IN 2027."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18780",
+      "has_media": false
+    },
+    {
+      "id": "3AE410DFAF3827A35C8F",
+      "ts": "2026-10-12T13:02:52Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "AMD ($AMD) introduced Helion, an open rack-scale AI infrastructure design built for autonomous AI agents, combining high-density EPYC CPUs, Instinct GPUs and flexible computing configurations. Partner-built systems are expected in November 2026.",
+      "points": [
+        {
+          "label": "CPU-only configuration",
+          "text": "Powered by 6th Gen AMD EPYC processors, supporting up to 32,768 CPU cores per rack for large-scale AI agent execution."
+        },
+        {
+          "label": "Integrated CPU/GPU design",
+          "text": "Combines EPYC processors, Instinct MI350P GPUs and general-purpose compute in a single rack for enterprise AI agents, model inference and supporting workloads."
+        },
+        {
+          "label": "AI software",
+          "text": "Includes an integrated token router that directs AI agent requests across frontier and open-source models, helping optimize computing resources."
+        },
+        {
+          "label": "Open architecture",
+          "text": "Supports air and liquid cooling, with customizable CPU/GPU configurations to match performance, power and cost requirements. AMD plans to contribute the Helion specification to the Open Compute Project (OCP)."
+        },
+        {
+          "label": "Industry partners",
+          "text": "Cisco ($CSCO), Dell ($DELL), Foxconn, HPE ($HPE), Lenovo, QCT, Supermicro ($SMCI) and Wiwynn are supporting the design and its development."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMD",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "CSCO",
+          "layer": "Networking"
+        },
+        {
+          "ticker": "DELL",
+          "layer": "Servers & Storage"
+        },
+        {
+          "ticker": "HPE",
+          "layer": "Servers & Storage"
+        },
+        {
+          "ticker": "SMCI",
+          "layer": "Servers & Storage"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18779",
+      "has_media": false
+    },
+    {
+      "id": "3A5DD4BEF78C29A08606",
+      "ts": "2026-10-12T13:01:56Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "MICROSOFT PREPARES TO DEPLOY GIGAWATTS OF ITS CHIPS IN DATA CENTERS.",
+      "points": [
+        {
+          "label": null,
+          "text": "MICROSOFT TO SCALE AZURE MAIA TO MULTI-GIGAWATT CAPACITY IN 2027."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18778",
+      "has_media": false
+    },
+    {
+      "id": "3A449766037A7BD8F088",
+      "ts": "2026-10-12T12:53:18Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Zeta Global ($ZETA) received two price-target increases Monday, with Roth MKM raising its target to $55 and Craig-Hallum lifting its target to $38. Both firms maintained Buy ratings following Zeta's recent AI product announcements.",
+      "points": [
+        {
+          "label": "Roth MKM",
+          "text": "Raised its target to $55 from $44 (+25%), citing AthenaOS's potential to attract larger enterprise customers, increase spending per customer and accelerate growth in 2027. Highlighted partnerships with Palantir, Snowflake and OpenAI."
+        },
+        {
+          "label": "Craig-Hallum",
+          "text": "Raised its target to $38 from $30 (+26.7%), citing major Athena upgrades, an NVIDIA chip agreement, two acquisitions and record Zeta Live attendance indicating a strong sales pipeline."
+        },
+        {
+          "label": "Stock price",
+          "text": "ZETA last traded at $33.44 (+1.06%) in the premarket, implying approximately 64.5% upside to Roth's target and 13.6% to Craig-Hallum's."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18776",
+      "has_media": false
+    },
     {
       "id": "3A8BAC1BC135D0ABFE4D",
       "ts": "2026-10-12T12:19:10Z",
@@ -4996,78 +5296,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18004",
       "has_media": true
-    },
-    {
-      "id": "3A470C869FD7086E1389",
-      "ts": "2026-10-05T13:07:34Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$SNPS Synopsys entered a $1B accelerated share repurchase agreement with $JPM JPMorgan Chase Bank, immediately advancing a sizable portion of its capital-return program.",
-      "points": [
-        {
-          "label": "Initial delivery",
-          "text": "Synopsys will receive about 1.735M shares upfront under the agreement."
-        },
-        {
-          "label": "Final settlement",
-          "text": "Any remaining shares will be delivered by Jan. 5, 2027, when the ASR is completed."
-        },
-        {
-          "label": "Pricing",
-          "text": "The final number of shares repurchased will depend on Synopsys\u2019 average daily volume-weighted share price during the repurchase period, less an agreed discount."
-        },
-        {
-          "label": "Capital return",
-          "text": "The structure allows Synopsys to retire a large block of stock quickly while finalizing the ultimate share count over the coming months."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "SNPS",
-          "layer": "Semi Equipment"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17995",
-      "has_media": true
-    },
-    {
-      "id": "3A7E023D42081B308011",
-      "ts": "2026-10-05T13:04:01Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Clockwork. io raised $31M to expand AI fault-tolerance software already deployed by LinkedIn and Together AI, while $WYFI WhiteFiber is broadening adoption across its GPU infrastructure.",
-      "points": [
-        {
-          "label": "GPU savings",
-          "text": "LinkedIn, owned by $MSFT Microsoft, says Clockwork. io prevents tens of thousands of GPU-hours of downtime each month by rerouting traffic around network failures."
-        },
-        {
-          "label": "Resilience",
-          "text": "TorchPass can migrate workloads off failing GPUs and now snapshot entire multi-node training jobs without code changes, while LinkPass keeps workloads running through link failures."
-        },
-        {
-          "label": "AI performance",
-          "text": "New asynchronous checkpoints are designed to reduce lost work and speed reinforcement learning by delivering updated model weights to inference replicas faster."
-        },
-        {
-          "label": "Funding",
-          "text": "The $31M round brings total funding to $73M and will support expansion across AI training, inference and reinforcement learning, plus broader enterprise and cloud adoption."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "WYFI",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/17993",
-      "has_media": false
     }
   ]
 }
