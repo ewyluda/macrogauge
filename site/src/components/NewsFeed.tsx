@@ -200,7 +200,7 @@ function BigNumbers({ stories }: { stories: Story[] }) {
           </div>
         ))}
       </div>
-      <p className="subtitle">As stated in each post&apos;s headline; forecasts and revenue targets are left out. Unverified.</p>
+      <p className="subtitle">As stated in each post&apos;s headline; forecasts and revenue targets are left out.</p>
     </section>
   );
 }
