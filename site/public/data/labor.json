@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-09T12:49:34Z",
+  "published_at": "2026-10-12T12:49:18Z",
   "payrolls": {
     "level_k": 159044,
     "mom_change_k": 29,
@@ -19,7 +19,7 @@
   },
   "wages": {
     "ahe_yoy_pct": 3.02,
-    "atlanta_wgt_pct": 4.1,
+    "atlanta_wgt_pct": 3.9,
     "as_of": "2026-09-01"
   },
   "construction": {
