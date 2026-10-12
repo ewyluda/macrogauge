@@ -300,7 +300,8 @@ def fetch_nebius(source_ids: list[str], vintage_date: str | None = None, http_ge
     """source_id = '<row name>' e.g. 'NVIDIA HGX H100'. Only the on-demand
     table is read: it runs from the 'NVIDIA GPU Instances' header row
     (Item | vCPUs | RAM, GB | <price columns>) to the 'Preemptible' (spot)
-    table. Each price column must be 'On-demand, GPU-hour' or 'GPU-hour
+    table. Each price column must be 'On-demand, GPU-hour' (plain 'GPU-hour'
+    when no change is scheduled, since 2026-10-12) or 'GPU-hour
     (Effective <Month D, YYYY>)'; the price used is the latest column already
     in effect on the vintage date. Any other header, a row of the wrong width
     or a tracked row priced as 'from $X' / 'Contact us' fails loudly."""
@@ -317,7 +318,7 @@ def fetch_nebius(source_ids: list[str], vintage_date: str | None = None, http_ge
     while i < len(cells) and not cells[i].startswith("NVIDIA "):
         h = cells[i]
         m = re.fullmatch(r"GPU-hour \(Effective (\w+ \d{1,2}, \d{4})\)", h)
-        if h == "On-demand, GPU-hour":
+        if h in ("On-demand, GPU-hour", "GPU-hour"):
             effective.append("")
         elif m:
             effective.append(datetime.strptime(m.group(1), "%B %d, %Y").date().isoformat())
@@ -325,7 +326,7 @@ def fetch_nebius(source_ids: list[str], vintage_date: str | None = None, http_ge
             raise ValueError(f"NEBIUS: unexpected price column {h!r} (structure drift?)")
         i += 1
     if not effective or effective[0] != "":
-        raise ValueError("NEBIUS: first price column is not 'On-demand, GPU-hour' (structure drift?)")
+        raise ValueError("NEBIUS: first price column is not the on-demand GPU-hour (structure drift?)")
     col = max(k for k, d in enumerate(effective) if d <= vintage)
     end = next((j for j in range(i, len(cells)) if cells[j].startswith("Preemptible")), None)
     if end is None:

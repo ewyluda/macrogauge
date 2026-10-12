@@ -16,6 +16,9 @@ AZURE_RES = json.loads((FX / "azure_gpu_reserved.json").read_text())
 OCI = json.loads((FX / "oci_products.json").read_text())
 COREWEAVE = (FX / "coreweave_pricing.html").read_text()
 NEBIUS = (FX / "nebius_prices.html").read_text()
+# 2026-10-12: the scheduled column took effect and the page now carries a single
+# "GPU-hour" column (the "On-demand, " prefix dropped), same stripping
+NEBIUS_ONE_COL = (FX / "nebius_prices_single_column.html").read_text()
 NEB_IDS = ["NVIDIA HGX H100", "NVIDIA HGX H200", "NVIDIA HGX B200", "NVIDIA HGX B300"]
 V = "2026-10-07"
 
@@ -230,6 +233,12 @@ def test_nebius_uses_the_column_in_effect_on_the_vintage_date():
     assert {o.source for o in after} == {"NEBIUS"} and {o.route for o in after} == {"SCRAPE"}
     before = cloudgpu.fetch_nebius(NEB_IDS, vintage_date="2026-09-30", http_get=_get(text=NEBIUS))
     assert {o.series_code: o.value for o in before}["NVIDIA HGX H100"] == 3.85
+
+
+def test_nebius_single_gpu_hour_column_is_the_on_demand_price():
+    obs = cloudgpu.fetch_nebius(NEB_IDS, vintage_date="2026-10-12", http_get=_get(text=NEBIUS_ONE_COL))
+    assert {o.series_code: o.value for o in obs} == {
+        "NVIDIA HGX H100": 4.5, "NVIDIA HGX H200": 5.4, "NVIDIA HGX B200": 8.5, "NVIDIA HGX B300": 9.5}
 
 
 def test_nebius_reads_only_the_on_demand_table():

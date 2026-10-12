@@ -113,15 +113,17 @@ class _B:
 
 
 def test_sce_medians_stored_by_survey_month():
-    # fixture: the live 2026-10-01 workbook trimmed to the title block, the
-    # header row and the last 30 months of the two sheets read (values untouched)
-    obs = nyfed.fetch(["SCE_1Y", "SCE_3Y", "SCE_5Y"], vintage_date="2026-10-01",
+    # fixture: the live 2026-10-12 workbook trimmed to the title block, the
+    # header row and the last 30 months of 'Inflation expectations' (values
+    # untouched). The 5-year median moved into that sheet in Oct 2026; the old
+    # 'Five-year ahead Infl Exp' sheet is gone (same values, 56 months checked).
+    obs = nyfed.fetch(["SCE_1Y", "SCE_3Y", "SCE_5Y"], vintage_date="2026-10-12",
                       http_get=lambda url, timeout=None: _B(SCE_XLSX))
     last = {o.series_code: (o.obs_date, o.value) for o in obs}
-    assert last["nyfed_sce_1y"] == ("2026-08-01", 3.5794)
-    assert last["nyfed_sce_3y"] == ("2026-08-01", 3.1878)
-    assert last["nyfed_sce_5y"] == ("2026-08-01", 3.0081)
-    assert {(o.source, o.route, o.vintage_date) for o in obs} == {("NYFED", "XLSX", "2026-10-01")}
+    assert last["nyfed_sce_1y"] == ("2026-09-01", 3.9027)
+    assert last["nyfed_sce_3y"] == ("2026-09-01", 3.2503)
+    assert last["nyfed_sce_5y"] == ("2026-09-01", 2.9951)
+    assert {(o.source, o.route, o.vintage_date) for o in obs} == {("NYFED", "XLSX", "2026-10-12")}
 
 
 def test_sce_renamed_header_is_drift_and_does_not_take_gscpi_down():
