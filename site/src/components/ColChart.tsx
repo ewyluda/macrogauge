@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { EChart } from "./EChart";
 import { C, NBER_RECESSIONS, baseOption } from "@/lib/chartTheme";
 import { rateLabel, rateSeries } from "@/lib/momentum";
+import { pairWithBreaks } from "@/lib/chartPairs";
 import { RateModeControl, useRateMode } from "./RateModeControl";
 import { SegmentedControl } from "./SegmentedControl";
 import { sliceSince, windowStart } from "@/lib/chartWindow";
@@ -10,18 +11,6 @@ import { codecs } from "@/lib/urlState";
 import { useUrlState } from "@/lib/useUrlState";
 
 const WINDOWS = [{ key: "24m", label: "24M" }, { key: "all", label: "SINCE 2019" }] as const;
-
-
-type Pt = [string, number];
-
-function pair(xs: string[], ys: (number | null)[]): Pt[] {
-  const out: Pt[] = [];
-  xs.forEach((x, i) => {
-    const y = ys[i];
-    if (y !== null && y !== undefined) out.push([x, y]);
-  });
-  return out;
-}
 
 /** Cost of Living (orange) vs the headline gauge (sky), daily YoY, with the
  *  official CPI print stepped in dashed grey for the monthly ground truth.
@@ -65,7 +54,7 @@ export function ColChart({
         {
           name: `Cost of Living${suffix}`,
           type: "line",
-          data: pair(full.dates, colS),
+          data: pairWithBreaks(full.dates, colS),
           showSymbol: false,
           lineStyle: { width: 2, color: C.col },
           itemStyle: { color: C.col },
@@ -86,7 +75,7 @@ export function ColChart({
         {
           name: `Macrogauge${suffix}`,
           type: "line",
-          data: pair(full.dates, gaugeS),
+          data: pairWithBreaks(full.dates, gaugeS),
           showSymbol: false,
           lineStyle: { width: 1.5, color: C.sky },
           itemStyle: { color: C.sky },
@@ -95,7 +84,7 @@ export function ColChart({
           name: "Official CPI",
           type: "line",
           step: "end",
-          data: pair(offc.dates, offc.series[0]),
+          data: pairWithBreaks(offc.dates, offc.series[0]),
           showSymbol: false,
           lineStyle: { width: 1.5, type: "dashed", color: C.muted },
           itemStyle: { color: C.muted },

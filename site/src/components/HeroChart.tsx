@@ -4,26 +4,8 @@ import { EChart } from "./EChart";
 import { C, NBER_RECESSIONS, baseOption } from "@/lib/chartTheme";
 import { sliceSince, windowStart } from "@/lib/chartWindow";
 import { rateLabel, rateSeries } from "@/lib/momentum";
+import { pairWithBreaks } from "@/lib/chartPairs";
 import { RateModeControl, useRateMode } from "./RateModeControl";
-
-type Pt = [string, number | null];
-
-/** [x, y] points without the leading/trailing nulls (a series that starts
- *  late or ends early). An interior null stays as a break, so the line does
- *  not bridge an undefined stretch — a 3/6-month rate touching a month BLS
- *  never printed (October 2025) — with a made-up straight segment. */
-function pair(xs: string[], ys: (number | null)[]): Pt[] {
-  const out: Pt[] = [];
-  xs.forEach((x, i) => {
-    const y = ys[i];
-    out.push([x, y ?? null]);
-  });
-  const first = out.findIndex((p) => p[1] !== null);
-  if (first < 0) return [];
-  let last = out.length - 1;
-  while (out[last][1] === null) last--;
-  return out.slice(first, last + 1);
-}
 
 export function HeroChart({
   dates,
@@ -110,7 +92,7 @@ export function HeroChart({
           {
             name: `Macrogauge (CPI-comparable)${suffix}`,
             type: "line",
-            data: pair(daily.dates, g),
+            data: pairWithBreaks(daily.dates, g),
             showSymbol: false,
             lineStyle: { width: 2, color: C.sky },
             itemStyle: { color: C.sky },
@@ -134,7 +116,7 @@ export function HeroChart({
           {
             name: `CPI-Tracker${suffix}`,
             type: "line",
-            data: pair(daily.dates, t),
+            data: pairWithBreaks(daily.dates, t),
             showSymbol: false,
             lineStyle: { width: 1.5, color: C.violet },
             itemStyle: { color: C.violet },
@@ -145,7 +127,7 @@ export function HeroChart({
                 {
                   name: `Cost of Living${suffix}`,
                   type: "line",
-                  data: pair(daily.dates, c),
+                  data: pairWithBreaks(daily.dates, c),
                   showSymbol: false,
                   lineStyle: { width: 1.5, color: C.col },
                   itemStyle: { color: C.col },
@@ -156,7 +138,7 @@ export function HeroChart({
             name: "Official CPI",
             type: "line",
             step: "end",
-            data: pair(monthly.dates, o),
+            data: pairWithBreaks(monthly.dates, o),
             showSymbol: false,
             lineStyle: { width: 1.5, type: "dashed", color: C.muted },
             itemStyle: { color: C.muted },
@@ -165,7 +147,7 @@ export function HeroChart({
             name: "Official Core",
             type: "line",
             step: "end",
-            data: pair(monthly.dates, k),
+            data: pairWithBreaks(monthly.dates, k),
             showSymbol: false,
             lineStyle: { width: 1.5, type: "dashed", color: "#5B6873" },
             itemStyle: { color: "#5B6873" },
