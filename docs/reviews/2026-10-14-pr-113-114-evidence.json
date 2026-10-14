@@ -1,0 +1,217 @@
+{
+  "date": "2026-10-14",
+  "pull_requests": [
+    {
+      "baseRefName": "fix/oct2025-hole-pipeline",
+      "headRefOid": "c1aa25123dec48fe7a2c7a53b59b5031bc56fa3a",
+      "number": 114,
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-14T22:56:56Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/38650870633/job/116149034777",
+          "name": "pipeline",
+          "startedAt": "2026-10-14T22:55:38Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-14T22:58:32Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/38650870633/job/116149034545",
+          "name": "site",
+          "startedAt": "2026-10-14T22:55:38Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-14T22:56:28Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/D3kdEyG78fC3yCkJ9cRq4YPc2vyX"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-14T22:56:29Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-14T22:56:29Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ],
+      "title": "fix(site): stop charts bridging the never-published Oct 2025 print; note the walked-back CPI YoY",
+      "url": "https://github.com/ewyluda/macrogauge/pull/114"
+    },
+    {
+      "baseRefName": "main",
+      "headRefOid": "6413ac182bd294f4d4c98baf31e7528371afbea4",
+      "number": 113,
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-14T22:44:42Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/38649510782/job/116144542342",
+          "name": "pipeline",
+          "startedAt": "2026-10-14T22:42:55Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-14T22:45:57Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ewyluda/macrogauge/actions/runs/38649510782/job/116144542091",
+          "name": "site",
+          "startedAt": "2026-10-14T22:42:55Z",
+          "status": "COMPLETED",
+          "workflowName": "ci"
+        },
+        {
+          "__typename": "StatusContext",
+          "context": "Vercel",
+          "startedAt": "2026-10-14T22:43:45Z",
+          "state": "SUCCESS",
+          "targetUrl": "https://vercel.com/cloudten/macrogauge/HafHQ6V2PEzvJ3uk4QhibRZWCcFa"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-14T22:43:46Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://vercel.com/github",
+          "name": "Vercel Preview Comments",
+          "startedAt": "2026-10-14T22:43:46Z",
+          "status": "COMPLETED",
+          "workflowName": ""
+        }
+      ],
+      "title": "fix(pipeline): stop bridging the never-published October 2025 BLS print",
+      "url": "https://github.com/ewyluda/macrogauge/pull/113"
+    }
+  ],
+  "pr113_base": "9ad8ed502584526f4d1661356f033dbe4000f2d8",
+  "pr114_base": "6413ac182bd294f4d4c98baf31e7528371afbea4",
+  "python_probe": {
+    "as_of": "2026-10-14",
+    "head": "c1aa25123dec48fe7a2c7a53b59b5031bc56fa3a",
+    "used_vehicles": {
+      "mode": "live",
+      "last_obs": "2026-10-01",
+      "actual_gaps": [
+        "2026-02",
+        "2026-04",
+        "2026-06",
+        "2026-09"
+      ],
+      "published_gaps": [],
+      "april_base_is_carried_march": true
+    },
+    "hybrid_electricity": {
+      "mode": "live",
+      "actual_gaps": [
+        "2025-10"
+      ],
+      "published_gaps": []
+    },
+    "pr113_controls": "calendar momentum, calendar median and partial-basket interpolation passed"
+  },
+  "javascript_probe": {
+    "used_vehicles": {
+      "own_date": "2026-10-01",
+      "six_month_base": "2026-04-01",
+      "published_gap_metadata": [],
+      "current_six_month_rate": -8.542696363459424,
+      "with_actual_gap_metadata": null
+    },
+    "charts": {
+      "ColChart": {
+        "october_points": 0,
+        "january_points": 0,
+        "interior_nulls": 0
+      },
+      "HeroChart": {
+        "october_points": 31,
+        "january_points": 31,
+        "interior_nulls": 62
+      }
+    }
+  },
+  "browser": {
+    "fixture": "Isolated git archive of c1aa251 with replay.json and gauge_daily.json regenerated offline from its store",
+    "cost_of_living_ann3": {
+      "url": "http://127.0.0.1:4175/cost-of-living?rate=ann3",
+      "series": [
+        {
+          "name": "Cost of Living",
+          "points": 669,
+          "nulls": 0,
+          "october_points": 0,
+          "boundary": [
+            [
+              "2025-09-30",
+              -6.213153267208904
+            ],
+            [
+              "2025-11-01",
+              -8.70078062109374
+            ],
+            [
+              "2025-12-31",
+              -3.3505140627680396
+            ],
+            [
+              "2026-02-01",
+              2.335430174689912
+            ]
+          ]
+        },
+        {
+          "name": "Macrogauge",
+          "points": 669,
+          "nulls": 0,
+          "october_points": 0,
+          "boundary": [
+            [
+              "2025-09-30",
+              0.9773157936371124
+            ],
+            [
+              "2025-11-01",
+              -2.0194519721559723
+            ],
+            [
+              "2025-12-31",
+              -3.3271701441141
+            ],
+            [
+              "2026-02-01",
+              2.8694134184878095
+            ]
+          ]
+        }
+      ]
+    },
+    "used_vehicles_kpi": "Momentum\u221212.5%3m annualized \u00b7 6m \u22128.5% \u00b7 at own last obs 2026-10-01",
+    "home_ann3_control": {
+      "nulls_per_series": 62,
+      "october_points_per_series": 31,
+      "console_errors": 0,
+      "console_warnings": 0
+    }
+  },
+  "validation": {
+    "python": "1348 passed",
+    "vitest": "480 passed; 70 files",
+    "lint": "passed",
+    "build": "passed",
+    "committed_artifact_e2e": "246 passed",
+    "regenerated_artifact_e2e_initial": "245 passed; ledger build-sha check failed because git archive lacks .git",
+    "regenerated_artifact_ledger_recheck": "1 passed after rebuilding with GITHUB_SHA=c1aa25123dec48fe7a2c7a53b59b5031bc56fa3a; 245 other tests not repeated",
+    "tracked_files_unchanged": true
+  }
+}

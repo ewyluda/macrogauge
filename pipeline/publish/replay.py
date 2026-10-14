@@ -9,6 +9,7 @@ from pathlib import Path
 
 from pipeline.engine import aggregate
 from pipeline.engine.gauge import PUBLISH_START
+from pipeline.publish.util import missing_months
 
 
 def build(gauge_result: dict, comps) -> dict:
@@ -32,6 +33,8 @@ def build(gauge_result: dict, comps) -> dict:
             # receipts without a second artifact
             "last_obs": e.get("last_obs"),
             "gate_flags": [f for f in g.get("gate_flags", []) if f.startswith(f"{comp.code}@")],
+            # months the component never printed (util.missing_months)
+            "missing_months": missing_months(e.get("obs_dates")),
             "index": [round(e["daily_index"][d], 2) for d in dates],
             "bls_index": [round(e["official_daily_index"][d], 2)
                           for d in dates],

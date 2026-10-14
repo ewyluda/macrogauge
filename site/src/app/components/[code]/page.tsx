@@ -63,8 +63,8 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
   const bls = contributionsAt(replay.components, "bls", last, replay.dates[last]);
   const contrib = ours?.find((x) => x.code === code)?.pp ?? null;
   const blsContrib = bls?.find((x) => x.code === code)?.pp ?? null;
-  const ann3 = annualizedAt(rc.index, replay.dates, RATE_LOOKBACK_MONTHS.ann3, own);
-  const ann6 = annualizedAt(rc.index, replay.dates, RATE_LOOKBACK_MONTHS.ann6, own);
+  const ann3 = annualizedAt(rc.index, replay.dates, RATE_LOOKBACK_MONTHS.ann3, own, rc.missing_months);
+  const ann6 = annualizedAt(rc.index, replay.dates, RATE_LOOKBACK_MONTHS.ann6, own, rc.missing_months);
   const gapRow = gaptable.rows.find((r) => r.component === code);
   const path = outlook.component_paths[code] ?? [];
   const idx = COMPONENTS.findIndex((x) => x.code === code);

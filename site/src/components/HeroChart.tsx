@@ -4,18 +4,8 @@ import { EChart } from "./EChart";
 import { C, NBER_RECESSIONS, baseOption } from "@/lib/chartTheme";
 import { sliceSince, windowStart } from "@/lib/chartWindow";
 import { rateLabel, rateSeries } from "@/lib/momentum";
+import { pairWithBreaks } from "@/lib/chartPairs";
 import { RateModeControl, useRateMode } from "./RateModeControl";
-
-type Pt = [string, number];
-
-function pair(xs: string[], ys: (number | null)[]): Pt[] {
-  const out: Pt[] = [];
-  xs.forEach((x, i) => {
-    const y = ys[i];
-    if (y !== null && y !== undefined) out.push([x, y]);
-  });
-  return out;
-}
 
 export function HeroChart({
   dates,
@@ -31,6 +21,7 @@ export function HeroChart({
   colIndex,
   markers,
   overview = false,
+  missingMonths = [],
 }: {
   dates: string[];
   gauge: (number | null)[];
@@ -49,13 +40,16 @@ export function HeroChart({
   /** vertical rules — CPI release days and the next scheduled print (batch 5d) */
   markers?: { date: string; label: string }[];
   overview?: boolean;
+  /** "YYYY-MM" months an official component never printed (gauge_daily
+   *  missing_months): 3/6-month rates touching them are nulled */
+  missingMonths?: readonly string[];
 }) {
   const [allComparisons, setAllComparisons] = useState(false);
   const [rate, setRate] = useRateMode();
   const momentum = rate !== "yoy" && !!gaugeIndex;
-  const gaugeS = useMemo(() => rateSeries(rate, gauge, gaugeIndex, dates), [rate, gauge, gaugeIndex, dates]);
-  const trackerS = useMemo(() => rateSeries(rate, tracker, trackerIndex, dates), [rate, tracker, trackerIndex, dates]);
-  const colS = useMemo(() => (col ? rateSeries(rate, col, colIndex, dates) : undefined), [rate, col, colIndex, dates]);
+  const gaugeS = useMemo(() => rateSeries(rate, gauge, gaugeIndex, dates, missingMonths), [rate, gauge, gaugeIndex, dates, missingMonths]);
+  const trackerS = useMemo(() => rateSeries(rate, tracker, trackerIndex, dates, missingMonths), [rate, tracker, trackerIndex, dates, missingMonths]);
+  const colS = useMemo(() => (col ? rateSeries(rate, col, colIndex, dates, missingMonths) : undefined), [rate, col, colIndex, dates, missingMonths]);
   // The window is cut from the data, not just the axis: ECharts sizes the
   // y-axis from every point in a series, including those clipped by
   // `xAxis.min`, so the 2022 spike would otherwise crush the visible lines.
@@ -98,7 +92,7 @@ export function HeroChart({
           {
             name: `Macrogauge (CPI-comparable)${suffix}`,
             type: "line",
-            data: pair(daily.dates, g),
+            data: pairWithBreaks(daily.dates, g),
             showSymbol: false,
             lineStyle: { width: 2, color: C.sky },
             itemStyle: { color: C.sky },
@@ -122,7 +116,7 @@ export function HeroChart({
           {
             name: `CPI-Tracker${suffix}`,
             type: "line",
-            data: pair(daily.dates, t),
+            data: pairWithBreaks(daily.dates, t),
             showSymbol: false,
             lineStyle: { width: 1.5, color: C.violet },
             itemStyle: { color: C.violet },
@@ -133,7 +127,7 @@ export function HeroChart({
                 {
                   name: `Cost of Living${suffix}`,
                   type: "line",
-                  data: pair(daily.dates, c),
+                  data: pairWithBreaks(daily.dates, c),
                   showSymbol: false,
                   lineStyle: { width: 1.5, color: C.col },
                   itemStyle: { color: C.col },
@@ -144,7 +138,7 @@ export function HeroChart({
             name: "Official CPI",
             type: "line",
             step: "end",
-            data: pair(monthly.dates, o),
+            data: pairWithBreaks(monthly.dates, o),
             showSymbol: false,
             lineStyle: { width: 1.5, type: "dashed", color: C.muted },
             itemStyle: { color: C.muted },
@@ -153,7 +147,7 @@ export function HeroChart({
             name: "Official Core",
             type: "line",
             step: "end",
-            data: pair(monthly.dates, k),
+            data: pairWithBreaks(monthly.dates, k),
             showSymbol: false,
             lineStyle: { width: 1.5, type: "dashed", color: "#5B6873" },
             itemStyle: { color: "#5B6873" },

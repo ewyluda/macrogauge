@@ -35,3 +35,16 @@ def test_write_validates_against_schema(tmp_path):
                              published_at="2026-07-08T12:00:00Z")
     assert path == tmp_path / "gauge_daily.json"
     validate.validate_file(path, SCHEMAS / "gauge_daily.schema.json")
+
+
+def test_variant_lists_months_its_official_components_never_printed(tmp_path):
+    import copy
+    result = copy.deepcopy(RESULT)
+    result["variants"]["gauge"]["components"] = {
+        "food": {"mode": "bls_cf", "obs_dates": ["2025-09-01", "2025-11-01"]},
+        "used": {"mode": "live", "obs_dates": ["2026-01-31", "2026-03-03"]}}
+    p = gauge_daily.build(result)
+    assert p["variants"]["gauge"]["missing_months"] == ["2025-10"]
+    assert p["variants"]["tracker"]["missing_months"] == []
+    validate.validate_file(gauge_daily.write(p, tmp_path, "T"),
+                           SCHEMAS / "gauge_daily.schema.json")

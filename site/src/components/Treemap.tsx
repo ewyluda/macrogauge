@@ -23,6 +23,7 @@ type Replay = {
     yoy: (number | null)[];
     bls_yoy: (number | null)[];
     weights_by_month?: Record<string, number>;
+    missing_months?: string[];
   }[];
 };
 
@@ -42,14 +43,20 @@ const pct = (a: number, b: number) => (a / b - 1) * 100;
 function modeValue(
   c: Replay["components"][number],
   i: number,
-  mode: ModeKey
+  mode: ModeKey,
+  dates: string[],
 ): number | null {
   const ix = c.index;
   switch (mode) {
     case "yoy":
       return c.yoy[i];
-    case "mom_ann":
-      return i >= 30 ? (Math.pow(ix[i] / ix[i - 30], 12) - 1) * 100 : null;
+    case "mom_ann": {
+      // a month the component never printed (BLS skipped October 2025) is the
+      // prior month carried forward: a one-month rate touching it is not one
+      const gap = c.missing_months ?? [];
+      if (i < 30 || gap.includes(dates[i].slice(0, 7)) || gap.includes(dates[i - 30].slice(0, 7))) return null;
+      return (Math.pow(ix[i] / ix[i - 30], 12) - 1) * 100;
+    }
     case "vs_bls": {
       const a = c.yoy[i];
       const b = c.bls_yoy[i];
@@ -129,7 +136,7 @@ export function Treemap() {
     const frame = monthEnds.length ? monthEnds[at] : null;
     const values =
       data && frame
-        ? data.components.map((c) => ({ c, v: modeValue(c, frame.i, mode) }))
+        ? data.components.map((c) => ({ c, v: modeValue(c, frame.i, mode, data.dates) }))
         : [];
     return {
       // Replay frames arrive every 250ms via merged setOption. Stable per-tile
@@ -186,7 +193,7 @@ export function Treemap() {
   const frame = monthEnds[at];
   const values = data.components.map((c) => ({
     c,
-    v: modeValue(c, frame.i, mode),
+    v: modeValue(c, frame.i, mode, data.dates),
   }));
   // the weights the headline used on this frame's date (time-varying
   // weights: each date's own YoY base month; fixed weight on older artifacts)

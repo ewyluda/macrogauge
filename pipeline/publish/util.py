@@ -41,6 +41,32 @@ def pct_change_daily(obs: dict, as_of: str, days: int) -> float | None:
     return None
 
 
+MAX_PRINT_GAP_DAYS = 45  # a monthly print is never more than ~31 days after the last
+
+
+def missing_months(obs_dates) -> list[str]:
+    """YYYY-MM months a series never printed: no obs in the month, inside a
+    gap between consecutive obs longer than a monthly cadence allows (BLS
+    skipped October 2025 — shutdown: Sep 1 -> Nov 1 is 61 days). The daily
+    grid carries the prior level through them, so a rate whose end or base
+    lands there is a longer change mislabelled. Judged on the gap, not the
+    component's mode or the calendar: an official history with a live tail
+    keeps its gaps, and a monthly print on drifting days (Jan 31 -> Mar 3)
+    misses nothing though February holds no obs."""
+    dates = sorted(set(obs_dates or ()))
+    have = {d[:7] for d in dates}
+    out: set[str] = set()
+    for a, b in zip(dates, dates[1:]):
+        if (date.fromisoformat(b) - date.fromisoformat(a)).days <= MAX_PRINT_GAP_DAYS:
+            continue
+        m = months_back(f"{a[:7]}-01", -1)[:7]
+        while m < b[:7]:
+            if m not in have:
+                out.add(m)
+            m = months_back(f"{m}-01", -1)[:7]
+    return sorted(out)
+
+
 def write_json(payload: dict, out_dir: Path, filename: str) -> Path:
     """The standard artifact envelope: ensure dir, indent=2, trailing \\n."""
     out_dir.mkdir(parents=True, exist_ok=True)

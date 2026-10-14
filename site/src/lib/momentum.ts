@@ -52,11 +52,21 @@ function asOfPosition(dates: string[], iso: string): number {
 
 /** n-calendar-month annualized change at grid position i (e.g. a
  *  component's own last observation). Null when the base date precedes the
- *  grid or either end is missing / non-positive. */
-export function annualizedAt(index: (number | null)[], dates: string[], months: number, i: number): number | null {
+ *  grid or either end is missing / non-positive, or when either end falls in
+ *  a month the series never printed (`missingMonths`, "YYYY-MM" — BLS
+ *  skipped October 2025): the grid there is the prior month carried forward,
+ *  so the rate would span a different number of months than it says. */
+export function annualizedAt(
+  index: (number | null)[],
+  dates: string[],
+  months: number,
+  i: number,
+  missingMonths: readonly string[] = [],
+): number | null {
   const v = index[i];
   if (v == null || i < 0 || i >= dates.length) return null;
   const j = asOfPosition(dates, monthsBefore(dates[i], months));
+  if (missingMonths.includes(dates[i].slice(0, 7)) || (j >= 0 && missingMonths.includes(dates[j].slice(0, 7)))) return null;
   const base = j < 0 ? null : index[j];
   if (base == null || base <= 0) return null;
   return (Math.pow(v / base, 12 / months) - 1) * 100;
@@ -64,8 +74,13 @@ export function annualizedAt(index: (number | null)[], dates: string[], months: 
 
 /** The annualized rate at every grid date: the base for dates[i] is the grid
  *  value n calendar months before dates[i]. */
-export function annualizedChange(index: (number | null)[], dates: string[], months: number): (number | null)[] {
-  return index.map((_, i) => annualizedAt(index, dates, months, i));
+export function annualizedChange(
+  index: (number | null)[],
+  dates: string[],
+  months: number,
+  missingMonths: readonly string[] = [],
+): (number | null)[] {
+  return index.map((_, i) => annualizedAt(index, dates, months, i, missingMonths));
 }
 
 /** The series to plot for a mode: the PUBLISHED YoY (so the chart matches
@@ -75,9 +90,10 @@ export function rateSeries(
   yoy: (number | null)[],
   index: (number | null)[] | undefined,
   dates: string[],
+  missingMonths: readonly string[] = [],
 ): (number | null)[] {
   if (mode === "yoy" || !index) return yoy;
-  return annualizedChange(index, dates, RATE_LOOKBACK_MONTHS[mode]);
+  return annualizedChange(index, dates, RATE_LOOKBACK_MONTHS[mode], missingMonths);
 }
 
 export function rateLabel(mode: RateMode): string {
