@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-14T13:24:35Z",
+  "published_at": "2026-10-14T21:58:25Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,755 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-14T13:24:23Z",
-  "tape_last_post_at": "2026-10-14T13:22:10Z",
-  "age_hours": 0.01,
+  "feed_generated_at": "2026-10-14T21:55:14Z",
+  "tape_last_post_at": "2026-10-14T21:47:08Z",
+  "age_hours": 0.06,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3ABAE68B39B51F79D4BB",
+      "ts": "2026-10-14T20:40:20Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Riot Platforms ($RIOT) signed a custody agreement with BitGo Bank & Trust on October 7 to transfer its digital assets and cash from NYDIG Trust, according to an SEC filing.",
+      "points": [
+        {
+          "label": "Custody",
+          "text": "BitGo will hold Riot\u2019s digital assets in segregated accounts."
+        },
+        {
+          "label": "Fees",
+          "text": "Riot will pay monthly fees based on the value of assets held."
+        },
+        {
+          "label": "Terms",
+          "text": "The agreement has a one-year initial term and automatically renews unless either party provides 60 days\u2019 notice."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "RIOT",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19260",
+      "has_media": false
+    },
+    {
+      "id": "3AE83915DFAAB891C2D2",
+      "ts": "2026-10-14T19:56:58Z",
+      "category": "company",
+      "kind": "video",
+      "headline": "NVIDIA ($NVDA) CEO Jensen Huang said the company would stop supplying chips to AI developers if it knew their technology was harming people, potentially affecting major customers such as OpenAI and Anthropic.",
+      "points": [
+        {
+          "label": "Conditional cutoff",
+          "text": "Huang said NVIDIA would consider ending supplies to an unsafe developer, but emphasized that discussions with the company would come first."
+        },
+        {
+          "label": "Corporate responsibility",
+          "text": "Huang said NVIDIA does not control customers' businesses and has limits on judging how its general-purpose technology is used."
+        },
+        {
+          "label": "AI safety debate",
+          "text": "Huang argued that AI risks are manageable and that stronger monitoring and containment systems should advance alongside the technology."
+        },
+        {
+          "label": "Safety investment",
+          "text": "NVIDIA separately committed $250M in computing resources over five years for U.K. AI safety research, including work at Oxford, UCL and Imperial College London."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19256",
+      "has_media": true
+    },
+    {
+      "id": "3AFDBABFD52635DA6DF8",
+      "ts": "2026-10-14T19:48:22Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "NVIDIA ($NVDA) could face pressure to rescue CoreWeave ($CRWV) if its financial position deteriorates, according to QTR Research, which warned that the companies' intertwined investments and business relationships create a potential financial dilemma.",
+      "points": [
+        {
+          "label": "Existing investments",
+          "text": "NVIDIA helped support CoreWeave's 2025 IPO with a $250M share purchase and invested another $2B in January 2026."
+        },
+        {
+          "label": "Additional exposure",
+          "text": "NVIDIA has a $6.3B agreement to purchase CoreWeave's unsold computing capacity through 2032, subject to contractual conditions."
+        },
+        {
+          "label": "Debt concerns",
+          "text": "CoreWeave reported approximately $52B in debt and lease obligations as of June. Its 2032 unsecured bonds recently traded below 80 cents on the dollar, yielding more than 15%."
+        },
+        {
+          "label": "Potential downward spiral",
+          "text": "QTR argues that falling shares could undermine investor confidence, restrict access to financing and accelerate liquidity problems before any debt default."
+        },
+        {
+          "label": "NVIDIA's dilemma",
+          "text": "As a major investor, GPU supplier and computing customer, NVIDIA could face competing financial incentives to support CoreWeave rather than risk disruptions to their relationship."
+        },
+        {
+          "label": "Counterargument",
+          "text": "CoreWeave CEO Michael Intrator maintains that its approximately $104B revenue backlog more than supports its debt obligations."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19251",
+      "has_media": true
+    },
+    {
+      "id": "3A28297155E284F995CB",
+      "ts": "2026-10-14T18:06:42Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "CoreWeave ($CRWV) CEO Michael Intrator called the market's reaction to its stock decline \u201cirrational,\u201d defending the company's financial position and asserting that its revenue backlog \u201cmore than supports\u201d its debt obligations.",
+      "points": [
+        {
+          "label": "Financial confidence",
+          "text": "Intrator said he remains confident in CoreWeave's business model, funding, sales and contracted backlog."
+        },
+        {
+          "label": "Competitive concerns",
+          "text": "He argued that rivals' financial weakness and delayed IPOs are \u201cbleeding into\u201d perceptions of CoreWeave."
+        },
+        {
+          "label": "Competitive position",
+          "text": "Intrator distinguished CoreWeave from those rivals, saying \u201cthey don\u2019t have what we built.\u201d"
+        },
+        {
+          "label": "Debt obligations",
+          "text": "Intrator maintained that existing customer commitments provide sufficient support for the company's borrowing obligations, despite market concerns."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19222",
+      "has_media": true
+    },
+    {
+      "id": "3A0C417EB85A4A551183",
+      "ts": "2026-10-14T17:51:22Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "$CRWV COREWEAVE CEO BLAMES SHARE DROP ON MARKET ACTING 'IRRATIONALLY'",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19218",
+      "has_media": false
+    },
+    {
+      "id": "3A567297CDDEFFB79879",
+      "ts": "2026-10-14T17:35:08Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "NVIDIA SAYS SAFETY CONCERNS ARE INDUSTRY \u2018GROWING PAINS\u2019",
+      "points": [
+        {
+          "label": null,
+          "text": "NVIDIA CEO SAYS HE WOULD CUT OFF CUSTOMERS WHO BUILD UNSAFE AI"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19212",
+      "has_media": false
+    },
+    {
+      "id": "3A3A68C4807DB07E2B3D",
+      "ts": "2026-10-14T17:27:44Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "COREWEAVE CEO INTRATOR SPEAKS IN EMAIL TO COMPANY SEEN BY BLOOMBERG.",
+      "points": [
+        {
+          "label": null,
+          "text": "$CRWV COREWEAVE CEO: RIVALS\u2019 \u201cWEAKNESS\u201d IS \u201cBLEEDING INTO\u201d THE NARRATIVE."
+        },
+        {
+          "label": null,
+          "text": "COREWEAVE CEO ON OTHERS\u2019 IPOS: \u201cTHEY DON\u2019T HAVE WHAT WE BUILT.\u201d"
+        },
+        {
+          "label": null,
+          "text": "OTHER IPO DELAYS ARE \u201cBLEEDING INTO\u201d COREWEAVE\u2019S NARRATIVE: INTRATOR."
+        },
+        {
+          "label": null,
+          "text": "COREWEAVE CEO: BACKLOG \u201cMORE THAN SUPPORTS\u201d DEBT OBLIGATIONS."
+        },
+        {
+          "label": null,
+          "text": "COREWEAVE CEO: WE ARE \u201cCONFIDENT\u201d IN FUNDING, SALES AND BACKLOG."
+        },
+        {
+          "label": null,
+          "text": "COREWEAVE CEO INTRATOR SAYS HE\u2019S CONFIDENT IN BUSINESS MODEL."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19209",
+      "has_media": false
+    },
+    {
+      "id": "3AA74391A0C1402C11CB",
+      "ts": "2026-10-14T17:24:58Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "OTHER IPO DELAYS 'BLEEDING INTO' COREWEAVE $CRWV NARRATIVE: CEO",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19208",
+      "has_media": false
+    },
+    {
+      "id": "3AF1583A0D9AEC2FC838",
+      "ts": "2026-10-14T17:23:20Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "COREWEAVE CEO: WE ARE 'CONFIDENT' IN FUNDING, SALES, BACKLOG",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19206",
+      "has_media": false
+    },
+    {
+      "id": "3A6FB258B9C528AD7054",
+      "ts": "2026-10-14T16:42:33Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Trump announced a $21 billion Japanese-backed investment in GlobalFoundries ($GFS) to develop two semiconductor manufacturing facilities in Malta, New York, alongside an expanded U.S. government equity investment.",
+      "points": [
+        {
+          "label": "Japanese financing",
+          "text": "Trump said Japan will provide the capital for the $21B project under its U.S. trade commitments."
+        },
+        {
+          "label": "Job creation",
+          "text": "The project is expected to support 27,000 construction and supply-chain jobs and more than 1,000 manufacturing jobs."
+        },
+        {
+          "label": "Government investment",
+          "text": "The Commerce Department will invest an additional $955M in silicon photonics, silicon germanium and advanced packaging, bringing its total investment to $1.63B."
+        },
+        {
+          "label": "Equity stake",
+          "text": "Trump said U.S. taxpayers will receive GlobalFoundries shares, with the government's stake now valued at more than $2B."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GFS",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19204",
+      "has_media": true
+    },
+    {
+      "id": "3AD6E9402D8A4BB1C87A",
+      "ts": "2026-10-14T16:28:22Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Digital Realty ($DLR) is offering De Soto, Kansas, households up to $10,000 each over 10 years to address community opposition to its planned 1,400-acre AI data center development.",
+      "points": [
+        {
+          "label": "Resident payments",
+          "text": "A proposed $20M community fund would provide up to $1,000 annually per household through property-tax or utility-bill credits, including for renters."
+        },
+        {
+          "label": "Project scale",
+          "text": "The initial 280-acre phase, Astra North, could include nine data center buildings totaling approximately 3M square feet."
+        },
+        {
+          "label": "Power infrastructure",
+          "text": "Digital Realty plans up to 600 MW of utility power by early 2028, potentially expanding to 2 GW across the full campus."
+        },
+        {
+          "label": "Economic impact",
+          "text": "The initial development is expected to support more than 1,000 construction jobs at peak and approximately 250 permanent positions."
+        },
+        {
+          "label": "Local opposition",
+          "text": "Residents have raised concerns about electricity costs, water consumption and environmental impacts. Some remain skeptical despite the proposed payments."
+        },
+        {
+          "label": "Approval status",
+          "text": "The project is still undergoing reviews, with tax incentives under consideration. Payments could begin in early 2027, although final eligibility requirements remain unclear."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "DLR",
+          "layer": "DC Real Estate"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19200",
+      "has_media": true
+    },
+    {
+      "id": "3A90183BA7AC8B00141D",
+      "ts": "2026-10-14T16:24:20Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "NVIDIA ($NVDA) expanded its CUDA-X AI software portfolio to accelerate semiconductor design, manufacturing and testing, with major chipmaking companies reporting simulation and inspection speedups of up to 85x.",
+      "points": [
+        {
+          "label": "New AI technology",
+          "text": "NVIDIA introduced cuPotential, accelerating GPU-based atomic simulations by an additional 2\u20133x in early testing."
+        },
+        {
+          "label": "Chip design",
+          "text": "Synopsys ($SNPS) reported potential 30x faster electronic simulations, while Cadence ($CDNS) demonstrated 8x faster advanced packaging optimization."
+        },
+        {
+          "label": "Manufacturing",
+          "text": "Lam Research ($LRCX) targets up to 30x faster wafer-etch simulations, while Applied Materials ($AMAT) reported up to 35x faster chamber simulations."
+        },
+        {
+          "label": "Inspection and testing",
+          "text": "KLA ($KLAC) demonstrated 50x faster image-processing performance versus earlier CPU implementations, while Teradyne ($TER) achieved approximately 85x faster probe-maintenance inference."
+        },
+        {
+          "label": "Additional adoption",
+          "text": "Siemens, Advantest, imec and other semiconductor leaders are integrating NVIDIA technologies to improve chip design, defect detection and factory automation."
+        },
+        {
+          "label": "Availability",
+          "text": "cuPotential is in early access; Lam Research targets its NanoVDB-enhanced simulation software for release by year-end."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMAT",
+          "layer": "Semi Equipment"
+        },
+        {
+          "ticker": "CDNS",
+          "layer": "Semi Equipment"
+        },
+        {
+          "ticker": "KLAC",
+          "layer": "Semi Equipment"
+        },
+        {
+          "ticker": "LRCX",
+          "layer": "Semi Equipment"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "SNPS",
+          "layer": "Semi Equipment"
+        },
+        {
+          "ticker": "TER",
+          "layer": "Semi Testing"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19198",
+      "has_media": false
+    },
+    {
+      "id": "3A72139CF193609E2CAC",
+      "ts": "2026-10-14T16:16:03Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "NVIDIA AND SEMICONDUCTOR LEADERS ADVANCE AI ACROSS CHIP DESIGN AND MANUFACTURING FOR AI-DEFINED FABS",
+      "points": [
+        {
+          "label": null,
+          "text": "NVIDIA INTRODUCES CUPOTENTIAL CUDA-X LIBRARY; ACCELERATES GPU WORKFLOWS BY 2\u20133X IN EARLY ACCESS."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19194",
+      "has_media": false
+    },
+    {
+      "id": "3A0AE9099D74C816356A",
+      "ts": "2026-10-14T16:00:55Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "OpenAI's computing chief Sachin Katti is expected to depart in November as the company raises projected computing expenditures to $750 billion through 2030, up from $600 billion.",
+      "points": [
+        {
+          "label": "Leadership change",
+          "text": "Katti, who joined in late 2025, is expected to remain an adviser, according to people familiar with the matter."
+        },
+        {
+          "label": "Successor",
+          "text": "Former xAI executive Uday Ruddarraju will oversee computing strategy, reporting to President Greg Brockman."
+        },
+        {
+          "label": "Infrastructure expansion",
+          "text": "Katti helped secure computing agreements with Amazon Web Services ($AMZN) and separate deals with Oracle ($ORCL) and SoftBank following delays to the Stargate initiative."
+        },
+        {
+          "label": "Spending outlook",
+          "text": "OpenAI increased its projected computing expenditures by $150B through 2030."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "ORCL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19190",
+      "has_media": true
+    },
+    {
+      "id": "3ABD130D711269E44C83",
+      "ts": "2026-10-14T15:16:41Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Intel ($INTC) introduced Inference Microservices to simplify and accelerate large language model deployment on existing Intel processors, reducing the need for manual hardware optimization.",
+      "points": [
+        {
+          "label": "Automated optimization",
+          "text": "Software detects the processor and automatically configures model precision, CPU cores, memory allocation and instruction sets."
+        },
+        {
+          "label": "Initial availability",
+          "text": "Supports Intel Xeon processors, with each container serving an AI model through an OpenAI-compatible API."
+        },
+        {
+          "label": "Enterprise applications",
+          "text": "Enables secure, scalable deployment of multiple AI models using existing computing infrastructure."
+        },
+        {
+          "label": "Competitive advantage",
+          "text": "Intel aims to reduce deployment complexity and improve the cost-effectiveness of CPU-based AI inference."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "INTC",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19176",
+      "has_media": false
+    },
+    {
+      "id": "3A79B1FE2D8845F1A0CC",
+      "ts": "2026-10-14T15:13:49Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "NVIDIA AND CHIPAGENTS LAUNCH EVALUATION FOR AI-POWERED CHIP DESIGN \u2014 THE INFORMATION",
+      "points": [
+        {
+          "label": null,
+          "text": "NVIDIA TEAMS WITH CHIPAGENTS ON AI CHIP-DESIGN BENCHMARK AS STARTUP SAYS AI IS CUTTING CHIP DEVELOPMENT TIMES FROM TWO YEARS TO ONE"
+        },
+        {
+          "label": null,
+          "text": "NVIDIA AND CHIPAGENTS UNVEIL AI CHIP-DESIGN BENCHMARK, WITH STARTUP PREDICTING DEVELOPMENT TIMES COULD SHRINK TO JUST 4\u20136 MONTHS"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19174",
+      "has_media": false
+    },
+    {
+      "id": "3A326C560C7BDB9A6DFA",
+      "ts": "2026-10-14T14:43:25Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Barclays downgraded Dell ($DELL), Hewlett Packard Enterprise ($HPE) and NetApp ($NTAP) to Equal Weight from Overweight, warning their massive 2026 rallies reflect rising memory-driven selling prices rather than meaningful AI-related revenue growth.",
+      "points": [
+        {
+          "label": "Dell ($DELL)",
+          "text": "Fell 7.3% to $530.50; price target cut to $574 from $603."
+        },
+        {
+          "label": "HPE ($HPE)",
+          "text": "Declined 5% to $65.38; target lowered to $77 from $83."
+        },
+        {
+          "label": "NetApp ($NTAP)",
+          "text": "Dropped 3.6% to $231.62; $219 target maintained."
+        },
+        {
+          "label": "Valuation concerns",
+          "text": "Dell, HPE and NetApp had surged 355%, 186% and 123% YTD, respectively, through Tuesday."
+        },
+        {
+          "label": "Growth outlook",
+          "text": "Barclays expects revenue growth to decelerate as memory prices normalize, noting that enterprise AI adoption has yet to produce a meaningful revenue boost."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "DELL",
+          "layer": "Servers & Storage"
+        },
+        {
+          "ticker": "HPE",
+          "layer": "Servers & Storage"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19159",
+      "has_media": true
+    },
+    {
+      "id": "3A61C2E63F02447BCE78",
+      "ts": "2026-10-14T14:42:57Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Tesla ($TSLA) fell 1.8% to $368.62 as investors assessed growing robotaxi competition and uncertainty over which companies will dominate autonomous transportation.",
+      "points": [
+        {
+          "label": "Leadership change",
+          "text": "Uber ($UBER) autonomous mobility chief Sarfraz Maredia announced his departure effective November 16, with plans to leave the self-driving industry."
+        },
+        {
+          "label": "Robotaxi competition",
+          "text": "Tesla and Alphabet's ($GOOGL) Waymo are developing autonomous networks, while Uber and Lyft ($LYFT) are partnering with self-driving technology providers."
+        },
+        {
+          "label": "Market opportunity",
+          "text": "Americans drive over 3 trillion miles annually, representing a hypothetical $3 trillion market at $1 per mile."
+        },
+        {
+          "label": "Valuation uncertainty",
+          "text": "Investors are weighing whether autonomous driving becomes a concentrated business dominated by a few companies or a widely available technology, with implications for Tesla's valuation."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19158",
+      "has_media": true
+    },
+    {
+      "id": "3A5E33C05B6C70BAE9EE",
+      "ts": "2026-10-14T14:29:49Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Meta ($META) launched free WhatsApp voice and video calls for people without accounts, expanding into workplace collaboration with unlimited call durations and support for up to 32 participants.",
+      "points": [
+        {
+          "label": "Guest calling",
+          "text": "Non-users can join individual or group calls through browser links without downloading WhatsApp or creating an account."
+        },
+        {
+          "label": "Call features",
+          "text": "End-to-end encryption, screen sharing, reactions and raised hands, with no time limits."
+        },
+        {
+          "label": "Security controls",
+          "text": "Hosts must approve guests before entry. Guests cannot view phone numbers, send messages or invite others."
+        },
+        {
+          "label": "Calendar integration",
+          "text": "Google Calendar and Microsoft Outlook support is planned for later in 2026, allowing users to schedule WhatsApp calls directly."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19157",
+      "has_media": true
+    },
+    {
+      "id": "3ABAD81B08CB58E7FC6A",
+      "ts": "2026-10-14T14:13:09Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "MEXICO PRESIDENT SAYS SHE WILL SIGN DECREE ON WEDNESDAY TO ORDER DIGITAL PLATFORMS TO PROTECT MINORS FROM VIOLENT AND SEXUAL CONTENT",
+      "points": [
+        {
+          "label": null,
+          "text": "MEXICAN GOVERNMENT HAS ALREADY MET WITH META, MICROSOFT, APPLE, TIKTOK, GOOGLE, X AND HUAWEI AHEAD OF DECREE'S PUBLICATION"
+        },
+        {
+          "label": null,
+          "text": "MEXICO TO GIVE PLATFORMS ONE MONTH TO COME INTO COMPLIANCE WITH DECREE"
+        },
+        {
+          "label": null,
+          "text": "MEXICO PRESIDENT SAYS THAT IF DECREE NOT FOLLOWED, GOVERNMENT TO PRESENT A BILL TO LEVY PUNISHMENTS AGAINST PLATFORMS"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [
+        "GOOGL",
+        "META"
+      ],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19152",
+      "has_media": false
+    },
+    {
+      "id": "3AE1FFE4146E0537CC7B",
+      "ts": "2026-10-14T13:55:03Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "CoreWeave ($CRWV) plunged 13.3% to $67.47, while Nebius ($NBIS) fell 9.2% to $187.84, as concerns over rising borrowing costs pressured AI infrastructure stocks.",
+      "points": [
+        {
+          "label": "CoreWeave ($CRWV)",
+          "text": "$67.47 (-13.3%). Its $1.25B in unsecured bonds due 2032 briefly yielded nearly 15% Tuesday before closing around 14.5%."
+        },
+        {
+          "label": "Nebius ($NBIS)",
+          "text": "$187.84 (-9.2%), reflecting broader pressure on debt-intensive AI cloud providers."
+        },
+        {
+          "label": "Financing concerns",
+          "text": "CoreWeave has raised more than $35B this year, with debt and lease obligations totaling approximately $52B at the end of June."
+        },
+        {
+          "label": "Market attention",
+          "text": "Elon Musk responded \"Yikes\" to investor Chamath Palihapitiya's warning about CoreWeave's soaring bond yields, highlighting concerns over AI infrastructure financing risks."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NBIS",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19148",
+      "has_media": false
+    },
+    {
+      "id": "3A862CE342BE6028CB7C",
+      "ts": "2026-10-14T13:24:36Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "ASML ($ASML) warned that customer demand for advanced chipmaking equipment will exceed planned production capacity in 2027 and 2028, with chipmakers already seeking orders for 2029 and 2030 amid sustained AI infrastructure investment.",
+      "points": [
+        {
+          "label": "Capacity shortage",
+          "text": "Planned 30% capacity expansions in both 2027 and 2028 are expected to fall short of demand."
+        },
+        {
+          "label": "Expansion strategy",
+          "text": "ASML plans to upgrade existing equipment, increase machine throughput and expand manufacturing capacity."
+        },
+        {
+          "label": "Price increases",
+          "text": "The company will raise equipment prices starting in 2027, with the full impact expected in 2028."
+        },
+        {
+          "label": "Financial outlook",
+          "text": "Q3 net profit reached \u20ac4.96B on \u20ac11.7B in sales. Full-year revenue guidance increased to \u20ac44B\u2013\u20ac45B."
+        },
+        {
+          "label": "Market reaction",
+          "text": "Shares rose approximately 2% in Amsterdam trading, extending 2026 gains to nearly 70%."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "ASML",
+          "layer": "Semi Equipment"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19136",
+      "has_media": true
+    },
     {
       "id": "3ABBB0923982FCB48441",
       "ts": "2026-10-14T13:05:31Z",
@@ -4586,824 +5330,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18428",
       "has_media": false
-    },
-    {
-      "id": "3A60928A3E0104FD5EB1",
-      "ts": "2026-10-07T21:05:56Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "AI infrastructure companies are pursuing tens of billions of dollars in new private financing for chips as computing build-outs grow more capital-intensive and buyers seek alternatives to funding hardware entirely through corporate cash flow or bond issuance.",
-      "points": [
-        {
-          "label": "OpenAI/Broadcom",
-          "text": "$AVGO Broadcom is working to arrange more than $50B in financing for OpenAI\u2019s custom AI chips, with $APO Apollo and $BX Blackstone among prospective lenders. The financing could cover several gigawatts of capacity and is expected to close before year-end, though talks remain early and the size could change."
-        },
-        {
-          "label": "Oracle",
-          "text": "$ORCL Oracle is discussing financing with Apollo, $GS Goldman Sachs and others for a large chip purchase, potentially using a separate entity that would buy the hardware and lease it back to Oracle, helping bridge upfront costs and limit additional borrowing."
-        },
-        {
-          "label": "SpaceX",
-          "text": "$SPCX SpaceX has discussed roughly $40B in financing for $NVDA Nvidia chips, according to a person familiar with the talks."
-        },
-        {
-          "label": "Industry shift",
-          "text": "Large cloud providers such as $AMZN Amazon\u2019s AWS and Oracle historically funded hardware largely from cash flow, but massive AI spending has increased reliance on debt and private capital. OpenAI and Anthropic are also seeking greater ownership of infrastructure to lower costs and reduce dependence on cloud providers."
-        },
-        {
-          "label": "OpenAI program",
-          "text": "OpenAI\u2019s custom-chip effort, internally called Nexus, includes first- and second-generation chips known as Jalape\u00f1o and Serrano. OpenAI and Broadcom previously outlined plans to deploy 10 GW of custom systems from the second half of 2026 through 2029."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMZN",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "AVGO",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "ORCL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18424",
-      "has_media": true
-    },
-    {
-      "id": "3A96B087AF3C6106996B",
-      "ts": "2026-10-07T21:04:51Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "The FCC will vote Oct. 29 on advancing a 25 MHz spectrum auction for direct-to-device satellite services and opening another 482 MHz for supplemental coverage from space, potentially expanding opportunities beyond $SPCX SpaceX and $AMZN Amazon to companies including $ASTS AST SpaceMobile and major wireless carriers.",
-      "points": [
-        {
-          "label": "Spectrum expansion",
-          "text": "The FCC proposal would auction 25 MHz of spectrum for direct-to-device operations and seek comment on making another 482 MHz available for satellite-based supplemental coverage, alongside updated D2D rules."
-        },
-        {
-          "label": "AST SpaceMobile",
-          "text": "AST already has FCC authority to provide U.S. supplemental coverage from space through its 248-satellite constellation using spectrum associated with $T AT&T, $VZ Verizon and FirstNet. Broader SCS spectrum availability and more flexible rules could expand the capacity and regulatory options available to its network."
-        },
-        {
-          "label": "Wireless carriers",
-          "text": "AT&T and Verizon partner with AST SpaceMobile, while $TMUS T-Mobile works with SpaceX on satellite-to-phone service. Broader D2D rules could give carriers additional ways to extend coverage beyond terrestrial networks."
-        },
-        {
-          "label": "Amazon and SpaceX",
-          "text": "Amazon is expanding satellite-to-device connectivity through its Leo network, while SpaceX recently received FCC approval for its expanded direct-to-cell constellation and spectrum use."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMZN",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18423",
-      "has_media": false
-    },
-    {
-      "id": "3A30008C7BC0023C1084",
-      "ts": "2026-10-07T21:01:57Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "*SPACEX HAS DISCUSSED $40 BILLION IN FINANCING FOR NVIDIA CHIPS, SOURCES SAY: WSJ",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18422",
-      "has_media": false
-    },
-    {
-      "id": "3A3945BB9574408DF71E",
-      "ts": "2026-10-07T20:47:39Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$NBIS Nebius was initiated at Buy by Rosenblatt with a $304 price target, as analyst John McPeake sees the neocloud benefiting from surging AI training and inference demand while delivering rapid revenue growth.",
-      "points": [
-        {
-          "label": "Growth outlook",
-          "text": "Rosenblatt expects 2026 revenue to grow about 6.5x and forecasts a 98% revenue CAGR from FY2026 through FY2030."
-        },
-        {
-          "label": "Capacity",
-          "text": "The firm estimates Nebius has about one-sixth of $CRWV CoreWeave\u2019s active revenue-generating power today, but says 75% of Nebius\u2019 3.5 GW of contracted power is expected to come online through fully owned sites."
-        },
-        {
-          "label": "Positioning",
-          "text": "Rosenblatt places Nebius just below CoreWeave at the top of the neocloud market and expects massive AI infrastructure spending to support continued hypergrowth."
-        },
-        {
-          "label": "Financing risk",
-          "text": "Despite expected customer prepayments, Rosenblatt models additional debt and/or equity issuance to fund Nebius\u2019 capacity roadmap, citing its $5.75B convertible financing in August."
-        },
-        {
-          "label": "Valuation",
-          "text": "The $304 target is based on a 10-year DCF using a 12% discount rate and a 12x terminal free-cash-flow multiple."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "CRWV",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NBIS",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18420",
-      "has_media": false
-    },
-    {
-      "id": "3A1AD6AB4797FAB274B9",
-      "ts": "2026-10-07T20:32:16Z",
-      "category": "earnings",
-      "kind": "text",
-      "headline": "$APLD Applied Digital reported fiscal Q1 2027 revenue of $341.9M, up 322% YoY, as its AI data-center business scaled rapidly, while adjusted EBITDA reached $64.4M and the company expanded its contracted capacity and power pipeline.",
-      "points": [
-        {
-          "label": "Results",
-          "text": "GAAP net loss attributable to common shareholders was $221.0M, or $0.76 per share. Adjusted revenue was $300.4M, adjusted net loss was $4.1M, or $0.01 per share, and net operating income was $58.8M; adjusted measures exclude majority-owned $CHRN ChronoScale."
-        },
-        {
-          "label": "AI hosting",
-          "text": "HPC Hosting generated $262.6M of quarterly revenue and $33.4M of segment operating profit. Polaris Forge 1 reached 250 MW of live capacity on Oct. 1, with total North Dakota delivered capacity expected to reach 300 MW by year-end."
-        },
-        {
-          "label": "Contracted pipeline",
-          "text": "Applied Digital has leases covering about 1.41 GW across five campuses, representing roughly $36B of base-term contracted revenue and about $86B including renewal options. Polaris Forge 1 is leased to $CRWV CoreWeave, with other campuses committed to investment-grade hyperscalers."
-        },
-        {
-          "label": "Expansion",
-          "text": "The company secured up to roughly 1 GW of potential power in Finland and signed a power-purchase agreement tied to a planned 1.2 GW North Dakota gas generation project. It also closed $1.59B of 7% secured notes due 2031 to fund additional Polaris Forge construction."
-        },
-        {
-          "label": "ChronoScale",
-          "text": "The 96%-owned subsidiary announced plans with $MSFT Microsoft for a 50 MW North American AI deployment using $NVDA Nvidia GB300 NVL72 systems and liquid cooling."
-        },
-        {
-          "label": "Balance sheet",
-          "text": "Applied Digital ended Aug. 31 with $3.7B of cash, cash equivalents and restricted cash against $6.4B of debt; quarterly interest expense rose to $77.4M from $8.0M a year earlier."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "APLD",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "CRWV",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18418",
-      "has_media": false
-    },
-    {
-      "id": "3A6630DE5C1591F554EA",
-      "ts": "2026-10-07T20:28:35Z",
-      "category": "earnings",
-      "kind": "image",
-      "headline": "$APLD",
-      "points": [
-        {
-          "label": null,
-          "text": "Revenues: $341.9 million, up 322% from the prior year comparable period"
-        },
-        {
-          "label": null,
-          "text": "Net loss attributable to common stockholders: $221.0 million"
-        },
-        {
-          "label": null,
-          "text": "Net loss attributable to common stockholders per basic and diluted share: $0.76"
-        },
-        {
-          "label": null,
-          "text": "Adjusted revenue: $300.4 million"
-        },
-        {
-          "label": null,
-          "text": "Adjusted net loss: $4.1 million"
-        },
-        {
-          "label": null,
-          "text": "Adjusted net loss per diluted share: $0.01"
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "APLD",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18417",
-      "has_media": true
-    },
-    {
-      "id": "3A164DA58085DFF122A4",
-      "ts": "2026-10-07T20:04:20Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$LSCC Lattice Semiconductor and $ARM Arm are collaborating on secure, adaptable AI data-center infrastructure, combining Lattice FPGAs with Arm AGI CPU server platforms and AMI firmware.",
-      "points": [
-        {
-          "label": "Platform role",
-          "text": "Lattice FPGAs will provide secure control, management, connectivity and platform adaptability alongside Arm-based server systems."
-        },
-        {
-          "label": "OCP connectivity",
-          "text": "The solution supports OCP-compliant links between Host Processor Modules and Datacenter Secure Control Modules using LTPI."
-        },
-        {
-          "label": "AI infrastructure",
-          "text": "The collaboration targets modular server architectures that can adapt as AI data-center requirements evolve while maintaining secure platform management."
-        },
-        {
-          "label": "Showcase",
-          "text": "The joint Arm-Lattice server solution will be demonstrated at the OCP Global Summit 2026, Oct. 12\u201315."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "ARM",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18410",
-      "has_media": false
-    },
-    {
-      "id": "3A1441069F2D591AC0F9",
-      "ts": "2026-10-07T19:26:43Z",
-      "category": "other",
-      "kind": "image",
-      "headline": "Trump is set to award six prominent technology leaders the nation\u2019s highest science and technology honors Thursday during the White House\u2019s \u201cScience: A New Golden Age Summit,\u201d according to Fox News.",
-      "points": [
-        {
-          "label": "National Medal of Science",
-          "text": "Elon Musk, CEO of $TSLA Tesla and $SPCX SpaceX; Sergey Brin, co-founder of $GOOGL Alphabet\u2019s Google; $NVDA Nvidia CEO Jensen Huang; and $AMD AMD CEO Lisa Su are expected to receive the honor."
-        },
-        {
-          "label": "Technology medal",
-          "text": "$DELL Dell Technologies CEO Michael Dell and $MSFT Microsoft CEO Satya Nadella are expected to receive the National Medal of Technology and Innovation."
-        },
-        {
-          "label": "Summit",
-          "text": "The event will bring together scientists and technology executives to discuss superintelligence, private-sector investment and accelerating scientific breakthroughs."
-        },
-        {
-          "label": "First for Trump",
-          "text": "Fox reports this will be Trump\u2019s first presentation of either medal across his presidencies."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMD",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "DELL",
-          "layer": "Servers & Storage"
-        },
-        {
-          "ticker": "GOOGL",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18398",
-      "has_media": true
-    },
-    {
-      "id": "3A3609E1944A6B5C4C53",
-      "ts": "2026-10-07T19:06:14Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Trump is expected to attend a White House science summit Thursday as the administration announces more than $1B in private-sector commitments to the Genesis Mission, including support from $AMD AMD, OpenAI, Anthropic and other companies.",
-      "points": [
-        {
-          "label": "Industry funding",
-          "text": "The new commitments are intended to expand AI-driven scientific research as the administration seeks a larger private-sector role in research and development."
-        },
-        {
-          "label": "Compute expansion",
-          "text": "The White House will announce a compute hub spanning more than 14 institutions across 10 Southeastern states, along with a $1B Georgia investment to expand computing access for students and faculty."
-        },
-        {
-          "label": "Federal support",
-          "text": "The National Science Foundation and Department of Energy will invest more than $100M in AI-powered scientific tools."
-        },
-        {
-          "label": "Genesis Mission",
-          "text": "Launched last November and expanded in July to more than 15 federal agencies, the initiative aims to accelerate scientific discovery using advanced AI and computing infrastructure."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMD",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18393",
-      "has_media": true
-    },
-    {
-      "id": "3ABD5FA76310B669C9A5",
-      "ts": "2026-10-07T18:57:54Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$AMZN Amazon rose about 1.3% Wednesday as analysts highlighted AI-driven growth across AWS, advertising and commerce, with several firms arguing agentic shopping could strengthen rather than disrupt Amazon\u2019s business model.",
-      "points": [
-        {
-          "label": "Analyst targets",
-          "text": "Tigress Financial raised its target to $385 while maintaining Buy, TD Cowen reiterated Buy with a $350 target, and Rosenblatt raised its target to $360 while maintaining Buy. The average analyst target cited is $335."
-        },
-        {
-          "label": "Agentic commerce",
-          "text": "Rosenblatt argues AI agents could reduce shopping friction while Amazon adapts advertising from cost-per-click toward transaction- or action-based models, preserving economics through ads, fees, fulfillment, logistics and storage."
-        },
-        {
-          "label": "AWS",
-          "text": "TD Cowen cited five straight quarters of accelerating AWS growth and said Amazon\u2019s AI business exited Q2 at roughly a $25B annual run rate. Amazon expects AWS capacity constraints through 2026\u201327 despite plans to double capacity by the end of 2027."
-        },
-        {
-          "label": "AI investment",
-          "text": "Tigress says Amazon\u2019s AI flywheel is supporting AWS, advertising, purchases and Prime engagement, while AWS executives defended roughly $220B of infrastructure investment as demand-backed."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMZN",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18392",
-      "has_media": false
-    },
-    {
-      "id": "3AB90D391E8868B8C39B",
-      "ts": "2026-10-07T18:57:06Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$AMZN Amazon rose about 1% Wednesday as analysts highlighted AI-driven growth across AWS, advertising and commerce, with several firms arguing agentic shopping could strengthen rather than disrupt Amazon\u2019s business model.",
-      "points": [
-        {
-          "label": "Analyst targets",
-          "text": "Tigress Financial raised its target to $385 while maintaining Buy, TD Cowen reiterated Buy with a $350 target, and Rosenblatt raised its target to $360 while maintaining Buy. The average analyst target cited is $335."
-        },
-        {
-          "label": "Agentic commerce",
-          "text": "Rosenblatt argues AI agents could reduce shopping friction while Amazon adapts advertising from cost-per-click toward transaction- or action-based models, preserving economics through ads, fees, fulfillment, logistics and storage."
-        },
-        {
-          "label": "AWS",
-          "text": "TD Cowen cited five straight quarters of accelerating AWS growth and said Amazon\u2019s AI business exited Q2 at roughly a $25B annual run rate. Amazon expects AWS capacity constraints through 2026\u201327 despite plans to double capacity by the end of 2027."
-        },
-        {
-          "label": "AI investment",
-          "text": "Tigress says Amazon\u2019s AI flywheel is supporting AWS, advertising, purchases and Prime engagement, while AWS executives defended roughly $220B of infrastructure investment as demand-backed."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMZN",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18391",
-      "has_media": true
-    },
-    {
-      "id": "3A7C45494ABDE29E6DF2",
-      "ts": "2026-10-07T18:26:32Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Dan Ives of Yorkville Ives says the AI buildout is only in the \u201c3rd inning,\u201d with roughly $4T of spending expected over the next several years and economic benefits beginning to spread beyond the largest AI infrastructure companies.",
-      "points": [
-        {
-          "label": "Top five",
-          "text": "Ives\u2019 preferred AI plays are $NVDA Nvidia, $MSFT Microsoft, $PLTR Palantir, $AAPL Apple and $CRWD CrowdStrike. His targets are $300 for Nvidia, implying 25% upside; $615 for Microsoft, 16%; $250 for Palantir, 30%; and $335 for CrowdStrike, 20%."
-        },
-        {
-          "label": "Infrastructure",
-          "text": "Ives says Nvidia demand is broadening from hyperscalers to sovereign AI programs, neoclouds, enterprises and model developers. Microsoft\u2019s commercial remaining performance obligations reached $678B, with RPO up 25% excluding OpenAI and sequential growth coming from customers outside frontier-model companies."
-        },
-        {
-          "label": "Cybersecurity",
-          "text": "Ives expects agentic AI to expand the attack surface and push security spending from roughly 5% of IT budgets toward 10% over the next three years, supporting companies such as CrowdStrike even as frontier AI labs move deeper into cybersecurity."
-        },
-        {
-          "label": "Smaller plays",
-          "text": "Ives set a $24 target on $BRUN Boost Run, implying about 58% upside, saying Q2 provided early evidence that contracted AI-cloud demand is converting into reported scale. He also set an $8 target on $SERV Serve Robotics, implying about 67% upside, calling it an early leader in autonomous last-mile delivery."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18385",
-      "has_media": true
-    },
-    {
-      "id": "3A1AD9BF99D464C7C6D9",
-      "ts": "2026-10-07T18:17:16Z",
-      "category": "other",
-      "kind": "image",
-      "headline": "$META 730C 1/21/2028 for $16M (\ud83d\ude43)",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18384",
-      "has_media": true
-    },
-    {
-      "id": "3A6435D6C203B5361AFD",
-      "ts": "2026-10-07T18:14:59Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "DELL TECHNOLOGIES SAYS IT IS DRIVING THE AGENTIC AI ERA WITH NEW WINDOWS PCS AND WORKSTATIONS, INTRODUCING THE XPS 16 CREATOR EDITION LAPTOP POWERED BY $NVDA NVIDIA RTX SPARK",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [
-        "DELL"
-      ],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18383",
-      "has_media": false
-    },
-    {
-      "id": "3A38956F63B3BAB2E870",
-      "ts": "2026-10-07T17:57:58Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "MICROSOFT EXECUTIVE: RTX SPARK MACHINES WITH NVIDIA CHIPS GENERATE IMAGES FASTER THAN APPLE\u2019S FASTEST CHIPS; SHIPMENTS BEGIN NEXT WEEK.",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18380",
-      "has_media": false
-    },
-    {
-      "id": "3A69FC6322A55A25CE0A",
-      "ts": "2026-10-07T17:56:18Z",
-      "category": "other",
-      "kind": "image",
-      "headline": "Microsoft Windows Event with Satya Nadella and $NVDA CEO Jensen Huang",
-      "points": [
-        {
-          "label": null,
-          "text": "Live: https://www.youtube.com/live/RE_AsVyoOSQ?si=W7QZDSlSTHFnYlx8"
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18379",
-      "has_media": true
-    },
-    {
-      "id": "3A8D7D8A94F36EBA6CD3",
-      "ts": "2026-10-07T17:53:54Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "MICROSOFT EXECUTIVE: SURFACE LAPTOP ULTRA PRICES RANGE UP TO $5,899 FOR THE MOST POWERFUL MODEL.",
-      "points": [
-        {
-          "label": null,
-          "text": "MICROSOFT EXECUTIVE: RTX SPARK-BASED MACHINES WITH NVIDIA CHIPS WILL BEGIN SHIPPING NEXT WEEK."
-        },
-        {
-          "label": null,
-          "text": "MICROSOFT EXECUTIVE: RTX SPARK MACHINES WITH NVIDIA CHIPS GENERATE IMAGES FASTER THAN APPLE\u2019S FASTEST CHIPS; SHIPMENTS BEGIN NEXT WEEK."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18378",
-      "has_media": false
-    },
-    {
-      "id": "3A25BCE9A1C03B62B600",
-      "ts": "2026-10-07T17:25:44Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "MICROSOFT LAUNCHES EXECUTION CONTAINERS TO BLOCK AGENTS FROM UNAUTHORIZED DATA ACCESS; OPENAI AND ANTHROPIC WILL ADOPT THEM FOR AGENT CONTAINMENT \u2014 EVENT",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18373",
-      "has_media": false
-    },
-    {
-      "id": "3ABB6AE5846A902DC03A",
-      "ts": "2026-10-07T17:22:41Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "MICROSOFT INTRODUCES AN AI CODING MODEL THAT CAN RUN ON INDIVIDUAL LAPTOPS; NEW NVIDIA NEMOTRON MODEL WILL RUN ON INDIVIDUAL LAPTOPS AND PCS \u2014 EVENT",
-      "points": [
-        {
-          "label": null,
-          "text": "MICROSOFT INTRODUCES AI CODING MODEL THAT RUNS ON LAPTOPS; DEEPSEEK V4 FLASH RUNS ON 60GB MACHINES, OUTPERFORMING GPT-5 ON SOME CODING TASKS."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18372",
-      "has_media": false
-    },
-    {
-      "id": "3AFBD09B3BD3D5EEA331",
-      "ts": "2026-10-07T17:16:47Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "MICROSOFT LAUNCHES MICROSOFT EXECUTION CONTAINERS TO PREVENT AGENTS FROM ACCESSING UNAUTHORIZED DATA.",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18371",
-      "has_media": false
-    },
-    {
-      "id": "3AE155535E926FF27DB3",
-      "ts": "2026-10-07T15:47:20Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$META expanded its Muse AI agent to the iPad, adding native support for the larger display and iPadOS multitasking after the app spent several weeks as the top free iPhone app in $AAPL Apple\u2019s U.S. App Store.",
-      "points": [
-        {
-          "label": "Platform expansion",
-          "text": "Muse launched on iPhone in September and later reached Mac; the new iPad version brings the same agentic capabilities to Apple\u2019s tablet with a layout better suited to its larger screen."
-        },
-        {
-          "label": "Business tools",
-          "text": "Muse added connections to Canva, $DBX Dropbox, Figma, $INTU Intuit\u2019s QuickBooks, $MSFT GitHub, $ZM Zoom, $ASAN Asana, $KVYO Klaviyo and Meta ad accounts, plus new connectors including Granola and Notion."
-        },
-        {
-          "label": "Autonomous workflows",
-          "text": "Small businesses can give Muse a business goal and have the agent plan marketing content, create client pitches and develop product pages, subject to user approval."
-        },
-        {
-          "label": "Broader strategy",
-          "text": "Meta is extending Muse beyond phones through Mac, iPad, the standalone Muse Charm device and planned smart-glasses integration as it builds the agent into a broader personal and business AI platform."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18353",
-      "has_media": true
-    },
-    {
-      "id": "3A04F207483F0D09165D",
-      "ts": "2026-10-07T15:11:15Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "SemiAnalysis criticized IREN\u2019s ($IREN) Canadian GPU sites and questioned its public claims about managed cloud services. It cited customer reports of reliability problems and an apparent mismatch between company filings and recent executive comments.",
-      "points": [
-        {
-          "label": "Canada sites",
-          "text": "SemiAnalysis said users described IREN\u2019s Prince George and Mackenzie facilities as suffering multi-day power outages, storage failures, network problems, link flaps and GPU XID errors, calling them the \u201c#1 worst\u201d sites in the industry based on user feedback."
-        },
-        {
-          "label": "First-hand testing",
-          "text": "The research firm said it had also tested IREN GPUs through multiple capacity resellers and heard similar complaints from customers renting directly from IREN."
-        },
-        {
-          "label": "Newer builds",
-          "text": "SemiAnalysis said IREN\u2019s Childress and Sweetwater sites appear materially better designed, citing improved power, cooling and ISP redundancy, and said the $2.1B investment from $NVDA Nvidia could support higher infrastructure quality."
-        },
-        {
-          "label": "Managed-services dispute",
-          "text": "IREN\u2019s 10-K says it owns and operates the data-center, compute and software layers of its AI cloud stack, including managed services and enterprise support. SemiAnalysis argued that claim conflicts with a recent statement from IREN\u2019s CCO that the company has \u201cno live managed services today,\u201d and recommended IREN focus on bare-metal offerings instead."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "IREN",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18344",
-      "has_media": true
-    },
-    {
-      "id": "3A658D631F9031F104D1",
-      "ts": "2026-10-07T14:50:50Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$NVDA Nvidia CTO Michael Kagan highlighted $NBIS Nebius as an example of an AI infrastructure provider designing data centers as integrated \u201cAI factories\u201d rather than adapting conventional cloud architecture.",
-      "points": [
-        {
-          "label": "Architecture",
-          "text": "Kagan said AI factories require GPUs, CPUs, storage, high-speed networking and scale-up and scale-out fabrics to be co-designed as a single compute system from the outset."
-        },
-        {
-          "label": "Nebius deployment",
-          "text": "He said Nebius was the first in Europe to operate Nvidia GB300 NVL72 systems, among the first to deploy B300 systems with XDR InfiniBand, and plans to take a similarly early approach to Nvidia\u2019s Vera Rubin platform."
-        },
-        {
-          "label": "Reliability",
-          "text": "Kagan highlighted Nebius\u2019 automatic node-repair capability, which he said can restore nodes in about 15 minutes without disrupting workloads."
-        },
-        {
-          "label": "Inference strategy",
-          "text": "Nebius is also building serverless inference around guaranteed uptime, speculative decoding and usage-based pricing, positioning the infrastructure specifically around AI workloads."
-        },
-        {
-          "label": null,
-          "text": "Full interview: https://www.linkedin.com/posts/mikagan_lately-ive-been-having-interesting-conversations-activity-7513343826141409281-KF_R"
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NBIS",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18335",
-      "has_media": true
-    },
-    {
-      "id": "3A2FE30DCAEDF71DD32F",
-      "ts": "2026-10-07T14:07:32Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$AMZN Amazon\u2019s Ring is entering the smart-lock market with its first model, a $249 connected lock scheduled to arrive in the first quarter of 2027.",
-      "points": [
-        {
-          "label": "Access",
-          "text": "Users can unlock the door with a fingerprint reader, backlit touchscreen keypad, Ring app or Alexa, while temporary access can be assigned to specific people and time windows."
-        },
-        {
-          "label": "Connectivity",
-          "text": "The lock integrates with Ring doorbells, cameras and alarms plus Echo and Alexa, and uses Amazon Sidewalk for remote locking, status updates and PIN syncing without relying on home Wi-Fi."
-        },
-        {
-          "label": "Installation",
-          "text": "It fits a standard single-cylinder deadbolt without additional wiring and will come in black, silver and brass."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMZN",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18322",
-      "has_media": true
-    },
-    {
-      "id": "3A83FB7DBB8836A2F382",
-      "ts": "2026-10-07T13:51:48Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$MU Micron received a sharply higher $3,000 price target from D.A. Davidson, which reiterated Buy and sees another 187% upside despite the stock already rising 266% in 2026.",
-      "points": [
-        {
-          "label": "Valuation",
-          "text": "D.A. Davidson raised its 12-month target 43% from $2,100, arguing investors are still early in recognizing Micron\u2019s earnings durability and deserve to assign the company a higher multiple."
-        },
-        {
-          "label": "AI demand",
-          "text": "Analyst Gil Luria expects memory demand to outstrip supply through 2027 and 2028 as larger memory capacity improves AI model performance, speed and context windows."
-        },
-        {
-          "label": "Long-term contracts",
-          "text": "Micron aims to place 50% of revenue under strategic customer agreements that are difficult to cancel, which D.A. Davidson says could increase confidence in future sales visibility."
-        },
-        {
-          "label": "Street view",
-          "text": "Micron has gained 463% over the past year, and 46 of 50 analysts tracked by LSEG rate the stock Buy or Strong Buy."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MU",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18317",
-      "has_media": true
     }
   ]
 }

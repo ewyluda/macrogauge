@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-14T13:24:35Z",
+  "published_at": "2026-10-14T21:58:25Z",
   "groups": [
     {
       "group": "UNDERLYING",
@@ -7,25 +7,25 @@
         {
           "code": "MEDCPIM158SFRBCLE",
           "label": "Median CPI",
-          "value": 2.1,
+          "value": 2.81,
           "unit": "% ann. rate (MoM)",
-          "as_of": "2026-08-01",
+          "as_of": "2026-09-01",
           "cadence": "monthly"
         },
         {
           "code": "TRMMEANCPIM158SFRBCLE",
           "label": "16% trimmed-mean CPI",
-          "value": 2.67,
+          "value": 3.53,
           "unit": "% ann. rate (MoM)",
-          "as_of": "2026-08-01",
+          "as_of": "2026-09-01",
           "cadence": "monthly"
         },
         {
           "code": "CORESTICKM159SFRBATL",
           "label": "Sticky-price core CPI",
-          "value": 2.7,
+          "value": 2.78,
           "unit": "% YoY",
-          "as_of": "2026-08-01",
+          "as_of": "2026-09-01",
           "cadence": "monthly"
         },
         {
@@ -39,9 +39,9 @@
         {
           "code": "COREFLEXCPIM159SFRBATL",
           "label": "Flexible-price core CPI",
-          "value": 1.09,
+          "value": 1.48,
           "unit": "% YoY",
-          "as_of": "2026-08-01",
+          "as_of": "2026-09-01",
           "cadence": "monthly"
         },
         {
@@ -425,17 +425,17 @@
         {
           "code": "T5YIE",
           "label": "5-year breakeven",
-          "value": 2.33,
+          "value": 2.36,
           "unit": "%",
-          "as_of": "2026-10-13",
+          "as_of": "2026-10-14",
           "cadence": "daily"
         },
         {
           "code": "T10YIE",
           "label": "10-year breakeven",
-          "value": 2.33,
+          "value": 2.35,
           "unit": "%",
-          "as_of": "2026-10-13",
+          "as_of": "2026-10-14",
           "cadence": "daily"
         },
         {
@@ -449,25 +449,25 @@
         {
           "code": "T5YIFR",
           "label": "5y5y forward breakeven",
-          "value": 2.33,
+          "value": 2.34,
           "unit": "%",
-          "as_of": "2026-10-13",
+          "as_of": "2026-10-14",
           "cadence": "daily"
         },
         {
           "code": "EXPINF1YR",
           "label": "Cleveland Fed 1-year expected inflation",
-          "value": 2.64,
+          "value": 2.98,
           "unit": "%",
-          "as_of": "2026-09-01",
+          "as_of": "2026-10-01",
           "cadence": "monthly"
         },
         {
           "code": "EXPINF10YR",
           "label": "Cleveland Fed 10-year expected inflation",
-          "value": 2.57,
+          "value": 2.73,
           "unit": "%",
-          "as_of": "2026-09-01",
+          "as_of": "2026-10-01",
           "cadence": "monthly"
         },
         {

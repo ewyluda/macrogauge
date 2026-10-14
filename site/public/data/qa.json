@@ -163,7 +163,7 @@
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.357 vs EIA weekly $4.354 \u2014 relative divergence 0.1% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.357 vs EIA weekly $4.331 \u2014 relative divergence 0.6% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -187,7 +187,7 @@
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.23 weights: macrogauge 33%, cleveland 33%, kalshi 33%"
+      "detail": "ensemble=0.28 weights: macrogauge 33%, cleveland 33%, kalshi 33%"
     },
     {
       "name": "gauge_current",
