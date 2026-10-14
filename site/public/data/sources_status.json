@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-14T21:58:25Z",
+  "generated_at": "2026-10-14T23:54:12Z",
   "sources": [
     {
       "name": "AAA",
@@ -9,7 +9,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:54:59Z",
+      "finished_at": "2026-10-14T23:53:12Z",
       "series_count": 1,
       "latest_obs": "2026-10-14"
     },
@@ -21,7 +21,7 @@
       "fetched": 51,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:54:59Z",
+      "finished_at": "2026-10-14T23:53:13Z",
       "series_count": 51,
       "latest_obs": "2026-10-14"
     },
@@ -33,7 +33,7 @@
       "fetched": 117,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:53:12Z",
+      "finished_at": "2026-10-14T23:52:21Z",
       "series_count": 1,
       "latest_obs": "2026-09-01"
     },
@@ -45,7 +45,7 @@
       "fetched": 240,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:58:22Z",
+      "finished_at": "2026-10-14T23:54:09Z",
       "series_count": 2,
       "latest_obs": "2026-09-01"
     },
@@ -57,7 +57,7 @@
       "fetched": 5,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:32Z",
+      "finished_at": "2026-10-14T23:53:39Z",
       "series_count": 5,
       "latest_obs": "2026-10-14"
     },
@@ -69,7 +69,7 @@
       "fetched": 3,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:32Z",
+      "finished_at": "2026-10-14T23:53:39Z",
       "series_count": 3,
       "latest_obs": "2026-10-14"
     },
@@ -81,7 +81,7 @@
       "fetched": 6,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:33Z",
+      "finished_at": "2026-10-14T23:53:40Z",
       "series_count": 6,
       "latest_obs": "2026-10-14"
     },
@@ -93,7 +93,7 @@
       "fetched": 3146,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:52:59Z",
+      "finished_at": "2026-10-14T23:52:18Z",
       "series_count": 28,
       "latest_obs": "2026-09-01"
     },
@@ -105,7 +105,7 @@
       "fetched": 1,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:56Z",
+      "finished_at": "2026-10-14T23:53:43Z",
       "series_count": 1,
       "latest_obs": "2026-10-14"
     },
@@ -117,7 +117,7 @@
       "fetched": 304,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:23Z",
+      "finished_at": "2026-10-14T23:53:29Z",
       "series_count": 2,
       "latest_obs": "2026-08-01"
     },
@@ -127,9 +127,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 4,
-      "new_rows": 2,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:55:00Z",
+      "finished_at": "2026-10-14T23:53:14Z",
       "series_count": 4,
       "latest_obs": "2026-10-01"
     },
@@ -141,7 +141,7 @@
       "fetched": 5,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:33Z",
+      "finished_at": "2026-10-14T23:53:41Z",
       "series_count": 5,
       "latest_obs": "2026-10-14"
     },
@@ -153,7 +153,7 @@
       "fetched": 3,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:25Z",
+      "finished_at": "2026-10-14T23:53:31Z",
       "series_count": 3,
       "latest_obs": "2026-10-14"
     },
@@ -163,9 +163,9 @@
       "cadence": "monthly",
       "ok": true,
       "fetched": 4435,
-      "new_rows": 2,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:53:10Z",
+      "finished_at": "2026-10-14T23:52:18Z",
       "series_count": 4,
       "latest_obs": "2026-10-12"
     },
@@ -177,7 +177,7 @@
       "fetched": 4999,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:58:20Z",
+      "finished_at": "2026-10-14T23:54:06Z",
       "series_count": 1,
       "latest_obs": "2026-10-06"
     },
@@ -189,7 +189,7 @@
       "fetched": 15964,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:56:38Z",
+      "finished_at": "2026-10-14T23:53:18Z",
       "series_count": 52,
       "latest_obs": "2026-07-01"
     },
@@ -201,7 +201,7 @@
       "fetched": 15655,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:19Z",
+      "finished_at": "2026-10-14T23:53:20Z",
       "series_count": 51,
       "latest_obs": "2026-07-01"
     },
@@ -211,9 +211,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 5,
-      "new_rows": 1,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:59Z",
+      "finished_at": "2026-10-14T23:53:47Z",
       "series_count": 1,
       "latest_obs": "2026-10-15"
     },
@@ -223,9 +223,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 14,
-      "new_rows": 14,
+      "new_rows": 7,
       "error": null,
-      "finished_at": "2026-10-14T21:53:10Z",
+      "finished_at": "2026-10-14T23:52:18Z",
       "series_count": 14,
       "latest_obs": "2026-10-14"
     },
@@ -235,9 +235,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 56,
-      "new_rows": 56,
+      "new_rows": 5,
       "error": null,
-      "finished_at": "2026-10-14T21:53:10Z",
+      "finished_at": "2026-10-14T23:52:19Z",
       "series_count": 56,
       "latest_obs": "2026-10-14"
     },
@@ -247,9 +247,9 @@
       "cadence": "monthly",
       "ok": true,
       "fetched": 65716,
-      "new_rows": 26,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:52:58Z",
+      "finished_at": "2026-10-14T23:52:17Z",
       "series_count": 187,
       "latest_obs": "2026-10-14"
     },
@@ -261,7 +261,7 @@
       "fetched": 675,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:58Z",
+      "finished_at": "2026-10-14T23:53:45Z",
       "series_count": 4,
       "latest_obs": "2026-09-29"
     },
@@ -273,7 +273,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-14T21:55:00Z",
+      "finished_at": "2026-10-14T23:53:15Z",
       "series_count": 1,
       "latest_obs": "2026-10-01"
     },
@@ -285,7 +285,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-14T21:58:20Z",
+      "finished_at": "2026-10-14T23:54:06Z",
       "series_count": 1,
       "latest_obs": "2026-10-01"
     },
@@ -297,7 +297,7 @@
       "fetched": 2,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:58:21Z",
+      "finished_at": "2026-10-14T23:54:06Z",
       "series_count": 2,
       "latest_obs": "2026-10-14"
     },
@@ -307,9 +307,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 11,
-      "new_rows": 6,
+      "new_rows": 4,
       "error": null,
-      "finished_at": "2026-10-14T21:58:21Z",
+      "finished_at": "2026-10-14T23:54:07Z",
       "series_count": 6,
       "latest_obs": "2026-12-09"
     },
@@ -321,7 +321,7 @@
       "fetched": 2,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:54:59Z",
+      "finished_at": "2026-10-14T23:53:13Z",
       "series_count": 1,
       "latest_obs": "2026-09-01"
     },
@@ -333,7 +333,7 @@
       "fetched": 4,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:57Z",
+      "finished_at": "2026-10-14T23:53:44Z",
       "series_count": 1,
       "latest_obs": "2026-10-13"
     },
@@ -343,9 +343,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 1,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:54:59Z",
+      "finished_at": "2026-10-14T23:53:13Z",
       "series_count": 1,
       "latest_obs": "2026-10-14"
     },
@@ -357,7 +357,7 @@
       "fetched": 4,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:35Z",
+      "finished_at": "2026-10-14T23:53:42Z",
       "series_count": 4,
       "latest_obs": "2026-10-14"
     },
@@ -369,7 +369,7 @@
       "fetched": 1525,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:58:22Z",
+      "finished_at": "2026-10-14T23:54:08Z",
       "series_count": 5,
       "latest_obs": "2026-09-01"
     },
@@ -381,7 +381,7 @@
       "fetched": 5,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:58:20Z",
+      "finished_at": "2026-10-14T23:54:05Z",
       "series_count": 1,
       "latest_obs": "2026-10-14"
     },
@@ -393,7 +393,7 @@
       "fetched": 6,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:33Z",
+      "finished_at": "2026-10-14T23:53:40Z",
       "series_count": 6,
       "latest_obs": "2026-10-14"
     },
@@ -405,7 +405,7 @@
       "fetched": 14,
       "new_rows": 2,
       "error": null,
-      "finished_at": "2026-10-14T21:57:32Z",
+      "finished_at": "2026-10-14T23:53:39Z",
       "series_count": 14,
       "latest_obs": "2026-10-14"
     },
@@ -417,7 +417,7 @@
       "fetched": 510,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:53:12Z",
+      "finished_at": "2026-10-14T23:52:21Z",
       "series_count": 1,
       "latest_obs": "2026-10-08"
     },
@@ -429,7 +429,7 @@
       "fetched": 934,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:21Z",
+      "finished_at": "2026-10-14T23:53:26Z",
       "series_count": 137,
       "latest_obs": "2026-01-01"
     },
@@ -441,7 +441,7 @@
       "fetched": 605,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:23Z",
+      "finished_at": "2026-10-14T23:53:28Z",
       "series_count": 89,
       "latest_obs": "2026-01-01"
     },
@@ -453,7 +453,7 @@
       "fetched": 4,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:58:18Z",
+      "finished_at": "2026-10-14T23:54:04Z",
       "series_count": 1,
       "latest_obs": "2026-10-14"
     },
@@ -465,7 +465,7 @@
       "fetched": 672,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:57:55Z",
+      "finished_at": "2026-10-14T23:53:42Z",
       "series_count": 2,
       "latest_obs": "2027-12-01"
     },
@@ -475,9 +475,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 2455,
-      "new_rows": 1,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:53:11Z",
+      "finished_at": "2026-10-14T23:52:19Z",
       "series_count": 1,
       "latest_obs": "2026-10-13"
     },
@@ -489,7 +489,7 @@
       "fetched": 2223,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:54:58Z",
+      "finished_at": "2026-10-14T23:53:12Z",
       "series_count": 5,
       "latest_obs": "2026-10-09"
     },
@@ -501,7 +501,7 @@
       "fetched": 4,
       "new_rows": 3,
       "error": null,
-      "finished_at": "2026-10-14T21:57:32Z",
+      "finished_at": "2026-10-14T23:53:39Z",
       "series_count": 6,
       "latest_obs": "2026-10-14"
     },
@@ -513,7 +513,7 @@
       "fetched": 11831,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-14T21:53:12Z",
+      "finished_at": "2026-10-14T23:52:20Z",
       "series_count": 102,
       "latest_obs": "2026-08-01"
     }

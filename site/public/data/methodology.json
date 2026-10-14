@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-10-14T21:58:25Z",
+  "published_at": "2026-10-14T23:54:12Z",
   "stats": {
     "series_count": 870,
-    "obs_count": 223799,
+    "obs_count": 223826,
     "source_count": 44,
     "tracker_corr": 0.9978,
     "live_coverage_pct": 39.06,

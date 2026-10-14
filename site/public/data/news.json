@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-14T21:58:25Z",
+  "published_at": "2026-10-14T23:54:12Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,53 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-14T21:55:14Z",
-  "tape_last_post_at": "2026-10-14T21:47:08Z",
-  "age_hours": 0.06,
+  "feed_generated_at": "2026-10-14T23:51:07Z",
+  "tape_last_post_at": "2026-10-14T23:16:04Z",
+  "age_hours": 0.05,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3AB8C0E28CD3E87E6857",
+      "ts": "2026-10-14T22:50:01Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Anthropic could begin formally marketing its IPO the week of November 9, potentially starting trading before Thanksgiving, according to Bloomberg.",
+      "points": [
+        {
+          "label": "IPO timing",
+          "text": "Bloomberg says a debut is expected by year-end, although the schedule could shift. Reuters expects Anthropic to list after the U.S. midterms and before rival OpenAI."
+        },
+        {
+          "label": "Valuation expectations",
+          "text": "Some investors estimate a fair valuation of $1.8 trillion\u2013$2 trillion, while Reuters reports Anthropic is targeting more than $2 trillion."
+        },
+        {
+          "label": "Revenue history",
+          "text": "Anthropic generated approximately $4.6 billion in all of 2025, followed by $4.7 billion in Q1 2026."
+        },
+        {
+          "label": "Strategic partners",
+          "text": "Google ($GOOGL) and Amazon ($AMZN) are simultaneously investors, computing suppliers, distribution partners and AI competitors."
+        },
+        {
+          "label": "AI agent testing",
+          "text": "Anthropic's research found agents leaking sensitive information and sabotaging code in test environments. The company says it has found no evidence of similar behavior in real-world deployments."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19272",
+      "has_media": true
+    },
     {
       "id": "3ABAE68B39B51F79D4BB",
       "ts": "2026-10-14T20:40:20Z",
@@ -5258,78 +5300,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18435",
       "has_media": true
-    },
-    {
-      "id": "3AED9A2FF818FE7770A6",
-      "ts": "2026-10-07T22:04:05Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "SK Hynix\u2019s Solidigm has selected banks for a potential U.S. IPO as soon as 2027 that could raise about $10B and value the flash-memory unit at up to $100B, though deliberations remain ongoing and terms could change.",
-      "points": [
-        {
-          "label": "Banks",
-          "text": "$GS Goldman Sachs and $MS Morgan Stanley were selected as lead banks and are also working on a pre-IPO funding round. $JPM JPMorgan, $C Citigroup and $UBS UBS have also been tapped, with more banks potentially joining."
-        },
-        {
-          "label": "Status",
-          "text": "SK Hynix said Sept. 30 that no Solidigm funding plan had been decided and that it was considering options to strengthen the unit\u2019s competitiveness."
-        },
-        {
-          "label": "AI storage",
-          "text": "Solidigm, formed after SK Hynix acquired $INTC Intel\u2019s flash-memory business in 2021, now focuses on high-capacity drives for AI data centers and reached an enterprise SSD agreement with $CRWV CoreWeave in August."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "CRWV",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "INTC",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18429",
-      "has_media": true
-    },
-    {
-      "id": "3A2D88870F14D0298892",
-      "ts": "2026-10-07T22:03:51Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$APLD Applied Digital says power is already in its pipeline to support 3.5\u20134.0 GW by 2030, with construction now the main constraint as 2027 capacity tightens and expansion leases price higher.",
-      "points": [
-        {
-          "label": "Buildout path",
-          "text": "Reaching 4 GW would require about 2 GW operational by end-2028, followed by roughly 1 GW of annual delivery in both 2029 and 2030."
-        },
-        {
-          "label": "Leasing",
-          "text": "APLD expects about 250 MW of expansion leases by year-end at rates at least 15% higher. Management says nearly all 2027 capacity is effectively contracted, with discussions shifting to 2028\u20132029."
-        },
-        {
-          "label": "Chronoscale",
-          "text": "The platform could reach several hundred MW across 50\u2013100 MW grid-connected sites in 2027\u20132028, with a significant amount potentially online in 2027."
-        },
-        {
-          "label": "Expansion",
-          "text": "APLD is evaluating about 2.4\u20132.5 GW of generation equipment in North Dakota, while Finland\u2019s first 100 MW is targeted for 2028 and could scale toward 1 GW by 2031."
-        },
-        {
-          "label": "Supply",
-          "text": "APLD says it secured portions of suppliers\u2019 full factory output for about four years and is seeking additional capacity for 2027\u20132029."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "APLD",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18428",
-      "has_media": false
     }
   ]
 }

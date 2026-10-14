@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-14T21:58:25Z",
+  "published_at": "2026-10-14T23:54:12Z",
   "as_of_curated": "2026-10-02",
   "priced_date": "2026-10-14",
   "note": "AI critical-IT MW + unit economics across the AI build-out cohort: neoclouds, powered-shell landlords, operators, and hyperscalers (incl. private builders xAI and OpenAI/Stargate). Spec: docs/superpowers/specs/2026-07-21-capacity-tracker-design.md. op/con/plan = verify-adjusted critical-IT AI MW; hyperscaler MW are estimates (no filing-grade critical-IT split is disclosed). cap/nd/bk in $B. Derived analytics (EV, weighted MW, EV/MW, coverage, %energized) are computed at render time, not stored. dupe!=null => excluded from de-duped cohort totals.",
@@ -345,7 +345,7 @@
           "https://www.sec.gov/Archives/edgar/data/2070542/000121390026105865/ea030737801ex99-1.htm"
         ]
       ],
-      "cap": 50.58,
+      "cap": 44.64,
       "px": 186.01,
       "priced_date": "2026-10-14",
       "stale": false,
@@ -366,11 +366,11 @@
           50
         ]
       ],
-      "ev": 51.08,
+      "ev": 45.14,
       "wmw": 1635.0,
-      "ev_per_mw": 31.2,
+      "ev_per_mw": 27.6,
       "pct_energized": 3.7,
-      "coverage": 0.78
+      "coverage": 0.89
     },
     {
       "t": "APLD",
@@ -1729,12 +1729,12 @@
           "https://www.sec.gov/Archives/edgar/data/1507605/000095014226002607/eh260835247_8k.htm"
         ]
       ],
-      "cap": 3.14,
+      "cap": 3.18,
       "px": 8.23,
       "priced_date": "2026-10-14",
       "stale": false,
       "tl": [],
-      "ev": 5.14,
+      "ev": 5.18,
       "wmw": 25.0,
       "ev_per_mw": null,
       "pct_energized": 0.0,
@@ -2553,7 +2553,7 @@
           "https://about.fb.com/news/2026/07/breaking-ground-on-metas-first-data-center-in-canada/"
         ]
       ],
-      "cap": 1878.87,
+      "cap": 1878.89,
       "px": 737.54,
       "priced_date": "2026-10-14",
       "stale": false,
@@ -2569,7 +2569,7 @@
           720
         ]
       ],
-      "ev": 1872.27,
+      "ev": 1872.29,
       "wmw": 8006.0,
       "ev_per_mw": null,
       "pct_energized": 44.8,
@@ -5533,8 +5533,8 @@
   ],
   "geo_note": "Campus-level site map, added 2026-07-09. lat/lng are town/county centroids, NOT parcel coordinates. approx=true => only the state/country is public (placed at a state-level position; dashed on the map). Sites with undisclosed locations or n/d MW live in geo_unmapped. DOCN (leased colo, locations undisclosed) and AKAM (distributed edge PoPs) are excluded by construction.",
   "reference": {
-    "nvda_cap_b": 5338.4,
-    "cohort_ev_b": 219.8
+    "nvda_cap_b": 5333.3,
+    "cohort_ev_b": 213.9
   },
   "power_deals": {
     "as_of_curated": "2026-10-08",

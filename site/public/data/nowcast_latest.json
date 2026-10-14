@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-14T21:58:25Z",
+  "published_at": "2026-10-14T23:54:12Z",
   "target": "CPI",
   "release_date": "2026-11-10",
   "core_benchmarks": {
@@ -8,12 +8,12 @@
       "as_of": "2026-10-14"
     },
     "kalshi": {
-      "value": 0.199,
+      "value": 0.21,
       "as_of": "2026-10-14"
     }
   },
   "core_ensemble": {
-    "value": 0.22,
+    "value": 0.25,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,
@@ -23,12 +23,12 @@
   "reference_month": "2026-10",
   "cpi": {
     "target_month": "2026-10",
-    "mom_pct": 0.36,
-    "mom_nsa_pct": 0.19,
+    "mom_pct": 0.44,
+    "mom_nsa_pct": 0.27,
     "basis": "SA",
     "core": {
-      "mom_pct": 0.25,
-      "mom_nsa_pct": 0.14,
+      "mom_pct": 0.34,
+      "mom_nsa_pct": 0.23,
       "basis": "SA",
       "weight_share": 0.7923
     },
@@ -46,24 +46,24 @@
       },
       {
         "component": "other",
-        "mom_pct": 0.1451,
+        "mom_pct": 0.367,
         "weight": 0.17737,
-        "contribution_pp": 0.0257,
+        "contribution_pp": 0.0651,
         "basis": "trend"
       },
       {
         "component": "food_home",
-        "mom_pct": 0.1277,
+        "mom_pct": 0.1926,
         "weight": 0.081612,
-        "contribution_pp": 0.0104,
+        "contribution_pp": 0.0157,
         "basis": "trend+driver",
-        "driver_mom_pct": 0.0583
+        "driver_mom_pct": 0.0615
       },
       {
         "component": "medical",
-        "mom_pct": 0.085,
+        "mom_pct": 0.1416,
         "weight": 0.081906,
-        "contribution_pp": 0.007,
+        "contribution_pp": 0.0116,
         "basis": "trend"
       },
       {
@@ -82,16 +82,16 @@
       },
       {
         "component": "education_comm",
-        "mom_pct": 0.1908,
+        "mom_pct": 0.2138,
         "weight": 0.057957,
-        "contribution_pp": 0.0111,
+        "contribution_pp": 0.0124,
         "basis": "trend"
       },
       {
         "component": "recreation",
-        "mom_pct": 0.2253,
+        "mom_pct": 0.2615,
         "weight": 0.050566,
-        "contribution_pp": 0.0114,
+        "contribution_pp": 0.0132,
         "basis": "trend"
       },
       {
@@ -110,16 +110,16 @@
       },
       {
         "component": "electricity",
-        "mom_pct": 0.0309,
+        "mom_pct": 0.4065,
         "weight": 0.025133,
-        "contribution_pp": 0.0008,
+        "contribution_pp": 0.0102,
         "basis": "trend"
       },
       {
         "component": "apparel",
-        "mom_pct": -0.1833,
+        "mom_pct": 0.7166,
         "weight": 0.024893,
-        "contribution_pp": -0.0046,
+        "contribution_pp": 0.0178,
         "basis": "trend"
       },
       {
@@ -131,9 +131,9 @@
       },
       {
         "component": "nat_gas",
-        "mom_pct": 0.2597,
+        "mom_pct": 0.1402,
         "weight": 0.007319,
-        "contribution_pp": 0.0019,
+        "contribution_pp": 0.001,
         "basis": "trend"
       }
     ]
@@ -209,12 +209,12 @@
       "as_of": "2026-10-14"
     },
     "kalshi": {
-      "value": 0.213,
+      "value": 0.218,
       "as_of": "2026-10-14"
     }
   },
   "ensemble": {
-    "value": 0.28,
+    "value": 0.31,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,
