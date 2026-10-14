@@ -41,6 +41,22 @@ def pct_change_daily(obs: dict, as_of: str, days: int) -> float | None:
     return None
 
 
+def missing_months(obs_dates) -> list[str]:
+    """YYYY-MM months strictly inside a monthly series' range with no print
+    (BLS never published October 2025 — shutdown). The daily grid carries the
+    prior month's level through them, so a rate whose end or base lands there
+    is a longer change mislabelled."""
+    months = {d[:7] for d in obs_dates or ()}
+    if not months:
+        return []
+    out, m, last = [], months_back(f"{min(months)}-01", -1)[:7], max(months)
+    while m < last:
+        if m not in months:
+            out.append(m)
+        m = months_back(f"{m}-01", -1)[:7]
+    return out
+
+
 def write_json(payload: dict, out_dir: Path, filename: str) -> Path:
     """The standard artifact envelope: ensure dir, indent=2, trailing \\n."""
     out_dir.mkdir(parents=True, exist_ok=True)
