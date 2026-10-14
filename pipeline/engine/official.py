@@ -65,6 +65,11 @@ def latest_quote(conn: sqlite3.Connection, series_code: str) -> dict:
     obs_date, latest = rows[-1]
     target = (date.fromisoformat(obs_date) - timedelta(days=365)).isoformat()
     base = [(d, v) for d, v in rows if d <= target]
+    if all(d[8:10] == "01" for d, _ in rows):
+        # Monthly: only the same month a year back is a YoY base. BLS skipped
+        # October 2025 (shutdown); nearest-obs would take September — 13 months.
+        year_ago = _months_back(obs_date, 12)
+        base = [(d, v) for d, v in rows if d == year_ago]
     yoy = delta = None
     if base:
         base_date, base_val = base[-1]

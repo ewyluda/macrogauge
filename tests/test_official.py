@@ -79,6 +79,18 @@ def test_latest_quote_stale_base_is_none(tmp_path):
     assert r["yoy_pct"] is None  # base 115d before target — outside 60d tolerance
 
 
+def test_latest_quote_monthly_series_needs_the_same_month_a_year_back(tmp_path):
+    # BLS average prices skip October 2025 (shutdown): the nearest-obs rule
+    # would take September 2025 (30d, inside the 60d tolerance) — a 13-month
+    # change published as YoY.
+    conn = seed_code(tmp_path, "EGGS", [
+        ("2025-09-01", 3.488), ("2025-11-01", 3.60), ("2026-10-01", 4.00)])
+    assert official.latest_quote(conn, "EGGS")["yoy_pct"] is None
+    conn = seed_code(tmp_path, "EGGS2", [
+        ("2025-08-01", 3.40), ("2025-09-01", 3.488), ("2026-09-01", 4.00)])
+    assert official.latest_quote(conn, "EGGS2")["yoy_pct"] == pytest.approx((4.00 / 3.488 - 1) * 100)
+
+
 def test_latest_yoy_skips_month_with_missing_base(tmp_path):
     # 2025-10 print never published (shutdown): Oct-2026 YoY has no base ->
     # headline falls back to the latest computable month (Sep 2026)
