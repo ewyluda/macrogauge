@@ -131,6 +131,38 @@ def test_trailing_median_stops_at_last_real_observation(tmp_path):
     assert all(row["mom_pct"] != 0.0 for row in medical)
 
 
+def test_trend_levels_skip_a_month_with_no_real_observation():
+    """BLS never published October 2025 (shutdown): the daily grid carries
+    September's level through October, a fabricated 0.0 change followed by a
+    two-month change labelled one-month. Neither may enter the median."""
+    months = [f"2025-{m:02d}-01" for m in range(1, 13)]
+    level, daily = 100.0, {}
+    for m in months:
+        level *= 1.01 if m != "2025-11-01" else 1.0201  # Nov holds Oct+Nov
+        daily[m] = level
+    daily["2025-10-01"] = daily["2025-09-01"]  # forward-filled hole
+    component = {"daily_index": daily, "last_obs": "2025-12-01",
+                 "obs_dates": [m for m in months if m != "2025-10-01"]}
+    levels = signals.component_trend_levels(component, "2025-12")
+    assert "2025-10" not in levels
+    changes = dict(signals.adjacent_changes(levels))
+    assert "2025-10" not in changes and "2025-11" not in changes
+    assert signals.median_mom(levels, 12) == pytest.approx(1.0)
+
+
+def test_median_window_is_calendar_months_not_a_change_count():
+    """A hole drops changes; it must not pull older months into the window."""
+    levels, level = {}, 100.0
+    for m in (f"2025-{k:02d}" for k in range(1, 13)):
+        level *= 1.05 if m in ("2025-07", "2025-08") else 1.01
+        levels[m] = level
+    del levels["2025-10"]
+    # 4 calendar months back from Dec = Sep..Dec changes: Sep and Dec (Oct/Nov
+    # unknowable) -> 1.0. Counting the last 4 changes instead would reach back
+    # to the hot Jul/Aug and give 3.0.
+    assert signals.median_mom(levels, 4) == pytest.approx(1.0)
+
+
 def test_component_trend_is_capped_at_config_annual_rate(tmp_path):
     """A spiky NSA window (winter utility gas) must not be annualized into an
     implausible year-long path: the base rate is capped at ±cap %/yr."""

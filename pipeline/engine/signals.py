@@ -42,7 +42,13 @@ def adjacent_changes(levels: dict[str, float]) -> list[tuple[str, float]]:
 
 
 def median_mom(levels: dict[str, float], window: int, fallback: float = 0.0) -> float:
-    changes = [value for _, value in adjacent_changes(levels)[-window:]]
+    """Median of the one-month changes in the trailing `window` CALENDAR
+    months. A month without a real print drops its changes instead of
+    pulling older months into the window."""
+    if not levels:
+        return fallback
+    start = months_back(f"{max(levels)}-01", window)[:7]
+    changes = [value for month, value in adjacent_changes(levels) if month > start]
     return statistics.median(changes) if changes else fallback
 
 
@@ -122,6 +128,11 @@ def component_trend_levels(component: dict, through_month: str) -> dict[str, flo
     # past it the daily grid is pure forward-fill, so every adjacent-month
     # "change" is a fabricated 0.0 that drags the trailing median toward zero
     # (the same like-month rule behind the gauge's own component YoY).
+    # Likewise a month with no real print inside the series (BLS never
+    # published October 2025 — shutdown) is September's level carried
+    # forward: a fake 0.0, then a two-month change labelled one-month.
     last_real_month = component["last_obs"][:7]
-    return month_values(component["daily_index"].items(),
-                        min(through_month, last_real_month))
+    levels = month_values(component["daily_index"].items(),
+                          min(through_month, last_real_month))
+    real = {d[:7] for d in component.get("obs_dates") or ()}
+    return {m: v for m, v in levels.items() if m in real} if real else levels
