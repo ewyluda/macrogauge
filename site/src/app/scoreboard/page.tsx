@@ -80,7 +80,7 @@ export default function Scoreboard() {
     <Section title="Live grades — real-time calls, receipts included">
       <div className="section-tools"><DownloadData filename="macrogauge-cpi-grades" json="accountability_cpi.json" citation="MacroGauge live CPI grades" rows={[...graded, ...pending]} /></div>
       <GradeTable rows={{ graded, pending }} keyPrefix="cpi" />
-      <p className="method">{graded.length} graded, {pending.length} pending. Signed error = forecast − actual (positive = ran hot). Calls freeze at their as-of date and grade automatically when the print lands — nothing is revised after the fact.</p>
+      <p className="method">{graded.length} graded, {pending.length} pending. Signed error = forecast − actual (positive = ran hot). Basis: SA calls grade against seasonally adjusted CPI (CPIAUCSL); NSA calls, including every call recorded before 2026-09-26, against unadjusted CPI (CPIAUCNS) — so actuals for the same month can differ from the SA head-to-head above. Calls freeze at their as-of date and grade automatically when the print lands — nothing is revised after the fact.</p>
     </Section>
     <Section title="Walk-forward backtest — vintage-true history">
       <div className="kpi-row"><KpiCard label="Benchmark MAE (vintage-true)" value={summary.mae_pp == null ? "—" : `${summary.mae_pp.toFixed(2)}pp`} context={`${summary.observations} backtest observations · 3-month-average benchmark, not the live model`} accent="sky" />

@@ -68,6 +68,14 @@ test("/scoreboard backtest table carries the vintage cutoff and naive comparison
   await expect(page.locator("th", { hasText: "vs naive" })).toHaveCount(1);
 });
 
+test("/scoreboard labels each CPI grade's basis; PCE and NFP tables carry none", async ({ page }) => {
+  await page.goto("/scoreboard");
+  await expect(page.locator("th", { hasText: /^Basis$/ })).toHaveCount(1);
+  await expect(page.getByRole("cell", { name: /^N?SA$/ }).first()).toBeVisible();
+  await page.goto("/pce");
+  await expect(page.locator("th", { hasText: /^Basis$/ })).toHaveCount(0);
+});
+
 test("/gap shows every variant's summary strip", async ({ page }) => {
   await page.goto("/gap");
   const tiles = page.locator(".quote-tile");
