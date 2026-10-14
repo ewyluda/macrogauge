@@ -35,6 +35,7 @@ export function ColChart({
   colIndex,
   gaugeIndex,
   markFrom,
+  missingMonths = [],
 }: {
   dates: string[];
   col: (number | null)[];
@@ -45,13 +46,15 @@ export function ColChart({
   gaugeIndex?: (number | null)[];
   /** a dated vertical marker (the start of a cost-of-living jump) */
   markFrom?: { date: string; label: string } | null;
+  /** "YYYY-MM" months an official component never printed */
+  missingMonths?: readonly string[];
 }) {
   const [rate, setRate] = useRateMode();
   const momentum = rate !== "yoy" && !!colIndex;
   const [win, setWin] = useUrlState<"24m" | "all">("win", "24m", codecs.enumOf(["24m", "all"] as const));
   const start = win === "24m" ? windowStart([dates], 24) : undefined;
   // momentum is computed on the full history first, then the window is cut
-  const full = sliceSince(dates, [rateSeries(rate, col, colIndex, dates), rateSeries(rate, gauge, gaugeIndex, dates)], start);
+  const full = sliceSince(dates, [rateSeries(rate, col, colIndex, dates, missingMonths), rateSeries(rate, gauge, gaugeIndex, dates, missingMonths)], start);
   const [colS, gaugeS] = full.series;
   const offc = sliceSince(months, [official], start);
   const suffix = momentum ? ` · ${rateLabel(rate)}` : "";

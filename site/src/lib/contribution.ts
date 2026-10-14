@@ -23,6 +23,8 @@ export type ReplayComponent = {
   bls_yoy: (number | null)[];
   /** YYYY-MM (YoY base month) → weight the headline used at dates with that base */
   weights_by_month?: Record<string, number>;
+  /** "YYYY-MM" months this official component never printed (BLS skipped October 2025) */
+  missing_months?: string[];
 };
 
 const DAY_MS = 86_400_000;

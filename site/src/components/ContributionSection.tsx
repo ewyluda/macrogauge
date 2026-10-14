@@ -112,8 +112,8 @@ export function ContributionSection({
     // reads 0.0% (the like-month rule CLAUDE.md applies to YoY). The last
     // index change on the grid is that observation.
     const own = lastChange(c.index);
-    const a3 = annualizedAt(c.index, data.dates, RATE_LOOKBACK_MONTHS.ann3, own);
-    const a6 = annualizedAt(c.index, data.dates, RATE_LOOKBACK_MONTHS.ann6, own);
+    const a3 = annualizedAt(c.index, data.dates, RATE_LOOKBACK_MONTHS.ann3, own, c.missing_months);
+    const a6 = annualizedAt(c.index, data.dates, RATE_LOOKBACK_MONTHS.ann6, own, c.missing_months);
     return {
       code: c.code, label: c.label, weight: weightAt(c, data.dates[last]), mode: c.mode, color: COMPONENT_COLORS[k % COMPONENT_COLORS.length],
       ownDate: data.dates[own],

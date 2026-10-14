@@ -6,15 +6,23 @@ import { sliceSince, windowStart } from "@/lib/chartWindow";
 import { rateLabel, rateSeries } from "@/lib/momentum";
 import { RateModeControl, useRateMode } from "./RateModeControl";
 
-type Pt = [string, number];
+type Pt = [string, number | null];
 
+/** [x, y] points without the leading/trailing nulls (a series that starts
+ *  late or ends early). An interior null stays as a break, so the line does
+ *  not bridge an undefined stretch — a 3/6-month rate touching a month BLS
+ *  never printed (October 2025) — with a made-up straight segment. */
 function pair(xs: string[], ys: (number | null)[]): Pt[] {
   const out: Pt[] = [];
   xs.forEach((x, i) => {
     const y = ys[i];
-    if (y !== null && y !== undefined) out.push([x, y]);
+    out.push([x, y ?? null]);
   });
-  return out;
+  const first = out.findIndex((p) => p[1] !== null);
+  if (first < 0) return [];
+  let last = out.length - 1;
+  while (out[last][1] === null) last--;
+  return out.slice(first, last + 1);
 }
 
 export function HeroChart({
@@ -31,6 +39,7 @@ export function HeroChart({
   colIndex,
   markers,
   overview = false,
+  missingMonths = [],
 }: {
   dates: string[];
   gauge: (number | null)[];
@@ -49,13 +58,16 @@ export function HeroChart({
   /** vertical rules — CPI release days and the next scheduled print (batch 5d) */
   markers?: { date: string; label: string }[];
   overview?: boolean;
+  /** "YYYY-MM" months an official component never printed (gauge_daily
+   *  missing_months): 3/6-month rates touching them are nulled */
+  missingMonths?: readonly string[];
 }) {
   const [allComparisons, setAllComparisons] = useState(false);
   const [rate, setRate] = useRateMode();
   const momentum = rate !== "yoy" && !!gaugeIndex;
-  const gaugeS = useMemo(() => rateSeries(rate, gauge, gaugeIndex, dates), [rate, gauge, gaugeIndex, dates]);
-  const trackerS = useMemo(() => rateSeries(rate, tracker, trackerIndex, dates), [rate, tracker, trackerIndex, dates]);
-  const colS = useMemo(() => (col ? rateSeries(rate, col, colIndex, dates) : undefined), [rate, col, colIndex, dates]);
+  const gaugeS = useMemo(() => rateSeries(rate, gauge, gaugeIndex, dates, missingMonths), [rate, gauge, gaugeIndex, dates, missingMonths]);
+  const trackerS = useMemo(() => rateSeries(rate, tracker, trackerIndex, dates, missingMonths), [rate, tracker, trackerIndex, dates, missingMonths]);
+  const colS = useMemo(() => (col ? rateSeries(rate, col, colIndex, dates, missingMonths) : undefined), [rate, col, colIndex, dates, missingMonths]);
   // The window is cut from the data, not just the axis: ECharts sizes the
   // y-axis from every point in a series, including those clipped by
   // `xAxis.min`, so the 2022 spike would otherwise crush the visible lines.

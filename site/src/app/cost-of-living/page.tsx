@@ -100,6 +100,7 @@ export default function CostOfLiving() {
             months={compare.months.slice(mFrom)}
             official={compare.official_yoy_pct.slice(mFrom)}
             markFrom={jump ? { date: jump.from, label: "cost-of-living jump" } : null}
+            missingMonths={artifact("gauge_daily", gaugeDaily).variants.col.missing_months ?? []}
           />
         </div>
         {jump && <p className="method" data-testid="col-jump">{jump.text}</p>}

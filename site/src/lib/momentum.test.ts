@@ -113,3 +113,32 @@ describe("lastChange", () => {
     expect(lastChange([100, null, 102, 102])).toBe(0);
   });
 });
+
+describe("never-printed months (BLS skipped October 2025)", () => {
+  const dates = dailyGrid("2025-06-01", "2026-05-31");
+  // September's level carried through October; November holds two months of moves
+  const level = (ym: string) => ({ "2025-10": 103, "2025-11": 105 } as Record<string, number>)[ym]
+    ?? 100 + (Number(ym.slice(5, 7)) + (ym < "2026" ? 0 : 12) - 6);
+  const index = monthlyStep(dates, level);
+  const at = (d: string) => dates.indexOf(d);
+
+  it("nulls a rate whose base lands in a missing month", () => {
+    expect(annualizedAt(index, dates, 3, at("2026-01-15"))).not.toBeNull();
+    expect(annualizedAt(index, dates, 3, at("2026-01-15"), ["2025-10"])).toBeNull();
+  });
+
+  it("nulls a rate whose end lands in a missing month", () => {
+    expect(annualizedAt(index, dates, 3, at("2025-10-20"), ["2025-10"])).toBeNull();
+  });
+
+  it("leaves rates clear of the hole untouched", () => {
+    const i = at("2026-03-15");
+    expect(annualizedAt(index, dates, 3, i, ["2025-10"])).toBe(annualizedAt(index, dates, 3, i));
+  });
+
+  it("rateSeries threads the missing months through; YoY mode is untouched", () => {
+    const yoy = dates.map(() => 1);
+    expect(rateSeries("ann3", yoy, index, dates, ["2025-10"])[at("2026-01-15")]).toBeNull();
+    expect(rateSeries("yoy", yoy, index, dates, ["2025-10"])).toBe(yoy);
+  });
+});

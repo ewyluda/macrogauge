@@ -17,6 +17,11 @@ export const BREADTH_LATEST = latestBreadth(BREADTH_OURS);
 const xs = months.map((m) => `${m}-01`);
 const from = xs.findIndex((d) => d >= "2019-01-01");
 const cut = <T,>(a: T[]) => a.slice(from);
+// compare.json skips months with no official print (BLS skipped October 2025),
+// so its arrays are matched to the quilt's contiguous months by month, never
+// by position — positionally every point after the gap plots a month early.
+const gaugeYoyByMonth = new Map(compare.months.map((m, i) => [m.slice(0, 7), compare.gauge_yoy_pct[i]]));
+const gaugeYoy = months.map((m) => gaugeYoyByMonth.get(m) ?? null);
 
 /** Breadth and robust-central diagnostics over the 14 component YoYs,
  *  computed at build time from the full-history quilt. Server component. */
@@ -68,7 +73,7 @@ export function BreadthPanel({ compact = false }: { compact?: boolean }) {
             <LinesChart
               height={260}
               series={[
-                { name: "Headline gauge YoY", x: cut(xs), y: cut(compare.gauge_yoy_pct), color: C.sky },
+                { name: "Headline gauge YoY", x: cut(xs), y: cut(gaugeYoy), color: C.sky },
                 { name: "16% trimmed mean (ours)", x: cut(xs), y: cut(BREADTH_OURS.map((r) => r.trimmedMean)), color: C.violet },
                 { name: "Weighted median (ours)", x: cut(xs), y: cut(BREADTH_OURS.map((r) => r.weightedMedian)), color: C.emerald, dashed: true },
                 { name: "16% trimmed mean (official)", x: cut(xs), y: cut(BREADTH_OFFICIAL.map((r) => r.trimmedMean)), color: C.muted, dashed: true, step: true },
