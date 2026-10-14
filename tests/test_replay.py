@@ -62,6 +62,21 @@ def test_official_component_publishes_the_months_it_never_printed(tmp_path):
     comp["obs_dates"] = ["2025-08-01", "2025-09-01", "2025-11-01", "2025-12-01"]
     p = replay.build(result, [COMP])
     assert p["components"][0]["missing_months"] == ["2025-10"]
-    comp["mode"] = "live"  # a live blend's carried days are not a missed print
-    assert replay.build(result, [COMP])["components"][0]["missing_months"] == []
+    # an official history with a live tail keeps its historical gap: mode
+    # says how the series is built, not whether a month printed (review
+    # 2026-10-14 finding 1)
+    comp["mode"] = "live"
+    comp["obs_dates"] += ["2025-12-02", "2025-12-03"]
+    assert replay.build(result, [COMP])["components"][0]["missing_months"] == ["2025-10"]
     validate.validate_file(replay.write(p, tmp_path, "T"), SCHEMAS / "replay.schema.json")
+
+
+def test_monthly_series_with_drifting_print_days_misses_no_month():
+    """Manheim prints about monthly on drifting days (Jan 31 -> Mar 3 ->
+    Mar 31 -> May 1): February and April hold no obs, but no print was
+    missed — the level carried into them is at most a month old."""
+    import copy
+    result = copy.deepcopy(RESULT)
+    comp = result["variants"]["gauge"]["components"]["fuel"]
+    comp["obs_dates"] = ["2026-01-31", "2026-03-03", "2026-03-31", "2026-05-01", "2026-05-31"]
+    assert replay.build(result, [COMP])["components"][0]["missing_months"] == []
