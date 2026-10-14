@@ -15,7 +15,9 @@
       "properties": {
         "yoy_pct": {"type": "number"},
         "prev_yoy_pct": {"type": "number"},
-        "month": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}
+        "month": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "latest_month": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "prev_month": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}
       }
     },
     "gap_pp": {"type": "number"},

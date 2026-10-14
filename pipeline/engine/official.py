@@ -34,7 +34,7 @@ def latest_yoy(conn: sqlite3.Connection, series_code: str) -> dict:
         "SELECT MIN(vintage_date) FROM observations WHERE series_code = ? AND obs_date = ?",
         (series_code, latest_month)).fetchone()[0]
     return {"series_code": series_code, "month": computable[0],
-            "latest_month": latest_month,
+            "latest_month": latest_month, "prev_month": computable[1],
             "yoy_pct": yoy(computable[0]), "prev_yoy_pct": yoy(computable[1]),
             "as_of": released or vintage.max_vintage(conn, series_code)}
 

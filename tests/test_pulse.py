@@ -35,6 +35,18 @@ def test_build_rounds_and_computes_gap():
     assert p["next_print"] == {"date": "2026-07-14", "reference_month": "2026-06"}
 
 
+def test_official_carries_the_printed_and_previous_months_when_known(tmp_path):
+    # Oct-2026 printed but has no YoY base (BLS skipped Oct 2025): the site
+    # must be able to say "October printed, September YoY shown".
+    cpi = {**CPI, "month": "2026-09-01", "latest_month": "2026-10-01",
+           "prev_month": "2026-08-01"}
+    p = pulse.build(GAUGE_RESULT, cpi,
+                    next_print={"date": "2026-11-10", "reference_month": "2026-10"})
+    assert p["official"]["latest_month"] == "2026-10-01"
+    assert p["official"]["prev_month"] == "2026-08-01"
+    validate.validate_file(pulse.write(p, tmp_path, "T"), SCHEMAS / "pulse.schema.json")
+
+
 def test_write_validates_against_schema(tmp_path):
     payload = pulse.build(GAUGE_RESULT, CPI,
                            next_print={"date": "2026-07-14", "reference_month": "2026-06"})

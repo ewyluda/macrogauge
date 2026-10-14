@@ -106,6 +106,17 @@ def test_latest_yoy_skips_month_with_missing_base(tmp_path):
     assert r["prev_yoy_pct"] == pytest.approx((305.0 / 298.0 - 1) * 100)
 
 
+def test_latest_yoy_names_the_month_behind_prev_yoy(tmp_path):
+    # At the November 2026 print, October 2026 has no base (BLS skipped
+    # October 2025): "previous" is September's YoY and must say so.
+    conn = seed(tmp_path, [
+        ("2025-09-01", 299.0), ("2025-11-01", 301.0), ("2026-09-01", 306.0),
+        ("2026-10-01", 307.0), ("2026-11-01", 308.0)])
+    r = official.latest_yoy(conn, "CPIAUCNS")
+    assert (r["month"], r["latest_month"], r["prev_month"]) == (
+        "2026-11-01", "2026-11-01", "2026-09-01")
+
+
 def test_latest_yoy_no_computable_month_raises(tmp_path):
     conn = seed(tmp_path, [("2026-09-01", 306.0), ("2026-10-01", 307.0)])
     with pytest.raises(ValueError):

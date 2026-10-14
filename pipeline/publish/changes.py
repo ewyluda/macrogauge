@@ -226,9 +226,14 @@ def _official(cur: dict | None, prev: dict | None) -> dict | None:
         return None
     o = cur["pulse"].get("official") or {}
     po = (prev or {}).get("pulse", {}).get("official") or {}
+    # A print is new when the newest PRINTED month moves, not the YoY month:
+    # the October 2026 print walks its YoY back to September (no October 2025
+    # base — BLS shutdown). Snapshots predating latest_month fall back to month.
+    printed = o.get("latest_month") or o.get("month")
+    prev_printed = po.get("latest_month") or po.get("month")
     return {"month": o.get("month"), "yoy_pct": o.get("yoy_pct"),
-            "prev_month": po.get("month"),
-            "new_print": bool(po.get("month")) and o.get("month") != po.get("month")}
+            "latest_month": printed, "prev_month": prev_printed,
+            "new_print": bool(prev_printed) and printed != prev_printed}
 
 
 def build(prev: dict | None, out_dir: Path, source_results, gate_flags=None) -> dict:
