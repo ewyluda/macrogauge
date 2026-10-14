@@ -1,11 +1,11 @@
 {
-  "published_at": "2026-10-14T12:52:58Z",
+  "published_at": "2026-10-14T13:24:35Z",
   "target": "CPI MoM",
-  "release_date": "2026-10-14",
-  "reference_month": "2026-09",
-  "basis": "SA",
+  "release_date": "2026-11-10",
+  "reference_month": "2026-10",
+  "basis": "NSA",
   "ensemble": {
-    "value": 0.49,
+    "value": 0.23,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,
@@ -15,26 +15,26 @@
   "forecasters": [
     {
       "name": "Macrogauge",
-      "value": 0.43,
+      "value": 0.19,
       "kind": "model",
       "as_of": "2026-10-14"
     },
     {
       "name": "Cleveland",
-      "value": 0.53,
+      "value": 0.27,
       "kind": "benchmark",
-      "as_of": "2026-09-30"
+      "as_of": "2026-10-07"
     },
     {
       "name": "Kalshi",
-      "value": 0.51,
+      "value": 0.233,
       "kind": "benchmark",
-      "as_of": "2026-10-13"
+      "as_of": "2026-10-14"
     }
   ],
   "core": {
     "ensemble": {
-      "value": 0.16,
+      "value": 0.15,
       "weights": {
         "macrogauge": 0.3333,
         "cleveland": 0.3333,
@@ -44,7 +44,7 @@
     "forecasters": [
       {
         "name": "Macrogauge",
-        "value": 0.11,
+        "value": 0.14,
         "kind": "model",
         "as_of": "2026-10-14"
       },
@@ -52,13 +52,13 @@
         "name": "Cleveland",
         "value": 0.2,
         "kind": "benchmark",
-        "as_of": "2026-09-11"
+        "as_of": "2026-10-01"
       },
       {
         "name": "Kalshi",
-        "value": 0.176,
+        "value": 0.118,
         "kind": "benchmark",
-        "as_of": "2026-10-13"
+        "as_of": "2026-10-14"
       }
     ]
   }

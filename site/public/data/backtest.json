@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-14T12:52:58Z",
+  "published_at": "2026-10-14T13:24:35Z",
   "model": "cpi_3m_vintage_true",
   "rows": [
     {
@@ -1101,11 +1101,21 @@
       "naive_mom_pct": -0.01,
       "actual_mom_pct": 0.32,
       "error_pp": -0.23
+    },
+    {
+      "target_month": "2026-09",
+      "cutoff": "2026-10-13",
+      "release_date": "2026-10-14",
+      "badge": "BT",
+      "forecast_mom_pct": -0.01,
+      "naive_mom_pct": 0.32,
+      "actual_mom_pct": 0.59,
+      "error_pp": -0.6
     }
   ],
   "summary": {
-    "observations": 110,
-    "mae_pp": 0.289,
-    "naive_mae_pp": 0.253
+    "observations": 111,
+    "mae_pp": 0.292,
+    "naive_mae_pp": 0.254
   }
 }

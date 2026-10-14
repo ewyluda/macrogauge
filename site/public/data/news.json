@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-14T12:52:58Z",
+  "published_at": "2026-10-14T13:24:35Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,86 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-14T12:49:08Z",
-  "tape_last_post_at": "2026-10-14T12:41:08Z",
-  "age_hours": 0.07,
+  "feed_generated_at": "2026-10-14T13:24:23Z",
+  "tape_last_post_at": "2026-10-14T13:22:10Z",
+  "age_hours": 0.01,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3ABBB0923982FCB48441",
+      "ts": "2026-10-14T13:05:31Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "GlobalFoundries ($GFS) was selected to operate two new semiconductor factories in Malta, New York, under a U.S.-Japan initiative backed by up to $21 billion in investment.",
+      "points": [
+        {
+          "label": "Initial investment",
+          "text": "Approximately $10B will fund construction of a new 300mm chip fabrication plant, expected to begin operations in 2029."
+        },
+        {
+          "label": "Second facility",
+          "text": "An additional investment of approximately $10B is planned for another fab, subject to further commitments."
+        },
+        {
+          "label": "Funding structure",
+          "text": "Japan will provide investment capital, while GlobalFoundries supplies manufacturing technology, expertise and operational management."
+        },
+        {
+          "label": "Strategic impact",
+          "text": "The facilities aim to expand U.S. chip production, strengthen domestic supply chains and support automotive, industrial and connected infrastructure markets."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GFS",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19126",
+      "has_media": false
+    },
+    {
+      "id": "3A159B4E6A444F8EF118",
+      "ts": "2026-10-14T13:02:10Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "HONEYWELL PARTNERS WITH NVIDIA, DELL ON PHYSICAL AI OPS",
+      "points": [
+        {
+          "label": null,
+          "text": "HONEYWELL LAUNCHES FORGE COGNITION WITH NVIDIA AND DELL, PARTNERS WITH BOTH COMPANIES ON PHYSICAL AI OPERATIONS"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [
+        "DELL"
+      ],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19124",
+      "has_media": false
+    },
+    {
+      "id": "3ADAF9684FD8C9EA8406",
+      "ts": "2026-10-14T12:56:43Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "ORACLE NETSUITE ANNOUNCES LAUNCH OF AI-FIRST QUICKSTART",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "ORCL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19121",
+      "has_media": false
+    },
     {
       "id": "3A1988963F1DE11A156A",
       "ts": "2026-10-14T12:01:06Z",
@@ -5329,146 +5404,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18317",
       "has_media": true
-    },
-    {
-      "id": "3A9A1C0D41F8D8C41B9F",
-      "ts": "2026-10-07T13:15:50Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$META Meta, $GOOGL Alphabet\u2019s Google DeepMind, Isomorphic Labs and the U.S. government are backing Biohub\u2019s Virtual Biology Initiative, bringing total committed investment to about $1.8B to build large open datasets for training biological AI models.",
-      "points": [
-        {
-          "label": "Funding",
-          "text": "Meta, Google DeepMind and Isomorphic Labs are investing $300M; the Department of Energy will provide more than $500M over five years, while NIH will coordinate datasets and repositories built with more than $500M in earlier federal funding. Biohub committed $500M in April."
-        },
-        {
-          "label": "Open-data model",
-          "text": "Commercial funders receive temporary embargo periods before datasets become public; government-funded datasets will have no such restrictions."
-        },
-        {
-          "label": "Scale and timeline",
-          "text": "Biohub aims to expand from datasets containing hundreds of millions of cells toward billions and eventually trillions, with a first dataset expected in about a year and predictive models targeted within five years."
-        },
-        {
-          "label": "Research goal",
-          "text": "Using methods including spatial transcriptomics and large-scale cell-response screens, the project aims to model how cells behave across far more conditions and potentially shorten drug-development timelines."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "GOOGL",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18306",
-      "has_media": false
-    },
-    {
-      "id": "3A24BC0014EAF64D39CA",
-      "ts": "2026-10-07T13:10:38Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "SPACEX CREDIT RISK HITS FRESH HIGH AFTER FT REPORTS SPACEX TO RAISE $40B FOR NVIDIA CHIPS",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18304",
-      "has_media": false
-    },
-    {
-      "id": "3AE64B7C199D0E6D9521",
-      "ts": "2026-10-07T13:06:21Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$MRVL Marvell drew a broad wave of price-target increases after outlining a $70B\u2013$90B FY31 revenue framework, with Jefferies setting the Street-high target at $450 from $325 while maintaining Buy.",
-      "points": [
-        {
-          "label": "Highest targets",
-          "text": "Jefferies $450 from $325; RBC and Oppenheimer $425 from $360/$325; Needham, Piper Sandler and BofA $400 from $300/$270/$365."
-        },
-        {
-          "label": "Other increases",
-          "text": "StoneX $375 from $275; Stifel $370 from $350; Wells Fargo $365 from $310; JPMorgan $360 from $305; Cantor $350 from $330; UBS $350 from $335; TD Cowen $350; Susquehanna $340 from $265; BMO $325 from $250; Morgan Stanley $300 from $268; Goldman Sachs $270 from $220."
-        },
-        {
-          "label": "Jefferies thesis",
-          "text": "The firm sees connectivity becoming central to Marvell\u2019s FY31 outlook, with interconnect reaching about $37.5B at the framework midpoint and scale-up optics driving incremental growth. Custom silicon could approach $30B, supported by XPU-related NIC, CXL and inference-acceleration demand."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MRVL",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18301",
-      "has_media": false
-    },
-    {
-      "id": "3A45CB0F8CDD0AEF2168",
-      "ts": "2026-10-07T13:05:04Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$HPE HPE introduced four ProLiant Gen13 servers powered by $AMD AMD\u2019s 6th Gen EPYC CPUs, targeting higher-density enterprise AI, inference, analytics, virtualization and HPC workloads.",
-      "points": [
-        {
-          "label": "Systems",
-          "text": "The DL585a supports up to eight double-wide GPUs and dual EPYC CPUs, while the 1U DL525 supports one EPYC processor with up to 256 cores; both add PCIe Gen6 and higher memory bandwidth."
-        },
-        {
-          "label": "Dense compute",
-          "text": "The OCP-compliant XD245 uses a four-node direct-liquid-cooled design, while the XD285 uses a two-node air-cooled architecture for AI and HPC workloads."
-        },
-        {
-          "label": "Security",
-          "text": "Gen13 adds automatic self-encrypting drives, multi-person authorization, expanded post-quantum protections and component verification through HPE\u2019s Silicon Root of Trust."
-        },
-        {
-          "label": "Availability",
-          "text": "DL525 ships later in 2026, DL585a in early 2027, and XD245/XD285 in 2027."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMD",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "HPE",
-          "layer": "Servers & Storage"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18300",
-      "has_media": true
-    },
-    {
-      "id": "3AC52F1C41A45D40ED07",
-      "ts": "2026-10-07T13:04:27Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "NVIDIA DISCUSSED INVESTING AN ADDITIONAL $1 BILLION IN FIGURE \u2014 THE INFORMATION. $NVDA",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18299",
-      "has_media": false
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-14T12:52:58Z",
+  "published_at": "2026-10-14T13:24:35Z",
   "target": "CPI",
   "graded": [
     {
@@ -31,13 +31,23 @@
       "error": -0.09,
       "release_date": "2026-09-11",
       "basis": "NSA"
-    }
-  ],
-  "pending": [
+    },
     {
       "reference_period": "2026-09",
       "badge": "LIVE",
       "forecast": 0.43,
+      "as_of": "2026-09-29",
+      "actual": 0.65,
+      "error": -0.22,
+      "release_date": "2026-10-14",
+      "basis": "SA"
+    }
+  ],
+  "pending": [
+    {
+      "reference_period": "2026-10",
+      "badge": "LIVE",
+      "forecast": 0.19,
       "as_of": "2026-10-14",
       "actual": null
     }
@@ -49,19 +59,19 @@
     "weights_earned": false,
     "stats": {
       "macrogauge": {
-        "n": 3,
-        "mae_pp": 0.105,
-        "bias_pp": 0.035
+        "n": 4,
+        "mae_pp": 0.134,
+        "bias_pp": -0.029
       },
       "cleveland": {
-        "n": 3,
-        "mae_pp": 0.138,
-        "bias_pp": 0.114
+        "n": 4,
+        "mae_pp": 0.133,
+        "bias_pp": 0.056
       },
       "kalshi": {
-        "n": 3,
-        "mae_pp": 0.114,
-        "bias_pp": 0.04
+        "n": 4,
+        "mae_pp": 0.12,
+        "bias_pp": -0.005
       }
     },
     "rows": [
@@ -130,8 +140,147 @@
             "converted": false
           }
         }
+      },
+      {
+        "reference_period": "2026-09",
+        "release_date": "2026-10-14",
+        "actual_sa_mom_pct": 0.649,
+        "forecasts": {
+          "macrogauge": {
+            "value": 0.43,
+            "error": -0.219,
+            "converted": false
+          },
+          "cleveland": {
+            "value": 0.53,
+            "error": -0.119,
+            "converted": false
+          },
+          "kalshi": {
+            "value": 0.51,
+            "error": -0.139,
+            "converted": false
+          }
+        }
       }
     ]
   },
-  "last_print_components": null
+  "last_print_components": {
+    "reference_period": "2026-09",
+    "release_date": "2026-10-14",
+    "rows": [
+      {
+        "component": "apparel",
+        "label": "Apparel",
+        "weight": 0.02368,
+        "forecast_nsa_mom_pct": -0.183,
+        "actual_nsa_mom_pct": 2.407,
+        "miss_contribution_pp": -0.061
+      },
+      {
+        "component": "other",
+        "label": "Everything else (CPI residual)",
+        "weight": 0.1773,
+        "forecast_nsa_mom_pct": 0.128,
+        "actual_nsa_mom_pct": 0.466,
+        "miss_contribution_pp": -0.06
+      },
+      {
+        "component": "shelter_owned",
+        "label": "Shelter (owned)",
+        "weight": 0.26204,
+        "forecast_nsa_mom_pct": 0.253,
+        "actual_nsa_mom_pct": 0.392,
+        "miss_contribution_pp": -0.037
+      },
+      {
+        "component": "food_home",
+        "label": "Food at home",
+        "weight": 0.08325,
+        "forecast_nsa_mom_pct": 0.332,
+        "actual_nsa_mom_pct": 0.08,
+        "miss_contribution_pp": 0.021
+      },
+      {
+        "component": "used_vehicles",
+        "label": "Used cars & trucks",
+        "weight": 0.02759,
+        "forecast_nsa_mom_pct": -0.83,
+        "actual_nsa_mom_pct": -0.1,
+        "miss_contribution_pp": -0.02
+      },
+      {
+        "component": "education_comm",
+        "label": "Education & comm",
+        "weight": 0.05846,
+        "forecast_nsa_mom_pct": 0.165,
+        "actual_nsa_mom_pct": 0.399,
+        "miss_contribution_pp": -0.014
+      },
+      {
+        "component": "fuel",
+        "label": "Gasoline",
+        "weight": 0.02895,
+        "forecast_nsa_mom_pct": 6.085,
+        "actual_nsa_mom_pct": 6.517,
+        "miss_contribution_pp": -0.013
+      },
+      {
+        "component": "recreation",
+        "label": "Recreation",
+        "weight": 0.05137,
+        "forecast_nsa_mom_pct": 0.225,
+        "actual_nsa_mom_pct": 0.46,
+        "miss_contribution_pp": -0.012
+      },
+      {
+        "component": "nat_gas",
+        "label": "Piped gas",
+        "weight": 0.00773,
+        "forecast_nsa_mom_pct": 0.26,
+        "actual_nsa_mom_pct": -0.825,
+        "miss_contribution_pp": 0.008
+      },
+      {
+        "component": "shelter_rent",
+        "label": "Rent",
+        "weight": 0.0784,
+        "forecast_nsa_mom_pct": 0.235,
+        "actual_nsa_mom_pct": 0.313,
+        "miss_contribution_pp": -0.006
+      },
+      {
+        "component": "electricity",
+        "label": "Electricity",
+        "weight": 0.02489,
+        "forecast_nsa_mom_pct": 0.031,
+        "actual_nsa_mom_pct": -0.066,
+        "miss_contribution_pp": 0.002
+      },
+      {
+        "component": "food_away",
+        "label": "Food away from home",
+        "weight": 0.05373,
+        "forecast_nsa_mom_pct": 0.248,
+        "actual_nsa_mom_pct": 0.23,
+        "miss_contribution_pp": 0.001
+      },
+      {
+        "component": "medical",
+        "label": "Medical care",
+        "weight": 0.08423,
+        "forecast_nsa_mom_pct": 0.115,
+        "actual_nsa_mom_pct": 0.109,
+        "miss_contribution_pp": 0.0
+      },
+      {
+        "component": "new_vehicles",
+        "label": "New vehicles",
+        "weight": 0.03838,
+        "forecast_nsa_mom_pct": 0.093,
+        "actual_nsa_mom_pct": 0.08,
+        "miss_contribution_pp": 0.0
+      }
+    ]
+  }
 }

@@ -1,11 +1,11 @@
 {
-  "published_at": "2026-10-14T12:52:58Z",
+  "published_at": "2026-10-14T13:24:35Z",
   "stats": {
     "series_count": 870,
-    "obs_count": 223618,
+    "obs_count": 223666,
     "source_count": 44,
     "tracker_corr": 0.9978,
-    "live_coverage_pct": 39.08,
+    "live_coverage_pct": 39.06,
     "engine_version": "1.1",
     "rebase": "2018-01=100"
   },
@@ -45,7 +45,7 @@
     {
       "code": "shelter_owned",
       "label": "Shelter (owned)",
-      "weight": 0.262314,
+      "weight": 0.262168,
       "mode": "live",
       "live_sources": [
         "aptlist_us",
@@ -61,37 +61,37 @@
     {
       "code": "other",
       "label": "Everything else (CPI residual)",
-      "weight": 0.180556,
+      "weight": 0.180519,
       "mode": "bls_cf",
       "live_sources": [],
       "live_active": [],
       "official_series": "cpi_other_residual",
-      "yoy_pct": 3.21
+      "yoy_pct": 3.45
     },
     {
       "code": "food_home",
       "label": "Food at home",
-      "weight": 0.079934,
+      "weight": 0.080095,
       "mode": "bls_cf",
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SAF11",
-      "yoy_pct": 2.19
+      "yoy_pct": 1.81
     },
     {
       "code": "medical",
       "label": "Medical care",
-      "weight": 0.082672,
+      "weight": 0.082601,
       "mode": "bls_cf",
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SAM",
-      "yoy_pct": 1.56
+      "yoy_pct": 1.5
     },
     {
       "code": "shelter_rent",
       "label": "Rent",
-      "weight": 0.074559,
+      "weight": 0.074579,
       "mode": "live",
       "live_sources": [
         "aptlist_us",
@@ -107,47 +107,47 @@
     {
       "code": "food_away",
       "label": "Food away from home",
-      "weight": 0.056528,
+      "weight": 0.056464,
       "mode": "bls_cf",
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SEFV",
-      "yoy_pct": 3.37
+      "yoy_pct": 3.46
     },
     {
       "code": "education_comm",
       "label": "Education & comm",
-      "weight": 0.056397,
+      "weight": 0.056387,
       "mode": "bls_cf",
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SAE",
-      "yoy_pct": 2.14
+      "yoy_pct": 2.31
     },
     {
       "code": "recreation",
       "label": "Recreation",
-      "weight": 0.05269,
+      "weight": 0.052717,
       "mode": "bls_cf",
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SAR",
-      "yoy_pct": 2.68
+      "yoy_pct": 2.84
     },
     {
       "code": "new_vehicles",
       "label": "New vehicles",
-      "weight": 0.043071,
+      "weight": 0.042979,
       "mode": "bls_cf",
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SETA01",
-      "yoy_pct": 0.57
+      "yoy_pct": 0.61
     },
     {
       "code": "fuel",
       "label": "Gasoline",
-      "weight": 0.029491,
+      "weight": 0.029754,
       "mode": "live",
       "live_sources": [
         "aaa_gas_d",
@@ -163,7 +163,7 @@
     {
       "code": "electricity",
       "label": "Electricity",
-      "weight": 0.024642,
+      "weight": 0.024428,
       "mode": "bls_cf",
       "live_sources": [
         "eia_elec_res"
@@ -172,22 +172,22 @@
         "eia_elec_res"
       ],
       "official_series": "CUUR0000SEHF01",
-      "yoy_pct": 3.79
+      "yoy_pct": 4.37
     },
     {
       "code": "apparel",
       "label": "Apparel",
-      "weight": 0.025038,
+      "weight": 0.025625,
       "mode": "bls_cf",
       "live_sources": [],
       "live_active": [],
       "official_series": "CUUR0000SAA",
-      "yoy_pct": 3.61
+      "yoy_pct": 3.41
     },
     {
       "code": "used_vehicles",
       "label": "Used cars & trucks",
-      "weight": 0.024409,
+      "weight": 0.02411,
       "mode": "live",
       "live_sources": [
         "manheim_uvvi_m"
@@ -201,7 +201,7 @@
     {
       "code": "nat_gas",
       "label": "Piped gas",
-      "weight": 0.007699,
+      "weight": 0.007574,
       "mode": "bls_cf",
       "live_sources": [
         "eia_ng_res"
@@ -210,7 +210,7 @@
         "eia_ng_res"
       ],
       "official_series": "CUUR0000SEHF02",
-      "yoy_pct": 4.39
+      "yoy_pct": 4.97
     }
   ],
   "freshness": {
@@ -225,7 +225,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -235,7 +235,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -245,7 +245,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -255,7 +255,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -265,7 +265,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -365,7 +365,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -415,7 +415,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -425,7 +425,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -435,7 +435,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -445,7 +445,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -455,7 +455,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -465,7 +465,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -475,7 +475,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -485,7 +485,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -495,7 +495,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -505,7 +505,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -515,7 +515,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -525,7 +525,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -535,7 +535,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -545,7 +545,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -4275,7 +4275,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -8275,7 +8275,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -8922,37 +8922,37 @@
   ],
   "validation": {
     "gauge": {
-      "corr": 0.9308,
-      "mean_abs_gap_pp": 1.06,
-      "window": "2018-01..2026-08",
+      "corr": 0.9307,
+      "mean_abs_gap_pp": 1.05,
+      "window": "2018-01..2026-09",
       "lead_lag": {
         "best_shift_months": 1,
-        "corr": 0.9452
+        "corr": 0.9447
       }
     },
     "col": {
       "corr": 0.9383,
-      "mean_abs_gap_pp": 3.29,
-      "window": "2018-01..2026-08"
+      "mean_abs_gap_pp": 3.28,
+      "window": "2018-01..2026-09"
     },
     "tracker": {
       "corr": 0.9978,
       "mean_abs_gap_pp": 0.1,
-      "window": "2018-01..2026-08"
+      "window": "2018-01..2026-09"
     },
     "supercore": {
-      "corr": 0.9371,
+      "corr": 0.937,
       "mean_abs_gap_pp": 0.7,
-      "window": "2018-01..2026-08"
+      "window": "2018-01..2026-09"
     },
     "pce": {
       "corr": 0.9614,
       "mean_abs_gap_pp": 0.7,
-      "window": "2018-01..2026-08"
+      "window": "2018-01..2026-09"
     },
     "bls_reconstruction": {
-      "weighted_bls_yoy_pct": 3.34,
-      "official_yoy_pct": 3.4
+      "weighted_bls_yoy_pct": 3.67,
+      "official_yoy_pct": 3.74
     }
   },
   "variants": {

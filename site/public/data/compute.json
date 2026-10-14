@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-14T12:52:58Z",
+  "published_at": "2026-10-14T13:24:35Z",
   "history_start": "2026-06-16",
   "blend": {
     "in": 0.75,
@@ -550,9 +550,9 @@
     {
       "code": "vast_h200",
       "label": "H200 (vast.ai)",
-      "usd_per_gpu_hr": 4.6515,
+      "usd_per_gpu_hr": 5.0003,
       "as_of": "2026-10-14",
-      "chg_30d_pct": 66.07,
+      "chg_30d_pct": 78.52,
       "tail": {
         "dates": [
           "2026-07-15",
@@ -638,7 +638,7 @@
           3.5556,
           5.1559,
           4.54,
-          4.6515
+          5.0003
         ]
       },
       "in_index": true,
@@ -734,9 +734,9 @@
     {
       "code": "vast_a100_sxm",
       "label": "A100 SXM (vast.ai)",
-      "usd_per_gpu_hr": 0.8015,
+      "usd_per_gpu_hr": 0.8007,
       "as_of": "2026-10-14",
-      "chg_30d_pct": 10.6,
+      "chg_30d_pct": 10.49,
       "tail": {
         "dates": [
           "2026-07-15",
@@ -870,7 +870,7 @@
           0.7484,
           0.8022,
           0.8015,
-          0.8015
+          0.8007
         ]
       },
       "in_index": true,
@@ -879,9 +879,9 @@
     {
       "code": "vast_rtx4090",
       "label": "RTX 4090 (vast.ai)",
-      "usd_per_gpu_hr": 0.5936,
+      "usd_per_gpu_hr": 0.5737,
       "as_of": "2026-10-14",
-      "chg_30d_pct": 20.06,
+      "chg_30d_pct": 16.04,
       "tail": {
         "dates": [
           "2026-07-15",
@@ -1015,7 +1015,7 @@
           0.4822,
           0.4938,
           0.5135,
-          0.5936
+          0.5737
         ]
       },
       "in_index": true,
@@ -1274,7 +1274,7 @@
         100.783,
         101.214,
         101.991,
-        105.502
+        106.29
       ],
       "members": [
         1,
@@ -1394,9 +1394,9 @@
         5
       ]
     },
-    "value": 105.502,
+    "value": 106.29,
     "as_of": "2026-10-14",
-    "chg_30d_pct": 14.7
+    "chg_30d_pct": 15.56
   },
   "cloud_gpus": [
     {
@@ -1787,7 +1787,7 @@
         "list_quotes": 5,
         "list_usd_per_pflop_hr": 8.0,
         "reserved_3y_usd_per_pflop_hr": 5.33,
-        "market_usd_per_pflop_hr": 4.7
+        "market_usd_per_pflop_hr": 5.05
       },
       {
         "gpu": "B200",
