@@ -61,6 +61,29 @@ def test_headline_yoy_is_weighted_own_obs_yoy(tmp_path):
     assert ops["yoy"]["2018-01-01"] == pytest.approx(5.0)
 
 
+def test_monthly_grid_interpolates_a_never_printed_component_month(tmp_path):
+    """BLS never published October 2025 import prices (shutdown): the monthly
+    grid must not hand the calculator September's level as October's. The
+    missing month is the geometric midpoint, and the identity still holds."""
+    conn = make_conn(tmp_path, [
+        ("ppi_steel", "2017-01-01", 100.0), ("ppi_steel", "2018-01-01", 110.0),
+        ("ppi_steel", "2018-02-01", 121.0), ("ppi_steel", "2018-04-01", 144.0),
+        ("ppi_steel", "2018-05-01", 150.0),
+        ("ppi_concrete", "2017-01-01", 200.0), ("ppi_concrete", "2018-01-01", 210.0),
+        ("ppi_concrete", "2018-03-01", 220.0), ("ppi_concrete", "2018-05-01", 230.0),
+    ] + OPS_ROWS)
+    basket = write_basket(tmp_path, TWO_COMP_BUILD, ONE_COMP_OPS)
+    build = dcindex.run(conn, today="2018-05-15", basket_path=basket)["indexes"]["build"]
+    mo = build["monthly"]
+    steel = dict(zip(mo["months"], mo["components"]["steel"]))
+    assert steel["2018-03"] == pytest.approx((steel["2018-02"] * steel["2018-04"]) ** 0.5)
+    # concrete's 2018-02 and 2018-04 are quarterly-style gaps too — same rule
+    concrete = dict(zip(mo["months"], mo["components"]["concrete"]))
+    assert concrete["2018-02"] == pytest.approx((concrete["2018-01"] * concrete["2018-03"]) ** 0.5)
+    i = mo["months"].index("2018-03")
+    assert mo["index"][i] == pytest.approx(0.6 * steel["2018-03"] + 0.4 * concrete["2018-03"])
+
+
 def test_monthly_grid_samples_last_grid_day_and_preserves_laspeyres_identity(tmp_path):
     """monthly.index[m] must equal the weighted mean of monthly.components[*][m] —
     the escalation bridge's contributions only sum to the headline because of this."""

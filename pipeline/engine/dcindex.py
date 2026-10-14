@@ -11,6 +11,7 @@ A component whose backbone series has no store rows raises (rebase's empty-
 series ValueError): the run_daily datacenter block catches it and surfaces
 datacenter_ok=false rather than publishing a silently mis-weighted index.
 """
+import math
 import sqlite3
 from dataclasses import asdict
 from datetime import date, timedelta
@@ -112,6 +113,27 @@ def _arrived_today(conn, code: str, obs_date: str, today: str) -> bool:
     return row[0] == today
 
 
+def _interpolate_monthly_holes(monthly: dict, built: dict[str, dict[str, float]],
+                               weights: dict[str, float]) -> None:
+    """A component month with no print between two that have one (BLS never
+    published October 2025 import prices — shutdown) is the prior month carried
+    forward on the daily grid; in the calculator's monthly grid it becomes the
+    geometric midpoint of its neighbours, and that month's index is recomputed
+    so the Laspeyres identity still holds. The daily grid is unchanged."""
+    months = monthly["months"]
+    total = sum(weights.values())
+    touched = set()
+    for code, values in monthly["components"].items():
+        real = {d[:7] for d in built[code]}
+        for i in range(1, len(months) - 1):
+            if months[i] not in real and months[i - 1] in real and months[i + 1] in real:
+                values[i] = math.sqrt(values[i - 1] * values[i + 1])
+                touched.add(i)
+    for i in touched:
+        monthly["index"][i] = sum(weights[c] * monthly["components"][c][i]
+                                  for c in monthly["components"]) / total
+
+
 def run(conn: sqlite3.Connection, today: str,
         basket_path: Path | None = None,
         staleness: dict[str, int] | None = None) -> dict:
@@ -194,6 +216,7 @@ def run(conn: sqlite3.Connection, today: str,
             "components": {code: [daily[code][month_days[m]] for m in months_sorted]
                            for code in daily},
         }
+        _interpolate_monthly_holes(monthly, built, weights)
         own_yoy = {}
         for code, s in built.items():
             at_obs = aggregate.yoy_at_obs(s, daily[code])
