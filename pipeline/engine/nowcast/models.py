@@ -76,18 +76,23 @@ def seasonal_mom(nsa_mom: float, conn, target: str,
         SA_mom = (1 + NSA_mom) * f(target-12) / f(prior-12) - 1
 
     Seasonal factors move little year to year (BLS re-estimates each
-    February). None when CPIAUCSL/CPIAUCNS lack either month."""
+    February). When last year lacks either month, both factors come from two
+    years back instead — BLS never published October 2025 CPI (shutdown),
+    which would otherwise drop the 2026-10 and 2026-11 calls to NSA. None
+    when neither year has both months."""
     if conn is None:
         return None
     sa = dict(vintage.latest(conn, sa_code))
     nsa = dict(vintage.latest(conn, nsa_code))
-    t12 = month_first(f"{int(target[:4]) - 1}-{target[5:7]}")
-    p12 = prior_month(t12)
-    try:
-        f_t, f_p = sa[t12] / nsa[t12], sa[p12] / nsa[p12]
-    except (KeyError, ZeroDivisionError):
-        return None
-    return ((1 + nsa_mom / 100) * f_t / f_p - 1) * 100
+    for years_back in (1, 2):
+        t_back = month_first(f"{int(target[:4]) - years_back}-{target[5:7]}")
+        p_back = prior_month(t_back)
+        try:
+            f_t, f_p = sa[t_back] / nsa[t_back], sa[p_back] / nsa[p_back]
+        except (KeyError, ZeroDivisionError):
+            continue
+        return ((1 + nsa_mom / 100) * f_t / f_p - 1) * 100
+    return None
 
 
 def cpi_nowcast(gauge_result: dict, target_month: str, conn=None,
