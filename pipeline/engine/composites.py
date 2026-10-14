@@ -3,13 +3,32 @@ from __future__ import annotations
 
 import statistics
 
+from pipeline.dates import months_back
+
+
+def _is_monthly(series: list[tuple[str, float]]) -> bool:
+    if len(series) < 2 or any(d[8:10] != "01" for d, _ in series):
+        return False
+    steps = [months_back(b, 1) == a for (a, _), (b, _) in zip(series, series[1:])]
+    return sum(steps) > len(steps) / 2  # mostly one-month steps: not quarterly
+
 
 def momentum(series: list[tuple[str, float]], periods: int = 3,
              percent: bool = True) -> list[tuple[str, float]]:
-    """Period change series, retaining the end observation date."""
+    """Period change series, retaining the end observation date. A monthly
+    series steps back `periods` CALENDAR months (BLS never published October
+    2025 — a row count would bridge it as a longer change); daily and weekly
+    series count observations."""
+    by_date = dict(series) if _is_monthly(series) else None
     out = []
     for i in range(periods, len(series)):
-        current, prior = series[i][1], series[i - periods][1]
+        if by_date is not None:
+            prior = by_date.get(months_back(series[i][0], periods))
+            if prior is None:
+                continue
+            current = series[i][1]
+        else:
+            current, prior = series[i][1], series[i - periods][1]
         if percent:
             if prior <= 0:
                 continue  # % change off a non-positive base flips sign/explodes

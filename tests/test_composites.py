@@ -17,6 +17,18 @@ def test_momentum_percent_skips_non_positive_priors():
     assert momentum(rows, periods=1) == [("d4", 50.0)]
 
 
+def test_monthly_momentum_steps_back_by_calendar_month_across_a_hole():
+    """BLS never published October 2025 (shutdown). Stepping back three ROWS
+    would make the Nov-2025..Jan-2026 points four-month changes."""
+    months = ["2025-07-01", "2025-08-01", "2025-09-01", "2025-11-01",
+              "2025-12-01", "2026-01-01", "2026-02-01"]
+    rows = [(m, 100.0 + i) for i, m in enumerate(months)]
+    out = dict(momentum(rows, periods=3, percent=False))
+    assert out == {"2025-11-01": 3.0 - 1.0,   # vs 2025-08 (row 1), not 2025-07
+                   "2025-12-01": 4.0 - 2.0,   # vs 2025-09
+                   "2026-02-01": 6.0 - 3.0}   # vs 2025-11; 2026-01's base 2025-10 never printed
+
+
 def test_latest_z_diff_mode():
     rows = [(f"2026-{m:02d}-01", v) for m, v in
             enumerate([-0.5, -0.4, -0.2, 0.1, 0.5], start=1)]
