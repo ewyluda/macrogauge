@@ -8,6 +8,8 @@ export type GradedCall = {
   actual: number | null;
   error: number | null;
   release_date?: string;
+  /** CPI only: SA (vs CPIAUCSL) or NSA (vs CPIAUCNS), fixed when graded */
+  basis?: string;
 };
 
 /** graded newest-first plus pending calls not already graded for the same period */
@@ -27,7 +29,8 @@ const pct2 = (v: number | null) => (v == null ? "—" : `${v.toFixed(2)}%`);
 
 /** The receipts table shared by /scoreboard and /pce: one row per graded
  *  call, pending calls appended, error highlighted past ±0.1. `fmtValue`
- *  and `fmtError` let NFP (thousands of jobs) reuse it. */
+ *  and `fmtError` let NFP (thousands of jobs) reuse it. A Basis column
+ *  appears only when graded rows carry one (CPI). */
 export function GradeTable({
   rows,
   keyPrefix,
@@ -46,6 +49,8 @@ export function GradeTable({
   emptyText?: string;
 }) {
   const { graded, pending } = rows;
+  const showBasis = graded.some((g) => g.basis != null);
+  const cols = showBasis ? 8 : 7;
   return (
     <div className="table-card">
       <table className="data-table">
@@ -55,6 +60,7 @@ export function GradeTable({
             <th>Badge</th>
             <th>Forecast {valueHeader}</th>
             <th>Actual {valueHeader}</th>
+            {showBasis && <th>Basis</th>}
             <th>Error</th>
             <th>Called on</th>
             <th>Graded on</th>
@@ -63,7 +69,7 @@ export function GradeTable({
         <tbody>
           {graded.length === 0 && pending.length === 0 && (
             <tr>
-              <td colSpan={7} style={{ color: "var(--muted)", textAlign: "left" }}>{emptyText}</td>
+              <td colSpan={cols} style={{ color: "var(--muted)", textAlign: "left" }}>{emptyText}</td>
             </tr>
           )}
           {graded.map((g) => (
@@ -72,6 +78,7 @@ export function GradeTable({
               <td><span className="badge">{g.badge}</span></td>
               <td>{fmtValue(g.forecast)}</td>
               <td>{fmtValue(g.actual)}</td>
+              {showBasis && <td>{g.basis ?? "—"}</td>}
               <td style={{ color: g.error != null && Math.abs(g.error) > errorWarn ? "var(--accent-amber)" : "var(--text)" }}>
                 {fmtError(g.error)}
               </td>
@@ -85,6 +92,7 @@ export function GradeTable({
               <td><span className="badge badge-muted">pending</span></td>
               <td>{fmtValue(p.forecast)}</td>
               <td>—</td>
+              {showBasis && <td>—</td>}
               <td>—</td>
               <td>{p.as_of}</td>
               <td>—</td>
