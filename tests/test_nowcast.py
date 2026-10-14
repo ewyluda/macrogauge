@@ -317,6 +317,22 @@ def test_seasonal_mom_uses_last_years_factor_ratio(tmp_path):
     assert models.seasonal_mom(0.0, conn, "2026-09-01") is None  # no factors
 
 
+def test_seasonal_mom_falls_back_two_years_when_last_years_month_is_missing(tmp_path):
+    # BLS never published October 2025 CPI (shutdown): the 2026-10 and 2026-11
+    # targets take both factors from 2024 instead of falling back to NSA.
+    def obs(code, month, value):
+        return Observation(code, month, value, "2026-01-15", "FRED", "API")
+    rows = [obs(c, m, 100.0) for c in ("CPIAUCNS", "CPIAUCSL")
+            for m in ("2025-09-01", "2025-11-01", "2024-09-01", "2024-10-01", "2024-11-01")]
+    rows += [obs("CPIAUCSL", "2024-10-01", 100.3),  # Oct SA 0.3% above NSA vs Sep
+             obs("CPIAUCSL", "2025-11-01", 101.0)]  # a 2025 factor the fallback must NOT mix in
+    vintage.append(rows, tmp_path)
+    conn = vintage.load(tmp_path)
+    assert models.seasonal_mom(0.0, conn, "2026-10-01") == pytest.approx(0.3)
+    # Nov 2026: 2025-11 exists but its prior 2025-10 does not -> 2024 pair
+    assert models.seasonal_mom(0.0, conn, "2026-11-01") == pytest.approx(100 / 100.3 * 100 - 100)
+
+
 def test_kalshi_core_ladder_writes_its_own_series_code():
     from pipeline.connectors import kalshi
     assert kalshi.SERIES_CODES["KXCPICORE"] == "kalshi_core_cpi_mom"
