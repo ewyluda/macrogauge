@@ -163,6 +163,29 @@ def test_median_window_is_calendar_months_not_a_change_count():
     assert signals.median_mom(levels, 4) == pytest.approx(1.0)
 
 
+def test_year_ago_base_in_a_hole_month_is_interpolated_not_carried(tmp_path):
+    """The outlook's YoY base for a month no component printed (Oct 2025)
+    must not be the prior month carried forward: each missing component's
+    level is the geometric midpoint of its neighbours."""
+    conn = vintage.load(tmp_path / "store")
+    lv = _gauge_result()["variants"]["gauge"]["index"]
+    jan, mar = lv["2024-01-01"], lv["2024-03-01"]
+    real = [d for d in lv if d != "2024-02-01"]
+
+    holed = _gauge_result()
+    holed["variants"]["gauge"]["index"]["2024-02-01"] = jan  # carried forward
+    for comp in holed["variants"]["gauge"]["components"].values():
+        comp["daily_index"]["2024-02-01"] = jan
+        comp["obs_dates"] = real
+    control = _gauge_result()
+    control["variants"]["gauge"]["index"]["2024-02-01"] = (jan * mar) ** 0.5
+    for comp in control["variants"]["gauge"]["components"].values():
+        comp["daily_index"]["2024-02-01"] = (jan * mar) ** 0.5
+
+    feb = lambda r: next(p for p in r["base_effects_only"] if p["month"] == "2025-02")
+    assert feb(outlook.run(conn, holed)) == feb(outlook.run(conn, control))
+
+
 def test_component_trend_is_capped_at_config_annual_rate(tmp_path):
     """A spiky NSA window (winter utility gas) must not be annualized into an
     implausible year-long path: the base rate is capped at ±cap %/yr."""
