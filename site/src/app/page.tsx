@@ -35,6 +35,7 @@ import { fmtDay, fmtMonth, fmtPct, fmtPp, fmtSigned, fmtMoney } from "@/lib/form
 import { SITE_DESCRIPTION } from "@/lib/nav";
 import { CopyLink } from "@/components/CopyLink";
 import { artifact } from "@/lib/artifact";
+import { officialContext } from "@/lib/officialPrint";
 import { sourcePills } from "@/lib/sourcePills";
 import { reconcile } from "@/lib/reconcile";
 import { ReconciliationStrip } from "@/components/ReconciliationStrip";
@@ -122,7 +123,7 @@ const releaseMarkers = [
 ];
 
 export default function Home() {
-  const { cpi, core } = official.headline;
+  const { cpi, core } = artifact("official", official).headline;
   // schema-typed: `yoy_pp` is optional on quotes (absent before the refresh)
   const quote = (code: string) => artifact("official", official).quotes.find((q) => q.code === code);
   const gas = quote("eia_gasreg_w");
@@ -185,7 +186,7 @@ export default function Home() {
           className="headline-comparator"
           label="Official CPI · YoY"
           value={pct2(cpi.yoy_pct)}
-          context={`${fmtMonth(cpi.month)} print · previous ${pct2(cpi.prev_yoy_pct)}`}
+          context={officialContext(cpi, pct2)}
           accent="amber"
         />
         <KpiCard
@@ -200,7 +201,7 @@ export default function Home() {
           className="headline-comparator"
           label="Core CPI · YoY"
           value={pct2(core.yoy_pct)}
-          context={`${fmtMonth(core.month)} print · previous ${pct2(core.prev_yoy_pct)}`}
+          context={officialContext(core, pct2)}
           accent="amber"
         />
         <KpiCard
@@ -242,6 +243,7 @@ export default function Home() {
             core={heroMonthly.series[1]}
             windowMonths={HERO_WINDOW_MONTHS}
             markers={releaseMarkers}
+            missingMonths={artifact("gauge_daily", gaugeDaily).variants.gauge.missing_months ?? []}
           />
         </div>
         <div className="chart-caption">

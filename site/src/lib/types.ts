@@ -799,7 +799,7 @@ export type Changes = {
   headline: ChangeRow[];
   components: { component: string; label: string; mode: string | null; yoy_pct: number | null; prev_yoy_pct: number | null;
                 delta_pp: number | null; bls_yoy_pct: number | null }[];
-  official: { month: string | null; yoy_pct: number | null; prev_month: string | null; new_print: boolean } | null;
+  official: { month: string | null; latest_month?: string | null; yoy_pct: number | null; prev_month: string | null; new_print: boolean } | null;
   sources_landed: { source: string; new_rows: number }[];
   sources_failed: string[];
   gate_holds: unknown[];

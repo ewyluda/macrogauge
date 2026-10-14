@@ -26,7 +26,7 @@ export function SinceYesterdayStrip() {
   return (
     <div className="since-strip">
       <span className="since-label">Since yesterday</span>
-      {c.official?.new_print && <span className="badge">new CPI print {c.official.month?.slice(0, 7)}</span>}
+      {c.official?.new_print && <span className="badge">new CPI print {(c.official.latest_month ?? c.official.month)?.slice(0, 7)}</span>}
       {quiet && !c.official?.new_print && <span style={{ color: "var(--muted)" }}>no headline moved by 0.01pp or more</span>}
       {moved.slice(0, 4).map((h) => (
         <span key={h.key}><span style={{ color: "var(--muted)" }}>{h.label}</span> <b style={{ color: sign(h.delta_pp) }}>{fmtPp(h.delta_pp)}</b></span>
@@ -49,7 +49,7 @@ export function sinceYesterdayText(): string {
   const c = CHANGES;
   if (!c.prev_published_at) return "First reading on this publish.";
   const parts: string[] = [];
-  if (c.official?.new_print) parts.push(`New official CPI print for ${c.official.month?.slice(0, 7)} (${fmtSigned(c.official.yoy_pct)} YoY).`);
+  if (c.official?.new_print) parts.push(`New official CPI print for ${(c.official.latest_month ?? c.official.month)?.slice(0, 7)} (${fmtSigned(c.official.yoy_pct)} YoY${c.official.latest_month && c.official.month && c.official.latest_month > c.official.month ? `, ${c.official.month.slice(0, 7)} — no year-ago base` : ""}).`);
   const moved = c.headline.filter((h) => h.delta_pp != null && Math.abs(h.delta_pp) >= 0.005);
   if (moved.length) parts.push("Moved: " + moved.map((h) => `${h.label} ${fmtPp(h.delta_pp)} to ${fmtSigned(h.value)}`).join("; ") + ".");
   const comps = c.components.filter((x) => x.delta_pp != null && Math.abs(x.delta_pp) >= 0.05).slice(0, 5);
