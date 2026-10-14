@@ -50,6 +50,34 @@ def _headline_monthly(index: dict[str, float], origin_month: str) -> dict[str, f
     return signals.month_values(index.items(), origin_month)
 
 
+def _patch_hole_months(headline: dict[str, float], components: dict,
+                       component_levels: dict[str, dict[str, float]]) -> dict[str, float]:
+    """Headline levels with each never-printed component month (BLS skipped
+    October 2025 — shutdown) set to the geometric midpoint of its neighbours
+    instead of the prior month carried forward, which made every YoY off that
+    base a 13-month change. Live components keep their real level; only the
+    missing components' share of the headline moves."""
+    real = {code: {d[:7] for d in c.get("obs_dates") or ()} for code, c in components.items()}
+    patched = dict(headline)
+    for month in headline:
+        prev, nxt = prior_month(f"{month}-01")[:7], next_month(f"{month}-01")[:7]
+        num = den = 0.0
+        hole = False
+        for code, component in components.items():
+            levels = component_levels[code]
+            if month not in levels:
+                continue
+            level = levels[month]
+            if (real[code] and month not in real[code] and prev in real[code]
+                    and nxt in real[code] and prev in levels and nxt in levels):
+                hole, level = True, math.sqrt(levels[prev] * levels[nxt])
+            num += component["weight"] * level
+            den += component["weight"] * levels[month]
+        if hole and den:
+            patched[month] = headline[month] * num / den
+    return patched
+
+
 def _validate_config(config: dict, component_codes: set[str],
                      staleness: dict[str, int] | None) -> None:
     """A typo'd series or component name in outlook.json must fail the run
@@ -89,6 +117,7 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
         code: signals.month_values(component["daily_index"].items(), origin_month)
         for code, component in variant["components"].items()
     }
+    headline = _patch_hole_months(headline, variant["components"], component_levels)
     # Base rates come from real observations only (see signals.component_trend_levels);
     # a component with no computable change gets the neutral baseline drift, not
     # frozen prices, and the cap keeps a spiky NSA window (winter utility gas)
@@ -352,7 +381,8 @@ def run(conn, gauge_result: dict, config_path: Path | None = None,
                    f"drivers or the {trailing_window}-month median of its own real complete-month "
                    f"changes (stopped at its last observation, capped at ±{trend_cap:g}%/yr). "
                    "Component index levels are CPI-weighted; YoY uses actual year-ago levels, "
-                   "so base effects are exact."),
+                   "so base effects are exact — except a month a component never printed "
+                   "(BLS skipped October 2025), set to the midpoint of its neighbours."),
         "disclaimer": ("Model projection, not a promise or investment advice. The shaded range is a "
                        "realized-volatility band, not a calibrated confidence interval."),
     }

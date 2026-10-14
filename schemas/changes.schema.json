@@ -53,6 +53,7 @@
           "properties": {
             "month": {"type": ["string", "null"]},
             "yoy_pct": {"$ref": "#/$defs/num"},
+            "latest_month": {"type": ["string", "null"]},
             "prev_month": {"type": ["string", "null"]},
             "new_print": {"type": "boolean"}
           }

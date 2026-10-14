@@ -681,3 +681,22 @@ def test_retired_sku_stays_in_the_index_but_leaves_the_table(tmp_path):
                       staleness={c: 7 for c, _ in compute.GPUS})
     assert "sfc_h100" not in {g["code"] for g in p["gpus"]}
     assert p["gpu_index"]["history"]["members"] == [4, 4, 4]
+
+
+def test_changes_flags_a_new_print_even_when_its_yoy_walks_back(tmp_path):
+    """The October 2026 CPI print has no YoY base (BLS skipped October 2025),
+    so official.month stays on September — the print is still new."""
+    out = tmp_path / "out"
+    out.mkdir()
+    for name in ("gaptable.json", "datacenter.json"):
+        _write(out, name, {"variants": {}, "rows": []} if name == "gaptable.json" else {"indexes": {}})
+    _write(out, "pulse.json", {"published_at": "T0", "official": {
+        "yoy_pct": 3.74, "month": "2026-09-01", "latest_month": "2026-09-01"}})
+    prev = changes.read_previous(out)
+    _write(out, "pulse.json", {"published_at": "T1", "official": {
+        "yoy_pct": 3.74, "month": "2026-09-01", "latest_month": "2026-10-01"}})
+    p = changes.build(prev, out, [], None)
+    assert p["official"]["new_print"] is True
+    assert p["official"]["latest_month"] == "2026-10-01"
+    assert p["official"]["prev_month"] == "2026-09-01"
+    validate.validate_file(changes.write(p, out, "T1"), SCHEMAS / "changes.schema.json")

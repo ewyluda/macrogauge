@@ -34,7 +34,7 @@ def latest_yoy(conn: sqlite3.Connection, series_code: str) -> dict:
         "SELECT MIN(vintage_date) FROM observations WHERE series_code = ? AND obs_date = ?",
         (series_code, latest_month)).fetchone()[0]
     return {"series_code": series_code, "month": computable[0],
-            "latest_month": latest_month,
+            "latest_month": latest_month, "prev_month": computable[1],
             "yoy_pct": yoy(computable[0]), "prev_yoy_pct": yoy(computable[1]),
             "as_of": released or vintage.max_vintage(conn, series_code)}
 
@@ -65,6 +65,11 @@ def latest_quote(conn: sqlite3.Connection, series_code: str) -> dict:
     obs_date, latest = rows[-1]
     target = (date.fromisoformat(obs_date) - timedelta(days=365)).isoformat()
     base = [(d, v) for d, v in rows if d <= target]
+    if all(d[8:10] == "01" for d, _ in rows):
+        # Monthly: only the same month a year back is a YoY base. BLS skipped
+        # October 2025 (shutdown); nearest-obs would take September — 13 months.
+        year_ago = _months_back(obs_date, 12)
+        base = [(d, v) for d, v in rows if d == year_ago]
     yoy = delta = None
     if base:
         base_date, base_val = base[-1]
