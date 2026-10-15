@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T12:53:38Z",
+  "published_at": "2026-10-15T14:49:46Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,611 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-15T02:25:26Z",
-  "tape_last_post_at": "2026-10-15T00:07:15Z",
-  "age_hours": 10.47,
+  "feed_generated_at": "2026-10-15T14:46:46Z",
+  "tape_last_post_at": "2026-10-15T14:48:02Z",
+  "age_hours": 0.05,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3AB4311C20A077C7F81A",
+      "ts": "2026-10-15T14:40:53Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "AI companies are expanding into defense, robotics, automotive and semiconductor manufacturing, with BigBear. ai securing over $225 million in federal contracts as other firms develop new autonomous systems.",
+      "points": [
+        {
+          "label": "BigBear. ai ($BBAI)",
+          "text": "Secured more than $225 million in contract awards since July, including over 25 generative AI awards across federal agencies."
+        },
+        {
+          "label": "SoundHound ($SOUN)",
+          "text": "Deployed its generative AI voice assistant in Kia's Sorento in India, enabling conversational vehicle controls, navigation and information access."
+        },
+        {
+          "label": "Palladyne AI ($PDYN)",
+          "text": "Developing SwarmShot with Federal Ammunition and Mossberg, combining autonomous drone coordination with airborne counter-drone weapons."
+        },
+        {
+          "label": "ZenaTech ($ZENA)",
+          "text": "Plans to integrate its existing Orsa+ industrial AI software with Stacklens smart glasses. The glasses remain in prototype testing, with customer pilots expected in 2027."
+        },
+        {
+          "label": "Nvidia ($NVDA)",
+          "text": "Semiconductor manufacturers are adopting CUDA-X tools for AI-powered factory simulations, process optimization and improved chip yields."
+        },
+        {
+          "label": "Market forecasts",
+          "text": "Grand View Research projects AI robotics growing from $20.4 billion in 2025 to $182.7 billion by 2033. ABI separately projects a $150 billion robotics foundation-model market by 2036."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19359",
+      "has_media": true
+    },
+    {
+      "id": "3A40892E4C20158753A1",
+      "ts": "2026-10-15T14:36:11Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Google ($GOOGL) launched Universal Cart in the U.S., allowing shoppers to save and track products from multiple retailers across Google Search and Gemini in one centralized shopping cart.",
+      "points": [
+        {
+          "label": "Shopping alerts",
+          "text": "Users can receive notifications when saved products drop in price or return to stock."
+        },
+        {
+          "label": "Personalized savings",
+          "text": "The tool can recommend relevant promo codes and factor credit card benefits into payment decisions."
+        },
+        {
+          "label": "AI checkout",
+          "text": "Universal Cart uses Google's Universal Commerce Protocol (UCP), designed to connect AI shopping agents with retailers through checkout."
+        },
+        {
+          "label": "AI expansion",
+          "text": "The launch builds on Google's conversational shopping tools and AI agents that call local stores to check product availability."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19358",
+      "has_media": true
+    },
+    {
+      "id": "3A2750E45F870F74E159",
+      "ts": "2026-10-15T14:21:27Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "$CRWV COREWEAVE SHARES FALL TO LOWEST SINCE MAY 2025, LAST DOWN 8.3% AT $60.36",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19352",
+      "has_media": false
+    },
+    {
+      "id": "3AD40FFA48CA67242ADA",
+      "ts": "2026-10-15T14:20:10Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Memory stocks extended their selloff Thursday as concerns over Chinese competition and potential oversupply by 2029 intensified, despite analysts remaining divided on the outlook for AI-driven memory demand.",
+      "points": [
+        {
+          "label": "Five-session losses",
+          "text": "SK Hynix fell 26.8% to \u20a91,262,000 and Samsung dropped 21.8% to \u20a9210,000 through Thursday's Seoul close. Micron ($MU) declined approximately 15.9% over five U.S. trading sessions, trading at $870.68, down 4.75% Thursday."
+        },
+        {
+          "label": "U.S. trading",
+          "text": "SK Hynix's Nasdaq-listed shares ($SKHY) fell 4.63% to $140.72 in Thursday morning trading."
+        },
+        {
+          "label": "China competition",
+          "text": "CXMT unveiled a higher-density server memory design, raising market-share concerns. Rosenblatt argues production challenges make a meaningful near-term supply increase unlikely."
+        },
+        {
+          "label": "Oversupply fears",
+          "text": "South Korean industry experts cited in a newspaper column warned of excess supply in 2029 and a potential downturn by 2030. Elon Musk expects substantial Chinese RAM production in 2028."
+        },
+        {
+          "label": "Supply outlook",
+          "text": "Many analysts expect shortages through 2028, as new chip factories typically take 3\u20135 years to become operational."
+        },
+        {
+          "label": "Pricing forecast",
+          "text": "Counterpoint expects DRAM prices to decline 23% in 2028 from 2027 but remain approximately 230% above 2025 levels. Long-term supply agreements could help cushion future downturns."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MU",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "SKHY",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19351",
+      "has_media": true
+    },
+    {
+      "id": "3A58416E168568449772",
+      "ts": "2026-10-15T13:08:28Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "$SMCI SUPERMICRO APPOINTS MARK LONG AS CHIEF FINANCIAL OFFICER.",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "SMCI",
+          "layer": "Servers & Storage"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19324",
+      "has_media": false
+    },
+    {
+      "id": "3A162E02319E04DB4E92",
+      "ts": "2026-10-15T13:01:23Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Cboe Global Markets ($CBOE) will expand options trading hours starting Monday, October 19, allowing premarket and after-hours trading on 24 major stocks and five ETFs following regulatory approval.",
+      "points": [
+        {
+          "label": "Trading hours",
+          "text": "Options will trade from 7:30\u20139:25 a.m. ET and 4:00\u20134:15 p.m. ET, extending beyond regular market hours."
+        },
+        {
+          "label": "Eligible stocks",
+          "text": "The initial list includes the Magnificent Seven, Oracle ($ORCL), Micron ($MU), Robinhood ($HOOD), Palantir ($PLTR), Nokia ($NOK), Pfizer ($PFE) and Alibaba ($BABA)."
+        },
+        {
+          "label": "Eligible ETFs",
+          "text": "SPY, QQQ, IWM, GLD and XLF options will also qualify."
+        },
+        {
+          "label": "Trading requirements",
+          "text": "Eligible stocks must meet thresholds of $50 billion in market value, 10 million shares traded daily and 150,000 daily options contracts over the preceding six months. The list will be reviewed twice annually."
+        },
+        {
+          "label": "Broker access",
+          "text": "Robinhood and TradeStation plan to support the extended sessions."
+        },
+        {
+          "label": "Further expansion",
+          "text": "Cboe plans additional morning options expirations starting November 9 and separately received approval for binary options tied to company performance metrics."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MU",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "ORCL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19320",
+      "has_media": true
+    },
+    {
+      "id": "3A72AED4D9338C3B0EAA",
+      "ts": "2026-10-15T12:59:11Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Deutsche Bank reiterated Buy on CoreWeave ($CRWV) with a $150 price target, calling the recent stock and bond selloff a buying opportunity despite substantial future financing needs.",
+      "points": [
+        {
+          "label": "Contract protection",
+          "text": "Analyst Brad Zelnick says most of CoreWeave\u2019s backlog consists of long-term take-or-pay contracts covering project capital and operating costs while generating returns."
+        },
+        {
+          "label": "Customer quality",
+          "text": "An estimated 60%\u201365% of backlog was tied to investment-grade customers at the end of Q2, supporting project-backed financing."
+        },
+        {
+          "label": "Funding gap",
+          "text": "Deutsche forecasts approximately $10 billion in operating cash flow against $45 billion in required capital spending over the next 12 months."
+        },
+        {
+          "label": "Liquidity",
+          "text": "CoreWeave previously reported $15.5 billion in available liquidity and has since closed $2.6 billion in additional debt financing and $4.2 billion in convertible notes, while announcing a 35 million-share equity offering program."
+        },
+        {
+          "label": "Investment thesis",
+          "text": "Zelnick expects additional capital raises but believes CoreWeave\u2019s customer contracts, execution record and infrastructure performance distinguish it from competing neocloud providers."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19319",
+      "has_media": false
+    },
+    {
+      "id": "3ACE1ED0468B04167A4A",
+      "ts": "2026-10-15T12:26:52Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Amazon ($AMZN) introduced two new Bee AI devices: the $74.99 Frontier wearable, available now, and the $99.99 Eclipse magnetic phone attachment, launching soon. Both turn conversations into summaries, reminders and to-do lists.",
+      "points": [
+        {
+          "label": "Bee Frontier",
+          "text": "Wrist-worn or clip-on device featuring dual noise-filtering microphones, IP67 water resistance and up to seven days of battery life."
+        },
+        {
+          "label": "Bee Eclipse",
+          "text": "Credit card-sized magnetic phone attachment offering similar AI capabilities with up to 21 days of battery life."
+        },
+        {
+          "label": "Alexa+ integration",
+          "text": "Users can access Bee summaries, reminders and insights through Alexa-enabled devices using voice recognition."
+        },
+        {
+          "label": "Privacy controls",
+          "text": "Audio is processed and deleted without being stored. Transcripts are encrypted, users control sharing and deletion, and a physical button and LED indicate recording status."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19303",
+      "has_media": false
+    },
+    {
+      "id": "3ABE3D55D9B11B0A11D7",
+      "ts": "2026-10-15T12:22:57Z",
+      "category": "earnings",
+      "kind": "image",
+      "headline": "TSMC ($TSM) beat Q3 earnings estimates and issued stronger-than-expected Q4 guidance, forecasting revenue of $52.3 billion\u2013$54.3 billion versus $49.07 billion expected, driven by advanced chip demand and accelerating 2nm production.",
+      "points": [
+        {
+          "label": "Q3 earnings",
+          "text": "Revenue rose 41.2% to $46.72 billion, beating $44.93 billion expected. EPS reached $4.60 per ADR versus $4.48 estimated."
+        },
+        {
+          "label": "Profitability",
+          "text": "Net income rose 68.7% to NT$763.06 billion. Gross margin reached 66.4%, while operating margin exceeded estimates at 58.7%."
+        },
+        {
+          "label": "Q4 outlook",
+          "text": "Gross margin is projected at 65%\u201367%, with operating margin of 56.5%\u201358.5%."
+        },
+        {
+          "label": "AI demand",
+          "text": "High-performance computing accounted for 68% of revenue, growing 22% quarter over quarter."
+        },
+        {
+          "label": "Advanced chips",
+          "text": "Processes at 7nm and below represented 79% of wafer revenue, including 33% from 3nm and 8% from 2nm."
+        },
+        {
+          "label": "Manufacturing costs",
+          "text": "Gross margin declined 1.3 percentage points sequentially, primarily due to the initial 2nm production ramp."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "TSM",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19300",
+      "has_media": true
+    },
+    {
+      "id": "3A3D6356AE3637FD8655",
+      "ts": "2026-10-15T12:10:12Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Akamai Technologies ($AKAM) reports growing enterprise adoption of its cloud computing services, driven by demand for AI infrastructure powered by Nvidia ($NVDA) RTX PRO 6000 Blackwell GPUs.",
+      "points": [
+        {
+          "label": "AI infrastructure",
+          "text": "New customers are adopting Akamai\u2019s GPU computing for AI model testing, inference and other cloud workloads."
+        },
+        {
+          "label": "Customer growth",
+          "text": "Software and SaaS companies account for most new customers, with international additions concentrated in Asia-Pacific, Japan and EMEA."
+        },
+        {
+          "label": "Enterprise migrations",
+          "text": "A logistics provider is moving AI warehouse automation workloads to Akamai, while a developer platform is migrating nearly 1,500 microservices to reduce infrastructure costs."
+        },
+        {
+          "label": "Industry adoption",
+          "text": "Global media companies are adopting GPU computing and streaming services, while a European healthcare institution selected Akamai for secure storage and disaster recovery."
+        },
+        {
+          "label": "Financial impact",
+          "text": "Akamai did not disclose revenue contributions, contract values or quantified growth rates associated with the new customers."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AKAM",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19290",
+      "has_media": false
+    },
+    {
+      "id": "3A35DCE09389EE3A3607",
+      "ts": "2026-10-15T12:08:21Z",
+      "category": "earnings",
+      "kind": "image",
+      "headline": "Taiwan Semiconductor Manufacturing ($TSM) confirmed discussions with Elon Musk\u2019s Terafab project in Texas but insists any facility producing its chips must be operated by TSMC, potentially conflicting with Musk\u2019s plans to control the proposed complex.",
+      "points": [
+        {
+          "label": "Texas expansion",
+          "text": "TSMC sent teams to evaluate potential manufacturing sites beyond Arizona, citing strong demand from U.S. customers. No investment agreement or construction timeline has been announced."
+        },
+        {
+          "label": "Operational control",
+          "text": "Musk previously said Tesla ($TSLA) and SpaceX would build and operate Terafab, with TSMC potentially leasing space. Ownership and operating arrangements remain unresolved."
+        },
+        {
+          "label": "U.S. investment",
+          "text": "TSMC has committed $265 billion to Arizona manufacturing. Its second factory has completed construction and is scheduled to begin mass production in Q3 2027, ahead of schedule."
+        },
+        {
+          "label": "Record earnings",
+          "text": "Q3 net profit rose 69% to NT$763.1 billion ($23.6 billion), while revenue increased 51% to NT$1.49 trillion ($46.7 billion)."
+        },
+        {
+          "label": "Raised outlook",
+          "text": "TSMC now expects approximately 44% full-year revenue growth in U.S. dollars and forecasts Q4 revenue of $52.3 billion\u2013$54.3 billion."
+        },
+        {
+          "label": "Manufacturing costs",
+          "text": "TSMC expects higher-cost overseas factories to reduce its companywide gross margin by approximately 2 percentage points in 2026, widening to 3\u20134 points in coming years."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "TSM",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19288",
+      "has_media": false
+    },
+    {
+      "id": "3A384671CE3D29DC5717",
+      "ts": "2026-10-15T12:04:40Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "QumulusAI ($QMLS) reported $523.4 million in signed customer contracts, up 85% from $282.5 million in Q2, as Nvidia Blackwell GPU deployments begin generating revenue.",
+      "points": [
+        {
+          "label": "Revenue potential",
+          "text": "Signed contracts represent approximately $209 million in annual recurring revenue under initial terms, excluding extension options. Q2 reported revenue was $6.7 million."
+        },
+        {
+          "label": "Active capacity",
+          "text": "Of 11.75 MW contracted across six sites, 7 MW is operational and generating revenue. Another 1 MW is energized and scheduled for customer handoff by month-end."
+        },
+        {
+          "label": "Expansion pipeline",
+          "text": "An additional 3.75 MW in Atlanta is targeted for activation in early 2027, representing approximately $71 million in projected annual recurring revenue."
+        },
+        {
+          "label": "GPU deployment",
+          "text": "QumulusAI completed its $71.9 million Blackwell GPU agreement within 10 weeks, delivering B200 capacity September 8 and B300 capacity October 1."
+        },
+        {
+          "label": "Customer expansion",
+          "text": "The same customer signed a second $211.9 million agreement for Atlanta capacity, bringing its total commitments to $283.8 million."
+        },
+        {
+          "label": "Revenue breakdown",
+          "text": "The 8 MW expected online by month-end represents approximately $128 million in annual recurring revenue, with the remaining projected revenue tied to Atlanta and a separate $29.1 million agreement awaiting deployment."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19287",
+      "has_media": true
+    },
+    {
+      "id": "3A36041EE1F159675E3C",
+      "ts": "2026-10-15T11:54:22Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "CoreWeave ($CRWV) fell another 6.1% to $61.78 in Thursday premarket trading after a 15% plunge Wednesday, as rising debt yields intensified concerns over AI infrastructure financing and potential pressure on Nvidia ($NVDA) to provide additional support.",
+      "points": [
+        {
+          "label": "Debt warning",
+          "text": "The market yield on CoreWeave\u2019s 9.625% bonds due 2032 reached 15% Wednesday as bond prices fell, signaling increased credit risk rather than a change in existing interest payments."
+        },
+        {
+          "label": "Nvidia exposure",
+          "text": "Nvidia is a supplier, customer and investor in CoreWeave. Existing agreements obligate Nvidia to purchase unused cloud capacity through April 13, 2032."
+        },
+        {
+          "label": "Financing support",
+          "text": "Jefferies analyst Michael Haber argues Nvidia should provide additional financing backstops to protect neocloud expansion, particularly as hyperscalers develop their own chips."
+        },
+        {
+          "label": "Debt obligations",
+          "text": "CoreWeave held approximately $35.1 billion in balance-sheet debt and $16.3 billion in operating lease liabilities as of June 30."
+        },
+        {
+          "label": "Contract backlog",
+          "text": "CoreWeave says its $104 billion revenue backlog, up 246% annually and largely backed by committed take-or-pay contracts, is sufficient to cover debt obligations without customer renewals or new tenants."
+        },
+        {
+          "label": "Expansion costs",
+          "text": "UBS estimates CoreWeave needs $260 billion in capital spending from 2027\u20132030 to reach its 8 GW data center capacity target, requiring approximately $102 billion in additional financing."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "IREN",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NBIS",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "ORCL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19285",
+      "has_media": true
+    },
+    {
+      "id": "3ACEC051EAC850F09D47",
+      "ts": "2026-10-15T11:54:05Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Barclays analyst Dan Levy sees a possible all-stock merger between Tesla ($TSLA) and SpaceX, with an announcement potentially coming before Tesla\u2019s annual shareholder meeting, expected no later than December 6.",
+      "points": [
+        {
+          "label": "Deal structure",
+          "text": "Levy envisions SpaceX acquiring Tesla in what would be the largest merger in history. No agreement has been announced."
+        },
+        {
+          "label": "Musk's control",
+          "text": "Maintaining SpaceX\u2019s dual-class share structure would give Elon Musk more than 50% voting control of the combined company, according to Levy."
+        },
+        {
+          "label": "AI integration",
+          "text": "Levy sees a potential combination of Tesla\u2019s physical AI businesses, including Robotaxi and Optimus, with SpaceX\u2019s Grok models and Macrohard AI initiatives."
+        },
+        {
+          "label": "Semiconductor strategy",
+          "text": "The companies\u2019 shared Terafab chipmaking project in Texas provides another rationale. A merger could eliminate the need for separate board approvals on joint decisions."
+        },
+        {
+          "label": "Regulatory hurdles",
+          "text": "Any transaction would require shareholder and U.S. antitrust approval, with no certainty a deal will materialize."
+        },
+        {
+          "label": "Market pressure",
+          "text": "Tesla fell 1.5% in Thursday premarket trading. Barron\u2019s pointed to broader AI financing concerns, including rising CoreWeave ($CRWV) bond yields, rather than merger speculation."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19284",
+      "has_media": true
+    },
+    {
+      "id": "3A49295161DAA2BF1908",
+      "ts": "2026-10-15T11:53:06Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Anthropic\u2019s quarterly revenue growth slowed to 45% in Q3 from a triple-digit increase in Q2, raising investor concerns about whether its growth can justify a targeted $2 trillion IPO valuation, according to Barron\u2019s.",
+      "points": [
+        {
+          "label": "Growth slowdown",
+          "text": "Revenue reached $16.8 billion in Q3, but the deceleration disappointed investors following Wednesday\u2019s private investor presentation."
+        },
+        {
+          "label": "AI stock selloff",
+          "text": "AMD ($AMD), Micron ($MU), Sandisk ($SNDK), Seagate ($STX) and Western Digital ($WDC) fell approximately 3%\u20134% in Thursday premarket trading."
+        },
+        {
+          "label": "Broader concerns",
+          "text": "Rising interest rates, mounting AI infrastructure debt and CoreWeave\u2019s ($CRWV) recent stock decline have intensified investor concerns about the sector."
+        },
+        {
+          "label": "Alternative explanation",
+          "text": "Barron\u2019s suggests spending may be shifting toward rival OpenAI or Meta ($META)\u2019s Muse AI agent rather than leaving the AI sector entirely, although this remains speculative."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMD",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "MU",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "SNDK",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "STX",
+          "layer": "Servers & Storage"
+        },
+        {
+          "ticker": "WDC",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19281",
+      "has_media": false
+    },
     {
       "id": "3AB8C0E28CD3E87E6857",
       "ts": "2026-10-14T22:50:01Z",
@@ -4781,483 +5381,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18506",
       "has_media": true
-    },
-    {
-      "id": "3ABC6DC3D37D212B0C18",
-      "ts": "2026-10-08T14:40:52Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "NVIDIA COMMITS $1 BILLION TO ADVANCE US SCIENCE OVER THE NEXT FIVE YEARS",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18501",
-      "has_media": false
-    },
-    {
-      "id": "3A002F6F6E458685266B",
-      "ts": "2026-10-08T14:22:44Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "US SUSPENDING PERM PROGRAM FOR $MSFT MICROSOFT, VANCE SAYS",
-      "points": [
-        {
-          "label": null,
-          "text": "VANCE SAYS MESSAGE TO MICROSFOT IS YOU'VE GOT TO HIRE AMERICAN WORKERS"
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18499",
-      "has_media": false
-    },
-    {
-      "id": "3A745E93261F643F61AD",
-      "ts": "2026-10-08T13:50:53Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$SECZ Securitize launched Securitize Stocks, bringing 1:1 share-backed U.S. equities onto Solana for regulated onchain trading, while announcing plans to support upcoming trading venues from NYSE and OKXICE.",
-      "points": [
-        {
-          "label": "Initial stocks",
-          "text": "The offering includes $AAPL Apple, $MSFT Microsoft, $NVDA NVIDIA, $GOOG Alphabet, $TSLA Tesla, $META Meta, $AMZN Amazon, $NFLX Netflix, $CRCL Circle, $SPCX SpaceX, $MSTR Strategy and $PLTR Palantir, alongside Securitize\u2019s existing tokenized stock, $SECZ."
-        },
-        {
-          "label": "Trading infrastructure",
-          "text": "Initial trading uses Securitize\u2019s regulated broker-dealer platform and Solana-based PropAMM, with Jump Trading providing liquidity and transactions settling in USDC."
-        },
-        {
-          "label": "Trading hours",
-          "text": "Extended-hours trading will be offered initially, with plans to expand toward 24/7 availability. Access requires identity verification and jurisdictional eligibility."
-        },
-        {
-          "label": "Exchange partnerships",
-          "text": "Securitize was selected as the tokenization partner for the upcoming OKXICE Tokenized Securities Venue and expects its stocks to trade on the planned NYSE digital alternative trading system, subject to launch and regulatory requirements."
-        },
-        {
-          "label": "Institutional adoption",
-          "text": "Ripple Prime plans to support the launch and explore integrating tokenized equities into its institutional trading services."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMZN",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "GOOG",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18488",
-      "has_media": false
-    },
-    {
-      "id": "3ACE317721D0B847E803",
-      "ts": "2026-10-08T13:23:11Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$ZETA Zeta Global unveiled AthenaOS, an AI-powered enterprise operating system designed to turn business data into automated decisions and actions, alongside plans to develop a specialized AI chip with semiconductor partners.",
-      "points": [
-        {
-          "label": "AthenaOS platform",
-          "text": "Built on Zeta Data Cloud, the system combines enterprise data with customer intelligence to coordinate applications, AI agents and workflows around business objectives, continuously learning from outcomes."
-        },
-        {
-          "label": "Enterprise integration",
-          "text": "Athena MCP brings Zeta\u2019s intelligence into existing applications and AI platforms, including ChatGPT, Claude and Gemini. AthenaOS also supports shared context with technologies such as $PLTR Palantir Foundry and OpenAI."
-        },
-        {
-          "label": "Specialized AI models",
-          "text": "Zeta is developing Athena Inference Model (AIM) with Fireworks using $NVDA NVIDIA Nemotron, fine-tuning models for industry-specific tasks, enterprise requirements and faster decision-making."
-        },
-        {
-          "label": "Custom AI chip",
-          "text": "Zeta has begun early-stage development with an unnamed semiconductor partner, pursuing specialized computing and supporting data center infrastructure through a capital-light approach. Architecture and development plans remain preliminary."
-        },
-        {
-          "label": "Availability",
-          "text": "AthenaOS is in limited internal beta, with public beta expected later in 2026 and general availability planned for Q1 2027."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18480",
-      "has_media": true
-    },
-    {
-      "id": "3A7563B5AAA24D5F2FC2",
-      "ts": "2026-10-08T13:22:06Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$ZETA Zeta Global partnered with Fireworks to develop Athena Inference Model (AIM), a collection of specialized AI models built on $NVDA NVIDIA\u2019s Nemotron technology to improve enterprise decision-making through its AthenaOS platform.",
-      "points": [
-        {
-          "label": "AI development",
-          "text": "Fireworks will provide infrastructure to fine-tune and deploy NVIDIA\u2019s open-weight Nemotron models, combining enterprise data with Zeta\u2019s proprietary intelligence."
-        },
-        {
-          "label": "Specialized capabilities",
-          "text": "AIM is designed to interpret industry-specific language, follow brand requirements and generate more relevant recommendations alongside Zeta\u2019s existing predictive models."
-        },
-        {
-          "label": "Performance and security",
-          "text": "Zeta reported accuracy comparable to leading AI models in early testing. AIM is designed to let enterprises use sensitive first-party data within governed environments while retaining control."
-        },
-        {
-          "label": "Launch timeline",
-          "text": "AIM remains in development and is expected to join the AthenaOS beta later in 2026. Commercial availability was not specified."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18479",
-      "has_media": true
-    },
-    {
-      "id": "3A10801A179CD356E8BF",
-      "ts": "2026-10-08T13:10:57Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$AMZN Amazon unveiled three premium Alexa tablets priced from $230 to $550, replacing its budget Fire lineup as it shifts toward higher-priced, AI-powered devices.",
-      "points": [
-        {
-          "label": "Launch and pricing",
-          "text": "The new 8-inch, 11-inch and 12-inch tablets are available for preorder, with shipping beginning October 14. The flagship Alexa Tablet 12 Pro costs $550."
-        },
-        {
-          "label": "Operating system",
-          "text": "All models run $GOOGL Alphabet\u2019s Android instead of Amazon\u2019s customized Fire OS, expanding access to Android apps."
-        },
-        {
-          "label": "AI features",
-          "text": "Alexa gains On-Screen Intelligence, allowing users to analyze screen content, find products and perform tasks such as adding events to calendars."
-        },
-        {
-          "label": "Hardware upgrades",
-          "text": "Improvements include faster processors, aluminum construction and higher-resolution displays. The 12 Pro features anti-glare Nanomatte technology developed with $GLW Corning."
-        },
-        {
-          "label": "Pricing strategy",
-          "text": "Amazon denied that rising memory costs drove the higher prices, although executives acknowledged supply challenges. Existing Fire tablets remain supported, but production of new units has stopped."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMZN",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "GLW",
-          "layer": "Networking"
-        },
-        {
-          "ticker": "GOOGL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18477",
-      "has_media": true
-    },
-    {
-      "id": "3A47F46420BC3EEB2CDA",
-      "ts": "2026-10-08T13:08:43Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$MRVL Marvell Technology will showcase its next-generation AI data center infrastructure portfolio at the October 12\u201315 OCP Global Summit, highlighting advanced networking, optical connectivity, memory expansion, storage and security technologies.",
-      "points": [
-        {
-          "label": "AI networking",
-          "text": "Demonstrations include the Teralynx T100 102.4T switch and Structera CXL memory expansion and acceleration solutions designed to address AI memory bottlenecks."
-        },
-        {
-          "label": "High-speed connectivity",
-          "text": "Marvell will showcase 1.6T optical DSPs, 400G-per-lane PAM4, (800G) COLORZ optical modules with MACsec security, 1.6T active electrical cables and 200G/300G copper connectivity."
-        },
-        {
-          "label": "Storage and security",
-          "text": "Additional technologies include the Bravera PCIe 6.0 SSD controller and an integrated hardware security module."
-        },
-        {
-          "label": "Industry collaboration",
-          "text": "Marvell will present 14 sessions focused on open AI infrastructure, connectivity and emerging data center security standards."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MRVL",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18476",
-      "has_media": true
-    },
-    {
-      "id": "3A317AB5CF58405D0A08",
-      "ts": "2026-10-08T13:05:42Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$ALAB Astera Labs introduced Aries 7, which it calls the industry\u2019s first PCIe 7 signal-conditioning portfolio spanning copper and optical connections for AI infrastructure, with initial sampling expected in Q4 2026.",
-      "points": [
-        {
-          "label": "Connectivity",
-          "text": "The portfolio includes retimers, redrivers, smart cable modules, optical drivers and amplifiers, supporting connections from chip-to-chip to more than 50 meters across AI data-center racks."
-        },
-        {
-          "label": "Software integration",
-          "text": "Astera\u2019s COSMOS platform provides unified monitoring, diagnostics and signal tuning. Standardized component footprints allow customers to change signal conditioners without redesigning circuit boards."
-        },
-        {
-          "label": "Industry partners",
-          "text": "$AMD AMD and $INTC Intel previously validated Aries retimers across PCIe 4\u20136 platforms and are collaborating with Astera on PCIe 7 development."
-        },
-        {
-          "label": "Availability",
-          "text": "Sampling is planned for select hyperscalers, equipment manufacturers and optical customers in Q4 2026, with broader availability following qualification. Demonstrations are scheduled for the October 12\u201315 OCP Global Summit."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "ALAB",
-          "layer": "Networking"
-        },
-        {
-          "ticker": "AMD",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "INTC",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18475",
-      "has_media": false
-    },
-    {
-      "id": "3AEF0726EB37C166D60E",
-      "ts": "2026-10-08T12:36:00Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$GFS GlobalFoundries signed a five-year manufacturing agreement with $TSM TSMC to produce advanced AI-chip packaging components in New York, with volume production expected to ramp in the first half of 2028.",
-      "points": [
-        {
-          "label": "Manufacturing",
-          "text": "GlobalFoundries will produce silicon interposers and advanced deep-trench capacitors at its Malta, New York facility, supporting TSMC\u2019s CoWoS packaging technology for AI and high-performance computing."
-        },
-        {
-          "label": "U.S. supply chain",
-          "text": "The agreement aims to establish the first domestic silicon interposer supply source, reducing reliance on overseas manufacturing and potentially easing AI-chip packaging bottlenecks."
-        },
-        {
-          "label": "Capacity expansion",
-          "text": "GlobalFoundries plans to expand its Malta fabrication capacity, with provisions for additional production as customer demand grows."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "GFS",
-          "layer": "Foundry & Fab"
-        },
-        {
-          "ticker": "TSM",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18464",
-      "has_media": false
-    },
-    {
-      "id": "3AF15991030D142DA0C3",
-      "ts": "2026-10-08T12:22:07Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$GOOG Google Cloud introduced Gemini agent, a universal AI agent designed to complete work across business applications using persistent memory, autonomous execution, specialized tools and multiple AI models, with enterprise security and cost controls.",
-      "points": [
-        {
-          "label": "Model selection and costs",
-          "text": "Gemini can route work between Google's models and Anthropic's Claude models, using Smart Routing to optimize cost and performance. Project spending caps automatically pause agents when limits are reached."
-        },
-        {
-          "label": "Agent capabilities",
-          "text": "Gemini can answer questions, create content, write and run code, schedule tasks and execute multistep workflows. It can coordinate specialized sub-agents and continue working in the cloud across devices and sessions."
-        },
-        {
-          "label": "Memory and tools",
-          "text": "Four memory types preserve task context, organizational knowledge, workflows and past activity. Reusable skills, enterprise connectors and MCP tools let agents access business systems and complete tasks."
-        },
-        {
-          "label": "Security and analytics",
-          "text": "Agents operate with controlled permissions, isolated execution, audit trails and policy enforcement. New data tools support natural-language analysis, while specialized financial-services and legal agents enter preview."
-        },
-        {
-          "label": "Adoption and infrastructure",
-          "text": "Google says nearly 80% of Cloud customers use its AI products and almost 90% of Fortune 100 companies use Gemini Enterprise. Its new TPU 8i reportedly delivers 80% better price-performance than the previous generation."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "GOOG",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18460",
-      "has_media": true
-    },
-    {
-      "id": "3A2AB5728D3099657016",
-      "ts": "2026-10-08T12:14:21Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "GLOBALFOUNDRIES SIGNS $2 BILLION PACT WITH TSMC FOR SILICON INTERPOSERS. $TSM",
-      "points": [
-        {
-          "label": null,
-          "text": "GLOBALFOUNDRIES\u2019 PACT WITH TSMC HAS AN INITIAL FIVE-YEAR TERM."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "TSM",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [
-        "GFS"
-      ],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18456",
-      "has_media": false
-    },
-    {
-      "id": "3A92A3A83D5716A3C285",
-      "ts": "2026-10-08T12:07:51Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "TD Cowen reiterated its Buy rating on $META Meta Platforms and maintained its $865 price target, implying 19.92% upside from $721.31, citing strong advertising growth supported by AI despite rising costs.",
-      "points": [
-        {
-          "label": "Q3 outlook",
-          "text": "Analyst John Blackledge expects strong but slightly slowing revenue growth, with revenue 1% above consensus, supported by continued AI-driven engagement gains."
-        },
-        {
-          "label": "Margin pressure",
-          "text": "Rising AI spending is expected to further compress operating margins, although TD Cowen left its estimates unchanged."
-        },
-        {
-          "label": "Earnings focus",
-          "text": "Investors will watch for updated 2026 operating expense and capital spending guidance, 2027 investment plans and early results from Meta\u2019s Muse AI agent offering."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18452",
-      "has_media": false
-    },
-    {
-      "id": "3A430BAF0D69BF69A5D1",
-      "ts": "2026-10-08T11:54:30Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$NVDA NVIDIA-backed Australian data-center operator Firmus is reportedly considering cutting the size and price of its planned $5B IPO, sending investor Maas Group\u2019s shares down 22.4% Thursday.",
-      "points": [
-        {
-          "label": "IPO terms",
-          "text": "Local reports say the offering price could fall from A$11 to A$8.25 per share. Bookbuilding closed Thursday, but final terms remain undecided."
-        },
-        {
-          "label": "Investor concerns",
-          "text": "Despite early indications of demand exceeding the offering, some investors cited high valuations, heavy debt and execution risks. Overseas demand was reportedly weaker than expected."
-        },
-        {
-          "label": "Maas selloff",
-          "text": "Maas, which owns 3.2% of Firmus, fell as much as 30% intraday before closing down 22.4%, erasing roughly A$517M ($360M) in market value."
-        },
-        {
-          "label": "Company response",
-          "text": "Maas attributed market sentiment to IPO speculation and reported no undisclosed information explaining the decline. Fund manager Datt Group estimated that a price cut to A$9 would reduce Maas\u2019s stake value by about A$75M, substantially less than its market-value loss."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18444",
-      "has_media": true
-    },
-    {
-      "id": "3A1FF3972A53D4F360FA",
-      "ts": "2026-10-08T11:52:24Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$TSM TSMC reported September 2026 revenue of NT$511.86B, up 54.6% YoY but down 0.6% from August, extending strong annual growth despite a slight monthly decline.",
-      "points": [
-        {
-          "label": "Monthly comparison",
-          "text": "Revenue totaled NT$514.81B in August and NT$330.98B in September 2025."
-        },
-        {
-          "label": "Nine-month results",
-          "text": "January\u2013September revenue reached NT$3.90T, up 41.1% YoY from NT$2.76T, an increase of approximately NT$1.14T."
-        },
-        {
-          "label": "AI demand",
-          "text": "The supplied commentary links strong revenue growth to semiconductor and AI-chip demand, with upcoming earnings expected to provide further insight into profit margins, AI demand and guidance."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "TSM",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18443",
-      "has_media": false
     }
   ]
 }

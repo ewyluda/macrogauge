@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T12:53:38Z",
+  "published_at": "2026-10-15T14:49:46Z",
   "history_start": "2026-06-16",
   "blend": {
     "in": 0.75,
@@ -90,9 +90,9 @@
       "key": "glm53",
       "label": "GLM-5.3",
       "tier": "standard",
-      "in_usd_mtok": 0.079,
+      "in_usd_mtok": 0.12,
       "out_usd_mtok": 4.8,
-      "blended_usd_mtok": 1.2592,
+      "blended_usd_mtok": 1.29,
       "as_of": "2026-10-15",
       "chg_30d_pct": null,
       "tail": {
@@ -108,7 +108,7 @@
           1.2592,
           1.2592,
           1.275,
-          1.2592
+          1.29
         ]
       }
     },
@@ -340,7 +340,7 @@
         86.207,
         86.207,
         88.743,
-        86.339
+        86.637
       ],
       "members": [
         6,
@@ -413,9 +413,9 @@
         7
       ]
     },
-    "value": 86.339,
+    "value": 86.637,
     "as_of": "2026-10-15",
-    "chg_30d_pct": -17.2
+    "chg_30d_pct": -16.92
   },
   "token_roster": {
     "since": "2026-10-09",
@@ -571,9 +571,9 @@
     {
       "code": "vast_h200",
       "label": "H200 (vast.ai)",
-      "usd_per_gpu_hr": 4.4542,
+      "usd_per_gpu_hr": 4.8057,
       "as_of": "2026-10-15",
-      "chg_30d_pct": 125.52,
+      "chg_30d_pct": 143.31,
       "tail": {
         "dates": [
           "2026-07-15",
@@ -661,7 +661,7 @@
           5.1559,
           4.54,
           4.6055,
-          4.4542
+          4.8057
         ]
       },
       "in_index": true,
@@ -1303,7 +1303,7 @@
         101.214,
         101.991,
         109.109,
-        108.401
+        110.061
       ],
       "members": [
         1,
@@ -1424,9 +1424,9 @@
         5
       ]
     },
-    "value": 108.401,
+    "value": 110.061,
     "as_of": "2026-10-15",
-    "chg_30d_pct": 18.14
+    "chg_30d_pct": 19.95
   },
   "cloud_gpus": [
     {
@@ -1817,7 +1817,7 @@
         "list_quotes": 5,
         "list_usd_per_pflop_hr": 8.0,
         "reserved_3y_usd_per_pflop_hr": 5.33,
-        "market_usd_per_pflop_hr": 4.5
+        "market_usd_per_pflop_hr": 4.86
       },
       {
         "gpu": "B200",

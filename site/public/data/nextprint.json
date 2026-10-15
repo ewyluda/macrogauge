@@ -1,11 +1,11 @@
 {
-  "published_at": "2026-10-15T12:53:38Z",
+  "published_at": "2026-10-15T14:49:46Z",
   "target": "CPI MoM",
   "release_date": "2026-11-10",
   "reference_month": "2026-10",
   "basis": "SA",
   "ensemble": {
-    "value": 0.32,
+    "value": 0.31,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,
@@ -21,13 +21,13 @@
     },
     {
       "name": "Cleveland",
-      "value": 0.28,
+      "value": 0.27,
       "kind": "benchmark",
-      "as_of": "2026-10-14"
+      "as_of": "2026-10-15"
     },
     {
       "name": "Kalshi",
-      "value": 0.231,
+      "value": 0.233,
       "kind": "benchmark",
       "as_of": "2026-10-15"
     }
@@ -56,7 +56,7 @@
       },
       {
         "name": "Kalshi",
-        "value": 0.205,
+        "value": 0.204,
         "kind": "benchmark",
         "as_of": "2026-10-15"
       }

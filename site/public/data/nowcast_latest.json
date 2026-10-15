@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T12:53:38Z",
+  "published_at": "2026-10-15T14:49:46Z",
   "target": "CPI",
   "release_date": "2026-11-10",
   "core_benchmarks": {
@@ -8,7 +8,7 @@
       "as_of": "2026-10-14"
     },
     "kalshi": {
-      "value": 0.205,
+      "value": 0.204,
       "as_of": "2026-10-15"
     }
   },
@@ -53,11 +53,11 @@
       },
       {
         "component": "food_home",
-        "mom_pct": 0.1868,
+        "mom_pct": 0.1911,
         "weight": 0.081612,
-        "contribution_pp": 0.0152,
+        "contribution_pp": 0.0156,
         "basis": "trend+driver",
-        "driver_mom_pct": 0.0557
+        "driver_mom_pct": 0.0601
       },
       {
         "component": "medical",
@@ -139,15 +139,29 @@
     ]
   },
   "pce": {
-    "mom_pct": 0.47,
+    "mom_pct": 0.5,
+    "bridge": "cpi+ppi",
     "parameters": {
-      "intercept": 0.099216,
-      "cpi_beta": 0.575473,
-      "window_months": 24,
-      "observations": 24
+      "intercept": 0.07865,
+      "cpi_beta": 0.63866,
+      "window_months": 60,
+      "observations": 60,
+      "oos_mae_cpi_only_pp": 0.0497,
+      "oos_mae_cpi_ppi_pp": 0.0458,
+      "oos_months": 24,
+      "ppi_betas": {
+        "ppi_pce_airline": 0.004111,
+        "ppi_pce_physician": 0.034979,
+        "ppi_pce_hospital": 0.035078,
+        "ppi_pce_portfolio": -0.002384
+      },
+      "ppi_inputs_mom_pct": {
+        "ppi_pce_airline": 2.7026,
+        "ppi_pce_physician": 0.0006,
+        "ppi_pce_hospital": 0.0467,
+        "ppi_pce_portfolio": 0.3545
+      }
     },
-    "bridge": "cpi",
-    "bridge_note": "PPI for 2026-09 not printed yet (ppi_pce_airline, ppi_pce_physician, ppi_pce_hospital, ppi_pce_portfolio)",
     "status": "live",
     "cpi_input": {
       "source": "actual",
@@ -158,15 +172,29 @@
     "release_date": "2026-10-29",
     "as_of": "2026-10-15",
     "core": {
-      "mom_pct": 0.28,
+      "mom_pct": 0.31,
+      "bridge": "cpi+ppi",
       "parameters": {
-        "intercept": 0.144243,
-        "cpi_beta": 0.413663,
-        "window_months": 24,
-        "observations": 24
+        "intercept": 0.090339,
+        "cpi_beta": 0.606043,
+        "window_months": 60,
+        "observations": 60,
+        "oos_mae_cpi_only_pp": 0.0533,
+        "oos_mae_cpi_ppi_pp": 0.049,
+        "oos_months": 24,
+        "ppi_betas": {
+          "ppi_pce_airline": 0.005141,
+          "ppi_pce_physician": 0.0451,
+          "ppi_pce_hospital": 0.035605,
+          "ppi_pce_portfolio": -0.00178
+        },
+        "ppi_inputs_mom_pct": {
+          "ppi_pce_airline": 2.7026,
+          "ppi_pce_physician": 0.0006,
+          "ppi_pce_hospital": 0.0467,
+          "ppi_pce_portfolio": 0.3545
+        }
       },
-      "bridge": "cpi",
-      "bridge_note": "PPI for 2026-09 not printed yet (ppi_pce_airline, ppi_pce_physician, ppi_pce_hospital, ppi_pce_portfolio)",
       "status": "live",
       "cpi_input": {
         "source": "actual",
@@ -205,16 +233,16 @@
   },
   "benchmarks": {
     "cleveland": {
-      "value": 0.28,
-      "as_of": "2026-10-14"
+      "value": 0.27,
+      "as_of": "2026-10-15"
     },
     "kalshi": {
-      "value": 0.231,
+      "value": 0.233,
       "as_of": "2026-10-15"
     }
   },
   "ensemble": {
-    "value": 0.32,
+    "value": 0.31,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,
