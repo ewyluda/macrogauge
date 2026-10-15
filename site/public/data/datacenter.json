@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T17:51:21Z",
+  "published_at": "2026-10-15T17:56:36Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -9717,7 +9717,7 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-10-15",
-          "yoy_pct": 23.1,
+          "yoy_pct": 23.12,
           "contribution_pp": 1.27,
           "stale": false
         },
@@ -10245,7 +10245,7 @@
           169.4275,
           170.521,
           170.9016,
-          170.4422
+          170.4439
         ],
         "components": {
           "constr_wages": [
@@ -11620,7 +11620,7 @@
             196.0332,
             204.1541,
             204.3871,
-            202.6967
+            202.7276
           ],
           "alum_shapes": [
             96.7196,

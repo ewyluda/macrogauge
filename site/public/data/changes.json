@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-10-15T17:51:21Z",
-  "prev_published_at": "2026-10-15T17:24:38Z",
+  "published_at": "2026-10-15T17:56:36Z",
+  "prev_published_at": "2026-10-15T17:51:21Z",
   "headline": [
     {
       "key": "gauge",
@@ -58,9 +58,9 @@
       "kind": "datacenter",
       "value": 8.56,
       "as_of": "2026-10-15",
-      "prev_value": 8.55,
+      "prev_value": 8.56,
       "prev_as_of": "2026-10-15",
-      "delta_pp": 0.01
+      "delta_pp": 0.0
     },
     {
       "key": "dc_ops",
@@ -221,30 +221,14 @@
   "sources_landed": [
     {
       "source": "FMP_EQ",
-      "new_rows": 55
+      "new_rows": 51
     },
     {
       "source": "FMP",
-      "new_rows": 13
-    },
-    {
-      "source": "KALSHI_FED",
-      "new_rows": 4
-    },
-    {
-      "source": "OPENROUTER",
-      "new_rows": 2
+      "new_rows": 10
     },
     {
       "source": "VASTAI",
-      "new_rows": 2
-    },
-    {
-      "source": "ERCOT",
-      "new_rows": 1
-    },
-    {
-      "source": "KALSHI",
       "new_rows": 1
     }
   ],
@@ -252,20 +236,20 @@
   "gate_holds": [],
   "movers": [
     {
-      "key": "hub_ercot_north_da",
-      "label": "ERCOT North Hub 30-day average",
+      "key": "compute_gpu_index",
+      "label": "GPU-hour index",
       "section": "AI Infra",
       "kind": "level",
-      "unit": "$/MWh",
-      "notable": 3.0,
-      "href": "/power",
-      "value": 40.46,
-      "as_of": "2026-10-16",
-      "prev_value": 41.22,
+      "unit": "index",
+      "notable": 1.0,
+      "href": "/compute",
+      "value": 110.672,
+      "as_of": "2026-10-15",
+      "prev_value": 109.494,
       "prev_as_of": "2026-10-15",
-      "delta": -1.84,
+      "delta": 1.08,
       "delta_unit": "%",
-      "significance": 0.61
+      "significance": 1.08
     },
     {
       "key": "capacity_ev",
@@ -275,61 +259,13 @@
       "unit": "$B",
       "notable": 3.0,
       "href": "/capacity",
-      "value": 211.8,
+      "value": 210.9,
       "as_of": "2026-10-15",
-      "prev_value": 210.2,
+      "prev_value": 211.8,
       "prev_as_of": "2026-10-15",
-      "delta": 0.76,
+      "delta": -0.42,
       "delta_unit": "%",
-      "significance": 0.25
-    },
-    {
-      "key": "compute_token_index",
-      "label": "Token price index",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "index",
-      "notable": 1.0,
-      "href": "/compute",
-      "value": 87.263,
-      "as_of": "2026-10-15",
-      "prev_value": 87.481,
-      "prev_as_of": "2026-10-15",
-      "delta": -0.25,
-      "delta_unit": "%",
-      "significance": 0.25
-    },
-    {
-      "key": "compute_gpu_index",
-      "label": "GPU-hour index",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "index",
-      "notable": 1.0,
-      "href": "/compute",
-      "value": 109.494,
-      "as_of": "2026-10-15",
-      "prev_value": 109.654,
-      "prev_as_of": "2026-10-15",
-      "delta": -0.15,
-      "delta_unit": "%",
-      "significance": 0.15
-    },
-    {
-      "key": "dc_build",
-      "label": "DC Build index YoY",
-      "section": "AI Infra",
-      "kind": "yoy",
-      "unit": "%",
-      "notable": 0.1,
-      "href": "/datacenter",
-      "value": 8.56,
-      "as_of": "2026-10-15",
-      "prev_value": 8.55,
-      "prev_as_of": "2026-10-15",
-      "delta": 0.01,
-      "delta_unit": "pp",
-      "significance": 0.1
+      "significance": 0.14
     },
     {
       "key": "copper",
@@ -339,13 +275,13 @@
       "unit": "$/lb",
       "notable": 2.0,
       "href": "/commodities",
-      "value": 6.5588,
+      "value": 6.5598,
       "as_of": "2026-10-15",
-      "prev_value": 6.5533,
+      "prev_value": 6.5588,
       "prev_as_of": "2026-10-15",
-      "delta": 0.08,
+      "delta": 0.02,
       "delta_unit": "%",
-      "significance": 0.04
+      "significance": 0.01
     },
     {
       "key": "capacity_op_mw",
@@ -361,6 +297,38 @@
       "prev_as_of": "2026-10-02",
       "delta": 0.0,
       "delta_unit": "%",
+      "significance": 0.0
+    },
+    {
+      "key": "compute_token_index",
+      "label": "Token price index",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "index",
+      "notable": 1.0,
+      "href": "/compute",
+      "value": 87.263,
+      "as_of": "2026-10-15",
+      "prev_value": 87.263,
+      "prev_as_of": "2026-10-15",
+      "delta": 0.0,
+      "delta_unit": "%",
+      "significance": 0.0
+    },
+    {
+      "key": "dc_build",
+      "label": "DC Build index YoY",
+      "section": "AI Infra",
+      "kind": "yoy",
+      "unit": "%",
+      "notable": 0.1,
+      "href": "/datacenter",
+      "value": 8.56,
+      "as_of": "2026-10-15",
+      "prev_value": 8.56,
+      "prev_as_of": "2026-10-15",
+      "delta": 0.0,
+      "delta_unit": "pp",
       "significance": 0.0
     },
     {
@@ -487,6 +455,22 @@
       "as_of": "2026-10-15",
       "prev_value": 43.74,
       "prev_as_of": "2026-10-15",
+      "delta": 0.0,
+      "delta_unit": "%",
+      "significance": 0.0
+    },
+    {
+      "key": "hub_ercot_north_da",
+      "label": "ERCOT North Hub 30-day average",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "$/MWh",
+      "notable": 3.0,
+      "href": "/power",
+      "value": 40.46,
+      "as_of": "2026-10-16",
+      "prev_value": 40.46,
+      "prev_as_of": "2026-10-16",
       "delta": 0.0,
       "delta_unit": "%",
       "significance": 0.0
