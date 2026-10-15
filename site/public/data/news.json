@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-14T23:54:12Z",
+  "published_at": "2026-10-15T12:53:38Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,9 +19,9 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-14T23:51:07Z",
-  "tape_last_post_at": "2026-10-14T23:16:04Z",
-  "age_hours": 0.05,
+  "feed_generated_at": "2026-10-15T02:25:26Z",
+  "tape_last_post_at": "2026-10-15T00:07:15Z",
+  "age_hours": 10.47,
   "dropped": 0,
   "posts": [
     {
@@ -5258,48 +5258,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18443",
       "has_media": false
-    },
-    {
-      "id": "3A70A9B73574BE7287E8",
-      "ts": "2026-10-08T02:18:25Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$AMZN Amazon confirmed another round of layoffs Tuesday, primarily in its Stores business, with fewer than 1,000 employees affected, according to Business Insider",
-      "points": [
-        {
-          "label": "Affected roles",
-          "text": "Internal employee messages indicated cuts across customer service, marketplace support and retail engineering, including positions in India and the UK."
-        },
-        {
-          "label": "Employee uncertainty",
-          "text": "Workers sought answers about severance, internal job opportunities, medical leave and system access during notice periods. Some managers had already scaled back planning amid expectations of further cuts."
-        },
-        {
-          "label": "Broader restructuring",
-          "text": "The layoffs follow roughly 30,000 job cuts late last year and early this year aimed at reducing costs and flattening management, while Amazon prepares a record $220B investment in AI data centers, chips and other infrastructure."
-        },
-        {
-          "label": "Industry trend",
-          "text": "$META Meta eliminated roughly 8,000 positions in May, while $MSFT Microsoft cut more than 5,000 jobs across July and September."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMZN",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18435",
-      "has_media": true
     }
   ]
 }

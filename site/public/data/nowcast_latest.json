@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-14T23:54:12Z",
+  "published_at": "2026-10-15T12:53:38Z",
   "target": "CPI",
   "release_date": "2026-11-10",
   "core_benchmarks": {
@@ -8,8 +8,8 @@
       "as_of": "2026-10-14"
     },
     "kalshi": {
-      "value": 0.21,
-      "as_of": "2026-10-14"
+      "value": 0.205,
+      "as_of": "2026-10-15"
     }
   },
   "core_ensemble": {
@@ -33,7 +33,7 @@
       "weight_share": 0.7923
     },
     "yoy_pct": 3.28,
-    "as_of": "2026-10-14",
+    "as_of": "2026-10-15",
     "status": "live",
     "parameters": {},
     "components": [
@@ -53,11 +53,11 @@
       },
       {
         "component": "food_home",
-        "mom_pct": 0.1926,
+        "mom_pct": 0.1868,
         "weight": 0.081612,
-        "contribution_pp": 0.0157,
+        "contribution_pp": 0.0152,
         "basis": "trend+driver",
-        "driver_mom_pct": 0.0615
+        "driver_mom_pct": 0.0557
       },
       {
         "component": "medical",
@@ -103,9 +103,9 @@
       },
       {
         "component": "fuel",
-        "mom_pct": 1.2565,
+        "mom_pct": 1.1926,
         "weight": 0.040804,
-        "contribution_pp": 0.0513,
+        "contribution_pp": 0.0487,
         "basis": "measured"
       },
       {
@@ -156,7 +156,7 @@
     },
     "reference_month": "2026-09",
     "release_date": "2026-10-29",
-    "as_of": "2026-10-14",
+    "as_of": "2026-10-15",
     "core": {
       "mom_pct": 0.28,
       "parameters": {
@@ -189,7 +189,7 @@
     }
   },
   "nfp": {
-    "change_thousands": 70,
+    "change_thousands": 67,
     "status": "live",
     "reference_month": "2026-10",
     "parameters": {
@@ -200,7 +200,7 @@
     },
     "inputs": {
       "payroll_momentum": 50.67,
-      "claims_delta_thousands": -8.25
+      "claims_delta_thousands": -5.5
     }
   },
   "benchmarks": {
@@ -209,17 +209,17 @@
       "as_of": "2026-10-14"
     },
     "kalshi": {
-      "value": 0.218,
-      "as_of": "2026-10-14"
+      "value": 0.231,
+      "as_of": "2026-10-15"
     }
   },
   "ensemble": {
-    "value": 0.31,
+    "value": 0.32,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-10-14"
+  "generated_on": "2026-10-15"
 }

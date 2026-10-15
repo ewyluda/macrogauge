@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-10-14T23:54:12Z",
-  "score": -2.2,
+  "published_at": "2026-10-15T12:53:38Z",
+  "score": -2.3,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
@@ -11,14 +11,14 @@
       "active_weight": 25.0
     },
     "real_economy": {
-      "z": -0.255,
+      "z": -0.14566,
       "weight": 25,
       "available": 5,
       "expected": 5,
       "active_weight": 25.0
     },
     "pipeline": {
-      "z": 0.09135,
+      "z": -0.054199999999999984,
       "weight": 20,
       "available": 4,
       "expected": 4,
@@ -111,9 +111,9 @@
       "code": "RSAFS",
       "group": "real_economy",
       "direction": 1,
-      "as_of": "2026-08-01",
-      "momentum": 0.8679,
-      "z": 0.0433
+      "as_of": "2026-09-01",
+      "momentum": 1.6541,
+      "z": 0.59
     },
     {
       "code": "DSPIC96",
@@ -128,18 +128,18 @@
       "group": "pipeline",
       "direction": -1,
       "periods": 13,
-      "as_of": "2026-10-03",
-      "momentum": -9.2166,
-      "z": 0.7578
+      "as_of": "2026-10-10",
+      "momentum": -4.7847,
+      "z": 0.3013
     },
     {
       "code": "CCSA",
       "group": "pipeline",
       "direction": -1,
       "periods": 13,
-      "as_of": "2026-09-26",
-      "momentum": -5.7661,
-      "z": 0.7081
+      "as_of": "2026-10-03",
+      "momentum": -4.8943,
+      "z": 0.5824
     },
     {
       "code": "PCUOMFGOMFG",
@@ -328,21 +328,21 @@
       -32.2,
       -15.9,
       -6.5,
-      3.5,
-      -6.4,
+      3.6,
+      -6.6,
       -19.9,
       -15.8,
-      -6.8,
+      -6.7,
       3.0,
       12.8,
       18.7,
       21.6,
       11.8,
       -3.4,
-      -12.3,
-      -7.4,
-      0.9,
-      -2.2
+      -12.2,
+      -7.1,
+      2.3,
+      -2.3
     ]
   }
 }

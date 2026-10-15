@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-14T23:54:12Z",
+  "published_at": "2026-10-15T12:53:38Z",
   "as_of_curated": "2026-10-02",
   "priced_date": "2026-10-14",
   "note": "AI critical-IT MW + unit economics across the AI build-out cohort: neoclouds, powered-shell landlords, operators, and hyperscalers (incl. private builders xAI and OpenAI/Stargate). Spec: docs/superpowers/specs/2026-07-21-capacity-tracker-design.md. op/con/plan = verify-adjusted critical-IT AI MW; hyperscaler MW are estimates (no filing-grade critical-IT split is disclosed). cap/nd/bk in $B. Derived analytics (EV, weighted MW, EV/MW, coverage, %energized) are computed at render time, not stored. dupe!=null => excluded from de-duped cohort totals.",
@@ -466,7 +466,7 @@
           "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000048/apld-20260531.htm"
         ]
       ],
-      "cap": 5.85,
+      "cap": 6.15,
       "px": 20.325,
       "priced_date": "2026-10-14",
       "stale": false,
@@ -497,11 +497,11 @@
           210
         ]
       ],
-      "ev": 6.65,
+      "ev": 6.95,
       "wmw": 830.0,
-      "ev_per_mw": 8.0,
+      "ev_per_mw": 8.4,
       "pct_energized": 17.7,
-      "coverage": 5.41
+      "coverage": 5.18
     },
     {
       "t": "CORZ",
@@ -819,7 +819,7 @@
           "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000166/wulf-20260630.htm"
         ]
       ],
-      "cap": 5.72,
+      "cap": 5.76,
       "px": 11.54,
       "priced_date": "2026-10-14",
       "stale": false,
@@ -840,11 +840,11 @@
           401
         ]
       ],
-      "ev": 8.32,
+      "ev": 8.36,
       "wmw": 1050.5,
-      "ev_per_mw": 7.9,
+      "ev_per_mw": 8.0,
       "pct_energized": 3.2,
-      "coverage": 3.85
+      "coverage": 3.83
     },
     {
       "t": "HUT",
@@ -1337,7 +1337,7 @@
           "https://blockspace.media/insight/riot-platforms-signs-ai-lease-rockdale-2026/"
         ]
       ],
-      "cap": 5.71,
+      "cap": 5.67,
       "px": 15.1,
       "priced_date": "2026-10-14",
       "stale": false,
@@ -1353,11 +1353,11 @@
           191
         ]
       ],
-      "ev": 6.0,
+      "ev": 5.96,
       "wmw": 170.5,
-      "ev_per_mw": 35.2,
+      "ev_per_mw": 35.0,
       "pct_energized": 6.4,
-      "coverage": 1.63
+      "coverage": 1.64
     },
     {
       "t": "BTDR",
@@ -2738,12 +2738,12 @@
           "https://www.scmp.com/tech/big-tech/article/3353573/alibaba-tencent-signal-ai-spending-surge-despite-earnings-pressure-china-chips-ramp"
         ]
       ],
-      "cap": 479.86,
+      "cap": 481.93,
       "px": 53.25,
       "priced_date": "2026-10-14",
       "stale": false,
       "tl": [],
-      "ev": 471.26,
+      "ev": 473.33,
       "wmw": 1875.0,
       "ev_per_mw": null,
       "pct_energized": 36.4,
@@ -5534,7 +5534,7 @@
   "geo_note": "Campus-level site map, added 2026-07-09. lat/lng are town/county centroids, NOT parcel coordinates. approx=true => only the state/country is public (placed at a state-level position; dashed on the map). Sites with undisclosed locations or n/d MW live in geo_unmapped. DOCN (leased colo, locations undisclosed) and AKAM (distributed edge PoPs) are excluded by construction.",
   "reference": {
     "nvda_cap_b": 5333.3,
-    "cohort_ev_b": 213.9
+    "cohort_ev_b": 214.2
   },
   "power_deals": {
     "as_of_curated": "2026-10-08",

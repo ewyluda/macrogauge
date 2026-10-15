@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-14T23:54:12Z",
+  "published_at": "2026-10-15T12:53:38Z",
   "curve": [
     {
       "code": "DGS1MO",
@@ -932,13 +932,12 @@
   "funding": {
     "sofr_30d": {
       "code": "SOFR30DAYAVG",
-      "value": 3.8574,
-      "as_of": "2026-10-14",
-      "chg_30d": 0.209,
-      "chg_1y": -0.3414,
+      "value": 3.8661,
+      "as_of": "2026-10-15",
+      "chg_30d": 0.2176,
+      "chg_1y": -0.325,
       "tail": {
         "dates": [
-          "2026-07-21",
           "2026-07-22",
           "2026-07-23",
           "2026-07-24",
@@ -997,10 +996,10 @@
           "2026-10-08",
           "2026-10-09",
           "2026-10-13",
-          "2026-10-14"
+          "2026-10-14",
+          "2026-10-15"
         ],
         "values": [
-          3.6161,
           3.6157,
           3.6161,
           3.6167,
@@ -1059,7 +1058,8 @@
           3.808,
           3.8157,
           3.8484,
-          3.8574
+          3.8574,
+          3.8661
         ]
       }
     }
@@ -3696,7 +3696,7 @@
     },
     "mnd_30yr_daily": {
       "value": 7.45,
-      "as_of": "2026-10-14"
+      "as_of": "2026-10-15"
     },
     "spread_to_10y_pp": 2.18,
     "history": {
@@ -5083,11 +5083,11 @@
     }
   },
   "fed_path": {
-    "as_of": "2026-10-14",
+    "as_of": "2026-10-15",
     "reference_upper": 4.0,
     "target_upper": {
       "value": 4.0,
-      "as_of": "2026-10-14"
+      "as_of": "2026-10-15"
     },
     "effective": {
       "value": 3.75,
@@ -5097,25 +5097,24 @@
     "meetings": [
       {
         "date": "2026-10-28",
-        "expected_upper": 4.0787,
-        "implied_change_bp": 7.9,
+        "expected_upper": 4.07,
+        "implied_change_bp": 7.0,
         "p_cut": 0.005,
-        "p_hold": 0.68,
-        "p_hike": 0.315
+        "p_hold": 0.715,
+        "p_hike": 0.28
       },
       {
         "date": "2026-12-09",
-        "expected_upper": 4.285,
-        "implied_change_bp": 28.5,
+        "expected_upper": 4.275,
+        "implied_change_bp": 27.5,
         "p_cut": 0.02,
-        "p_hold": 0.085,
-        "p_hike": 0.895
+        "p_hold": 0.115,
+        "p_hike": 0.865
       }
     ],
     "method": "Kalshi KXFED ladders (upper bound above X% after each FOMC meeting): bid/ask mids, rungs wider than 10c dropped, survival curve forced monotone; a meeting publishes only when its liquid rungs bracket the distribution. Expected upper bound on the 25bp grid; cut/hold/hike are vs the upper bound now in effect (last settled KXFED meeting), cumulative to each meeting.",
     "history": {
       "dates": [
-        "2024-10-14",
         "2024-10-15",
         "2024-10-16",
         "2024-10-17",
@@ -5845,7 +5844,8 @@
         "2026-10-11",
         "2026-10-12",
         "2026-10-13",
-        "2026-10-14"
+        "2026-10-14",
+        "2026-10-15"
       ],
       "target_upper": [
         5.0,
@@ -5872,7 +5872,6 @@
         5.0,
         5.0,
         5.0,
-        5.0,
         4.75,
         4.75,
         4.75,
@@ -6551,6 +6550,7 @@
         3.75,
         3.75,
         3.75,
+        4.0,
         4.0,
         4.0,
         4.0,
