@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T17:24:38Z",
+  "published_at": "2026-10-15T17:51:21Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -16,7 +16,7 @@
   "indexes": {
     "build": {
       "as_of": "2026-10-15",
-      "headline_yoy_pct": 8.55,
+      "headline_yoy_pct": 8.56,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -6440,7 +6440,7 @@
         170.95,
         170.81,
         170.49,
-        170.43
+        170.44
       ],
       "yoy_pct": [
         3.05,
@@ -9652,7 +9652,7 @@
         8.86,
         8.78,
         8.58,
-        8.55
+        8.56
       ],
       "components": [
         {
@@ -9717,8 +9717,8 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-10-15",
-          "yoy_pct": 23.0,
-          "contribution_pp": 1.26,
+          "yoy_pct": 23.1,
+          "contribution_pp": 1.27,
           "stale": false
         },
         {
@@ -10245,7 +10245,7 @@
           169.4275,
           170.521,
           170.9016,
-          170.4328
+          170.4422
         ],
         "components": {
           "constr_wages": [
@@ -11620,7 +11620,7 @@
             196.0332,
             204.1541,
             204.3871,
-            202.5267
+            202.6967
           ],
           "alum_shapes": [
             96.7196,
@@ -16210,7 +16210,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 3.47
+          "contribution_pp": 3.48
         },
         {
           "group": "electrical",
@@ -38427,19 +38427,15 @@
       {
         "code": "ercot_north_da",
         "label": "ERCOT North Hub",
-        "latest": 39.49,
-        "asof": "2026-10-15",
+        "latest": 16.69,
+        "asof": "2026-10-16",
         "unit": "$/MWh",
         "grid": "ERCOT",
         "region": "Texas (Dallas\u2013Fort Worth)",
         "product": "Day-ahead, all-hours average",
-        "avg30": 41.22,
-        "avg30_yoy_pct": 33.2,
+        "avg30": 40.46,
+        "avg30_yoy_pct": 32.6,
         "spark": [
-          [
-            "2026-04-19",
-            19.21
-          ],
           [
             "2026-04-20",
             28.95
@@ -39155,6 +39151,10 @@
           [
             "2026-10-15",
             39.49
+          ],
+          [
+            "2026-10-16",
+            16.69
           ]
         ]
       },

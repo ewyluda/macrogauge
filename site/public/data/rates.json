@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T17:24:38Z",
+  "published_at": "2026-10-15T17:51:21Z",
   "curve": [
     {
       "code": "DGS1MO",
@@ -5100,16 +5100,16 @@
     "meetings": [
       {
         "date": "2026-10-28",
-        "expected_upper": 4.0625,
-        "implied_change_bp": 6.2,
+        "expected_upper": 4.065,
+        "implied_change_bp": 6.5,
         "p_cut": 0.005,
-        "p_hold": 0.745,
-        "p_hike": 0.25
+        "p_hold": 0.735,
+        "p_hike": 0.26
       },
       {
         "date": "2026-12-09",
-        "expected_upper": 4.2725,
-        "implied_change_bp": 27.2,
+        "expected_upper": 4.2688,
+        "implied_change_bp": 26.9,
         "p_cut": 0.025,
         "p_hold": 0.11,
         "p_hike": 0.865

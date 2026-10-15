@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-10-15T17:24:38Z",
-  "prev_published_at": "2026-10-15T14:49:46Z",
+  "published_at": "2026-10-15T17:51:21Z",
+  "prev_published_at": "2026-10-15T17:24:38Z",
   "headline": [
     {
       "key": "gauge",
@@ -28,9 +28,9 @@
       "kind": "gauge",
       "value": 5.56,
       "as_of": "2026-10-15",
-      "prev_value": 5.9,
+      "prev_value": 5.56,
       "prev_as_of": "2026-10-15",
-      "delta_pp": -0.34
+      "delta_pp": 0.0
     },
     {
       "key": "supercore",
@@ -56,11 +56,11 @@
       "key": "dc_build",
       "label": "DC Build",
       "kind": "datacenter",
-      "value": 8.55,
+      "value": 8.56,
       "as_of": "2026-10-15",
-      "prev_value": 8.56,
+      "prev_value": 8.55,
       "prev_as_of": "2026-10-15",
-      "delta_pp": -0.01
+      "delta_pp": 0.01
     },
     {
       "key": "dc_ops",
@@ -221,46 +221,30 @@
   "sources_landed": [
     {
       "source": "FMP_EQ",
-      "new_rows": 56
-    },
-    {
-      "source": "ICE",
-      "new_rows": 34
+      "new_rows": 55
     },
     {
       "source": "FMP",
-      "new_rows": 14
+      "new_rows": 13
+    },
+    {
+      "source": "KALSHI_FED",
+      "new_rows": 4
     },
     {
       "source": "OPENROUTER",
-      "new_rows": 3
+      "new_rows": 2
     },
     {
       "source": "VASTAI",
       "new_rows": 2
     },
     {
-      "source": "FRED",
+      "source": "ERCOT",
       "new_rows": 1
     },
     {
       "source": "KALSHI",
-      "new_rows": 1
-    },
-    {
-      "source": "KALSHI_CORE",
-      "new_rows": 1
-    },
-    {
-      "source": "KALSHI_FED",
-      "new_rows": 1
-    },
-    {
-      "source": "MND",
-      "new_rows": 1
-    },
-    {
-      "source": "PMMS",
       "new_rows": 1
     }
   ],
@@ -268,84 +252,20 @@
   "gate_holds": [],
   "movers": [
     {
-      "key": "gauge_col",
-      "label": "Cost of Living YoY",
-      "section": "Inflation",
-      "kind": "yoy",
-      "unit": "%",
-      "notable": 0.05,
-      "href": "/gap",
-      "value": 5.56,
-      "as_of": "2026-10-15",
-      "prev_value": 5.9,
+      "key": "hub_ercot_north_da",
+      "label": "ERCOT North Hub 30-day average",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "$/MWh",
+      "notable": 3.0,
+      "href": "/power",
+      "value": 40.46,
+      "as_of": "2026-10-16",
+      "prev_value": 41.22,
       "prev_as_of": "2026-10-15",
-      "delta": -0.34,
-      "delta_unit": "pp",
-      "significance": 6.8
-    },
-    {
-      "key": "hub_ice_pjm_west",
-      "label": "PJM Western Hub 30-day average",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "$/MWh",
-      "notable": 3.0,
-      "href": "/power",
-      "value": 99.58,
-      "as_of": "2026-10-13",
-      "prev_value": 85.72,
-      "prev_as_of": "2026-09-29",
-      "delta": 16.17,
+      "delta": -1.84,
       "delta_unit": "%",
-      "significance": 5.39
-    },
-    {
-      "key": "hub_ice_mass_hub",
-      "label": "ISO-NE Mass Hub 30-day average",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "$/MWh",
-      "notable": 3.0,
-      "href": "/power",
-      "value": 41.8,
-      "as_of": "2026-10-13",
-      "prev_value": 44.65,
-      "prev_as_of": "2026-09-29",
-      "delta": -6.38,
-      "delta_unit": "%",
-      "significance": 2.13
-    },
-    {
-      "key": "hub_ice_palo_verde",
-      "label": "Palo Verde 30-day average",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "$/MWh",
-      "notable": 3.0,
-      "href": "/power",
-      "value": 39.5,
-      "as_of": "2026-10-13",
-      "prev_value": 40.95,
-      "prev_as_of": "2026-09-29",
-      "delta": -3.54,
-      "delta_unit": "%",
-      "significance": 1.18
-    },
-    {
-      "key": "compute_token_index",
-      "label": "Token price index",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "index",
-      "notable": 1.0,
-      "href": "/compute",
-      "value": 87.481,
-      "as_of": "2026-10-15",
-      "prev_value": 86.637,
-      "prev_as_of": "2026-10-15",
-      "delta": 0.97,
-      "delta_unit": "%",
-      "significance": 0.97
+      "significance": 0.61
     },
     {
       "key": "capacity_ev",
@@ -355,13 +275,29 @@
       "unit": "$B",
       "notable": 3.0,
       "href": "/capacity",
-      "value": 210.2,
+      "value": 211.8,
       "as_of": "2026-10-15",
-      "prev_value": 205.8,
+      "prev_value": 210.2,
       "prev_as_of": "2026-10-15",
-      "delta": 2.14,
+      "delta": 0.76,
       "delta_unit": "%",
-      "significance": 0.71
+      "significance": 0.25
+    },
+    {
+      "key": "compute_token_index",
+      "label": "Token price index",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "index",
+      "notable": 1.0,
+      "href": "/compute",
+      "value": 87.263,
+      "as_of": "2026-10-15",
+      "prev_value": 87.481,
+      "prev_as_of": "2026-10-15",
+      "delta": -0.25,
+      "delta_unit": "%",
+      "significance": 0.25
     },
     {
       "key": "compute_gpu_index",
@@ -371,13 +307,13 @@
       "unit": "index",
       "notable": 1.0,
       "href": "/compute",
-      "value": 109.654,
+      "value": 109.494,
       "as_of": "2026-10-15",
-      "prev_value": 110.061,
+      "prev_value": 109.654,
       "prev_as_of": "2026-10-15",
-      "delta": -0.37,
+      "delta": -0.15,
       "delta_unit": "%",
-      "significance": 0.37
+      "significance": 0.15
     },
     {
       "key": "dc_build",
@@ -387,29 +323,13 @@
       "unit": "%",
       "notable": 0.1,
       "href": "/datacenter",
-      "value": 8.55,
+      "value": 8.56,
       "as_of": "2026-10-15",
-      "prev_value": 8.56,
+      "prev_value": 8.55,
       "prev_as_of": "2026-10-15",
-      "delta": -0.01,
+      "delta": 0.01,
       "delta_unit": "pp",
       "significance": 0.1
-    },
-    {
-      "key": "hub_ice_midc",
-      "label": "Mid-Columbia 30-day average",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "$/MWh",
-      "notable": 3.0,
-      "href": "/power",
-      "value": 51.1,
-      "as_of": "2026-10-13",
-      "prev_value": 51.0,
-      "prev_as_of": "2026-09-29",
-      "delta": 0.2,
-      "delta_unit": "%",
-      "significance": 0.07
     },
     {
       "key": "copper",
@@ -419,13 +339,13 @@
       "unit": "$/lb",
       "notable": 2.0,
       "href": "/commodities",
-      "value": 6.5533,
+      "value": 6.5588,
       "as_of": "2026-10-15",
-      "prev_value": 6.5563,
+      "prev_value": 6.5533,
       "prev_as_of": "2026-10-15",
-      "delta": -0.05,
+      "delta": 0.08,
       "delta_unit": "%",
-      "significance": 0.03
+      "significance": 0.04
     },
     {
       "key": "capacity_op_mw",
@@ -471,6 +391,22 @@
       "as_of": "2026-09-01",
       "prev_value": 5.61,
       "prev_as_of": "2026-09-01",
+      "delta": 0.0,
+      "delta_unit": "pp",
+      "significance": 0.0
+    },
+    {
+      "key": "gauge_col",
+      "label": "Cost of Living YoY",
+      "section": "Inflation",
+      "kind": "yoy",
+      "unit": "%",
+      "notable": 0.05,
+      "href": "/gap",
+      "value": 5.56,
+      "as_of": "2026-10-15",
+      "prev_value": 5.56,
+      "prev_as_of": "2026-10-15",
       "delta": 0.0,
       "delta_unit": "pp",
       "significance": 0.0
@@ -556,17 +492,65 @@
       "significance": 0.0
     },
     {
-      "key": "hub_ercot_north_da",
-      "label": "ERCOT North Hub 30-day average",
+      "key": "hub_ice_mass_hub",
+      "label": "ISO-NE Mass Hub 30-day average",
       "section": "AI Infra",
       "kind": "level",
       "unit": "$/MWh",
       "notable": 3.0,
       "href": "/power",
-      "value": 41.22,
-      "as_of": "2026-10-15",
-      "prev_value": 41.22,
-      "prev_as_of": "2026-10-15",
+      "value": 41.8,
+      "as_of": "2026-10-13",
+      "prev_value": 41.8,
+      "prev_as_of": "2026-10-13",
+      "delta": 0.0,
+      "delta_unit": "%",
+      "significance": 0.0
+    },
+    {
+      "key": "hub_ice_midc",
+      "label": "Mid-Columbia 30-day average",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "$/MWh",
+      "notable": 3.0,
+      "href": "/power",
+      "value": 51.1,
+      "as_of": "2026-10-13",
+      "prev_value": 51.1,
+      "prev_as_of": "2026-10-13",
+      "delta": 0.0,
+      "delta_unit": "%",
+      "significance": 0.0
+    },
+    {
+      "key": "hub_ice_palo_verde",
+      "label": "Palo Verde 30-day average",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "$/MWh",
+      "notable": 3.0,
+      "href": "/power",
+      "value": 39.5,
+      "as_of": "2026-10-13",
+      "prev_value": 39.5,
+      "prev_as_of": "2026-10-13",
+      "delta": 0.0,
+      "delta_unit": "%",
+      "significance": 0.0
+    },
+    {
+      "key": "hub_ice_pjm_west",
+      "label": "PJM Western Hub 30-day average",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "$/MWh",
+      "notable": 3.0,
+      "href": "/power",
+      "value": 99.58,
+      "as_of": "2026-10-13",
+      "prev_value": 99.58,
+      "prev_as_of": "2026-10-13",
       "delta": 0.0,
       "delta_unit": "%",
       "significance": 0.0
