@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T20:41:02Z",
+  "published_at": "2026-10-15T22:07:26Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,195 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-15T20:40:37Z",
-  "tape_last_post_at": "2026-10-15T20:37:33Z",
-  "age_hours": 0.01,
+  "feed_generated_at": "2026-10-15T22:07:26Z",
+  "tape_last_post_at": "2026-10-15T22:02:52Z",
+  "age_hours": 0.0,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3AC2B3478FBF32F0CCC6",
+      "ts": "2026-10-15T21:01:08Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Anthropic investors are considering a $1.5 trillion IPO valuation, down from earlier expectations of approximately $2 trillion, as slowing revenue growth raises concerns ahead of its planned November listing, according to Reuters.",
+      "points": [
+        {
+          "label": "Revenue slowdown",
+          "text": "Q3 revenue rose 45% to $16.8 billion, compared with $11.6 billion in Q2, when revenue had more than doubled."
+        },
+        {
+          "label": "Profitability",
+          "text": "Anthropic reported positive adjusted profitability in Q3, although some investors remained disappointed by slowing growth."
+        },
+        {
+          "label": "Financial pressures",
+          "text": "The company reported an operating loss exceeding $8 billion last year and has committed at least $518 billion to computing and infrastructure over the next decade."
+        },
+        {
+          "label": "AI market implications",
+          "text": "A weaker IPO valuation could intensify concerns about AI infrastructure spending and affect sentiment toward Nvidia ($NVDA), CoreWeave ($CRWV) and OpenAI's potential 2027 listing."
+        },
+        {
+          "label": "Major partners",
+          "text": "Alphabet ($GOOGL) and Amazon ($AMZN) remain investors, computing suppliers and distribution partners to Anthropic, while also competing in AI."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19466",
+      "has_media": false
+    },
+    {
+      "id": "3A918D53DA02757CCC2D",
+      "ts": "2026-10-15T20:40:42Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Mizuho remains bullish on AI optical networking, naming Lumentum ($LITE), Credo ($CRDO), Tower Semiconductor ($TSEM), Nvidia ($NVDA) and Broadcom ($AVGO) as key beneficiaries of next-generation connectivity technology.",
+      "points": [
+        {
+          "label": "Near-term adoption",
+          "text": "Near-Packaged Optics (NPO) is expected to ramp in 2027, reducing costs by 5%\u201310% compared with traditional pluggable optical modules."
+        },
+        {
+          "label": "Next-generation technology",
+          "text": "Co-Packaged Optics (CPO) could lower costs by approximately 30%, with broader adoption expected from 2028 as supply chains mature."
+        },
+        {
+          "label": "Silicon photonics",
+          "text": "Adoption is projected to rise from 43% in 2025 to 76% by 2030, supporting demand for Lumentum's lasers and silicon photonics solutions from Tower Semiconductor and STMicroelectronics ($STM)."
+        },
+        {
+          "label": "Supply expansion",
+          "text": "Indium phosphide (InP) substrate capacity remains constrained but is projected to grow more than 80% in 2026 and 30% in 2027, supporting increased laser production."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AVGO",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "LITE",
+          "layer": "Networking"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "TSEM",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19462",
+      "has_media": true
+    },
+    {
+      "id": "3AF7109C22048E825084",
+      "ts": "2026-10-15T20:37:33Z",
+      "category": "other",
+      "kind": "image",
+      "headline": "Nvidia ($NVDA) and Apple ($AAPL) each committed $25 million toward President Trump's $400 million White House ballroom project, part of $333 million in private donations reported by The Washington Post.",
+      "points": [
+        {
+          "label": "Major donors",
+          "text": "The Adelson family and Dish Network co-founder Charles Ergen also committed $25 million each."
+        },
+        {
+          "label": "Federal contractors",
+          "text": "Lockheed Martin ($LMT), Microsoft ($MSFT) and Palantir ($PLTR) reportedly contributed $10 million each."
+        },
+        {
+          "label": "Government ties",
+          "text": "The Post found that roughly half the donations came from companies or executives whose firms held federal contracts during Trump's second term."
+        },
+        {
+          "label": "Transparency concerns",
+          "text": "The White House declined to disclose donor information. Ethics watchdogs warned that undisclosed contributions could create conflicts of interest."
+        },
+        {
+          "label": "Company responses",
+          "text": "Nvidia confirmed its donation, calling it independent of business interests. Apple declined comment. Reuters could not independently verify the reported contributions."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19461",
+      "has_media": true
+    },
+    {
+      "id": "3AE18C7DB34DDAFF8F28",
+      "ts": "2026-10-15T20:32:26Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "KeyBanc says Google ($GOOGL) is discussing memory supply agreements extending through 2035, while HP ($HPQ) and Dell ($DELL) are extending contracts into 2031, suggesting AI-driven memory demand could remain strong for years.",
+      "points": [
+        {
+          "label": "Long-term contracts",
+          "text": "Analyst John Vinh's Asia supply-chain checks indicate customers are securing memory capacity beyond 2030. Google's potential agreements through 2035 remain under discussion."
+        },
+        {
+          "label": "Memory pricing",
+          "text": "KeyBanc forecasts DRAM prices rising 15%\u201320% and NAND 20% in Q4 2026, with HBM prices increasing 80%\u2013100% in Q1 2027."
+        },
+        {
+          "label": "Supply constraints",
+          "text": "Memory manufacturers are shifting capacity toward data centers, potentially reducing PC and smartphone memory supply by 20%\u201330% in 2027."
+        },
+        {
+          "label": "Memory stocks",
+          "text": "KeyBanc's findings were particularly positive for Micron ($MU), with implications for SK Hynix ($SKHY) and Samsung as long-term contracts could improve demand visibility."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "DELL",
+          "layer": "Servers & Storage"
+        },
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "MU",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "SKHY",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19460",
+      "has_media": true
+    },
     {
       "id": "3A4D56B95951E0077CF4",
       "ts": "2026-10-15T20:23:02Z",

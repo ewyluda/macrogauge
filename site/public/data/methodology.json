@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-10-15T20:41:02Z",
+  "published_at": "2026-10-15T22:07:26Z",
   "stats": {
     "series_count": 870,
-    "obs_count": 224660,
+    "obs_count": 224688,
     "source_count": 44,
     "tracker_corr": 0.9978,
     "live_coverage_pct": 39.06,
@@ -335,7 +335,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-14",
+      "latest_obs": "2026-10-15",
       "fresh": true,
       "absence": null
     },
@@ -2875,7 +2875,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-14",
+      "latest_obs": "2026-10-15",
       "fresh": true,
       "absence": null
     },
@@ -2985,7 +2985,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-14",
+      "latest_obs": "2026-10-15",
       "fresh": true,
       "absence": null
     },
@@ -3065,7 +3065,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-14",
+      "latest_obs": "2026-10-15",
       "fresh": true,
       "absence": null
     },
@@ -3145,7 +3145,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-14",
+      "latest_obs": "2026-10-15",
       "fresh": true,
       "absence": null
     },

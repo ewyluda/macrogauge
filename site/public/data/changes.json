@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-10-15T20:41:02Z",
-  "prev_published_at": "2026-10-15T20:36:33Z",
+  "published_at": "2026-10-15T22:07:26Z",
+  "prev_published_at": "2026-10-15T20:41:02Z",
   "headline": [
     {
       "key": "gauge",
@@ -221,44 +221,36 @@
   "sources_landed": [
     {
       "source": "FMP",
-      "new_rows": 5
-    },
-    {
-      "source": "FRED",
-      "new_rows": 2
+      "new_rows": 6
     },
     {
       "source": "KALSHI_FED",
-      "new_rows": 1
+      "new_rows": 6
     },
     {
       "source": "OPENROUTER",
-      "new_rows": 1
+      "new_rows": 6
+    },
+    {
+      "source": "FRED",
+      "new_rows": 5
     },
     {
       "source": "VASTAI",
+      "new_rows": 3
+    },
+    {
+      "source": "KALSHI",
+      "new_rows": 1
+    },
+    {
+      "source": "KALSHI_CORE",
       "new_rows": 1
     }
   ],
   "sources_failed": [],
   "gate_holds": [],
   "movers": [
-    {
-      "key": "compute_gpu_index",
-      "label": "GPU-hour index",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "index",
-      "notable": 1.0,
-      "href": "/compute",
-      "value": 110.568,
-      "as_of": "2026-10-15",
-      "prev_value": 113.483,
-      "prev_as_of": "2026-10-15",
-      "delta": -2.57,
-      "delta_unit": "%",
-      "significance": 2.57
-    },
     {
       "key": "compute_token_index",
       "label": "Token price index",
@@ -267,13 +259,29 @@
       "unit": "index",
       "notable": 1.0,
       "href": "/compute",
-      "value": 90.214,
+      "value": 88.069,
       "as_of": "2026-10-15",
-      "prev_value": 89.69,
+      "prev_value": 90.214,
       "prev_as_of": "2026-10-15",
-      "delta": 0.58,
+      "delta": -2.38,
       "delta_unit": "%",
-      "significance": 0.58
+      "significance": 2.38
+    },
+    {
+      "key": "compute_gpu_index",
+      "label": "GPU-hour index",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "index",
+      "notable": 1.0,
+      "href": "/compute",
+      "value": 109.066,
+      "as_of": "2026-10-15",
+      "prev_value": 110.568,
+      "prev_as_of": "2026-10-15",
+      "delta": -1.36,
+      "delta_unit": "%",
+      "significance": 1.36
     },
     {
       "key": "capacity_ev",
