@@ -25,7 +25,12 @@ def fetch(series_ids: list[str], api_key: str | None, start_year: str | None = N
             payload["registrationkey"] = api_key
         resp = http_post(BLS_URL, json=payload, timeout=60)
         resp.raise_for_status()
-        for s in resp.json()["Results"]["series"]:
+        body = resp.json()
+        # A refused request (keyless daily quota spent, bad key) is an HTTP 200
+        # with no series; say why instead of dying on a KeyError.
+        if body.get("status") not in (None, "REQUEST_SUCCEEDED") or "series" not in body.get("Results", {}):
+            raise RuntimeError(f"BLS {body.get('status')}: {'; '.join(body.get('message') or [])}")
+        for s in body["Results"]["series"]:
             for row in s["data"]:
                 if not row["period"].startswith("M") or row["period"] == "M13":
                     continue

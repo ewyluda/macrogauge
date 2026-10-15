@@ -52,6 +52,14 @@ class Series:
     name: str
     max_staleness_days: int
     absence: Absence | None = None  # expected-absence policy, if any
+    # FRED's id for a series collected from another provider (BLS since
+    # 2026-10-15): FRED/ALFRED history tools must not send source_id to FRED.
+    fred_id: str | None = None
+
+    @property
+    def fred_series_id(self) -> str | None:
+        """The id FRED/ALFRED know this series by, whatever collects it daily."""
+        return self.source_id if self.source == "FRED" else self.fred_id
 
 
 def _parse_absence(code: str, raw: dict | None, limit: int) -> Absence | None:
@@ -99,7 +107,8 @@ def load_registry(path: Path | None = None) -> tuple[dict[str, Source], list[Ser
     series = [Series(code=s["code"], source=s["source"], source_id=s["source_id"],
                      name=s["name"], max_staleness_days=s["max_staleness_days"],
                      absence=_parse_absence(s["code"], s.get("absence"),
-                                            s["max_staleness_days"]))
+                                            s["max_staleness_days"]),
+                     fred_id=s.get("fred_id"))
               for s in raw["series"]]
     codes = [s.code for s in series]
     dupes = {c for c in codes if codes.count(c) > 1}
@@ -108,4 +117,6 @@ def load_registry(path: Path | None = None) -> tuple[dict[str, Source], list[Ser
     for s in series:
         if s.source not in sources:
             raise ValueError(f"series {s.code} references unknown source {s.source}")
+        if s.source == "FRED" and s.fred_id is not None:
+            raise ValueError(f"series {s.code}: fred_id is only for non-FRED sources")
     return sources, series

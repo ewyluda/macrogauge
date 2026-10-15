@@ -316,6 +316,16 @@ def _text(path):
     return _TextResponse(path.read_text())
 
 
+def _bls_from_fred_fixture(series_id):
+    # The CPI/PPI/CES series the registry fetches from BLS get the same
+    # CPIAUCNS fixture rows the laxer FRED fake serves every FRED id.
+    obs = json.loads((FIXTURES / "fred_cpiaucns.json").read_text())["observations"]
+    return {"seriesID": series_id, "data": [
+        {"year": o["date"][:4], "period": "M" + o["date"][5:7],
+         "value": "-" if o["value"] == "." else o["value"]}  # BLS's missing marker
+        for o in obs]}
+
+
 def fake_post(url, json=None, timeout=None):
     class R:
         def raise_for_status(self):
@@ -323,7 +333,11 @@ def fake_post(url, json=None, timeout=None):
 
         def json(self):
             import json as j
-            return j.loads((FIXTURES / "bls_ap_full.json").read_text())
+            payload = j.loads((FIXTURES / "bls_ap_full.json").read_text())
+            payload["Results"]["series"] += [_bls_from_fred_fixture(sid) for sid in json_["seriesid"]
+                                             if not sid.startswith("APU")]
+            return payload
+    json_ = json
     return R()
 
 

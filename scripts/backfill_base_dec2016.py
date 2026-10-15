@@ -31,11 +31,17 @@ def main(argv=None, http_get=None) -> int:
     _, series = registry.load_registry()
     by_code = {s.code: s for s in series}
     codes = ["CPIAUCNS"] + [c.official_series for c in comps if c.official_series in by_code]
-    wire = {by_code[c].source_id: c for c in codes}
+    # FRED's ids, not source_id: the CPI codes are collected daily from BLS
+    wire = {by_code[c].fred_series_id: c for c in codes}
     obs = fred.fetch(list(wire), key, observation_start=BASE, http_get=http_get)
     rows = [Observation(wire.get(o.series_code, o.series_code), o.obs_date, o.value,
                         o.vintage_date, o.source, o.route)
             for o in obs if o.obs_date == BASE]
+    # the residual chains from all 14 bases, and fred.fetch tolerates a failed
+    # id, so a partial set must not be written as if it were complete
+    missing = sorted(set(codes) - {r.series_code for r in rows})
+    if missing:
+        sys.exit(f"no {BASE} value for {missing} — NOTHING written")
     written = vintage.append(rows, args.store)
     print(f"{len(rows)} Dec-2016 rows fetched, {written} new")
     return 0

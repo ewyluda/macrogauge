@@ -1,6 +1,6 @@
 """One-time deep-history backfill for the /labor non-craft share.
 
-The daily FRED fetch starts at 2017-01, which leaves the share of construction
+The daily fetch starts at 2017-01, which leaves the share of construction
 jobs held by non-craft staff (all employees − production and nonsupervisory
 employees) with no baseline before the 2017 build-out it is meant to put in
 context. Both BLS series reach back decades; 1990 covers the flat 1990s, the
@@ -18,6 +18,7 @@ revisions reach back about five years, so that history is final in practice.
 import argparse
 import os
 import sys
+from dataclasses import replace
 from pathlib import Path
 
 from pipeline.connectors import fred
@@ -43,13 +44,13 @@ def main(argv=None, http_get=None) -> int:
 
     _, registry = load_registry()
     entries = [s for s in registry if s.code in CODES]
-    if {s.code for s in entries} != set(CODES) or any(s.source != "FRED" for s in entries):
-        sys.exit(f"registry must carry {CODES} as FRED series")
-    # both codes equal their FRED ids, so no id -> code remap is needed
-    assert all(s.code == s.source_id for s in entries)
-
-    obs = fred.fetch([s.source_id for s in entries], key,
-                     observation_start=args.observation_start, http_get=http_get)
+    if {s.code for s in entries} != set(CODES):
+        sys.exit(f"registry must carry {CODES}")
+    # FRED's ids, not source_id: the daily run collects these from BLS
+    wire = {s.fred_series_id: s.code for s in entries}
+    obs = [replace(o, series_code=wire.get(o.series_code, o.series_code))
+           for o in fred.fetch(list(wire), key,
+                               observation_start=args.observation_start, http_get=http_get)]
     # the shares are ratios of these: one short series shortens them, and the
     # store is append-only, so verify both before writing anything
     cover = coverage(obs)

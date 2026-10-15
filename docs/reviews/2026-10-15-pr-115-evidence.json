@@ -1,0 +1,61 @@
+{
+  "reviewed_head": "c9724a992ce7df63714da95ba49b378da813958b",
+  "merge_base": "340da5000c438be707185de88f91b59c77a8e891",
+  "migration_control": {
+    "moved_series": 35,
+    "batch_sizes": [
+      25,
+      25,
+      13
+    ],
+    "fetched": 64,
+    "new_rows": 2,
+    "raw_id_leaks": [],
+    "missing_and_annual_rows_skipped": true
+  },
+  "refusal_control": {
+    "ok": false,
+    "new_rows": 0,
+    "error": "RuntimeError: BLS REQUEST_NOT_PROCESSED: daily threshold for total number of requests reached"
+  },
+  "cpi_base_backfill": {
+    "before": {
+      "exit_code": 0,
+      "requested": 14,
+      "stored": 14,
+      "rejected_ids": [],
+      "missing_codes": [],
+      "stdout": "14 Dec-2016 rows fetched, 14 new",
+      "warnings": []
+    },
+    "after": {
+      "exit_code": 0,
+      "requested": 14,
+      "stored": 9,
+      "rejected_ids": [
+        "CUUR0000SA0",
+        "CUUR0000SAM",
+        "CUUR0000SAE",
+        "CUUR0000SAR",
+        "CUUR0000SAA"
+      ],
+      "missing_codes": [
+        "CPIAUCNS",
+        "CUUR0000SAA",
+        "CUUR0000SAE",
+        "CUUR0000SAM",
+        "CUUR0000SAR"
+      ],
+      "stdout": "9 Dec-2016 rows fetched, 9 new",
+      "warnings": [
+        "FRED: 5 item(s) failed \u2014 CUUR0000SA0: RuntimeError: 400: series CUUR0000SA0 does not exist; CUUR0000SAM: RuntimeError: 400: series CUUR0000SAM does not exist; CUUR0000SAE: RuntimeError: 400: series CUUR0000SAE does not exist; CUUR0000SAR: RuntimeError: 400: series CUUR0000SAR does not exist; CUUR0000SAA: RuntimeError: 400: series CUUR0000SAA does not exist"
+      ]
+    }
+  },
+  "residual_control": {
+    "before_start": "2016-12-01",
+    "after_start": "2017-01-01",
+    "before_jan2017": 100.64347791858788,
+    "after_jan2017": 100.0
+  }
+}

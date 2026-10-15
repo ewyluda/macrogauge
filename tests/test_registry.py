@@ -32,51 +32,25 @@ def test_load_real_registry():
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 187
-    # Pin the FRED wire ids — 5 registry codes map to different real FRED series ids
-    # (the CUUR0000SA{M,A,R,E,G} whole-category codes don't exist on FRED; verified
-    # live 2026-07-07). A bad id fails the whole FRED batch, so lock these down.
+    assert len(fred) == 152  # 35 BLS-origin series moved to direct BLS (10-15)
+    # Pin the FRED wire ids. A bad id fails the whole FRED batch, so lock these down.
     fred_ids = {s.code: s.source_id for s in fred}
     assert fred_ids == {
-        "CPIAUCNS": "CPIAUCNS",
-        "CPILFENS": "CPILFENS",
-        "CPIAUCSL": "CPIAUCSL",
         "fred_uo_electrical_sa": "A35CUO", "fred_uo_turbines_sa": "ATGPUO",
         "fred_ship_electrical_sa": "A35CVS", "fred_ship_turbines_sa": "ATGPVS",
         "CP0000EZCCM086NEST": "CP0000EZCCM086NEST", "TOTNRGFOODEA20MI15XM": "TOTNRGFOODEA20MI15XM",
-        "CPILFESL": "CPILFESL",
-        "CUUR0000SASL2RS": "CUUR0000SASL2RS",
         **{c: c for c in ("COREFLEXCPIM159SFRBATL", "PCEPILFE", "T5YIFR", "EXPINF1YR",
-                          "EXPINF10YR", "CUSR0000SACL1E", "CHNTOT", "ECIALLCIV", "ULCNFB")},
+                          "EXPINF10YR", "CHNTOT", "ECIALLCIV", "ULCNFB")},
         "PCEPI": "PCEPI",
         # BEA-input PPIs for the PCE bridge — verified on FRED fred/series
         # 2026-09-28 (PCU523920523920 ended 2022-12; the "P" product line runs on)
-        "ppi_pce_airline": "PCU481111481111",
-        "ppi_pce_physician": "PCU621111621111",
-        "ppi_pce_hospital": "PCU622622",
         "ppi_pce_portfolio": "PCU523920523920P",
-        "CUUR0000SAF11": "CUUR0000SAF11",
-        "CUUR0000SEFV": "CUUR0000SEFV",
-        "CUUR0000SAM": "CPIMEDNS",
-        "CUUR0000SAA": "CPIAPPNS",
-        "CUUR0000SAR": "CPIRECNS",
-        "CUUR0000SAE": "CPIEDUNS",
-        "CUUR0000SAG": "CPIOGSNS",
-        "CUUR0000SETA01": "CUUR0000SETA01",
-        "CUUR0000SETA02": "CUUR0000SETA02",
-        "CUUR0000SEHA": "CUUR0000SEHA",
-        "CUUR0000SEHC": "CUUR0000SEHC",
-        "CUUR0000SEHF01": "CUUR0000SEHF01",
-        "CUUR0000SEHF02": "CUUR0000SEHF02",
-        "CUUR0000SETB01": "CUUR0000SETB01",
         "FRBATLWGT3MMAUMHWGO": "FRBATLWGT3MMAUMHWGO",
-            "CES0500000003": "CES0500000003",
-            "PAYEMS": "PAYEMS",
             "ICSA": "ICSA",
-            "UNRATE": "UNRATE", "INDPRO": "INDPRO", "RSAFS": "RSAFS",
-            "DSPIC96": "DSPIC96", "PPIACO": "PPIACO",
+            "INDPRO": "INDPRO", "RSAFS": "RSAFS",
+            "DSPIC96": "DSPIC96",
             "IREXPETCOM": "IREXPETCOM", "T5YIE": "T5YIE",
-            "CCSA": "CCSA", "PCUOMFGOMFG": "PCUOMFGOMFG",
+            "CCSA": "CCSA",
             "FEDFUNDS": "FEDFUNDS", "DFEDTARU": "DFEDTARU", "HOUST": "HOUST", "PERMIT": "PERMIT",
             "B235RC1Q027SBEA": "B235RC1Q027SBEA", "A255RC1Q027SBEA": "A255RC1Q027SBEA",
             "CSUSHPINSA": "CSUSHPINSA", "CSUSHPISA": "CSUSHPISA", "M2SL": "M2SL", "UMCSENT": "UMCSENT",
@@ -87,7 +61,6 @@ def test_load_real_registry():
             "NFCI": "NFCI", "CFNAIMA3": "CFNAIMA3",
             "RECPROUSM156N": "RECPROUSM156N",
             "ces_constr_ahe": "CES2000000003",
-            "USCONS": "USCONS", "CES2000000006": "CES2000000006", "CES2000000011": "CES2000000011", "CES2000000030": "CES2000000030", "JTS2300JOL": "JTS2300JOL", "JTS2300JOR": "JTS2300JOR",
             "ppi_elec_contr": "PCU23821X23821X",
             "ppi_plumb_hvac": "PCU23822X23822X",
             "ppi_steel": "WPU1017",
@@ -115,7 +88,6 @@ def test_load_real_registry():
             "ppi_ic_packages": "WPU117839",
             "ppi_wafers": "PCU334413334413A",
             "cpi_computers": "CUUR0000SEEE01",
-            "cpi_water": "CUSR0000SEHG",
             # P2 geography wave: 23 national measures (matrix.json et al.),
             # ids LIVE-VERIFIED 2026-07-17 by the six-agent scout
             "MEDCPIM158SFRBCLE": "MEDCPIM158SFRBCLE",
@@ -134,6 +106,39 @@ def test_load_real_registry():
             # live-verified 2026-07-17 (51/51 exist, monthly, latest obs 2026-05)
             **{f"{st}UR": f"{st}UR" for st in STATE_ABBREVS},
         }
+    # Pin the BLS wire ids for the series fetched straight from BLS so a print
+    # lands at 8:30 instead of after FRED's propagation lag (2026-10-15: Sept PPI
+    # still absent from FRED at 11:30 ET). Each id matched the store's FRED
+    # history value-for-value when moved; the codes stay the old FRED codes.
+    bls_ids = {s.code: s.source_id for s in series
+               if s.source == "BLS" and not s.code.startswith("APU")}
+    assert bls_ids == {
+        "CPIAUCNS": "CUUR0000SA0", "CPILFENS": "CUUR0000SA0L1E",
+        "CPIAUCSL": "CUSR0000SA0", "CPILFESL": "CUSR0000SA0L1E",
+        **{c: c for c in ("CUUR0000SASL2RS", "CUSR0000SACL1E", "CUUR0000SAF11", "CUUR0000SEFV",
+                          "CUUR0000SAM", "CUUR0000SAA", "CUUR0000SAR", "CUUR0000SAE",
+                          "CUUR0000SAG", "CUUR0000SETA01", "CUUR0000SETA02", "CUUR0000SEHA",
+                          "CUUR0000SEHC", "CUUR0000SEHF01", "CUUR0000SEHF02", "CUUR0000SETB01",
+                          "CES0500000003", "CES2000000006", "CES2000000011", "CES2000000030")},
+        "cpi_water": "CUSR0000SEHG",
+        "PAYEMS": "CES0000000001", "UNRATE": "LNS14000000", "USCONS": "CES2000000001",
+        "PPIACO": "WPU00000000", "PCUOMFGOMFG": "PCUOMFG--OMFG--",
+        "ppi_pce_airline": "PCU481111481111", "ppi_pce_physician": "PCU621111621111",
+        "ppi_pce_hospital": "PCU622---622---",
+        "JTS2300JOL": "JTS230000000000000JOL", "JTS2300JOR": "JTS230000000000000JOR",
+    }
+    # ...and each keeps the FRED id it had, which FRED/ALFRED history tools
+    # (backfill_base_dec2016, backfill_construction_mix) must send instead —
+    # five of them are FRED aliases a BLS id would 400 on.
+    assert {s.code: s.fred_series_id for s in series if s.code in bls_ids} == {
+        **{c: c for c in bls_ids if c not in (
+            "CUUR0000SAM", "CUUR0000SAA", "CUUR0000SAR", "CUUR0000SAE", "CUUR0000SAG",
+            "ppi_pce_airline", "ppi_pce_physician", "ppi_pce_hospital", "cpi_water")},
+        "CUUR0000SAM": "CPIMEDNS", "CUUR0000SAA": "CPIAPPNS", "CUUR0000SAR": "CPIRECNS",
+        "CUUR0000SAE": "CPIEDUNS", "CUUR0000SAG": "CPIOGSNS",
+        "ppi_pce_airline": "PCU481111481111", "ppi_pce_physician": "PCU621111621111",
+        "ppi_pce_hospital": "PCU622622", "cpi_water": "CUSR0000SEHG",
+    }
     # P2 T3: 2 US + 100 metro series (top-50 msa by SizeRank, zori+zhvi each)
     assert sum(1 for s in series if s.source == "ZILLOW") == 102
     assert sources["QCEW"].secret is None and sources["QCEW"].route == "CSV"
@@ -321,6 +326,24 @@ def test_unknown_source_rejected(tmp_path):
     p.write_text(json.dumps(bad))
     with pytest.raises(ValueError, match="unknown source"):
         registry.load_registry(p)
+
+
+def test_fred_id_rejected_on_fred_series(tmp_path):
+    bad = {"sources": {"FRED": {"route": "API", "cadence": "daily"}},
+           "series": [{"code": "a", "source": "FRED", "source_id": "A", "fred_id": "B",
+                       "name": "a", "max_staleness_days": 7}]}
+    p = tmp_path / "series.json"
+    p.write_text(json.dumps(bad))
+    with pytest.raises(ValueError, match="fred_id is only for non-FRED"):
+        registry.load_registry(p)
+
+
+def test_fred_series_id_follows_source(tmp_path):
+    fred = _one({"code": "a", "source": "X", "source_id": "1", "name": "a",
+                 "max_staleness_days": 7, "fred_id": "F1"}, tmp_path)
+    assert fred.fred_series_id == "F1"
+    assert _one({"code": "a", "source": "X", "source_id": "1", "name": "a",
+                 "max_staleness_days": 7}, tmp_path).fred_series_id is None
 
 
 # ---- expected-absence policy (todo #10) ------------------------------------
