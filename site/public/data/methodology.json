@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-10-15T14:49:46Z",
+  "published_at": "2026-10-15T17:24:38Z",
   "stats": {
     "series_count": 870,
-    "obs_count": 224219,
+    "obs_count": 224337,
     "source_count": 44,
     "tracker_corr": 0.9978,
     "live_coverage_pct": 39.06,
@@ -2035,7 +2035,7 @@
       "source": "PMMS",
       "route": "CSV",
       "cadence": "weekly",
-      "latest_obs": "2026-10-08",
+      "latest_obs": "2026-10-15",
       "fresh": true,
       "absence": null
     },
@@ -8215,7 +8215,7 @@
       "source": "ICE",
       "route": "XLSX",
       "cadence": "biweekly",
-      "latest_obs": "2026-09-29",
+      "latest_obs": "2026-10-13",
       "fresh": true,
       "absence": null
     },
@@ -8225,7 +8225,7 @@
       "source": "ICE",
       "route": "XLSX",
       "cadence": "biweekly",
-      "latest_obs": "2026-09-29",
+      "latest_obs": "2026-10-13",
       "fresh": true,
       "absence": null
     },
@@ -8235,7 +8235,7 @@
       "source": "ICE",
       "route": "XLSX",
       "cadence": "biweekly",
-      "latest_obs": "2026-09-29",
+      "latest_obs": "2026-10-13",
       "fresh": true,
       "absence": null
     },
@@ -8245,7 +8245,7 @@
       "source": "ICE",
       "route": "XLSX",
       "cadence": "biweekly",
-      "latest_obs": "2026-09-29",
+      "latest_obs": "2026-10-13",
       "fresh": true,
       "absence": null
     },

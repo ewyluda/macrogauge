@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T14:49:46Z",
+  "published_at": "2026-10-15T17:24:38Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,340 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-15T14:46:46Z",
-  "tape_last_post_at": "2026-10-15T14:48:02Z",
-  "age_hours": 0.05,
+  "feed_generated_at": "2026-10-15T17:22:16Z",
+  "tape_last_post_at": "2026-10-15T17:18:59Z",
+  "age_hours": 0.04,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3A74B32949546572E651",
+      "ts": "2026-10-15T17:14:21Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Apple ($AAPL) and Meta ($META) are collaborating to run Meta's new 816-billion-parameter Muse Spark Open AI model locally on high-end Macs, potentially offering businesses an alternative to Nvidia-powered AI infrastructure.",
+      "points": [
+        {
+          "label": "Hardware integration",
+          "text": "The companies demonstrated the model running across two or four connected Mac Studios equipped with Apple's M5 Ultra chips and MLX software framework."
+        },
+        {
+          "label": "Model capabilities",
+          "text": "Meta calls Muse Spark Open the most powerful U.S.-developed open-weight AI model. It will be free to download, permit commercial use and support cloud deployment."
+        },
+        {
+          "label": "Privacy",
+          "text": "Local processing keeps user prompts and data off Meta's servers, addressing a major concern in the companies' longstanding rivalry."
+        },
+        {
+          "label": "Industry competition",
+          "text": "The collaboration adds to growing alternatives to proprietary AI systems and Nvidia ($NVDA) GPUs, alongside open-weight models from Nvidia, Reflection AI and Mistral."
+        },
+        {
+          "label": "Partnership scope",
+          "text": "Apple is helping demonstrate Meta's model on its hardware. No integration into Apple Intelligence has been announced."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19404",
+      "has_media": true
+    },
+    {
+      "id": "3A82104F5A15DBF63E15",
+      "ts": "2026-10-15T17:04:59Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "ADOBE AND NVIDIA EXPAND PACT TO SPEED AGENTIC CREATION.",
+      "points": [
+        {
+          "label": null,
+          "text": "ADOBE - BRAND CONCIERGE WITH NVIDIA NEMOTRON AVAILABLE TO ENTERPRISE CUSTOMERS LATER THIS YEAR"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19403",
+      "has_media": false
+    },
+    {
+      "id": "3A8DD1DC58E69BD6110D",
+      "ts": "2026-10-15T17:04:10Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "META RELEASES AN OPENAI MODEL, KEEPS MOST ADVANCED TECH CLOSED. $META",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19402",
+      "has_media": false
+    },
+    {
+      "id": "3AF7A8B82DC4568B58D5",
+      "ts": "2026-10-15T16:28:28Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Microsoft ($MSFT) completed pre-training its MAI-Base-2 AI model with 2.8 trillion total parameters, claiming it outperformed every open-weight model tested while using significantly less computing power.",
+      "points": [
+        {
+          "label": "Model architecture",
+          "text": "MAI-Base-2 uses 80 billion active parameters, activating only part of its 2.8 trillion parameters per task to improve efficiency."
+        },
+        {
+          "label": "Performance",
+          "text": "Microsoft reported 4.2\u201312.3\u00d7 greater compute efficiency than DeepSeek-V4-Pro-Base and 6.3\u201312.7\u00d7 improvement over its previous MAI-Base-1 model."
+        },
+        {
+          "label": "Training infrastructure",
+          "text": "Trained on 16,000 Nvidia ($NVDA) GB200 GPUs over 38 days using approximately 50 trillion tokens, with image data accounting for 18% of training."
+        },
+        {
+          "label": "AI independence",
+          "text": "Microsoft used original training data rather than distilling rival models, supporting plans to license model weights to trusted Azure AI Foundry partners."
+        },
+        {
+          "label": "Next steps",
+          "text": "Post-training continues, with MAI-Base-3 already in development. No commercial release date or pricing was disclosed."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19397",
+      "has_media": false
+    },
+    {
+      "id": "3A66631C85D344D884D6",
+      "ts": "2026-10-15T16:16:02Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "MICROSOFT COMPLETES PRE-TRAINING ON MAI-BASE-2 MODEL. $MSFT",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19393",
+      "has_media": false
+    },
+    {
+      "id": "3AAFCEFBCE50CDFFB500",
+      "ts": "2026-10-15T15:50:42Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Josh Brown named Palantir ($PLTR) one of his top momentum stocks, highlighting accelerating AI revenue growth and a return to record highs, while warning of extreme volatility and a steep valuation.",
+      "points": [
+        {
+          "label": "Stock performance",
+          "text": "Palantir reached a record close of $209.05 on October 9 after falling 48% earlier this year. As of Wednesday, shares were up 13% YTD and 55% over three months."
+        },
+        {
+          "label": "Revenue growth",
+          "text": "Q2 revenue surged 93% to $1.94 billion, marking nine consecutive quarters of accelerating growth. U.S. commercial revenue grew 149%, while government revenue rose 90%."
+        },
+        {
+          "label": "Profitability",
+          "text": "Quarterly net income exceeded $1 billion for the first time. Its Rule of 40 score reached 155, reflecting 93% revenue growth and a 62% adjusted operating margin."
+        },
+        {
+          "label": "Growth outlook",
+          "text": "Management raised 2026 revenue guidance to $8.15 billion, with $13.1 billion in remaining deal value, up 83%. Q3 earnings are scheduled for November 2."
+        },
+        {
+          "label": "Nvidia partnership",
+          "text": "Palantir expanded its collaboration with Nvidia ($NVDA) to integrate AI models into enterprise operations, including Nvidia's supply chain."
+        },
+        {
+          "label": "Valuation and risk",
+          "text": "At a $483 billion market capitalization, shares trade at 59 times 2026 projected revenue and 78 times 2027 consensus earnings. Historical five-year maximum drawdown reached 85%."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19388",
+      "has_media": true
+    },
+    {
+      "id": "3AD9471EB86632E8E3FB",
+      "ts": "2026-10-15T15:42:29Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "TSMC ($TSM) CEO C.C. Wei signaled the company could support customers facing advanced chip packaging shortages at Intel ($INTC), potentially benefiting from supply constraints in Intel\u2019s competing technology.",
+      "points": [
+        {
+          "label": "Customer support",
+          "text": "Asked whether TSMC would assist customers struggling with Intel\u2019s EMIB-T capacity, Wei avoided a direct commitment but emphasized ensuring customers can launch products on schedule."
+        },
+        {
+          "label": "Packaging technology",
+          "text": "TSMC is already producing advanced packages at five times standard reticle size with excellent yields, with plans to expand to nine and eventually 14 times."
+        },
+        {
+          "label": "Competition",
+          "text": "TSMC says its CoWoS packaging remains customers\u2019 preferred option and is working to reduce costs. Intel previously reported meeting EMIB-T yield and reliability targets ahead of planned 2027 production increases."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "INTC",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "TSM",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19383",
+      "has_media": true
+    },
+    {
+      "id": "3A4D02468D7B444BBCE1",
+      "ts": "2026-10-15T15:10:49Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "*NVDA HUANG: COREWEAVE'S COST OF CAPITAL IS `ACTUALLY DECREASING'",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [
+        "NVDA"
+      ],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19370",
+      "has_media": false
+    },
+    {
+      "id": "3AC541493DCB16580D1E",
+      "ts": "2026-10-15T15:09:41Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "*NVDA HUANG: `COREWEAVE'S STRENGTH IS IMPROVING EVERY DAY'",
+      "points": [
+        {
+          "label": null,
+          "text": "*NVDA HUANG SAYS NVIDIA DOESN'T NEED TO BACKSTOP COREWEAVE"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19369",
+      "has_media": false
+    },
+    {
+      "id": "3A6666685FD4D20392E7",
+      "ts": "2026-10-15T15:06:24Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "NVIDIA RELEASES NEMOTRON, A 120B-PARAMETER OPEN AGENTIC MODEL.",
+      "points": [
+        {
+          "label": null,
+          "text": "NVIDIA RELEASES NEMOTRON 3.5 SUPER VL, A 120-BILLION-PARAMETER OPEN AI MODEL DESIGNED FOR AGENTIC AI APPLICATIONS, EXPANDING ITS OPEN-MODEL PORTFOLIO. $NVDA"
+        },
+        {
+          "label": null,
+          "text": "NVIDIA RELEASES EDGE MODEL NEMOTRON 3.5 BOLT 74B-A9B 24GB"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19366",
+      "has_media": false
+    },
+    {
+      "id": "3AD18B88C72E9C46AE3E",
+      "ts": "2026-10-15T14:48:02Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Germany is preparing a major AI partnership with Nvidia ($NVDA), potentially committing hundreds of millions of euros to industrial AI, robotics and autonomous systems, according to Handelsblatt.",
+      "points": [
+        {
+          "label": "Government funding",
+          "text": "Berlin plans to finance computing capacity and AI model training, building on its existing \u20ac20 million Soofi initiative. An announcement is expected next week."
+        },
+        {
+          "label": "Nvidia technology",
+          "text": "The partnership would use Nvidia's open Nemotron and Cosmos models to develop industrial AI while allowing companies to retain control of their data."
+        },
+        {
+          "label": "Deutsche Telekom",
+          "text": "Its \u20ac1 billion Industrial AI Cloud uses 10,000 Nvidia Blackwell chips, with Nvidia reportedly contributing nearly half the investment. Telekom plans to double chip capacity."
+        },
+        {
+          "label": "Industrial partners",
+          "text": "Siemens, Volkswagen's Audi and Black Forest Labs are among roughly a dozen German companies expected to participate. Siemens already collaborates with Nvidia on AI-powered factory simulations and digital twins."
+        },
+        {
+          "label": "Mercedes-Benz",
+          "text": "CEO Ola K\u00e4llenius is expected to meet Chancellor Friedrich Merz and Nvidia CEO Jensen Huang on Monday. No new Mercedes investment was disclosed."
+        },
+        {
+          "label": "European expansion",
+          "text": "Nvidia announced nearly $10 billion in support for Europe's technology ecosystem, including investments in French companies Doctolib, Genesis AI and Entalpic. The full scope remains unclear."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19362",
+      "has_media": true
+    },
     {
       "id": "3AB4311C20A077C7F81A",
       "ts": "2026-10-15T14:40:53Z",
@@ -296,7 +625,7 @@
       ],
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19303",
-      "has_media": false
+      "has_media": true
     },
     {
       "id": "3ABE3D55D9B11B0A11D7",
@@ -422,7 +751,7 @@
       ],
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19288",
-      "has_media": false
+      "has_media": true
     },
     {
       "id": "3A384671CE3D29DC5717",
@@ -622,7 +951,7 @@
       ],
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19281",
-      "has_media": false
+      "has_media": true
     },
     {
       "id": "3AB8C0E28CD3E87E6857",
@@ -2717,7 +3046,7 @@
       ],
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18925",
-      "has_media": false
+      "has_media": true
     },
     {
       "id": "3A6A2F84A53F72F4301F",
@@ -5204,183 +5533,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18534",
       "has_media": false
-    },
-    {
-      "id": "3ADA475173F3283C9069",
-      "ts": "2026-10-08T17:18:36Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "MICROSOFT: 80% OF H-1B VISA APPLICATIONS LAST YEAR NOT NEW HIRES",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18531",
-      "has_media": false
-    },
-    {
-      "id": "3A30FD799E049855327A",
-      "ts": "2026-10-08T17:03:37Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$ORCL Oracle is transporting natural gas by truck to power AI data centers and bypass pipeline delays, as shares fell roughly 6% Thursday, putting the stock on track for its largest one-day decline in 12 weeks.",
-      "points": [
-        {
-          "label": "Power infrastructure",
-          "text": "Oracle has reportedly used truck-delivered natural gas at data centers in Utah and Texas to avoid delays connecting to traditional gas pipelines."
-        },
-        {
-          "label": "Expansion plans",
-          "text": "The strategy could extend to Oracle\u2019s 2.45-gigawatt Project Jupiter in New Mexico, although implementation there remains unconfirmed."
-        },
-        {
-          "label": "Energy costs",
-          "text": "Trucked natural gas reportedly costs approximately four times as much as pipeline deliveries, highlighting the expense of securing power for rapidly expanding AI infrastructure."
-        },
-        {
-          "label": "Stock performance",
-          "text": "Oracle shares were last reported down approximately 6%, potentially marking their steepest daily decline in 12 weeks if the losses persist through the close."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "ORCL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18529",
-      "has_media": false
-    },
-    {
-      "id": "3A966B07C6B241B47785",
-      "ts": "2026-10-08T16:15:59Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "The White House announced more than $6 billion in science initiatives involving government, industry, universities and philanthropy, targeting AI-powered research, quantum computing, biotechnology, nuclear space systems and scientific workforce development.",
-      "points": [
-        {
-          "label": "AI infrastructure",
-          "text": "Eleven companies committed $2.4B in AI tools and computing credits for the Genesis Mission Consortium, supporting scientific research across more than 15 federal agencies."
-        },
-        {
-          "label": "Industry commitments",
-          "text": "$NVDA NVIDIA pledged $1B, $AMD AMD $500M, OpenAI $200M, Anthropic and $GOOGL Google $150M each, AMP and Emerald AI $100M each, and $AMZN Amazon's AWS, Armada, Crusoe and $MU Micron $50M each."
-        },
-        {
-          "label": "Regional computing",
-          "text": "Georgia announced $1B for scientific computing and workforce training. Universities across 10 states formed a Southeast computing consortium, while five universities established a Carolinas hub. NSF and DOE committed over $100M to AI-enabled scientific instruments and autonomous laboratories."
-        },
-        {
-          "label": "Space nuclear technology",
-          "text": "NASA and DOE agreed to develop nuclear-powered space systems, including Space Reactor-1, a Mars spacecraft targeted for launch in 2028, and Lunar Reactor-1, a proposed lunar fission reactor."
-        },
-        {
-          "label": "Quantum research",
-          "text": "DOE launched a $215M competition targeting eight priority applications for scientifically useful, fault-tolerant quantum computers. NSF introduced two $33M research competitions covering quantum applications and synthetic multicellularity."
-        },
-        {
-          "label": "Biotechnology",
-          "text": "NIH, DOE and Biohub launched a $1.8B virtual biology initiative to develop AI models that predict cellular behavior and disease responses, supporting a goal of doubling biomedical innovation speed within 5\u201310 years."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMD",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "AMZN",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "GOOGL",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "MU",
-          "layer": "Foundry & Fab"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18520",
-      "has_media": false
-    },
-    {
-      "id": "3A8DA0D0ACD37B4B4723",
-      "ts": "2026-10-08T16:07:16Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$AVGO Broadcom announced plans to showcase next-generation AI networking technologies at the October 12\u201315 OCP Global Summit, featuring Ethernet switches, high-speed interconnects and integrated optics designed to support AI clusters exceeding 100,000 accelerators.",
-      "points": [
-        {
-          "label": "AI networking",
-          "text": "Broadcom will feature its Tomahawk 6, Tomahawk Ultra and Jericho 4 Ethernet switches, alongside Thor Ultra 800G and Thor 2 400G network interface cards."
-        },
-        {
-          "label": "Industry collaboration",
-          "text": "Broadcom will participate in technical sessions with OpenAI, $MSFT Microsoft, $ANET Arista Networks and other partners, covering optical networking, Ethernet connectivity, security and AI infrastructure."
-        },
-        {
-          "label": "Partner demonstrations",
-          "text": "More than 15 companies will showcase Broadcom technologies, including Celestica, Delta Electronics, Accton/Edgecore, Alpha Networks and Micas Networks."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "ANET",
-          "layer": "Networking"
-        },
-        {
-          "ticker": "AVGO",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18517",
-      "has_media": false
-    },
-    {
-      "id": "3A68D72A52DC443F1FDA",
-      "ts": "2026-10-08T15:32:10Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "U.S. Department of Labor announced the suspension of $MSFT Microsoft, $ADBE Adobe and six other companies from its Permanent Labor Certification (PERM) program, blocking new applications for employment-based green cards amid a broader foreign-worker crackdown.",
-      "points": [
-        {
-          "label": "Affected companies",
-          "text": "The suspensions include $CTSH Cognizant, $INFY Infosys, Capgemini, Tata, $WIT Wipro and HCL, alongside Microsoft and Adobe."
-        },
-        {
-          "label": "Federal investigations",
-          "text": "Labor Secretary Keith Sonderling said Microsoft and Adobe were suspended due to multiple active federal investigations. Details of the investigations were not disclosed."
-        },
-        {
-          "label": "Hiring restrictions",
-          "text": "The Labor Department will stop accepting or processing new PERM applications from the affected companies. The announcement did not specify the treatment of existing applications."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18506",
-      "has_media": true
     }
   ]
 }

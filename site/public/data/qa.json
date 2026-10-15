@@ -187,7 +187,7 @@
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.31 weights: macrogauge 33%, cleveland 33%, kalshi 33%"
+      "detail": "ensemble=0.32 weights: macrogauge 33%, cleveland 33%, kalshi 33%"
     },
     {
       "name": "gauge_current",
