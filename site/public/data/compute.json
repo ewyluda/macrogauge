@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T19:12:00Z",
+  "published_at": "2026-10-15T20:36:33Z",
   "history_start": "2026-06-16",
   "blend": {
     "in": 0.75,
@@ -64,9 +64,9 @@
       "key": "kimi_k3",
       "label": "Kimi K3",
       "tier": "standard",
-      "in_usd_mtok": 0.45,
-      "out_usd_mtok": 16.5,
-      "blended_usd_mtok": 4.4625,
+      "in_usd_mtok": 0.405,
+      "out_usd_mtok": 15.0,
+      "blended_usd_mtok": 4.0537,
       "as_of": "2026-10-15",
       "chg_30d_pct": null,
       "tail": {
@@ -82,7 +82,7 @@
           3.0475,
           3.0475,
           4.125,
-          4.4625
+          4.0537
         ]
       }
     },
@@ -91,8 +91,8 @@
       "label": "GLM-5.3",
       "tier": "standard",
       "in_usd_mtok": 0.11,
-      "out_usd_mtok": 4.8,
-      "blended_usd_mtok": 1.2825,
+      "out_usd_mtok": 6.0,
+      "blended_usd_mtok": 1.5825,
       "as_of": "2026-10-15",
       "chg_30d_pct": null,
       "tail": {
@@ -108,7 +108,7 @@
           1.2592,
           1.2592,
           1.275,
-          1.2825
+          1.5825
         ]
       }
     },
@@ -116,9 +116,9 @@
       "key": "deepseek_v41_flash",
       "label": "DeepSeek V4.1 Flash",
       "tier": "light",
-      "in_usd_mtok": 0.0156,
+      "in_usd_mtok": 0.0112,
       "out_usd_mtok": 0.72,
-      "blended_usd_mtok": 0.1917,
+      "blended_usd_mtok": 0.1884,
       "as_of": "2026-10-15",
       "chg_30d_pct": null,
       "tail": {
@@ -138,7 +138,7 @@
           0.2625,
           0.2625,
           0.2346,
-          0.1917
+          0.1884
         ]
       }
     },
@@ -146,9 +146,9 @@
       "key": "gemini38_flash",
       "label": "Gemini 3.8 Flash",
       "tier": "light",
-      "in_usd_mtok": 0.75,
-      "out_usd_mtok": 3.75,
-      "blended_usd_mtok": 1.5,
+      "in_usd_mtok": 0.825,
+      "out_usd_mtok": 4.125,
+      "blended_usd_mtok": 1.65,
       "as_of": "2026-10-15",
       "chg_30d_pct": null,
       "tail": {
@@ -168,7 +168,7 @@
           1.5,
           1.5,
           1.5,
-          1.5
+          1.65
         ]
       }
     },
@@ -340,7 +340,7 @@
         86.207,
         86.207,
         88.743,
-        87.263
+        89.69
       ],
       "members": [
         6,
@@ -413,9 +413,9 @@
         7
       ]
     },
-    "value": 87.263,
+    "value": 89.69,
     "as_of": "2026-10-15",
-    "chg_30d_pct": -16.32
+    "chg_30d_pct": -13.99
   },
   "token_roster": {
     "since": "2026-10-09",
@@ -571,9 +571,9 @@
     {
       "code": "vast_h200",
       "label": "H200 (vast.ai)",
-      "usd_per_gpu_hr": 4.8057,
+      "usd_per_gpu_hr": 5.0459,
       "as_of": "2026-10-15",
-      "chg_30d_pct": 143.31,
+      "chg_30d_pct": 155.48,
       "tail": {
         "dates": [
           "2026-07-15",
@@ -661,7 +661,7 @@
           5.1559,
           4.54,
           4.6055,
-          4.8057
+          5.0459
         ]
       },
       "in_index": true,
@@ -904,9 +904,9 @@
     {
       "code": "vast_rtx4090",
       "label": "RTX 4090 (vast.ai)",
-      "usd_per_gpu_hr": 0.4956,
+      "usd_per_gpu_hr": 0.5926,
       "as_of": "2026-10-15",
-      "chg_30d_pct": 0.0,
+      "chg_30d_pct": 19.57,
       "tail": {
         "dates": [
           "2026-07-15",
@@ -1042,7 +1042,7 @@
           0.4938,
           0.5135,
           0.5339,
-          0.4956
+          0.5926
         ]
       },
       "in_index": true,
@@ -1303,7 +1303,7 @@
         101.214,
         101.991,
         109.109,
-        108.434
+        113.483
       ],
       "members": [
         1,
@@ -1424,9 +1424,9 @@
         5
       ]
     },
-    "value": 108.434,
+    "value": 113.483,
     "as_of": "2026-10-15",
-    "chg_30d_pct": 18.17
+    "chg_30d_pct": 23.68
   },
   "cloud_gpus": [
     {
@@ -1817,7 +1817,7 @@
         "list_quotes": 5,
         "list_usd_per_pflop_hr": 8.0,
         "reserved_3y_usd_per_pflop_hr": 5.33,
-        "market_usd_per_pflop_hr": 4.86
+        "market_usd_per_pflop_hr": 5.1
       },
       {
         "gpu": "B200",

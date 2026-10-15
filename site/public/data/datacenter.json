@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T19:12:00Z",
+  "published_at": "2026-10-15T20:36:33Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -16,7 +16,7 @@
   "indexes": {
     "build": {
       "as_of": "2026-10-15",
-      "headline_yoy_pct": 8.54,
+      "headline_yoy_pct": 8.58,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -6440,7 +6440,7 @@
         170.95,
         170.81,
         170.49,
-        170.43
+        170.48
       ],
       "yoy_pct": [
         3.05,
@@ -9652,7 +9652,7 @@
         8.86,
         8.78,
         8.58,
-        8.54
+        8.58
       ],
       "components": [
         {
@@ -9717,8 +9717,8 @@
           "weight": 0.055,
           "mode": "official+proxy",
           "last_obs": "2026-10-15",
-          "yoy_pct": 22.9,
-          "contribution_pp": 1.26,
+          "yoy_pct": 23.21,
+          "contribution_pp": 1.28,
           "stale": false
         },
         {
@@ -9728,8 +9728,8 @@
           "weight": 0.03,
           "mode": "official+proxy",
           "last_obs": "2026-10-15",
-          "yoy_pct": 9.93,
-          "contribution_pp": 0.3,
+          "yoy_pct": 10.43,
+          "contribution_pp": 0.31,
           "stale": false
         },
         {
@@ -10245,7 +10245,7 @@
           169.4275,
           170.521,
           170.9016,
-          170.425
+          170.4771
         ],
         "components": {
           "constr_wages": [
@@ -11620,7 +11620,7 @@
             196.0332,
             204.1541,
             204.3871,
-            202.3691
+            202.8821
           ],
           "alum_shapes": [
             96.7196,
@@ -11849,7 +11849,7 @@
             205.3397,
             196.2598,
             187.5801,
-            175.3951
+            176.1914
           ],
           "switchgear": [
             85.7335,
@@ -16210,7 +16210,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 3.47
+          "contribution_pp": 3.5
         },
         {
           "group": "electrical",
@@ -51849,7 +51849,7 @@
       "code": "cpi_u",
       "label": "CPI-U, all items (NSA)",
       "series": "CPIAUCNS",
-      "source_id": "CPIAUCNS",
+      "source_id": "CUUR0000SA0",
       "months": [
         "2016-12",
         "2017-01",

@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T19:12:00Z",
+  "published_at": "2026-10-15T20:36:33Z",
   "window": 36,
   "targets": {
     "cpi": {
@@ -1339,18 +1339,6 @@
       "kind": "index",
       "rows": [
         {
-          "reference_period": "2023-09",
-          "first_value": 259.186,
-          "first_release_date": "2023-10-11",
-          "latest_value": 258.934,
-          "latest_vintage": "2026-07-11",
-          "n_vintages": 6,
-          "revision_pct": -0.097,
-          "yoy_first_pct": -3.25,
-          "yoy_latest_pct": -3.35,
-          "yoy_revision_pp": -0.1
-        },
-        {
           "reference_period": "2023-10",
           "first_value": 255.463,
           "first_release_date": "2023-11-15",
@@ -1726,55 +1714,67 @@
           "reference_period": "2026-05",
           "first_value": 292.504,
           "first_release_date": "2026-06-11",
-          "latest_value": 290.2,
-          "latest_vintage": "2026-09-11",
-          "n_vintages": 6,
-          "revision_pct": -0.788,
+          "latest_value": 290.281,
+          "latest_vintage": "2026-10-15",
+          "n_vintages": 7,
+          "revision_pct": -0.76,
           "yoy_first_pct": 13.08,
-          "yoy_latest_pct": 12.19,
-          "yoy_revision_pp": -0.89
+          "yoy_latest_pct": 12.22,
+          "yoy_revision_pp": -0.86
         },
         {
           "reference_period": "2026-06",
           "first_value": 286.827,
           "first_release_date": "2026-07-15",
-          "latest_value": 286.023,
-          "latest_vintage": "2026-09-11",
-          "n_vintages": 4,
-          "revision_pct": -0.28,
+          "latest_value": 286.037,
+          "latest_vintage": "2026-10-15",
+          "n_vintages": 5,
+          "revision_pct": -0.275,
           "yoy_first_pct": 10.11,
-          "yoy_latest_pct": 9.8,
-          "yoy_revision_pp": -0.31
+          "yoy_latest_pct": 9.81,
+          "yoy_revision_pp": -0.3
         },
         {
           "reference_period": "2026-07",
           "first_value": 284.057,
           "first_release_date": "2026-08-13",
-          "latest_value": 285.181,
-          "latest_vintage": "2026-09-11",
-          "n_vintages": 3,
-          "revision_pct": 0.396,
+          "latest_value": 284.973,
+          "latest_vintage": "2026-10-15",
+          "n_vintages": 4,
+          "revision_pct": 0.322,
           "yoy_first_pct": 8.27,
-          "yoy_latest_pct": 8.7,
-          "yoy_revision_pp": 0.43
+          "yoy_latest_pct": 8.62,
+          "yoy_revision_pp": 0.35
         },
         {
           "reference_period": "2026-08",
           "first_value": 287.928,
           "first_release_date": "2026-09-10",
-          "latest_value": 287.928,
-          "latest_vintage": "2026-09-11",
-          "n_vintages": 2,
-          "revision_pct": 0.0,
+          "latest_value": 287.735,
+          "latest_vintage": "2026-10-15",
+          "n_vintages": 3,
+          "revision_pct": -0.067,
           "yoy_first_pct": 9.85,
-          "yoy_latest_pct": 9.85,
+          "yoy_latest_pct": 9.78,
+          "yoy_revision_pp": -0.07
+        },
+        {
+          "reference_period": "2026-09",
+          "first_value": 295.708,
+          "first_release_date": "2026-10-15",
+          "latest_value": 295.708,
+          "latest_vintage": "2026-10-15",
+          "n_vintages": 1,
+          "revision_pct": 0.0,
+          "yoy_first_pct": 12.84,
+          "yoy_latest_pct": 12.84,
           "yoy_revision_pp": 0.0
         }
       ],
       "summary": {
         "n": 36,
-        "n_revised": 36,
-        "mean_abs_yoy_revision_pp": 0.215,
+        "n_revised": 35,
+        "mean_abs_yoy_revision_pp": 0.211,
         "mean_revision": 0.003
       }
     },

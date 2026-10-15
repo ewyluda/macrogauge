@@ -1,8 +1,8 @@
 {
-  "published_at": "2026-10-15T19:12:00Z",
+  "published_at": "2026-10-15T20:36:33Z",
   "stats": {
     "series_count": 870,
-    "obs_count": 224559,
+    "obs_count": 224649,
     "source_count": 44,
     "tracker_corr": 0.9978,
     "live_coverage_pct": 39.06,
@@ -222,7 +222,7 @@
     {
       "code": "CPIAUCNS",
       "name": "CPI-U all items (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -232,7 +232,7 @@
     {
       "code": "CPILFENS",
       "name": "CPI-U core, ex food & energy (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -242,7 +242,7 @@
     {
       "code": "CPIAUCSL",
       "name": "CPI-U all items (SA) \u2014 nowcast seasonal basis",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -252,7 +252,7 @@
     {
       "code": "CPILFESL",
       "name": "CPI-U core, ex food & energy (SA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -262,7 +262,7 @@
     {
       "code": "CUUR0000SASL2RS",
       "name": "CPI-U services less rent of shelter (NSA) \u2014 supercore reference",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -292,7 +292,7 @@
     {
       "code": "ppi_pce_airline",
       "name": "PPI scheduled passenger air transportation \u2014 BEA's PCE airfare input (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -302,7 +302,7 @@
     {
       "code": "ppi_pce_physician",
       "name": "PPI offices of physicians \u2014 BEA's PCE physician-services input (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -312,7 +312,7 @@
     {
       "code": "ppi_pce_hospital",
       "name": "PPI hospitals \u2014 BEA's PCE hospital-services input (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -362,7 +362,7 @@
     {
       "code": "CUSR0000SACL1E",
       "name": "CPI-U core goods (commodities less food & energy, SA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -412,7 +412,7 @@
     {
       "code": "CUUR0000SAF11",
       "name": "CPI food at home (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -422,7 +422,7 @@
     {
       "code": "CUUR0000SEFV",
       "name": "CPI food away from home (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -432,7 +432,7 @@
     {
       "code": "CUUR0000SAM",
       "name": "CPI medical care (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -442,7 +442,7 @@
     {
       "code": "CUUR0000SAA",
       "name": "CPI apparel (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -452,7 +452,7 @@
     {
       "code": "CUUR0000SAR",
       "name": "CPI recreation (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -462,7 +462,7 @@
     {
       "code": "CUUR0000SAE",
       "name": "CPI education & communication (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -472,7 +472,7 @@
     {
       "code": "CUUR0000SAG",
       "name": "CPI other goods & services (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -482,7 +482,7 @@
     {
       "code": "CUUR0000SETA01",
       "name": "CPI new vehicles (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -492,7 +492,7 @@
     {
       "code": "CUUR0000SETA02",
       "name": "CPI used cars & trucks (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -502,7 +502,7 @@
     {
       "code": "CUUR0000SEHA",
       "name": "CPI rent of primary residence (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -512,7 +512,7 @@
     {
       "code": "CUUR0000SEHC",
       "name": "CPI owners' equivalent rent (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -522,7 +522,7 @@
     {
       "code": "CUUR0000SEHF01",
       "name": "CPI electricity (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -532,7 +532,7 @@
     {
       "code": "CUUR0000SEHF02",
       "name": "CPI utility piped gas (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -542,7 +542,7 @@
     {
       "code": "CUUR0000SETB01",
       "name": "CPI gasoline all types (NSA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -562,7 +562,7 @@
     {
       "code": "CES0500000003",
       "name": "Avg hourly earnings, total private ($/hr)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -1005,7 +1005,7 @@
       "source": "TREASURY",
       "route": "API",
       "cadence": "daily",
-      "latest_obs": "2026-10-13",
+      "latest_obs": "2026-10-14",
       "fresh": true,
       "absence": null
     },
@@ -2642,7 +2642,7 @@
     {
       "code": "PAYEMS",
       "name": "Total nonfarm payrolls (thousands)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -2722,7 +2722,7 @@
     {
       "code": "UNRATE",
       "name": "Unemployment rate",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -2762,10 +2762,10 @@
     {
       "code": "PPIACO",
       "name": "Producer price index all commodities",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-08-01",
+      "latest_obs": "2026-09-01",
       "fresh": true,
       "absence": null
     },
@@ -2892,7 +2892,7 @@
     {
       "code": "PCUOMFGOMFG",
       "name": "PPI total manufacturing",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -3165,7 +3165,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-13",
+      "latest_obs": "2026-10-14",
       "fresh": true,
       "absence": null
     },
@@ -3175,7 +3175,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-13",
+      "latest_obs": "2026-10-14",
       "fresh": true,
       "absence": null
     },
@@ -3185,7 +3185,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-13",
+      "latest_obs": "2026-10-14",
       "fresh": true,
       "absence": null
     },
@@ -3195,7 +3195,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-13",
+      "latest_obs": "2026-10-14",
       "fresh": true,
       "absence": null
     },
@@ -3205,7 +3205,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-13",
+      "latest_obs": "2026-10-14",
       "fresh": true,
       "absence": null
     },
@@ -3215,7 +3215,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-13",
+      "latest_obs": "2026-10-14",
       "fresh": true,
       "absence": null
     },
@@ -3225,7 +3225,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-13",
+      "latest_obs": "2026-10-14",
       "fresh": true,
       "absence": null
     },
@@ -3235,7 +3235,7 @@
       "source": "FRED",
       "route": "API",
       "cadence": "monthly",
-      "latest_obs": "2026-10-13",
+      "latest_obs": "2026-10-14",
       "fresh": true,
       "absence": null
     },
@@ -3892,7 +3892,7 @@
     {
       "code": "USCONS",
       "name": "All employees, construction (thousands, SA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -3902,7 +3902,7 @@
     {
       "code": "CES2000000006",
       "name": "Production and nonsupervisory employees, construction (thousands, SA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -3912,7 +3912,7 @@
     {
       "code": "CES2000000011",
       "name": "Avg weekly earnings, all employees, construction ($, SA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -3922,7 +3922,7 @@
     {
       "code": "CES2000000030",
       "name": "Avg weekly earnings, production and nonsupervisory, construction ($, SA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",
@@ -3932,7 +3932,7 @@
     {
       "code": "JTS2300JOL",
       "name": "JOLTS job openings, construction (thousands, SA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-01",
@@ -3942,7 +3942,7 @@
     {
       "code": "JTS2300JOR",
       "name": "JOLTS job openings rate, construction (%, SA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-08-01",
@@ -8272,7 +8272,7 @@
     {
       "code": "cpi_water",
       "name": "CPI water, sewer & trash collection services (SA)",
-      "source": "FRED",
+      "source": "BLS",
       "route": "API",
       "cadence": "monthly",
       "latest_obs": "2026-09-01",

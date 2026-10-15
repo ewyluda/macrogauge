@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T19:12:00Z",
+  "published_at": "2026-10-15T20:36:33Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,139 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-15T19:08:50Z",
-  "tape_last_post_at": "2026-10-15T19:04:24Z",
-  "age_hours": 0.05,
+  "feed_generated_at": "2026-10-15T20:35:31Z",
+  "tape_last_post_at": "2026-10-15T20:32:26Z",
+  "age_hours": 0.02,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3A4D56B95951E0077CF4",
+      "ts": "2026-10-15T20:23:02Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "COREWEAVE AND BROADCOM OBJECTED TO OKXICE'S REQUEST TO LIST TOKENIZED STOCKS ON BLOCKCHAIN",
+      "points": [
+        {
+          "label": null,
+          "text": "NINE COMPANIES TOTAL HAVE OBJECTED TO OKXICE'S TOKENIZED STOCK TRADING PLATFORM PLANS"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [
+        "AVGO"
+      ],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19459",
+      "has_media": false
+    },
+    {
+      "id": "3A6539DFB4DAFC73181F",
+      "ts": "2026-10-15T20:21:43Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "*COREWEAVE AND BROADCOM OBJECTED TO OKXICE'S REQUEST TO LIST TOKENIZED STOCKS ON BLOCKCHAIN",
+      "points": [
+        {
+          "label": null,
+          "text": "*NINE COMPANIES TOTAL HAVE OBJECTED TO OKXICE'S TOKENIZED STOCK TRADING PLATFORM PLANS"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [
+        "AVGO"
+      ],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19458",
+      "has_media": false
+    },
+    {
+      "id": "3A3AF7757E3C4F24AB0A",
+      "ts": "2026-10-15T19:33:45Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "ASML ($ASML) appears to be developing an advanced hybrid bonding tool that could challenge Besi's dominance in chip packaging, according to SemiAnalysis. ASML has not officially announced the project.",
+      "points": [
+        {
+          "label": "Evidence",
+          "text": "SemiAnalysis identified 27 ASML patent families related to bonding, alongside reporting that the company began designing a tool with Prodrive Technologies and VDL ETG."
+        },
+        {
+          "label": "New technology",
+          "text": "The proposed die-to-wafer system uses independently moving chip holders on a track to improve throughput, alignment accuracy and manufacturing efficiency."
+        },
+        {
+          "label": "Competitive advantage",
+          "text": "ASML could leverage its lithography expertise in precision alignment and particle control, two major factors affecting bonding yields."
+        },
+        {
+          "label": "Potential customers",
+          "text": "SemiAnalysis expects advanced logic manufacturers such as TSMC ($TSM) and Intel ($INTC) to adopt the technology first, potentially threatening Besi's existing business."
+        },
+        {
+          "label": "HBM outlook",
+          "text": "SemiAnalysis expects high-bandwidth memory adoption of die-to-wafer hybrid bonding to slip to 2029 or later, adding pressure to Besi's growth prospects."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "ASML",
+          "layer": "Semi Equipment"
+        },
+        {
+          "ticker": "INTC",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "TSM",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19440",
+      "has_media": true
+    },
+    {
+      "id": "3A428CE42B4D5838F0E5",
+      "ts": "2026-10-15T19:14:54Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Cantor Fitzgerald says investors are overreacting to CoreWeave's ($CRWV) debt concerns, calling the selloff an attractive buying opportunity while maintaining its Overweight rating and $176 price target.",
+      "points": [
+        {
+          "label": "Demand outlook",
+          "text": "Cantor says nearly all CoreWeave computing capacity scheduled to come online in 2027 is already contracted, arguing the company's underlying business continues to improve."
+        },
+        {
+          "label": "Wall Street support",
+          "text": "Deutsche Bank also maintains a Buy rating, while Cathie Wood's ARK Invest has purchased shares during the selloff."
+        },
+        {
+          "label": "Market reaction",
+          "text": "CoreWeave rebounded approximately 2% Thursday afternoon after falling as much as 8% earlier in the session."
+        },
+        {
+          "label": "Credit risk",
+          "text": "Despite analysts' optimism, CoreWeave's five-year default insurance costs reached a record 1,194.5 basis points, reflecting a market-implied default probability exceeding 60%."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19436",
+      "has_media": false
+    },
     {
       "id": "3A1BFEF800B0860135E6",
       "ts": "2026-10-15T18:34:08Z",
@@ -5700,108 +5828,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18581",
       "has_media": true
-    },
-    {
-      "id": "3A17CF7AF46CC6887983",
-      "ts": "2026-10-08T20:34:46Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$SMCI Supermicro appointed Shesha Krishnapura, a 35-year $INTC Intel veteran and former Intel IT Chief Technology Officer, as an independent director effective October 9, replacing retiring board member Judy Lin.",
-      "points": [
-        {
-          "label": "Leadership experience",
-          "text": "Krishnapura served as Intel Fellow and IT CTO from 2016\u20132026, overseeing technology strategy and computing infrastructure supporting semiconductor design."
-        },
-        {
-          "label": "Infrastructure expertise",
-          "text": "He led development of 25 disaggregated server designs and transformed Intel\u2019s D2 fabrication facility into a 112+ MW hyperscale data center operating at 1.06 power usage effectiveness (PUE)."
-        },
-        {
-          "label": "Industry background",
-          "text": "Krishnapura has taught high-performance computing at Stanford since 2016, holds six patents and helped establish the Open Compute Project\u2019s Incubation Committee."
-        },
-        {
-          "label": "Board transition",
-          "text": "Judy Lin will retire October 9 after serving since 2022. Supermicro cited Krishnapura\u2019s AI infrastructure and data center expertise as valuable to its expanding Data Center Building Block Solutions business."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "INTC",
-          "layer": "Foundry & Fab"
-        },
-        {
-          "ticker": "SMCI",
-          "layer": "Servers & Storage"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18574",
-      "has_media": true
-    },
-    {
-      "id": "3A69F0EC814096D505FB",
-      "ts": "2026-10-08T20:33:01Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$BTDR Bitdeer Technologies secured a 60MW AI data center in Cyberjaya, Malaysia, through an eight-year services agreement, bringing its total secured AI Cloud capacity to 333.5MW, approximately 95% of its 350MW target.",
-      "points": [
-        {
-          "label": "Facility expansion",
-          "text": "The A103 data center will support liquid-cooled $NVDA NVIDIA systems, including Vera Rubin, with energization expected in Q1 2028."
-        },
-        {
-          "label": "Infrastructure advantage",
-          "text": "A103 will share existing power, cooling and networking infrastructure with two neighboring facilities, bringing Cyberjaya\u2019s total planned capacity to 71.5MW."
-        },
-        {
-          "label": "AI capacity",
-          "text": "Bitdeer has secured 333.5MW across Malaysia, Norway and the U.S., targeting delivery by Q1 2028. Secured capacity does not mean operational capacity."
-        },
-        {
-          "label": "Business pipeline",
-          "text": "Bitdeer estimates its active AI Cloud capacity pipeline exceeds $10B, representing potential business opportunities rather than contracted revenue."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "BTDR",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18573",
-      "has_media": true
-    },
-    {
-      "id": "3A48F7C657B2DE4547A8",
-      "ts": "2026-10-08T20:04:40Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$BTDR Bitdeer Technologies Group authorized a new $100 million share repurchase program after fully utilizing its previous $40 million buyback authorization, according to an SEC filing.",
-      "points": [
-        {
-          "label": "New authorization",
-          "text": "The board approved repurchases of up to $100M in Class A ordinary shares, effective October 8, 2026, through October 7, 2028."
-        },
-        {
-          "label": "Previous program",
-          "text": "Bitdeer exhausted the full $40M capacity authorized in May 2025. The new $100M authorization permits additional purchases but does not guarantee execution."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "BTDR",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18561",
-      "has_media": false
     }
   ]
 }

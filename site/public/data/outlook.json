@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T19:12:00Z",
+  "published_at": "2026-10-15T20:36:33Z",
   "model": "macrogauge_outlook_v1",
   "as_of": "2026-10-15",
   "origin_month": "2026-09",
@@ -110,87 +110,87 @@
   "forecast": [
     {
       "month": "2026-10",
-      "central_yoy_pct": 3.87,
-      "mom_pct": 0.316,
-      "low_yoy_pct": 3.35,
-      "high_yoy_pct": 4.39
+      "central_yoy_pct": 3.88,
+      "mom_pct": 0.325,
+      "low_yoy_pct": 3.36,
+      "high_yoy_pct": 4.4
     },
     {
       "month": "2026-11",
-      "central_yoy_pct": 4.45,
-      "mom_pct": 0.312,
-      "low_yoy_pct": 3.71,
-      "high_yoy_pct": 5.19
+      "central_yoy_pct": 4.47,
+      "mom_pct": 0.322,
+      "low_yoy_pct": 3.73,
+      "high_yoy_pct": 5.21
     },
     {
       "month": "2026-12",
-      "central_yoy_pct": 5.02,
-      "mom_pct": 0.229,
-      "low_yoy_pct": 4.11,
-      "high_yoy_pct": 5.93
+      "central_yoy_pct": 5.05,
+      "mom_pct": 0.239,
+      "low_yoy_pct": 4.14,
+      "high_yoy_pct": 5.96
     },
     {
       "month": "2027-01",
-      "central_yoy_pct": 4.72,
-      "mom_pct": 0.247,
-      "low_yoy_pct": 3.67,
-      "high_yoy_pct": 5.77
+      "central_yoy_pct": 4.76,
+      "mom_pct": 0.257,
+      "low_yoy_pct": 3.71,
+      "high_yoy_pct": 5.81
     },
     {
       "month": "2027-02",
-      "central_yoy_pct": 4.37,
-      "mom_pct": 0.23,
-      "low_yoy_pct": 3.2,
-      "high_yoy_pct": 5.54
+      "central_yoy_pct": 4.42,
+      "mom_pct": 0.239,
+      "low_yoy_pct": 3.25,
+      "high_yoy_pct": 5.59
     },
     {
       "month": "2027-03",
-      "central_yoy_pct": 3.17,
-      "mom_pct": 0.229,
-      "low_yoy_pct": 1.89,
-      "high_yoy_pct": 4.45
+      "central_yoy_pct": 3.23,
+      "mom_pct": 0.239,
+      "low_yoy_pct": 1.95,
+      "high_yoy_pct": 4.51
     },
     {
       "month": "2027-04",
-      "central_yoy_pct": 2.84,
-      "mom_pct": 0.233,
-      "low_yoy_pct": 1.45,
-      "high_yoy_pct": 4.23
+      "central_yoy_pct": 2.91,
+      "mom_pct": 0.243,
+      "low_yoy_pct": 1.52,
+      "high_yoy_pct": 4.3
     },
     {
       "month": "2027-05",
-      "central_yoy_pct": 2.44,
-      "mom_pct": 0.233,
-      "low_yoy_pct": 0.96,
-      "high_yoy_pct": 3.92
+      "central_yoy_pct": 2.52,
+      "mom_pct": 0.243,
+      "low_yoy_pct": 1.04,
+      "high_yoy_pct": 4.0
     },
     {
       "month": "2027-06",
-      "central_yoy_pct": 3.15,
-      "mom_pct": 0.233,
-      "low_yoy_pct": 1.58,
-      "high_yoy_pct": 4.72
+      "central_yoy_pct": 3.25,
+      "mom_pct": 0.243,
+      "low_yoy_pct": 1.68,
+      "high_yoy_pct": 4.82
     },
     {
       "month": "2027-07",
-      "central_yoy_pct": 3.16,
-      "mom_pct": 0.233,
-      "low_yoy_pct": 1.5,
-      "high_yoy_pct": 4.82
+      "central_yoy_pct": 3.26,
+      "mom_pct": 0.243,
+      "low_yoy_pct": 1.6,
+      "high_yoy_pct": 4.92
     },
     {
       "month": "2027-08",
-      "central_yoy_pct": 3.27,
-      "mom_pct": 0.233,
-      "low_yoy_pct": 1.53,
-      "high_yoy_pct": 5.01
+      "central_yoy_pct": 3.38,
+      "mom_pct": 0.243,
+      "low_yoy_pct": 1.64,
+      "high_yoy_pct": 5.12
     },
     {
       "month": "2027-09",
-      "central_yoy_pct": 3.0,
-      "mom_pct": 0.233,
-      "low_yoy_pct": 1.18,
-      "high_yoy_pct": 4.82
+      "central_yoy_pct": 3.12,
+      "mom_pct": 0.243,
+      "low_yoy_pct": 1.3,
+      "high_yoy_pct": 4.94
     }
   ],
   "base_effects_only": [
@@ -350,9 +350,9 @@
     {
       "key": "goods_pipeline",
       "name": "Ex-energy pipeline (PPI + imports, 0.5\u00d7 strength)",
-      "value": 0.5156,
+      "value": 1.0,
       "unit": "pp/yr",
-      "reading": "+0.52pp/yr",
+      "reading": "+1.00pp/yr",
       "as_of": "2026-09-01",
       "status": "live",
       "effect": "tilt capped at \u00b11pp/yr on new_vehicles, apparel, other",
@@ -429,63 +429,63 @@
     "other": [
       {
         "month": "2026-10",
-        "mom_pct": 0.4088,
-        "index": 138.558305
+        "mom_pct": 0.4489,
+        "index": 138.613629
       },
       {
         "month": "2026-11",
-        "mom_pct": 0.4079,
-        "index": 139.123419
+        "mom_pct": 0.4479,
+        "index": 139.23454
       },
       {
         "month": "2026-12",
-        "mom_pct": 0.4069,
-        "index": 139.68946
+        "mom_pct": 0.447,
+        "index": 139.856854
       },
       {
         "month": "2027-01",
-        "mom_pct": 0.4059,
-        "index": 140.25642
+        "mom_pct": 0.446,
+        "index": 140.480563
       },
       {
         "month": "2027-02",
-        "mom_pct": 0.4049,
-        "index": 140.824292
+        "mom_pct": 0.445,
+        "index": 141.105663
       },
       {
         "month": "2027-03",
-        "mom_pct": 0.4039,
-        "index": 141.393068
+        "mom_pct": 0.444,
+        "index": 141.732146
       },
       {
         "month": "2027-04",
-        "mom_pct": 0.4029,
-        "index": 141.962741
+        "mom_pct": 0.443,
+        "index": 142.360007
       },
       {
         "month": "2027-05",
-        "mom_pct": 0.4019,
-        "index": 142.533302
+        "mom_pct": 0.442,
+        "index": 142.989239
       },
       {
         "month": "2027-06",
-        "mom_pct": 0.4009,
-        "index": 143.104745
+        "mom_pct": 0.441,
+        "index": 143.619836
       },
       {
         "month": "2027-07",
-        "mom_pct": 0.3999,
-        "index": 143.677062
+        "mom_pct": 0.44,
+        "index": 144.251792
       },
       {
         "month": "2027-08",
-        "mom_pct": 0.3989,
-        "index": 144.250244
+        "mom_pct": 0.439,
+        "index": 144.885099
       },
       {
         "month": "2027-09",
-        "mom_pct": 0.3979,
-        "index": 144.824284
+        "mom_pct": 0.438,
+        "index": 145.519751
       }
     ],
     "food_home": [
@@ -863,63 +863,63 @@
     "new_vehicles": [
       {
         "month": "2026-10",
-        "mom_pct": 0.1357,
-        "index": 122.522464
+        "mom_pct": 0.1758,
+        "index": 122.571518
       },
       {
         "month": "2026-11",
-        "mom_pct": 0.1357,
-        "index": 122.688763
+        "mom_pct": 0.1758,
+        "index": 122.787024
       },
       {
         "month": "2026-12",
-        "mom_pct": 0.1357,
-        "index": 122.855288
+        "mom_pct": 0.1758,
+        "index": 123.002909
       },
       {
         "month": "2027-01",
-        "mom_pct": 0.1357,
-        "index": 123.022039
+        "mom_pct": 0.1758,
+        "index": 123.219173
       },
       {
         "month": "2027-02",
-        "mom_pct": 0.1357,
-        "index": 123.189016
+        "mom_pct": 0.1758,
+        "index": 123.435818
       },
       {
         "month": "2027-03",
-        "mom_pct": 0.1357,
-        "index": 123.356219
+        "mom_pct": 0.1758,
+        "index": 123.652843
       },
       {
         "month": "2027-04",
-        "mom_pct": 0.1357,
-        "index": 123.52365
+        "mom_pct": 0.1758,
+        "index": 123.87025
       },
       {
         "month": "2027-05",
-        "mom_pct": 0.1357,
-        "index": 123.691308
+        "mom_pct": 0.1758,
+        "index": 124.08804
       },
       {
         "month": "2027-06",
-        "mom_pct": 0.1357,
-        "index": 123.859193
+        "mom_pct": 0.1758,
+        "index": 124.306212
       },
       {
         "month": "2027-07",
-        "mom_pct": 0.1357,
-        "index": 124.027307
+        "mom_pct": 0.1758,
+        "index": 124.524768
       },
       {
         "month": "2027-08",
-        "mom_pct": 0.1357,
-        "index": 124.195648
+        "mom_pct": 0.1758,
+        "index": 124.743708
       },
       {
         "month": "2027-09",
-        "mom_pct": 0.1357,
-        "index": 124.364218
+        "mom_pct": 0.1758,
+        "index": 124.963033
       }
     ],
     "fuel": [
@@ -1049,63 +1049,63 @@
     "apparel": [
       {
         "month": "2026-10",
-        "mom_pct": 0.7594,
-        "index": 115.409469
+        "mom_pct": 0.7995,
+        "index": 115.45539
       },
       {
         "month": "2026-11",
-        "mom_pct": 0.7594,
-        "index": 116.285935
+        "mom_pct": 0.7995,
+        "index": 116.378491
       },
       {
         "month": "2026-12",
-        "mom_pct": 0.7594,
-        "index": 117.169056
+        "mom_pct": 0.7995,
+        "index": 117.308973
       },
       {
         "month": "2027-01",
-        "mom_pct": 0.7594,
-        "index": 118.058884
+        "mom_pct": 0.7995,
+        "index": 118.246894
       },
       {
         "month": "2027-02",
-        "mom_pct": 0.7594,
-        "index": 118.95547
+        "mom_pct": 0.7995,
+        "index": 119.192314
       },
       {
         "month": "2027-03",
-        "mom_pct": 0.7594,
-        "index": 119.858865
+        "mom_pct": 0.7995,
+        "index": 120.145294
       },
       {
         "month": "2027-04",
-        "mom_pct": 0.7594,
-        "index": 120.769121
+        "mom_pct": 0.7995,
+        "index": 121.105892
       },
       {
         "month": "2027-05",
-        "mom_pct": 0.7594,
-        "index": 121.686289
+        "mom_pct": 0.7995,
+        "index": 122.074171
       },
       {
         "month": "2027-06",
-        "mom_pct": 0.7594,
-        "index": 122.610423
+        "mom_pct": 0.7995,
+        "index": 123.050191
       },
       {
         "month": "2027-07",
-        "mom_pct": 0.7594,
-        "index": 123.541575
+        "mom_pct": 0.7995,
+        "index": 124.034015
       },
       {
         "month": "2027-08",
-        "mom_pct": 0.7594,
-        "index": 124.479799
+        "mom_pct": 0.7995,
+        "index": 125.025706
       },
       {
         "month": "2027-09",
-        "mom_pct": 0.7594,
-        "index": 125.425148
+        "mom_pct": 0.7995,
+        "index": 126.025324
       }
     ],
     "used_vehicles": [
