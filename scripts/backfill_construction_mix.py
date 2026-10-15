@@ -43,12 +43,11 @@ def main(argv=None, http_get=None) -> int:
 
     _, registry = load_registry()
     entries = [s for s in registry if s.code in CODES]
-    if {s.code for s in entries} != set(CODES) or any(s.source != "FRED" for s in entries):
-        sys.exit(f"registry must carry {CODES} as FRED series")
-    # both codes equal their FRED ids, so no id -> code remap is needed
-    assert all(s.code == s.source_id for s in entries)
-
-    obs = fred.fetch([s.source_id for s in entries], key,
+    if {s.code for s in entries} != set(CODES):
+        sys.exit(f"registry must carry {CODES}")
+    # the codes are their FRED ids (the daily run fetches them from BLS under
+    # BLS ids), so FRED is asked for the codes and no id -> code remap is needed
+    obs = fred.fetch([s.code for s in entries], key,
                      observation_start=args.observation_start, http_get=http_get)
     # the shares are ratios of these: one short series shortens them, and the
     # store is append-only, so verify both before writing anything

@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from pipeline.connectors import bls, util
 from pipeline.connectors.fred import today_et
 
@@ -93,3 +95,12 @@ def test_fetch_chunk_boundary_exact_multiple():
     assert len(calls[0]) == 25
     assert len(calls[1]) == 25
     assert [s for c in calls for s in c] == ids_50
+
+
+def test_fetch_raises_bls_reason_when_request_refused():
+    """A spent keyless quota is an HTTP 200 with no series: surface BLS's reason."""
+    def refused(url, json=None, timeout=None):
+        return FakeResponse({"status": "REQUEST_NOT_PROCESSED", "Results": {},
+                             "message": ["daily threshold for total number of requests reached"]})
+    with pytest.raises(RuntimeError, match="REQUEST_NOT_PROCESSED: daily threshold"):
+        bls.fetch(["CUUR0000SA0"], None, http_post=refused)
