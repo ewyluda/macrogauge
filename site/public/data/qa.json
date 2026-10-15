@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-10-15",
-  "passed": 36,
+  "passed": 35,
   "total": 36,
   "checks": [
     {
@@ -144,8 +144,8 @@
     {
       "name": "connectors_ok",
       "critical": false,
-      "pass": true,
-      "detail": "43/43 ok"
+      "pass": false,
+      "detail": "42/43 ok; failed \u2014 OPENROUTER: ValueError: openrouter deepseek/deepseek-v4.1-flash:prompt: 0.00576 $/Mtok implausible (range (0.01, 500.0)) \u2014 structure drift?"
     },
     {
       "name": "sources_fresh",

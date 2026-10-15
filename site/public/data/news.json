@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T17:56:36Z",
+  "published_at": "2026-10-15T19:12:00Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,171 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-15T17:52:36Z",
-  "tape_last_post_at": "2026-10-15T17:50:18Z",
-  "age_hours": 0.07,
+  "feed_generated_at": "2026-10-15T19:08:50Z",
+  "tape_last_post_at": "2026-10-15T19:04:24Z",
+  "age_hours": 0.05,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3A1BFEF800B0860135E6",
+      "ts": "2026-10-15T18:34:08Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "OPENAI'S CHATGPT ADVERTISERS TRIPLE TO 60,000 AS AD PRICES UNDERCUT $GOOGL BY UP TO 90%, THREATENING GOOGLE'S LUCRATIVE SEARCH AD BUSINESS - THE INFORMATION",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19429",
+      "has_media": false
+    },
+    {
+      "id": "3AE43EAD5E9F536622A4",
+      "ts": "2026-10-15T18:33:15Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Apple CEO: Congrats to the team ($META) ! Amazing to run a model of Muse Spark Open's caliber and scale this efficiently, right from your desk. Mac Studio keeps pushing the boundaries of on-device AI!",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19428",
+      "has_media": true
+    },
+    {
+      "id": "3AF25E16852C87DA7894",
+      "ts": "2026-10-15T18:23:44Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "CoreWeave ($CRWV) credit-default swap spreads surged to a record 1,194.5 basis points, pricing in a market-implied probability of more than 60% that the AI cloud provider defaults within five years, according to Bloomberg.",
+      "points": [
+        {
+          "label": "Credit concerns",
+          "text": "The cost of insuring CoreWeave's debt against default hit an all-time high as investors questioned its borrowing plans and potential reliance on insurance industry capital."
+        },
+        {
+          "label": "Bond pressure",
+          "text": "Some of CoreWeave's high-yield bonds extended their declines amid concerns over financing its AI infrastructure expansion."
+        },
+        {
+          "label": "Nvidia response",
+          "text": "Nvidia ($NVDA) CEO Jensen Huang said the chipmaker does not need to financially backstop CoreWeave."
+        },
+        {
+          "label": "Stock reaction",
+          "text": "CoreWeave shares rebounded, rising 2.1% Thursday afternoon despite worsening credit-market signals."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19427",
+      "has_media": true
+    },
+    {
+      "id": "3A19E6565FC4BC9CE96E",
+      "ts": "2026-10-15T18:23:04Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "CoreWeave ($CRWV) faces growing investor concerns over its roughly $50 billion debt burden, with shares and bonds sliding as markets question the financing behind its rapid AI infrastructure expansion.",
+      "points": [
+        {
+          "label": "Default risk",
+          "text": "The cost of insuring CoreWeave's debt reached approximately 1,000 basis points, implying a market-priced 63% probability of default within five years, up from 30% a year ago, according to LSEG."
+        },
+        {
+          "label": "Major customers",
+          "text": "Microsoft ($MSFT) generated 67% of 2025 revenue. CoreWeave also secured up to $22.4 billion in OpenAI agreements, expanded its Meta ($META) deal to $21 billion through 2032, and signed an undisclosed Anthropic contract."
+        },
+        {
+          "label": "Nvidia backing",
+          "text": "Nvidia ($NVDA), an early investor, committed $6.3 billion to purchase CoreWeave's unsold computing capacity through 2032."
+        },
+        {
+          "label": "Major lenders",
+          "text": "CoreWeave has arranged multibillion-dollar loans backed by chips and customer contracts, involving Blackstone ($BX), Magnetar, Morgan Stanley ($MS), MUFG ($MUFG), Goldman Sachs ($GS), JPMorgan ($JPM) and other institutions."
+        },
+        {
+          "label": "Recent borrowing",
+          "text": "Financing included an $8.5 billion loan facility in March, $3.1 billion in May and $2.6 billion in August. CoreWeave also expanded its revolving credit facility to $2.5 billion."
+        },
+        {
+          "label": "Bond financing",
+          "text": "The company issued $3.5 billion in convertible notes in April and $3.7 billion in September. Its conventional senior bonds carry interest rates ranging from 8.5% to 9.75%, with Fidelity and Nomura among reported institutional holders."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19426",
+      "has_media": true
+    },
+    {
+      "id": "3ACE86E3D66ABFECC3B8",
+      "ts": "2026-10-15T18:14:29Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Google ($GOOGL) researchers demonstrated a method that reduced quantum computing errors by roughly 40-fold using its Willow chip, potentially making complex quantum calculations more practical.",
+      "points": [
+        {
+          "label": "Breakthrough",
+          "text": "The technique, called \u201cmagic state cultivation,\u201d improves the accuracy of special quantum states needed to perform advanced calculations."
+        },
+        {
+          "label": "Experimental results",
+          "text": "Using 54 of Willow's 105 qubits, researchers reduced errors from roughly 1 in 250 attempts to 1 in 10,000."
+        },
+        {
+          "label": "Efficiency trade-off",
+          "text": "The method could reduce reliance on conventional magic-state production, which can consume up to 95% of a quantum computer's resources. However, cultivation currently discards 92% of attempts."
+        },
+        {
+          "label": "Remaining challenges",
+          "text": "Molecular simulations may require error rates as low as 1 in 100 million, while breaking RSA-2048 encryption would require approximately 1 in 10 billion."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19425",
+      "has_media": true
+    },
     {
       "id": "3A558D71A75FB4E3EBD5",
       "ts": "2026-10-15T17:41:20Z",
@@ -5642,52 +5802,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18561",
       "has_media": false
-    },
-    {
-      "id": "3A3CD516CEA528006FDE",
-      "ts": "2026-10-08T18:53:05Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "OpenAI confirmed approximately $50 billion in annualized revenue at the end of September, below the previously reported $68 billion figure, triggering a sell-off in AI stocks including $NVDA NVIDIA, $ORCL Oracle and $CRWV CoreWeave.",
-      "points": [
-        {
-          "label": "Revenue clarification",
-          "text": "The earlier $68B figure included gross revenue from OpenAI\u2019s partners to provide a more comparable measure against Anthropic. The $50B figure reflects a different reporting basis, not a confirmed $18B revenue decline."
-        },
-        {
-          "label": "Growth metrics",
-          "text": "OpenAI reported 77% total annualized revenue run-rate growth during Q3, with enterprise revenue run-rate growth reaching 107%, according to its investor presentation."
-        },
-        {
-          "label": "Stock reactions",
-          "text": "NVIDIA fell 3.07%, Oracle dropped 5.53%, and CoreWeave declined 7.26% as investors reassessed AI revenue expectations and infrastructure spending."
-        },
-        {
-          "label": "Valuation and IPO",
-          "text": "OpenAI faces scrutiny over its $852B valuation as it prepares for a potential 2027 IPO, having confidentially filed its prospectus in June."
-        },
-        {
-          "label": "Fundraising",
-          "text": "OpenAI is exploring a potential $30B funding round, although discussions remain preliminary and no term sheet has been finalized. The company previously raised $122B in March."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "CRWV",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "ORCL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18546",
-      "has_media": true
     }
   ]
 }

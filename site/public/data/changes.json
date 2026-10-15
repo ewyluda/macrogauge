@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-10-15T17:56:36Z",
-  "prev_published_at": "2026-10-15T17:51:21Z",
+  "published_at": "2026-10-15T19:12:00Z",
+  "prev_published_at": "2026-10-15T17:56:36Z",
   "headline": [
     {
       "key": "gauge",
@@ -56,11 +56,11 @@
       "key": "dc_build",
       "label": "DC Build",
       "kind": "datacenter",
-      "value": 8.56,
+      "value": 8.54,
       "as_of": "2026-10-15",
       "prev_value": 8.56,
       "prev_as_of": "2026-10-15",
-      "delta_pp": 0.0
+      "delta_pp": -0.02
     },
     {
       "key": "dc_ops",
@@ -221,18 +221,40 @@
   "sources_landed": [
     {
       "source": "FMP_EQ",
-      "new_rows": 51
+      "new_rows": 54
     },
     {
       "source": "FMP",
-      "new_rows": 10
+      "new_rows": 12
+    },
+    {
+      "source": "EIA_SPOT",
+      "new_rows": 8
+    },
+    {
+      "source": "FRED",
+      "new_rows": 1
+    },
+    {
+      "source": "KALSHI",
+      "new_rows": 1
+    },
+    {
+      "source": "KALSHI_CORE",
+      "new_rows": 1
+    },
+    {
+      "source": "KALSHI_FED",
+      "new_rows": 1
     },
     {
       "source": "VASTAI",
       "new_rows": 1
     }
   ],
-  "sources_failed": [],
+  "sources_failed": [
+    "OPENROUTER"
+  ],
   "gate_holds": [],
   "movers": [
     {
@@ -243,13 +265,13 @@
       "unit": "index",
       "notable": 1.0,
       "href": "/compute",
-      "value": 110.672,
+      "value": 108.434,
       "as_of": "2026-10-15",
-      "prev_value": 109.494,
+      "prev_value": 110.672,
       "prev_as_of": "2026-10-15",
-      "delta": 1.08,
+      "delta": -2.02,
       "delta_unit": "%",
-      "significance": 1.08
+      "significance": 2.02
     },
     {
       "key": "capacity_ev",
@@ -259,13 +281,29 @@
       "unit": "$B",
       "notable": 3.0,
       "href": "/capacity",
-      "value": 210.9,
+      "value": 213.9,
       "as_of": "2026-10-15",
-      "prev_value": 211.8,
+      "prev_value": 210.9,
       "prev_as_of": "2026-10-15",
-      "delta": -0.42,
+      "delta": 1.42,
       "delta_unit": "%",
-      "significance": 0.14
+      "significance": 0.47
+    },
+    {
+      "key": "dc_build",
+      "label": "DC Build index YoY",
+      "section": "AI Infra",
+      "kind": "yoy",
+      "unit": "%",
+      "notable": 0.1,
+      "href": "/datacenter",
+      "value": 8.54,
+      "as_of": "2026-10-15",
+      "prev_value": 8.56,
+      "prev_as_of": "2026-10-15",
+      "delta": -0.02,
+      "delta_unit": "pp",
+      "significance": 0.2
     },
     {
       "key": "copper",
@@ -275,13 +313,13 @@
       "unit": "$/lb",
       "notable": 2.0,
       "href": "/commodities",
-      "value": 6.5598,
+      "value": 6.5482,
       "as_of": "2026-10-15",
-      "prev_value": 6.5588,
+      "prev_value": 6.5598,
       "prev_as_of": "2026-10-15",
-      "delta": 0.02,
+      "delta": -0.18,
       "delta_unit": "%",
-      "significance": 0.01
+      "significance": 0.09
     },
     {
       "key": "capacity_op_mw",
@@ -313,22 +351,6 @@
       "prev_as_of": "2026-10-15",
       "delta": 0.0,
       "delta_unit": "%",
-      "significance": 0.0
-    },
-    {
-      "key": "dc_build",
-      "label": "DC Build index YoY",
-      "section": "AI Infra",
-      "kind": "yoy",
-      "unit": "%",
-      "notable": 0.1,
-      "href": "/datacenter",
-      "value": 8.56,
-      "as_of": "2026-10-15",
-      "prev_value": 8.56,
-      "prev_as_of": "2026-10-15",
-      "delta": 0.0,
-      "delta_unit": "pp",
       "significance": 0.0
     },
     {
