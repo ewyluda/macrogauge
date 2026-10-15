@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T20:36:33Z",
+  "published_at": "2026-10-15T20:41:02Z",
   "groups": [
     {
       "group": "AI BUILD INPUTS",
@@ -697,10 +697,10 @@
           "code": "fmp_wti",
           "label": "WTI crude front month",
           "unit": "$/bbl",
-          "value": 97.62,
+          "value": 97.63,
           "as_of": "2026-10-15",
-          "yoy_pct": 67.53,
-          "chg_30d_pct": -8.19,
+          "yoy_pct": 67.55,
+          "chg_30d_pct": -8.18,
           "spark": [
             91.97,
             90.46,
@@ -761,7 +761,7 @@
             93.42,
             92.6,
             94.8,
-            97.62
+            97.63
           ],
           "spark_span": "Jul 23 \u2013 Oct 15, 2026"
         },
@@ -769,10 +769,10 @@
           "code": "fmp_rbob",
           "label": "RBOB gasoline front month",
           "unit": "$/gal",
-          "value": 3.065,
+          "value": 3.0666,
           "as_of": "2026-10-15",
-          "yoy_pct": 67.08,
-          "chg_30d_pct": -5.81,
+          "yoy_pct": 67.17,
+          "chg_30d_pct": -5.76,
           "spark": [
             3.2982,
             3.2516,
@@ -833,7 +833,7 @@
             3.1772,
             3.1053,
             3.1357,
-            3.065
+            3.0666
           ],
           "spark_span": "Jul 23 \u2013 Oct 15, 2026"
         },
@@ -841,10 +841,10 @@
           "code": "fmp_natgas",
           "label": "Nat gas futures front month",
           "unit": "$/MMBtu",
-          "value": 3.232,
+          "value": 3.24,
           "as_of": "2026-10-15",
-          "yoy_pct": 7.16,
-          "chg_30d_pct": 10.8,
+          "yoy_pct": 7.43,
+          "chg_30d_pct": 11.07,
           "spark": [
             2.944,
             2.871,
@@ -905,7 +905,7 @@
             3.122,
             3.168,
             3.279,
-            3.232
+            3.24
           ],
           "spark_span": "Jul 23 \u2013 Oct 15, 2026"
         },
@@ -1062,10 +1062,10 @@
           "code": "fmp_gold",
           "label": "Gold front month",
           "unit": "$/oz",
-          "value": 4191.4,
+          "value": 4191.6,
           "as_of": "2026-10-15",
           "yoy_pct": -0.24,
-          "chg_30d_pct": -3.25,
+          "chg_30d_pct": -3.24,
           "spark": [
             4059.8,
             4070.8,
@@ -1126,7 +1126,7 @@
             4196.0,
             4209.6,
             4124.0,
-            4191.4
+            4191.6
           ],
           "spark_span": "Jul 23 \u2013 Oct 15, 2026"
         }
@@ -1499,7 +1499,7 @@
           "code": "fmp_sugar",
           "label": "Sugar front month",
           "unit": "\u00a2/lb",
-          "value": 237.3832,
+          "value": 237.3784,
           "as_of": "2026-10-15",
           "yoy_pct": 5.59,
           "chg_30d_pct": 4.4,
@@ -1563,7 +1563,7 @@
             234.0574,
             232.0449,
             235.9401,
-            237.3832
+            237.3784
           ],
           "spark_span": "Jul 25 \u2013 Oct 15, 2026"
         },

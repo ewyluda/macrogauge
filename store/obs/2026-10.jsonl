@@ -16886,3 +16886,13 @@
 {"obs_date": "2026-12-09", "route": "API", "series_code": "kalshi_fed_p_hold", "source": "KALSHI_FED", "value": 0.1, "vintage_date": "2026-10-15"}
 {"obs_date": "2026-12-09", "route": "API", "series_code": "kalshi_fed_p_hike", "source": "KALSHI_FED", "value": 0.875, "vintage_date": "2026-10-15"}
 {"obs_date": "2026-10-01", "route": "MODEL", "series_code": "forecast_cpi_comp_food_home", "source": "MACROGAUGE", "value": 0.1977, "vintage_date": "2026-10-15"}
+{"obs_date": "2026-10-14", "route": "API", "series_code": "WALCL", "source": "FRED", "value": 6755639.0, "vintage_date": "2026-10-15"}
+{"obs_date": "2026-10-14", "route": "API", "series_code": "WTREGEN", "source": "FRED", "value": 883373.0, "vintage_date": "2026-10-15"}
+{"obs_date": "2026-10-15", "route": "API", "series_code": "fmp_gold", "source": "FMP", "value": 4191.6, "vintage_date": "2026-10-15"}
+{"obs_date": "2026-10-15", "route": "API", "series_code": "fmp_wti", "source": "FMP", "value": 97.63, "vintage_date": "2026-10-15"}
+{"obs_date": "2026-10-15", "route": "API", "series_code": "fmp_rbob", "source": "FMP", "value": 3.0666, "vintage_date": "2026-10-15"}
+{"obs_date": "2026-10-15", "route": "API", "series_code": "fmp_natgas", "source": "FMP", "value": 3.24, "vintage_date": "2026-10-15"}
+{"obs_date": "2026-10-15", "route": "API", "series_code": "fmp_sugar", "source": "FMP", "value": 237.37843, "vintage_date": "2026-10-15"}
+{"obs_date": "2026-10-15", "route": "API", "series_code": "vast_rtx4090", "source": "VASTAI", "value": 0.5203, "vintage_date": "2026-10-15"}
+{"obs_date": "2026-10-15", "route": "API", "series_code": "or_deepseek_v41_flash_in", "source": "OPENROUTER", "value": 0.0216, "vintage_date": "2026-10-15"}
+{"obs_date": "2026-12-09", "route": "API", "series_code": "kalshi_fed_upper", "source": "KALSHI_FED", "value": 4.2788, "vintage_date": "2026-10-15"}

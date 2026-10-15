@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T20:36:33Z",
+  "published_at": "2026-10-15T20:41:02Z",
   "headline": {
     "cpi": {
       "month": "2026-09-01",
@@ -231,7 +231,7 @@
       "label": "Gold",
       "group": "markets",
       "unit": "$/oz",
-      "latest": 4191.4,
+      "latest": 4191.6,
       "obs_date": "2026-10-15",
       "yoy_pct": -0.24
     },
@@ -240,9 +240,9 @@
       "label": "WTI crude",
       "group": "markets",
       "unit": "$/bbl",
-      "latest": 97.62,
+      "latest": 97.63,
       "obs_date": "2026-10-15",
-      "yoy_pct": 67.53
+      "yoy_pct": 67.55
     },
     {
       "code": "fiscal_debt_total",

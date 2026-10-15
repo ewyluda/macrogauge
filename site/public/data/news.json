@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T20:36:33Z",
+  "published_at": "2026-10-15T20:41:02Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,9 +19,9 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-15T20:35:31Z",
-  "tape_last_post_at": "2026-10-15T20:32:26Z",
-  "age_hours": 0.02,
+  "feed_generated_at": "2026-10-15T20:40:37Z",
+  "tape_last_post_at": "2026-10-15T20:37:33Z",
+  "age_hours": 0.01,
   "dropped": 0,
   "posts": [
     {
