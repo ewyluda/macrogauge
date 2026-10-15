@@ -103,3 +103,25 @@ def test_build_series_entries_takes_explicit_codes():
     entries = bf.build_series_entries({"ppi_storage"})
     assert [e.code for e in entries] == ["ppi_storage"]
     assert entries[0].source_id == "PCU334112334112"
+
+
+def test_main_asks_alfred_for_the_fred_id_of_a_bls_collected_series(tmp_path, monkeypatch):
+    # CUUR0000SAM is collected daily from BLS (source_id CUUR0000SAM); ALFRED
+    # only knows FRED's alias CPIMEDNS (PR #115 review).
+    monkeypatch.setenv("FRED_API_KEY", "test-key")
+    asked = []
+
+    def fake_get(url, params=None, timeout=None, **kw):
+        asked.append(params["series_id"])
+        return _FakeResponse({"observations": [
+            {"date": "2008-01-01", "value": "100.0",
+             "realtime_start": f"2015-{(i % 12) + 1:02d}-{(i % 28) + 1:02d}"}
+            for i in range(60)]})
+
+    store = tmp_path / "store"
+    store.mkdir()
+    assert bf.main(["--store", str(store), "--codes", "CUUR0000SAM"], http_get=fake_get) == 0
+    assert asked == ["CPIMEDNS"]
+    rows = [json.loads(line) for p in (store / "obs").glob("*.jsonl")
+            for line in p.read_text().splitlines()]
+    assert {r["series_code"] for r in rows} == {"CUUR0000SAM"}

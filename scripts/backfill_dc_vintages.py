@@ -106,10 +106,14 @@ def main(argv=None, http_get=None) -> int:
 
     entries = build_series_entries(
         {c.strip() for c in args.codes.split(",")} if args.codes else None)
-    id_map = {s.source_id: s.code for s in entries}
+    # FRED's ids, not source_id: a --codes series may be collected from BLS
+    no_fred = sorted(s.code for s in entries if s.fred_series_id is None)
+    if no_fred:
+        sys.exit(f"no FRED id in the registry for: {no_fred}")
+    id_map = {s.fred_series_id: s.code for s in entries}
     obs: list[Observation] = []
     for s in entries:
-        rows = fred.fetch_vintages(s.source_id, key,
+        rows = fred.fetch_vintages(s.fred_series_id, key,
                                    observation_start=OBSERVATION_START,
                                    realtime_start=REALTIME_START,
                                    http_get=http_get)

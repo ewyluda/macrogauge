@@ -127,6 +127,18 @@ def test_load_real_registry():
         "ppi_pce_hospital": "PCU622---622---",
         "JTS2300JOL": "JTS230000000000000JOL", "JTS2300JOR": "JTS230000000000000JOR",
     }
+    # ...and each keeps the FRED id it had, which FRED/ALFRED history tools
+    # (backfill_base_dec2016, backfill_construction_mix) must send instead —
+    # five of them are FRED aliases a BLS id would 400 on.
+    assert {s.code: s.fred_series_id for s in series if s.code in bls_ids} == {
+        **{c: c for c in bls_ids if c not in (
+            "CUUR0000SAM", "CUUR0000SAA", "CUUR0000SAR", "CUUR0000SAE", "CUUR0000SAG",
+            "ppi_pce_airline", "ppi_pce_physician", "ppi_pce_hospital", "cpi_water")},
+        "CUUR0000SAM": "CPIMEDNS", "CUUR0000SAA": "CPIAPPNS", "CUUR0000SAR": "CPIRECNS",
+        "CUUR0000SAE": "CPIEDUNS", "CUUR0000SAG": "CPIOGSNS",
+        "ppi_pce_airline": "PCU481111481111", "ppi_pce_physician": "PCU621111621111",
+        "ppi_pce_hospital": "PCU622622", "cpi_water": "CUSR0000SEHG",
+    }
     # P2 T3: 2 US + 100 metro series (top-50 msa by SizeRank, zori+zhvi each)
     assert sum(1 for s in series if s.source == "ZILLOW") == 102
     assert sources["QCEW"].secret is None and sources["QCEW"].route == "CSV"
@@ -314,6 +326,24 @@ def test_unknown_source_rejected(tmp_path):
     p.write_text(json.dumps(bad))
     with pytest.raises(ValueError, match="unknown source"):
         registry.load_registry(p)
+
+
+def test_fred_id_rejected_on_fred_series(tmp_path):
+    bad = {"sources": {"FRED": {"route": "API", "cadence": "daily"}},
+           "series": [{"code": "a", "source": "FRED", "source_id": "A", "fred_id": "B",
+                       "name": "a", "max_staleness_days": 7}]}
+    p = tmp_path / "series.json"
+    p.write_text(json.dumps(bad))
+    with pytest.raises(ValueError, match="fred_id is only for non-FRED"):
+        registry.load_registry(p)
+
+
+def test_fred_series_id_follows_source(tmp_path):
+    fred = _one({"code": "a", "source": "X", "source_id": "1", "name": "a",
+                 "max_staleness_days": 7, "fred_id": "F1"}, tmp_path)
+    assert fred.fred_series_id == "F1"
+    assert _one({"code": "a", "source": "X", "source_id": "1", "name": "a",
+                 "max_staleness_days": 7}, tmp_path).fred_series_id is None
 
 
 # ---- expected-absence policy (todo #10) ------------------------------------
