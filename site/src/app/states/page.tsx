@@ -49,7 +49,7 @@ export default function States() {
 
       <div className="section-tools">
         <DownloadData filename="macrogauge-states" json="geo.json"
-          citation={`MacroGauge state site costs, published ${data.published_at}`}
+          citation={`Macrogauge state site costs, published ${data.published_at}`}
           rows={data.states.map((s) => flattenRow(s))} />
       </div>
       <div className="kpi-row">

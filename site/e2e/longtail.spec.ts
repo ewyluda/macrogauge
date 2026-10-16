@@ -18,7 +18,7 @@ for (const path of pages) {
     expect(res?.status()).toBe(200);
     await expect(page.locator("h1")).toBeVisible();
     await expect(page.locator(".kpi-row").first()).toBeVisible();
-    expect(await page.title()).not.toBe("macrogauge — daily US inflation & macro");
+    expect(await page.title()).not.toBe("Macrogauge — AI infrastructure costs & live US inflation");
     expect(errors).toEqual([]);
   });
 }

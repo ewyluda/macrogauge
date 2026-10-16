@@ -64,7 +64,7 @@ export default function Page() {
       </div>
       <div className="page-asof">
         <DownloadData filename="macrogauge-dc-markets" json="dc_markets.json"
-          citation={`MacroGauge DC market panel, published ${data.published_at}`}
+          citation={`Macrogauge DC market panel, published ${data.published_at}`}
           rows={data.markets.map((m) => flattenRow(m))} />
         <span>
           QCEW quarter <b>{data.as_of ?? "—"}</b> vs <b>{data.base_date ?? "—"}</b>

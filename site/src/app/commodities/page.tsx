@@ -69,7 +69,7 @@ export default function Page() {
         <DownloadData
           filename="macrogauge-commodities"
           json="commodities.json"
-          citation={`MacroGauge commodities grid, published ${data.published_at}`}
+          citation={`Macrogauge commodities grid, published ${data.published_at}`}
           rows={data.groups.flatMap((g) => g.rows.map(({ spark: _s, ...r }) => ({ group: g.group, ...r })))}
         />
       </div>

@@ -126,7 +126,7 @@ test("/rates builds its history CSV on click instead of inlining ~2k rows", asyn
   expect(download.suggestedFilename()).toBe("macrogauge-rates-history.csv");
   const { readFileSync } = await import("node:fs");
   const lines = readFileSync((await download.path())!, "utf8").trimEnd().split("\r\n");
-  expect(lines[0]).toBe("# MacroGauge rates history (daily, DGS10 business-day grid)");
+  expect(lines[0]).toBe("# Macrogauge rates history (daily, DGS10 business-day grid)");
   expect(lines[1]).toBe("date,dgs3mo,dgs2,dgs10,t5yie,t10yie,hy_oas,ig_oas,bbb_oas,dollar,spread_2s10s,spread_3m10y,real_10y");
   expect(lines.length - 2).toBe(rates.history.dates.length);
   expect(lines[2].startsWith(`${rates.history.dates[0]},`)).toBe(true);

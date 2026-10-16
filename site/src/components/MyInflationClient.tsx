@@ -243,7 +243,7 @@ export function MyInflationClient({
           Your rate minus everyone&apos;s, percentage points
         </div>
         <EChart
-          ariaTitle="Your inflation rate minus the macrogauge rate, percentage points, monthly"
+          ariaTitle="Your inflation rate minus the Macrogauge rate, percentage points, monthly"
           option={{
             ...baseOption(),
             legend: { show: false },

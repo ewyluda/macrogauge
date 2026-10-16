@@ -87,7 +87,7 @@ export function RaiseCalculator({
           %
         </label>
         <ResultChip
-          label="vs today's prices (macrogauge)"
+          label="vs today's prices (Macrogauge)"
           pct={realRaisePct(raise, gaugeYoy)}
         />
         <ResultChip

@@ -101,7 +101,7 @@ export default function EscalationGrades() {
         value={`${anchors.length} vintage anchors`} path="/escalation/grades" />
       <div className="section-tools">
         <DownloadData filename="macrogauge-dc-anchors" json="dc_grades.json"
-          citation={`MacroGauge DC escalation grading anchors, published ${grades.published_at}`}
+          citation={`Macrogauge DC escalation grading anchors, published ${grades.published_at}`}
           spec={DC_ANCHORS_CSV} />
       </div>
       <GradesClient

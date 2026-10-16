@@ -55,7 +55,7 @@ export function BreadthPanel({ compact = false }: { compact?: boolean }) {
         <>
           <div className="section-tools">
             <DownloadData rows={rowsCsv} filename="macrogauge-breadth" json="quilt_months_all.json"
-              citation={`MacroGauge breadth & trimmed measures over 14 components, monthly, through ${L.month}`} />
+              citation={`Macrogauge breadth & trimmed measures over 14 components, monthly, through ${L.month}`} />
           </div>
           <div className="chart-card">
             <LinesChart

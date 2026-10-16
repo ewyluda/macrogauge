@@ -86,7 +86,7 @@ export default async function DcComponentPage({ params }: { params: Promise<{ co
       <Section title="Monthly, last 36 months by default" featured>
         <div className="section-tools">
           <DownloadData filename={`macrogauge-dc-component-${code}`} json="datacenter.json"
-            citation={`MacroGauge ${c.indexLabel} component ${c.label}, monthly, ${dc.rebase}, as of ${c.last_obs ?? ix.as_of}`}
+            citation={`Macrogauge ${c.indexLabel} component ${c.label}, monthly, ${dc.rebase}, as of ${c.last_obs ?? ix.as_of}`}
             rows={s.months.map((m, k) => ({ month: m, level: s.levels[k], yoy_pct: yoy[k] }))} />
         </div>
         <div className="chart-card">

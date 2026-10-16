@@ -1,5 +1,5 @@
 /** Price-adjustment clause math for /escalation/clause — settles on the
- *  agency's OWN index (a BLS PPI / CES series), never a MacroGauge composite,
+ *  agency's OWN index (a BLS PPI / CES series), never a Macrogauge composite,
  *  on a stated vintage. Pure; unit-tested.
  *
  *  change   = I(adjustment month) / I(base month) − 1                    (%)

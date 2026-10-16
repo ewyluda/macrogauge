@@ -119,7 +119,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
       <Section title="Ours vs BLS — daily, last 36 months by default" featured>
         <div className="section-tools">
           <DownloadData filename={`macrogauge-component-${code}`} json="replay.json"
-            citation={`MacroGauge ${c.label} component, weekly-sampled daily grid, ${replay.rebase}, as of ${replay.dates[last]}`}
+            citation={`Macrogauge ${c.label} component, weekly-sampled daily grid, ${replay.rebase}, as of ${replay.dates[last]}`}
             rows={columnsToRows({ name: "date", values: wk(replay.dates) }, [
               { name: "index", values: wk(rc.index) }, { name: "bls_index", values: wk(rc.bls_index) },
               { name: "yoy_pct", values: wk(rc.yoy) }, { name: "bls_yoy_pct", values: wk(rc.bls_yoy) },

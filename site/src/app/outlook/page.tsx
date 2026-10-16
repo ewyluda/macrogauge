@@ -177,7 +177,7 @@ export default function OutlookPage() {
       <Section title="Component paths">
         <div className="section-tools">
           <DownloadData filename="macrogauge-outlook-component-paths" json="outlook.json" spec={OUTLOOK_PATHS_CSV}
-            citation={`MacroGauge 12-month outlook component paths, published ${outlookJson.published_at}`} />
+            citation={`Macrogauge 12-month outlook component paths, published ${outlookJson.published_at}`} />
         </div>
         <div className="table-card">
           <table className="data-table">
@@ -279,7 +279,7 @@ export default function OutlookPage() {
 
       <p className="method">
         {outlook.method} &ldquo;Now YoY&rdquo; is each component&rsquo;s
-        macrogauge YoY at {fmtMonth(`${outlook.origin_month}-01`)}, read from the
+        Macrogauge YoY at {fmtMonth(`${outlook.origin_month}-01`)}, read from the
         published quilt grid. Path columns are the model&rsquo;s published
         month-over-month steps at horizons +1, +6 and +12 — the pipeline does
         not publish per-component YoY paths, so none is derived here. Driver

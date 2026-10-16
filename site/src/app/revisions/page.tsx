@@ -50,7 +50,7 @@ function IndexTable({ rows, label }: { rows: RevisionIndexRow[]; label: string }
 function IndexSection({ t, title, id, children }: { t: RevisionIndexTarget; title: string; id: string; children: React.ReactNode }) {
   return (
     <Section title={title} id={id}>
-      <div className="section-tools"><DownloadData filename={`macrogauge-revisions-${id}`} json="revisions.json" rows={t.rows} citation={`MacroGauge ${t.code} revisions (first print vs latest)`} /></div>
+      <div className="section-tools"><DownloadData filename={`macrogauge-revisions-${id}`} json="revisions.json" rows={t.rows} citation={`Macrogauge ${t.code} revisions (first print vs latest)`} /></div>
       <div className="chart-card"><RevisionChart months={t.rows.map((r) => r.reference_period)} values={t.rows.map((r) => r.yoy_revision_pp)} unit="pp" /></div>
       <IndexTable rows={t.rows} label={t.code} />
       <p className="method">{children}</p>
@@ -82,7 +82,7 @@ export default function RevisionsPage() {
       </div>
 
       <Section title="Payrolls — monthly change, first print vs latest (thousands)" featured>
-        <div className="section-tools"><DownloadData filename="macrogauge-revisions-nfp" json="revisions.json" rows={nfp.rows} citation="MacroGauge payrolls revisions (first print vs latest)" /></div>
+        <div className="section-tools"><DownloadData filename="macrogauge-revisions-nfp" json="revisions.json" rows={nfp.rows} citation="Macrogauge payrolls revisions (first print vs latest)" /></div>
         <div className="chart-card"><RevisionChart months={nfp.rows.map((r) => r.reference_period)} values={nfp.rows.map((r) => r.change_revision_k)} unit="k" /></div>
         <div className="table-card">
           <table className="data-table">

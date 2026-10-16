@@ -70,7 +70,7 @@ export function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>MacroGauge — daily US inflation &amp; macro</title>
+    <title>Macrogauge — daily US inflation &amp; macro</title>
     <link>${SITE_URL}/</link>
     <atom:link href="${SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
     <description>${esc(SITE_DESCRIPTION)}</description>

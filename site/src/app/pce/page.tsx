@@ -122,7 +122,7 @@ export default function Pce() {
           <DownloadData
             filename="macrogauge-pce-monthly"
             json="compare.json"
-            citation={`MacroGauge PCE-weighted gauge vs PCEPI, monthly, ${compare.validation.pce.window}`}
+            citation={`Macrogauge PCE-weighted gauge vs PCEPI, monthly, ${compare.validation.pce.window}`}
             rows={columnsToRows({ name: "month", values: compare.months }, [
               { name: "pce_gauge_yoy_pct", values: compare.pce_yoy_pct },
               { name: "official_pcepi_yoy_pct", values: officialSeries },

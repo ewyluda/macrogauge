@@ -384,7 +384,7 @@ export default function Home() {
           Zillow, Freddie Mac, U.S. Treasury, FMP, the grid operators and more — full list
           on <Link href="/status">/status</Link>), each on its own cadence and published with
           as-of dates. The
-          independent macrogauge index re-prices the CPI basket daily from live
+          independent Macrogauge index re-prices the CPI basket daily from live
           market and public data ({pulse.gauge.coverage_pct.toFixed(0)}% of basket
           weight today; the rest carries official BLS values forward between
           prints).

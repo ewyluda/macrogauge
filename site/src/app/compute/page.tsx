@@ -79,7 +79,7 @@ export default function ComputePage() {
       <Section title={indexStart ? `Both indexes, daily since ${fmtDay(indexStart)}` : "Composite indexes"} featured>
         <div className="section-tools">
           <DownloadData filename="macrogauge-compute-indexes" json="compute.json"
-            citation={`MacroGauge token and GPU-hour price indexes, ${ti.base_date ?? "—"}=100`}
+            citation={`Macrogauge token and GPU-hour price indexes, ${ti.base_date ?? "—"}=100`}
             rows={computeIndexRows(ti.history, gi.history)} />
         </div>
         <div className="chart-card">

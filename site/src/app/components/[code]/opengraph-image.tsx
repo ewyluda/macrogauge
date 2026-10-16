@@ -1,10 +1,10 @@
-import { C, ogCard } from "@/lib/ogCard";
+import { C, monthSpan, ogCard } from "@/lib/ogCard";
 import replayJson from "../../../../public/data/replay.json";
 import { COMPONENTS, COMPONENT_BY_CODE } from "@/lib/components";
 import { fmtSigned } from "@/lib/format";
 
 export const dynamic = "force-static";
-export const alt = "MacroGauge component — live re-price vs the official BLS index";
+export const alt = "Macrogauge component — live re-price vs the official BLS index";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -23,6 +23,9 @@ export default async function Image({ params }: { params: Promise<{ code: string
   const label = COMPONENT_BY_CODE[code]?.label ?? code;
   const ours = c ? last(c.yoy) : null;
   const bls = c ? last(c.bls_yoy) : null;
+  // the last two years of the component's daily YoY, up to its own last value
+  const from = Math.max(0, replay.dates.length - 731);
+  const pts = c ? replay.dates.slice(from).map((d, i) => [d, c.yoy[from + i]] as const).filter(([, v]) => v != null) : [];
   return ogCard({
     kicker: "COMPONENT",
     stamp: `as of ${replay.dates.at(-1) ?? ""}`,
@@ -31,5 +34,6 @@ export default async function Image({ params }: { params: Promise<{ code: string
       { label: "Macrogauge · YoY", value: ours == null ? "—" : fmtSigned(ours), color: C.sky, ctx: c?.last_obs ? `own last obs ${c.last_obs}` : "own last obs" },
       { label: "Official BLS · YoY", value: bls == null ? "—" : fmtSigned(bls), color: C.amber, ctx: "latest print" },
     ],
+    spark: pts.length > 1 ? { values: pts.map(([, v]) => v!), label: "Macrogauge YoY · daily", range: monthSpan(pts[0][0], pts.at(-1)![0]) } : null,
   });
 }
