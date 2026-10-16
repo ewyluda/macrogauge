@@ -4,10 +4,13 @@
 Runs on the Mac every few minutes (launchd, installed by install_live_exporter.sh),
 next to the Kepler caktus Litestream follower. Each run:
 
-  1. takes a STABLE snapshot of the follower (never queries it in place — the
-     same stable-copy contract as notebook/scripts/caktus_news.py), falling
-     back to a verified Litestream restore from R2 when the follower is
-     unstable or has not advanced for FOLLOWER_MAX_LAG_SECONDS;
+  1. takes a verified Litestream restore of the caktus replica from R2 (~2 min;
+     the replica is current even while the follower lags after a sleep),
+     falling back to a STABLE snapshot of the follower (never queried in place —
+     the same stable-copy contract as notebook/scripts/caktus_news.py) only if
+     the restore fails, and only if the follower advanced within
+     FOLLOWER_MAX_LAG_SECONDS; otherwise the run fails and the previous object
+     stays up (the site then reads it as delayed);
   2. keeps posts from the last `window_days` that MENTION a ticker in the
      config universe (config/ai_news.json — the notebook's AI-infra taxonomy),
      in an included category (flow / macro / geopolitics are dropped), not
@@ -51,9 +54,12 @@ SNAPSHOT_CMD = os.environ.get(
 KEYCHAIN_PREFIX = "com.macrogauge.news-r2"
 STABLE_SAMPLE_SECONDS = 0.1
 STABLE_COPY_ATTEMPTS = 5
-# The writer commits every ~30s while the Mac is awake, so a txid file this old
-# means a stuck follower (it lags for minutes after a long sleep), not a quiet tape
+# The caktus writer is remote and commits every few seconds around the clock, so a
+# follower txid file this old always means the follower is stuck or catching up
 FOLLOWER_MAX_LAG_SECONDS = 600
+# launchd starts a run every 300s and never overlaps them; a hung restore must not
+# stall every later run (a normal restore takes ~105s)
+RESTORE_TIMEOUT_SECONDS = 240
 MAX_POINTS = 6
 MAX_CHARS = 600
 
@@ -101,22 +107,30 @@ def _copy_stable(db: str, dst: str) -> str:
     raise RuntimeError("follower did not stay stable long enough to snapshot")
 
 
-def snapshot(tmpdir: str) -> tuple[str, str]:
-    """(path, mechanism). Follower copy first, verified R2 restore second."""
-    dst = os.path.join(tmpdir, "caktus.db")
-    if os.path.isfile(FOLLOWER_DB) and os.path.isfile(FOLLOWER_DB + "-txid"):
-        try:
-            _check_fresh(FOLLOWER_DB)
-            return _copy_stable(FOLLOWER_DB, dst), "follower"
-        except (OSError, RuntimeError, sqlite3.Error) as e:
-            print(f"follower snapshot failed ({e}); restoring from R2", file=sys.stderr)
+def _restore(dst: str) -> str:
     if not os.access(SNAPSHOT_CMD, os.X_OK):
-        raise RuntimeError(f"no follower and no restore command at {SNAPSHOT_CMD}")
-    proc = subprocess.run([SNAPSHOT_CMD, "snapshot", dst], capture_output=True, text=True)
+        raise RuntimeError(f"no restore command at {SNAPSHOT_CMD}")
+    proc = subprocess.run([SNAPSHOT_CMD, "snapshot", dst], capture_output=True, text=True,
+                          timeout=RESTORE_TIMEOUT_SECONDS)
     if proc.returncode:
-        raise RuntimeError(f"R2 restore failed: {(proc.stderr or proc.stdout).strip()}")
+        raise RuntimeError(f"exit {proc.returncode}: {(proc.stderr or proc.stdout).strip()}")
     _verify(dst)
-    return dst, "r2"
+    return dst
+
+
+def snapshot(tmpdir: str) -> tuple[str, str]:
+    """(path, mechanism). Verified R2 restore first, fresh stable follower copy second."""
+    dst = os.path.join(tmpdir, "caktus.db")
+    try:
+        return _restore(dst), "r2"
+    except (OSError, RuntimeError, subprocess.SubprocessError, sqlite3.Error) as e:
+        print(f"R2 restore failed ({e}); falling back to the follower", file=sys.stderr)
+    if os.path.exists(dst):
+        os.remove(dst)
+    if not (os.path.isfile(FOLLOWER_DB) and os.path.isfile(FOLLOWER_DB + "-txid")):
+        raise RuntimeError(f"R2 restore failed and no follower at {FOLLOWER_DB}")
+    _check_fresh(FOLLOWER_DB)
+    return _copy_stable(FOLLOWER_DB, dst), "follower"
 
 # ---------------------------------------------------------------- parsing
 
@@ -288,10 +302,10 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
     with open(args.config) as f:
         cfg = json.load(f)
-    now = datetime.now(timezone.utc)
     tmpdir = tempfile.mkdtemp(prefix="mg_news_")
     try:
         path, mechanism = snapshot(tmpdir)
+        now = datetime.now(timezone.utc)  # after the ~2 min restore: the feed is as of now
         con = sqlite3.connect(f"file:{path}?mode=ro&immutable=1", uri=True)
         try:
             feed = build_feed(con, cfg, now, mechanism)

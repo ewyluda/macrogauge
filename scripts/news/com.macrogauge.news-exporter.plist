@@ -16,7 +16,7 @@
   <key>RunAtLoad</key>
   <true/>
 
-  <!-- every 5 minutes; a run takes ~1-2 min when it has to restore from R2 -->
+  <!-- every 5 minutes; each run restores from R2 first, ~2 min -->
   <key>StartInterval</key>
   <integer>300</integer>
 
