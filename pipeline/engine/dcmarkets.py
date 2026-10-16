@@ -42,11 +42,21 @@ denominator inside the like-for-like regime looks like).
 `wage_cur`/`emp_cur_total` are additive, NOT regime-dependent: they are
 always the employment-weighted wage and total employment across every
 county with CURRENT-quarter data (`cur_usable`), independent of whether
-those counties survived last year's disclosure. `thin_base` is evaluated
-against `emp_cur_total`, never against the (possibly like-for-like-
-truncated) `emp` -- a market must never read as thin merely because its
+those counties survived last year's disclosure. `thin_base` is true when
+EITHER quarter is small: `emp_cur_total`, or the same `cur_usable`
+counties' base-quarter total. A YoY is only as steady as its denominator
+-- Richland Parish went 192 -> 2,052 workers, a +969% that a current-only
+test passed as solid. Neither side is ever the (possibly like-for-like-
+truncated) `emp`: a market must never read as thin merely because its
 biggest county happened to be base-quarter-suppressed, and must never
-read as NOT thin because a truncated survivor set looked big enough.
+read as NOT thin because a truncated survivor set looked big enough. So
+the base side is tested only when every `cur_usable` county also reported
+in the base quarter (`yoy_usable == cur_usable`, where that total is the
+YoY's own denominator). A base-suppressed county's size is unknown, not
+small, and a base total missing it is a lower bound that proves nothing.
+Such a market is judged on its current size alone, and any YoY it has
+covers a partial county set (`counties_used < counties_total`, which the
+site marks with a dagger).
 
 `counties_suppressed` covers any county that isn't in the regime's `usable`
 set for any reason -- genuinely disclosure-suppressed, present in only one
@@ -60,8 +70,9 @@ computable weighted mean, and must not be reported as available)."""
 
 from pipeline.dc_markets import MarketSpec
 
-THIN_BASE = 1500  # construction workers; below this a YoY is real but noisy
-                  # (Richland Parish is 563) and must be labelled as such
+THIN_BASE = 1500  # construction workers; below this in either quarter a YoY is
+                  # real but noisy (Richland Parish: 192 -> 2,052, 2025Q1 ->
+                  # 2026Q1, reads +969%) and must be labelled as such
 
 
 def _year_ago(obs_date: str) -> str:
@@ -155,8 +166,9 @@ def market_rows(wage: dict[str, dict[str, float]],
                                if have_yoy else None})
 
         # true current-quarter market size, independent of whether last
-        # year's data survived disclosure -- thin_base MUST use this, never
-        # the (possibly like-for-like-truncated) usable-set employment.
+        # year's data survived disclosure -- thin_base's current side MUST
+        # use this, never the (possibly like-for-like-truncated) usable-set
+        # employment.
         # wage_cur is weighted by aemp (average monthly employment);
         # emp_cur_total stays a month3 sum -- the two employment bases are
         # deliberately different (see the module docstring).
@@ -167,7 +179,14 @@ def market_rows(wage: dict[str, dict[str, float]],
             if w_cur_total is not None:
                 row["wage_cur"] = round(w_cur_total, 2)
             row["emp_cur_total"] = int(e_cur_total)
-            row["thin_base"] = row["emp_cur_total"] < thin_base
+            # base side: the same counties a year earlier, tested only when
+            # EVERY one of them reported then -- a base-quarter-suppressed
+            # county's size is unknown, not small (see the module docstring).
+            e_base_total = (sum(emp[f][base_date] for f in cur_usable)
+                            if yoy_usable == cur_usable else None)
+            row["thin_base"] = (row["emp_cur_total"] < thin_base
+                                or (e_base_total is not None
+                                    and e_base_total < thin_base))
 
         if usable:
             w_cur = _weighted([(wage[f][as_of], aemp[f][as_of]) for f in usable])

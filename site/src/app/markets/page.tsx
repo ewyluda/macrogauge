@@ -79,12 +79,18 @@ export default function Page() {
       <div className="dc-method-grid">
       <div><h3>Why county resolution</h3><p className="method">
         State resolution averages Loudoun with Bristol. This is{" "}
-        <b>construction wages and headcount where the shovels are</b> — tight
+        <b>construction wages and headcount at the contractors based in each market</b> — tight
         core counties for {data.markets.length} real data-center markets,
-        measured against the national rate. Craft labor is the constraint
-        nobody prices until it bites: a market adding construction workers
-        twice as fast as the country is a market where your subcontractor
-        coverage is thinning.
+        measured against the national rate. It is not a count of workers on
+        the job site:{" "}
+        <a href="https://www.bls.gov/respondents/mwr/questions-and-answers.htm">BLS
+        has employers report</a> crews at a temporary site, construction being
+        its example, at the office that supervises them or the base they work
+        from. A county counts the contractors based there, not every crew on
+        its projects. Craft labor is the constraint nobody prices until it
+        bites: a market whose
+        contractors are adding workers twice as fast as the country is a
+        market where your subcontractor coverage is thinning.
       </p></div>
       <div><h3>Eight-quarter trend</h3><p className="method">
         The sparkline under each market&apos;s worker count is its construction headcount over the

@@ -144,6 +144,39 @@ def test_thin_base_uses_true_current_size_not_the_yoy_truncated_set():
     assert row["thin_base"] is False        # NOT thin -- 27101, not 950
 
 
+def test_thin_base_flags_a_small_base_even_when_the_current_quarter_is_large():
+    # Richland Parish (Meta Hyperion), the store's real QCEW values for
+    # 2025Q1 -> 2026Q1: 192 -> 2,052 construction workers. The current
+    # quarter clears the bar, but the YoY is a ratio over the 192-worker
+    # base -- +968.8% headcount, +181.5% wage -- and that base is what
+    # makes it noisy.
+    wage = {"22083": {BASE: 909.0, CUR: 2559.0}}
+    emp = {"22083": {BASE: 192.0, CUR: 2052.0}}
+    aemp = {"22083": {BASE: 192.33333333333334, CUR: 1899.3333333333333}}
+    out = dcmarkets.market_rows(
+        wage, emp, aemp, (_mkt("richland", ["22083"], state="LA", iso="MISO"),),
+        NAT_WAGE, NAT_EMP)
+    row = out["markets"][0]
+    assert row["emp_cur_total"] == 2052     # current quarter alone is not thin
+    assert row["emp_yoy_pct"] == 968.8
+    assert row["wage_yoy_pct"] == 181.5
+    assert row["thin_base"] is True         # the 192-worker base is
+
+
+def test_thin_base_base_side_sums_the_same_counties_a_year_earlier():
+    # Neither county clears the bar alone in the base quarter (800, 900),
+    # but the market does (1,700) -- the base side is the market's total
+    # over the counties the current headcount counts, never a per-county
+    # minimum.
+    wage = {"51107": {BASE: 2000.0, CUR: 2100.0},
+            "51153": {BASE: 1800.0, CUR: 1900.0}}
+    emp = {"51107": {BASE: 800.0, CUR: 900.0},
+           "51153": {BASE: 900.0, CUR: 1000.0}}
+    out = dcmarkets.market_rows(
+        wage, emp, emp, (_mkt("nova", ["51107", "51153"]),), NAT_WAGE, NAT_EMP)
+    assert out["markets"][0]["thin_base"] is False
+
+
 def test_fallback_regime_flags_missing_yoy_explicitly():
     # Same fixture as the employment-weighting test above (neither county
     # has ever reported a base quarter), but here we pin the OTHER fields a
