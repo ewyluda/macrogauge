@@ -19,7 +19,8 @@ its registry staleness limit (max_staleness_days), then it drops out of
 (a deprecated model id, a retired feed) changes which relatives are averaged,
 never the index level, and the index never silently keeps a dead price. A day
 with fewer than MIN_MEMBERS members is null; a link with fewer than
-MIN_MEMBERS members priced on both days links flat. History starts 2026-07
+MIN_MEMBERS members priced on both days links flat, and the members it spans
+are measured from their price before it at the next link. History starts 2026-07
 (first collect), stated in `history_start`.
 
 Every table row (vast.ai and cloud) carries `stale`: its last obs is older
@@ -181,7 +182,12 @@ def _index(members: dict[str, dict], limits: dict[str, int] | None = None,
     flat relatives into the new roster's moves. A link with fewer than
     MIN_MEMBERS members priced on both days (a changeover with no overlapping
     day, or a long outage) links FLAT, so the index carries its level across
-    the gap instead of stalling at the last linked day forever."""
+    the gap instead of stalling at the last linked day forever. The members
+    it does span keep their price from before it, so their move across it
+    lands in the next link that measures them: a move and its reversal are
+    both counted, never one half. (2026-10-08/09: DeepSeek V4.1 Flash's -47%
+    counted in an eight-member link and its +90% rebound across the
+    two-member roster-change link dropped, 7.7pp of a -15.5% 30-day move.)"""
     dates = sorted(set().union(*(set(s) for s in members.values()))) if members else []
     limits = limits or {}
     eff = {k: _carried(s, dates, limits.get(k, DEFAULT_CARRY_DAYS))
@@ -192,6 +198,7 @@ def _index(members: dict[str, dict], limits: dict[str, int] | None = None,
     level: dict[str, float] = {}
     count: list[int] = []
     prev = None                      # last date with a chained level
+    held: dict[str, float] = {}      # a flat link's members: their price before it
     for d in dates:
         present = [k for k in members if d in eff[k]]
         count.append(len(present))
@@ -202,8 +209,12 @@ def _index(members: dict[str, dict], limits: dict[str, int] | None = None,
             prev = d
             continue
         common = [k for k in present if prev in eff[k]]
-        lg = (sum(math.log(eff[k][d] / eff[k][prev]) for k in common) / len(common)
-              if len(common) >= MIN_MEMBERS else 0.0)   # too thin to measure: flat
+        ref = {k: held.get(k, eff[k][prev]) for k in common}
+        if len(common) >= MIN_MEMBERS:
+            lg = sum(math.log(eff[k][d] / ref[k]) for k in common) / len(common)
+            held = {}
+        else:                        # too thin to measure: flat, and its moves wait
+            lg, held = 0.0, ref
         level[d] = level[prev] * math.exp(lg)
         prev = d
     if not level:
@@ -351,7 +362,8 @@ def build(conn, staleness: dict[str, int] | None = None, today: str | None = Non
                                 "carries at most its staleness limit; a retired model's "
                                 "never past its last observation), = 100 on the chain's "
                                 "first day; a link with fewer than the minimum members "
-                                "priced on both days is flat"},
+                                "priced on both days is flat, and the members it spans "
+                                "are measured from their price before it at the next link"},
             "models": model_rows,
             "token_index": _index(model_members, model_lim,
                                   retired=frozenset(k for k, _ in RETIRED_MODELS)),
