@@ -5,7 +5,7 @@ import { Section } from "@/components/Section";
 import { DownloadData } from "@/components/DownloadData";
 import { CHANGES } from "@/components/SinceYesterday";
 import { fmtPp, fmtSigned, fmtStamp } from "@/lib/format";
-import { changesHeadline, fmtDelta, fmtReading, partitionMovers } from "@/lib/changesHeadline";
+import { baselineName, changesHeadline, fmtDelta, fmtReading, partitionMovers } from "@/lib/changesHeadline";
 import type { Mover } from "@/lib/types";
 
 const c = CHANGES;
@@ -33,7 +33,8 @@ function MoverRow({ m }: { m: Mover }) {
 export default function ChangesPage() {
   const gauge = c.headline.find((h) => h.key === "gauge");
   const movers = c.movers ?? [];
-  const lead = changesHeadline(movers);
+  const since = baselineName(c.published_at, c.prev_published_at) ?? "the previous publish";
+  const lead = changesHeadline(movers, since);
   const { moved, unchanged } = partitionMovers(movers);
   // components arrive sorted by |Δ|; the top row is only "the biggest move"
   // when it moved at all (it used to name Shelter (owned) at 0.00pp)
@@ -60,7 +61,7 @@ export default function ChangesPage() {
         <KpiCard label="Sources landed" value={String(c.sources_landed.length)}
           context={c.sources_failed.length ? `${c.sources_failed.length} failed: ${c.sources_failed.join(", ")}` : "no source failures"} accent={c.sources_failed.length ? "amber" : "emerald"} />
         <KpiCard label="Compared with" value={c.prev_published_at ? c.prev_published_at.slice(0, 10) : "—"}
-          context={c.prev_published_at ? `previous day's last publish · ${fmtStamp(c.prev_published_at)}` : "first reading"} accent="sky" />
+          context={c.prev_published_at ? `${since.replace(/^the /, "")} · ${fmtStamp(c.prev_published_at)}` : "first reading"} accent="sky" />
       </div>
 
       {movers.length > 0 && (
@@ -70,7 +71,7 @@ export default function ChangesPage() {
               <thead><tr><th style={{ textAlign: "left" }}>Reading</th><th>Now</th><th>Previous</th><th>Change</th><th>vs notable</th></tr></thead>
               <tbody>
                 {moved.map((m) => <MoverRow key={m.key} m={m} />)}
-                {moved.length === 0 && <tr><td colSpan={5} style={{ color: "var(--muted)", textAlign: "left" }}>No reading changed since the previous day&apos;s last publish.</td></tr>}
+                {moved.length === 0 && <tr><td colSpan={5} style={{ color: "var(--muted)", textAlign: "left" }}>No reading changed since {since}.</td></tr>}
               </tbody>
             </table>
           </div>
@@ -85,7 +86,7 @@ export default function ChangesPage() {
             </details>
           )}
           <p className="method">
-            Each page&apos;s lead numbers, read from today&apos;s files and the previous day&apos;s last publish. A level&apos;s change is
+            Each page&apos;s lead numbers, read from today&apos;s files and {since}&apos;s. A level&apos;s change is
             in %, a rate or spread in basis points, a YoY in percentage points. Rows rank by the change divided by a
             stated notable move for that reading (for example 3% for a power hub&apos;s 30-day average, 5bp for the
             10-year): a design threshold, not a fitted volatility. A reading whose source date didn&apos;t advance shows
@@ -119,7 +120,7 @@ export default function ChangesPage() {
         {c.official && (
           <p className="method">
             Official CPI: {c.official.month?.slice(0, 7) ?? "—"} print at {fmtSigned(c.official.yoy_pct)} YoY
-            {c.official.new_print ? ` — NEW since the previous day's last publish (was ${c.official.prev_month?.slice(0, 7)})` : " — unchanged"}.
+            {c.official.new_print ? ` — NEW since ${since} (was ${c.official.prev_month?.slice(0, 7)})` : " — unchanged"}.
           </p>
         )}
       </Section>

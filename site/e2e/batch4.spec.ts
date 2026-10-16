@@ -60,7 +60,7 @@ test("since-yesterday strip on the homepage and the /changes page agree on the b
 
 test("feed body carries the since-yesterday sentence", async ({ page }) => {
   const feed = await page.request.get("/feed.xml");
-  expect(await feed.text()).toContain("Since the previous day's last publish:");
+  expect(await feed.text()).toMatch(/Since the previous (day's last )?publish:/);
 });
 
 test("/rates lists what the builders paid on their latest notes, once the daily run publishes them", async ({ page, request }) => {

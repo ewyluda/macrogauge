@@ -2,6 +2,7 @@ import Link from "next/link";
 import changesJson from "../../public/data/changes.json";
 import { fmtPp, fmtSigned, fmtStamp } from "@/lib/format";
 import type { Changes } from "@/lib/types";
+import { baselineName } from "@/lib/changesHeadline";
 
 export const CHANGES = changesJson as Changes;
 
@@ -57,6 +58,6 @@ export function sinceYesterdayText(): string {
   if (comps.length) parts.push("Components: " + comps.map((x) => `${x.label} ${fmtPp(x.delta_pp)}`).join(", ") + ".");
   if (c.sources_landed.length) parts.push(`Sources landing new rows: ${c.sources_landed.map((s) => s.source).join(", ")}.`);
   if (c.sources_failed.length) parts.push(`Sources failed: ${c.sources_failed.join(", ")}.`);
-  if (!parts.length) parts.push("No headline moved by 0.01pp or more since the previous day's last publish.");
+  if (!parts.length) parts.push(`No headline moved by 0.01pp or more since ${baselineName(c.published_at, c.prev_published_at)}.`);
   return parts.join(" ");
 }
