@@ -51,6 +51,21 @@ function FreshBar({ f }: { f: Freshness | undefined }) {
   );
 }
 
+/** A check detail; one past LONG_DETAIL chars (expected_absence lists every
+ *  series) folds behind its lead clause so a row stays scannable. */
+const LONG_DETAIL = 160;
+function CheckDetail({ text }: { text: string }) {
+  if (text.length <= LONG_DETAIL) return <>{text}</>;
+  const cut = text.indexOf(" — ");
+  const split = cut > 0 && cut <= LONG_DETAIL;
+  return (
+    <details className="status-detail">
+      <summary>{split ? text.slice(0, cut) : `${text.slice(0, 120).trimEnd()}…`}</summary>
+      {split ? text.slice(cut + 3) : text}
+    </details>
+  );
+}
+
 /** A section's header row inside a grouped table. */
 function GroupRow({ cols, title, summary }: { cols: number; title: string; summary: string }) {
   return (
@@ -116,7 +131,7 @@ export default function Status() {
 
       <Section title="Data-integrity self-test">
         <div className="table-card">
-          <table className="data-table">
+          <table className="data-table status-checks">
             <thead>
               <tr>
                 <th>Check</th>
@@ -148,6 +163,7 @@ export default function Status() {
                     />
                   </td>
                   <td
+                    className="cell-prose"
                     style={{
                       textAlign: "left",
                       color: "var(--muted)",
@@ -156,7 +172,7 @@ export default function Status() {
                       overflowWrap: "anywhere",
                     }}
                   >
-                    {c.detail}
+                    <CheckDetail text={c.detail} />
                   </td>
                 </tr>
                   )),

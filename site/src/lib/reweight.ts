@@ -4,7 +4,7 @@
  *  construction (Option A, weighted own-obs YoYs — the 1c sawtooth fix),
  *  applied to reweighted published weights. Never an index-ratio
  *  recomputation. Multipliers below are printed verbatim on the page. */
-import { weightAt } from "./contribution";
+import { monthEnds, weightAt } from "./contribution";
 
 export type Answers = {
   housing: "rent" | "own_mortgage" | "own_paidoff";
@@ -98,6 +98,33 @@ export function weightedYoY(
     sum += (weights[c.code] ?? 0) * v;
   }
   return sum;
+}
+
+/** Your rate minus everyone's, one point per month, both sides computed at
+ *  the same replay position: the month's last daily date (compare.json and
+ *  the quilt's sampling). "Everyone" is the published weights in force that
+ *  day (weightAt), renormalized — the engine's own headline — so the only
+ *  gap left is your reweighting. Subtracting compare.json's gauge from a
+ *  series rebuilt off replay mixed two samplings (±1.3pp of artefact). */
+export function monthlyGap(
+  components: Comp[],
+  dates: string[],
+  months: string[],
+  a: Answers
+): [string, number | null][] {
+  const ends = new Map(monthEnds(dates).map((e) => [e.month, e.i]));
+  return months.map((m) => {
+    const i = ends.get(m.slice(0, 7));
+    if (i === undefined) return [m, null];
+    const date = dates[i];
+    const mine = weightedYoY(components, personalWeights(components, a, date), i);
+    const everyone = weightedYoY(
+      components,
+      renormalize(Object.fromEntries(components.map((c) => [c.code, weightAt(c, date)]))),
+      i
+    );
+    return [m, mine === null || everyone === null ? null : Math.round((mine - everyone) * 100) / 100];
+  });
 }
 
 export type Contribution = {

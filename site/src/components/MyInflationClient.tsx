@@ -15,6 +15,7 @@ import {
   DEFAULT_ANSWERS,
   MULTIPLIER_NOTES,
   contributions,
+  monthlyGap,
   personalWeights,
   weightedYoY,
   type Answers,
@@ -87,13 +88,11 @@ export type StateOption = {
 
 export function MyInflationClient({
   compareMonths,
-  compareGauge,
   gaugeYoy,
   gaugeAsOf,
   states,
 }: {
   compareMonths: string[];
-  compareGauge: (number | null)[];
   gaugeYoy: number;
   gaugeAsOf: string;
   // trimmed at the server boundary to what the selector uses — the full geo
@@ -133,18 +132,8 @@ export function MyInflationClient({
   const mine = weightedYoY(data.components, weights, lastIdx, overrides);
   const diff = mine === null ? null : mine - gaugeYoy;
 
-  const personalSeries = compareMonths.map((m) => {
-    const di = data.dates.indexOf(m);
-    return [m, di === -1 ? null : weightedYoY(data.components, personalWeights(data.components, answers, data.dates[di]), di)] as [
-      string,
-      number | null,
-    ];
-  });
-  // one line: your rate minus the gauge's, month by month
-  const gapSeries = personalSeries.map(([m, p], i) => {
-    const g = compareGauge[i];
-    return [m, p == null || g == null ? null : Math.round((p - g) * 100) / 100] as [string, number | null];
-  });
+  // one line: your rate minus everyone's, month by month
+  const gapSeries = monthlyGap(data.components, data.dates, compareMonths, answers);
   // contributions() substitutes 0 for missing component YoYs (reweight.ts is
   // spec-verbatim); weightedYoY() propagates null instead. Only compute and
   // render the drivers card when the personal rate itself is non-null, so the

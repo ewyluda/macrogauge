@@ -22,7 +22,6 @@ export default function MyInflation() {
       <div style={{ marginTop: 24 }}>
         <MyInflationClient
           compareMonths={compare.months}
-          compareGauge={compare.gauge_yoy_pct}
           gaugeYoy={pulse.gauge.yoy_pct}
           gaugeAsOf={pulse.gauge.as_of}
           states={(geoJson as Geo).states.map((s) => ({

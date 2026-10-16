@@ -1,8 +1,23 @@
 "use client";
+import { useSyncExternalStore } from "react";
 import type { CapacityCompany } from "@/lib/types";
 import { useChartTip } from "./ChartTip";
 
-const W = 1000, H = 500, M = { l: 64, r: 24, t: 24, b: 48 };
+// The SVG scales to its box, so a 1000-wide viewBox on a ~330px phone drew
+// 5px text. Phones get a near-1:1 viewBox, a coarser x grid and labels on the
+// biggest dots only (the tooltip and the table below carry the rest).
+const DESKTOP = { W: 1000, H: 500, M: { l: 64, r: 24, t: 24, b: 48 }, xStep: 10, maxLabels: Infinity, rMax: 20,
+  xTitle: "Share of capacity energized (operational ÷ total)" };
+const PHONE = { W: 360, H: 420, M: { l: 50, r: 12, t: 20, b: 44 }, xStep: 20, maxLabels: 6, rMax: 12,
+  xTitle: "Share energized (operational ÷ total)" };
+const PHONE_QUERY = "(max-width: 600px)";
+const subscribePhone = (cb: () => void) => {
+  const m = window.matchMedia(PHONE_QUERY);
+  m.addEventListener("change", cb);
+  return () => m.removeEventListener("change", cb);
+};
+// server render (static export) is the desktop layout; phones switch on hydration
+const usePhone = () => useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE_QUERY).matches, () => false);
 
 type Group = "cloud" | "landlord" | "other";
 const GROUP: Record<Group, { label: string; short: string; color: string }> = {
@@ -37,6 +52,7 @@ const hit = (a: Box, b: Box) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y 
 
 export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
   const { wrap, show, hide, node } = useChartTip();
+  const { W, H, M, xStep, maxLabels, rMax, xTitle } = usePhone() ? PHONE : DESKTOP;
   // BTBT-style parent rows repeat their subsidiary's MW and EV — plotting both
   // would stack two dots on one point.
   const pts = rows.filter((c) => c.ev_per_mw != null && c.pct_energized != null && c.dupe !== "parent");
@@ -62,7 +78,7 @@ export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
   const X = (v: number) => M.l + INSET + (v / xmax) * (W - M.l - M.r - INSET);
   const Y = (v: number) => H - M.b - ((Math.log(v) - Math.log(lo)) / (Math.log(hi) - Math.log(lo))) * (H - M.t - M.b);
   const maxW = Math.max(...pts.map((c) => c.wmw), 1);
-  const R = (c: CapacityCompany) => 5 + Math.sqrt(c.wmw / maxW) * 20;
+  const R = (c: CapacityCompany) => 5 + Math.sqrt(c.wmw / maxW) * rMax;
   // One median per business type, never pooled: a GPU cloud and a landlord
   // are different businesses (only types with 2+ priced rows get a line).
   const medians = (["cloud", "landlord"] as Group[])
@@ -78,9 +94,15 @@ export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
 
   // Greedy label placement: biggest dots claim space first; a label that
   // can't find a clear slot is dropped (the tooltip and the table carry it).
-  const placed: Box[] = [];
+  // the median labels claim their space first, so no ticker lands on one
+  const medText = (m: { g: Group; median: number }) => `${GROUP[m.g].short} median ${fmtM(m.median)} per MW`;
+  const placed: Box[] = medLabels.map((m) => {
+    const w = medText(m).length * 6.8;
+    return { x: W - M.r - 4 - w, y: m.y - 11, w, h: 14 };
+  });
   const labels = new Map<string, { x: number; y: number; anchor: "start" | "end" | "middle" }>();
   for (const c of [...pts].sort((a, b) => b.wmw - a.wmw)) {
+    if (labels.size >= maxLabels) break;
     const cx = X(c.pct_energized as number), cy = Y(c.ev_per_mw as number), r = R(c);
     const w = c.t.length * 7.4 + 4, h = 13;
     const cands: [number, number, "start" | "end" | "middle", Box][] = [
@@ -129,7 +151,7 @@ export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
               <text x={M.l - 8} y={Y(t) + 4} textAnchor="end" className="cap-tick">${t}M</text>
             </g>
           ))}
-          {Array.from({ length: xmax / 10 + 1 }, (_, i) => i * 10).map((v) => (
+          {Array.from({ length: Math.floor(xmax / xStep) + 1 }, (_, i) => i * xStep).map((v) => (
             <g key={v}>
               {v > 0 && <line x1={X(v)} y1={M.t} x2={X(v)} y2={H - M.b} className="cap-grid" />}
               <text x={X(v)} y={H - M.b + 20} textAnchor="middle" className="cap-tick">{v}%</text>
@@ -137,18 +159,14 @@ export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
           ))}
           <line x1={M.l} y1={H - M.b} x2={W - M.r} y2={H - M.b} className="cap-axis" />
           {medLabels.map((m) => (
-            <g key={m.g} className="cap-median">
+            <g key={m.g}>
               <line x1={M.l} y1={Y(m.median)} x2={W - M.r} y2={Y(m.median)} stroke={GROUP[m.g].color}
                 strokeWidth={1.5} strokeDasharray="6 4" />
-              <text x={W - M.r - 4} y={m.y} textAnchor="end" className="cap-ref-label" fill={GROUP[m.g].color}
-                style={{ fill: GROUP[m.g].color }}>
-                {GROUP[m.g].short} median {fmtM(m.median)} per MW
-              </text>
             </g>
           ))}
           <text x={M.l + 8} y={M.t + 12} className="cap-corner">Priced for capacity not yet built</text>
           <text x={W - M.r - 8} y={H - M.b - 10} textAnchor="end" className="cap-corner">Energized and cheaper per MW</text>
-          <text x={(M.l + W - M.r) / 2} y={H - 8} textAnchor="middle" className="cap-axis-title">Share of capacity energized (operational ÷ total)</text>
+          <text x={(M.l + W - M.r) / 2} y={H - 8} textAnchor="middle" className="cap-axis-title">{xTitle}</text>
           {[...pts].sort((a, b) => b.wmw - a.wmw).map((c) => {
             const g = groupOf(c);
             const hollow = g === "other";
@@ -160,6 +178,16 @@ export function ValuationScatter({ rows }: { rows: CapacityCompany[] }) {
                 onPointerMove={(e) => show(e, tipBody(c))} onFocus={(e) => show(e, tipBody(c))} onBlur={hide} />
             );
           })}
+          {/* median labels paint over the dots (with a card-colour halo): on
+              a phone the right-edge label sat under the biggest dots */}
+          {medLabels.map((m) => (
+            <g key={m.g} className="cap-median">
+              <text x={W - M.r - 4} y={m.y} textAnchor="end" className="cap-ref-label cap-median-label"
+                fill={GROUP[m.g].color} style={{ fill: GROUP[m.g].color }}>
+                {medText(m)}
+              </text>
+            </g>
+          ))}
           {pts.map((c) => {
             const l = labels.get(c.t);
             return l && <text key={c.t} x={l.x} y={l.y} textAnchor={l.anchor} className="cap-label">{c.t}</text>;

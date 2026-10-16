@@ -6,6 +6,7 @@ import {
   DEFAULT_ANSWERS,
   applyAnswers,
   contributions,
+  monthlyGap,
   personalWeights,
   renormalize,
   weightedYoY,
@@ -174,5 +175,48 @@ describe("personalWeights — time-varying weights", () => {
   it("falls back to the fixed weights without a date or month entry", () => {
     expect(personalWeights(comps, DEFAULT_ANSWERS).food_home).toBeCloseTo(0.5, 12);
     expect(personalWeights(comps, DEFAULT_ANSWERS, "2020-06-30").food_home).toBeCloseTo(0.5, 12);
+  });
+});
+
+describe("monthlyGap — your rate minus everyone's (/my-inflation chart)", () => {
+  it("is exactly 0 every month when the answers change no weight", () => {
+    // no component the answers touch: the personal basket IS everyone's, so
+    // any residual would be sampling artefact. Day-1 and month-end YoYs
+    // differ, and weights vary by month, to catch a mixed sampling.
+    const dates = ["2019-01-01", "2019-01-31", "2019-02-01", "2019-02-28"];
+    const comps = [
+      { code: "a", label: "A", weight: 0.5, yoy: [9, 1, 9, 2], weights_by_month: { "2018-01": 0.3, "2018-02": 0.7 } },
+      { code: "b", label: "B", weight: 0.5, yoy: [-9, 3, -9, 4] },
+    ];
+    expect(monthlyGap(comps, dates, ["2019-01-01", "2019-02-01"], DEFAULT_ANSWERS))
+      .toEqual([["2019-01-01", 0], ["2019-02-01", 0]]);
+  });
+
+  it("samples each month at its last daily date, like compare.json", () => {
+    const dates = ["2019-01-01", "2019-01-31"];
+    const comps = [
+      { code: "food_away", label: "F", weight: 0.5, yoy: [100, 4] },
+      { code: "food_home", label: "H", weight: 0.5, yoy: [100, 2] },
+    ];
+    // eat out a lot: food_away ×2, food_home ×0.7 → 2/2.7 vs 0.7/2.7
+    const mine = (2 * 4 + 0.7 * 2) / 2.7;
+    const gap = monthlyGap(comps, dates, ["2019-01-01"], { ...DEFAULT_ANSWERS, eating: "out" })[0][1]!;
+    expect(gap).toBeCloseTo(Math.round((mine - 3) * 100) / 100, 10);
+  });
+
+  it("default answers sit at ~0 every month on the published data", () => {
+    // Before the fix the chart subtracted compare.json's gauge from a series
+    // rebuilt off replay at a different day of the month: ±1.3pp of pure
+    // artefact. What remains is the defaults' one real reweight (tuition
+    // "no" scales education & comm ×0.6; renting moves no weight while both
+    // shelter components ride the market-rent blend): ≤0.30pp, 2022.
+    const gaps = monthlyGap(
+      replay.components as Parameters<typeof monthlyGap>[0],
+      replay.dates as string[],
+      compare.months,
+      DEFAULT_ANSWERS
+    ).map(([, g]) => g).filter((g): g is number => g !== null);
+    expect(gaps.length).toBeGreaterThan(90);
+    for (const g of gaps) expect(Math.abs(g)).toBeLessThanOrEqual(0.35);
   });
 });

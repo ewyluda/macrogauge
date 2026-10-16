@@ -74,7 +74,7 @@ export function GradeTable({
           )}
           {graded.map((g) => (
             <tr key={`${keyPrefix}-g-${g.reference_period}-${g.as_of}`}>
-              <td>{g.reference_period}</td>
+              <td className="cell-date">{g.reference_period}</td>
               <td><span className="badge">{g.badge}</span></td>
               <td>{fmtValue(g.forecast)}</td>
               <td>{fmtValue(g.actual)}</td>
@@ -88,7 +88,7 @@ export function GradeTable({
           ))}
           {pending.map((p) => (
             <tr key={`${keyPrefix}-p-${p.reference_period}-${p.as_of}`}>
-              <td>{p.reference_period}</td>
+              <td className="cell-date">{p.reference_period}</td>
               <td><span className="badge badge-muted">pending</span></td>
               <td>{fmtValue(p.forecast)}</td>
               <td>—</td>

@@ -125,14 +125,14 @@ function weakestHorizon(leg: Leg | undefined): { h: number; draws: number } | nu
 function LegCells({ cell }: { cell: LegCellState }) {
   if (cell.status === "withheld") {
     return (
-      <td colSpan={3} style={{ textAlign: "left", color: "var(--muted)", fontStyle: "italic" }}>
+      <td colSpan={3} className="cell-prose" style={{ textAlign: "left", color: "var(--muted)", fontStyle: "italic" }}>
         Withheld — {WITHHELD_REASON}
       </td>
     );
   }
   if (cell.status === "not_gradeable") {
     return (
-      <td colSpan={3} style={{ textAlign: "left", color: "var(--muted)", fontStyle: "italic" }}>
+      <td colSpan={3} className="cell-prose" style={{ textAlign: "left", color: "var(--muted)", fontStyle: "italic" }}>
         Not gradeable — no anchors reach this horizon
       </td>
     );

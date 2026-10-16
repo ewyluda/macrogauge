@@ -33,7 +33,11 @@ export function baseOption() {
       valueFormatter: (v: unknown) =>
         typeof v === "number" ? `${v.toFixed(2)}%` : "—",
     },
+    // scroll: one line, paged when it overflows. grid.top is sized for one
+    // line, and a plain legend wrapped onto the plot on phones. A legend
+    // that fits renders exactly as a plain one.
     legend: {
+      type: "scroll" as const,
       top: 0,
       textStyle: { color: C.muted, fontSize: 12 },
       icon: "circle",
@@ -43,7 +47,8 @@ export function baseOption() {
     xAxis: {
       type: "time" as const,
       axisLine: { lineStyle: { color: C.border } },
-      axisLabel: { color: C.muted },
+      // a narrow time axis otherwise prints colliding dates (/as-of, /compute)
+      axisLabel: { color: C.muted, hideOverlap: true },
       splitLine: { show: false },
     },
     yAxis: {

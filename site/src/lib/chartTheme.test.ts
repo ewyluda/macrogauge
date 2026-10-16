@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { C } from "./chartTheme";
+import { C, baseOption } from "./chartTheme";
 
 describe("shared research palette", () => {
   it("keeps canvas chart colors aligned with CSS tokens", () => {
@@ -21,5 +21,14 @@ describe("shared research palette", () => {
     for (const color of [C.text, C.muted, C.sky, C.red, C.emerald, C.amber, C.violet]) {
       expect((1.05) / (luminance(color) + 0.05)).toBeGreaterThanOrEqual(4.5);
     }
+  });
+});
+
+describe("shared chart chrome on narrow charts", () => {
+  it("pages the legend on one line instead of wrapping it onto the plot", () => {
+    expect(baseOption().legend.type).toBe("scroll");
+  });
+  it("drops colliding time-axis labels", () => {
+    expect(baseOption().xAxis.axisLabel.hideOverlap).toBe(true);
   });
 });

@@ -121,7 +121,7 @@ export default async function DcComponentPage({ params }: { params: Promise<{ co
                     <td style={{ textAlign: "left" }}>{lt.item}</td>
                     <td>{lt.weeks == null ? "—" : lt.weeks.toFixed(0)}{lt.through ? ` (through ${lt.through})` : ""}</td>
                     <td>{lt.period}</td>
-                    <td style={{ textAlign: "left" }}><a href={lt.src.url} target="_blank" rel="noopener noreferrer">{lt.src.label}</a></td>
+                    <td className="cell-prose" style={{ textAlign: "left" }}><a href={lt.src.url} target="_blank" rel="noopener noreferrer">{lt.src.label}</a></td>
                   </tr>
                 ))}
               </tbody>

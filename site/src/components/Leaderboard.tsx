@@ -47,7 +47,7 @@ export function Leaderboard({ data }: { data: LeaderboardData }) {
           <tbody>
             {[...data.rows].reverse().map((r) => (
               <tr key={r.reference_period}>
-                <td style={{ textAlign: "left" }}>{r.reference_period}</td>
+                <td className="cell-date" style={{ textAlign: "left" }}>{r.reference_period}</td>
                 <td>{f(r.actual_sa_mom_pct)}%</td>
                 {names.map((n) => {
                   const x = r.forecasts[n];
