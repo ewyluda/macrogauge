@@ -285,8 +285,9 @@ def fake_get(url, params=None, timeout=None, **kw):
         return FakeResponse(json.loads((FIXTURES / "vastai_bundles.json").read_text()))
     if "sfcompute.com" in url:
         return _text(FIXTURES / "sfcompute.html")
-    if "openrouter.ai" in url:
-        return FakeResponse(json.loads((FIXTURES / "openrouter_models.json").read_text()))
+    if "openrouter.ai" in url:   # /api/v1/models/{id}/endpoints
+        model_id = url.split("/models/", 1)[1].removesuffix("/endpoints")
+        return FakeResponse(json.loads((FIXTURES / "openrouter_endpoints.json").read_text())[model_id])
     if "b0.p.awsstatic.com/pricing" in url:
         return FakeResponse(json.loads((FIXTURES / "aws_gpu_prices.json").read_text()))
     if "prices.azure.com" in url and "Reservation" in urllib.parse.unquote(url):
