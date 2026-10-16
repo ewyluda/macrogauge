@@ -133,8 +133,9 @@ five long-lead packages' price legs, stated lead times per package (`lead_times`
 curve, breakevens, HY/IG/BBB OAS and BBB effective yield in `credit`, 30-day average SOFR in `funding`, dollar, WALCL−TGA−RRP liquidity in $bn, mortgage spread, and the
 Kalshi KXFED market-implied Fed path vs DFEDTARU in `fed_path`), `compute`
 (token and GPU-hour price indexes: equal-weight geometric means renormalized over live roster
-members; a token price is the model maker's own OpenRouter endpoint at its base rate — the source_id pins
-`<model>@<endpoint tag>`, overrides/discounts ignored, never the routed top-level price (retired 2026-10-16); display-only SKUs carry `in_index: false`; a roster change never rebases — retired models
+members; a token price is the model maker's own OpenRouter endpoint at its standard rate — the source_id pins
+`<model>@<endpoint tag>`; the endpoint's base price reads the ACTIVE off-peak rate (DeepSeek), so the standard rate = the highest
+rate on its clock-scheduled overrides, size-tier overrides and `discount` ignored; never the routed top-level price (retired 2026-10-16); display-only SKUs carry `in_index: false`; a roster change never rebases — retired models
 link up to their own last price, thin links are flat and the members they span are measured from their price before them at the next link; table rows carry `stale` past the registry limit; `cloud_gpus` = AWS/Azure/Oracle/CoreWeave/Nebius on-demand list $/GPU-hr, display-only; Azure rows carry `reserved` 1y/3y terms off the `AZURE_GPU_RESERVED` key (the API prices a reservation as a TERM TOTAL), other clouds a `reserved_notes` reason; `capability` = $ per dense-BF16 PFLOP-hour by generation over the quote-checked `config/gpu_specs.json`), `housing` (prices, rents, sales, payment-to-income affordability off 0.80×ZHVI at the
 PMMS rate ÷ AHE×2080/12), and `changes` (what moved since the previous publish — run_daily
 snapshots pulse/gaptable/datacenter BEFORE the engine phase and this writer diffs today's files
