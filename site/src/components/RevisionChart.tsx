@@ -17,7 +17,10 @@ export function RevisionChart({ months, values, unit }: { months: string[]; valu
       yAxis: { ...base.yAxis, axisLabel: { color: C.muted, formatter: (v: number) => fmt(v) } },
       series: [{
         name: "revision", type: "bar", barMaxWidth: 22,
-        data: values.map((v) => ({ value: v, itemStyle: { color: v == null ? C.muted : v > 0 ? C.red : v < 0 ? C.emerald : C.muted } })),
+        // a price-index revision up is more inflation than first printed
+        // (red, the site's inflation colour); a payroll revision has no such
+        // reading (down is bad news for jobs), so payrolls carry sign only
+        data: values.map((v) => ({ value: v, itemStyle: { color: v == null ? C.muted : unit === "k" ? C.sky : v > 0 ? C.red : v < 0 ? C.emerald : C.muted } })),
       }],
     };
   }, [months, values, unit]);

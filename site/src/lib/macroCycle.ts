@@ -32,7 +32,10 @@ export function distanceToTrigger(s: RecessionSignal): { room: number; share: nu
 
 const heatWord = (score: number) =>
   score > 25 ? "running hot" : score > 5 ? "warming" : score < -25 ? "cooling hard" : score < -5 ? "cooling" : "near neutral";
-const stressWord = (score: number) => (score >= 80 ? "severe" : score >= 50 ? "elevated" : "calm");
+/** The one severity scale for a 0–100 stress percentile score (composite or
+ *  single input): the lede and the "Most stretched" line both read it, so
+ *  the page can't call 61 elevated in one place and 89 elevated in another. */
+export const stressWord = (score: number) => (score >= 80 ? "severe" : score >= 50 ? "elevated" : "calm");
 
 /** "The economy is cooling (heat −9), consumer stress is elevated (61 of
  *  100), and none of 6 recession rules has triggered." Clauses drop when a

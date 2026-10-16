@@ -35,4 +35,10 @@ describe("newestAsOf", () => {
     expect(newestAsOf({ published_at: "2026-10-08T12:00:00Z", note: "x" })).toBeNull();
     expect(newestAsOf({ as_of: null, x: [{ as_of: "not a date" }] })).toBeNull();
   });
+  it("skips dates after the publish day: forecast horizons and day-ahead prices are not data", () => {
+    const json = { sources: [{ latest_obs: "2027-12-01" }, { latest_obs: "2026-10-16" }, { latest_obs: "2026-10-14" }] };
+    expect(newestAsOf(json)).toBe("2027-12-01");
+    expect(newestAsOf(json, "2026-10-15")).toBe("2026-10-14");
+    expect(newestAsOf(json, "2026-10-16")).toBe("2026-10-16");
+  });
 });

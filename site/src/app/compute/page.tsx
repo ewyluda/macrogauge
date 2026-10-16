@@ -31,7 +31,14 @@ export default function ComputePage() {
   const ti = data.token_index;
   const gi = data.gpu_index;
   const notInIndex = data.gpus.filter((g) => !g.in_index).map((g) => g.label);
-  const days = Math.max(ti.history.dates.length, gi.history.dates.length);
+  // the indexes start at their chain base (the first day enough members are
+  // priced), not at history_start: the first collected price (one vast.ai SKU
+  // on 2026-06-16) is collection history, not index history
+  const indexStart = [ti.base_date, gi.base_date].filter((d): d is string => d != null).sort()[0] ?? null;
+  const indexEnd = [ti.as_of, gi.as_of].filter((d): d is string => d != null).sort().at(-1) ?? null;
+  const days = indexStart && indexEnd ? Math.round((Date.parse(indexEnd) - Date.parse(indexStart)) / 86_400_000) + 1 : 0;
+  // every model row is null until the current roster has 30 days of prices
+  const model30 = data.models.some((m) => m.chg_30d_pct != null);
   const cloud = cloudRows(data);
   const cloudLead = cloudTakeaway(cloud);
   const reserved = reservedRows(data);
@@ -62,14 +69,14 @@ export default function ComputePage() {
         <KpiCard label="GPU-hour index" value={idx(gi.value)}
           context={`${gi.base_date ?? "—"} = 100 · 30d ${fmtSigned(gi.chg_30d_pct)} · as of ${gi.as_of ?? "—"}`}
           accent={(gi.chg_30d_pct ?? 0) > 0 ? "red" : "emerald"} />
-        <KpiCard label="History" value={`${days}d`} context={`daily since ${data.history_start ?? "—"} · ${data.models.length} models · ${data.gpus.length} GPU SKUs`} accent="violet" />
+        <KpiCard label="Index history" value={`${days}d`} context={`indexed since ${indexStart ?? "—"} · ${data.models.length} models · ${data.gpus.length} GPU SKUs`} accent="violet" />
       </div>
       <div className="page-asof">
         <Citation series="Token price index" asOf={ti.as_of ?? data.published_at.slice(0, 10)} rebase={`${ti.base_date ?? "—"}=100`} value={idx(ti.value)} path="/compute" />
-        <span>Collected daily since {data.history_start ? fmtDay(data.history_start) : "—"}: a short history · <a href="#cp-method">How it&apos;s built</a></span>
+        <span>Collected daily since {data.history_start ? fmtDay(data.history_start) : "—"}, indexed from {indexStart ? fmtDay(indexStart) : "—"}: a short history · <a href="#cp-method">How it&apos;s built</a></span>
       </div>
 
-      <Section title={data.history_start ? `Both indexes, daily since ${fmtDay(data.history_start)}` : "Composite indexes"} featured>
+      <Section title={indexStart ? `Both indexes, daily since ${fmtDay(indexStart)}` : "Composite indexes"} featured>
         <div className="section-tools">
           <DownloadData filename="macrogauge-compute-indexes" json="compute.json"
             citation={`MacroGauge token and GPU-hour price indexes, ${ti.base_date ?? "—"}=100`}
@@ -98,7 +105,7 @@ export default function ComputePage() {
       <Section title="Models — list price per million tokens (OpenRouter)">
         <div className="table-card">
           <table className="data-table">
-            <thead><tr><th style={{ textAlign: "left" }}>Model</th><th>Input</th><th>Output</th><th>Blended</th><th>30d</th><th>As of</th><th>90d</th></tr></thead>
+            <thead><tr><th style={{ textAlign: "left" }}>Model</th><th>Input</th><th>Output</th><th>Blended</th>{model30 && <th>30d</th>}<th>As of</th><th>90d</th></tr></thead>
             <tbody>
               {data.models.map((m) => (
                 <tr key={m.key}>
@@ -109,7 +116,7 @@ export default function ComputePage() {
                   <td>{usd(m.in_usd_mtok)}</td>
                   <td>{usd(m.out_usd_mtok)}</td>
                   <td><strong>{usd(m.blended_usd_mtok, 3)}</strong></td>
-                  <td style={{ color: yoyColor(m.chg_30d_pct) }}>{fmtSigned(m.chg_30d_pct)}</td>
+                  {model30 && <td style={{ color: yoyColor(m.chg_30d_pct) }}>{fmtSigned(m.chg_30d_pct)}</td>}
                   <td style={{ color: "var(--muted)" }}>{m.as_of ?? "not collected"}</td>
                   <td><TailSpark tail={m.tail.values} label={m.label} /></td>
                 </tr>
@@ -117,6 +124,12 @@ export default function ComputePage() {
             </tbody>
           </table>
         </div>
+        {!model30 && roster && (
+          <p className="method" data-testid="models-no-30d">
+            No model has 30 days of prices yet: the roster changed on {fmtDay(roster.since)}, so the 30-day column
+            returns once the current models have a month of history.
+          </p>
+        )}
       </Section>
 
       {cloud.length > 0 && (

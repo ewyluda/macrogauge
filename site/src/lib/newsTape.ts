@@ -125,9 +125,11 @@ export type Figure = { kind: "capacity" | "dollars"; value: number; label: strin
 const NUMBER = "(\\d{1,3}(?:,\\d{3})+(?:\\.\\d+)?|\\d+(?:\\.\\d+)?)";
 const CAPACITY = new RegExp(`(?<![\\d.,])${NUMBER}\\s?(gw|mw|gigawatts?|megawatts?)\\b`, "gi");
 const DOLLARS = new RegExp(`\\$\\s?${NUMBER}\\s?(trillion|tn|billion|bn|b)\\b`, "gi");
-// An amount whose own role is revenue, valuation or a target is not a deal,
-// whatever deal word shares its sentence. Read from the few words beside it.
-const NOT_A_DEAL = /\b(?:revenue|revenues|sales|valuation|valued|pre-money|post-money|market (?:cap|value)|price target|earnings|eps|profit|income|backlog of)\b/i;
+// An amount whose own role is revenue, valuation, a target or debt already
+// owed is not a deal, whatever deal word shares its sentence. Read from the
+// few words beside it. Bare "debt"/"borrowing" stay deal words: "$2.6 billion
+// of debt financing" is a deal; "$50 billion debt burden" is a balance sheet.
+const NOT_A_DEAL = /\b(?:revenue|revenues|sales|valuation|valued|pre-money|post-money|market (?:cap|value)|price target|earnings|eps|profit|income|backlog of|burden|debt (?:load|pile)|borrowings|indebtedness|owe[sd]?)\b/i;
 const DEAL_WORDS = /\b(?:financing|arrang\w*|debt|loan|lend|deal|invest(?:ment|s|ing)?|funding|raise[sd]?|round|capex|capital spending|lease|contract|agreement|orders?|acquir\w+|purchase|buy|facility|package|commit\w*)\b/i;
 // A sentence that projects rather than reports: its figures are estimates.
 // Verbs only — "project" the noun, and contract dates like "through 2048",

@@ -98,7 +98,7 @@ export default function RevisionsPage() {
                   <td style={{ color: "var(--muted)" }}>{k(r.revision_k)}</td>
                   <td>{k(r.change_first_k)}</td>
                   <td>{k(r.change_latest_k)}</td>
-                  <td style={{ fontWeight: 600, color: r.change_revision_k == null || r.change_revision_k === 0 ? "var(--muted)" : r.change_revision_k > 0 ? "var(--accent-red)" : "var(--accent-emerald)" }}>{k(r.change_revision_k)}</td>
+                  <td style={{ fontWeight: 600, color: r.change_revision_k == null || r.change_revision_k === 0 ? "var(--muted)" : "var(--text)" }}>{k(r.change_revision_k)}</td>
                 </tr>
               ))}
             </tbody>

@@ -12,23 +12,25 @@ export type GradedCall = {
   basis?: string;
 };
 
-/** graded newest-first plus pending calls not already graded for the same period */
+/** graded newest-first plus pending calls not already graded for the same
+ *  period, also newest-first */
 export function reconcileCalls(data: { graded: unknown; pending: unknown }): {
   graded: GradedCall[];
   pending: GradedCall[];
 } {
   const graded = (data.graded as GradedCall[]).slice().reverse();
   const gradedPeriods = new Set(graded.map((g) => g.reference_period));
-  const pending = (data.pending as GradedCall[]).filter(
-    (p) => !gradedPeriods.has(p.reference_period),
-  );
+  const pending = (data.pending as GradedCall[])
+    .filter((p) => !gradedPeriods.has(p.reference_period))
+    .sort((a, b) => b.reference_period.localeCompare(a.reference_period) || b.as_of.localeCompare(a.as_of));
   return { graded, pending };
 }
 
 const pct2 = (v: number | null) => (v == null ? "—" : `${v.toFixed(2)}%`);
 
-/** The receipts table shared by /scoreboard and /pce: one row per graded
- *  call, pending calls appended, error highlighted past ±0.1. `fmtValue`
+/** The receipts table shared by /scoreboard and /pce: newest first, so the
+ *  pending calls (always the newest periods) lead and the graded calls
+ *  follow newest-first; error highlighted past ±0.1. `fmtValue`
  *  and `fmtError` let NFP (thousands of jobs) reuse it. A Basis column
  *  appears only when graded rows carry one (CPI). */
 export function GradeTable({
@@ -72,6 +74,18 @@ export function GradeTable({
               <td colSpan={cols} style={{ color: "var(--muted)", textAlign: "left" }}>{emptyText}</td>
             </tr>
           )}
+          {pending.map((p) => (
+            <tr key={`${keyPrefix}-p-${p.reference_period}-${p.as_of}`}>
+              <td className="cell-date">{p.reference_period}</td>
+              <td><span className="badge badge-muted">pending</span></td>
+              <td>{fmtValue(p.forecast)}</td>
+              <td>—</td>
+              {showBasis && <td>—</td>}
+              <td>—</td>
+              <td>{p.as_of}</td>
+              <td>—</td>
+            </tr>
+          ))}
           {graded.map((g) => (
             <tr key={`${keyPrefix}-g-${g.reference_period}-${g.as_of}`}>
               <td className="cell-date">{g.reference_period}</td>
@@ -84,18 +98,6 @@ export function GradeTable({
               </td>
               <td>{g.as_of}</td>
               <td>{g.release_date ?? "—"}</td>
-            </tr>
-          ))}
-          {pending.map((p) => (
-            <tr key={`${keyPrefix}-p-${p.reference_period}-${p.as_of}`}>
-              <td className="cell-date">{p.reference_period}</td>
-              <td><span className="badge badge-muted">pending</span></td>
-              <td>{fmtValue(p.forecast)}</td>
-              <td>—</td>
-              {showBasis && <td>—</td>}
-              <td>—</td>
-              <td>{p.as_of}</td>
-              <td>—</td>
             </tr>
           ))}
         </tbody>

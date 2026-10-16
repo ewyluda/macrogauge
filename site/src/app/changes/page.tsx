@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
 import { DownloadData } from "@/components/DownloadData";
-import { CHANGES, SinceYesterdayStrip } from "@/components/SinceYesterday";
+import { CHANGES } from "@/components/SinceYesterday";
 import { fmtPp, fmtSigned, fmtStamp } from "@/lib/format";
 import { changesHeadline, fmtDelta, fmtReading, partitionMovers } from "@/lib/changesHeadline";
 import type { Mover } from "@/lib/types";
@@ -35,7 +35,9 @@ export default function ChangesPage() {
   const movers = c.movers ?? [];
   const lead = changesHeadline(movers);
   const { moved, unchanged } = partitionMovers(movers);
-  const biggest = c.components[0];
+  // components arrive sorted by |Δ|; the top row is only "the biggest move"
+  // when it moved at all (it used to name Shelter (owned) at 0.00pp)
+  const biggest = c.components.find((x) => x.delta_pp != null && Math.abs(x.delta_pp) >= 0.005);
   return (
     <div>
       <h1>
@@ -47,13 +49,13 @@ export default function ChangesPage() {
         between two numbers that were both public.
       </p>
       {lead && <p className="ll-takeaway" data-testid="changes-lead">{lead}</p>}
-      <SinceYesterdayStrip />
       <div className="kpi-row">
         <KpiCard label="Macrogauge" value={gauge?.value == null ? "—" : fmtSigned(gauge.value)}
           context={gauge?.delta_pp == null ? "no previous reading" : `${fmtPp(gauge.delta_pp)} vs ${gauge.prev_as_of ?? "—"}`}
           accent={(gauge?.delta_pp ?? 0) > 0 ? "red" : "emerald"} />
-        <KpiCard label="Biggest component move" value={biggest?.delta_pp == null ? "—" : fmtPp(biggest.delta_pp)}
-          context={biggest ? `${biggest.label} · now ${fmtSigned(biggest.yoy_pct)}` : "—"} accent="violet" />
+        <KpiCard label="Biggest component move" value={biggest ? fmtPp(biggest.delta_pp) : "—"}
+          context={biggest ? `${biggest.label} · now ${fmtSigned(biggest.yoy_pct)}` : c.prev_published_at ? "no component moved by 0.01pp or more" : "no previous reading"}
+          accent="violet" />
         <KpiCard label="Sources landed" value={String(c.sources_landed.length)}
           context={c.sources_failed.length ? `${c.sources_failed.length} failed: ${c.sources_failed.join(", ")}` : "no source failures"} accent={c.sources_failed.length ? "amber" : "emerald"} />
         <KpiCard label="Previous publish" value={c.prev_published_at ? c.prev_published_at.slice(0, 10) : "—"}

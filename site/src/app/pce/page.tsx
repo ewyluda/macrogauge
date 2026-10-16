@@ -47,8 +47,12 @@ const coreSeries = compare.official_core_pce_yoy_pct ?? null;
 const over = overshoot(compare.months, compare.pce_yoy_pct, officialSeries);
 const cpiPeak = compare.official_yoy_pct.reduce<{ m: string; v: number } | null>(
   (p, v, i) => (v != null && compare.months[i] >= "2021" && compare.months[i] < "2023" && (!p || v > p.v) ? { m: compare.months[i], v } : p), null);
+// CPI side = the weight the headline uses today (gaptable rows carry the
+// grid-end date's time-varying weights, the same ones home and /gap show),
+// not config/basket.json's fixed base weight
+const cpiWeightNow = Object.fromEntries(gaptable.rows.map((r) => [r.component, r.weight]));
 const weights = (basket.components as { code: string; label: string; weight: number; pce_weight: number }[])
-  .slice()
+  .map((c) => ({ ...c, weight: cpiWeightNow[c.code] ?? c.weight }))
   .sort((a, b) => b.pce_weight - a.pce_weight);
 
 export const metadata: Metadata = {
@@ -185,7 +189,8 @@ export default function Pce() {
         <Dumbbell testId="pce-weights" aLabel="CPI weight" bLabel="PCE share" fmt={(v) => `${(v * 100).toFixed(1)}%`}
           rows={weights.map((c) => ({ key: c.code, label: c.label, a: c.weight, b: c.pce_weight }))} />
         <p className="method">
-          PCE shares are hand-seeded approximations of BEA&apos;s expenditure weights over our 14 coarse components
+          CPI weights are the relative importance the headline applies on {gaptable.as_of}, price-updated to that
+          date&apos;s YoY base month: the same weights the home page and the gap table show. PCE shares are hand-seeded approximations of BEA&apos;s expenditure weights over our 14 coarse components
           (config/basket.json, <code>pce_weight</code>), not a BEA-published table. They sum to one; the biggest
           swing is medical care (PCE counts employer- and government-paid care that CPI excludes) against shelter.
         </p>

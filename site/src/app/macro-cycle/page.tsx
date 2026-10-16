@@ -11,7 +11,7 @@ import { TailSpark } from "@/components/TailSpark";
 import { C } from "@/lib/chartTheme";
 import { fmtStamp } from "@/lib/format";
 import { fmtIndicatorValue, indicatorLabel } from "@/lib/indicatorLabels";
-import { distanceToTrigger, macroCycleSentence, type RecessionSignal } from "@/lib/macroCycle";
+import { distanceToTrigger, macroCycleSentence, stressWord, type RecessionSignal } from "@/lib/macroCycle";
 
 type HeatIndicator = { code: string; group: string; direction: number; momentum: number; z: number; as_of: string; mode?: string };
 type Group = { z: number; weight: number; available: number; expected: number; active_weight: number };
@@ -34,7 +34,6 @@ export const metadata: Metadata = {
 const bucket = (z: number) => (z > 0.25 ? "heating" : z < -0.25 ? "cooling" : "neutral");
 const zColor = (z: number) => (bucket(z) === "heating" ? "var(--accent-red)" : bucket(z) === "cooling" ? "var(--accent-emerald)" : "var(--muted)");
 const signed = (z: number) => `${z >= 0 ? "+" : ""}${z.toFixed(2)}`;
-const severity = (s: number) => (s >= 80 ? "elevated" : s >= 50 ? "watch" : "calm");
 
 function HeatBadge({ z }: { z: number }) {
   const b = bucket(z);
@@ -96,7 +95,7 @@ export default function MacroCycle() {
           {stressHistory && <div data-testid="stress-trail"><TailSpark tail={stressHistory.score} stroke="var(--accent-amber)" label="Consumer stress score, five years" />
             <small style={{ color: "var(--muted)" }}>five years, monthly</small></div>}
         </div>
-        {top && <WhyLine label="Most stretched:">{indicatorLabel(top.code)}, percentile score {top.score.toFixed(1)} of 100 ({severity(top.score)}).</WhyLine>}
+        {top && <WhyLine label="Most stretched:">{indicatorLabel(top.code)}, percentile score {top.score.toFixed(1)} of 100 ({stressWord(top.score)}).</WhyLine>}
         <details className="inv-details">
           <summary>All {stressRows.length} stress inputs</summary>
           <div className="table-card"><table className="data-table"><thead><tr><th>Indicator</th><th>Value</th><th>Sign</th><th>Percentile score</th><th>Weight</th><th>As of</th></tr></thead><tbody>

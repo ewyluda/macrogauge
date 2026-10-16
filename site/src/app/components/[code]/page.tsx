@@ -81,6 +81,14 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
              ok: st?.ok ?? null, series_latest_obs: INVENTORY[sc]?.latest_obs ?? null, in_inventory: sc in INVENTORY,
              source_latest_obs: st?.latest_obs ?? null, new_rows: st?.new_rows ?? null, lead_days: c.lead_days?.[sc] ?? null };
   });
+  // blend() renormalizes the configured weights over the sources that have
+  // data (pipeline/engine/blend.py), so {zori .5, aptlist .3} rides 62.5/37.5:
+  // that effective share is what the reader needs; the config weight footnotes it
+  const present = liveSources.filter((s) => s.series_latest_obs != null);
+  const presentTotal = present.reduce((t, s) => t + s.weight, 0);
+  const share = (s: (typeof liveSources)[number]) =>
+    s.series_latest_obs == null || presentTotal <= 0 ? null : s.weight / presentTotal;
+  const configTotal = liveSources.reduce((t, s) => t + s.weight, 0);
 
   return (
     <div>
@@ -132,12 +140,13 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
         {liveSources.length ? (
           <div className="table-card">
             <table className="data-table">
-              <thead><tr><th style={{ textAlign: "left" }}>Series</th><th>Blend weight</th><th>Source</th><th>Source status</th><th>Series latest obs</th><th>Source rows today</th><th>Staleness limit</th><th>Lead</th></tr></thead>
+              <thead><tr><th style={{ textAlign: "left" }}>Series</th><th>Blend share</th><th>Source</th><th>Source status</th><th>Series latest obs</th><th>Source rows today</th><th>Staleness limit</th><th>Lead</th></tr></thead>
               <tbody>
                 {liveSources.map((s) => (
                   <tr key={s.code}>
                     <td style={{ textAlign: "left" }}>{s.name} <span style={{ color: "var(--muted)", fontSize: 11 }}>{s.code}</span></td>
-                    <td>{(s.weight * 100).toFixed(0)}%</td>
+                    <td data-testid="blend-share">{share(s) == null ? "— (no data)" : `${(share(s)! * 100).toFixed(1)}%`}
+                      <small style={{ display: "block", color: "var(--muted)" }}>config {(s.weight * 100).toFixed(0)}%</small></td>
                     <td><span className="badge badge-muted">{s.source}</span></td>
                     <td>{s.ok == null ? "—" : <StatusPill tone={s.ok ? "ok" : "advisory"} label={s.ok ? "ok" : "error"} />}</td>
                     <td style={{ color: "var(--muted)" }}>{s.in_inventory ? (s.series_latest_obs ?? "—") : s.source_latest_obs ? `${s.source_latest_obs} (source last updated)` : "—"}</td>
@@ -153,7 +162,9 @@ export default async function ComponentPage({ params }: { params: Promise<{ code
           <p className="method">No live blend configured (config/basket.json). Official series: {c.official_series}. Live variants: none.</p>
         )}
         <p className="method">
-          Official series {c.official_series} · live in variants {c.live_variants?.length ? c.live_variants.join(", ") : "none"} · blend weights renormalize as sources phase in.
+          Official series {c.official_series} · live in variants {c.live_variants?.length ? c.live_variants.join(", ") : "none"} ·
+          blend share = each source&apos;s config weight ÷ the total over sources with data
+          {Math.abs(configTotal - 1) > 1e-9 ? ` (config weights here sum to ${(configTotal * 100).toFixed(0)}%, so they renormalize)` : ""}.
           Source status and rows today are the run-level source row from <Link href="/status">/status</Link>; latest obs is this series&apos; own newest observation. A blend source past its staleness limit drops out of coverage.
         </p>
       </Section>

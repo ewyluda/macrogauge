@@ -39,9 +39,11 @@ const rows = DATA_FILES.map((d) => {
   let json: unknown = null;
   try { json = JSON.parse(readFileSync(p, "utf8")); } catch { json = null; }
   const stamp = (json as { published_at?: string } | null)?.published_at ?? null;
+  // sources_status.json stamps generated_at; either way, no "newest data" after the publish day
+  const publishDay = (stamp ?? (json as { generated_at?: string } | null)?.generated_at ?? null)?.slice(0, 10) ?? null;
   const schema = schemaFor(d.file);
   const csv = json ? dataPageCsv(d.file, json) : null;
-  return { ...d, bytes: statSync(p).size, stamp, schema, newest: json ? newestAsOf(json) : null,
+  return { ...d, bytes: statSync(p).size, stamp, schema, newest: json ? newestAsOf(json, publishDay) : null,
            csv, fields: csv ? fieldsOf(schema) : [] };
 });
 const groups = DATA_SECTIONS.map((section) => ({ section, rows: rows.filter((r) => r.section === section) }))
