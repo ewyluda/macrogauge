@@ -6,7 +6,8 @@ next to the Kepler caktus Litestream follower. Each run:
 
   1. takes a STABLE snapshot of the follower (never queries it in place — the
      same stable-copy contract as notebook/scripts/caktus_news.py), falling
-     back to a verified Litestream restore from R2;
+     back to a verified Litestream restore from R2 when the follower is
+     unstable or has not advanced for FOLLOWER_MAX_LAG_SECONDS;
   2. keeps posts from the last `window_days` that MENTION a ticker in the
      config universe (config/ai_news.json — the notebook's AI-infra taxonomy),
      in an included category (flow / macro / geopolitics are dropped), not
@@ -50,6 +51,9 @@ SNAPSHOT_CMD = os.environ.get(
 KEYCHAIN_PREFIX = "com.macrogauge.news-r2"
 STABLE_SAMPLE_SECONDS = 0.1
 STABLE_COPY_ATTEMPTS = 5
+# The writer commits every ~30s while the Mac is awake, so a txid file this old
+# means a stuck follower (it lags for minutes after a long sleep), not a quiet tape
+FOLLOWER_MAX_LAG_SECONDS = 600
 MAX_POINTS = 6
 MAX_CHARS = 600
 
@@ -70,6 +74,12 @@ def _follower_state(db: str):
     s, t = os.stat(db), os.stat(db + "-txid")
     with open(db + "-txid") as f:
         return s.st_size, s.st_mtime_ns, t.st_size, t.st_mtime_ns, f.read().strip()
+
+
+def _check_fresh(db: str) -> None:
+    age = time.time() - os.stat(db + "-txid").st_mtime
+    if age > FOLLOWER_MAX_LAG_SECONDS:
+        raise RuntimeError(f"follower txid unchanged for {age / 60:.0f} min (stuck or catching up)")
 
 
 def _copy_stable(db: str, dst: str) -> str:
@@ -96,6 +106,7 @@ def snapshot(tmpdir: str) -> tuple[str, str]:
     dst = os.path.join(tmpdir, "caktus.db")
     if os.path.isfile(FOLLOWER_DB) and os.path.isfile(FOLLOWER_DB + "-txid"):
         try:
+            _check_fresh(FOLLOWER_DB)
             return _copy_stable(FOLLOWER_DB, dst), "follower"
         except (OSError, RuntimeError, sqlite3.Error) as e:
             print(f"follower snapshot failed ({e}); restoring from R2", file=sys.stderr)

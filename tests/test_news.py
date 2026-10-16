@@ -3,7 +3,10 @@
 public R2 object into news.json."""
 import importlib.util
 import json
+import os
+import shutil
 import sqlite3
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -104,6 +107,44 @@ def test_sigv4_matches_the_aws_s3_get_object_example():
         "AWS4-HMAC-SHA256 Credential=AKIAIOSFODNN7EXAMPLE/20130524/us-east-1/s3/aws4_request, "
         "SignedHeaders=host;range;x-amz-content-sha256;x-amz-date, "
         "Signature=f0e8bdb87c964420e857bd35b5d6ed310bd44f0170aba48dd91039c6036bdb41")
+
+
+def test_stuck_follower_falls_back_to_the_r2_restore(tmp_path, monkeypatch):
+    """2026-10-16: after a 4.5h sleep the follower sat stable but 4.5h behind the
+    replica, and the exporter published it as fresh. A txid file older than the
+    lag limit now routes the run to the R2 restore."""
+    def db(path, post_id):
+        con = sqlite3.connect(path)
+        con.execute("CREATE TABLE posts (id TEXT)")
+        con.execute("INSERT INTO posts VALUES (?)", [post_id])
+        con.commit()
+        con.close()
+    follower, replica = tmp_path / "caktus.db", tmp_path / "replica.db"
+    db(follower, "follower")
+    db(replica, "replica")
+    txid = tmp_path / "caktus.db-txid"
+    txid.write_text("0000000000071f9e\n")
+    restore = tmp_path / "restore"
+    restore.write_text(f'#!/bin/sh\ncp "{replica}" "$2"\n')
+    restore.chmod(0o755)
+    monkeypatch.setattr(exporter, "FOLLOWER_DB", str(follower))
+    monkeypatch.setattr(exporter, "SNAPSHOT_CMD", str(restore))
+
+    def snap():
+        out = tmp_path / "out"
+        shutil.rmtree(out, ignore_errors=True)
+        out.mkdir()
+        path, mechanism = exporter.snapshot(str(out))
+        con = sqlite3.connect(path)
+        try:
+            return mechanism, con.execute("SELECT id FROM posts").fetchone()[0]
+        finally:
+            con.close()
+
+    assert snap() == ("follower", "follower")
+    stuck = time.time() - exporter.FOLLOWER_MAX_LAG_SECONDS - 60
+    os.utime(txid, (stuck, stuck))
+    assert snap() == ("r2", "replica")
 
 
 # ---------------------------------------------------------------- publish phase

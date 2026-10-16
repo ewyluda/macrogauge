@@ -202,7 +202,8 @@ is BLS average-price staples.
 - **Live news tape** (`/news` + the `/datacenter` strip): the only artifact with a sub-daily path.
   `scripts/news/caktus_ai_news.py` (stdlib, py3.9-safe) runs on the Mac every 5 min via the
   `com.macrogauge.news-exporter` LaunchAgent (`scripts/news/install_live_exporter.sh`): stable
-  snapshot of the Kepler caktus follower (falls back to a verified Litestream restore from R2) →
+  snapshot of the Kepler caktus follower (falls back to a verified Litestream restore from R2 when the
+  follower is unstable or its `caktus.db-txid` is >10 min old — a follower catching up after sleep is stable but stale) →
   filter to the universe, categories company/earnings/other (flow, macro, geopolitics dropped),
   non-duplicates → SigV4 PUT of `ai-news.json` to a public R2 bucket (Keychain
   `com.macrogauge.news-r2.*`). The site polls `live_url` client-side (skipped under
