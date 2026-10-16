@@ -11,6 +11,10 @@ import type { Revisions, RevisionIndexRow, RevisionIndexTarget, RevisionLevelRow
 
 const data = revisionsJson as Revisions;
 const k = (v: number | null) => (v == null ? "—" : `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v).toFixed(0)}k`);
+// a mean |revision| is a magnitude: unsigned, so it never reads as a direction
+// beside the signed bias
+const absK = (v: number | null) => (v == null ? "—" : `${Math.abs(v).toFixed(0)}k`);
+const absPp = (v: number | null) => (v == null ? "—" : `${Math.abs(v).toFixed(2)}pp`);
 
 export const metadata: Metadata = {
   title: "Revisions — first print vs where the number ended up",
@@ -25,7 +29,7 @@ function IndexTable({ rows, label }: { rows: RevisionIndexRow[]; label: string }
         <tbody>
           {rows.slice().reverse().map((r) => (
             <tr key={r.reference_period}>
-              <td>{r.reference_period}</td>
+              <td className="cell-date">{r.reference_period}</td>
               <td>{r.first_value.toFixed(3)}</td>
               <td style={{ color: "var(--muted)" }}>{r.first_release_date}</td>
               <td>{r.latest_value.toFixed(3)}</td>
@@ -71,10 +75,10 @@ export default function RevisionsPage() {
         frozen first-print log itself is published as <a href="/data/releases.json">releases.json</a>.
       </p>
       <div className="kpi-row">
-        <KpiCard label="Payrolls · change revision" value={k(nfp.summary.mean_abs_change_revision_k)} context={`mean |revision| to the monthly change over ${nfp.summary.n} periods · bias ${k(nfp.summary.mean_revision)}`} accent="amber" />
-        <KpiCard label="PCE · YoY revision" value={fmtPp(pce.summary.mean_abs_yoy_revision_pp)} context={`mean |revision| over ${pce.summary.n} periods · bias ${fmtPp(pce.summary.mean_revision)}`} accent="violet" />
-        {ppi && <KpiCard label="PPI · YoY revision" value={fmtPp(ppi.summary.mean_abs_yoy_revision_pp)} context={`mean |revision| over ${ppi.summary.n} months · bias ${fmtPp(ppi.summary.mean_revision)}`} accent="sky" />}
-        {eci && <KpiCard label="ECI · YoY revision" value={fmtPp(eci.summary.mean_abs_yoy_revision_pp)} context={`mean |revision| over ${eci.summary.n} quarters · bias ${fmtPp(eci.summary.mean_revision)}`} accent="emerald" />}
+        <KpiCard label="Payrolls · change revision" value={absK(nfp.summary.mean_abs_change_revision_k)} context={`mean |revision| to the monthly change over ${nfp.summary.n} periods · bias ${k(nfp.summary.mean_revision)}`} accent="amber" />
+        <KpiCard label="PCE · YoY revision" value={absPp(pce.summary.mean_abs_yoy_revision_pp)} context={`mean |revision| over ${pce.summary.n} periods · bias ${fmtPp(pce.summary.mean_revision)}`} accent="violet" />
+        {ppi && <KpiCard label="PPI · YoY revision" value={absPp(ppi.summary.mean_abs_yoy_revision_pp)} context={`mean |revision| over ${ppi.summary.n} months · bias ${fmtPp(ppi.summary.mean_revision)}`} accent="sky" />}
+        {eci && <KpiCard label="ECI · YoY revision" value={absPp(eci.summary.mean_abs_yoy_revision_pp)} context={`mean |revision| over ${eci.summary.n} quarters · bias ${fmtPp(eci.summary.mean_revision)}`} accent="emerald" />}
       </div>
 
       <Section title="Payrolls — monthly change, first print vs latest (thousands)" featured>
@@ -86,7 +90,7 @@ export default function RevisionsPage() {
             <tbody>
               {nfp.rows.slice().reverse().map((r: RevisionLevelRow) => (
                 <tr key={r.reference_period}>
-                  <td>{r.reference_period}</td>
+                  <td className="cell-date">{r.reference_period}</td>
                   <td>{Math.round(r.first_value).toLocaleString("en-US")}</td>
                   <td style={{ color: "var(--muted)" }}>{r.first_release_date}</td>
                   <td>{Math.round(r.latest_value).toLocaleString("en-US")}</td>

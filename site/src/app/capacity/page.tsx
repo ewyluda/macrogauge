@@ -77,7 +77,7 @@ export default function Page() {
                 {pd.deals.map((d) => (
                   <tr key={`${d.t}-${d.counterparty}-${d.facility}`}>
                     <td style={{ textAlign: "left" }}><strong>{d.name}</strong></td>
-                    <td style={{ textAlign: "left" }}>
+                    <td className="cell-prose" style={{ textAlign: "left" }}>
                       {d.counterparty}
                       <span className="cell-sub">
                         <a href={d.source.url} title={`“${d.quote}” (${d.source.publisher})`}>{d.facility}</a>
@@ -93,7 +93,7 @@ export default function Page() {
                       <span className="cell-sub">{KIND_LABEL[d.kind]}</span>
                     </td>
                     <td style={{ color: "var(--muted)" }}>{d.announced}</td>
-                    <td style={{ textAlign: "left", color: "var(--muted)" }}>{d.start ?? "—"}</td>
+                    <td className="cell-prose" style={{ textAlign: "left", color: "var(--muted)" }}>{d.start ?? "—"}</td>
                   </tr>
                 ))}
               </tbody>

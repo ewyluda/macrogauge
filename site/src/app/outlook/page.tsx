@@ -216,7 +216,7 @@ export default function OutlookPage() {
                         </td>
                       );
                     })}
-                    <td style={{ textAlign: "left" }}>
+                    <td className="cell-prose" style={{ textAlign: "left" }}>
                       {matched.length ? (
                         matched.map((d) => (
                           <span
@@ -265,8 +265,8 @@ export default function OutlookPage() {
                       {d.status}
                     </span>
                   </td>
-                  <td style={{ textAlign: "left" }}>{d.effect}</td>
-                  <td style={{ textAlign: "left", color: "var(--muted)", fontSize: 11 }}>
+                  <td className="cell-prose" style={{ textAlign: "left" }}>{d.effect}</td>
+                  <td className="cell-prose" style={{ textAlign: "left", color: "var(--muted)", fontSize: 11 }}>
                     {d.sources.length ? d.sources.join(" + ") : "—"}
                   </td>
                   <td>{d.as_of ?? "—"}</td>

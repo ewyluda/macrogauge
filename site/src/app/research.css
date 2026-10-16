@@ -165,7 +165,22 @@ body.research-site .status-pill { font-size: 12px; letter-spacing: 0; text-trans
 .research-page .data-table th { font-size: 12px; letter-spacing: .025em; text-transform: none; background: #F8FAFC; }
 .research-page .data-table th, .research-page .data-table td { padding: 12px 16px; }
 .research-page .data-table tbody tr:hover { background: #F6F8FB; }
-.research-page .data-table td:last-child { white-space: nowrap; }
+/* a last column is usually a number or date: keep it on one line, unless the
+   cell is marked prose (the /methodology changelog ran 7,000px wide), is a
+   row's only cell, or spans columns (both are messages, not values) */
+.research-page .data-table td:last-child:not(:first-child):not(.cell-prose):not([colspan]) { white-space: nowrap; }
+/* a note line under the value still wraps, to the width the value sets */
+.research-page .data-table td:last-child:not(:first-child):not(.cell-prose):not([colspan]) > :is(div, p) { white-space: normal; }
+/* a date leading its row is a value, not a label: "2026-09" never splits */
+.research-page .data-table td.cell-date { white-space: nowrap; }
+/* phones squeeze every column: numbers, dates ("2026-\n09") and pills broke
+   mid-value. Hold every data cell on one line — the first column (row
+   labels), prose cells and spanning messages still wrap — and let the card
+   scroll. */
+@media (max-width: 720px) {
+  .research-page .data-table td:not(:first-child):not(.cell-prose):not([colspan]) { white-space: nowrap; }
+  .research-page .data-table td:not(:first-child):not(.cell-prose):not([colspan]) > :is(div, p) { white-space: normal; }
+}
 .research-page .outlook-driver, .research-page .forecast-call { background: #F6F8FB; }
 .research-page .outlook-driver span, .research-page .outlook-driver small,
 .research-page .outlook-meta, .research-page .outlook-method, .research-page .outlook-disclaimer { font-size: 12px; }
@@ -481,7 +496,7 @@ body.research-site .footer-meta { font-size: 12px; }
 .cap-axis-title { font-size: 12.5px; fill: var(--muted); }
 .cap-ref { stroke: var(--text); stroke-width: 1; stroke-opacity: .35; }
 .cap-ref-label { font-size: 12px; fill: var(--muted); }
-.cap-median .cap-ref-label { font-weight: 600; }
+.cap-median-label { font-weight: 600; pointer-events: none; paint-order: stroke; stroke: var(--card); stroke-width: 3px; stroke-linejoin: round; }
 .cap-corner { font-size: 12.5px; fill: #8C99A6; font-style: italic; }
 .cap-mark { cursor: pointer; transition: fill-opacity 120ms ease; }
 .cap-mark:hover, .cap-mark:focus-visible { fill-opacity: 1; outline: none; stroke: var(--text); }
@@ -996,6 +1011,18 @@ body.research-site .footer-meta { font-size: 12px; }
 /* /status: section header rows and per-source series freshness bars */
 .status-group th { text-align: left; background: var(--chip-bg); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--text); padding: 8px 12px; }
 .status-group th span { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--muted); margin-left: 6px; }
+.status-detail summary { cursor: pointer; }
+.status-detail[open] summary { margin-bottom: 4px; }
+/* phones: a four-column table squeezed the detail to ~70px (rows 6,500px
+   tall); each check stacks as name, then level + status, then detail */
+@media (max-width: 640px) {
+  .status-checks thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
+  .status-checks tr:not(.status-group) { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .status-checks tr:not(.status-group) td { display: block; padding: 0; border: 0; text-align: left; }
+  .status-checks tr:not(.status-group) td:first-child { flex: 1 0 100%; overflow-wrap: anywhere; }
+  .status-checks tr:not(.status-group) td:last-child { flex: 1 0 100%; max-width: none !important; }
+  .status-checks, .status-checks tbody, .status-checks .status-group, .status-checks .status-group th { display: block; }
+}
 .status-fresh { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
 .status-fresh-bar { display: inline-flex; width: 72px; height: 6px; border-radius: 3px; overflow: hidden; background: var(--border); }
 .status-fresh-bar .is-fresh { background: var(--accent-emerald); }

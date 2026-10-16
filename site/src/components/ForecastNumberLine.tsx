@@ -31,15 +31,20 @@ export function ForecastNumberLine({
     <div className="numline-wrap">
       <div className="numline">
         <div className="numline-track" />
+        {/* whole calls alternate above/below the track, each keeping its
+            name and value together on its own side of the dot — splitting
+            them put one call's name beside its neighbour's value */}
         {sorted.map((c, i) => (
           <div
             key={c.name}
             className={i % 2 ? "numline-call numline-below" : "numline-call"}
             style={{ left: `${pos(c.value)}%` }}
           >
-            <span className="numline-name">{c.name}</span>
             <span className="numline-dot" />
-            <span className="numline-val">{c.value.toFixed(2)}%</span>
+            <span className="numline-label">
+              <span className="numline-name">{c.name}</span>
+              <span className="numline-val">{c.value.toFixed(2)}%</span>
+            </span>
           </div>
         ))}
       </div>

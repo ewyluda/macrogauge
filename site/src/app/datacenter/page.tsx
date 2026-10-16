@@ -4,6 +4,7 @@ import dc from "../../../public/data/datacenter.json";
 import llJson from "../../../public/data/longlead.json";
 import ratesJson from "../../../public/data/rates.json";
 import newsJson from "../../../public/data/news.json";
+import gradesJson from "../../../public/data/dc_grades.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
@@ -19,7 +20,7 @@ import { NewsFeed } from "@/components/NewsFeed";
 import { clusterStories } from "@/lib/newsTape";
 import { fmtDay, fmtSigned } from "@/lib/format";
 import { DcDrivers, type DriverComp, type DriverGroup } from "@/components/DcDrivers";
-import type { LongLead, Rates } from "@/lib/types";
+import type { DcGrades, LongLead, Rates } from "@/lib/types";
 import { dcHeadline, powerSummary, surgeFromLow } from "@/lib/dcHub";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
@@ -39,6 +40,17 @@ const buildCodes = dc.indexes.build.components.map((c) => c.code);
 
 const GROUPS = dc.group_labels as Record<string, string>;
 const longlead = artifact<"longlead", LongLead>("longlead", llJson);
+// The storage tail's live state comes from its backtest grade, never from
+// copy: a FAIL keeps storage & memory official-only.
+const storageTail = artifact<"dc_grades", DcGrades>("dc_grades", gradesJson).storage_nowcast ?? null;
+const storageMove = `${Math.round((storageTail?.regime_min_move ?? 0.5) * 100)}%`;
+const storageState = !storageTail || storageTail.verdict === "INSUFFICIENT"
+  ? "There is not yet enough history to grade it, so storage & memory is currently official-only."
+  : storageTail.tail_active
+    ? `It passed, and NAND is ${fmtSigned(storageTail.proxy_yoy_pct)} from a year ago, so the tail is live.`
+    : storageTail.verdict === "PASS"
+      ? `It passed, but NAND is within ${storageMove} of a year ago, so the last print carries forward.`
+      : "It did not beat carrying the last print forward, so storage & memory is currently official-only.";
 
 // The rest of the DC coverage, one card per page — this page is the hub
 // (nine cards: a full 3×3 grid).
@@ -116,7 +128,7 @@ export default function Datacenter() {
   const states = dc.parity.states as ParityRow[];
   return (
     <div className="datacenter-dashboard">
-      <StaleBanner publishedAt={[dc.published_at, llJson.published_at, ratesJson.published_at]} />
+      <StaleBanner publishedAt={[dc.published_at, llJson.published_at, ratesJson.published_at, gradesJson.published_at]} />
       <header className="research-intro">
         <div className="research-eyebrow">AI infrastructure <span>Updated {fmtDay(build.as_of)}</span></div>
         <h1>Data Center Cost Index</h1>
@@ -267,10 +279,11 @@ export default function Datacenter() {
         semiconductor PPI) are shown above as contrast, not averaged in — the selection rule is
         transaction-based, not hot: imported semiconductors ride in the basket at whatever they
         print. No official DRAM or memory price index exists (BLS catalogs verified 2026-07-15;
-        the microprocessor PPI was discontinued in 2015), so storage &amp; memory carries a
-        market-data tail: past the last storage-device PPI it rides DRAMeXchange NAND spot
-        prices, but only while NAND is more than 50% away from its level a year earlier —
-        in calmer markets the last print carries forward. Hardware is nationally priced — it does not enter
+        the microprocessor PPI was discontinued in 2015), so storage &amp; memory is graded
+        for a market-data tail: past the last storage-device PPI it would ride DRAMeXchange
+        NAND spot prices while NAND is more than {storageMove} away from its level a year
+        earlier, and only if that switched tail beats carry-forward in the{" "}
+        <Link href="/escalation/grades">backtest</Link>. {storageState} Hardware is nationally priced — it does not enter
         the state parity table. Weights are cited in the methodology notes; group shares:
         compute 0.65, storage &amp; memory 0.15, network 0.20.
         </p></div>

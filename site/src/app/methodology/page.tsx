@@ -304,8 +304,8 @@ export default function Methodology() {
                 {changelog.map((c, i) => (
                   <tr key={`${c.date}-${i}`}>
                     <td style={{ textAlign: "left", whiteSpace: "nowrap" }}>{c.date}</td>
-                    <td style={{ textAlign: "left" }}>{c.area}</td>
-                    <td style={{ textAlign: "left", color: "var(--muted)" }}>{c.change}</td>
+                    <td className="cell-prose" style={{ textAlign: "left" }}>{c.area}</td>
+                    <td className="cell-prose" style={{ textAlign: "left", color: "var(--muted)" }}>{c.change}</td>
                   </tr>
                 ))}
               </tbody>

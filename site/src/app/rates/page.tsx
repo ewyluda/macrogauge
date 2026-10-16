@@ -76,7 +76,7 @@ function FedPathSection({ fp }: { fp: FedPath }) {
               <tr><td colSpan={6} style={{ color: "var(--muted)" }}>No meeting ladder was liquid enough on the latest fetch.</td></tr>
             ) : fp.meetings.map((m) => (
               <tr key={m.date}>
-                <td style={{ textAlign: "left" }}>{fmtDay(m.date)}</td>
+                <td className="cell-date" style={{ textAlign: "left" }}>{fmtDay(m.date)}</td>
                 <td><strong>{pct(m.expected_upper)}</strong></td>
                 <td>{bp(m.implied_change_bp)}</td>
                 <td>{prob(m.p_cut)}</td>
@@ -246,7 +246,7 @@ export default function RatesPage() {
                     <td style={{ textAlign: "left" }}>
                       <strong>{d.name}</strong> <span className="badge badge-muted">{d.cohort}</span>
                     </td>
-                    <td style={{ textAlign: "left" }}>
+                    <td className="cell-prose" style={{ textAlign: "left" }}>
                       {d.tranche}
                       {!d.comparable && <small style={{ display: "block", color: "var(--muted)" }}>convertible: the coupon prices an equity option, not credit</small>}
                     </td>

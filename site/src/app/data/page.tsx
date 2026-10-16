@@ -85,7 +85,7 @@ export default function DataPage() {
               ...g.rows.flatMap((r) => [
               <tr key={r.file}>
                 <td style={{ textAlign: "left" }}><a href={dataUrl(r.file)} download style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}>{r.file}</a></td>
-                <td style={{ textAlign: "left", color: "var(--muted)" }}>{r.description}</td>
+                <td className="cell-prose" style={{ textAlign: "left", color: "var(--muted)" }}>{r.description}</td>
                 <td style={{ whiteSpace: "nowrap" }}>{r.newest ? fmtDay(r.newest) : "—"}</td>
                 <td>{kb(r.bytes)}</td>
                 <td style={{ color: "var(--muted)" }}>{r.stamp ? fmtStamp(r.stamp) : "—"}</td>

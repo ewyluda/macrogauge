@@ -113,7 +113,7 @@ export default function MacroCycle() {
             return (
               <tr key={s.code}>
                 <td>{s.name}</td>
-                <td style={{ textAlign: "left" }}>{s.rule}</td>
+                <td className="cell-prose" style={{ textAlign: "left" }}>{s.rule}</td>
                 <td>{s.value ?? "—"}</td>
                 <td style={{ textAlign: "left" }}>{d ? (
                   <span className="mc-room" title="bar full = at least the rule's design scale of room">
