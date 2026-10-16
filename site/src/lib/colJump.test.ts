@@ -14,6 +14,10 @@ describe("colJump", () => {
     expect(j.colTo).toBeCloseTo(6, 10);
     expect(j.text).toBe("Since 2026-08-10, cost of living has jumped from 3.0% to 6.0% while the gauge went from 2.9% to 2.9%. The 30-year mortgage rate is 7.6% (2026-10-08), against 6.3% a year earlier, and the buyer's payment rides the rate; rental-equivalence shelter does not.");
   });
+  it("names each rate's source when given", () => {
+    const j = colJump(d, col, gauge, { now: 7.33, nowAsOf: "2026-10-15", nowSource: "Mortgage News Daily", yearAgo: 6.34, yearAgoSource: "Freddie Mac PMMS, monthly average" })!;
+    expect(j.text).toContain("The 30-year mortgage rate is 7.3% (Mortgage News Daily, 2026-10-15), against 6.3% a year earlier (Freddie Mac PMMS, monthly average), and");
+  });
   it("is null when the rise is small", () => {
     expect(colJump(d, d.map(() => 3), gauge, { now: 7, nowAsOf: "x", yearAgo: null })).toBeNull();
   });

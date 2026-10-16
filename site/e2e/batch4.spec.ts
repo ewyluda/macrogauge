@@ -43,7 +43,7 @@ test("/grocery shows the farm-to-shelf table with five USDA staples", async ({ p
   await expect(t.locator("tbody tr")).toHaveCount(5);
 });
 
-test("since-yesterday strip on the homepage and the /changes page agree on the previous publish", async ({ page }) => {
+test("since-yesterday strip on the homepage and the /changes page agree on the baseline publish", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".since-strip")).toBeVisible();
   const prev = (changes as { prev_published_at: string | null }).prev_published_at;
@@ -53,14 +53,14 @@ test("since-yesterday strip on the homepage and the /changes page agree on the p
     await expect(page.locator(".since-strip")).toContainText("first reading");
   }
   await page.goto("/changes");
-  await expect(page.locator(".kpi-label", { hasText: "Previous publish" })).toBeVisible();
+  await expect(page.locator(".kpi-label", { hasText: "Compared with" })).toBeVisible();
   // by id, not position: the movers tables (2026-10-08) sit above it once published
   await expect(page.getByTestId("components-table").locator("tbody tr")).toHaveCount(14);
 });
 
 test("feed body carries the since-yesterday sentence", async ({ page }) => {
   const feed = await page.request.get("/feed.xml");
-  expect(await feed.text()).toContain("Since the previous publish:");
+  expect(await feed.text()).toMatch(/Since the previous (day's last )?publish:/);
 });
 
 test("/rates lists what the builders paid on their latest notes, once the daily run publishes them", async ({ page, request }) => {

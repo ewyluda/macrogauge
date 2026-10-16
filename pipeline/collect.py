@@ -15,7 +15,7 @@ from pipeline.connectors import (aaa, atlfed, aptlist, bls, caiso, census, cleve
                                  openrouter, pmms, qcew, sfcompute, spp, treasury, usda, vastai,
                                  zillow)
 from pipeline.connectors.util import PartialFetchWarning
-from pipeline.registry import Series, Source
+from pipeline.registry import Series, Source, collected_sources
 from pipeline.models import Observation
 from pipeline.store import vintage
 
@@ -277,10 +277,8 @@ def collect_all(sources: dict[str, Source], series: list[Series],
     # One latest-values read for the whole run — append() would otherwise
     # re-read every store partition once per source (~30x).
     latest_cache = vintage.latest_values(store_dir)
-    for name, source in sources.items():
+    for name, source in collected_sources(sources, series).items():
         subset = [s for s in series if s.source == name]
-        if not subset or source.retired:
-            continue
         key = secrets.get(source.secret, "") if source.secret else ""
         if source.secret and not key and not source.secret_optional:
             results.append(SourceResult(name, False, 0, 0,

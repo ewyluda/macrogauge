@@ -61,3 +61,14 @@ def test_since_lets_a_policy_start_before_the_series_goes_stale():
     # no `since`: legacy behavior
     legacy = Absence(kind="discontinued", note="retired")
     assert fr.classify("2026-09-24", 7, legacy, "2026-09-26") == fr.POLICY_RESUMED
+
+
+def test_summarize_is_the_one_count_qa_and_methodology_publish():
+    sup = Absence(kind="suppressed", note="n", review_by="2027-03-31")
+    rows = [("2026-09-01", 80, None),          # fresh, no policy
+            ("2026-08-01", 80, sup),           # fresh under a policy: still fresh
+            ("2025-04-01", 400, sup),          # past its window, policy holds
+            ("2026-01-01", 80, None),          # stale
+            (None, 80, None),                  # never seen: stale
+            ("2025-04-01", 400, Absence(kind="suppressed", note="n", review_by="2026-09-03"))]  # policy expired
+    assert fr.summarize(rows, T) == {"total": 6, "fresh": 2, "expected_absent": 1, "stale": 2}

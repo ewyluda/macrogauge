@@ -661,6 +661,40 @@ def test_changes_diffs_against_previous_snapshot(tmp_path):
     validate.validate_file(changes.write(p, out, "T1"), SCHEMAS / "changes.schema.json")
 
 
+def test_changes_baseline_is_the_previous_et_days_last_publish(tmp_path):
+    """Polish review 2026-10-15: a 18:07 ET republish diffed against the
+    16:41 ET publish of the same day, so "Since yesterday" read 0.00pp."""
+    store = tmp_path / "store"
+    yday = {"published_at": "2026-10-14T22:00:00Z", "pulse": {"gauge": {"yoy_pct": 3.2}}}
+    # the day's first run: the checkout holds yesterday's last publish -> kept
+    assert changes.baseline(yday, store, "2026-10-15") == yday
+    assert json.loads((store / changes.BASELINE).read_text()) == yday
+    # a same-day republish: the checkout holds today's earlier publish -> the kept one wins
+    today_first = {"published_at": "2026-10-15T20:41:02Z", "pulse": {"gauge": {"yoy_pct": 3.3}}}
+    assert changes.baseline(today_first, store, "2026-10-15") == yday
+    # next morning: the checkout is the 15th's last publish, which becomes the baseline
+    today_last = {"published_at": "2026-10-15T22:07:26Z", "pulse": {}}
+    assert changes.baseline(today_last, store, "2026-10-16") == today_last
+    assert json.loads((store / changes.BASELINE).read_text())["published_at"] == "2026-10-15T22:07:26Z"
+
+
+def test_changes_baseline_days_are_et_and_bad_files_fall_back(tmp_path):
+    store = tmp_path / "store"
+    # 02:30 UTC on the 15th is 22:30 ET on the 14th: yesterday, not today
+    late = {"published_at": "2026-10-15T02:30:00Z"}
+    assert changes._et_day(late["published_at"]) == "2026-10-14"
+    assert changes.baseline(late, store, "2026-10-15") == late
+    # no kept baseline yet (first deploy day): fall back to the previous publish
+    fresh = tmp_path / "fresh"
+    same_day = {"published_at": "2026-10-15T20:41:02Z"}
+    assert changes.baseline(same_day, fresh, "2026-10-15") == same_day
+    assert not (fresh / changes.BASELINE).exists()
+    # an unreadable kept file never takes the run down
+    (store / changes.BASELINE).write_text("{not json")
+    assert changes.baseline(same_day, store, "2026-10-15") == same_day
+    assert changes.baseline(None, tmp_path / "none", "2026-10-15") is None
+
+
 def test_pulse_carries_prev_reading():
     v = {"yoy": {"2026-09-03": 3.04}, "as_of": "2026-09-03", "coverage_pct": 42.6}
     gr = {"variants": {"gauge": v, "tracker": v}}

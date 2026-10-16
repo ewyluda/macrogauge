@@ -298,12 +298,12 @@ export default function Home() {
           <div className="panel-title">Market pulse</div>
           <div className="market-grid">
             {gas && <div><span>Regular gas · EIA weekly</span><strong>{fmtMoney(gas.latest, gas.unit)}</strong><small>{fmtSigned(gas.yoy_pct)} YoY · week of {gas.obs_date}</small></div>}
-            {mortgage && <div><span>30Y mortgage</span><strong>{fmtMoney(mortgage.latest, mortgage.unit)}</strong><small>{(() => {
+            {mortgage && <div><span>30Y mortgage · Freddie Mac weekly</span><strong>{fmtMoney(mortgage.latest, mortgage.unit)}</strong><small>{(() => {
               // rates move in POINTS: render the pp delta once the pipeline
               // publishes it; %-change fallback for the pre-refresh artifact
               const pp = mortgage.yoy_pp;
               return pp != null ? `${fmtPp(pp)} YoY` : `${fmtSigned(mortgage.yoy_pct)} YoY`;
-            })()}</small></div>}
+            })()} · week of {mortgage.obs_date}</small></div>}
             {gold && <div><span>Gold</span><strong>{fmtMoney(gold.latest, gold.unit)}</strong><small>{fmtSigned(gold.yoy_pct)} YoY</small></div>}
             {debt && <div><span>Public debt</span><strong>${(debt.latest / 1e12).toFixed(2)}T</strong><small>{fmtSigned(debt.yoy_pct)} YoY</small></div>}
           </div>

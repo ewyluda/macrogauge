@@ -141,10 +141,19 @@ export function ContributionSection({
       <div className="chart-card">
         <EChart option={option} height={380} ariaTitle="Contribution to headline YoY by component, percentage points" />
       </div>
-      <p style={{ fontSize: 11, color: "var(--muted)", margin: "6px 0 0" }}>
-        Each bar segment is weight × that component&apos;s own year-over-year change, in percentage points; the
-        segments sum to the headline line exactly. BLS = the same arithmetic over the official component indexes
-        (the 14-component reconstruction the gap table grades against). Sampled on each month&apos;s last grid day.
+      <p style={{ fontSize: 11, color: "var(--muted)", margin: "6px 0 0" }} data-testid="contribution-caption">
+        {mode === "gap"
+          ? <>Each bar segment is weight × (our YoY − BLS YoY) for that component, in percentage points; the segments
+            sum to the headline gap, ours minus the 14-component BLS reconstruction. Only components that ride live
+            data can differ from BLS, so the rest sit at zero.</>
+          : mode === "bls"
+            ? <>Each bar segment is weight × that official component index&apos;s own year-over-year change, in
+              percentage points; the segments sum to the 14-component BLS reconstruction the gap table grades
+              against.</>
+            : <>Each bar segment is weight × that component&apos;s own year-over-year change, in percentage points;
+              the segments sum to the headline line exactly. BLS = the same arithmetic over the official component
+              indexes (the 14-component reconstruction the gap table grades against).</>}
+        {" "}Sampled on each month&apos;s last grid day.
       </p>
       {showTable && (
         <div className="table-card" style={{ marginTop: 14 }}>

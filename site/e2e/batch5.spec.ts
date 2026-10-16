@@ -25,7 +25,7 @@ test("every basket component has a page and the tables link to it", async ({ pag
 test("live component shows its sources and splice; carry-forward component says so", async ({ page }) => {
   await page.goto("/components/fuel");
   await expect(page.getByText(/Splice point \d{4}-\d{2}-\d{2}/)).toBeVisible();
-  await expect(page.locator("th", { hasText: "Blend weight" })).toHaveCount(1);
+  await expect(page.locator("th", { hasText: "Blend share" })).toHaveCount(1);
   await page.goto("/components/medical");
   await expect(page.getByText("No live blend configured")).toBeVisible();
 });

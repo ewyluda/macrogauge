@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { GlossaryList } from "@/components/Term";
 import methodology from "../../../public/data/methodology.json";
 import compareJson from "../../../public/data/compare.json";
@@ -202,9 +203,10 @@ export default function Methodology() {
             <>
               {" "}
               · <span style={{ color: "var(--muted)" }}>
-                {expectedAbsent} under an expected-absence policy (suppressed,
-                intermittent or discontinued at the source) — judged on that
-                policy, never counted as fresh
+                {expectedAbsent} past their window under an expected-absence
+                policy (suppressed, intermittent or discontinued at the source)
+                — judged on that policy, never counted as fresh. The{" "}
+                <Link href="/status">self-test</Link> reports the same count.
               </span>
             </>
           )}

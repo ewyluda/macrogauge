@@ -177,13 +177,17 @@ def run_checks(cpi: dict | None, today: str, source_results: list | None = None,
                                    if status == fr.POLICY_EXPIRED else "")
                                 + (f" (max_absence_days {absence.max_absence_days})"
                                    if status == fr.ABSENCE_EXCEEDED else ""))
-        strict_total = len(freshness) - len(policy_rows)
+        # counts from the shared definition, so /status and /methodology
+        # publish the same N of T (fr.summarize)
+        n = fr.summarize(((row["latest_obs"], row["limit_days"],
+                           fr.absence_from_row(row.get("absence")))
+                          for row in freshness), today)
         checks.append({"name": "sources_fresh", "critical": False,
                        "pass": not stale,
-                       "detail": (f"{strict_total - len(stale)}/{strict_total} fresh"
-                                  + (f" ({len(policy_rows)} under an "
-                                     f"expected-absence policy, judged "
-                                     f"separately)" if policy_rows else "")
+                       "detail": (f"{n['fresh']}/{n['total']} fresh"
+                                  + (f" · {n['expected_absent']} past their window "
+                                     f"under an expected-absence policy, judged "
+                                     f"separately" if n["expected_absent"] else "")
                                   + (f"; stale — {', '.join(stale)}" if stale else ""))})
         kinds = Counter(a.kind for _, a, _, _ in policy_rows)
         listing = ", ".join(

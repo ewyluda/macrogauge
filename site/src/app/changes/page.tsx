@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
 import { DownloadData } from "@/components/DownloadData";
-import { CHANGES, SinceYesterdayStrip } from "@/components/SinceYesterday";
+import { CHANGES } from "@/components/SinceYesterday";
 import { fmtPp, fmtSigned, fmtStamp } from "@/lib/format";
-import { changesHeadline, fmtDelta, fmtReading, partitionMovers } from "@/lib/changesHeadline";
+import { baselineName, changesHeadline, fmtDelta, fmtReading, partitionMovers } from "@/lib/changesHeadline";
 import type { Mover } from "@/lib/types";
 
 const c = CHANGES;
@@ -13,7 +13,7 @@ const sign = (v: number | null) => (v == null ? "var(--muted)" : v > 0.005 ? "va
 
 export const metadata: Metadata = {
   title: "Since Yesterday — what moved in this publish",
-  description: "Every headline and component reading against the previous publish, which sources landed new rows, and any quality-gate holds.",
+  description: "Every headline and component reading against the previous day's last publish, which sources landed new rows, and any quality-gate holds.",
 };
 
 function MoverRow({ m }: { m: Mover }) {
@@ -33,9 +33,12 @@ function MoverRow({ m }: { m: Mover }) {
 export default function ChangesPage() {
   const gauge = c.headline.find((h) => h.key === "gauge");
   const movers = c.movers ?? [];
-  const lead = changesHeadline(movers);
+  const since = baselineName(c.published_at, c.prev_published_at) ?? "the previous publish";
+  const lead = changesHeadline(movers, since);
   const { moved, unchanged } = partitionMovers(movers);
-  const biggest = c.components[0];
+  // components arrive sorted by |Δ|; the top row is only "the biggest move"
+  // when it moved at all (it used to name Shelter (owned) at 0.00pp)
+  const biggest = c.components.find((x) => x.delta_pp != null && Math.abs(x.delta_pp) >= 0.005);
   return (
     <div>
       <h1>
@@ -43,21 +46,22 @@ export default function ChangesPage() {
       </h1>
       <p className="lede">
         A daily gauge earns a daily visit only if it says what moved. This page diffs today&apos;s artifacts against
-        the previous publish — the files in the repository before this run overwrote them — so every delta is
-        between two numbers that were both public.
+        the previous day&apos;s last publish (US Eastern days) — files that were public in the repository — so every
+        delta is between two numbers that were both public, and a second publish on the same day still compares
+        with yesterday rather than with itself an hour earlier.
       </p>
       {lead && <p className="ll-takeaway" data-testid="changes-lead">{lead}</p>}
-      <SinceYesterdayStrip />
       <div className="kpi-row">
         <KpiCard label="Macrogauge" value={gauge?.value == null ? "—" : fmtSigned(gauge.value)}
           context={gauge?.delta_pp == null ? "no previous reading" : `${fmtPp(gauge.delta_pp)} vs ${gauge.prev_as_of ?? "—"}`}
           accent={(gauge?.delta_pp ?? 0) > 0 ? "red" : "emerald"} />
-        <KpiCard label="Biggest component move" value={biggest?.delta_pp == null ? "—" : fmtPp(biggest.delta_pp)}
-          context={biggest ? `${biggest.label} · now ${fmtSigned(biggest.yoy_pct)}` : "—"} accent="violet" />
+        <KpiCard label="Biggest component move" value={biggest ? fmtPp(biggest.delta_pp) : "—"}
+          context={biggest ? `${biggest.label} · now ${fmtSigned(biggest.yoy_pct)}` : c.prev_published_at ? "no component moved by 0.01pp or more" : "no previous reading"}
+          accent="violet" />
         <KpiCard label="Sources landed" value={String(c.sources_landed.length)}
           context={c.sources_failed.length ? `${c.sources_failed.length} failed: ${c.sources_failed.join(", ")}` : "no source failures"} accent={c.sources_failed.length ? "amber" : "emerald"} />
-        <KpiCard label="Previous publish" value={c.prev_published_at ? c.prev_published_at.slice(0, 10) : "—"}
-          context={c.prev_published_at ? fmtStamp(c.prev_published_at) : "first reading"} accent="sky" />
+        <KpiCard label="Compared with" value={c.prev_published_at ? c.prev_published_at.slice(0, 10) : "—"}
+          context={c.prev_published_at ? `${since.replace(/^the /, "")} · ${fmtStamp(c.prev_published_at)}` : "first reading"} accent="sky" />
       </div>
 
       {movers.length > 0 && (
@@ -67,7 +71,7 @@ export default function ChangesPage() {
               <thead><tr><th style={{ textAlign: "left" }}>Reading</th><th>Now</th><th>Previous</th><th>Change</th><th>vs notable</th></tr></thead>
               <tbody>
                 {moved.map((m) => <MoverRow key={m.key} m={m} />)}
-                {moved.length === 0 && <tr><td colSpan={5} style={{ color: "var(--muted)", textAlign: "left" }}>No reading changed since the previous publish.</td></tr>}
+                {moved.length === 0 && <tr><td colSpan={5} style={{ color: "var(--muted)", textAlign: "left" }}>No reading changed since {since}.</td></tr>}
               </tbody>
             </table>
           </div>
@@ -82,7 +86,7 @@ export default function ChangesPage() {
             </details>
           )}
           <p className="method">
-            Each page&apos;s lead numbers, read from today&apos;s files and the previous publish&apos;s. A level&apos;s change is
+            Each page&apos;s lead numbers, read from today&apos;s files and {since}&apos;s. A level&apos;s change is
             in %, a rate or spread in basis points, a YoY in percentage points. Rows rank by the change divided by a
             stated notable move for that reading (for example 3% for a power hub&apos;s 30-day average, 5bp for the
             10-year): a design threshold, not a fitted volatility. A reading whose source date didn&apos;t advance shows
@@ -116,7 +120,7 @@ export default function ChangesPage() {
         {c.official && (
           <p className="method">
             Official CPI: {c.official.month?.slice(0, 7) ?? "—"} print at {fmtSigned(c.official.yoy_pct)} YoY
-            {c.official.new_print ? ` — NEW since the previous publish (was ${c.official.prev_month?.slice(0, 7)})` : " — unchanged"}.
+            {c.official.new_print ? ` — NEW since ${since} (was ${c.official.prev_month?.slice(0, 7)})` : " — unchanged"}.
           </p>
         )}
       </Section>

@@ -394,7 +394,9 @@ def test_policy_series_leave_sources_fresh_and_pass_expected_absence():
          "absence": _pol("discontinued")}])
     by = {c["name"]: c for c in r["checks"]}
     assert by["sources_fresh"]["pass"] is True
-    assert by["sources_fresh"]["detail"].startswith("1/1 fresh (3 under an expected-absence policy")
+    # one count with methodology (freshness.summarize): every series, policy or not
+    assert by["sources_fresh"]["detail"] == ("1/4 fresh · 3 past their window under an "
+                                             "expected-absence policy, judged separately")
     assert by["expected_absence"]["pass"] is True
     assert by["expected_absence"]["critical"] is False
     d = by["expected_absence"]["detail"]
@@ -423,7 +425,9 @@ def test_expected_absence_fails_when_policy_is_wrong():
         {"code": "stale1", "latest_obs": "2026-01-01", "limit_days": 80}])
     by = {c["name"]: c for c in r["checks"]}
     assert by["sources_fresh"]["pass"] is False
-    assert by["sources_fresh"]["detail"].startswith("0/1 fresh (4 under")
+    # resumed is within its window (fresh); expired/toolong/ghost fail their
+    # policy and count nowhere; stale1 is the one no-policy stale series
+    assert by["sources_fresh"]["detail"].startswith("1/5 fresh; stale — ")
     assert "stale1 (246d > 80d)" in by["sources_fresh"]["detail"]
     d = by["expected_absence"]["detail"]
     assert by["expected_absence"]["pass"] is False

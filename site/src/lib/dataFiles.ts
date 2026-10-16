@@ -49,7 +49,7 @@ export const DATA_FILES: DataFile[] = [
   { file: "rates.json", description: "Treasury curve, breakevens, credit, dollar, liquidity, mortgage spread" , section: "AI Infra" },
   { file: "compute.json", description: "Cost of a token and a GPU-hour: model and SKU prices with two composite indexes" , section: "AI Infra" },
   { file: "housing.json", description: "Home prices, rents, sales and payment-to-income affordability" , section: "Economy" },
-  { file: "changes.json", description: "What moved since the previous publish: headline, components, sources" , section: "Inflation" },
+  { file: "changes.json", description: "What moved since the previous day's last publish: headline, components, sources" , section: "Inflation" },
   { file: "revisions.json", description: "First print vs latest value for CPI, PCE and payrolls" , section: "Forecasts" },
   { file: "ledger.json", description: "Every publish's headline readings, append-only, never restated" , section: "AI Infra" },
 ];
@@ -63,9 +63,11 @@ const ISO_DAY = /^\d{4}-\d{2}-\d{2}/;
 
 /** The newest observation date anywhere in an artifact: the max over every
  *  as_of / asof / last_obs / latest_obs date field, at any depth. A curated
- *  review date (as_of_curated) is not data and is not counted. Null when the
- *  file states none. */
-export function newestAsOf(json: unknown): string | null {
+ *  review date (as_of_curated) is not data and is not counted. Dates after
+ *  `cap` (the file's publish day) are forecast horizons or day-ahead prices
+ *  (STEO 2027-12, ERCOT tomorrow), not observed data, and are skipped. Null
+ *  when the file states none. */
+export function newestAsOf(json: unknown, cap?: string | null): string | null {
   let best: string | null = null;
   const walk = (v: unknown): void => {
     if (Array.isArray(v)) { for (const x of v) walk(x); return; }
@@ -73,6 +75,7 @@ export function newestAsOf(json: unknown): string | null {
     for (const [k, x] of Object.entries(v)) {
       if (AS_OF_KEYS.has(k) && typeof x === "string" && ISO_DAY.test(x)) {
         const day = x.slice(0, 10);
+        if (cap && day > cap) continue;
         if (best === null || day > best) best = day;
       } else if (x && typeof x === "object") walk(x);
     }

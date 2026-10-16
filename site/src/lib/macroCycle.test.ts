@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import recession from "../../public/data/recession.json";
-import { distanceToTrigger, macroCycleSentence, ROOM_SCALE, type RecessionSignal } from "./macroCycle";
+import { distanceToTrigger, macroCycleSentence, ROOM_SCALE, stressWord, type RecessionSignal } from "./macroCycle";
 
 const sig = (over: Partial<RecessionSignal>): RecessionSignal => ({
   name: "x", code: "T10Y3M", rule: "< 0", value: 1.06, triggered: false, op: "<", threshold: 0, ...over,
@@ -28,5 +28,13 @@ describe("macroCycleSentence", () => {
       .toBe("The economy is cooling (heat −9), consumer stress is elevated (61 of 100), and none of 6 recession rules has triggered.");
     expect(macroCycleSentence(30, null, 2, 6)).toBe("The economy is running hot (heat +30), and 2 of 6 recession rules have triggered.");
     expect(macroCycleSentence(null, null, 0, 0)).toBeNull();
+  });
+});
+
+describe("stressWord", () => {
+  it("is one scale for the composite and for each input (polish review 2026-10-15)", () => {
+    // the page called the composite's 61 "elevated" and an input's 89 "elevated" on a second scale
+    expect([stressWord(49.9), stressWord(50), stressWord(61), stressWord(79.9), stressWord(80), stressWord(89.1)])
+      .toEqual(["calm", "elevated", "elevated", "elevated", "severe", "severe"]);
   });
 });

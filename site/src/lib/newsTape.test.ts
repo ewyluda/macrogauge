@@ -209,6 +209,14 @@ describe("review 2026-10-07 — story identity, lead, figures", () => {
       .toEqual([{ kind: "dollars", value: 4e9, label: "$4B" }]);
   });
 
+  it("debt already owed is not deal dollars; new debt financing still is (polish review 2026-10-15)", () => {
+    // real tape headline (2026-10-11): listed under "Deal dollars" as $50B
+    expect(figures(post("CoreWeave ($CRWV) faces growing investor concerns over its roughly $50 billion debt burden, with shares and bonds sliding as markets question the financing behind its rapid AI infrastructure expansion."))).toEqual([]);
+    expect(figures(m("$CRWV CoreWeave carries a $14 billion debt load after its latest raise", "2026-10-06T12:00:00Z"))).toEqual([]);
+    expect(figures(m("$CRWV CoreWeave secured $2.6 billion of debt financing for its Texas data center", "2026-10-06T12:00:00Z")))
+      .toEqual([{ kind: "dollars", value: 2.6e9, label: "$2.6B" }]);
+  });
+
   it("F6: contract dates and the noun 'project' are not forecasts", () => {
     // real tape headline (Black Hills / Google, 2026-10-06)
     const bkh = post("$BKH Black Hills signed definitive agreements through 2048 to supply power for $GOOGL Google's planned Cheyenne, Wyoming data center, including up to 590 MW of grid service and management of roughly 2.1 GW of third-party resources.");

@@ -6,6 +6,7 @@ import { KpiCard, type Accent } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
 import { StatusPill } from "@/components/StatusPill";
 import { fmtDay, fmtStamp } from "@/lib/format";
+import { obsLabel } from "@/lib/sourcePills";
 import {
   CHECK_SECTION, CHECK_SECTIONS, CURATED_INPUTS, daysBetween, groupBy, SOURCE_SECTION, SOURCE_SECTIONS,
   sourceFreshness, type Freshness,
@@ -221,7 +222,7 @@ export default function Status() {
                   <td><FreshBar f={freshness[s.name]} /></td>
                   <td style={{ color: "var(--muted)" }}>{s.fetched}</td>
                   <td>{s.new_rows}</td>
-                  <td>{s.latest_obs ?? "—"}</td>
+                  <td>{s.latest_obs ? obsLabel(s) : "—"}</td>
                   <td style={{ color: "var(--muted)" }}>
                     {fmtStamp(s.finished_at)}
                   </td>

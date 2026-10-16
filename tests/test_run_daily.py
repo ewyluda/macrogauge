@@ -419,6 +419,16 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     # + longlead_ok + rates_ok + compute_ok + housing_ok + changes_ok + revisions_ok + news_ok
     # + ledger_ok + expected_absence (todo #10)
     assert qa["total"] == 36
+    # polish review 2026-10-15: /status (qa) and /methodology published two
+    # freshness counts (849/849 vs 862/870) and two source counts (43 vs 44)
+    # for one publish. One definition each, pinned on the real artifacts.
+    meth = json.loads((out / "methodology.json").read_text())
+    fresh = meth["freshness"]
+    sf = [c for c in qa["checks"] if c["name"] == "sources_fresh"][0]["detail"]
+    assert sf.startswith(f"{fresh['fresh_count']}/{fresh['total']} fresh")
+    assert fresh["total"] == meth["stats"]["series_count"]
+    assert (f"· {fresh['expected_absent']} past their window" in sf) == (fresh["expected_absent"] > 0)
+    assert meth["stats"]["source_count"] == len(status["sources"])
     for phase in ("rates", "compute", "housing", "changes", "revisions", "news", "ledger"):
         assert [c for c in qa["checks"] if c["name"] == f"{phase}_ok"][0]["pass"] is True, phase
     # backlog #10a: the KXFED fake's one liquid ladder reaches rates.json
@@ -1172,6 +1182,30 @@ def test_second_run_diffs_against_first(tmp_path, monkeypatch):
     # the ledger has two rows, one per publish, in order
     lg = json.loads((out / "ledger.json").read_text())
     assert [r["published_at"] for r in lg["rows"]] == sorted({first, pulse["published_at"]})
+
+
+def test_same_day_republish_diffs_against_the_previous_days_last_publish(tmp_path, monkeypatch):
+    """Polish review 2026-10-15: "Since yesterday" diffed against the
+    previous publish, an hour earlier on a two-publish day. Run 1 stands in
+    for yesterday's last publish (its stamp moved to a past ET day); runs 2
+    and 3 are today's first publish and a same-day republish."""
+    set_keys(monkeypatch)
+    store, out = tmp_path / "store", tmp_path / "out"
+    assert run_daily.main(["--store", str(store), "--out", str(out)],
+                          http_get=fake_get, http_post=fake_post) == 0
+    p = json.loads((out / "pulse.json").read_text())
+    yday = "2020-01-01T23:00:00Z"
+    p["published_at"] = yday
+    (out / "pulse.json").write_text(json.dumps(p))
+    assert run_daily.main(["--store", str(store), "--out", str(out)],
+                          http_get=fake_get, http_post=fake_post) == 0
+    assert json.loads((out / "changes.json").read_text())["prev_published_at"] == yday
+    assert (store / "changes" / "baseline.json").exists()
+    second = json.loads((out / "pulse.json").read_text())["published_at"]
+    assert run_daily.main(["--store", str(store), "--out", str(out)],
+                          http_get=fake_get, http_post=fake_post) == 0
+    ch = json.loads((out / "changes.json").read_text())
+    assert ch["prev_published_at"] == yday != second
 
 
 def test_rates_failure_does_not_block_publish(tmp_path, monkeypatch):

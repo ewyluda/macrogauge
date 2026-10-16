@@ -5,8 +5,15 @@ run commits site/public/data back), so run_daily snapshots the three small
 readings it needs — pulse.json, gaptable.json and datacenter.json's headline
 YoYs — BEFORE the engine phase overwrites them (read_previous), and this
 writer diffs today's files against that snapshot after every phase has run.
-No store change, no new vintage. The first run after deploy (no prior
-pulse.json) publishes prev=null and the site says "first reading".
+No new vintage. The first run after deploy (no prior pulse.json) publishes
+prev=null and the site says "first reading".
+
+The baseline is the previous ET day's LAST publish, not the previous publish
+(baseline(), 2026-10-15): on a day with two publishes the checkout holds an
+hour-old publish of today, and every row read 0.00pp under "Since
+yesterday". A day's first run finds yesterday's last publish in the checkout
+and keeps that snapshot in store/changes/baseline.json (committed with the
+store); a same-day republish diffs against the kept snapshot instead.
 
 Isolated like every phase: it reads the CURRENT artifacts back from disk
 rather than sharing another phase's local result, so a failed engine phase
@@ -25,7 +32,9 @@ sit at or below zero, where a % change runs backwards (−$10 to +$10 reads
 $/MWh change against its own stated notable move.
 """
 import json
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from pipeline.publish.util import write_json
 
@@ -65,6 +74,44 @@ def read_previous(out_dir: Path) -> dict | None:
     if snap is not None:
         snap["readings"] = _readings(out_dir)
     return snap
+
+
+BASELINE = Path("changes") / "baseline.json"   # under the store dir
+_ET = ZoneInfo("America/New_York")
+
+
+def _et_day(stamp: str | None) -> str | None:
+    """ET calendar day of a publish stamp ("2026-10-15T22:07:26Z")."""
+    if not stamp:
+        return None
+    try:
+        return datetime.fromisoformat(stamp.replace("Z", "+00:00")).astimezone(_ET).strftime("%Y-%m-%d")
+    except ValueError:
+        return None
+
+
+def baseline(prev: dict | None, store_dir: Path, today: str) -> dict | None:
+    """The snapshot "since yesterday" diffs against: the last publish of an
+    ET day before `today`. `prev` is read_previous() of the checkout. Never
+    raises: an unreadable or unwritable baseline file falls back to `prev`."""
+    path = store_dir / BASELINE
+    day = _et_day((prev or {}).get("published_at"))
+    if day is not None and day < today:
+        # the day's first run: the checkout IS the previous day's last publish
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(prev, sort_keys=True) + "\n")
+        except OSError:
+            pass
+        return prev
+    try:
+        kept = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError):
+        kept = None
+    kept_day = _et_day(kept.get("published_at")) if isinstance(kept, dict) else None
+    if kept_day is not None and kept_day < today:
+        return kept
+    return prev
 
 
 # kind -> (how a change is measured, its unit); NOTABLE: the move that counts

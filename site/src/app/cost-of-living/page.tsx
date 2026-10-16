@@ -41,7 +41,10 @@ export default function CostOfLiving() {
   const yearAgoMonth = mnd.as_of ? `${Number(mnd.as_of.slice(0, 4)) - 1}${mnd.as_of.slice(4, 7)}-01` : null;
   const yi = yearAgoMonth ? h.months.indexOf(yearAgoMonth) : -1;
   const jump = mnd.value == null || !mnd.as_of ? null
-    : colJump(col.dates, col.yoy_pct, gauge.yoy_pct, { now: mnd.value, nowAsOf: mnd.as_of, yearAgo: yi >= 0 ? h.rate_pct[yi] : null });
+    : colJump(col.dates, col.yoy_pct, gauge.yoy_pct, {
+      now: mnd.value, nowAsOf: mnd.as_of, nowSource: "Mortgage News Daily",
+      yearAgo: yi >= 0 ? h.rate_pct[yi] : null, yearAgoSource: "Freddie Mac PMMS, monthly average",
+    });
 
   // chart from 2019 — all variants share one publish grid, so one cut serves both lines
   const from = col.dates.findIndex((d) => d >= "2019-01-01");
