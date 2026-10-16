@@ -89,3 +89,15 @@ test("/datacenter states the storage tail the backtest actually allows", async (
   else expect(text).not.toContain("so the tail is live");
   if (sn?.verdict === "FAIL") expect(text).toContain("currently official-only");
 });
+
+test("/methodology states the storage tail the backtest actually allows", async ({ page }) => {
+  await page.goto("/methodology");
+  const text = (await page.locator(".dc-method-doc").innerText()).replace(/\s+/g, " ");
+  const sn = (grades as { storage_nowcast?: { tail_active: boolean; verdict: string } | null }).storage_nowcast;
+  // was: "the regime where its backtest beat carrying the last print forward" under a FAIL grade
+  expect(text).not.toContain("the regime where its backtest beat");
+  expect(text).toContain("Graded storage tail.");
+  if (sn?.tail_active) expect(text).toContain("so the tail is live");
+  else expect(text).not.toContain("so the tail is live");
+  if (sn?.verdict === "FAIL") expect(text).toContain("currently official-only");
+});

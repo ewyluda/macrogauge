@@ -1,7 +1,9 @@
 // The /datacenter hub and /power page headlines, written from the published
 // datacenter.json so the words and the numbers beside them can never disagree.
+import { fmtSigned } from "./format";
 import { moveWords } from "./homeBrief";
 import type { CapacityMarket, PowerData, PowerHub } from "@/components/PowerPanel";
+import type { StorageNowcast } from "./types";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export const monthYear = (d: string) => `${MONTHS[Number(d.slice(5, 7)) - 1]} ${d.slice(0, 4)}`;
@@ -99,4 +101,22 @@ export function powerSummary(power: PowerData | null | undefined): PowerSummary 
     if (x >= 2) parts.push(`${iso}capacity costs ${Math.round(x)}× its ${capacity.first} price`);
   }
   return { hub, capacity, tariffs, headline: parts.length ? parts.join("; ") : null };
+}
+
+type StorageGrade = Pick<StorageNowcast, "verdict" | "tail_active" | "proxy_yoy_pct" | "regime_min_move">;
+
+/** The storage & memory tail's live state, from its backtest grade
+ *  (dc_grades.json storage_nowcast), never from copy: a FAIL or a missing
+ *  grade keeps storage & memory official-only. `move` is the switched rule's
+ *  regime threshold ("50%"). */
+export function storageTailState(sn: StorageGrade | null | undefined): { move: string; state: string } {
+  const move = `${Math.round((sn?.regime_min_move ?? 0.5) * 100)}%`;
+  const state = !sn || sn.verdict === "INSUFFICIENT"
+    ? "There is not yet enough history to grade it, so storage & memory is currently official-only."
+    : sn.tail_active
+      ? `It passed, and NAND is ${fmtSigned(sn.proxy_yoy_pct)} from a year ago, so the tail is live.`
+      : sn.verdict === "PASS"
+        ? `It passed, but NAND is within ${move} of a year ago, so the last print carries forward.`
+        : "It did not beat carrying the last print forward, so storage & memory is currently official-only.";
+  return { move, state };
 }

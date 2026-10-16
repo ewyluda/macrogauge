@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { dcHeadline, powerSummary, surgeFromLow } from "./dcHub";
+import { dcHeadline, powerSummary, storageTailState, surgeFromLow } from "./dcHub";
 import type { PowerData } from "@/components/PowerPanel";
 
 describe("dcHeadline", () => {
@@ -79,5 +79,19 @@ describe("powerSummary", () => {
 
   it("is empty without power data", () => {
     expect(powerSummary(null)).toEqual({ hub: null, capacity: null, tariffs: 0, headline: null });
+  });
+});
+
+describe("storageTailState", () => {
+  const grade = { verdict: "PASS" as const, tail_active: true, proxy_yoy_pct: 565.9, regime_min_move: 0.5 };
+  it("calls the tail live only when the grade says so", () => {
+    expect(storageTailState(grade)).toEqual({ move: "50%", state: "It passed, and NAND is +565.9% from a year ago, so the tail is live." });
+    expect(storageTailState({ ...grade, tail_active: false }).state).toContain("so the last print carries forward");
+  });
+  it("keeps storage official-only on a FAIL or a missing grade", () => {
+    expect(storageTailState({ ...grade, verdict: "FAIL", tail_active: false }).state).toContain("did not beat carrying");
+    for (const sn of [null, undefined, { ...grade, verdict: "INSUFFICIENT" as const, tail_active: false }]) {
+      expect(storageTailState(sn).state).toContain("not yet enough history");
+    }
   });
 });
