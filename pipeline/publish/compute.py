@@ -47,28 +47,38 @@ from pipeline.store import vintage
 
 # The token roster (2026-10-09): the most-used models on OpenRouter by paid
 # spend (its rankings payload, week to 2026-10-07; free, stealth and preview
-# models excluded), each pinned to a versioned OpenRouter id in
-# config/series.json. Models turn over every few months; a deprecated id
-# surfaces as per-series staleness, and a refresh is a roster change here plus
-# a methodology changelog entry, reviewed monthly against the same rankings.
-MODELS = [("claude_opus55", "Claude Opus 5.5"), ("gpt61_sol", "GPT-6.1 Sol"),
-          ("kimi_k3", "Kimi K3"), ("glm53", "GLM-5.3"),
-          ("deepseek_v41_flash", "DeepSeek V4.1 Flash"), ("gemini38_flash", "Gemini 3.8 Flash"),
-          ("gpt6_luna", "GPT-6 Luna")]
+# models excluded), each pinned to a versioned OpenRouter id and to its
+# maker's own endpoint in config/series.json (since 2026-10-16: the `_list`
+# keys; the same models at OpenRouter's routed price retired, see below).
+# Models turn over every few months; a deprecated id surfaces as per-series
+# staleness, and a refresh is a roster change here plus a methodology
+# changelog entry, reviewed monthly against the same rankings.
+MODELS = [("claude_opus55_list", "Claude Opus 5.5"), ("gpt61_sol_list", "GPT-6.1 Sol"),
+          ("kimi_k3_list", "Kimi K3"), ("glm53_list", "GLM-5.3"),
+          ("deepseek_v41_flash_list", "DeepSeek V4.1 Flash"),
+          ("gemini38_flash_list", "Gemini 3.8 Flash"), ("gpt6_luna_list", "GPT-6 Luna")]
 # Our tier for each model, after Ramp's frontier / standard / light split of
 # enterprise model spend (a16z State of Markets, Sept 2026, p.37): a label for
 # the table, never an index weight.
-TIERS = {"claude_opus55": "frontier", "gpt61_sol": "frontier", "kimi_k3": "standard",
-         "glm53": "standard", "deepseek_v41_flash": "light", "gemini38_flash": "light",
-         "gpt6_luna": "light"}
+TIERS = {"claude_opus55_list": "frontier", "gpt61_sol_list": "frontier",
+         "kimi_k3_list": "standard", "glm53_list": "standard",
+         "deepseek_v41_flash_list": "light", "gemini38_flash_list": "light",
+         "gpt6_luna_list": "light"}
 # Every earlier roster's models. Link-only members, no table rows: their
 # history carries the token index up to their own last observation and never
 # past it (their series left config/series.json with the change, so they are
 # no longer collected), and the current models join the links as they are
 # priced. No rebase: the index keeps its base, and the roster change is a
-# change in which relatives are averaged, like any other entry or exit.
-ROSTER_SINCE = "2026-10-09"
-RETIRED_MODELS = [("gpt56_terra", "GPT-5.6 Terra"), ("claude_sonnet55", "Claude Sonnet 5.5"),
+# change in which relatives are averaged, like any other entry or exit. The
+# 2026-10-16 price-basis switch is one such change: the routed-price series
+# (the top-level /models price, often a third-party host's) retire and the
+# maker-endpoint series enter, so it never moves the level.
+ROSTER_SINCE = "2026-10-16"
+RETIRED_MODELS = [("claude_opus55", "routed Claude Opus 5.5"), ("gpt61_sol", "routed GPT-6.1 Sol"),
+                  ("kimi_k3", "routed Kimi K3"), ("glm53", "routed GLM-5.3"),
+                  ("deepseek_v41_flash", "routed DeepSeek V4.1 Flash"),
+                  ("gemini38_flash", "routed Gemini 3.8 Flash"), ("gpt6_luna", "routed GPT-6 Luna"),
+                  ("gpt56_terra", "GPT-5.6 Terra"), ("claude_sonnet55", "Claude Sonnet 5.5"),
                   ("grok47", "Grok 4.7"), ("qwen38_max", "Qwen3.8 Max"),
                   ("mistral_large4", "Mistral Large 4"), ("llama4_maverick", "Llama 4 Maverick"),
                   ("gpt4o", "GPT-4o"), ("claude_sonnet", "Claude Sonnet 5"),

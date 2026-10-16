@@ -182,14 +182,14 @@ def test_rates_fed_path_from_kalshi_fetch_against_dfedtaru(tmp_path):
 def test_compute_index_geometric_mean_renormalizes_and_rebases(tmp_path):
     days = ["2026-07-15", "2026-07-16", "2026-07-17"]
     rows = {}
-    for key, base in (("claude_opus55", 4.0), ("deepseek_v41_flash", 1.0), ("gpt6_luna", 2.0)):
+    for key, base in (("claude_opus55_list", 4.0), ("deepseek_v41_flash_list", 1.0), ("gpt6_luna_list", 2.0)):
         rows[f"or_{key}_in"] = {d: base for d in days}
         rows[f"or_{key}_out"] = {d: base for d in days}
     # deepseek halves on day 3; luna missing on day 3
-    rows["or_deepseek_v41_flash_in"]["2026-07-17"] = 0.5
-    rows["or_deepseek_v41_flash_out"]["2026-07-17"] = 0.5
-    del rows["or_gpt6_luna_in"]["2026-07-17"]
-    del rows["or_gpt6_luna_out"]["2026-07-17"]
+    rows["or_deepseek_v41_flash_list_in"]["2026-07-17"] = 0.5
+    rows["or_deepseek_v41_flash_list_out"]["2026-07-17"] = 0.5
+    del rows["or_gpt6_luna_list_in"]["2026-07-17"]
+    del rows["or_gpt6_luna_list_out"]["2026-07-17"]
     conn = _store(tmp_path, rows, source="OPENROUTER")
     p = compute.build(conn)
     ti = p["token_index"]
@@ -203,10 +203,10 @@ def test_compute_index_geometric_mean_renormalizes_and_rebases(tmp_path):
     ti0 = compute.build(conn, staleness={})["token_index"]  # unlisted -> default
     assert ti0["history"]["index"][2] == pytest.approx(79.37, abs=1e-3)
     # with no carry allowed, luna is absent -> 2 members < MIN_MEMBERS -> null
-    ti0 = compute.build(conn, staleness={f"or_gpt6_luna_{s}": 0 for s in ("in", "out")})["token_index"]
+    ti0 = compute.build(conn, staleness={f"or_gpt6_luna_list_{s}": 0 for s in ("in", "out")})["token_index"]
     assert ti0["history"]["index"][2] is None and ti0["history"]["members"][2] == 2
     models = {m["key"]: m for m in p["models"]}
-    assert models["kimi_k3"]["as_of"] is None  # never collected -> null row
+    assert models["kimi_k3_list"]["as_of"] is None  # never collected -> null row
     # every row carries its tier label; the tier never touches the index
     assert {m["key"]: m["tier"] for m in p["models"]} == compute.TIERS
     path = compute.write(p, tmp_path / "out", "2026-09-03T12:00:00Z")
@@ -278,18 +278,43 @@ def test_compute_round_trip_across_a_thin_link_is_counted_whole(tmp_path):
     the rebound (7.7pp of a -15.5% 30-day headline). A flat link's members
     keep their price from before it, so the rebound lands in the next link
     that measures them and the round trip nets out."""
-    span = ("deepseek_v41_flash", "gemini38_flash")
+    span = ("deepseek_v41_flash_list", "gemini38_flash_list")
     d1, d2, d3, d4 = "2026-10-07", "2026-10-08", "2026-10-09", "2026-10-12"
     old = {k: {d1: 1.0, d2: 1.0} for k in ("gpt4o", "deepseek", "llama70b", "claude_sonnet", "gemini_flash")}
     new = {k: {d3: 2.0, d4: 2.0} for k in NEW if k not in span}
-    new["deepseek_v41_flash"] = {d1: 0.5, d2: 0.25, d3: 0.5, d4: 0.5}
-    new["gemini38_flash"] = {d1: 3.0, d2: 3.0, d3: 3.0, d4: 3.0}
+    new["deepseek_v41_flash_list"] = {d1: 0.5, d2: 0.25, d3: 0.5, d4: 0.5}
+    new["gemini38_flash_list"] = {d1: 3.0, d2: 3.0, d3: 3.0, d4: 3.0}
     ti = compute.build(_store(tmp_path, _roster(old, new), source="OPENROUTER"))["token_index"]
     by = dict(zip(ti["history"]["dates"], ti["history"]["index"]))
     assert ti["history"]["members"] == [7, 7, 7, 7]
     assert by[d2] == pytest.approx(100 * 0.5 ** (1 / 7), abs=1e-3)   # the fall, one of seven
     assert by[d3] == by[d2]                                           # two span the change: flat
     assert by[d4] == pytest.approx(100.0)                             # the rebound, measured from d2
+
+
+@pytest.mark.parametrize("overlap", [False, True])
+def test_compute_list_price_switch_never_moves_the_level(tmp_path, overlap):
+    """2026-10-16: the same seven models move from OpenRouter's routed price
+    to their maker's own endpoint, under new keys. Kimi K3's input goes
+    0.405 -> 3.00, GLM-5.3's 0.079 -> 1.40, yet the index level holds: the
+    routed series retire at their last price and the list series enter, so
+    the switch day links flat (or, if both were collected that day, on the
+    routed prices alone) and the next day measures the list prices."""
+    d1, d2, d3, d4 = "2026-10-14", "2026-10-15", "2026-10-16", "2026-10-19"
+    routed = {k.removesuffix("_list"): {d1: 1.0, d2: 1.1} for k in NEW}
+    routed["kimi_k3"] = {d1: 0.405, d2: 0.405}
+    listed = {k: {d3: 5.0, d4: 5.5} for k in NEW}
+    if overlap:
+        for k in routed:
+            routed[k][d3] = routed[k][d2]
+    assert set(routed) <= {k for k, _ in compute.RETIRED_MODELS}
+    ti = compute.build(_store(tmp_path, _roster(routed, listed), source="OPENROUTER"))["token_index"]
+    by = dict(zip(ti["history"]["dates"], ti["history"]["index"]))
+    rise = 100 * 1.1 ** (6 / 7)                    # six routed members +10%, Kimi flat
+    assert by[d2] == pytest.approx(rise, abs=1e-3)
+    assert by[d3] == by[d2]                        # the switch: no level move
+    assert by[d4] == pytest.approx(rise * 1.1, abs=1e-3)   # the list prices' +10%, undiluted
+    assert ti["history"]["members"][-1] == len(NEW)
 
 
 def test_compute_partially_collected_new_roster_freezes_visibly_until_three_link(tmp_path):
@@ -516,7 +541,7 @@ def test_gpu_index_chg_30d_compares_chained_levels(tmp_path):
 def test_compute_geometric_mean_value(tmp_path):
     days = ["2026-07-15", "2026-07-16"]
     rows = {}
-    for key, b0, b1 in (("claude_opus55", 4.0, 8.0), ("deepseek_v41_flash", 1.0, 0.5), ("gpt6_luna", 2.0, 2.0)):
+    for key, b0, b1 in (("claude_opus55_list", 4.0, 8.0), ("deepseek_v41_flash_list", 1.0, 0.5), ("gpt6_luna_list", 2.0, 2.0)):
         rows[f"or_{key}_in"] = {days[0]: b0, days[1]: b1}
         rows[f"or_{key}_out"] = {days[0]: b0, days[1]: b1}
     p = compute.build(_store(tmp_path, rows, source="OPENROUTER"))
