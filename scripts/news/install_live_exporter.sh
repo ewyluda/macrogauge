@@ -80,7 +80,7 @@ fi
 /bin/chmod 600 "${PLIST_PATH}"
 /usr/bin/plutil -lint "${PLIST_PATH}"
 
-echo "Running one export + upload now (up to ~2 min if it has to restore from R2)..."
+echo "Running one export + upload now (~2 min: every run restores from R2)..."
 /usr/bin/python3 "${SHARE_DIR}/caktus_ai_news.py" --config "${SHARE_DIR}/ai_news.json" \
   --upload --bucket "${bucket}"
 

@@ -3,7 +3,10 @@
 public R2 object into news.json."""
 import importlib.util
 import json
+import os
+import shutil
 import sqlite3
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -104,6 +107,68 @@ def test_sigv4_matches_the_aws_s3_get_object_example():
         "AWS4-HMAC-SHA256 Credential=AKIAIOSFODNN7EXAMPLE/20130524/us-east-1/s3/aws4_request, "
         "SignedHeaders=host;range;x-amz-content-sha256;x-amz-date, "
         "Signature=f0e8bdb87c964420e857bd35b5d6ed310bd44f0170aba48dd91039c6036bdb41")
+
+
+@pytest.fixture
+def caktus_sources(tmp_path, monkeypatch):
+    """A follower db + txid file and a fake reader whose `snapshot` copies a
+    replica db, or exits 1 when `restore_ok` is False."""
+    def db(path, post_id):
+        con = sqlite3.connect(path)
+        con.execute("CREATE TABLE posts (id TEXT)")
+        con.execute("INSERT INTO posts VALUES (?)", [post_id])
+        con.commit()
+        con.close()
+    follower, replica = tmp_path / "caktus.db", tmp_path / "replica.db"
+    db(follower, "follower")
+    db(replica, "replica")
+    txid = tmp_path / "caktus.db-txid"
+    txid.write_text("0000000000071f9e\n")
+    restore = tmp_path / "restore"
+    monkeypatch.setattr(exporter, "FOLLOWER_DB", str(follower))
+    monkeypatch.setattr(exporter, "SNAPSHOT_CMD", str(restore))
+
+    def setup(restore_ok=True, follower_age=0):
+        body = f'cp "{replica}" "$2"' if restore_ok else 'echo "litestream: no such bucket" >&2; exit 1'
+        restore.write_text(f"#!/bin/sh\n{body}\n")
+        restore.chmod(0o755)
+        t = time.time() - follower_age
+        os.utime(txid, (t, t))
+        out = tmp_path / "out"
+        shutil.rmtree(out, ignore_errors=True)
+        out.mkdir()
+        return str(out)
+
+    def read(path):
+        con = sqlite3.connect(path)
+        try:
+            return con.execute("SELECT id FROM posts").fetchone()[0]
+        finally:
+            con.close()
+    return setup, read
+
+
+def test_r2_restore_is_the_default_even_with_a_fresh_follower(caktus_sources):
+    """2026-10-16: after a 4.5h sleep the follower sat stable but hours behind the
+    replica and was published as fresh. The replica is current, so every run
+    restores from R2 first."""
+    setup, read = caktus_sources
+    path, mechanism = exporter.snapshot(setup())
+    assert (mechanism, read(path)) == ("r2", "replica")
+
+
+def test_failed_restore_falls_back_to_a_fresh_follower(caktus_sources, capsys):
+    setup, read = caktus_sources
+    path, mechanism = exporter.snapshot(setup(restore_ok=False))
+    assert (mechanism, read(path)) == ("follower", "follower")
+    assert "no such bucket" in capsys.readouterr().err
+
+
+def test_failed_restore_and_stale_follower_fails_the_run(caktus_sources):
+    """Never a stale tape under a fresh generated_at: the previous object stays up."""
+    setup, _ = caktus_sources
+    with pytest.raises(RuntimeError, match="unchanged for"):
+        exporter.snapshot(setup(restore_ok=False, follower_age=exporter.FOLLOWER_MAX_LAG_SECONDS + 60))
 
 
 # ---------------------------------------------------------------- publish phase
