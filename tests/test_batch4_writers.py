@@ -271,6 +271,27 @@ def test_compute_changeover_with_no_overlapping_day_links_flat_and_recovers(tmp_
     assert ti["value"] == pytest.approx(121.0) and ti["as_of"] == "2026-10-16"
 
 
+def test_compute_round_trip_across_a_thin_link_is_counted_whole(tmp_path):
+    """2026-10-08/09: DeepSeek V4.1 Flash fell 47% in the outgoing roster's
+    last link, then rebounded across the roster change, a link with only two
+    members priced on both days. Linking it flat counted the fall and dropped
+    the rebound (7.7pp of a -15.5% 30-day headline). A flat link's members
+    keep their price from before it, so the rebound lands in the next link
+    that measures them and the round trip nets out."""
+    span = ("deepseek_v41_flash", "gemini38_flash")
+    d1, d2, d3, d4 = "2026-10-07", "2026-10-08", "2026-10-09", "2026-10-12"
+    old = {k: {d1: 1.0, d2: 1.0} for k in ("gpt4o", "deepseek", "llama70b", "claude_sonnet", "gemini_flash")}
+    new = {k: {d3: 2.0, d4: 2.0} for k in NEW if k not in span}
+    new["deepseek_v41_flash"] = {d1: 0.5, d2: 0.25, d3: 0.5, d4: 0.5}
+    new["gemini38_flash"] = {d1: 3.0, d2: 3.0, d3: 3.0, d4: 3.0}
+    ti = compute.build(_store(tmp_path, _roster(old, new), source="OPENROUTER"))["token_index"]
+    by = dict(zip(ti["history"]["dates"], ti["history"]["index"]))
+    assert ti["history"]["members"] == [7, 7, 7, 7]
+    assert by[d2] == pytest.approx(100 * 0.5 ** (1 / 7), abs=1e-3)   # the fall, one of seven
+    assert by[d3] == by[d2]                                           # two span the change: flat
+    assert by[d4] == pytest.approx(100.0)                             # the rebound, measured from d2
+
+
 def test_compute_partially_collected_new_roster_freezes_visibly_until_three_link(tmp_path):
     """Only one current model priced and seven never observed: no day is
     declared a new base and no thin day is published. The index stops at the
