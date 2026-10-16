@@ -2,10 +2,13 @@ import Link from "next/link";
 import dcJson from "../../public/data/datacenter.json";
 import computeJson from "../../public/data/compute.json";
 import capacityJson from "../../public/data/capacity.json";
+import gradesJson from "../../public/data/dc_grades.json";
 import { artifact } from "@/lib/artifact";
+import { storageTailState } from "@/lib/dcHub";
 import { fmtDay, fmtMonth } from "@/lib/format";
 import { DC_WEIGHT_BASIS, DC_WEIGHT_REVIEWED, type DcIndexKey } from "@/lib/dcWeightBasis";
 import { midSentence } from "@/lib/homeBrief";
+import type { DcGrades } from "@/lib/types";
 
 const INDEXES: { key: DcIndexKey; title: string; prices: string }[] = [
   { key: "build", title: "DC Build", prices: "what goes into the facility: site labor, materials, electrical and mechanical equipment" },
@@ -21,7 +24,7 @@ const listOf = (labels: string[]) => {
 };
 
 /** The data-center and AI-infra half of /methodology, generated from the
- *  published datacenter / compute / capacity artifacts. Only the weight
+ *  published datacenter / compute / capacity / dc_grades artifacts. Only the weight
  *  rationale is hand-written (lib/dcWeightBasis.ts, drift-tested). */
 export function DcMethodology() {
   const dc = artifact("datacenter", dcJson);
@@ -33,6 +36,7 @@ export function DcMethodology() {
   const { w_labor: wl, w_power: wp } = dc.parity;
   const gpusInIndex = compute.gpus.filter((g) => g.in_index !== false).length;
   const all = capacity.cohorts.all;
+  const storage = storageTailState(artifact<"dc_grades", DcGrades>("dc_grades", gradesJson).storage_nowcast);
 
   return (
     <div className="dc-method-doc">
@@ -119,10 +123,15 @@ export function DcMethodology() {
             <b>Live tails.</b> {listOf(tailed)} {tailed.length === 1 ? "rides" : "ride"} a daily market price
             after the last official print. The tail is spliced onto the official series at that print and re-anchored
             at the next, so market data never overwrites official history. Copper and aluminum use front-month
-            futures. Storage uses NAND spot prices, and only while NAND is more than 50% away from its level a
-            year earlier, the regime where its backtest beat carrying the last print forward.
+            futures.
           </li>
         )}
+        <li>
+          <b>Graded storage tail.</b> Past the last storage-device PPI, storage &amp; memory would ride NAND spot
+          prices while NAND is more than {storage.move} away from its level a year earlier, and only if that
+          switched tail beats carrying the last print forward in the{" "}
+          <Link href="/escalation/grades">backtest</Link>. {storage.state}
+        </li>
         <li>
           <b>Facility boundary.</b> DC Build excludes servers and GPUs. They sit in DC Hardware, which prices
           them with BLS import and producer price indexes. Those are constant-quality indexes: BLS removes

@@ -21,7 +21,7 @@ import { clusterStories } from "@/lib/newsTape";
 import { fmtDay, fmtSigned } from "@/lib/format";
 import { DcDrivers, type DriverComp, type DriverGroup } from "@/components/DcDrivers";
 import type { DcGrades, LongLead, Rates } from "@/lib/types";
-import { dcHeadline, powerSummary, surgeFromLow } from "@/lib/dcHub";
+import { dcHeadline, powerSummary, storageTailState, surgeFromLow } from "@/lib/dcHub";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
 import { dcBuildMonthlyCsvSpec } from "@/lib/exportSpecs";
@@ -40,17 +40,8 @@ const buildCodes = dc.indexes.build.components.map((c) => c.code);
 
 const GROUPS = dc.group_labels as Record<string, string>;
 const longlead = artifact<"longlead", LongLead>("longlead", llJson);
-// The storage tail's live state comes from its backtest grade, never from
-// copy: a FAIL keeps storage & memory official-only.
-const storageTail = artifact<"dc_grades", DcGrades>("dc_grades", gradesJson).storage_nowcast ?? null;
-const storageMove = `${Math.round((storageTail?.regime_min_move ?? 0.5) * 100)}%`;
-const storageState = !storageTail || storageTail.verdict === "INSUFFICIENT"
-  ? "There is not yet enough history to grade it, so storage & memory is currently official-only."
-  : storageTail.tail_active
-    ? `It passed, and NAND is ${fmtSigned(storageTail.proxy_yoy_pct)} from a year ago, so the tail is live.`
-    : storageTail.verdict === "PASS"
-      ? `It passed, but NAND is within ${storageMove} of a year ago, so the last print carries forward.`
-      : "It did not beat carrying the last print forward, so storage & memory is currently official-only.";
+const { move: storageMove, state: storageState } = storageTailState(
+  artifact<"dc_grades", DcGrades>("dc_grades", gradesJson).storage_nowcast);
 
 // The rest of the DC coverage, one card per page — this page is the hub
 // (nine cards: a full 3×3 grid).
