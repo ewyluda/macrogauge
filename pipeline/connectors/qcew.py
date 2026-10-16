@@ -33,6 +33,11 @@ requested, agglvl must match the area's level, and wage/headcount must sit
 inside a plausible range -- a violation raises "structure drift?" for that
 quarter, which the per-quarter tolerance turns into a partial warning
 instead of garbage in the store.
+
+NAICS 238222 -- NONRESIDENTIAL plumbing and HVAC contractors, the mechanical
+trade -- mirrors 238212 exactly under its own key (QCEW_238222), same
+endpoint, same guards. The parent 238220 404s (split by NAICS 2022 into
+238221/238222, like 238210); verified live 2026-10-16 for 2024Q1-2026Q1.
 """
 import csv
 import io
@@ -47,14 +52,18 @@ from pipeline.models import Observation
 QCEW_URL = "https://data.bls.gov/cew/data/api/{year}/{qtr}/industry/{naics}.csv"
 NAICS = "23"
 NAICS_ELEC = "238212"  # nonresidential electrical contractors (NAICS 2022)
+NAICS_MECH = "238222"  # nonresidential plumbing and HVAC contractors (NAICS 2022)
 
 # Drift guards for 6-digit pulls, keyed by NAICS. NAICS 23 is deliberately
 # absent: its path predates the guards and must stay byte-identical.
 # Ranges are generous on purpose -- they catch a mis-parsed column (a wage
 # landing in the headcount field, cents for dollars), not a hot market: the
 # live 2024Q1-2026Q1 DC-county 238212 wages ran $1,091-$6,492/wk (Santa
-# Clara 2024Q3 the outlier) and the US private headcount ~0.8M.
-_GUARDS = {NAICS_ELEC: {"wage": (200.0, 15000.0), "emp": (1.0, 3_000_000.0)}}
+# Clara 2024Q3 the outlier) and the US private headcount ~0.8M. 238222 sits
+# inside the same bounds: DC-county wages $1,133-$3,453/wk over 2024Q1-2026Q1
+# (Loudoun 2025Q4 the high), US private headcount ~0.65M.
+_GUARDS = {NAICS_ELEC: {"wage": (200.0, 15000.0), "emp": (1.0, 3_000_000.0)},
+           NAICS_MECH: {"wage": (200.0, 15000.0), "emp": (1.0, 3_000_000.0)}}
 # agglvl_code by area level in a 6-digit industry slice (QCEW agglvl titles:
 # 18 = national x 6-digit, 58 = state x 6-digit, 78 = county x 6-digit).
 _AGGLVL_6 = {"us": "18", "state": "58", "county": "78"}

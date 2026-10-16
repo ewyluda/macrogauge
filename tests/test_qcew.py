@@ -409,3 +409,73 @@ def test_collect_routes_238212_series_to_their_own_codes(tmp_path):
         "2025-01-01": 2218.0, "2026-01-01": 2392.0}
     # same source_id "51107" under QCEW never leaks into the NAICS 23 code
     assert dict(vintage.latest(conn, "qcew_wage23_c51107")) == {}
+
+
+# --- NAICS 238222 (nonresidential plumbing and HVAC contractors) -----------
+# Fixtures are the live 2026/1 and 2025/1 /industry/238222.csv files (fetched
+# 2026-10-16), trimmed to the header plus: US000 own 3 and own 5, Virginia
+# 51000, and counties 51107/51153/04013/32031 (published) and 04021/22083/
+# 32029 (disclosure code N in both quarters).
+
+FIXTURE_MECH = Path(__file__).parent / "fixtures" / "qcew_industry238222.csv"
+FIXTURE_MECH_YA = Path(__file__).parent / "fixtures" / "qcew_industry238222_2025q1.csv"
+
+
+def mech_get(url, timeout=None, **kw):
+    assert "data.bls.gov/cew/data/api/" in url and url.endswith("/industry/238222.csv")
+    if "/2026/1/" in url:
+        return _Resp(FIXTURE_MECH.read_text())
+    if "/2025/1/" in url:
+        return _Resp(FIXTURE_MECH_YA.read_text())
+    return _Resp("", status=404)
+
+
+def _mech(ids, get=mech_get, vintage="2026-10-16"):
+    return qcew.fetch(ids, vintage_date=vintage, http_get=get,
+                      naics=qcew.NAICS_MECH, source="QCEW_238222")
+
+
+def test_238222_reads_the_6_digit_slice_tagged_with_its_own_source():
+    obs = _mech(["51107", "51107~emp", "51107~aemp", "US000", "US000~emp"])
+    got = {(o.series_code, o.obs_date): o.value for o in obs}
+    assert got == {
+        ("51107", "2026-01-01"): 2134.0, ("51107~emp", "2026-01-01"): 2535.0,
+        ("51107~aemp", "2026-01-01"): pytest.approx((2365 + 2457 + 2535) / 3),
+        ("51107", "2025-01-01"): 1905.0, ("51107~emp", "2025-01-01"): 2285.0,
+        ("51107~aemp", "2025-01-01"): pytest.approx((2231 + 2247 + 2285) / 3),
+        # own 5 (private), never own 3 ($1,460)
+        ("US000", "2026-01-01"): 1853.0, ("US000~emp", "2026-01-01"): 646373.0,
+        ("US000", "2025-01-01"): 1771.0, ("US000~emp", "2025-01-01"): 623861.0}
+    assert all(o.source == "QCEW_238222" and o.route == "CSV" for o in obs)
+
+
+def test_238222_suppressed_counties_are_skipped_never_zero():
+    # Pinal AZ, Richland Parish LA, Storey NV print "N" with zeroed cells.
+    assert _mech([f"{f}{s}" for f in ("04021", "22083", "32029")
+                  for s in ("", "~emp", "~aemp")]) == []
+
+
+def test_238222_carries_the_6_digit_drift_guards():
+    assert qcew._GUARDS[qcew.NAICS_MECH] == qcew._GUARDS[qcew.NAICS_ELEC]
+
+    # An electrical-contractor body served at the 238222 URL must never be
+    # ingested as plumbing/HVAC: every quarter fails the industry_code guard.
+    def wrong_get(url, timeout=None, **kw):
+        return _Resp(FIXTURE_ELEC.read_text())
+    with pytest.raises(RuntimeError, match="QCEW_238222: no quarter loaded"):
+        _mech(["US000"], get=wrong_get)
+
+
+def test_collect_routes_238222_series_to_their_own_codes(tmp_path):
+    from pipeline import collect, registry
+    from pipeline.store import vintage
+    sources, series = registry.load_registry()
+    subset = [s for s in series if s.source == "QCEW_238222"]
+    results = collect.collect_all({"QCEW_238222": sources["QCEW_238222"]}, subset,
+                                  {}, tmp_path, http_get=mech_get, http_post=None)
+    assert [(r.source, r.ok) for r in results] == [("QCEW_238222", True)]
+    conn = vintage.load(tmp_path)
+    assert dict(vintage.latest(conn, "qcew_wage238222_c04013")) == {
+        "2025-01-01": 1837.0, "2026-01-01": 1853.0}
+    # the same source_id under QCEW_238212 never leaks into the 238222 code
+    assert dict(vintage.latest(conn, "qcew_wage238212_c04013")) == {}

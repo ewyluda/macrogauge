@@ -23,16 +23,16 @@ def test_load_real_registry():
                             "CLEVELAND", "KALSHI", "EIA_STATE", "QCEW", "CENSUS",
                             "DRAMEX", "VASTAI", "SFCOMPUTE", "OPENROUTER", "STEO",
                             "CAISO", "MISO", "ICE", "EIA_SPOT", "KALSHI_DC", "KALSHI_CORE",
-                            "EIA_STATE_RES", "KALSHI_FED", "NYFED", "ATLFED", "QCEW_238212",
+                            "EIA_STATE_RES", "KALSHI_FED", "NYFED", "ATLFED", "QCEW_238212", "QCEW_238222",
                             "ERCOT", "SPP", "NYISO", "AWS_GPU", "AZURE_GPU", "OCI_GPU", "COREWEAVE",
                             "NEBIUS", "AZURE_GPU_RESERVED"}
-    assert len(series) == 870  # +CES2000000006 production workers, +CES2000000011/30 avg weekly earnings all/production (/labor non-craft share, 10-08); +6 Azure GPU reservations, 1y/3y x H100/H200/GB200 (10-08); +USCONS, JOLTS construction openings level + rate (/labor construction band, 10-08); +4 Nebius GPU list prices (10-08); 8 -> 7 roster models x in/out (usage roster, 10-08); +IG/BBB OAS, BBB effective yield, 30-day SOFR (rates, 10-07); +19 cloud GPU list prices, +8 current models x in/out, -6 retired models x in/out (10-07); +ICE Mid-C/Palo Verde/Mass Hub, ERCOT/SPP/NYISO hubs (10-04); +89 QCEW_238212; +M3 SA backlog x4, euro HICP x2, SCE x3, BIE x2 (10-01); +nyfed_mct; +KXFED/DFEDTARU/tariff/GSCPI/B300 (measures) +4 PPIs/CSUSHPISA/SASL2RS (PCE, methodology)
+    assert len(series) == 963  # +83 QCEW_238222, +4 BLS CES construction-trade detail, +2 ECI, +ADP construction, +3 Indeed postings (/labor DC trades, 10-16); +CES2000000006 production workers, +CES2000000011/30 avg weekly earnings all/production (/labor non-craft share, 10-08); +6 Azure GPU reservations, 1y/3y x H100/H200/GB200 (10-08); +USCONS, JOLTS construction openings level + rate (/labor construction band, 10-08); +4 Nebius GPU list prices (10-08); 8 -> 7 roster models x in/out (usage roster, 10-08); +IG/BBB OAS, BBB effective yield, 30-day SOFR (rates, 10-07); +19 cloud GPU list prices, +8 current models x in/out, -6 retired models x in/out (10-07); +ICE Mid-C/Palo Verde/Mass Hub, ERCOT/SPP/NYISO hubs (10-04); +89 QCEW_238212; +M3 SA backlog x4, euro HICP x2, SCE x3, BIE x2 (10-01); +nyfed_mct; +KXFED/DFEDTARU/tariff/GSCPI/B300 (measures) +4 PPIs/CSUSHPISA/SASL2RS (PCE, methodology)
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 152  # 35 BLS-origin series moved to direct BLS (10-15)
+    assert len(fred) == 158  # +2 ECI, ADP, 3 Indeed (10-16); 35 BLS-origin series moved to direct BLS (10-15)
     # Pin the FRED wire ids. A bad id fails the whole FRED batch, so lock these down.
     fred_ids = {s.code: s.source_id for s in fred}
     assert fred_ids == {
@@ -76,6 +76,10 @@ def test_load_real_registry():
             "fred_uo_hvac": "U33HUO",
             "fred_uo_turbines": "UTGPUO",
             "ces_dp_ahe": "CES5000000003",
+            # /labor DC trades (10-16), live-verified on FRED 2026-10-16;
+            # ECI comes via FRED because bls.py skips quarterly periods
+            **{c: c for c in ("CIU2022300000000I", "CIU2020000430000I", "ADPMINDCONNERSA",
+                              "IHLIDXUSTPCONS", "IHLIDXUSTPELECENGI", "IHLIDXUSTPINMA")},
             "ppi_mach_repair": "PCU811310811310",
             "ppi_storage": "PCU334112334112",
             "ppi_semis_components": "PCU33443344",
@@ -126,6 +130,8 @@ def test_load_real_registry():
         "ppi_pce_airline": "PCU481111481111", "ppi_pce_physician": "PCU621111621111",
         "ppi_pce_hospital": "PCU622---622---",
         "JTS2300JOL": "JTS230000000000000JOL", "JTS2300JOR": "JTS230000000000000JOR",
+        # construction-trade detail (/labor DC trades, 10-16): BLS API only
+        **{c: c for c in ("CES2023821003", "CES2023820003", "CES2023800201", "CES2023800101")},
     }
     # ...and each keeps the FRED id it had, which FRED/ALFRED history tools
     # (backfill_base_dec2016, backfill_construction_mix) must send instead —
@@ -133,7 +139,11 @@ def test_load_real_registry():
     assert {s.code: s.fred_series_id for s in series if s.code in bls_ids} == {
         **{c: c for c in bls_ids if c not in (
             "CUUR0000SAM", "CUUR0000SAA", "CUUR0000SAR", "CUUR0000SAE", "CUUR0000SAG",
-            "ppi_pce_airline", "ppi_pce_physician", "ppi_pce_hospital", "cpi_water")},
+            "ppi_pce_airline", "ppi_pce_physician", "ppi_pce_hospital", "cpi_water",
+            "CES2023821003", "CES2023820003", "CES2023800201", "CES2023800101")},
+        # FRED serves none of the construction-trade detail (404), so the
+        # ALFRED-backed tools have no id to send for them
+        **{c: None for c in ("CES2023821003", "CES2023820003", "CES2023800201", "CES2023800101")},
         "CUUR0000SAM": "CPIMEDNS", "CUUR0000SAA": "CPIAPPNS", "CUUR0000SAR": "CPIRECNS",
         "CUUR0000SAE": "CPIEDUNS", "CUUR0000SAG": "CPIOGSNS",
         "ppi_pce_airline": "PCU481111481111", "ppi_pce_physician": "PCU621111621111",
@@ -180,6 +190,23 @@ def test_load_real_registry():
         tail = "us" if fips == "US000" else f"c{fips}"
         assert s.code == f"qcew_{metric}238212_{tail}" and s.source_id == f"{fips}{suffix}", s.code
         assert s.max_staleness_days == 400, s.code
+    # 83 = 2 national + 27 counties x wage/emp/aemp for private NAICS 238222
+    # (nonresidential plumbing and HVAC contractors), mirroring 238212 on its
+    # own key. 27, not 30: Storey NV (32029), Richland Parish LA (22083) and
+    # Grant WA (53025) printed no 238222 quarter in 2024 Q1-2026 Q1 (live
+    # 2026-10-16) -- left unregistered for the same NEVER reason as Storey
+    # above; the market engine reports them as suppressed.
+    assert sources["QCEW_238222"].secret is None and sources["QCEW_238222"].route == "CSV"
+    mech = [s for s in series if s.source == "QCEW_238222"]
+    assert len(mech) == 83
+    assert not [s for s in mech if s.code.endswith(("_c32029", "_c22083", "_c53025"))]
+    for s in mech:
+        fips = s.source_id.split("~")[0]
+        metric = s.code.split("238222")[0].removeprefix("qcew_")
+        suffix = {"wage": "", "emp": "~emp", "aemp": "~aemp"}[metric]
+        tail = "us" if fips == "US000" else f"c{fips}"
+        assert s.code == f"qcew_{metric}238222_{tail}" and s.source_id == f"{fips}{suffix}", s.code
+        assert s.max_staleness_days == 400, s.code
     # Power spike (wave 4): pin the exact source_ids — ice_ercot_north was
     # dropped from scope (does not exist in the ICE workbook) and Henry Hub
     # rides the v2 seriesid NG.RNGWHHD.D, not a v1 route.
@@ -214,7 +241,7 @@ def test_collected_sources_skip_retired_and_unused():
     live = registry.collected_sources(sources, series)
     # SFCOMPUTE keeps its registry row (and sfc_h100's history) but is retired
     assert "SFCOMPUTE" in sources and "SFCOMPUTE" not in live
-    assert len(live) == 43
+    assert len(live) == 44
     extra = {**sources, "UNUSED": registry.Source(name="UNUSED", route="API", cadence="daily", secret=None, secret_optional=False)}
     assert "UNUSED" not in registry.collected_sources(extra, series)
 
@@ -411,9 +438,9 @@ def test_registry_absence_policies_are_explicit_and_bounded():
     # The Hillsboro (Washington County OR) QCEW cell is suppressed as a unit --
     # all three metrics from that row carry the same policy, none is left out.
     # (238212 Washington Co. OR prints -- only the NAICS 23 cell is suppressed.)
-    hillsboro = {c for c in by if c.endswith("_c41067") and "238212" not in c}
+    hillsboro = {c for c in by if c.endswith("_c41067") and "2382" not in c}
     assert hillsboro == {"qcew_wage23_c41067", "qcew_emp23_c41067", "qcew_aemp23_c41067"}
-    assert all(by[c].absence is None for c in by if c.endswith("238212_c41067"))
+    assert all(by[c].absence is None for c in by if c.endswith(("238212_c41067", "238222_c41067")))
     # NAICS 238212: Dallas County IA and Richland Parish LA are suppressed in
     # 2026 Q1 (live 2026-10-01) with 2025 Q4 their last print -- each row's
     # three metrics share one policy, `since` that last print, so the policy
@@ -423,6 +450,14 @@ def test_registry_absence_policies_are_explicit_and_bounded():
     assert elec_policies == {f"qcew_{m}238212_c{f}" for m in ("wage", "emp", "aemp")
                              for f in ("19049", "22083")}
     for c in elec_policies:
+        a = policies[c]
+        assert (a.kind, a.since, a.review_by) == ("suppressed", "2025-10-01", "2027-03-31"), c
+        assert by[c].max_staleness_days == 400, c
+    # NAICS 238222: Pinal County AZ printed only 2025 Q4 in the window and is
+    # suppressed in 2026 Q1 (live 2026-10-16) -- same shape of policy.
+    mech_policies = {c for c, a in policies.items() if "238222" in c}
+    assert mech_policies == {f"qcew_{m}238222_c04021" for m in ("wage", "emp", "aemp")}
+    for c in mech_policies:
         a = policies[c]
         assert (a.kind, a.since, a.review_by) == ("suppressed", "2025-10-01", "2027-03-31"), c
         assert by[c].max_staleness_days == 400, c

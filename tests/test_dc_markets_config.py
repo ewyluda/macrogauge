@@ -60,6 +60,19 @@ def test_every_county_has_registered_238212_series_but_storey():
     assert missing == {"32029"}
 
 
+def test_every_county_has_registered_238222_series_but_three():
+    # NAICS 238222 (nonresidential plumbing and HVAC) rides the same roster.
+    # Storey NV, Richland Parish LA and Grant WA printed no 238222 quarter in
+    # 2024 Q1-2026 Q1 (see test_registry.py) and are the documented exclusions.
+    markets = dc_markets.load()
+    from pipeline import registry
+    _, series = registry.load_registry()
+    codes = {s.code for s in series}
+    missing = {f for m in markets for f in m.counties
+               if not {f"qcew_{k}238222_c{f}" for k in ("wage", "emp", "aemp")} <= codes}
+    assert missing == {"32029", "22083", "53025"}
+
+
 def test_unknown_series_code_raises(tmp_path):
     raw = {"as_of_curated": "2026-07-25", "note": "x", "markets": [
         {"key": "k", "name": "K", "counties": ["99999"], "state": "VA",

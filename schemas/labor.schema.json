@@ -90,6 +90,34 @@
         }
       }
     },
+    "dc_trades": {
+      "description": "Display-only data-center trades block: electrical (CES2023821003) and building equipment (CES2023820003) contractor hourly earnings against all construction (CES2000000003) at the trade series' own month, nonresidential vs residential specialty trade jobs, ADP construction jobs, ECI wages (construction industry, installation/maintenance/repair occupations) and Indeed postings indexes. Every row always publishes; missing data is null. Added 2026-10-16; optional so older labor.json files still validate.",
+      "type": "object", "additionalProperties": false,
+      "required": ["rows"],
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["key", "label", "series_id", "source", "unit", "cadence", "value", "yoy_pct", "as_of", "vs_label", "vs_yoy_pct", "spread_pp"],
+            "properties": {
+              "key": {"type": "string"},
+              "label": {"type": "string"},
+              "series_id": {"type": "string"},
+              "source": {"type": "string"},
+              "unit": {"enum": ["usd_per_hour", "thousands", "index"]},
+              "cadence": {"enum": ["daily", "monthly", "quarterly"]},
+              "value": {"type": ["number", "null"]},
+              "yoy_pct": {"type": ["number", "null"], "description": "at the row's own as_of; daily postings against the obs nearest 365 days back"},
+              "as_of": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+              "vs_label": {"type": ["string", "null"]},
+              "vs_yoy_pct": {"type": ["number", "null"], "description": "the comparison series' YoY at this row's as_of (like months)"},
+              "spread_pp": {"type": ["number", "null"], "description": "yoy_pct - vs_yoy_pct, percentage points"}
+            }
+          }
+        }
+      }
+    },
     "history": {
       "type": "object", "additionalProperties": false,
       "required": ["monthly", "weekly"],

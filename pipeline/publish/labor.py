@@ -6,12 +6,15 @@ reports a percentage-point change (delta_1y_pp), not a percent change. The NFP n
 graded accountability are already published (nowcast_latest.json / accountability_nfp.json)
 and are NOT duplicated here — the page imports them directly. Missing data publishes null
 blocks: a new writer must never be able to take down the publish block.
+
+`dc_trades` is display-only: the specialty trades a data-center build leans on, set beside the
+broad construction series the DC cost index rides (config/dc_basket.json is untouched).
 """
 from pathlib import Path
 
 from pipeline.dates import months_back, prior_month
 from pipeline.publish.real_wages import AHE, CONSTR, WGT
-from pipeline.publish.util import write_json, yoy_pct
+from pipeline.publish.util import pct_change_daily, write_json, yoy_pct
 from pipeline.store import vintage
 
 PAYEMS = "PAYEMS"
@@ -31,6 +34,38 @@ MIX_START = "1990-01-01"  # scripts/backfill_construction_mix.py seeds from here
 # wage series codes are shared with the real-wages writer — one definition
 MONTHLY_TAIL = 36
 WEEKLY_TAIL = 52
+
+# Data-center trades: (key, label, series code = source id, source, unit,
+# scale, comparison code, comparison label). Each row's YoY is at its own
+# last obs; the comparison is taken at that same month (trade detail prints a
+# month behind the construction supersector). Postings are daily: YoY against
+# the obs nearest 365 days back.
+_CES, _ECI = "BLS CES", "BLS ECI via FRED"
+_INDEED = "Indeed Hiring Lab via FRED, CC BY 4.0"
+DC_TRADES = (
+    ("electrical_ahe", "Electrical contractors, hourly earnings", "CES2023821003", _CES,
+     "usd_per_hour", 1, CONSTR, "all construction"),
+    ("building_equipment_ahe", "Building equipment contractors (electrical, plumbing/HVAC, other), hourly earnings",
+     "CES2023820003", _CES, "usd_per_hour", 1, CONSTR, "all construction"),
+    ("nonres_specialty_jobs", "Nonresidential specialty trade jobs", "CES2023800201", _CES,
+     "thousands", 1, "CES2023800101", "residential specialty trades"),
+    ("res_specialty_jobs", "Residential specialty trade jobs", "CES2023800101", _CES,
+     "thousands", 1, None, None),
+    ("adp_construction_jobs", "Construction jobs, ADP", "ADPMINDCONNERSA",
+     "ADP National Employment Report via FRED", "thousands", 1e-3, None, None),
+    ("eci_construction", "ECI wages, private construction industry", "CIU2022300000000I", _ECI,
+     "index", 1, None, None),
+    ("eci_install_maint_repair", "ECI wages, installation, maintenance and repair occupations",
+     "CIU2020000430000I", _ECI, "index", 1, None, None),
+    ("postings_construction", "Indeed job postings, construction", "IHLIDXUSTPCONS", _INDEED,
+     "index", 1, None, None),
+    ("postings_electrical_engineering", "Indeed job postings, electrical engineering",
+     "IHLIDXUSTPELECENGI", _INDEED, "index", 1, None, None),
+    ("postings_install_maint", "Indeed job postings, installation and maintenance", "IHLIDXUSTPINMA",
+     _INDEED, "index", 1, None, None),
+)
+_DAILY = {"IHLIDXUSTPCONS", "IHLIDXUSTPELECENGI", "IHLIDXUSTPINMA"}
+_QUARTERLY = {"CIU2022300000000I", "CIU2020000430000I"}
 
 
 def _rows(conn, code):
@@ -145,6 +180,25 @@ def _construction_mix(emp, prod, awe, prod_awe):
                             for m in months]}}
 
 
+def _dc_trades(conn) -> dict:
+    rows = []
+    for key, label, code, source, unit, scale, vs_code, vs_label in DC_TRADES:
+        obs = _rows(conn, code)
+        a = max(obs) if obs else None
+        yoy = vs = None
+        if a is not None:
+            yoy = pct_change_daily(obs, a, 365) if code in _DAILY else yoy_pct(obs, a)
+            if vs_code:
+                vs = yoy_pct(_rows(conn, vs_code), a)
+        rows.append({"key": key, "label": label, "series_id": code, "source": source,
+                     "unit": unit, "cadence": "daily" if code in _DAILY
+                     else "quarterly" if code in _QUARTERLY else "monthly",
+                     "value": None if a is None else round(obs[a] * scale, 2 if unit == "usd_per_hour" else 1),
+                     "yoy_pct": yoy, "as_of": a, "vs_label": vs_label, "vs_yoy_pct": vs,
+                     "spread_pp": None if yoy is None or vs is None else round(yoy - vs, 2)})
+    return {"rows": rows}
+
+
 def _history(payems, unrate, icsa, cons):
     months = sorted(set(payems) | set(unrate))[-MONTHLY_TAIL:]
 
@@ -171,6 +225,7 @@ def build(conn) -> dict:
                                           _rows(conn, CONS_OPEN), _rows(conn, CONS_OPEN_RATE)),
             "construction_mix": _construction_mix(cons, _rows(conn, CONS_PROD), _rows(conn, CONS_AWE),
                                                   _rows(conn, CONS_PROD_AWE)),
+            "dc_trades": _dc_trades(conn),
             "history": _history(payems, unrate, icsa, cons)}
 
 
