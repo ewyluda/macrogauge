@@ -242,7 +242,9 @@ body.research-site .footer-meta { font-size: 12px; }
   body.research-site .wordmark { font-size: 14px; letter-spacing: .09em; }
   body.research-site .header-primary .wordmark::before { margin-right: 8px; }
   body.research-site .header-status .status-pill { font-size: 11px; padding: 3px 7px; }
-  body.research-site .mobile-menu-toggle { border: 0; background: transparent; }
+  /* the toggle sits at the far right edge, past the self-test pill */
+  body.research-site .mobile-menu-toggle { border: 0; background: transparent; position: absolute; top: 10px; right: 8px; }
+  body.research-site .header-status { margin-right: 40px; }
   body.research-site .nav-items { top: 64px; max-height: calc(100dvh - 64px); box-shadow: 0 18px 36px #17212B12; }
   body.research-site .nav-menu { box-shadow: none; padding: 2px 0 8px 12px; }
   .research-intro { padding: 24px 0 20px; }
@@ -283,7 +285,11 @@ body.research-site .footer-meta { font-size: 12px; }
   .research-page .project-toolkit-grid { grid-template-columns: 1fr 1fr; gap: 24px 16px; }
   .research-page .project-tool-card strong { font-size: 15px; }
   .research-page .outlook-drivers { grid-template-columns: 1fr 1fr; }
-  body.research-site .footer-links { display: grid; grid-template-columns: 1fr 1fr; }
+  /* footer links are 44px tap rows, two to a line under each full-width head */
+  body.research-site .footer-links { flex-direction: column; gap: 20px; }
+  body.research-site .footer-col { display: grid; grid-template-columns: 1fr 1fr; column-gap: 16px; row-gap: 0; }
+  body.research-site .footer-col-head { grid-column: 1 / -1; }
+  body.research-site .footer-col a { display: flex; align-items: center; min-height: 44px; }
   .research-page > div > h1 { font-size: 30px !important; margin-top: 24px !important; }
   .research-page .lede { font-size: 15px; line-height: 1.65; }
   .research-page .kpi-row { gap: 12px; }

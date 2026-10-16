@@ -22,7 +22,7 @@ test("/datacenter exports the DC Build monthly index as CSV, built on click", as
   expect(download.suggestedFilename()).toBe("macrogauge-dc-build-monthly.csv");
   const { readFileSync } = await import("node:fs");
   const lines = readFileSync((await download.path())!, "utf8").trimEnd().split("\r\n");
-  expect(lines[0].startsWith("# MacroGauge DC Build index, monthly")).toBe(true);
+  expect(lines[0].startsWith("# Macrogauge DC Build index, monthly")).toBe(true);
   expect(lines[1]).toBe(["month", "build_index", ...codes].join(","));
   expect(lines.length - 2).toBe(build.monthly.months.length);
   expect(lines[2].startsWith(`${build.monthly.months[0]},`)).toBe(true);

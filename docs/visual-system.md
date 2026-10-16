@@ -1,4 +1,4 @@
-# MacroGauge visual system
+# Macrogauge visual system
 
 The September 2026 refresh uses the approved homepage and Data Centers design
 across all routes: off-white canvas, white analytical surfaces, charcoal text,

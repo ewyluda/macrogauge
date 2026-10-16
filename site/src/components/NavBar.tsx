@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { NAV, groupHrefs } from "@/lib/nav";
+import { NAV, groupActive, itemActive } from "@/lib/nav";
 
 export function NavBar() {
   const pathname = usePathname();
@@ -63,7 +63,7 @@ export function NavBar() {
       >
         {NAV.map((entry) => {
           if (entry.kind === "link") {
-            const active = pathname === entry.href;
+            const active = itemActive(pathname, entry);
             return (
               <Link
                 key={entry.href}
@@ -77,7 +77,7 @@ export function NavBar() {
             );
           }
           const isOpen = open === entry.label;
-          const childActive = groupHrefs(entry).includes(pathname);
+          const childActive = groupActive(pathname, entry);
           return (
             <div
               key={entry.label}
@@ -105,9 +105,9 @@ export function NavBar() {
                 onClick={() => setOpen(isOpen ? null : entry.label)}
               >
                 {entry.label}
-                <span className="nav-caret" aria-hidden>
-                  {isOpen ? "▴" : "▾"}
-                </span>
+                <svg className="nav-caret" viewBox="0 0 10 10" aria-hidden="true">
+                  <path d="M2 3.5 5 6.5 8 3.5" />
+                </svg>
               </button>
               {/* always in the DOM (CSS-hidden when closed) so every route has
                   a server-rendered link for crawlers and no-JS visitors */}
@@ -122,7 +122,7 @@ export function NavBar() {
                         key={item.href}
                         href={item.href}
                         className={
-                          pathname === item.href
+                          itemActive(pathname, item)
                             ? "nav-menu-link active"
                             : "nav-menu-link"
                         }

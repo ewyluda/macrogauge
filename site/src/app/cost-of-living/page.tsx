@@ -72,7 +72,7 @@ export default function CostOfLiving() {
           accent="amber"
         />
         <KpiCard
-          label="Headline macrogauge"
+          label="Headline Macrogauge"
           value={fmtPct(pulse.gauge.yoy_pct)}
           context={`the full-basket gauge, rental-equivalence shelter · as of ${pulse.gauge.as_of}`}
           accent="sky"
@@ -85,7 +85,7 @@ export default function CostOfLiving() {
         />
       </div>
 
-      <Section title="Cost of Living vs macrogauge — YoY, last 24 months by default">
+      <Section title="Cost of Living vs Macrogauge — YoY, last 24 months by default">
         <div
           style={{
             background: "var(--card)",
@@ -111,7 +111,7 @@ export default function CostOfLiving() {
 
       <Section title="Methodology">
         <div style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.6 }}>
-          Identical to the headline macrogauge in every component but one: owned
+          Identical to the headline Macrogauge in every component but one: owned
           shelter. CPI — and our gauge — prices the home you already own by
           rental equivalence (what it would rent for): the cost of{" "}
           <em>keeping</em> the life you have. Cost of Living instead prices the

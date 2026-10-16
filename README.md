@@ -1,4 +1,4 @@
-# MacroGauge
+# Macrogauge
 
 **A daily, independent view of US inflation—built from live market data, official releases, and auditable vintage history.**
 
@@ -7,9 +7,9 @@
 [![Python 3.12](https://img.shields.io/badge/python-3.12-3776AB)](https://www.python.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-static_export-000000)](https://nextjs.org/)
 
-[Open MacroGauge](https://macrogauge.vercel.app) · [Explore Data Center Inflation](https://macrogauge.vercel.app/datacenter) · [Read the methodology](https://macrogauge.vercel.app/methodology)
+[Open Macrogauge](https://macrogauge.vercel.app) · [Explore Data Center Inflation](https://macrogauge.vercel.app/datacenter) · [Read the methodology](https://macrogauge.vercel.app/methodology)
 
-MacroGauge re-prices the CPI basket using higher-frequency market and alternative data, compares the result with official inflation, forecasts upcoming prints, and publishes the evidence behind every number. The Python pipeline performs all collection and calculation; the Next.js site renders pre-built, schema-validated JSON and does no analytical work in the browser.
+Macrogauge re-prices the CPI basket using higher-frequency market and alternative data, compares the result with official inflation, forecasts upcoming prints, and publishes the evidence behind every number. The Python pipeline performs all collection and calculation; the Next.js site renders pre-built, schema-validated JSON and does no analytical work in the browser.
 
 ## Data Center Inflation
 
@@ -32,7 +32,7 @@ The page also carries monthly Census C30 data-center construction spending — a
 
 - a keyless **Census XLSX connector** for the seasonally adjusted annual-rate and not-seasonally-adjusted construction series;
 - nominal construction spending in dollars and NSA same-month YoY growth;
-- **real data-center construction spending**, calculated by deflating Census nominal spending with MacroGauge's own DC Build Index into constant January 2018 dollars;
+- **real data-center construction spending**, calculated by deflating Census nominal spending with Macrogauge's own DC Build Index into constant January 2018 dollars;
 - revision-aware ingestion into the append-only vintage store, preserving preliminary, revised, and final Census values;
 - a nullable `construction` block inside `datacenter.json`, so the section degrades cleanly if the source breaks;
 - source-drift checks and an isolated `CENSUS` failure domain, so a workbook-layout change cannot break the core inflation gauge or the rest of the Data Center page.
@@ -197,4 +197,4 @@ This policy keeps old vintages replayable and makes source revisions auditable o
 - **CI:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
 - **Current work:** a market-data memory nowcast tail for the DC Hardware Index (no official DRAM price index exists) and a cost-of-compute section (GPU rental and AI inference prices)
 
-MacroGauge is an analytical project, not investment advice. Source data can be revised, delayed, or unavailable; the site exposes freshness and QA state so those limitations remain visible.
+Macrogauge is an analytical project, not investment advice. Source data can be revised, delayed, or unavailable; the site exposes freshness and QA state so those limitations remain visible.

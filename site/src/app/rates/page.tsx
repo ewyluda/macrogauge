@@ -144,7 +144,7 @@ export default function RatesPage() {
       <Section title="The curve — today vs 30 days and a year ago" featured>
         <div className="section-tools">
           <DownloadData filename="macrogauge-treasury-curve" json="rates.json" spec={RATES_CURVE_CSV}
-            citation={`MacroGauge Treasury curve snapshot, as of ${ten?.as_of ?? "—"}`} />
+            citation={`Macrogauge Treasury curve snapshot, as of ${ten?.as_of ?? "—"}`} />
         </div>
         <div className="chart-card"><CurveChart curve={data.curve} /></div>
         <div className="table-card" style={{ marginTop: 10 }}>
@@ -171,7 +171,7 @@ export default function RatesPage() {
       <Section title="Spreads — 2s10s, 3m10y and the real 10-year, since 2019">
         <div className="section-tools">
           <DownloadData filename="macrogauge-rates-history" json="rates.json"
-            citation="MacroGauge rates history (daily, DGS10 business-day grid)"
+            citation="Macrogauge rates history (daily, DGS10 business-day grid)"
             spec={RATES_HISTORY_CSV} />
         </div>
         <div className="chart-card">
@@ -286,7 +286,7 @@ export default function RatesPage() {
           <KpiCard label="Overnight reverse repo" value={bn(liq.rrp_bn)} context="RRPONTSYD, latest daily" accent="emerald" />
         </div>
         <div className="section-tools">
-          <DownloadData filename="macrogauge-liquidity" json="rates.json" citation={`MacroGauge net liquidity ($bn), weekly, as of ${liq.as_of ?? "—"}`}
+          <DownloadData filename="macrogauge-liquidity" json="rates.json" citation={`Macrogauge net liquidity ($bn), weekly, as of ${liq.as_of ?? "—"}`}
             spec={RATES_LIQUIDITY_CSV} />
         </div>
         <div className="chart-card">

@@ -50,7 +50,7 @@ test("CSV download produces a file with the citation comment", async ({ page }) 
   expect(path).toBeTruthy();
   const { readFileSync } = await import("node:fs");
   const text = readFileSync(path!, "utf8");
-  expect(text.startsWith("# MacroGauge grocery staples")).toBe(true);
+  expect(text.startsWith("# Macrogauge grocery staples")).toBe(true);
   expect(text.split("\r\n")[1]).toContain("code,name,month,price");
 });
 

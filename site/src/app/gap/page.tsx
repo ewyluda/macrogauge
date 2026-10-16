@@ -60,7 +60,7 @@ export default function Gap() {
       Supercore — services excluding shelter, the cut the Fed watches for wage-driven inflation — reads {fmtPct(sc.yoy)},{" "}
       {fmtPp(sc.yoy - pulse.gauge.yoy_pct)} against the headline gauge,{" "}
       {SC_LIVE ? `tracked daily (as of ${sc.asOf})` : `at its latest monthly BLS-derived reading (${fmtMonth(sc.asOf)}): no live source rides it, so it moves on a CPI release`}.
-    </p>}<div className="section-tools"><DownloadData rows={gaptable.rows} filename="macrogauge-gap" json="gaptable.json" citation={`MacroGauge gap decomposition, ${gaptable.as_of}, vs official ${gaptable.official_month}`} /></div><GapDecomposition rows={gaptable.rows} asOf={gaptable.as_of} officialMonth={gaptable.official_month} totalGapPp={gaptable.total_gap_pp} /><Section title="Gap contribution over time — ours minus BLS, by component"><ContributionSection defaultMode="gap" showTable={false} /></Section>
+    </p>}<div className="section-tools"><DownloadData rows={gaptable.rows} filename="macrogauge-gap" json="gaptable.json" citation={`Macrogauge gap decomposition, ${gaptable.as_of}, vs official ${gaptable.official_month}`} /></div><GapDecomposition rows={gaptable.rows} asOf={gaptable.as_of} officialMonth={gaptable.official_month} totalGapPp={gaptable.total_gap_pp} /><Section title="Gap contribution over time — ours minus BLS, by component"><ContributionSection defaultMode="gap" showTable={false} /></Section>
     <Section title="Validation — the gauge against CPI and core, full history" id="validation">
       <div className="chart-card"><HeroChart dates={gaugeDaily.variants.gauge.dates} gauge={gaugeDaily.variants.gauge.yoy_pct} tracker={gaugeDaily.variants.tracker.yoy_pct} col={gaugeDaily.variants.col.yoy_pct} gaugeIndex={gaugeDaily.variants.gauge.index} trackerIndex={gaugeDaily.variants.tracker.index} colIndex={gaugeDaily.variants.col.index} missingMonths={artifact("gauge_daily", gaugeDaily).variants.gauge.missing_months ?? []} months={compare.months} official={compare.official_yoy_pct} core={compare.official_core_yoy_pct} /></div>
       <p className="method" data-testid="validation-stats">Against the official CPI print, month-end sampled over {v.gauge.window}: the gauge correlates {v.gauge.corr ?? "—"} with a mean absolute gap of {v.gauge.mean_abs_gap_pp ?? "—"}pp; the CPI-Tracker {v.tracker.corr ?? "—"} and {v.tracker.mean_abs_gap_pp ?? "—"}pp. Core CPI is plotted for context; no gap statistic is computed against it. Every observation carries its source vintage.</p>
@@ -68,7 +68,7 @@ export default function Gap() {
     <Section title="Supercore vs its official reference — monthly, full history">
       <div className="section-tools">
         <DownloadData filename="macrogauge-supercore-monthly" json="compare.json"
-          citation={`MacroGauge supercore vs ${SC_REF_NAME}, monthly, ${v.supercore.window}`}
+          citation={`Macrogauge supercore vs ${SC_REF_NAME}, monthly, ${v.supercore.window}`}
           rows={columnsToRows({ name: "month", values: compare.months }, [
             { name: "supercore_yoy_pct", values: compare.supercore_yoy_pct },
             { name: SVC ? "official_services_less_rent_of_shelter_yoy_pct" : "official_core_yoy_pct", values: SC_REF },

@@ -153,14 +153,14 @@ export default function Datacenter() {
         </>} exportData={
           <>
             <DownloadData compact={false} filename="macrogauge-dc-build-components" json="datacenter.json"
-              citation={`MacroGauge DC Build components, as of ${build.as_of}, ${dc.rebase}`}
+              citation={`Macrogauge DC Build components, as of ${build.as_of}, ${dc.rebase}`}
               rows={build.components as DriverComp[]} csvLabel="Components CSV" />
             <DownloadData compact={false} filename="macrogauge-dc-build-monthly" json="datacenter.json"
-              citation={`MacroGauge DC Build index, monthly (live grid; trailing month carries the proxy tail), ${dc.rebase}`}
+              citation={`Macrogauge DC Build index, monthly (live grid; trailing month carries the proxy tail), ${dc.rebase}`}
               spec={dcBuildMonthlyCsvSpec(buildCodes)} csvLabel="Monthly index CSV" hideJson />
             {buildOfficial && (
               <DownloadData compact={false} filename="macrogauge-dc-build-monthly-official" json="datacenter.json"
-                citation={`MacroGauge DC Build index, monthly, official prints only (no proxy tail), through ${buildOfficial.last_official}, ${dc.rebase}`}
+                citation={`Macrogauge DC Build index, monthly, official prints only (no proxy tail), through ${buildOfficial.last_official}, ${dc.rebase}`}
                 spec={dcBuildMonthlyCsvSpec(buildCodes, "official")} csvLabel="Monthly CSV, official prints only" hideJson />
             )}
           </>

@@ -27,7 +27,7 @@ export function MetroTable() {
     <>
       <div className="section-tools">
         <DownloadData filename="macrogauge-metros" json="metros.json"
-          citation={`MacroGauge metro rents (Zillow ZORI/ZHVI), as of ${asOf}`}
+          citation={`Macrogauge metro rents (Zillow ZORI/ZHVI), as of ${asOf}`}
           rows={rows.map((m) => flattenRow(m))} />
       </div>
       <details className="inv-details" data-testid="metro-table">

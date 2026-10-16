@@ -85,7 +85,7 @@ export default function Grocery() {
         <DownloadData
           filename="macrogauge-grocery"
           json="grocery_basket.json"
-          citation={`MacroGauge grocery staples (BLS average prices), published ${grocery.published_at}`}
+          citation={`Macrogauge grocery staples (BLS average prices), published ${grocery.published_at}`}
           rows={all.map(({ series: _s, ...r }) => r)}
         />
       </div>

@@ -188,7 +188,7 @@ export default function Matrix() {
       </h1>
       <div className="section-tools">
         <DownloadData filename="macrogauge-matrix" json="matrix.json"
-          citation={`MacroGauge inflation matrix, published ${matrix.published_at}`}
+          citation={`Macrogauge inflation matrix, published ${matrix.published_at}`}
           rows={[
             ...INPUTS.map((r) => ({ group: "ESCALATION INPUTS", label: r.label, value: r.value, unit: r.unit, as_of: r.as_of,
               cadence: r.cadence, chg_3m: r.chg_3m ?? null, chg_12m: chg12(r), chg_unit: r.chg_unit ?? null })),

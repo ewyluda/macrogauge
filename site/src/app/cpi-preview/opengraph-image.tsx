@@ -1,9 +1,10 @@
 import { C, ogCard } from "@/lib/ogCard";
 import nextprintJson from "../../../public/data/nextprint.json";
 import type { NextPrint } from "@/lib/types";
+import { previewTakeaway } from "@/lib/cpiPreview";
 
 export const dynamic = "force-static";
-export const alt = "MacroGauge CPI preview — nowcast vs Cleveland Fed and Kalshi";
+export const alt = "Macrogauge CPI preview — nowcast vs Cleveland Fed and Kalshi";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -21,5 +22,6 @@ export default function Image() {
       { label: "Core CPI · MoM (SA)", value: pct(core), color: C.violet, ctx: "ex food & energy" },
       ...np.forecasters.slice(0, 1).map((f) => ({ label: f.name, value: pct(f.value), color: C.amber, ctx: `as of ${f.as_of}` })),
     ],
+    takeaway: previewTakeaway(np),
   });
 }

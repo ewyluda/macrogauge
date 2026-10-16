@@ -9,7 +9,7 @@ export type QuiltComponent = {
 };
 
 // Keep this presentation order aligned with Nowflation's public quilt. The
-// codes are MacroGauge's stable artifact keys; labels intentionally match the
+// codes are Macrogauge's stable artifact keys; labels intentionally match the
 // public comparison surface rather than the longer internal component names.
 export const COMPONENT_ROWS: [string, string][] = [
   ["shelter_rent", "Shelter: Rent"],

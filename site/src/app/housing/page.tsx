@@ -63,7 +63,7 @@ export default function HousingPage() {
       <Section title="Affordability — monthly payment as a share of monthly pay, since 2018" featured>
         <div className="section-tools">
           <DownloadData filename="macrogauge-housing-affordability" json="housing.json"
-            citation={`MacroGauge affordability (payment ÷ average private earner pay), monthly, through ${a.as_of ?? "—"}`}
+            citation={`Macrogauge affordability (payment ÷ average private earner pay), monthly, through ${a.as_of ?? "—"}`}
             rows={columnsToRows({ name: "month", values: h.months }, [
               { name: "price_financed", values: h.price }, { name: "rate_pct", values: h.rate_pct },
               { name: "payment", values: h.payment }, { name: "income", values: h.income }, { name: "share_pct", values: h.share_pct },

@@ -64,15 +64,15 @@ export default function DataPage() {
       </p>
       <p className="method">
         Base URL <code>{SITE_URL}/data/</code> · updated each weekday morning (see <Link href="/status">/status</Link> for the run) ·
-        licence: MacroGauge-computed values (indexes, blends, nowcasts, composites, grades) are free to use with attribution —
-        cite as <code>MacroGauge &lt;series&gt;, &lt;as-of&gt;, 2018-01=100, &lt;value&gt; — {SITE_URL}/&lt;page&gt;</code> (the
+        licence: Macrogauge-computed values (indexes, blends, nowcasts, composites, grades) are free to use with attribution —
+        cite as <code>Macrogauge &lt;series&gt;, &lt;as-of&gt;, 2018-01=100, &lt;value&gt; — {SITE_URL}/&lt;page&gt;</code> (the
         Copy button under every headline number produces this string). Source observations republished alongside them
         (BLS, BEA, FRED/ALFRED, EIA, Treasury, Census, USDA and the private sources listed on <Link href="/methodology">/methodology</Link>) remain
         subject to each provider&apos;s own terms — check those before redistributing raw source series. The append-only vintage store behind the numbers is in the
         repository; <Link href="/as-of">Point in Time</Link> reads the publish ledger.
       </p>
       <p className="method">
-        Embed a live reading: <code style={{ overflowWrap: "anywhere" }}>{`<img src="${SITE_URL}/badge/gauge.svg" alt="MacroGauge CPI YoY">`}</code> or{" "}
+        Embed a live reading: <code style={{ overflowWrap: "anywhere" }}>{`<img src="${SITE_URL}/badge/gauge.svg" alt="Macrogauge CPI YoY">`}</code> or{" "}
         <code style={{ overflowWrap: "anywhere" }}>{`<img src="${SITE_URL}/badge/dc-build.svg" alt="DC Build cost YoY">`}</code> — plain SVG badges regenerated with every
         publish (<a href="/badge/gauge.svg">gauge</a> · <a href="/badge/dc-build.svg">DC Build</a>). Link them back to the page they cite.
       </p>
@@ -107,7 +107,7 @@ export default function DataPage() {
                         </ul>
                       </details>
                       <DownloadData spec={r.csv.spec} filename={`macrogauge-${r.file.replace(/\.json$/, "")}`} json={r.file}
-                        csvLabel={r.csv.label} hideJson citation={`MacroGauge ${r.file}, ${r.stamp ? fmtStamp(r.stamp) : ""}`} />
+                        csvLabel={r.csv.label} hideJson citation={`Macrogauge ${r.file}, ${r.stamp ? fmtStamp(r.stamp) : ""}`} />
                     </div>
                   </td>
                 </tr>,

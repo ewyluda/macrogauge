@@ -57,7 +57,9 @@ a { transition: color 140ms ease, background 140ms ease; }
 .site-nav .nav-link:hover, .nav-trigger:hover { color: var(--text); }
 .site-nav .nav-link.active, .nav-trigger.active { color: var(--text); background: var(--chip-bg); }
 .site-nav .nav-link:focus-visible, .nav-trigger:focus-visible, .nav-menu-link:focus-visible { outline: 2px solid var(--accent-sky); outline-offset: 1px; }
-.nav-caret { font-size: 9px; opacity: .7; }
+/* an SVG chevron, not a ▾ glyph: at 9px the glyph rendered as a dot */
+.nav-caret { width: 10px; height: 10px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: transform 140ms ease; }
+.nav-trigger[aria-expanded="true"] .nav-caret { transform: rotate(180deg); }
 .nav-group { position: relative; }
 /* Menus stay in the DOM when closed (server-rendered links for crawlers and
    no-JS visitors) — .open toggles visibility. top: 100% leaves no hover gap
@@ -94,13 +96,15 @@ a { transition: color 140ms ease, background 140ms ease; }
   border-radius: 999px; padding: 2px 10px; background: color-mix(in srgb, currentColor 8%, transparent);
   font-size: 11px; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap;
 }
-.status-pill-ok { color: var(--accent-emerald); }
-.status-pill-advisory { color: var(--accent-amber); }
-.status-pill-critical { color: var(--accent-red); }
+/* Tone text is darkened 20% toward --text: the raw accents measured 4.4:1 on
+   their own tinted chip, under AA's 4.5:1 for 11-12px text. */
+.status-pill-ok { color: color-mix(in srgb, var(--accent-emerald) 80%, var(--text)); }
+.status-pill-advisory { color: color-mix(in srgb, var(--accent-amber) 80%, var(--text)); }
+.status-pill-critical { color: color-mix(in srgb, var(--accent-red) 80%, var(--text)); }
 .status-pill-icon {
-  display: inline-grid; place-items: center; width: 13px; height: 13px; flex: none;
+  display: inline-grid; place-items: center; width: 15px; height: 15px; flex: none;
   border: 1.5px solid currentColor; border-radius: 999px;
-  font-size: 8px; font-weight: 800; line-height: 1; letter-spacing: 0;
+  font-size: 11px; font-weight: 800; line-height: 1; letter-spacing: 0;
 }
 .inv-status { display: inline-block; width: 12px; text-align: center; font-size: 11px; font-weight: 800; }
 .inv-status-fresh { color: var(--accent-emerald); }

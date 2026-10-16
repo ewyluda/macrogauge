@@ -193,7 +193,7 @@ export default function Page() {
       </header>
       <div className="page-asof">
         <DownloadData filename="macrogauge-longlead" json="longlead.json"
-          citation={`MacroGauge long-lead board, curated ${data.as_of_curated}`}
+          citation={`Macrogauge long-lead board, curated ${data.as_of_curated}`}
           rows={data.packages.flatMap((p) => p.vendors.flatMap((v) =>
             v.figures.length
               ? v.figures.map((f) => ({ package: p.label, vendor: v.name, ticker: v.ticker, stale: v.stale, ...flattenRow(f) }))

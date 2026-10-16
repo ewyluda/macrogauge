@@ -1,9 +1,10 @@
 import { C, ogCard } from "@/lib/ogCard";
 import accountability from "../../../public/data/accountability_cpi.json";
 import type { LeaderboardData } from "@/components/Leaderboard";
+import { headToHeadTakeaway } from "@/lib/scoreboardHeadline";
 
 export const dynamic = "force-static";
-export const alt = "MacroGauge forecast scoreboard — graded in public against every CPI print";
+export const alt = "Macrogauge forecast scoreboard — graded in public against every CPI print";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -20,5 +21,6 @@ export default function Image() {
     tiles: stats.length
       ? stats.map(([name, s], i) => ({ label: `${NAMES[name] ?? name} · MAE`, value: s.mae_pp == null ? "—" : `${s.mae_pp.toFixed(2)}pp`, color: COLORS[i % COLORS.length], ctx: `${s.n} graded prints` }))
       : [{ label: "Graded prints", value: String(accountability.graded.length), color: C.sky, ctx: "live calls" }],
+    takeaway: lb ? headToHeadTakeaway(lb) : null,
   });
 }

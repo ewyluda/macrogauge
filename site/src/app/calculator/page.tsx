@@ -19,11 +19,11 @@ export const metadata: Metadata = {
 const dc = artifact("datacenter", dcJson);
 const LONG_LEAD = new Set(artifact("longlead", longleadJson).packages.map((p) => p.code));
 
-const DC_GROUP = "MacroGauge DC indexes";
+const DC_GROUP = "Macrogauge DC indexes";
 const SERIES: MonthlySeries[] = [
   ...(["build", "ops", "hardware"] as const).map((k) => ({
     key: `dc_${k}`, label: `DC ${k[0].toUpperCase()}${k.slice(1)} index`, group: DC_GROUP,
-    source: `MacroGauge composite, ${dc.rebase}`,
+    source: `Macrogauge composite, ${dc.rebase}`,
     months: dc.indexes[k].monthly.months, values: dc.indexes[k].monthly.index,
   })),
   // the Hardware index's components have no official clause series: their
@@ -46,7 +46,7 @@ const SERIES: MonthlySeries[] = [
     months: c.months, values: c.latest,
   })),
   {
-    key: "gauge", label: "MacroGauge (CPI-comparable)", group: "Prices",
+    key: "gauge", label: "Macrogauge (CPI-comparable)", group: "Prices",
     source: "daily gauge, calendar-month average; the current month to date",
     ...monthlyAverage(gaugeDaily.variants.gauge.dates, gaugeDaily.variants.gauge.index),
   },
@@ -70,10 +70,10 @@ export default function Calculator() {
       <EscalationSinceClient series={SERIES} defaultSince={DEFAULT_SINCE} defaultPicks={DEFAULT_PICKS} />
       <Section title="Methodology">
         <p className="method">
-          The DC Build, Ops and Hardware indexes are MacroGauge composites ({dc.rebase}) and run to the current month;
+          The DC Build, Ops and Hardware indexes are Macrogauge composites ({dc.rebase}) and run to the current month;
           a Hardware component is its level inside that index, through its own last reading; the package series are the official BLS PPI and CES series behind them, at their latest revised values, as on
           the <Link href="/escalation/clause">clause kit</Link>. CPI-U is all items, not seasonally adjusted (CPIAUCNS).
-          The MacroGauge gauge is the daily CPI-comparable index averaged by calendar month. Change = latest level ÷
+          The Macrogauge gauge is the daily CPI-comparable index averaged by calendar month. Change = latest level ÷
           bid-month level − 1; annualized = (latest ÷ bid month)^(12 ÷ months) − 1, shown from twelve months on. See{" "}
           <Link href="/methodology">methodology</Link> for how each index is built.
         </p>

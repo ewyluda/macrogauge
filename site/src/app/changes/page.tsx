@@ -97,7 +97,7 @@ export default function ChangesPage() {
 
       <Section title="Headline readings">
         <div className="section-tools">
-          <DownloadData filename="macrogauge-changes-headline" json="changes.json" rows={c.headline} citation={`MacroGauge headline deltas, ${c.published_at} vs ${c.prev_published_at ?? "none"}`} />
+          <DownloadData filename="macrogauge-changes-headline" json="changes.json" rows={c.headline} citation={`Macrogauge headline deltas, ${c.published_at} vs ${c.prev_published_at ?? "none"}`} />
         </div>
         <div className="table-card">
           <table className="data-table">
@@ -127,7 +127,7 @@ export default function ChangesPage() {
 
       <Section title="Components — sorted by move">
         <div className="section-tools">
-          <DownloadData filename="macrogauge-changes-components" json="changes.json" rows={c.components} citation={`MacroGauge component deltas, ${c.published_at}`} />
+          <DownloadData filename="macrogauge-changes-components" json="changes.json" rows={c.components} citation={`Macrogauge component deltas, ${c.published_at}`} />
         </div>
         <div className="table-card">
           <table className="data-table" data-testid="components-table">

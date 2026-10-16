@@ -99,7 +99,7 @@ export function ColChart({
         {colIndex && <RateModeControl value={rate} onChange={setRate} />}
         <SegmentedControl options={WINDOWS} value={win} onChange={setWin} />
       </div>
-      <EChart option={option} height={340} ariaTitle="Cost-of-living gauge vs macrogauge and official CPI" />
+      <EChart option={option} height={340} ariaTitle="Cost-of-living gauge vs Macrogauge and official CPI" />
     </div>
   );
 }

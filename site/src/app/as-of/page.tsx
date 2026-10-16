@@ -48,7 +48,7 @@ export default function AsOfPage() {
       </p>
       <div className="section-tools">
         <DownloadData filename="macrogauge-publish-ledger" json="ledger.json" rows={rows}
-          citation={`MacroGauge publish ledger, ${rows.length} publishes since ${ledger.first_publish?.slice(0, 10) ?? "—"}`} />
+          citation={`Macrogauge publish ledger, ${rows.length} publishes since ${ledger.first_publish?.slice(0, 10) ?? "—"}`} />
       </div>
       {rows.length ? (
         <AsOfClient rows={rows} today={today} repo={REPO} provenance={provenance} />

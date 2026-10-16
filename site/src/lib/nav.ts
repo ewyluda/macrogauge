@@ -1,7 +1,9 @@
 // Single source of truth for the header nav. Top-level entries are either a
 // direct link or a dropdown group; groups hold labelled sections so related
 // pages read as one unit (mirrors the footer columns).
-export type NavItem = { href: string; label: string; emoji: string };
+// `match`: extra path prefixes the item owns — child routes whose parent has
+// no nav entry of its own (/components/* belongs to the Gauge Gap).
+export type NavItem = { href: string; label: string; emoji: string; match?: string[] };
 export type NavSection = { title?: string; items: NavItem[] };
 export type NavGroup = { kind: "group"; label: string; sections: NavSection[] };
 export type NavEntry = { kind: "link"; href: string; label: string } | NavGroup;
@@ -14,13 +16,47 @@ export const NAV: NavEntry[] = [
   { kind: "link", href: "/", label: "Home" },
   {
     kind: "group",
+    label: "AI Infra",
+    sections: [
+      {
+        title: "Cost to build",
+        items: [
+          { href: "/datacenter", label: "Data Centers", emoji: "🏭" },
+          { href: "/escalation", label: "Escalation", emoji: "🪜" },
+          { href: "/longlead", label: "Long-Lead Board", emoji: "⏳" },
+          { href: "/power", label: "Power & Tariffs", emoji: "🔌" },
+          { href: "/commodities", label: "Build Inputs", emoji: "🧱" },
+          { href: "/markets", label: "DC Markets", emoji: "🏗️" },
+          { href: "/states", label: "Site Costs", emoji: "🗺️" },
+          { href: "/rates", label: "Cost of Capital", emoji: "🏦" },
+        ],
+      },
+      {
+        title: "Capacity & compute",
+        items: [
+          { href: "/capacity", label: "AI Capacity", emoji: "⚡" },
+          { href: "/compute", label: "Compute Prices", emoji: "🧮" },
+          { href: "/news", label: "AI Infra News", emoji: "📰" },
+        ],
+      },
+      {
+        title: "Tools",
+        items: [
+          { href: "/calculator", label: "Since-Date Calculator", emoji: "📆" },
+          { href: "/as-of", label: "Index Ledger", emoji: "🗓️" },
+        ],
+      },
+    ],
+  },
+  {
+    kind: "group",
     label: "Inflation",
     sections: [
       {
         title: "The gauge",
         items: [
           { href: "/cost-of-living", label: "Cost of Living", emoji: "🔑" },
-          { href: "/gap", label: "Gauge Gap", emoji: "📐" },
+          { href: "/gap", label: "Gauge Gap", emoji: "📐", match: ["/components"] },
           { href: "/pce", label: "PCE Gauge", emoji: "🏦" },
           { href: "/changes", label: "Since Yesterday", emoji: "🕗" },
         ],
@@ -64,35 +100,6 @@ export const NAV: NavEntry[] = [
   },
   {
     kind: "group",
-    label: "AI Infra",
-    sections: [
-      {
-        title: "Cost to build",
-        items: [
-          { href: "/datacenter", label: "Data Centers", emoji: "🏭" },
-          { href: "/escalation", label: "Escalation", emoji: "🪜" },
-          { href: "/calculator", label: "Since-Date Calculator", emoji: "📆" },
-          { href: "/longlead", label: "Long-Lead Board", emoji: "⏳" },
-          { href: "/power", label: "Power & Tariffs", emoji: "🔌" },
-          { href: "/commodities", label: "Build Inputs", emoji: "🧱" },
-          { href: "/markets", label: "DC Markets", emoji: "🏗️" },
-          { href: "/states", label: "Site Costs", emoji: "🗺️" },
-          { href: "/rates", label: "Cost of Capital", emoji: "🏦" },
-          { href: "/as-of", label: "Index Ledger", emoji: "🗓️" },
-        ],
-      },
-      {
-        title: "Capacity & compute",
-        items: [
-          { href: "/capacity", label: "AI Capacity", emoji: "⚡" },
-          { href: "/compute", label: "Compute Prices", emoji: "🧮" },
-          { href: "/news", label: "AI Infra News", emoji: "📰" },
-        ],
-      },
-    ],
-  },
-  {
-    kind: "group",
     label: "About",
     sections: [
       {
@@ -106,7 +113,14 @@ export const NAV: NavEntry[] = [
   },
 ];
 
-/** Every href inside a dropdown group — used for the trigger's active-state. */
-export function groupHrefs(group: NavGroup): string[] {
-  return group.sections.flatMap((s) => s.items.map((i) => i.href));
+/** A nav item is active on its own route and every route nested under it
+ *  (/escalation/clause → Escalation, /states/va → Site Costs). */
+export function itemActive(pathname: string, item: { href: string; match?: string[] }): boolean {
+  if (item.href === "/") return pathname === "/";
+  return [item.href, ...(item.match ?? [])].some((p) => pathname === p || pathname.startsWith(`${p}/`));
+}
+
+/** A dropdown trigger is active when any item inside it is. */
+export function groupActive(pathname: string, group: NavGroup): boolean {
+  return group.sections.some((s) => s.items.some((i) => itemActive(pathname, i)));
 }

@@ -191,7 +191,7 @@ function RealWagePanel() {
         <KpiCard label="Wage growth (Atlanta Fed)" value={k.wage_growth_pct == null ? "—" : fmtPct(k.wage_growth_pct)}
           context={`median, 3mo MA · ${k.wage_as_of ? fmtMonth(k.wage_as_of) : "—"}`} accent="emerald" />
         <KpiCard label="Inflation right now" value={fmtPct(pulse.gauge.yoy_pct)}
-          context={`macrogauge, daily · ${pulse.gauge.as_of}`} accent="amber" />
+          context={`Macrogauge, daily · ${pulse.gauge.as_of}`} accent="amber" />
         <KpiCard label="Real wage growth" value={k.real_wage_growth_pct == null ? "—" : fmtPct(k.real_wage_growth_pct)}
           context={`${k.wage_as_of ? fmtMonth(k.wage_as_of) : "—"} wages deflated by ${pulse.gauge.as_of} inflation — mixed periods`}
           accent={k.real_wage_growth_pct != null && k.real_wage_growth_pct < 0 ? "red" : "emerald"} />

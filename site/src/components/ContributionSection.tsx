@@ -136,7 +136,7 @@ export function ContributionSection({
           <CopyLink />
         </div>
         <DownloadData rows={csvRows} filename={`macrogauge-contribution-${mode}`} json="replay.json"
-          citation={`MacroGauge contribution to YoY (${mode}), pp, month-end sampling, as of ${data.dates[last]}`} />
+          citation={`Macrogauge contribution to YoY (${mode}), pp, month-end sampling, as of ${data.dates[last]}`} />
       </div>
       <div className="chart-card">
         <EChart option={option} height={380} ariaTitle="Contribution to headline YoY by component, percentage points" />
