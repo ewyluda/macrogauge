@@ -97,6 +97,14 @@ def _parse_absence(code: str, raw: dict | None, limit: int) -> Absence | None:
                    max_absence_days=max_gap, since=since)
 
 
+def collected_sources(sources: dict[str, Source], series: list[Series]) -> dict[str, Source]:
+    """The sources a daily run collects: not retired, backing at least one
+    series. sources_status.json lists exactly these; methodology's source
+    count reads the same set (it counted the retired SFCOMPUTE too: 44 vs 43)."""
+    used = {s.source for s in series}
+    return {n: src for n, src in sources.items() if n in used and not src.retired}
+
+
 def load_registry(path: Path | None = None) -> tuple[dict[str, Source], list[Series]]:
     raw = json.loads((path or DEFAULT_PATH).read_text())
     sources = {n: Source(name=n, route=s["route"], cadence=s["cadence"],

@@ -61,6 +61,29 @@ def classify(latest_obs: str | None, limit_days: int, absence: Absence | None,
     return FRESH if within_limit else EXPECTED_ABSENT
 
 
+def summarize(rows, today: str) -> dict[str, int]:
+    """The one freshness count qa (sources_fresh) and methodology publish.
+
+    rows: (latest_obs, limit_days, absence) per registry series. `fresh` is
+    strict: within the staleness window, policy or not. `expected_absent` is
+    past the window and covered by a policy that still holds. `stale` is past
+    the window, or never seen, with no policy. A failing policy past its window
+    is in none of the three; qa's expected_absence check reports it. Until
+    2026-10-15 qa counted only no-policy series (849/849) while methodology
+    counted all of them (862/870), so /status and /methodology disagreed."""
+    out = {"total": 0, "fresh": 0, "expected_absent": 0, "stale": 0}
+    for latest_obs, limit_days, absence in rows:
+        out["total"] += 1
+        age = age_days(latest_obs, today)
+        if age is not None and age <= limit_days:
+            out["fresh"] += 1
+        elif classify(latest_obs, limit_days, absence, today) == EXPECTED_ABSENT:
+            out["expected_absent"] += 1
+        elif absence is None:
+            out["stale"] += 1
+    return out
+
+
 def absence_from_row(raw: dict | None) -> Absence | None:
     """Rebuild an Absence from its dict form (run_daily passes plain dicts)."""
     if raw is None:

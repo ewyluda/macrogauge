@@ -419,6 +419,16 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     # + longlead_ok + rates_ok + compute_ok + housing_ok + changes_ok + revisions_ok + news_ok
     # + ledger_ok + expected_absence (todo #10)
     assert qa["total"] == 36
+    # polish review 2026-10-15: /status (qa) and /methodology published two
+    # freshness counts (849/849 vs 862/870) and two source counts (43 vs 44)
+    # for one publish. One definition each, pinned on the real artifacts.
+    meth = json.loads((out / "methodology.json").read_text())
+    fresh = meth["freshness"]
+    sf = [c for c in qa["checks"] if c["name"] == "sources_fresh"][0]["detail"]
+    assert sf.startswith(f"{fresh['fresh_count']}/{fresh['total']} fresh")
+    assert fresh["total"] == meth["stats"]["series_count"]
+    assert (f"· {fresh['expected_absent']} past their window" in sf) == (fresh["expected_absent"] > 0)
+    assert meth["stats"]["source_count"] == len(status["sources"])
     for phase in ("rates", "compute", "housing", "changes", "revisions", "news", "ledger"):
         assert [c for c in qa["checks"] if c["name"] == f"{phase}_ok"][0]["pass"] is True, phase
     # backlog #10a: the KXFED fake's one liquid ladder reaches rates.json

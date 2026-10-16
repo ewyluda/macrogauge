@@ -209,6 +209,16 @@ def test_load_real_registry():
     assert sources["KALSHI_DC"].secret is None
 
 
+def test_collected_sources_skip_retired_and_unused():
+    sources, series = registry.load_registry()
+    live = registry.collected_sources(sources, series)
+    # SFCOMPUTE keeps its registry row (and sfc_h100's history) but is retired
+    assert "SFCOMPUTE" in sources and "SFCOMPUTE" not in live
+    assert len(live) == 43
+    extra = {**sources, "UNUSED": registry.Source(name="UNUSED", route="API", cadence="daily", secret=None, secret_optional=False)}
+    assert "UNUSED" not in registry.collected_sources(extra, series)
+
+
 def test_state_unemployment_family_complete():
     # P2 geography wave: exactly one {ST}UR series per state + DC, code ==
     # source_id (FRED ids verbatim), 80d staleness per locked decision 4.
