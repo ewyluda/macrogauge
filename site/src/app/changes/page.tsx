@@ -13,7 +13,7 @@ const sign = (v: number | null) => (v == null ? "var(--muted)" : v > 0.005 ? "va
 
 export const metadata: Metadata = {
   title: "Since Yesterday — what moved in this publish",
-  description: "Every headline and component reading against the previous publish, which sources landed new rows, and any quality-gate holds.",
+  description: "Every headline and component reading against the previous day's last publish, which sources landed new rows, and any quality-gate holds.",
 };
 
 function MoverRow({ m }: { m: Mover }) {
@@ -45,8 +45,9 @@ export default function ChangesPage() {
       </h1>
       <p className="lede">
         A daily gauge earns a daily visit only if it says what moved. This page diffs today&apos;s artifacts against
-        the previous publish — the files in the repository before this run overwrote them — so every delta is
-        between two numbers that were both public.
+        the previous day&apos;s last publish (US Eastern days) — files that were public in the repository — so every
+        delta is between two numbers that were both public, and a second publish on the same day still compares
+        with yesterday rather than with itself an hour earlier.
       </p>
       {lead && <p className="ll-takeaway" data-testid="changes-lead">{lead}</p>}
       <div className="kpi-row">
@@ -58,8 +59,8 @@ export default function ChangesPage() {
           accent="violet" />
         <KpiCard label="Sources landed" value={String(c.sources_landed.length)}
           context={c.sources_failed.length ? `${c.sources_failed.length} failed: ${c.sources_failed.join(", ")}` : "no source failures"} accent={c.sources_failed.length ? "amber" : "emerald"} />
-        <KpiCard label="Previous publish" value={c.prev_published_at ? c.prev_published_at.slice(0, 10) : "—"}
-          context={c.prev_published_at ? fmtStamp(c.prev_published_at) : "first reading"} accent="sky" />
+        <KpiCard label="Compared with" value={c.prev_published_at ? c.prev_published_at.slice(0, 10) : "—"}
+          context={c.prev_published_at ? `previous day's last publish · ${fmtStamp(c.prev_published_at)}` : "first reading"} accent="sky" />
       </div>
 
       {movers.length > 0 && (
@@ -69,7 +70,7 @@ export default function ChangesPage() {
               <thead><tr><th style={{ textAlign: "left" }}>Reading</th><th>Now</th><th>Previous</th><th>Change</th><th>vs notable</th></tr></thead>
               <tbody>
                 {moved.map((m) => <MoverRow key={m.key} m={m} />)}
-                {moved.length === 0 && <tr><td colSpan={5} style={{ color: "var(--muted)", textAlign: "left" }}>No reading changed since the previous publish.</td></tr>}
+                {moved.length === 0 && <tr><td colSpan={5} style={{ color: "var(--muted)", textAlign: "left" }}>No reading changed since the previous day&apos;s last publish.</td></tr>}
               </tbody>
             </table>
           </div>
@@ -84,7 +85,7 @@ export default function ChangesPage() {
             </details>
           )}
           <p className="method">
-            Each page&apos;s lead numbers, read from today&apos;s files and the previous publish&apos;s. A level&apos;s change is
+            Each page&apos;s lead numbers, read from today&apos;s files and the previous day&apos;s last publish. A level&apos;s change is
             in %, a rate or spread in basis points, a YoY in percentage points. Rows rank by the change divided by a
             stated notable move for that reading (for example 3% for a power hub&apos;s 30-day average, 5bp for the
             10-year): a design threshold, not a fitted volatility. A reading whose source date didn&apos;t advance shows
@@ -118,7 +119,7 @@ export default function ChangesPage() {
         {c.official && (
           <p className="method">
             Official CPI: {c.official.month?.slice(0, 7) ?? "—"} print at {fmtSigned(c.official.yoy_pct)} YoY
-            {c.official.new_print ? ` — NEW since the previous publish (was ${c.official.prev_month?.slice(0, 7)})` : " — unchanged"}.
+            {c.official.new_print ? ` — NEW since the previous day's last publish (was ${c.official.prev_month?.slice(0, 7)})` : " — unchanged"}.
           </p>
         )}
       </Section>

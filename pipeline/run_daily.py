@@ -167,10 +167,13 @@ def main(argv=None, http_get=None, http_post=None) -> int:
     staleness = {s.code: s.max_staleness_days for s in series}
     engine_state = {}
 
-    # Snapshot yesterday's readings BEFORE any writer overwrites them: the
-    # previous publish is in the checkout, so "what changed since yesterday"
-    # needs no store change (changes.py, batch 4e). None on a fresh out dir.
-    prev_snapshot = changes_json.read_previous(args.out)
+    # Snapshot the previous publish BEFORE any writer overwrites it (it is in
+    # the checkout, changes.py batch 4e), then pick the previous ET day's last
+    # publish as the "since yesterday" baseline: the checkout on a day's first
+    # run, store/changes/baseline.json on a same-day republish. None on a
+    # fresh out dir.
+    prev_snapshot = changes_json.baseline(changes_json.read_previous(args.out),
+                                          args.store, today)
 
     def _engine_phase():
         engine_state["cpi"] = cpi = official.latest_yoy(conn, "CPIAUCNS")

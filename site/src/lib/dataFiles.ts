@@ -49,7 +49,7 @@ export const DATA_FILES: DataFile[] = [
   { file: "rates.json", description: "Treasury curve, breakevens, credit, dollar, liquidity, mortgage spread" , section: "AI Infra" },
   { file: "compute.json", description: "Cost of a token and a GPU-hour: model and SKU prices with two composite indexes" , section: "AI Infra" },
   { file: "housing.json", description: "Home prices, rents, sales and payment-to-income affordability" , section: "Economy" },
-  { file: "changes.json", description: "What moved since the previous publish: headline, components, sources" , section: "Inflation" },
+  { file: "changes.json", description: "What moved since the previous day's last publish: headline, components, sources" , section: "Inflation" },
   { file: "revisions.json", description: "First print vs latest value for CPI, PCE and payrolls" , section: "Forecasts" },
   { file: "ledger.json", description: "Every publish's headline readings, append-only, never restated" , section: "AI Infra" },
 ];

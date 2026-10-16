@@ -36,7 +36,7 @@ export function GET() {
     `Macrogauge (CPI-comparable) ${fmtPct(pulse.gauge.yoy_pct)} YoY as of ${pulse.gauge.as_of}, ${fmtPp(pulse.gap_pp)} vs the official ${fmtPct(pulse.official.yoy_pct)} print (${pulse.official.month.slice(0, 7)}).`,
     `CPI-Tracker ${fmtPct(pulse.tracker.yoy_pct)} (${fmtPp(pulse.tracker_gap_pp)} gap). Live basket coverage ${pulse.gauge.coverage_pct.toFixed(0)}%.`,
     `DC Build ${fmtSigned(dc.indexes.build.headline_yoy_pct)} · DC Ops ${fmtSigned(dc.indexes.ops.headline_yoy_pct)} · DC Hardware ${fmtSigned(dc.indexes.hardware.headline_yoy_pct)} YoY.`,
-    `Since the previous publish: ${sinceYesterdayText()}`,
+    `Since the previous day's last publish: ${sinceYesterdayText()}`,
     movers ? `Top official movers: ${movers}.` : "",
     // next_print is null once the release calendar has no future CPI entry
     // (schema allows it); this route runs at build time, so a bare

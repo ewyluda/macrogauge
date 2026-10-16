@@ -1184,6 +1184,30 @@ def test_second_run_diffs_against_first(tmp_path, monkeypatch):
     assert [r["published_at"] for r in lg["rows"]] == sorted({first, pulse["published_at"]})
 
 
+def test_same_day_republish_diffs_against_the_previous_days_last_publish(tmp_path, monkeypatch):
+    """Polish review 2026-10-15: "Since yesterday" diffed against the
+    previous publish, an hour earlier on a two-publish day. Run 1 stands in
+    for yesterday's last publish (its stamp moved to a past ET day); runs 2
+    and 3 are today's first publish and a same-day republish."""
+    set_keys(monkeypatch)
+    store, out = tmp_path / "store", tmp_path / "out"
+    assert run_daily.main(["--store", str(store), "--out", str(out)],
+                          http_get=fake_get, http_post=fake_post) == 0
+    p = json.loads((out / "pulse.json").read_text())
+    yday = "2020-01-01T23:00:00Z"
+    p["published_at"] = yday
+    (out / "pulse.json").write_text(json.dumps(p))
+    assert run_daily.main(["--store", str(store), "--out", str(out)],
+                          http_get=fake_get, http_post=fake_post) == 0
+    assert json.loads((out / "changes.json").read_text())["prev_published_at"] == yday
+    assert (store / "changes" / "baseline.json").exists()
+    second = json.loads((out / "pulse.json").read_text())["published_at"]
+    assert run_daily.main(["--store", str(store), "--out", str(out)],
+                          http_get=fake_get, http_post=fake_post) == 0
+    ch = json.loads((out / "changes.json").read_text())
+    assert ch["prev_published_at"] == yday != second
+
+
 def test_rates_failure_does_not_block_publish(tmp_path, monkeypatch):
     set_keys(monkeypatch)
 
