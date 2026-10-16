@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15",
+  "generated_at": "2026-10-16",
   "passed": 36,
   "total": 36,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official print 2026-09-01 is 44d old (limit 80)"
+      "detail": "latest official print 2026-09-01 is 45d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -139,7 +139,7 @@
       "name": "calendar_horizon",
       "critical": false,
       "pass": true,
-      "detail": "CPI calendar runs 56d ahead (floor 45d)"
+      "detail": "CPI calendar runs 55d ahead (floor 45d)"
     },
     {
       "name": "connectors_ok",
@@ -151,19 +151,19 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": true,
-      "detail": "849/849 fresh (21 under an expected-absence policy, judged separately)"
+      "detail": "862/870 fresh \u00b7 8 past their window under an expected-absence policy, judged separately"
     },
     {
       "name": "expected_absence",
       "critical": false,
       "pass": true,
-      "detail": "21 series under an expected-absence policy (3 discontinued, 5 intermittent, 13 suppressed) \u2014 APU0000702212 [discontinued, 167d, review_by 2027-01-15], APU0000704211 [discontinued, 167d, review_by 2027-01-15], APU0000711311 [intermittent, 44d], APU0000713111 [intermittent, 106d, review_by 2027-01-15], vast_h200 [intermittent, 0d, review_by 2027-03-31], vast_b200 [intermittent, 3d, review_by 2027-03-31], vast_b300 [intermittent, 15d, review_by 2027-03-31], sfc_h100 [discontinued, 21d, review_by 2027-03-31], qcew_wage23_de [suppressed, 379d, review_by 2027-03-31], qcew_wage23_ks [suppressed, 379d, review_by 2027-03-31], qcew_wage23_nc [suppressed, 379d, review_by 2027-03-31], qcew_wage23_pa [suppressed, 379d, review_by 2027-03-31], qcew_wage23_c41067 [suppressed, 562d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 562d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 562d, review_by 2027-03-31], qcew_wage238212_c22083 [suppressed, 379d, review_by 2027-03-31], qcew_emp238212_c22083 [suppressed, 379d, review_by 2027-03-31], qcew_aemp238212_c22083 [suppressed, 379d, review_by 2027-03-31], qcew_wage238212_c19049 [suppressed, 379d, review_by 2027-03-31], qcew_emp238212_c19049 [suppressed, 379d, review_by 2027-03-31], qcew_aemp238212_c19049 [suppressed, 379d, review_by 2027-03-31]"
+      "detail": "21 series under an expected-absence policy (3 discontinued, 5 intermittent, 13 suppressed) \u2014 APU0000702212 [discontinued, 168d, review_by 2027-01-15], APU0000704211 [discontinued, 168d, review_by 2027-01-15], APU0000711311 [intermittent, 45d], APU0000713111 [intermittent, 107d, review_by 2027-01-15], vast_h200 [intermittent, 1d, review_by 2027-03-31], vast_b200 [intermittent, 4d, review_by 2027-03-31], vast_b300 [intermittent, 16d, review_by 2027-03-31], sfc_h100 [discontinued, 22d, review_by 2027-03-31], qcew_wage23_de [suppressed, 380d, review_by 2027-03-31], qcew_wage23_ks [suppressed, 380d, review_by 2027-03-31], qcew_wage23_nc [suppressed, 380d, review_by 2027-03-31], qcew_wage23_pa [suppressed, 380d, review_by 2027-03-31], qcew_wage23_c41067 [suppressed, 563d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 563d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 563d, review_by 2027-03-31], qcew_wage238212_c22083 [suppressed, 380d, review_by 2027-03-31], qcew_emp238212_c22083 [suppressed, 380d, review_by 2027-03-31], qcew_aemp238212_c22083 [suppressed, 380d, review_by 2027-03-31], qcew_wage238212_c19049 [suppressed, 380d, review_by 2027-03-31], qcew_emp238212_c19049 [suppressed, 380d, review_by 2027-03-31], qcew_aemp238212_c19049 [suppressed, 380d, review_by 2027-03-31]"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.352 vs EIA weekly $4.331 \u2014 relative divergence 0.5% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.346 vs EIA weekly $4.331 \u2014 relative divergence 0.4% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -181,19 +181,19 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-10-15"
+      "detail": "CPI nowcast as-of 2026-10-16"
     },
     {
       "name": "ensemble_computed",
       "critical": false,
       "pass": true,
-      "detail": "ensemble=0.32 weights: macrogauge 33%, cleveland 33%, kalshi 33%"
+      "detail": "ensemble=0.31 weights: macrogauge 33%, cleveland 33%, kalshi 33%"
     },
     {
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-10-15 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-10-16 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",

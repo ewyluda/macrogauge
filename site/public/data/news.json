@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T22:07:26Z",
+  "published_at": "2026-10-16T12:54:25Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,301 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-15T22:07:26Z",
-  "tape_last_post_at": "2026-10-15T22:02:52Z",
-  "age_hours": 0.0,
+  "feed_generated_at": "2026-10-16T12:53:58Z",
+  "tape_last_post_at": "2026-10-16T12:49:25Z",
+  "age_hours": 0.01,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3A0C0CFFBA9A2DF5469C",
+      "ts": "2026-10-16T12:13:40Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Cantor Fitzgerald reiterated Overweight on CoreWeave ($CRWV) with an unchanged $176 price target, calling the recent selloff one of the most attractive buying opportunities.",
+      "points": [
+        {
+          "label": "Debt concerns",
+          "text": "CoreWeave's bond yields reached 15%, fueling fears over its ability to finance AI infrastructure expansion."
+        },
+        {
+          "label": "Demand outlook",
+          "text": "Cantor says nearly all 2027 capacity is sold, with Nvidia ($NVDA) agreeing to take any unsold capacity."
+        },
+        {
+          "label": "Bullish rationale",
+          "text": "Cantor argues investors are overreacting to financing risks rather than weakening demand."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19510",
+      "has_media": false
+    },
+    {
+      "id": "3A1B7C391121269E5145",
+      "ts": "2026-10-16T12:13:22Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Nvidia ($NVDA) launched RTX Spark Windows laptops globally, starting at $2,599, bringing high-performance AI, creative tools and gaming to portable PCs.",
+      "points": [
+        {
+          "label": "Hardware",
+          "text": "Combines Blackwell RTX graphics and a Grace CPU, delivering up to 1 petaflop of FP4 AI performance and 128GB of unified memory."
+        },
+        {
+          "label": "AI agents",
+          "text": "Runs large AI models and agents locally, including Hermes, OpenClaw and GitHub Copilot, with tools for managing agent permissions."
+        },
+        {
+          "label": "Creative and gaming",
+          "text": "Supports 8K video editing, 90GB 3D scenes and, according to Nvidia, 1440p gaming above 100 FPS. Adobe ($ADBE) is adding RTX Spark acceleration to its creative applications."
+        },
+        {
+          "label": "Availability",
+          "text": "Laptops are available from ASUS, Dell ($DELL), HP ($HPQ), Lenovo, Microsoft ($MSFT) and MSI, with additional systems planned."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "DELL",
+          "layer": "Servers & Storage"
+        },
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19509",
+      "has_media": true
+    },
+    {
+      "id": "3A59A822F4A620A4A38E",
+      "ts": "2026-10-16T12:12:30Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "JPMorgan reiterated Overweight on CoreWeave ($CRWV) with an unchanged $125 price target, arguing that concerns driving the stock's roughly 20% weekly selloff are overdone.",
+      "points": [
+        {
+          "label": "Market concerns",
+          "text": "Rising borrowing costs and doubts about AI profitability have fueled fears of excess capacity and unsustainable debt."
+        },
+        {
+          "label": "Business fundamentals",
+          "text": "JPMorgan cites strong data-center demand, expanding operational capacity and projected returns on individual projects exceeding the company's cost of capital."
+        },
+        {
+          "label": "Financial outlook",
+          "text": "Refurbished GPUs could remain useful beyond typical five-year contracts, while pricing power may help pass higher financing costs to customers."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19508",
+      "has_media": false
+    },
+    {
+      "id": "3AAFE3620A3629EA95AE",
+      "ts": "2026-10-16T11:56:49Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "AI shopping agents from Meta ($META) and OpenAI are reshaping e-commerce, helping consumers make purchases while threatening retailers' control over customer relationships, advertising and transactions.",
+      "points": [
+        {
+          "label": "Rapid adoption",
+          "text": "BrightEdge estimates purchases through AI agents are growing 43% monthly and have quadrupled since April, yet only 3% of its e-commerce clients allow agents to complete transactions."
+        },
+        {
+          "label": "Consumer preferences",
+          "text": "An Accenture survey of 25,590 consumers found roughly 85% open to shopping with AI assistance, but fewer than 10% willing to let agents purchase independently."
+        },
+        {
+          "label": "Retailer strategies",
+          "text": "Amazon ($AMZN) blocks Meta's Muse and OpenAI's Dots from shopping on its platform. Target ($TGT) permits approved agents, while Walmart ($WMT) partners with OpenAI and Google ($GOOGL) to attract shoppers."
+        },
+        {
+          "label": "Merchant risks",
+          "text": "Outside agents can weaken customer relationships and reduce access to shopping data, while increasing risks involving purchase errors, returns, chargebacks and payment authorization."
+        },
+        {
+          "label": "Competitive shift",
+          "text": "AI platforms could earn subscription, advertising and transaction fees. Retailers are also developing their own agents, including DoorDash's ($DASH) Ask, to retain control over inventory, fulfillment and customer interactions."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19502",
+      "has_media": true
+    },
+    {
+      "id": "3A70619CDBEC8DCD6892",
+      "ts": "2026-10-15T23:54:12Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Microsoft ($MSFT) AI CEO Mustafa Suleyman says its new MAI-Base-2 model outperforms the pre-trained model underlying OpenAI's GPT-5.6 Sol while requiring just one-quarter of the computing power to train.",
+      "points": [
+        {
+          "label": "Performance claims",
+          "text": "Suleyman told employees that private comparisons with OpenAI models showed stronger results on tests measuring pattern recognition and prediction."
+        },
+        {
+          "label": "Training efficiency",
+          "text": "Microsoft also claims MAI-Base-2 required roughly 12 times less computing power than DeepSeek's comparable V4-Pro-Base model."
+        },
+        {
+          "label": "Verification",
+          "text": "The OpenAI comparisons rely on Microsoft's internal testing and access to technical model data; independent validation was not provided."
+        },
+        {
+          "label": "Strategic shift",
+          "text": "Microsoft is expanding its in-house AI development to reduce reliance on OpenAI, despite its multibillion-dollar investment, Azure partnership and use of OpenAI models in Copilot."
+        },
+        {
+          "label": "Development focus",
+          "text": "Suleyman was reassigned in March to concentrate on developing models within Microsoft's superintelligence unit."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19484",
+      "has_media": true
+    },
+    {
+      "id": "3A434F44884229A20201",
+      "ts": "2026-10-15T22:28:26Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "CoreWeave ($CRWV) shares rebounded 6% Thursday after Nvidia CEO Jensen Huang defended the AI cloud provider, but mounting debt and elevated borrowing costs continue to pressure the company and its peers.",
+      "points": [
+        {
+          "label": "Nvidia support",
+          "text": "Huang said CoreWeave's financial strength is improving and expressed optimism about its outlook, helping fuel Thursday's rebound."
+        },
+        {
+          "label": "Stock volatility",
+          "text": "CoreWeave fell as much as 28% from the start of the week before recovering, finishing Thursday approximately 15% lower for the week. Nebius ($NBIS) and IREN ($IREN) declined 15% and 14%, respectively."
+        },
+        {
+          "label": "Debt concerns",
+          "text": "CoreWeave carries at least $35 billion in balance-sheet debt and is projected to burn approximately $80 billion in cash over the next 31\u20442 years, according to CreditSights."
+        },
+        {
+          "label": "Credit stress",
+          "text": "Default insurance costs reached record highs, while some unsecured bonds fell below 80 cents on the dollar. A 2031 bond traded at distressed-level yields."
+        },
+        {
+          "label": "Bullish counterpoint",
+          "text": "Bank of America raised CoreWeave's revenue-growth forecasts, citing higher AI computing prices and capacity. Retail investors made record share purchases Wednesday."
+        },
+        {
+          "label": "Funding outlook",
+          "text": "Analysts warn high borrowing costs could restrict unsecured bond issuance, although CoreWeave retains access to secured loans backed by customer contracts and potential equity financing."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "IREN",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NBIS",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19477",
+      "has_media": true
+    },
+    {
+      "id": "3A3A9D2A5E8BC7F0161B",
+      "ts": "2026-10-15T22:02:52Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Chip startup Bolt Graphics is seeking approximately $100 million at a $700 million valuation to develop GPUs competing with Nvidia ($NVDA) and AMD ($AMD), according to Reuters.",
+      "points": [
+        {
+          "label": "Funding status",
+          "text": "CEO Darwesh Singh says fundraising is underway, but the valuation, amount and investors remain unconfirmed."
+        },
+        {
+          "label": "Chip development",
+          "text": "Bolt completed initial testing of its Zeus GPU architecture, designed for scientific simulations, chip design and professional graphics requiring high-precision calculations."
+        },
+        {
+          "label": "Manufacturing",
+          "text": "The company plans to produce its chips using Taiwan Semiconductor Manufacturing ($TSM) technology."
+        },
+        {
+          "label": "Market strategy",
+          "text": "Bolt will initially target 3D artists and game developers before expanding into consumer gaming GPUs, focusing on markets beyond AI computing."
+        },
+        {
+          "label": "Industry funding",
+          "text": "Semiconductor startups raised approximately $10.7 billion in the first five months of 2026, approaching the $12.2 billion raised throughout 2025."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMD",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "TSM",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19475",
+      "has_media": true
+    },
     {
       "id": "3AC2B3478FBF32F0CCC6",
       "ts": "2026-10-15T21:01:08Z",
@@ -5729,289 +6019,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18614",
       "has_media": false
-    },
-    {
-      "id": "3AB662480A0327617768",
-      "ts": "2026-10-09T12:45:40Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "U.S. stocks saw sharp premarket moves Friday as SpaceX\u2019s wireless expansion pressured telecom providers, AI stocks rebounded, and Medicare ratings drove major swings in health insurers.",
-      "points": [
-        {
-          "label": "SpaceX",
-          "text": "$SPCX SpaceX rose 3.57% to $166.30 after agreeing to acquire Grain Management\u2019s nationwide 800MHz-band spectrum licenses, strengthening its planned Starlink Mobile network."
-        },
-        {
-          "label": "Telecom sell-off",
-          "text": "$T AT&T plunged 8.04% to $22.87, $TMUS T-Mobile fell 7.36% to $158.70, and $VZ Verizon dropped 7.12% to $43.05 amid concerns over future Starlink competition."
-        },
-        {
-          "label": "Cell towers",
-          "text": "$CCI Crown Castle gained 7.78% to $74.25, while $AMT American Tower advanced 7.31% to $178.92 as investors anticipated potential infrastructure demand from satellite-terrestrial mobile networks."
-        },
-        {
-          "label": "Delta Air Lines",
-          "text": "$DAL fell 2.65% to $79.96 after reporting Q3 adjusted EPS of $1.72 versus $1.75 expected, with revenue of $17.59B below $17.67B estimates. Rising fuel costs prompted a reduction in full-year earnings guidance."
-        },
-        {
-          "label": "AI infrastructure rebound",
-          "text": "$CRWV CoreWeave rose 2.43% to $83.56, $AVGO Broadcom gained 1.68% to $366.20, and $ORCL Oracle added 1.14% to $137.24, partially recovering Thursday\u2019s losses tied to confusion over OpenAI\u2019s revenue figures."
-        },
-        {
-          "label": "Optical networking",
-          "text": "$LITE Lumentum surged 6.26% to $1,114.28 after CEO Michael Hurlston said optical components were sold out through early 2029, with substantial demand exceeding production capacity."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AVGO",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "CRWV",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "LITE",
-          "layer": "Networking"
-        },
-        {
-          "ticker": "ORCL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18609",
-      "has_media": true
-    },
-    {
-      "id": "3A8D14C30307DC424F1F",
-      "ts": "2026-10-09T12:32:21Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Four Wall Street firms raised price targets on $ZETA Zeta Global following its Zeta Live 2026 conference, citing stronger enterprise AI demand, new product launches and improving confidence in sustained revenue growth.",
-      "points": [
-        {
-          "label": "Analyst revisions",
-          "text": "Needham raised its target to $40 from $30 (Buy); KeyBanc to $38 from $27 (Overweight); Truist to $38 from $30 (Buy); and Canaccord Genuity to $37 from $30 (Buy)."
-        },
-        {
-          "label": "AI expansion",
-          "text": "Zeta unveiled AthenaOS, Athena MCP and specialized inference models developed with Fireworks using NVIDIA Nemotron, alongside early-stage plans for a custom AI chip."
-        },
-        {
-          "label": "Product timeline",
-          "text": "AthenaOS is expected to enter public beta later in 2026, with general availability planned for Q1 2027."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18604",
-      "has_media": false
-    },
-    {
-      "id": "3A5A146B489404BE4F7D",
-      "ts": "2026-10-09T12:12:17Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$QCOM Qualcomm\u2019s lawsuit against $ARM Arm Holdings heads to a Delaware jury Friday, alleging licensing breaches and intentional interference with Qualcomm\u2019s dealings with $META Meta, following a five-day federal trial.",
-      "points": [
-        {
-          "label": "Contract allegations",
-          "text": "Qualcomm claims Arm withheld software patches and chip-design tools and violated pricing protections intended to keep its licensing costs within 10% of Arm\u2019s lowest comparable rates."
-        },
-        {
-          "label": "Meta dispute",
-          "text": "Qualcomm alleges Arm deliberately leaked a 2024 license-breach notice to Bloomberg to undermine its business dealings with Meta."
-        },
-        {
-          "label": "Arm\u2019s defense",
-          "text": "Arm denies causing Qualcomm harm, arguing the lawsuit is an attempt to gain leverage in licensing negotiations."
-        },
-        {
-          "label": "Royalty dispute",
-          "text": "Qualcomm seeks the right to suspend royalty payments for five years if Arm breached its agreements. The judge has not ruled on the provision, which Arm argues is unenforceable."
-        },
-        {
-          "label": "Legal background",
-          "text": "A 2024 jury rejected Arm\u2019s attempt to establish Qualcomm had breached its license. Qualcomm\u2019s current architecture license runs through 2033, while a separate trial over Arm\u2019s good-faith negotiations awaits a judicial decision."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "ARM",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "QCOM",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18600",
-      "has_media": true
-    },
-    {
-      "id": "3A755F8737606F89B944",
-      "ts": "2026-10-09T11:50:50Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$NBIS Nebius achieved $NVDA NVIDIA Exemplar Cloud validation for HGX B300 AI training workloads, confirming its production infrastructure meets NVIDIA\u2019s performance requirements and extending previous H200 and GB300 NVL72 validations.",
-      "points": [
-        {
-          "label": "Performance validation",
-          "text": "NVIDIA and Nebius engineers benchmarked production infrastructure against NVIDIA\u2019s reference architecture using standardized AI training workloads."
-        },
-        {
-          "label": "Industry benchmarks",
-          "text": "Nebius reported the fastest single-node HGX B300 training times for Llama-3.1-8B and GPT-OSS 20B in the MLPerf Training 6.0 closed division."
-        },
-        {
-          "label": "Independent assessment",
-          "text": "SemiAnalysis awarded Nebius Platinum status, its highest ClusterMAX 3.0 tier, after evaluating training, inference, storage and failure recovery on live B300 and GB300 NVL72 clusters."
-        },
-        {
-          "label": "Commercial availability",
-          "text": "NVIDIA HGX B300 clusters are already available through Nebius AI Cloud."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NBIS",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18588",
-      "has_media": true
-    },
-    {
-      "id": "3AC092F51CE6D68E282E",
-      "ts": "2026-10-09T02:20:51Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$LITE Lumentum Holdings said its optical component production capacity is fully booked through early 2029 as AI data center demand outpaces supply.",
-      "points": [
-        {
-          "label": "Supply shortages",
-          "text": "CEO Michael Hurlston said Lumentum cannot meet approximately 70% of demand for certain products through next year, with separate product lines facing a 30% shortfall through 2028."
-        },
-        {
-          "label": "AI infrastructure",
-          "text": "Demand is concentrated in advanced indium phosphide photonic components used for high-speed data transmission in AI servers and cloud data centers."
-        },
-        {
-          "label": "Capacity expansion",
-          "text": "Lumentum is accelerating production expansion but remains unable to meet customer demand. Its sold-out capacity outlook has extended from 2028 to early 2029 in just six months."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "LITE",
-          "layer": "Networking"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18586",
-      "has_media": true
-    },
-    {
-      "id": "3A6CD91950FC77DE14D6",
-      "ts": "2026-10-08T23:30:15Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$NVDA reportedly plans to invest in privately held AI chip rival d-Matrix, according to three people familiar with the deal, as the chipmaker increasingly embraces partnerships with competing AI hardware developers.",
-      "points": [
-        {
-          "label": "AI inference",
-          "text": "d-Matrix develops specialized processors for running AI models, positioning its technology within the growing market for lower-latency AI applications."
-        },
-        {
-          "label": "New industry collaboration",
-          "text": "On October 8, NVIDIA-backed Upscale AI introduced Token Fabric, combining NVIDIA Spectrum-X networking with open infrastructure designed to connect AI chips from multiple suppliers."
-        },
-        {
-          "label": "d-Matrix involvement",
-          "text": "The startup's CEO endorsed Upscale's architecture for integrating its memory-centric AI processors into data centers, reinforcing its focus on interoperability across competing hardware platforms."
-        },
-        {
-          "label": "Strategic significance",
-          "text": "NVIDIA's reported investment would deepen its exposure to specialized inference chips while supporting an ecosystem where competitors' processors operate alongside NVIDIA infrastructure."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18583",
-      "has_media": false
-    },
-    {
-      "id": "3AADBFAC98848DDECD70",
-      "ts": "2026-10-08T23:27:24Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "NVIDIA TO INVEST IN CHIP COMPETITOR D-MATRIX \u2014 THE INFORMATION",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18582",
-      "has_media": false
-    },
-    {
-      "id": "3A30C95F1F150DE972A8",
-      "ts": "2026-10-08T23:13:19Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$META banned ByteDance, TikTok\u2019s former controlling owner, from advertising across its platforms in seven countries, extending the restrictions to third-party campaigns promoting TikTok or other ByteDance properties.",
-      "points": [
-        {
-          "label": "Geographic scope",
-          "text": "The ban covers the U.S., Canada, Egypt, Indonesia, Japan, Thailand and Vietnam, with enforcement beginning October 8."
-        },
-        {
-          "label": "Advertising restrictions",
-          "text": "ByteDance can no longer place paid ads or marketing messages on Meta\u2019s platforms in affected markets. Independent advertisers are also restricted from running ads linking to TikTok or other ByteDance properties."
-        },
-        {
-          "label": "Competitive implications",
-          "text": "The move restricts TikTok\u2019s ability to acquire users through Meta\u2019s advertising network, escalating competition between the rival social media platforms."
-        },
-        {
-          "label": "Ownership distinction",
-          "text": "ByteDance remains responsible for key parts of TikTok\u2019s U.S. operations despite no longer being its controlling owner."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18581",
-      "has_media": true
     }
   ]
 }

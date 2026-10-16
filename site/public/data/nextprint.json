@@ -1,11 +1,11 @@
 {
-  "published_at": "2026-10-15T22:07:26Z",
+  "published_at": "2026-10-16T12:54:25Z",
   "target": "CPI MoM",
   "release_date": "2026-11-10",
   "reference_month": "2026-10",
   "basis": "SA",
   "ensemble": {
-    "value": 0.32,
+    "value": 0.31,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,
@@ -17,7 +17,7 @@
       "name": "Macrogauge",
       "value": 0.44,
       "kind": "model",
-      "as_of": "2026-10-15"
+      "as_of": "2026-10-16"
     },
     {
       "name": "Cleveland",
@@ -27,9 +27,9 @@
     },
     {
       "name": "Kalshi",
-      "value": 0.246,
+      "value": 0.225,
       "kind": "benchmark",
-      "as_of": "2026-10-15"
+      "as_of": "2026-10-16"
     }
   ],
   "core": {
@@ -46,7 +46,7 @@
         "name": "Macrogauge",
         "value": 0.34,
         "kind": "model",
-        "as_of": "2026-10-15"
+        "as_of": "2026-10-16"
       },
       {
         "name": "Cleveland",
@@ -56,9 +56,9 @@
       },
       {
         "name": "Kalshi",
-        "value": 0.202,
+        "value": 0.201,
         "kind": "benchmark",
-        "as_of": "2026-10-15"
+        "as_of": "2026-10-16"
       }
     ]
   }

@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-15T22:07:26Z",
+  "published_at": "2026-10-16T12:54:25Z",
   "groups": [
     {
       "group": "UNDERLYING",
@@ -133,16 +133,15 @@
         {
           "code": "IREXPETCOM",
           "label": "Import prices ex-petroleum",
-          "value": 3.94,
+          "value": 4.07,
           "unit": "% YoY (computed)",
-          "as_of": "2026-08-01",
+          "as_of": "2026-09-01",
           "cadence": "monthly",
-          "chg_3m": 0.75,
-          "chg_12m": 3.94,
+          "chg_3m": 0.88,
+          "chg_12m": 4.07,
           "chg_unit": "%",
           "trail": {
             "dates": [
-              "2024-09-01",
               "2024-10-01",
               "2024-11-01",
               "2024-12-01",
@@ -164,10 +163,10 @@
               "2026-05-01",
               "2026-06-01",
               "2026-07-01",
-              "2026-08-01"
+              "2026-08-01",
+              "2026-09-01"
             ],
             "values": [
-              142.0,
               142.4,
               142.5,
               142.7,
@@ -188,24 +187,24 @@
               146.3,
               146.8,
               146.9,
-              147.1,
-              147.9
+              147.0,
+              147.4,
+              148.2
             ]
           }
         },
         {
           "code": "CHNTOT",
           "label": "Import prices, goods from China",
-          "value": 2.99,
+          "value": 3.09,
           "unit": "% YoY (computed)",
-          "as_of": "2026-08-01",
+          "as_of": "2026-09-01",
           "cadence": "monthly",
-          "chg_3m": 1.83,
-          "chg_12m": 2.99,
+          "chg_3m": 1.62,
+          "chg_12m": 3.09,
           "chg_unit": "%",
           "trail": {
             "dates": [
-              "2024-09-01",
               "2024-10-01",
               "2024-11-01",
               "2024-12-01",
@@ -227,10 +226,10 @@
               "2026-05-01",
               "2026-06-01",
               "2026-07-01",
-              "2026-08-01"
+              "2026-08-01",
+              "2026-09-01"
             ],
             "values": [
-              100.4,
               100.4,
               100.4,
               100.3,
@@ -252,7 +251,8 @@
               98.1,
               98.5,
               98.9,
-              99.9
+              99.4,
+              100.1
             ]
           }
         },
@@ -518,17 +518,17 @@
         {
           "code": "CP0000EZCCM086NEST",
           "label": "Euro-area HICP",
-          "value": 3.25,
+          "value": 3.77,
           "unit": "% YoY (computed)",
-          "as_of": "2026-08-01",
+          "as_of": "2026-09-01",
           "cadence": "monthly"
         },
         {
           "code": "TOTNRGFOODEA20MI15XM",
           "label": "Euro-area core HICP (ex energy, food, alcohol, tobacco)",
-          "value": 2.38,
+          "value": 2.5,
           "unit": "% YoY (computed)",
-          "as_of": "2026-08-01",
+          "as_of": "2026-09-01",
           "cadence": "monthly"
         }
       ]
