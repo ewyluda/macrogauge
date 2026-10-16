@@ -60,10 +60,24 @@ def test_every_registry_pin_prices_its_makers_endpoint():
         "deepseek/deepseek-v4.1-flash:prompt": 0.3, "deepseek/deepseek-v4.1-flash:completion": 1.2,
         # AI Studio's own list price; `discount` ignored, Vertex us's +10% not taken
         "google/gemini-3.8-flash:prompt": 0.75, "google/gemini-3.8-flash:completion": 3.75,
+        # the min_prompt_tokens long-context override (0.20 / 0.75) is not the list price
         "openai/gpt-6-luna:prompt": 0.1, "openai/gpt-6-luna:completion": 0.5,
     })
     assert {(o.source, o.route, o.obs_date) for o in obs} == {("OPENROUTER", "API", "2026-10-16")}
     assert {o.series_code for o in obs} == set(SIDS)   # collect maps source_id -> code
+
+
+def test_off_peak_collection_still_reads_the_standard_rate():
+    """At 04:10 UTC OpenRouter rewrote DeepSeek's base price to its off-peak
+    0.15 / 0.60; the daily runs (12:45-17:45 UTC) all fall in its off-peak
+    hours. The highest rate on the clock schedule is the standard 0.30 / 1.20."""
+    off = FIXTURE["_deepseek_offpeak"]
+    ep = next(e for e in off["data"]["endpoints"] if e["tag"] == "deepseek")
+    assert (ep["pricing"]["prompt"], ep["pricing"]["completion"]) == ("0.00000015", "0.0000006")
+    sids = [s for s in SIDS if s.startswith("deepseek/")]
+    obs = openrouter.fetch(sids, vintage_date="2026-10-16",
+                           http_get=_get({"deepseek/deepseek-v4.1-flash": off}))
+    assert sorted(o.value for o in obs) == [pytest.approx(0.3), pytest.approx(1.2)]
 
 
 def test_pinned_tag_is_exact_not_a_prefix():
