@@ -1,0 +1,136 @@
+{
+  "review_date_et": "2026-10-16",
+  "base": "80c5d80cd3574f860c7e990fcc9b47f6074b9f2e",
+  "pr": 125,
+  "reviewed_head": "688613e0b68fcdcc37885dbb3cf1ada0babef1a7",
+  "probes": {
+    "recovery": {
+      "synthetic_newly_disclosed_counties": [
+        "22083",
+        "32029",
+        "53025"
+      ],
+      "source_ok": true,
+      "source_error": null,
+      "stored_wage_observations": {
+        "22083": 0,
+        "32029": 0,
+        "53025": 0
+      },
+      "accepted_metrics_if_requested": {
+        "22083": 3,
+        "32029": 3,
+        "53025": 3
+      },
+      "published_markets": {
+        "richland": {
+          "available": false,
+          "counties_used": 0,
+          "counties_suppressed": [
+            "22083"
+          ]
+        },
+        "reno": {
+          "available": true,
+          "counties_used": 1,
+          "counties_suppressed": [
+            "32029"
+          ]
+        },
+        "quincy": {
+          "available": false,
+          "counties_used": 0,
+          "counties_suppressed": [
+            "53025"
+          ]
+        }
+      }
+    },
+    "trades": {
+      "fixture_row_count": 10,
+      "schema_valid": true,
+      "same_month_spread_pp": 2.11,
+      "adp_thousands": 8113.0,
+      "missing_daily_base_yoy": null
+    }
+  },
+  "checks": {
+    "pr125_full_python": 1380,
+    "pr125_vitest": 496,
+    "pr125_lint": "pass",
+    "pr125_static_build": "pass; nonfatal blocked external font requests",
+    "pr125_committed_artifact_focused_e2e": 16,
+    "pr125_populated_artifact_focused_e2e": 16,
+    "desktop_1280": {
+      "rows": 10,
+      "overflow_px": 0,
+      "eci_quarters": [
+        "Q2 2026",
+        "Q2 2026"
+      ]
+    },
+    "mobile_390": {
+      "page_overflow_px": 0,
+      "table_width_px": 554.6484375,
+      "container_width_px": 350,
+      "behavior": "horizontal scroll within table container"
+    },
+    "remote_ci_at_reviewed_head": "pipeline/site/Vercel success",
+    "scope": "Exact reviewed head; original review validation, before review-artifact commit"
+  },
+  "bls_live_verification": {
+    "endpoint": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+    "status": "REQUEST_SUCCEEDED",
+    "catalog_returned": false,
+    "fetched_date_et": "2026-10-16",
+    "response_sha256": "c136416687bd2cb236032d20e95006d2cb63ffa3b8fad1edccd60fc75d723bd8",
+    "series": [
+      {
+        "series_id": "CES2023821003",
+        "latest_period": "2026-M08",
+        "latest_value": "43.61",
+        "base_period": "2025-M08",
+        "base_value": "41.04",
+        "yoy_pct": 6.26
+      },
+      {
+        "series_id": "CES2023820003",
+        "latest_period": "2026-M08",
+        "latest_value": "43.13",
+        "base_period": "2025-M08",
+        "base_value": "41.04",
+        "yoy_pct": 5.09
+      },
+      {
+        "series_id": "CES2023822003",
+        "latest_period": "2026-M08",
+        "latest_value": "42.44",
+        "base_period": "2025-M08",
+        "base_value": "40.62",
+        "yoy_pct": 4.48
+      },
+      {
+        "series_id": "CES2023800201",
+        "latest_period": "2026-M09",
+        "latest_value": "2939.6",
+        "base_period": "2025-M09",
+        "base_value": "2854.9",
+        "yoy_pct": 2.97
+      },
+      {
+        "series_id": "CES2023800101",
+        "latest_period": "2026-M09",
+        "latest_value": "2340.3",
+        "base_period": "2025-M09",
+        "base_value": "2369.1",
+        "yoy_pct": -1.22
+      }
+    ],
+    "raw_response_file": "2026-10-16-pr-125-bls-response.json"
+  },
+  "provenance": {
+    "joint_review_report_sha256": "25690af5adf0406d06347964eb7f1be6a2da2a8afe083a01c5d757de2ae07486",
+    "joint_review_evidence_sha256": "44b38498f328e9ec5564b2ae53742e72d4e9e5741333976192d1c3ed7f3b7516",
+    "note": "Split by PR from the joint 2026-10-16 review without application changes."
+  }
+}
