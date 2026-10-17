@@ -1,5 +1,5 @@
 {
- "as_of_curated": "2026-10-08",
+ "as_of_curated": "2026-10-17",
  "basis": "Power deals for the companies on /capacity, announced 2024-01-01 or later: power purchase agreements and the other dedicated supply deals that stand behind data-center load (utility-built generation under an electric service agreement or tariff, development or funding agreements with energy rights, and MOUs, LOIs or options). One row per deal of 100 MW or more, each tied to a named facility, fleet of units or program; fleet-wide supply with no named plant (Google-Constellation's 2,700 MW PJM deal) is left out. Generic renewable-portfolio PPAs are out of scope.",
  "mw_note": "MW is the source's own figure: contracted (the buyer's stated volume) or nameplate (the plant or project's capacity where the buyer's share is not stated), so rows are not additive capacity for the buyer.",
  "research": "docs/research/2026-10-capacity-ppas.md",
@@ -598,6 +598,190 @@
    "evidence": "docs/research/evidence/2026-10-ppa-eqix-oklo-loi.txt",
    "quote": "Oklo intends to design, engineer, build, install, license, and operate powerhouses (the “Powerhouse”) capable of generating approximately 500 megawatts (“MW”) and producing 4,380,000 megawatt hour (“MWh”) of electric energy output per year. We’re interested in purchasing electric energy output from Oklo for a 20- year timeline",
    "note": "Letter dated 2024-02-16 and made public in the April 2024 S-4 exhibit."
+  },
+  {
+   "t": "GOOGL",
+   "counterparty": "American Electric Power (Cheyenne Fuel Cell, LLC)",
+   "facility": "Cheyenne Fuel Cell (Bloom fuel cells), near Cheyenne, WY",
+   "technology": "gas",
+   "mw": 702,
+   "mw_basis": "nameplate",
+   "status": "signed",
+   "kind": "ppa",
+   "instrument": "PPA",
+   "announced": "2026-10-14",
+   "term_years": 20,
+   "start": "fully operational by end-2028",
+   "source": {
+    "publisher": "American Electric Power (press release, PR Newswire)",
+    "title": "AEP Advances Innovative Energy Solution for Google with 702MW of Bloom Fuel Cells",
+    "url": "https://www.prnewswire.com/news-releases/aep-advances-innovative-energy-solution-for-google-with-702mw-of-bloom-fuel-cells-302907658.html",
+    "date": "2026-10-14"
+   },
+   "evidence": "docs/research/evidence/2026-10-ppa-googl-aep-cheyenne-fuel-cell.txt",
+   "quote": "plans to invest approximately $4 billion to advance a new 702-megawatt fuel cell generation project near Cheyenne, Wyoming, under a long-term 20-year power purchase agreement (PPA) with Google",
+   "note": "Bloom fuel cells that run on natural gas without combustion (carbon capture planned). Cheyenne Fuel Cell, LLC is about 92% AEP-owned. Google's share of the output is not stated, so the MW is the plant's. AEP says the project follows Google's Black Hills agreements; the Black Hills row counts only Black Hills' own 590 MW, so the two Cheyenne rows do not overlap."
+  },
+  {
+   "t": "GOOGL",
+   "counterparty": "Black Hills Corp.",
+   "facility": "564 MW of new gas at Cheyenne Prairie Generating Station, WY (service to Google's planned Cheyenne data center)",
+   "technology": "gas",
+   "mw": 590,
+   "mw_basis": "contracted",
+   "status": "signed",
+   "kind": "utility supply",
+   "instrument": "Large Power Contract Services Agreement + Generation Facilities Agreement",
+   "announced": "2026-10-06",
+   "term_years": null,
+   "start": "late 2027, peak load 2030",
+   "source": {
+    "publisher": "Black Hills Corp. (press release, GLOBE NEWSWIRE)",
+    "title": "Black Hills Corp. Executes Definitive Agreements to Serve Google's Planned Data Center in Cheyenne, Wyoming",
+    "url": "https://www.globenewswire.com/news-release/2026/10/06/3376007/10381/en/black-hills-corp-executes-definitive-agreements-to-serve-google-s-planned-data-center-in-cheyenne-wyoming.html",
+    "date": "2026-10-06"
+   },
+   "evidence": "docs/research/evidence/2026-10-ppa-googl-black-hills-cheyenne.txt",
+   "quote": "To provide 590 MW of grid-connected service, Black Hills will construct and own through a non-regulated affiliate 564 MW (nameplate capacity) of new natural gas generation located at the company's existing Cheyenne Prairie Generating Station (CPGS) location.",
+   "note": "Up to 590 MW of grid-connected service: the 564 MW gas build plus 26 MW of market and tariff energy. Agreements effective 2026-09-30, terms through 2048. The project's 2.7 GW resource mix also counts about 2.1 GW of third-party resources that Black Hills manages through a microgrid; the release names no plant for them, so they are not in this row."
+  },
+  {
+   "t": "GOOGL",
+   "counterparty": "Fervo Energy",
+   "facility": "Cape Station enhanced geothermal GeoCluster, UT",
+   "technology": "geothermal",
+   "mw": 396,
+   "mw_basis": "contracted",
+   "status": "signed",
+   "kind": "ppa",
+   "instrument": "PPA",
+   "announced": "2026-09-01",
+   "term_years": null,
+   "start": "2028",
+   "source": {
+    "publisher": "Fervo Energy (press release)",
+    "title": "Fervo Energy and Google Sign 396 MW PPA",
+    "url": "https://fervoenergy.com/fervo-energy-and-google-sign-396-mw-ppa/",
+    "date": "2026-09-01"
+   },
+   "evidence": "docs/research/evidence/2026-10-ppa-googl-fervo-cape-station.txt",
+   "quote": "today announced a 396-megawatt (MW) power purchase agreement (PPA) with Google to enable the continued development of the Cape Station enhanced geothermal systems (EGS) GeoCluster, expected to come online in 2028.",
+   "note": "For a potential Google data center in Utah. Google also holds an option to expand its offtake by about 600 MW (nearly 1 GW in total) by June 2030; like Energy Northwest's expansion option, the option is not a row. Direct-to-load delivery under Utah's SB132 is subject to regulatory approval."
+  },
+  {
+   "t": "GOOGL",
+   "counterparty": "Xcel Energy",
+   "facility": "New wind, solar and iron-air storage for Google's Pine Island, MN data center",
+   "technology": "wind",
+   "mw": 1900,
+   "mw_basis": "nameplate",
+   "status": "pending",
+   "kind": "utility supply",
+   "instrument": "electric service agreement + Clean Energy Accelerator Charge",
+   "announced": "2026-02-24",
+   "term_years": 15,
+   "start": null,
+   "source": {
+    "publisher": "Xcel Energy (press release)",
+    "title": "Xcel Energy to Power New Google Data Center in Minnesota",
+    "url": "https://newsroom.xcelenergy.com/news/xcel-energy-to-power-new-google-data-center-in-minnesota",
+    "date": "2026-02-24"
+   },
+   "evidence": "docs/research/evidence/2026-10-ppa-googl-xcel-pine-island.txt",
+   "quote": "As part of the agreement, Xcel and Google are partnering to bring 1,900 megawatts of new clean energy to the grid.",
+   "note": "1,400 MW of wind, 200 MW of solar and 300 MW (30 GWh) of Form Energy iron-air storage; the technology column shows the largest part. The Minnesota PUC must approve the ESA. The 15-year term is from Xcel's Q1 2026 call, in the same evidence file."
+  },
+  {
+   "t": "GOOGL",
+   "counterparty": "OG&E (OGE Energy)",
+   "facility": "Two Google solar facilities under construction (capacity for Google's Muskogee and Stillwater, OK data centers)",
+   "technology": "solar",
+   "mw": 600,
+   "mw_basis": "nameplate",
+   "status": "pending",
+   "kind": "utility supply",
+   "instrument": "special contract (electric service agreements) + two capacity purchase agreements",
+   "announced": "2026-04-29",
+   "term_years": null,
+   "start": null,
+   "source": {
+    "publisher": "OGE Energy Corp. (Q1 2026 earnings call; transcript via Financial Modeling Prep)",
+    "title": "OGE Energy Corp. first quarter 2026 earnings call",
+    "url": "https://ogeenergy.gcs-web.com/node/45591",
+    "date": "2026-04-29"
+   },
+   "evidence": "docs/research/evidence/2026-10-ppa-googl-oge-oklahoma.txt",
+   "quote": "Working with Google, we've secured generation capacity from 2 solar facilities that Google had previously announced and that are currently under construction. These facilities will provide 600 megawatts of nameplate capacity, and we will request preapproval from both Oklahoma and Arkansas commissions for these CPAs.",
+   "note": "600 MW is the two solar plants' nameplate, not Google's load, which no source read states. OG&E's release (2026-04-30) gives no MW. The OCC must approve the special contract and pre-approve the CPAs; OG&E filed in May 2026, and its Q2 10-Q set a hearing for 2026-09-09."
+  },
+  {
+   "t": "MSFT",
+   "counterparty": "NIPSCO / NIPSCO GenCo",
+   "facility": "GenCo pool capacity added for Microsoft's northwest Indiana campus",
+   "technology": "other",
+   "mw": 1100,
+   "mw_basis": "nameplate",
+   "status": "pending",
+   "kind": "utility supply",
+   "instrument": "long-term energy agreement (electric service, 20-year term)",
+   "announced": "2026-10-16",
+   "term_years": 20,
+   "start": "2028",
+   "source": {
+    "publisher": "NiSource Inc. (news release)",
+    "title": "NiSource announces long-term agreement with Microsoft expected to increase customer savings and support Indiana's economic growth",
+    "url": "https://www.nisource.com/news/article/nisource-announces-long-term-agreement-with-microsoft-expected-to-increase-customer-savings-and-support-indiana-s-economic-growth",
+    "date": "2026-10-16"
+   },
+   "evidence": "docs/research/evidence/2026-10-ppa-msft-nisource-genco.txt",
+   "quote": "Under the agreement, Microsoft is expected to begin taking electric service under a 20-year term starting in 2028. The GenCo-owned pool portfolio will be increased by approximately 1,100 MW with NIPSCO and GenCo to provide transmission and generation infrastructure to ensure adequate assets to serve Microsoft’s data center and NIPSCO’s customers while providing a safe, reliable, and coordinated power supply.",
+   "note": "The capacity added to GenCo's pool, not Microsoft's load. NiSource says Microsoft funds all the generation and transmission needed to serve its load, but it names no plant or technology for the ~1,100 MW. The 600 MW battery tolling agreement GenCo signed in connection with the deal goes to the pool shared by multiple large-load customers and is not added. The release's risk factors cite required regulatory approvals, so the row is pending."
+  },
+  {
+   "t": "AMZN",
+   "counterparty": "NIPSCO / NIPSCO GenCo",
+   "facility": "ADS Contract amendments: incremental load for Amazon's northern Indiana campuses (GenCo pool)",
+   "technology": "other",
+   "mw": 400,
+   "mw_basis": "contracted",
+   "status": "pending",
+   "kind": "utility supply",
+   "instrument": "amendments to the ADS Contract + GenCo PPA",
+   "announced": "2026-05-06",
+   "term_years": null,
+   "start": "from 2029; 2,800 MW total commitment by end-2032",
+   "source": {
+    "publisher": "NiSource Inc. (Q2 2026 earnings call; transcript via Webull)",
+    "title": "NiSource (NI) Q2 2026 Earnings Call Transcript",
+    "url": "https://www.webull.com/news/15393382810264576",
+    "date": "2026-08-05"
+   },
+   "evidence": "docs/research/evidence/2026-10-ppa-amzn-nipsco-amendment.txt",
+   "quote": "Collectively, the amendments increased Amazon's contracted load by 400 megawatts, which we announced with our first quarter earnings and are already incorporated in our near- and long-term guidance. We're seeking final order by November.",
+   "note": "On top of the approved NIPSCO row: the amendments raise NIPSCO's committed capacity to Amazon from 2,400 MW to 2,800 MW by end-2032 (NiSource Q1 2026 10-Q), served from GenCo's Pool Resource Assets rather than the original contract's CCGT and batteries, so no technology is stated. Announced with Q1 earnings on 2026-05-06; the IURC order is expected in Q4 2026, with FERC affiliate approval also pending."
+  },
+  {
+   "t": "WULF",
+   "counterparty": "Kentucky Power (AEP)",
+   "facility": "Muskie Data Campus, Grayson, KY (amended contract; Big Sandy CCGT financing)",
+   "technology": "gas",
+   "mw": 1000,
+   "mw_basis": "contracted",
+   "status": "pending",
+   "kind": "utility supply",
+   "instrument": "amended electric service agreement (contracted demand)",
+   "announced": "2026-10-05",
+   "term_years": null,
+   "start": "first 500 MW from 2H 2028; second 500 MW advanced to 2029",
+   "source": {
+    "publisher": "Kentucky Power, an AEP company (press release, PR Newswire)",
+    "title": "Kentucky Power, TeraWulf Finalize Expanded Agreement Providing for $100 Million in Customer Benefits",
+    "url": "https://www.prnewswire.com/news-releases/kentucky-power-terawulf-finalize-expanded-agreement-providing-for-100-million-in-customer-benefits-302898378.html",
+    "date": "2026-10-05"
+   },
+   "evidence": "docs/research/evidence/2026-10-ppa-wulf-kentucky-power-muskie.txt",
+   "quote": "The expanded agreement would increase contracted electric demand at TeraWulf's Muskie Data campus in Grayson, Kentucky, from 500 megawatts (MW) to 1 gigawatt (GW).",
+   "note": "Contracted electric demand, not critical-IT MW. TeraWulf signed the original 500 MW service agreement under Kentucky Power's large-load tariff when it bought the campus in May 2026; its release ties no generation to it. The amendment doubles the demand and has TeraWulf pay the estimated financing costs of Kentucky Power's planned 760-MW Big Sandy combined-cycle plant. The amended contract needs KY PSC approval, so the full 1 GW is shown as pending."
   }
  ]
 }
