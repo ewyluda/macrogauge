@@ -406,8 +406,9 @@ function Row({ m, src, open, onToggle }: {
             </table>
             {m.thin_base && (
               <p style={{ fontSize: 12, color: "var(--muted)" }}>
-                ⚠ Thin base — under 1,500 construction workers. The rate is
-                real but noisy; a single large project moves it.
+                ⚠ Thin base — under 1,500 construction workers this quarter
+                or a year earlier. The rate is real but noisy; a single large
+                project moves it.
               </p>
             )}
             <PipelineReceipts m={m} src={src} />
