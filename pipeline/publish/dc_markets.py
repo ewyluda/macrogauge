@@ -21,8 +21,9 @@ counties skipped and listed) against the 238212 national baseline
 withheld every quarter since 2023 Q4 and registered under an `undisclosed`
 policy so its first print is collected) is reported as suppressed exactly
 like a disclosure-suppressed one; `partial` flags any market whose basis is
-missing at least one of its counties. A `mech` block (NAICS 238222,
-NONRESIDENTIAL plumbing and HVAC contractors) rides the same engine and shape
+missing at least one of its counties, and `thin_base` uses its own
+ELEC_THIN_BASE bar. A `mech` block (NAICS 238222, NONRESIDENTIAL plumbing
+and HVAC contractors) rides the same engine and shape, less `thin_base`,
 against `mech_national`; it is data only for now, with no /markets column
 (Storey NV, Richland Parish LA and Grant WA are withheld in every quarter
 2024 Q1-2026 Q1, registered `undisclosed`, and read suppressed).
@@ -88,7 +89,8 @@ def _series(conn, code: str) -> dict[str, float]:
     return dict(vintage.latest(conn, code))
 
 
-def _labor(conn, markets, naics: str) -> dict:
+def _labor(conn, markets, naics: str,
+           thin_base: int = dcmarkets.THIN_BASE) -> dict:
     """dcmarkets.market_rows over one NAICS's county + US series (codes
     qcew_{wage,emp,aemp}{naics}_c{fips}, qcew_{wage,emp}{naics}_us)."""
     counties = {f for m in markets for f in m.counties}
@@ -103,21 +105,31 @@ def _labor(conn, markets, naics: str) -> dict:
 
     return dcmarkets.market_rows(
         wage, emp, aemp, markets,
-        _series(conn, f"qcew_wage{naics}_us"), _series(conn, f"qcew_emp{naics}_us"))
+        _series(conn, f"qcew_wage{naics}_us"), _series(conn, f"qcew_emp{naics}_us"),
+        thin_base=thin_base)
 
 
-# The engine row fields the elec block republishes. thin_base is left out on
-# purpose: its 1,500-worker bar is calibrated for NAICS 23 construction, and
-# no electrical-contractor threshold has been chosen.
-_ELEC_FIELDS = ("as_of", "base_date", "available", "yoy_basis", "wage",
-                "wage_yoy_pct", "wage_spread_pp", "emp", "emp_yoy_pct",
+# The elec block's own thin-base bar, in 238212 workers (Eric, 2026-10-17).
+# 1,500 is calibrated for all of NAICS 23; scaled by 238212's national share
+# (9.9%) it is ~148 and flags nothing. Of 500/750/1,000/1,500, only 750
+# flagged the same markets in every quarter 2025Q1-2026Q1. market_rows
+# applies its usual either-quarter rule to it.
+ELEC_THIN_BASE = 750
+
+# The engine row fields the elec block republishes, thin_base at
+# ELEC_THIN_BASE. The mech block republishes the same fields minus
+# thin_base: it has no column and no bar has been chosen, so it publishes no
+# flag rather than one computed at the NAICS 23 bar.
+_ELEC_FIELDS = ("as_of", "base_date", "available", "thin_base", "yoy_basis",
+                "wage", "wage_yoy_pct", "wage_spread_pp", "emp", "emp_yoy_pct",
                 "emp_spread_pp", "wage_cur", "emp_cur_total",
                 "counties_total", "counties_used", "counties_suppressed",
                 "counties")
+_MECH_FIELDS = tuple(f for f in _ELEC_FIELDS if f != "thin_base")
 
 
-def _elec_block(row: dict) -> dict:
-    out = {f: row[f] for f in _ELEC_FIELDS}
+def _elec_block(row: dict, fields: tuple[str, ...] = _ELEC_FIELDS) -> dict:
+    out = {f: row[f] for f in fields}
     # partial: at least one of the market's counties is outside the basis
     # (disclosure-suppressed, missing a quarter, or unregistered).
     out["partial"] = bool(row["counties_suppressed"])
@@ -164,7 +176,7 @@ def _pipeline_row(fig) -> dict:
 def build(conn, markets, cap_cfg: dict, meta: dict, pipeline=None,
           today: str | None = None) -> dict:
     payload = _labor(conn, markets, "23")
-    elec = _labor(conn, markets, "238212")
+    elec = _labor(conn, markets, "238212", thin_base=ELEC_THIN_BASE)
     elec_by_key = {r["key"]: r for r in elec["markets"]}
     for row in payload["markets"]:
         row["elec"] = _elec_block(elec_by_key[row["key"]])
@@ -172,7 +184,7 @@ def build(conn, markets, cap_cfg: dict, meta: dict, pipeline=None,
     mech = _labor(conn, markets, "238222")
     mech_by_key = {r["key"]: r for r in mech["markets"]}
     for row in payload["markets"]:
-        row["mech"] = _elec_block(mech_by_key[row["key"]])
+        row["mech"] = _elec_block(mech_by_key[row["key"]], _MECH_FIELDS)
     payload["mech_national"] = mech["national"]
 
     # Census county names ride along so receipts read "Loudoun County",

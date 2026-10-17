@@ -109,13 +109,14 @@ export function fmtSpread(pp: number | null): string {
  *  - pending: the artifact predates the elec block (no `elec` at all);
  *  - suppressed: no county resolves a level (lists the suppressed FIPS);
  *  - live: wage YoY + spread vs the national 238212 rate, headcount, wage,
- *    and `partial` -- a county outside the basis, or no YoY basis at all --
- *    which the cell marks with † like the construction columns. */
+ *    `partial` -- a county outside the basis, or no YoY basis at all --
+ *    which the cell marks with † like the construction columns, and `thin`,
+ *    the elec block's own thin-base flag (750 workers, not 1,500), marked ⚠. */
 export type ElecCell =
   | { state: "pending" }
   | { state: "suppressed"; counties: string[] }
   | { state: "live"; yoy: string; spread: string; workers: string;
-      wage: string; partial: boolean };
+      wage: string; partial: boolean; thin: boolean };
 
 export function elecCell(r: MarketRow): ElecCell {
   const e = r.elec;
@@ -130,6 +131,7 @@ export function elecCell(r: MarketRow): ElecCell {
     workers: e.emp_cur_total != null ? e.emp_cur_total.toLocaleString("en-US") : "—",
     wage: e.wage != null ? `$${Math.round(e.wage).toLocaleString("en-US")}` : "—",
     partial: e.partial || e.yoy_basis === null,
+    thin: e.thin_base === true,
   };
 }
 

@@ -213,6 +213,9 @@ function ElecTd({ m }: { m: MarketRow }) {
       {c.partial && (
         <span title="Partial county coverage for NAICS 238212 — expand for the basis"> †</span>
       )}
+      {c.thin && (
+        <span title="Thin base — under 750 electrical-contractor workers this quarter or a year earlier"> ⚠</span>
+      )}
       <div style={{ fontSize: 11, color: "var(--muted)" }}>
         {c.workers} workers · {c.wage}/wk
       </div>
@@ -484,6 +487,13 @@ function ElecReceipts({ m }: { m: MarketRow }) {
             {e.counties.map((c) => <CountyRow key={c.fips} c={c} name={countyName(m, c.fips)} />)}
           </tbody>
         </table>
+      )}
+      {e.thin_base && (
+        <p style={{ fontSize: 12, color: "var(--muted)" }}>
+          ⚠ Thin base — under 750 electrical-contractor workers this quarter
+          or a year earlier. The rate is real but noisy; a single large
+          project moves it.
+        </p>
       )}
     </>
   );

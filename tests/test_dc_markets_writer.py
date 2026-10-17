@@ -396,6 +396,66 @@ def test_mech_block_is_always_emitted_unavailable_without_238222_rows():
                for m in bare["markets"])
 
 
+# --- elec thin_base: its own 750-worker bar ---------------------------------
+# Live 2025q1/2026q1 238212 cells for three single-county markets, written
+# under BOTH NAICS codes so the only difference between the two flags is the
+# bar: 750 for the elec block, 1,500 for construction.
+
+THIN_MARKETS = (
+    MarketSpec(key="quincy", name="Quincy WA", counties=("53025",), state="WA",
+               iso=None, grid="WECC", utility="Grant County PUD", note=""),
+    MarketSpec(key="cheyenne", name="Cheyenne WY", counties=("56021",), state="WY",
+               iso=None, grid="WECC", utility="Black Hills Energy", note=""),
+    MarketSpec(key="newcarlisle", name="New Carlisle IN", counties=("18141",),
+               state="IN", iso="PJM", grid=None, utility="AEP Indiana Michigan",
+               note=""),
+)
+
+
+def _thin_conn():
+    conn = sqlite3.connect(":memory:")
+    conn.execute("CREATE TABLE observations (series_code TEXT, obs_date TEXT, "
+                 "value REAL, vintage_date TEXT)")
+    cells = {  # fips: {date: (wage, month-3 emp, average monthly emp)}
+        "53025": {"2025-01-01": (1941, 220, 223.67), "2026-01-01": (1968, 196, 196.0)},
+        "56021": {"2025-01-01": (1397, 622, 590.67), "2026-01-01": (1691, 765, 740.0)},
+        "18141": {"2025-01-01": (1847, 1029, 987.67), "2026-01-01": (2085, 1569, 1588.67)},
+    }
+    rows = []
+    for naics in ("23", "238212"):
+        rows += [(f"qcew_wage{naics}_us", "2025-01-01", 1751.0),
+                 (f"qcew_wage{naics}_us", "2026-01-01", 1869.0),
+                 (f"qcew_emp{naics}_us", "2025-01-01", 754749.0),
+                 (f"qcew_emp{naics}_us", "2026-01-01", 802677.0)]
+        for f, by_date in cells.items():
+            for d, (w, e, a) in by_date.items():
+                rows += [(f"qcew_wage{naics}_c{f}", d, float(w)),
+                         (f"qcew_emp{naics}_c{f}", d, float(e)),
+                         (f"qcew_aemp{naics}_c{f}", d, a)]
+    conn.executemany("INSERT INTO observations VALUES (?,?,?,'2026-10-17')", rows)
+    return conn
+
+
+def test_elec_thin_base_uses_its_own_750_bar_on_either_quarter():
+    payload = writer.build(_thin_conn(), THIN_MARKETS, CAP_CFG, META)
+    jsonschema.validate({"published_at": "2026-10-17T00:00:00Z", **payload}, SCHEMA)
+    elec = {m["key"]: m["elec"]["thin_base"] for m in payload["markets"]}
+    # quincy: 196 now. cheyenne: 765 now clears 750, but its 622 a year
+    # earlier does not. newcarlisle: 1,569 and 1,029 both clear 750.
+    assert elec == {"quincy": True, "cheyenne": True, "newcarlisle": False}
+    # the same counts under construction's 1,500 bar: newcarlisle's
+    # 1,029-worker base quarter is thin there
+    assert all(m["thin_base"] is True for m in payload["markets"])
+
+
+def test_mech_block_publishes_no_thin_flag():
+    # 238222 has no column and no bar chosen: no flag, rather than one
+    # computed at the NAICS 23 default
+    payload = writer.build(_mech_conn(), ELEC_MARKETS, CAP_CFG, META)
+    assert all("thin_base" not in m["mech"] for m in payload["markets"])
+    assert all(m["elec"]["thin_base"] is False for m in payload["markets"])
+
+
 def test_history_uses_one_county_set_across_the_window():
     """Two counties, one missing a quarter: the history drops it for every
     quarter, so the line can't jump on composition."""

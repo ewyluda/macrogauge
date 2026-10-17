@@ -203,12 +203,25 @@ describe("elecCell", () => {
   it("formats a live market and marks partial coverage", () => {
     expect(elecCell(row({ elec: elec({}) }))).toEqual({
       state: "live", yoy: "+6.9%", spread: "+0.2pp", workers: "14,731",
-      wage: "$2,336", partial: false });   // whole dollars, like every other wage
+      wage: "$2,336", partial: false, thin: false });   // whole dollars, like every other wage
     const reno = elecCell(row({ elec: elec({ partial: true, counties_suppressed: ["32029"] }) }));
     expect(reno.state === "live" && reno.partial).toBe(true);
     // no YoY basis is also partial: the level stands, the rate does not
     const noBase = elecCell(row({ elec: elec({ yoy_basis: null, wage_yoy_pct: null }) }));
     expect(noBase).toMatchObject({ state: "live", yoy: "—", partial: true });
+  });
+
+  it("carries the elec block's own thin-base flag, never the construction one", () => {
+    // Cheyenne: 765 electrical workers now, 622 a year earlier (under 750)
+    const thin = elecCell(row({ thin_base: false,
+      elec: elec({ thin_base: true, emp_cur_total: 765 }) }));
+    expect(thin).toMatchObject({ state: "live", thin: true });
+    const notThin = elecCell(row({ thin_base: true, elec: elec({ thin_base: false }) }));
+    expect(notThin).toMatchObject({ state: "live", thin: false });
+    // an artifact from before the flag landed reads not-thin, never a crash
+    const old = elec({});
+    delete old.thin_base;
+    expect(elecCell(row({ elec: old }))).toMatchObject({ state: "live", thin: false });
   });
 });
 

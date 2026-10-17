@@ -162,7 +162,9 @@ export default function Page() {
         A six-digit industry is often too small to publish in a single
         county: <b>disclosure-suppressed counties are skipped, never
         zero-filled</b>, a market missing any county for 238212 is marked{" "}
-        <b>†</b>, and a market with none reads as suppressed. Expand a row for
+        <b>†</b>, and a market with none reads as suppressed. A market under
+        750 electrical workers this quarter or a year earlier is marked{" "}
+        <b>⚠</b> (thin base): its rate is real but noisy. Expand a row for
         the per-county receipts.
       </p></div>
       </div>
