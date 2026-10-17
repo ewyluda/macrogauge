@@ -1,0 +1,34 @@
+URL: https://www.tradingview.com/news/eqs:a809f933f094b:0-alibaba-cloud-expands-global-infrastructure-and-ai-portfolio-to-accelerate-enterprise-ai-adoption/
+Title: Alibaba Cloud Expands Global Infrastructure and AI Portfolio to Accelerate Enterprise AI Adoption
+Publisher: Alibaba Cloud press release (Media OutReach Newswire / EQS; "News Source: Alibaba Cloud")
+Date: 2026-09-23
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text (publisher sites blocked in sandbox)
+
+[…] HANGZHOU, CHINA - Media OutReach Newswire - 23 September 2026 - Alibaba Cloud, a leading global provider of AI infrastructure and the intelligence backbone of Alibaba Group, today announced its latest global infrastructure expansion plan at the 2026 Apsara Conference […]
+[…] Over the next 12 months, Alibaba Cloud will establish its first cloud regions in Türkiye, Finland and the Netherlands, while expanding its data center footprint in Malaysia, Germany, the United Arab Emirates, France and Hong Kong. The expansion will further increase Alibaba Cloud's global computing capacity and strengthen its ability to provide localized cloud and AI services to customers across key markets. The cloud leader currently operates 107 availability zones in 31 regions around the world. […]
+
+-----
+URL: https://www.tradingview.com/news/gelonghui:71e0561f7e3f9:0/
+Title: 阿里巴巴加速欧洲和中东数据中心扩张 推进全球AI基础设施布局
+Publisher: Gelonghui 格隆汇 (via TradingView, zh-Hans)
+Date: 2026-09-23
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] 阿里巴巴 高管李飞飞周三在杭州举行的云栖大会上表示，阿里巴巴将在未来12个月内在土耳其、芬兰和荷兰设立首批云区域。该公司还将扩大在马来西亚、德国、阿联酋、法国和中国香港的数据中心布局，此举将增强其提供本地化云和AI服务的能力。阿里巴巴的全球云网络从日本延伸至东南亚和中东。近几个月，该公司在巴西和法国开设了新设施，旨在将生成式AI服务带给当地企业。 […]
+English gloss: "Alibaba executive Feifei Li said Wednesday at the Apsara Conference in Hangzhou that Alibaba will set up its first cloud regions in Türkiye, Finland and the Netherlands within the next 12 months, and will expand its data center footprint in Malaysia, Germany, the UAE, France and Hong Kong ... In recent months the company opened new facilities in Brazil and France to bring generative AI services to local enterprises."
+
+-----
+URL: https://www.tradingview.com/news/benzinga:ebae11ae5094b:0-alibaba-explores-spanish-expansion-amid-global-ai-push/
+Title: Alibaba Explores Spanish Expansion Amid Global AI Push
+Publisher: Benzinga (citing China Daily / Bloomberg)
+Date: 2026-10-08
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+(used for notes/unverified only)
+
+[…] Alibaba has entered preliminary discussions with Spanish renewable-energy company Solaria about supplying electricity to a potential data center in Spain. […]
+[…] The talks remain at an early stage, and the companies have not reached a final agreement, China Daily reported Thursday. […]
+[…] Alibaba has also approached other potential power suppliers. […]
+Also: Reuters headline 2026-10-02 (tag:reuters.com,2026:newsml_FWN45O09R:0): "ALIBABA, SOLARIA IN TALKS FOR SPANISH DATA CENTER POWER SUPPLY - BLOOMBERG NEWS"

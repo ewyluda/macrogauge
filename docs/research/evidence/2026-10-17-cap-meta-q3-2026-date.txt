@@ -1,0 +1,8 @@
+URL: https://www.prnewswire.com/ (story prnewswire:892c06b53f8d0:0, "Meta to Announce Third Quarter 2026 Results")
+Title: Meta to Announce Third Quarter 2026 Results
+Publisher: Meta Platforms via PR Newswire
+Date: 2026-10-12
+Retrieved 2026-10-17
+Method: TradingView MCP news story (mcp-tv-get-news-story), full text
+
+[…] MENLO PARK, Calif., Oct. 12, 2026 /PRNewswire/ -- Meta Platforms, Inc. (NASDAQ:META) announced today that the company's third quarter 2026 financial results will be released after market close on Wednesday, October 21st, 2026. […] Meta will host a conference call to discuss its results at 1:30 p.m. PT / 4:30 p.m. ET the same day. […]

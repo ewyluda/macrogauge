@@ -1,0 +1,18 @@
+URL: https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001326801&type=10-Q (Meta Form 10-Q for quarter ended 2026-06-30, filed 2026-07-29)
+Title: Meta Platforms, Inc. Form 10-Q (Quarterly Period Ended June 30, 2026)
+Publisher: Meta Platforms, Inc. (SEC filing)
+Date: 2026-07-29
+Retrieved 2026-10-17
+Method: Robinhood MCP SEC-filing reader (get_sec_filing, filing_id d4d675d5-7077-4522-98d2-1301adf67bdc), section text as returned (the reader adds markdown bold/tables; words are verbatim). curl/WebFetch to sec.gov blocked by session egress proxy.
+
+[Note 13. Subsequent Event] […] In July 2026, we entered into an exclusivity agreement to co-develop a data center campus in El Paso, Texas, through a venture in which we would hold a 20% membership interest. The transaction is subject to the execution of definitive agreements and customary closing conditions. Upon closing, expected in the third quarter of 2026, key financial terms include: […] Estimated held-for-sale assets contributed (net of liabilities, mostly construction in progress and land) | ~$2.3 billion […] One-time distribution to be received | ~$1 billion […] Maximum aggregate exposure under residual value guarantees | ~$13 billion […] We will enter into lease agreements for the use of properties to be developed on the data center campus and will also provide residual value guarantees with a maximum aggregate exposure of approximately $13 billion. […]
+
+[Held-for-sale Assets] […] In March 2026, we approved a plan to dispose of certain data center assets with a carrying value of $1.48 billion, consisting mostly of construction in progress and land. We expect to dispose of these assets in the third quarter of 2026 through a contribution to a third party for the purpose of co-developing data centers in El Paso, Texas. As of June 30, 2026, total held-for-sale assets, net, were $2.03 billion […]
+
+[Leases and Contractual Commitments] […] we have operating and finance leases that have not yet commenced as of June 30, 2026. These lease obligations were approximately $278.99 billion, consisting of data centers, colocations, and certain network infrastructure, which will commence during the remainder of 2026 through 2036 with lease terms ranging from greater than one year to 30 years. In July 2026, we entered into additional data center leases with lease obligations of approximately $68 billion, which are expected to commence in 2027 and 2028, with lease terms of 18 to 20 years. […]
+
+[…] As of June 30, 2026, we had $349.31 billion of non-cancelable contractual commitments, comprising both short-term and long-term arrangements. These commitments mostly relate to third-party cloud capacity arrangements and investments in servers and network infrastructure, data centers, and consumer hardware products in Reality Labs […] In addition, as of June 30, 2026, we have contingent obligations to purchase up to $14.72 billion of cloud capacity over a five-year period, which may be reduced if the cloud service provider is able to sell such capacity to other customers. […]
+
+[Liquidity and Capital Resources] […] Cash, cash equivalents, and marketable securities were $90.26 billion as of June 30, 2026 […] We anticipate making capital expenditures of approximately $130 billion to $145 billion in 2026 to support our AI efforts and core business. […] As of June 30, 2026, we had $84.00 billion aggregate principal amount of Notes outstanding, which mature from 2027 through 2066. […]
+
+[Filing index check] Robinhood get_sec_filing_index for META since 2026-04-01 lists no 8-K after 2026-07-29 (only Form 4s through 2026-10-14) — i.e., no 8-K announcing a data-center transaction Aug 1 – Oct 17, 2026.

@@ -1,0 +1,11 @@
+NOTE ON METHOD: curl/WebFetch blocked; excerpt is the article dek/lede exactly as returned by the FMP news API (mcp__FMP__news search-stock-news, AMZN, 2026-08-01..08-14). Full article not fetched.
+URL: https://www.wsj.com/us-news/how-amazon-built-a-data-center-in-a-california-town-without-anyone-noticing-8610bb67
+Title: How Amazon Built a Data Center in a California Town Without Anyone Noticing
+Publisher: The Wall Street Journal
+Date: 2026-08-07
+Retrieved: 2026-10-17
+Method: FMP news API (lede only)
+
+[…] The company and Gilroy, Calif., officials spent years quietly negotiating a $2 billion project that few residents knew about until construction began; now locals are upset. […]
+
+UNVERIFIED (search summaries only, not fetched): Palo Alto Daily Post 2026-08-11 / Next10 — 56-acre site at 8050 Camino Arroyo; ~438,500 sq ft; Phase 1 needs a 49 MW electrical connection, full build-out close to 98 MW (city figure, grid MW); broke ground Dec 2025; Amazon spokesperson: operational by end of 2026.

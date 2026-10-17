@@ -1,0 +1,11 @@
+URL: https://www.tradingview.com/symbols/NYSE-BABA/documents/ (Quartr transcript view urn:transcripts:quartr.com:4039718)
+Title: Alibaba Group June quarter 2026 (Q1 FY2027) results conference call transcript
+Publisher: Alibaba Group (call), transcript by Quartr via TradingView
+Date: 2026-08-20
+Retrieved: 2026-10-17
+Method: TradingView MCP document-view (Quartr transcript); publisher sites blocked in sandbox
+
+[…] Eddie Wu (CEO, Alibaba Group): […] The SuperNode instance, powered by T-Head's next-generation Zhenwu M890 AI processor, recently launched on Alibaba Cloud at commercial scale. We expect supply to continue ramping up in the second half of the year to meet strong customer demand. […] At the data center layer, Alibaba Cloud has cut the delivery time for hyperscale AI data centers to 100 days, a world-leading pace that will significantly speed up our global compute infrastructure buildup. […]
+[…] (Translator): […] Indeed, last February we announced a three-year capital investment plan with total investment of CNY 380 billion. As of the end of the June quarter this year, we had already spent CNY 190 billion with progress broadly in line with our expectations. […]
+[…] Toby Xu (CFO, Alibaba Group): […] CapEx was CNY 67.7 billion this quarter, reflecting our continued investments in AI infrastructure to meet strong and growing customer demand. […] As of June 30, 2026, we held approximately $30.7 billion in net cash. […]
+[…] (Translator): Third, also very importantly, we have means to monetize and get better efficiency of utilization of our own cash flow. These include, for example, co-building data centers with partners, as well as pre-charging and receiving prepayments for compute-based services. […]

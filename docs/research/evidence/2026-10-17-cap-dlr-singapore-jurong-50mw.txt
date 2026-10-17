@@ -1,0 +1,12 @@
+URL: https://www.tradingview.com/news/globenewswire:9c4287453094b:0-digital-realty-selected-to-develop-50-megawatts-of-new-data-center-capacity-in-singapore/
+Title: Digital Realty Selected to Develop 50 Megawatts of New Data Center Capacity in Singapore
+Publisher: Digital Realty (press release via GlobeNewswire)
+Date: 2026-08-24 (dateline; TradingView timestamp 2026-08-25 UTC)
+Retrieved: 2026-10-17
+Method: TradingView MCP get-news-story (full GlobeNewswire release text); curl and WebFetch blocked in this session (proxy connect_rejected / ENOTFOUND)
+
+[…] AUSTIN, Texas, Aug. 24, 2026 (GLOBE NEWSWIRE) -- Digital Realty (NYSE: DLR), the world's largest cloud- and carrier-neutral data center platform, today announced it has been selected under Singapore’s second Data Center Call for Application (DC-CFA2), with a provisional allocation of 50 megawatts (MW) of capacity to develop a new data center at Jurong Town Corporation’s low-carbon data center park on Jurong Island – a milestone that reinforces Singapore’s position as a trusted, connected and sustainable digital infrastructure hub for Asia. […]
+
+[…] The selection marks the next phase of Digital Realty’s long-term growth in Singapore and will expand the company’s ability to support customers deploying the next wave of AI inference, high-performance computing and enterprise digital workloads across Asia Pacific. […]
+
+[…] Today, it is home to Digital Realty’s regional Asia Pacific headquarters, Global Command Center, and three operational data centers with approximately 84 MW of combined capacity […]

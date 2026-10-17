@@ -1,0 +1,13 @@
+URL: (Quartr transcript via TradingView documents, view_id urn:transcripts:quartr.com:3925147; public copy: Microsoft Investor Relations FY26 Q4 earnings call)
+Title: Microsoft fiscal year 2026 fourth quarter earnings conference call (transcript)
+Publisher: Microsoft (call) / Quartr (transcript)
+Date: 2026-07-29
+Retrieved: 2026-10-17
+Method: TradingView MCP get-document-view (full transcript text)
+
+[…] Satya Nadella (Chairman and CEO, Microsoft): […] We added 31 new data centers across five continents this quarter, bringing the total to 88 this year as we expand our footprint in response to accelerating demand. We're also bringing capacity online faster than ever. […]
+[…] Satya Nadella (Chairman and CEO, Microsoft): Over the last fiscal year, we've reduced dock-to-live times for new GPUs in our largest regions by nearly 50%. All up, we added another gigawatt of capacity this quarter and remain on track to roughly double our overall capacity in just two years. […]
+[…] Amy Hood (CFO, Microsoft): […] Capital expenditures were $41 billion, including the impact from higher component pricing as noted in our guide. Roughly two-thirds of our CapEx was for short-lived assets, primarily CPUs and GPUs […] This quarter, total finance leases were $5.6 billion and were primarily for large data center sites […]
+[…] Amy Hood (CFO, Microsoft): […] Outside of this useful life impact, our calendar year 2026 CapEx investment expectations remain unchanged. However, the shift from finance to operating leases adjusts our expectation to approximately $175 billion. […]
+[…] Amy Hood (CFO, Microsoft): […] We expect CapEx spend will be over $50 billion, including the lease reclassification impact from the useful life update. […]
+[…] Amy Hood (CFO, Microsoft): […] In Azure, we expect revenue growth of approximately 45% in constant currency, we remain focused on delivering efficiencies that help us bridge the gaps we see as customer demand continues to exceed supply. […]

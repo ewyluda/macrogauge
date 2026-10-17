@@ -1,0 +1,31 @@
+URL: https://www.tradingview.com/news/gelonghui:07d66b892e3f9:0/
+Title: 阿里云灵骏真武M890超节点实例正式上线
+Publisher: Gelonghui 格隆汇 (via TradingView, zh-Hans)
+Date: 2026-08-12
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text (publisher sites blocked in sandbox)
+
+[…] 格隆汇8月12日｜阿里云灵骏真武M890超节点实例正式上线，首批在乌兰察布地域开售。 […]
+English gloss: "Alibaba Cloud's Lingjun Zhenwu M890 SuperNode instance officially launched, first going on sale in the Ulanqab region."
+
+-----
+URL: https://www.tradingview.com/news/gelonghui:7d1205f95e3f9:0/
+Title: 阿里云缩短工期，100天造一座数据中心
+Publisher: Gelonghui 格隆汇, citing 21世纪经济报道 (21 Finance) (via TradingView, zh-Hans)
+Date: 2026-08-14
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] 格隆汇8月14日｜据21财经，8月12日，阿里云灵骏真武M890超节点实例正式上线。首发地，就选在乌兰察布。其作为阿里云五大超级数据中心之一，绿电占比约90%，可为高密度算力提供更低碳的运行环境。在当地，阿里云通过全模块化设计架构，已将大型AIDC数据中心的交付工期，缩短至100天。 […]
+English gloss: "Per 21 Finance, on Aug 12 the Lingjun Zhenwu M890 SuperNode instance launched, debuting in Ulanqab. As one of Alibaba Cloud's five super data centers, [Ulanqab's] green-power share is about 90% ... Locally, Alibaba Cloud has cut delivery time for large AIDC data centers to 100 days through a fully modular design."
+
+-----
+URL: https://www.tradingview.com/news/gelonghui:126f34d3be3f9:0/
+Title: 阿里云计划将全球数据中心产能提升两倍以上
+Publisher: Gelonghui 格隆汇, citing 科创板日报 (STAR Market Daily) (via TradingView, zh-Hans)
+Date: 2026-08-10
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] 基于首创全模块化设计架构，阿里云已将大型AIDC数据中心的交付工期缩短至100天。同样的工期，国内传统交付周期为6至12个月，美国为12至18个月。在缩短工期的同时，阿里云数据中心整体建设成本降低10%以上。今年，阿里云计划将模块化数据中心的全球产能提升两倍以上。 […]
+English gloss: "Based on a fully modular design, Alibaba Cloud has cut delivery of large AIDC data centers to 100 days (vs 6-12 months traditional in China, 12-18 months in the US), and cut overall construction cost by more than 10%. This year Alibaba Cloud plans to raise the global production capacity of modular data centers by more than two-fold (提升两倍以上 - wording ambiguous between 'more than double' and 'to more than 3x')."

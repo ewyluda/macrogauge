@@ -1,0 +1,16 @@
+URL: https://www.tradingview.com/news/reuters.com,2026:newsml_L6N43T0SO:0-south-africa-tribunal-approves-equinix-data-centres-despite-activist-objections/
+Title: South Africa tribunal approves Equinix data centres despite activist objections
+Publisher: Reuters (Sharon Kimathi)
+Date: 2026-07-28
+Retrieved: 2026-10-17
+Method: TradingView MCP get-news-story (full Reuters text); curl and WebFetch blocked in this session
+
+[…] Municipal authorities in South Africa's Cape Town have approved Equinix's proposal to develop two data centres in the city, despite objections from activist groups over the project's water use, electricity demand and environmental impact. […]
+
+[…] The decision marks a significant step forward for the U.S.-listed company and its planned development in the King Air Industria area, as demand for data-centre infrastructure rises across Africa. […]
+
+[…] The planned facilities are expected to require about 170 megawatts of power capacity, making the project one of the largest proposed data-centre developments in South Africa. […]
+
+[…] An Equinix spokesperson confirmed the company had purchased land in Cape Town but had not yet submitted a site development plan. […]
+
+[…] "Should we decide to proceed with any development, we are committed to being fully transparent and will provide detailed information to all relevant stakeholders in a timely manner," the spokesperson said. […]

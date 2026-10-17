@@ -1,0 +1,10 @@
+URL: https://financialmodelingprep.com/ (earnings-company endpoint, symbol GOOGL)
+Title: GOOGL earnings calendar
+Publisher: Financial Modeling Prep
+Date: 2026-10-17 (lastUpdated)
+Retrieved: 2026-10-17
+Method: FMP calendar API
+
+[…] {"symbol":"GOOGL","date":"2026-10-28","epsActual":null,"epsEstimated":3.02,"revenueActual":null,"revenueEstimated":127709900000,"lastUpdated":"2026-10-17"} […]
+
+

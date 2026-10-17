@@ -1,0 +1,47 @@
+=== Source 1 ===
+URL: https://www.tradingview.com/news/the_block:78a191e7f094b:0-hut-8-wins-bidding-for-poolin-s-texas-data-centers-with-140-million-offer/
+Title: Hut 8 wins bidding for Poolin’s Texas data centers with $140 million offer
+Publisher: The Block
+Date (publication): 2026-09-23
+Retrieved: 2026-10-17
+Method: TradingView MCP mcp-tv-get-news-story (full text). curl/WebFetch blocked in this session.
+
+[…] Hut 8 was revealed as the winning bidder for bankrupt crypto miner Poolin's two Texas data center sites with an offer of $140 million, according to a Wednesday court filing. The cash-and-other-consideration bid covers Poolin's Pyote and Tarbush sites. The deal must be approved by the U.S. Bankruptcy Court for the District of New Jersey before it can be finalized. […]
+
+[…] Earlier this month, Hut 8 disclosed that Beacon Point received a conditional Base Load classification through ERCOT's Batch Zero process, meaning it can keep the amount of power it requested while the grid operator completes its review. […]
+
+=== Source 2 ===
+URL: https://www.tradingview.com/news/binance_news:887525bb5094b:0-new-jersey-bankruptcy-court-reopens-bidding-for-poolin-s-texas-bitcoin-mining-assets/
+Title: New Jersey Bankruptcy Court Reopens Bidding for Poolin's Texas Bitcoin Mining Assets
+Publisher: Binance News (citing Odaily)
+Date (publication): 2026-10-01
+Method: TradingView MCP mcp-tv-get-news-story.
+
+[…] A New Jersey bankruptcy court has approved reopening the bidding process for Poolin's Texas Bitcoin mining assets after a dispute over Hut 8's acquisition proposal sent the deal back into auction. According to Odaily, a public auction is scheduled for 10:00 a.m. Eastern Time on October 2 […] Hut 8's affiliate remains the stalking horse bidder, with a deal that could be worth up to $180 million, including $100 million in cash at closing and up to $80 million in milestone payments tied to future data center transactions. […]
+
+=== Source 3 (company press release, primary) ===
+URL: https://www.tradingview.com/news/prnewswire:701843a7869ef:0-hut-8-affirms-commitment-to-responsible-data-center-development-following-directive-from-texas-governor-greg-abbott/
+Title: Hut 8 Affirms Commitment to Responsible Data Center Development Following Directive from Texas Governor Greg Abbott
+Publisher: Hut 8 Corp. (PR Newswire)
+Date (publication): 2026-08-10
+Method: TradingView MCP mcp-tv-get-news-story (full release text).
+
+[…] Hut 8 today has approximately 1.5 gigawatts of utility capacity across operational and development sites in Texas, including large-scale behind-the-meter projects at King Mountain and Vega. Beacon Point, the Company's AI data center campus under development in Nueces County, Texas, reflects the Company's focus on responsible execution: […]
+
+=== Source 4 (company press release lead, FMP feed) ===
+URL: https://www.prnewswire.com/news-releases/hut-8-schedules-third-quarter-2026-earnings-release-and-conference-call-302901777.html
+Title: Hut 8 Schedules Third Quarter 2026 Earnings Release and Conference Call
+Publisher: Hut 8 Corp. (PR Newswire)
+Date (publication): 2026-10-08
+Method: FMP MCP news/search-press-releases.
+
+[…] today announced it will release financial results for the third quarter of 2026 before the market opens on November 4, 2026. […]
+
+=== Source 5 (company press release lead, FMP feed) ===
+URL: https://www.prnewswire.com/news-releases/hut-8-fully-commercializes-1-gw-beacon-point-ai-data-center-campus-with-second-352-mw-it-lease-bringing-campus-level-base-term-contract-value-to-19-6-billion-302829514.html
+Title: Hut 8 Fully Commercializes 1 GW Beacon Point AI Data Center Campus with Second 352 MW IT Lease, Bringing Campus-Level Base-Term Contract Value to $19.6 Billion
+Publisher: Hut 8 Corp. (PR Newswire)
+Date (publication): 2026-07-20
+Method: FMP MCP news/search-press-releases.
+
+[…] 15-year, 352 MW IT lease doubles the existing high-investment-grade tenant's contracted capacity to 704 MW Total contracted IT capacity across Hut 8's AI data center portfolio rises to 949 MW, supported by 1,330 MW of utility capacity […]

@@ -1,0 +1,10 @@
+URL: https://www.tradingview.com/news/benzinga:6f7fc804b094b:0-iren-scores-major-ai-cloud-deal-with-anthropic-report/
+Title: IREN Scores Major AI Cloud Deal With Anthropic: Report
+Publisher: Benzinga (citing The Information, 2026-10-11)
+Date (publication): 2026-10-12
+Retrieved: 2026-10-17
+Method: MCP TradingView get-news-story (curl/WebFetch blocked by egress proxy)
+
+[…] IREN Ltd. NASDAQ:IREN could unlock more value from its AI data-center infrastructure after Anthropic reportedly signed a multi-year cloud contract with the company, adding another major customer to its growing computing business. […]
+
+[…] The company has committed to more than 15 gigawatts of capacity across over 10 cloud providers, including Amazon.com Inc. NASDAQ:AMZN Amazon Web Services and Alphabet Inc. NASDAQ:GOOG NASDAQ:GOOGL Google, with agreements valued at about $530 billion, the Information reported on Sunday. […]

@@ -1,0 +1,31 @@
+Bitdeer Malaysia AI-cloud sites A102 / A201 / A202 — three company press releases (GlobeNewswire) + two press write-ups
+Retrieved: 2026-10-17
+Method: FMP MCP news/search-press-releases (returns the release title + opening text verbatim + canonical URL); TradingView MCP get-news-story for the Benzinga and Stocktwits write-ups (full text). curl/WebFetch to globenewswire.com, sec.gov and finviz.com were blocked by the egress proxy in this session, so the full release bodies could not be pulled.
+
+=== (1) A102 sell-out
+URL: https://www.globenewswire.com/news-release/2026/08/31/3353668/0/en/bitdeer-ai-announces-sell-out-of-its-9-5mw-a102-malaysia-data-center-with-total-expected-ai-cloud-revenue-of-over-800-million.html
+Title: Bitdeer AI Announces Sell-out of its 9.5MW A102 Malaysia Data Center with Total Expected AI Cloud Revenue of Over $800 million
+Publisher: Bitdeer via GlobeNewswire
+Date: 2026-08-31 (dateline Sept. 01, 2026)
+[…] SINGAPORE, Sept. 01, 2026 (GLOBE NEWSWIRE) -- Bitdeer AI, part of Bitdeer Technologies Group (NASDAQ: BTDR), ("Bitdeer AI"), an emerging AI cloud service and AI infrastructure provider and preferred NVIDIA Cloud Partner, today announced that it has sold out its approximately 9.5MW capacity at its A102 data center in Malaysia for AI Cloud business ahead of energization in Q1 2027. […]
+
+=== (2) A202 secured
+URL: https://www.globenewswire.com/news-release/2026/09/14/3360904/0/en/bitdeer-ai-secures-65-1mw-a202-facility-at-its-existing-johor-malaysia-campus-estimated-active-ai-cloud-pipeline-surpasses-7-billion.html
+Title: Bitdeer AI Secures 65.1MW A202 Facility at Its Existing Johor, Malaysia Campus; Estimated Active AI Cloud Pipeline Surpasses $7 Billion
+Publisher: Bitdeer via GlobeNewswire
+Date: 2026-09-14
+[…] A202 is Bitdeer AI's largest single capacity addition to date in Southeast Asia, secured under a 10-year data center services agreement, with energization expected in Q3 2027 […]
+
+Stocktwits write-up of the same release (TradingView stocktwits:669264b55094b:0, 2026-09-14, https://stocktwits.com/news-articles/markets/equity/bitdeer-ai-pipeline-crossed-7b-malaysia-expansion-btdr-stock/cZtm3ilRBRr):
+[…] it had entered a 10-year data center services agreement for A202, a 65.1megawatts (MW) AI cloud facility on the Johor Bahru campus in Malaysia, where its 21.7MW A201 site already existed. The company said that it expected energization in the third quarter of 2027. Bitdeer also said that it had not entered into any offtake commitments for A201 or A202. […]
+[…] Secured AI cloud capacity across Malaysia, Norway and the United States now totalled roughly 206.5MW, according to the company's statement, or roughly 59% of its target of up to 350MW by the first quarter of 2028. […]
+
+=== (3) A201 off-take
+URL: https://www.globenewswire.com/news-release/2026/09/29/3371380/0/en/bitdeer-ai-further-expands-ai-cloud-services-with-off-take-commitments-of-more-than-70-of-its-21-7mw-a201-malaysia-data-center.html
+Title: Bitdeer AI Further Expands AI Cloud Services with Off-take Commitments of more than 70% of Its 21.7MW A201 Malaysia Data Center
+Publisher: Bitdeer via GlobeNewswire
+Date: 2026-09-29
+[…] Total Expected AI Cloud Revenue of more than $1.7 billion over 5 years […]
+
+Benzinga write-up (TradingView benzinga:3dc473657094b:0, 2026-10-02, https://www.tradingview.com/news/benzinga:3dc473657094b:0-bitdeer-stock-jumps-as-h-c-wainwright-highlights-1-7-billion-ai-cloud-revenue-commitments/):
+[…] After the close on Tuesday, Bitdeer AI announced offtake commitments covering more than 70% of its roughly 21.7-megawatt A201 facility in Malaysia. According to H.C. Wainwright analyst Mike Colonnese, the commitments represent more than $1.7 billion in expected revenue over five years, or about $340 million in annual recurring revenue. The agreements were signed ahead of the facility's expected energization in the first quarter of 2027. […]

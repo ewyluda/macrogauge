@@ -1,0 +1,16 @@
+URL: https://financialmodelingprep.com/ (earnings transcript AEE Q2 2026, call 2026-07-31)
+Title: Ameren Corporation Q2 2026 earnings call
+Publisher: Ameren (transcript via FMP)
+Date: 2026-07-31
+Retrieved: 2026-10-17
+Method: FMP earningsTranscript API; curl/WebFetch blocked by egress policy
+
+[…] During the second quarter, Google and Amazon announced projects in our Missouri service territory representing a combined planned investment of $25 billion. These projects are part of the 2.8 gigawatts of electric service agreements signed earlier this year. The official announcements and construction groundbreaking are important milestones. And no time is being wasted on the start of construction. […]
+
+[…] some of the things we mentioned on this quarter, we saw both Google and Amazon have groundbreaking ceremonies and actually begin construction on large data center projects, here in our service territory. […]
+
+[…] Those ESAs call for sales to begin materializing in the second half of 27, and we expect to see annual electricity sales increase by 60% from 2025 levels by the end of 29. […]
+
+[…] Importantly, while Ameren Missouri is not currently serving any large load data center customers […]
+
+

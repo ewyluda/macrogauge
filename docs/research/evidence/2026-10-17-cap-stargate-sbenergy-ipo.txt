@@ -1,0 +1,32 @@
+Method (all items): FMP API via MCP (news / search-stock-news, symbols SBE and SFTBY, 2026-08-01..2026-10-17). Excerpt = FMP `text` field (publisher lead, verbatim). Full pages not openable (egress policy).
+Retrieved: 2026-10-17
+
+NOT FETCHED (primary, for curator to open): SB Energy S-1 https://www.sec.gov/Archives/edgar/data/2133037/000162828026059639/sbenergy-sx1.htm and S-1/A #2 https://www.sec.gov/Archives/edgar/data/2133037/000162828026062846/sbenergy-sx1a2.htm — sec.gov was blocked (403 CONNECT) for both curl and WebFetch in this session. Search-snippet claims from these filings are listed as UNVERIFIED in findings/g02_oracle_stargate.json.
+
+--- Item 1
+URL: https://seekingalpha.com/article/4943143-sb-energy-one-of-the-wildest-ipos-ive-seen-since-the-dot-com
+Title: SB Energy: One Of The Wildest IPOs I've Seen Since The Dot Com
+Publisher: Seeking Alpha
+Date: 2026-09-04
+[…] SB Energy is a SoftBank-controlled power and infrastructure developer expanding into AI data centers, with OpenAI as a tenant and Nvidia as an investor, supplier, and credit backstop. SB Energy has zero operating data centers today, yet says it is developing four of the seven largest U.S. sites by IT capacity. […]
+
+--- Item 2
+URL: https://seekingalpha.com/article/4943153-sb-energy-seeks-ipo-for-huge-ai-infrastructure-buildout
+Title: SB Energy Seeks IPO For Huge AI Infrastructure Buildout
+Publisher: Seeking Alpha
+Date: 2026-09-04
+[…] SB Energy, Inc. is broadening from energy generation to data center operations, targeting AI-centric workloads with a $439 billion backlog, mostly from OpenAI. SBE's IPO aims to raise significant investment for aggressive infrastructure build-out, with NVIDIA committing $1.5 billion in a concurrent private placement. Execution risk is high, with only $1 billion of backlog recognized in the next 24 months and heavy reliance on OpenAI as an anchor tenant. […]
+
+--- Item 3
+URL: https://www.cnbc.com/2026/09/01/sb-energy-ipo-softbank-open-ai-nvidia.html
+Title: AI data center firm SB Energy, which is backed by Softbank, Nvidia and OpenAI, files for IPO
+Publisher: CNBC
+Date: 2026-09-01
+[…] SB Energy has filed for an initial public offering with the Securities and Exchange Commission. The AI power infrastructure company is backed by Softbank, OpenAI and Nvidia. […]
+
+--- Item 4
+URL: https://www.youtube.com/watch?v=vmccN7vocFc
+Title: Tuesday's Final Takeaways: SB Energy Delays IPO, PSKY & WBD Merger Clears Big Hurdle
+Publisher: Schwab Network (video, via FMP feed)
+Date: 2026-09-22
+[…] Anthropic isn't the only company to delay a highly anticipated IPO. Sam Vadas talks about why SB Energy pushed back its public trading debut. […]

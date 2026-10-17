@@ -1,0 +1,18 @@
+URL: Quartr transcript urn:transcripts:quartr.com:4167320 (via TradingView MCP)
+Title: Barclays 24th Annual Global Financial Services Conference — Equinix (President Americas Arquelle Shaw; VP IR Ryan Burke) (transcript)
+Publisher: Equinix (company presentation); transcript via Quartr
+Date: 2026-09-14
+Retrieved: 2026-10-17
+Method: TradingView MCP get-document-view (Quartr transcript); curl and WebFetch blocked in this session
+
+[…] Brendan Lynch (Director, Barclays): I believe you have about half of the Hampton campus still available. You have also got the Minooka site. Maybe you could talk about those two assets or two locations and perhaps where else in the Americas you are considering expanding xScale next. […]
+
+[…] Arquelle Shaw (President of Americas, Equinix): Well, those are the two right now that we are looking at. They are on track. We are excited about them. I do not know if there is a whole lot else that we have shared publicly other than that they are on track and progressing well on plan. […]
+
+[…] Arquelle Shaw (President of Americas, Equinix): We do not build gigawatt data centers to perform training. That is not what we do, and that is not what our xScale product is. […]
+
+[…] When we think about, for example, I think it is DA12 that we have announced that we are building, we are going to be delivering, I think about 67 MW, and it is going to have a density of about 18 kVA per cabinet. That is denser than we have ever gone, and we are very comfortable with that, but that is what is required. […]
+
+[…] We just did an extensive one in Minooka that was really well-received, talking about what the project is and working with the community. […]
+
+NOTE: the "about half of the Hampton campus still available" figure is the analyst's statement, not confirmed by Equinix in the reply.

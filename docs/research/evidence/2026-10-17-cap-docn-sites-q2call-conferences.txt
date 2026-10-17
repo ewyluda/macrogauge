@@ -1,0 +1,36 @@
+DigitalOcean (DOCN) — site-level capacity disclosures, Q2'26 call + Sept 2026 conferences
+Retrieved: 2026-10-17
+Method: TradingView MCP get-document-view (Quartr full transcripts). curl/WebFetch to sec.gov / investors.digitalocean.com were blocked by the egress proxy in this session.
+
+=== (1) Q2 2026 earnings call transcript
+URL: Quartr transcript urn:transcripts:quartr.com:3961194 via TradingView documents (NYSE:DOCN, Q2 2026 call transcript)
+Publisher: Quartr transcript (management remarks)
+Date: 2026-08-04
+
+[…] Paddy Srinivasan (CEO, DigitalOcean): This discipline is evident not only in our financial performance, but also in our operational execution and in our responsible and profitable approach to growth. Driving growth approaching 30% in Q2 on a path to 50%+ next year requires focused execution. We remain on time and even a little bit ahead of our previously communicated schedule on all three of our new 2026 data centers. We launched our Richmond data center in Q1, our Kansas City data center in Q2, both ahead of target, and we remain on track for the second half launch of our Memphis data center. Beyond just hitting our launch dates, we've been able to allocate the majority of the capacity to specific customers or to our highly in-demand token fleet before we launch these data centers. […]
+
+[…] Paddy Srinivasan (CEO, DigitalOcean): We also secured approximately 20 MW of additional capacity this quarter, which is targeted to come online over the last part of 2027 and into 2028. This brings total committed capacity to approximately 155 MW, the majority of which will be online by the end of 2027. We continue to actively pursue additional capacity to drive further growth and meet customer demand. Our discipline is also evident in the steps we took to strengthen our balance sheet. In July, we reduced our leverage with minimal dilution and use of cash by retiring approximately $472 million of our 2030 convertible notes, creating additional capacity to cost effectively finance our future investments. It is worth pausing on how different our profile is from many others in the AI infrastructure market. […]
+
+[…] Matt Steinfort (CFO, DigitalOcean): Just to answer the latter part, we've got 15 MW that are left. We announced that the 10-MW Kansas City facility was launched already. We have 15 MW left in one facility, and we had said it would come on in the second half, and it's on track. We expect that to come online as we had expected over the balance of the year. […]
+
+[…] Paddy Srinivasan (CEO, DigitalOcean): Another great example of this is OpenRouter, which is both an efficient customer acquisition channel and a platform through which we can dial up or down on-demand traffic to test, learn, and scale as we launch new models. We now serve more than 20 billion tokens per day on OpenRouter, up more than 330% over the last 60 days, with much of that traffic being generated from agents. These customers are examples of AI builders spinning our flywheel, and the flywheel does not stop at the first entry point. Every turn adds products to the stack we own, an integrated platform running on our own infrastructure, spanning 20 global data centers. […]
+
+=== (2) Goldman Sachs Communacopia + Technology Conference 2026 transcript
+URL: Quartr transcript urn:transcripts:quartr.com:4137209 via TradingView documents
+Date: 2026-09-08 (reported 1788882600)
+
+[…] Matt Steinfort (CFO, DigitalOcean): Yeah, we have been really effective. People say this sometimes in maybe a pejorative way, but we do not play the gigawatt game, we play the megawatt game, right? We are out there looking for tens and 20s and smaller amounts of megawatts. The value for that is we are dealing with Tier 1 data center operators who have been proven and are delivering these services, and this is what they do all day long. It de-risks our execution, and it gives us the ability to be really confident in our ability to turn up data center capacity and focus on building software. You have seen that in evidence. The three data centers we turned on this year, we turned all three of them on ahead of time, and are doing quite well in terms of ramping those up. […]
+
+[…] We'll provide more information on our outlook in November when we have earnings. […] Two, we've added some incremental capacity. We announced 20 MW of incremental capacity that we had secured since we made that statement. […]
+
+=== (3) Citi's 2026 Global TMT Conference transcript
+URL: Quartr transcript urn:transcripts:quartr.com:4162031 via TradingView documents
+Date: 2026-09-10 (reported 1789042200)
+
+[…] Matt Steinfort (CFO, DigitalOcean): I think we've been able to successfully navigate. It's a very competitive market, and there's a lot of interest in data center space and GPU capacity. I think we've done a very good job focusing on working with tier one data center providers, which is a little bit different than some of the other approaches in the industry. We work with the Equinix and DataBank and QTS and tier one data center providers that have been building and operating high-quality data centers for a long period of time. That's enabled us to turn up our data centers on time and even ahead of schedule. All three of the data centers we turned on in 2026 were on time or ahead of schedule, and that's been going well. We're also sourcing incremental space pretty effectively. […]
+
+[…] If you look at us, we are generating in Q2 is $22 million per megawatt, and on an incremental basis, it is 30%-40% higher than what you are seeing out of the neoclouds. […]
+
+=== (4) BusinessWire 2026-09-10 — "DigitalOcean Secures $725 Million in Equipment Financing Facility to Fund Capacity Expansion"
+URL: https://www.businesswire.com/news/home/20260910409775/en/ (TradingView business_wire:de13318bec09c:0)
+[…] Securing incremental funding at an attractive cost of capital supports our ability to cost effectively add additional capacity to fuel growth in 2027, 2028 and beyond to meet the accelerating demand for our AI Native Cloud. We remain highly confident in our guidance for Q3 and the full year 2026 as well as in our outlook for 2027," said Matt Steinfort, Chief Financial Officer of DigitalOcean. […]

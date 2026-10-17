@@ -1,0 +1,12 @@
+URL: https://financialmodelingprep.com (FMP earnings-transcript API, BKH 2026 Q2); event https://ir.blackhillscorp.com
+Title: Black Hills Corp. Q2 2026 Earnings Conference Call (transcript)
+Publisher: Black Hills Corp. (Cheyenne Light / Black Hills Energy — the utility serving Meta's Cheyenne campus); transcript via Financial Modeling Prep
+Date: 2026-08-06
+Retrieved 2026-10-17
+Method: FMP MCP earnings-transcript API (curl/WebFetch blocked by session egress proxy)
+
+[…] Of more than 3 gigawatts of data center opportunities, only 600 megawatts is included in our current plan, driven by both Microsoft's ongoing expansion and Meta's new AI data center which is slated to begin ramping later this year. […]
+
+[…] Of that total, approximately 600 megawatts is included in our financial plan through 2030. Primarily driven by Microsoft and Meta. We have successfully served Microsoft's hyperscale data center growth for more than a decade, primarily through market energy procurement. Meta's AI data center in Cheyenne continues to progress as expected, we anticipate customer load beginning to ramp later this year. […]
+
+(The 600 MW is a combined Microsoft + Meta plan figure; no Meta-only MW is given.)

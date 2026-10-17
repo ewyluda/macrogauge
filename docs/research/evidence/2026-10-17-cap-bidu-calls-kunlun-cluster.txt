@@ -1,0 +1,22 @@
+URL: https://www.tradingview.com/symbols/NASDAQ-BIDU/documents/ (Quartr transcript view urn:transcripts:quartr.com:3357209)
+Title: Baidu first quarter 2026 earnings conference call transcript
+Publisher: Baidu (call), transcript by Quartr via TradingView
+Date: 2026-05-18
+Retrieved: 2026-10-17
+Method: TradingView MCP document-view (ir.baidu.com and SEC blocked in sandbox)
+
+[…] Robin Li (Co-founder and CEO, Baidu): […] It is also among the first domestic AI chips to achieve large-scale commercial deployment in a single AI computing cluster of over 30,000 accelerators, with industry-leading cluster performance and stability. […]
+[…] Dou Shen (EVP of Baidu AI Cloud Group, Baidu): […] The addressable market is still expanding, and with demand remaining strong and supply relatively tight, we are actively expanding capacity and improving resource efficiency to better support the growing customer needs. […]
+[…] Henry Haijian He (CFO, Baidu): […] we are drawing on a mix of financing channels and the different instruments, including operating leases, financial leases, and other low-cost bank borrowings as well to fund our AI investments […]
+
+-----
+URL: https://www.tradingview.com/symbols/NASDAQ-BIDU/documents/ (Quartr transcript view urn:transcripts:quartr.com:4032029)
+Title: Baidu second quarter 2026 earnings conference call transcript
+Publisher: Baidu (call), transcript by Quartr via TradingView
+Date: 2026-08-18
+Retrieved: 2026-10-17
+Method: TradingView MCP document-view
+
+[…] Dou Shen (EVP of Baidu AI Cloud Group, Baidu): Okay, I will take it. This is Dou. The listing process for Kunlunxin is still ongoing, and we will update the market as soon as we have more to share. […]
+[…] Robin Li (Co-founder and CEO, Baidu): […] Demand remained robust across both training and inference workloads, while computing supply remains constrained across the market. […]
+(No data-center site, MW or capacity figures were given on either call.)

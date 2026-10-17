@@ -193,6 +193,32 @@ def test_energize_q_drives_tl_and_timeline_and_is_not_published(tmp_path):
     assert tl["2027Q4"]["cum_mw"] == 170   # S2 (curated undated) excluded
 
 
+def test_campus_dated_only_by_its_quantified_phases(tmp_path):
+    # _events puts a row's whole MW in one quarter, so a campus whose first
+    # delivery has no stated MW stays off the curve (energize_q null) rather
+    # than landing all of it on that first date; stated phases are split.
+    conn = _conn(tmp_path, [])
+    cfg = _cfg([_co(op=100, sites=[
+        ["Campus", 1000, "c", "customer delivery begins H1 2027", None],
+        ["Phased - Ph1", 100, "c", "first 100 MW Q2 2027", "2027Q2"],
+        ["Phased - Ph2", 900, "c", "remaining 900 MW Q4 2028", "2028Q4"]])])
+    out = writer.build(conn, cfg)
+    assert [name for _, name, _ in out["companies"][0]["tl"]] == ["Phased - Ph1", "Phased - Ph2"]
+    cum = {p["q"]: p["cum_mw"] for p in out["timeline"]["all"]["points"]}
+    assert cum["2027Q2"] == 200 and cum["2028Q3"] == 200 and cum["2028Q4"] == 1100
+
+
+def test_full_capacity_quarter_survives_an_unquantified_earlier_ramp(tmp_path):
+    # A901-style: delivery starts in Q1 with no tranche MW, all 67 MW by Q2.
+    # The free-text fallback would date the row to the Q1 start; the curated
+    # full-delivery quarter publishes instead.
+    when = "delivery from Q1 2027 (tranche MW n/d), full 67 MW Q2 2027"
+    assert writer.parse_quarter(when) == 2027 * 4 + 0
+    out = writer.build(_conn(tmp_path, []), _cfg([_co(sites=[["A901", 67, "c", when, "2027Q2"]])]))
+    assert out["companies"][0]["tl"] == [["2027Q2", "A901", 67]]
+    assert out["timeline"]["all"]["milestones"] == {"2027Q2": [["AAA", "A901", 67]]}
+
+
 def test_timeline_cumulative_from_construction_sites(tmp_path):
     conn = _conn(tmp_path, [])
     cfg = _cfg([_co(op=100, sites=[["S1", 50, "c", "Q3 2026"],
@@ -252,8 +278,8 @@ def test_power_deals_block_orders_by_firmness_and_keeps_ppas_apart(tmp_path):
     out = writer.build(_conn(tmp_path, []), _cfg([_co(t="META", n="Meta")]), power_deals=deals)
     jsonschema.validate({"published_at": "x", **out}, SCHEMA)
     pd = out["power_deals"]
-    assert pd["totals"] == {"signed_mw": 21775, "signed_ppa_mw": 10648, "pending_mw": 10200,
-                            "preliminary_mw": 4850, "deals": 34}
+    assert pd["totals"] == {"signed_mw": 21775, "signed_ppa_mw": 10648, "pending_mw": 9800,
+                            "preliminary_mw": 4850, "deals": 33}
     status = [d["status"] for d in pd["deals"]]
     assert status == sorted(status, key=lambda s: {"signed": 0, "pending": 1}.get(s, 2))
     signed = [d["mw_total"] for d in pd["deals"] if d["status"] == "signed"]

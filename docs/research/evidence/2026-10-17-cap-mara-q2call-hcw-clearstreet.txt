@@ -1,0 +1,38 @@
+MARA Holdings — AI/HPC status (leases, Long Ridge, Matagorda, Exaion)
+Retrieved: 2026-10-17
+Method: TradingView MCP get-document-view (Quartr full transcripts) and get-news-story (Benzinga full text). curl/WebFetch to sec.gov / ir.mara.com were blocked by the egress proxy in this session.
+
+=== (1) Q2 2026 earnings call transcript
+URL: https://www.tradingview.com/news/urn:summary_document_transcript:quartr.com:3981661:0-mara-expanded-power-portfolio-and-digital-infrastructure-drive-growth-despite-bitcoin-price-headwinds/ (Quartr transcript urn:transcripts:quartr.com:3981661)
+Title: MARA Q2 2026 earnings call
+Publisher: Quartr transcript (company management remarks)
+Date: 2026-08-05 (call; reported 1786050000 = 2026-08-05 UTC)
+
+[…] Working alongside Starwood, we are progressing lease discussions across multiple sites, and we remain confident in our ability to sign at least two leases before year-end. […]  — Fred Thiel, CEO
+
+[…] We expect FERC to respond to us definitely before year-end, but much sooner than that. […]  — Fred Thiel, on Long Ridge
+
+[…] Well, we're in a holding pattern from signing a lease. That being said, we are very actively engaged with prospective tenants in evaluating exactly what they're going to build […]  — Fred Thiel, on Hannibal / Long Ridge
+
+[…] After quarter end, we acquired rights to 1,200 acres at a strategically located powered land site in Matagorda County, Texas, representing up to 2 GW of potential capacity, subject to ERCOT and interconnection approvals. […]  — Salman Khan, CFO
+
+[…] Exaion's revenues this year will be in the low eight digits, most likely, we expect them to continue to grow as Exaion diversifies their customer base. […]  — Fred Thiel
+
+[…] Later this year, we look forward to hosting our Investor Day. […]  — Fred Thiel
+
+=== (2) H.C. Wainwright 28th Annual Global Investment Conference — AI infrastructure panel
+URL: Quartr transcript urn:transcripts:quartr.com:4222638 (MARA listing) / urn:transcripts:quartr.com:4199467 (BTDR listing), via TradingView documents
+Date: 2026-09-14
+
+[…] We don't announce LOIs or exclusivities around leases, but we feel very confident about signing the two leases by year-end. […]  — Fred Thiel
+
+[…] One of the reasons we took majority control of the French company, Exaion, which was a subsidiary of EDF, was specifically because that is their specialty. We did that. That deal closed in March of this year, and they have already started taking contracts, interestingly enough, hosting U.S. inference and training loads in Europe because the delays in getting stuff online in the U.S., there are now people seem very happy to take European capacity […]  — Fred Thiel
+
+=== (3) Benzinga, "MARA Holdings Stock Jumps Friday: What's Going On?"
+URL: https://www.tradingview.com/news/benzinga:6d1c69a2a094b:0-mara-holdings-stock-jumps-friday-what-s-going-on/
+Publisher: Benzinga (reporting Clear Street meeting with MARA CFO)
+Date: 2026-10-02
+
+[…] Dobson said Clear Street continues to view Marathon as a power owner first, with about 1.4 gigawatts operating today, 1.9 gigawatts of total current capacity and up to 4.8 gigawatts pending approvals. […]
+[…] He added that the Electric Reliability Council of Texas' batch study process is pushing some Texas energization into 2028. […]
+[…] The company's HPC business still needs a first signed lease, which Clear Street views as a potentially positive catalyst for the shares. Dobson said a first signed lease and the Long Ridge close are the next milestones the firm is watching. […]

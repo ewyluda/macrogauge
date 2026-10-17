@@ -1,0 +1,8 @@
+URL: https://www.tradingview.com/news/seekingalpha:881072ae4094b:0-bitdeer-secures-70-of-malaysia-s-ai-site-revenue-backlog-hits-2-9b/
+Title: Bitdeer secures 70% of Malaysia's AI site; revenue backlog hits $2.9B
+Publisher: Seeking Alpha (news headline, syndicated on TradingView)
+Date: 2026-09-29 (published 1790716698 = 2026-09-29 21:18 UTC)
+Retrieved: 2026-10-17
+Method: TradingView MCP get-news (headline list) / get-news-story (body withheld by provider — only a disclaimer is returned). Headline text only; the $2.9B figure is the headline's. The underlying company release is GlobeNewswire 2026-09-29 "Bitdeer AI Further Expands AI Cloud Services with Off-take Commitments of more than 70% of Its 21.7MW A201 Malaysia Data Center" (FMP feed subtitle: "Total Expected AI Cloud Revenue of more than $1.7 billion over 5 years"), whose full body could not be fetched.
+
+[…] Bitdeer secures 70% of Malaysia's AI site; revenue backlog hits $2.9B […]

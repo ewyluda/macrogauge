@@ -1,0 +1,28 @@
+=== Source 1 ===
+URL: https://www.tradingview.com/news/stocktwits:b03296ea1094b:0-wulf-stock-rebounds-analyst-sees-limited-impact-from-new-york-moratorium-despite-questions-over-cayuga/
+Title: WULF Stock Rebounds: Analyst Sees Limited Impact From New York Moratorium – Despite Questions Over Cayuga
+Publisher: Stocktwits (citing Needham note)
+Date (publication): 2026-07-15
+Retrieved: 2026-10-17
+Method: TradingView MCP mcp-tv-get-news-story (full text). curl/WebFetch blocked in this session.
+
+[…] Needham also added that the company has potential development rights for another 320 IT megawatts at its Cayuga site, also known as Lake Hawkeye, in Lansing, N.Y. […]
+
+[…] Needham also said the pause is likely to affect TeraWulf’s Cayuga site, noting the location is not in the company’s near-term development pipeline due to pending local permitting approvals in the town of Lansing. […]
+
+[…] However, CEO Paul Prager struck a more optimistic note on X on Tuesday, saying that Lake Mariner and Lake Hawkeye/Cayuga are not affected by the executive order and calling it “a positive step.” […]
+
+=== Source 2 ===
+URL: https://www.tradingview.com/news/the_block:db2efc4ff094b:0-terawulf-falls-7-after-new-york-orders-one-year-pause-on-new-data-center-permits/
+Title: TeraWulf falls 7% after New York orders one-year pause on new data center permits
+Publisher: The Block
+Date (publication): 2026-07-15 (UTC; event 2026-07-14)
+Retrieved: 2026-10-17
+Method: TradingView MCP mcp-tv-get-news-story (full text).
+
+[…] "Governor Hochul's Executive Order does not change our current expectations for Lake Hawkeye, which is multi-year development. The local planning and review process currently underway remains unaffected," Kerri Langlais, chief strategy officer of TeraWulf, told The Block. "Similarly, Lake Mariner is already operational, and our expansion supporting Fluidstack and Google is fully permitted." […]
+
+[…] Paul Prager, founder and CEO of TeraWulf, wrote on X that the company is evaluating on-site power for the Lake Hawkeye campus, which "aligns directly with the governor's priorities for new generation." […]
+
+=== Source 3 (primary, company call) — see evidence/wulf-q2-call.txt ===
+[…] That's why Lake Mariner and Cayuga Lake Hawkeye are worth so much more money today as a result of some of the things that Governor Hochul's talking about. […]

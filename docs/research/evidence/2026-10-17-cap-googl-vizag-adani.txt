@@ -1,0 +1,14 @@
+URL: https://www.livemint.com/ (TradingView story moodys:ac64fbcaab01e:0)
+Title: Work on Google-Adani data centre can continue at developer's own risk: Andhra HC
+Publisher: Mint (HT Digital)
+Date: 2026-10-06
+Retrieved: 2026-10-17
+Method: TradingView news API full text; curl/WebFetch blocked by egress policy
+
+[…] The Andhra Pradesh high court (HC) on Tuesday cautioned that any work on or investment in the $15-billion Google-Adani data centre in Visakhapatnam would be at the developer's own risk and cost pending the court's consideration of environmental concerns. […]
+
+[…] According to submissions made before the court, work on the site is currently at the stage of demolition, levelling, tree cutting and construction of a boundary wall. […]
+
+[…] Adani Group, in partnership with Google and Bharti Airtel, is building a 1 gigawatt (GW) data centre campus in Visakhapatnam, which the company has described as the "largest data centre campus in India". […]
+
+

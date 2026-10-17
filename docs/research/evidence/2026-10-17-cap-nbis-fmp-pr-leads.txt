@@ -1,0 +1,34 @@
+URL: (multiple — see per-item URL lines below)
+Title: Nebius press releases (lead paragraphs)
+Publisher: Business Wire / PR Newswire (press releases), via Financial Modeling Prep news API "text" field (verbatim lead paragraph of each release)
+Date (publication): per item
+Retrieved: 2026-10-17
+Method: FMP MCP news search-press-releases / search-stock-news (curl and WebFetch blocked by session egress proxy). Only the lead paragraph is available by this route.
+
+[Item 1] URL: https://www.businesswire.com/news/home/20260331110969/en/Nebius-to-Construct-310-MW-AI-Factory-in-Finland/ — Business Wire, 2026-03-31
+[…] Nebius, the AI cloud company, today announced the construction of a new AI factory in the Finnish city of Lappeenranta with capacity of up to 310 MW. The first capacity from the Lappeenranta AI factory is expected to be available to customers in 2027, and it will be one of Europe's largest dedicated AI factories when fully deployed. The construction of the Lappeenranta AI factory follows Nebius's recent expansion of its first Finnish data center in Mäntsälä up to 75. […]
+
+[Item 2] URL: https://www.businesswire.com/news/home/20260512738854/en/Nebius-breaks-ground-on-gigawatt-scale-AI-factory-in-Independence-Missouri/ — Business Wire, 2026-05-12
+[…] Nebius (Nasdaq: NBIS), the AI cloud company, today broke ground on its flagship AI factory campus in Independence, Missouri – the company's first gigawatt-scale digital infrastructure project in the US. The ceremony brought together state and local leaders, economic development partners, community members and company representatives to mark the start of construction of the multi-building AI factory on approximately 400 acres in eastern Independence. […]
+
+[Item 3] URL: https://www.businesswire.com/news/home/20260303534373/en/Nebius-Secures-Approval-for-Its-First-Gigawatt-Scale-AI-Factory/ — Business Wire, 2026-03-04
+[…] The approval of the plan enables Nebius to proceed with the construction of the Independence AI factory, which has potential capacity of up to 1.2 GW. […]
+
+[Item 4] URL: https://www.businesswire.com/news/home/20260513568820/en/Nebius-reports-first-quarter-2026-financial-results/ — Business Wire, 2026-05-13
+[…] Nebius today also announced that it has secured up to 1.2 GW of power and land for a new, owned AI factory at a site in Pennsylvania. […]
+
+[Item 5] URL: https://www.businesswire.com/news/home/20260316469367/en/Nebius-Signs-New-AI-Infrastructure-Agreement-with-Meta/ — Business Wire, 2026-03-16
+[…] today announced a new long-term AI infrastructure supply agreement with Meta, strengthening the collaboration between the companies. Under the five-year agreement, Nebius will provide $12 billion of dedicated capacity across multiple locations, based on one of the first large-scale deployments of the NVIDIA Vera Rubin platform. Nebius will deliver this capacity starting early 2027. […]
+
+[Item 6] URL: https://www.businesswire.com/news/home/20260607207219/en/Nebius-expands-in-UK-with-more-NVIDIA-powered-infrastructure-more-customers-and-more-cloud-capabilities-for-agentic-and-enterprise-AI/ — Business Wire, 2026-06-08
+[…] Nebius (Nasdaq: NBIS), the AI cloud company, today announced it is investing approximately £1.7 billion to build out capacity in the UK with three new deployments of NVIDIA infrastructure, as the company continues to expand its commercial and AI R&D hub in London. Nebius launched its first UK deployment of NVIDIA Blackwell Ultra infrastructure in November 2025. […]
+
+[Item 7] URL: https://www.prnewswire.com/news-releases/nebius-chooses-kao-datas-harlow-campus-for-major-ai-infrastructure-deployment-302794086.html — PR Newswire (Kao Data), 2026-06-08
+Title: Nebius chooses Kao Data's Harlow campus for major AI infrastructure deployment
+[…] 10-year agreement will directly support AI innovation in the UK's leading academic and research communities, aligned with the goals of the Government's AI Opportunities Action Plan. Reinforces Kao Data's Harlow campus as a leading hub for industrial-scale AI research, enterprise and AI cloud computing via one of the UK's largest AI cloud deployments. […]
+
+[Item 8] URL: https://www.businesswire.com/news/home/20260813253918/en/Vantage-Data-Centers-and-Nebius-Expand-UK-AI-Infrastructure-with-First-Deployment-in-South-Wales-AI-Growth-Zone/ — Business Wire, 2026-08-13
+[…] Vantage Data Centers, a leading global provider of hyperscale data center campuses, and Nebius (Nasdaq: NBIS), the AI cloud company, today announced an agreement to deploy high-density, NVIDIA-powered AI infrastructure at Vantage's CWL1 campus in Newport, Wales. […]
+
+[Item 9] URL: https://invezz.com/news/2026/07/30/nebius-stock-soars-on-achieving-an-incremental-milestone-find-out-more/ — Invezz (secondary; FMP stock-news lead), 2026-07-30
+[…] Nebius Group (NBIS) shares are soaring on Thursday morning after the company said a Vera Rubin compute rack has officially gone live at its data center facility in Mäntsälä, Finland. […]

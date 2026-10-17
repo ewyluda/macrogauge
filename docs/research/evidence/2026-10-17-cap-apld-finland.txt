@@ -1,0 +1,10 @@
+URL: https://www.globenewswire.com/news-release/2026/10/06/3375266/0/en/applied-digital-secures-up-to-1-gw-of-potential-power-capacity-in-finland-marking-first-international-development-in-the-nordics.html
+Title: Applied Digital Secures Up to 1 GW of Potential Power Capacity in Finland, Marking First International Development in the Nordics
+Publisher: Applied Digital (GlobeNewswire)
+Date: 2026-10-06
+Retrieved: 2026-10-17
+Method: TradingView news MCP (mcp-tv-get-news-story id globenewswire:95b5b96bd094b:0, full GlobeNewswire text). curl/WebFetch blocked in sandbox.
+
+[…] ning, and other accelerated-compute applications, today announced it has entered into an agreement providing access to up to 1 gigawatt (GW) of potential power capacity in Finland, representing the Company’s first development opportunity outside of the United States. With this agreement, the Company plans to build a large-scale AI Factory campus capable of scaling to as much as 1 GW. Initial power availability is anticipated beginning in 2028. Applied Digital has begun marketing the site and is currently engaged in discussions with leading global hyperscale customers. While Applied Digital’s near-term development strategy and e […]
+
+[…] lopment opportunity outside of the United States. With this agreement, the Company plans to build a large-scale AI Factory campus capable of scaling to as much as 1 GW. Initial power availability is anticipated beginning in 2028. Applied Digital has begun marketing the site and is currently engaged in discussions with leading global hyperscale customers. While Applied Digital’s near-term development strategy and execution priorities remain firmly centered on its growing U.S. portfolio, Finland represents a measured first step toward selectively extending the Company’s platform into attracti […]

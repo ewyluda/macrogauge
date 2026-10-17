@@ -1,0 +1,32 @@
+URL: https://www.prnewswire.com/news-releases/aes-announces-landmark-agreements-with-google-in-texas-302695111.html
+Title: AES Announces Landmark Agreements with Google in Texas
+Publisher: AES Corp. (PR Newswire press release)
+Date: 2026-02-24
+Retrieved: 2026-10-17
+Method: FMP press-release API (lead text)
+
+[…] Google and AES Sign 20-year PPAs for Co-Located Generation ARLINGTON, Va., Feb. 24, 2026 /PRNewswire/ -- The AES Corporation (NYSE: AES) today announced agreements for energy generation that will be co-located with a new Google data center in Wilbarger County, Texas. […]
+
+
+
+URL: https://www.reuters.com/ (TradingView story tag:reuters.com,2026:newsml_TUA5JNGVC:0)
+Title: AES Announces Agreements With Google In Texas
+Publisher: Reuters (company-release brief)
+Date: 2026-02-24
+Retrieved: 2026-10-17
+Method: TradingView news API full text
+
+[…] AES CORP - WILL OPERATE GENERATION ASSETS AND PROVIDE RETAIL, COST OPTIMIZATION & RELATED SERVICES TO GOOGLE'S WILBARGER COUNTY DATA CENTER CAMPUS […]
+
+
+
+URL: https://www.reuters.com/ (TradingView story tag:reuters.com,2026:newsml_L4N3ZK1D6:0)
+Title: Xcel Energy to power new Google data center in Minnesota
+Publisher: Reuters
+Date: 2026-02-24
+Retrieved: 2026-10-17
+Method: TradingView news API full text
+
+[…] Earlier in the day, AES Corp NYSE:AES signed a 20-year agreement with the company to supply power to the U.S. tech giant's new data center planned in Wilbarger County, Texas. […]
+
+

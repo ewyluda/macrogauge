@@ -1,0 +1,8 @@
+URL: https://www.prnewswire.com/news-releases/blue-owl-managed-funds-lead-2-4-billion-ai-factory-financing-for-iren-302863057.html (lead paragraph via FMP press-releases endpoint)
+Title: BLUE OWL MANAGED FUNDS LEAD $2.4 BILLION AI FACTORY FINANCING FOR IREN
+Publisher: Blue Owl Capital via PR Newswire
+Date (publication): 2026-08-28
+Retrieved: 2026-10-17
+Method: MCP FMP news/search-press-releases (lead paragraph only; prnewswire.com blocked by egress proxy)
+
+[…] NEW YORK, Aug. 28, 2026 /PRNewswire/ -- Blue Owl Capital Inc. (NYSE: OWL) ("Blue Owl"), a leading alternative asset manager, today announced that funds managed by Blue Owl led a $2.4 billion compute equipment financing for IREN Limited (NASDAQ: IREN) ("IREN"), a vertically integrated AI Cloud platform delivering data centers, compute, and software for AI training and inference. The financing comprises a $1.2 billion senior secured term loan and $1.2 billion of senior secured notes, with proceeds to fund IREN's purchase of air-cooled NVIDIA Accelerated Computing Infrastructure including NVIDIA Blackwell Ultra GPUs for IREN's Mackenzie data center campus in British Columbia, Canada. […]

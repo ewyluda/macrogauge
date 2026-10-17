@@ -1,0 +1,11 @@
+URL: https://www.tradingview.com/news/reuters.com,2026:newsml_L6N45V11Z:0-microsoft-plans-huge-deployment-of-its-own-ai-chips-with-an-eye-on-saving-costs/
+  (company post referenced in search results, not fetchable here: https://blogs.microsoft.com/blog/2026/10/12/microsoft-to-expand-azure-maia-system-to-multi-gigawatt-deployments/)
+Title: Microsoft plans huge deployment of its own AI chips, with an eye on saving costs
+Publisher: Reuters (Stephen Nellis, Max A. Cherney)
+Date: 2026-10-12
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] Microsoft announced the next generation of its custom AI chip on Monday and said it plans to deploy potentially more than a million of them next year to back its internal AI services. […]
+[…] The Maia 300 processors will go into racks that contain 96 chips and use about 167 kilowatts of power, compared with the 142 kilowatts used by Nvidia's most recent GB300 AI server racks with 72 of its graphics processing units (GPUs). […]
+[…] Microsoft said it plans to roll out "multi-gigawatt deployments" of the Maia 300 chip starting next year. Microsoft has said it expects to spend more than $175 billion in capital expenditures this calendar year. […]

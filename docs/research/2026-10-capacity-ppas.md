@@ -204,63 +204,69 @@ not found.
   drops the "per site" `mw_basis` in favour of `sites`, and the MW-in-quote check accepts
   "3 gigawatts".
 
-## Refresh (2026-10-17): 2026 deals from the capacity freshness review
+## Additions (2026-10-17, freshness review)
 
-Leads came from §4 of `docs/research/2026-10-17-capacity-freshness-review.md` (branch
-`claude/sharp-pascal-dch71u`, not merged at the time of this pass). Every MW was re-read from a
-primary source. Pages that curl could open (PR Newswire, Fervo, Xcel, NiSource, Webull) were
-HTML-stripped and the passage cut programmatically. Pages that returned a 403 to curl
-(GlobeNewswire, SEC EDGAR) were read as rendered text in a browser, and each saved passage was
-re-checked against the live page (`includes()` = true for all). Three call passages (NiSource
-Q1, OGE Q1, Xcel Q1) come from the Financial Modeling Prep transcript API; no free full-text copy
-of those calls was reachable.
+These come from the `/capacity` freshness review (`docs/research/2026-10-17-capacity-freshness-review.md`).
+Five rows were added, each with a verbatim quote checked against committed evidence under
+`docs/research/evidence/2026-10-17-cap-*`. That makes 31 rows: signed 21,379 MW (10,252 MW of
+it PPAs), pending 9,200 MW, and MOU / LOI / option unchanged at 4,850 MW.
 
-**Added: 8 rows.** Totals are now 21,775 MW signed (10,648 MW of it PPAs), 10,200 MW pending, and
-4,850 MW MOU/LOI/option, across 34 rows.
+| Ticker | Counterparty | Facility | MW | Status | Kind |
+|---|---|---|---|---|---|
+| GOOGL | American Electric Power | 702 MW Bloom fuel cells near Cheyenne, WY (20-yr PPA) | 702 | signed | ppa |
+| GOOGL | Black Hills Corp. | Grid-connected service to the Cheyenne, WY data center | 590 | signed | utility supply |
+| GOOGL | Xcel Energy | New wind, solar and storage for Pine Island, MN | 1,900 | pending | utility supply |
+| MSFT | NiSource (NIPSCO / GenCo) | GenCo pool generation + transmission for the NW Indiana campus | 1,100 | pending | utility supply |
+| WULF | Kentucky Power (AEP) | Muskie Data campus, Grayson, KY | 1,000 | pending | utility supply |
 
-| Ticker | Counterparty | Facility | MW | Status · kind | Announced | Source |
-|---|---|---|---:|---|---|---|
-| GOOGL | AEP (Cheyenne Fuel Cell) | Bloom fuel cells near Cheyenne, WY | 702 | signed · ppa | 2026-10-14 | AEP release |
-| GOOGL | Black Hills Corp. | 564 MW new gas at Cheyenne Prairie, WY | 590 | signed · utility supply | 2026-10-06 | Black Hills release |
-| GOOGL | Fervo Energy | Cape Station EGS, UT | 396 | signed · ppa | 2026-09-01 | Fervo release |
-| GOOGL | Xcel Energy | New wind, solar and storage, Pine Island, MN | 1,900 | pending · utility supply | 2026-02-24 | Xcel release |
-| GOOGL | OG&E | Two Google solar facilities, OK | 600 | pending · utility supply | 2026-04-29 | OGE Q1 call |
-| MSFT | NIPSCO / GenCo | GenCo pool capacity for the NW Indiana campus | 1,100 | pending · utility supply | 2026-10-16 | NiSource release |
-| AMZN | NIPSCO / GenCo | ADS Contract amendments (+400 MW load) | 400 | pending · utility supply | 2026-05-06 | NiSource Q2 call (+ 10-Qs) |
-| WULF | Kentucky Power | Muskie Data Campus, Grayson, KY | 1,000 | pending · utility supply | 2026-10-05 | Kentucky Power release |
+- **Black Hills counts only its own supply.** The row is the "up to 590 MW" Black Hills provides.
+  The project's 2.7 GW resource mix also includes ~2.1 GW of third-party resources under the
+  LPCS tariff, and those are not a row: AEP's fuel cells, which may be among them, would
+  otherwise count twice.
+- **Pending means a regulator still has to approve.**
+  - *Xcel:* Minnesota PUC approval is expected early in 2027.
+  - *NiSource:* the release cites "required regulatory approvals".
+  - *Muskie:* the amended 1 GW contract still has to be filed with the Kentucky PSC. It doubles
+    an earlier 500 MW agreement whose date is not verified here, so the row stays one pending
+    1 GW deal.
+- **Not added:**
+  - AES–Google (Wilbarger Co., TX), OG&E–Google (Muskogee / Stillwater, OK) and Evergy's two
+    Google ESAs: no source states an MW figure.
+  - Georgia Power: no fetched source.
+  - Amazon's +400 MW NIPSCO amendment: it amends the existing NIPSCO row, so it goes in that
+    row's note instead.
+  - Calvert Cliffs (Amazon) and Fervo / NV Energy (Google): already rows.
 
-Decisions made in this pass:
+## Additions (2026-10-17, second pass)
 
-- **NiSource–Microsoft is `utility supply`, and the 1,100 MW counts.** The release ties the GenCo
-  pool's ~1,100 MW increase to this agreement and says Microsoft funds the generation that serves
-  its load. That is new build attributable to the deal, unlike the excluded Google–Constellation
-  fleet supply. It is still pool capacity, not Microsoft's load, and names no plant or technology,
-  so the row is `nameplate` with technology `other`. The 600 MW battery tolling agreement goes to
-  the pool shared by several large-load customers, so it is not added. The row is `pending`
-  because the release's risk factors cite required regulatory approvals.
-- **TeraWulf is one pending 1 GW row.** The May 2026 500 MW service agreement under the tariff
-  ties no generation to the load. The October amendment does: TeraWulf pays the financing costs of
-  the 760-MW Big Sandy CCGT. The amended contract awaits KY PSC approval.
-- **Black Hills counts only its own 590 MW.** The 2.7 GW resource mix includes ~2.1 GW of
-  third-party resources with no plant named. AEP's 702 MW fuel-cell PPA, which followed the Black
-  Hills agreements, is its own row, so the two Cheyenne rows do not overlap.
-- **The Fervo option (+~600 MW by June 2030) is not a row.** This follows the Energy Northwest
-  expansion-option precedent.
+A second pass re-read each freshness-review lead from a primary source. Two deals that the first
+pass left out are added. That makes 33 rows: signed 21,775 MW (10,648 MW of it PPAs), pending
+9,800 MW, and MOU / LOI / option unchanged at 4,850 MW. The evidence files are
+`docs/research/evidence/2026-10-ppa-googl-fervo-cape-station.txt` and `…-googl-oge-oklahoma.txt`.
 
-Not added:
+| Ticker | Counterparty | Facility | MW | Status | Kind |
+|---|---|---|---|---|---|
+| GOOGL | Fervo Energy | Cape Station enhanced geothermal GeoCluster, UT | 396 | signed | ppa |
+| GOOGL | OG&E (OGE Energy) | Two Google solar facilities under construction (Muskogee / Stillwater, OK) | 600 | pending | utility supply |
 
-| Candidate | Why |
-|---|---|
-| Amazon–Constellation Calvert Cliffs, 690 MW | Already a row (added in the 2026-10-08 curation) |
-| NIPSCO–Amazon original special contract | Already a row. The IURC's June 2026 approval is already in its note. Only the +400 MW amendment is new. |
-| AES–Google, Wilbarger County TX co-located generation PPAs (2026-02-24) | No MW in any primary source: the AES release, Google's Wilbarger blog post, and an SEC full-text search all came up empty (no AES filing names Wilbarger) |
-| Georgia Power–Google, Vogtle/Hatch uprates via the NU-1 tariff (2026-09-21) | About 96 MW (World Nuclear News and others), under the 100 MW floor; Georgia PSC approval is pending |
-| **Lead, owner call:** NIPSCO–Alphabet special contract | "340 megawatts of pooled resources, including advanced battery solutions and utilizing available market resources", 15-year term (NiSource Q1 2026 call), IURC-approved July 2026 (Q2 10-Q). This is the MW §4 could not find. It was left out because the review did not list it and it is served partly from market purchases, which is closest to the fleet-supply exclusion. |
-
-Event checks to add to §5:
-
-- IURC order on the ADS Contract amendments (Q4 2026), plus the FERC affiliate orders.
-- Minnesota PUC decision on the Xcel–Google ESA.
-- OCC order on the OG&E–Google special contract (hearing scheduled for 2026-09-09; no order found by 2026-10-17).
-- KY PSC filing and order on the Kentucky Power–TeraWulf amendment.
-- NiSource's Q3 call (2026-10-28), which promises the Microsoft agreement's details.
+- **Fervo Cape Station is a new deal, not the 2024 NV Energy row.** Fervo's 2026-09-01 release
+  announces a 396 MW PPA with Google for Cape Station in Utah. Google's option for a further
+  ~600 MW by June 2030 is not a row, following the Energy Northwest expansion-option precedent.
+- **OG&E does state an MW, on its Q1 2026 call (2026-04-29).** The call says the two solar
+  facilities "will provide 600 megawatts of nameplate capacity" under capacity purchase
+  agreements. That figure is the plants' nameplate, not Google's load. The release has no MW. The
+  OCC must approve the special contract; OGE's Q2 10-Q set a hearing for 2026-09-09, and no order
+  was found by 2026-10-17. The call text comes from the Financial Modeling Prep transcript API.
+- **Other findings from this pass, not acted on:**
+  - Georgia Power–Google Vogtle/Hatch uprates: about 96 MW (World Nuclear News and others), under
+    the 100 MW floor.
+  - The earlier 500 MW Muskie agreement is dated. TeraWulf's 2026-05-26 8-K (ex. 99.1) says the
+    energy service agreements "were executed concurrently with the acquisition" under Kentucky
+    Power's Industrial General Service tariff.
+  - The Microsoft–NiSource release does not itself say whether the 600 MW battery tolling
+    agreement is inside the ~1,100 MW. Only dpa-AFX's write-up says "including".
+  - **Lead, owner call:** NIPSCO–Alphabet special contract. NiSource's Q1 2026 call gives "340
+    megawatts of pooled resources, including advanced battery solutions and utilizing available
+    market resources", on a 15-year term. The IURC approved it in July 2026 (Q2 10-Q). It was not
+    added because it is served partly from market purchases, the closest case to the fleet-supply
+    exclusion.

@@ -1,0 +1,19 @@
+URL: https://financialmodelingprep.com (FMP earnings-transcript API, PBA 2026 Q2); event https://www.pembina.com
+Title: Pembina Pipeline Q2 2026 Earnings Conference Call (transcript)
+Publisher: Pembina Pipeline Corp. (call); transcript via Financial Modeling Prep
+Date: 2026-07-30
+Retrieved 2026-10-17
+Method: FMP MCP earnings-transcript API (curl/WebFetch blocked by session egress proxy)
+
+[…] We also reached a positive final investment decision on the Greenlight Electricity Center, a 932-megawatt gas-fired generation facility that will provide dedicated power to a new Alberta data center being developed by Meta. Greenlight represents an exciting new growth platform for Pembina, creating stable long-term cash flows while also dri […]
+(No Greenlight in-service date is stated anywhere in this call.)
+
+------------------------------------------------------------------------
+URL: https://www.reuters.com/legal/litigation/meta-data-center-boosts-alberta-appeal-hyperscalers-capital-power-says-2026-09-21/
+Title: Meta data center boosts Alberta appeal for hyperscalers, Capital Power says
+Publisher: Reuters
+Date: 2026-09-21
+Retrieved 2026-10-17
+Method: FMP MCP stock-news API, lede text
+
+[…] Meta's plan to build a C$13 billion ($9 billion) data center in Alberta has boosted the Canadian province's appeal for hyperscalers, who see it as a vote of confidence in the government's AI strategy, the CEO of Capital Power said. […]

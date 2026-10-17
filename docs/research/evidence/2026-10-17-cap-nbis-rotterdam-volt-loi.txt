@@ -1,0 +1,10 @@
+URL: https://www.gurufocus.com/news/9119184/nebius-stock-slips-despite-rotterdam-ai-gigafactory-loi (TradingView story id gurufocus:d4535a84d094b:0)
+Title: Nebius Stock Slips Despite Rotterdam AI Gigafactory LOI
+Publisher: GuruFocus (reporting VOLT CEO Han de Groot's comments to ANP)
+Date (publication): 2026-10-12
+Retrieved: 2026-10-17
+Method: TradingView MCP get_news_story (curl and WebFetch blocked by session egress proxy)
+
+[…] Nebius Group NASDAQ:NBIS, the Amsterdam-based AI cloud provider, signed a letter of intent to take a substantial share of the computing capacity at VOLT's planned AI gigafactory in Rotterdam, VOLT CEO Han de Groot confirmed. VOLT, a Dutch AI infrastructure developer, would build the site and install the chips, which Nebius would rent over multiple years, de Groot told ANP. […]
+
+[…] VOLT puts the first phase at 7 billion and hopes to start construction in 2028. Neither company disclosed financial terms. […]

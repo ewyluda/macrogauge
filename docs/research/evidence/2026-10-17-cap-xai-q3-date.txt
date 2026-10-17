@@ -1,0 +1,10 @@
+URL: https://www.tradingview.com/news/benzinga:c80f9d056094b:0-spacex-q3-earnings-countdown-5-debates-to-watch/
+Title: SpaceX Q3 Earnings Countdown: 5 Debates to Watch
+Publisher: Benzinga (embeds SpaceX post on X, 2026-10-16)
+Date: 2026-10-16
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] Space Exploration Technologies Corp. NASDAQ:SPCX will post third-quarter financial results next Tuesday, Oct. 20, after the closing bell. […]
+[…] We will post our Q3 2026 financial and operational results on October 20, 2026. We will host a live audio-only webcast at 3:30 p.m. CT the same day […] (SpaceX on X)
+[…] The firm expects SpaceX to reach roughly 2.3 gigawatts of compute capacity by the end of 2026, above consensus expectations, and views the target as achievable. […] (Evercore ISI analyst view — NOT used as evidence for MW)

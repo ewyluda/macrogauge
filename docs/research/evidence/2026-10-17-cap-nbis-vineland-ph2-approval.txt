@@ -1,0 +1,10 @@
+URL: https://stocktwits.com/news-articles/ (TradingView story id stocktwits:3ea2308a6094b:0) — reports NBC10 Philadelphia
+Title: NBIS Stock Dips Premarket: Nebius Clears Hurdle For Microsoft Deal As Vineland Approves Data Center Expansion
+Publisher: Stocktwits (citing NBC10 Philadelphia)
+Date (publication): 2026-08-18
+Retrieved: 2026-10-17
+Method: TradingView MCP get_news_story (curl and WebFetch blocked by session egress proxy)
+
+[…] The Vineland Planning Board voted to approve Phase 2 of the data center already under construction in the South Jersey town on Monday night, NBC10 Philadelphia reported. Phase 1 is already under construction, and Phase 2 will add 600,000 square feet to the project. […]
+
+[…] Nebius’ Vineland, New Jersey, data center is being developed by DataOne as a major AI infrastructure campus. The project was initially approved as a roughly 300-megawatt facility, with DataOne later proposing a larger build-out that could reach 350 MW. […]

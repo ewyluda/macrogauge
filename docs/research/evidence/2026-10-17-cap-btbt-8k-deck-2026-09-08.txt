@@ -1,0 +1,10 @@
+URL: https://www.sec.gov/Archives/edgar/data/1710350/000121390026098132/ea0304730-8k_bitdigital.htm (8-K, 2026-09-08, investor deck) — summarized at https://www.tradingview.com/news/tradingview:b9b962a6b4be9:0-bit-digital-presents-investor-deck-detailing-eth-treasury-whitefiber-stake-mnav-and-financing/
+Also: https://www.sec.gov/Archives/edgar/data/1710350/000121390026088709/ea0300693-10q_bitdigital.htm (10-Q, 2026-08-13) — summarized at https://www.tradingview.com/news/tradingview:2fd1ba5f89535:0-bit-digital-inc-q2-2026-revenue-32-1m-eps-0-31-10-q-summary/
+Title: Bit Digital presents investor deck detailing ETH treasury, WhiteFiber stake, mNAV and financing / Bit Digital Q2 2026 10-Q summary
+Publisher: TradingView (AI-generated summaries of the SEC filings — NOT verbatim filing text)
+Date: 2026-09-08 / 2026-08-13
+Retrieved: 2026-10-17
+Method: TradingView MCP get-news-story. sec.gov blocked by the egress proxy; Robinhood MCP get_sec_filing returned "Filing content is not available" for both filings. Treat the figures below as UNVERIFIED pending a read of the filings themselves.
+
+[…] Owns ~27.0M WYFI shares (~60% economic stake in WhiteFiber) with WYFI value shown at $640.9M. […]   (summary of 8-K 9/8/26 deck)
+[…] Operationally, the company brought its MTL-3 facility online and is targeting 70 MW gross capacity by Q4 2026, while reviewing a pipeline of about 1,500 MW. […]   (summary of 10-Q 8/13/26)

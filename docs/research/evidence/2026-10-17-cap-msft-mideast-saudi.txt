@@ -1,0 +1,10 @@
+URL: https://www.tradingview.com/news/seekingalpha:2895163a4094b:0-microsoft-continues-to-work-with-saudi-arabia-to-expand-ai-in-the-region/
+Title: Microsoft continues to work with Saudi Arabia to expand AI in the region
+Publisher: Seeking Alpha (news)
+Date: 2026-10-15
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] Last month, Microsoft announced plans to invest more than $10B in capital and operating expenses in the Middle East through 2030 as it expands cloud and AI infrastructure in Kuwait, Qatar, Saudi Arabia and the United Arab Emirates. Microsoft also plans to invest more than $400M in subsea and terrestrial connectivity in the region by 2030. […]
+[…] Microsoft is working with, among others, Saudi Arabia's HUMAIN and SDAIA, Abu Dhabi's G42, Qatar's QAI, and the governments of Kuwait and the UAE. […]
+(context only — no site or MW; not used for a change)

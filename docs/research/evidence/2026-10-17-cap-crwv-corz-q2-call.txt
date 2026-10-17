@@ -1,0 +1,12 @@
+URL: urn:transcripts:quartr.com:3913043 (Quartr transcript of Core Scientific Q2 2026 earnings call, via TradingView documents MCP)
+Title: Core Scientific Q2 2026 Earnings Call transcript
+Publisher: Core Scientific (call) / Quartr transcript
+Date (publication): 2026-07-28
+Retrieved: 2026-10-17
+Method: TradingView MCP get_document_view (curl and WebFetch blocked by session egress proxy)
+
+[…] The most valuable arrangements in this market are not one-off transactions. They are the ones with the potential for significant expansion over time. Our agreement with CoreWeave began as a 16 MW lease at our Auburn campus in 2024 and has since expanded to 590 MW of total contracted capacity. That progression is important. Our partnership announcement today with AMD reflects this potential. Adam Sullivan (CEO, Core Scientific): The initial agreement represents more than $14 billion of base contracted revenue across the 15-year agreements […]
+
+[…] ilestone achieved during the second quarter, then provide an overview of the AMD build-out and delivery plan. As we stated in our last earnings call, we expected to substantially complete four of the five CoreWeave campuses before the end of the summer. We achieved that milestone ahead of schedule, reaching 437 billable megawatts and demonstrating our ability to deliver complex infrastructure safely, efficiently, and at scale. Matt Brown (COO, Core Scientific): Dalton phase II, the fifth and final campus, remains on track for full completion in early 2027. With the majority  […]
+
+[…] t so I'm crystal clear, when will you deliver and bill that last 150 MW for CoreWeave? Adam Sullivan (CEO, Core Scientific): Thanks for the question. The last 150 MW is our Dalton phase II campus. That will begin delivering at the end of this year and be completed in early 2027. Paul Meeks (Analyst, Freedom Capital): Okay. My follow-on is, you talk about the maturity of your model. Now you have a contract visibility, more diverse customer base, Neocloud. If I take a look at your adjusted EBITDA margins, because on your P&L, […]

@@ -1,0 +1,24 @@
+URL: https://www.businesswire.com/news/home/20260930235521/en/ (fetched as TradingView news story id business_wire:75ae1ab54198b:0)
+Title: Constellation and Amazon Announce 20-Year Power Purchase Agreement Adding 190 Megawatts of Nuclear Capacity at Calvert Cliffs
+Publisher: Business Wire (Constellation Energy press release, joint with Amazon)
+Date: 2026-09-30
+Retrieved: 2026-10-17
+Method: TradingView news-story MCP tool (full text; curl/WebFetch blocked in this session)
+
+[…] Constellation (NASDAQ:CEG) and Amazon (NASDAQ:AMZN) today announced a long-term agreement that will support the continued investment in and expansion of the Calvert Cliffs Clean Energy Center, Maryland's only nuclear plant and largest source of clean energy. The agreement will enable more than $3 billion in Maryland infrastructure investment, including state-of-the-art improvements across the entire 1,790-megawatt plant and approximately 190 megawatts in total of new, emissions-free generating capacity coming online between 2030 and 2032. […]
+
+[…] The expansion of Calvert Cliffs' generating capacity will be supported by a 20-year agreement, which includes 690 megawatts of power, including the 190 megawatt uprate. The parties have also entered into a related retail supply agreement to support Amazon operations in the 13-state PJM market. […]
+
+----
+URL: TradingView news story id DJN_DN20260930007443:0
+Title: Amazon Tries to Boost Nuclear Power in Maryland After Scrapping Data Center Deal — WSJ
+Publisher: Dow Jones Newswires / The Wall Street Journal (Clara Hudson)
+Date: 2026-09-30
+Retrieved: 2026-10-17
+Method: TradingView news-story MCP tool (full text)
+
+[…] Amazon.com walked away last month from plans to build a data-center campus next to a nuclear plant in Maryland after facing community opposition. Instead, the tech giant will help expand power generation at the plant and explore the possibility of adding new reactors there. […]
+
+[…] In return, Constellation will supply the tech company with up to 690 megawatts of power long term from across its fleet. […]
+
+[…] Residents in the Maryland community voiced environmental, resource and health concerns about the project that was scrapped last month. […]

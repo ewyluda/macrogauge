@@ -28,7 +28,7 @@ def _load(tmp_path, fn):
 
 def test_real_config_loads_against_the_capacity_roster():
     cfg = power_deals.load(tickers=TICKERS)
-    assert len(cfg.deals) == 34
+    assert len(cfg.deals) == 33
     signed = sum(d.mw_total for d in cfg.deals if d.status == "signed")
     assert signed == 21775
     # most signed MW is not a literal PPA: the page must say which is which

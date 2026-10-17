@@ -1,0 +1,12 @@
+URL: https://www.tradingview.com/news/prnewswire:c65e948189d3e:0-powersecure-executes-agreement-with-keel-infrastructure-to-support-moses-lake-data-center-campus/
+Title: PowerSecure executes agreement with Keel Infrastructure to support Moses Lake Data Center Campus
+Publisher: PowerSecure (Southern Company subsidiary) via PR Newswire
+Date (publication): 2026-09-09
+Retrieved: 2026-10-17
+Method: MCP TradingView get-news-story (full PR text; curl/WebFetch blocked by egress proxy)
+
+[…] DURHAM, N.C., Sept. 9, 2026 /PRNewswire/ -- PowerSecure, a subsidiary of Southern Company and a leading provider of resilient, innovative energy solutions, today announced it has entered into an agreement with Keel Infrastructure (Nasdaq, TSX:KEEL) to provide a fully integrated backup resiliency solution for Keel Infrastructure's data center campus in Moses Lake, Washington. […]
+
+[…] Under the agreement, PowerSecure will design and deliver a customized standby power solution tailored to the needs of the Moses Lake campus, helping ensure operational continuity and long-term flexibility as the site grows. […]
+
+[…] PowerSecure and Keel Infrastructure established the partnership earlier this year, aligning quickly on system requirements and delivery timelines for the Moses Lake campus. […]

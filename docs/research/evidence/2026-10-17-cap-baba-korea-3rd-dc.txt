@@ -1,0 +1,9 @@
+URL: https://www.tradingview.com/news/gelonghui:3a9df3d20e3f9:0/
+Title: 阿里云韩国第三座数据中心上线
+Publisher: Gelonghui 格隆汇 (via TradingView, zh-Hans)
+Date: 2026-08-18
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text (publisher sites blocked in sandbox)
+
+[…] 格隆汇8月18日｜今天，阿里云韩国第三座数据中心正式上线同步推出Agentic AI系列服务。 […]
+English gloss: "Today Alibaba Cloud's third data center in South Korea officially went live, launching a series of Agentic AI services at the same time." (City not stated in the item.)

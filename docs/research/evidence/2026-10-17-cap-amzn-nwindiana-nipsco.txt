@@ -1,0 +1,42 @@
+URL: FMP earningsTranscript API, symbol=NI year=2026 quarter=1 (NiSource Q1 2026 earnings call)
+Title: NiSource Inc. First Quarter 2026 Earnings Conference Call (transcript)
+Publisher: NiSource Inc. (call); transcript via Financial Modeling Prep
+Date: 2026-05-06
+Retrieved: 2026-10-17
+Method: FMP earningsTranscript MCP tool (curl/WebFetch blocked in this session)
+
+[…] In addition to the announcements made a few weeks ago, I am pleased to share another expansion: an incremental 400 megawatts of capacity serving Amazon. […]
+
+[…] Moving to slide 9, Amazon has continued to emphasize investing in the state of Indiana. We are pleased to report both an expanded collaboration with Amazon and an accelerated timeline to deliver energy to Amazon. Over 400 megawatts of contracted generation will serve enhancements to the existing Amazon data center strategy […]
+
+[…] Slide 12 shows our progress on regulatory and construction milestones. The original Amazon contract is pending commission approval, expected in June, ahead of civil site work later this year and load energization beginning in 2027. […]
+
+----
+URL: FMP earningsTranscript API, symbol=NI year=2026 quarter=2 (NiSource Q2 2026 earnings call)
+Title: Q2 2026 NiSource Earnings Conference Call (transcript)
+Publisher: NiSource Inc. (call); transcript via Financial Modeling Prep
+Date: 2026-08-05
+Retrieved: 2026-10-17
+Method: FMP earningsTranscript MCP tool
+
+[…] In June, the IURC approved the original Amazon special contract, the related power purchase agreement and the generation resources proposed to support the agreement. […] On July 17, we filed NIPSCO's request for approval of amendments to its existing Amazon data center electric service agreement and the associated PPA with GenCo. Collectively, the amendments increased Amazon's contracted load by 400 megawatts, which we announced with our first quarter earnings and are already incorporated in our near- and long-term guidance. We're seeking final order by November. […]
+
+----
+URL: TradingView news story id dpa_afx:b0bfdd80a6137:0
+Title: NiSource Signs Long-term Energy Deals With Alphabet And Amazon To Power Indiana Data Centers
+Publisher: dpa-AFX / RTTNews
+Date: 2026-04-17
+Retrieved: 2026-10-17
+Method: TradingView news-story MCP tool (full text)
+
+[…] NiSource also announced an expanded agreement with Amazon Data Services, Inc. Under the updated terms, NiSource will accelerate energization of Amazon sites and deliver associated credits to residential customers sooner. […]
+
+----
+URL: TradingView news story id dpa_afx:1a0d04174ef36:0
+Title: NiSource Wins Regulatory Approval For Amazon Data Center Power Deal In Northern Indiana
+Publisher: dpa-AFX / RTTNews
+Date: 2026-06-23
+Retrieved: 2026-10-17
+Method: TradingView news-story MCP tool (full text)
+
+[…] NiSource Inc. (NI) announced that the Indiana Utility Regulatory Commission or IURC has approved key agreements supporting the company's previously announced partnership with Amazon (AMZN) to power new data center developments in northern Indiana. […]

@@ -1,0 +1,45 @@
+Method (all items): FMP API via MCP (news / search-stock-news, symbol ORCL, 2026-09-20..2026-10-17). Excerpt = FMP `text` field (publisher lead, verbatim). Full pages not openable (egress policy).
+Retrieved: 2026-10-17
+
+--- Item 1
+URL: https://www.gurufocus.com/news/9105040/oracle-gives-major-update-after-flooding-reaches-project-jupiter
+Title: Oracle Gives Major Update After Flooding Reaches Project Jupiter
+Publisher: GuruFocus
+Date: 2026-10-01
+[…] Oracle (ORCL) shares fell Wednesday after flooding reached the company's Project Jupiter data center site in southern New Mexico, although Oracle said critical […]
+(FMP lead truncated at source; secondary aggregator — context only)
+
+--- Item 2
+URL: https://invezz.com/news/2026/10/13/why-is-oracle-stock-gaining-4-today/
+Title: Why is Oracle stock gaining 4% today?
+Publisher: Invezz
+Date: 2026-10-13
+[…] Oracle (ORCL) shares gained 3% on Tuesday as investors assessed the company's proposed electricity agreement for its Project Jupiter artificial intelligence data centre in New Mexico and a separate collaboration with Microsoft and Marvell Technology on data centre security. The proposed agreement with El Paso Electric would provide electricity during the final stages of construction and initial commissioning tests at Project Jupiter. […]
+
+--- Item 3
+URL: https://www.benzinga.com/trading-ideas/movers/26/10/62358714/oracle-stock-tumbles-whats-going-on
+Title: Oracle Stock Tumbles: What's Going On?
+Publisher: Benzinga
+Date: 2026-10-14
+[…] The company lobbies federal regulators again for sign-off on the gas line meant to feed its Project Jupiter data center in New Mexico. […]
+
+--- Item 4
+URL: https://247wallst.com/investing/2026/10/12/oracle-is-trucking-in-natural-gas-to-keep-its-ai-data-centers-on-schedule/
+Title: Oracle Is Trucking In Natural Gas to Keep Its AI Data Centers on Schedule
+Publisher: 24/7 Wall St.
+Date: 2026-10-12
+[…] Oracle's AI data centers are running behind on pipelines and permits, so the company found an unusual workaround to keep construction on schedule and avoid penalties on hundreds of billions in signed contracts. […]
+
+--- Item 5
+URL: https://www.youtube.com/watch?v=9zkgbPOVpEc
+Title: Oracle Trucking Gas to Keep Data Centers on Track
+Publisher: Bloomberg (video, via FMP feed)
+Date: 2026-10-09
+[…] Oracle is using a new power strategy to keep many of its data centers on track: trucking natural gas directly to the server farms. The company is considering using this approach to speed up a build in New Mexico, where a gas pipeline needed to help power one of its crucial data centers is delayed. […]
+
+--- Item 6
+URL: https://247wallst.com/investing/2026/10/15/bloom-energy-got-good-news-from-oracle-and-fell-anyway-is-it-time-to-buy/
+Title: Bloom Energy Got Good News From Oracle and Fell Anyway. Is It Time to Buy?
+Publisher: 24/7 Wall St.
+Date: 2026-10-15
+[…] Oracle just named Bloom Energy the primary power source for a massive AI campus, yet the stock keeps falling. […]

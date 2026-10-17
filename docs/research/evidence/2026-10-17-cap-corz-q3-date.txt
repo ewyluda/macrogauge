@@ -1,0 +1,8 @@
+URL: https://www.businesswire.com/news/home/20261014599891/en/
+Title: Core Scientific, Inc. Schedules Third Quarter Fiscal Year 2026 Earnings Release, Conference Call and Webcast
+Publisher: Core Scientific (Business Wire)
+Date: 2026-10-15 (Business Wire newsitem id 20261014599891)
+Retrieved: 2026-10-17
+Method: TradingView news MCP (mcp-tv-get-news-story id business_wire:d29342ff6f547:0, full Business Wire text). curl/WebFetch blocked in sandbox.
+
+[…] today announced it will release its third quarter 2026 financial results prior to financial markets open on Thursday, November 5, 2026. Management will host a conference call and live audio webcast to discuss the results at 8:30 a.m. Eastern Time.  […]
