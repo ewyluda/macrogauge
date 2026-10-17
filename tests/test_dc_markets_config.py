@@ -46,18 +46,21 @@ def test_every_county_has_both_registered_series():
             assert f"qcew_emp23_c{f}" in codes, f"{m.key}: {f} emp unregistered"
 
 
-def test_every_county_has_registered_238212_series_but_storey():
-    # NAICS 238212 (nonresidential electrical contractors) rides the same
-    # roster. Storey NV is the single, documented exclusion (suppressed every
-    # quarter since 2023 Q4 -- see test_registry.py); a roster addition must
-    # register its 238212 trio too, or the market silently reads partial.
+@pytest.mark.parametrize("naics", ["238212", "238222"])
+def test_every_county_has_registered_trade_series(naics):
+    # NAICS 238212 (nonresidential electrical) and 238222 (nonresidential
+    # plumbing/HVAC) ride the same roster, every county registered. A county
+    # BLS has withheld in every fetched quarter (Storey NV for both; Richland
+    # Parish LA and Grant WA for 238222) carries an `undisclosed` policy
+    # instead of being left out: the collector only stores requested series,
+    # so an unregistered county could never pick up its first print.
     markets = dc_markets.load()
     from pipeline import registry
     _, series = registry.load_registry()
     codes = {s.code for s in series}
     missing = {f for m in markets for f in m.counties
-               if not {f"qcew_{k}238212_c{f}" for k in ("wage", "emp", "aemp")} <= codes}
-    assert missing == {"32029"}
+               if not {f"qcew_{k}{naics}_c{f}" for k in ("wage", "emp", "aemp")} <= codes}
+    assert missing == set()
 
 
 def test_unknown_series_code_raises(tmp_path):

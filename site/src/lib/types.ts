@@ -188,6 +188,16 @@ export type Commodities = {
   groups: { group: string; rows: CommodityRow[] }[];
 };
 
+export type DcTradeGroup = "earnings" | "jobs" | "eci" | "postings";
+
+/** one display-only data-center trades row (labor.json dc_trades), 2026-10-16+ */
+export type DcTradeRow = {
+  key: string; group: DcTradeGroup; label: string; series_id: string; source: string;
+  unit: "usd_per_hour" | "thousands" | "index"; cadence: "daily" | "monthly" | "quarterly";
+  value: number | null; yoy_pct: number | null; as_of: string | null;
+  vs_label: string | null; vs_yoy_pct: number | null; spread_pp: number | null;
+};
+
 export type Labor = {
   published_at: string;
   payrolls: { level_k: number | null; mom_change_k: number | null; yoy_pct: number | null; as_of: string | null };
@@ -207,6 +217,8 @@ export type Labor = {
     payroll_as_of: string | null; noncraft_payroll_share_pct: number | null; noncraft_pay_ratio: number | null;
     history: { months: string[]; craft_k: number[]; noncraft_k: number[]; noncraft_share_pct: number[]; noncraft_payroll_share_pct: (number | null)[] };
   };
+  /** data-center trades: trade-detail pay and jobs, ECI, ADP, Indeed postings (display-only), 2026-10-16+ */
+  dc_trades?: { rows: DcTradeRow[] };
   history: {
     monthly: { months: string[]; payrolls_yoy_pct: (number | null)[]; unemployment_rate: (number | null)[]; construction_yoy_pct?: (number | null)[] };
     weekly: { dates: string[]; initial_claims: (number | null)[] };

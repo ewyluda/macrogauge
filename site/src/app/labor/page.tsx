@@ -5,6 +5,7 @@ import nfpJson from "../../../public/data/accountability_nfp.json";
 import { KpiCard } from "@/components/KpiCard";
 import { LaborMonthlyChart, LaborClaimsChart } from "@/components/LaborCharts";
 import { fmtSigned, fmtMonth, fmtPct } from "@/lib/format";
+import { groupTrades, tradeAsOf, tradeLevel, tradeVs } from "@/lib/dcTrades";
 import realWagesJson from "../../../public/data/real_wages.json";
 import pulse from "../../../public/data/pulse.json";
 import compare from "../../../public/data/compare.json";
@@ -68,6 +69,8 @@ export default function LaborPage() {
       </p>
 
       <ConstructionBand />
+
+      <DcTrades />
 
       <div className="kpi-row">
         <KpiCard label="Payrolls (MoM)" value={signedK(d.payrolls.mom_change_k)}
@@ -176,6 +179,54 @@ function ConstructionBand() {
         The payroll share prices each group at its average weekly earnings (CES2000000011 for all employees, which
         starts in March 2006; CES2000000030 for craft): when it rises more slowly than the jobs share, the added
         non-craft staff are paid less, relative to craft, than before. Shaded: NBER recessions.
+      </p>
+    </Section>
+  );
+}
+
+function DcTrades() {
+  const rows = d.dc_trades?.rows;
+  if (!rows) return null;
+  return (
+    <Section title="Trade labor — contractor pay, jobs, wage indexes and hiring signals" id="dc-trades">
+      <div className="table-card" data-testid="dc-trades">
+        <table className="data-table">
+          <thead><tr><th style={{ textAlign: "left" }}>Series</th><th>Latest</th><th>YoY</th><th>Compared with</th><th>As of</th></tr></thead>
+          {groupTrades(rows).map((g) => (
+            <tbody key={g.group}>
+              <tr className="data-group">
+                <th colSpan={5} scope="colgroup">{g.title}
+                  {/* capped to the viewport so a phone's scrolling card doesn't clip the note */}
+                  <span style={{ display: "block", margin: "4px 0 0", maxWidth: "calc(100vw - 72px)" }}>{g.scope}</span>
+                </th>
+              </tr>
+              {g.rows.map((r) => (
+                <tr key={r.key} data-testid="dc-trade-row">
+                  <td style={{ textAlign: "left" }}>
+                    {r.label}
+                    <div style={{ color: "var(--muted)", fontSize: 11 }}>{r.source} · {r.series_id}</div>
+                  </td>
+                  <td>{tradeLevel(r)}</td>
+                  <td>{fmtSigned(r.yoy_pct)}</td>
+                  <td className="cell-prose">{tradeVs(r)}</td>
+                  <td style={{ color: "var(--muted)" }}>{tradeAsOf(r)}</td>
+                </tr>
+              ))}
+            </tbody>
+          ))}
+        </table>
+      </div>
+      <p className="method">
+        The trades a data-center build leans on hardest, beside the all-construction series above, with the wider
+        labor measures that bear on them. Shown for reference only: the DC cost index still rides the broad
+        construction wage. Contractor pay is BLS average hourly earnings for electrical contractors (NAICS 23821)
+        and plumbing and HVAC contractors (NAICS 23822), each compared with all construction (CES2000000003) in
+        the same month. These detail series come only from the BLS API and print a month behind the construction
+        total. Specialty trade jobs split nonresidential from residential work. The ECI is December 2005 = 100,
+        quarterly. Postings are{" "}
+        <a href="https://github.com/hiring-lab/data">Indeed Hiring Lab</a> indexes (February 1, 2020 = 100), licensed{" "}
+        <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, compared with the nearest day a year
+        earlier. County-level electrical contractor wages are on <Link href="/markets">Markets</Link>.
       </p>
     </Section>
   );

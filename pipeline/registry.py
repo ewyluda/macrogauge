@@ -29,7 +29,13 @@ class Source:
 #                   need enough quotes). Bounded by max_absence_days (required).
 #   discontinued  — the source stopped the series; history is kept. Open-ended;
 #                   a new print means the policy is wrong.
-ABSENCE_KINDS = ("suppressed", "intermittent", "discontinued")
+#   undisclosed   — the store holds no observation because the source has
+#                   withheld the cell in every period the collector fetches (a
+#                   QCEW county x 6-digit industry cell). Registered anyway so
+#                   the collector requests it and stores the first print,
+#                   which makes the policy wrong. Open-ended; review_by
+#                   required.
+ABSENCE_KINDS = ("suppressed", "intermittent", "discontinued", "undisclosed")
 
 
 @dataclass(frozen=True)
@@ -79,6 +85,8 @@ def _parse_absence(code: str, raw: dict | None, limit: int) -> Absence | None:
         except (TypeError, ValueError):
             raise ValueError(f"series {code}: absence.review_by must be an "
                              f"ISO date, got {review_by!r}") from None
+    if kind == "undisclosed" and review_by is None:
+        raise ValueError(f"series {code}: undisclosed absence needs review_by")
     max_gap = raw.get("max_absence_days")
     if kind == "intermittent" and max_gap is None:
         raise ValueError(f"series {code}: intermittent absence needs "

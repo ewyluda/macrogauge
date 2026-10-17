@@ -86,7 +86,7 @@
           "latest_obs": {"type": ["string", "null"]},
           "fresh": {"type": "boolean"},
           "absence": {"type": ["string", "null"],
-                      "enum": ["suppressed", "intermittent", "discontinued", null]}
+                      "enum": ["suppressed", "intermittent", "discontinued", "undisclosed", null]}
         }
       }
     },

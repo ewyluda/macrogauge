@@ -343,6 +343,59 @@ def test_elec_block_is_always_emitted_and_never_touches_naics_23_fields():
     assert bare["national"] == full["national"]
 
 
+# --- NAICS 238222 (nonresidential plumbing and HVAC contractors) mech block -
+# Values are the live 2025q1/2026q1 /industry/238222.csv cells (the same rows
+# trimmed into tests/fixtures/qcew_industry238222*.csv). Storey (32029) has no
+# 238222 series (no quarter printed in 2024 Q1-2026 Q1).
+
+def _mech_conn():
+    conn = _elec_conn()
+    rows = [("qcew_wage238222_us", "2025-01-01", 1771.0),
+            ("qcew_wage238222_us", "2026-01-01", 1853.0),
+            ("qcew_emp238222_us", "2025-01-01", 623861.0),
+            ("qcew_emp238222_us", "2026-01-01", 646373.0)]
+    cells = {  # fips: {date: (wage, m1, m2, m3)}
+        "51107": {"2025-01-01": (1905, 2231, 2247, 2285),
+                  "2026-01-01": (2134, 2365, 2457, 2535)},
+        "51153": {"2025-01-01": (1510, 1062, 1102, 1119),
+                  "2026-01-01": (1513, 1227, 1230, 1250)},
+        "32031": {"2025-01-01": (1798, 1611, 1571, 1620),
+                  "2026-01-01": (2217, 1869, 1849, 1883)},
+    }
+    for f, by_date in cells.items():
+        for d, (w, m1, m2, m3) in by_date.items():
+            rows += [(f"qcew_wage238222_c{f}", d, float(w)),
+                     (f"qcew_emp238222_c{f}", d, float(m3)),
+                     (f"qcew_aemp238222_c{f}", d, (m1 + m2 + m3) / 3)]
+    conn.executemany("INSERT INTO observations VALUES (?,?,?,'2026-10-16')", rows)
+    return conn
+
+
+def test_mech_block_aggregates_238222_like_elec():
+    payload = writer.build(_mech_conn(), ELEC_MARKETS, CAP_CFG, META)
+    jsonschema.validate({"published_at": "2026-10-16T00:00:00Z", **payload}, SCHEMA)
+    assert payload["mech_national"] == {
+        "wage": 1853.0, "wage_yoy_pct": 4.6, "emp": 646373,
+        "emp_yoy_pct": 3.6, "as_of": "2026-01-01"}
+    mech = {m["key"]: m["mech"] for m in payload["markets"]}
+    nova, reno = mech["nova"], mech["reno"]
+    assert nova["available"] is True and nova["partial"] is False
+    # (2134 x 2452.33 + 1513 x 1235.67) / 3688.0 average monthly employment
+    assert (nova["wage"], nova["wage_yoy_pct"]) == (1925.93, 8.4)
+    assert (nova["emp"], nova["emp_yoy_pct"]) == (2535 + 1250, 11.2)
+    assert reno["counties_suppressed"] == ["32029"] and reno["partial"] is True
+    assert (reno["wage"], reno["wage_yoy_pct"], reno["emp"]) == (2217.0, 23.3, 1883)
+    # the elec block reads its own NAICS, untouched by the 238222 rows
+    assert {m["key"]: m["elec"] for m in payload["markets"]}["nova"]["wage"] == 2336.38
+
+
+def test_mech_block_is_always_emitted_unavailable_without_238222_rows():
+    bare = writer.build(_elec_conn(), ELEC_MARKETS, CAP_CFG, META)
+    assert bare["mech_national"]["wage"] is None
+    assert all(m["mech"]["available"] is False and m["mech"]["wage"] is None
+               for m in bare["markets"])
+
+
 def test_history_uses_one_county_set_across_the_window():
     """Two counties, one missing a quarter: the history drops it for every
     quarter, so the line can't jump on composition."""

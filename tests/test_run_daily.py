@@ -275,6 +275,8 @@ def fake_get(url, params=None, timeout=None, **kw):
         return _text(FIXTURES / "manheim_post.html")
     if "data.bls.gov/cew" in url and url.endswith("/industry/238212.csv"):
         return _text(FIXTURES / "qcew_industry238212.csv")
+    if "data.bls.gov/cew" in url and url.endswith("/industry/238222.csv"):
+        return _text(FIXTURES / "qcew_industry238222.csv")
     if "data.bls.gov/cew" in url:
         return _text(FIXTURES / "qcew_industry23.csv")
     if "census.gov/construction" in url:
@@ -387,7 +389,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
                  "revisions.json", "news.json", "ledger.json"):
         assert (out / name).exists(), name
     status = json.loads((out / "sources_status.json").read_text())
-    assert len(status["sources"]) == 43  # +AZURE_GPU_RESERVED, NEBIUS 10-08; +AWS_GPU, AZURE_GPU, OCI_GPU, COREWEAVE 10-07; +ERCOT, SPP, NYISO 10-04; +ATLFED, QCEW_238212 10-01; SFCOMPUTE retired, KALSHI_CORE added 2026-09-26, KALSHI_FED + NYFED 09-28
+    assert len(status["sources"]) == 44  # +QCEW_238222 10-16; +AZURE_GPU_RESERVED, NEBIUS 10-08; +AWS_GPU, AZURE_GPU, OCI_GPU, COREWEAVE 10-07; +ERCOT, SPP, NYISO 10-04; +ATLFED, QCEW_238212 10-01; SFCOMPUTE retired, KALSHI_CORE added 2026-09-26, KALSHI_FED + NYFED 09-28
     assert all(s["ok"] for s in status["sources"])
     kalshi_dc_row = [s for s in status["sources"] if s["name"] == "KALSHI_DC"][0]
     assert kalshi_dc_row["ok"] is True
@@ -409,6 +411,14 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert by_key["nova"]["available"] is True and by_key["nova"]["as_of"] == "2026-01-01"
     # Storey (unregistered) + Washoe: partial, never zero-filled
     assert by_key["reno"]["counties_suppressed"] == ["32029"] and by_key["reno"]["partial"]
+    # NAICS 238222 mirrors it on its own key: status row, mech block, baseline
+    mech_row = [s for s in status["sources"] if s["name"] == "QCEW_238222"][0]
+    assert mech_row["ok"] is True and mech_row["error"] is None
+    assert mkts["mech_national"]["wage"] == 1853.0  # US000 own_code 5, not own 3
+    assert {m["key"]: m["mech"] for m in mkts["markets"]}["nova"]["available"] is True
+    # the display-only DC trades rows reach labor.json off the BLS + FRED fakes
+    trades = json.loads((out / "labor.json").read_text())["dc_trades"]["rows"]
+    assert len(trades) == 10 and all(r["value"] is not None for r in trades)
     # the broker pipeline column rides the same phase off curated config
     assert mkts["market_pipeline_source"]["publisher"] == "Cushman & Wakefield"
     pipe = {m["key"]: m["market_pipeline"] for m in mkts["markets"]}

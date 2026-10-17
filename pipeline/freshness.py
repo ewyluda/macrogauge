@@ -11,9 +11,10 @@ never counted as "stale".
 
 Every policy is verified, not trusted: it fails when it has passed its
 `review_by` date, when a `suppressed`/`discontinued` series prints again
-(the policy is now wrong — remove it), or when an `intermittent` series stays
-absent longer than its `max_absence_days`. Counts are always derived from the
-registry, never hardcoded.
+(the policy is now wrong — remove it), when an `undisclosed` series prints at
+all, or when an `intermittent` series stays absent longer than its
+`max_absence_days`. Counts are always derived from the registry, never
+hardcoded.
 """
 from datetime import date
 
@@ -29,7 +30,8 @@ ABSENCE_EXCEEDED = "absence_exceeded"  # intermittent gap longer than max_absenc
 
 # Statuses that mean "the registry policy needs attention" — these fail the
 # expected_absence QA check. NEVER is listed too: a policy on a series that
-# has no history at all is a wiring error, not an expected gap.
+# has no history at all is a wiring error, not an expected gap — unless the
+# policy is `undisclosed`, whose whole claim is that no history exists yet.
 POLICY_FAILURES = frozenset({POLICY_EXPIRED, POLICY_RESUMED, ABSENCE_EXCEEDED, NEVER})
 # Kinds whose absence is open-ended: any new print means the policy is wrong.
 _RESUME_KINDS = frozenset({"suppressed", "discontinued"})
@@ -45,13 +47,16 @@ def classify(latest_obs: str | None, limit_days: int, absence: Absence | None,
              today: str) -> str:
     """Return one of the status constants above for a single series."""
     age = age_days(latest_obs, today)
-    if age is None:
+    undisclosed = absence is not None and absence.kind == "undisclosed"
+    if age is None and not undisclosed:
         return NEVER
-    within_limit = age <= limit_days
     if absence is None:
-        return FRESH if within_limit else STALE
+        return FRESH if age <= limit_days else STALE
     if absence.review_by is not None and today > absence.review_by:
         return POLICY_EXPIRED
+    if undisclosed:  # any print at all, however old, makes the policy wrong
+        return EXPECTED_ABSENT if age is None else POLICY_RESUMED
+    within_limit = age <= limit_days
     if (within_limit and absence.kind in _RESUME_KINDS
             and (absence.since is None or latest_obs > absence.since)):
         return POLICY_RESUMED
@@ -66,7 +71,8 @@ def summarize(rows, today: str) -> dict[str, int]:
 
     rows: (latest_obs, limit_days, absence) per registry series. `fresh` is
     strict: within the staleness window, policy or not. `expected_absent` is
-    past the window and covered by a policy that still holds. `stale` is past
+    past the window (or, for `undisclosed`, never printed) and covered by a
+    policy that still holds. `stale` is past
     the window, or never seen, with no policy. A failing policy past its window
     is in none of the three; qa's expected_absence check reports it. Until
     2026-10-15 qa counted only no-policy series (849/849) while methodology

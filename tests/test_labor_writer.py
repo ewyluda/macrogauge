@@ -160,3 +160,62 @@ def test_written_file_validates(tmp_path):
     text = path.read_text()
     assert text.startswith('{\n  "published_at"')
     assert text.endswith("\n")
+
+
+def test_dc_trades_pay_premium_compares_like_months(tmp_path):
+    conn = _store_with(tmp_path, {
+        # trade detail prints a month behind the construction supersector:
+        # the premium compares both at the trade series' own month (Aug)
+        "CES2023821003": {"2025-08-01": 41.04, "2026-08-01": 43.61},
+        "CES2023822003": {"2025-08-01": 40.62, "2026-08-01": 42.44},
+        "ces_constr_ahe": {"2025-08-01": 39.98, "2025-09-01": 40.01,
+                           "2026-08-01": 41.64, "2026-09-01": 41.69}})
+    rows = {r["key"]: r for r in labor.build(conn)["dc_trades"]["rows"]}
+    e = rows["electrical_ahe"]
+    assert (e["value"], e["as_of"], e["unit"]) == (43.61, "2026-08-01", "usd_per_hour")
+    assert e["yoy_pct"] == 6.26                  # 43.61/41.04
+    assert e["vs_yoy_pct"] == 4.15               # 41.64/39.98, August not September
+    assert e["spread_pp"] == 2.11
+    assert (e["series_id"], e["source"]) == ("CES2023821003", "BLS CES")
+    p = rows["plumbing_hvac_ahe"]
+    assert (p["yoy_pct"], p["spread_pp"]) == (4.48, 0.33)   # 42.44/40.62; 4.48 - 4.15
+    assert (e["group"], p["group"]) == ("earnings", "earnings")
+
+
+def test_dc_trades_jobs_eci_and_postings(tmp_path):
+    conn = _store_with(tmp_path, {
+        "CES2023800201": {"2025-09-01": 2855.0, "2026-09-01": 2939.6},
+        "CES2023800101": {"2025-09-01": 2369.2, "2026-09-01": 2340.3},
+        "ADPMINDCONNERSA": {"2025-09-01": 8016000.0, "2026-09-01": 8113000.0},
+        "CIU2022300000000I": {"2025-04-01": 168.65, "2026-04-01": 174.584},
+        # daily: the year-ago base is the nearest obs within 3 days
+        "IHLIDXUSTPCONS": {"2025-10-08": 121.4, "2026-10-08": 129.5, "2026-10-09": 129.16},
+        "IHLIDXUSTPINMA": {"2026-10-09": 117.71}})
+    rows = {r["key"]: r for r in labor.build(conn)["dc_trades"]["rows"]}
+    nonres = rows["nonres_specialty_jobs"]
+    assert (nonres["value"], nonres["yoy_pct"]) == (2939.6, 2.96)
+    assert (nonres["vs_yoy_pct"], nonres["spread_pp"]) == (-1.22, 4.18)
+    assert rows["res_specialty_jobs"]["vs_yoy_pct"] is None
+    adp = rows["adp_construction_jobs"]
+    assert (adp["value"], adp["unit"], adp["yoy_pct"]) == (8113.0, "thousands", 1.21)
+    eci = rows["eci_construction"]
+    assert (eci["value"], eci["yoy_pct"], eci["as_of"]) == (174.6, 3.52, "2026-04-01")
+    assert [rows[k]["cadence"] for k in ("nonres_specialty_jobs", "eci_construction",
+                                         "postings_construction")] == ["monthly", "quarterly", "daily"]
+    assert [rows[k]["group"] for k in ("nonres_specialty_jobs", "adp_construction_jobs", "eci_construction",
+                                       "eci_install_maint_repair", "postings_construction")] == [
+        "jobs", "jobs", "eci", "eci", "postings"]
+    p = rows["postings_construction"]
+    assert (p["value"], p["as_of"], p["yoy_pct"]) == (129.2, "2026-10-09", 6.39)  # 129.16/121.4 (10-08)
+    assert "CC BY 4.0" in p["source"]
+    # no year-ago base: the level still publishes, the change is null
+    assert (rows["postings_install_maint"]["value"], rows["postings_install_maint"]["yoy_pct"]) == (117.7, None)
+
+
+def test_dc_trades_empty_store_publishes_every_row_null(tmp_path):
+    conn = _store_with(tmp_path, {"PAYEMS": {"2026-06-01": 1.0}})
+    rows = labor.build(conn)["dc_trades"]["rows"]
+    assert [r["key"] for r in rows] == [k for k, *_ in labor.DC_TRADES]
+    for r in rows:
+        assert {r[f] for f in ("value", "yoy_pct", "as_of", "vs_yoy_pct", "spread_pp")} == {None}
+        assert r["label"] and r["source"] and r["series_id"]

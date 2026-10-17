@@ -132,6 +132,11 @@ def _qcew_238212(subset, key, http):
                       naics=qcew.NAICS_ELEC, source="QCEW_238212")
 
 
+def _qcew_238222(subset, key, http):
+    return qcew.fetch([s.source_id for s in subset], http_get=http,
+                      naics=qcew.NAICS_MECH, source="QCEW_238222")
+
+
 def _dramex(subset, key, http):
     return dramex.fetch([s.source_id for s in subset], http_get=http)
 
@@ -228,6 +233,9 @@ FETCHERS = {"FRED": _fred, "BLS": _bls, "EIA": _eia, "FMP": _fmp,
             # guards) must never fail the NAICS 23 rows /states, /markets
             # and the DC index read (or vice versa).
             "QCEW_238212": _qcew_238212,
+            # QCEW_238222: the nonresidential plumbing/HVAC (mechanical) slice,
+            # isolated from 238212 and NAICS 23 the same way.
+            "QCEW_238222": _qcew_238222,
             "DRAMEX": _dramex, "VASTAI": _vastai, "SFCOMPUTE": _sfcompute,
             "OPENROUTER": _openrouter,
             # Cloud GPU list prices (/compute): one key per provider for

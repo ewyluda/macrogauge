@@ -17,10 +17,15 @@ Alongside the NAICS 23 construction labor, every market row carries an
 contractors), aggregated by the very same engine (dcmarkets.market_rows:
 average-monthly-employment-weighted wage, like-for-like YoY, suppressed
 counties skipped and listed) against the 238212 national baseline
-(`elec_national`). A county with no 238212 series at all (Storey NV is
-unregistered -- suppressed every quarter since 2023 Q4) is reported as
-suppressed exactly like a disclosure-suppressed one; `partial` flags any
-market whose basis is missing at least one of its counties.
+(`elec_national`). A county with no 238212 observation at all (Storey NV,
+withheld every quarter since 2023 Q4 and registered under an `undisclosed`
+policy so its first print is collected) is reported as suppressed exactly
+like a disclosure-suppressed one; `partial` flags any market whose basis is
+missing at least one of its counties. A `mech` block (NAICS 238222,
+NONRESIDENTIAL plumbing and HVAC contractors) rides the same engine and shape
+against `mech_national`; it is data only for now, with no /markets column
+(Storey NV, Richland Parish LA and Grant WA are withheld in every quarter
+2024 Q1-2026 Q1, registered `undisclosed`, and read suppressed).
 
 Every row also carries `market_pipeline`: one broker's market-level MW under
 construction (config/dc_market_pipeline.json, loaded and validated by
@@ -164,6 +169,11 @@ def build(conn, markets, cap_cfg: dict, meta: dict, pipeline=None,
     for row in payload["markets"]:
         row["elec"] = _elec_block(elec_by_key[row["key"]])
     payload["elec_national"] = elec["national"]
+    mech = _labor(conn, markets, "238222")
+    mech_by_key = {r["key"]: r for r in mech["markets"]}
+    for row in payload["markets"]:
+        row["mech"] = _elec_block(mech_by_key[row["key"]])
+    payload["mech_national"] = mech["national"]
 
     # Census county names ride along so receipts read "Loudoun County",
     # not a bare FIPS code; the curated roster is their single source.

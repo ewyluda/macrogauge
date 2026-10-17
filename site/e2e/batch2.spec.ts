@@ -139,6 +139,29 @@ test("/matrix leads with the escalation inputs and /labor with the construction 
   if (mixDrawn && labor.construction_mix?.payroll_as_of) await expect(page.getByTestId("noncraft-kpis")).toContainText("Non-craft share of payroll");
 });
 
+test("/labor lists the data-center trades, each row with its source and as-of", async ({ page, request }) => {
+  const labor = await (await request.get("/data/labor.json")).json() as {
+    dc_trades?: { rows: { series_id: string; as_of: string | null }[] };
+  };
+  await page.goto("/labor");
+  // optional: labor.json files published before 2026-10-16 carry no block
+  const table = page.getByTestId("dc-trades");
+  await expect(table).toHaveCount(labor.dc_trades ? 1 : 0);
+  // the populated rendering is unit-tested in src/lib/dcTrades.test.ts until a publish carries the block
+  if (!labor.dc_trades) return;
+  const rows = table.getByTestId("dc-trade-row");
+  await expect(rows).toHaveCount(labor.dc_trades.rows.length);
+  // unlike measures sit under their own group headings
+  await expect(table.locator("tr.data-group th")).toContainText(["Contractor earnings", "Construction jobs",
+    "Fixed-mix wage indexes", "Hiring signals"]);
+  for (const [i, r] of labor.dc_trades.rows.entries()) {
+    await expect(rows.nth(i)).toContainText(r.series_id);
+    if (r.as_of) await expect(rows.nth(i).locator("td").last()).not.toHaveText("—");
+  }
+  // Indeed's CC BY 4.0 licence asks for the attribution beside the data
+  await expect(page.locator("#dc-trades")).toContainText("Indeed Hiring Lab");
+});
+
 test("/calculator compares cost indexes since a bid month, rebased to 100", async ({ page }) => {
   await page.goto("/calculator");
   const rows = page.getByTestId("since-table").locator("tbody tr");
