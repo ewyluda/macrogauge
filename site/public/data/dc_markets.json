@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-17T01:32:07Z",
+  "published_at": "2026-10-17T18:17:32Z",
   "as_of": "2026-01-01",
   "base_date": "2025-01-01",
   "national": {
@@ -159,10 +159,10 @@
           "51153"
         ]
       },
-      "sites": 1,
-      "mw_disclosed": 0,
+      "sites": 2,
+      "mw_disclosed": 288,
       "sites_mw_undisclosed": 1,
-      "mw_construction": 0,
+      "mw_construction": 288,
       "mw_planned": 0,
       "mw_secured": 0,
       "mw_operating": 0,
@@ -1531,12 +1531,12 @@
         ]
       },
       "sites": 2,
-      "mw_disclosed": 1200,
+      "mw_disclosed": 824,
       "sites_mw_undisclosed": 0,
-      "mw_construction": 900,
+      "mw_construction": 206,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 300,
+      "mw_operating": 618,
       "market_pipeline": {
         "region": "West Texas",
         "label": "West Texas",
@@ -2106,13 +2106,13 @@
           "47157"
         ]
       },
-      "sites": 2,
-      "mw_disclosed": 1400,
+      "sites": 3,
+      "mw_disclosed": 1415,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
-      "mw_operating": 1400,
+      "mw_operating": 1415,
       "market_pipeline": {
         "region": null,
         "label": null,
@@ -2565,9 +2565,9 @@
           "56021"
         ]
       },
-      "sites": 2,
+      "sites": 3,
       "mw_disclosed": 0,
-      "sites_mw_undisclosed": 2,
+      "sites_mw_undisclosed": 3,
       "mw_construction": 0,
       "mw_planned": 0,
       "mw_secured": 0,
@@ -2869,8 +2869,8 @@
       "sites": 2,
       "mw_disclosed": 18,
       "sites_mw_undisclosed": 1,
-      "mw_construction": 0,
-      "mw_planned": 18,
+      "mw_construction": 18,
+      "mw_planned": 0,
       "mw_secured": 0,
       "mw_operating": 0,
       "market_pipeline": {
@@ -3129,11 +3129,11 @@
         "counties": 0,
         "fips": []
       },
-      "sites": 0,
-      "mw_disclosed": 0,
+      "sites": 1,
+      "mw_disclosed": 245,
       "sites_mw_undisclosed": 0,
       "mw_construction": 0,
-      "mw_planned": 0,
+      "mw_planned": 245,
       "mw_secured": 0,
       "mw_operating": 0,
       "market_pipeline": {

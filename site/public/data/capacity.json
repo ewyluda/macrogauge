@@ -1,6 +1,6 @@
 {
-  "published_at": "2026-10-17T01:32:07Z",
-  "as_of_curated": "2026-10-02",
+  "published_at": "2026-10-17T18:17:32Z",
+  "as_of_curated": "2026-10-17",
   "priced_date": "2026-10-16",
   "note": "AI critical-IT MW + unit economics across the AI build-out cohort: neoclouds, powered-shell landlords, operators, and hyperscalers (incl. private builders xAI and OpenAI/Stargate). Spec: docs/superpowers/specs/2026-07-21-capacity-tracker-design.md. op/con/plan = verify-adjusted critical-IT AI MW; hyperscaler MW are estimates (no filing-grade critical-IT split is disclosed). cap/nd/bk in $B. Derived analytics (EV, weighted MW, EV/MW, coverage, %energized) are computed at render time, not stored. dupe!=null => excluded from de-duped cohort totals.",
   "basis": {
@@ -17,10 +17,10 @@
       "dupe": "tenant",
       "private": false,
       "confidence": "filed",
-      "flag": "\u26a0 tenant \u2014 leases shells from CORZ/GLXY/APLD; 1.5 GW active / 4.2 GW contracted (Aug 2026) filed \u2014 con/plan split of the 2.7 GW gap is curated; YE 2026 active guide >1.85 GW",
+      "flag": "\u26a0 tenant \u2014 leases shells from CORZ/GLXY/APLD; 1.5 GW active / 4.2 GW contracted (Aug 2026) filed \u2014 con/plan split of the 2.7 GW gap is curated; YE 2026 active guide >1.85 GW; Oct 2026 credit stress \u2014 unsecured 2032s <80c, 5-yr CDS ~1,000 bp (Reuters 10/14\u201315)",
       "ev_note": null,
       "dom": "coreweave.com",
-      "pipe": ">8,000 (2030); +>1.5 GW powered-land/options/LOIs excl. from contracted",
+      "pipe": ">8,000 (2030); 4.2 GW contracted (8/11/26) incl. >1 GW outside US; +>1.5 GW powered-land/options/LOIs excl. from contracted; India 240 MW (+240 option) announced 10/07 (not stated whether inside the 4.2 GW)",
       "op": 1500,
       "con": 1200,
       "plan": 1500,
@@ -40,22 +40,22 @@
       },
       "sites": [
         [
-          "Helios (Galaxy) \u2014 anchor",
-          800,
-          "c",
-          "phased from 2026"
+          "Helios (Galaxy) \u2014 Ph I",
+          133,
+          "o",
+          "133 MW critical IT delivered Q2'26 (all Ph I halls; Galaxy Q2 call)"
         ],
         [
-          "Core Scientific \u2014 6 campuses",
-          590,
-          "c",
-          "2025\u201327"
+          "Core Scientific \u2014 4 campuses (billing)",
+          437,
+          "o",
+          "437 MW billing from mid-Jul 2026 (590 MW contracted in total)"
         ],
         [
-          "Applied Digital \u2014 Ellendale",
-          400,
-          "c",
-          "100 MW live; full by 2026\u201327"
+          "Applied Digital \u2014 Ellendale PF1 Bldg 1\u20132",
+          250,
+          "o",
+          "250 MW live (Bldg 1 Oct 2025; Bldg 2 75 MW 7/01/26 + 75 MW 10/01/26)"
         ],
         [
           "~50 leased facilities (Flexential, Bulk\u2026)",
@@ -64,10 +64,10 @@
           "operating"
         ],
         [
-          "First self-build site",
+          "First self-builds (2\u20133 sites; unnamed)",
           null,
-          "p",
-          "late 2026"
+          "c",
+          "'well underway'; first site online late 2026 (Q2 call); 'first two to three' spinning up (GS conf 9/08/26)"
         ],
         [
           "Indonesia \u2014 first APAC site",
@@ -80,6 +80,48 @@
           35,
           "p",
           "15-yr lease, 35 MW executed + 50 MW power-contingent expansion (85 MW by Q1 2029; ~$2.8B rev); ROFR up to 300 MW"
+        ],
+        [
+          "Taloja, Navi Mumbai (AdaniConneX) \u2014 3\u00d780 MW",
+          240,
+          "s",
+          "sole tenant; first phase mid-2028 (Vera Rubin), rest phased; option +240 MW (to 480)"
+        ],
+        [
+          "Helios (Galaxy) \u2014 Ph II",
+          260,
+          "c",
+          "8 data halls from Q2'27, 7 by YE27, last early 2028 (Galaxy Q2 call); dated to the last hall"
+        ],
+        [
+          "Helios (Galaxy) \u2014 Ph III",
+          133,
+          "c",
+          "final CoreWeave option; online throughout 2028 (Galaxy Q2 call)"
+        ],
+        [
+          "Core Scientific \u2014 Dalton GA Ph II",
+          150,
+          "c",
+          "last 150 MW of the CoreWeave program; delivering from end-2026, complete early 2027"
+        ],
+        [
+          "Applied Digital \u2014 Ellendale PF1 Bldg 3",
+          150,
+          "c",
+          "under construction; RFS calendar 2027 (APLD 10-K, as curated in APLD row)"
+        ],
+        [
+          "Lancaster, PA \u2014 100 MW (exp. to 300 MW)",
+          100,
+          "p",
+          "announced 7/15/25: initial 100 MW, potential 300 MW; up to $6B to equip; build status/timing n/d"
+        ],
+        [
+          "Conapto Stockholm, Sweden (2 campuses)",
+          null,
+          "o",
+          "co-location; initial capacity online at Stockholm 4 South (Jun 2026); 2nd campus + MW n/d"
         ]
       ],
       "src": [
@@ -102,34 +144,48 @@
         [
           "Blockfusion SEC filing \u2014 CoreWeave 15-yr Niagara Falls lease",
           "https://www.sec.gov/Archives/edgar/data/2097508/000118518526004075/bldc425091626.htm"
+        ],
+        [
+          "CoreWeave PR 10/07/26 \u2014 India: 240 MW at AdaniConneX Taloja (3\u00d780 MW), first phase mid-2028",
+          "https://www.businesswire.com/news/home/20261007667008/en/"
         ]
       ],
-      "cap": 33.77,
+      "cap": 33.86,
       "px": 61.39,
       "priced_date": "2026-10-16",
       "stale": false,
       "tl": [
         [
-          "2026Q4",
-          "Helios (Galaxy) \u2014 anchor",
-          800
-        ],
-        [
-          "2026Q4",
-          "Applied Digital \u2014 Ellendale",
-          400
-        ],
-        [
           "2028Q1",
           "Indonesia \u2014 first APAC site",
           360
+        ],
+        [
+          "2028Q1",
+          "Helios (Galaxy) \u2014 Ph II",
+          260
+        ],
+        [
+          "2028Q4",
+          "Helios (Galaxy) \u2014 Ph III",
+          133
+        ],
+        [
+          "2027Q1",
+          "Core Scientific \u2014 Dalton GA Ph II",
+          150
+        ],
+        [
+          "2027Q4",
+          "Applied Digital \u2014 Ellendale PF1 Bldg 3",
+          150
         ]
       ],
-      "ev": 63.57,
+      "ev": 63.66,
       "wmw": 2475.0,
       "ev_per_mw": 25.7,
       "pct_energized": 35.7,
-      "coverage": 1.64
+      "coverage": 1.63
     },
     {
       "t": "ORCL",
@@ -138,13 +194,13 @@
       "dupe": null,
       "private": false,
       "confidence": "filed",
-      "flag": "hyperscaler benchmark \u2014 scale calibration only; op/con/plan MW split is a curated estimate (op +850 MW = FY27 Q1 8-K 'delivery of 850MW additional datacenter capacity'; Shackelford 1.4 GW moved planned->construction 2026-10-02, total unchanged); bk 664 = cloud-wide RPO (mostly OCI/AI), NOT a capacity-specific leasing backlog. Watch: 9/24/26 force-majeure notice on Project Jupiter (press)",
+      "flag": "hyperscaler benchmark \u2014 scale calibration only; op/con/plan MW split is a curated estimate (op +850 MW = FY27 Q1 8-K 'delivery of 850MW additional datacenter capacity'; Shackelford 1.4 GW moved planned->construction 2026-10-02; Do\u00f1a Ana/Saline/Port Washington moved planned->construction per Oracle's 6/10 + 9/10/26 calls, customer delivery H1/H2 CY2027; con 5,000 = Abilene bldgs 7\u20138 ~206 + Shackelford 1,400 + Saline 1,400 + Do\u00f1a Ana and Port Washington at Oracle's 'around a gigawatt a piece' (was 2.2 / 1.3 GW facility power); plan 0 = no further named campus, the ~10 GW pipe beyond them is unsited); bk 664 = cloud-wide RPO (mostly OCI/AI), NOT a capacity-specific leasing backlog. Watch: Project Jupiter (9/24/26 force-majeure notice to the Blue Owl developer; air permit pending; gas line awaiting FERC; 10/13 El Paso Electric construction/commissioning-power proposal) and Port Washington (Aterio 9/30: mid-2028 load risk vs Oracle's H2 2027) (press); Investor Day 10/28/26; Q2 FY27 results 12/14/26",
       "ev_note": null,
       "dom": "oracle.com",
       "pipe": "~10,000",
       "op": 1750,
-      "con": 2150,
-      "plan": 1600,
+      "con": 5000,
+      "plan": 0,
       "nd": 89.0,
       "ndflag": "FY27 Q1 (8/31/26): notes payable & other borrowings $7.6B current + $117.7B non-current = $125.3B \u2212 cash $36.4B \u2248 $89.0B net (same basis as FY26 Q4's $98.2B); not lease-inclusive",
       "bk": 664,
@@ -152,37 +208,49 @@
       "econ": {
         "backlog": "$664B RPO (FY27 Q1, 8/31/26; +$209B YoY; >$30B of new AI cloud contracts booked in Q1) \u2014 cloud-wide RPO (mostly OCI/AI), NOT a capacity-specific leasing backlog; bk carries it for scale calibration only",
         "revmw": "~$19M (OCI IaaS, crude; OCI Q4 rev $5.8B +93% YoY)",
-        "capexmw": "FY27 Q1 capex $28.5B; $20B of stock sold via ATM in Q1 (FY27 Q1 8-K); FY26 capex $55.7B; reported capex $20\u201325B higher on customer prepayments",
+        "capexmw": "FY27 Q1 capex $28.5B; $20B of stock sold via ATM in Q1 (FY27 Q1 8-K); FY26 capex $55.7B; reported capex $20\u201325B higher on customer prepayments; FY27 capex guide $90\u201395B, \u2264$70B net cash (Q1 call)",
         "anchor": "OpenAI/Stargate (~47% RPO est.)",
         "contract": "long take-or-pay; many prepaid or customer-supplied-GPU AI contracts",
         "margin": "OCI 30\u201340% target; dilutive now (negative FCF)",
-        "power": "Abilene + fuel-cell/natural-gas clean-energy DCs",
+        "power": "Abilene (Crusoe) + Do\u00f1a Ana on-site Bloom fuel cells (2.4 GW contract reaffirmed 9/25/26; gas line awaiting FERC, trucked gas considered) + Port Washington grid (We Energies/ATC) with a Point Beach nuclear subscription (10/2/26)",
         "pricing": "BYO-hardware + Oracle-capital GPU mix"
       },
       "sites": [
         [
-          "Abilene TX (Stargate I)",
-          1200,
-          "c",
-          "Epoch (10/02/26): ~420 MW IT op (bldgs 1\u20134), bldgs 5\u20138 in fit-out; ~843 MW IT at full build Q4 2026"
+          "Abilene TX (Stargate I, Crusoe) \u2014 bldgs 1\u20136",
+          618,
+          "o",
+          "6 of 8 bldgs, 618 MW (75% of campus) delivered to customer (Oracle FY27 Q1 call 9/10/26)"
         ],
         [
           "Shackelford County TX (Vantage)",
           1400,
           "c",
-          "1.4 GW campus (Vantage); bldgs 1\u20135 shells complete per Epoch 9/04/26; Q4 2028"
+          "1.4 GW campus (Vantage Frontier); first customer delivery H1 CY2027 (Oracle 6/10/26; phase MW n/d), not yet delivered at 9/10/26; dated to full build ~Q4 2028 (prior est.)"
         ],
         [
-          "Do\u00f1a Ana NM (STACK) / Saline MI (Related) / Port Washington WI (Vantage)",
-          4900,
-          "p",
-          "2026\u201328; Project Jupiter (Do\u00f1a Ana, >2.4 GW per CNBC): Oracle sent force-majeure notice to the Blue Owl developer 9/24/26 \u2014 Oracle says schedule unchanged (press)"
+          "Abilene TX (Stargate I, Crusoe) \u2014 bldgs 7\u20138",
+          206,
+          "c",
+          "last 2 of 8 bldgs (~25% of campus; 206 MW derived from Oracle's 618 MW = 75%); Oracle 6/10/26: remainder delivers the quarter after Sep'26"
         ],
         [
-          "OpenAI add'l Stargate (Oracle ~$300B/5yr)",
-          4500,
-          "p",
-          "~$300B / 5 yr"
+          "Do\u00f1a Ana County NM (Project Jupiter, STACK)",
+          1000,
+          "c",
+          "~1 GW per Oracle ('around a gigawatt a piece', 9/10/26 call); Oracle 6/10/26: customer delivery begins H1 CY2027; 9/10/26 'definitely on track', air permit pending (Bloom fuel cells, 2.4 GW); 9/24/26 force-majeure notice to Blue Owl developer (rent deferral if not online 2028); gas line awaiting FERC (press); undated: first-phase MW n/d and no full-build date"
+        ],
+        [
+          "Saline Township MI (Related Digital)",
+          1400,
+          "c",
+          "Oracle 6/10/26: customer delivery begins H2 2027; network core ahead of schedule; not delivered at 9/10/26; undated: first-phase MW n/d and no full-build date"
+        ],
+        [
+          "Port Washington WI (Vantage)",
+          1000,
+          "c",
+          "Project Lighthouse; ~1 GW per Oracle ('around a gigawatt a piece', 9/10/26 call); Oracle 6/10/26: delivery begins H2 CY2027; 9/10/26 'very on track' (grid power via We Energies/ATC; Point Beach nuclear subscription 10/2/26); Aterio 9/30/26 flags mid-2028 load risk; undated: first-phase MW n/d and no full-build date"
         ]
       ],
       "src": [
@@ -209,6 +277,18 @@
         [
           "CNBC \u2014 Oracle force-majeure notice on Project Jupiter (9/24/26, press)",
           "https://www.cnbc.com/2026/09/24/oracle-data-center-force-majeure.html"
+        ],
+        [
+          "Reuters \u2014 Oracle force-majeure notice on Project Jupiter (9/24/26)",
+          "https://www.reuters.com/business/oracle-cites-force-majeure-shield-itself-controversial-data-center-bloomberg-2026-09-24/"
+        ],
+        [
+          "Aterio (Business Wire) \u2014 Port Washington delay risk (9/30/26)",
+          "https://www.businesswire.com/news/home/20260930874475/en/Aterio-Flags-Delay-Risk-for-Oracle%E2%80%99s-1.3-GW-Wisconsin-Data-Center/"
+        ],
+        [
+          "Oracle \u2014 Point Beach nuclear subscription for Wisconsin (10/2/26)",
+          "https://www.prnewswire.com/news-releases/oracle-announces-commitment-to-absorb-300-million-in-rising-point-beach-energy-costs-for-wisconsin-residents-302896645.html"
         ]
       ],
       "cap": 387.7,
@@ -217,20 +297,20 @@
       "stale": false,
       "tl": [
         [
-          "2026Q4",
-          "Abilene TX (Stargate I)",
-          1200
-        ],
-        [
           "2028Q4",
           "Shackelford County TX (Vantage)",
           1400
+        ],
+        [
+          "2026Q4",
+          "Abilene TX (Stargate I, Crusoe) \u2014 bldgs 7\u20138",
+          206
         ]
       ],
       "ev": 476.7,
-      "wmw": 3225.0,
+      "wmw": 4250.0,
       "ev_per_mw": null,
-      "pct_energized": 31.8,
+      "pct_energized": 25.9,
       "coverage": 1.39
     },
     {
@@ -240,10 +320,10 @@
       "dupe": null,
       "private": false,
       "confidence": "filed",
-      "flag": "operational MW estimated (no disclosed figure); contracted-power ladder filed: >4 GW May 2026 \u2192 5 GW YE 2026 guide \u2014 con/plan split is curated",
+      "flag": "operational MW estimated (no disclosed figure; 2026 connected-power guide 800 MW\u20131 GW, active through 1H27); contracted-power ladder: >4 GW May 2026 \u2192 5 GW YE guide (Aug) \u2192 5 GW signed (CEO, 9/09/26) \u2014 con/plan split is curated",
       "ev_note": null,
       "dom": "nebius.com",
-      "pipe": "5 GW contracted YE 2026 (guide raised Aug 2026); >1 GW/yr deploys from 2027",
+      "pipe": "5 GW contracted \u2014 reached by Sep 2026 (CEO 9/09: 'We signed it, 5 GW'); 2026 connected-power guide 800 MW\u20131 GW (active through 1H27); >1 GW/yr deploys from 2027",
       "op": 185,
       "con": 1000,
       "plan": 3800,
@@ -278,13 +358,13 @@
           "Vineland NJ (Microsoft)",
           300,
           "c",
-          "majority H2 2026"
+          "shell done summer 2026; fit-out + Bloom on-site power; MSFT tranches delivered to date; in 2026 connected power; Ph2 (+600k sq ft) approved 8/17/26"
         ],
         [
           "Lappeenranta, Finland (AI factory)",
           310,
-          "s",
-          "310 MW; first capacity 2027 (announced 3/31/26)"
+          "c",
+          "construction announced 3/31/26; first capacity to customers 2027 (first-phase MW n/d, so undated)"
         ],
         [
           "Independence MO (owned)",
@@ -311,16 +391,22 @@
           "El Mundo 7/04/26; cos. haven't confirmed"
         ],
         [
-          "UK (Vantage CWL1, Newport, Wales) \u00b7 Estonia \u00b7 addl Finland (Q2 2026 adds)",
+          "UK (Kao Data Harlow \u00b7 Vantage CWL1 Newport, Wales) \u00b7 Estonia \u00b7 addl Finland",
           null,
           "s",
-          "contracted Q2 2026; per-site MW n/d"
+          "UK ~\u00a31.7B build-out (6/08/26); Kao Harlow 10-yr agreement 6/08/26; CWL1 deal 8/13/26; per-site MW n/d"
         ],
         [
-          "B\u00e9thune, France \u2014 REPORTED",
+          "B\u00e9thune, France (ex-Bridgestone plant)",
           240,
+          "c",
+          "brownfield site confirmed by CEO 9/09/26 (ex-Bridgestone tyre plant, 'now \u2026 a clean, quiet data center'); 240 MW + phasing press-only (Reuters Feb 2026)"
+        ],
+        [
+          "Rotterdam, NL (VOLT gigafactory) \u2014 LOI, REPORTED",
+          null,
           "s",
-          "Feb 2026 (Reuters); Q2 letter lists France among 2026 sites; MW/timing press-only"
+          "non-binding LOI for a 'substantial share' (VOLT CEO via ANP, 10/12/26); VOLT builds, Nebius rents; construction hoped 2028"
         ]
       ],
       "src": [
@@ -343,6 +429,10 @@
         [
           "AIB 8-K ex-99.1 \u2014 Nebius 50 MW CLT1 lease (9/30/26)",
           "https://www.sec.gov/Archives/edgar/data/2070542/000121390026105865/ea030737801ex99-1.htm"
+        ],
+        [
+          "GuruFocus (via ANP) 10/12/26 \u2014 Nebius LOI at VOLT Rotterdam gigafactory",
+          "https://www.gurufocus.com/news/9119184/nebius-stock-slips-despite-rotterdam-ai-gigafactory-loi"
         ]
       ],
       "cap": 39.71,
@@ -379,22 +469,22 @@
       "dupe": null,
       "private": false,
       "confidence": "filed",
-      "flag": "1.41 GW contracted critical IT (FY26 10-K table); 250 MW live at Polaris Forge 1 after Bldg 2 Ph2 delivered 2026-10-02; PF3 + DF2 leases signed (all four IG-hyperscaler campuses now under 15-yr leases)",
+      "flag": "1.41 GW contracted across 5 campuses (FY27 Q1); 250 MW live at PF1 (Bldg 2 Ph2 RFS 2026-10-01); guides 300 MW live in ND by end-2026 and >600 MW placed in service over next 12 months; Finland site (up to ~1 GW power) secured Oct 2026",
       "ev_note": null,
       "dom": "applieddigital.com",
-      "pipe": "~1.7 GW actively marketed (FY26 Q4; supersedes prior ~5,000 framing)",
+      "pipe": "~250 MW of expansion leases expected by CY-end 2026; Finland up to ~1 GW power (from 2028); target 3.5\u20134 GW operating by end-CY2030 (FY27 Q1 call)",
       "op": 250,
       "con": 1160,
       "plan": 0,
-      "nd": 0.8,
-      "ndflag": "FY26 Q4 (5/31/26): total debt $5.0B \u2212 cash+restricted $4.2B \u2248 $0.8B \u2014 $3.74B of 2031 senior secured notes raised, cash not yet deployed into PF2/DF builds; expect nd to climb as capex lands",
+      "nd": 2.7,
+      "ndflag": "FY27 Q1 (8/31/26): debt $6.4B \u2212 cash+restricted $3.7B \u2248 $2.7B; Q1 capex $2.07B; PF3/DF1/DF2 still to be financed (Macquarie pref + project debt)",
       "bk": 36,
       "valuation_b": null,
       "econ": {
         "backlog": "~$36B base ($86B w/ options); 1.4 GW contracted",
         "revmw": "~$1.76M/MW base rent (Bldg1 FY26 Q4 ann.) (~$2.8M all-in)",
-        "capexmw": "~$11\u201313M; FY26 capex $2.87B",
-        "anchor": "CoreWeave ~$11B (via SPV subsidiary) \u00b7 IG hyperscaler ~$20B+ (PF2/PF3/DF1/DF2)",
+        "capexmw": "~$11\u201313M; Q1 FY27 capex $2.07B (FY26 $2.87B)",
+        "anchor": "CoreWeave ~$11B (PF1, via SPV subsidiary) \u00b7 tier-one IG hyperscaler ~$20B (PF3/DF1/DF2, 810 MW) \u00b7 IG hyperscaler (PF2, 200 MW)",
         "contract": "15 yr take-or-pay (\u219230 w/ renewals)",
         "margin": "NOI high-80s\u2013low-90s%",
         "power": "ND low-cost; tenant pass-through",
@@ -411,7 +501,7 @@
           "PF1 \u2014 Bldg 2 (Ph1 + Ph2)",
           150,
           "o",
-          "Ph1 ready-for-service 2026-06-30; Ph2 2026-10-02 (completes Bldg 2's 150 MW)"
+          "Ph1 RFS 2026-07-01; Ph2 RFS 2026-10-01 (completes Bldg 2's 150 MW; PF1 = 250 MW / 10 halls)"
         ],
         [
           "PF1 \u2014 Bldg 3",
@@ -420,10 +510,16 @@
           "under construction; ready for service calendar 2027 (10-K)"
         ],
         [
-          "Polaris Forge 2 (Harwood)",
-          200,
+          "Polaris Forge 2 (Harwood) \u2014 initial ~50 MW",
+          50,
           "c",
-          "initial capacity 2H 2026, full early 2027 (10-K)"
+          "initial ops by end-CY2026 (300 MW ND target vs 250 MW live at PF1, FY27 Q1 call)"
+        ],
+        [
+          "Polaris Forge 2 (Harwood) \u2014 remaining ~150 MW",
+          150,
+          "c",
+          "full early 2027 (10-K)"
         ],
         [
           "Delta Forge 1 (Boyce, LA)",
@@ -432,16 +528,22 @@
           "initial ops 1H 2027 (10-K table 1H27\u20131H28; ~$7.5B 15-yr lease)"
         ],
         [
-          "Polaris Forge 3 \u2014 LEASED",
+          "Polaris Forge 3 \u2014 Center, ND (Oliver Co.) \u2014 LEASED",
           300,
           "c",
-          "15-yr ~$7.5B signed; initial ops 2027"
+          "15-yr ~$7.5B signed (tier-one IG hyperscaler); initial ops 2027; ~1.2 GW Base Electron gas plant adjacent (PPA, deliveries 2030)"
         ],
         [
-          "Delta Forge 2 \u2014 LEASED",
+          "Delta Forge 2 \u2014 Alabama \u2014 LEASED",
           210,
           "c",
-          "15-yr ~$5.2B signed post-qtr; initial ops 1H 2028"
+          "15-yr ~$5.2B signed Jun 2026 (tier-one IG hyperscaler); initial ops 1H 2028"
+        ],
+        [
+          "Finland campus (up to ~1 GW power) \u2014 SECURED",
+          null,
+          "s",
+          "agreement + site purchase Oct 2026 (option structure); first 100 MW of power 2028, ramp to ~1 GW by 2031; marketing to hyperscalers, no lease"
         ]
       ],
       "src": [
@@ -464,6 +566,18 @@
         [
           "FY26 10-K (portfolio 1,410 MW / ~$36.2B delivery table)",
           "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000048/apld-20260531.htm"
+        ],
+        [
+          "FY27 Q1 PR 10/07/26 (1.41 GW / 5 campuses; DF2 in Alabama; PF3 in Center ND; $6.4B debt / $3.7B cash)",
+          "https://www.globenewswire.com/news-release/2026/10/07/3376854/0/en/applied-digital-reports-fiscal-first-quarter-2027-results.html"
+        ],
+        [
+          "Finland PR 10/06/26 (up to ~1 GW power, from 2028)",
+          "https://www.globenewswire.com/news-release/2026/10/06/3375266/0/en/applied-digital-secures-up-to-1-gw-of-potential-power-capacity-in-finland-marking-first-international-development-in-the-nordics.html"
+        ],
+        [
+          "FY27 Q1 8-K Ex.99.1",
+          "https://www.sec.gov/Archives/edgar/data/0001144879/000114487926000057/apldq127earningsrelease.htm"
         ]
       ],
       "cap": 5.46,
@@ -478,8 +592,13 @@
         ],
         [
           "2026Q4",
-          "Polaris Forge 2 (Harwood)",
-          200
+          "Polaris Forge 2 (Harwood) \u2014 initial ~50 MW",
+          50
+        ],
+        [
+          "2027Q1",
+          "Polaris Forge 2 (Harwood) \u2014 remaining ~150 MW",
+          150
         ],
         [
           "2027Q2",
@@ -488,20 +607,20 @@
         ],
         [
           "2027Q4",
-          "Polaris Forge 3 \u2014 LEASED",
+          "Polaris Forge 3 \u2014 Center, ND (Oliver Co.) \u2014 LEASED",
           300
         ],
         [
           "2028Q2",
-          "Delta Forge 2 \u2014 LEASED",
+          "Delta Forge 2 \u2014 Alabama \u2014 LEASED",
           210
         ]
       ],
-      "ev": 6.26,
+      "ev": 8.16,
       "wmw": 830.0,
-      "ev_per_mw": 7.5,
+      "ev_per_mw": 9.8,
       "pct_energized": 17.7,
-      "coverage": 5.75
+      "coverage": 4.41
     },
     {
       "t": "CORZ",
@@ -510,10 +629,10 @@
       "dupe": null,
       "private": false,
       "confidence": "filed",
-      "flag": "437 MW billing (mid-Jul 2026); AMD signed as 2nd anchor \u2014 ~530 MW / >$14B across five sites; ~1.1 GW leased",
+      "flag": "437 MW billing (mid-Jul 2026); last 150 MW of CoreWeave (Dalton Ph II) delivers end-2026\u2013early 2027; AMD ~530 MW / >$14B across five sites, Pecos first in 1H 2027; ~1.1 GW leased; Q3 results 2026-11-05",
       "ev_note": null,
       "dom": "corescientific.com",
-      "pipe": "path to 2.5 GW leasable (AMD program + Muskogee 1.5 GW gross campus)",
+      "pipe": "path to 2.5 GW with AMD (530 MW signed + exclusive reservation on up to ~2 GW more at Pecos/Hunt/Muskogee); >2 GW new-site pipeline, first power late 2028\u20132030",
       "op": 437,
       "con": 663,
       "plan": 1400,
@@ -525,7 +644,7 @@
         "backlog": ">$24B contracted (Q2'26; was >$10B)",
         "revmw": "~$1.45M (437 MW \u2248 $635M ann. colo rev)",
         "capexmw": "~$11M; Q2 capex $797.5M",
-        "anchor": "CoreWeave (no longer ~100%) \u00b7 AMD ~530 MW / >$14B (15-yr, five sites)",
+        "anchor": "CoreWeave 590 MW \u00b7 AMD ~380 MW direct + ~150 MW AMD-backed neocloud (>$14B, 15-yr, five sites)",
         "contract": "12 yr take-or-pay + two 5-yr; AMD 15-yr",
         "margin": "colo NOI 80\u201385%",
         "power": "behind-the-meter legacy mining sites",
@@ -551,34 +670,34 @@
           "delivered mid-2026"
         ],
         [
-          "Dalton, GA",
+          "Dalton, GA (CoreWeave Ph I\u2013II)",
           175,
           "c",
-          "phased; AMD delivery 1H 2028"
+          "CoreWeave; last ~150 MW (Ph II) begins delivering end-2026, complete early 2027; AMD-backed neocloud Ph III counted in AMD row"
         ],
         [
-          "Muskogee, OK",
+          "Muskogee, OK (CoreWeave)",
           70,
-          "c",
-          "AMD delivery 2H 2027"
+          "o",
+          "CoreWeave bldg billing by mid-Jul 2026 (4 of 5 CoreWeave campuses done); AMD 2nd building tracked in expansion/AMD rows"
         ],
         [
           "Muskogee expansion (Polaris DS) \u2014 CLOSED",
-          330,
+          null,
           "c",
-          "closed 2026-08-14 (~$444M); campus plan 1.5 GW gross / ~1.0 GW leasable; next ~82 MW 2H 2027"
+          "closed 2026-08-14 (~$444M): ~440 MW gross grid power in service (OG&E ESAs); campus plan ~1.5 GW gross / ~1.0 GW leasable; next ~82 MW to 'its customer' from 2H 2027 (customer not named; AMD's Muskogee share sits in the AMD five-site row); critical-IT MW n/d"
         ],
         [
           "Hunt County, TX",
           285,
           "s",
-          "AMD delivery 1H 2028"
+          "AMD direct 15-yr NNN lease signed; pre-construction, contractors on site; AMD delivery 1H 2028 (MW also inside the AMD five-site row)"
         ],
         [
           "AMD five-site program (Pecos TX \u00b7 Auburn AL \u00b7 Muskogee \u00b7 Dalton \u00b7 Hunt Co.)",
           530,
           "c",
-          "1H 2027 \u2013 1H 2028; full 530 MW by end-2028 (per-site split n/d)"
+          "deliveries begin 1H 2027 (Pecos first) and ramp through end-2028 (Q2'26 call); per-site/phase MW n/d, so dated to full 530 MW by end-2028"
         ]
       ],
       "src": [
@@ -593,6 +712,14 @@
         [
           "Polaris DS close \u2014 Muskogee to 1.5 GW gross",
           "https://investors.corescientific.com/news-events/press-releases/detail/142/core-scientific-completes-acquisition-of-polaris-ds-advancing-planned-muskogee-expansion-to-1-5-gw-of-gross-power"
+        ],
+        [
+          "Q2'26 call 7/28/26 (4 of 5 CoreWeave campuses done; Dalton Ph II end-2026\u2013early 2027; AMD 380 direct + 150 neocloud)",
+          "https://investors.corescientific.com/news-events/press-releases/detail/139/core-scientific-announces-second-quarter-2026-results"
+        ],
+        [
+          "Q3'26 date PR (Nov 5, 2026)",
+          "https://www.businesswire.com/news/home/20261014599891/en/"
         ]
       ],
       "cap": 4.33,
@@ -601,22 +728,12 @@
       "stale": false,
       "tl": [
         [
-          "2028Q2",
-          "Dalton, GA",
+          "2027Q1",
+          "Dalton, GA (CoreWeave Ph I\u2013II)",
           175
         ],
         [
-          "2027Q4",
-          "Muskogee, OK",
-          70
-        ],
-        [
-          "2027Q4",
-          "Muskogee expansion (Polaris DS) \u2014 CLOSED",
-          330
-        ],
-        [
-          "2027Q2",
+          "2028Q4",
           "AMD five-site program (Pecos TX \u00b7 Auburn AL \u00b7 Muskogee \u00b7 Dalton \u00b7 Hunt Co.)",
           530
         ]
@@ -634,13 +751,13 @@
       "dupe": null,
       "private": false,
       "confidence": "filed",
-      "flag": "Helios Phase I (133 MW) fully in service by Q2'26-end \u2014 ~$80M/qtr leasing rev, >90% project adj-EBITDA margin from Q3 2026; 830 MW expansion still unleased (tenant talks)",
+      "flag": "Helios Ph I (133 MW IT) live \u2014 ~$80M/qtr leasing rev from Q3'26; Ph II (260 MW) halls from Q2 2027; 830 MW Helios II still unleased, energization late 2028; 3 new TX sites (Merlin/McGregor, Caspian, Selene) lift pipeline to >5.7 GW gross; Q3 results 2026-10-27; plan 0: Helios II (830 MW gross) and the new TX sites carry no critical-IT figure, so none is counted (gross pipeline in pipe)",
       "ev_note": null,
       "dom": "galaxy.com",
-      "pipe": "~3,100",
+      "pipe": "5,700+ MW gross potential across 4 TX campuses (Helios 1.63 GW approved + Helios III/IV 2 GW + Selene 0.9 + Caspian 0.7 + Merlin 0.5); ~4.2 GW across 5 projects conditionally classified in ERCOT Batch Zero (9/08/26)",
       "op": 133,
       "con": 393,
-      "plan": 830,
+      "plan": 0,
       "nd": 3.9,
       "ndflag": "pre-notes basis; $3.5B senior secured notes due 2031 (Galaxy Helios DC II) closed 2026-07-28 to fund Phase II \u2014 nd rises materially; re-pull from Q3 10-Q",
       "bk": 13.5,
@@ -666,7 +783,7 @@
           "Helios Phase II",
           260,
           "c",
-          "foundations underway (HITT); data halls from Q2 2027"
+          "foundations underway (HITT); 8 data halls from Q2 2027, 7 by YE27, last early 2028 (Q2'26 call); dated to the last hall"
         ],
         [
           "Helios Phase III",
@@ -675,16 +792,34 @@
           "final CoreWeave option; 'expecting to commence in 2028' (Q4'25 8-K)"
         ],
         [
-          "Helios expansion (830 MW)",
-          830,
+          "Helios II expansion (830 MW gross)",
+          null,
           "s",
-          "ERCOT-approved Jan 2026"
+          "830 MW gross grid (ERCOT-approved Jan 2026, base load, pre-Batch Zero); critical-IT MW n/d; unleased, tenant talks; energization slated late 2028 (Pitchfork switching station u/c); >$180M long-lead gear ordered"
         ],
         [
-          "Helios pipeline",
-          1800,
+          "Helios III + IV interconnects (2 \u00d7 1 GW gross)",
+          null,
           "p",
-          "ERCOT interconnect study"
+          "Helios III: 1 GW request, $50M security posted, Batch Zero studied load (conditional, Sep 2026); Helios IV: 1 GW, later ERCOT batch. NOT CoreWeave 'Phase III'"
+        ],
+        [
+          "Merlin \u2014 McGregor, TX (500 acres)",
+          null,
+          "s",
+          "acquired Jul 2026 under a city development agreement; initial 74 MW (grid) phase to energize 2028 subject to utility agreements; path to 500 MW gross"
+        ],
+        [
+          "Caspian (TX) \u2014 700 MW gross",
+          null,
+          "s",
+          "acquired mid-2026; interconnection agreements executed, T&D upgrade costs posted; submitted as Batch Zero base load; ERCOT conditional classification Sep 2026"
+        ],
+        [
+          "Selene (TX) \u2014 900 MW gross",
+          null,
+          "s",
+          "acquired mid-2026; $45M ERCOT security posted; Batch Zero studied load (conditional, Sep 2026)"
         ]
       ],
       "src": [
@@ -703,6 +838,14 @@
         [
           "Q2'26 results PR ($3.5B Helios II notes closed 7/28; Ph II data halls Q2 2027)",
           "https://www.prnewswire.com/news-releases/galaxy-announces-second-quarter-2026-financial-results-302843529.html"
+        ],
+        [
+          "Galaxy PR 9/08/26 \u2014 ERCOT Batch Zero: 5 TX projects, ~4.2 GW gross conditional",
+          "https://www.prnewswire.com/news-releases/galaxy-provides-update-on-ercot-batch-zero-large-load-classifications-302872795.html"
+        ],
+        [
+          "Galaxy PR 7/28/26 \u2014 500-acre McGregor campus (initial 74 MW)",
+          "https://www.prnewswire.com/news-releases/galaxy-expands-data-center-footprint-with-acquisition-of-500-acre-campus-in-mcgregor-texas-302836014.html"
         ]
       ],
       "cap": 5.35,
@@ -711,7 +854,7 @@
       "stale": false,
       "tl": [
         [
-          "2027Q2",
+          "2028Q1",
           "Helios Phase II",
           260
         ],
@@ -722,9 +865,9 @@
         ]
       ],
       "ev": 9.25,
-      "wmw": 537.0,
-      "ev_per_mw": 17.2,
-      "pct_energized": 9.8,
+      "wmw": 329.5,
+      "ev_per_mw": 28.1,
+      "pct_energized": 25.3,
       "coverage": 1.46
     },
     {
@@ -734,15 +877,15 @@
       "dupe": null,
       "private": false,
       "confidence": "filed",
-      "flag": "Lake Mariner 102 MW live (CB-3 delivered Jul 2026); Anthropic 401 MW / ~$19B (up to ~$33B w/ two 5-yr ext.); two new ~1 GW campuses added Q2 (Muskie KY, Chesapeake MD)",
+      "flag": "Lake Mariner 102 MW live (CB-3 delivered Jul 2026; CB-4 1st hall targeted late Sep); Anthropic 401 MW / ~$19B (up to ~$33B w/ two 5-yr ext.); Muskie KY contracted power doubled to 1 GW 10/05/26 (2nd 500 MW pulled to 2029); Chesapeake MD FERC-approved, closing pending; plan 1,320 = Chesapeake (up to 1 GW of data center capacity) + Lake Hawkeye 320 MW critical IT; Muskie's 1 GW of utility service is excluded (no critical-IT figure)",
       "ev_note": null,
       "dom": "terawulf.com",
       "pipe": "~5,000 (incl. new Muskie KY + Chesapeake MD ~1 GW campuses); target 250\u2013500 MW incremental contracting/yr",
       "op": 102,
       "con": 737,
-      "plan": 2320,
+      "plan": 1320,
       "nd": 2.6,
-      "ndflag": "Q2'26 PR: total debt $5.21B \u2212 unrestricted cash $2.62B \u2248 $2.6B. Abernathy ~$530M sale signed, NOT closed \u00b7 ~$3.5B Justified/Hawesville leveraged loan still unpriced as of 10/02/26 (MS-led) \u2014 nd rises when it prices. The $500M delayed-draw bridge was repaid and terminated 4/16/26 (Q2 10-Q); $250M Morgan Stanley revolver added 5/7/26",
+      "ndflag": "Q2'26 PR: total debt $5.21B \u2212 unrestricted cash $2.62B \u2248 $2.6B. Abernathy ~$530M sale: initial $250M received Jul 2026 (Q2 call), $150M due by 12/31/26, ~$130M by 4/30/27 \u00b7 ~$3.5B Justified/Hawesville leveraged loan still unpriced as of 10/17/26 (MS-led) \u2014 nd rises when it prices \u00b7 8-K 10/05/26: intends to upsize the senior secured revolver and raise additional senior secured debt. The $500M delayed-draw bridge was repaid and terminated 4/16/26 (Q2 10-Q); $250M Morgan Stanley revolver added 5/7/26",
       "bk": 32,
       "valuation_b": null,
       "econ": {
@@ -766,7 +909,7 @@
           "Lake Mariner \u2014 CB-4",
           168,
           "c",
-          "phased delivery + rent 2H 2026"
+          "1st data hall in commissioning; rent from 1st hall targeted late Sep 2026 (Q2 call) \u2014 not yet confirmed delivered as of 10/17; rest phased 2H 2026"
         ],
         [
           "Lake Mariner \u2014 CB-5",
@@ -778,31 +921,31 @@
           "Abernathy JV \u2014 sale to Fluidstack agreed 7/06",
           84,
           "c",
-          "exits at close (installments through Apr 2027); excluded from con"
+          "~$530M sale: initial $250M received Jul 2026; $150M due by 12/31/26, ~$130M by 4/30/27; excluded from con"
         ],
         [
           "Justified Data \u2014 Hawesville KY (Anthropic)",
           401,
           "c",
-          "initial delivery 2H 2027, full early 2028; KY PSC approved 482 MW retail service"
+          "initial services 2H 2027 (phase MW n/d), full 401 MW critical IT by early 2028 (8/24/26 PR); KY PSC approved 482 MW retail service"
         ],
         [
           "Muskie Data \u2014 Grayson KY",
-          1000,
+          null,
           "p",
-          "up to 1 GW contracted electric service; initial service Q4 2028"
+          "1 GW contracted (Kentucky Power amendment 10/05/26, doubled from 500 MW; KY PSC approval pending): 1st 500 MW ramps 2028 (initial service Q4 2028), 2nd 500 MW pulled to 2029 from 2030; up to 2 GW under evaluation. Utility MW, not critical IT"
         ],
         [
           "Chesapeake Data \u2014 Morgantown MD",
           1000,
           "p",
-          "up to 1 GW; ops contemplated 2030"
+          "up to 1 GW; FERC authorized acquisition 7/29/26, closing pending remaining consents; ~210 MW existing generation on site; ops contemplated 2030"
         ],
         [
-          "Lake Hawkeye NY",
+          "Lake Hawkeye (Cayuga) \u2014 Lansing NY",
           320,
           "p",
-          "~320 MW critical IT (revised from 450); ops ~2029"
+          "~320 MW critical IT at the Cayuga site, Lansing NY; multi-year development, local (Town of Lansing) permitting pending; on-site power under evaluation; ops ~2029"
         ]
       ],
       "src": [
@@ -817,6 +960,18 @@
         [
           "Q2'26 10-Q (subsequent events: Anthropic PBC 401 MW, 20-yr; bridge repaid 4/16)",
           "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000166/wulf-20260630.htm"
+        ],
+        [
+          "Kentucky Power PR 10/05/26 \u2014 Muskie contracted demand 500 MW\u21921 GW; 2nd 500 MW to 2029",
+          "https://www.prnewswire.com/news-releases/kentucky-power-terawulf-finalize-expanded-agreement-providing-for-100-million-in-customer-benefits-302898378.html"
+        ],
+        [
+          "TeraWulf PR 10/05/26 \u2014 Muskie 1 GW",
+          "https://www.globenewswire.com/news-release/2026/10/05/3374525/0/en/terawulf-expands-contracted-power-capacity-at-its-muskie-data-campus-to-1-gw.html"
+        ],
+        [
+          "8-K 10/05/26 (Muskie amendment; intends to upsize revolver + raise senior secured debt) \u2014 URL from TradingView filing link, not opened directly",
+          "https://www.sec.gov/Archives/edgar/data/1083301/000162828026064757/wulf-20261001.htm"
         ]
       ],
       "cap": 5.83,
@@ -835,15 +990,15 @@
           168
         ],
         [
-          "2027Q4",
+          "2028Q1",
           "Justified Data \u2014 Hawesville KY (Anthropic)",
           401
         ]
       ],
       "ev": 8.43,
-      "wmw": 1050.5,
-      "ev_per_mw": 8.0,
-      "pct_energized": 3.2,
+      "wmw": 800.5,
+      "ev_per_mw": 10.5,
+      "pct_energized": 4.7,
       "coverage": 3.8
     },
     {
@@ -856,7 +1011,7 @@
       "flag": "all 949 contracted MW now in construction (Beacon Ph2 advanced post-Q2); first deliveries 2027",
       "ev_note": null,
       "dom": "hut8.com",
-      "pipe": "~8,660 (gross, 6/30/26)",
+      "pipe": "~8,660 (gross, 6/30/26; 11 sites in diligence/exclusivity averaging >650 MW); excludes M&A, behind-the-meter and River Bend expansion (tenant ROFO on next GW)",
       "op": 0,
       "con": 949,
       "plan": 0,
@@ -868,7 +1023,7 @@
         "backlog": "$26.6B base-term; >$1.75B expected avg annual NOI; Beacon Ph1+Ph2 $19.6B (up to $50.2B w/ renewals)",
         "revmw": "~$1.86\u20131.9M",
         "capexmw": "~$10B / 245 MW project",
-        "anchor": "Fluidstack/Google \u00b7 IG hyperscaler (unnamed, both Beacon phases)",
+        "anchor": "Fluidstack/Google (Anthropic end-user) \u00b7 IG hyperscaler (Nvidia per WSJ/FT, unconfirmed; both Beacon phases)",
         "contract": "15 yr NNN take-or-pay",
         "margin": "~90\u2013100% NOI",
         "power": "tenant pass-through (NNN)",
@@ -922,6 +1077,14 @@
         [
           "8-K 9/28/26 \u2014 $1.07B senior secured revolver (undrawn)",
           "https://www.sec.gov/Archives/edgar/data/1964789/000110465926111154/tm2625691d1_8k.htm"
+        ],
+        [
+          "WSJ/Reuters via Benzinga 9/01/26 \u2014 Nvidia lease at Beacon Point for Anthropic\u2013Lambda (~350 MW; unconfirmed)",
+          "https://www.tradingview.com/news/benzinga:fe37cff71094b:0-hut-8-stock-swings-from-higher-to-lower-after-report-of-35-billion-ai-deal/"
+        ],
+        [
+          "Q3'26 date PR \u2014 results 11/04/26 pre-market",
+          "https://www.prnewswire.com/news-releases/hut-8-schedules-third-quarter-2026-earnings-release-and-conference-call-302901777.html"
         ]
       ],
       "cap": 8.35,
@@ -958,15 +1121,15 @@
       "dupe": null,
       "private": false,
       "confidence": "filed",
-      "flag": "first HPC capacity LIVE \u2014 Black Pearl initial delivery 7/31/26, 2 months early, rent commenced (MW n/d, so op stays 0); Barber Lake extended to 20 yrs (>$9B) but halls slip to Q4 2026\u2013Q1 2027, Cipher bears the first $359.3M of cost overruns; renamed Cipher Digital Aug 2026",
+      "flag": "first HPC capacity LIVE \u2014 Black Pearl initial delivery 7/31/26, 2 months early, rent commenced (MW n/d, so op stays 0); Barber Lake extended to 20 yrs (>$9B) but halls slip to Q4 2026\u2013Q1 2027, Cipher bears the first $359.3M of cost overruns; Colchis 1 GW conditional base load in ERCOT Batch Zero (final after Dec audit); $850M 0% converts 10/16/26",
       "ev_note": null,
       "dom": "ciphermining.com",
-      "pipe": "~4.4 GW pipeline / 5.3 GW total portfolio (incl. Apollo up-to-900 MW option near San Antonio)",
+      "pipe": "~4.4 GW pipeline / 5.3 GW portfolio, 11 sites (Q2'26). ERCOT Batch Zero conditional (Sep 2026): 1.1 GW base load (Colchis 1 GW + Stingray 100 MW) + 2.1 GW studied (Mikeska 500, Apollo 900, Stingray Ph II 200, McLennan 500); final designations after Dec 2026 audit. Plus up to 2.5 GW bring-your-own-generation via gas laterals (9/03/26), not in pipeline",
       "op": 0,
       "con": 493,
       "plan": 270,
       "nd": 4.6,
-      "ndflag": "computed Q2'26 10-Q: LT debt carrying value $5.45B \u2212 unrestricted cash $0.83B \u2248 $4.6B (Stingray $810M bond added). Alternatives: face debt $6.02B \u2212 unrestricted cash \u2248 $5.2B; netting the $3.73B restricted cash (mostly undrawn bond proceeds for construction) too \u2248 $1.5B. Company states no single net-debt figure",
+      "ndflag": "computed Q2'26 10-Q: LT debt carrying value $5.45B \u2212 unrestricted cash $0.83B \u2248 $4.6B (Stingray $810M bond added). Alternatives: face debt $6.02B \u2212 unrestricted cash \u2248 $5.2B; netting the $3.73B restricted cash (mostly undrawn bond proceeds for construction) too \u2248 $1.5B. Company states no single net-debt figure \u00b7 10/16/26: issued $850M 0.00% converts due 11/2032 (+$150M 13-day option), ~$89.7M capped calls, exchanged ~$165.9M of 2030 converts for ~40.7M shares \u2192 roughly net-debt-neutral at issuance (face debt +~$0.68B, cash +~$0.76B before fees); recompute at Q3 10-Q",
       "bk": 16.6,
       "valuation_b": null,
       "econ": {
@@ -1002,7 +1165,7 @@
           "Apollo \u2014 ~288-acre option near San Antonio TX",
           900,
           "s",
-          "up to 900 MW; option secured Q2 2026"
+          "up to 900 MW by 2031; option secured Q2 2026; ERCOT Batch Zero conditional studied load (Sep 2026)"
         ],
         [
           "Reveille",
@@ -1017,10 +1180,46 @@
           "Q4 2027"
         ],
         [
-          "ERCOT 'Batch Zero'",
-          2000,
+          "Colchis JV \u2014 West TX (AEP direct connect)",
+          null,
           "p",
-          "2028+"
+          "1 GW gross; ERCOT Batch Zero conditional base load (Sep 2026), final designation after Dec audit; energization targeted 2028; Cipher ~95% equity; lease talks ongoing"
+        ],
+        [
+          "Mikeska TX",
+          null,
+          "p",
+          "500 MW gross; ERCOT Batch Zero conditional studied load (Sep 2026); 2028\u201329 target"
+        ],
+        [
+          "McLennan TX",
+          null,
+          "p",
+          "500 MW gross; ERCOT Batch Zero conditional studied load (Sep 2026); 2028\u201329 target"
+        ],
+        [
+          "Stingray Phase II (expansion)",
+          null,
+          "p",
+          "200 MW gross expansion; ERCOT Batch Zero conditional studied load (Sep 2026); 2030+"
+        ],
+        [
+          "Barber Lake expansion",
+          null,
+          "p",
+          "500 MW grid expansion; expected in ERCOT Batch Zero (Q2 call) but not among the Sep 2026 conditional designations reported; 2030+"
+        ],
+        [
+          "Odessa TX (bitcoin; HPC conversion candidate)",
+          null,
+          "s",
+          "207 MW grid energized (Vistra PPA), still mining bitcoin; HPC lease talks with multiple tenants \u2014 first HPC MW 'very end of 2027' if leased soon; critical-IT MW n/d"
+        ],
+        [
+          "Milsing TX",
+          null,
+          "p",
+          "expected ERCOT Batch 1; energization 2030+ (MW not broken out)"
         ]
       ],
       "src": [
@@ -1035,6 +1234,18 @@
         [
           "8-K 9/25/26 \u2014 Barber Lake lease amendment (20 yr, >$9B; delivery Q4 2026\u2013Q1 2027)",
           "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000043/barberlakeleaseamendmentpr.htm"
+        ],
+        [
+          "8-K 10/16/26 \u2014 $850M 0% converts due 2032; capped calls; 2030-note exchange (URL from TradingView filing link, not opened directly)",
+          "https://www.sec.gov/Archives/edgar/data/1819989/000119312526424297/d313847d8k.htm"
+        ],
+        [
+          "PR 9/03/26 \u2014 lateral gas pipelines for up to 2.5 GW BYOG",
+          "https://www.globenewswire.com/news-release/2026/09/03/3355894/0/en/cipher-digital-begins-development-of-lateral-pipelines-to-facilitate-data-center-expansion-via-bring-your-own-generation.html"
+        ],
+        [
+          "PR 9/14/26 \u2014 Cipher, Fluidstack, Anthropic $10M Colorado City water pledge",
+          "https://www.globenewswire.com/news-release/2026/09/14/3361574/0/en/cipher-digital-fluidstack-and-anthropic-commit-10-million-to-repair-and-expand-colorado-city-s-water-system.html"
         ]
       ],
       "cap": 3.73,
@@ -1071,13 +1282,13 @@
       "dupe": null,
       "private": false,
       "confidence": "filed",
-      "flag": "Horizon 1 (50 MW) DELIVERED to Microsoft Aug 2026; contracted ARR $4B for CY2026 (target hit early); new frontier-AI-lab AI Cloud contract signed (terms n/d)",
+      "flag": "Horizon 1 (50 MW) delivered to Microsoft Aug 2026, H2\u20134 due Dec qtr; $4B ARR contracted for 2026 capacity; new frontier-lab AI Cloud contract (named as Anthropic by The Information 10/11, unconfirmed); targets ~0.3 GW IT YE26 / ~0.8 GW IT YE27; BTC mining wound down by Dec 2026",
       "ev_note": null,
       "dom": "iren.com",
-      "pipe": ">5 GW global (Sweetwater TX \u00b7 Kiowa OK \u00b7 Bundey AU \u00b7 Badajoz ES)",
+      "pipe": ">5 GW secured grid (Childress 750 \u00b7 Sweetwater 1.4+0.6 GW \u00b7 Kiowa OK 1.6 GW \u00b7 Bundey SA 0.8 GW \u00b7 Nostrum ES 0.49 GW) + Redbank NSW 0.9 GW (unsecured); more ERCOT Batch Zero sites unnamed",
       "op": 50,
-      "con": 330,
-      "plan": 730,
+      "con": 530,
+      "plan": 530,
       "nd": 1.7,
       "ndflag": "FY26 10-K (6/30/26): debt $7.59B ($0.17B current + $7.42B non-current; principal $7.71B) \u2212 cash $5.90B \u2248 $1.70B; excludes $1.72B restricted cash and $0.24B finance leases. At 6/30 only $413M of the $1.5B DDTL and $525M of the $2.1B USPP notes were funded; the 8/25 $2.4B Blue Owl/PIMCO GPU financing is post-period \u2014 nd rises as these draw",
       "bk": 16.5,
@@ -1112,28 +1323,76 @@
           "early 2027 (not restated in FY26 PR)"
         ],
         [
-          "Canada GPU sites (Mackenzie \u00b7 Canal Flats \u00b7 Prince George BC)",
+          "Mackenzie BC (air-cooled B300 + 2027 liquid)",
           null,
           "c",
-          "liquid-cooled deployments during 2027"
+          "GPUs being racked in first two buildings, Dec-qtr 2026 target; $2.4B Blue Owl/PIMCO financing for air-cooled Blackwell Ultra; liquid-cooled installs 2027"
         ],
         [
-          "Sweetwater 1",
-          1400,
-          "s",
-          "substation live May 2026; no customer contract yet"
-        ],
-        [
-          "Badajoz, Spain (ex-Nostrum)",
-          490,
-          "s",
-          "acquired mid-2026"
-        ],
-        [
-          "Kiowa OK + Bundey Australia",
+          "Sweetwater 1 (remainder, grid MW)",
           null,
           "s",
-          "new pipeline sites (FY26 report)"
+          "1.4 GW grid site less the 300 MW-gross first phase now building (~1.1 GW grid remainder); ERCOT Batch Zero base load (conditional, 9/8/26); no customer contract disclosed; critical-IT MW n/d"
+        ],
+        [
+          "Badajoz, Spain (Nostrum flagship)",
+          null,
+          "s",
+          "~300 MW grid, nearest-term Nostrum build; 2028 wave; critical-IT MW n/d"
+        ],
+        [
+          "Kiowa OK",
+          null,
+          "s",
+          "1.6 GW grid (FY26 10-K per Zacks); 2028 build wave; Sweetwater 1 is the reference design; critical-IT MW n/d"
+        ],
+        [
+          "Sweetwater 1 \u2014 first phase (liquid-cooled)",
+          200,
+          "c",
+          "first building going up; 300 MW gross (\u2248200 MW IT at IREN's stated 200 IT : 300 gross design ratio), delivery targeted Q4 2027"
+        ],
+        [
+          "Sweetwater 2",
+          null,
+          "s",
+          "600 MW grid; ERCOT Batch Zero Base Load (conditional) 9/8/26; 2028 build wave; critical-IT MW n/d"
+        ],
+        [
+          "Childress Horizons 5\u20136 (liquid-cooled)",
+          null,
+          "c",
+          "civils underway (FY26 call); new liquid-cooled Childress capacity for delivery H2 CY2027; MW not stated"
+        ],
+        [
+          "Prince George BC",
+          null,
+          "o",
+          "air-cooled GPU fleet fully commissioned (FY26 call 8/27); liquid-cooled install underway for Dec qtr 2026"
+        ],
+        [
+          "Canal Flats BC (liquid-cooled GB300 conversion)",
+          null,
+          "p",
+          "decision to convert whole site to liquid cooling for GB300s; installs in 2027"
+        ],
+        [
+          "Bundey, South Australia",
+          null,
+          "s",
+          "800 MW grid; transmission connection agreement (four 330 kV feeder exits); energization from 2028; permitting + procurement underway; critical-IT MW n/d"
+        ],
+        [
+          "Other Nostrum Spain sites",
+          null,
+          "s",
+          "~190 MW grid secured across other Spanish development sites (490 MW Nostrum total less Badajoz ~300); critical-IT MW n/d"
+        ],
+        [
+          "Redbank, NSW (Wagga Wagga)",
+          null,
+          "p",
+          "~900 MW campus scale (not critical IT), announced Oct 2026, early assessment; NOT in 5 GW secured portfolio (no grid agreement); scoping report due end-Oct; grid connection targeted 2029, staged over 6\u20138 yrs (Capital Brief)"
         ]
       ],
       "src": [
@@ -1148,6 +1407,10 @@
         [
           "Jul 2026 PR \u2014 $2.8B contracts, ARR target >$4B",
           "https://www.globenewswire.com/news-release/2026/07/20/3329624/0/en/iren-signs-2-8bn-in-new-customer-contracts-with-leading-ai-developers-raises-2026-arr-target-to-over-4bn.html"
+        ],
+        [
+          "9/8/26 PR \u2014 Sweetwater Hub in ERCOT Batch Zero; 300 MW gross under construction for Q4'27",
+          "https://www.globenewswire.com/news-release/2026/09/08/3357498/0/en/iren-s-2gw-sweetwater-hub-included-as-base-load-in-ercot-batch-zero.html"
         ]
       ],
       "cap": 10.62,
@@ -1164,11 +1427,16 @@
           "2027Q1",
           "Childress \u2014 NVIDIA air-cooled",
           60
+        ],
+        [
+          "2027Q4",
+          "Sweetwater 1 \u2014 first phase (liquid-cooled)",
+          200
         ]
       ],
       "ev": 12.32,
-      "wmw": 397.5,
-      "ev_per_mw": 31.0,
+      "wmw": 447.5,
+      "ev_per_mw": 27.5,
       "pct_energized": 4.5,
       "coverage": 1.34
     },
@@ -1179,13 +1447,13 @@
       "dupe": null,
       "private": false,
       "confidence": "filed",
-      "flag": "\u26a0 zero signed AI tenants (still, Q2'26) \u2014 multiple prospective tenants negotiating at Panther Creek / Sharon / Moses Lake; US bitcoin mining fully decommissioned",
+      "flag": "\u26a0 zero signed AI tenants (still, as of KBW summit 10/6) \u2014 2026 three-lease goal not reaffirmed; Moses Lake (18 MW) broke ground on spec; Panther Creek permits ran ~2 months late, RFS end-2027; US bitcoin mining fully decommissioned; plan 110 = Sharon's 110 MW phase (basis not stated); Panther Creek's 350 MW of utility capacity and Sherbrooke's 96 MW PPA are excluded (no critical-IT figures)",
       "ev_note": null,
-      "dom": "",
+      "dom": "keelinfra.com",
       "pipe": "~2,200 (gross)",
       "op": 0,
-      "con": 350,
-      "plan": 225,
+      "con": 18,
+      "plan": 110,
       "nd": 0.26,
       "ndflag": "computed Q2'26 10-Q: convertible notes $1,025.8M (2025 converts $593.6M + $458M 2026 converts) \u2212 cash $715.5M \u2212 restricted $53.4M \u2248 $0.26B \u2014 NOT net cash (prior flag missed the 2025 converts)",
       "bk": 0,
@@ -1203,33 +1471,33 @@
       "sites": [
         [
           "Panther Creek PA",
-          350,
-          "c",
-          "first power 2027 per Q2 2026 call (press-reported; YE 2026 ~50 MW target not restated); zoning + land approvals secured, >500 MW expansion potential"
+          null,
+          "p",
+          "350 MW PPL utility capacity (grid, not critical IT); final DEP permits slipped a few months, now resolving; not yet broken ground / pre-NTP; RFS end-2027; no tenant; >500 MW expansion potential"
         ],
         [
           "Sharon PA",
           110,
           "p",
-          "lease target 2026"
+          "RFS end-2027 (uncontracted 2027 PJM power); final environmental permits pending; long-lead transformers delivered; multiple parties negotiating \u2014 no lease as of 10/6"
         ],
         [
           "Moses Lake WA",
           18,
-          "p",
-          "targeted as first fully commissioned DC in 2027 (Q2 call, press-reported); lease target 2026"
+          "c",
+          "broke ground (KBW 10/6); Vertiv modules + long-lead gear on site; PowerSecure backup-power deal 9/9; first fully commissioned DC in 2027 (slipped ~2 months); no tenant signed"
         ],
         [
           "Sherbrooke QC",
-          96,
+          null,
           "s",
-          "city approved 96 MW transfer 7/15/26; lease ~2027"
+          "96 MW grid power (single HPC/AI PPA consolidating 3 mining PPAs); city + Hydro-Qu\u00e9bec approvals done; provincial minister's sign-off still pending (no timeline, KBW 10/6); critical-IT MW n/d"
         ],
         [
           "Scrubgrass PA",
-          750,
+          null,
           "s",
-          "PJM load study"
+          "750 MW utility load study + 550 MW on-site CCGT plan (1 GW+ campus); update ~Dec/Jan; permits not yet filed"
         ]
       ],
       "src": [
@@ -1240,6 +1508,10 @@
         [
           "Q2'26 results release (8-K ex-99.1)",
           "https://www.sec.gov/Archives/edgar/data/1812477/000181247726000021/a202689finalprkeelq22026ea.htm"
+        ],
+        [
+          "PowerSecure\u2013Keel Moses Lake backup-power agreement (PR Newswire, 9/9/26)",
+          "https://www.tradingview.com/news/prnewswire:c65e948189d3e:0-powersecure-executes-agreement-with-keel-infrastructure-to-support-moses-lake-data-center-campus/"
         ]
       ],
       "cap": 1.39,
@@ -1249,13 +1521,13 @@
       "tl": [
         [
           "2027Q4",
-          "Panther Creek PA",
-          350
+          "Moses Lake WA",
+          18
         ]
       ],
       "ev": 1.65,
-      "wmw": 231.2,
-      "ev_per_mw": 7.1,
+      "wmw": 36.5,
+      "ev_per_mw": 45.2,
       "pct_energized": 0.0,
       "coverage": 0.0
     },
@@ -1301,10 +1573,16 @@
           "10 MW Nov 2026 + 15 MW May 2027 (Q2 10-Q)"
         ],
         [
-          "Rockdale (frontier AI lab)",
-          191,
+          "Rockdale (frontier AI lab) \u2014 first 96 MW",
+          96,
           "c",
-          "signed Aug 2026; initial 96 MW Dec 2027, full 191 MW by Jun 2028"
+          "signed Aug 2026; first 96 MW, rent from Dec 2027 (Q2'26 call)"
+        ],
+        [
+          "Rockdale (frontier AI lab) \u2014 remaining 95 MW",
+          95,
+          "c",
+          "full 191 MW deployment Jun 2028 (Q2'26 call)"
         ],
         [
           "Rockdale (AMD options)",
@@ -1316,7 +1594,7 @@
           "Corsicana (AI/HPC)",
           756,
           "s",
-          "600 MW substation; full-site NON-BINDING LOI, single tenant (unsigned)"
+          "1 GW approved utility power; full-site NON-BINDING LOI, single tenant (still unsigned at 10/16); first core-and-shell building under development + long-lead procurement ahead of a lease"
         ]
       ],
       "src": [
@@ -1335,6 +1613,10 @@
         [
           "Tenant attribution + Corsicana LOI (Blockspace, earnings call)",
           "https://blockspace.media/insight/riot-platforms-signs-ai-lease-rockdale-2026/"
+        ],
+        [
+          "Tenant attribution \u2014 Bloomberg via Reuters (8/11/26): 'Anthropic Strikes $9 Billion Deal With Cloud Computing Firm Riot'",
+          "https://www.tradingview.com/news/reuters.com,2026:newsml_FWN4471NR:0"
         ]
       ],
       "cap": 5.15,
@@ -1349,8 +1631,13 @@
         ],
         [
           "2027Q4",
-          "Rockdale (frontier AI lab)",
-          191
+          "Rockdale (frontier AI lab) \u2014 first 96 MW",
+          96
+        ],
+        [
+          "2028Q2",
+          "Rockdale (frontier AI lab) \u2014 remaining 95 MW",
+          95
         ]
       ],
       "ev": 5.44,
@@ -1366,19 +1653,19 @@
       "dupe": null,
       "private": false,
       "confidence": "filed",
-      "flag": "STATE CHANGE Aug 2026: first colo anchor \u2014 $4.7B 16-yr Tydal lease w/ Volta (121 IT MW for a leading AI lab; option to ~$8.0B); 206.5 IT MW AI-cloud pipeline (Aug 2026 update) incl. three Malaysia halls; AI cloud ARR ~$86M",
+      "flag": "STATE CHANGE Aug 2026: first colo anchor \u2014 $4.7B 16-yr Tydal lease w/ Volta (121 IT MW for a leading AI lab; option to ~$8.0B). Oct 2026: secured AI-cloud capacity ~333.5 IT MW (~95% of up-to-350 MW by Q1'28) after A901 67 MW (10/8) + A103 60 MW (10/12), both leased and not yet offtaken; A102 sold out (>$800M), A201 >70% contracted (>$1.7B/5 yr); AI cloud pipeline >$10B (not backlog); ARR ~$86M (Aug)",
       "ev_note": null,
       "dom": "bitdeer.com",
       "pipe": "~3,000 (majority BTC; Rockdale TX 742 MW after 200-acre $100M land buy 9/2026 + Molde NO 84 in AI-conversion evaluation)",
       "op": 2.5,
-      "con": 272.3,
-      "plan": 1093,
+      "con": 349.3,
+      "plan": 1143,
       "nd": 1.3,
       "ndflag": "computed Q2'26 6-K: borrowings $1.8B \u2212 cash+restricted $0.50B \u2248 $1.3B ex-BTC (~$1.1B incl. ~$197M digital assets); asset-backed loans from BIT Group $423.3M at 9/29/26",
       "bk": 4.7,
       "valuation_b": null,
       "econ": {
-        "backlog": "$4.7B Tydal/Volta 16-yr (up to ~$8.0B w/ option) \u2014 excl. >$800M Cyberjaya A102 GPU-cloud contracts (not colo); AI cloud ARR ~$86M (Aug 2026)",
+        "backlog": "$4.7B Tydal/Volta 16-yr (up to ~$8.0B w/ option) colo + ~$2.9B expected AI-cloud contract revenue (A102 >$800M + A201 >$1.7B/5-yr, 9/29/26; GPU cloud, not colo); AI cloud ARR ~$86M (Aug 2026)",
         "revmw": "Tydal colo ~$2.4M / IT MW / yr at ~90% op margin; GPU cloud per-GPU",
         "capexmw": "n/d",
         "anchor": "Volta (end customer: leading AI lab) 121 IT MW",
@@ -1398,13 +1685,13 @@
           "Cyberjaya, Malaysia \u2014 A102 (AI cloud)",
           9.5,
           "c",
-          "ready Nov 2026; 100% signed, >$800M expected revenue"
+          "facility ready Nov 2026; GPU energization Q1 2027; 100% contracted, >$800M expected revenue"
         ],
         [
           "Johor, Malaysia \u2014 A201 (AI cloud)",
           21.7,
           "c",
-          "ready Jan 2027; late negotiations"
+          "energization Q1 2027; >70% contracted (>$1.7B/5 yr, 9/29/26)"
         ],
         [
           "Johor, Malaysia \u2014 A202 (AI cloud)",
@@ -1439,8 +1726,8 @@
         [
           "Wenatchee WA (A501)",
           10,
-          "p",
-          "10 IT MW, ready Dec 2027"
+          "c",
+          "10 IT MW under construction, ready Dec 2027"
         ],
         [
           "Gelephu, Bhutan",
@@ -1450,9 +1737,21 @@
         ],
         [
           "Clarington OH",
-          570,
+          null,
           "s",
-          "litigation-delayed; timing TBD"
+          "570 MW grid power (not IT); being built out for BTC mining first; neighbor lawsuit in discovery; AI timing TBD"
+        ],
+        [
+          "Malaysia (3rd hub) \u2014 A901 (AI cloud)",
+          67,
+          "c",
+          "10-yr DC services agmt (10/8/26); delivery from Q1 2027 (tranche MW n/d), full 67 MW critical IT Q2 2027; no offtake yet"
+        ],
+        [
+          "Cyberjaya, Malaysia \u2014 A103 (AI cloud)",
+          60,
+          "p",
+          "8-yr DC services agmt (10/12/26); energization Q1 2028; Vera Rubin-ready; no offtake yet"
         ]
       ],
       "src": [
@@ -1463,6 +1762,26 @@
         [
           "Aug-2026 business update 6-K (206.5 IT MW AI-cloud pipeline; ARR ~$86M; Rockdale land; Bhutan LOI)",
           "https://www.sec.gov/Archives/edgar/data/1899123/000121390026100537/ea030523501ex99-1.htm"
+        ],
+        [
+          "GlobeNewswire 10/8/26 \u2014 A901 67 MW 10-yr DC services agmt; secured AI cloud 273.5 MW; pipeline >$10B",
+          "https://www.globenewswire.com/news-release/2026/10/08/3377763/0/en/bitdeer-ai-expands-southeast-asia-footprint-with-a901-a-new-67mw-ai-data-center-campus-in-malaysia-active-ai-cloud-pipeline-exceeds-10-billion.html"
+        ],
+        [
+          "GlobeNewswire 10/12/26 \u2014 A103 60 MW 8-yr agmt (Q1'28); secured AI cloud ~333.5 MW",
+          "https://www.globenewswire.com/news-release/2026/10/12/3379255/0/en/bitdeer-ai-expands-malaysia-campus-with-new-60mw-a103-facility-closing-in-on-up-to-350mw-global-capacity-target.html"
+        ],
+        [
+          "GlobeNewswire 9/29/26 \u2014 A201 >70% off-take, >$1.7B over 5 yrs",
+          "https://www.globenewswire.com/news-release/2026/09/29/3371380/0/en/bitdeer-ai-further-expands-ai-cloud-services-with-off-take-commitments-of-more-than-70-of-its-21-7mw-a201-malaysia-data-center.html"
+        ],
+        [
+          "GlobeNewswire 9/14/26 \u2014 A202 65.1 MW 10-yr agmt, Q3'27",
+          "https://www.globenewswire.com/news-release/2026/09/14/3360904/0/en/bitdeer-ai-secures-65-1mw-a202-facility-at-its-existing-johor-malaysia-campus-estimated-active-ai-cloud-pipeline-surpasses-7-billion.html"
+        ],
+        [
+          "Q2'26 earnings call (Quartr) \u2014 Tydal RFS 12/31/26 & 3/31/27; WA/TN under construction; Clarington mining-first, suit in discovery",
+          "https://www.tradingview.com/news/urn:summary_document_transcript:quartr.com:3996568:0-btdr-secured-4-7b-norway-lease-ai-cloud-arr-up-77-qoq-and-bitcoin-hash-rate-up-342-yoy/"
         ]
       ],
       "cap": 1.76,
@@ -1471,7 +1790,7 @@
       "stale": false,
       "tl": [
         [
-          "2026Q4",
+          "2027Q1",
           "Cyberjaya, Malaysia \u2014 A102 (AI cloud)",
           9.5
         ],
@@ -1499,11 +1818,21 @@
           "2027Q4",
           "Knoxville TN (A601)",
           55
+        ],
+        [
+          "2027Q4",
+          "Wenatchee WA (A501)",
+          10
+        ],
+        [
+          "2027Q2",
+          "Malaysia (3rd hub) \u2014 A901 (AI cloud)",
+          67
         ]
       ],
       "ev": 3.06,
-      "wmw": 411.9,
-      "ev_per_mw": 7.4,
+      "wmw": 462.9,
+      "ev_per_mw": 6.6,
       "pct_energized": 0.2,
       "coverage": 1.54
     },
@@ -1517,7 +1846,7 @@
       "flag": "Bit Digital's majority-owned carve-out (69.6% at 6/30/26); NC-1 billing commenced \u2014 full 40 MW revenue expected Q3 2026 subject to customer acceptance milestones; NC-2/3 Yadkin County acquisition signed ($60M, close Q4 2026)",
       "ev_note": null,
       "dom": "whitefiber.com",
-      "pipe": "~300 (NC-2/3 potential ~200 MW)",
+      "pipe": "~1.5 GW under review (Sep-26 deck; = BTBT row); NC-1 next 45 MW gross (Duke schedule pending) + Duke study of +200 MW (\u2192 ~300 MW gross campus); NC-2/3 potential ~200 MW; Krambu 100 MW exclusive (2027)",
       "op": 50,
       "con": 3,
       "plan": 120,
@@ -1540,7 +1869,7 @@
           "NC-1 (Madison NC, Nscale)",
           40,
           "o",
-          "billing commenced; full 40 MW revenue expected Q3 2026, subject to customer acceptance"
+          "live; billing Nscale; full 40 MW run-rate targeted end-Aug (Q2 call), CEO 9/14 'first 50 MW online' (gross); Q3'26 print to confirm"
         ],
         [
           "NC-2/3 (Yadkin County NC)",
@@ -1577,6 +1906,24 @@
           null,
           "o",
           "live Feb 2026"
+        ],
+        [
+          "Ontario (third-party DC; Baseten 1,392 B300)",
+          null,
+          "c",
+          "3-yr ~$165M cloud contract; deployment targeted Nov 2026"
+        ],
+        [
+          "Paris region, France (third-party DC; IG customer)",
+          null,
+          "c",
+          "5-yr >$160M cloud deployment; RFS targeted end-Sep 2026 \u2014 confirm live at Q3"
+        ],
+        [
+          "Krambu partnership (exclusive GPU operator; sites n/d)",
+          null,
+          "s",
+          "exclusive access to 100 MW liquid-cooled colo from 2027; no customer signed yet"
         ]
       ],
       "src": [
@@ -1595,6 +1942,14 @@
         [
           "Sep-2026 investor deck 8-K ex-99.1 (NC-1 timing; MTL-2/3 IT MW; Paris contract)",
           "https://www.sec.gov/Archives/edgar/data/2042022/000121390026099424/ea030525701ex99-1.htm"
+        ],
+        [
+          "Q2'26 earnings call (Quartr) \u2014 NC-1 ramp, Duke +45/+200 MW, MTL-2 5 MW gross, Baseten Ontario, Paris RFS, Krambu 100 MW",
+          "https://www.tradingview.com/news/urn:summary_document_transcript:quartr.com:4011836:0-wyfi-q2-revenue-up-54-yoy-nc-1-fully-deployed-and-540m-in-new-cloud-contracts-signed/"
+        ],
+        [
+          "PR Newswire 8/12/26 \u2014 Krambu exclusive GPU operator for 100 MW (2027)",
+          "https://www.tradingview.com/news/prnewswire:63c38d7e96ccf:0-whitefiber-and-krambu-partner-to-bring-100mw-of-high-density-gpu-infrastructure-capacity-to-market-in-2027/"
         ]
       ],
       "cap": 0.46,
@@ -1674,7 +2029,7 @@
       "dupe": null,
       "private": false,
       "confidence": "filed",
-      "flag": "\u26a0 zero AI MW, zero signed AI leases (still, Q2'26) \u2014 mgmt targets \u22651 lease by YE 2026; Long Ridge awaiting FERC; Matagorda rights secured post-qtr",
+      "flag": "\u26a0 zero tracked AI MW (Exaion France n/d), zero signed AI leases as of 10/2/26 \u2014 mgmt targets \u22652 leases by YE 2026; Long Ridge still awaiting FERC; Matagorda: $100M utility deposit vs 2,000 MW letter agmt (8-K 9/25); Investor Day 'later this year'",
       "ev_note": "EV prices a bitcoin-mining business with no AI megawatts energized and no AI lease signed.",
       "dom": "mara.com",
       "pipe": "~4,800 gross potential (incl. Matagorda + Long Ridge; mostly BTC/spec)",
@@ -1706,13 +2061,19 @@
           "Starwood Digital Ventures JV",
           null,
           "p",
-          "\u22651 lease targeted by YE 2026"
+          "\u22652 leases targeted by YE 2026 (CEO, 8/5 & 9/14); none signed as of 10/2"
         ],
         [
           "Matagorda County, TX (ex-HIF)",
           null,
           "s",
           "purchase now milestone-based, up to $600M; $100M security deposit posted w/ utility 9/21/26 against a 2,000 MW letter agreement (8-K 9/25); NO tenant"
+        ],
+        [
+          "Exaion (France; majority-owned since Mar 2026)",
+          null,
+          "o",
+          "sovereign AI / private cloud (ex-EDF); hosting US inference & training loads in Europe; MW n/d"
         ]
       ],
       "src": [
@@ -1727,6 +2088,14 @@
         [
           "8-K 9/25/26 \u2014 Matagorda: $100M utility deposit, milestone payments up to $600M",
           "https://www.sec.gov/Archives/edgar/data/1507605/000095014226002607/eh260835247_8k.htm"
+        ],
+        [
+          "Q2'26 earnings call (Quartr) \u2014 \u22652 leases by YE 2026; FERC before YE; Exaion revenue; Investor Day later in 2026",
+          "https://www.tradingview.com/news/urn:summary_document_transcript:quartr.com:3981661:0-mara-expanded-power-portfolio-and-digital-infrastructure-drive-growth-despite-bitcoin-price-headwinds/"
+        ],
+        [
+          "Benzinga 10/2/26 \u2014 Clear Street CFO meeting: no signed lease yet; Long Ridge close pending; ERCOT batch study pushing some TX energization to 2028",
+          "https://www.tradingview.com/news/benzinga:6d1c69a2a094b:0-mara-holdings-stock-jumps-friday-what-s-going-on/"
         ]
       ],
       "cap": 2.91,
@@ -1747,12 +2116,12 @@
       "dupe": null,
       "private": false,
       "confidence": "filed",
-      "flag": "\u26a0 op/con split ESTIMATED \u2014 co. discloses only ~155 MW total committed (20 MW of it late-'27/early-'28); row added 2026-07-09, baseline struck then",
+      "flag": "\u26a0 op/con split ESTIMATED \u2014 co. discloses ~155 MW total committed (20 MW of it late-'27/early-'28; majority online by end-2027); 2026 adds named: Richmond (Q1), Kansas City 10 MW (Q2), Memphis 15 MW (2H; all three on by 9/8 per CFO); colo partners Equinix/DataBank/QTS",
       "ev_note": null,
       "dom": "digitalocean.com",
       "pipe": "~155 committed (co-disclosed)",
-      "op": 70,
-      "con": 65,
+      "op": 85,
+      "con": 50,
       "plan": 20,
       "nd": 0.15,
       "ndflag": "Q2'26 10-Q: debt $0.92B \u2212 cash $0.77B \u2248 $0.15B; excludes $0.58B finance-lease + equipment-financing obligations. Post-Q: $725M MUFG equipment finance facility (+$300M accordion, finance-lease accounting; 8-K 9/10/26)",
@@ -1792,6 +2161,24 @@
           20,
           "p",
           "online late 2027 \u2013 early 2028"
+        ],
+        [
+          "Richmond (VA) AI DC",
+          null,
+          "o",
+          "launched Q1 2026, ahead of target; MW n/d"
+        ],
+        [
+          "Kansas City AI DC",
+          10,
+          "o",
+          "10 MW, launched Q2 2026 (ahead of target)"
+        ],
+        [
+          "Memphis, TN AI DC",
+          15,
+          "o",
+          "15 MW; 2H-2026 launch \u2014 CFO 9/8 & 9/10: all three 2026 DCs turned on ahead of schedule"
         ]
       ],
       "src": [
@@ -1818,9 +2205,9 @@
       "stale": false,
       "tl": [],
       "ev": 11.75,
-      "wmw": 107.5,
-      "ev_per_mw": 109.3,
-      "pct_energized": 45.2,
+      "wmw": 115.0,
+      "ev_per_mw": 102.2,
+      "pct_energized": 54.8,
       "coverage": 0.08
     },
     {
@@ -1853,16 +2240,22 @@
       },
       "sites": [
         [
-          "Distributed edge inference nodes (Anthropic)",
+          "Distributed edge inference nodes (Anthropic $1.8B plan + robotics GPU deal)",
           null,
           "c",
-          "multi-yr rollout across the edge network"
+          "GPU inference rollout across edge/core regions; CPU expansion tracked separately"
         ],
         [
           "Legacy edge/CDN PoPs (~4,100)",
           null,
           "o",
           "not AI critical-IT MW \u2014 excluded"
+        ],
+        [
+          "Anthropic CPU expansion \u2014 numerous colo sites, majority US (10\u201330 MW blocks)",
+          null,
+          "p",
+          "$11.6B/7-yr (9/24/26); revenue from 2H 2027, fully ramped YE 2028; colo partly secured"
         ]
       ],
       "src": [
@@ -1881,6 +2274,10 @@
         [
           "S&P BBB\u2212 downgrade on AI-capex leverage (via Quiverquant)",
           "https://www.quiverquant.com/news/Akamai+Technologies+shares+fall+as+investors+appear+to+weigh+leverage+and+AI+infrastructure+spending"
+        ],
+        [
+          "GlobeNewswire 9/24/26 \u2014 $11.6B Anthropic agreement",
+          "https://www.globenewswire.com/news-release/2026/09/24/3368729/0/en/akamai-announces-11-6-billion-multi-year-agreement-with-anthropic-to-support-growing-demand.html"
         ]
       ],
       "cap": 12.62,
@@ -1904,7 +2301,7 @@
       "flag": "op/con/plan estimates: MSFT discloses only total 'GW capacity' (gross), so critical-IT (x0.72) and the tracked-lease carve-out (CRWV/NBIS/EQIX/DLR ~0.8-1.0 GW) are analyst judgment. ~+1 GW/qtr cadence filed through FY26 Q4 (op raised 3800->4500 for the ~1 GW added since Mar-2026); the split is not. CONFLICT (press-only): Bloomberg 9/10/26 puts only ~2 GW of today's ~12 GW 'centred on AI-specific chips' \u2014 op 4,500 uses a broader AI-capable definition; not changed pending a filed figure.",
       "ev_note": null,
       "dom": "microsoft.com",
-      "pipe": ">12 GW total datacenter footprint by ~2028 implied by 'double in 2 years' (reiterated FY26 Q4) + Fairwater WI to 2 GW peak; Bloomberg (9/10/26, press-only): plan to >38 GW by 2032 from ~12 GW today",
+      "pipe": ">12 GW total datacenter footprint by ~2028 implied by 'double in 2 years' (reiterated FY26 Q4) + Fairwater WI to 2 GW peak; Bloomberg (9/10/26, press-only): plan to >38 GW by 2032 from ~12 GW today; Maia 300: 'multi-gigawatt deployments' starting 2027 (Reuters 10/12/26)",
       "op": 4500,
       "con": 3000,
       "plan": 4500,
@@ -1919,7 +2316,7 @@
         "anchor": "OpenAI ($250B incremental Azure commitment post Oct-2025 restructuring; April 2026 amendment per FY26 10-K reduced MSFT's stake and, per press, ended Azure exclusivity for OpenAI stateless APIs; MSFT lost compute right-of-first-refusal)",
         "contract": "Azure consumption + multi-yr enterprise; neocloud leases 5-yr take-or-pay (CRWV thru 2030, NBIS thru Oct-2031 \u2014 all NBIS tranches delivered as of Aug 2026)",
         "margin": "Azure >43% y/y (FY26 Q4; metric redefined from FY27 per 9/2 8-K \u2014 not comparable going forward); Azure ARR crossed $100B; Microsoft Cloud GM pressured by AI-capex depreciation",
-        "power": "MSFT discloses total 'GW capacity' = gross facility power, NOT critical-IT; critical-IT assumed ~72% of gross. Nuclear: 20-yr 835 MW PPA w/ Constellation, Three Mile Island Unit-1 restart (Crane Clean Energy Center), online ~2028. Pecos TX = behind-the-meter natural gas.",
+        "power": "MSFT discloses total 'GW capacity' = gross facility power, NOT critical-IT; critical-IT assumed ~72% of gross. Nuclear: 20-yr 835 MW PPA w/ Constellation, Three Mile Island Unit-1 restart (Crane Clean Energy Center), online ~2028. Pecos TX = behind-the-meter natural gas. NW Indiana (La Porte) campus: NIPSCO/GenCo 20-yr service from 2028; GenCo pool +~1,100 MW generation + 600 MW BESS, Microsoft-funded (NiSource 10/16/26; utility MW, not IT).",
         "pricing": "Azure metered consumption; no per-MW list price"
       },
       "sites": [
@@ -1964,6 +2361,12 @@
           null,
           "o",
           "legacy, operating"
+        ],
+        [
+          "La Porte, IN \u2014 NW Indiana campus (NIPSCO GenCo power)",
+          null,
+          "p",
+          "power from 2028 (NIPSCO 20-yr; GenCo pool +~1,100 MW generation + 600 MW BESS \u2014 utility MW, not IT)"
         ]
       ],
       "src": [
@@ -2026,6 +2429,14 @@
         [
           "Bloomberg via CloudComputing News \u2014 38 GW by 2032 plan (press-only)",
           "https://www.cloudcomputing-news.net/news/microsoft-38gw-data-centre-capacity-2032/"
+        ],
+        [
+          "NiSource\u2013Microsoft NW Indiana 20-yr energy agreement (Business Wire 2026-10-16)",
+          "https://www.businesswire.com/news/home/20261015675062/en/"
+        ],
+        [
+          "Reuters \u2014 Maia 300, 'multi-gigawatt deployments' from 2027 (2026-10-12)",
+          "https://www.tradingview.com/news/reuters.com,2026:newsml_L6N45V11Z:0-microsoft-plans-huge-deployment-of-its-own-ai-chips-with-an-eye-on-saving-costs/"
         ]
       ],
       "cap": 3928.49,
@@ -2046,10 +2457,10 @@
       "dupe": null,
       "private": false,
       "confidence": "estimate",
-      "flag": "op/con/plan WEAK: Amazon discloses no total critical-IT split. op~15 GW (range 12-20) triangulated from undercounted US tracker (dcmap 18.4 GW gross, only 35/211 sized) + '+3.9 GW/yr, doubled since 2022' + x0.72 crit-IT + intl. Direction/magnitude solid (largest single-operator buildout), precise split soft. TENANTS empty - Amazon is self-build/owned/PPA, not a neocloud tenant.",
+      "flag": "op/con/plan WEAK: Amazon discloses no total critical-IT split. op~15 GW (range 12-20) triangulated from undercounted US tracker (dcmap 18.4 GW gross, only 35/211 sized) + '+3.9 GW/yr, doubled since 2022' + x0.72 crit-IT + intl. Direction/magnitude solid (largest single-operator buildout), precise split soft. Mostly self-build/owned/PPA, but not tenant-free: Cipher Black Pearl/Stingray ~286 MW (tenant edge); NW Louisiana campuses are a STACK Infrastructure partnership. Q2'26 call reaffirmed the 2x-by-2027 path but gave no new GW figure; split unchanged pending Q3 call 10/29/26.",
       "ev_note": null,
       "dom": "aws.amazon.com",
-      "pipe": "'Double total capacity again by end-2027' off a base adding ~3.9 GW/yr (Jassy, Q4-2025). Named planned mega-campuses: Hobart IN 2,400, NE Creek VA 2,700, Birchwood VA 2,175 (King George Co. agreement on $6B campus 9/29/26), PA $20B ~1.9 GW, US-gov 1.3 GW.",
+      "pipe": "'Double the power capacity by end-2027 vs 2025' \u2014 reaffirmed Q2'26 call 7/30/26 ('on that track'; 2027 capacity 'largely reserved', 'quite a bit' of 2028 reserved); 2025 added ~3.9 GW (Jassy, Q4-2025). Named planned mega-campuses: Hobart IN 2,400 (+400 MW NIPSCO amendment pending), NE Creek VA 2,700, Birchwood VA 2,175 (King George Co. agreement on $6B campus 9/29/26), PA $20B ~1.9 GW, US-gov 1.3 GW; NW Louisiana $18B across 3 Caddo-Bossier campuses with STACK (MW n/d).",
       "op": 15000,
       "con": 7000,
       "plan": 12000,
@@ -2064,7 +2475,7 @@
         "anchor": "Anthropic - >$100B over 10 yr, up to 5 GW Trainium reserved, ~1 GW live end-2026; Amazon +up-to-$25B into Anthropic (2026-04-20). OpenAI - AWS deal expanded by $100B over 8 yrs (~2 GW Trainium) + Amazon investing up to $50B in OpenAI (Feb 2026). Also $50B US federal cloud + internal.",
         "contract": "long-dated cloud + custom-silicon (Trainium2 sold out, Trainium3 nearly fully subscribed)",
         "margin": "AWS op margin expansion expected from Trainium cost advantage vs 3rd-party inference chips",
-        "power": "Table MW mostly gross facility -> critical-IT ~0.72. Talen/Susquehanna nuclear PPA up to 1,920 MW (17-yr, ~$18B) + AWS bought adjacent campus; X-energy SMR (early); MS 616 MW renewables.",
+        "power": "Table MW mostly gross facility -> critical-IT ~0.72. Talen/Susquehanna nuclear PPA up to 1,920 MW (17-yr, ~$18B) + AWS bought adjacent campus; X-energy SMR (early); MS 616 MW renewables. Constellation Calvert Cliffs (MD) 20-yr PPA 690 MW incl. ~190 MW uprate online 2030\u201332, >$3B (9/30/26) + PJM retail supply; NIPSCO GenCo supply for N. Indiana campuses (IURC-approved 6/26; +400 MW amendment pending).",
         "pricing": "AWS metered; no per-MW list price"
       },
       "sites": [
@@ -2078,7 +2489,7 @@
           "Hobart / NW Indiana (Lake Co.)",
           2400,
           "p",
-          "Ph2 +$15B ann. Nov-2025"
+          "+$15B ann. Nov-2025; NIPSCO supply IURC-approved Jun-2026; civil site work late-2026, energization from 2027; +400 MW load amendment pending (order sought Nov)"
         ],
         [
           "Madison County / Canton, MS (Madison Co.)",
@@ -2090,7 +2501,7 @@
           "Salem Township Innovation Campus, PA (Luzerne Co.)",
           960,
           "c",
-          "Susquehanna nuclear-adjacent; part of $20B PA"
+          "Susquehanna-adjacent; partly energized, ramping; full build-out 2028\u201330 (Talen Q2'26); part of $20B PA"
         ],
         [
           "Northeast Creek / North Creek Tech, VA (Louisa Co.)",
@@ -2133,6 +2544,18 @@
           null,
           "p",
           "Amazon disclosed as owner Aug 2026 (press); 3 bldgs permitted ~$300M each, due Dec 2026; 7.65 GW gas plant, 1 GW power online 2028 target"
+        ],
+        [
+          "NW Louisiana campuses #1\u20132 \u2014 Caddo & Bossier Parishes (w/ STACK)",
+          null,
+          "c",
+          "$12B ann. Feb-2026; NW LA total now $18B with Shreveport #3; MW n/d"
+        ],
+        [
+          "Gilroy, CA (Santa Clara Co.)",
+          null,
+          "c",
+          "$2B; under construction (WSJ Aug-2026); MW n/d"
         ]
       ],
       "src": [
@@ -2211,6 +2634,14 @@
         [
           "ENR \u2014 Amazon owner of GW Ranch, Pecos County TX (press)",
           "https://www.enr.com/articles/63464-amazon-discloses-ownership-of-gw-ranch-giant-texas-data-center-power-complex"
+        ],
+        [
+          "Constellation\u2013Amazon Calvert Cliffs 20-yr PPA, 690 MW (Business Wire 2026-09-30)",
+          "https://www.businesswire.com/news/home/20260930235521/en/"
+        ],
+        [
+          "Amazon $12B NW Louisiana data center campuses (Reuters 2026-02-23)",
+          "https://www.reuters.com/business/retail-consumer/amazon-plans-12-billion-data-center-buildout-louisiana-2026-02-23/"
         ]
       ],
       "cap": 2696.57,
@@ -2237,13 +2668,13 @@
       "dupe": null,
       "private": false,
       "confidence": "estimate",
-      "flag": "MW estimate-only: Google discloses no total MW. op derived from ~42 TWh 2025 DC electricity (~4.8 GW avg draw -> ~5.5-7 GW provisioned crit-IT); con/plan from capex split + announced campuses. Fluidstack/WULF/CIFR capacity excluded -> TENANTS edges. The '508 MW active IT' tracker figure = colo-leased only, not the self-build fleet.",
+      "flag": "MW estimate-only: Google discloses no total MW. op derived from ~42 TWh 2025 DC electricity (~4.8 GW avg draw -> ~5.5-7 GW provisioned crit-IT); con/plan from capex split + announced campuses. Fluidstack/WULF/CIFR capacity excluded -> TENANTS edges. The '508 MW active IT' tracker figure = colo-leased only, not the self-build fleet. Third-party bridge: SpaceX/xAI compute at $920M/mo Oct 2026\u2013Jun 2029 -> TENANTS edge (not in op). Also excluded: Crux AI (Blackstone-funded JV on Google TPUs, first 500 MW 2027) and the Nexus/Anthropic Hubbard TX campus (Google lease/power guarantees, financing reported in talks 7/2026).",
       "ev_note": null,
       "dom": "datacenters.google",
-      "pipe": "TX $40B (Armstrong+2x Haskell), MO New Florence >1GW, India Vizag 1GW->multi-GW, OK $9B (Pryor/Stillwater/Muskogee), VA Chesterfield (Bermuda Hundred, MW undisclosed), SC/IA/AL later phases.; Columbia County GA (~8M sq ft, $17B MOU 8/27, press); Finland \u20ac13B 2027\u201328 + Loviisa nuclear (9/9); Lea County NM exploratory (9/14); Tulsa Co. OK 'Project Clydesdale' w/ Beale (press)",
+      "pipe": "TX $40B (Armstrong+2x Haskell) + Wilbarger Co. (AES co-located gen, 2/26); MO New Florence >1GW (construction began Q2'26); WY Cheyenne (Black Hills 2.7 GW resource mix incl. reserves, energy from late 2027, peak 2030; AEP 702 MW fuel cells by end-2028); India Vizag 1GW->multi-GW (site prep; AP HC PIL); OK $9B (Pryor/Stillwater/Muskogee; OG&E ESA filed 5/01/26); AR West Memphis $4B (ops early 2027 per Entergy); MN Pine Island (Xcel ESA, PUC early 2027); VA Chesterfield (Bermuda Hundred, MW undisclosed); SC/IA/AL later phases.; Columbia County GA (~8M sq ft, $17B MOU 8/27, press); Finland \u20ac13B 2027\u201328 + Loviisa nuclear (9/9), Muhos/Kajaani prep halted 10/07 pending EIA; Lea County NM exploratory (county vote Nov 2026, WSJ 10/15); Tulsa Co. OK 'Project Clydesdale' w/ Beale (press); Crux AI (Blackstone JV on Google TPUs) first 500 MW 2027 \u2014 JV, not in op/con/plan",
       "op": 6000,
-      "con": 5000,
-      "plan": 6500,
+      "con": 6000,
+      "plan": 5500,
       "nd": -142.3,
       "ndflag": "Net CASH ~$142.3B at Q2'26 10-Q: cash+ST investments $242.5B \u2212 funded debt $100.2B (LT $98.2B + current portion $2.0B; corrects prior \u2212144.3 which omitted the current portion). CAVEAT: ST investments include $80.0B of SpaceX shares under short-term sale restrictions (+$14.1B long-term restricted in non-current) \u2014 ex-restricted SpaceX net cash \u2248 $62.3B. The Q1\u2192Q2 cash build came from that stake plus H1 equity raises ($30.5B common + $19.1B mandatory convertible preferred), not investment-gain marks. Post-qtr: $25B notes closed 8/10/26; $40B ATM program active since 6/1. Excludes $14.6B lease liabilities.",
       "bk": null,
@@ -2251,7 +2682,7 @@
       "econ": {
         "backlog": "Google Cloud backlog ~$514B Q2'26 (+>$50B q/q) is cloud-wide, NOT capacity-specific -> bk null",
         "revmw": "Google Cloud rev +82% y/y to $24.8B Q2'26 (Cloud op income $8.8B); no per-MW disclosure",
-        "capexmw": "Q2'26 capex record $44.9B (+100% y/y); FY26 guide RAISED to $195-205B (from $180-190B), 'significantly' higher in 2027; ~$10-15M/critical-IT MW shell+power (low conf)",
+        "capexmw": "Q2'26 capex record $44.9B (+100% y/y), ~60% servers / ~40% data centers + networking; FY26 guide RAISED to $195-205B (from $180-190B) 'primarily due to an acceleration in the delivery of capacity', 'significantly' higher in 2027; ~$10-15M/critical-IT MW shell+power (low conf)",
         "anchor": "Internal (Gemini/Search/YouTube) + Cloud; marquee external = Anthropic up to 1M Ironwood TPUs / >1 GW online 2026 / 5 GW over 5 yr / ~$40B",
         "contract": "Anthropic deal tens-of-$B; Broadcom ~$21B TPU supply (v8)",
         "margin": "Google Cloud profitable and scaling; no per-MW pricing disclosed",
@@ -2298,20 +2729,62 @@
         [
           "New Florence, MO (Montgomery Co.)",
           1000,
-          "p",
-          "$15B, announced May 2026"
+          "c",
+          "$15B; groundbreaking + construction start Q2'26 (Ameren 7/31/26); Ameren ESA sales begin H2'27"
         ],
         [
           "Cedar Rapids, IA (Big Cedar Ind. Ctr)",
           null,
           "c",
-          "1st bldg 2026"
+          "under construction; transmission service energized, load ramping per contract (Alliant 7/31/26)"
         ],
         [
           "Columbia County, GA (sole end user named 7/23/26)",
           null,
           "p",
           "~8M sq ft, 23\u201333 bldgs; $17B MOU approved 8/27/26 (press)"
+        ],
+        [
+          "Cheyenne, WY (Laramie Co.; Black Hills + AEP power)",
+          null,
+          "p",
+          "planned; energy service from late 2027, peak load 2030; 2.7 GW grid resource mix incl. reserves (Black Hills 10/06/26) + 702 MW AEP/Bloom fuel cells by end-2028"
+        ],
+        [
+          "Wilbarger County, TX (Vernon; AES co-located gen)",
+          null,
+          "p",
+          "announced Feb 2026; AES 20-yr PPAs for co-located generation; MW n/d"
+        ],
+        [
+          "Pine Island, MN (Xcel ESA)",
+          null,
+          "p",
+          "announced Feb 2026 (Xcel ESA; 1.9 GW new clean gen); MN PUC decision expected early 2027 (Xcel 7/30/26)"
+        ],
+        [
+          "West Memphis, AR (Crittenden Co.)",
+          null,
+          "c",
+          "$4B (ann. Oct 2025); Entergy: Arkansas DCs begin operating early 2027"
+        ],
+        [
+          "Stillwater + Muskogee, OK (OG&E; 3 DCs)",
+          null,
+          "p",
+          "announced 2025 (part of $9B OK); OG&E ESA filed 5/01/26, OCC resolution expected by YE2026"
+        ],
+        [
+          "Muhos + Kajaani, Finland (Tuike Finland; part of \u20ac13B)",
+          null,
+          "p",
+          "\u20ac13B over 2 yrs (ann. 9/09/26); site prep halted by LVV order pending EIA (stop by 10/23/26)"
+        ],
+        [
+          "Visakhapatnam, India (AdaniConneX/Airtel) \u2014 1 GW campus",
+          1000,
+          "p",
+          "$15B; site prep (demolition, levelling, boundary wall); AP High Court 10/06/26: work continues at developer's risk pending PIL"
         ]
       ],
       "src": [
@@ -2382,9 +2855,45 @@
         [
           "Google \u2014 Finland \u20ac13B + Loviisa (9/9/26)",
           "https://blog.google/innovation-and-ai/infrastructure-and-cloud/global-network/google-ai-commitment-to-finland/"
+        ],
+        [
+          "Black Hills \u2014 definitive agreements to serve Google's planned Cheyenne WY data center (10/06/26)",
+          "https://www.globenewswire.com/news-release/2026/10/06/3376007/10381/en/black-hills-corp-executes-definitive-agreements-to-serve-google-s-planned-data-center-in-cheyenne-wyoming.html"
+        ],
+        [
+          "AEP \u2014 $4B, 702 MW Bloom fuel cells near Cheyenne under 20-yr Google PPA (10/14/26)",
+          "https://www.prnewswire.com/news-releases/aep-advances-innovative-energy-solution-for-google-with-702mw-of-bloom-fuel-cells-302907658.html"
+        ],
+        [
+          "Xcel \u2014 to power new Google data center in Pine Island MN (2/24/26)",
+          "https://www.businesswire.com/news/home/20260224545187/en/Xcel-Energy-to-Power-New-Google-Data-Center-in-Minnesota/"
+        ],
+        [
+          "AES \u2014 co-located generation for new Google data center, Wilbarger Co. TX (2/24/26)",
+          "https://www.prnewswire.com/news-releases/aes-announces-landmark-agreements-with-google-in-texas-302695111.html"
+        ],
+        [
+          "OG&E \u2014 to power three Google data centers in Muskogee and Stillwater OK (4/30/26)",
+          "https://www.prnewswire.com/news-releases/oge-announces-landmark-contract-with-google-302758482.html"
+        ],
+        [
+          "Entergy Arkansas \u2014 powers Google's $4B West Memphis investment (10/02/25)",
+          "https://www.prnewswire.com/news-releases/entergy-arkansas-powers-googles-4b-investment-in-the-state-302574301.html"
+        ],
+        [
+          "Finland halts work at Google Muhos/Kajaani sites (dpa-AFX 10/07/26)",
+          "https://www.tradingview.com/news/dpa_afx:cee8cca0da9c3:0-finland-halts-work-at-two-planned-google-data-centres-over-forest-clearance/"
+        ],
+        [
+          "Reuters \u2014 $22B chip loan for Blackstone/Alphabet JV Crux AI; first 500 MW 2027 (9/16/26)",
+          "https://www.reuters.com/world/asia-pacific/banks-provide-22-billion-chip-loan-blackstone-alphabet-cloud-venture-bloomberg-2026-09-16/"
+        ],
+        [
+          "Alphabet Q2'26 call transcript (7/22/26)",
+          "https://s206.q4cdn.com/479360582/files/doc_events/2026/Jul/22/2026_Q2_Earnings_Transcript.pdf"
         ]
       ],
-      "cap": 4140.73,
+      "cap": 4145.08,
       "px": 340.59,
       "priced_date": "2026-10-16",
       "stale": false,
@@ -2395,8 +2904,8 @@
           300
         ]
       ],
-      "ev": 3998.43,
-      "wmw": 10125.0,
+      "ev": 4002.78,
+      "wmw": 10375.0,
       "ev_per_mw": null,
       "pct_energized": 34.3,
       "coverage": null
@@ -2408,7 +2917,7 @@
       "dupe": null,
       "private": false,
       "confidence": "estimate",
-      "flag": "op/con/plan estimate-only: Meta discloses no consolidated fleet MW. op~5,270 = derived legacy-fleet (~4-5 GW from ~30 TWh/yr electricity math) + Prometheus ~471 MW IT (Epoch est. 8/31/26, was ~700); con/plan = named campuses gross x0.72 \u2014 Lebanon IN + Sturgeon County AB (1 GW each, broke ground Feb/Jul 2026) moved planned->construction 2026-10-02 (total unchanged). Meta is END USER (bk null). Large third-party leased compute (CRWV/NBIS) excluded -> TENANTS edges.",
+      "flag": "op/con/plan estimate-only: Meta discloses no consolidated fleet MW. op~5,270 = derived legacy-fleet (~4-5 GW from ~30 TWh/yr electricity math) + Prometheus ~471 MW IT (Epoch est. 8/31/26, was ~700); con/plan = named campuses gross x0.72 \u2014 Lebanon IN + Sturgeon County AB (1 GW each, broke ground Feb/Jul 2026) moved planned->construction 2026-10-02 (total unchanged). Meta is END USER (bk null). Large third-party leased compute (CRWV/NBIS) excluded -> TENANTS edges. Q2'26 10-Q: ~$279B of DC/colo leases not yet commenced (2026-2036) plus ~$68B of new DC leases signed Jul-2026 commencing 2027-28 (18-20 yr) \u2014 $ only, no MW, so not reflected in con/plan.",
       "ev_note": null,
       "dom": "meta.com",
       "pipe": "Hyperion 2 GW -> 5 GW gross (+~2,160 MW IT); Zuckerberg 'tens of GW this decade, hundreds of GW or more over time'; SemiAnalysis: ~10 GW contracted since 2024, most third-party.",
@@ -2423,7 +2932,7 @@
         "backlog": "null - Meta is the end user of its own capacity, no external leasing RPO",
         "revmw": "n/a (internal use; no external per-MW pricing)",
         "capexmw": "derived: Prometheus ~$32.4B / 854 MW IT ~= $38M/MW (GPU-incl); El Paso $10B / ~720 MW IT ~= $14M/MW (facility-heavier)",
-        "anchor": "Internal - Llama / Meta AI / Superintelligence Labs. No external tenant. (Meta Compute launched Jul 2026 to resell surplus.)",
+        "anchor": "Internal - Llama / Muse / Meta Superintelligence Labs. No external tenant. (Meta Compute initiative already cited on the Q1'26 call, Apr-2026; Jul-2026 reports + Q2 call: plans to sell surplus compute.)",
         "contract": "Hyperion via off-b/s SPV/JV: Blue Owl 80% / Meta 20%; ~$27B 144A debt (2049) + ~$2.5B equity; PIMCO ~$18B anchor, BlackRock ~$3B; priced 2025-10-16. El Paso now mirrors it: BlackRock 80% / Meta 20%, ~$4.9B equity + ~$12.5B debt, Meta sole tenant (4-yr initial, ext. to 20), ~$1B one-time distribution to Meta (7/28/26)",
         "margin": "n/a (internal)",
         "power": "crit-IT ~0.72 of gross. On-site natural gas: Hyperion (Entergy ~2.26 GW approved, up to 10 plants ~7.5 GW ordered), El Paso 366 MW modular gas. Nuclear RFP + TerraPower/Oklo/Vistra (~6.6 GW clean by 2035). PUE ~1.08-1.1. Entergy's 7 additional gas units (~5.2 GW) for Hyperion face a Louisiana PSC evidentiary hearing 10/7/26 (press).",
@@ -2434,19 +2943,19 @@
           "Prometheus - New Albany, OH (Licking Co.)",
           471,
           "o",
-          "world's first ~1 GW AI supercluster; Epoch est. 471 MW IT (8/31/26) -> ~676 MW Nov 2026 -> ~1,022 MW peak 2028 w/ Socrates gas turbines"
+          "world's first ~1 GW AI supercluster; Epoch est. 471 MW IT (8/31/26); Williams Socrates on-site gas Ph1 200 MW in service Jul-2026, next phase by YE26; Epoch ~1,022 MW peak 2028"
         ],
         [
           "Hyperion - Richland Parish, LA",
           1440,
           "c",
-          "2 GW gross Ph1 ~summer 2028; scales to 5 GW; Blue Owl JV; Entergy gas"
+          "2 GW gross Ph1 (~1,440 MW IT at x0.72) ~summer 2028; scales to 5 GW; Blue Owl JV; Entergy gas"
         ],
         [
           "El Paso, TX (BlackRock JV 80/20)",
           720,
           "c",
-          "1 GW gross by 2028, ~$14B dev cost, off-B/S SPV (7/28/26); 366 MW on-site modular gas"
+          "1 GW gross (~720 MW IT at x0.72) by 2028, ~$14B dev cost, off-B/S SPV (7/28/26); 366 MW on-site modular gas"
         ],
         [
           "Lebanon, IN (Boone Co.)",
@@ -2476,7 +2985,7 @@
           "Cheyenne, WY (Laramie Co.)",
           null,
           "c",
-          "broke ground 2024, 715k sq ft"
+          "broke ground 2024, 715k sq ft; utility (Black Hills) expects Meta load to begin ramping late 2026"
         ],
         [
           "Prineville, OR (Crook Co.)",
@@ -2489,6 +2998,18 @@
           250,
           "o",
           "legacy op since 2017, 2.6M sq ft, 5 bldgs"
+        ],
+        [
+          "Tulsa, OK",
+          null,
+          "c",
+          ">$1B; construction began Apr 2026 (AI-optimized)"
+        ],
+        [
+          "Beaver Dam, WI (Dodge Co.)",
+          null,
+          "c",
+          "vertical construction (Alliant, Jul 2026); WI PSC-approved customer rate agreement"
         ]
       ],
       "src": [
@@ -2551,6 +3072,14 @@
         [
           "Meta \u2014 Sturgeon County AB 1 GW, CAD$13B+ (7/08/26)",
           "https://about.fb.com/news/2026/07/breaking-ground-on-metas-first-data-center-in-canada/"
+        ],
+        [
+          "Meta Q2'26 10-Q (2026-07-29): El Paso JV note, $68B Jul-2026 DC leases, $279B uncommenced leases",
+          "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001326801&type=10-Q"
+        ],
+        [
+          "Meta breaks ground on $1B+ Tulsa DC (Reuters 2026-04-21)",
+          "https://www.reuters.com/technology/meta-breaks-ground-over-1-billion-data-center-oklahomas-tulsa-2026-04-21/"
         ]
       ],
       "cap": 1807.01,
@@ -2582,10 +3111,10 @@
       "dupe": null,
       "private": false,
       "confidence": "estimate",
-      "flag": "\u26a0 ESTIMATE - domestic-China capacity, opaque disclosure; no facility-level critical-IT MW published. op/con/plan triangulated from named super-campuses + ~$56B capex program.",
+      "flag": "\u26a0 ESTIMATE - domestic-China capacity, opaque disclosure; no facility-level critical-IT MW published. op/con/plan triangulated from named super-campuses + ~$56B capex program. Company target >20 GW of Alibaba Cloud-operated global DC capacity by 2032 (Apsara 9/22/26) gives no current-GW baseline or schedule, so op/con/plan are left unchanged.",
       "ev_note": null,
       "dom": "alibabacloud.com",
-      "pipe": "RMB380B (~$56B) AI+cloud infra over FY26-FY28 (unrevised at Apsara 9/2026); press-reported target of >20 GW data-center capacity by 2032; 30 regions / 95 AZs by 2H26",
+      "pipe": "RMB380B (~$56B) AI+cloud infra over FY26-FY28 (RMB190B spent thru Jun 2026; no new spend figure given at Apsara 9/2026); CEO target (Apsara 9/22/26): Alibaba Cloud-operated global DC capacity >20 GW by 2032 (facility-scale GW, no current baseline disclosed); 31 regions / 107 AZs (9/2026); first regions in T\u00fcrkiye / Finland / Netherlands + DC expansions in Malaysia, Germany, UAE, France, HK within 12 months",
       "op": 2000,
       "con": 1000,
       "plan": 2000,
@@ -2595,7 +3124,7 @@
       "valuation_b": null,
       "econ": {
         "backlog": "no capacity backlog disclosed; cloud RPO not broken out; $100B external cloud revenue target by 2030 reiterated",
-        "capexmw": "June-qtr capex RMB67.7B (+75% y/y, record); RMB380B/~$56B 3-yr plan ~half spent through Jun 2026 (RMB126.1B FY26 + RMB67.7B)",
+        "capexmw": "June-qtr capex RMB67.7B (+75% y/y, record); RMB190B of the RMB380B/~$56B 3-yr plan spent through Jun 2026 (Q1 FY27 call); hyperscale AIDC delivery cut to 100 days; plans to raise global modular-DC capacity >2x ('\u4e24\u500d\u4ee5\u4e0a') in 2026",
         "anchor": "Alibaba Cloud internal + external AI/cloud tenants; AI Cloud and Compute Services (Cloud Intelligence + T-Head combined) rev RMB48.4B +45% y/y (June qtr, accelerating); AI product rev triple-digit 12 straight quarters; Zhenwu chips at >650 external customers",
         "power": "critical-IT MW estimated; assumes self-built super-campuses run ~70-75% of gross facility power",
         "pricing": "not disclosed"
@@ -2611,7 +3140,7 @@
           "Ulanqab campus (Inner Mongolia)",
           300,
           "o",
-          "operating"
+          "operating; one of 5 super DCs (~90% green power); first region for Zhenwu M890 SuperNode instances 8/12/26"
         ],
         [
           "Hangzhou / Zhenwu AI DC (Zhejiang)",
@@ -2630,6 +3159,30 @@
           null,
           "c",
           "expanding 2026-27"
+        ],
+        [
+          "S\u00e3o Paulo, Brazil region (2 AZs)",
+          null,
+          "o",
+          "live late Aug 2026; first S. America region"
+        ],
+        [
+          "France region (opened mid-2026)",
+          null,
+          "o",
+          "opened 2026; further DC expansion in France planned within 12 mo of 9/2026"
+        ],
+        [
+          "South Korea 3rd DC",
+          null,
+          "o",
+          "live 8/18/26"
+        ],
+        [
+          "New regions: T\u00fcrkiye / Finland / Netherlands",
+          null,
+          "p",
+          "first regions in all three within 12 mo of 9/23/26"
         ]
       ],
       "src": [
@@ -2656,6 +3209,14 @@
         [
           "Baxtel - Alibaba Cloud DCs (Zhangbei 500MW; 89 DCs)",
           "https://baxtel.com/data-centers/alibaba-cloud"
+        ],
+        [
+          "Alibaba Cloud PR 9/23/26 - Apsara 2026: 31 regions/107 AZs; first regions TR/FI/NL within 12 mo",
+          "https://www.tradingview.com/news/eqs:a809f933f094b:0-alibaba-cloud-expands-global-infrastructure-and-ai-portfolio-to-accelerate-enterprise-ai-adoption/"
+        ],
+        [
+          "Reuters 9/22/26 - Alibaba targets >20 GW cloud DC capacity by 2032",
+          "https://www.tradingview.com/news/reuters.com,2026:newsml_L1N45E01X:0-alibaba-deepens-ai-push-with-new-chip-bigger-model-shares-jump-5/"
         ]
       ],
       "cap": 271.44,
@@ -2679,12 +3240,12 @@
       "flag": "\u26a0 ESTIMATE - domestic-China capacity, opaque disclosure; GPU-supply-constrained through 2025-26. MW triangulated from named campuses + RMB500B infra program; no facility-level critical-IT MW published.",
       "ev_note": null,
       "dom": "cloud.tencent.com",
-      "pipe": "RMB500B (~$70B) 5-yr new-infra plan (AI-prioritized); 2H26 the buildout inflection as China-designed chips ramp",
+      "pipe": "RMB500B (~$70B) 5-yr new-infra plan (AI-prioritized); 2H26 the buildout inflection as China-designed chips ramp; overseas leased compute: ~100k advanced AI chips via a 5-yr Oracle SE-Asia lease (~$7B, ~30% upfront; FT-reported 10/1/26, unconfirmed)",
       "op": 1200,
       "con": 600,
       "plan": 1500,
       "nd": -8.6,
-      "ndflag": "NET CASH collapsed to RMB58.2B (~$8.6B at RMB6.7851/$) at 2026-06-30 (from RMB146.9B at 3/31) on capex payments RMB59.3B + RMB41.6B dividend; total cash RMB511.2B. Negative nd = net cash.",
+      "ndflag": "NET CASH collapsed to RMB58.2B (~$8.6B at RMB6.7851/$) at 2026-06-30 (from RMB146.9B at 3/31) on capex payments RMB59.3B + RMB41.6B dividend; total cash RMB511.2B. Negative nd = net cash. Post-Q: $1.8B + CNY26B MTN notes priced 10/13/26 (net \u2248 $1.79B + CNY25.89B \u2248 $5.6B; issue 10/21/26; 'general corporate purposes', mostly AI capex/chips per press). Net-cash-neutral at issue; re-pull at Q3 (board meeting 11/18/26).",
       "bk": null,
       "valuation_b": null,
       "econ": {
@@ -2736,14 +3297,22 @@
         [
           "SCMP - Alibaba/Tencent AI-spend surge, China chips ramp",
           "https://www.scmp.com/tech/big-tech/article/3353573/alibaba-tencent-signal-ai-spending-surge-despite-earnings-pressure-china-chips-ramp"
+        ],
+        [
+          "Reuters/FT 10/1/26 - Tencent leases ~100k AI chips from Oracle (5-yr, SE Asia, ~$7B)",
+          "https://www.tradingview.com/news/reuters.com,2026:newsml_L4N45N068:0-china-s-tencent-leases-100-000-chips-from-oracle-to-accelerate-ai-push-ft-reports/"
+        ],
+        [
+          "Tencent HKEX 10/13/26 - pricing of US$1.8B + CNY26B MTN notes (issue 10/21/26)",
+          "https://www.tradingview.com/news/reuters.com,2026:newsml_FWN45Z1PW:0-tencent-prices-1-8-bln-and-cny26-bln-notes-under-global-medium-term-note-programme/"
         ]
       ],
-      "cap": 483.41,
+      "cap": 478.22,
       "px": 52.75,
       "priced_date": "2026-10-16",
       "stale": false,
       "tl": [],
-      "ev": 474.81,
+      "ev": 469.62,
       "wmw": 1875.0,
       "ev_per_mw": null,
       "pct_energized": 36.4,
@@ -2759,7 +3328,7 @@
       "flag": "\u26a0 ESTIMATE - smallest of the three Chinese clouds by footprint; opaque disclosure. Differentiated by in-house Kunlun silicon (reduces Nvidia dependence). MW triangulated; no facility-level critical-IT MW published.",
       "ev_note": null,
       "dom": "cloud.baidu.com",
-      "pipe": "Kunlun M100 (2026) / M300 (2027) in-house chips; Tianchi 256/512 supernodes; 1M-card single Kunlun cluster targeted 2030",
+      "pipe": "Kunlun M100 (2026) / M300 (2027) in-house chips; single Kunlunxin cluster of >30,000 accelerators in commercial deployment (Q1'26 call); Tianchi 256/512 supernodes; 1M-card single Kunlun cluster targeted 2030",
       "op": 600,
       "con": 400,
       "plan": 800,
@@ -2826,13 +3395,13 @@
       "dupe": null,
       "private": false,
       "confidence": "estimate",
-      "flag": "\u26a0 op/con/plan are the hyperscale/AI-attributable slice (xScale + neocloud/AI deployments); the ~270-IBX retail-colo portfolio is EXCLUDED. Equinix does not publish a single AI-MW figure - split is an estimate off filed xScale/JV/atNorth totals.",
+      "flag": "\u26a0 op/con/plan are the hyperscale/AI-attributable slice (xScale + neocloud/AI deployments); the ~280-data-center retail-colo portfolio is EXCLUDED. Equinix does not publish a single AI-MW figure - split is an estimate off filed xScale/JV/atNorth totals. Management (Sep '26): 'Retail is the focus'; xScale 'part of the portfolio'; typical new build ~50\u201360 MW, no gigawatt training campuses.",
       "ev_note": "EV prices the whole ~270-IBX retail colocation portfolio this row excludes; the tracked AI slice is a minority of it.",
       "dom": "equinix.com",
-      "pipe": ">725 MW xScale at full buildout across 35+ facilities; +>1.5 GW planned via >$15B US xScale JV; +~800 MW via atNorth acquisition over 5 yrs",
+      "pipe": ">725 MW xScale at full buildout across 35+ facilities; >1.5 GW US xScale JV (first asset Hampton GA ~240 MW, half leased Q2'26; Minooka IL next); +~800 MW atNorth over 5 yrs; company-wide (incl. retail): ~3 GW powered land under control, ~600\u2013700 MW under development, ~1 GW 'under production' by early 2027, ~1 GW to be deployed by end-2029; ~1 GW of the 3 GW earmarked for xScale (Feb '26)",
       "op": 450,
-      "con": 350,
-      "plan": 1500,
+      "con": 590,
+      "plan": 1260,
       "nd": 21.2,
       "ndflag": "Q2'26 10-Q: total indebtedness ~$22.2B \u2212 cash $0.98B \u2248 $21.2B (cash-only basis, as Q1). $3.0B senior notes issued 8/06/26 \u2014 net-neutral at issuance.",
       "bk": null,
@@ -2840,7 +3409,7 @@
       "econ": {
         "backlog": "no capacity leasing backlog line; Q2'26 record $424M annualized gross bookings (+23% y/y); 134 MW of xScale leases closed in Q2 (incl Hampton, ~$120M non-recurring fees); atNorth acquisition CLOSED 9/02/26 (CPP ~51% / EQIX ~34% / Partners Group ~10%)",
         "revmw": "not broken out at MW level",
-        "capexmw": "2026 total capex ~$4.1B (~$3.8B non-recurring ex on-BS xScale)",
+        "capexmw": "2026 capex guide raised to $5\u20136B (non-recurring $4.71\u20135.69B, ex xScale & real-estate acquisitions); $5\u20137B/yr planned 2027\u20132029",
         "anchor": "8/10 top AI providers + 4/5 neoclouds deploy on Equinix; xScale tenants are named hyperscalers (undisclosed individually)",
         "contract": "xScale = long-term pre-committed hyperscale leases",
         "power": "AI-attributable critical-IT MW estimated from xScale (>725MW buildout) + atNorth (~800MW) + US JV (>1.5GW)",
@@ -2857,19 +3426,37 @@
           "atNorth (Nordics - Iceland/Sweden/Finland)",
           800,
           "p",
-          "~800MW over 5 yrs (100% of asset; EQIX ~34% after 9/02/26 close)"
+          "~800MW over 5 yrs (100%; EQIX ~34%, closed 9/02/26); 8 operating DCs + 4 mega sites UC (Kouvola FI, \u00d8lgod DK, Sollefte\u00e5 SE, Haugaland NO) + Stockholm metro"
         ],
         [
           "US xScale JV campuses (>1.5GW)",
-          1500,
+          1260,
           "p",
-          "land acquisition; 100MW+ each"
+          "remaining JV target after Hampton (240 MW, tracked separately); Minooka IL next; other sites undisclosed"
         ],
         [
           "Global xScale portfolio (35+ facilities)",
           725,
           "c",
           ">725MW at full buildout"
+        ],
+        [
+          "Hampton, GA xScale campus (Americas JV) \u2014 4 bldgs",
+          240,
+          "c",
+          "~240 MW IT at full build; 2 of 4 bldgs leased to a hyperscaler (closed Q2'26); 20-yr take-or-pay power deal w/ Central Georgia EMC; 'on track' (Sep '26)"
+        ],
+        [
+          "Minooka, IL xScale campus",
+          null,
+          "p",
+          "2nd US xScale campus; lease-up not yet timed (Q1'26); 'on track' (Sep '26); MW undisclosed"
+        ],
+        [
+          "Cape Town, South Africa \u2014 2 DCs (King Air Industria)",
+          null,
+          "p",
+          "planning approved Jul '26 (~170 MW power); land bought; no site plan filed; activist appeal possible"
         ]
       ],
       "src": [
@@ -2900,6 +3487,10 @@
         [
           "Q2'26 10-Q (~$22.2B indebtedness; cash $979M)",
           "https://www.sec.gov/Archives/edgar/data/1101239/000110123926000147/eqix-20260630.htm"
+        ],
+        [
+          "Equinix/CGEMC 8/06/26 \u2014 Hampton 20-yr take-or-pay power, new substation",
+          "https://www.tradingview.com/news/prnewswire:a0b68a7b642d9:0-equinix-partners-with-central-georgia-electric-membership-corporation-to-protect-ratepayers/"
         ]
       ],
       "cap": 97.29,
@@ -2908,7 +3499,7 @@
       "stale": false,
       "tl": [],
       "ev": 118.49,
-      "wmw": 1000.0,
+      "wmw": 1060.0,
       "ev_per_mw": null,
       "pct_energized": 19.6,
       "coverage": null
@@ -2923,7 +3514,7 @@
       "flag": "op is AI/hyperscale-attributable slice (~2.0GW) of total operating IT capacity; con=under-construction pipeline (filed, 1.4 GW Q2'26). bk is 100%-share backlog ($1.4B at DLR share) and EXCLUDES $410M of hyperscale leases signed Jul 2026. confidence=estimate: op is an analyst attribution.",
       "ev_note": null,
       "dom": "digitalrealty.com",
-      "pipe": "1.4 GW under construction (63% pre-leased, ~$20B cost); $3.25B US hyperscale fund + ~$6B liquidity; 310 DCs / 50+ metros",
+      "pipe": "1.4 GW under construction (63% pre-leased, ~$20B cost); 7 GW land behind it (~3.5\u20134 GW with ESAs) incl. Kansas City (2 GW utility), Atlanta (>1 GW), Hillsboro (245 MW); $3.25B US hyperscale fund + ~$6B liquidity; 300+ DCs / 55+ metros",
       "op": 2000,
       "con": 1400,
       "plan": 1000,
@@ -2932,13 +3523,13 @@
       "bk": 1.9,
       "valuation_b": null,
       "econ": {
-        "backlog": "$1.9B record backlog (100% share) / $1.4B DLR share (+75% YTD, ~30% of in-place DC rent) - signed-not-commenced; excl. $410M Jul-2026 leases; visibility into 2027-28",
+        "backlog": "$1.9B record backlog (100% share) / $1.4B DLR share at 6/30/26 (~30% of in-place DC rent); ~$2.3B pro forma incl. the two July 2026 hyperscale leases ($410M at 100% / $205M DLR share); visibility into 2027-28",
         "revmw": "not disclosed per-MW; 21% of Q1 signings AI-oriented",
         "capexmw": "$3.25B US hyperscale fund finalized; ~$10B dev capital available",
         "anchor": "Q1'26 largest-ever lease: 200MW AI-inference deal w/ AA-rated hyperscaler (Charlotte), phasing through 2028",
         "contract": "hyperscale long-term; record $700M new leases ($423M DLR share), 116 new logos",
         "margin": "leverage 4.7x; Core FFO $2.13 (record, Q2'26); FY26 guide raised to $8.15-8.20",
-        "power": "2.7GW total operating IT capacity; transitioned reporting to power-based occupancy metrics",
+        "power": "~3 GW operating IT capacity (CFO 9/29/26; CEO 'just over 3 GW' 7/23/26); 1.4 GW UC; 7 GW land (~3.5\u20134 GW with ESAs in hand); 9 GW total growth runway; power-based occupancy metrics",
         "pricing": "wholesale hyperscale + interconnection colo (0-1MW+ bookings $98M, +40% YoY)"
       },
       "sites": [
@@ -2946,13 +3537,13 @@
           "Charlotte, NC - 200MW AI-inference (AA hyperscaler)",
           200,
           "c",
-          "phasing through 2028; new market"
+          "phased deliveries from 2027 into 2028; airport campus; vested despite city moratorium"
         ],
         [
           "Charlotte, NC - 2nd 200MW building",
           200,
-          "p",
-          "follows building 1"
+          "c",
+          "under construction behind bldg 1 (airport campus); vested despite city moratorium; no delivery date"
         ],
         [
           "Atlanta, GA - 200MW development",
@@ -2964,7 +3555,7 @@
           "Ashburn / Northern Virginia hub",
           null,
           "o",
-          "largest DLR hyperscale hub"
+          "largest DLR hyperscale hub; Digital Dulles = 'gigawatt site' on ~10-yr build; ~50 MW available + 96 MW building (Sep '26)"
         ],
         [
           "Chicago (Franklin Park), IL",
@@ -2977,6 +3568,60 @@
           null,
           "o",
           "10MW+ signings Q1'26"
+        ],
+        [
+          "Northern Virginia \u2014 2 of 3 ex-Blackstone JV bldgs (2\u00d796 MW)",
+          192,
+          "c",
+          "100% leased to 3 IG hyperscalers (15-yr, AA- avg); stabilize H1'27; DLR bought out BX 6/30/26 (Manassas \u00d72 + Sterling \u00d71 \u2014 release doesn't say which stabilizes later)"
+        ],
+        [
+          "Northern Virginia \u2014 3rd ex-Blackstone JV bldg (96 MW)",
+          96,
+          "c",
+          "stabilizes H1'28"
+        ],
+        [
+          "Kansas City metro (Astra Enterprise Park, De Soto KS) \u2014 1,440 acres",
+          null,
+          "s",
+          "ESA: 600 MW utility power by early 2028, rising to 2 GW; construction start expected H2'26"
+        ],
+        [
+          "Atlanta metro \u2014 >1 GW campus (873-acre parcel + adjacent parcel)",
+          1000,
+          "p",
+          "land acquired Q1+Q2'26; 'over one gigawatt of IT capacity'; power still being arranged (Q1'26 call)"
+        ],
+        [
+          "Hillsboro, OR \u2014 30-acre parcel (160 MW) + adjacent 85 MW assemblage",
+          245,
+          "p",
+          "hyperscale land acquired Q4'25\u2013Q1'26"
+        ],
+        [
+          "Osaka KIX15, Ibaraki (MC Digital Realty 50/50 JV)",
+          24,
+          "c",
+          "construction began 10/07/26; AI/liquid-cooling ready; ops Q4 2028"
+        ],
+        [
+          "Singapore \u2014 Jurong Island (DC-CFA2 award)",
+          50,
+          "s",
+          "provisional 50 MW allocation (Aug 2026); AI-inference-ready; 4th SG DC"
+        ],
+        [
+          "Charlotte, NC - 3rd project (approved, not started)",
+          null,
+          "p",
+          "'buildable and approved' despite city moratorium (Sep 2026); MW undisclosed"
+        ],
+        [
+          "S\u00e3o Paulo, Brazil \u2014 hyperscale development",
+          null,
+          "c",
+          "'significant activity underway' (Q2'26); record >1MW signings; MW undisclosed"
         ]
       ],
       "src": [
@@ -3003,6 +3648,18 @@
         [
           "Q2'26 10-Q (debt principal $18.77B; cash $1.86B)",
           "https://www.sec.gov/Archives/edgar/data/1297996/000110465926089296/dlr-20260630x10q.htm"
+        ],
+        [
+          "DLR/Blackstone 6/29/26 \u2014 3\u00d796 MW NoVA (Manassas \u00d72, Sterling) buyout",
+          "https://www.tradingview.com/news/globenewswire:7873e997e094b:0-digital-realty-announces-purchase-of-blackstone-interest-in-three-northern-virginia-data-centers/"
+        ],
+        [
+          "DLR Kansas City 6/22/26 \u2014 Astra Enterprise Park, 600 MW\u21922 GW ESA",
+          "https://www.tradingview.com/news/globenewswire:7cf14b432094b:0-digital-realty-announces-transactions-to-drive-continued-platform-growth/"
+        ],
+        [
+          "DLR KIX15 Osaka 10/07/26 \u2014 24 MW, ops Q4'28",
+          "https://www.tradingview.com/news/globenewswire:3e87002ff094b:0-digital-realty-commences-construction-of-kix15-data-center-expanding-ai-infrastructure-in-japan/"
         ]
       ],
       "cap": 65.28,
@@ -3019,6 +3676,21 @@
           "2028Q4",
           "Atlanta, GA - 200MW development",
           200
+        ],
+        [
+          "2027Q2",
+          "Northern Virginia \u2014 2 of 3 ex-Blackstone JV bldgs (2\u00d796 MW)",
+          192
+        ],
+        [
+          "2028Q2",
+          "Northern Virginia \u2014 3rd ex-Blackstone JV bldg (96 MW)",
+          96
+        ],
+        [
+          "2028Q4",
+          "Osaka KIX15, Ibaraki (MC Digital Realty 50/50 JV)",
+          24
         ]
       ],
       "ev": 82.18,
@@ -3037,7 +3709,7 @@
       "flag": "op is FILED: SpaceX Q2'26 10-Q 'nameplate compute draw' 1.4 GW at 6/30/26 (installed GPUs x all-in draw, excl. cooling/facility overhead ~= critical-IT; 0.4 GW a year earlier). con = filed floor (>400 MW next Colossus II phase); plan = Southaven Bldg 3. Now SpaceX's AI segment (SPCX listed 6/12/26); sells reserved compute to third parties (Anthropic) besides captive Grok training.",
       "ev_note": null,
       "dom": "x.ai",
-      "pipe": "~2,000 gross by late 2026; ~1M GPUs; Solaris 1.1 GW turbines by Q2 2027",
+      "pipe": ">2 GW nameplate compute by YE2026 ('over two gigawatts', CFO Q2'26 call 8/4; 'a little over 2 GW', CFO 9/10); 2027: 5\u201310 GW deployed ('closer to 10', Musk), with ~15\u201320 GW of power/cooling projects targeted by end-2027; ~1M GPUs; Solaris 1.1 GW turbines by Q2 2027",
       "op": 1400,
       "con": 400,
       "plan": 700,
@@ -3048,7 +3720,7 @@
       "econ": {
         "backlog": "$14.1B Cloud Services Agreements contracted sales (Q2'26 release); terminable on 90 days' notice after an initial period",
         "capexmw": "AI capex $15.8B Q2'26 / $23.6B 1H'26; earlier ~$18B for 555k GPUs on Colossus 2 (~$32M/MW-equiv, GPU-incl.)",
-        "anchor": "captive (xAI/Grok-5 training at Colossus II) + Anthropic (~325k GPUs across Colossus + Colossus II, $1.25B/month through May 2029, per 424B4); Google ~110k GPUs Oct 2026\u2013Jun 2029 (press-only)",
+        "anchor": "captive (xAI/Grok-5 training at Colossus II) + Anthropic (~325k GPUs across Colossus + Colossus II, $1.25B/month through May 2029, per 424B4) + Google (CSA signed 6/5/26: $920M/month Oct 2026\u2013Jun 2029 per SpaceX filing as reported; ramp confirmed on Q2'26 call; ~110k GPUs press-only) + undisclosed hosting customers ($6.7B over 6 months from Oct 2026, contracted early Q3; ~$1.11B/month from 12/1/26, closed Sep 2026); CSAs are ~90-day + 90-day-out commits",
         "power": "Southaven gas JV w/ Solaris (50.1/49.9); 7x35 MW turbines live, 1.1 GW by Q2'27; MLGW grid + on-site gas",
         "pricing": "reserved compute via Cloud Services Agreements (~$1.25B/mo Anthropic)",
         "margin": "Q2'26 AI segment revenue $2.56B"
@@ -3115,6 +3787,10 @@
         [
           "xAI joins SpaceX (x.ai)",
           "https://x.ai/news/xai-joins-spacex"
+        ],
+        [
+          "CNBC \u2014 Google to pay SpaceX $920M/month for compute at xAI data centers (2026-06-05)",
+          "https://www.cnbc.com/2026/06/05/google-to-pay-spacex-920-million-a-month-for-xai-compute-capacity.html"
         ]
       ],
       "cap": null,
@@ -3165,7 +3841,7 @@
           "Milam County TX (SB Energy / SoftBank)",
           1200,
           "c",
-          "first bldg delivery Oct 2026; full Q4 2028; scales to multi-GW"
+          "first bldg delivery Oct 2026 (bldg MW n/d); full Q4 2028; scales to multi-GW"
         ],
         [
           "Lordstown OH (SoftBank/Foxconn, ex-GM/Foxconn plant)",
@@ -3232,7 +3908,7 @@
       "stale": false,
       "tl": [
         [
-          "2026Q4",
+          "2028Q4",
           "Milam County TX (SB Energy / SoftBank)",
           1200
         ],
@@ -3252,81 +3928,81 @@
   "cohorts": {
     "all": {
       "companies": 29,
-      "op": 41475.5,
-      "con": 33871.3,
-      "plan": 49818
+      "op": 41490.5,
+      "con": 37891.3,
+      "plan": 44883
     },
     "neocloud": {
       "companies": 19,
-      "op": 3754.5,
-      "con": 8381.3,
-      "plan": 13558
+      "op": 3769.5,
+      "con": 8551.3,
+      "plan": 11223
     },
     "hyperscaler": {
       "companies": 10,
       "op": 37721,
-      "con": 25490,
-      "plan": 36260
+      "con": 29340,
+      "plan": 33660
     }
   },
   "timeline": {
     "all": {
-      "base_mw": 41475.5,
+      "base_mw": 41490.5,
       "points": [
         {
           "q": "2026Q2",
           "add_mw": 0,
-          "cum_mw": 41475.5
+          "cum_mw": 41490.5
         },
         {
           "q": "2026Q3",
           "add_mw": 216,
-          "cum_mw": 41691.5
+          "cum_mw": 41706.5
         },
         {
           "q": "2026Q4",
-          "add_mw": 4223.0,
-          "cum_mw": 45914.5
+          "add_mw": 1869.5,
+          "cum_mw": 43576.0
         },
         {
           "q": "2027Q1",
-          "add_mw": 662.2,
-          "cum_mw": 46576.7
+          "add_mw": 996.7,
+          "cum_mw": 44572.7
         },
         {
           "q": "2027Q2",
-          "add_mw": 1405,
-          "cum_mw": 47981.7
+          "add_mw": 874,
+          "cum_mw": 45446.7
         },
         {
           "q": "2027Q3",
           "add_mw": 65.1,
-          "cum_mw": 48046.799999999996
+          "cum_mw": 45511.799999999996
         },
         {
           "q": "2027Q4",
-          "add_mw": 4431,
-          "cum_mw": 52477.799999999996
+          "add_mw": 3413,
+          "cum_mw": 48924.799999999996
         },
         {
           "q": "2028Q1",
-          "add_mw": 0,
-          "cum_mw": 52477.799999999996
+          "add_mw": 661,
+          "cum_mw": 49585.799999999996
         },
         {
           "q": "2028Q2",
-          "add_mw": 737,
-          "cum_mw": 53214.799999999996
+          "add_mw": 753,
+          "cum_mw": 50338.799999999996
         },
         {
           "q": "2028Q3",
           "add_mw": 1440,
-          "cum_mw": 54654.799999999996
+          "cum_mw": 51778.799999999996
         },
         {
           "q": "2028Q4",
-          "add_mw": 2653,
-          "cum_mw": 57307.799999999996
+          "add_mw": 4407,
+          "cum_mw": 56185.799999999996
         }
       ],
       "milestones": {
@@ -3340,8 +4016,8 @@
         "2026Q4": [
           [
             "ORCL",
-            "Abilene TX (Stargate I)",
-            1200
+            "Abilene TX (Stargate I, Crusoe) \u2014 bldgs 7\u20138",
+            206
           ],
           [
             "NBIS",
@@ -3350,8 +4026,8 @@
           ],
           [
             "APLD",
-            "Polaris Forge 2 (Harwood)",
-            200
+            "Polaris Forge 2 (Harwood) \u2014 initial ~50 MW",
+            50
           ],
           [
             "WULF",
@@ -3372,11 +4048,6 @@
             "RIOT",
             "Rockdale (AMD Ph2)",
             25
-          ],
-          [
-            "BTDR",
-            "Cyberjaya, Malaysia \u2014 A102 (AI cloud)",
-            9.5
           ],
           [
             "BTDR",
@@ -3397,14 +4068,19 @@
             "XAI",
             "Colossus 2 - next phase (>=220k GB300)",
             400
-          ],
-          [
-            "STARGATE",
-            "Milam County TX (SB Energy / SoftBank)",
-            1200
           ]
         ],
         "2027Q1": [
+          [
+            "APLD",
+            "Polaris Forge 2 (Harwood) \u2014 remaining ~150 MW",
+            150
+          ],
+          [
+            "CORZ",
+            "Dalton, GA (CoreWeave Ph I\u2013II)",
+            175
+          ],
           [
             "WULF",
             "Lake Mariner \u2014 CB-5",
@@ -3419,6 +4095,11 @@
             "IREN",
             "Childress \u2014 NVIDIA air-cooled",
             60
+          ],
+          [
+            "BTDR",
+            "Cyberjaya, Malaysia \u2014 A102 (AI cloud)",
+            9.5
           ],
           [
             "BTDR",
@@ -3438,16 +4119,6 @@
             300
           ],
           [
-            "CORZ",
-            "AMD five-site program (Pecos TX \u00b7 Auburn AL \u00b7 Muskogee \u00b7 Dalton \u00b7 Hunt Co.)",
-            530
-          ],
-          [
-            "GLXY",
-            "Helios Phase II",
-            260
-          ],
-          [
             "HUT",
             "River Bend Campus (Fluidstack)",
             245
@@ -3456,6 +4127,16 @@
             "CIFR",
             "Stingray (AWS)",
             70
+          ],
+          [
+            "BTDR",
+            "Malaysia (3rd hub) \u2014 A901 (AI cloud)",
+            67
+          ],
+          [
+            "DLR",
+            "Northern Virginia \u2014 2 of 3 ex-Blackstone JV bldgs (2\u00d796 MW)",
+            192
           ]
         ],
         "2027Q3": [
@@ -3483,38 +4164,33 @@
           ],
           [
             "APLD",
-            "Polaris Forge 3 \u2014 LEASED",
+            "Polaris Forge 3 \u2014 Center, ND (Oliver Co.) \u2014 LEASED",
             300
           ],
           [
-            "CORZ",
-            "Muskogee, OK",
-            70
-          ],
-          [
-            "CORZ",
-            "Muskogee expansion (Polaris DS) \u2014 CLOSED",
-            330
-          ],
-          [
-            "WULF",
-            "Justified Data \u2014 Hawesville KY (Anthropic)",
-            401
+            "IREN",
+            "Sweetwater 1 \u2014 first phase (liquid-cooled)",
+            200
           ],
           [
             "KEEL",
-            "Panther Creek PA",
-            350
+            "Moses Lake WA",
+            18
           ],
           [
             "RIOT",
-            "Rockdale (frontier AI lab)",
-            191
+            "Rockdale (frontier AI lab) \u2014 first 96 MW",
+            96
           ],
           [
             "BTDR",
             "Knoxville TN (A601)",
             55
+          ],
+          [
+            "BTDR",
+            "Wenatchee WA (A501)",
+            10
           ],
           [
             "AMZN",
@@ -3527,21 +4203,38 @@
             300
           ]
         ],
+        "2028Q1": [
+          [
+            "GLXY",
+            "Helios Phase II",
+            260
+          ],
+          [
+            "WULF",
+            "Justified Data \u2014 Hawesville KY (Anthropic)",
+            401
+          ]
+        ],
         "2028Q2": [
           [
             "APLD",
-            "Delta Forge 2 \u2014 LEASED",
+            "Delta Forge 2 \u2014 Alabama \u2014 LEASED",
             210
-          ],
-          [
-            "CORZ",
-            "Dalton, GA",
-            175
           ],
           [
             "HUT",
             "Beacon Point Phase 2 (IG hyperscaler)",
             352
+          ],
+          [
+            "RIOT",
+            "Rockdale (frontier AI lab) \u2014 remaining 95 MW",
+            95
+          ],
+          [
+            "DLR",
+            "Northern Virginia \u2014 3rd ex-Blackstone JV bldg (96 MW)",
+            96
           ]
         ],
         "2028Q3": [
@@ -3556,6 +4249,11 @@
             "ORCL",
             "Shackelford County TX (Vantage)",
             1400
+          ],
+          [
+            "CORZ",
+            "AMD five-site program (Pecos TX \u00b7 Auburn AL \u00b7 Muskogee \u00b7 Dalton \u00b7 Hunt Co.)",
+            530
           ],
           [
             "GLXY",
@@ -3576,67 +4274,77 @@
             "DLR",
             "Atlanta, GA - 200MW development",
             200
+          ],
+          [
+            "DLR",
+            "Osaka KIX15, Ibaraki (MC Digital Realty 50/50 JV)",
+            24
+          ],
+          [
+            "STARGATE",
+            "Milam County TX (SB Energy / SoftBank)",
+            1200
           ]
         ]
       }
     },
     "neocloud": {
-      "base_mw": 3754.5,
+      "base_mw": 3769.5,
       "points": [
         {
           "q": "2026Q2",
           "add_mw": 0,
-          "cum_mw": 3754.5
+          "cum_mw": 3769.5
         },
         {
           "q": "2026Q3",
           "add_mw": 216,
-          "cum_mw": 3970.5
+          "cum_mw": 3985.5
         },
         {
           "q": "2026Q4",
-          "add_mw": 1123.0,
-          "cum_mw": 5093.5
+          "add_mw": 963.5,
+          "cum_mw": 4949.0
         },
         {
           "q": "2027Q1",
-          "add_mw": 662.2,
-          "cum_mw": 5755.7
+          "add_mw": 996.7,
+          "cum_mw": 5945.7
         },
         {
           "q": "2027Q2",
-          "add_mw": 1405,
-          "cum_mw": 7160.7
+          "add_mw": 874,
+          "cum_mw": 6819.7
         },
         {
           "q": "2027Q3",
           "add_mw": 65.1,
-          "cum_mw": 7225.8
+          "cum_mw": 6884.8
         },
         {
           "q": "2027Q4",
-          "add_mw": 3097,
-          "cum_mw": 10322.8
+          "add_mw": 2079,
+          "cum_mw": 8963.8
         },
         {
           "q": "2028Q1",
-          "add_mw": 0,
-          "cum_mw": 10322.8
+          "add_mw": 661,
+          "cum_mw": 9624.8
         },
         {
           "q": "2028Q2",
-          "add_mw": 737,
-          "cum_mw": 11059.8
+          "add_mw": 753,
+          "cum_mw": 10377.8
         },
         {
           "q": "2028Q3",
           "add_mw": 0,
-          "cum_mw": 11059.8
+          "cum_mw": 10377.8
         },
         {
           "q": "2028Q4",
-          "add_mw": 533,
-          "cum_mw": 11592.8
+          "add_mw": 1087,
+          "cum_mw": 11464.8
         }
       ],
       "milestones": {
@@ -3655,8 +4363,8 @@
           ],
           [
             "APLD",
-            "Polaris Forge 2 (Harwood)",
-            200
+            "Polaris Forge 2 (Harwood) \u2014 initial ~50 MW",
+            50
           ],
           [
             "WULF",
@@ -3680,11 +4388,6 @@
           ],
           [
             "BTDR",
-            "Cyberjaya, Malaysia \u2014 A102 (AI cloud)",
-            9.5
-          ],
-          [
-            "BTDR",
             "Tydal Norway \u2014 Ph1 (Volta)",
             60.5
           ],
@@ -3695,6 +4398,16 @@
           ]
         ],
         "2027Q1": [
+          [
+            "APLD",
+            "Polaris Forge 2 (Harwood) \u2014 remaining ~150 MW",
+            150
+          ],
+          [
+            "CORZ",
+            "Dalton, GA (CoreWeave Ph I\u2013II)",
+            175
+          ],
           [
             "WULF",
             "Lake Mariner \u2014 CB-5",
@@ -3709,6 +4422,11 @@
             "IREN",
             "Childress \u2014 NVIDIA air-cooled",
             60
+          ],
+          [
+            "BTDR",
+            "Cyberjaya, Malaysia \u2014 A102 (AI cloud)",
+            9.5
           ],
           [
             "BTDR",
@@ -3728,16 +4446,6 @@
             300
           ],
           [
-            "CORZ",
-            "AMD five-site program (Pecos TX \u00b7 Auburn AL \u00b7 Muskogee \u00b7 Dalton \u00b7 Hunt Co.)",
-            530
-          ],
-          [
-            "GLXY",
-            "Helios Phase II",
-            260
-          ],
-          [
             "HUT",
             "River Bend Campus (Fluidstack)",
             245
@@ -3746,6 +4454,16 @@
             "CIFR",
             "Stingray (AWS)",
             70
+          ],
+          [
+            "BTDR",
+            "Malaysia (3rd hub) \u2014 A901 (AI cloud)",
+            67
+          ],
+          [
+            "DLR",
+            "Northern Virginia \u2014 2 of 3 ex-Blackstone JV bldgs (2\u00d796 MW)",
+            192
           ]
         ],
         "2027Q3": [
@@ -3773,58 +4491,75 @@
           ],
           [
             "APLD",
-            "Polaris Forge 3 \u2014 LEASED",
+            "Polaris Forge 3 \u2014 Center, ND (Oliver Co.) \u2014 LEASED",
             300
           ],
           [
-            "CORZ",
-            "Muskogee, OK",
-            70
-          ],
-          [
-            "CORZ",
-            "Muskogee expansion (Polaris DS) \u2014 CLOSED",
-            330
-          ],
-          [
-            "WULF",
-            "Justified Data \u2014 Hawesville KY (Anthropic)",
-            401
+            "IREN",
+            "Sweetwater 1 \u2014 first phase (liquid-cooled)",
+            200
           ],
           [
             "KEEL",
-            "Panther Creek PA",
-            350
+            "Moses Lake WA",
+            18
           ],
           [
             "RIOT",
-            "Rockdale (frontier AI lab)",
-            191
+            "Rockdale (frontier AI lab) \u2014 first 96 MW",
+            96
           ],
           [
             "BTDR",
             "Knoxville TN (A601)",
             55
+          ],
+          [
+            "BTDR",
+            "Wenatchee WA (A501)",
+            10
+          ]
+        ],
+        "2028Q1": [
+          [
+            "GLXY",
+            "Helios Phase II",
+            260
+          ],
+          [
+            "WULF",
+            "Justified Data \u2014 Hawesville KY (Anthropic)",
+            401
           ]
         ],
         "2028Q2": [
           [
             "APLD",
-            "Delta Forge 2 \u2014 LEASED",
+            "Delta Forge 2 \u2014 Alabama \u2014 LEASED",
             210
-          ],
-          [
-            "CORZ",
-            "Dalton, GA",
-            175
           ],
           [
             "HUT",
             "Beacon Point Phase 2 (IG hyperscaler)",
             352
+          ],
+          [
+            "RIOT",
+            "Rockdale (frontier AI lab) \u2014 remaining 95 MW",
+            95
+          ],
+          [
+            "DLR",
+            "Northern Virginia \u2014 3rd ex-Blackstone JV bldg (96 MW)",
+            96
           ]
         ],
         "2028Q4": [
+          [
+            "CORZ",
+            "AMD five-site program (Pecos TX \u00b7 Auburn AL \u00b7 Muskogee \u00b7 Dalton \u00b7 Hunt Co.)",
+            530
+          ],
           [
             "GLXY",
             "Helios Phase III",
@@ -3839,6 +4574,11 @@
             "DLR",
             "Atlanta, GA - 200MW development",
             200
+          ],
+          [
+            "DLR",
+            "Osaka KIX15, Ibaraki (MC Digital Realty 50/50 JV)",
+            24
           ]
         ]
       }
@@ -3858,56 +4598,56 @@
         },
         {
           "q": "2026Q4",
-          "add_mw": 3100,
-          "cum_mw": 40821
+          "add_mw": 906,
+          "cum_mw": 38627
         },
         {
           "q": "2027Q1",
           "add_mw": 0,
-          "cum_mw": 40821
+          "cum_mw": 38627
         },
         {
           "q": "2027Q2",
           "add_mw": 0,
-          "cum_mw": 40821
+          "cum_mw": 38627
         },
         {
           "q": "2027Q3",
           "add_mw": 0,
-          "cum_mw": 40821
+          "cum_mw": 38627
         },
         {
           "q": "2027Q4",
           "add_mw": 1334,
-          "cum_mw": 42155
+          "cum_mw": 39961
         },
         {
           "q": "2028Q1",
           "add_mw": 0,
-          "cum_mw": 42155
+          "cum_mw": 39961
         },
         {
           "q": "2028Q2",
           "add_mw": 0,
-          "cum_mw": 42155
+          "cum_mw": 39961
         },
         {
           "q": "2028Q3",
           "add_mw": 1440,
-          "cum_mw": 43595
+          "cum_mw": 41401
         },
         {
           "q": "2028Q4",
-          "add_mw": 2120,
-          "cum_mw": 45715
+          "add_mw": 3320,
+          "cum_mw": 44721
         }
       ],
       "milestones": {
         "2026Q4": [
           [
             "ORCL",
-            "Abilene TX (Stargate I)",
-            1200
+            "Abilene TX (Stargate I, Crusoe) \u2014 bldgs 7\u20138",
+            206
           ],
           [
             "GOOGL",
@@ -3918,11 +4658,6 @@
             "XAI",
             "Colossus 2 - next phase (>=220k GB300)",
             400
-          ],
-          [
-            "STARGATE",
-            "Milam County TX (SB Energy / SoftBank)",
-            1200
           ]
         ],
         "2027Q4": [
@@ -3954,6 +4689,11 @@
             "META",
             "El Paso, TX (BlackRock JV 80/20)",
             720
+          ],
+          [
+            "STARGATE",
+            "Milam County TX (SB Energy / SoftBank)",
+            1200
           ]
         ]
       }
@@ -4006,13 +4746,13 @@
       "Fluidstack",
       "CIFR",
       207,
-      "Barber Lake yrs 1\u201310; Google ~$1.73B backstop; extended to 20 yrs 9/25/26 (yrs 11\u201320: unnamed leading AI lab; >$9B total)"
+      "Barber Lake yrs 1\u201310; Google ~$1.73B backstop; extended to 20 yrs 9/25/26 (yrs 11\u201320: unnamed leading AI lab, lease direct to the lab; >$9B total); Anthropic co-funded the 9/14/26 Colorado City water pledge with Cipher/Fluidstack \u2014 press describes it as a Barber Lake tenant"
     ],
     [
       "Fluidstack",
       "HUT",
       245,
-      "River Bend; Google backstop"
+      "River Bend; Google backstop; Anthropic end-user ('building the campus in Riverbend for them', Q2'26 call); tenant holds ROFO on the next ~1 GW of River Bend expansion"
     ],
     [
       "Microsoft",
@@ -4024,19 +4764,19 @@
       "Microsoft",
       "CRWV",
       500,
-      "$10B total thru 2030 across >=5 contracts; MSFT is CoreWeave's largest customer (~45% of CRWV rev). ~500 MW = est. MSFT operational share of CRWV's ~1,000 MW op; MW inferred."
+      "$10B total thru 2030 across >=5 contracts; MSFT is CoreWeave's largest customer (~67% of FY2025 rev per filings, up from 62% FY2024 \u2014 Reuters 10/15/26; Q2'26 10-Q top customer 36%, unnamed). ~500 MW = est. MSFT operational share; MW inferred."
     ],
     [
       "Microsoft",
       "IREN",
       200,
-      "$9.7B 5-yr GB300; Horizon 1 (50 MW) delivered Aug 2026"
+      "$9.7B 5-yr GB300; Horizon 1 (50 MW) delivered Aug 2026; Horizons 2\u20134 (150 MW) targeted Dec qtr 2026"
     ],
     [
       "Meta",
       "NBIS",
       400,
-      "$3B five-year (Nov-2025); up-to-$27B framing reported; Vera Rubin capacity; MW not disclosed, ~300-700 MW est. \u00b7 MW inferred"
+      "$3B five-year (Nov-2025) + $12B dedicated five-year (Mar-2026; Vera Rubin, multiple locations, from early 2027; up-to-$27B incl. conditional take-up reported); MW not disclosed, ~300-700 MW est. \u00b7 MW inferred"
     ],
     [
       "Meta",
@@ -4077,8 +4817,14 @@
     [
       "AMD",
       "CORZ",
-      530,
-      "15-yr, >$14B across five sites (Pecos TX \u00b7 Auburn AL \u00b7 Muskogee \u00b7 Dalton \u00b7 Hunt Co.); full delivery by end-2028"
+      380,
+      "15-yr NNN direct leases at Pecos, Hunt, Muskogee (part of the >$14B, 530 MW five-site program); exclusive reservation on up to ~2 GW more at those sites"
+    ],
+    [
+      "Neocloud (undisclosed; AMD credit support)",
+      "CORZ",
+      150,
+      "15-yr modified gross at Auburn + Dalton Ph III; AMD full 15-yr credit support"
     ],
     [
       "Frontier AI lab (Anthropic per press, unconfirmed)",
@@ -4114,25 +4860,67 @@
       "OpenAI",
       "CRWV",
       null,
-      "committed"
+      "~$22.4B total: up to $11.9B (Mar-2025) + up to $4B (May-2025, thru 2029) + up to $6.5B (Sep-2025)"
     ],
     [
-      "IG hyperscaler",
+      "Tier-one IG hyperscaler",
       "APLD",
-      1010,
-      "PF2/PF3/DF1/DF2, ~$20B+"
+      810,
+      "15-yr; DF1 (300) + PF3 (300) + DF2 (210), ~$20B base"
     ],
     [
-      "IG hyperscaler",
+      "IG hyperscaler (PF2)",
+      "APLD",
+      200,
+      "15-yr; Polaris Forge 2, Harwood ND"
+    ],
+    [
+      "IG hyperscaler (Nvidia per WSJ/FT, unconfirmed)",
       "HUT",
       704,
-      "Beacon Point Ph1+Ph2; $19.6B campus base-term (Ph2 $9.8B Jul 2026)"
+      "Beacon Point Ph1+Ph2; $19.6B campus base-term (Ph2 $9.8B Jul 2026); WSJ/Reuters 8/31/26: Nvidia holds the lease on ~350 MW in Nueces Co. used for Anthropic's $35B Lambda deal \u2014 no party has confirmed"
     ],
     [
       "Anthropic",
       "XAI",
       500,
       "MW inferred (~325k GPUs x 1.3\u20132.0 kW); Cloud Services Agreements May 2026, $1.25B/mo through May 2029, Colossus + Colossus II (424B4)"
+    ],
+    [
+      "Anthropic",
+      "CRWV",
+      null,
+      "multi-year (Apr-2026); terms undisclosed"
+    ],
+    [
+      "Tencent",
+      "ORCL",
+      null,
+      "~100,000 advanced AI chips leased, 5-yr, ~$7B (FT via Reuters/MarketWatch 9/30\u201310/1/26; press, not confirmed by Oracle); site undisclosed"
+    ],
+    [
+      "Google",
+      "XAI",
+      null,
+      "CSA signed 2026-06-05: $920M/month Oct 2026\u2013Jun 2029 (32 mo; per SpaceX filing as reported); ramping from Oct 2026 per Q2'26 call; MW not disclosed (~110k GPUs press-only)"
+    ],
+    [
+      "Unnamed hosting customers (SpaceX AI compute)",
+      "XAI",
+      null,
+      "$6.7B over 6 months ramping Oct 2026 (Q2'26 call) + ~$1.11B/month from 2026-12-01 (CFO, GS Communacopia 9/10/26); counterparties and MW not disclosed \u2014 the two may overlap"
+    ],
+    [
+      "Frontier AI lab (Anthropic per The Information, unconfirmed)",
+      "IREN",
+      null,
+      "new multi-year AI Cloud contract (IREN-owned GPUs) disclosed Aug 2026; MW/value n/d"
+    ],
+    [
+      "DigitalOcean",
+      "EQIX",
+      null,
+      "tier-1 colo partner named by CFO 9/10/26 (also DataBank, QTS); sites/MW n/d"
     ]
   ],
   "geo": [
@@ -4153,7 +4941,7 @@
       "st": "c",
       "lat": 39.49,
       "lng": -75.03,
-      "when": "majority H2 2026",
+      "when": "shell done; fit-out + Bloom power; in 2026 connected power; Ph2 approved 8/17/26",
       "approx": false
     },
     {
@@ -4170,7 +4958,7 @@
       "t": "NBIS",
       "site": "Lappeenranta, Finland",
       "mw": 310,
-      "st": "s",
+      "st": "c",
       "lat": 61.06,
       "lng": 28.19,
       "when": "310 MW; first capacity 2027",
@@ -4223,7 +5011,7 @@
       "st": "c",
       "lat": 46.98,
       "lng": -96.9,
-      "when": "initial capacity 2H 2026, full early 2027",
+      "when": "initial ~50 MW by end-2026, full early 2027",
       "approx": false
     },
     {
@@ -4263,27 +5051,17 @@
       "st": "c",
       "lat": 34.77,
       "lng": -84.97,
-      "when": "phased",
+      "when": "CoreWeave Ph II from end-2026, complete early 2027",
       "approx": false
     },
     {
       "t": "CORZ",
       "site": "Muskogee, OK",
       "mw": 70,
-      "st": "c",
+      "st": "o",
       "lat": 35.75,
       "lng": -95.37,
-      "when": "mid-2026",
-      "approx": false
-    },
-    {
-      "t": "CORZ",
-      "site": "Muskogee expansion (Polaris DS)",
-      "mw": 330,
-      "st": "c",
-      "lat": 35.75,
-      "lng": -95.37,
-      "when": "closed Aug 2026; campus to 1.5 GW gross",
+      "when": "CoreWeave, billing by mid-Jul 2026",
       "approx": false
     },
     {
@@ -4293,7 +5071,7 @@
       "st": "s",
       "lat": 33.14,
       "lng": -96.11,
-      "when": "acquired",
+      "when": "AMD lease signed; pre-construction; delivery 1H 2028",
       "approx": false
     },
     {
@@ -4313,17 +5091,7 @@
       "st": "c",
       "lat": 33.62,
       "lng": -100.84,
-      "when": "Ph II data halls from H1 2027",
-      "approx": false
-    },
-    {
-      "t": "GLXY",
-      "site": "Helios expansion",
-      "mw": 830,
-      "st": "s",
-      "lat": 33.62,
-      "lng": -100.84,
-      "when": "ERCOT-approved Jan 2026",
+      "when": "Ph II halls Q2 2027 \u2192 early 2028; Ph III 2028",
       "approx": false
     },
     {
@@ -4343,7 +5111,7 @@
       "st": "c",
       "lat": 43.34,
       "lng": -78.72,
-      "when": "phased 2H 2026 \u2192 early 2027",
+      "when": "CB-4 1st hall targeted late Sep 2026; CB-5 energizing early Jan 2027",
       "approx": false
     },
     {
@@ -4353,18 +5121,8 @@
       "st": "c",
       "lat": 37.9,
       "lng": -86.75,
-      "when": "initial 2H 2027, full early 2028",
+      "when": "initial 2H 2027, full 401 MW early 2028",
       "approx": false
-    },
-    {
-      "t": "WULF",
-      "site": "Muskie Data \u2014 Grayson, KY",
-      "mw": 1000,
-      "st": "p",
-      "lat": 38.33,
-      "lng": -82.94,
-      "when": "initial service Q4 2028",
-      "approx": true
     },
     {
       "t": "WULF",
@@ -4373,7 +5131,7 @@
       "st": "p",
       "lat": 38.36,
       "lng": -76.99,
-      "when": "ops contemplated 2030",
+      "when": "FERC OK 7/29/26, closing pending; ops contemplated 2030",
       "approx": true
     },
     {
@@ -4487,75 +5245,25 @@
       "approx": false
     },
     {
-      "t": "IREN",
-      "site": "Sweetwater, TX",
-      "mw": 1400,
-      "st": "s",
-      "lat": 32.47,
-      "lng": -100.41,
-      "when": "substation live May 2026",
-      "approx": false
-    },
-    {
-      "t": "IREN",
-      "site": "Nostrum (Spain)",
-      "mw": 490,
-      "st": "s",
-      "lat": 40.2,
-      "lng": -3.7,
-      "when": "acquired mid-2026 \u2014 city undisclosed",
-      "approx": true
-    },
-    {
-      "t": "KEEL",
-      "site": "Panther Creek \u2014 Nesquehoning, PA",
-      "mw": 350,
-      "st": "c",
-      "lat": 40.86,
-      "lng": -75.9,
-      "when": "first power 2027 (press-reported) \u2014 no tenant",
-      "approx": false
-    },
-    {
       "t": "KEEL",
       "site": "Sharon, PA",
       "mw": 110,
       "st": "p",
       "lat": 41.23,
       "lng": -80.49,
-      "when": "lease target 2026",
+      "when": "RFS end-2027; permits finishing \u2014 no lease",
       "approx": false
     },
     {
       "t": "KEEL",
       "site": "Moses Lake, WA",
       "mw": 18,
-      "st": "p",
+      "st": "c",
       "lat": 47.13,
       "lng": -119.28,
-      "when": "lease target 2026",
+      "when": "under construction; first energized DC 2027 \u2014 no tenant yet",
       "approx": false,
       "market": "quincy"
-    },
-    {
-      "t": "KEEL",
-      "site": "Sherbrooke, QC",
-      "mw": 96,
-      "st": "s",
-      "lat": 45.4,
-      "lng": -71.89,
-      "when": "lease ~2027",
-      "approx": false
-    },
-    {
-      "t": "KEEL",
-      "site": "Scrubgrass \u2014 Venango County, PA",
-      "mw": 750,
-      "st": "s",
-      "lat": 41.25,
-      "lng": -79.78,
-      "when": "PJM load study",
-      "approx": false
     },
     {
       "t": "RIOT",
@@ -4638,23 +5346,13 @@
       "approx": false
     },
     {
-      "t": "BTDR",
-      "site": "Clarington, OH",
-      "mw": 570,
-      "st": "s",
-      "lat": 39.78,
-      "lng": -80.87,
-      "when": "litigation-delayed",
-      "approx": false
-    },
-    {
       "t": "WYFI",
       "site": "NC-1 \u2014 Madison, NC (Nscale)",
       "mw": 40,
       "st": "o",
       "lat": 36.39,
       "lng": -79.97,
-      "when": "billing; full 40 MW revenue expected Q3 2026",
+      "when": "live; billing Nscale (full run-rate from ~Aug-Sep 2026)",
       "approx": false
     },
     {
@@ -4788,7 +5486,7 @@
       "st": "p",
       "lat": 41.53,
       "lng": -87.25,
-      "when": "Ph2 +$15B Nov-2025",
+      "when": "+$15B Nov-2025; energize from 2027 (NIPSCO)",
       "approx": true
     },
     {
@@ -4808,7 +5506,7 @@
       "st": "c",
       "lat": 41.09,
       "lng": -76.14,
-      "when": "Susquehanna-adjacent",
+      "when": "ramping; full build-out 2028\u201330",
       "approx": true
     },
     {
@@ -4871,7 +5569,7 @@
       "st": "c",
       "lat": 41.98,
       "lng": -91.67,
-      "when": "1st bldg 2026",
+      "when": "transmission energized; ramping (Alliant 7/31/26)",
       "approx": true
     },
     {
@@ -4929,10 +5627,10 @@
       "t": "GOOGL",
       "site": "New Florence MO (Montgomery Co.)",
       "mw": 1000,
-      "st": "p",
+      "st": "c",
       "lat": 38.92,
       "lng": -91.45,
-      "when": "$15B May 2026",
+      "when": "construction began Q2'26 (Ameren)",
       "approx": true
     },
     {
@@ -4973,7 +5671,7 @@
       "st": "o",
       "lat": 40.08,
       "lng": -82.81,
-      "when": "Epoch est. 471 MW IT (Aug 2026) -> ~676 Nov 2026",
+      "when": "Epoch est. 471 MW IT (Aug 2026); Socrates gas Ph1 200 MW in service Jul 2026",
       "approx": true,
       "market": "columbus"
     },
@@ -4995,7 +5693,7 @@
       "st": "c",
       "lat": 31.76,
       "lng": -106.49,
-      "when": "1 GW gross by 2028",
+      "when": "1 GW gross (~720 MW IT) by 2028",
       "approx": true
     },
     {
@@ -5025,7 +5723,7 @@
       "st": "c",
       "lat": 41.14,
       "lng": -104.82,
-      "when": "broke ground 2024",
+      "when": "broke ground 2024; load ramp from late 2026 (Black Hills)",
       "approx": true,
       "market": "cheyenne"
     },
@@ -5067,7 +5765,7 @@
       "st": "o",
       "lat": 41.03,
       "lng": 113.14,
-      "when": "operating",
+      "when": "operating; M890 SuperNode first region 8/12/26",
       "approx": true
     },
     {
@@ -5077,7 +5775,7 @@
       "st": "o",
       "lat": 30.29,
       "lng": 120.16,
-      "when": "2026",
+      "when": "10,000 in-house chips live Apr 2026",
       "approx": true
     },
     {
@@ -5185,9 +5883,9 @@
       "site": "Charlotte, NC - 200MW AI-inference",
       "mw": 200,
       "st": "c",
-      "lat": 35.23,
-      "lng": -80.84,
-      "when": "through 2028",
+      "lat": 35.21,
+      "lng": -80.94,
+      "when": "2027\u20132028 phased",
       "approx": true
     },
     {
@@ -5197,7 +5895,7 @@
       "st": "c",
       "lat": 33.75,
       "lng": -84.39,
-      "when": "under construction",
+      "when": "2028 delivery",
       "approx": true,
       "market": "atlanta"
     },
@@ -5277,23 +5975,23 @@
     },
     {
       "t": "ORCL",
-      "site": "Abilene TX (Stargate I, Crusoe) \u2014 operational",
-      "mw": 300,
+      "site": "Abilene TX (Stargate I, Crusoe) \u2014 bldgs 1\u20136 operational",
+      "mw": 618,
       "st": "o",
       "lat": 32.45,
       "lng": -99.73,
-      "when": "live",
+      "when": "6 of 8 bldgs delivered (9/10/26)",
       "approx": true,
       "market": "abilene"
     },
     {
       "t": "ORCL",
-      "site": "Abilene TX (Stargate I, Crusoe) \u2014 under construction",
-      "mw": 900,
+      "site": "Abilene TX (Stargate I, Crusoe) \u2014 bldgs 7\u20138",
+      "mw": 206,
       "st": "c",
       "lat": 32.45,
       "lng": -99.73,
-      "when": "full Q4 2026",
+      "when": "last 2 bldgs, Q4 2026",
       "approx": true,
       "market": "abilene"
     },
@@ -5304,27 +6002,27 @@
       "st": "c",
       "lat": 32.74,
       "lng": -99.35,
-      "when": "Q4 2028",
+      "when": "first delivery H1 2027; full build ~Q4 2028",
       "approx": true
     },
     {
       "t": "ORCL",
-      "site": "Do\u00f1a Ana County NM (STACK)",
-      "mw": 2200,
+      "site": "Do\u00f1a Ana County NM (Project Jupiter, STACK)",
+      "mw": 1000,
       "st": "c",
       "lat": 32.0,
       "lng": -106.7,
-      "when": "Q4 2028",
+      "when": "first delivery H1 2027 (at risk: permits/power)",
       "approx": true
     },
     {
       "t": "ORCL",
       "site": "Port Washington WI (Vantage)",
-      "mw": 1300,
+      "mw": 1000,
       "st": "c",
       "lat": 43.39,
       "lng": -87.87,
-      "when": "Q4 2028",
+      "when": "first delivery H2 2027 (Aterio: mid-2028 risk)",
       "approx": true
     },
     {
@@ -5334,7 +6032,7 @@
       "st": "c",
       "lat": 42.17,
       "lng": -83.78,
-      "when": "Q4 2028",
+      "when": "first delivery H2 2027",
       "approx": true
     },
     {
@@ -5344,7 +6042,7 @@
       "st": "c",
       "lat": 40.05,
       "lng": -86.47,
-      "when": "1 GW gross; broke ground Feb 2026",
+      "when": "1 GW gross (~720 MW IT); broke ground Feb 2026",
       "approx": true
     },
     {
@@ -5366,43 +6064,269 @@
       "lng": -81.3,
       "when": "phased 2028\u20132032",
       "approx": true
+    },
+    {
+      "t": "NBIS",
+      "site": "B\u00e9thune, France",
+      "mw": 240,
+      "st": "c",
+      "lat": 50.53,
+      "lng": 2.64,
+      "when": "ex-Bridgestone brownfield; 240 MW press-only",
+      "approx": false
+    },
+    {
+      "t": "MSFT",
+      "site": "La Porte IN (NW Indiana campus)",
+      "mw": null,
+      "st": "p",
+      "lat": 41.61,
+      "lng": -86.72,
+      "when": "power from 2028",
+      "approx": true
+    },
+    {
+      "t": "GOOGL",
+      "site": "Cheyenne WY (Laramie Co.)",
+      "mw": null,
+      "st": "p",
+      "lat": 41.14,
+      "lng": -104.82,
+      "when": "power from late 2027, peak 2030",
+      "approx": false,
+      "market": "cheyenne"
+    },
+    {
+      "t": "GOOGL",
+      "site": "Wilbarger Co TX (Vernon)",
+      "mw": null,
+      "st": "p",
+      "lat": 34.15,
+      "lng": -99.27,
+      "when": "announced Feb 2026 (AES co-located gen)",
+      "approx": false
+    },
+    {
+      "t": "GOOGL",
+      "site": "Pine Island MN",
+      "mw": null,
+      "st": "p",
+      "lat": 44.2,
+      "lng": -92.65,
+      "when": "announced Feb 2026; PUC early 2027",
+      "approx": false
+    },
+    {
+      "t": "GOOGL",
+      "site": "West Memphis AR (Crittenden Co.)",
+      "mw": null,
+      "st": "c",
+      "lat": 35.15,
+      "lng": -90.18,
+      "when": "$4B; ops from early 2027 (Entergy)",
+      "approx": false
+    },
+    {
+      "t": "GOOGL",
+      "site": "Stillwater OK",
+      "mw": null,
+      "st": "p",
+      "lat": 36.12,
+      "lng": -97.06,
+      "when": "OG&E ESA filed 5/01/26",
+      "approx": false
+    },
+    {
+      "t": "GOOGL",
+      "site": "Muskogee OK",
+      "mw": null,
+      "st": "p",
+      "lat": 35.75,
+      "lng": -95.37,
+      "when": "OG&E ESA filed 5/01/26",
+      "approx": false
+    },
+    {
+      "t": "META",
+      "site": "Tulsa OK",
+      "mw": null,
+      "st": "c",
+      "lat": 36.15,
+      "lng": -95.99,
+      "when": ">$1B; broke ground Apr 2026",
+      "approx": true
+    },
+    {
+      "t": "META",
+      "site": "Beaver Dam WI (Dodge Co.)",
+      "mw": null,
+      "st": "c",
+      "lat": 43.46,
+      "lng": -88.84,
+      "when": "vertical construction (Jul 2026)",
+      "approx": true
+    },
+    {
+      "t": "BABA",
+      "site": "S\u00e3o Paulo, Brazil region (2 AZs)",
+      "mw": null,
+      "st": "o",
+      "lat": -23.55,
+      "lng": -46.63,
+      "when": "live late Aug 2026",
+      "approx": false
+    },
+    {
+      "t": "DLR",
+      "site": "Charlotte, NC - 2nd 200MW building",
+      "mw": 200,
+      "st": "c",
+      "lat": 35.21,
+      "lng": -80.94,
+      "when": "UC, no date",
+      "approx": true
+    },
+    {
+      "t": "DLR",
+      "site": "Northern Virginia \u2014 3\u00d796 MW ex-Blackstone JV bldgs",
+      "mw": 288,
+      "st": "c",
+      "lat": 38.75,
+      "lng": -77.48,
+      "when": "stabilize H1'27 / H1'28",
+      "approx": true,
+      "market": "nova"
+    },
+    {
+      "t": "DLR",
+      "site": "Hillsboro, OR \u2014 160 MW + 85 MW land",
+      "mw": 245,
+      "st": "p",
+      "lat": 45.52,
+      "lng": -122.99,
+      "when": "land",
+      "approx": true,
+      "market": "hillsboro"
+    },
+    {
+      "t": "DLR",
+      "site": "Osaka KIX15, Ibaraki (MCDR JV)",
+      "mw": 24,
+      "st": "c",
+      "lat": 34.82,
+      "lng": 135.57,
+      "when": "Q4 2028",
+      "approx": true
+    },
+    {
+      "t": "DLR",
+      "site": "Singapore \u2014 Jurong Island (DC-CFA2)",
+      "mw": 50,
+      "st": "s",
+      "lat": 1.27,
+      "lng": 103.7,
+      "when": "allocated Aug 2026",
+      "approx": true
+    },
+    {
+      "t": "DLR",
+      "site": "Atlanta metro \u2014 >1 GW campus (873 acres)",
+      "mw": 1000,
+      "st": "p",
+      "lat": 33.75,
+      "lng": -84.39,
+      "when": "land; power TBD",
+      "approx": true
+    },
+    {
+      "t": "EQIX",
+      "site": "Hampton, GA xScale campus (Americas JV)",
+      "mw": 240,
+      "st": "c",
+      "lat": 33.39,
+      "lng": -84.28,
+      "when": "~240 MW IT at full build; 2 of 4 bldgs leased; no date",
+      "approx": false
+    },
+    {
+      "t": "APLD",
+      "site": "Center ND \u2014 Polaris Forge 3",
+      "mw": 300,
+      "st": "c",
+      "lat": 47.12,
+      "lng": -101.3,
+      "when": "initial ops 2027 (15-yr lease, tier-one IG hyperscaler)",
+      "approx": false
+    },
+    {
+      "t": "APLD",
+      "site": "Delta Forge 2 \u2014 Alabama",
+      "mw": 210,
+      "st": "c",
+      "lat": 32.78,
+      "lng": -86.83,
+      "when": "initial ops 1H 2028 (15-yr lease)",
+      "approx": true
+    },
+    {
+      "t": "WULF",
+      "site": "Lake Hawkeye (Cayuga) \u2014 Lansing, NY",
+      "mw": 320,
+      "st": "p",
+      "lat": 42.57,
+      "lng": -76.53,
+      "when": "multi-year development; local permitting pending; ops ~2029",
+      "approx": false
+    },
+    {
+      "t": "IREN",
+      "site": "Sweetwater, TX \u2014 Sweetwater 1 first phase",
+      "mw": 200,
+      "st": "c",
+      "lat": 32.47,
+      "lng": -100.41,
+      "when": "first building going up; delivery targeted Q4 2027",
+      "approx": false
+    },
+    {
+      "t": "BTDR",
+      "site": "Wenatchee, WA (A501)",
+      "mw": 10,
+      "st": "c",
+      "lat": 47.42,
+      "lng": -120.31,
+      "when": "ready Dec 2027",
+      "approx": false
+    },
+    {
+      "t": "DOCN",
+      "site": "Kansas City (AI DC)",
+      "mw": 10,
+      "st": "o",
+      "lat": 39.1,
+      "lng": -94.58,
+      "when": "launched Q2 2026",
+      "approx": false
+    },
+    {
+      "t": "DOCN",
+      "site": "Memphis, TN (AI DC)",
+      "mw": 15,
+      "st": "o",
+      "lat": 35.15,
+      "lng": -90.05,
+      "when": "2H 2026 launch (on by 9/8)",
+      "approx": false,
+      "market": "memphis"
     }
   ],
   "geo_unmapped": [
     {
-      "t": "APLD",
-      "site": "Polaris Forge 3 (leased)",
-      "mw": 300,
-      "st": "c",
-      "why": "ND campus location not publicly disclosed"
-    },
-    {
-      "t": "APLD",
-      "site": "Delta Forge 2 (leased)",
-      "mw": 210,
-      "st": "c",
-      "why": "campus location not publicly disclosed ('southern state')"
-    },
-    {
-      "t": "WULF",
-      "site": "Lake Hawkeye, NY",
-      "mw": 320,
-      "st": "p",
-      "why": "location not publicly confirmed"
-    },
-    {
-      "t": "CIFR",
-      "site": "ERCOT 'Batch Zero'",
-      "mw": 2000,
-      "st": "p",
-      "why": "queue positions, not sites"
-    },
-    {
       "t": "IREN",
       "site": "Prince George, BC",
       "mw": null,
-      "st": "c",
-      "why": "MW n/d"
+      "st": "o",
+      "why": "MW n/d (air-cooled fleet commissioned; liquid install underway)"
     },
     {
       "t": "NBIS",
@@ -5441,10 +6365,10 @@
     },
     {
       "t": "AKAM",
-      "site": "Edge inference nodes (Anthropic)",
+      "site": "Anthropic capacity (edge GPU nodes + CPU colo expansion)",
       "mw": null,
       "st": "c",
-      "why": "distributed across ~4,100 PoPs \u2014 not campus-mappable"
+      "why": "numerous undisclosed colo sites (10\u201330 MW blocks, majority US) plus edge PoPs \u2014 not campus-mappable"
     },
     {
       "t": "MARA",
@@ -5472,7 +6396,7 @@
       "site": "India Visakhapatnam ($15B, 1 GW->multi-GW)",
       "mw": 1000,
       "st": "p",
-      "why": "foreign (excluded from US map); listed for completeness"
+      "why": "foreign (excluded from US map); site prep under way, AP High Court PIL pending (10/2026)"
     },
     {
       "t": "META",
@@ -5484,9 +6408,9 @@
     {
       "t": "EQIX",
       "site": "US xScale JV campuses (>1.5GW)",
-      "mw": 1500,
+      "mw": 1260,
       "st": "p",
-      "why": "land acquisition in progress; specific US metros/parcels not yet disclosed"
+      "why": "JV remainder after Hampton; only Hampton (pinned) and Minooka (no MW) are public"
     },
     {
       "t": "EQIX",
@@ -5529,23 +6453,408 @@
       "mw": 50,
       "st": "c",
       "why": "campus town not disclosed in the AIB filing"
+    },
+    {
+      "t": "NBIS",
+      "site": "Rotterdam (VOLT) \u2014 LOI",
+      "mw": null,
+      "st": "s",
+      "why": "LOI; Nebius MW share n/d"
+    },
+    {
+      "t": "MSFT",
+      "site": "Fairwater 2 bldg - Mount Pleasant, WI",
+      "mw": null,
+      "st": "c",
+      "why": "co-located with the Fairwater 1 pin (Mount Pleasant, Racine Co.); MW undisclosed"
+    },
+    {
+      "t": "XAI",
+      "site": "Colossus 2 - next phase (>=220k GB300)",
+      "mw": 400,
+      "st": "c",
+      "why": "filed as the next Colossus II phase (424B4); Colossus II spans the Memphis Tulane Rd and Southaven MS sites and the building is not specified \u2014 a pin would stack on the Colossus 2 / Southaven pins"
+    },
+    {
+      "t": "AMZN",
+      "site": "NW Louisiana campuses #1\u20132 (Caddo & Bossier)",
+      "mw": null,
+      "st": "c",
+      "why": "MW not disclosed ($12B, Feb-2026); parish-level location public (Caddo & Bossier, Shreveport area)"
+    },
+    {
+      "t": "AMZN",
+      "site": "Shreveport LA campus #3 (Resilient Tech Park)",
+      "mw": null,
+      "st": "c",
+      "why": "MW not disclosed ($6B, Aug-2026); Shreveport, Caddo Parish LA"
+    },
+    {
+      "t": "AMZN",
+      "site": "Project Eagle \u2014 Boling / Wharton Co. TX",
+      "mw": null,
+      "st": "c",
+      "why": "MW not disclosed ($1.2B, 4 bldgs per TDLR filings); Boling, Wharton County TX"
+    },
+    {
+      "t": "AMZN",
+      "site": "GW Ranch \u2014 Pecos County TX",
+      "mw": null,
+      "st": "p",
+      "why": "critical-IT MW not disclosed (on-site gas plant permitted 7.65 GW is generation, not IT load); Pecos County TX"
+    },
+    {
+      "t": "AMZN",
+      "site": "Gilroy CA (Santa Clara Co.)",
+      "mw": null,
+      "st": "c",
+      "why": "MW not verified (city cites ~49 MW Ph1 / ~98 MW full grid connection \u2014 unverified); Gilroy, CA"
+    },
+    {
+      "t": "GOOGL",
+      "site": "Muhos + Kajaani, Finland",
+      "mw": null,
+      "st": "p",
+      "why": "foreign (excluded from US map); MW undisclosed; prep work halted pending EIA (10/2026)"
+    },
+    {
+      "t": "BABA",
+      "site": "France region (opened mid-2026)",
+      "mw": null,
+      "st": "o",
+      "why": "MW n/d and city not in fetched sources (press snippets: Paris)"
+    },
+    {
+      "t": "BABA",
+      "site": "South Korea 3rd DC",
+      "mw": null,
+      "st": "o",
+      "why": "MW and city not disclosed (Alibaba's existing Korea region is Seoul; country-level approx pin 37.57,126.98 if curator maps null-MW sites)"
+    },
+    {
+      "t": "BABA",
+      "site": "New regions: T\u00fcrkiye / Finland / Netherlands",
+      "mw": null,
+      "st": "p",
+      "why": "three countries; cities and MW undisclosed"
+    },
+    {
+      "t": "DLR",
+      "site": "Kansas City metro (Astra Enterprise Park, De Soto KS)",
+      "mw": null,
+      "st": "s",
+      "why": "no critical-IT MW disclosed (ESA is 600 MW utility power by early 2028 \u2192 2 GW); location De Soto, KS \u2248 38.98,-94.97 (release links 'De Soto data center project'); not one of the 20 markets"
+    },
+    {
+      "t": "DLR",
+      "site": "Charlotte, NC - 3rd project (approved)",
+      "mw": null,
+      "st": "p",
+      "why": "MW undisclosed; Charlotte, NC (site not named)"
+    },
+    {
+      "t": "DLR",
+      "site": "S\u00e3o Paulo, Brazil \u2014 hyperscale development",
+      "mw": null,
+      "st": "c",
+      "why": "MW and specific campus undisclosed by DLR (activity may run through the Ascenty JV)"
+    },
+    {
+      "t": "EQIX",
+      "site": "Minooka, IL xScale campus",
+      "mw": null,
+      "st": "p",
+      "why": "MW undisclosed"
+    },
+    {
+      "t": "EQIX",
+      "site": "Cape Town \u2014 2 DCs (King Air Industria)",
+      "mw": null,
+      "st": "p",
+      "why": "only ~170 MW of power capacity reported (not critical IT)"
+    },
+    {
+      "t": "APLD",
+      "site": "Finland campus (up to ~1 GW power)",
+      "mw": null,
+      "st": "s",
+      "why": "municipality not disclosed (CEO: ~30 km from a hyperscaler self-build); only utility power MW stated, no critical-IT MW"
+    },
+    {
+      "t": "CORZ",
+      "site": "Pecos, TX (AMD lead site)",
+      "mw": null,
+      "st": "c",
+      "why": "part of the 530 MW AMD row; per-site MW not disclosed (first AMD delivery 1H 2027)"
+    },
+    {
+      "t": "CORZ",
+      "site": "Auburn, AL (AMD-backed neocloud)",
+      "mw": null,
+      "st": "c",
+      "why": "part of the 530 MW AMD row (~150 MW across Auburn + Dalton Ph III); per-site MW not disclosed"
+    },
+    {
+      "t": "GLXY",
+      "site": "Helios III + IV interconnects (Dickens County, TX)",
+      "mw": null,
+      "st": "p",
+      "why": "grid-request MW only (2 \u00d7 1 GW gross), no critical-IT MW; same campus as the existing Helios pins (33.62,-100.84)"
+    },
+    {
+      "t": "GLXY",
+      "site": "Caspian (TX)",
+      "mw": null,
+      "st": "s",
+      "why": "site location not disclosed (Texas only); gross MW only"
+    },
+    {
+      "t": "GLXY",
+      "site": "Selene (TX)",
+      "mw": null,
+      "st": "s",
+      "why": "site location not disclosed (Texas only); gross MW only"
+    },
+    {
+      "t": "GLXY",
+      "site": "Merlin \u2014 McGregor, TX",
+      "mw": null,
+      "st": "s",
+      "why": "no critical-IT MW (74 MW initial grid phase / 500 MW gross potential)"
+    },
+    {
+      "t": "CIFR",
+      "site": "Colchis JV (West TX)",
+      "mw": null,
+      "st": "p",
+      "why": "grid MW only (1 GW gross); only 'West Texas' / 620 acres next to an AEP substation public"
+    },
+    {
+      "t": "CIFR",
+      "site": "Mikeska (TX)",
+      "mw": null,
+      "st": "p",
+      "why": "grid MW only (500 MW gross); location not disclosed"
+    },
+    {
+      "t": "CIFR",
+      "site": "McLennan (TX)",
+      "mw": null,
+      "st": "p",
+      "why": "grid MW only (500 MW gross); location not disclosed"
+    },
+    {
+      "t": "CIFR",
+      "site": "Milsing (TX)",
+      "mw": null,
+      "st": "p",
+      "why": "location and MW not disclosed"
+    },
+    {
+      "t": "IREN",
+      "site": "Childress, TX \u2014 Horizons 5\u20136",
+      "mw": null,
+      "st": "c",
+      "why": "MW not disclosed for H5\u20136 (H1\u20134 are 50 MW IT each)"
+    },
+    {
+      "t": "IREN",
+      "site": "Mackenzie, BC",
+      "mw": null,
+      "st": "c",
+      "why": "MW n/d"
+    },
+    {
+      "t": "IREN",
+      "site": "Canal Flats, BC",
+      "mw": null,
+      "st": "p",
+      "why": "MW n/d"
+    },
+    {
+      "t": "IREN",
+      "site": "Kiowa, OK",
+      "mw": null,
+      "st": "s",
+      "why": "grid MW only (1.6 GW); exact location not in fetched sources (Kiowa town, Pittsburg Co., vs Kiowa County)"
+    },
+    {
+      "t": "IREN",
+      "site": "Other Nostrum sites (Spain)",
+      "mw": null,
+      "st": "s",
+      "why": "grid MW only (~190 MW); site locations not disclosed"
+    },
+    {
+      "t": "BTDR",
+      "site": "Malaysia \u2014 A901 (3rd hub)",
+      "mw": 67,
+      "st": "c",
+      "why": "outside map panels; Malaysian location not disclosed ('third Malaysian hub alongside Cyberjaya and Johor')"
+    },
+    {
+      "t": "BTDR",
+      "site": "Cyberjaya, Malaysia \u2014 A103",
+      "mw": 60,
+      "st": "p",
+      "why": "outside map panels"
+    },
+    {
+      "t": "BTDR",
+      "site": "Gelephu, Bhutan",
+      "mw": 30,
+      "st": "p",
+      "why": "outside map panels"
+    },
+    {
+      "t": "WYFI",
+      "site": "Ontario (third-party DC, Baseten)",
+      "mw": null,
+      "st": "c",
+      "why": "MW n/d; facility not named; outside map panels"
+    },
+    {
+      "t": "WYFI",
+      "site": "Paris region, France",
+      "mw": null,
+      "st": "c",
+      "why": "MW n/d; outside map panels"
+    },
+    {
+      "t": "WYFI",
+      "site": "Krambu partnership sites",
+      "mw": null,
+      "st": "s",
+      "why": "Krambu site locations undisclosed ('developments across North America'); MW not contracted"
+    },
+    {
+      "t": "MARA",
+      "site": "Exaion (France)",
+      "mw": null,
+      "st": "o",
+      "why": "MW and facility locations n/d; outside map panels"
+    },
+    {
+      "t": "DOCN",
+      "site": "Richmond (VA) AI DC",
+      "mw": null,
+      "st": "o",
+      "why": "MW n/d"
+    },
+    {
+      "t": "IREN",
+      "site": "Sweetwater, TX \u2014 SW1 remainder + Sweetwater 2",
+      "mw": null,
+      "st": "s",
+      "why": "grid MW only (SW1 remainder ~1.1 GW + SW2 600 MW); no critical-IT figure"
+    },
+    {
+      "t": "IREN",
+      "site": "Badajoz, Spain",
+      "mw": null,
+      "st": "s",
+      "why": "grid MW only (~300 MW); no critical-IT figure"
+    },
+    {
+      "t": "IREN",
+      "site": "Bundey, SA (Australia)",
+      "mw": null,
+      "st": "s",
+      "why": "grid MW only (800 MW); no critical-IT figure"
+    },
+    {
+      "t": "IREN",
+      "site": "Redbank \u2014 Wagga Wagga, NSW (Australia)",
+      "mw": null,
+      "st": "p",
+      "why": "campus-scale MW only (~900 MW, power not secured); no critical-IT figure"
+    },
+    {
+      "t": "CIFR",
+      "site": "Stingray Phase II (TX)",
+      "mw": null,
+      "st": "p",
+      "why": "grid MW only (200 MW gross); no critical-IT figure"
+    },
+    {
+      "t": "CIFR",
+      "site": "Barber Lake expansion \u2014 Colorado City, TX",
+      "mw": null,
+      "st": "p",
+      "why": "grid MW only (500 MW); no critical-IT figure"
+    },
+    {
+      "t": "CIFR",
+      "site": "Odessa, TX (bitcoin \u2192 HPC candidate)",
+      "mw": null,
+      "st": "s",
+      "why": "grid MW only (207 MW, bitcoin site); no critical-IT figure"
+    },
+    {
+      "t": "CORZ",
+      "site": "Muskogee expansion (Polaris DS)",
+      "mw": null,
+      "st": "c",
+      "why": "grid MW only (~440 MW gross; campus plan 1.5 GW gross); no critical-IT figure"
+    },
+    {
+      "t": "GLXY",
+      "site": "Helios II expansion (gross MW)",
+      "mw": null,
+      "st": "s",
+      "why": "grid MW only (830 MW gross); no critical-IT figure"
+    },
+    {
+      "t": "WULF",
+      "site": "Muskie Data \u2014 Grayson, KY",
+      "mw": null,
+      "st": "p",
+      "why": "utility MW only (1 GW contracted electric service); no critical-IT figure"
+    },
+    {
+      "t": "KEEL",
+      "site": "Panther Creek \u2014 Nesquehoning, PA",
+      "mw": null,
+      "st": "p",
+      "why": "utility MW only (350 MW PPL capacity); no critical-IT figure"
+    },
+    {
+      "t": "KEEL",
+      "site": "Scrubgrass \u2014 Venango County, PA",
+      "mw": null,
+      "st": "s",
+      "why": "utility MW only (750 MW load study); no critical-IT figure"
+    },
+    {
+      "t": "KEEL",
+      "site": "Sherbrooke, QC",
+      "mw": null,
+      "st": "s",
+      "why": "utility MW only (96 MW PPA); no critical-IT figure"
+    },
+    {
+      "t": "BTDR",
+      "site": "Clarington, OH",
+      "mw": null,
+      "st": "s",
+      "why": "grid MW only (570 MW); no critical-IT figure"
     }
   ],
-  "geo_note": "Campus-level site map, added 2026-07-09. lat/lng are town/county centroids, NOT parcel coordinates. approx=true => only the state/country is public (placed at a state-level position; dashed on the map). Sites with undisclosed locations or n/d MW live in geo_unmapped. DOCN (leased colo, locations undisclosed) and AKAM (distributed edge PoPs) are excluded by construction.",
+  "geo_note": "Campus-level site map, added 2026-07-09. lat/lng are town/county centroids, NOT parcel coordinates. approx=true => only the state/country is public (placed at a state-level position; dashed on the map). Sites with undisclosed locations or n/d MW live in geo_unmapped. DOCN's leased colo fleet stays unmapped except the 2026 AI data centers it has named (metro centroids); AKAM (distributed edge PoPs and colo blocks) is excluded by construction.",
   "reference": {
     "nvda_cap_b": 5160.5,
-    "cohort_ev_b": 204.8
+    "cohort_ev_b": 206.7
   },
   "power_deals": {
-    "as_of_curated": "2026-10-08",
+    "as_of_curated": "2026-10-17",
     "basis": "Power deals for the companies on /capacity, announced 2024-01-01 or later: power purchase agreements and the other dedicated supply deals that stand behind data-center load (utility-built generation under an electric service agreement or tariff, development or funding agreements with energy rights, and MOUs, LOIs or options). One row per deal of 100 MW or more, each tied to a named facility, fleet of units or program; fleet-wide supply with no named plant (Google-Constellation's 2,700 MW PJM deal) is left out. Generic renewable-portfolio PPAs are out of scope.",
     "mw_note": "MW is the source's own figure: contracted (the buyer's stated volume) or nameplate (the plant or project's capacity where the buyer's share is not stated), so rows are not additive capacity for the buyer.",
     "totals": {
-      "signed_mw": 20087,
-      "signed_ppa_mw": 9550,
-      "pending_mw": 5200,
+      "signed_mw": 21379,
+      "signed_ppa_mw": 10252,
+      "pending_mw": 9200,
       "preliminary_mw": 4850,
-      "deals": 26
+      "deals": 31
     },
     "deals": [
       {
@@ -5570,7 +6879,7 @@
           "url": "https://www.nisource.com/news/article/powering-indiana-s-future-how-nipsco-genco-and-amazon-keep-energy-reliable-and-affordable-20251124"
         },
         "quote": "Amazon's partnership with NIPSCO and GenCo is a cornerstone of this approach, enabling the development of data center campuses that will be powered by up to 3 gigawatts of new generation capacity to serve Amazon's needs",
-        "note": "'Up to' 3 GW. The IURC approved it in June 2026, and the technology (combined-cycle gas) comes from NiSource's Q2-2026 10-Q, both in the same evidence file. The 3 GW figure covers more than the CCGT; secondary sources say two 1,300 MW CCGTs plus 400 MW BESS, which is unverified."
+        "note": "'Up to' 3 GW. The IURC approved it in June 2026, and the technology (combined-cycle gas) comes from NiSource's Q2-2026 10-Q, both in the same evidence file. The 3 GW figure covers more than the CCGT; secondary sources say two 1,300 MW CCGTs plus 400 MW BESS, which is unverified. A 7/17/26 filing amends the service agreement and GenCo PPA to raise Amazon's contracted load by 400 MW, with a final IURC order sought by November 2026 (NiSource Q2'26 call, docs/research/evidence/2026-10-17-cap-amzn-nwindiana-nipsco.txt); not a separate row."
       },
       {
         "t": "ORCL",
@@ -5789,6 +7098,30 @@
         "note": "Microsoft's contracted share is not stated; 835 MW is the plant's added output. Online date per the 2024 release (2028)."
       },
       {
+        "t": "GOOGL",
+        "name": "Alphabet (Google)",
+        "counterparty": "American Electric Power",
+        "facility": "702 MW Bloom fuel-cell generation project near Cheyenne, WY",
+        "technology": "other",
+        "mw": 702,
+        "sites": 1,
+        "mw_total": 702,
+        "mw_basis": "nameplate",
+        "status": "signed",
+        "kind": "ppa",
+        "instrument": "long-term 20-year power purchase agreement (PPA)",
+        "announced": "2026-10-14",
+        "term_years": 20,
+        "start": "fully operational by end-2028",
+        "source": {
+          "publisher": "American Electric Power (press release via PR Newswire)",
+          "title": "AEP Advances Innovative Energy Solution for Google with 702MW of Bloom Fuel Cells",
+          "url": "https://www.prnewswire.com/news-releases/aep-advances-innovative-energy-solution-for-google-with-702mw-of-bloom-fuel-cells-302907658.html"
+        },
+        "quote": "American Electric Power (Nasdaq: AEP) plans to invest approximately $4 billion to advance a new 702-megawatt fuel cell generation project near Cheyenne, Wyoming, under a long-term 20-year power purchase agreement (PPA) with Google",
+        "note": "Fuel cells (Bloom), filed under 'other'; the release lead does not state the fuel. ~$4B; AEP plans to start construction in 2026 and expects full operation by end-2028 (WSJ, same evidence file)."
+      },
+      {
         "t": "AMZN",
         "name": "Amazon (AWS)",
         "counterparty": "Constellation Energy",
@@ -5883,6 +7216,30 @@
         },
         "quote": "Once operational, Google will purchase power from the 615-MW plant as a 24/7 carbon-free energy source to help power Google 's growing cloud and AI infrastructure in Iowa , while also strengthening local grid reliability, creating thousands of direct and indirect jobs, and driving significant economic investment to the Midwest region. In addition to Google 's 25-year agreement to purchase carbon-free nuclear energy from the Duane Arnold plant, one of the plant's current minority owners, Central Iowa Power Cooperative (CIPCO), will purchase the remaining portion of the plant's output on the same terms as Google .",
         "note": "615 MW is the plant. Google takes most of it and CIPCO takes the rest; Google's exact share is not stated."
+      },
+      {
+        "t": "GOOGL",
+        "name": "Alphabet (Google)",
+        "counterparty": "Black Hills Corp.",
+        "facility": "Grid-connected service to Google's planned Cheyenne, WY data center (company-owned generation + market energy)",
+        "technology": "other",
+        "mw": 590,
+        "sites": 1,
+        "mw_total": 590,
+        "mw_basis": "contracted",
+        "status": "signed",
+        "kind": "utility supply",
+        "instrument": "Large Power Contract Services Agreement + Generation Facilities Agreement",
+        "announced": "2026-10-06",
+        "term_years": null,
+        "start": "late 2027; peak load 2030",
+        "source": {
+          "publisher": "Black Hills Corp. (press release via GlobeNewswire)",
+          "title": "Black Hills Corp. Executes Definitive Agreements to Serve Google's Planned Data Center in Cheyenne, Wyoming",
+          "url": "https://www.globenewswire.com/news-release/2026/10/06/3376007/10381/en/black-hills-corp-executes-definitive-agreements-to-serve-google-s-planned-data-center-in-cheyenne-wyoming.html"
+        },
+        "quote": "Black Hills will provide up to 590 MW of grid-connected energy service through company-owned generation and market energy.",
+        "note": "Definitive agreements effective 9/30/26 with terms through 2048. Black Hills plans 564 MW (nameplate) of new company-owned generation, technology not stated. The project's 2.7 GW resource mix also includes ~2.1 GW of third-party contracted resources managed under the LPCS tariff; those are not a row (AEP's 702 MW fuel cells are a separate row and may be among them)."
       },
       {
         "t": "GOOGL",
@@ -6051,6 +7408,78 @@
         },
         "quote": "Seven new natural gas-fueled combined-cycle power plants totaling more than 5,200 megawatts",
         "note": "'More than' 5,200 MW. Utility-built generation that still needs LPSC certification (still under review in July 2026 reports); counted as pending, not signed, until approved."
+      },
+      {
+        "t": "GOOGL",
+        "name": "Alphabet (Google)",
+        "counterparty": "Xcel Energy",
+        "facility": "New wind, solar and storage for Google's Pine Island, MN data center",
+        "technology": "other",
+        "mw": 1900,
+        "sites": 1,
+        "mw_total": 1900,
+        "mw_basis": "nameplate",
+        "status": "pending",
+        "kind": "utility supply",
+        "instrument": "Electric Service Agreement",
+        "announced": "2026-02-24",
+        "term_years": null,
+        "start": null,
+        "source": {
+          "publisher": "Reuters (via TradingView)",
+          "title": "Xcel Energy to power new Google data center in Minnesota",
+          "url": "https://www.tradingview.com/news/reuters.com,2026:newsml_L4N3ZK1D6:0-xcel-energy-to-power-new-google-data-center-in-minnesota/"
+        },
+        "quote": "it has partnered with Google NASDAQ:GOOG to power the tech giant's new data center in Pine Island, Minnesota, while contributing 1,900 megawatts of new clean energy to the grid",
+        "note": "1,400 MW of wind, 200 MW of solar and 300 MW of long-duration storage, so filed under 'other'. Xcel expects Minnesota PUC approval early in 2027 (Q2'26 call, same evidence file), so pending."
+      },
+      {
+        "t": "MSFT",
+        "name": "Microsoft",
+        "counterparty": "NiSource (NIPSCO / NIPSCO GenCo)",
+        "facility": "GenCo pool generation + transmission for Microsoft's northwest Indiana campus (incl. 600 MW BESS)",
+        "technology": "other",
+        "mw": 1100,
+        "sites": 1,
+        "mw_total": 1100,
+        "mw_basis": "nameplate",
+        "status": "pending",
+        "kind": "utility supply",
+        "instrument": "long-term electric service agreement (20-year term)",
+        "announced": "2026-10-16",
+        "term_years": 20,
+        "start": "2028",
+        "source": {
+          "publisher": "NiSource Inc. (press release via Business Wire)",
+          "title": "NiSource announces long-term agreement with Microsoft expected to increase customer savings and support Indiana's economic growth",
+          "url": "https://www.businesswire.com/news/home/20261015675062/en/"
+        },
+        "quote": "The GenCo-owned pool portfolio will be increased by approximately 1,100 MW with NIPSCO and GenCo to provide transmission and generation infrastructure to ensure adequate assets to serve Microsoft's data center and NIPSCO's customers",
+        "note": "Pool addition that serves Microsoft and NIPSCO's other customers; Microsoft funds all generation and transmission for its load. Includes 600 MW of battery storage under a long-term tolling agreement with an AGP Group affiliate; the other generation's technology is not stated. The release cites required regulatory approvals, so pending."
+      },
+      {
+        "t": "WULF",
+        "name": "TeraWulf",
+        "counterparty": "Kentucky Power (AEP)",
+        "facility": "Muskie Data campus electric service, Grayson, KY (incl. Big Sandy 760 MW CCGT)",
+        "technology": "gas",
+        "mw": 1000,
+        "sites": 1,
+        "mw_total": 1000,
+        "mw_basis": "contracted",
+        "status": "pending",
+        "kind": "utility supply",
+        "instrument": "amended electric service agreement (contracted electric demand)",
+        "announced": "2026-10-05",
+        "term_years": null,
+        "start": "first 500 MW ramps 2028; second 500 MW 2029",
+        "source": {
+          "publisher": "Kentucky Power (press release via PR Newswire)",
+          "title": "Kentucky Power, TeraWulf Finalize Expanded Agreement Providing for $100 Million in Customer Benefits",
+          "url": "https://www.prnewswire.com/news-releases/kentucky-power-terawulf-finalize-expanded-agreement-providing-for-100-million-in-customer-benefits-302898378.html"
+        },
+        "quote": "The expanded agreement would increase contracted electric demand at TeraWulf's Muskie Data campus in Grayson, Kentucky, from 500 megawatts (MW) to 1 gigawatt (GW).",
+        "note": "Doubles the earlier 500 MW contracted demand (that agreement's date is not verified here). The amended contract still needs Kentucky PSC approval, so the 1 GW row is pending. TeraWulf pays the estimated financing costs of Kentucky Power's planned 760 MW combined-cycle plant at Big Sandy, hence gas."
       },
       {
         "t": "META",

@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-17T01:32:07Z",
+  "published_at": "2026-10-17T18:17:32Z",
   "target": "CPI",
   "release_date": "2026-11-10",
   "core_benchmarks": {
@@ -8,8 +8,8 @@
       "as_of": "2026-10-14"
     },
     "kalshi": {
-      "value": 0.201,
-      "as_of": "2026-10-16"
+      "value": 0.199,
+      "as_of": "2026-10-17"
     }
   },
   "core_ensemble": {
@@ -23,8 +23,8 @@
   "reference_month": "2026-10",
   "cpi": {
     "target_month": "2026-10",
-    "mom_pct": 0.44,
-    "mom_nsa_pct": 0.27,
+    "mom_pct": 0.43,
+    "mom_nsa_pct": 0.26,
     "basis": "SA",
     "core": {
       "mom_pct": 0.34,
@@ -32,8 +32,8 @@
       "basis": "SA",
       "weight_share": 0.7923
     },
-    "yoy_pct": 3.31,
-    "as_of": "2026-10-16",
+    "yoy_pct": 3.3,
+    "as_of": "2026-10-17",
     "status": "live",
     "parameters": {},
     "components": [
@@ -53,11 +53,11 @@
       },
       {
         "component": "food_home",
-        "mom_pct": 0.1986,
+        "mom_pct": 0.1704,
         "weight": 0.081612,
-        "contribution_pp": 0.0162,
+        "contribution_pp": 0.0139,
         "basis": "trend+driver",
-        "driver_mom_pct": 0.0675
+        "driver_mom_pct": 0.0393
       },
       {
         "component": "medical",
@@ -103,9 +103,9 @@
       },
       {
         "component": "fuel",
-        "mom_pct": 1.1294,
+        "mom_pct": 1.056,
         "weight": 0.040804,
-        "contribution_pp": 0.0461,
+        "contribution_pp": 0.0431,
         "basis": "measured"
       },
       {
@@ -170,7 +170,7 @@
     },
     "reference_month": "2026-09",
     "release_date": "2026-10-29",
-    "as_of": "2026-10-16",
+    "as_of": "2026-10-17",
     "core": {
       "mom_pct": 0.31,
       "bridge": "cpi+ppi",
@@ -237,8 +237,8 @@
       "as_of": "2026-10-15"
     },
     "kalshi": {
-      "value": 0.249,
-      "as_of": "2026-10-16"
+      "value": 0.25,
+      "as_of": "2026-10-17"
     }
   },
   "ensemble": {

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T01:32:07Z",
+  "generated_at": "2026-10-17T18:17:32Z",
   "sources": [
     {
       "name": "AAA",
@@ -7,11 +7,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-17T01:22:45Z",
+      "finished_at": "2026-10-17T18:10:52Z",
       "series_count": 1,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "AAA_STATE",
@@ -19,11 +19,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 51,
-      "new_rows": 0,
+      "new_rows": 51,
       "error": null,
-      "finished_at": "2026-10-17T01:22:45Z",
+      "finished_at": "2026-10-17T18:10:52Z",
       "series_count": 51,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "APTLIST",
@@ -33,7 +33,7 @@
       "fetched": 117,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:21:45Z",
+      "finished_at": "2026-10-17T18:10:05Z",
       "series_count": 1,
       "latest_obs": "2026-09-01"
     },
@@ -45,7 +45,7 @@
       "fetched": 240,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:32:04Z",
+      "finished_at": "2026-10-17T18:17:23Z",
       "series_count": 2,
       "latest_obs": "2026-09-01"
     },
@@ -55,11 +55,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 5,
-      "new_rows": 0,
+      "new_rows": 5,
       "error": null,
-      "finished_at": "2026-10-17T01:31:11Z",
+      "finished_at": "2026-10-17T18:16:01Z",
       "series_count": 5,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "AZURE_GPU",
@@ -67,23 +67,23 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 3,
-      "new_rows": 0,
+      "new_rows": 3,
       "error": null,
-      "finished_at": "2026-10-17T01:31:13Z",
+      "finished_at": "2026-10-17T18:16:01Z",
       "series_count": 3,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "AZURE_GPU_RESERVED",
       "route": "API",
       "cadence": "daily",
-      "ok": false,
-      "fetched": 0,
-      "new_rows": 0,
-      "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://prices.azure.com/api/retail/prices?$filter=serviceName%20eq%20%27Virtual%20Machines%27%20and%20armRegionName%20eq%20%27eastus2%27%20and%20%28priceType%20eq%20%27Reservation%27%20or%20priceType%20eq%20%27Consumption%27%29%20and%20%28armSkuName%20eq%20%27Standard_ND128isr_NDR_GB200_v6%27%20or%20armSkuName%20eq%20%27Standard_ND96isr_H100_v5%27%20or%20armSkuName%20eq%20%27Standard_ND96isr_H200_v5%27%29",
-      "finished_at": "2026-10-17T01:31:19Z",
+      "ok": true,
+      "fetched": 6,
+      "new_rows": 6,
+      "error": null,
+      "finished_at": "2026-10-17T18:16:01Z",
       "series_count": 6,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "BLS",
@@ -91,9 +91,9 @@
       "cadence": "monthly",
       "ok": true,
       "fetched": 7802,
-      "new_rows": 582,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:20:42Z",
+      "finished_at": "2026-10-17T18:09:27Z",
       "series_count": 68,
       "latest_obs": "2026-09-01"
     },
@@ -103,11 +103,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-17T01:31:42Z",
+      "finished_at": "2026-10-17T18:17:03Z",
       "series_count": 1,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "CENSUS",
@@ -117,7 +117,7 @@
       "fetched": 304,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:30:59Z",
+      "finished_at": "2026-10-17T18:15:53Z",
       "series_count": 2,
       "latest_obs": "2026-08-01"
     },
@@ -129,7 +129,7 @@
       "fetched": 4,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:22:47Z",
+      "finished_at": "2026-10-17T18:10:56Z",
       "series_count": 4,
       "latest_obs": "2026-10-01"
     },
@@ -139,11 +139,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 5,
-      "new_rows": 0,
+      "new_rows": 5,
       "error": null,
-      "finished_at": "2026-10-17T01:31:19Z",
+      "finished_at": "2026-10-17T18:16:02Z",
       "series_count": 5,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "DRAMEX",
@@ -153,7 +153,7 @@
       "fetched": 3,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:31:01Z",
+      "finished_at": "2026-10-17T18:15:55Z",
       "series_count": 3,
       "latest_obs": "2026-10-16"
     },
@@ -162,10 +162,10 @@
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 3581,
+      "fetched": 4435,
       "new_rows": 0,
-      "error": "partial: EIA: 2 item(s) failed \u2014 ELEC.PRICE.US-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); NG.N3010US3.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60)",
-      "finished_at": "2026-10-17T01:21:42Z",
+      "error": null,
+      "finished_at": "2026-10-17T18:10:03Z",
       "series_count": 4,
       "latest_obs": "2026-10-12"
     },
@@ -177,7 +177,7 @@
       "fetched": 4999,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:32:02Z",
+      "finished_at": "2026-10-17T18:17:21Z",
       "series_count": 1,
       "latest_obs": "2026-10-14"
     },
@@ -186,10 +186,10 @@
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 11359,
+      "fetched": 15964,
       "new_rows": 0,
-      "error": "partial: EIA: 15 item(s) failed \u2014 ELEC.PRICE.KS-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.KY-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.LA-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.MA-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.NJ-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.NY-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.NC-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.ND-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.OK-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.TX-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.UT-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.VT-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.VA-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.WA-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.WY-IND.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60)",
-      "finished_at": "2026-10-17T01:26:40Z",
+      "error": null,
+      "finished_at": "2026-10-17T18:12:34Z",
       "series_count": 52,
       "latest_obs": "2026-07-01"
     },
@@ -198,10 +198,10 @@
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 10129,
+      "fetched": 13199,
       "new_rows": 0,
-      "error": "partial: EIA: 18 item(s) failed \u2014 ELEC.PRICE.AL-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.HI-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.ME-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.MD-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.MO-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.MT-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.NE-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.NV-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.NH-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.NJ-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.OH-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.OK-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.OR-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.PA-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.RI-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.SC-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.SD-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.WI-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60)",
-      "finished_at": "2026-10-17T01:30:53Z",
+      "error": "partial: EIA: 8 item(s) failed \u2014 ELEC.PRICE.MD-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.MI-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.MO-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.NE-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.NJ-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.NM-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.SC-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60); ELEC.PRICE.WI-RES.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60)",
+      "finished_at": "2026-10-17T18:15:47Z",
       "series_count": 51,
       "latest_obs": "2026-07-01"
     },
@@ -213,9 +213,9 @@
       "fetched": 5,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-17T01:31:46Z",
+      "finished_at": "2026-10-17T18:17:05Z",
       "series_count": 1,
-      "latest_obs": "2026-10-17"
+      "latest_obs": "2026-10-18"
     },
     {
       "name": "FMP",
@@ -223,11 +223,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 14,
-      "new_rows": 14,
+      "new_rows": 5,
       "error": null,
-      "finished_at": "2026-10-17T01:21:42Z",
+      "finished_at": "2026-10-17T18:10:03Z",
       "series_count": 14,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "FMP_EQ",
@@ -235,9 +235,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 56,
-      "new_rows": 56,
+      "new_rows": 3,
       "error": null,
-      "finished_at": "2026-10-17T01:21:43Z",
+      "finished_at": "2026-10-17T18:10:03Z",
       "series_count": 56,
       "latest_obs": "2026-10-16"
     },
@@ -246,12 +246,12 @@
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 69239,
-      "new_rows": 7546,
+      "fetched": 69240,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-17T01:20:40Z",
+      "finished_at": "2026-10-17T18:09:25Z",
       "series_count": 158,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "ICE",
@@ -261,7 +261,7 @@
       "fetched": 709,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:31:44Z",
+      "finished_at": "2026-10-17T18:17:04Z",
       "series_count": 4,
       "latest_obs": "2026-10-13"
     },
@@ -273,7 +273,7 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-17T01:22:47Z",
+      "finished_at": "2026-10-17T18:10:56Z",
       "series_count": 1,
       "latest_obs": "2026-10-01"
     },
@@ -283,9 +283,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 1,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-17T01:32:02Z",
+      "finished_at": "2026-10-17T18:17:21Z",
       "series_count": 1,
       "latest_obs": "2026-10-01"
     },
@@ -295,11 +295,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 2,
-      "new_rows": 0,
+      "new_rows": 2,
       "error": null,
-      "finished_at": "2026-10-17T01:32:02Z",
+      "finished_at": "2026-10-17T18:17:21Z",
       "series_count": 2,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "KALSHI_FED",
@@ -307,9 +307,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 11,
-      "new_rows": 7,
+      "new_rows": 9,
       "error": null,
-      "finished_at": "2026-10-17T01:32:02Z",
+      "finished_at": "2026-10-17T18:17:21Z",
       "series_count": 6,
       "latest_obs": "2026-12-09"
     },
@@ -321,7 +321,7 @@
       "fetched": 2,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:22:46Z",
+      "finished_at": "2026-10-17T18:10:55Z",
       "series_count": 1,
       "latest_obs": "2026-09-01"
     },
@@ -331,11 +331,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 4,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-17T01:31:44Z",
+      "finished_at": "2026-10-17T18:17:03Z",
       "series_count": 1,
-      "latest_obs": "2026-10-15"
+      "latest_obs": "2026-10-16"
     },
     {
       "name": "MND",
@@ -345,9 +345,9 @@
       "fetched": 1,
       "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-17T01:22:45Z",
+      "finished_at": "2026-10-17T18:10:52Z",
       "series_count": 1,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "NEBIUS",
@@ -355,11 +355,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 4,
-      "new_rows": 0,
+      "new_rows": 4,
       "error": null,
-      "finished_at": "2026-10-17T01:31:21Z",
+      "finished_at": "2026-10-17T18:16:02Z",
       "series_count": 4,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "NYFED",
@@ -369,7 +369,7 @@
       "fetched": 1525,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:32:03Z",
+      "finished_at": "2026-10-17T18:17:22Z",
       "series_count": 5,
       "latest_obs": "2026-09-01"
     },
@@ -379,11 +379,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 5,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-17T01:32:01Z",
+      "finished_at": "2026-10-17T18:17:20Z",
       "series_count": 1,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "OCI_GPU",
@@ -391,11 +391,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 6,
-      "new_rows": 0,
+      "new_rows": 6,
       "error": null,
-      "finished_at": "2026-10-17T01:31:19Z",
+      "finished_at": "2026-10-17T18:16:02Z",
       "series_count": 6,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "OPENROUTER",
@@ -403,11 +403,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 14,
-      "new_rows": 0,
+      "new_rows": 14,
       "error": null,
-      "finished_at": "2026-10-17T01:31:11Z",
+      "finished_at": "2026-10-17T18:16:01Z",
       "series_count": 14,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "PMMS",
@@ -417,7 +417,7 @@
       "fetched": 511,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:21:45Z",
+      "finished_at": "2026-10-17T18:10:05Z",
       "series_count": 1,
       "latest_obs": "2026-10-15"
     },
@@ -429,7 +429,7 @@
       "fetched": 934,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:30:55Z",
+      "finished_at": "2026-10-17T18:15:50Z",
       "series_count": 137,
       "latest_obs": "2026-01-01"
     },
@@ -441,7 +441,7 @@
       "fetched": 605,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:30:57Z",
+      "finished_at": "2026-10-17T18:15:51Z",
       "series_count": 92,
       "latest_obs": "2026-01-01"
     },
@@ -451,9 +451,9 @@
       "cadence": "quarterly",
       "ok": true,
       "fetched": 563,
-      "new_rows": 563,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:30:59Z",
+      "finished_at": "2026-10-17T18:15:53Z",
       "series_count": 92,
       "latest_obs": "2026-01-01"
     },
@@ -463,21 +463,21 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 4,
-      "new_rows": 0,
+      "new_rows": 1,
       "error": null,
-      "finished_at": "2026-10-17T01:32:00Z",
+      "finished_at": "2026-10-17T18:17:19Z",
       "series_count": 1,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "STEO",
       "route": "API",
       "cadence": "monthly",
       "ok": true,
-      "fetched": 672,
+      "fetched": 456,
       "new_rows": 0,
-      "error": null,
-      "finished_at": "2026-10-17T01:31:41Z",
+      "error": "partial: EIA: 1 item(s) failed \u2014 STEO.ELWHU_PJ.M: ReadTimeout: HTTPSConnectionPool(host='api.eia.gov', port=443): Read timed out. (read timeout=60)",
+      "finished_at": "2026-10-17T18:17:02Z",
       "series_count": 2,
       "latest_obs": "2027-12-01"
     },
@@ -487,9 +487,9 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 2457,
-      "new_rows": 1,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:21:43Z",
+      "finished_at": "2026-10-17T18:10:03Z",
       "series_count": 1,
       "latest_obs": "2026-10-15"
     },
@@ -499,9 +499,9 @@
       "cadence": "weekly",
       "ok": true,
       "fetched": 2228,
-      "new_rows": 5,
+      "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:22:45Z",
+      "finished_at": "2026-10-17T18:10:52Z",
       "series_count": 5,
       "latest_obs": "2026-10-16"
     },
@@ -511,11 +511,11 @@
       "cadence": "daily",
       "ok": true,
       "fetched": 3,
-      "new_rows": 2,
+      "new_rows": 3,
       "error": null,
-      "finished_at": "2026-10-17T01:31:08Z",
+      "finished_at": "2026-10-17T18:16:00Z",
       "series_count": 6,
-      "latest_obs": "2026-10-16"
+      "latest_obs": "2026-10-17"
     },
     {
       "name": "ZILLOW",
@@ -525,7 +525,7 @@
       "fetched": 11933,
       "new_rows": 0,
       "error": null,
-      "finished_at": "2026-10-17T01:21:44Z",
+      "finished_at": "2026-10-17T18:10:05Z",
       "series_count": 102,
       "latest_obs": "2026-09-01"
     }

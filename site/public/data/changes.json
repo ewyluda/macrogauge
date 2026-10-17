@@ -1,36 +1,36 @@
 {
-  "published_at": "2026-10-17T01:32:07Z",
-  "prev_published_at": "2026-10-15T22:07:26Z",
+  "published_at": "2026-10-17T18:17:32Z",
+  "prev_published_at": "2026-10-17T01:32:07Z",
   "headline": [
     {
       "key": "gauge",
       "label": "Macrogauge (CPI-comparable)",
       "kind": "gauge",
-      "value": 3.31,
-      "as_of": "2026-10-16",
-      "prev_value": 3.28,
-      "prev_as_of": "2026-10-15",
-      "delta_pp": 0.03
+      "value": 3.3,
+      "as_of": "2026-10-17",
+      "prev_value": 3.31,
+      "prev_as_of": "2026-10-16",
+      "delta_pp": -0.01
     },
     {
       "key": "tracker",
       "label": "CPI-Tracker",
       "kind": "gauge",
-      "value": 3.84,
-      "as_of": "2026-10-16",
+      "value": 3.82,
+      "as_of": "2026-10-17",
       "prev_value": 3.84,
-      "prev_as_of": "2026-10-15",
-      "delta_pp": 0.0
+      "prev_as_of": "2026-10-16",
+      "delta_pp": -0.02
     },
     {
       "key": "col",
       "label": "Cost of Living",
       "kind": "gauge",
-      "value": 5.79,
-      "as_of": "2026-10-16",
-      "prev_value": 5.56,
-      "prev_as_of": "2026-10-15",
-      "delta_pp": 0.23
+      "value": 5.78,
+      "as_of": "2026-10-17",
+      "prev_value": 5.79,
+      "prev_as_of": "2026-10-16",
+      "delta_pp": -0.01
     },
     {
       "key": "supercore",
@@ -46,11 +46,11 @@
       "key": "pce",
       "label": "PCE-weighted",
       "kind": "gauge",
-      "value": 3.3,
-      "as_of": "2026-10-16",
-      "prev_value": 3.28,
-      "prev_as_of": "2026-10-15",
-      "delta_pp": 0.02
+      "value": 3.29,
+      "as_of": "2026-10-17",
+      "prev_value": 3.3,
+      "prev_as_of": "2026-10-16",
+      "delta_pp": -0.01
     },
     {
       "key": "dc_build",
@@ -59,7 +59,7 @@
       "value": 8.58,
       "as_of": "2026-10-16",
       "prev_value": 8.58,
-      "prev_as_of": "2026-10-15",
+      "prev_as_of": "2026-10-16",
       "delta_pp": 0.0
     },
     {
@@ -78,9 +78,9 @@
       "kind": "datacenter",
       "value": 30.95,
       "as_of": "2026-09-01",
-      "prev_value": 29.33,
+      "prev_value": 30.95,
       "prev_as_of": "2026-09-01",
-      "delta_pp": 1.62
+      "delta_pp": 0.0
     }
   ],
   "components": [
@@ -88,9 +88,9 @@
       "component": "fuel",
       "label": "Gasoline",
       "mode": "live",
-      "yoy_pct": 39.63,
-      "prev_yoy_pct": 39.79,
-      "delta_pp": -0.16,
+      "yoy_pct": 39.21,
+      "prev_yoy_pct": 39.63,
+      "delta_pp": -0.42,
       "bls_yoy_pct": 34.17
     },
     {
@@ -98,8 +98,8 @@
       "label": "Shelter (owned)",
       "mode": "live",
       "yoy_pct": 1.62,
-      "prev_yoy_pct": 1.52,
-      "delta_pp": 0.1,
+      "prev_yoy_pct": 1.62,
+      "delta_pp": 0.0,
       "bls_yoy_pct": 3.28
     },
     {
@@ -107,8 +107,8 @@
       "label": "Rent",
       "mode": "live",
       "yoy_pct": 1.62,
-      "prev_yoy_pct": 1.52,
-      "delta_pp": 0.1,
+      "prev_yoy_pct": 1.62,
+      "delta_pp": 0.0,
       "bls_yoy_pct": 2.78
     },
     {
@@ -220,39 +220,71 @@
   },
   "sources_landed": [
     {
-      "source": "FRED",
-      "new_rows": 7546
+      "source": "AAA_STATE",
+      "new_rows": 51
     },
     {
-      "source": "BLS",
-      "new_rows": 582
-    },
-    {
-      "source": "QCEW_238222",
-      "new_rows": 563
-    },
-    {
-      "source": "FMP_EQ",
-      "new_rows": 56
-    },
-    {
-      "source": "FMP",
+      "source": "OPENROUTER",
       "new_rows": 14
     },
     {
       "source": "KALSHI_FED",
-      "new_rows": 7
+      "new_rows": 9
     },
     {
-      "source": "USDA",
+      "source": "AZURE_GPU_RESERVED",
+      "new_rows": 6
+    },
+    {
+      "source": "OCI_GPU",
+      "new_rows": 6
+    },
+    {
+      "source": "AWS_GPU",
       "new_rows": 5
     },
     {
+      "source": "COREWEAVE",
+      "new_rows": 5
+    },
+    {
+      "source": "FMP",
+      "new_rows": 5
+    },
+    {
+      "source": "NEBIUS",
+      "new_rows": 4
+    },
+    {
+      "source": "AZURE_GPU",
+      "new_rows": 3
+    },
+    {
+      "source": "FMP_EQ",
+      "new_rows": 3
+    },
+    {
       "source": "VASTAI",
+      "new_rows": 3
+    },
+    {
+      "source": "KALSHI_DC",
       "new_rows": 2
     },
     {
+      "source": "AAA",
+      "new_rows": 1
+    },
+    {
+      "source": "CAISO",
+      "new_rows": 1
+    },
+    {
       "source": "ERCOT",
+      "new_rows": 1
+    },
+    {
+      "source": "FRED",
       "new_rows": 1
     },
     {
@@ -260,34 +292,220 @@
       "new_rows": 1
     },
     {
+      "source": "KALSHI_CORE",
+      "new_rows": 1
+    },
+    {
+      "source": "MISO",
+      "new_rows": 1
+    },
+    {
       "source": "MND",
       "new_rows": 1
     },
     {
-      "source": "TREASURY",
+      "source": "NYISO",
+      "new_rows": 1
+    },
+    {
+      "source": "SPP",
       "new_rows": 1
     }
   ],
-  "sources_failed": [
-    "AZURE_GPU_RESERVED"
-  ],
+  "sources_failed": [],
   "gate_holds": [],
   "movers": [
     {
-      "key": "dc_hardware",
-      "label": "DC Hardware index YoY",
+      "key": "compute_gpu_index",
+      "label": "GPU-hour index",
       "section": "AI Infra",
+      "kind": "level",
+      "unit": "index",
+      "notable": 1.0,
+      "href": "/compute",
+      "value": 104.534,
+      "as_of": "2026-10-17",
+      "prev_value": 106.765,
+      "prev_as_of": "2026-10-16",
+      "delta": -2.09,
+      "delta_unit": "%",
+      "significance": 2.09
+    },
+    {
+      "key": "hub_miso_indiana_da",
+      "label": "MISO Indiana Hub 30-day average",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "$/MWh",
+      "notable": 3.0,
+      "href": "/power",
+      "value": 60.27,
+      "as_of": "2026-10-16",
+      "prev_value": 61.56,
+      "prev_as_of": "2026-10-15",
+      "delta": -2.1,
+      "delta_unit": "%",
+      "significance": 0.7
+    },
+    {
+      "key": "hub_spp_north_da",
+      "label": "SPP North Hub 30-day average",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "$/MWh",
+      "notable": 3.0,
+      "href": "/power",
+      "value": 33.14,
+      "as_of": "2026-10-17",
+      "prev_value": 33.75,
+      "prev_as_of": "2026-10-16",
+      "delta": -1.81,
+      "delta_unit": "%",
+      "significance": 0.6
+    },
+    {
+      "key": "hub_ercot_north_da",
+      "label": "ERCOT North Hub 30-day average",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "$/MWh",
+      "notable": 3.0,
+      "href": "/power",
+      "value": 39.27,
+      "as_of": "2026-10-18",
+      "prev_value": 39.97,
+      "prev_as_of": "2026-10-17",
+      "delta": -1.75,
+      "delta_unit": "%",
+      "significance": 0.58
+    },
+    {
+      "key": "hub_caiso_sp15_da",
+      "label": "CAISO SP15 30-day average",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "$/MWh",
+      "notable": 3.0,
+      "href": "/power",
+      "value": 44.4,
+      "as_of": "2026-10-17",
+      "prev_value": 43.86,
+      "prev_as_of": "2026-10-16",
+      "delta": 1.23,
+      "delta_unit": "%",
+      "significance": 0.41
+    },
+    {
+      "key": "gauge_tracker",
+      "label": "CPI-Tracker YoY",
+      "section": "Inflation",
       "kind": "yoy",
       "unit": "%",
-      "notable": 0.1,
-      "href": "/datacenter",
-      "value": 30.95,
-      "as_of": "2026-09-01",
-      "prev_value": 29.33,
-      "prev_as_of": "2026-09-01",
-      "delta": 1.62,
+      "notable": 0.05,
+      "href": "/gap",
+      "value": 3.82,
+      "as_of": "2026-10-17",
+      "prev_value": 3.84,
+      "prev_as_of": "2026-10-16",
+      "delta": -0.02,
       "delta_unit": "pp",
-      "significance": 16.2
+      "significance": 0.4
+    },
+    {
+      "key": "hub_nyiso_west_da",
+      "label": "NYISO Zone A (West) 30-day average",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "$/MWh",
+      "notable": 3.0,
+      "href": "/power",
+      "value": 36.69,
+      "as_of": "2026-10-17",
+      "prev_value": 37.09,
+      "prev_as_of": "2026-10-16",
+      "delta": -1.08,
+      "delta_unit": "%",
+      "significance": 0.36
+    },
+    {
+      "key": "capacity_ev",
+      "label": "Priced neocloud enterprise value",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "$B",
+      "notable": 3.0,
+      "href": "/capacity",
+      "value": 206.7,
+      "as_of": "2026-10-16",
+      "prev_value": 204.8,
+      "prev_as_of": "2026-10-16",
+      "delta": 0.93,
+      "delta_unit": "%",
+      "significance": 0.31
+    },
+    {
+      "key": "gauge_col",
+      "label": "Cost of Living YoY",
+      "section": "Inflation",
+      "kind": "yoy",
+      "unit": "%",
+      "notable": 0.05,
+      "href": "/gap",
+      "value": 5.78,
+      "as_of": "2026-10-17",
+      "prev_value": 5.79,
+      "prev_as_of": "2026-10-16",
+      "delta": -0.01,
+      "delta_unit": "pp",
+      "significance": 0.2
+    },
+    {
+      "key": "gauge_gauge",
+      "label": "Macrogauge (CPI-comparable) YoY",
+      "section": "Inflation",
+      "kind": "yoy",
+      "unit": "%",
+      "notable": 0.05,
+      "href": "/",
+      "value": 3.3,
+      "as_of": "2026-10-17",
+      "prev_value": 3.31,
+      "prev_as_of": "2026-10-16",
+      "delta": -0.01,
+      "delta_unit": "pp",
+      "significance": 0.2
+    },
+    {
+      "key": "gauge_pce",
+      "label": "PCE-weighted YoY",
+      "section": "Inflation",
+      "kind": "yoy",
+      "unit": "%",
+      "notable": 0.05,
+      "href": "/gap",
+      "value": 3.29,
+      "as_of": "2026-10-17",
+      "prev_value": 3.3,
+      "prev_as_of": "2026-10-16",
+      "delta": -0.01,
+      "delta_unit": "pp",
+      "significance": 0.2
+    },
+    {
+      "key": "capacity_op_mw",
+      "label": "Tracked operational AI capacity",
+      "section": "AI Infra",
+      "kind": "level",
+      "unit": "MW",
+      "notable": 0.5,
+      "href": "/capacity",
+      "value": 41490.5,
+      "as_of": "2026-10-17",
+      "prev_value": 41475.5,
+      "prev_as_of": "2026-10-02",
+      "delta": 0.04,
+      "delta_unit": "%",
+      "significance": 0.08
     },
     {
       "key": "compute_token_index",
@@ -298,220 +516,12 @@
       "notable": 1.0,
       "href": "/compute",
       "value": 96.507,
-      "as_of": "2026-10-16",
-      "prev_value": 88.069,
-      "prev_as_of": "2026-10-15",
-      "delta": 9.58,
-      "delta_unit": "%",
-      "significance": 9.58
-    },
-    {
-      "key": "gauge_col",
-      "label": "Cost of Living YoY",
-      "section": "Inflation",
-      "kind": "yoy",
-      "unit": "%",
-      "notable": 0.05,
-      "href": "/gap",
-      "value": 5.79,
-      "as_of": "2026-10-16",
-      "prev_value": 5.56,
-      "prev_as_of": "2026-10-15",
-      "delta": 0.23,
-      "delta_unit": "pp",
-      "significance": 4.6
-    },
-    {
-      "key": "compute_gpu_index",
-      "label": "GPU-hour index",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "index",
-      "notable": 1.0,
-      "href": "/compute",
-      "value": 106.765,
-      "as_of": "2026-10-16",
-      "prev_value": 109.066,
-      "prev_as_of": "2026-10-15",
-      "delta": -2.11,
-      "delta_unit": "%",
-      "significance": 2.11
-    },
-    {
-      "key": "capacity_ev",
-      "label": "Priced neocloud enterprise value",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "$B",
-      "notable": 3.0,
-      "href": "/capacity",
-      "value": 204.8,
-      "as_of": "2026-10-16",
-      "prev_value": 217.0,
-      "prev_as_of": "2026-10-15",
-      "delta": -5.62,
-      "delta_unit": "%",
-      "significance": 1.87
-    },
-    {
-      "key": "rates_dgs10",
-      "label": "10-year Treasury yield",
-      "section": "AI Infra",
-      "kind": "rate",
-      "unit": "%",
-      "notable": 5.0,
-      "href": "/rates",
-      "value": 5.1,
-      "as_of": "2026-10-15",
-      "prev_value": 5.19,
-      "prev_as_of": "2026-10-14",
-      "delta": -9.0,
-      "delta_unit": "bp",
-      "significance": 1.8
-    },
-    {
-      "key": "rates_bbb_yield",
-      "label": "BBB corporate bond yield",
-      "section": "AI Infra",
-      "kind": "rate",
-      "unit": "%",
-      "notable": 5.0,
-      "href": "/rates",
-      "value": 6.07,
-      "as_of": "2026-10-15",
-      "prev_value": 6.14,
-      "prev_as_of": "2026-10-14",
-      "delta": -7.0,
-      "delta_unit": "bp",
-      "significance": 1.4
-    },
-    {
-      "key": "hub_spp_north_da",
-      "label": "SPP North Hub 30-day average",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "$/MWh",
-      "notable": 3.0,
-      "href": "/power",
-      "value": 33.75,
-      "as_of": "2026-10-16",
-      "prev_value": 34.76,
-      "prev_as_of": "2026-10-15",
-      "delta": -2.91,
-      "delta_unit": "%",
-      "significance": 0.97
-    },
-    {
-      "key": "gauge_gauge",
-      "label": "Macrogauge (CPI-comparable) YoY",
-      "section": "Inflation",
-      "kind": "yoy",
-      "unit": "%",
-      "notable": 0.05,
-      "href": "/",
-      "value": 3.31,
-      "as_of": "2026-10-16",
-      "prev_value": 3.28,
-      "prev_as_of": "2026-10-15",
-      "delta": 0.03,
-      "delta_unit": "pp",
-      "significance": 0.6
-    },
-    {
-      "key": "gauge_pce",
-      "label": "PCE-weighted YoY",
-      "section": "Inflation",
-      "kind": "yoy",
-      "unit": "%",
-      "notable": 0.05,
-      "href": "/gap",
-      "value": 3.3,
-      "as_of": "2026-10-16",
-      "prev_value": 3.28,
-      "prev_as_of": "2026-10-15",
-      "delta": 0.02,
-      "delta_unit": "pp",
-      "significance": 0.4
-    },
-    {
-      "key": "hub_ercot_north_da",
-      "label": "ERCOT North Hub 30-day average",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "$/MWh",
-      "notable": 3.0,
-      "href": "/power",
-      "value": 39.97,
       "as_of": "2026-10-17",
-      "prev_value": 40.46,
+      "prev_value": 96.507,
       "prev_as_of": "2026-10-16",
-      "delta": -1.21,
+      "delta": 0.0,
       "delta_unit": "%",
-      "significance": 0.4
-    },
-    {
-      "key": "rates_sofr_30d",
-      "label": "30-day average SOFR",
-      "section": "AI Infra",
-      "kind": "rate",
-      "unit": "%",
-      "notable": 3.0,
-      "href": "/rates",
-      "value": 3.8745,
-      "as_of": "2026-10-16",
-      "prev_value": 3.8661,
-      "prev_as_of": "2026-10-15",
-      "delta": 0.8,
-      "delta_unit": "bp",
-      "significance": 0.27
-    },
-    {
-      "key": "rates_hy_oas",
-      "label": "High-yield spread (OAS)",
-      "section": "AI Infra",
-      "kind": "rate",
-      "unit": "%",
-      "notable": 10.0,
-      "href": "/rates",
-      "value": 3.23,
-      "as_of": "2026-10-15",
-      "prev_value": 3.25,
-      "prev_as_of": "2026-10-14",
-      "delta": -2.0,
-      "delta_unit": "bp",
-      "significance": 0.2
-    },
-    {
-      "key": "hub_caiso_sp15_da",
-      "label": "CAISO SP15 30-day average",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "$/MWh",
-      "notable": 3.0,
-      "href": "/power",
-      "value": 43.86,
-      "as_of": "2026-10-16",
-      "prev_value": 43.74,
-      "prev_as_of": "2026-10-15",
-      "delta": 0.27,
-      "delta_unit": "%",
-      "significance": 0.09
-    },
-    {
-      "key": "hub_nyiso_west_da",
-      "label": "NYISO Zone A (West) 30-day average",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "$/MWh",
-      "notable": 3.0,
-      "href": "/power",
-      "value": 37.09,
-      "as_of": "2026-10-16",
-      "prev_value": 37.19,
-      "prev_as_of": "2026-10-15",
-      "delta": -0.27,
-      "delta_unit": "%",
-      "significance": 0.09
+      "significance": 0.0
     },
     {
       "key": "copper",
@@ -523,40 +533,8 @@
       "href": "/commodities",
       "value": 6.5735,
       "as_of": "2026-10-16",
-      "prev_value": 6.5648,
-      "prev_as_of": "2026-10-15",
-      "delta": 0.13,
-      "delta_unit": "%",
-      "significance": 0.07
-    },
-    {
-      "key": "hub_miso_indiana_da",
-      "label": "MISO Indiana Hub 30-day average",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "$/MWh",
-      "notable": 3.0,
-      "href": "/power",
-      "value": 61.56,
-      "as_of": "2026-10-15",
-      "prev_value": 61.53,
-      "prev_as_of": "2026-10-14",
-      "delta": 0.05,
-      "delta_unit": "%",
-      "significance": 0.02
-    },
-    {
-      "key": "capacity_op_mw",
-      "label": "Tracked operational AI capacity",
-      "section": "AI Infra",
-      "kind": "level",
-      "unit": "MW",
-      "notable": 0.5,
-      "href": "/capacity",
-      "value": 41475.5,
-      "as_of": "2026-10-02",
-      "prev_value": 41475.5,
-      "prev_as_of": "2026-10-02",
+      "prev_value": 6.5735,
+      "prev_as_of": "2026-10-16",
       "delta": 0.0,
       "delta_unit": "%",
       "significance": 0.0
@@ -572,7 +550,23 @@
       "value": 8.58,
       "as_of": "2026-10-16",
       "prev_value": 8.58,
-      "prev_as_of": "2026-10-15",
+      "prev_as_of": "2026-10-16",
+      "delta": 0.0,
+      "delta_unit": "pp",
+      "significance": 0.0
+    },
+    {
+      "key": "dc_hardware",
+      "label": "DC Hardware index YoY",
+      "section": "AI Infra",
+      "kind": "yoy",
+      "unit": "%",
+      "notable": 0.1,
+      "href": "/datacenter",
+      "value": 30.95,
+      "as_of": "2026-09-01",
+      "prev_value": 30.95,
+      "prev_as_of": "2026-09-01",
       "delta": 0.0,
       "delta_unit": "pp",
       "significance": 0.0
@@ -605,22 +599,6 @@
       "as_of": "2026-09-01",
       "prev_value": 2.9,
       "prev_as_of": "2026-09-01",
-      "delta": 0.0,
-      "delta_unit": "pp",
-      "significance": 0.0
-    },
-    {
-      "key": "gauge_tracker",
-      "label": "CPI-Tracker YoY",
-      "section": "Inflation",
-      "kind": "yoy",
-      "unit": "%",
-      "notable": 0.05,
-      "href": "/gap",
-      "value": 3.84,
-      "as_of": "2026-10-16",
-      "prev_value": 3.84,
-      "prev_as_of": "2026-10-15",
       "delta": 0.0,
       "delta_unit": "pp",
       "significance": 0.0
@@ -751,6 +729,70 @@
       "prev_as_of": "2026-09-01",
       "delta": 0.0,
       "delta_unit": "pp",
+      "significance": 0.0
+    },
+    {
+      "key": "rates_bbb_yield",
+      "label": "BBB corporate bond yield",
+      "section": "AI Infra",
+      "kind": "rate",
+      "unit": "%",
+      "notable": 5.0,
+      "href": "/rates",
+      "value": 6.07,
+      "as_of": "2026-10-15",
+      "prev_value": 6.07,
+      "prev_as_of": "2026-10-15",
+      "delta": 0.0,
+      "delta_unit": "bp",
+      "significance": 0.0
+    },
+    {
+      "key": "rates_dgs10",
+      "label": "10-year Treasury yield",
+      "section": "AI Infra",
+      "kind": "rate",
+      "unit": "%",
+      "notable": 5.0,
+      "href": "/rates",
+      "value": 5.1,
+      "as_of": "2026-10-15",
+      "prev_value": 5.1,
+      "prev_as_of": "2026-10-15",
+      "delta": 0.0,
+      "delta_unit": "bp",
+      "significance": 0.0
+    },
+    {
+      "key": "rates_hy_oas",
+      "label": "High-yield spread (OAS)",
+      "section": "AI Infra",
+      "kind": "rate",
+      "unit": "%",
+      "notable": 10.0,
+      "href": "/rates",
+      "value": 3.23,
+      "as_of": "2026-10-15",
+      "prev_value": 3.23,
+      "prev_as_of": "2026-10-15",
+      "delta": 0.0,
+      "delta_unit": "bp",
+      "significance": 0.0
+    },
+    {
+      "key": "rates_sofr_30d",
+      "label": "30-day average SOFR",
+      "section": "AI Infra",
+      "kind": "rate",
+      "unit": "%",
+      "notable": 3.0,
+      "href": "/rates",
+      "value": 3.8745,
+      "as_of": "2026-10-16",
+      "prev_value": 3.8745,
+      "prev_as_of": "2026-10-16",
+      "delta": 0.0,
+      "delta_unit": "bp",
       "significance": 0.0
     }
   ]
