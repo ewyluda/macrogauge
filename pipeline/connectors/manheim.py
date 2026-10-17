@@ -3,7 +3,10 @@
 Wholesale leads retail: the engine reads this series shifted +30 days
 (config/basket.json used_vehicles.lead_days), per spec §5. One observation
 per run — the latest published report (Cox posts a mid-month update, then
-the full-month figure); monthly cadence accepted.
+the full-month figure); monthly cadence accepted. obs_date is the reference
+month's first day, so the latest obs is 46-49 days old when the next Mid-
+flash lands (~the 17th-19th); config/series.json's 60-day limit covers that
+plus a weekend wait.
 
 Re-point (2026-07-13): the previous scrape target,
 site.manheim.com/en/services/consulting/used-vehicle-value-index.html, froze

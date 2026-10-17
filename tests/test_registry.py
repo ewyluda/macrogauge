@@ -338,6 +338,10 @@ def test_staleness_limits_cover_publication_lags():
     assert limits["REVOLSL"] >= 105
     # continued claims lag two weeks and slip past 14d on holiday weeks
     assert limits["CCSA"] >= 21
+    # Manheim's Mid- flash is dated the month it covers and lands ~the 17th-19th,
+    # so the prior month's obs is 46-49d old on arrival (2026-07..09), ~53d when
+    # it posts after Friday's last run
+    assert limits["manheim_uvvi_m"] >= 60
 
 
 def test_duplicate_code_rejected(tmp_path):
