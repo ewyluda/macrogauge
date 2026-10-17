@@ -1,0 +1,10 @@
+URL: https://www.tradingview.com/news/business_wire:cb8fd7aa3339b:0-core-scientific-completes-acquisition-of-polaris-ds-advancing-planned-muskogee-expansion-to-1-5-gw-of-gross-power/
+Title: Core Scientific Completes Acquisition of Polaris DS, Advancing Planned Muskogee Expansion to 1.5 GW of Gross Power
+Publisher: Core Scientific via Business Wire (source version: https://www.businesswire.com/news/home/20260813550795/en/)
+Date: 2026-08-14
+Retrieved 2026-10-17
+Method: TradingView MCP get-news-story (business_wire:cb8fd7aa3339b:0), full release text
+
+[…] Through the acquisition, Core Scientific has secured the approximately 440 currently in service megawatts (“MW”) of gross, grid-connected power capacity being used by Polaris under existing electric service agreements with Oklahoma Gas & Electric. The aggregate purchase price for the acquisition was approximately $444 million in cash. […]
+
+[…] Core Scientific reiterates its plan to scale its Muskogee campus to approximately 1.5 GW of gross power, or approximately 1.0 GW of leasable power, through a combination of grid-connected and behind-the-meter solutions. The Company is on track to deliver the next approximately 82 MW at Muskogee to its customer beginning in the second half of 2027. […]

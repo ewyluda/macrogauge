@@ -579,10 +579,10 @@
     ],
     [
      "Muskogee expansion (Polaris DS) — CLOSED",
-     330,
+     null,
      "c",
-     "closed 2026-08-14 (~$444M); campus plan 1.5 GW gross / ~1.0 GW leasable; next ~82 MW 2H 2027",
-     "2027Q4"
+     "closed 2026-08-14 (~$444M): ~440 MW gross grid power in service (OG&E ESAs); campus plan ~1.5 GW gross / ~1.0 GW leasable; next ~82 MW to 'its customer' from 2H 2027 (customer not named; AMD's Muskogee share sits in the AMD five-site row); critical-IT MW n/d",
+     null
     ],
     [
      "Hunt County, TX",
@@ -594,8 +594,8 @@
      "AMD five-site program (Pecos TX · Auburn AL · Muskogee · Dalton · Hunt Co.)",
      530,
      "c",
-     "1H 2027 – 1H 2028; full 530 MW by end-2028 (per-site split n/d)",
-     "2027Q2"
+     "deliveries begin 1H 2027 (Pecos first) and ramp through end-2028 (Q2'26 call); per-site/phase MW n/d, so dated to full 530 MW by end-2028",
+     "2028Q4"
     ]
    ],
    "src": [
@@ -638,7 +638,7 @@
    "ndflag": "pre-notes basis; $3.5B senior secured notes due 2031 (Galaxy Helios DC II) closed 2026-07-28 to fund Phase II — nd rises materially; re-pull from Q3 10-Q",
    "note": "../markets/companies/powered-shell/glxy-galaxy-digital.md",
    "dom": "galaxy.com",
-   "flag": "Helios Ph I (133 MW IT) live — ~$80M/qtr leasing rev from Q3'26; Ph II (260 MW) halls from Q2 2027; 830 MW Helios II still unleased, energization late 2028; 3 new TX sites (Merlin/McGregor, Caspian, Selene) lift pipeline to >5.7 GW gross; Q3 results 2026-10-27",
+   "flag": "Helios Ph I (133 MW IT) live — ~$80M/qtr leasing rev from Q3'26; Ph II (260 MW) halls from Q2 2027; 830 MW Helios II still unleased, energization late 2028; 3 new TX sites (Merlin/McGregor, Caspian, Selene) lift pipeline to >5.7 GW gross; Q3 results 2026-10-27; plan 830 = Helios II's gross grid MW (Galaxy discloses no critical-IT figure for it)",
    "econ": {
     "backlog": "~$13.5B (15-yr); Q2 PR did not restate — CoreWeave 526 MW / >$1B avg annual rev",
     "revmw": "~$2.4M (Ph I ~$80M/qtr ÷ 133 MW)",
@@ -672,9 +672,9 @@
     ],
     [
      "Helios II expansion (830 MW gross)",
-     830,
+     null,
      "s",
-     "ERCOT-approved Jan 2026 (base load, pre-Batch Zero); unleased, tenant talks; energization slated late 2028 (Pitchfork switching station u/c); >$180M long-lead gear ordered"
+     "830 MW gross grid (ERCOT-approved Jan 2026, base load, pre-Batch Zero); critical-IT MW n/d; unleased, tenant talks; energization slated late 2028 (Pitchfork switching station u/c); >$180M long-lead gear ordered"
     ],
     [
      "Helios III + IV interconnects (2 × 1 GW gross)",
@@ -745,7 +745,7 @@
    "ndflag": "Q2'26 PR: total debt $5.21B − unrestricted cash $2.62B ≈ $2.6B. Abernathy ~$530M sale: initial $250M received Jul 2026 (Q2 call), $150M due by 12/31/26, ~$130M by 4/30/27 · ~$3.5B Justified/Hawesville leveraged loan still unpriced as of 10/17/26 (MS-led) — nd rises when it prices · 8-K 10/05/26: intends to upsize the senior secured revolver and raise additional senior secured debt. The $500M delayed-draw bridge was repaid and terminated 4/16/26 (Q2 10-Q); $250M Morgan Stanley revolver added 5/7/26",
    "note": "../markets/companies/powered-shell/wulf-terawulf.md",
    "dom": "terawulf.com",
-   "flag": "Lake Mariner 102 MW live (CB-3 delivered Jul 2026; CB-4 1st hall targeted late Sep); Anthropic 401 MW / ~$19B (up to ~$33B w/ two 5-yr ext.); Muskie KY contracted power doubled to 1 GW 10/05/26 (2nd 500 MW pulled to 2029); Chesapeake MD FERC-approved, closing pending",
+   "flag": "Lake Mariner 102 MW live (CB-3 delivered Jul 2026; CB-4 1st hall targeted late Sep); Anthropic 401 MW / ~$19B (up to ~$33B w/ two 5-yr ext.); Muskie KY contracted power doubled to 1 GW 10/05/26 (2nd 500 MW pulled to 2029); Chesapeake MD FERC-approved, closing pending; plan 2,320 includes Muskie's 1 GW of contracted utility service (no critical-IT figure disclosed)",
    "econ": {
     "backlog": "~$32B (incl. Anthropic $19B, up to ~$33B w/ ext.)",
     "revmw": "~$1.85M (Q2 HPC lease rev $31.9M)",
@@ -788,12 +788,12 @@
      "Justified Data — Hawesville KY (Anthropic)",
      401,
      "c",
-     "initial delivery 2H 2027, full early 2028; KY PSC approved 482 MW retail service",
-     "2027Q4"
+     "initial services 2H 2027 (phase MW n/d), full 401 MW critical IT by early 2028 (8/24/26 PR); KY PSC approved 482 MW retail service",
+     "2028Q1"
     ],
     [
      "Muskie Data — Grayson KY",
-     1000,
+     null,
      "p",
      "1 GW contracted (Kentucky Power amendment 10/05/26, doubled from 500 MW; KY PSC approval pending): 1st 500 MW ramps 2028 (initial service Q4 2028), 2nd 500 MW pulled to 2029 from 2030; up to 2 GW under evaluation. Utility MW, not critical IT"
     ],
@@ -1226,7 +1226,7 @@
    "ndflag": "computed Q2'26 10-Q: convertible notes $1,025.8M (2025 converts $593.6M + $458M 2026 converts) − cash $715.5M − restricted $53.4M ≈ $0.26B — NOT net cash (prior flag missed the 2025 converts)",
    "note": "../markets/companies/powered-shell/keel-keel-infrastructure.md",
    "dom": "keelinfra.com",
-   "flag": "⚠ zero signed AI tenants (still, as of KBW summit 10/6) — 2026 three-lease goal not reaffirmed; Moses Lake (18 MW) broke ground on spec; Panther Creek permits ran ~2 months late, RFS end-2027; US bitcoin mining fully decommissioned",
+   "flag": "⚠ zero signed AI tenants (still, as of KBW summit 10/6) — 2026 three-lease goal not reaffirmed; Moses Lake (18 MW) broke ground on spec; Panther Creek permits ran ~2 months late, RFS end-2027; US bitcoin mining fully decommissioned; plan 556 = Panther Creek 350 + Sharon 110 + Sherbrooke 96 utility/PPA MW (Keel discloses no critical-IT figures)",
    "econ": {
     "backlog": "$0 (no leases); 2.2 GW development pipeline w/ grid interconnects",
     "revmw": "— (pre-revenue)",
@@ -1240,7 +1240,7 @@
    "sites": [
     [
      "Panther Creek PA",
-     350,
+     null,
      "p",
      "350 MW PPL utility capacity (grid, not critical IT); final DEP permits slipped a few months, now resolving; not yet broken ground / pre-NTP; RFS end-2027; no tenant; >500 MW expansion potential"
     ],
@@ -1259,13 +1259,13 @@
     ],
     [
      "Sherbrooke QC",
-     96,
+     null,
      "s",
-     "city + Hydro-Québec approvals done; provincial minister's sign-off to consolidate 3 mining PPAs into one 96 MW HPC PPA still pending (no timeline, KBW 10/6)"
+     "96 MW grid power (single HPC/AI PPA consolidating 3 mining PPAs); city + Hydro-Québec approvals done; provincial minister's sign-off still pending (no timeline, KBW 10/6); critical-IT MW n/d"
     ],
     [
      "Scrubgrass PA",
-     750,
+     null,
      "s",
      "750 MW utility load study + 550 MW on-site CCGT plan (1 GW+ campus); update ~Dec/Jan; permits not yet filed"
     ]
@@ -1328,11 +1328,18 @@
      "2026Q4"
     ],
     [
-     "Rockdale (frontier AI lab)",
-     191,
+     "Rockdale (frontier AI lab) — first 96 MW",
+     96,
      "c",
-     "signed Aug 2026; initial 96 MW Dec 2027, full 191 MW by Jun 2028",
+     "signed Aug 2026; first 96 MW, rent from Dec 2027 (Q2'26 call)",
      "2027Q4"
+    ],
+    [
+     "Rockdale (frontier AI lab) — remaining 95 MW",
+     95,
+     "c",
+     "full 191 MW deployment Jun 2028 (Q2'26 call)",
+     "2028Q2"
     ],
     [
      "Rockdale (AMD options)",
@@ -1468,7 +1475,7 @@
     ],
     [
      "Clarington OH",
-     570,
+     null,
      "s",
      "570 MW grid power (not IT); being built out for BTC mining first; neighbor lawsuit in discovery; AI timing TBD"
     ],
@@ -3330,8 +3337,8 @@
      "Milam County TX (SB Energy / SoftBank)",
      1200,
      "c",
-     "first bldg delivery Oct 2026; full Q4 2028; scales to multi-GW",
-     "2026Q4"
+     "first bldg delivery Oct 2026 (bldg MW n/d); full Q4 2028; scales to multi-GW",
+     "2028Q4"
     ],
     [
      "Lordstown OH (SoftBank/Foxconn, ex-GM/Foxconn plant)",
@@ -3763,16 +3770,6 @@
   },
   {
    "t": "CORZ",
-   "site": "Muskogee expansion (Polaris DS)",
-   "mw": 330,
-   "st": "c",
-   "lat": 35.75,
-   "lng": -95.37,
-   "when": "closed Aug 2026; campus to 1.5 GW gross",
-   "approx": false
-  },
-  {
-   "t": "CORZ",
    "site": "Hunt County, TX",
    "mw": 285,
    "st": "s",
@@ -3802,16 +3799,6 @@
    "approx": false
   },
   {
-   "t": "GLXY",
-   "site": "Helios II expansion (gross MW)",
-   "mw": 830,
-   "st": "s",
-   "lat": 33.62,
-   "lng": -100.84,
-   "when": "ERCOT-approved; unleased; energization late 2028",
-   "approx": false
-  },
-  {
    "t": "WULF",
    "site": "Lake Mariner — Barker, NY",
    "mw": 102,
@@ -3838,18 +3825,8 @@
    "st": "c",
    "lat": 37.9,
    "lng": -86.75,
-   "when": "initial 2H 2027, full early 2028",
+   "when": "initial 2H 2027, full 401 MW early 2028",
    "approx": false
-  },
-  {
-   "t": "WULF",
-   "site": "Muskie Data — Grayson, KY",
-   "mw": 1000,
-   "st": "p",
-   "lat": 38.33,
-   "lng": -82.94,
-   "when": "1 GW contracted (10/05/26): 500 MW from 2028, 500 MW 2029",
-   "approx": true
   },
   {
    "t": "WULF",
@@ -3973,16 +3950,6 @@
   },
   {
    "t": "KEEL",
-   "site": "Panther Creek — Nesquehoning, PA",
-   "mw": 350,
-   "st": "p",
-   "lat": 40.86,
-   "lng": -75.9,
-   "when": "permits finishing; RFS end-2027 — no tenant",
-   "approx": false
-  },
-  {
-   "t": "KEEL",
    "site": "Sharon, PA",
    "mw": 110,
    "st": "p",
@@ -4001,26 +3968,6 @@
    "when": "under construction; first energized DC 2027 — no tenant yet",
    "approx": false,
    "market": "quincy"
-  },
-  {
-   "t": "KEEL",
-   "site": "Sherbrooke, QC",
-   "mw": 96,
-   "st": "s",
-   "lat": 45.4,
-   "lng": -71.89,
-   "when": "lease ~2027",
-   "approx": false
-  },
-  {
-   "t": "KEEL",
-   "site": "Scrubgrass — Venango County, PA",
-   "mw": 750,
-   "st": "s",
-   "lat": 41.25,
-   "lng": -79.78,
-   "when": "PJM load study",
-   "approx": false
   },
   {
    "t": "RIOT",
@@ -4100,16 +4047,6 @@
    "lat": 35.96,
    "lng": -83.92,
    "when": "ready Oct 2027 (was Q3 2027)",
-   "approx": false
-  },
-  {
-   "t": "BTDR",
-   "site": "Clarington, OH",
-   "mw": 570,
-   "st": "s",
-   "lat": 39.78,
-   "lng": -80.87,
-   "when": "grid MW; BTC mining first; lawsuit in discovery",
    "approx": false
   },
   {
@@ -5556,6 +5493,55 @@
    "mw": null,
    "st": "s",
    "why": "grid MW only (207 MW, bitcoin site); no critical-IT figure"
+  },
+  {
+   "t": "CORZ",
+   "site": "Muskogee expansion (Polaris DS)",
+   "mw": null,
+   "st": "c",
+   "why": "grid MW only (~440 MW gross; campus plan 1.5 GW gross); no critical-IT figure"
+  },
+  {
+   "t": "GLXY",
+   "site": "Helios II expansion (gross MW)",
+   "mw": null,
+   "st": "s",
+   "why": "grid MW only (830 MW gross); no critical-IT figure"
+  },
+  {
+   "t": "WULF",
+   "site": "Muskie Data — Grayson, KY",
+   "mw": null,
+   "st": "p",
+   "why": "utility MW only (1 GW contracted electric service); no critical-IT figure"
+  },
+  {
+   "t": "KEEL",
+   "site": "Panther Creek — Nesquehoning, PA",
+   "mw": null,
+   "st": "p",
+   "why": "utility MW only (350 MW PPL capacity); no critical-IT figure"
+  },
+  {
+   "t": "KEEL",
+   "site": "Scrubgrass — Venango County, PA",
+   "mw": null,
+   "st": "s",
+   "why": "utility MW only (750 MW load study); no critical-IT figure"
+  },
+  {
+   "t": "KEEL",
+   "site": "Sherbrooke, QC",
+   "mw": null,
+   "st": "s",
+   "why": "utility MW only (96 MW PPA); no critical-IT figure"
+  },
+  {
+   "t": "BTDR",
+   "site": "Clarington, OH",
+   "mw": null,
+   "st": "s",
+   "why": "grid MW only (570 MW); no critical-IT figure"
   }
  ],
  "geo_note": "Campus-level site map, added 2026-07-09. lat/lng are town/county centroids, NOT parcel coordinates. approx=true => only the state/country is public (placed at a state-level position; dashed on the map). Sites with undisclosed locations or n/d MW live in geo_unmapped. DOCN's leased colo fleet stays unmapped except the 2026 AI data centers it has named (metro centroids); AKAM (distributed edge PoPs and colo blocks) is excluded by construction."

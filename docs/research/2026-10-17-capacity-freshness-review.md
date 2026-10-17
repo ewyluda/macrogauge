@@ -48,17 +48,19 @@ edited config (including the PR 127 review fixes in section 2a), as of 2026-10-1
 
 | Cohort | Operating MW | Construction MW | Planned MW | Timeline cumulative MW |
 |---|---|---|---|---|
-| all | 41,476 → 41,490 | 33,871 → 37,891 | 49,818 → 47,159 | 57,308 → 56,516 (2028Q4) |
-| neocloud | 3,754 → 3,770 | 8,381 → 8,551 | 13,558 → 13,499 | 11,593 → 11,795 (2028Q4) |
+| all | 41,476 → 41,490 | 33,871 → 37,891 | 49,818 → 47,159 | 57,308 → 56,186 (2028Q4) |
+| neocloud | 3,754 → 3,770 | 8,381 → 8,551 | 13,558 → 13,499 | 11,593 → 11,465 (2028Q4) |
 | hyperscaler | 37,721 → 37,721 | 25,490 → 29,340 | 36,260 → 33,660 | 45,715 → 44,721 (2028Q4) |
 
-- **Counts:** site rows 174 → 241, map pins 121 → 144, unmapped entries 23 → 67, tenant edges
+- **Counts:** site rows 174 → 242, map pins 121 → 137, unmapped entries 23 → 74, tenant edges
   29 → 37.
-- **Timeline:** cumulative MW at 2026Q4 goes 45,914 → 44,776 and at 2028Q4 goes 57,308 →
-  56,516. The curve falls even though construction MW rose for two reasons:
+- **Timeline:** cumulative MW at 2026Q4 goes 45,914 → 43,576 and at 2028Q4 goes 57,308 →
+  56,186. The curve falls even though construction MW rose, for three reasons:
   - Abilene's delivered buildings left the schedule. Oracle's `op` already counted them.
   - Doña Ana, Saline Twp, Port Washington and Lappeenranta are under construction but undated:
     no first-phase MW and no full-build quarter is public.
+  - Phased sites now enter at the quarter their MW is in service, not at first delivery. That
+    shifts 2027 lower. Grid-only figures (e.g. the Muskogee expansion) no longer count.
 
   Cohort totals (`op`/`con`/`plan`) are unaffected by dating.
 
@@ -140,11 +142,18 @@ pass broke both rules in places.
   - *TeraWulf:* CB-4 goes back to 2026Q4. The late-September date was the first hall only;
     the rest phases through 2H 2026.
 
+  - *Rows dated at first power before the 2026-10-08 rule*, re-dated here too:
+    - CORZ's AMD five-site row moves to 2028Q4. Deliveries begin in 2027 and ramp "through
+      the end of 2028".
+    - WULF Hawesville moves to 2028Q1. All 401 MW of critical IT is due "by early 2028".
+    - RIOT Rockdale's frontier-lab lease splits into 96 MW at 2027Q4 (rent from December 2027)
+      and 95 MW at 2028Q2 (full deployment June 2028).
+    - Stargate Milam moves to 2028Q4. Its first building's MW is not stated.
+
   `test_dated_construction_rows_name_no_later_completion` now fails any dated construction row
-  whose own text names a later completion. Four rows dated at first power before the
-  2026-10-08 rule are listed in `LEGACY_FIRST_POWER` and still need re-dating: CORZ's AMD
-  five-site row, WULF Hawesville, RIOT Rockdale (its 96 MW first phase is stated, so it can be
-  split) and Stargate Milam.
+  whose own text names a later completion, with no exceptions. The publisher's docstring
+  (`pipeline/publish/capacity.py`) now states that the curated quarter follows this rule. The
+  free-text parser's first-power reading only covers rows with no curated quarter.
 - **P2: grid-only figures in the critical-IT field.** These new or re-stated rows now carry
   `mw` null and keep the grid figure in their text:
   - IREN: Sweetwater 1 remainder, Sweetwater 2, Kiowa, Bundey, Badajoz, other Nostrum sites and
@@ -154,10 +163,25 @@ pass broke both rules in places.
   Their pins move to `geo_unmapped` with a "grid MW only" reason, as `geo_note` prescribes for
   sites with undisclosed MW. `test_grid_only_figures_never_fill_the_critical_it_field` fails
   any row or pin whose text labels its figure grid, gross or utility without a stated IT
-  figure. Six pre-existing grid-basis rows are listed in `LEGACY_GRID_MW` and still need fixing:
-  CORZ Muskogee expansion, GLXY Helios II, WULF Muskie, KEEL Panther Creek and Scrubgrass,
-  and BTDR Clarington. Meta's Hyperion and El Paso rows now state the tracker's existing
-  gross × 0.72 IT basis in their text, as Lebanon and Sturgeon already did.
+  figure, with no exceptions. The pre-existing grid-basis rows are fixed the same way:
+  - *CORZ Muskogee expansion:* the 330 MW was not stated anywhere. Core Scientific's close
+    release gives ~440 MW of gross grid power, a 1.5 GW gross / ~1.0 GW leasable plan, and
+    "the next approximately 82 MW" for "its customer" from 2H 2027
+    (`evidence/2026-10-17-cap-corz-polaris-close.txt`). The row is now null and undated. That
+    82 MW likely sits inside the AMD five-site row.
+  - *GLXY Helios II:* 830 MW gross.
+  - *WULF Muskie:* 1 GW of contracted utility service.
+  - *KEEL:* Panther Creek (350 MW of PPL utility capacity), Scrubgrass (a 750 MW load study)
+    and Sherbrooke (a 96 MW PPA, which the guard missed because its text said "PPA").
+  - *BTDR Clarington:* 570 MW grid.
+
+  Meta's Hyperion and El Paso rows now state the tracker's existing gross × 0.72 IT basis in
+  their text, as Lebanon and Sturgeon already did.
+- **Company totals still on a grid basis (decision open).** GLXY `plan` 830 is Helios II's
+  gross MW. KEEL `plan` 556 is Panther Creek, Sharon and Sherbrooke utility/PPA MW. WULF
+  `plan` 2,320 includes Muskie's 1 GW. No company discloses a critical-IT figure for these,
+  so each row's `flag` now states its basis. Re-basing them would move the neocloud cohort's
+  planned MW by up to ~2.4 GW, which is a methodology call, not a data fix.
 - **P2: A901's full-delivery quarter.** The row is now dated 2027Q2, when Bitdeer says all
   67 MW of critical IT are due. The Q1 start had no stated MW, so it stays in the text.
   `test_full_capacity_quarter_survives_an_unquantified_earlier_ramp` pins this: the curated
@@ -233,6 +257,8 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 
 ### CORZ (Core Scientific)
 
+- **review fix:** AMD five-site program: 530 MW, `c`, energize 2028Q4 (deliveries begin 2027 and ramp "through the end of 2028"; per-site MW n/d). Source: Core Scientific earnings call.
+- **review fix:** Muskogee expansion (Polaris DS): MW n/d (was an unstated 330), `c`, undated. The release gives ~440 MW of gross grid power, a 1.5 GW gross / ~1.0 GW leasable plan, and the next ~82 MW to its customer from 2H 2027; its pin is unmapped. Source: Core Scientific via Business Wire.
 - **site:** Muskogee, OK (CoreWeave): 70 MW, `o`. The 70 MW is the Muskogee slice of CoreWeave's 590 MW (the record's five CoreWeave rows sum to 590). Source: Core Scientific earnings call.
 - **site:** Dalton, GA (CoreWeave Ph I–II): 175 MW, `c`, energize 2027Q1. This is CoreWeave's Dalton capacity; Ph II's last ~150 MW delivers from end-2026 and completes early 2027. Source: Core Scientific earnings call.
 - **field:** `pipe`. Spell out the AMD reservation and the separately disclosed new-site pipeline. Source: Core Scientific CDO at H.C. Wainwright conference; Core Scientific earnings call.
@@ -242,7 +268,7 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 
 ### GLXY (Galaxy Digital (Helios))
 
-- **site:** Helios II expansion (830 MW gross): 830 MW, `s`. Adds the stated energization timing and lease status. Source: Galaxy Digital earnings call.
+- **site:** Helios II expansion (830 MW gross): MW n/d (grid-only figure kept in the text), `s`. Adds the stated energization timing and lease status. Source: Galaxy Digital earnings call.
 - **site:** Helios III + IV interconnects (2 × 1 GW gross): MW n/d, `p`. Galaxy now defines the Helios upside as 2 GW gross across two POIs (Helios III and IV). Source: Galaxy Digital earnings call.
 - **new site:** Merlin — McGregor, TX (500 acres): MW n/d, `s`. Second Galaxy campus, announced 2026-07-28 (missed by the 10-02 curation). Source: Galaxy Digital; Galaxy Digital earnings call.
 - **new site:** Caspian (TX) — 700 MW gross: MW n/d, `s`. New Texas site disclosed on the Q2 call (most advanced of the new sites). Source: Galaxy Digital; Galaxy Digital earnings call.
@@ -252,8 +278,9 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 
 ### WULF (TeraWulf)
 
+- **review fix:** Justified Data — Hawesville KY (Anthropic): 401 MW, `c`, energize 2028Q1 (initial services 2H 2027, full 401 MW of critical IT by early 2028). Source: TeraWulf via GlobeNewswire (8/24/26).
 - **site:** Lake Mariner — CB-4: 168 MW, `c`, energize 2026Q4. The first hall's rent was targeted for late September and the rest phases through 2H 2026, so the row is dated to the full phase. Source: TeraWulf Q2'26 earnings call.
-- **site:** Muskie Data — Grayson KY: 1000 MW, `p`. Kentucky Power (utility) PR 10/05/26: contracted electric demand raised 500 MW→1 GW and second 500 MW phase advanced 2030→2029, subject to KY PSC approval; first phase still 2028. Source: Benzinga; Kentucky Power; TeraWulf.
+- **site:** Muskie Data — Grayson KY: MW n/d (1 GW of utility service kept in the text), `p`. Kentucky Power's 10/05/26 release: contracted demand rose 500 MW → 1 GW and the second 500 MW moved from 2030 to 2029. Source: Kentucky Power (AEP) via PR Newswire; TeraWulf; Benzinga.
 - **site:** Chesapeake Data — Morgantown MD: 1000 MW, `p`. Q2 call: FERC cleared the Morgantown acquisition on 7/29/26; acquisition not yet closed (no closing announcement found through 10/17). Source: TeraWulf Q2'26 earnings call.
 - **site:** Abernathy JV — sale to Fluidstack agreed 7/06: 84 MW, `c`. Q2 call quantifies the installments and confirms the first $250M was received in July 2026, so the 'NOT closed' wording in ndflag is stale (see company_update). Source: TeraWulf Q2'26 earnings call.
 - **site:** Lake Hawkeye (Cayuga) — Lansing NY: 320 MW, `p`. The location is now public: Needham (via Stocktwits) puts Lake Hawkeye at the Cayuga site in Lansing NY, and the CEO says 'Cayuga Lake Hawkeye' on the Q2 call. Source: Stocktwits; TeraWulf Q2'26 earnings call; The Block.
@@ -305,11 +332,11 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 
 ### KEEL (Keel Infra. (ex-Bitfarms))
 
-- **site:** Panther Creek PA: 350 MW, `p`. Panther Creek is not under construction. Source: Keel Infrastructure; Keel Infrastructure mgmt at KBW AI Infrastructure Summit.
+- **site:** Panther Creek PA: MW n/d (350 MW of utility capacity kept in the text), `p`. Panther Creek is not under construction. Source: Keel Infrastructure; Keel Infrastructure mgmt at KBW AI Infrastructure Summit.
 - **site:** Moses Lake WA: 18 MW, `c`, energize 2027Q4. Moses Lake has started construction: site development began during go-vertical permitting, modules were delivered, and the CEO confirms ground broken. Source: Keel Infrastructure; Keel Infrastructure mgmt at KBW AI Infrastructure Summit; PowerSecure.
 - **site:** Sharon PA: 110 MW, `p`. 'lease target 2026' is stale. Source: Keel Infrastructure.
-- **site:** Sherbrooke QC: 96 MW, `s`. The gating item is the outstanding ministerial signature, and Keel can't say when it will come. Source: Keel Infrastructure; Keel Infrastructure mgmt at KBW AI Infrastructure Summit.
-- **site:** Scrubgrass PA: 750 MW, `s`. Adds detail and the next milestone; status and MW unchanged. Source: Keel Infrastructure; Keel Infrastructure mgmt at KBW AI Infrastructure Summit.
+- **site:** Sherbrooke QC: MW n/d (96 MW PPA kept in the text), `s`. The gating item is the outstanding ministerial signature, and Keel can't say when it will come. Source: Keel Infrastructure; Keel Infrastructure mgmt at KBW AI Infrastructure Summit.
+- **site:** Scrubgrass PA: MW n/d (750 MW load study kept in the text), `s`. Adds detail and the next milestone; status unchanged. Source: Keel Infrastructure; Keel Infrastructure mgmt at KBW AI Infrastructure Summit.
 - **field:** `con` = 18. Follows the site rows: Panther Creek c → p (−350), Moses Lake p → c (+18). Source: Keel Infrastructure mgmt at KBW AI Infrastructure Summit.
 - **field:** `plan` = 556. The current 225 ≈ Sharon 110 + Moses Lake 18 + Sherbrooke 96 (=224). Source: Keel Infrastructure.
 - **flag:** `flag`. Refreshes the date of the no-tenant flag and adds the construction status. Source: Keel Infrastructure; Keel Infrastructure mgmt at KBW AI Infrastructure Summit.
@@ -317,6 +344,7 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 
 ### RIOT (Riot Platforms)
 
+- **review fix:** Rockdale frontier-lab lease split: 96 MW `c` energize 2027Q4 (rent from December 2027) + 95 MW `c` energize 2028Q2 (full 191 MW deployment June 2028). Source: Riot Platforms Q2'26 call.
 - **site:** Corsicana (AI/HPC): 756 MW, `s`. Small wording update: Riot says it is building the first core-and-shell and buying long-lead gear speculatively. Source: Riot Platforms.
 
 ### BTDR (Bitdeer)
@@ -326,7 +354,7 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 - **site:** Cyberjaya, Malaysia — A102 (AI cloud): 9.5 MW, `c`, energize 2027Q1. The sell-out release states energization in Q1 2027; 'ready Nov 2026' is facility readiness (Aug update), and the CFO on 9/14 said Malaysia executes 'early next year into mid of next year'. Source: Bitdeer via GlobeNewswire; Quartr transcript.
 - **site:** Johor, Malaysia — A201 (AI cloud): 21.7 MW, `c`, energize 2027Q1. 'Late negotiations' is stale: off-take commitments for >70% of A201 were announced 9/29/26 (>$1.7B expected revenue over 5 years). Source: Benzinga; Bitdeer via GlobeNewswire.
 - **site:** Wenatchee WA (A501): 10 MW, `c`, energize 2027Q4. CFO on the Q2 call: Washington State and Tennessee are the two sites 'we're actively working on and doing construction'; Knoxville is already 'c', Wenatchee should match. Source: Quartr transcript.
-- **site:** Clarington OH: 570 MW, `s`. CFO: Clarington is being developed for crypto mining now; motion to dismiss the neighbor's suit was denied and the case is in discovery. Source: Quartr transcript.
+- **site:** Clarington OH: MW n/d (570 MW grid kept in the text), `s`. CFO: Clarington is being developed for crypto mining now; the motion to dismiss the neighbor's suit was denied and the case is in discovery. Source: Quartr transcript (Bitdeer CFO).
 - **field:** `con` = 349.3. +67 (A901 'c') +10 (Wenatchee p→c). Source: Bitdeer via GlobeNewswire.
 - **field:** `plan` = 1143. +60 (A103 'p') −10 (Wenatchee moved to 'c'). Source: Bitdeer via GlobeNewswire.
 - **flag:** `flag`. 206.5 MW figure is superseded twice (273.5 on 10/8, 333.5 on 10/12); off-take status changed for A201. Source: Bitdeer via GlobeNewswire.
@@ -464,7 +492,7 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 
 ### STARGATE (OpenAI / Stargate)
 
-- No change: nothing new cleared the evidence bar.
+- **review fix:** Milam County TX: 1,200 MW, `c`, energize 2026Q4 → 2028Q4. The first building's MW is not stated, so the row is dated to the full build already in its text. Otherwise nothing new cleared the evidence bar.
 
 ## 4. Open items for the next refresh
 
@@ -506,9 +534,9 @@ was seen.
   - MARA: a Long Ridge termination date of 11/30.
   - BABA: Nantong may be operating, not expanding.
 - **Structural issues**, which predate this review:
-  - The CORZ AMD five-site row overlaps the Dalton Ph III, Hunt and Muskogee-expansion rows.
+  - The CORZ AMD five-site row overlaps the Dalton Ph III and Hunt rows.
   - EQIX's "Global xScale portfolio 725 `c`" likely includes operating capacity.
-  - Several landlord rows carry grid MW in the critical-IT field.
+  - GLXY, KEEL and WULF company `plan` totals are still grid/utility MW (see section 2a).
   - CRWV has no map pins for campuses outside tracked landlords.
 - **`config/power_deals.json` candidates** found during the review:
   - Amazon–Constellation Calvert Cliffs (690 MW PPA, 9/30/26).
