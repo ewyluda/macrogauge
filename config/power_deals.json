@@ -713,6 +713,52 @@
    "evidence": "docs/research/evidence/2026-10-17-cap-googl-pine-island-mn.txt",
    "quote": "it has partnered with Google NASDAQ:GOOG to power the tech giant's new data center in Pine Island, Minnesota, while contributing 1,900 megawatts of new clean energy to the grid",
    "note": "1,400 MW of wind, 200 MW of solar and 300 MW of long-duration storage, so filed under 'other'. Xcel expects Minnesota PUC approval early in 2027 (Q2'26 call, same evidence file), so pending."
+  },
+  {
+   "t": "GOOGL",
+   "counterparty": "Fervo Energy",
+   "facility": "Cape Station enhanced geothermal GeoCluster, UT",
+   "technology": "geothermal",
+   "mw": 396,
+   "mw_basis": "contracted",
+   "status": "signed",
+   "kind": "ppa",
+   "instrument": "PPA",
+   "announced": "2026-09-01",
+   "term_years": null,
+   "start": "2028",
+   "source": {
+    "publisher": "Fervo Energy (press release)",
+    "title": "Fervo Energy and Google Sign 396 MW PPA",
+    "url": "https://fervoenergy.com/fervo-energy-and-google-sign-396-mw-ppa/",
+    "date": "2026-09-01"
+   },
+   "evidence": "docs/research/evidence/2026-10-ppa-googl-fervo-cape-station.txt",
+   "quote": "today announced a 396-megawatt (MW) power purchase agreement (PPA) with Google to enable the continued development of the Cape Station enhanced geothermal systems (EGS) GeoCluster, expected to come online in 2028.",
+   "note": "For a potential Google data center in Utah. Google also holds an option to expand its offtake by about 600 MW (nearly 1 GW in total) by June 2030; like Energy Northwest's expansion option, the option is not a row. Direct-to-load delivery under Utah's SB132 is subject to regulatory approval."
+  },
+  {
+   "t": "GOOGL",
+   "counterparty": "OG&E (OGE Energy)",
+   "facility": "Two Google solar facilities under construction (capacity for Google's Muskogee and Stillwater, OK data centers)",
+   "technology": "solar",
+   "mw": 600,
+   "mw_basis": "nameplate",
+   "status": "pending",
+   "kind": "utility supply",
+   "instrument": "special contract (electric service agreements) + two capacity purchase agreements",
+   "announced": "2026-04-29",
+   "term_years": null,
+   "start": null,
+   "source": {
+    "publisher": "OGE Energy Corp. (Q1 2026 earnings call; transcript via Financial Modeling Prep)",
+    "title": "OGE Energy Corp. first quarter 2026 earnings call",
+    "url": "https://ogeenergy.gcs-web.com/node/45591",
+    "date": "2026-04-29"
+   },
+   "evidence": "docs/research/evidence/2026-10-ppa-googl-oge-oklahoma.txt",
+   "quote": "Working with Google, we've secured generation capacity from 2 solar facilities that Google had previously announced and that are currently under construction. These facilities will provide 600 megawatts of nameplate capacity, and we will request preapproval from both Oklahoma and Arkansas commissions for these CPAs.",
+   "note": "600 MW is the two solar plants' nameplate, not Google's load, which no source read states. OG&E's release (2026-04-30) gives no MW. The OCC must approve the special contract and pre-approve the CPAs; OG&E filed in May 2026, and its Q2 10-Q set a hearing for 2026-09-09."
   }
  ]
 }
