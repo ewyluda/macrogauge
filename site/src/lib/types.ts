@@ -188,9 +188,11 @@ export type Commodities = {
   groups: { group: string; rows: CommodityRow[] }[];
 };
 
+export type DcTradeGroup = "earnings" | "jobs" | "eci" | "postings";
+
 /** one display-only data-center trades row (labor.json dc_trades), 2026-10-16+ */
 export type DcTradeRow = {
-  key: string; label: string; series_id: string; source: string;
+  key: string; group: DcTradeGroup; label: string; series_id: string; source: string;
   unit: "usd_per_hour" | "thousands" | "index"; cadence: "daily" | "monthly" | "quarterly";
   value: number | null; yoy_pct: number | null; as_of: string | null;
   vs_label: string | null; vs_yoy_pct: number | null; spread_pp: number | null;

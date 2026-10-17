@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (1380 tests)
+pytest -q                                     # full suite (1384 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -28,7 +28,7 @@ cd site && npm ci
 npm run dev        # local dev server
 npm run lint       # ESLint flat config: next core-web-vitals + jsx-a11y + react-hooks (must pass in CI)
 npm run build      # static export (must pass in CI)
-npm test           # vitest — client math (escalationSince/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/news/newsTape/homeBrief/cloudGpu/dcHub/capacityHeadline/buildInputs/siteCosts/ratesHeadline/ledgerSeries) + dcWeightBasis + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/chartAria/sourcePills/badge
+npm test           # vitest — client math (escalationSince/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/news/newsTape/homeBrief/cloudGpu/dcHub/capacityHeadline/buildInputs/siteCosts/ratesHeadline/ledgerSeries/dcTrades) + dcWeightBasis + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/chartAria/sourcePills/badge
 npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause + polish + trust + chrome — 273 e2e tests, zero console errors
 npm run gen-types  # schemas/*.schema.json -> src/lib/generated/*.ts (gitignored; runs automatically before dev/build/test)
 ```
@@ -58,7 +58,9 @@ QCEW_238212 / QCEW_238222 for the 6-digit nonresidential electrical and plumbing
 sources, and per-series `max_staleness_days`. A series that is legitimately absent past its
 limit (QCEW disclosure suppression, a BLS average price published only some months, a
 discontinued print) carries an explicit `absence` policy (`kind`/`note`/`review_by`/
-`max_absence_days`) instead of a padded limit; `pipeline/freshness.py` classifies every series
+`max_absence_days`) instead of a padded limit. A cell the source has withheld in every period
+we fetch is still registered, under kind `undisclosed`, so the collector requests it and stores
+its first print (which then fails QA until the policy is removed) — never left out of the registry; `pipeline/freshness.py` classifies every series
 once for both `qa` (`sources_fresh` vs the `expected_absence` check, which fails when a policy
 is wrong) and `methodology`. Never hardcode expected-absence counts — they derive from the
 registry.

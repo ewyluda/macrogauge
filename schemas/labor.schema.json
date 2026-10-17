@@ -91,7 +91,7 @@
       }
     },
     "dc_trades": {
-      "description": "Display-only data-center trades block: electrical (CES2023821003) and building equipment (CES2023820003) contractor hourly earnings against all construction (CES2000000003) at the trade series' own month, nonresidential vs residential specialty trade jobs, ADP construction jobs, ECI wages (construction industry, installation/maintenance/repair occupations) and Indeed postings indexes. Every row always publishes; missing data is null. Added 2026-10-16; optional so older labor.json files still validate.",
+      "description": "Display-only data-center trades block, grouped so unlike measures stay apart: contractor earnings (electrical CES2023821003 and plumbing/HVAC CES2023822003 hourly earnings against all construction CES2000000003 at the trade series' own month), construction jobs (nonresidential vs residential specialty trades, ADP), fixed-mix wage indexes (ECI construction industry, installation/maintenance/repair occupations) and hiring signals (Indeed postings indexes). Every row always publishes; missing data is null. Added 2026-10-16; optional so older labor.json files still validate.",
       "type": "object", "additionalProperties": false,
       "required": ["rows"],
       "properties": {
@@ -99,9 +99,10 @@
           "type": "array",
           "items": {
             "type": "object", "additionalProperties": false,
-            "required": ["key", "label", "series_id", "source", "unit", "cadence", "value", "yoy_pct", "as_of", "vs_label", "vs_yoy_pct", "spread_pp"],
+            "required": ["key", "group", "label", "series_id", "source", "unit", "cadence", "value", "yoy_pct", "as_of", "vs_label", "vs_yoy_pct", "spread_pp"],
             "properties": {
               "key": {"type": "string"},
+              "group": {"enum": ["earnings", "jobs", "eci", "postings"]},
               "label": {"type": "string"},
               "series_id": {"type": "string"},
               "source": {"type": "string"},

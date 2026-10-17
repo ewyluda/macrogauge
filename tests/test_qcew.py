@@ -479,3 +479,61 @@ def test_collect_routes_238222_series_to_their_own_codes(tmp_path):
         "2025-01-01": 1837.0, "2026-01-01": 1853.0}
     # the same source_id under QCEW_238212 never leaks into the 238222 code
     assert dict(vintage.latest(conn, "qcew_wage238212_c04013")) == {}
+
+
+@pytest.mark.parametrize("source, fixture, withheld", [
+    ("QCEW_238212", FIXTURE_ELEC, {"32029"}),
+    ("QCEW_238222", FIXTURE_MECH, {"22083", "32029", "53025"})])
+def test_withheld_county_is_stored_the_quarter_bls_first_prints_it(
+        tmp_path, monkeypatch, source, fixture, withheld):
+    # Counties BLS has withheld in every fetched quarter stay registered
+    # (`undisclosed` policy), so the collector requests them: while withheld
+    # nothing is stored, and the first disclosed print reaches the store and
+    # the market payload with no registry edit. (PR #125 review finding 1.)
+    import csv
+    import io
+
+    from pipeline import collect, dc_markets, registry
+    from pipeline.publish import dc_markets as writer
+    from pipeline.store import vintage
+    naics = source.split("_")[1]
+    sources, series = registry.load_registry()
+    subset = [s for s in series if s.source == source]
+    assert {f for f in withheld for s in subset if s.source_id.split("~")[0] == f} == withheld
+    seed = list(csv.DictReader(io.StringIO(fixture.read_text())))
+    loudoun = next(r for r in seed if r["area_fips"] == "51107" and r["own_code"] == "5")
+    disclosed = ([r for r in seed if r["area_fips"] not in withheld]
+                 + [{**loudoun, "area_fips": f} for f in sorted(withheld)])
+    monkeypatch.setattr(qcew, "today_et", lambda: "2026-10-16")
+
+    def serve(rows):
+        def get(url, timeout=None, **kw):
+            year, qtr = url.split("/api/")[1].split("/")[:2]
+            buf = io.StringIO()
+            w = csv.DictWriter(buf, fieldnames=list(seed[0]))
+            w.writeheader()
+            w.writerows({**r, "year": year, "qtr": qtr} for r in rows)
+            return _Resp(buf.getvalue())
+        return get
+
+    for rows, stored in ((seed, False), (disclosed, True)):
+        store = tmp_path / str(stored)
+        results = collect.collect_all({source: sources[source]}, subset, {}, store,
+                                      http_get=serve(rows), http_post=None)
+        assert [(r.ok, r.error) for r in results] == [(True, None)]
+        conn = vintage.load(store)
+        for f in withheld:
+            got = [len(vintage.latest(conn, f"qcew_{m}{naics}_c{f}"))
+                   for m in ("wage", "emp", "aemp")]
+            assert got == ([10, 10, 10] if stored else [0, 0, 0]), (f, got)
+        markets = dc_markets.load()
+        roster = {m.key: set(m.counties) for m in markets}
+        payload = writer._labor(conn, markets, naics)
+        checked = set()
+        for row in payload["markets"]:
+            counties = {c["fips"] for c in row["counties"]}
+            for f in withheld & roster[row["key"]]:
+                assert (f in counties) is stored, (row["key"], f)
+                assert (f in row["counties_suppressed"]) is not stored, (row["key"], f)
+                checked.add(f)
+        assert checked == withheld

@@ -4,14 +4,15 @@ import nowcastJson from "../../../public/data/nowcast_latest.json";
 import nfpJson from "../../../public/data/accountability_nfp.json";
 import { KpiCard } from "@/components/KpiCard";
 import { LaborMonthlyChart, LaborClaimsChart } from "@/components/LaborCharts";
-import { fmtSigned, fmtMonth, fmtPct, fmtDay } from "@/lib/format";
+import { fmtSigned, fmtMonth, fmtPct } from "@/lib/format";
+import { groupTrades, tradeAsOf, tradeLevel, tradeVs } from "@/lib/dcTrades";
 import realWagesJson from "../../../public/data/real_wages.json";
 import pulse from "../../../public/data/pulse.json";
 import compare from "../../../public/data/compare.json";
 import { Section } from "@/components/Section";
 import { RaiseCalculator } from "@/components/RaiseCalculator";
 import { WageChart } from "@/components/WageChart";
-import type { DcTradeRow, Labor, Nowcast } from "@/lib/types";
+import type { Labor, Nowcast } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 import { LinesChart } from "@/components/LinesChart";
 import { C } from "@/lib/chartTheme";
@@ -183,53 +184,46 @@ function ConstructionBand() {
   );
 }
 
-const tradeLevel = (r: DcTradeRow) =>
-  r.value == null ? "—"
-    : r.unit === "usd_per_hour" ? `$${r.value.toFixed(2)}/hr`
-    : r.unit === "thousands" ? `${k(r.value)}k`
-    : r.value.toFixed(1);
-const tradeAsOf = (r: DcTradeRow) =>
-  r.as_of == null ? "—"
-    : r.cadence === "daily" ? fmtDay(r.as_of)
-    : r.cadence === "quarterly" ? `Q${Math.floor(Number(r.as_of.slice(5, 7)) / 3) + 1} ${r.as_of.slice(0, 4)}`
-    : fmtMonth(r.as_of);
-const pp1 = (v: number) => `${v >= 0 ? "+" : "−"}${Math.abs(v).toFixed(1)}pp`;
-
 function DcTrades() {
   const rows = d.dc_trades?.rows;
   if (!rows) return null;
   return (
-    <Section title="Data-center trades — the specialties a build leans on" id="dc-trades">
+    <Section title="Trade labor — contractor pay, jobs, wage indexes and hiring signals" id="dc-trades">
       <div className="table-card" data-testid="dc-trades">
         <table className="data-table">
           <thead><tr><th style={{ textAlign: "left" }}>Series</th><th>Latest</th><th>YoY</th><th>Compared with</th><th>As of</th></tr></thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.key}>
-                <td style={{ textAlign: "left" }}>
-                  {r.label}
-                  <div style={{ color: "var(--muted)", fontSize: 11 }}>{r.source} · {r.series_id}</div>
-                </td>
-                <td>{tradeLevel(r)}</td>
-                <td>{fmtSigned(r.yoy_pct)}</td>
-                <td className="cell-prose">
-                  {r.spread_pp == null ? "—" : `${pp1(r.spread_pp)} over ${r.vs_label} (${fmtSigned(r.vs_yoy_pct)})`}
-                </td>
-                <td style={{ color: "var(--muted)" }}>{tradeAsOf(r)}</td>
+          {groupTrades(rows).map((g) => (
+            <tbody key={g.group}>
+              <tr className="data-group">
+                <th colSpan={5} scope="colgroup">{g.title}
+                  {/* capped to the viewport so a phone's scrolling card doesn't clip the note */}
+                  <span style={{ display: "block", margin: "4px 0 0", maxWidth: "calc(100vw - 72px)" }}>{g.scope}</span>
+                </th>
               </tr>
-            ))}
-          </tbody>
+              {g.rows.map((r) => (
+                <tr key={r.key} data-testid="dc-trade-row">
+                  <td style={{ textAlign: "left" }}>
+                    {r.label}
+                    <div style={{ color: "var(--muted)", fontSize: 11 }}>{r.source} · {r.series_id}</div>
+                  </td>
+                  <td>{tradeLevel(r)}</td>
+                  <td>{fmtSigned(r.yoy_pct)}</td>
+                  <td className="cell-prose">{tradeVs(r)}</td>
+                  <td style={{ color: "var(--muted)" }}>{tradeAsOf(r)}</td>
+                </tr>
+              ))}
+            </tbody>
+          ))}
         </table>
       </div>
       <p className="method">
-        The trades a data-center build leans on hardest, beside the all-construction series above. Shown for
-        reference only: the DC cost index still rides the broad construction wage. Trade pay is BLS average hourly
-        earnings for electrical contractors (NAICS 23821) and for all building equipment contractors (NAICS 2382,
-        which includes electrical, plumbing and HVAC). Both are compared with all construction (CES2000000003) in
+        The trades a data-center build leans on hardest, beside the all-construction series above, with the wider
+        labor measures that bear on them. Shown for reference only: the DC cost index still rides the broad
+        construction wage. Contractor pay is BLS average hourly earnings for electrical contractors (NAICS 23821)
+        and plumbing and HVAC contractors (NAICS 23822), each compared with all construction (CES2000000003) in
         the same month. These detail series come only from the BLS API and print a month behind the construction
-        total. Specialty trade jobs split nonresidential from residential work, but not data centers from other
-        nonresidential building. ADP construction jobs are a second payroll source. The ECI (December 2005 = 100, quarterly)
-        tracks wages for a fixed mix of jobs, so it does not move when the workforce mix shifts. Postings are{" "}
+        total. Specialty trade jobs split nonresidential from residential work. The ECI is December 2005 = 100,
+        quarterly. Postings are{" "}
         <a href="https://github.com/hiring-lab/data">Indeed Hiring Lab</a> indexes (February 1, 2020 = 100), licensed{" "}
         <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, compared with the nearest day a year
         earlier. County-level electrical contractor wages are on <Link href="/markets">Markets</Link>.

@@ -147,9 +147,13 @@ test("/labor lists the data-center trades, each row with its source and as-of", 
   // optional: labor.json files published before 2026-10-16 carry no block
   const table = page.getByTestId("dc-trades");
   await expect(table).toHaveCount(labor.dc_trades ? 1 : 0);
+  // the populated rendering is unit-tested in src/lib/dcTrades.test.ts until a publish carries the block
   if (!labor.dc_trades) return;
-  const rows = table.locator("tbody tr");
+  const rows = table.getByTestId("dc-trade-row");
   await expect(rows).toHaveCount(labor.dc_trades.rows.length);
+  // unlike measures sit under their own group headings
+  await expect(table.locator("tr.data-group th")).toContainText(["Contractor earnings", "Construction jobs",
+    "Fixed-mix wage indexes", "Hiring signals"]);
   for (const [i, r] of labor.dc_trades.rows.entries()) {
     await expect(rows.nth(i)).toContainText(r.series_id);
     if (r.as_of) await expect(rows.nth(i).locator("td").last()).not.toHaveText("—");

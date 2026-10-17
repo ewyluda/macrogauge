@@ -19,6 +19,16 @@ def test_suppressed_and_discontinued_are_open_ended_until_they_print():
         assert fr.classify(None, 400, a, T) == fr.NEVER
 
 
+def test_undisclosed_expects_no_history_and_fails_on_any_print():
+    a = Absence(kind="undisclosed", note="n", review_by="2027-03-31")
+    assert fr.classify(None, 400, a, T) == fr.EXPECTED_ABSENT
+    # the first print, recent or a backfilled old quarter, means the policy is wrong
+    assert fr.classify("2026-07-01", 400, a, T) == fr.POLICY_RESUMED
+    assert fr.classify("2024-01-01", 400, a, T) == fr.POLICY_RESUMED
+    late = Absence(kind="undisclosed", note="n", review_by="2026-09-03")
+    assert fr.classify(None, 400, late, T) == fr.POLICY_EXPIRED
+
+
 def test_intermittent_is_bounded_and_fresh_in_season():
     a = Absence(kind="intermittent", note="n", max_absence_days=200)
     assert fr.classify("2026-08-01", 80, a, T) == fr.FRESH
@@ -70,5 +80,6 @@ def test_summarize_is_the_one_count_qa_and_methodology_publish():
             ("2025-04-01", 400, sup),          # past its window, policy holds
             ("2026-01-01", 80, None),          # stale
             (None, 80, None),                  # never seen: stale
-            ("2025-04-01", 400, Absence(kind="suppressed", note="n", review_by="2026-09-03"))]  # policy expired
-    assert fr.summarize(rows, T) == {"total": 6, "fresh": 2, "expected_absent": 1, "stale": 2}
+            ("2025-04-01", 400, Absence(kind="suppressed", note="n", review_by="2026-09-03")),  # policy expired
+            (None, 400, Absence(kind="undisclosed", note="n", review_by="2027-03-31"))]  # never printed, as expected
+    assert fr.summarize(rows, T) == {"total": 7, "fresh": 2, "expected_absent": 2, "stale": 2}

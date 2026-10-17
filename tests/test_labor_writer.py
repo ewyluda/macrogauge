@@ -167,7 +167,7 @@ def test_dc_trades_pay_premium_compares_like_months(tmp_path):
         # trade detail prints a month behind the construction supersector:
         # the premium compares both at the trade series' own month (Aug)
         "CES2023821003": {"2025-08-01": 41.04, "2026-08-01": 43.61},
-        "CES2023820003": {"2025-08-01": 41.00, "2026-08-01": 43.13},
+        "CES2023822003": {"2025-08-01": 40.62, "2026-08-01": 42.44},
         "ces_constr_ahe": {"2025-08-01": 39.98, "2025-09-01": 40.01,
                            "2026-08-01": 41.64, "2026-09-01": 41.69}})
     rows = {r["key"]: r for r in labor.build(conn)["dc_trades"]["rows"]}
@@ -177,7 +177,9 @@ def test_dc_trades_pay_premium_compares_like_months(tmp_path):
     assert e["vs_yoy_pct"] == 4.15               # 41.64/39.98, August not September
     assert e["spread_pp"] == 2.11
     assert (e["series_id"], e["source"]) == ("CES2023821003", "BLS CES")
-    assert rows["building_equipment_ahe"]["spread_pp"] == 1.05   # 5.20 - 4.15
+    p = rows["plumbing_hvac_ahe"]
+    assert (p["yoy_pct"], p["spread_pp"]) == (4.48, 0.33)   # 42.44/40.62; 4.48 - 4.15
+    assert (e["group"], p["group"]) == ("earnings", "earnings")
 
 
 def test_dc_trades_jobs_eci_and_postings(tmp_path):
@@ -200,6 +202,9 @@ def test_dc_trades_jobs_eci_and_postings(tmp_path):
     assert (eci["value"], eci["yoy_pct"], eci["as_of"]) == (174.6, 3.52, "2026-04-01")
     assert [rows[k]["cadence"] for k in ("nonres_specialty_jobs", "eci_construction",
                                          "postings_construction")] == ["monthly", "quarterly", "daily"]
+    assert [rows[k]["group"] for k in ("nonres_specialty_jobs", "adp_construction_jobs", "eci_construction",
+                                       "eci_install_maint_repair", "postings_construction")] == [
+        "jobs", "jobs", "eci", "eci", "postings"]
     p = rows["postings_construction"]
     assert (p["value"], p["as_of"], p["yoy_pct"]) == (129.2, "2026-10-09", 6.39)  # 129.16/121.4 (10-08)
     assert "CC BY 4.0" in p["source"]

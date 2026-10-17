@@ -17,14 +17,15 @@ Alongside the NAICS 23 construction labor, every market row carries an
 contractors), aggregated by the very same engine (dcmarkets.market_rows:
 average-monthly-employment-weighted wage, like-for-like YoY, suppressed
 counties skipped and listed) against the 238212 national baseline
-(`elec_national`). A county with no 238212 series at all (Storey NV is
-unregistered -- suppressed every quarter since 2023 Q4) is reported as
-suppressed exactly like a disclosure-suppressed one; `partial` flags any
-market whose basis is missing at least one of its counties. A `mech` block
-(NAICS 238222, NONRESIDENTIAL plumbing and HVAC contractors) rides the same
-engine and shape against `mech_national`; it is data only for now, with no
-/markets column (Storey NV, Richland Parish LA and Grant WA are unregistered
-for 238222 -- no quarter printed in 2024 Q1-2026 Q1 -- and read suppressed).
+(`elec_national`). A county with no 238212 observation at all (Storey NV,
+withheld every quarter since 2023 Q4 and registered under an `undisclosed`
+policy so its first print is collected) is reported as suppressed exactly
+like a disclosure-suppressed one; `partial` flags any market whose basis is
+missing at least one of its counties. A `mech` block (NAICS 238222,
+NONRESIDENTIAL plumbing and HVAC contractors) rides the same engine and shape
+against `mech_national`; it is data only for now, with no /markets column
+(Storey NV, Richland Parish LA and Grant WA are withheld in every quarter
+2024 Q1-2026 Q1, registered `undisclosed`, and read suppressed).
 
 Every row also carries `market_pipeline`: one broker's market-level MW under
 construction (config/dc_market_pipeline.json, loaded and validated by
