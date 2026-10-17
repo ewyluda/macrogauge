@@ -88,9 +88,11 @@ export default function Page() {
         its example, at the office that supervises them or the base they work
         from. A county counts the contractors based there, not every crew on
         its projects. Craft labor is the constraint nobody prices until it
-        bites: a market whose
-        contractors are adding workers twice as fast as the country is a
-        market where your subcontractor coverage is thinning.
+        bites, but hiring alone does not show it biting: contractors adding
+        workers twice as fast as the country signal heavy activity and
+        possible competition for the same crews, not a shortage. The wage
+        spread beside it is the price check; neither sees vacancies, overtime
+        or how many subcontractors bid.
       </p></div>
       <div><h3>Eight-quarter trend</h3><p className="method">
         The sparkline under each market&apos;s worker count is its construction headcount over the
