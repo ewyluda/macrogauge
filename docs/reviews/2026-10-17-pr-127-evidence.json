@@ -1,0 +1,245 @@
+{
+  "reviewed_head": "0d67610676f1384018116391375be01326ec6975",
+  "reviewed_base": "18d83d9bf2f60cf7c61b997dbed263ca2b322a22",
+  "head_config_sha256": "3b0bc51f07b6545d99cf4b00e6ef3400d3f6cb3c5177f18f45eea98467325e52",
+  "base_config_sha256": "ff6432a8b7abc3dfb60ef32cddfe1589d6a28f507544693d656c94272e603200",
+  "schemas_valid": [
+    "capacity",
+    "dc_markets"
+  ],
+  "cohorts": {
+    "base": {
+      "all": {
+        "companies": 29,
+        "op": 41475.5,
+        "con": 33871.3,
+        "plan": 49818
+      },
+      "neocloud": {
+        "companies": 19,
+        "op": 3754.5,
+        "con": 8381.3,
+        "plan": 13558
+      },
+      "hyperscaler": {
+        "companies": 10,
+        "op": 37721,
+        "con": 25490,
+        "plan": 36260
+      }
+    },
+    "head": {
+      "all": {
+        "companies": 29,
+        "op": 41490.5,
+        "con": 37891.3,
+        "plan": 47159
+      },
+      "neocloud": {
+        "companies": 19,
+        "op": 3769.5,
+        "con": 8551.3,
+        "plan": 13499
+      },
+      "hyperscaler": {
+        "companies": 10,
+        "op": 37721,
+        "con": 29340,
+        "plan": 33660
+      }
+    }
+  },
+  "timeline": {
+    "base": {
+      "2026Q2": 41475.5,
+      "2026Q3": 41691.5,
+      "2026Q4": 45914.5,
+      "2027Q1": 46576.7,
+      "2027Q2": 47981.7,
+      "2027Q3": 48046.799999999996,
+      "2027Q4": 52477.799999999996,
+      "2028Q1": 52477.799999999996,
+      "2028Q2": 53214.799999999996,
+      "2028Q3": 54654.799999999996,
+      "2028Q4": 57307.799999999996
+    },
+    "head": {
+      "2026Q2": 41490.5,
+      "2026Q3": 41874.5,
+      "2026Q4": 45101.0,
+      "2027Q1": 45772.7,
+      "2027Q2": 49865.7,
+      "2027Q3": 49930.799999999996,
+      "2027Q4": 56879.799999999996,
+      "2028Q1": 56879.799999999996,
+      "2028Q2": 57441.799999999996,
+      "2028Q3": 58881.799999999996,
+      "2028Q4": 60158.799999999996
+    }
+  },
+  "oracle_full_campuses": {
+    "rows": [
+      [
+        "Shackelford County TX (Vantage)",
+        1400,
+        "c",
+        "1.4 GW campus (Vantage Frontier); first customer delivery H1 CY2027 (Oracle 6/10/26); not yet delivered at 9/10/26; full build ~Q4 2028 (prior est.)",
+        "2027Q2"
+      ],
+      [
+        "Doña Ana County NM (Project Jupiter, STACK)",
+        1000,
+        "c",
+        "~1 GW per Oracle ('around a gigawatt a piece', 9/10/26 call); Oracle 6/10/26: customer delivery begins H1 CY2027; 9/10/26 'definitely on track', air permit pending (Bloom fuel cells, 2.4 GW); 9/24/26 force-majeure notice to Blue Owl developer (rent deferral if not online 2028); gas line awaiting FERC (press)",
+        "2027Q2"
+      ],
+      [
+        "Saline Township MI (Related Digital)",
+        1400,
+        "c",
+        "Oracle 6/10/26: customer delivery begins H2 2027; network core ahead of schedule; not delivered at 9/10/26",
+        "2027Q4"
+      ],
+      [
+        "Port Washington WI (Vantage)",
+        1000,
+        "c",
+        "Project Lighthouse; ~1 GW per Oracle ('around a gigawatt a piece', 9/10/26 call); Oracle 6/10/26: delivery begins H2 CY2027; 9/10/26 'very on track' (grid power via We Energies/ATC; Point Beach nuclear subscription 10/2/26); Aterio 9/30/26 flags mid-2028 load risk",
+        "2027Q4"
+      ]
+    ],
+    "timeline_contribution_mw": {
+      "2027Q2": 2400.0,
+      "2027Q4": 4800.0,
+      "2028Q4": 4800.0
+    }
+  },
+  "dlr_phases": {
+    "row": [
+      "Northern Virginia — 3×96 MW ex-Blackstone JV bldgs (Manassas ×2, Digital Dulles/Sterling ×1)",
+      288,
+      "c",
+      "100% leased to 3 IG hyperscalers (15-yr, AA- avg); 2 bldgs stabilize H1'27, 3rd H1'28; DLR bought out BX 6/30/26",
+      "2027Q2"
+    ],
+    "excess_vs_split_control_mw": {
+      "2027Q2": 96.0,
+      "2027Q4": 96.0,
+      "2028Q2": 0.0
+    }
+  },
+  "new_iren_grid_only": {
+    "rows": [
+      [
+        "Kiowa OK",
+        1600,
+        "s",
+        "1.6 GW grid (FY26 10-K per Zacks); 2028 build wave; Sweetwater 1 is the reference design"
+      ],
+      [
+        "Bundey, South Australia",
+        800,
+        "s",
+        "800 MW (grid); transmission connection agreement (four 330 kV feeder exits); energization from 2028; permitting + procurement underway"
+      ]
+    ],
+    "map_rows": [
+      {
+        "t": "IREN",
+        "site": "Bundey, SA (Australia)",
+        "mw": 800,
+        "st": "s",
+        "lat": -33.99,
+        "lng": 139.08,
+        "when": "TCA signed; energization from 2028",
+        "approx": true
+      },
+      {
+        "t": "IREN",
+        "site": "Kiowa, OK",
+        "mw": 1600,
+        "st": "s",
+        "why": "exact location not in fetched sources (Kiowa town, Pittsburg Co., vs Kiowa County are both possible)"
+      }
+    ],
+    "mw_total": 2400
+  },
+  "a901_undated": {
+    "row": [
+      "Malaysia (3rd hub) — A901 (AI cloud)",
+      67,
+      "c",
+      "10-yr DC services agmt (10/8/26); delivery from Q1 2027, full 67 MW Q2 2027; no offtake yet",
+      null
+    ],
+    "timeline_entries": [
+      [
+        "2027Q1",
+        "Cyberjaya, Malaysia — A102 (AI cloud)",
+        9.5
+      ],
+      [
+        "2027Q1",
+        "Johor, Malaysia — A201 (AI cloud)",
+        21.7
+      ],
+      [
+        "2027Q3",
+        "Johor, Malaysia — A202 (AI cloud)",
+        65.1
+      ],
+      [
+        "2026Q4",
+        "Tydal Norway — Ph1 (Volta)",
+        60.5
+      ],
+      [
+        "2027Q1",
+        "Tydal Norway — Ph2 (Volta)",
+        60.5
+      ],
+      [
+        "2027Q4",
+        "Knoxville TN (A601)",
+        55
+      ],
+      [
+        "2027Q4",
+        "Wenatchee WA (A501)",
+        10
+      ]
+    ],
+    "mw_omitted_by_2027Q2": 67.0
+  },
+  "validation": {
+    "python_tests": 1386,
+    "vitest_tests": 502,
+    "lint": "passed",
+    "build": "passed",
+    "browser_suite": {
+      "initial_passed": 272,
+      "initial_failed": 1,
+      "failure_cause": "Archive has no Git metadata; build-sha link absent.",
+      "focused_recheck_passed": 1,
+      "recheck_build_sha": "0d67610676f1384018116391375be01326ec6975"
+    },
+    "remote_ci": {
+      "run_id": 39044473420,
+      "conclusion": "success"
+    },
+    "oracle_browser": "Q2 2027 +2.4 GW; Q4 2027 +2.4 GW; dated by Q4 2027 +5.0 GW including Abilene remainder"
+  },
+  "independent_sources": [
+    {
+      "url": "https://digitalrealtytrust.gcs-web.com/news-releases/news-release-details/digital-realty-announces-purchase-blackstone-interest-three",
+      "checked": "2026-10-17",
+      "supports": "Three 96 MW buildings: two stabilize H1 2027 and third H1 2028."
+    },
+    {
+      "url": "https://www.globenewswire.com/news-release/2026/10/08/3377763/0/en/bitdeer-ai-expands-southeast-asia-footprint-with-a901-a-new-67mw-ai-data-center-campus-in-malaysia-active-ai-cloud-pipeline-exceeds-10-billion.html",
+      "checked": "2026-10-17",
+      "supports": "A901 begins delivery Q1 2027; full 67 MW critical IT due Q2 2027."
+    }
+  ],
+  "oracle_screenshot_sha256": "62c579f3f2d13db00276b5d59fd32d9ab6fdf9ea9c64353cb1a8777a89a765fa"
+}
