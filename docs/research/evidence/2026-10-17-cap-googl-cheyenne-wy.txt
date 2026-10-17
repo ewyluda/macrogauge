@@ -11,6 +11,8 @@ Method: TradingView news API full text (story id globenewswire:0b37407cf094b:0);
 
 […] To support the project, Black Hills plans to invest $1.8 billion between 2027 and 2029 to construct 564 MW (nameplate capacity) of company-owned generation. […]
 
+[…] To provide 590 MW of grid-connected service, Black Hills will construct and own through a non-regulated affiliate 564 MW (nameplate capacity) of new natural gas generation located at the company's existing Cheyenne Prairie Generating Station (CPGS) location. The remaining 26 MW will be supplied through a combination of market energy purchases and retail utility service provided under the company’s applicable industrial tariff. […]
+
 […] Google has provided Black Hills with $399 million of refundable advances for the procurement of long lead-time equipment under the parties' generation reservation agreement. […]
 
 […] Robinson substation Certificate of Public Convenience and Necessity (CPCN) approved in May 2026; […]

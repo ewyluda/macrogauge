@@ -649,7 +649,7 @@
    "t": "GOOGL",
    "counterparty": "Black Hills Corp.",
    "facility": "Grid-connected service to Google's planned Cheyenne, WY data center (company-owned generation + market energy)",
-   "technology": "other",
+   "technology": "gas",
    "mw": 590,
    "mw_basis": "contracted",
    "status": "signed",
@@ -666,13 +666,13 @@
    },
    "evidence": "docs/research/evidence/2026-10-17-cap-googl-cheyenne-wy.txt",
    "quote": "Black Hills will provide up to 590 MW of grid-connected energy service through company-owned generation and market energy.",
-   "note": "Definitive agreements effective 9/30/26 with terms through 2048. Black Hills plans 564 MW (nameplate) of new company-owned generation, technology not stated. The project's 2.7 GW resource mix also includes ~2.1 GW of third-party contracted resources managed under the LPCS tariff; those are not a row (AEP's 702 MW fuel cells are a separate row and may be among them)."
+   "note": "Definitive agreements effective 9/30/26 with terms through 2048. Black Hills plans 564 MW (nameplate) of new natural gas generation at its Cheyenne Prairie Generating Station; the other 26 MW comes from market purchases and tariff service (same release, in the evidence file). The project's 2.7 GW resource mix also includes ~2.1 GW of third-party contracted resources managed under the LPCS tariff; those are not a row (AEP's 702 MW fuel cells are a separate row and may be among them)."
   },
   {
    "t": "GOOGL",
    "counterparty": "American Electric Power",
    "facility": "702 MW Bloom fuel-cell generation project near Cheyenne, WY",
-   "technology": "other",
+   "technology": "fuel cells",
    "mw": 702,
    "mw_basis": "nameplate",
    "status": "signed",
@@ -689,7 +689,7 @@
    },
    "evidence": "docs/research/evidence/2026-10-17-cap-googl-cheyenne-wy.txt",
    "quote": "American Electric Power (Nasdaq: AEP) plans to invest approximately $4 billion to advance a new 702-megawatt fuel cell generation project near Cheyenne, Wyoming, under a long-term 20-year power purchase agreement (PPA) with Google",
-   "note": "Fuel cells (Bloom), filed under 'other'; the release lead does not state the fuel. ~$4B; AEP plans to start construction in 2026 and expects full operation by end-2028 (WSJ, same evidence file)."
+   "note": "Bloom fuel cells, per the release title; the release lead does not state the fuel they burn. ~$4B; AEP plans to start construction in 2026 and expects full operation by end-2028 (WSJ, same evidence file)."
   },
   {
    "t": "GOOGL",
