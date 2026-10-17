@@ -1,0 +1,36 @@
+URL: https://www.reuters.com/world/asia-pacific/banks-provide-22-billion-chip-loan-blackstone-alphabet-cloud-venture-bloomberg-2026-09-16/
+Title: Banks provide $22 billion chip loan to Blackstone, Alphabet AI cloud venture, source says
+Publisher: Reuters
+Date: 2026-09-16
+Retrieved: 2026-10-17
+Method: TradingView news API full text (story id tag:reuters.com,2026:newsml_L4N4581GN:0); curl/WebFetch blocked by egress policy
+
+[…] A group of 10 banks is providing a $22 billion chip loan to support Blackstone NYSE:BX and Alphabet's NASDAQ:GOOG new cloud venture Crux AI, a source familiar with the matter told Reuters on Wednesday. […]
+
+[…] Google and Blackstone announced the venture in May, saying they would form a cloud business to meet the growing demand for AI computing services. The venture plans to bring its first 500 megawatts of capacity online in 2027. […]
+
+[…] Crux AI, which formally launched last week, has secured an initial $5 billion equity investment from Blackstone, while Google will provide its custom Tensor Processing Units, software and services. […]
+
+
+
+URL: https://seekingalpha.com/ (TradingView story seekingalpha:ff6e3bed0094b:0)
+Title: Google-backed neocloud Crux AI secures $22B in bank loans to support chip purchases: report
+Publisher: Seeking Alpha (news)
+Date: 2026-09-16
+Retrieved: 2026-10-17
+Method: TradingView news API full text
+
+[…] The company was launched just last week and plans to bring 500 MW of compute capacity online in 2027 in the first phase of its roadmap. […]
+
+
+
+URL: https://s206.q4cdn.com/479360582/files/doc_events/2026/Jul/22/2026_Q2_Earnings_Transcript.pdf
+Title: Alphabet Q2 2026 earnings call
+Publisher: Alphabet (via FMP transcript API)
+Date: 2026-07-22
+Retrieved: 2026-10-17
+Method: FMP earningsTranscript API
+
+[…] we are balancing it by increasingly looking at opportunities to put TPUs in their data centers or in other data centers like the project we are doing with Blackstone, et cetera. […]
+
+

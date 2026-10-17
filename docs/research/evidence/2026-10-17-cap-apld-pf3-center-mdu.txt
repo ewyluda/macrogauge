@@ -1,0 +1,10 @@
+URL: https://www.prnewswire.com/news-releases/montana-dakota-utilities-announces-electric-service-agreement-with-applied-digital-for-proposed-ai-factory-302806791.html
+Title: Montana-Dakota Utilities Announces Electric Service Agreement with Applied Digital for Proposed AI Factory
+Publisher: MDU Resources (PR Newswire)
+Date: 2026-06-22
+Retrieved: 2026-10-17
+Method: FMP press-release API (mcp__FMP__news search-press-releases, APLD) — headline + lead paragraph verbatim; curl/WebFetch blocked in sandbox.
+
+Note: The leading '[date publisher] headline —' prefix is my label from the API record fields; everything after the dateline is verbatim API text.
+
+[…] [2026-06-22 16:30:00 PRNewsWire] Montana-Dakota Utilities Announces Electric Service Agreement with Applied Digital for Proposed AI Factory — BISMARCK, N.D., June 22, 2026 /PRNewswire/ -- MDU Resources Group, Inc.'s (NYSE: MDU) subsidiary, Montana-Dakota Utilities Co., has entered into an electric service agreement (ESA) with Applied Digital Corporation (NASDAQ: APLD) to provide power to Polaris Forge 3, an AI Factory near Center, North Dakota.  […]

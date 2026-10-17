@@ -1,0 +1,14 @@
+URL: https://www.tradingview.com/news/globenewswire:3e87002ff094b:0-digital-realty-commences-construction-of-kix15-data-center-expanding-ai-infrastructure-in-japan/
+Title: Digital Realty Commences Construction of KIX15 Data Center, Expanding AI Infrastructure in Japan
+Publisher: Digital Realty (press release via GlobeNewswire)
+Date: 2026-10-07
+Retrieved: 2026-10-17
+Method: TradingView MCP get-news-story (full GlobeNewswire release text); curl and WebFetch blocked in this session (proxy connect_rejected / ENOTFOUND)
+
+[…] SINGAPORE, Oct. 07, 2026 (GLOBE NEWSWIRE) -- Digital Realty (NYSE: DLR), the world’s largest cloud- and carrier-neutral data center platform, today announced the commencement of construction of KIX15, a new 24 megawatt (MW) data center at its KIX Campus in Ibaraki City, Osaka Prefecture, Japan. […]
+
+[…] Developed by MC Digital Realty (MCDR), Digital Realty’s 50/50 joint venture in Japan with Mitsubishi Corporation, KIX15 will be the fifth data center at the KIX Campus and is scheduled to commence operations in the fourth quarter of 2028. The new facility is planned to further expand Digital Realty’s presence across the Tokyo and Osaka metropolitan areas. Upon completion, KIX15 will bring MCDR’s Japan portfolio to 10 data centers, representing approximately 220 MW of aggregate IT capacity. […]
+
+[…] KIX15 is designed to support hybrid air- and liquid-cooling technologies. Designed to provide a high level of security and campus-based scalability, the facility is expected to support a broad range of customers, including hyperscalers, cloud service providers and companies deploying AI infrastructure. […]
+
+[…] KIX15 will be part of PlatformDIGITAL®, Digital Realty’s global data center platform spanning 300+ data centers across 55+ metros in 30+ countries on six continents. […]

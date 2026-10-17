@@ -1,0 +1,20 @@
+=== Source 1 ===
+URL: https://www.tradingview.com/news/DJN_DN20260831008255_20260831008257:0/
+Title: Nvidia to Lease Facility for Anthropic Deal From Developer Hut 8 in Texas, Sources Say — WSJ
+Publisher: Dow Jones Newswires (WSJ)
+Date (publication): 2026-08-31
+Retrieved: 2026-10-17
+Method: TradingView MCP mcp-tv-get-news-story — headline only (body paywalled). curl/WebFetch blocked in this session.
+
+[…] Nvidia to Lease Facility for Anthropic Deal From Developer Hut 8 in Texas, Sources Say — WSJ […]
+
+=== Source 2 ===
+URL: https://www.tradingview.com/news/benzinga:fe37cff71094b:0-hut-8-stock-swings-from-higher-to-lower-after-report-of-35-billion-ai-deal/
+Title: Hut 8 Stock Swings From Higher to Lower After Report of $35 Billion AI Deal
+Publisher: Benzinga (citing Reuters, WSJ and FT)
+Date (publication): 2026-09-01
+Method: TradingView MCP mcp-tv-get-news-story (full text).
+
+[…] According to Reuters, Anthropic has signed a cloud-computing deal worth $35 billion with Lambda, a cloud provider backed by Nvidia, for a Texas data center, according to a source familiar with the matter. The project is being developed in Nueces County by Hut 8 and covers approximately 350 megawatts of capacity, the source said. The Wall Street Journal, which first reported the deal, said Nvidia itself would hold the lease on the data center. […]
+
+[…] Hut 8 said in July it had signed a 15-year lease with an “investment-grade customer” carrying a base-term contract value of $19.6 billion, and the Financial Times later reported that Nvidia was the tenant for Hut 8’s 1-gigawatt Beacon Point campus. […]

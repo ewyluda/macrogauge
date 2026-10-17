@@ -1,0 +1,30 @@
+URL: https://www.pymnts.com/artificial-intelligence-2/2026/google-agrees-to-pay-spacex-920-million-monthly-for-ai-compute/
+Title: Google Agrees to Pay SpaceX $920 Million Monthly for AI Compute
+Publisher: PYMNTS
+Date: 2026-06-05
+Retrieved: 2026-10-17
+Method: FMP stock-news API (article lead text; page itself not fetchable — environment network policy)
+
+[…] Google will pay SpaceX $920 million per month for compute capacity, SpaceX said in a Friday (June 5) filing with the Securities and Exchange Commission. Under an agreement the companies signed Friday, Google will pay that amount monthly from October through June 2029. […]
+
+----
+URL: https://www.cnbc.com/2026/06/05/google-to-pay-spacex-920-million-a-month-for-xai-compute-capacity.html
+Title: Google to pay SpaceX $920 million a month for compute capacity at xAI data centers
+Publisher: CNBC
+Date: 2026-06-05
+Retrieved: 2026-10-17
+Method: FMP stock-news API (title + lead text)
+
+[…] Ahead of a planned IPO, SpaceX has inked a deal to rent compute capacity to Google at $920 million per month for 32 months. SpaceX announced a similar arrangement with Anthropic in May. […]
+
+----
+URL: https://www.reuters.com/business/media-telecom/spacex-signs-cloud-deal-with-google-2026-06-05/
+Title: SpaceX signs cloud deal with Google
+Publisher: Reuters
+Date: 2026-06-05
+Retrieved: 2026-10-17
+Method: FMP stock-news API (lead text)
+
+[…] SpaceX said on Friday it has entered into a cloud service agreement with Alphabet's Google for access to compute capacity. […]
+
+(Primary corroboration: SpaceX Q2'26 call, CFO: "we've already announced some previous deals with Google and Anthropic that start to ramp either later this quarter or in October." — see evidence/xai-q2-2026-call.txt. The SpaceX FWP itself, sec.gov .../000162828026041150/spacexagreementfwp.htm, could not be fetched.)

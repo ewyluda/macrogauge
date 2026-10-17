@@ -1,0 +1,14 @@
+URL: https://www.tradingview.com/news/globenewswire:7cf14b432094b:0-digital-realty-announces-transactions-to-drive-continued-platform-growth/
+Title: Digital Realty Announces Transactions to Drive Continued Platform Growth
+Publisher: Digital Realty (press release via GlobeNewswire)
+Date: 2026-06-22
+Retrieved: 2026-10-17
+Method: TradingView MCP get-news-story (full GlobeNewswire release text); curl and WebFetch blocked in this session (proxy connect_rejected / ENOTFOUND)
+
+[…] Secures Two-Gigawatt Development Site in Kansas City Metro, and Plans to Increase Teraco Ownership and to Acquire Columbia Capital […]
+
+[…] Digital Realty has acquired approximately 1,440 acres of land at Astra Enterprise Park, located near Kansas City to support hyperscale data center development for approximately $475 million(1) in cash and common units in its operating partnership. […]
+
+[…] To support development of the site, Digital Realty has entered into an Energy Service Agreement with the local utility to provide 600 megawatts of utility power by early 2028, rising to two gigawatts at full delivery. […]
+
+[…] Additional Resources […] De Soto data center project […]

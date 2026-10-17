@@ -1,0 +1,26 @@
+URL: FMP earningsTranscript API, symbol=TLN year=2026 quarter=2 (Talen Energy Q2 2026 earnings call; materials at https://ir.talenenergy.com/)
+Title: Talen Energy Corporation second quarter 2026 earnings call (transcript)
+Publisher: Talen Energy Corp. (call); transcript via Financial Modeling Prep
+Date: 2026-08-05
+Retrieved: 2026-10-17
+Method: FMP earningsTranscript MCP tool (curl/WebFetch blocked in this session)
+
+[…] On the next slide, we show the evolution of our contracted profile as our existing nearly two-gigawatt contract ramps through 2030, alongside an illustrative view of what that portfolio could look like in 2030 and beyond. […] As the AWS campus ramps to full build-out, projected to be sometime between 2028 and 2030, as shown in the middle chart, our long-term contracted margin increases from 10% to 35%. This makes contracted gross margin with a double A credit counterparty our largest revenue stream […]
+
+[…] higher generation volumes from Susquehanna and the fossil fleet, and the AWS contract, which continues to ramp. […]
+
+[…] This means that large loads can be absorbed within the region, and that is why you see the AWS campus being built, as well as many other large data centers being developed in the PPL region. […]
+
+[…] Hyperscalers right now are all looking for something that can be done exactly in 2028. We already did that, right? It's being built out at the Susquehanna Campus. […]
+
+----
+URL: TradingView news story id tag:reuters.com,2026:newsml_L6N3Z61CN:0
+Title: Local regulators deny rezoning request for Pennsylvania data center development
+Publisher: Reuters (Laila Kearney)
+Date: 2026-02-10
+Retrieved: 2026-10-17
+Method: TradingView news-story MCP tool (full text)
+
+[…] A county commission in Pennsylvania on Tuesday denied a request by Talen Energy NASDAQ:TLN to rezone hundreds of acres of land for the development of data centers […] The rejection by Montour County commissioners follows months of opposition by residents in surrounding communities […]
+
+[…] The Pennsylvania rezoning was expected to serve Amazon NASDAQ:AMZN data centers near Talen's natural gas-fired power plant through an arrangement known as co-location, where data centers are located close to the power source. Talen, which operates nuclear and gas-fired power, currently provides electricity to an Amazon data center co-located near Talen's Susquehanna nuclear power plant elsewhere in Pennsylvania. […]

@@ -203,3 +203,36 @@ not found.
 - **The draft JSON stays as the as-researched record.** The config is the curated version: it
   drops the "per site" `mw_basis` in favour of `sites`, and the MW-in-quote check accepts
   "3 gigawatts".
+
+## Additions (2026-10-17, freshness review)
+
+These come from the `/capacity` freshness review (`docs/research/2026-10-17-capacity-freshness-review.md`).
+Five rows were added, each with a verbatim quote checked against committed evidence under
+`docs/research/evidence/2026-10-17-cap-*`. That makes 31 rows: signed 21,379 MW (10,252 MW of
+it PPAs), pending 9,200 MW, and MOU / LOI / option unchanged at 4,850 MW.
+
+| Ticker | Counterparty | Facility | MW | Status | Kind |
+|---|---|---|---|---|---|
+| GOOGL | American Electric Power | 702 MW Bloom fuel cells near Cheyenne, WY (20-yr PPA) | 702 | signed | ppa |
+| GOOGL | Black Hills Corp. | Grid-connected service to the Cheyenne, WY data center | 590 | signed | utility supply |
+| GOOGL | Xcel Energy | New wind, solar and storage for Pine Island, MN | 1,900 | pending | utility supply |
+| MSFT | NiSource (NIPSCO / GenCo) | GenCo pool generation + transmission for the NW Indiana campus | 1,100 | pending | utility supply |
+| WULF | Kentucky Power (AEP) | Muskie Data campus, Grayson, KY | 1,000 | pending | utility supply |
+
+- **Black Hills counts only its own supply.** The row is the "up to 590 MW" Black Hills provides.
+  The project's 2.7 GW resource mix also includes ~2.1 GW of third-party resources under the
+  LPCS tariff, and those are not a row: AEP's fuel cells, which may be among them, would
+  otherwise count twice.
+- **Pending means a regulator still has to approve.**
+  - *Xcel:* Minnesota PUC approval is expected early in 2027.
+  - *NiSource:* the release cites "required regulatory approvals".
+  - *Muskie:* the amended 1 GW contract still has to be filed with the Kentucky PSC. It doubles
+    an earlier 500 MW agreement whose date is not verified here, so the row stays one pending
+    1 GW deal.
+- **Not added:**
+  - AES–Google (Wilbarger Co., TX), OG&E–Google (Muskogee / Stillwater, OK) and Evergy's two
+    Google ESAs: no source states an MW figure.
+  - Georgia Power: no fetched source.
+  - Amazon's +400 MW NIPSCO amendment: it amends the existing NIPSCO row, so it goes in that
+    row's note instead.
+  - Calvert Cliffs (Amazon) and Fervo / NV Energy (Google): already rows.

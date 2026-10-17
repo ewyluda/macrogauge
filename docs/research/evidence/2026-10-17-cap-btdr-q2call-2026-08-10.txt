@@ -1,0 +1,26 @@
+URL: https://www.tradingview.com/news/urn:summary_document_transcript:quartr.com:3996568:0-btdr-secured-4-7b-norway-lease-ai-cloud-arr-up-77-qoq-and-bitcoin-hash-rate-up-342-yoy/ (Quartr transcript urn:transcripts:quartr.com:3996568)
+Title: Bitdeer Technologies Group Q2 2026 earnings call
+Publisher: Quartr transcript (management remarks: Jihan Wu CEO, Haris Basit CSO, Michael Potter CFO)
+Date: 2026-08-10
+Retrieved: 2026-10-17
+Method: TradingView MCP get-document-view (full transcript). curl/WebFetch to sec.gov / ir.bitdeer.com blocked by the egress proxy in this session.
+
+--- Tydal phases
+[…] Under the agreement, we are delivering 121 IT MW supported by approximately 133 gross megawatts. This will be spread across four existing data halls and will be configured to run NVIDIA GPUs. […]
+[…] Delivery is structured across two equal-sized phases, targeting December 31st, 2026 for the first phase, and March 31st, 2027 for the second. […]  — Haris Basit
+[…] The full amount of power there is actually 180 gross megawatts. Of that 180 gross megawatts, we're leasing 133 gross megawatts, which would be 121 IT MW to Volta, and then retaining 47 MW gross for our own AI Cloud use there. […]  — Michael Potter
+
+--- Washington (Wenatchee A501) and Tennessee (Knoxville A601)
+[…] If you look at the table we provide, Washington State and Tennessee are the two that are sort of designated specifically for that we're actively working on and doing construction and such. In terms of any soon news, those are two that are most likely to come out. […]  — Michael Potter
+[…] That will be a little bit later than in Malaysia. It is expected within next year. We will have some of our U.S. data center activated, like in Tennessee and Washington. […]  — Jihan Wu
+[…] Yeah. The expectation actually aligns with the second phase. There will be no phase I, phase II. It's only one phase. It will all be online and at the same time. […]  — Haris Basit (on the redesigned Knoxville project)
+
+--- Rockdale and Clarington
+[…] we're continuing to build out the power infrastructure, as per our previously discussed timeline in Rockdale. That was something that was predating the Batch Zero or the allocation of the power in the site. We're preparing in the background what we believe we need to do if we want to do an AI data center at that site. Clarington, we're developing it for crypto mining right now. The power is available coming up soon. We'd like to be able to make sure we use it fully. […]
+[…] There's no big update on the lawsuit in Clarington now. The motion to dismiss that we had filed was turned down by the judge, which is pretty common in these pre-trial things. It's gone into discovery now. We continue to believe that the lawsuit doesn't have any merit. […]  — Michael Potter
+
+--- Massillon (BTC mining, not AI)
+[…] At the Massillon, Ohio site, we have 174 MW of capacity currently online for mining, with reconstruction of two previously fire-damaged buildings underway. […]  — Michael Potter
+
+--- Malaysia A201
+[…] We also signed a new 10-year lease for 21.7 IT MW of capacity in Malaysia, with handover expected in the first quarter of 2027. It is designed to support 128 NVIDIA GB300 NVL72 systems. […]  — Michael Potter

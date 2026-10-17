@@ -1,0 +1,21 @@
+URL: (multiple — see per-item URL lines below)
+Title: CoreWeave / counterpart press releases (lead paragraphs)
+Publisher: Business Wire / GlobeNewswire (press releases), via Financial Modeling Prep news API "text" field (verbatim lead paragraph of each release)
+Date (publication): per item
+Retrieved: 2026-10-17
+Method: FMP MCP news search-press-releases (curl and WebFetch blocked by session egress proxy). Only the lead paragraph is available by this route.
+
+[Item 1] URL: https://www.businesswire.com/news/home/20250715975958/en/CoreWeave-Announces-Multi-Billion-Dollar-Commitment-to-AI-Infrastructure-in-Pennsylvania/ — Business Wire, 2025-07-15
+[…] CoreWeave (NASDAQ: CRWV), the AI Hyperscaler™, today announced its intent to commit up to $6 billion to equip a new, state-of-the-art data center in Lancaster, Pennsylvania, purpose-built to power the most cutting-edge AI use cases. The initial 100 megawatt (MW) data center, with potential to expand to 300 MW, represents one of the first large-scale data centers of its kind in the region and will support US global competitiveness in AI. […]
+
+[Item 2] URL: https://www.businesswire.com/news/home/20260624153948/en/CoreWeave-Partners-With-Conapto-to-Expand-AI-Cloud-Capacity-in-Sweden-Powered-by-Renewable-Energy/ — "CoreWeave Partners With Conapto to Expand AI Cloud Capacity in Sweden Powered by Renewable Energy" — Business Wire, 2026-06-24
+[…] CoreWeave, Inc. (Nasdaq: CRWV), The Essential Cloud for AI™, today announced a co-location agreement with Conapto, a provider of scalable, secure, and sustainable data centers. The arrangement encompasses two campuses in Stockholm, with initial capacity already online at Stockholm 4 South. Both campuses will be powered by renewable energy sources. […]
+
+[Item 3] URL: https://www.businesswire.com/news/home/20260804195218/en/CoreWeave-Expands-Cloud-AI-Platform-to-Indonesia-Marking-First-Move-Into-Asia-Pacific-Region/ — Business Wire, 2026-08-04
+[…] CoreWeave, Inc. (Nasdaq: CRWV), The Essential Cloud for AI™, today announced its expansion into Indonesia, the company's first data center presence in the Asia-Pacific region. The expansion adds three new facilities totaling 360 megawatts of contracted IT power, expected to come online in 2028. CoreWeave will own and operate the compute environment across all three sites […]
+
+[Item 4] URL: https://www.globenewswire.com/news-release/2026/09/16/3363071/0/en/blockfusion-signs-15-year-anchor-lease-with-coreweave-at-niagara-falls-ai-campus.html — GlobeNewswire, 2026-09-16
+[…] Blockfusion USA, Inc. ("Blockfusion" or the "Company"), a developer and operator of high-performance computing and AI infrastructure, today announced that its wholly owned subsidiary, North East Data, LLC, has entered into a definitive anchor lease (the "Lease") with CoreWeave, Inc. ("CoreWeave") (Nasdaq: CRWV), The Essential Cloud for AI™, for capacity at Blockfusion's Niagara Falls, New York campus, together with a companion expansion agreement (the "Expansion Agreement"). […]
+
+[Item 5] URL: https://www.businesswire.com/news/home/20260916366150/en/CoreWeave-Continues-to-Contract-New-Compute-Capacity-at-Higher-Prices/ — Business Wire, 2026-09-17
+[…] In the third quarter of 2026, CoreWeave has signed short-dated customer contracts of approximately three to six months, with pricing of approximately $40 million per megawatt, calculated as annualized revenue divided by power required to service the related clusters. […]

@@ -1,0 +1,15 @@
+URL: (Quartr transcript via TradingView documents, view_id urn:transcripts:quartr.com:3990812; public copy: ir.spacex.com Q2 2026 webcast)
+Title: SpaceX second quarter 2026 earnings conference call (transcript)
+Publisher: Space Exploration Technologies Corp. (call) / Quartr (transcript)
+Date: 2026-08-04
+Retrieved: 2026-10-17
+Method: TradingView MCP get-document-view (full transcript text; curl/WebFetch blocked by environment network policy)
+
+[…] Elon Musk (CEO and Chief Engineer, SpaceX): […] We expect to end this year with over two gigawatts of compute. Probably our cumulative compute online by the end of next year will be several times higher. […]
+[…] Elon Musk (CEO and Chief Engineer, SpaceX): It may, let's say, be closer to 10 GW of compute than 5 GW of compute, as a way to think about it. […]
+[…] Gwynne Shotwell (President and COO, SpaceX): […] We're rapidly expanding our compute capacity to meet our own needs as Grok expands, as well as those for other leading companies such as Google and Anthropic. […]
+[…] Bret Johnsen (CFO, SpaceX): In Q2, we entered into cloud services agreements providing access to compute capacity at our Colossus and Colossus two sites. […]
+[…] Bret Johnsen (CFO, SpaceX): […] We ended the second quarter with 1.4 GW of nameplate compute up from one gigawatt in Q1 and 400 MW a year earlier. We expect to end this year at over two gigawatts of compute capacity. […]
+[…] Bret Johnsen (CFO, SpaceX): For example, in the first few weeks of the third quarter, we've already contracted an additional $6.7 billion of cloud services revenue over a six-month period that begins ramping starting in October of this year. […]
+[…] Elon Musk (CEO and Chief Engineer, SpaceX): […] Our tentative target is to actually have 20 GW at the power and cooling level online by the end of next year. Now, I don't think we're going to achieve 20 GW, but we want to have a series of projects that cumulatively come to 20 GW by the end of next year. Some of them won't pan out exactly on time, but I would expect that we'd still probably have, at the power plant level, something close to 15 GW. […]
+[…] Bret Johnsen (CFO, SpaceX): […] Certainly, as you know, we've already announced some previous deals with Google and Anthropic that start to ramp either later this quarter or in October. […]

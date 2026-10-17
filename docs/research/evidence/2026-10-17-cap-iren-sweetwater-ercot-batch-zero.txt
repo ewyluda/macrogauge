@@ -1,0 +1,15 @@
+URL (primary PR, not fetchable here): https://www.globenewswire.com/news-release/2026/09/08/3357498/0/en/iren-s-2gw-sweetwater-hub-included-as-base-load-in-ercot-batch-zero.html
+URL (fetched 1): https://www.tradingview.com/news/gurufocus:e4760b9d8094b:0-iren-stock-rises-6-on-a-conditional-ercot-classification/
+URL (fetched 2): https://www.tradingview.com/news/stocktwits:815684fd8094b:0-iren-is-building-out-its-ai-power-footprint-2gw-sweetwater-hub-gets-conditional-ercot-status/
+URL (fetched 3): FMP press-releases endpoint (lead paragraph of the GlobeNewswire release)
+Title: IREN's 2GW Sweetwater Hub Included as Base Load in ERCOT Batch Zero (company PR, 2026-09-08) — as reported by GuruFocus / Stocktwits
+Publisher: IREN via GlobeNewswire (lead paragraph via FMP); GuruFocus and Stocktwits reports of the PR
+Date (publication): 2026-09-08
+Retrieved: 2026-10-17
+Method: MCP FMP news/search-press-releases (PR lead only) + MCP TradingView get-news-story (GuruFocus, Stocktwits full text). curl/WebFetch to globenewswire.com blocked by egress proxy.
+
+[FMP / GlobeNewswire lead] […] NEW YORK, Sept. 08, 2026 (GLOBE NEWSWIRE) -- IREN Limited (NASDAQ: IREN) ("IREN") today announced that its 2GW Sweetwater Hub (Sweetwater 1 and Sweetwater 2) has been conditionally included in the Electric Reliability Council of Texas ("ERCOT") Batch Zero process as Base Load. […]
+
+[GuruFocus] […] Sweetwater 1 accounts for 1,400MW and Sweetwater 2 for 600MW, part of a global development portfolio the company puts above 5GW. […] IREN said ERCOT's classifications remain conditional and subject to ongoing approval processes. The high-voltage substation at Sweetwater 1 was energized earlier this year and 300MW of gross data center capacity is under construction, with delivery targeted for the fourth quarter of 2027. […] Other large-scale projects in IREN's pipeline also made Batch Zero. The company said it will fold those into its announced development portfolio once the relevant grid connection agreements are signed. […]
+
+[Stocktwits] […] The Sweetwater Hub consists of the 1.4 GW Sweetwater 1 and 600 megawatt (MW) Sweetwater 2 projects. At Sweetwater 1, IREN energized its high-voltage substation earlier this year and is currently building 300 MW of data center capacity, with delivery targeted for the fourth quarter of 2027. […] However, IREN added that the classification remains conditional and is subject to further approvals. […]

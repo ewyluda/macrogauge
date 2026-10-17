@@ -1,0 +1,8 @@
+URL: https://www.reuters.com/world/asia-pacific/meta-taps-australias-firmus-ai-computing-capacity-southeast-asia-2026-09-28/
+Title: Meta taps Australia's Firmus for AI computing capacity in Southeast Asia
+Publisher: Reuters
+Date: 2026-09-28 (feed timestamp; story says "on Tuesday")
+Retrieved 2026-10-17
+Method: FMP MCP stock-news API, lede text
+
+[…] Australia's Firmus said on Tuesday it had signed AI infrastructure agreements with Facebook parent Meta Platforms for graphics processing unit compute capacity at its data centre facilities in Southeast Asia. […]

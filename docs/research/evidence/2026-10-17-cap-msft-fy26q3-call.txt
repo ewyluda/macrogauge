@@ -1,0 +1,14 @@
+URL: (Quartr transcript via TradingView documents, view_id urn:transcripts:quartr.com:3272492; public copy: Microsoft Investor Relations FY26 Q3 earnings call)
+Title: Microsoft fiscal year 2026 third quarter earnings conference call (transcript)
+Publisher: Microsoft (call) / Quartr (transcript)
+Date: 2026-04-29
+Retrieved: 2026-10-17
+Method: TradingView MCP get-document-view (full transcript text)
+
+[…] Our Fairwater data center in Wisconsin came online earlier this month, six weeks ahead of schedule, allowing us to recognize revenue earlier. […]
+[…] All up, we added another gigawatt of capacity this quarter and remain on track to double our overall footprint in just two years. […]
+[…] Our Maia 200 AI accelerator, which offers over 30% improved tokens per dollar compared to the latest silicon in our fleet, is now live in our Iowa and Arizona data centers. […]
+[…] For calendar year 2026, we expect to invest roughly $190 billion in capital expenditures, which includes approximately $25 billion from the impact of higher component pricing. […]
+[…] Even with these additional investments and continued efforts to bring GPU, CPU, and storage capacity online faster, we expect to remain constrained at least through 2026. […]
+
+NOTE: no 'revenue per GW' figure (econ.revmw '$6.2B annualized revenue per GW') appears anywhere in this transcript; that figure is sourced only to windowsnews.ai.

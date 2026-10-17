@@ -1,0 +1,14 @@
+URL: https://www.reuters.com/ (TradingView story id tag:reuters.com,2026:newsml_L4N461177:0)
+Title: CoreWeave's AI contracts and the lenders financing its build-out
+Publisher: Reuters
+Date (publication): 2026-10-15
+Retrieved: 2026-10-17
+Method: TradingView MCP get_news_story (curl and WebFetch blocked by session egress proxy)
+
+[…] Its shares and bonds have slumped this week as investors question the borrowing behind the AI build-out. The company has about $50 bln in debt, and the cost of insuring it against default has risen to around 1,000 basis points, implying a nearly 63% chance of default in five years, up from about 30% a year ago, according to LSEG data. […]
+
+[…] Microsoft accounted for about 67% of CoreWeave's 2025 revenue, up from 62% in 2024, according to company filings. […]
+
+[…] In March 2025, CoreWeave said it signed a deal worth up to $11.9 billion. […] In May 2025, it added a deal worth as much as $4 billion. OpenAI will pay the sum through 2029. […] In September 2025, it signed a new contract valued at up to $6.5 billion, bringing their total collaboration to about $22.4 billion. […]
+
+[…] In April 2026, CoreWeave signed a multiyear agreement with Anthropic to support its Claude family of models. Terms were undisclosed. […]

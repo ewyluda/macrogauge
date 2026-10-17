@@ -1,0 +1,12 @@
+URL: https://financialmodelingprep.com (FMP earnings-transcript API, search-transcripts META 2026 Q1); event page https://investor.atmeta.com
+Title: Meta Platforms Q1 2026 Earnings Conference Call (transcript)
+Publisher: Meta Platforms (call); transcript text via Financial Modeling Prep
+Date: 2026-04-29
+Retrieved 2026-10-17
+Method: FMP MCP earnings-transcript API (curl and WebFetch are blocked by the session egress proxy for every news/SEC host; see notes)
+
+[…]  that we're seeing in our own work and across the industry gives us confidence in this investment. That said, we are very focused on increasing the efficiency of our investments, and as part of that, we are rolling out more than 1 gigawatt of our own custom silicon that we're developing with Broadcom, as well as significant amount of AMD chips to complement the new NVIDIA systems that we're rolling out as well. One of the primary goals of our Meta compute initi […]
+
+[…] ure needs, and ensure we maximize our strategic flexibility over the coming years. This includes substantially expanding our own data center footprint and striking deals throughout the supply chain to secure necessary components for future capacity. We're also signing cloud deals that will come online over the course of this year and 2027, allowing us to scale more quickly. These multiyear cloud deals and our infrastructure purchase agreements drove a $107 billion step-up in our contractual commitments this quarter. Our investments will support our training needs for future models an […]
+
+[…]  that we're developing with Broadcom, as well as significant amount of AMD chips to complement the new NVIDIA systems that we're rolling out as well. One of the primary goals of our Meta compute initiative is to lead the industry in efficiency of building compute, and we expect that will be a strategic advantage over time. Talking about building physical goods at scale, our AI glasses continue to perform well  […]

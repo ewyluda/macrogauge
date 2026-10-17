@@ -1,0 +1,55 @@
+URL: https://www.tradingview.com/news/reuters.com,2026:newsml_P8N44H01O:0-alibaba-aims-for-cloud-data-centre-capacity-above-20-gw-by-2032/
+Title: Alibaba aims for cloud data centre capacity above 20 GW by 2032
+Publisher: Reuters (via TradingView newswire feed)
+Date: 2026-09-22
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text (curl and WebFetch to publisher sites blocked in this sandbox: proxy CONNECT 403 / DNS ENOTFOUND)
+
+[…] Alibaba NYSE:BABA aims for its cloud global data centre capacity to surpass 20 GW by 2032, the company's CEO Eddie Wu said on Tuesday. […]
+[…] Alibaba also unveiled its Zhenwu V900 AI chip, which the chief executive said is China's most powerful and has three times the performance of its predecessor. […]
+
+-----
+URL: https://www.tradingview.com/news/reuters.com,2026:newsml_L1N45E01X:0-alibaba-deepens-ai-push-with-new-chip-bigger-model-shares-jump-5/
+Title: Alibaba deepens AI push with new chip, bigger model; shares jump 5%
+Publisher: Reuters (via TradingView)
+Date: 2026-09-22
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] Wu also set a target for Alibaba Cloud's global data centre capacity to surpass 20 gigawatts by 2032. […]
+[…] Customer demand for AI was "exceptionally robust" and was accelerating Alibaba Cloud's revenue growth, he added, though supply chain constraints limit the pace of expansion. […]
+[…] "The industry's mid-to-long-term demand far outpaces our supply capabilities," Wu said, adding that Alibaba Cloud would begin bringing its AI supernodes online at commercial scale this quarter. […]
+[…] The chip is set for mass production and commercial release in the first quarter of 2027 and Wu said the company expected "significant growth" in annual AI chip shipments. […]
+
+-----
+URL: https://www.tradingview.com/news/gelonghui:27d31e4e2e3f9:0/
+Title: 阿里巴巴：2032年阿里云数据中心规模将超20GW
+Publisher: Gelonghui 格隆汇 (via TradingView, zh-Hans)
+Date: 2026-09-22
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] 格隆汇9月22日｜阿里巴巴CEO吴泳铭今日在云栖大会表示，当前客户AI需求非常强劲，将全力投入AI基础设施建设，目标到2032年阿里云运营的全球数据中心规模超过20GW。 […]
+English gloss: "Alibaba CEO Eddie Wu said at the Apsara (Yunqi) Conference today that customer AI demand is very strong, the company will go all-in on AI infrastructure, and targets the global data centers operated by Alibaba Cloud to exceed 20 GW in scale by 2032."
+
+-----
+URL: https://www.tradingview.com/news/DJN_DN20260922000763:0/
+Title: Alibaba Unveils New AI Chip, Outlines Plan for Larger Model — Update
+Publisher: Dow Jones Newswires (Tracy Qu)
+Date: 2026-09-22
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] Alibaba has committed to spending more than $53 billion over three years to add AI capabilities to its traditional core business of e-commerce. […]
+[…] Alibaba didn't specify expenditure details about its new AI plans, though last month it raised about $10.2 billion through a Hong Kong share offering that it aims to use exclusively for AI investments. […]
+
+-----
+URL: https://www.tradingview.com/news/DJN_DN20260923001320:0/
+Title: Alibaba's New AI Target Suggests Investments to Rise — Market Talk
+Publisher: Dow Jones Newswires
+Date: 2026-09-23
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+(context only - analyst estimate, not used as a company figure)
+
+[…] Based on the company's aim of having 20 gigawatts of AI infrastructure by 2032, Citi lifts its capital expenditure forecast to 258.00 billion yuan for fiscal year 2027, 283.00 billion yuan for FY28 and 282.00 billion yuan for FY29, from its previous forecasts of 228.00 billion yuan, 201.00 billion yuan and 180.00 billion yuan, respectively. […]

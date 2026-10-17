@@ -7,6 +7,11 @@ null for hyperscaler-role and private rows, and rows carrying a curated
 ev_note, where an EV over an AI-DC slice would mislead; %energized; coverage = backlog / EV. The energization
 timeline dates each construction site by its curated `energize_q` (5th sites
 element) and falls back to parsing the free-text `when` (parse_quarter).
+A row's whole MW lands in that one quarter, so the curated quarter follows the
+phased-site rule: one row per phase whose MW is stated, else the full-delivery
+quarter (or null) — never an unquantified first delivery
+(tests/test_capacity_config.py enforces it on the real config). The fallback's
+first-power reading only covers rows with no curated quarter.
 A missing quote degrades the row (cap null, stale true) — never drops it; a
 carried-forward quote older than the registry staleness limit keeps its value
 (and priced_date) but flags stale so the page can label it.

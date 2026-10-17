@@ -1,0 +1,40 @@
+URL: https://www.businesswire.com/news/home/20260224545187/en/Xcel-Energy-to-Power-New-Google-Data-Center-in-Minnesota/
+Title: Xcel Energy to Power New Google Data Center in Minnesota
+Publisher: Xcel Energy (Business Wire press release)
+Date: 2026-02-24
+Retrieved: 2026-10-17
+Method: FMP press-release API (lead text)
+
+[…] Xcel Energy (NASDAQ: XEL) announced today it will power a new Google data center in Pine Island, Minnesota. The data center and associated Electric Service Agreement will provide a significant contribution to the state's economy, including a large buildout of new clean energy projects […]
+
+
+
+URL: https://www.tradingview.com/news/reuters.com,2026:newsml_L4N3ZK1D6:0-xcel-energy-to-power-new-google-data-center-in-minnesota/ (TradingView story tag:reuters.com,2026:newsml_L4N3ZK1D6:0)
+Title: Xcel Energy to power new Google data center in Minnesota
+Publisher: Reuters
+Date: 2026-02-24
+Retrieved: 2026-10-17
+Method: TradingView news API full text
+
+[…] Xcel Energy NASDAQ:XEL said on Tuesday it has partnered with Google NASDAQ:GOOG to power the tech giant's new data center in Pine Island, Minnesota, while contributing 1,900 megawatts of new clean energy to the grid. […]
+
+[…] The company said the project will add 1,400 MW of new wind energy capacity, 200 MW of solar power and 300 MW of long-duration energy storage. […]
+
+
+
+URL: https://financialmodelingprep.com/ (earnings transcript XEL Q2 2026, call 2026-07-30)
+Title: Xcel Energy Q2 2026 earnings call
+Publisher: Xcel Energy (transcript via FMP)
+Date: 2026-07-30
+Retrieved: 2026-10-17
+Method: FMP earningsTranscript API
+
+[…] You're talking about the Google progress. We filed the proceeding with the commission. […]
+
+[…] So if you look, we expect the schedule on the commission proceeding should hopefully get approval early in 2027. […]
+
+[…] real community support for the Google Data Center here in Minnesota down in Pine Island. […]
+
+[…] We expect the commission to take that up in early part of next year and expect to move forward on that project and excited about that. […]
+
+

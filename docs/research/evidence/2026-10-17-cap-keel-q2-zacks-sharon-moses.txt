@@ -1,0 +1,12 @@
+URL: https://www.tradingview.com/news/zacks:ecc77a10e094b:0-keel-q2-earnings-call-highlights-2027-power-and-leasing-push/
+Title: KEEL Q2 Earnings Call Highlights 2027 Power and Leasing Push
+Publisher: Zacks Investment Research (summary of Keel's 2026-08-10 Q2 call)
+Date: 2026-08-11
+Retrieved 2026-10-17
+Method: TradingView MCP get-news-story (zacks:ecc77a10e094b:0), full story text
+
+[…] At Moses Lake, Gagnon expects the 18-megawatt site to be Keel’s first fully commissioned data center in 2027. […]
+
+[…] Gagnon said Sharon secured zoning in April and land-development approval during the quarter. Final environmental permits remain in process, while management is evaluating one 110-megawatt phase. […]
+
+[…] Gagnon said Keel also advanced plans to consolidate three legacy Bitcoin power agreements into a single 96-megawatt HPC and AI agreement in Sherbrooke. Local approvals are secured, with provincial approval still outstanding. […]

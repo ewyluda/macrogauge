@@ -1,0 +1,34 @@
+URL: https://www.tradingview.com/news/reuters.com,2026:newsml_FWN45Z1PW:0-tencent-prices-1-8-bln-and-cny26-bln-notes-under-global-medium-term-note-programme/
+Title: Tencent Prices $1.8 BLN And CNY26 BLN Notes Under Global Medium Term Note Programme
+Publisher: Reuters (summary of Tencent HKEX announcement; via TradingView)
+Date: 2026-10-14 (HKT; Reuters stamp 2026-10-13 ET)
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text (HKEX/tencent.com blocked in sandbox)
+
+[…] PRICING OF US$1.8 BILLION AND CNY26 BILLION NOTES UNDER THE GLOBAL MEDIUM TERM NOTE PROGRAMME […]
+[…] ESTIMATED NET PROCEEDS FROM ISSUE OF USD NOTES AND CNY NOTES WILL AMOUNT TO APPROXIMATELY US$1.79 BILLION AND CNY25.89 BILLION RESPECTIVELY […]
+[…] NOTES ARE EXPECTED TO BE ISSUED ON 21 OCTOBER 2026 […]
+[…] INTENDS TO USE NET PROCEEDS FOR GENERAL CORPORATE PURPOSES […]
+
+-----
+URL: https://www.tradingview.com/news/DJN_DN20261013010348:0-tencent-to-raise-around-5-7-billion-from-dollar-yuan-bonds/
+Title: Tencent to Raise Around $5.7 Billion From Dollar, Yuan Bonds
+Publisher: Dow Jones Newswires (Jiahui Huang)
+Date: 2026-10-14
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] The company intends to issue notes valued at $1.8 billion and 26 billion yuan, equivalent to $3.88 billion, Tencent said Wednesday. […]
+[…] Tencent plans to use the net proceeds for general corporate purposes. […]
+[…] According to a recent report by S&P Global Ratings, Tencent's annual capital expenditures could surpass 200 billion yuan in both 2026 and 2027 to fund investments in artificial intelligence and cloud computing. This projected outlay would mark a sharp increase from the 87.5 billion yuan in 2025. […]
+
+-----
+URL: https://www.tradingview.com/news/gelonghui:7e33933e6e3f9:0/
+Title: 腾讯拟发行约50亿美元债券，为AI资本开支融资，资金主要用于芯片采购
+Publisher: Gelonghui 格隆汇 (citing foreign media/Bloomberg; via TradingView, zh-Hans)
+Date: 2026-10-12
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] 知情人士援引腾讯管理层表示，发行所得资金将主要用于一般企业用途，包括AI相关资本支出，其中大部分AI投资将用于采购芯片。 […]
+English gloss: "People familiar, citing Tencent management, said proceeds will mainly be used for general corporate purposes including AI-related capex, with most of the AI investment going to chip purchases."

@@ -1,0 +1,12 @@
+URL: https://www.tradingview.com/news/globenewswire:7873e997e094b:0-digital-realty-announces-purchase-of-blackstone-interest-in-three-northern-virginia-data-centers/
+Title: Digital Realty Announces Purchase of Blackstone Interest in Three Northern Virginia Data Centers
+Publisher: Digital Realty / Blackstone (joint press release via GlobeNewswire)
+Date: 2026-06-29
+Retrieved: 2026-10-17
+Method: TradingView MCP get-news-story (full GlobeNewswire release text); curl and WebFetch blocked in this session (proxy connect_rejected / ENOTFOUND)
+
+[…] The portfolio comprises two data centers in Manassas and one on the Digital Dulles campus in Sterling, each with 96 megawatts of IT capacity, that are 100% leased to three distinct investment grade hyperscale customers. The purchase is expected to be completed on June 30, 2026, and is subject to customary closing conditions. […]
+
+[…] Digital Realty agreed to purchase Blackstone’s 80% interest in two 96 megawatt data centers in Manassas, Virginia and a 50% interest in one 96 megawatt data center in Sterling, Virginia for $7.8 billion, at 100% share, including assumed debt and remaining capex to complete the ongoing development. Two of the data centers are expected to stabilize in the first half of 2027, with the third anticipated to stabilize in the first half of 2028. […]
+
+[…] supported by 15-year leases with a blended average AA- customer credit rating and 3.6% annual rent escalators […]

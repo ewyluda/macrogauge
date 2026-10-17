@@ -1,0 +1,12 @@
+URL: https://www.tradingview.com/news/stocktwits:c953d5c9b094b:0-keel-stock-heads-for-third-week-of-declines-analyst-flags-concentration-risk/
+Title: KEEL Stock Heads For Third Week Of Declines: Analyst Flags Concentration Risk
+Publisher: Stocktwits (secondary; context only)
+Date (publication): 2026-10-08
+Retrieved: 2026-10-17
+Method: MCP TradingView get-news-story
+
+[…] Keel Infrastructure's three priority sites: Moses Lake, Sharon, and Panther Creek, are on track for power delivery in 2027. […]
+
+[…] Moses Lake in Washington has 18 MW and is expected to be Keel's first fully commissioned and energized data center in 2027. Sharon in Pennsylvania is being evaluated for a 110-MW phase and has uncontracted 2027 PJM power. Panther Creek has 350 MW of secured utility capacity, with potential expansion to 500 MW or more. […]
+
+[…] One user said, "$KEEL we need a deal." […]

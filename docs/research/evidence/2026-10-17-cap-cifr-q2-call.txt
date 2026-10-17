@@ -1,0 +1,30 @@
+URL: https://www.tradingview.com/symbols/NASDAQ-CIFR/ (Quartr transcript urn:transcripts:quartr.com:4030974 — Cipher Digital Q2 2026 business update call)
+Title: Cipher Digital Second Quarter 2026 Business Update Conference Call (transcript)
+Publisher: Cipher Digital Inc. (call); transcript via Quartr / TradingView
+Date (publication): 2026-08-04
+Retrieved: 2026-10-17
+Method: TradingView MCP mcp-tv-get-document-view (Quartr transcript, flattened to text). curl and WebFetch were blocked in this session (egress proxy connect_rejected / getaddrinfo ENOTFOUND).
+
+[…] Tyler Page (CEO, Cipher Digital): This site provides up to 900 MW by 2031 and is located within 25 mi of San Antonio, Texas. The site has been submitted as a studied load in Batch Zero under ERCOT's updated interconnection process, and its flat, buildable terrain and proximity to San Antonio make it well-suited for large-scale data center development. […]
+
+[…] Tyler Page (CEO, Cipher Digital): The first data center capacity at Black Pearl was delivered in August, two full months ahead of the original schedule, and rent has commenced at the site. Beyond the first delivery, the rest of the site continues to progress well toward the same previously agreed deadlines and milestones. The remaining data halls in phase I are moving through mechanical, electrical, and plumbing fit-out, while phase II is advancing in parallel with concrete foundations, structural steel, and underground electrical work all underway. […]
+
+[…] Tyler Page (CEO, Cipher Digital): With the project now fully financed through substantial completion, and approximately 75% of the equipment secured, we're well-positioned to keep the construction progress moving efficiently toward our expected delivery in the first half of 2027. We look forward to providing updates on Stingray's progress as construction ramps over the coming quarters. […]
+
+[…] Tyler Page (CEO, Cipher Digital): Odessa, our last operating Bitcoin mining site, performed well in the second quarter. Today, we are operating 207 MW of capacity, generating approximately 11.6 exahash per second of total hashrate at a fleet efficiency of approximately 17.2 joules per terahash. In the second quarter, we mined approximately 346 Bitcoin at Odessa. Importantly, we don't anticipate additional capital investment in this part of the business as we continue prioritizing HPC, and we are encouraged by the level of interest we're seeing in conversion of Odessa to an HPC site. […]
+
+[…] Tyler Page (CEO, Cipher Digital): We are having early-stage discussions with multiple prospective tenants, and while it's too early to share specifics, we look forward to providing updates as these conversations progress. Let's now shift to an update on our development pipeline. Starting with Odessa, this 207 MW site is already energized and currently operating under a fixed-price power purchase agreement with Vistra Luminant. […]
+
+[…] Tyler Page (CEO, Cipher Digital): We're encouraged by the HPC tenant interest here and are in early-stage discussions with multiple prospective tenants. The appeal is straightforward, as the site is already energized, and converting it into an HPC data center represents a meaningfully shorter timeline to power than a typical greenfield development. Reveille and Ulysses are both fully interconnection approved and not part of ERCOT's batch process. […]
+
+[…] Tyler Page (CEO, Cipher Digital): We are engaged in HPC hosting lease discussions with a broad range of tenants at these sites, and we remain focused on securing the right deal for Cipher, not just the first deal available. Looking further out, Colchis, Mikeska, and McLennan, totaling potentially 2 GW of gross capacity, remain on track through ERCOT's interconnection process. […]
+
+[…] Tyler Page (CEO, Cipher Digital): On the operating and contracted side, we remain at 907 MW. We expect Reveille and Ulysses to add 270 gross megawatts in 2027. We expect Colchis, Mikeska, and McLennan to add another 2 GW in 2028 and 2029. Looking to 2030 and beyond, we expect energization at Milsing and our new site, Apollo, as well as expansions at our Barber Lake and Stingray sites to add up to an additional 2.1 GW. […]
+
+[…] Tyler Page (CEO, Cipher Digital): Both Apollo and the Stingray expansion have been submitted as studied loads in Batch Zero. The 500 MW Barber Lake expansion is expected to be in Batch Zero, and Milsing is expected to be in Batch 1 as studies are still being finalized. Cipher's total portfolio now spans approximately 5.3 GW across 11 sites. […]
+
+[…] Tyler Page (CEO, Cipher Digital): If we were to come to terms soon, certainly we would be hoping to get our first megawatts online in calendar year 2027. That will depend on getting a lease done in the coming couple of months so that we don't get too far, or I should say too close in terms of building timeline to having something ready. Very end of 2027 would be kind of the target there. […]
+
+[…] Tyler Page (CEO, Cipher Digital): I think some of the challenges are the evolving requirements in different locations. Ulysses was a structure that is in PJM, but is grandfathered in before their new deposit requirements around collateral. We look at everything that comes across the transom. I think there's no question that most of the team's time has been focused on Texas over the last quarter as people get ready for the batch process, and there's folks that may have had a great site, but not access to capital to post the necessary deposits. […]
+
+[…] Tyler Page (CEO, Cipher Digital): Yeah. Thanks, Mike. I'd say, listen, generally historically, the dividing line has been whether or not you have that final interconnection approval. Otherwise you are waiting for that key input. If you look at what we've got available today, again, it's Odessa, Reveille, Ulysses, 477 MW. All of those are past whatever milestones they would need to get a lease. […]

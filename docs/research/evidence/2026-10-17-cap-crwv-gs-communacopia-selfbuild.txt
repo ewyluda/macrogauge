@@ -1,0 +1,12 @@
+URL: urn:transcripts:quartr.com:4137972 (Quartr transcript via TradingView documents MCP; webcast listed at investors.coreweave.com)
+Title: CoreWeave at Goldman Sachs Communacopia + Technology Conference 2026 (Mike Intrator, CEO)
+Publisher: Goldman Sachs conference / Quartr transcript
+Date (publication): 2026-09-08
+Retrieved: 2026-10-17
+Method: TradingView MCP get_document_view (curl and WebFetch blocked by session egress proxy)
+
+[…] Gabriela Borges (Managing Director and Head of U.S. Software Equity Research, Goldman Sachs): What I want to ask you is why now you feel the need to also own the underlying data centers. I think you have your first data center coming online by the end of this year. […]
+
+[…] Mike Intrator (CEO, CoreWeave): Entering into an environment where we have more control, a deeper understanding, a better sandbox to work on the flywheel of new innovations that we want to bring to our own data centers, that makes us stronger, right? More control over pieces of our infrastructure make us better. It is not a new part of our strategy. We have thought a lot about it. Data centers take time to build, so you are starting to see the first two to three of our self-builds spin up, which we are incredibly excited about. […]
+
+[…] Mike Intrator (CEO, CoreWeave): I talk a little bit about this on my earnings call because it's such an incredibly high-profile issue. I talked about the idea that we have over 1 GW of power contracted outside of the U.S. as you look to build a portfolio of infrastructure to be able to support your clients with. […]

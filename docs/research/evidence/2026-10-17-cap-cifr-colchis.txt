@@ -1,0 +1,12 @@
+URL: https://www.tradingview.com/news/the_block:aad25235a094b:0-cipher-mining-shares-jump-33-on-5-5-billion-aws-ai-deal-new-1-gw-texas-site/
+Title: Cipher Mining shares jump 33% on $5.5 billion AWS AI deal, new 1 GW Texas site
+Publisher: The Block
+Date (publication): 2025-11-03
+Retrieved: 2026-10-17
+Method: TradingView MCP mcp-tv-get-news-story (full text). curl/WebFetch blocked in this session.
+
+[…] Cipher also announced a new joint venture to develop a 1-gigawatt site in West Texas named "Colchis." Cipher will provide most of the financing, giving it approximately 95% equity ownership, assuming standard lease and development terms under a future high-performance computing lease, the firm said. […]
+
+[…] The site includes a direct connection agreement with American Electric Power, which will build dual interconnections targeting 2028 energization, pending grid operator ERCOT's final review. The 620-acre site, located next to an existing substation, is fully suited for HPC data center development, the firm stated. […]
+
+[…] Under the agreement, Cipher will provide 300 MW of capacity in 2026, featuring both air- and liquid-cooled racks. Delivery will occur in two phases, beginning in July and finishing in the fourth quarter of 2026, with rent starting in August. […]

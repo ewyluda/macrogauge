@@ -1,0 +1,16 @@
+URL: https://www.businesswire.com/news/home/20261007667008/en/ (TradingView story id business_wire:74547dbe941fc:0; also https://investors.coreweave.com/news/news-details/2026/CoreWeave-Enters-India-Expanding-AI-Cloud-Platform-With-AdaniConneX/default.aspx)
+Title: CoreWeave Enters India, Expanding AI Cloud Platform With AdaniConneX
+Publisher: CoreWeave, Inc. (Business Wire press release)
+Date (publication): 2026-10-07
+Retrieved: 2026-10-17
+Method: TradingView MCP get_news_story (full press-release text; curl and WebFetch blocked by session egress proxy)
+
+[…] CoreWeave, Inc. (NASDAQ:CRWV), the Essential Cloud for AI™, today announced its entry into India. Through a collaboration with AdaniConneX, CoreWeave plans to expand its AI Cloud platform with 240 megawatts (MW) of data center capacity in Navi Mumbai. […]
+
+[…] The new campus will span three 80 MW buildings at AdaniConneX’s Taloja campus. CoreWeave plans to deploy NVIDIA Vera Rubin Platform on the CoreWeave AI cloud platform, bringing next-generation AI infrastructure to the region for increasingly complex AI training, inference, reasoning, and agentic workloads. […]
+
+[…] The Taloja facilities are being designed specifically for high-density AI infrastructure, including direct liquid cooling for GPU data halls and a non-evaporative chilled water system. […]
+
+[…] The first phase of the project is expected to be available in mid-2028 with additional capacity coming online in phases. CoreWeave will be the sole tenant across the three buildings, with the opportunity to double capacity by expanding by up to 240 MW at the campus. […]
+
+[…] The expansion advances CoreWeave’s global footprint, following the company’s recent entry into Indonesia. As of its earnings call on August 11, 2026, CoreWeave had approximately 4.2 gigawatts of contracted power. […]

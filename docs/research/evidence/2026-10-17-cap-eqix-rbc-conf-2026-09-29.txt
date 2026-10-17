@@ -1,0 +1,14 @@
+URL: Quartr transcript urn:transcripts:quartr.com:4210675 (via TradingView MCP)
+Title: RBC Capital Markets 2026 Global Communications and Infrastructure Conference — Equinix (CFO Olivier Leonetti) (transcript)
+Publisher: Equinix (company presentation); transcript via Quartr
+Date: 2026-09-29
+Retrieved: 2026-10-17
+Method: TradingView MCP get-document-view (Quartr transcript); curl and WebFetch blocked in this session (proxy connect_rejected / ENOTFOUND for sec.gov, newsroom.equinix.com, investor.equinix.com)
+
+[…] Jon Atkin (Analyst, RBC): Want to hit on power and grid. Your typical new build is 50 MW under the Build Bolder program, and how do you navigate utility queues when competing against half a gig or even gigawatt scale projects for the same transmission infrastructure? […]
+
+[…] Let me give you two numbers to finish on the point. This year, we deploy 40% more power than we anticipated at the start of the year. 40%. In 2026, we deliver twice the power we delivered in 2025. Why? Because what I've explained. […]
+
+[…] Olivier Leonetti (CFO, Equinix): A bit of numbers. Deploy between now and the end of 2029, 1 GW of power. After that, we will have 2 GW of land and power available to us. What I am saying is that we have access to land and power today to really support the growth. Point number one. Point number two, during to do acquisition of land and power, two on an opportunistic basis, atNorth was one of them. […]
+
+[…] Olivier Leonetti (CFO, Equinix): Yeah. xScale is part of the algorithm. We want to manage our portfolio for maximum return, right? The maximum return today for Equinix is to do what we know how to do best, which is retail, colo, small footprint, rich ecosystem, and very high return. We're going to focus on this. If you look at xScale, it's an interesting part of the portfolio. Now it's starting to be a crowded portfolio. You have many players, the footprint is different. You sell a kilowatt, so it's very economic. xScale is part of the portfolio. Retail is the focus. […]

@@ -1,0 +1,31 @@
+Company press-release headlines / lead text, verbatim as carried by the FMP press-release feed.
+Retrieved: 2026-10-17
+Method: FMP MCP news/search-press-releases (symbols CIFR, 2026-08-01..2026-10-17). curl/WebFetch blocked in this session.
+
+=== 1 ===
+URL: https://www.globenewswire.com/news-release/2026/09/25/3369064/0/en/cipher-digital-expands-barber-lake-lease-term-to-20-years-increasing-revenue-to-over-9-billion.html
+Title: Cipher Digital Expands Barber Lake Lease Term to 20 Years, Increasing Revenue to Over $9 Billion
+Publisher: Cipher Digital Inc. (GlobeNewswire)
+Date (publication): 2026-09-25
+[…] Additional 10-Year Term adds ~$5.2 Billion of Contracted Revenue at Barber Lake […]
+
+=== 2 ===
+URL: https://www.globenewswire.com/news-release/2026/09/14/3361574/0/en/cipher-digital-fluidstack-and-anthropic-commit-10-million-to-repair-and-expand-colorado-city-s-water-system.html
+Title: Cipher Digital, Fluidstack, and Anthropic Commit $10 Million to Repair and Expand Colorado City's Water System
+Publisher: Cipher Digital Inc. (GlobeNewswire)
+Date (publication): 2026-09-14
+[…] City Leaders Chose the Projects After July Storm Damage Cut Residents' Water; Barber Lake Data Center Draws No Water from the City's System […]
+
+=== 3 ===
+URL: https://www.globenewswire.com/news-release/2026/09/03/3355894/0/en/cipher-digital-begins-development-of-lateral-pipelines-to-facilitate-data-center-expansion-via-bring-your-own-generation.html
+Title: Cipher Digital Begins Development of Lateral Pipelines to Facilitate Data Center Expansion via Bring-Your-Own-Generation
+Publisher: Cipher Digital Inc. (GlobeNewswire)
+Date (publication): 2026-09-03
+[…] Developing Lateral Pipelines Capable of Delivering Natural Gas Sufficient to Support Up to 2.5 GW of New Generation Across Multiple Sites […]
+
+=== 4 ===
+URL: https://www.globenewswire.com/news-release/2026/08/04/3338166/0/en/Cipher-Digital-Provides-Second-Quarter-2026-Business-Update.html
+Title: Cipher Digital Provides Second Quarter 2026 Business Update
+Publisher: Cipher Digital Inc. (GlobeNewswire)
+Date (publication): 2026-08-04
+[…] Black Pearl Data Center Delivery Accelerated Acquired Option for 900 MW Site Near San Antonio, Texas Completed Project-Level Financing to Fully Fund Third Data Center Development […] Cipher disclosed an amendment to its Black Pearl campus lease with its investment-grade hyperscale tenant, accelerating the development timeline of initial capacity at the tenant's request. […]

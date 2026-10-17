@@ -1,0 +1,49 @@
+URL: https://www.tradingview.com/news/dpa_afx:cee8cca0da9c3:0-finland-halts-work-at-two-planned-google-data-centres-over-forest-clearance/
+Title: Finland Halts Work At Two Planned Google Data Centres Over Forest Clearance
+Publisher: dpa-AFX / RTTNews
+Date: 2026-10-07
+Retrieved: 2026-10-17
+Method: TradingView news API full text (story id dpa_afx:cee8cca0da9c3:0); curl/WebFetch blocked by egress policy
+
+[…] Finnish authorities have ordered a halt to construction work at two planned Google data centres after raising concerns over the clearance of more than 300 hectares of forest. […]
+
+[…] The sites in Muhos and Kajaani are part of Alphabet Inc. (GOOG) Google's planned EUR 13 billion investment in Finland, described by the company as its largest single investment in Europe. […]
+
+[…] The agency ordered activities that could significantly alter the environment to be suspended by 23 October and asked Tuike Finland, the company behind the projects, to explain how it would proceed by 14 October. […]
+
+
+
+URL: https://www.benzinga.com/ (TradingView story benzinga:b37fb94f9094b:0)
+Title: Google's $15 Billion Finland AI Push Hits Roadblock as Regulators Order Halt at 2 Data Centers Pending Environmental Reviews
+Publisher: Benzinga
+Date: 2026-10-08
+Retrieved: 2026-10-17
+Method: TradingView news API full text
+
+[…] On Tuesday, Finland’s Licensing and Supervision Agency, or LVV, directed Tuike Finland Oy, a unit of Google, to suspend work on projects in Muhos and Kajaani. The agency requires the construction activities to stop by October 23. […]
+
+[…] The suspension order covers tree and topsoil removal, excavation, quarrying, soil transfers, ditching, road construction and storage-area preparation. The order, however, does not cover planning, measurements, soil surveys or other minor, easily reversible activities. […]
+
+
+
+URL: https://www.cnbc.com/2026/10/07/google-finland-data-center-halt.html
+Title: Google ordered to halt work on two data centers in ‘Texas of Europe'
+Publisher: CNBC
+Date: 2026-10-07
+Retrieved: 2026-10-17
+Method: FMP stock-news API (lead text)
+
+[…] Google has been ordered to halt work on two data centers it's developing in Finland until environmental impact assessments have been completed. "We understand the concerns and have fallen short of our own high standards in this instance," a Google spokesperson told CNBC. […]
+
+
+
+URL: https://www.reuters.com/business/media-telecom/google-invest-15-billion-ai-infrastructure-finland-2026-09-09/
+Title: Google to invest $15 billion AI infrastructure in Finland
+Publisher: Reuters
+Date: 2026-09-09
+Retrieved: 2026-10-17
+Method: FMP stock-news API (lead text)
+
+[…] Alphabet's Google will invest at least €13 billion ($15.1 billion) in artificial intelligence infrastructure in Finland over the ​next two years, it said on Wednesday, calling ‌it the company's single largest investment in Europe. […]
+
+

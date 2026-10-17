@@ -1,0 +1,12 @@
+URL: https://financialmodelingprep.com/stable/earning-call-transcript?symbol=ORCL&year=2026&quarter=4  (FMP transcript of Oracle Q4 FY2026 earnings call; slides on https://investor.oracle.com)
+Title: Oracle Corporation Fourth Quarter Fiscal Year 2026 Earnings Call (transcript)
+Publisher: Oracle Corporation (call); transcript via Financial Modeling Prep
+Date: 2026-06-10
+Retrieved: 2026-10-17
+Method: FMP API via MCP (earningsTranscript / search-transcripts, symbol ORCL, year 2026, quarter 4). Direct curl/WebFetch blocked by session egress policy.
+
+[…] Clayton Magouyrk: […] Q4 finalized an impressive FY 2026, where we delivered more than 1.2 gigawatts to customers. Our pace of delivery continues to accelerate, our FY 2027 Q1 delivery approaching 1 gigawatt, nearly the same capacity as we have delivered in the previous 4 quarters combined. […]
+
+[…] Okay. Now before I end, let's look at a summary of our 5 largest sites and the significant progress we are seeing across all of them. To begin, let's look at Abilene, Texas. Abilene, Texas today has delivered 42% of the total capacity. An additional 35% of capacity will be delivered in the next 90 days, with the remainder delivering in the subsequent quarter. Moving forward to Shackleford, Texas. We contracted this in August 2025. Customer delivery begins in the first half of FY 20 I am sorry. The first half of calendar year 2027. 115 megawatts of power capacity is already available online, more than 1 month ahead of schedule. If we take a look at Doña Ana County New Mexico, we contracted this in September 2025. Customer delivery begins in the first half of calendar year 2027 as well. Power design is based on gigawatts of clean, energy-efficient Bloom fuel cells. We look at Saline County, Michigan. We contracted this in October 2025. Customer delivery begins in the second half of 2027. The network core is ahead of schedule and delivered at the end of this calendar year. And then to the final slide I want to touch on, Port Washington, Wisconsin. This was contracted in September 2025, and delivery begins in the second half of calendar year 2027. I think you can see from all of these pictures the massive progress that we are making across a very large number of sites. […]
+
+[…] Hilary Barbara Maxson: […] Look forward to speaking further with all of you over the next few weeks and months leading into our Q1, and at our next Oracle Investor Day scheduled for October 28 in Las Vegas. […]

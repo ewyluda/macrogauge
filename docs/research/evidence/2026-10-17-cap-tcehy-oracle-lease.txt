@@ -1,0 +1,33 @@
+URL: https://www.tradingview.com/news/reuters.com,2026:newsml_L4N45N068:0-china-s-tencent-leases-100-000-chips-from-oracle-to-accelerate-ai-push-ft-reports/
+Title: China's Tencent leases 100,000 chips from Oracle to accelerate AI push, FT reports
+Publisher: Reuters (reporting a Financial Times story; via TradingView)
+Date: 2026-10-01 (Reuters stamp 2026-09-30 23:12 ET)
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text (curl/WebFetch to publisher sites blocked in sandbox)
+
+[…] Tencent HKEX:700 signed its largest overseas lease deal with US cloud provider Oracle NYSE:ORCL to access about 100,000 advanced AI chips that were not available in China, the Financial Times reported on Wednesday, citing people familiar with the matter. […]
+[…] The Chinese technology giant this year agreed to a five-year lease across multiple Oracle data centers in south-east Asia, according to the report. […]
+[…] The deal is estimated to be worth about $7 billion, with an upfront payment of about 30%, the report said. […]
+[…] Reuters could not immediately verify the report. Oracle and Tencent did not immediately respond to Reuters' requests for comment on the report. […]
+
+-----
+URL: https://www.tradingview.com/news/DJN_SN20261001004478:0-oracle-has-reportedly-signed-a-7-billion-deal-with-tencent-it-could-provide-relief-for-the-troubled-stock/
+Title: Oracle has reportedly signed a $7 billion deal with Tencent. It could provide relief for the troubled stock.
+Publisher: MarketWatch (Nora Redmond)
+Date: 2026-10-01
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] Tencent has agreed to a five year-lease across a number of data centers operated by Oracle in southeast Asia, The deal has meant Tencent is able to access approximately 100,000 AI chips which were not previously available in the country, the people said. One of the people also told the newspaper that the agreement is worth around $7 billion, including an immediate payment of about 30%. […]
+[…] Tencent and Oracle did not immediately respond to MarketWatch's requests for comments. […]
+
+-----
+URL: https://www.tradingview.com/news/benzinga:bef663715094b:0-oracle-lands-7-billion-tencent-ai-deal-chinese-tech-giant-to-access-100-000-advanced-chips-through-southeast-asia-data-centers-report/
+Title: Oracle Lands $7 Billion Tencent AI Deal — Chinese Tech Giant to Access 100,000 Advanced Chips Through Southeast Asia Data Centers: Report
+Publisher: Benzinga
+Date: 2026-10-01
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] These chips will be used to further enhance Tencent's AI models and develop agentic tools, sources told the publication. […]
+[…] In December 2025, Tencent had reportedly gained access to Nvidia Corp.'s advanced Blackwell AI chips by renting computing capacity at a Datasection-operated data center near Osaka, Japan. […]

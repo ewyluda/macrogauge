@@ -1,0 +1,10 @@
+URL: https://www.reuters.com/business/google-invest-40-billion-new-data-centers-texas-bloomberg-news-reports-2025-11-14/
+Title: Google to invest $40 billion in new data centers in Texas, Bloomberg News reports
+Publisher: Reuters
+Date: 2025-11-14
+Retrieved: 2026-10-17
+Method: FMP stock-news API (lead text)
+
+[…] Alphabet's Google will invest $40 billion in three new data centers in Texas through 2027, Bloomberg News reported on Friday. […]
+
+

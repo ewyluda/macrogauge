@@ -1,0 +1,14 @@
+URL: https://www.tradingview.com/news/prnewswire:b128178f0a898:0-cpp-investments-and-equinix-complete-atnorth-acquisition-to-support-growth-of-leading-nordic-data-center-platform/ (same release as curated src https://newsroom.equinix.com/2026-09-02-CPP-Investments-and-Equinix-Complete-atNorth-Acquisition-to-Support-Growth-of-Leading-Nordic-Data-Center-Platform)
+Title: CPP Investments and Equinix Complete atNorth Acquisition to Support Growth of Leading Nordic Data Center Platform
+Publisher: CPP Investments / Equinix (press release via PR Newswire / CNW)
+Date: 2026-09-02
+Retrieved: 2026-10-17
+Method: TradingView MCP get-news-story (full PR Newswire text); curl and WebFetch blocked in this session
+
+[…] atNorth's footprint spans across all five Nordic countries, with eight operational data centers and several new projects underway across the territory. This includes sites under development in Sweden, Finland, Norway and Denmark, alongside expansions to existing sites and a strong portfolio of additional development projects. […]
+
+[…] As a result, CPP Investments will hold a c. 51% controlling stake committing US$1.3 billion, alongside Equinix's c. 34% committing US$895 million and Partners Group's c. 10% committing US$260 million. […]
+
+[…] "Since the signing announcement earlier this year, atNorth has continued to build strong momentum, securing new hyperscale contracts and expanding our development pipeline, including a new site in Norway", said Eyjólfur Magnús Kristinsson, CEO of atNorth. […]
+
+[…] atNorth is headquartered in Reykjavik, Iceland and operates eight data centers in strategic locations across the Nordics, as well as four mega sites under development across Kouvola, Finland, Ølgod, Denmark, Sollefteå, Sweden and Haugaland, Norway. The business also has an additional metro site under development in Stockholm, Sweden. […]

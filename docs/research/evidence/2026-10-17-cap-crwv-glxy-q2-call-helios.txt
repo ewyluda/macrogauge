@@ -1,0 +1,16 @@
+URL: urn:transcripts:quartr.com:4104706 (Quartr transcript of Galaxy Digital Q2 2026 earnings call, via TradingView documents MCP; company webcast at investor.galaxy.com)
+Title: Galaxy Digital Q2 2026 Earnings Call transcript
+Publisher: Galaxy Digital (call) / Quartr transcript
+Date (publication): 2026-08-05
+Retrieved: 2026-10-17
+Method: TradingView MCP get_document_view (curl and WebFetch blocked by session egress proxy)
+
+[…] ified business model with recurring revenue that is uncorrelated to market activity becomes especially valuable. Tony Paquette (CFO, Galaxy Digital): In Q2, phase I of our Helios data center came online with the first 133 MW of critical IT delivered to CoreWeave. That's the start of a real shift in our earnings profile, which I'll speak to in a few moments. For the second quarter, we reported GAAP net loss of $85 million, or $0.09 per share, and firm-wide adjusted EBITDA of -$77 million. These results were d […]
+
+[…] n 85% loan to cost. Combined with the equity Galaxy has already contributed to the project, this financing funds the remainder of phase II at Helios, which will add an additional 260 MW of critical IT capacity starting next year. With that, I'll turn it over to Chris for more details on data centers. Chris? Chris Ferraro (President and CIO, Galaxy Digital): Thanks, Tony. I'm proud to say that we delivered phase I at Helios on schedule and on budget. In today's data center ma […]
+
+[…] r team, and the opportunity we're building together. Earthwork is now complete, and structural foundation work is underway. We remain on schedule and expect to commence phase II data hall deliveries in the second quarter of 2027. Phase II comprises eight data halls in total, with seven online by the end of 2027, and the final data hall following in early 2028. Chris Ferraro (President and CIO, Galaxy Digital): As Tony highlighted, we've now fully funded phase II with Galaxy equity and our recent high-yield note issuance. Capital continues to find its way to well-structured contracted infrastructure like H […]
+
+[…] nues to find its way to well-structured contracted infrastructure like Helios, and we're grateful for the partners who supported us in getting there. The third and final phase of Helios one, which represents an additional 200 MW of gross power and 133 MW of critical IT load, is expected to come online throughout 2028, rounding out Helios one's three-phase build-out. Chris Ferraro (President and CIO, Galaxy Digital): On our remaining 830 MW of approved capacity at Helios II, conversations continue to advance, and we remain constructive on both the customer side a […]
+
+[…]  to have already pre-funds and the equity needs expected for phase III. We have no equity need expectation to complete the project for CoreWeave, and to deliver the entirety of the 800 gross MW to them. Tony Paquette (CFO, Galaxy Digital): What you likely will see happen into the future is a final debt financing to come to associated with the phase III project as we ramp that project up and start building for delivery. That was the thought process. […]

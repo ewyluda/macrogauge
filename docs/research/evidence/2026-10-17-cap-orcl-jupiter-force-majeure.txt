@@ -1,0 +1,45 @@
+Method (all items): FMP API via MCP (news / search-stock-news, symbol ORCL, 2026-09-10..2026-09-29). The excerpt is the `text` field FMP returns for each article = the publisher's own lead/standfirst, verbatim. Full article pages could not be opened (curl/WebFetch blocked by session egress policy).
+Retrieved: 2026-10-17
+Note: Reuters leads in the FMP feed contain invisible zero-width characters (U+200B/U+200C/U+2060) between words; they were removed in the excerpts, no other change.
+
+--- Item 1
+URL: https://www.reuters.com/business/oracle-cites-force-majeure-shield-itself-controversial-data-center-bloomberg-2026-09-24/
+Title: Oracle cites 'force majeure' to shield itself on controversial data center, Bloomberg News reports
+Publisher: Reuters
+Date: 2026-09-24
+[…] Oracle is seeking to protect itself from potential cost increases related to a large data center project in New Mexico by sending a "force majeure" notice to the developer, Bloomberg News reported on Thursday, citing sources familiar with the matter. […]
+
+--- Item 2
+URL: https://www.proactiveinvestors.com/companies/news/1099090
+Title: Oracle shares fall as company invokes 'force majeure' over New Mexico data center project
+Publisher: Proactive Investors
+Date: 2026-09-24
+[…] According to the report, Oracle sent the notice to the project's developer, a unit of Blue Owl Capital, seeking to delay payments if the data center fails to come online in 2028 as planned. […]
+
+--- Item 3
+URL: https://techcrunch.com/2026/09/24/oracle-sends-force-majeure-notice-on-its-new-mexico-stargate-data-center/
+Title: Oracle sends force majeure notice on its New Mexico Stargate data center
+Publisher: TechCrunch
+Date: 2026-09-24
+[…] Oracle has sent a force majeure notice to the developer of Project Jupiter, a Stargate data center campus in New Mexico, Bloomberg first reported Thursday. […]
+
+--- Item 4
+URL: https://www.wsj.com/finance/investing/cracks-in-oracles-ai-data-center-build-out-appear-in-massive-new-mexico-project-effb51c2
+Title: Cracks in Oracle's AI Data-Center Build-Out Appear in Massive New Mexico Project
+Publisher: WSJ
+Date: 2026-09-25
+[…] Oracle sent a force majeure notice to the developer, has removed one key development partner and faced local resistance in Project Jupiter. […]
+
+--- Item 5
+URL: https://247wallst.com/investing/2026/09/25/bloom-energy-jumps-8-as-oracle-reaffirms-2-4-gw-fuel-cell-contract-after-force-majeure-notice/
+Title: Bloom Energy Jumps 8% as Oracle Reaffirms 2.4 GW Fuel Cell Contract After Force Majeure Notice
+Publisher: 24/7 Wall St.
+Date: 2026-09-25
+[…] Oracle (NYSE:ORCL | ORCL Price Prediction) still stands behind its fuel cell contract. That news is lifting Bloom Energy (NYSE:BE), even after Oracle reportedly issued a force majeure notice on the data center campus that contract supports. […]
+
+--- Item 6
+URL: https://www.fool.com/investing/2026/09/24/oracle-wants-protection-if-its-ai-data-center-is-delayed-heres-what-that-changes-for-investors/
+Title: Oracle Wants Protection If Its AI Data Center Is Delayed. Here's What That Changes for Investors.
+Publisher: The Motley Fool
+Date: 2026-09-24
+[…] Oracle sent Project Jupiter's developer a force majeure notice that could let it defer payments if the New Mexico data center misses its 2028 target. Loans tied to Project Jupiter were quoted at 89 to 91 cents on the dollar as local opposition and regulatory hurdles added pressure. […]

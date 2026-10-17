@@ -1,0 +1,36 @@
+URL: https://www.prnewswire.com/news-releases/entergy-arkansas-powers-googles-4b-investment-in-the-state-302574301.html
+Title: Entergy Arkansas powers Google's $4B investment in the state
+Publisher: Entergy (PR Newswire press release)
+Date: 2025-10-02
+Retrieved: 2026-10-17
+Method: FMP stock-news API (lead text)
+
+[…] Today at a joint community celebration with state and local leaders, Entergy Arkansas announced it will power Google's planned $4 billion technology investment in Arkansas. […]
+
+
+
+URL: https://www.prnewswire.com/ (TradingView story prnewswire:2be9e24d380f3:0)
+Title: Entergy customers begin seeing benefits from data center agreements, Fair Share Plus pledge keeps money in customers' pockets
+Publisher: Entergy (PR Newswire press release)
+Date: 2026-08-27
+Retrieved: 2026-10-17
+Method: TradingView news API full text
+
+[…] Data centers located in Arkansas and Louisiana are expected to begin operating and flowing benefits back to Entergy customers they serve, beginning in early 2027 and ramping up over time. […]
+
+[…] Large customers, such as Google and AVAIO, help support investments in infrastructure additions that not only help power their facilities but also result in improved grid reliability that benefit all customers," said Laura Landreaux, Entergy Arkansas president and CEO. […]
+
+[…] Google also created its Greater West Memphis Energy Affordability Fund […]
+
+
+
+URL: https://www.cnbc.com/2026/09/02/google-data-center-arkansas-entergy-court.html
+Title: Judge refuses to block Arkansas news reporting on Google data center energy documents
+Publisher: CNBC
+Date: 2026-09-02
+Retrieved: 2026-10-17
+Method: FMP stock-news API (lead text)
+
+[…] An Arkansas federal judge denied a request by an energy company to temporarily block the Arkansas Democrat-Gazette from publishing additional details from confidential documents that the newspaper obtained about the company's involvement in building a facility that will supply power to a $4 billion Google data center in that state, a court filing showed. […]
+
+

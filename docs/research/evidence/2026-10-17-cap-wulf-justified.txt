@@ -1,0 +1,27 @@
+=== Source 1 (company press release lead, FMP feed) ===
+URL: https://www.globenewswire.com/news-release/2026/08/24/3349687/0/en/kentucky-psc-approves-482-mw-power-agreement-for-terawulf-s-justified-data-campus.html
+Title: Kentucky PSC Approves 482 MW Power Agreement for TeraWulf's Justified Data Campus
+Publisher: TeraWulf Inc. (GlobeNewswire)
+Date (publication): 2026-08-24
+Retrieved: 2026-10-17
+Method: FMP MCP news/search-press-releases. curl/WebFetch blocked in this session.
+
+[…] today announced that the Kentucky Public Service Commission (“PSC”) has approved the Retail Electric Service Agreement (“RESA”) supporting up to 482 megawatts (“MW”) of electric service for TeraWulf's Justified Data Campus in Hancock County, Kentucky. […]
+
+=== Source 2 ===
+URL: https://www.tradingview.com/news/stocktwits:4182952f2094b:0-terawulf-wins-approval-for-482-mw-kentucky-data-center-power-deal-estimates-4-5b-investment/
+Title: TeraWulf Wins Approval For 482 MW Kentucky Data Center Power Deal, Estimates $4.5B Investment
+Publisher: Stocktwits
+Date (publication): 2026-08-24
+Method: TradingView MCP mcp-tv-get-news-story.
+
+[…] The company estimated that it would need to invest around $4 billion to $4.5 billion for site development and the first data halls, not including additional investment by customers in computing equipment and related infrastructure. It said that the estimate was based on current expected development costs of approximately $10 million to $12 million per MW of critical IT load. […]
+
+=== Source 3 ===
+URL: https://www.tradingview.com/news/the_block:e77ac22a5094b:0-terawulf-signs-20-year-data-center-lease-with-anthropic-expected-to-generate-19-billion-in-revenue/
+Title: TeraWulf signs 20-year data center lease with Anthropic expected to generate $19 billion in revenue
+Publisher: The Block
+Date (publication): 2026-07-06
+Method: TradingView MCP mcp-tv-get-news-story.
+
+[…] Initial services are expected to begin in the second half of 2027 and ultimately deliver 401 MW of critical IT load, a significant amount for AI training, by early 2028. […]

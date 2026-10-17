@@ -1,0 +1,20 @@
+URL: urn:transcripts:quartr.com:4011383 (Quartr transcript of Nebius Q2 2026 earnings call, via TradingView documents MCP)
+Title: Nebius Group Q2 2026 Earnings Call transcript
+Publisher: Nebius Group (call) / Quartr transcript
+Date (publication): 2026-08-12
+Retrieved: 2026-10-17
+Method: TradingView MCP get_document_view (curl and WebFetch blocked by session egress proxy)
+
+[…] ture and Product Officer, Nebius Group): Yeah, sure, Tom. Hello, everyone. Andrey Korolenko (Chief Infrastructure and Product Officer, Nebius Group): Well, we delivered all the tranches that we were required to deliver under the contract up to date. We have all the reasons to believe that we will continue to deliver the remaining tranches as required by the contract. Probably to add color, construction of the building itself finished earlier this summer, and engineering fit-out is progressing f […]
+
+[…]  date. We have all the reasons to believe that we will continue to deliver the remaining tranches as required by the contract. Probably to add color, construction of the building itself finished earlier this summer, and engineering fit-out is progressing fairly well. Bloom fuel cells deployment should be fast. Overall, the switch to Bloom has been a variable and a good pivot for the project, we believe. With no significant impact expected on the project timeline. Tom? Gili Naftalovich (Head of Investor Relations, Nebius Group): Okay. Thank you. Our next q […]
+
+[…] ublic hearing, what is happening right now? Data want to seek and final approval for the amendment to their originally approved site layout plan, and the amendment to the site layout plan was a result of the decision to switch from the project's power source to Bloom. I would say generally that the switch to Bloom, we think significantly enhances the project, including from a community perspective. It is an on-site power solution, delivering reliable power quietly and ultra-low emissions. I would also say these t […]
+
+[…]  Infrastructure and Product Officer, Nebius Group): Yeah, absolutely. Yes. Andrey Korolenko (Chief Infrastructure and Product Officer, Nebius Group): We still expect to meet this guidance from 800 MW to 1 GW of connected power this year. Also, there was a part about the Vineland concluding in 2027. No, the Vineland is the part of the 2026 capacity and connected power. What I wanted to say is that connected power represents the data centers, and there are a few steps coming from the  […]
+
+[…] We still expect to meet this guidance from 800 MW to 1 GW of connected power this year. Also, there was a part about the Vineland concluding in 2027. No, the Vineland is the part of the 2026 capacity and connected power. What I wanted to say is that connected power represents the data centers, and there are a few steps coming from the data centers to the revenues. You have to commission the data center, build the network, build the clusters, deploy the platform, the […]
+
+[…] obably there is a gap between the connected power and the revenues coming. Andrey Korolenko (Chief Infrastructure and Product Officer, Nebius Group): In terms of our guidance from 800 MW to 1 GW, yes, that is true about the connected, but I would think that about being active throughout the first half of 2027. Gili Naftalovich (Head of Investor Relations, Nebius Group): Thank you, Andrey. We also have a question from BNP Paribas, from Stefan Slowinski, specifically around our $40 million per megawatt monetization in Q3. Stefan Slowinski (Analyst, BNP Pari […]
+
+[…] tential to unlock new capacity for us in 2027 and beyond. We continue to build our future capacity pipeline through our own and co-located sites, and today raise our year-end contracted power target to 5 GW. Our future capacity pipeline effectively makes Nebius one of just a few companies in the world able to build more than 1 GW of new capacity a year, and we plan to do so in 2027. Arkady Volozh (CEO, Nebius Group): To close, everything we set out to d […]

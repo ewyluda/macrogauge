@@ -1,0 +1,55 @@
+URL: https://www.globenewswire.com/news-release/2026/10/06/3376007/10381/en/black-hills-corp-executes-definitive-agreements-to-serve-google-s-planned-data-center-in-cheyenne-wyoming.html
+Title: Black Hills Corp. Executes Definitive Agreements to Serve Google's Planned Data Center in Cheyenne, Wyoming
+Publisher: Black Hills Corp. (GlobeNewswire press release)
+Date: 2026-10-06
+Retrieved: 2026-10-17
+Method: TradingView news API full text (story id globenewswire:0b37407cf094b:0); curl and WebFetch were blocked by this session's egress policy (403 CONNECT / ENOTFOUND)
+
+[…] Black Hills Corp. NYSE:BKH today announced it has signed definitive agreements effective Sept. 30, 2026, with terms through 2048, to serve a planned Google data center to be constructed in Cheyenne, Wyoming. The negotiated agreements include a Large Power Contract Services Agreement (LPCSA) and a Generation Facilities Agreement (GFA). […]
+
+[…] The project, exclusive of additional transmission system expansion investments, is anticipated to be served by a total resource mix of 2.7 GW, including reserve margins, and is planned to begin taking energy service in late 2027 and ramp to the project’s peak load in 2030. Black Hills will provide up to 590 MW of grid-connected energy service through company-owned generation and market energy. In addition, Black Hills will manage the output of approximately 2.1 GW of Wyoming-based, third-party contracted resources through a privately managed microgrid under the company’s Large Power Contract Service (LPCS) tariff. […]
+
+[…] To support the project, Black Hills plans to invest $1.8 billion between 2027 and 2029 to construct 564 MW (nameplate capacity) of company-owned generation. […]
+
+[…] Google has provided Black Hills with $399 million of refundable advances for the procurement of long lead-time equipment under the parties' generation reservation agreement. […]
+
+[…] Robinson substation Certificate of Public Convenience and Necessity (CPCN) approved in May 2026; […]
+
+
+
+URL: https://www.reuters.com/business/energy/black-hills-plans-18-billion-investment-power-googles-data-center-2026-10-06/
+Title: Black Hills plans $1.8 billion investment to power Google's data center
+Publisher: Reuters
+Date: 2026-10-06
+Retrieved: 2026-10-17
+Method: TradingView news API (story id tag:reuters.com,2026:newsml_L6N45S19W:0)
+
+[…] Black Hills Corp said on Tuesday it signed agreements to power a proposed Google data center in Cheyenne, Wyoming, and plans to spend $1.8 billion from 2027 to 2029 on new generation capacity, as tech firms race to secure electricity for power-hungry AI data centers. […]
+
+[…] The project is expected to draw on a 2.7-gigawatt (GW) resource mix, including reserve margins, with power deliveries set to begin in late 2027 and peak load expected in 2030 […]
+
+
+
+URL: https://www.prnewswire.com/news-releases/aep-advances-innovative-energy-solution-for-google-with-702mw-of-bloom-fuel-cells-302907658.html
+Title: AEP Advances Innovative Energy Solution for Google with 702MW of Bloom Fuel Cells
+Publisher: American Electric Power (PR Newswire press release)
+Date: 2026-10-14
+Retrieved: 2026-10-17
+Method: FMP press-release API (lead text)
+
+[…] American Electric Power (Nasdaq: AEP) plans to invest approximately $4 billion to advance a new 702-megawatt fuel cell generation project near Cheyenne, Wyoming, under a long-term 20-year power purchase agreement (PPA) with Google, marking a significant step in AEP's strategy to serve growing demand from large-scale customers. […]
+
+
+
+URL: https://www.wsj.com/business/energy-oil/american-electric-power-to-invest-4-billion-in-fuel-cell-project-to-meet-energy-demand-from-google-c946aa2f
+Title: American Electric Power to Invest $4B in Fuel Cell Project to Meet Energy Demand From Google
+Publisher: Dow Jones Newswires / WSJ
+Date: 2026-10-14
+Retrieved: 2026-10-17
+Method: TradingView news API (story id DJN_DN20261014003834:0)
+
+[…] The facility aims to support Google's increasing energy needs in the greater Cheyenne, Wyo. area, AEP said. […]
+
+[…] AEP plans to start construction on the project this year and expects the facility to be fully operational by the end of 2028. […]
+
+

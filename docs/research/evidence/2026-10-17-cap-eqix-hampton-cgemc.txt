@@ -1,0 +1,14 @@
+URL: https://www.tradingview.com/news/prnewswire:a0b68a7b642d9:0-equinix-partners-with-central-georgia-electric-membership-corporation-to-protect-ratepayers/
+Title: Equinix Partners with Central Georgia Electric Membership Corporation to Protect Ratepayers
+Publisher: Equinix (press release via PR Newswire)
+Date: 2026-08-06
+Retrieved: 2026-10-17
+Method: TradingView MCP get-news-story (full PR Newswire text); curl and WebFetch blocked in this session
+
+[…] New contract model has Equinix cover full costs of transmission and power infrastructure, backed by a 20-year take-or-pay agreement for the Hampton, Ga. project […]
+
+[…] Equinix will also supply up-front payments for the initial grid upgrade costs, covering a new high-voltage substation and two new high-voltage transmission lines, and early site assessments, modeling and engineering work. To lock in these provisions, Equinix and CGEMC have entered a 20-year "take-or-pay" style contract, meaning Equinix will pay 100% of CGEMC's costs for serving the contracted demand of the Hampton facility. […]
+
+[…] Through the Hampton project, it will contribute up to $20 million annually in property tax revenue to the community, funding schools and emergency services, and will create more than 990 jobs from across the local economy. […]
+
+NOTE: the release gives no MW and no in-service date for Hampton.

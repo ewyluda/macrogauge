@@ -1,0 +1,14 @@
+URL: urn:transcripts:quartr.com:4005580 (Quartr transcript via TradingView documents MCP; company corrected transcript at https://s205.q4cdn.com/133937190/files/doc_financials/2026/q2/CRWV-US-CORRECTED-TRANSCRIPT-CoreWeave-Q2-2026-Earnings-Call-11August2026.pdf)
+Title: CoreWeave Q2 2026 Earnings Call transcript
+Publisher: CoreWeave (call) / Quartr transcript
+Date (publication): 2026-08-11
+Retrieved: 2026-10-17
+Method: TradingView MCP get_document_view (curl and WebFetch blocked by session egress proxy: CONNECT 403 / DNS ENOTFOUND)
+
+[…]  them to continue expanding sequentially during Q3 and Q4. We are also securing the ingredients required to sustain growth over a multi-year horizon. Contracted power grew to 3.7 GW in Q2. Since quarter end, we have added roughly 500 MW, bringing contracted power to 4.2 GW as of today. These figures exclude more than 1.5 GW of further potential power from powered land we have accumulated, options we have to expand at existing sites, and LOIs we have executed. Mike Intrator (CEO, CoreWeave): Our first several self-builds are alread […]
+
+[…]  power from powered land we have accumulated, options we have to expand at existing sites, and LOIs we have executed. Mike Intrator (CEO, CoreWeave): Our first several self-builds are already well underway, including our first site, expected to come online later this year. Powered land forms the foundation for deeper vertical integration, giving us greater operational control and supporting enhanced long-term margins. We are also expanding globally and have contracted more than 1 GW of power outside the U.S., includin […]
+
+[…]  for deeper vertical integration, giving us greater operational control and supporting enhanced long-term margins. We are also expanding globally and have contracted more than 1 GW of power outside the U.S., including recently entering the APAC region with 360 MW in Indonesia that will begin coming online in approximately 18 months. We expect international markets to become a major driver of growth as we meet customers where they and their end users operate. All in, we have excellent visibility to our target of at least 8 GW by 2030. We expect demand to meaningfully exceed supp […]
+
+[…] ximately $1.1 billion of annualized interest saving based on our end of Q2 debt load. Turning to guidance. As a result of continued strong execution, we now expect to end the year with more than 1.85 GW of active power, up from our previous guidance of more than 1.7 GW. In terms of how this flows through the second half, we expect Q3 revenue to be in the range of $3.45 billion-$3.6 billion. Nitin Agrawal (CFO, CoreWeave): We expect Q3 adjusted operating income of  […]

@@ -1,0 +1,23 @@
+URL: Quartr transcript urn:transcripts:quartr.com:4200219 via TradingView documents (NASDAQ:AKAM "Investor update", 2026-09-24); press release https://www.globenewswire.com/news-release/2026/09/24/3368729/0/en/akamai-announces-11-6-billion-multi-year-agreement-with-anthropic-to-support-growing-demand.html
+Title: Akamai investor update call — $11.6B multi-year agreement with Anthropic
+Publisher: Quartr transcript (Akamai CEO Tom Leighton / CFO Ed McGowan remarks); Akamai press release via GlobeNewswire
+Date: 2026-09-24
+Retrieved: 2026-10-17
+Method: TradingView MCP get-document-view (full transcript); FMP MCP search-press-releases (release title/opening text/URL). curl/WebFetch to sec.gov / akamai.com were blocked by the egress proxy in this session.
+
+[…] Akamai has signed the largest contract in our company's history, a commitment of $11.6 billion over seven years with Anthropic to support their accelerating CPU workload demands with Akamai Cloud's distributed AI infrastructure and software. […]  — Tom Leighton
+
+[…] First, we do not expect to generate any revenue in 2026 related to this contract. […] Second, we expect revenue to begin in the second half of 2027, and we expect to generate approximately $150 million-$300 million for the full year 2027. Finally, we expect revenue to continue to ramp throughout 2028 and to be fully ramped by year-end 2028, with a go-forward annualized revenue run rate of approximately $1.7 billion per year thereafter. […]  — Ed McGowan
+
+[…] We believe that the required power for all of these deals combined will be approximately 95 MW-105 MW, which averages out to roughly $22 million in annual revenue per megawatt of power for the entire portfolio. Please note, as we bring new sites online, we typically anticipate a 60-to-90-day ramp period before they reach full revenue potential. […]  — Ed McGowan
+
+[…] The majority of all of this across all the portfolios is in the U.S., so that is where you can assume the cost of colo, $3 million-$4 million a megawatt, something in that range. […]  — Ed McGowan
+
+[…] We have many, many providers we work with, and we are able to get agreements for multi-years for say, 10 MW-30 MW in certain locations. In some cases, it might be a little bit less. But we are very comfortable with what we can put together, and there is no dependency for us to go build. We are working with our colocation providers. So this is spread out among numerous providers, and like I said, we are very confident in our ability to secure that. Some of it is already been secured. […]  — Ed McGowan
+
+[…] Jackson Ader (KeyBanc): […] how many different colocation sites this would actually, the footprint would actually be?
+Tom Leighton: It would be numerous, but we haven't disclosed the number. […]
+
+[…] So yeah, this particular deal, the one we announced today, is all CPU. The $14.4 billion, which is a mix of customers and what we have talked about, is what we consider our large multi-year revenue contracts. That is a mix. That has got some CPU, that has got some GPU in there. […]  — Ed McGowan
+
+Also fetched (no site-level data): Akamai PR 2026-10-15 "AI, Enterprise SaaS Workloads Drive Akamai Cloud Momentum" (GlobeNewswire, TradingView globenewswire:a819276db094b:0) — customer wins incl. NVIDIA RTX PRO 6000 Blackwell instances; no MW or sites. Akamai PR 2026-10-08: Q3 2026 call Thursday, November 5, 2026, 4:30 PM ET.

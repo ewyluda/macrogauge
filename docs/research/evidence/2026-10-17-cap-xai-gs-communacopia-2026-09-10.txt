@@ -1,0 +1,15 @@
+URL: (Quartr transcript via TradingView documents, view_id urn:transcripts:quartr.com:4162875)
+Title: Goldman Sachs Communacopia + Technology Conference 2026 — fireside chat with Bret Johnsen, CFO, SpaceX
+Publisher: Goldman Sachs conference / Quartr (transcript)
+Date: 2026-09-10
+Retrieved: 2026-10-17
+Method: TradingView MCP get-document-view (full transcript text)
+
+[…] Bret Johnsen (CFO, SpaceX): […] What I would tell you, an update to that is that just earlier this month, we closed another hosting deal, and that translates into about $1.11 billion a month starting December 1st of this year, which is another roughly $13 billion of ARR that starts December 1st of this year. […]
+[…] Bret Johnsen (CFO, SpaceX): We talked about a range next year of 5 GW-10 GW deployed. […]
+[…] Bret Johnsen (CFO, SpaceX): Ending this year with a little over 2 GW. […]
+[…] Bret Johnsen (CFO, SpaceX): ...because some of it we're going to stand up ourselves- […] Bret Johnsen (CFO, SpaceX): ...in existing locations, I think is hugely important. […]
+[…] Bret Johnsen (CFO, SpaceX): I think it is an interesting world for us right now. We have done these compute deals, right? Almost all of them, if not all of them, have been, in essence, 90-day with a 90-day out, so roughly six-month commits. […]
+[…] Bret Johnsen (CFO, SpaceX): […] In fact, the one I just talked about that we just did earlier this month is also the same structure and timeline. […]
+[…] Bret Johnsen (CFO, SpaceX): […] We have a very strong relationship with Anthropic and Google, for example. […]
+[…] Eric Sheridan (Analyst, Goldman Sachs): […] Obviously you're talking about this third deal for compute. […]

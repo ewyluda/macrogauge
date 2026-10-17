@@ -1,0 +1,12 @@
+URL: https://financialmodelingprep.com/ (earnings transcript LNT Q2 2026, call 2026-07-31)
+Title: Alliant Energy Q2 2026 earnings call
+Publisher: Alliant Energy (transcript via FMP)
+Date: 2026-07-31
+Retrieved: 2026-10-17
+Method: FMP earningsTranscript API
+
+[…] Three of these large loads are already under active construction with commission-approved contracts. In Cedar Rapids, Iowa, Google has energized their transmission service. They are anticipating ramping in accordance with the contracted load schedule. […]
+
+[…] We have 2 projects right now underway, one for QTS and one for Google, and they have in excess of 10,000 workers in that city. […]
+
+

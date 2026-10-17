@@ -1,0 +1,18 @@
+URL: urn:transcripts:quartr.com:4144815 (Quartr transcript via TradingView documents MCP; webcast listed by Nebius 2026-09-02 "Nebius to participate in upcoming investor conferences")
+Title: Nebius at Citi's 2026 Global TMT Conference (Arkady Volozh, Founder and CEO)
+Publisher: Citi conference / Quartr transcript
+Date (publication): 2026-09-09
+Retrieved: 2026-10-17
+Method: TradingView MCP get_document_view (curl and WebFetch blocked by session egress proxy)
+
+[…] Arkady Volozh (Founder and CEO, Nebius): […] $40 billion raised later, 5 GW contracted later. We're now here. […]
+
+[…] Arkady Volozh (Founder and CEO, Nebius): […] It is just close to a gigawatt of capacity this year, and we want to build something like a gigawatt a year, and then probably eventually more, a gigawatt and a half, 2 GW a year. […]
+
+[…] Arkady Volozh (Founder and CEO, Nebius): […] First of all, we diversify. We build not only in the U.S., we build a lot in Europe. I think we're the largest builder in Europe. We build in the Middle East. We build in India, in Japan now through partnerships. It's not just one market. […]
+
+[…] In France, for example, we took a brownfield site, an old factory which used to produce tires, a Bridgestone tire factory. Which produce tires, and now they have a clean, quiet data center. […]
+
+[…] Actually, we're building for Meta now. Their second contract comes in Q1, Q2 next year. […]
+
+[…] We announced 5 GW. It is easy to announce. We signed it, 5 GW. We have this capacity to build. […]

@@ -1,0 +1,10 @@
+URL: https://www.tradingview.com/news/stocktwits:aa1a6ca91094b:0-iren-leans-on-nvidia-ai-validation-as-semianalysis-questions-its-infrastructure-claims/
+Title: IREN Leans On NVIDIA AI Validation As SemiAnalysis Questions Its Infrastructure Claims
+Publisher: Stocktwits (secondary; context)
+Date (publication): 2026-10-11
+Retrieved: 2026-10-17
+Method: MCP TradingView get-news-story
+
+[…] SemiAnalysis said last week it had been told by several customers and end users about IREN's sites in Prince George and Mackenzie, British Columbia, which users had referred to as the "#1 worst site in the industry." The firm said frequent network link flaps and system-level errors were caused by multi-day power outages, network upgrades, storage failures, and air-quality control problems. It distinguished those legacy sites from IREN's newer Texas campuses in Childress and Sweetwater, which it said "look much better." […]
+
+[…] IREN still mines Bitcoin, but is closing that business down. In its annual report, the company said it expects the migration to AI to be completed by December of this year. […]
