@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-16T12:54:25Z",
+  "published_at": "2026-10-17T01:32:07Z",
   "history_start": "2026-06-16",
   "blend": {
     "in": 0.75,
@@ -384,9 +384,9 @@
     {
       "code": "vast_h100_sxm",
       "label": "H100 SXM (vast.ai)",
-      "usd_per_gpu_hr": 2.4002,
+      "usd_per_gpu_hr": 2.1622,
       "as_of": "2026-10-16",
-      "chg_30d_pct": -20.04,
+      "chg_30d_pct": -27.97,
       "tail": {
         "dates": [
           "2026-07-15",
@@ -510,7 +510,7 @@
           2.2083,
           2.9336,
           2.7602,
-          2.4002
+          2.1622
         ]
       },
       "in_index": true,
@@ -854,9 +854,9 @@
     {
       "code": "vast_rtx4090",
       "label": "RTX 4090 (vast.ai)",
-      "usd_per_gpu_hr": 0.6006,
+      "usd_per_gpu_hr": 0.5926,
       "as_of": "2026-10-16",
-      "chg_30d_pct": 21.19,
+      "chg_30d_pct": 19.57,
       "tail": {
         "dates": [
           "2026-07-15",
@@ -994,7 +994,7 @@
           0.5135,
           0.5339,
           0.5169,
-          0.6006
+          0.5926
         ]
       },
       "in_index": true,
@@ -1257,7 +1257,7 @@
         101.991,
         109.109,
         109.066,
-        109.311
+        106.765
       ],
       "members": [
         1,
@@ -1379,9 +1379,9 @@
         5
       ]
     },
-    "value": 109.311,
+    "value": 106.765,
     "as_of": "2026-10-16",
-    "chg_30d_pct": -0.07
+    "chg_30d_pct": -2.4
   },
   "cloud_gpus": [
     {
@@ -1762,7 +1762,7 @@
         "list_quotes": 5,
         "list_usd_per_pflop_hr": 6.95,
         "reserved_3y_usd_per_pflop_hr": 5.45,
-        "market_usd_per_pflop_hr": 2.43
+        "market_usd_per_pflop_hr": 2.19
       },
       {
         "gpu": "H200",

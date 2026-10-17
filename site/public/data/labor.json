@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-16T12:54:25Z",
+  "published_at": "2026-10-17T01:32:07Z",
   "payrolls": {
     "level_k": 159044,
     "mom_change_k": 29,
@@ -2263,6 +2263,160 @@
         30.21
       ]
     }
+  },
+  "dc_trades": {
+    "rows": [
+      {
+        "key": "electrical_ahe",
+        "group": "earnings",
+        "label": "Electrical contractors, hourly earnings",
+        "series_id": "CES2023821003",
+        "source": "BLS CES",
+        "unit": "usd_per_hour",
+        "cadence": "monthly",
+        "value": 43.61,
+        "yoy_pct": 6.26,
+        "as_of": "2026-08-01",
+        "vs_label": "all construction",
+        "vs_yoy_pct": 4.15,
+        "spread_pp": 2.11
+      },
+      {
+        "key": "plumbing_hvac_ahe",
+        "group": "earnings",
+        "label": "Plumbing and HVAC contractors, hourly earnings",
+        "series_id": "CES2023822003",
+        "source": "BLS CES",
+        "unit": "usd_per_hour",
+        "cadence": "monthly",
+        "value": 42.44,
+        "yoy_pct": 4.48,
+        "as_of": "2026-08-01",
+        "vs_label": "all construction",
+        "vs_yoy_pct": 4.15,
+        "spread_pp": 0.33
+      },
+      {
+        "key": "nonres_specialty_jobs",
+        "group": "jobs",
+        "label": "Nonresidential specialty trade jobs",
+        "series_id": "CES2023800201",
+        "source": "BLS CES",
+        "unit": "thousands",
+        "cadence": "monthly",
+        "value": 2939.6,
+        "yoy_pct": 2.97,
+        "as_of": "2026-09-01",
+        "vs_label": "residential specialty trades",
+        "vs_yoy_pct": -1.22,
+        "spread_pp": 4.19
+      },
+      {
+        "key": "res_specialty_jobs",
+        "group": "jobs",
+        "label": "Residential specialty trade jobs",
+        "series_id": "CES2023800101",
+        "source": "BLS CES",
+        "unit": "thousands",
+        "cadence": "monthly",
+        "value": 2340.3,
+        "yoy_pct": -1.22,
+        "as_of": "2026-09-01",
+        "vs_label": null,
+        "vs_yoy_pct": null,
+        "spread_pp": null
+      },
+      {
+        "key": "adp_construction_jobs",
+        "group": "jobs",
+        "label": "Construction jobs, ADP",
+        "series_id": "ADPMINDCONNERSA",
+        "source": "ADP National Employment Report via FRED",
+        "unit": "thousands",
+        "cadence": "monthly",
+        "value": 8113.0,
+        "yoy_pct": 1.21,
+        "as_of": "2026-09-01",
+        "vs_label": null,
+        "vs_yoy_pct": null,
+        "spread_pp": null
+      },
+      {
+        "key": "eci_construction",
+        "group": "eci",
+        "label": "ECI wages, private construction industry",
+        "series_id": "CIU2022300000000I",
+        "source": "BLS ECI via FRED",
+        "unit": "index",
+        "cadence": "quarterly",
+        "value": 174.6,
+        "yoy_pct": 3.52,
+        "as_of": "2026-04-01",
+        "vs_label": null,
+        "vs_yoy_pct": null,
+        "spread_pp": null
+      },
+      {
+        "key": "eci_install_maint_repair",
+        "group": "eci",
+        "label": "ECI wages, installation, maintenance and repair occupations",
+        "series_id": "CIU2020000430000I",
+        "source": "BLS ECI via FRED",
+        "unit": "index",
+        "cadence": "quarterly",
+        "value": 179.8,
+        "yoy_pct": 3.71,
+        "as_of": "2026-04-01",
+        "vs_label": null,
+        "vs_yoy_pct": null,
+        "spread_pp": null
+      },
+      {
+        "key": "postings_construction",
+        "group": "postings",
+        "label": "Indeed job postings, construction",
+        "series_id": "IHLIDXUSTPCONS",
+        "source": "Indeed Hiring Lab via FRED, CC BY 4.0",
+        "unit": "index",
+        "cadence": "daily",
+        "value": 129.2,
+        "yoy_pct": 6.43,
+        "as_of": "2026-10-09",
+        "vs_label": null,
+        "vs_yoy_pct": null,
+        "spread_pp": null
+      },
+      {
+        "key": "postings_electrical_engineering",
+        "group": "postings",
+        "label": "Indeed job postings, electrical engineering",
+        "series_id": "IHLIDXUSTPELECENGI",
+        "source": "Indeed Hiring Lab via FRED, CC BY 4.0",
+        "unit": "index",
+        "cadence": "daily",
+        "value": 153.0,
+        "yoy_pct": 32.4,
+        "as_of": "2026-10-09",
+        "vs_label": null,
+        "vs_yoy_pct": null,
+        "spread_pp": null
+      },
+      {
+        "key": "postings_install_maint",
+        "group": "postings",
+        "label": "Indeed job postings, installation and maintenance",
+        "series_id": "IHLIDXUSTPINMA",
+        "source": "Indeed Hiring Lab via FRED, CC BY 4.0",
+        "unit": "index",
+        "cadence": "daily",
+        "value": 117.7,
+        "yoy_pct": 4.07,
+        "as_of": "2026-10-09",
+        "vs_label": null,
+        "vs_yoy_pct": null,
+        "spread_pp": null
+      }
+    ]
   },
   "history": {
     "monthly": {

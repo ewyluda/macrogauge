@@ -1,17 +1,17 @@
 {
-  "published_at": "2026-10-16T12:54:25Z",
-  "score": 7.3,
+  "published_at": "2026-10-17T01:32:07Z",
+  "score": 9.3,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": 0.28958000000000006,
+      "z": 0.29668,
       "weight": 25,
       "available": 5,
       "expected": 5,
       "active_weight": 25.0
     },
     "real_economy": {
-      "z": -0.14566,
+      "z": -0.04602000000000002,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -32,7 +32,7 @@
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": 0.6494333333333334,
+      "z": 0.7364666666666667,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-10-15",
-      "momentum": 0.09,
-      "z": 0.2485
+      "as_of": "2026-10-16",
+      "momentum": 0.1,
+      "z": 0.284
     },
     {
       "code": "PAYEMS",
@@ -103,9 +103,9 @@
       "code": "INDPRO",
       "group": "real_economy",
       "direction": 1,
-      "as_of": "2026-08-01",
-      "momentum": 0.4176,
-      "z": 0.3526
+      "as_of": "2026-09-01",
+      "momentum": 0.9611,
+      "z": 0.8508
     },
     {
       "code": "RSAFS",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-10-15",
-      "momentum": -0.08,
-      "z": -0.2611
+      "as_of": "2026-10-16",
+      "momentum": -0.02,
+      "z": -0.0
     }
   ],
   "history": {
@@ -280,7 +280,7 @@
       "2026-07-31",
       "2026-08-31",
       "2026-09-30",
-      "2026-10-15"
+      "2026-10-16"
     ],
     "score": [
       53.0,
@@ -337,12 +337,12 @@
       12.8,
       18.7,
       21.6,
-      11.8,
-      -3.3,
-      -12.3,
-      -7.3,
-      12.1,
-      7.3
+      12.0,
+      -3.0,
+      -11.9,
+      -7.1,
+      13.3,
+      9.3
     ]
   }
 }

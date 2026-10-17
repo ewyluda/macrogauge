@@ -1,11 +1,11 @@
 {
-  "published_at": "2026-10-16T12:54:25Z",
+  "published_at": "2026-10-17T01:32:07Z",
   "target": "CPI MoM",
   "release_date": "2026-11-10",
   "reference_month": "2026-10",
   "basis": "SA",
   "ensemble": {
-    "value": 0.31,
+    "value": 0.32,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,
@@ -27,7 +27,7 @@
     },
     {
       "name": "Kalshi",
-      "value": 0.225,
+      "value": 0.249,
       "kind": "benchmark",
       "as_of": "2026-10-16"
     }
