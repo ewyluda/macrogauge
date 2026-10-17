@@ -1,0 +1,10 @@
+URL: https://www.globenewswire.com/ — (a) "AIB Data Centers Signs Contract with Nebius for AI Data Center Capacity" (TradingView story id globenewswire:23e84f635094b:0); (b) "AIB Data Centers Issues CEO Letter Highlighting Recent Milestones and CLT1 Development Strategy" (TradingView story id globenewswire:7d7a50102094b:0)
+Title: (a) AIB Data Centers Signs Contract with Nebius for AI Data Center Capacity; (b) AIB CEO letter
+Publisher: AIB Data Centers, Inc. (GlobeNewswire)
+Date (publication): (a) 2026-09-30; (b) 2026-10-07
+Retrieved: 2026-10-17
+Method: TradingView MCP get_news_story (curl and WebFetch blocked by session egress proxy)
+
+(a) […] today announced that it has entered into a binding agreement with Nebius, the AI cloud company, for 50 MW of critical IT capacity at AIB’s facility located in the southeastern United States. […]
+(a) […] The contracted capacity is supported by AIB's previously announced 15-year Electric Service Agreement for 65 MW of utility load at the site, which requires no significant additional electrical infrastructure upgrades. AIB expects to deliver the capacity in two data halls. […]
+(b) […] Execution of a 12-year agreement with Nebius for 50 MW of critical IT capacity at AIB’s CLT1 data center campus, with two potential five-year renewal periods. […]

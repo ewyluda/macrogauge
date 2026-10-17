@@ -1,0 +1,24 @@
+URL: https://financialmodelingprep.com/stable/earning-call-transcript?symbol=ORCL&year=2027&quarter=1  (FMP transcript of Oracle Q1 FY2027 earnings call; Oracle webcast/slides at https://investor.oracle.com)
+Title: Oracle Corporation First Quarter Fiscal Year 2027 Earnings Call (transcript)
+Publisher: Oracle Corporation (call); transcript via Financial Modeling Prep
+Date: 2026-09-10
+Retrieved: 2026-10-17
+Method: FMP API via MCP (earningsTranscript / search-transcripts, symbol ORCL, year 2027, quarter 1). Direct curl/WebFetch to sec.gov / investor.oracle.com was blocked by this session's egress policy (403 CONNECT / DNS failure).
+
+[…] Clayton Magouyrk: Alright. Thanks, Mike. OCI continues to grow quickly. By delivering the capacity our customers need. We delivered 850 megawatts of AI capacity containing more than 3 thousand GPUs to customers since the end of Q4. Delivery in Q1 is almost 3x what we delivered in all of Q4, and 73% of the total capacity we delivered last fiscal year. […]
+
+[…] Abilene continues to deliver at an extraordinary pace. We delivered 131 thousand GPUs there in Q1, 1.9x the volume delivered in Q4. 6 of the 8 campus buildings, representing 618 megawatts and 75% of total capacity have now been delivered to the customer. Customer acceptance has compressed to only 24 hours, showing that the systems arrive ready for customer workloads. The recently released GPT-6 Astra was trained at our site in Abilene. Shackleford is our next gigawatt scale campus and is progressing well. NVIDIA Vera systems are performing better than expected across hardware quality, manufacturing yield, and performance. We will deliver our first Vera systems to customers in Q2. […]
+
+[…] Siti Panigrahi: […] there is been a lot of speculation about you know, potential data center delays in New Mexico and Wisconsin. […]
+
+[…] Clayton Magouyrk: […] You know, New Mexico and Wisconsin are very important large sites for us. But it is important to have some context, you know, We talk about these sites kind of as being around a gigawatt a piece. We just delivered 850 megawatts in Q1. And what that means is that and as you can see, neither Shackleford nor New Mexico or Wisconsin or Michigan were delivered in Q1. […]
+
+[…] So now moving specifically to the question around New Mexico and Wisconsin. New Mexico is a location. We are making very good progress, yeah, in terms of construction, data center is definitely on track. We are going through the process of acquiring our air permit. And, you know, we have got the technology that we will be deploying there is bloom fuel cells. […] In Wisconsin, we are not doing on-site generation. We are really working with our partners across the across the board to design and deliver that energy capability through the grid. But, again, you know, working through the processes are complex projects. And again, in Wisconsin, data center delivery is actually very on track and going well. You know, working with the Public Service Commission and ATC and We Energies, we are constantly evolving different aspects of the energy design and delivery plan. […] To the question about impact on f y 2027 revenue, the neither of these sites will have any impact into our f y you know, our previously stated f y 2027 revenue or earnings guidance. […]
+
+[…] Hilary Barbara Maxson: […] We continue to anticipate $90 billion to $95 billion in CapEx for the full year with not more than $70 billion in net cash CapEx. […]
+
+[…] Clayton Magouyrk: […] We closed more than $30 billion of additional AI contracts in Q1 without requiring additional capital from Oracle. […] GPU utilization remains extremely high At 97.9% in Q1. […]
+
+[…] Hilary Barbara Maxson: […] Lastly, a small note from my side to please make sure to mark your calendars for our investor day coming up in October. […]
+
+[…] Ken Bond: For next quarter, we expect our Q2 fiscal year 27 earnings results will be announced on 12/14/2027 2026, excuse me, Any change to the date will be publicly announced. […]

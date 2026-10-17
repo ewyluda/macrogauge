@@ -1,0 +1,26 @@
+URL: https://www.tradingview.com/ (Quartr event transcript view urn:transcripts:quartr.com:4239050 — "KBW Virtual AI Summit", Keel Infrastructure fireside)
+Title: KBW Virtual AI Summit — Keel Infrastructure fireside (CEO Ben Gagnon, CFO Jonathan Mir)
+Publisher: Keel Infrastructure management at KBW AI Infrastructure Summit (transcript by Quartr via TradingView)
+Date (publication): 2026-10-06
+Retrieved: 2026-10-17
+Method: MCP TradingView get-document-view (curl/WebFetch blocked by egress proxy for all hosts in this session)
+
+[…] Stephen Glagola (Analyst, KBW): Thank you. Turning from positioning to execution, on the Q2 call you highlighted some remaining permitting work at Panther Creek and Sharon, while Moses Lake was expected to be your first site energized in 2027. To the extent you can say, what has moved since then? What still needs to happen for each site to reach NTP? […]
+
+[…] Ben Gagnon (CEO, Keel Infrastructure): Yeah, happy to address that. First and foremost, I think nothing has really gotten structurally harder since the Q2 call. If anything, we've continued to progress on the permitting progress across Panther Creek, Sharon, and Moses Lake. All of those have been moving forward. We did have a little bit of a slowdown at Panther Creek by a couple of months, but that is starting to get resolved, and we're continuing to see good progress there. Moses Lake is already under development, and the remainder of the permits that are sitting there at Sharon and Panther Creek are really engineering work focused around wastewater runoff, sewage connections, these sorts of things which are very not politically contested, right? […]
+
+[…] Ben Gagnon (CEO, Keel Infrastructure): The executive order probably did slow things down for a little bit in Pennsylvania, but I think we are, at this point, we're right back on track and proceeding on schedule. Very excited about the developments that we've had, especially breaking ground at Moses Lake. That's a very exciting progress for us and hopefully we'll be there soon with the other projects. […]
+
+[…] Stephen Glagola (Analyst, KBW): Congrats, by the way, on breaking ground there. […]
+
+[…] Jonathan Mir (CFO, Keel Infrastructure): I'd just add that our strategy of emphasizing liquidity on the balance sheet, we had, I think, almost $825 million of liquidity as of last quarter when we reported earnings, and it's quite close to that right now. […]
+
+[…] Stephen Glagola (Analyst, KBW): You're negotiating, Ben, you've said with several potential customers across the portfolio at the same time. […]
+
+[…] Stephen Glagola (Analyst, KBW): Okay. Thank you. That's really helpful. Turning to the longer-dated pipeline, maybe start with Sherbrooke. On the Q2 call, you said the city and utility approvals were complete, with only the provincial minister's sign-off remaining to consolidate the three existing power agreements into a single 96 MW HPC agreement. Where does that approval stand today? […]
+
+[…] Ben Gagnon (CEO, Keel Infrastructure): Yeah. It's still waiting on a signature from the minister. […] We don't have a clear indication as to when that would be resolved. There is no obligation on the minister's part to respond within X period of time. […]
+
+[…] Ben Gagnon (CEO, Keel Infrastructure): Yeah. A couple of different questions there. First, the detailed load study for the grid connection is progressing well. I think we originally outlined that we would hope to have an update for the market around end of the year or January, and that is still kind of the timeline that we should expect to have an update on the detailed load study. […] At Panther Creek, we are building a line that is 30 mi. […]
+
+[…] When it comes to leasing, still far too early to be discussing leasing at a site like Scrubgrass. Frankly, we haven't even submitted permitting for sites like Scrubgrass because we're still working on securing the power. The sequence of events for us is secure the power, permitting, and engineering, followed by leasing. […]

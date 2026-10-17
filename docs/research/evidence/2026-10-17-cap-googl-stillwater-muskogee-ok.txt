@@ -1,0 +1,32 @@
+URL: https://www.prnewswire.com/news-releases/oge-announces-landmark-contract-with-google-302758482.html
+Title: OG&E Announces Landmark Contract with Google
+Publisher: OGE Energy (PR Newswire press release)
+Date: 2026-04-30
+Retrieved: 2026-10-17
+Method: FMP press-release API (lead text)
+
+[…] Today, OG&E, the operating subsidiary of locally-headquartered OGE Energy Corp. (NYSE: OGE), announced that it will power three new data centers that Google announced in Muskogee and Stillwater last year. […]
+
+
+
+URL: https://www.reuters.com/ (TradingView story tag:reuters.com,2026:newsml_L4N41D1JJ:0)
+Title: OGE Energy unit to power three new Google data centers in Oklahoma
+Publisher: Reuters
+Date: 2026-04-30
+Retrieved: 2026-10-17
+Method: TradingView news API full text
+
+[…] Under the deal, Alphabet's NASDAQ:GOOG Google will bear the entire cost of connecting the data center sites in Muskogee and Stillwater to the grid, as well as all contracted expenses, regardless of the company's energy use. […]
+
+
+
+URL: https://financialmodelingprep.com/ (earnings transcript OGE Q2 2026, call 2026-07-29)
+Title: OGE Energy Q2 2026 earnings call
+Publisher: OGE Energy (transcript via FMP)
+Date: 2026-07-29
+Retrieved: 2026-10-17
+Method: FMP earningsTranscript API
+
+[…] We filed the Google special contract on May 1 in Oklahoma and that filing now has a procedural schedule, and we're pleased to have a defined path forward and expect this matter to move toward resolution before the end of the year. […]
+
+

@@ -1,0 +1,37 @@
+=== Source 1 (utility press release, primary) ===
+URL: https://www.prnewswire.com/news-releases/kentucky-power-terawulf-finalize-expanded-agreement-providing-for-100-million-in-customer-benefits-302898378.html
+Title: Kentucky Power, TeraWulf Finalize Expanded Agreement Providing for $100 Million in Customer Benefits
+Publisher: Kentucky Power (an AEP company), via PR Newswire
+Date (publication): 2026-10-05
+Retrieved: 2026-10-17
+Method: TradingView MCP mcp-tv-get-news-story (prnewswire:9aa7363a041f4:0, full release text). curl/WebFetch blocked in this session.
+
+[…] ASHLAND, Ky., Oct. 5, 2026 /PRNewswire/ -- Kentucky Power has finalized an amended agreement that would double its contracted electric demand with TeraWulf Inc. (Nasdaq: WULF) while delivering significant long-term benefits for customers and communities across eastern Kentucky. […]
+
+[…] The expanded agreement would increase contracted electric demand at TeraWulf's Muskie Data campus in Grayson, Kentucky, from 500 megawatts (MW) to 1 gigawatt (GW). It also advances planned delivery of the second 500-MW phase from 2030 to 2029, subject to Commission approval and Kentucky Power's construction schedule. […]
+
+[…] In addition to paying all applicable service charges, TeraWulf has agreed to pay the estimated financing costs associated with construction of Kentucky Power's planned 760-MW combined-cycle generation facility at Big Sandy […]
+
+[…] "Expanding contracted power to 1 GW and bringing the second phase forward to 2029 positions us to meet strong customer demand and bring lasting investment to eastern Kentucky." […]
+
+[…] Kentucky Power plans to file the amended contract and seek related regulatory approvals later this year. […]
+
+=== Source 2 (TeraWulf press release headline + subhead, verbatim as carried by FMP feed) ===
+URL: https://www.globenewswire.com/news-release/2026/10/05/3374525/0/en/terawulf-expands-contracted-power-capacity-at-its-muskie-data-campus-to-1-gw.html
+Title: TeraWulf Expands Contracted Power Capacity at its Muskie Data Campus to 1 GW
+Publisher: TeraWulf Inc. (GlobeNewswire)
+Date (publication): 2026-10-05
+Method: FMP MCP news/search-press-releases.
+
+[…] Amended Kentucky Power agreement advances the second 500 MW phase into 2029 amid strong customer interest […]
+
+=== Source 3 ===
+URL: https://www.tradingview.com/news/benzinga:2ffd97820094b:0-terawulf-says-customer-interest-is-tremendous-as-kentucky-campus-power-doubles/
+Title: TeraWulf Says Customer Interest Is ‘Tremendous’ As Kentucky Campus Power Doubles
+Publisher: Benzinga
+Date (publication): 2026-10-05
+Method: TradingView MCP mcp-tv-get-news-story.
+
+[…] The revised agreement moves delivery of the project’s second 500 MW phase to 2029 from 2030. The expansion remains subject to Kentucky Public Service Commission approval and Kentucky Power’s construction schedule. […] The first 500 MW phase is still expected to begin ramping in 2028. […] TeraWulf said strong customer interest drove the push for additional capacity. The company is also evaluating whether the campus could eventually support up to 2 GW. […] Kentucky Power is developing a 765-kilovolt/345-kilovolt substation to connect the site to the regional transmission network. […]
+
+Note: contracted electric demand = utility/grid MW, not critical-IT MW (critical IT ≈ grid MW / PUE ~1.2–1.4; not converted here).

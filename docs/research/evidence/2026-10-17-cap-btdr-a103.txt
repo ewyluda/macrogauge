@@ -1,0 +1,17 @@
+URL: https://www.globenewswire.com/news-release/2026/10/12/3379255/0/en/bitdeer-ai-expands-malaysia-campus-with-new-60mw-a103-facility-closing-in-on-up-to-350mw-global-capacity-target.html
+Mirror fetched: TradingView news story globenewswire:af6973bad094b:0
+Title: Bitdeer AI Expands Malaysia Campus with New 60MW A103 Facility, Closing in on Up-to-350MW Global Capacity Target
+Publisher: Bitdeer Technologies Group via GlobeNewswire (company press release)
+Date: 2026-10-12
+Retrieved: 2026-10-17
+Method: TradingView MCP get-news-story (full GlobeNewswire text); FMP press-release feed confirms title/URL (published 2026-10-12 16:30). curl/WebFetch blocked by proxy.
+
+NOTE: An earlier version of this release went out 2026-10-08 20:30 UTC (TradingView globenewswire:dce3be3a7094b:0) and was withdrawn the same day by a GlobeNewswire "NOTICE TO DISREGARD -- Bitdeer Technologies Group" (globenewswire:e78b6d1dd094b:0, https://www.globenewswire.com/news-release/2026/10/08/3377745/0/en/notice-to-disregard-bitdeer-technologies-group.html): "We are advised by Bitdeer Technologies Group that journalists and other readers should disregard the news release, "Bitdeer AI Secures 60MW A103 Facility at Its Existing Cyberjaya, Malaysia Campus; Reaches Approximately 95% of Its Up-to-350MW Target Capacity" issued earlier today, over GlobeNewswire." The A103 deal was then re-issued on 2026-10-12 (below) with the same facts (60MW, 8-yr, Q1 2028 energization, 333.5MW) and expanded risk language — i.e., the Oct 8 retraction was premature release timing, not a cancelled deal.
+
+[…] today announced that it has entered into an 8-year data center services agreement for A103, a 60MW AI Cloud data center facility on the same Cyberjaya, Malaysia campus as its A101 and A102 facilities. […]
+
+[…] A103 is designed for liquid-cooled, rack-scale NVIDIA systems, including the next-generation NVIDIA Vera Rubin platform, with energization expected in the first quarter of 2028. A103 is located on the existing Cyberjaya campus allowing Bitdeer AI to leverage established power, liquid cooling and networking to shorten the path to energization. Together with the A101 and A102 facilities, the Cyberjaya campus will represent approximately 71.5MW of AI Cloud data center capacity. […]
+
+[…] With the addition of the A103 facility, Bitdeer AI's secured AI Cloud data center capacity — capacity owned or under an executed data center services agreement — totals approximately 333.5MW across facilities in Malaysia, Norway and the United States, representing approximately 95% of its target of up to 350MW to be delivered by the first quarter of 2028. All megawatt figures in this release refer to critical IT load. […]
+
+[…] No offtake commitments have been entered into with respect to A103 capacity as of the date of this press release. […]

@@ -1,0 +1,17 @@
+Method (all items): FMP API via MCP (news / search-press-releases and search-stock-news, symbol ORCL). Excerpt = FMP `text` field (release/publisher lead, verbatim). Full pages not openable (egress policy).
+Retrieved: 2026-10-17
+
+--- Item 1
+URL: https://www.businesswire.com/news/home/20260930874475/en/Aterio-Flags-Delay-Risk-for-Oracle%E2%80%99s-1.3-GW-Wisconsin-Data-Center/
+Title: Aterio Flags Delay Risk for Oracle's 1.3 GW Wisconsin Data Center
+Publisher: Business Wire (Aterio press release)
+Date: 2026-09-30
+[…] VANCOUVER, British Columbia--(BUSINESS WIRE)--Aterio, a provider of forward-looking data on U.S. infrastructure development, today published an analysis of Project Lighthouse, the Port Washington, Wisconsin campus Vantage Data Centers is building for Oracle (NYSE: ORCL). Based on regulatory filings reviewed through September 24, 2026, Aterio sees a material risk the site misses Oracle's second-half 2027 delivery guidance, with meaningful load unlikely before mid-2028. Vantage has said it expect. […]
+(lead truncated at source)
+
+--- Item 2
+URL: https://www.prnewswire.com/news-releases/oracle-announces-commitment-to-absorb-300-million-in-rising-point-beach-energy-costs-for-wisconsin-residents-302896645.html
+Title: Oracle Announces Commitment to Absorb $300 Million in Rising Point Beach Energy Costs for Wisconsin Residents
+Publisher: Oracle (PR Newswire)
+Date: 2026-10-02
+[…] Commitment will help protect more than 1 million utility customers from rising costs while preserving reliable, carbon-free power AUSTIN, Texas, Oct. 2, 2026 /PRNewswire/ -- Oracle today announced a commitment to subscribe to a portion of the existing Point Beach Nuclear Plant's electricity generation, an action expected to save Wisconsin utility customers approximately $300 million in fuel costs. For more than 50 years, Point Beach has safely delivered dependable, carbon-free baseload power to Wisconsin. […]

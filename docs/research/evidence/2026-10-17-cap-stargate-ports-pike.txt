@@ -1,0 +1,16 @@
+Method (all items): FMP API via MCP (news / search-stock-news, symbol NVDA, 2026-08-17..2026-08-18). Excerpt = FMP `text` field (publisher lead, verbatim). Full pages not openable (egress policy).
+Retrieved: 2026-10-17
+
+--- Item 1
+URL: https://www.cnbc.com/2026/08/18/nvidias-ai-moat-is-shifting-from-chips-to-capital.html
+Title: Nvidia's AI moat is shifting from chips to capital
+Publisher: CNBC
+Date: 2026-08-18
+[…] In the past week, Nvidia has announced a pact with Wall Street firms to pursue $500 billion worth of financing for chips, and has agreed to support OpenAI in Ohio to the tune of up to $105 billion. […]
+
+--- Item 2
+URL: https://www.fool.com/investing/2026/08/17/nvidia-lines-up-105-billion-for-openai-heres-what-it-means-for-investors/
+Title: Nvidia Lines Up $105 Billion For OpenAI. Here's What it Means For Investors.
+Publisher: The Motley Fool
+Date: 2026-08-17
+[…] Nvidia is backing up to $105 billion in financing guarantees for a massive OpenAI data center in Ohio, with the chipmaker expecting roughly $200 billion in chip sales from just the first phase. OpenAI has committed to exclusively using Nvidia chips at the site, which will eventually deliver 8 gigawatts of compute power -- enough to power New York City. […]

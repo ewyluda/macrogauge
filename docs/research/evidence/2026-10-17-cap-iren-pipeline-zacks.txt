@@ -1,0 +1,11 @@
+URL 1: https://www.tradingview.com/news/zacks:2ef7fdc11094b:0-iren-expands-its-5gw-pipeline-can-execution-match-ambition/
+URL 2: https://www.tradingview.com/news/zacks:aca4b4852094b:0-iren-s-global-expansion-accelerates-can-it-drive-future-growth/
+Title: (1) IREN Expands Its 5GW+ Pipeline: Can Execution Match Ambition? (2) IREN's Global Expansion Accelerates: Can It Drive Future Growth?
+Publisher: Zacks Investment Research (secondary; summarizes the FY26 10-K / results deck)
+Date (publication): (1) 2026-09-21 (2) 2026-10-13
+Retrieved: 2026-10-17
+Method: MCP TradingView get-news-story (sec.gov 10-K not fetchable: egress proxy blocks sec.gov)
+
+[(1)] […] IREN is accelerating its shift from Bitcoin mining to AI infrastructure, with roughly 5 GW of contracted or secured power capacity across the United States, Canada, Spain and Australia as of June 30, 2026. Its announced pipeline exceeds 5 GW, led by 750 MW at Childress, 1.4 GW at Sweetwater 1, 600 MW at Sweetwater 2 and 1.6 GW at Kiowa. The near-term ramp-up is substantial. IREN targets 0.5 GW of gross capacity and 0.3 GW of IT capacity in 2026, increasing to 1.2 GW gross and 0.8 GW IT capacity in 2027. […]
+
+[(2)] […] It targets approximately 300 megawatts (MW) of commissioned IT capacity by year-end 2026 and 800 MW by year-end 2027, creating opportunities to scale its AI Cloud Services business. […] IREN is also broadening its international footprint. Its 800-MW Bundey project in South Australia is progressing through permitting and procurement, while the 300-MW Badajoz development provides a foothold in Europe. […]

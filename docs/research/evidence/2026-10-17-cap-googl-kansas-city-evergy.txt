@@ -1,0 +1,12 @@
+URL: https://financialmodelingprep.com/ (earnings transcript EVRG Q2 2026, call 2026-08-06)
+Title: Evergy Q2 2026 earnings call
+Publisher: Evergy (transcript via FMP)
+Date: 2026-08-06
+Retrieved: 2026-10-17
+Method: FMP earningsTranscript API
+
+[…] We've got 2 ESAs with Google, one with Meta, one with Digital Realty, which is a very large data center developer, one with Beale, which is an enterprise with a lot of experience in this arena. […]
+
+[…] We recorded higher revenues this year from the March 2026 start of operations of a large data center and from Panasonic's ramp of operations. […]
+
+

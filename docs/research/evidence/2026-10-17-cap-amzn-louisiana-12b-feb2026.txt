@@ -1,0 +1,47 @@
+NOTE ON METHOD: curl and WebFetch are blocked in this session (proxy 403 / ENOTFOUND for reuters.com, cnbc.com, ksla.com, opportunitylouisiana.gov, globenewswire.com). The excerpts below are the article lede text exactly as returned by the Financial Modeling Prep (FMP) news API (MCP tool mcp__FMP__news, endpoint search-stock-news / search-press-releases, symbol AMZN). Each lede is verbatim from FMP's copy of the article; the full article pages were NOT fetched.
+Retrieved: 2026-10-17
+
+----
+URL: https://www.reuters.com/business/retail-consumer/amazon-plans-12-billion-data-center-buildout-louisiana-2026-02-23/
+Title: Amazon plans $12 billion data center buildout in Louisiana
+Publisher: Reuters
+Date: 2026-02-23
+Method: FMP news API (lede only)
+[…] Amazon said it plans to invest $12 billion in Louisiana as part of a plan to build data centers in the Pelican State. […]
+
+----
+URL: https://www.cnbc.com/2026/02/23/amazon-louisiana-ai-data-centers.html
+Title: Amazon to spend $12 billion in Louisiana on AI data centers
+Publisher: CNBC
+Date: 2026-02-23
+Method: FMP news API (lede only)
+[…] Amazon plans to invest $12 billion in artificial intelligence data centers in Louisiana. The company's AI spending is expected to balloon to $200 billion this year, more than any of the other hyperscalers. […]
+
+----
+URL: https://www.benzinga.com/markets/tech/26/02/50805933/amazon-pledges-12-billion-for-louisiana-data-centers-aims-to-create-over-2000-jobs
+Title: Amazon Pledges $12 Billion For Louisiana Data Centers, Aims To Create Over 2,000 Jobs
+Publisher: Benzinga
+Date: 2026-02-24
+Method: FMP news API (lede only)
+[…] Amazon.com Inc. (NASDAQ: AMZN) has declared a $12 billion investment in northwest Louisiana. The investment is earmarked for the development of cutting-edge data center campuses, which are projected to generate 540 full-time positions and support an additional 1,710 full-time equivalent roles in the community. […]
+
+----
+URL: https://www.pymnts.com/amazon/2026/amazon-earmarks-12-billion-for-louisiana-data-centers/
+Title: Amazon Earmarks $12 Billion for Louisiana Data Centers
+Publisher: PYMNTS
+Date: 2026-02-23
+Method: FMP news API (lede only)
+[…] Amazon will invest $12 billion in data center campuses in Louisiana that will support its artificial intelligence (AI) and cloud computing technologies, the company said in a Monday (Feb. 23) press release. The company will fully fund the infrastructure needed to power its operations. […]
+
+----
+URL: https://www.globenewswire.com/news-release/2026/06/10/3309630/0/en/STACK-Infrastructure-Partners-with-Amazon-to-Invest-in-Northwest-Louisiana-Communities.html
+Title: STACK Infrastructure Partners with Amazon to Invest in Northwest Louisiana Communities
+Publisher: GlobeNewswire (STACK Infrastructure press release)
+Date: 2026-06-10
+Method: FMP press-release API (lede only)
+[…] STACK's $100,000 contribution builds on Amazon's $250,000 commitment to support local projects across Caddo and Bossier Parishes […]
+
+----
+(Status support) see evidence/amzn-oct2-community-commitment.txt: Benzinga 2026-10-02 — "It has large projects or expansions underway in Indiana, Louisiana, North Carolina, Virginia and Mississippi."
+
+UNVERIFIED (search-result titles only, not fetched): KSLA/WAFB/KNOE 2026-02-23 headline "Amazon building $12 billion data center in Caddo & Bossier parishes, Gov. Landry announces"; Opportunity Louisiana release "Amazon Selects Louisiana for $12 Billion Data Center Campuses in Major U.S. Expansion" (STACK Infrastructure named as developer/owner in search summaries).

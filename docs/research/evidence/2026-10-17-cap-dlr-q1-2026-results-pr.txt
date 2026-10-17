@@ -1,0 +1,11 @@
+URL: https://www.tradingview.com/news/globenewswire:1208406b8094b:0-digital-realty-reports-first-quarter-2026-results/ (same release as curated src https://www.globenewswire.com/news-release/2026/04/23/3280372/0/en/digital-realty-reports-first-quarter-2026-results.html; furnished as 8-K Ex.99.1 https://www.sec.gov/Archives/edgar/data/0001297996/000110465926047702/dlr-20260423xex99d1.htm)
+Title: Digital Realty Reports First Quarter 2026 Results
+Publisher: Digital Realty (press release via GlobeNewswire)
+Date: 2026-04-23
+Retrieved: 2026-10-17
+Method: TradingView MCP get-news-story (full GlobeNewswire release text); curl and WebFetch blocked in this session
+
+[…] ed Base Building® shell capacity as well as storage and office space within fully improved data center facilities. (2) Based on quarterly average exchange rates during the three months ended March 31, 2026. Investment Activity During the first quarter of 2026, Digital Realty acquired the following: An 873-acre parcel in the greater Atlanta metro area for $95 million. This parcel is proximate to Digital Realty’s existing Atlanta campus and is expected to support over one gigawatt of IT capacity.A 30-acre parcel of land in the Portland metro area for $50 million that is expected to support 160 megawatts of IT capacity. This parcel is near another […]
+
+[…] , 2026. Investment Activity During the first quarter of 2026, Digital Realty acquired the following: An 873-acre parcel in the greater Atlanta metro area for $95 million. This parcel is proximate to Digital Realty’s existing Atlanta campus and is expected to support over one gigawatt of IT capacity.A 30-acre parcel of land in the Portland metro area for $50 million that is expected to support 160 megawatts of IT capacity. This parcel is near another assemblage of land announced last quarter that is expected to support up to 85 megawatts of IT capacity.As previously announced, during the quarter, Digital Realty acquired the following: Telepoint […]
+

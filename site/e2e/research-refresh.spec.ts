@@ -164,8 +164,17 @@ test("capacity views each carry a readable table view and no page overflow", asy
 
 test("geo map hover card opens beside the hovered site", async ({ page }) => {
   await page.goto("/capacity?tab=Geo+map");
-  const site = page.locator(".cap-map:not(.cap-map-inset) circle.cap-site").nth(5);
-  await site.scrollIntoViewIfNeeded();
+  const sites = page.locator(".cap-map:not(.cap-map-inset) circle.cap-site");
+  await sites.first().scrollIntoViewIfNeeded();
+  // Pins draw largest first, and a campus's phases share one position, so a
+  // fixed nth() pin can be covered by a smaller one: hover the first pin whose
+  // centre nothing else covers.
+  const i = await sites.evaluateAll((els) => els.findIndex((el) => {
+    const b = el.getBoundingClientRect();
+    return document.elementFromPoint(b.x + b.width / 2, b.y + b.height / 2) === el;
+  }));
+  expect(i).toBeGreaterThanOrEqual(0);
+  const site = sites.nth(i);
   await site.hover();
   const tip = page.locator(".cap-tip");
   await expect(tip).toBeInViewport();

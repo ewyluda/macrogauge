@@ -1,0 +1,39 @@
+=== Source 1 (company press release lead, verbatim as carried by FMP press-release feed) ===
+URL: https://www.globenewswire.com/news-release/2026/10/14/3380624/0/en/cipher-digital-announces-pricing-of-private-offering-of-850-0-million-of-0-00-convertible-senior-notes-due-2032-and-concurrent-exchange-of-convertible-senior-notes-due-2030.html
+Title: Cipher Digital Announces Pricing of Private Offering of $850.0 Million of 0.00% Convertible Senior Notes Due 2032 and Concurrent Exchange of Convertible Senior Notes Due 2030
+Publisher: Cipher Digital Inc. (GlobeNewswire)
+Date (publication): 2026-10-14
+Retrieved: 2026-10-17
+Method: FMP MCP news/search-press-releases (lead paragraph text). curl/WebFetch blocked in this session.
+
+[…] today announced the pricing of its offering of $850.0 million aggregate principal amount of 0.00% convertible senior notes due 2032 (the “notes”) in a private offering […] The issuance and sale of the notes are scheduled to settle on October 16, 2026, subject to customary closing conditions. Cipher granted the initial purchasers of the notes a 13-day option to purchase up to an additional $150.0 million aggregate principal amount of notes. Concurrently with the offering, Cipher expects to exchange a portion of its outstanding 1.75% Convertible Senior Notes due 2030 (the “2030 notes”). […]
+
+=== Source 2 ===
+URL: https://www.tradingview.com/news/reuters.com,2026:newsml_FWN4621U8:0-cipher-digital-issues-850-million-of-0-00-convertible-senior-notes-due-2032/
+Title: Cipher Digital Issues $850 Million Of 0.00% Convertible Senior Notes Due 2032
+Publisher: Reuters (headline service, citing 8-K filed 2026-10-16 https://www.sec.gov/Archives/edgar/data/1819989/000119312526424297/d313847d8k.htm)
+Date (publication): 2026-10-16
+Retrieved: 2026-10-17
+Method: TradingView MCP mcp-tv-get-news-story.
+
+[…] CIPHER DIGITAL: ON OCT 16, ISSUES $850 MILLION OF 0.00% CONVERTIBLE SENIOR NOTES DUE 2032 - SEC FILING […] CIPHER DIGITAL: GRANTS 13-DAY OPTION TO PURCHASE UP TO $150 MILLION ADDITIONAL NOTES - SEC FILING […] CIPHER DIGITAL: NOTES MATURE ON NOVEMBER 1, 2032 - SEC FILING […]
+
+=== Source 3 ===
+URL: https://www.tradingview.com/news/benzinga:9c0b4fb68094b:0-cipher-digital-stock-falls-after-proposing-850-million-in-notes-here-s-where-the-money-would-go/
+Title: Cipher Digital Stock Falls After Proposing $850 Million in Notes. Here’s Where the Money Would Go
+Publisher: Benzinga
+Date (publication): 2026-10-13
+Retrieved: 2026-10-17
+Method: TradingView MCP mcp-tv-get-news-story.
+
+[…] Cipher plans to use part of the net proceeds to pay for capped call transactions, which are generally expected to reduce potential dilution from conversion. The remainder would go toward additional equity investment in the Barber Lake project, the build-out of its high-performance computing strategy across its near-term pipeline, expanding its pipeline of development sites and general corporate purposes. […]
+
+=== Source 4 (AI-generated summary of the 10/16 8-K — used only for the capped-call / exchange amounts, flagged as lower grade) ===
+URL: https://www.tradingview.com/news/tradingview:4c0025e1e501a:0-cipher-digital-prices-850m-2032-convertible-notes-adds-capped-calls-and-exchanges-165-9m-2030s/
+Title: Cipher Digital Prices $850M 2032 Convertible Notes, Adds Capped Calls and Exchanges $165.9M 2030s
+Publisher: TradingView (AI summary of SEC 8-K)
+Date (publication): 2026-10-16
+Retrieved: 2026-10-17
+Method: TradingView MCP mcp-tv-get-news-story.
+
+[…] To mitigate dilution, Cipher Digital purchased approximately $89.7 million of capped calls with a cap price of $28.35 covering the shares underlying the notes. Concurrently, it exchanged about $165.9 million of its 2030 convertible notes for roughly 40.7 million shares, reducing the 2030 notes outstanding to about $6.6 million and improving its maturity profile. […] This is an AI-powered summary. It may contain inaccuracies. […]

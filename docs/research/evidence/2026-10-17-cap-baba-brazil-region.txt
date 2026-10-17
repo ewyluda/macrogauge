@@ -1,0 +1,20 @@
+URL: https://www.tradingview.com/news/gelonghui:3cfe666b3e3f9:0/
+Title: 阿里云巴西节点正式开服
+Publisher: Gelonghui 格隆汇 (via TradingView, zh-Hans)
+Date: 2026-08-28
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text (publisher sites blocked in sandbox)
+
+[…] 格隆汇8月28日｜阿里云巴西数据中心正式启用。巴西节点设有两个可用区，为企业客户及开发者提供计算、存储、数据库等云服务，企业级AI服务将陆续上线。这是阿里云在拉美市场的第二个地域节点，此前已于2025年2月在墨西哥上线拉美首个地域节点。至此，阿里云全球基础设施达到31个地域、106个可用区，是全球规模最大的云计算网络之一。 […]
+English gloss: "Alibaba Cloud's Brazil data center officially entered service. The Brazil region has two availability zones offering compute, storage, database and other cloud services; enterprise AI services will follow. It is Alibaba Cloud's second region in Latin America, after Mexico (Feb 2025). Alibaba Cloud's global infrastructure now reaches 31 regions and 106 availability zones."
+
+-----
+URL: https://www.tradingview.com/news/benzinga:40ec7dafe094b:0-alibaba-cloud-expands-into-brazil-with-new-data-centers-to-drive-latin-america-ai-growth/
+Title: Alibaba Cloud Expands Into Brazil With New Data Centers To Drive Latin America AI Growth
+Publisher: Benzinga (citing China Daily)
+Date: 2026-09-04
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] Alibaba Cloud launched its first cloud region in South America, opening two data centers in São Paulo that give Brazilian customers local access to computing, storage, networking, big data and other cloud services. […]
+[…] The launch follows Alibaba Cloud's Mexico region, which opened in February last year, and broadens the company's regional infrastructure footprint. […]

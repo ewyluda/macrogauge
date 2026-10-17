@@ -1,0 +1,12 @@
+URL: https://www.globenewswire.com/ — "Applied Digital Reports Fiscal First Quarter 2027 Results" (TradingView story id globenewswire:907799ce2094b:0)
+Title: Applied Digital Reports Fiscal First Quarter 2027 Results
+Publisher: Applied Digital (GlobeNewswire)
+Date (publication): 2026-10-07
+Retrieved: 2026-10-17
+Method: TradingView MCP get_news_story (curl and WebFetch blocked by session egress proxy)
+
+[…] ent approximately $36 billion of contracted revenue over their initial base terms, or approximately $86 billion if all renewal options are exercised. Polaris Forge 1 is leased to CoreWeave, Polaris Forge 2 to an investment-grade hyperscaler, and Delta Forge 1, Polaris Forge 3, and Delta Forge 2 to a tier-one investment-grade hyperscaler. The first 100 MW building at Polaris Forge 1 became operational in October 2025. Building 2 (150 M […]
+
+[…] Polaris Forge 2 to an investment-grade hyperscaler, and Delta Forge 1, Polaris Forge 3, and Delta Forge 2 to a tier-one investment-grade hyperscaler. The first 100 MW building at Polaris Forge 1 became operational in October 2025. Building 2 (150 MW) was delivered in two 75 MW phases, the first on July 1, 2026 and the second on October 1 subsequent to quarter end, bringing live capacity at the campus to 250 MW. The third HPC building at Polaris Forge 1 (150 MW), along with Polaris Forge 2, Polaris Forge 3, Delta Forge 1, and Delta Forge 2, are in various stages of construction. Revenue from our HPC Hosting business totaled $262.6 million for the quarter, i […]
+
+[…] in two 75 MW phases, the first on July 1, 2026 and the second on October 1 subsequent to quarter end, bringing live capacity at the campus to 250 MW. The third HPC building at Polaris Forge 1 (150 MW), along with Polaris Forge 2, Polaris Forge 3, Delta Forge 1, and Delta Forge 2, are in various stages of construction. Revenue from our HPC Hosting business totaled $262.6 million for the quarter, including $65.8 million related to base rent, $183.5 million related to tenant fit-out services, and $13.3 million related to tenant recoveries. This resulted in $33.4 mil […]

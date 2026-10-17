@@ -1,0 +1,18 @@
+URL: https://www.tradingview.com/news/stocktwits:3b51f3640094b:0-iren-s-redbank-campus-adds-900mw-to-its-plans-but-power-is-not-secured-yet/
+Title: IREN's Redbank Campus Adds 900MW To Its Plans, But Power Is Not Secured Yet
+Publisher: Stocktwits (reporting IREN's own X post; cites Capital Brief for cost/timeline)
+Date (publication): 2026-10-14
+Retrieved: 2026-10-17
+Method: MCP TradingView get-news-story (curl/WebFetch blocked by egress proxy; DCD coverage seen only in search results)
+
+[…] IREN Limited (IREN) is expanding its Australian data center ambitions with a proposed 900-megawatt campus in New South Wales, but the project remains outside the company's announced 5-gigawatt secured-power portfolio. The Nasdaq-listed group outlined early plans for the site, called Redbank, in a post on X. […]
+
+[…] IREN shares edged lower in premarket trading on Wednesday after the company told investors that a proposed data center campus in regional New South Wales is "not included in our announced 5GW secured-power portfolio." IREN said the project was at the early assessment stage. The Bitcoin (BTC) miner said it was working toward a grid connection, and Redbank is the first site IREN has announced outside the secured figure. […]
+
+[…] The project was expected to create local jobs and stimulate the Wagga Wagga region's economy. […]
+
+[…] IREN reportedly planned to spend more than $10 billion on the 900-megawatt facility, according to a Capital Brief report, […] The report said the project targeted a grid connection in 2029 and would be built in stages over six to eight years, with the scoping report due at the end of October and community sessions set for November 4 and November 5. The announcement raised IREN's Australian pipeline to 1.7 gigawatts. […]
+
+[…] The list included Bundey in South Australia. IREN announced the 800-megawatt campus on June 3 and said it had signed a transmission connection agreement securing four 330-kilovolt feeder exits, with energization to come from 2028. Redbank has no similar agreement. […]
+
+[…] In its annual report, filed with the U.S. Securities and Exchange Commission (SEC), IREN disclosed nine announced data center projects. Redbank wasn't one of them. As of that date, the company had signed grid connection agreements, letters of agreement, or equivalents totaling about 5 gigawatts in the United States, Canada, Spain, and Australia. […]

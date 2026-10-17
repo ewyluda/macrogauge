@@ -1,0 +1,22 @@
+URL: TradingView news story id benzinga:f3850f469094b:0 (https://www.benzinga.com/markets/tech/26/10/62151997/amazon-1-billion-data-center-communities-ai-backlash)
+Title: Amazon Pledges $1 Billion to Win Over Communities as AI Data Center Backlash Intensifies
+Publisher: Benzinga
+Date: 2026-10-04 (story timestamp 2026-10-04 02:56 UTC; refers to AWS statement "on Friday" 2026-10-02)
+Retrieved: 2026-10-17
+Method: TradingView news-story MCP tool (full text; curl/WebFetch blocked)
+
+[…] Amazon Web Services, the cloud unit of Amazon.com Inc. NASDAQ:AMZN, will invest more than $1 billion over five years in U.S. communities that host its data centers, as local opposition to AI infrastructure intensifies. […]
+
+[…] Amazon said it invested $276 billion in data centers between 2011 and 2025. It has large projects or expansions underway in Indiana, Louisiana, North Carolina, Virginia and Mississippi. […]
+
+[…] AWS CEO Matt Garman said, "There is urgency to this data center buildout because we aren't the only country that sees the benefits of AI for the economy and national security, and the countries that lead in AI will shape it and get the most from it." […]
+
+----
+URL: TradingView news story id dpa_afx:6f80b6b1ad323:0
+Title: Amazon Unveils $1 Bln Community Investment Plan For U.S. Data Center Regions
+Publisher: dpa-AFX / RTTNews
+Date: 2026-10-02
+Retrieved: 2026-10-17
+Method: TradingView news-story MCP tool (full text)
+
+[…] Amazon Web Services CEO Matt Garman has announced a new 'Amazon Data Center Commitment' and more than $1 billion in additional community investments over five years as the company expands its U.S. data center infrastructure. […]

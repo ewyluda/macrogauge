@@ -1,0 +1,21 @@
+URL: https://www.wsj.com/tech/banks-in-talks-to-lend-15-billion-for-anthropic-data-center-backed-by-google-606d7afd
+Title: Banks in Talks to Lend $15 Billion for Anthropic Data Center Backed by Google
+Publisher: The Wall Street Journal
+Date: 2026-07-30
+Retrieved: 2026-10-17
+Method: FMP stock-news API (title + dek)
+
+[…] Google's guarantees of power and lease obligations would help developer secure financing for the 1.6-gigawatt Texas project. […]
+
+
+
+URL: https://www.reuters.com/legal/litigation/banks-talks-lend-15-billion-anthropic-data-center-backed-by-google-wsj-reports-2026-07-30/
+Title: Banks in talks to lend $15 billion for Anthropic data center backed by Google, WSJ reports
+Publisher: Reuters
+Date: 2026-07-30
+Retrieved: 2026-10-17
+Method: FMP stock-news API (lead text)
+
+[…] Data-center developer Nexus Data Centers is in advanced talks to raise $15 billion for a Texas campus tied to Anthropic, ​with Alphabet's Google offering financial guarantees and supplying chips, ‌the Wall Street Journal reported on Thursday, citing people familiar with the matter. […]
+
+

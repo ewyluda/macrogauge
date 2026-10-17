@@ -1,0 +1,27 @@
+=== Source 1 ===
+URL: https://www.tradingview.com/news/reuters.com,2026:newsml_FWN45Q02I:0-terawulf-intends-to-upsize-revolving-credit-facility-and-raise-additional-senior-secured-debt/
+Title: Terawulf - Intends To Upsize Revolving Credit Facility And Raise Additional Senior Secured Debt
+Publisher: Reuters (headline service, citing TeraWulf 8-K filed 2026-10-05: https://www.sec.gov/Archives/edgar/data/1083301/000162828026064757/wulf-20261001.htm)
+Date (publication): 2026-10-05
+Retrieved: 2026-10-17
+Method: TradingView MCP mcp-tv-get-news-story. curl/WebFetch (incl. sec.gov) blocked in this session; the 8-K itself could not be read (Robinhood MCP returned "Filing content is not available").
+
+[…] TERAWULF - INTENDS TO UPSIZE REVOLVING CREDIT FACILITY AND RAISE ADDITIONAL SENIOR SECURED DEBT - SEC FILING […]
+
+=== Source 2 (company press release lead, FMP feed) ===
+URL: https://www.globenewswire.com/news-release/2026/10/12/3379176/0/en/terawulf-schedules-conference-call-for-third-quarter-2026-financial-results.html
+Title: TeraWulf Schedules Conference Call for Third Quarter 2026 Financial Results
+Publisher: TeraWulf Inc. (GlobeNewswire)
+Date (publication): 2026-10-12
+Method: FMP MCP news/search-press-releases.
+
+[…] today announced that it will host its earnings conference call and webcast for the third quarter ended September 30, 2026 on Friday, November 6, 2026 at 8:00 a.m. […]
+
+=== Source 3 (company press release lead, FMP feed) ===
+URL: https://www.globenewswire.com/news-release/2026/08/05/3339168/0/en/TeraWulf-Reports-Second-Quarter-2026-Results.html
+Title: TeraWulf Reports Second Quarter 2026 Results
+Publisher: TeraWulf Inc. (GlobeNewswire)
+Date (publication): 2026-08-05
+Method: FMP MCP news/search-press-releases.
+
+[…] 102 MW of revenue-generating critical IT capacity online at Lake Mariner, with an additional 336 MW under construction and delivery expected within cost and schedule guidance […]

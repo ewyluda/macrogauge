@@ -1,0 +1,21 @@
+URL: https://www.reuters.com/technology/meta-breaks-ground-over-1-billion-data-center-oklahomas-tulsa-2026-04-21/
+Title: Meta breaks ground on over $1 billion data center in Oklahoma's Tulsa
+Publisher: Reuters
+Date: 2026-04-21
+Retrieved 2026-10-17
+Method: FMP MCP stock-news API (search-stock-news META 2026-04-21..23), publisher lede text as delivered by the feed (article page itself not reachable: egress proxy blocks reuters.com and about.fb.com)
+
+[…] Meta Platforms said on Tuesday it has begun construction on a new data center in Tulsa, Oklahoma, a project valued at more than $1 billion, as the Facebook-parent races to build AI infrastructure for securing computing power. […]
+
+------------------------------------------------------------------------
+URL: https://www.zacks.com/stock/news/2905838/meta-rides-on-ai-optimized-data-centers-what-lies-ahead-for-the-stock
+Title: META Rides on AI-Optimized Data Centers: What Lies Ahead for the Stock?
+Publisher: Zacks Investment Research
+Date: 2026-04-22
+Retrieved 2026-10-17
+Method: FMP MCP stock-news API, lede text
+
+[…] Meta Platforms ramps up AI data center spending with massive capex plans, new Tulsa project, and key partnerships beyond ads. […]
+
+------------------------------------------------------------------------
+Primary (NOT fetched — about.fb.com blocked): https://about.fb.com/news/2026/04/breaking-ground-new-ai-optimized-data-center-tulsa-oklahoma/ ("Breaking Ground on a New AI-Optimized Data Center in Tulsa, Oklahoma"). Search snippets only (UNVERIFIED): "28th in the US, and the 32nd in its global fleet"; ">2 million square feet" at Fair Oaks park, East Tulsa; "slated to be finished in 2028" (DCD).

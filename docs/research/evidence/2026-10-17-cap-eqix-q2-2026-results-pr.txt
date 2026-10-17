@@ -1,0 +1,11 @@
+URL: https://www.tradingview.com/news/prnewswire:c2dfd6cb927e7:0-equinix-reports-second-quarter-results-raises-2026-guidance-and-long-term-outlook/ (same release as curated src https://newsroom.equinix.com/2026-07-29-Equinix-Reports-Second-Quarter-Results,-Raises-2026-Guidance-and-Long-Term-Outlook)
+Title: Equinix Reports Second-Quarter Results, Raises 2026 Guidance and Long-Term Outlook
+Publisher: Equinix (press release via PR Newswire)
+Date: 2026-07-29
+Retrieved: 2026-10-17
+Method: TradingView MCP get-news-story (full PR Newswire text); curl and WebFetch blocked in this session
+
+[…] $49) $10,205 - 10,285 $2,525 - 2,575 Adjusted EBITDA Adjusted EBITDA Margin % $5,165 - 5,245 ~51% +$62 ($27) $5,210 - 5,270 ~51% $1,275 - 1,315 ~51% Recurring Capital Expenditures % of Revenues $280 - 300 ~3% +$13 ($3) $290 - 310 ~3% $70 - 90 3 - 4% Non-recurring Capital Expenditures (Excludes xScale and Real Estate Acquisitions) ~$3,800 +$1,438 ($38) $4,710 - 5,690 AFFO $4,198 - 4,278 +$50 ($18) $4,240 - 4,300 AFFO per Share (Diluted) $42.31 - 43.11 +$0.46 ($0.18) $42.69 - 43.29 Expected Cash Dividends ~$2,037 +$2 $0 ~$2,039 Fo […]
+
+[…] solution.Expanded collaboration with Cisco and NVIDIA to help enterprises accelerate AI deployment through standardized AI factory architectures, secure infrastructure and real-world testing environments across Equinix's global data center footprint.Accelerated capacity expansion to meet growing customer demand, with nine new projects added since April and 52 projects underway across 33 markets worldwide.Published U.S. Community Principles and signed the Ratepayer Protection Pledge, reinforcing the company's longtime commitment to investing in communities […]
+

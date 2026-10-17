@@ -1,0 +1,10 @@
+URL: https://investors.corescientific.com (event: H.C. Wainwright 28th Annual Global Investment Conference panel; Quartr transcript urn:transcripts:quartr.com:4199432)
+Title: H.C. Wainwright 28th Annual Global Investment Conference — AI infrastructure panel (Russell Cann, Core Scientific CDO)
+Publisher: Quartr transcript via TradingView
+Date: 2026-09-14
+Retrieved: 2026-10-17
+Method: TradingView documents MCP (mcp-tv-get-document-view, transcript view). curl/WebFetch blocked in sandbox.
+
+[…] you. I will be very specific. When we signed that 500 MW with AMD, we agreed to give them the next 2,000 MW at three of our sites in Hunt County, Texas, Pecos, Texas, and Muskogee, Oklahoma. We control our own destiny on that 2,000 MW and on those three sites. I would say unless the market just really goes south, AMD will take all 2,000 of those MW. They have already announced who their customers are, so you guys can figure it out. Our next deal will be those 2,000 MW of critical IT load on those sites that we own. The po […]
+
+[…] for building out those sites. For this deal, it is a triple net lease at 125, or it is a modified gross at 145 MRC, for 15 years with AMD, which is where the market is right now. Our deals after that—we have not announced anything yet. I do. Like Fred, I think we are going to have some smaller deals coming as well. I would see not only the very large campuses, but I also see small inference sites being in high demand right now, especially from your labs that just need some of that inference load. That is where we are at right no […]

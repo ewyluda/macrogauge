@@ -1,0 +1,12 @@
+URL: https://www.tradingview.com/news/globenewswire:4ac55d530094b:0-keel-infrastructure-supports-governor-shapiro-s-grid-standards-for-responsible-data-center-development/
+Title: Keel Infrastructure Supports Governor Shapiro's GRID Standards for Responsible Data Center Development
+Publisher: Keel Infrastructure Corp. via GlobeNewswire
+Date (publication): 2026-08-20
+Retrieved: 2026-10-17
+Method: MCP TradingView get-news-story (full PR text; curl/WebFetch blocked by egress proxy)
+
+[…] Panther Creek and Sharon permitting continue to proceed on schedule and are unaffected by Executive Order 2026-05 […]
+
+[…] Keel is one of the most advanced digital infrastructure developers operating in Pennsylvania today, with energized capacity, established grid interconnections and an active development pipeline at its Panther Creek and Sharon sites. […]
+
+[…] Keel is a North American digital infrastructure and energy company that develops and owns data centers and energy infrastructure for high-performance computing workloads, including AI. With a development pipeline of 2.2 gigawatts and established grid interconnections in place, Keel delivers scalable infrastructure solutions in high-demand power markets across Pennsylvania, Washington and Québec. Keel is headquartered in New York City and trades under the ticker symbol "KEEL" on Nasdaq and TSX. Learn more at www.keelinfra.com. […]

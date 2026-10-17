@@ -1,0 +1,15 @@
+URL: Quartr transcript urn:transcripts:quartr.com:4204168 (via TradingView MCP)
+Title: BofA NY Global Real Estate Conference 2026 — Equinix (SVP Global Real Estate Stu Thompson; President Americas Arquelle Shaw) (transcript)
+Publisher: Equinix (company presentation); transcript via Quartr
+Date: 2026-09-15
+Retrieved: 2026-10-17
+Method: TradingView MCP get-document-view (Quartr transcript); curl and WebFetch blocked in this session
+
+[…] sking that? How is Equinix de-risking that? Stu Thompson (SVP of Global Real Estate, Equinix): Yeah. Michael Funk (Analyst, Bank of America): How much contracted power does Equinix have relative to the $5 billion-$7 billion development spend? Stu Thompson (SVP of Global Real Estate, Equinix): Yeah. So what we disclose is we own and control 3 GW of design and power today. Michael Funk (Analyst, Bank of America): Yeah. Stu Thompson (SVP of Global Real Estate, Equinix): Roughly, 600 MW, 700 MW of that is under current development, some sort of development, whether that is earthwork all the way to vertical construction and finishing it. We sh […]
+
+[…] n the business of announcing projects before we have control. Michael Funk (Analyst, Bank of America): That you're in queue to be in queue to get power and fiber. Arquelle Shaw (President of Americas, Equinix): Yeah. That's a really big deal. Yeah. Stu Thompson (SVP of Global Real Estate, Equinix): The balance, let's say at the beginning of 2027, we have a gigawatt under production. The remaining two, we feel very good about. We have very good line of sight into the power and permits for that capacity. Michael Funk (Analyst, Bank of America): Okay. Can we shift, I guess, more away from maybe some of the risks or hurdles that are being talk […]
+
+[…] All of that is really because of the demand signals. Folks like Arquelle before this ran Americas and did such an amazing job. Our go-to-market team is super strong. Obviously, there's a lot of market tailwinds behind our back as well, sort of guiding that. It's really just strong performance, and we pulled forward some of our builds that maybe we had one or two more phases to go, but we pulled them forward to match that demand. Then we significantly increased our portfolio of powered land to match demand. That's why you see that $5 billion-$7 billion rising. A lot of that's going to our core markets. Most of that capital is go […]
+
+
+[…] lyst, Bank of America): Yeah. Stu Thompson (SVP of Global Real Estate, Equinix): Roughly, 600 MW, 700 MW of that is under current development, some sort of development, whether that is earthwork all the way to vertical construction and finishing it. We should have about 1 gigawatt under production by the beginning of next year. You guys may have heard the term bragawatts before. Stu Thompson (SVP of Global Real Estate, Equinix): We're not in the business of announcing projects before we have control. Michael Funk (Analyst, Bank of America): That you're in queue to be in qu […]

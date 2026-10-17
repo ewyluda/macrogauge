@@ -1,0 +1,14 @@
+URL: Quartr transcript urn:transcripts:quartr.com:4210482 (via TradingView MCP)
+Title: RBC Capital Markets 2026 Global Communications and Infrastructure Conference — Digital Realty (CFO Matt Mercier) fireside chat (transcript)
+Publisher: Digital Realty (company presentation); transcript via Quartr
+Date: 2026-09-29
+Retrieved: 2026-10-17
+Method: TradingView MCP get-document-view (Quartr transcript); curl and WebFetch blocked in this session (proxy connect_rejected / ENOTFOUND)
+
+[…] Matt Mercier (CFO, Digital Realty Trust): Yeah. Look, I think we've gotten ahead of the game in terms of what we've done, especially over the last several years, both from a capital as well as a land and power perspective, in order to put ourselves in a great position to extend what we see as a great opportunity set for several years to come. You mentioned we have maybe a set context too, as well. We have 3 GW of operating capacity today. Behind that, we've got 1.4 GW under development. So right there, that's a 50% increase in what the portfolio could look like within the next, call it two years. After that, we've got 7 GW of land capacity that we'll be able to bring online over the next, call it two to 5+ years in order to continue our pathway of growth across our global portfolio. […]
+
+[…] Matt Mercier (CFO, Digital Realty Trust): That 7 GW of land is in various stages of power procurement. There's probably almost 3.5-4 GW that we have in hand today in terms of ESAs ready in hand. We're working through the rest of that. […]
+
+[…] Jonathan Atkin (Analyst, RBC): Maybe talk about Neoclouds. I think all $1.4 billion of your signings in first half 2026 were IG-rated traditional hyperscalers. […]
+
+[…] Matt Mercier (CFO, Digital Realty Trust): We've bought some assets in Johor, in Malaysia, with some expansion capacity behind that, but on a relatively smaller scale to, again, what you are seeing in the U.S. We've continued to do deals across Japan as well. […]

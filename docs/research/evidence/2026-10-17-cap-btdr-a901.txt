@@ -1,0 +1,17 @@
+URL: https://www.globenewswire.com/news-release/2026/10/08/3377763/0/en/bitdeer-ai-expands-southeast-asia-footprint-with-a901-a-new-67mw-ai-data-center-campus-in-malaysia-active-ai-cloud-pipeline-exceeds-10-billion.html
+Mirror fetched: TradingView news story globenewswire:c56d8e7d3094b:0 (https://www.tradingview.com/news/globenewswire:c56d8e7d3094b:0-bitdeer-ai-expands-southeast-asia-footprint-with-a901-a-new-67mw-ai-data-center-campus-in-malaysia-active-ai-cloud-pipeline-exceeds-10-billion/)
+Title: Bitdeer AI Expands Southeast Asia Footprint with A901, a New 67MW AI Data Center Campus in Malaysia; Active AI Cloud Pipeline Exceeds $10 Billion
+Publisher: Bitdeer Technologies Group via GlobeNewswire (company press release)
+Date: 2026-10-08
+Retrieved: 2026-10-17
+Method: TradingView MCP get-news-story (full GlobeNewswire text) — curl and WebFetch to globenewswire.com / sec.gov were blocked by the egress proxy in this session. FMP press-release feed confirms the same title and globenewswire URL, published 2026-10-08 18:27.
+
+[…] today announced that it has entered into a 10-year data center services agreement for A901, a 67MW AI Cloud data center campus in Malaysia. […]
+
+[…] A901 establishes a third Malaysian hub for Bitdeer AI alongside Cyberjaya and Johor, and will be engineered for liquid-cooled, rack-scale NVIDIA GB300 NVL72 systems serving next-generation enterprise AI workloads. Delivery of A901 capacity is targeted to commence in the first quarter of 2027, with delivery of the full 67MW targeted for the second quarter of 2027. […]
+
+[…] With the addition of the 67MW A901 campus in Malaysia, Bitdeer AI's secured AI Cloud data center capacity — capacity owned or under an executed data center services agreement — totals approximately 273.5MW across facilities in Malaysia, Norway and the United States, representing approximately 78% of its target of up to 350MW to be delivered by the first quarter of 2028. All megawatt figures in this release refer to critical IT load. […]
+
+[…] Bitdeer AI's active pipeline for AI Cloud capacity is now estimated to exceed $10 billion. […]
+
+[…] No offtake commitments have been entered into with respect to A901 capacity as of the date of this press release. […]

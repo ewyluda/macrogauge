@@ -1,0 +1,12 @@
+URL: https://www.reuters.com/ (TradingView story id tag:reuters.com,2026:newsml_L4N4601XL:0)
+Title: CoreWeave CEO notes strong backlog in memo to reassure staff over market scrutiny
+Publisher: Reuters
+Date (publication): 2026-10-14
+Retrieved: 2026-10-17
+Method: TradingView MCP get_news_story (curl and WebFetch blocked by session egress proxy)
+
+[…] CoreWeave's unsecured debt due in 2032 traded below 80 cents on the dollar on Wednesday, Bloomberg News said in a separate report citing Trace pricing data […]
+
+[…] CoreWeave has reported revenue backlog of $104.2 billion in the second quarter, up from $99.4 billion in the first quarter […]
+
+[…] On top of the backlog, the company said it had secured more than $25 billion of net new customer commitments in the third quarter […]

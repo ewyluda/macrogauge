@@ -1,0 +1,15 @@
+URL: Quartr transcript urn:transcripts:quartr.com:3276737 (via TradingView MCP)
+Title: Equinix Q1 2026 Earnings Conference Call (transcript)
+Publisher: Equinix (call); transcript via Quartr
+Date: 2026-04-29
+Retrieved: 2026-10-17
+Method: TradingView MCP get-document-view (Quartr transcript); curl and WebFetch blocked in this session
+
+[…] for growth. Our progress stems from the extraordinary efforts of our team, and I'm proud of the way our employees are stepping up to meet the moment. Adair Fox-Martin (CEO and President, Equinix): Let me now provide some color on our overall results and what's driving our performance. As you saw in our press release, our Q1 results do not include the xScale Hampton lease. We are nearing execution on expanded mutual beneficial terms with our customer. Olivier will provide additional details on how you should model Hampton. Adjusting for the timing of Hampton, our Q1 revenue, AFFO, and AFFO per share results were all ahead of our expectations. Overall, our xScale pipeline is robust give […]
+
+[…] ic revenue growth of 26% year-over-year. Fabric bookings were up 70% year-over-year as our attach rate continues to increase. These growth rates are all on a normalized and constant currency basis. On Build Bolder, we continue to expand our capacity to meet demand. We have 46 major projects underway across 32 markets, including six xScale projects. More than 70% of this retail expansion CapEx is in our major metros, with the remainder focused on critical expansion markets, particularly in our Asia region. Given the strength of our pre-sales motion, approximately 25% of our 2026 retail capacity expansion has already been sold. Adair Fox-Martin (CEO and President […]
+
+[…] ox-Martin (CEO and President, Equinix): Look, you know, these transactions are always very complex and multifaceted, and particularly, as we have very high demand assets, you know, locations that are energized within the right timeframe in great locations. I think, as we look forward into the second half of next year, in terms of Minooka, it is not timing that we have put into the short term. It is something that we are still working on. Adair Fox-Martin (CEO and President, Equinix): We have a very robust pipeline of interested parties, obviously we want to ensure that we're maximizing the outcome for our customers, for our shareholders, for the company. As we look for […]
+
+[…] announced an important investment in one of the world's most sustainability-focused markets as we signed a joint agreement with Canada Pension Plan Investment Board to purchase atnNorth. Adair Fox-Martin (CEO and President, Equinix): This deal will further enhance our position in the Nordics by giving us access to an installed and active development pipeline of approximately 800 MW expected to come online over the next five years. at North's footprint in key markets such as Copenhagen is complementary to our existing EMEA operations and is well-positioned to serve enterprise, cloud, and AI growth. The transaction is subject to closing conditions and is expected to be immediately accretive to AFF […]
+

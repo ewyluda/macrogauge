@@ -1,0 +1,8 @@
+URL: https://www.tradingview.com/news/tradingview:e72817ad5b3b2:0-nbis-q3-26-earnings-revenue-estimate-is-904-82m-usd/
+Title: NBIS Q3'26 Earnings: revenue estimate is 904.82M USD
+Publisher: TradingView (FactSet calendar data) — NOT a company announcement
+Date (publication): 2026-10-15
+Retrieved: 2026-10-17
+Method: TradingView MCP get_news_story
+
+[…] NBIS (Nebius Group N.V.) is set to announce its Q3'26 results on October 22, time not specified. The earnings are expected to be disclosed at 8:00 AM ET (12:00 PM UTC). […]

@@ -1,0 +1,14 @@
+URL: https://www.wsj.com/ (Dow Jones Newswires story DJN_DN20261015006999:0)
+Title: Big Tech Is Soft-Launching Data Centers Early, Bracing for Scrutiny — WSJ
+Publisher: The Wall Street Journal / Dow Jones Newswires
+Date: 2026-10-15
+Retrieved: 2026-10-17
+Method: TradingView news API full text; curl/WebFetch blocked by egress policy
+
+[…] Google has a message for New Mexico's Lea County, an area of arid pastureland in the oil-rich Permian Basin, that the company is eyeing as a possible home for a new data center: "We're listening." […]
+
+[…] The technology company reached out to the community via a website, saying its plans are still in the very early stages […]
+
+[…] With a commission vote on the data center scheduled for November, many residents feel taken aback by how quickly they are expected to grapple with the plans […]
+
+

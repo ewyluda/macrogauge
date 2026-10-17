@@ -1,0 +1,28 @@
+URL: https://s206.q4cdn.com/479360582/files/doc_events/2026/Jul/22/2026_Q2_Earnings_Transcript.pdf
+Title: Alphabet Second Quarter 2026 Earnings Conference Call (transcript)
+Publisher: Alphabet Inc. (call held 2026-07-22); text retrieved via Financial Modeling Prep earnings-transcript API
+Date: 2026-07-22
+Retrieved: 2026-10-17
+Method: FMP earningsTranscript API (search-transcripts GOOGL 2026 Q2); the Alphabet IR PDF itself could not be fetched (curl 403 CONNECT / WebFetch ENOTFOUND under this session's egress policy)
+
+[…] CapEx was $44.9 billion in the second quarter, with the vast majority of the spend in technical infrastructure to support our investments in AI. […]
+
+[…] Approximately 60% of our investment in technical infrastructure this quarter was in servers and 40% was in data centers and networking equipment. […]
+
+[…] And given the supply constrained environment, we plan to expand the use of third-party capacity in Q3 as a bridging strategy while we build up more internal capacity. […]
+
+[…] We are updating our full year 2026 CapEx guidance range to $195 billion to $205 billion. […]
+
+[…] The increase in the range is primarily due to an acceleration in the delivery of capacity to meet growing demand. […]
+
+[…] As we previously shared, we continue to expect our CapEx to increase significantly in 2027 and we'll provide more details at a later dates. […]
+
+[…] while we have increased our capacity quite significantly over the past 3 years, the demand still outpaces that investment. […]
+
+[…] we are balancing it by increasingly looking at opportunities to put TPUs in their data centers or in other data centers like the project we are doing with Blackstone, et cetera. […]
+
+[…] We also began to recognize revenues from TPU system sales, which we delivered to customer data centers for the first time in Q2. […]
+
+[…] (Speakers: CapEx/guidance/third-party-capacity sentences = Anat Ashkenazi, CFO; 'increased our capacity quite significantly' = Ashkenazi in Q&A; 'project we are doing with Blackstone' = Sundar Pichai in Q&A. No total-MW or gigawatt figure for Alphabet's own fleet appears anywhere in the transcript.) […]
+
+

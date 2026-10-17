@@ -1,0 +1,27 @@
+URL: https://financialmodelingprep.com (FMP earnings-transcript API, WMB 2026 Q2); event https://investor.williams.com
+Title: Williams Companies Q2 2026 Earnings Conference Call (transcript)
+Publisher: The Williams Companies (call); transcript via Financial Modeling Prep
+Date: 2026-08-03
+Retrieved 2026-10-17
+Method: FMP MCP earnings-transcript API (curl/WebFetch blocked by session egress proxy)
+Context: Socrates = Williams' behind-the-meter gas power project for Meta's New Albany, OH (Prometheus) campus; the capacity.json row text already names "Socrates gas turbines". The excerpt does not itself name Meta; the Q&A references "Meta using modularity".
+
+[…] th strong execution and meaningful growth across our business. I want to start by recognizing an awesome milestone for our Power Innovation business. Last week, we achieved in-service for Phase 1 of Socrates, delivering a utility scale 200 megawatts of power to our customer in under 18 months since commercialization. This is how America wins the race for the next generation of technology. A huge shout out to the Williams team and the incredible group of engineering, equipment and construction partners that have worked  […]
+
+[…] ative to the -- coming to the end of the year and some of the initial capital we can see on some of those bigger opportunities. Julien Dumoulin-Smith: Got it. Small nuance here. Any ability to actually accelerate the time lines on some of the stuff, especially with Meta using modularity here? I mean -- and/or just even upsize some of these sites even more so, the existing sites you've announced? Chad Zamarin: Yes. Look, I think Larry […]
+
+------------------------------------------------------------------------
+URL: https://www.benzinga.com/ (TradingView story benzinga:901dd2f12094b:0)
+Title: Mark Zuckerberg Defends Meta's AI CapEx, Ready to 'Write This Check' for up to '$200 Billion' to Dominate 'Decades to Come'
+Publisher: Benzinga (AI-assisted, editor-reviewed; paraphrase of a podcast — NOT a direct Meta quote)
+Date: 2026-10-13
+Retrieved 2026-10-17
+Method: TradingView MCP news story, full text
+
+[…] To support its AI ambitions, Zuckerberg explained that Meta is constructing high-capacity computing facilities. This includes a "Prometheus" cluster in Ohio scaling beyond one gigawatt and a planned "Hyperion" cluster in Louisiana that will scale to five gigawatts. […]
+
+------------------------------------------------------------------------
+Source: repo artifact /home/user/macrogauge/site/public/data/news.json (caktus market-news feed post id 3A2B78AA44E0D8C4086F, 2026-10-12T17:00:23Z; third-party feed summary of Meta's Muse Wonder launch — not Meta's own text)
+Retrieved 2026-10-17 (read from repo, read-only)
+
+[…] AI infrastructure : Trained at Meta's gigawatt-scale Prometheus data center, the models use expanded pretraining and reinforcement learning. […]

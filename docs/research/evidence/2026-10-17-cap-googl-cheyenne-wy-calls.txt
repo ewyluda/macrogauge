@@ -1,0 +1,31 @@
+URL: https://financialmodelingprep.com/ (earnings transcript BKH Q2 2026, call 2026-08-06)
+Title: Black Hills Corp. Q2 2026 earnings call
+Publisher: Black Hills Corp. (transcript via FMP)
+Date: 2026-08-06
+Retrieved: 2026-10-17
+Method: FMP earningsTranscript API
+
+[…] This additional growth pipeline includes a 1.8-gigawatt data center project. We are continuing to successfully move through advanced stages of negotiations to finalize multiple definitive agreements. […]
+
+[…] As noted last quarter, we executed a generation reservation agreement with a prospective customer for company owned generation. The agreement includes customer-funded milestone payments supporting the procurement of long-lead generation equipment that would ultimately serve as part of the broader resource portfolio for the project. The agreement has been extended through August 31, and provides for up to $377 million of refundable customer advances. […]
+
+[…] I would say at the highest level, the exit of Crusoe has not had any impact on the negotiations. In fact, it is been important to us, from essentially day 1 to ensure that we are negotiating with a hyperscale end user. […]
+
+[…] (Linkage note, not a quote: the Q2 call's 'generation reservation agreement ... up to $377 million of refundable customer advances' for the 1.8-GW project matches the 10/06/26 release naming Google: 'Google has provided Black Hills with $399 million of refundable advances for the procurement of long lead-time equipment under the parties' generation reservation agreement.' The release itself does not state 1.8 GW.) […]
+
+
+
+URL: https://financialmodelingprep.com/ (earnings transcript AEP Q2 2026, call 2026-07-30)
+Title: American Electric Power Q2 2026 earnings call
+Publisher: American Electric Power (transcript via FMP)
+Date: 2026-07-30
+Retrieved: 2026-10-17
+Method: FMP earningsTranscript API
+
+[…] We continue to work with the hyperscaler on the Wyoming fuel cell initiative and remain highly optimistic about the project's advancement. […]
+
+[…] Under the original December 2026 milestone, which remains intact, the hyperscaler has the ability to choose to deploy the fuel cells at an alternate location if the Cheyenne Wyoming site does not advance. […]
+
+[…] those fuel cells need to be installed and ready to go by the end of 2028 to qualify for the investment tax credit. […]
+
+

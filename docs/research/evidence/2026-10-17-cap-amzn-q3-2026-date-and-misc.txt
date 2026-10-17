@@ -1,0 +1,18 @@
+URL: https://www.businesswire.com/news/home/20261015676873/en/Amazon.com-to-Webcast-Third-Quarter-2026-Financial-Results-Conference-Call/
+Title: Amazon.com to Webcast Third Quarter 2026 Financial Results Conference Call
+Publisher: Business Wire (Amazon.com, Inc. press release)
+Date: 2026-10-15
+Retrieved: 2026-10-17
+Method: FMP press-release API (mcp__FMP__news search-press-releases; lede text)
+[…] Amazon.com, Inc. (NASDAQ: AMZN) announced today that it will hold a conference call to discuss its third quarter 2026 financial results on Thursday, October 29, 2026, at 2:00 p.m. PT/5:00 p.m. ET. […]
+
+----
+URL: TradingView news story id dpa_afx:2567e144a8131:0 (OTS: Amazon.de press release, presseportal.de/pm/8337/6371396)
+Title: Amazon übertrifft Investitionsmeilenstein von 100 Milliarden Euro und schafft mehr als 3.000 zusätzliche Arbeitsplätze in Deutschland
+Publisher: dpa-AFX / OTS (Amazon Deutschland press release)
+Date: 2026-10-15
+Retrieved: 2026-10-17
+Method: TradingView news-story MCP tool (full text)
+[…] Darauf wollen wir aufbauen und freuen uns deshalb auf den 'Invest in Germany Summit' der Bundesregierung, bei dem wir nächste Woche weitere Investitionen für Deutschland ankündigen werden. […]
+[…] Deshalb hat Amazon im Januar 2026 die AWS European Sovereign Cloud in Brandenburg allgemein verfügbar gemacht. Für den Zeitraum von 2024 bis 2040 sind hierfür Investitionen in Höhe von 7,8 Milliarden Euro geplant. […]
+[…] 2024 hat das Unternehmen angekündigt, weitere 8,8 Milliarden Euro bis Ende 2026 zu investieren […]

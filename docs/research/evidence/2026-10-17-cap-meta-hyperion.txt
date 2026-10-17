@@ -1,0 +1,44 @@
+URL: https://seekingalpha.com/ (TradingView story seekingalpha:47b9189c6094b:0)
+Title: Inside Wall Street's $27B financing of Meta's Hyperion AI data center
+Publisher: Seeking Alpha (news)
+Date: 2026-10-07
+Retrieved 2026-10-17
+Method: TradingView MCP news story, full text
+
+[…] The capital raised through the bond directly funds Hyperion, codenamed Project Beignet, a computing site in rural Richland Parish, Louisiana. Designed as the centerpiece of Meta's AI training infrastructure, the project's total investment commitment has expanded toward $50B, spanning nearly 10M square feet across nine primary data center buildings and supporting facilities. […] To supply the site's projected 5-gigawatt compute capacity, utility partner Entergy Louisiana is undertaking a massive grid buildout […]
+
+[…] Meta rents the completed facilities back under short four-year operating lease agreements starting around 2029, classifying rent obligations as operating expenses rather than long-term corporate debt. […]
+
+------------------------------------------------------------------------
+URL: https://www.reuters.com/business/meta-expands-louisiana-data-center-5-gigawatts-compute-capacity-2026-07-13/
+Title: Meta expands Louisiana data center to 5 gigawatts compute capacity
+Publisher: Reuters
+Date: 2026-07-13
+Retrieved 2026-10-17
+Method: FMP MCP stock-news API, lede text
+
+[…] Meta said on Monday its data center in Richland Parish, Louisiana will expand to 5 gigawatts of compute capacity, in a bid to support the social media company's AI ambitions. […]
+
+------------------------------------------------------------------------
+URL: https://www.businessinsider.com/meta-ai-data-center-construction-louisiana-local-business-growth-economy-2026-10
+Title: Business is booming in a small Louisiana town as a huge Meta AI data center project brings in thousands of workers
+Publisher: Business Insider
+Date: 2026-10-12
+Retrieved 2026-10-17
+Method: FMP MCP stock-news API, lede text
+
+[…] Meta is building its largest data center to date in northeast Louisiana. Over 7,500 workers are expected to be on the construction site at the project's peak. […]
+
+------------------------------------------------------------------------
+URL: https://financialmodelingprep.com (FMP earnings-transcript API, ETR 2026 Q2)
+Title: Entergy Corp. Q2 2026 Earnings Conference Call (transcript)
+Publisher: Entergy Corp.; transcript via Financial Modeling Prep
+Date: 2026-07-29
+Retrieved 2026-10-17
+Method: FMP MCP earnings-transcript API
+
+[…] We continue to make progress on our other regulatory proceedings such as the EVEST filing to support additional service to Meta, the Arkansas rate case, the Cottonwood acquisition, and other investments. […]
+
+[…] I know that staff and intervenor testimony is just about to hit in the meta expansion docket […]
+
+[…] Kimberly A. Fontan: […] As you pointed out, we have about 7.5 gigawatts of plant island equipment, which is in the low end of our 10 to 17 gigawatt opportunity that we have out there. […]

@@ -1,0 +1,38 @@
+URL: https://www.prnewswire.com/news-releases/meta-announces-new-strategic-venture-with-blackrock-to-develop-data-center-in-el-paso-302836040.html
+Title: Meta Announces New Strategic Venture with BlackRock to Develop Data Center in El Paso
+Publisher: Meta Platforms / BlackRock via PR Newswire
+Date: 2026-07-28
+Retrieved 2026-10-17
+Method: FMP MCP stock-news API (search-stock-news META 2026-07-28), lede text as delivered
+
+[…] Meta and BlackRock announce a venture to finance the development and operation of a data center campus in El Paso, Texas MENLO PARK, Calif. and NEW YORK, July 28, 2026 /PRNewswire/ -- Meta Platforms, Inc. (NASDAQ: META) and BlackRock, Inc. (NYSE: BLK) today announced a venture to develop and own a data center campus in El Paso, Texas. […]
+
+------------------------------------------------------------------------
+URL: https://www.proactiveinvestors.com/companies/news/1096157
+Title: Meta, BlackRock form $14 billion venture to develop AI data center campus in Texas
+Publisher: Proactive Investors
+Date: 2026-07-28
+Retrieved 2026-10-17
+Method: FMP MCP stock-news API, lede text
+
+[…] The venture will develop and own the data center campus, which is currently under construction and is expected to provide 1 gigawatt of compute capacity when it begins coming online in 2028. […]
+
+------------------------------------------------------------------------
+URL: https://www.reuters.com/technology/meta-blackrock-partner-14-billion-el-paso-data-center-2026-07-28/
+Title: Meta, BlackRock partner on $14 billion El Paso data center
+Publisher: Reuters
+Date: 2026-07-28
+Retrieved 2026-10-17
+Method: FMP MCP stock-news API, lede text
+
+[…] Meta Platforms and investment manager BlackRock on Tuesday formed a venture to develop and operate a data center campus in El Paso, Texas, a project valued at about $14 billion, as the social media giant aggressively builds AI infrastructure. […]
+
+------------------------------------------------------------------------
+URL: https://www.wsj.com/finance/the-price-to-finance-the-ai-data-center-boom-is-rising-just-ask-meta-7894d503
+Title: The Price to Finance the AI Data Center Boom Is Rising, Just Ask Meta
+Publisher: WSJ
+Date: 2026-07-28
+Retrieved 2026-10-17
+Method: FMP MCP stock-news API, lede text
+
+[…] Meta's data-center project priced a $12.5 billion offering with a higher interest rate than a similar deal last year, as AI companies flood the market with new debt. […]

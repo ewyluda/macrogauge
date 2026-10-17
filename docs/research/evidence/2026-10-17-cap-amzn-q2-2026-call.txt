@@ -1,0 +1,24 @@
+URL: FMP earningsTranscript API, symbol=AMZN year=2026 quarter=2 (Amazon.com Q2 2026 financial results teleconference; replay at https://ir.aboutamazon.com/)
+Title: Amazon.com Quarter Two 2026 financial results teleconference (transcript)
+Publisher: Amazon.com, Inc. (call); transcript via Financial Modeling Prep
+Date: 2026-07-30
+Retrieved: 2026-10-17
+Method: FMP earningsTranscript MCP tool (curl and WebFetch both blocked in this session: proxy 403 / ENOTFOUND for fool.com, sec.gov, aboutamazon.com, datacenterdynamics.com)
+
+[…] We now believe we will spend approximately $220 billion in cash CapEx in 2026. The higher cost of memory pushing this number up from our prior estimate of about $200 billion. Even at that amount, we will still not have enough capacity to meet all the demand we have in 2026, and I believe this dynamic will also be true in 2027, too. In fact, the demand we already have for 2028 is striking. […]
+
+[…] In addition to the two leading AI labs in the world, Anthropic and OpenAI, making multi-year, multi-gigawatt commitments to Trainium, an increasing number of AI startups are also adopting Trainium […]
+
+[…] Justin Post: Great. Thank you. Just thinking about the AWS acceleration, was that really driven by a lot of capacity coming online in the quarter? You guys have been more open than your peers on gigawatts you're adding. Any help you can give us on how much you might be adding in the second half versus the first half, also how you're thinking about 2027? […]
+
+[…] Yes, we're adding a lot of capacity, there are a lot of other reasons why it's growing. We're on pace with the capacity build that we talked about a few quarters ago, where we said we expect to have double the power capacity by the end of 2027 that we had in 2025, and we continue to be on that track. […]
+
+[…] Andy Jassy: Well, on the first question, Brian, we have so much demand right now. Apart from what we've talked about in 2026, the lion's share of capacity in 2027, we're adding a lot of capacity, as I mentioned just a few minutes ago, is largely reserved, and we have quite a bit of capacity that's already been reserved for 2028. […]
+
+[…] Revenue growth of 36.7% year-over-year, accelerating for the fifth straight quarter, our fastest growth in 18 quarters […] Our backlog stands at $496 billion, growing triple digits year-over-year. AWS is now a $169 billion annualized revenue run rate business […] Our chips business now has an annual revenue run rate of over $25 billion […]
+
+[…] Now turning to our cash CapEx, which is $53.1 billion in Q2. This primarily relates to AWS and generative AI as we invest to support strong customer demand. […]
+
+[…] Second, we recorded a separate benefit of approximately $600 million related to the change in fair value measurement of energy contracts subject to derivative accounting. This primarily impacts the AWS segment. […]
+
+NOTE: No "GW added in the last 12 months" figure was given on the Q2'26 call (the analyst asked; Jassy answered with the doubling-by-end-2027 reaffirmation only).

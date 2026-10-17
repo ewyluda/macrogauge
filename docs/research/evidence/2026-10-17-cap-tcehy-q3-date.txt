@@ -1,0 +1,21 @@
+URL: https://www.tradingview.com/news/gelonghui:d02c30b77e3f9:0/
+Title: 腾讯控股(00700.HK)拟11月18日举行董事会会议以审批三季度业绩
+Publisher: Gelonghui 格隆汇 (summary of Tencent HKEX announcement; via TradingView, zh-Hans)
+Date: 2026-09-24
+Retrieved: 2026-10-17
+Method: TradingView MCP news-story full text
+
+[…] 格隆汇9月24日丨腾讯控股HKEX:700公告，公司将于2026年11月18日(星期三)举行董事会会议，董事会将于会上通过议案，其中包括批准公司及其附属公司截至2026年9月30日止3个月及9个月的未经审核第三季度业绩及公告 […]
+English gloss: "Tencent announced it will hold a board meeting on Wednesday 18 November 2026 to approve, among other things, unaudited Q3 results for the three and nine months ended 30 September 2026."
+
+-----
+URL: https://www.tradingview.com/symbols/HKEX-700/documents/ (Quartr transcript view urn:transcripts:quartr.com:4034096)
+Title: Tencent 2026 second quarter results webinar transcript
+Publisher: Tencent (call), transcript by Quartr via TradingView
+Date: 2026-08-12
+Retrieved: 2026-10-17
+Method: TradingView MCP document-view
+(confirms existing econ text; no site-level disclosure on the call)
+
+[…] Within business services, while we're still working through capacity constraints, our cloud revenue growth rate accelerated from high teens percentage year-on-year in the first quarter to low 20s percentage in the second quarter […]
+[…] Then toward the end of the year and into next year, we will also have sufficient GPU ASIC capacity to step up in terms of Tencent Cloud renting out bare metal GPU or providing Model-as-a-Service. […]

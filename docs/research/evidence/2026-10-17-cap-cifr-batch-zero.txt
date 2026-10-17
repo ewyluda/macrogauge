@@ -1,0 +1,35 @@
+=== Source 1 ===
+URL: https://www.tradingview.com/news/stocktwits:a25e5039a094b:0-cifr-stock-snaps-2-day-slide-after-ercot-conditional-nod-for-2-major-data-center-projects-in-texas/
+Title: CIFR Stock Snaps 2-Day Slide After ERCOT Conditional Nod For 2 Major Data-Center Projects In Texas
+Publisher: Stocktwits (reporting Cipher's own X post https://x.com/CipherInc/status/2099954708446064826)
+Date (publication): 2026-09-16
+Retrieved: 2026-10-17
+Method: TradingView MCP mcp-tv-get-news-story (full text). curl/WebFetch blocked in this session; the X post itself could not be fetched.
+
+[…] Under Batch Zero, ERCOT's new procedure for large grid connections, two of Cipher’s projects were given conditional classifications. The company first revealed the 3.2 Gigawatt (GW) figure last week, but did not identify the sites. On Tuesday, it released the site-by-site breakdown on its X account. […]
+
+[…] 1.1 GW was given conditional base-load status, according to Cipher. This comprises 100 megawatts (MW) at the Stingray site and 1 GW at Colchis. Because ERCOT's grid study regards that capacity as established, base-load status is important. […]
+
+[…] The remaining 2.1 GW was categorized as a load under conditional study. It includes 500 MW at Mikeska, 900 MW at Apollo, 200 MW at Stingray Phase II, and 500 MW at McLennan. […]
+
+[…] According to Cipher, the combined 807 MW of its Barber Lake, Black Pearl, and Odessa sites are already operational. Its 270 MW Reveille and Ulysses sites have been given the go-ahead to connect to the grid. […]
+
+[…] Following the audit, the company stated that it will release the final designations in December. […]
+
+[…] The classifications do not set power-on dates and are not authorized to connect to the grid. […]
+
+[…] The company, in partnership with Fluidstack and Anthropic (ANTHZZX), pledged $10 million earlier this week to restore and expand the water system in Colorado City, Texas. […] Fluidstack and Anthropic are tenants in Cipher’s Barber Lake data center near the city. […]
+
+=== Source 2 ===
+URL: https://www.tradingview.com/news/seekingalpha:efe0fdd66094b:0-why-did-cipher-digital-stock-jump-the-ai-power-story-explains-it/
+Title: Why did Cipher Digital stock jump? The AI power story explains it
+Publisher: Seeking Alpha
+Date (publication): 2026-09-16
+Retrieved: 2026-10-17
+Method: TradingView MCP mcp-tv-get-news-story (full text).
+
+[…] It said on X that Stingray (100 MW) and Colchis (1 GW) received conditional base load designations, while Mikeska, Apollo, Stingray Phase II, and McLennan received conditional studied load designations totaling another 2.1 GW. […]
+
+[…] It is also developing lateral pipelines capable of supporting up to 2.5 GW of new generation across multiple sites as it pursues its bring-your-own-generation strategy. […]
+
+[…] On September 14, Cipher Digital, Fluidstack, and Anthropic committed a combined $10M to repair and upgrade Colorado City’s water system, where Cipher Digital operates its Barber Lake data center. […]

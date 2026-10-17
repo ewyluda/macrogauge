@@ -1,0 +1,12 @@
+URL: https://financialmodelingprep.com (FMP earnings-transcript API, LNT 2026 Q2); event https://investors.alliantenergy.com
+Title: Alliant Energy Q2 2026 Earnings Conference Call (transcript)
+Publisher: Alliant Energy (Wisconsin Power & Light — the utility serving Meta's Beaver Dam, WI campus); transcript via Financial Modeling Prep
+Date: 2026-07-31
+Retrieved 2026-10-17
+Method: FMP MCP earnings-transcript API (curl/WebFetch blocked by session egress proxy)
+
+[…] Three of these large loads are already under active construction with commission-approved contracts. In Cedar Rapids, Iowa, Google has energized their transmission service. […] In Beaver Dam, Wisconsin, Meta has entered the vertical construction phase with work actively progressing on data center facilities and supporting infrastructure. […]
+
+[…] In Wisconsin, we recently received approval of our individual customer rate agreement, supporting Meta's data center development in Beaver Dam. In response to that order, we expect to file a broader large load tariff later this quarter. […]
+
+(No MW or in-service date for Meta Beaver Dam is stated in the call. Search snippets only, UNVERIFIED: Meta newsroom 2025-11 "Meta's 30th Data Center" — $1B+, ~700k sq ft, groundbreaking 2025-11-12, opening 2027.)

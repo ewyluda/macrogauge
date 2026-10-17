@@ -1,0 +1,24 @@
+URL: https://www.tradingview.com/symbols/NASDAQ-CIFR/ (Quartr transcript urn:transcripts:quartr.com:4229394 — "KBW Virtual AI Summit", Cipher Digital CFO Greg Mumford fireside)
+Title: KBW Virtual AI Summit — fireside with Greg Mumford, CFO, Cipher Digital (transcript)
+Publisher: Cipher Digital Inc. remarks; transcript via Quartr / TradingView
+Date (publication): 2026-10-06
+Retrieved: 2026-10-17
+Method: TradingView MCP mcp-tv-get-document-view (Quartr transcript). curl and WebFetch were blocked in this session (egress proxy connect_rejected / getaddrinfo ENOTFOUND).
+
+[…] Stephen Glagola (Senior Equity Research Analyst, KBW): Okay. Colchis received conditional base load status in Batch Zero, with final designations expected after ERCOT's audit in December. Separately, the Texas Commission on Environmental Quality has paused data center permits until the audits are complete. […]
+
+[…] Greg Mumford (CFO, Cipher Digital): First of all, we're thrilled that Colchis received the conditional approval in base load. What that means for anyone who's listening who's not aware, I'm sure it's a very small percentage of people on this call, but that means that we have been approved conditionally for 1 gigawatt in the first batch. There is an audit that is coming up in December, and after that, we are hoping and expecting to be firmly approved for that gigawatt. That's a marquee asset for us. 1 gigawatt is a huge site, and it's very interesting and exciting to the tenants that we're speaking about. […]
+
+[…] Stephen Glagola (Senior Equity Research Analyst, KBW): Okay, great. Turning to the leasing pipeline, Tyler described demand on the Q2 call as stronger than ever. You mentioned it was still strong. Starting with the 2027 pipeline at Ulysses, Reveille, Odessa, how have the tenant discussions and the positioning of those sites evolved since then? […]
+
+[…] Greg Mumford (CFO, Cipher Digital): Yeah. So given we're in a quiet period, I can't speak specifically about demand at those sites, but I can zoom out a little bit and talk about demand in general […]
+
+[…] Greg Mumford (CFO, Cipher Digital): Yeah. When I think about the deal that we announced at Barber Lake, it makes sense to break it down into two different decades. The first decade is a lease facing Fluidstack with a Google backstop that fully supports our debt over the first 10-year term. Nothing has changed about that first 10 years, and the way that we have structured our debt over that first 10 years is to fully amortize within that first 10 years. If you think 10 years down the road as we are starting the second binding lease for 10 years directly facing the lab, our data center will be substantially delevered at that point. That is $5.2 billion of additional contracted revenue on a data center that is fully paid off. […]
+
+[…] Greg Mumford (CFO, Cipher Digital): […] To date, we have focused on top quality tenants, so you've seen two deals with AWS directly facing them, one deal with Fluidstack, but supported by Google. Google and AWS credit is two of the best out there. […]
+
+[…] Stephen Glagola (Senior Equity Research Analyst, KBW): Great. From my talks with the Cipher team, you have described that 2.5 GW of behind-the-meter generation opportunity is additive to Cipher's grid-connected pipeline. […]
+
+[…] Greg Mumford (CFO, Cipher Digital): […] We've started building the lateral gas pipelines, which is critical to get natural gas ported over to your site. We've press released that. We are working on various agreements that would actually transport the gas through the pipeline to our site. […] While we're very excited about the opportunity, it still is one of those situations where until you have it signed up, you don't have a deal yet. […]
+
+[…] Greg Mumford (CFO, Cipher Digital): […] We've demonstrated an ability to deliver on the physical construction side, specifically with delivering a data hall at Black Pearl multiple months early. […]
