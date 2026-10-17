@@ -1,0 +1,11 @@
+# Fervo Energy and Google Sign 396 MW PPA
+# Source: https://fervoenergy.com/fervo-energy-and-google-sign-396-mw-ppa/
+# Publisher: Fervo Energy (press release)
+# Date: 2026-09-01
+# Retrieved 2026-10-17 (curl + HTML strip, whitespace collapsed; excerpt = the release's opening paragraphs and the SB132 paragraph)
+
+HOUSTON, September 1, 2026 – Fervo Energy (Nasdaq: FRVO), a global pioneer of next-generation geothermal energy, today announced a 396-megawatt (MW) power purchase agreement (PPA) with Google to enable the continued development of the Cape Station enhanced geothermal systems (EGS) GeoCluster, expected to come online in 2028. Under the agreement, Google will purchase carbon-free energy designed to serve as a foundational building block for a potential data center in Utah. As part of the PPA, Fervo will offer Google an option to expand its offtake by approximately 600 MW, for a total of nearly 1 GW, by June 2030. Final data center plans remain subject to a variety of factors including engineering feasibility, state and local approvals, and commercial conditions.
+
+[...]
+
+This PPA is part of the ongoing expansion of Cape Station beyond its initial 100 MW phase, as Fervo further scales its operations and continues driving down development costs through standardized, repeatable GeoBlock execution. By pairing a repeatable, flexible commercial framework with a modular, scalable power solution, Fervo’s GeoCluster approach for data center development enables flexible power delivery pathways under SB132 in Utah, which, subject to regulatory approvals, is anticipated to provide Fervo and Google with optionality on direct-to-load contracting.

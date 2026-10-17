@@ -26,7 +26,7 @@ DEFAULT_PATH = Path(__file__).parent.parent / "config" / "power_deals.json"
 STATUSES = ("signed", "pending", "mou", "loi", "option")
 KINDS = ("ppa", "utility supply", "development / funding", "other")
 TECHNOLOGIES = frozenset({"nuclear (existing)", "nuclear (restart)", "nuclear (SMR/advanced)", "gas",
-                          "geothermal", "solar", "wind", "storage", "hydro", "other"})
+                          "fuel cells", "geothermal", "solar", "wind", "storage", "hydro", "other"})
 MW_BASES = frozenset({"contracted", "nameplate"})
 _DATE = re.compile(r"^\d{4}-\d{2}(-\d{2})?$")
 _REQUIRED = ("t", "counterparty", "facility", "technology", "mw", "mw_basis", "status", "kind",

@@ -1,0 +1,30 @@
+# OGE Energy Corp. first quarter 2026 earnings call
+# Source: https://ogeenergy.gcs-web.com/node/45591 (webcast); text read from the Financial Modeling Prep earning-call-transcript API, symbol=OGE year=2026 quarter=1
+# Publisher: OGE Energy Corp. (earnings call; transcript via Financial Modeling Prep)
+# Date: 2026-04-29
+# Retrieved 2026-10-17 (FMP transcript API; excerpt = the passage stating the solar capacity)
+
+Working with Google, we've secured generation capacity from 2 solar facilities that Google had previously announced and that are currently under construction. These facilities will provide 600 megawatts of nameplate capacity, and we will request preapproval from both Oklahoma and Arkansas commissions for these CPAs.
+
+# OG&E Announces Landmark Contract with Google
+# Source: https://www.prnewswire.com/news-releases/oge-announces-landmark-contract-with-google-302758482.html
+# Publisher: OG&E (press release, PR Newswire)
+# Date: 2026-04-30
+# Retrieved 2026-10-17 (curl + HTML strip, whitespace collapsed; the release states no MW)
+
+announced that it will power three new data centers that Google announced in Muskogee and Stillwater last year. The data centers and associated Electric Service Agreements will provide economic growth for local communities and the state, contribute to grid stability, and benefit OG&E's current customers.
+
+[...]
+
+As part of the agreement, Google will make power generation capacity available from two solar facilities that are currently under construction.
+
+[...]
+
+The Electric Service Agreements and Capacity Purchase Agreements will be filed for review with the Oklahoma Corporation Commission in the coming days. The OCC must formally approve the agreement between OG&E and Google to supply power to the data center sites.
+
+# OGE Energy Corp. Form 10-Q, quarter ended June 30, 2026 (status of the Google special contract)
+# Source: https://www.sec.gov/Archives/edgar/data/1021635/000102163526000025/oge-20260630.htm
+# Publisher: OGE Energy Corp. (SEC EDGAR filing, filed 2026-07-29)
+# Retrieved 2026-10-17 (rendered page text via browser, curl got a 403; whitespace collapsed)
+
+Oklahoma Google Special Contract In May 2026, OG&E filed an application requesting approval of a special contract with Google and preapproval of two CPAs. The special contract includes provisions such as long-term contract commitments, minimum billing demand and energy charges, funding of upfront costs, and recognizing OCC authority to review and address any potential adverse rate impact in future rate proceedings through cost-of-service adjustments. Further, as part of the special contract, OG&E secured power generation capacity agreements from two solar facilities that Google currently has under construction. Responsive testimony is due on August 5, 2026, and a hearing is scheduled for September 9, 2026.

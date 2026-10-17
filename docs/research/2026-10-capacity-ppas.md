@@ -236,3 +236,37 @@ it PPAs), pending 9,200 MW, and MOU / LOI / option unchanged at 4,850 MW.
   - Amazon's +400 MW NIPSCO amendment: it amends the existing NIPSCO row, so it goes in that
     row's note instead.
   - Calvert Cliffs (Amazon) and Fervo / NV Energy (Google): already rows.
+
+## Additions (2026-10-17, second pass)
+
+A second pass re-read each freshness-review lead from a primary source. Two deals that the first
+pass left out are added. That makes 33 rows: signed 21,775 MW (10,648 MW of it PPAs), pending
+9,800 MW, and MOU / LOI / option unchanged at 4,850 MW. The evidence files are
+`docs/research/evidence/2026-10-ppa-googl-fervo-cape-station.txt` and `…-googl-oge-oklahoma.txt`.
+
+| Ticker | Counterparty | Facility | MW | Status | Kind |
+|---|---|---|---|---|---|
+| GOOGL | Fervo Energy | Cape Station enhanced geothermal GeoCluster, UT | 396 | signed | ppa |
+| GOOGL | OG&E (OGE Energy) | Two Google solar facilities under construction (Muskogee / Stillwater, OK) | 600 | pending | utility supply |
+
+- **Fervo Cape Station is a new deal, not the 2024 NV Energy row.** Fervo's 2026-09-01 release
+  announces a 396 MW PPA with Google for Cape Station in Utah. Google's option for a further
+  ~600 MW by June 2030 is not a row, following the Energy Northwest expansion-option precedent.
+- **OG&E does state an MW, on its Q1 2026 call (2026-04-29).** The call says the two solar
+  facilities "will provide 600 megawatts of nameplate capacity" under capacity purchase
+  agreements. That figure is the plants' nameplate, not Google's load. The release has no MW. The
+  OCC must approve the special contract; OGE's Q2 10-Q set a hearing for 2026-09-09, and no order
+  was found by 2026-10-17. The call text comes from the Financial Modeling Prep transcript API.
+- **Other findings from this pass, not acted on:**
+  - Georgia Power–Google Vogtle/Hatch uprates: about 96 MW (World Nuclear News and others), under
+    the 100 MW floor.
+  - The earlier 500 MW Muskie agreement is dated. TeraWulf's 2026-05-26 8-K (ex. 99.1) says the
+    energy service agreements "were executed concurrently with the acquisition" under Kentucky
+    Power's Industrial General Service tariff.
+  - The Microsoft–NiSource release does not itself say whether the 600 MW battery tolling
+    agreement is inside the ~1,100 MW. Only dpa-AFX's write-up says "including".
+  - **Lead, owner call:** NIPSCO–Alphabet special contract. NiSource's Q1 2026 call gives "340
+    megawatts of pooled resources, including advanced battery solutions and utilizing available
+    market resources", on a 15-year term. The IURC approved it in July 2026 (Q2 10-Q). It was not
+    added because it is served partly from market purchases, the closest case to the fleet-supply
+    exclusion.

@@ -278,8 +278,8 @@ def test_power_deals_block_orders_by_firmness_and_keeps_ppas_apart(tmp_path):
     out = writer.build(_conn(tmp_path, []), _cfg([_co(t="META", n="Meta")]), power_deals=deals)
     jsonschema.validate({"published_at": "x", **out}, SCHEMA)
     pd = out["power_deals"]
-    assert pd["totals"] == {"signed_mw": 21379, "signed_ppa_mw": 10252, "pending_mw": 9200,
-                            "preliminary_mw": 4850, "deals": 31}
+    assert pd["totals"] == {"signed_mw": 21775, "signed_ppa_mw": 10648, "pending_mw": 9800,
+                            "preliminary_mw": 4850, "deals": 33}
     status = [d["status"] for d in pd["deals"]]
     assert status == sorted(status, key=lambda s: {"signed": 0, "pending": 1}.get(s, 2))
     signed = [d["mw_total"] for d in pd["deals"] if d["status"] == "signed"]
