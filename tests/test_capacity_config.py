@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -234,3 +235,100 @@ def test_bad_ev_note_raises(tmp_path, note):
 def test_real_config_withholds_ev_per_mw_where_ai_mw_is_a_sliver():
     notes = {c["t"]: c.get("ev_note") for c in capacity.load_capacity()["companies"]}
     assert {t for t, n in notes.items() if n} == {"AKAM", "MARA", "EQIX"}
+
+
+# Curation semantics the publisher cannot check for itself: _events puts a
+# construction row's WHOLE MW in its energize_q, so a campus dated to its
+# first, unquantified delivery overstates that quarter by everything that
+# follows. A phased site is dated only when the phase's MW is stated (one row
+# per phase); otherwise it takes the supported full-delivery quarter, or null.
+# Rows dated at first power before that rule; re-date them when next touched.
+LEGACY_FIRST_POWER = {
+    ("CORZ", "AMD five-site program (Pecos TX · Auburn AL · Muskogee · Dalton · Hunt Co.)"),
+    ("WULF", "Justified Data — Hawesville KY (Anthropic)"),
+    ("RIOT", "Rockdale (frontier AI lab)"),
+    ("STARGATE", "Milam County TX (SB Energy / SoftBank)"),
+}
+_COMPLETION = re.compile(r"\b(full|fully|complete[sd]?|completion|last|rest|"
+                         r"remainder|remaining|through(?:out)?)\b", re.I)
+
+
+def test_dated_construction_rows_name_no_later_completion():
+    from pipeline.publish.capacity import _milestones, site_quarter
+    rows = {(c["t"], s[0]): s for c in capacity.load_capacity()["companies"]
+            for s in c["sites"]}
+    assert LEGACY_FIRST_POWER <= set(rows), "prune re-dated rows from LEGACY_FIRST_POWER"
+    bad = []
+    for key, s in rows.items():
+        q = site_quarter(s)
+        if s[2] != "c" or not s[1] or q is None or key in LEGACY_FIRST_POWER:
+            continue
+        text = re.sub(r"\([^)]*\)", " ", s[3].lower())
+        later = [m for clause in re.split(r"[;,]", text) if _COMPLETION.search(clause)
+                 for m in _milestones(clause) if m > q]
+        if later:
+            bad.append(key)
+    assert bad == []
+
+
+@pytest.mark.parametrize("t,site,quarter", [
+    # the reviewed cases: first delivery dated without a first-phase MW
+    ("ORCL", "Doña Ana County NM (Project Jupiter, STACK)", None),
+    ("ORCL", "Saline Township MI (Related Digital)", None),
+    ("ORCL", "Port Washington WI (Vantage)", None),
+    ("ORCL", "Shackelford County TX (Vantage)", "2028Q4"),
+    ("NBIS", "Lappeenranta, Finland (AI factory)", None),
+    # an explicit full-capacity quarter survives an unquantified earlier ramp
+    ("BTDR", "Malaysia (3rd hub) — A901 (AI cloud)", "2027Q2"),
+])
+def test_phased_sites_without_phase_mw_are_not_dated_to_first_delivery(t, site, quarter):
+    co = next(c for c in capacity.load_capacity()["companies"] if c["t"] == t)
+    assert next(s for s in co["sites"] if s[0] == site)[4] == quarter
+
+
+def test_dlr_nova_buildings_carry_their_own_quarters():
+    co = next(c for c in capacity.load_capacity()["companies"] if c["t"] == "DLR")
+    nova = [(s[1], s[4]) for s in co["sites"] if s[0].startswith("Northern Virginia — ")]
+    assert sorted(nova) == [(96, "2028Q2"), (192, "2027Q2")]
+
+
+# `mw` is critical IT on every surface (page, map sizing, tables). A figure
+# the row's own text labels grid / gross / utility power must not fill it:
+# keep it in the text and leave mw null (no unsourced PUE conversion). Rows
+# below carried grid MW in the field before this rule; fix, then prune.
+LEGACY_GRID_MW = {
+    ("CORZ", "Muskogee expansion (Polaris DS) — CLOSED"), ("CORZ", "Muskogee expansion (Polaris DS)"),
+    ("GLXY", "Helios II expansion (830 MW gross)"), ("GLXY", "Helios II expansion (gross MW)"),
+    ("WULF", "Muskie Data — Grayson KY"),
+    ("KEEL", "Panther Creek PA"), ("KEEL", "Scrubgrass PA"),
+    ("BTDR", "Clarington OH"), ("BTDR", "Clarington, OH"),
+}
+_GRID_FIGURE = re.compile(r"\d[\d,.]*\s*(?:MW|GW)\)?\s*\(?(?:grid|gross|utility)\b|"
+                          r"\b(?:grid|gross|utility)\s+(?:MW|GW)\b|(?<!\w)not (?:critical[- ])?IT\b", re.I)
+_IT_FIGURE = re.compile(r"\d[\d,.]*\s*MW\s+(?:critical[- ])?IT\b|\bIT MW\b|"
+                        r"(?<!not )critical[- ]IT\b(?!\s*MW n/d)", re.I)
+
+
+def test_grid_only_figures_never_fill_the_critical_it_field():
+    cfg = capacity.load_capacity()
+    entries = [((c["t"], s[0]), s[1], f"{s[0]} {s[3]}") for c in cfg["companies"] for s in c["sites"]]
+    entries += [((g["t"], g["site"]), g["mw"], " ".join(str(g.get(k) or "") for k in ("site", "when", "why")))
+                for g in cfg["geo"] + cfg["geo_unmapped"]]
+    assert LEGACY_GRID_MW <= {k for k, _, _ in entries}, "prune fixed rows from LEGACY_GRID_MW"
+    bad = [k for k, mw, text in entries
+           if mw is not None and k not in LEGACY_GRID_MW
+           and _GRID_FIGURE.search(text) and not _IT_FIGURE.search(text)]
+    assert bad == []
+
+
+@pytest.mark.parametrize("text", ["1.6 GW grid (FY26 10-K)", "800 MW (grid); TCA signed",
+                                  "570 MW grid power (not IT)", "500 MW gross; Batch Zero",
+                                  "750 MW utility load study"])
+def test_grid_figure_pattern_reads_grid_labels(text):
+    assert _GRID_FIGURE.search(text) and not _IT_FIGURE.search(text)
+
+
+@pytest.mark.parametrize("text", ["300 MW gross (≈200 MW IT at the stated ratio)",
+                                  "5 MW gross / 3 MW IT", "grid power via We Energies; ~1 GW per Oracle"])
+def test_grid_figure_pattern_spares_stated_it_and_power_sources(text):
+    assert not (_GRID_FIGURE.search(text) and not _IT_FIGURE.search(text))

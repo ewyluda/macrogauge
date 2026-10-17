@@ -43,27 +43,31 @@ was, and section 2 lists where the curator departed from the proposal.
 ## 1. Effect on the published tracker
 
 These totals come from running `pipeline/publish/capacity.build` against `store/` with the
-edited config, as of 2026-10-17. Both `capacity.json` and `dc_markets.json` validate against
-their schemas.
+edited config (including the PR 127 review fixes in section 2a), as of 2026-10-17. Both
+`capacity.json` and `dc_markets.json` validate against their schemas.
 
 | Cohort | Operating MW | Construction MW | Planned MW | Timeline cumulative MW |
 |---|---|---|---|---|
-| all | 41,476 → 41,490 | 33,871 → 37,891 | 49,818 → 47,159 | 57,308 → 60,159 (2028Q4) |
-| neocloud | 3,754 → 3,770 | 8,381 → 8,551 | 13,558 → 13,499 | 11,593 → 12,038 (2028Q4) |
-| hyperscaler | 37,721 → 37,721 | 25,490 → 29,340 | 36,260 → 33,660 | 45,715 → 48,121 (2028Q4) |
+| all | 41,476 → 41,490 | 33,871 → 37,891 | 49,818 → 47,159 | 57,308 → 56,516 (2028Q4) |
+| neocloud | 3,754 → 3,770 | 8,381 → 8,551 | 13,558 → 13,499 | 11,593 → 11,795 (2028Q4) |
+| hyperscaler | 37,721 → 37,721 | 25,490 → 29,340 | 36,260 → 33,660 | 45,715 → 44,721 (2028Q4) |
 
-- **Counts:** site rows 174 → 238, map pins 121 → 151, unmapped entries 23 → 60, tenant edges
+- **Counts:** site rows 174 → 241, map pins 121 → 144, unmapped entries 23 → 67, tenant edges
   29 → 37.
-- **Timeline:** cumulative MW at 2026Q4 goes 45,914 → 45,101, because Abilene's delivered
-  buildings left the schedule. At 2027Q4 it goes 52,478 → 56,880, as the three Oracle
-  campuses enter the construction schedule.
+- **Timeline:** cumulative MW at 2026Q4 goes 45,914 → 44,776 and at 2028Q4 goes 57,308 →
+  56,516. The curve falls even though construction MW rose for two reasons:
+  - Abilene's delivered buildings left the schedule. Oracle's `op` already counted them.
+  - Doña Ana, Saline Twp, Port Washington and Lappeenranta are under construction but undated:
+    no first-phase MW and no full-build quarter is public.
+
+  Cohort totals (`op`/`con`/`plan`) are unaffected by dating.
 
 ## 2. Curator decisions that differ from the raw proposals
 
 - **ORCL.**
   - *Construction and planned totals:* `con` 2,150 → 5,000 and `plan` 1,600 → 0. Doña Ana,
-    Saline Twp and Port Washington are now under construction, with customer delivery in H1/H2
-    2027. Their combined planned row was the only planned capacity the row carried, so leaving
+    Saline Twp and Port Washington are now under construction, with customer delivery beginning
+    H1/H2 2027. They are undated on the timeline; see section 2a. Their combined planned row was the only planned capacity the row carried, so leaving
     `plan` at 1,600 would have counted them twice.
   - *Site MW:* Doña Ana and Port Washington drop from 2,200 and 1,300 MW (press facility power;
     2.2 GW was the Bloom fuel-cell plan) to ~1,000 MW each. Oracle's co-CEO said on the 9/10/26
@@ -107,6 +111,60 @@ their schemas.
 - **XAI.** The two unnamed SpaceX hosting deals ($6.7B over six months, and ~$1.11B/month from
   12/1) are one tenant row, since they may be the same counterparty.
 
+## 2a. Fixes from the PR 127 review
+
+The review is in `docs/reviews/2026-10-17-pr-127-review.md`. The publisher puts a construction
+row's whole MW in its `energize_q` quarter, and the page reads `mw` as critical IT. The first
+pass broke both rules in places.
+
+- **P1: whole campuses dated to an unquantified first delivery.** These rows had their dates
+  fixed:
+  - *Oracle:*
+    - Shackelford goes back to 2028Q4, its full build. First delivery is H1 2027, with no
+      phase MW given.
+    - Doña Ana, Saline Twp and Port Washington are now undated. Oracle gives only the start of
+      customer delivery (H1/H2 2027), with no phase MW and no full-build date.
+  - *Nebius:* Lappeenranta is now undated ("first capacity 2027", no phase MW).
+  - *DLR:* the Northern Virginia buyout splits into 192 MW at 2027Q2 and 96 MW at 2028Q2. The
+    release says two buildings stabilize in H1 2027 and the third in H1 2028, but not which
+    one is later.
+  - *CoreWeave and Galaxy:*
+    - CoreWeave's Helios copy splits into Ph II (260 MW, 2028Q1) and Ph III (133 MW, 2028Q4).
+    - Galaxy's own Helios Phase II row goes 2027Q2 → 2028Q1 to match. Its eight halls start in
+      Q2 2027, seven are online by YE27, and the last comes in early 2028. That row predates
+      this PR; it is re-dated here so the two rows agree.
+  - *Dalton:* CORZ's row and CoreWeave's copy go 2026Q4 → 2027Q1 ("complete early 2027").
+  - *Applied Digital:* Polaris Forge 2 splits into ~50 MW at 2026Q4 and ~150 MW at 2027Q1. The
+    first figure comes from APLD's "300 MW of total critical IT online across North Dakota by
+    the end of this calendar year", against the 250 MW live at PF1.
+  - *TeraWulf:* CB-4 goes back to 2026Q4. The late-September date was the first hall only;
+    the rest phases through 2H 2026.
+
+  `test_dated_construction_rows_name_no_later_completion` now fails any dated construction row
+  whose own text names a later completion. Four rows dated at first power before the
+  2026-10-08 rule are listed in `LEGACY_FIRST_POWER` and still need re-dating: CORZ's AMD
+  five-site row, WULF Hawesville, RIOT Rockdale (its 96 MW first phase is stated, so it can be
+  split) and Stargate Milam.
+- **P2: grid-only figures in the critical-IT field.** These new or re-stated rows now carry
+  `mw` null and keep the grid figure in their text:
+  - IREN: Sweetwater 1 remainder, Sweetwater 2, Kiowa, Bundey, Badajoz, other Nostrum sites and
+    Redbank (campus scale).
+  - Cipher: Colchis, Mikeska, McLennan, Stingray Phase II, the Barber Lake expansion and Odessa.
+
+  Their pins move to `geo_unmapped` with a "grid MW only" reason, as `geo_note` prescribes for
+  sites with undisclosed MW. `test_grid_only_figures_never_fill_the_critical_it_field` fails
+  any row or pin whose text labels its figure grid, gross or utility without a stated IT
+  figure. Six pre-existing grid-basis rows are listed in `LEGACY_GRID_MW` and still need fixing:
+  CORZ Muskogee expansion, GLXY Helios II, WULF Muskie, KEEL Panther Creek and Scrubgrass,
+  and BTDR Clarington. Meta's Hyperion and El Paso rows now state the tracker's existing
+  gross × 0.72 IT basis in their text, as Lebanon and Sturgeon already did.
+- **P2: A901's full-delivery quarter.** The row is now dated 2027Q2, when Bitdeer says all
+  67 MW of critical IT are due. The Q1 start had no stated MW, so it stays in the text.
+  `test_full_capacity_quarter_survives_an_unquantified_earlier_ramp` pins this: the curated
+  quarter outranks the Q1 date the free-text parser would pick.
+
+Section 3 below shows each row's final value after these fixes.
+
 ## 3. Applied changes, by company
 
 The list below is generated from the applied decision log. Map-pin and citation housekeeping
@@ -116,9 +174,9 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 
 - **new site:** Taloja, Navi Mumbai (AdaniConneX) — 3×80 MW: 240 MW, `s`. New since 2026-10-02: CoreWeave's India entry — three 80 MW buildings at AdaniConneX's Taloja campus, CoreWeave sole tenant, first phase mid-2028, option to double. Source: CoreWeave.
 - **site:** Helios (Galaxy) — Ph I: 133 MW, `o`. The row's 800 MW is GROSS power, not critical IT (Galaxy: 'the entirety of the 800 gross MW'); CoreWeave's Helios critical IT = 133 (Ph I) + 260 (Ph II) + 133 (Ph III) = 526 MW, matching the GLXY tenant row. Source: Galaxy Digital.
-- **new site:** Helios (Galaxy) — Ph II–III: 393 MW, `c`, energize 2027Q2. Remaining CoreWeave critical IT at Helios: Ph II 260 MW (deliveries commence Q2 2027) + Ph III 133 MW (online throughout 2028). Source: Galaxy Digital.
+- **new site:** Helios (Galaxy) — Ph II: 260 MW, `c`, energize 2028Q1 (last of 8 halls); Ph III: 133 MW, `c`, energize 2028Q4. Remaining CoreWeave critical IT at Helios; split and re-dated in the review fixes. Source: Galaxy Digital.
 - **site:** Core Scientific — 4 campuses (billing): 437 MW, `o`. The single 590 MW 'c' row (energize_q 2025Q4, now past) is stale: CORZ reached 437 billable MW in mid-July with four of the five CoreWeave campuses substantially complete; only Dalton Ph II (150 MW) remains. Source: Core Scientific.
-- **new site:** Core Scientific — Dalton GA Ph II: 150 MW, `c`, energize 2026Q4. Remaining CoreWeave capacity at Core Scientific, dated by CORZ management. Source: Core Scientific.
+- **new site:** Core Scientific — Dalton GA Ph II: 150 MW, `c`, energize 2027Q1. Remaining CoreWeave capacity at Core Scientific, delivering from end-2026 and complete early 2027. Source: Core Scientific earnings call.
 - **site:** Applied Digital — Ellendale PF1 Bldg 1–2: 250 MW, `o`. '100 MW live' is stale: Polaris Forge 1 (leased to CoreWeave) reached 250 MW live on 2026-10-01; Bldg 3 (150 MW) is still under construction. Source: Applied Digital.
 - **new site:** Applied Digital — Ellendale PF1 Bldg 3: 150 MW, `c`, energize 2027Q4. Remaining 150 MW of the CoreWeave Ellendale lease. Source: Applied Digital.
 - **site:** First self-builds (2–3 sites; unnamed): MW n/d, `c`, energize 2026Q4. Status 'p' is stale: management says the first several self-builds are already well underway, with the first site online later in 2026. Source: CoreWeave; Goldman Sachs conference.
@@ -134,11 +192,11 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 
 - **site:** Abilene TX (Stargate I, Crusoe) — bldgs 1–6: 618 MW, `o`. Oracle's 9/10/26 call says 6 of 8 Abilene buildings (618 MW, 75% of capacity) are delivered — supersedes the Epoch 10/02 satellite read (~420 MW, 4 bldgs). Source: Oracle Corporation.
 - **new site:** Abilene TX (Stargate I, Crusoe) — bldgs 7–8: 206 MW, `c`, energize 2026Q4. Remaining two Abilene buildings. Source: Oracle Corporation.
-- **site:** Shackelford County TX (Vantage): 1400 MW, `c`, energize 2027Q2. energize_q is first power / first delivery: Oracle says customer delivery begins in the first half of calendar 2027 (-> 2027Q2), with 115 MW of power capacity already online in June; 2028Q4 was the full-build date. Source: Oracle Corporation.
+- **site:** Shackelford County TX (Vantage): 1400 MW, `c`, energize 2028Q4 (full build). First customer delivery is H1 CY2027 per Oracle, with no phase MW. Source: Oracle Corporation.
 - **removed:** Doña Ana NM (STACK) / Saline MI (Related) / Port Washington WI (Vantage). Replace the combined 'p' row with three 'c' rows (below). Source: Oracle Corporation.
-- **new site:** Doña Ana County NM (Project Jupiter, STACK): 1000 MW, `c`, energize 2027Q2. Oracle's dated first delivery is H1 CY2027 (-> 2027Q2) and it calls construction 'definitely on track'. Source: 24/7 Wall St.; Benzinga; Invezz; Oracle Corporation; Proactive Investors; Reuters.
-- **new site:** Saline Township MI (Related Digital): 1400 MW, `c`, energize 2027Q4. Oracle: contracted Oct 2025, customer delivery begins H2 2027 (-> 2027Q4), network core ahead of schedule. Source: Oracle Corporation.
-- **new site:** Port Washington WI (Vantage): 1000 MW, `c`, energize 2027Q4. Oracle: delivery begins H2 CY2027 (-> 2027Q4), and on 9/10/26 'data center delivery is actually very on track'. Source: Business Wire; Oracle; Oracle Corporation.
+- **new site:** Doña Ana County NM (Project Jupiter, STACK): 1000 MW, `c`, undated. Customer delivery begins H1 CY2027 per Oracle, with no phase MW and no full-build date; Oracle calls construction 'definitely on track'. Source: Oracle Corporation; Reuters; Proactive Investors; Benzinga; Invezz; 24/7 Wall St.
+- **new site:** Saline Township MI (Related Digital): 1400 MW, `c`, undated. Customer delivery begins H2 2027 per Oracle, with no phase MW; the network core is ahead of schedule. Source: Oracle Corporation.
+- **new site:** Port Washington WI (Vantage): 1000 MW, `c`, undated. Delivery begins H2 CY2027 per Oracle, which said on 9/10/26 the build is 'very on track'; Aterio flags a mid-2028 risk. Source: Oracle Corporation; Business Wire; Oracle.
 - **removed:** OpenAI add'l Stargate (Oracle ~$300B/5yr). DOUBLE COUNT: the 4.5 GW / ~$300B Oracle-OpenAI deal (Jul 2025) IS the capacity at the named campuses, which Oracle contracted Aug-Oct 2025 and lists as its '5 largest sites' (Abilene, Shackelford, Doña Ana, Saline, Port Washington). Source: Oracle Corporation.
 - **field:** `con` = 5000. Concrete disclosed driver: Oracle says Doña Ana, Port Washington and Saline are under construction (customer delivery H1/H2 CY2027) and 'around a gigawatt a piece'. Source: Oracle Corporation. Note: con = sum of the construction rows; Saline kept at 1,400 MW — Oracle's 'around a gigawatt a piece' was said of New Mexico and Wisconsin.
 - **curator:** plan 1600→0: the three campuses it estimated (Doña Ana/Saline/Port Washington) are now construction rows; no named planned Oracle campus remains.
@@ -150,7 +208,7 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 ### NBIS (Nebius)
 
 - **site:** Vineland NJ (Microsoft): 300 MW, `c`, energize 2026Q4. 'majority H2 2026' needs a fresher status. Source: Nebius; Stocktwits.
-- **site:** Lappeenranta, Finland (AI factory): 310 MW, `c`, energize 2027Q4. Nebius announced construction (not an option or LOI), so 's' understates it. Source: Nebius.
+- **site:** Lappeenranta, Finland (AI factory): 310 MW, `c`, undated (first capacity 2027, no phase MW). Nebius announced construction rather than an option or LOI, so `s` understated it. Source: Nebius.
 - **new site:** Rotterdam, NL (VOLT gigafactory) — LOI, REPORTED: MW n/d, `s`. New since 10/02. Source: GuruFocus.
 - **site:** UK (Kao Data Harlow · Vantage CWL1 Newport, Wales) · Estonia · addl Finland: MW n/d, `s`. Names the Kao Data Harlow deployment (10-year agreement, June 2026) that the UK row omits. Source: Kao Data; Nebius.
 - **field:** `pipe`. The YE 2026 5 GW target has been reached (CEO at Citi TMT), and the Q2 call gave a 2026 connected-power guide of 800 MW–1 GW that the row lacks. Source: Nebius; Nebius CEO.
@@ -161,7 +219,7 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 ### APLD (Applied Digital)
 
 - **site:** PF1 — Bldg 2 (Ph1 + Ph2): 150 MW, `o`. Company's own Q1 FY27 release dates the two 75 MW RFS events July 1 and October 1, 2026 (2026-10-02 was the announcement date). Source: Applied Digital.
-- **site:** Polaris Forge 2 (Harwood): 200 MW, `c`, energize 2026Q4. Q1 FY27 release reaffirms initial PF2 operations by end of calendar 2026, lifting delivered ND critical IT from 250 to 300 MW (i.e. Source: Applied Digital.
+- **site:** Polaris Forge 2 (Harwood): split into ~50 MW `c` energize 2026Q4 (APLD's 300 MW ND target less 250 MW live) + ~150 MW `c` energize 2027Q1 (full early 2027). Source: Applied Digital.
 - **site:** Polaris Forge 3 — Center, ND (Oliver Co.) — LEASED: 300 MW, `c`, energize 2027Q4. Location is now public: the company names Center (Oliver County), ND as home of PF3, and MDU's ESA release says 'near Center'. Source: Applied Digital; Applied Digital earnings call; MDU Resources.
 - **site:** Delta Forge 2 — Alabama — LEASED: 210 MW, `c`, energize 2028Q2. Company now states DF2 is in Alabama (previously 'a new southern state'). Source: Applied Digital.
 - **new site:** Finland campus (up to ~1 GW power) — SECURED: MW n/d, `s`. First non-US site, announced 2026-10-06. Source: Applied Digital; Applied Digital earnings call.
@@ -176,7 +234,7 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 ### CORZ (Core Scientific)
 
 - **site:** Muskogee, OK (CoreWeave): 70 MW, `o`. The 70 MW is the Muskogee slice of CoreWeave's 590 MW (the record's five CoreWeave rows sum to 590). Source: Core Scientific earnings call.
-- **site:** Dalton, GA (CoreWeave Ph I–II): 175 MW, `c`, energize 2026Q4. The 175 MW is CoreWeave's Dalton capacity. Source: Core Scientific earnings call.
+- **site:** Dalton, GA (CoreWeave Ph I–II): 175 MW, `c`, energize 2027Q1. This is CoreWeave's Dalton capacity; Ph II's last ~150 MW delivers from end-2026 and completes early 2027. Source: Core Scientific earnings call.
 - **field:** `pipe`. Spell out the AMD reservation and the separately disclosed new-site pipeline. Source: Core Scientific CDO at H.C. Wainwright conference; Core Scientific earnings call.
 - **field:** `econ.anchor`. Matches the tenant split. Source: Core Scientific earnings call.
 - **flag:** `flag`. Adds the remaining CoreWeave timing and the Q3 date (Nov 5, not late Oct). Source: Core Scientific; Core Scientific earnings call.
@@ -194,7 +252,7 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 
 ### WULF (TeraWulf)
 
-- **site:** Lake Mariner — CB-4: 168 MW, `c`, energize 2026Q3. Q2 call gave a specific first-delivery month (level-4 / lease revenue from first hall in late September 2026; systems powered from mid-Aug) → 2026Q3 under the month→quarter rule. Source: TeraWulf Q2'26 earnings call.
+- **site:** Lake Mariner — CB-4: 168 MW, `c`, energize 2026Q4. The first hall's rent was targeted for late September and the rest phases through 2H 2026, so the row is dated to the full phase. Source: TeraWulf Q2'26 earnings call.
 - **site:** Muskie Data — Grayson KY: 1000 MW, `p`. Kentucky Power (utility) PR 10/05/26: contracted electric demand raised 500 MW→1 GW and second 500 MW phase advanced 2030→2029, subject to KY PSC approval; first phase still 2028. Source: Benzinga; Kentucky Power; TeraWulf.
 - **site:** Chesapeake Data — Morgantown MD: 1000 MW, `p`. Q2 call: FERC cleared the Morgantown acquisition on 7/29/26; acquisition not yet closed (no closing announcement found through 10/17). Source: TeraWulf Q2'26 earnings call.
 - **site:** Abernathy JV — sale to Fluidstack agreed 7/06: 84 MW, `c`. Q2 call quantifies the installments and confirms the first $250M was received in July 2026, so the 'NOT closed' wording in ndflag is stale (see company_update). Source: TeraWulf Q2'26 earnings call.
@@ -212,12 +270,12 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 ### CIFR (Cipher Digital (ex-Cipher Mining))
 
 - **removed:** ERCOT 'Batch Zero'. The 2 GW placeholder equals Colchis 1 GW + Mikeska 500 + McLennan 500, which Cipher has now named and which got Batch Zero conditional designations in Sep 2026. Source: Cipher Digital Q2'26 business update call.
-- **new site:** Colchis JV — West TX (AEP direct connect): 1000 MW, `p`. Company-named 1 GW site. Source: Cipher Digital CFO at KBW Virtual AI Summit; The Block.
-- **new site:** Mikeska TX: 500 MW, `p`. Named in the Q2 call. Source: Cipher Digital Q2'26 business update call; Stocktwits.
-- **new site:** McLennan TX: 500 MW, `p`. Same basis as Mikeska. Source: Seeking Alpha; Stocktwits.
-- **new site:** Stingray Phase II (expansion): 200 MW, `p`. Q2 call adds a planned 200 MW Stingray expansion. Source: Cipher Digital Q2'26 business update call; Stocktwits.
-- **new site:** Barber Lake expansion: 500 MW, `p`. Company-disclosed 500 MW expansion that the row lacks. Source: Cipher Digital Q2'26 business update call.
-- **new site:** Odessa TX (bitcoin; HPC conversion candidate): 207 MW, `s`. Cipher counts Odessa in its 477 MW available for 2027 (with Reveille and Ulysses). Source: Cipher Digital CFO at KBW Virtual AI Summit; Cipher Digital Q2'26 business update call.
+- **new site:** Colchis JV — West TX (AEP direct connect): MW n/d (grid-only figure kept in the text), `p`. Company-named 1 GW site. Source: Cipher Digital CFO at KBW Virtual AI Summit; The Block.
+- **new site:** Mikeska TX: MW n/d (grid-only figure kept in the text), `p`. Named in the Q2 call. Source: Cipher Digital Q2'26 business update call; Stocktwits.
+- **new site:** McLennan TX: MW n/d (grid-only figure kept in the text), `p`. Same basis as Mikeska. Source: Seeking Alpha; Stocktwits.
+- **new site:** Stingray Phase II (expansion): MW n/d (grid-only figure kept in the text), `p`. Q2 call adds a planned 200 MW Stingray expansion. Source: Cipher Digital Q2'26 business update call; Stocktwits.
+- **new site:** Barber Lake expansion: MW n/d (grid-only figure kept in the text), `p`. Company-disclosed 500 MW expansion that the row lacks. Source: Cipher Digital Q2'26 business update call.
+- **new site:** Odessa TX (bitcoin; HPC conversion candidate): MW n/d (grid-only figure kept in the text), `s`. Cipher counts Odessa in its 477 MW available for 2027 (with Reveille and Ulysses). Source: Cipher Digital CFO at KBW Virtual AI Summit; Cipher Digital Q2'26 business update call.
 - **new site:** Milsing TX: MW n/d, `p`. Named in the Q2 call as part of the 2030+ 2.1 GW, but its MW is not stated separately (do not infer). Source: Cipher Digital Q2'26 business update call.
 - **site:** Apollo — ~288-acre option near San Antonio TX: 900 MW, `s`. Adds the stated 2031 horizon and the Sep 2026 Batch Zero result. Source: Cipher Digital Q2'26 business update call; Stocktwits.
 - **field:** `pipe`. The Batch Zero breakdown and the BYOG initiative are the material pipeline facts since the row was curated. Source: Cipher Digital; Cipher Digital CFO at KBW Virtual AI Summit; Stocktwits.
@@ -227,18 +285,18 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 
 ### IREN (IREN)
 
-- **site:** Sweetwater 1 (remainder, grid MW): 1100 MW, `s`. Sweetwater 1 is no longer just secured land: IREN says the first building is going up and 300 MW gross of data-center capacity is under construction for Q4 2027. Source: GuruFocus; IREN; IREN via GlobeNewswire.
+- **site:** Sweetwater 1 (remainder, grid MW): MW n/d (grid-only figure kept in the text), `s`. Sweetwater 1 is no longer just secured land: IREN says the first building is going up and 300 MW gross of data-center capacity is under construction for Q4 2027. Source: GuruFocus; IREN; IREN via GlobeNewswire.
 - **new site:** Sweetwater 1 — first phase (liquid-cooled): 200 MW, `c`, energize 2027Q4. New under-construction phase at Sweetwater 1. Source: GuruFocus; IREN. Note: MW = IREN's own stated IT:gross ratio applied to the 300 MW gross phase.
-- **new site:** Sweetwater 2: 600 MW, `s`. Sweetwater 2 is part of IREN's announced 2 GW Sweetwater Hub but has no site row (only in pipe text). Source: GuruFocus; IREN.
+- **new site:** Sweetwater 2: MW n/d (grid-only figure kept in the text), `s`. Sweetwater 2 is part of IREN's announced 2 GW Sweetwater Hub but has no site row (only in pipe text). Source: GuruFocus; IREN.
 - **new site:** Childress Horizons 5–6 (liquid-cooled): MW n/d, `c`, energize 2027Q4. Construction has started on the next two Horizons at Childress; the row lacks them. Source: IREN.
 - **site:** Mackenzie BC (air-cooled B300 + 2027 liquid): MW n/d, `c`, energize 2026Q4. The single 'Canada' row hides three different states: Mackenzie is in active GPU install for the Dec quarter, Prince George's air-cooled fleet is already commissioned (next change), Canal Flats is a 2027 liquid conversion. Source: Blue Owl Capital via PR Newswire; IREN.
 - **new site:** Prince George BC: MW n/d, `o`. Prince George is operating AI capacity (air-cooled fleet commissioned, customers/end users on site per SemiAnalysis), not merely under construction. Source: IREN; Stocktwits.
 - **new site:** Canal Flats BC (liquid-cooled GB300 conversion): MW n/d, `p`. FY26 call announced converting all of Canal Flats to liquid cooling; no construction start stated, so 'p'. Source: IREN.
-- **site:** Kiowa OK: 1600 MW, `s`. MW is now public for both sites; split the combined null row. Source: IREN; Zacks.
-- **new site:** Bundey, South Australia: 800 MW, `s`. Bundey split out of the combined row with its disclosed MW and grid agreement. Source: Stocktwits; Zacks.
-- **site:** Badajoz, Spain (Nostrum flagship): 300 MW, `s`. 490 MW is the whole Nostrum Spain portfolio; IREN says Badajoz itself is ~300 MW and the other ~190 MW sits at other Spanish development sites. Source: IREN.
-- **new site:** Other Nostrum Spain sites: 190 MW, `s`. Keeps the 490 MW Nostrum total once Badajoz is split out. Source: IREN.
-- **new site:** Redbank, NSW (Wagga Wagga): 900 MW, `p`. New 900 MW campus announced by IREN on 10/13–14 (post-curation). Source: Stocktwits.
+- **site:** Kiowa OK: MW n/d (grid-only figure kept in the text), `s`. MW is now public for both sites; split the combined null row. Source: IREN; Zacks.
+- **new site:** Bundey, South Australia: MW n/d (grid-only figure kept in the text), `s`. Bundey split out of the combined row with its disclosed MW and grid agreement. Source: Stocktwits; Zacks.
+- **site:** Badajoz, Spain (Nostrum flagship): MW n/d (grid-only figure kept in the text), `s`. 490 MW is the whole Nostrum Spain portfolio; IREN says Badajoz itself is ~300 MW and the other ~190 MW sits at other Spanish development sites. Source: IREN.
+- **new site:** Other Nostrum Spain sites: MW n/d (grid-only figure kept in the text), `s`. Keeps the 490 MW Nostrum total once Badajoz is split out. Source: IREN.
+- **new site:** Redbank, NSW (Wagga Wagga): MW n/d (grid-only figure kept in the text), `p`. New 900 MW campus announced by IREN on 10/13–14 (post-curation). Source: Stocktwits.
 - **curator:** con 330→530 / plan 730→530: Sweetwater 1 first phase (≈200 MW IT) moves from plan to construction.
 - **flag:** `flag`. Adds the post-curation tenant report, the restated delivery targets, the mining exit and the BC reliability flag. Source: Benzinga; IREN; Stocktwits.
 - **new tenant:** Frontier AI lab (Anthropic per The Information, unconfirmed) → IREN. IREN disclosed a new frontier-lab contract (separate from Prometheus); The Information named Anthropic on 10/11. Source: Benzinga; IREN.
@@ -263,7 +321,7 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 
 ### BTDR (Bitdeer)
 
-- **new site:** Malaysia (3rd hub) — A901 (AI cloud): 67 MW, `c`. New 67 IT MW leased AI-cloud campus, Bitdeer's third Malaysian hub (location not disclosed). Source: Bitdeer via GlobeNewswire.
+- **new site:** Malaysia (3rd hub) — A901 (AI cloud): 67 MW, `c`, energize 2027Q2 (full 67 MW; the Q1 start's tranche MW is n/d). This is Bitdeer's third Malaysian hub, a new leased AI-cloud campus. Source: Bitdeer via GlobeNewswire.
 - **new site:** Cyberjaya, Malaysia — A103 (AI cloud): 60 MW, `p`. New 60 IT MW leased facility on the existing Cyberjaya campus; brings secured AI-cloud capacity to ~333.5 MW of the up-to-350 MW Q1'28 target. Source: Bitdeer via GlobeNewswire.
 - **site:** Cyberjaya, Malaysia — A102 (AI cloud): 9.5 MW, `c`, energize 2027Q1. The sell-out release states energization in Q1 2027; 'ready Nov 2026' is facility readiness (Aug update), and the CFO on 9/14 said Malaysia executes 'early next year into mid of next year'. Source: Bitdeer via GlobeNewswire; Quartr transcript.
 - **site:** Johor, Malaysia — A201 (AI cloud): 21.7 MW, `c`, energize 2027Q1. 'Late negotiations' is stale: off-take commitments for >70% of A201 were announced 9/29/26 (>$1.7B expected revenue over 5 years). Source: Benzinga; Bitdeer via GlobeNewswire.
@@ -384,7 +442,7 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 
 - **site:** Charlotte, NC - 2nd 200MW building: 200 MW, `c`. CEO on the Q1'26 call called the second 200 MW 'under construction', and IR (BofA, 2026-09-09) said two of three Charlotte projects are underway. Source: Digital Realty.
 - **site:** Charlotte, NC - 200MW AI-inference (AA hyperscaler): 200 MW, `c`, energize 2028Q4. The `when` text is refreshed with the CFO's phasing: deliveries start in 2027 and run into 2028. Source: Digital Realty.
-- **new site:** Northern Virginia — 3×96 MW ex-Blackstone JV bldgs (Manassas ×2, Digital Dulles/Sterling ×1): 288 MW, `c`, energize 2027Q2. DLR bought Blackstone's 64% stake on 2026-06-30, taking DLR to 100% ownership. Source: Digital Realty; Digital Realty / Blackstone.
+- **new site:** Northern Virginia ex-Blackstone JV bldgs: 192 MW (2 of 3) `c` energize 2027Q2 + 96 MW (3rd) `c` energize 2028Q2. DLR bought out Blackstone's stake on 6/30/26; all three buildings are 100% leased, and the release gives the two stabilization dates. Source: Digital Realty / Blackstone (GlobeNewswire); Digital Realty.
 - **new site:** Kansas City metro (Astra Enterprise Park, De Soto KS) — 1,440 acres: MW n/d, `s`. Powered land bought in June 2026 for ~$475M, with a signed Energy Service Agreement. Source: Digital Realty.
 - **new site:** Atlanta metro — >1 GW campus (873-acre parcel + adjacent parcel): 1000 MW, `p`. This is the 'larger project' the CEO set apart from the 200 MW Atlanta build. Source: Digital Realty.
 - **new site:** Hillsboro, OR — 30-acre parcel (160 MW) + adjacent 85 MW assemblage: 245 MW, `p`. The Q1'26 release and call disclose a 30-acre Hillsboro/Portland parcel for 160 MW of IT capacity, next to an 85 MW assemblage announced the quarter before. Source: Digital Realty.

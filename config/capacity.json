@@ -87,18 +87,25 @@
      "sole tenant; first phase mid-2028 (Vera Rubin), rest phased; option +240 MW (to 480)"
     ],
     [
-     "Helios (Galaxy) — Ph II–III",
-     393,
+     "Helios (Galaxy) — Ph II",
+     260,
      "c",
-     "Ph II 260 MW: halls from Q2'27, 7 of 8 by YE27, last early 2028; Ph III 133 MW through 2028",
-     "2027Q2"
+     "8 data halls from Q2'27, 7 by YE27, last early 2028 (Galaxy Q2 call); dated to the last hall",
+     "2028Q1"
+    ],
+    [
+     "Helios (Galaxy) — Ph III",
+     133,
+     "c",
+     "final CoreWeave option; online throughout 2028 (Galaxy Q2 call)",
+     "2028Q4"
     ],
     [
      "Core Scientific — Dalton GA Ph II",
      150,
      "c",
      "last 150 MW of the CoreWeave program; delivering from end-2026, complete early 2027",
-     "2026Q4"
+     "2027Q1"
     ],
     [
      "Applied Digital — Ellendale PF1 Bldg 3",
@@ -186,8 +193,8 @@
      "Shackelford County TX (Vantage)",
      1400,
      "c",
-     "1.4 GW campus (Vantage Frontier); first customer delivery H1 CY2027 (Oracle 6/10/26); not yet delivered at 9/10/26; full build ~Q4 2028 (prior est.)",
-     "2027Q2"
+     "1.4 GW campus (Vantage Frontier); first customer delivery H1 CY2027 (Oracle 6/10/26; phase MW n/d), not yet delivered at 9/10/26; dated to full build ~Q4 2028 (prior est.)",
+     "2028Q4"
     ],
     [
      "Abilene TX (Stargate I, Crusoe) — bldgs 7–8",
@@ -200,22 +207,22 @@
      "Doña Ana County NM (Project Jupiter, STACK)",
      1000,
      "c",
-     "~1 GW per Oracle ('around a gigawatt a piece', 9/10/26 call); Oracle 6/10/26: customer delivery begins H1 CY2027; 9/10/26 'definitely on track', air permit pending (Bloom fuel cells, 2.4 GW); 9/24/26 force-majeure notice to Blue Owl developer (rent deferral if not online 2028); gas line awaiting FERC (press)",
-     "2027Q2"
+     "~1 GW per Oracle ('around a gigawatt a piece', 9/10/26 call); Oracle 6/10/26: customer delivery begins H1 CY2027; 9/10/26 'definitely on track', air permit pending (Bloom fuel cells, 2.4 GW); 9/24/26 force-majeure notice to Blue Owl developer (rent deferral if not online 2028); gas line awaiting FERC (press); undated: first-phase MW n/d and no full-build date",
+     null
     ],
     [
      "Saline Township MI (Related Digital)",
      1400,
      "c",
-     "Oracle 6/10/26: customer delivery begins H2 2027; network core ahead of schedule; not delivered at 9/10/26",
-     "2027Q4"
+     "Oracle 6/10/26: customer delivery begins H2 2027; network core ahead of schedule; not delivered at 9/10/26; undated: first-phase MW n/d and no full-build date",
+     null
     ],
     [
      "Port Washington WI (Vantage)",
      1000,
      "c",
-     "Project Lighthouse; ~1 GW per Oracle ('around a gigawatt a piece', 9/10/26 call); Oracle 6/10/26: delivery begins H2 CY2027; 9/10/26 'very on track' (grid power via We Energies/ATC; Point Beach nuclear subscription 10/2/26); Aterio 9/30/26 flags mid-2028 load risk",
-     "2027Q4"
+     "Project Lighthouse; ~1 GW per Oracle ('around a gigawatt a piece', 9/10/26 call); Oracle 6/10/26: delivery begins H2 CY2027; 9/10/26 'very on track' (grid power via We Energies/ATC; Point Beach nuclear subscription 10/2/26); Aterio 9/30/26 flags mid-2028 load risk; undated: first-phase MW n/d and no full-build date",
+     null
     ]
    ],
    "src": [
@@ -309,8 +316,8 @@
      "Lappeenranta, Finland (AI factory)",
      310,
      "c",
-     "construction announced 3/31/26; first capacity to customers 2027",
-     "2027Q4"
+     "construction announced 3/31/26; first capacity to customers 2027 (first-phase MW n/d, so undated)",
+     null
     ],
     [
      "Independence MO (owned)",
@@ -434,11 +441,18 @@
      "2027Q4"
     ],
     [
-     "Polaris Forge 2 (Harwood)",
-     200,
+     "Polaris Forge 2 (Harwood) — initial ~50 MW",
+     50,
      "c",
-     "initial ops by end-CY2026 (takes ND live to 300 MW); full early 2027 (10-K)",
+     "initial ops by end-CY2026 (300 MW ND target vs 250 MW live at PF1, FY27 Q1 call)",
      "2026Q4"
+    ],
+    [
+     "Polaris Forge 2 (Harwood) — remaining ~150 MW",
+     150,
+     "c",
+     "full early 2027 (10-K)",
+     "2027Q1"
     ],
     [
      "Delta Forge 1 (Boyce, LA)",
@@ -555,7 +569,7 @@
      175,
      "c",
      "CoreWeave; last ~150 MW (Ph II) begins delivering end-2026, complete early 2027; AMD-backed neocloud Ph III counted in AMD row",
-     "2026Q4"
+     "2027Q1"
     ],
     [
      "Muskogee, OK (CoreWeave)",
@@ -646,8 +660,8 @@
      "Helios Phase II",
      260,
      "c",
-     "foundations underway (HITT); data halls from Q2 2027",
-     "2027Q2"
+     "foundations underway (HITT); 8 data halls from Q2 2027, 7 by YE27, last early 2028 (Q2'26 call); dated to the last hall",
+     "2028Q1"
     ],
     [
      "Helios Phase III",
@@ -754,7 +768,7 @@
      168,
      "c",
      "1st data hall in commissioning; rent from 1st hall targeted late Sep 2026 (Q2 call) — not yet confirmed delivered as of 10/17; rest phased 2H 2026",
-     "2026Q3"
+     "2026Q4"
     ],
     [
      "Lake Mariner — CB-5",
@@ -983,39 +997,39 @@
     ],
     [
      "Colchis JV — West TX (AEP direct connect)",
-     1000,
+     null,
      "p",
      "1 GW gross; ERCOT Batch Zero conditional base load (Sep 2026), final designation after Dec audit; energization targeted 2028; Cipher ~95% equity; lease talks ongoing"
     ],
     [
      "Mikeska TX",
-     500,
+     null,
      "p",
      "500 MW gross; ERCOT Batch Zero conditional studied load (Sep 2026); 2028–29 target"
     ],
     [
      "McLennan TX",
-     500,
+     null,
      "p",
      "500 MW gross; ERCOT Batch Zero conditional studied load (Sep 2026); 2028–29 target"
     ],
     [
      "Stingray Phase II (expansion)",
-     200,
+     null,
      "p",
      "200 MW gross expansion; ERCOT Batch Zero conditional studied load (Sep 2026); 2030+"
     ],
     [
      "Barber Lake expansion",
-     500,
+     null,
      "p",
-     "500 MW expansion; expected in ERCOT Batch Zero (Q2 call) but not among the Sep 2026 conditional designations reported; 2030+"
+     "500 MW grid expansion; expected in ERCOT Batch Zero (Q2 call) but not among the Sep 2026 conditional designations reported; 2030+"
     ],
     [
      "Odessa TX (bitcoin; HPC conversion candidate)",
-     207,
+     null,
      "s",
-     "207 MW energized (Vistra PPA), still mining bitcoin; HPC lease talks with multiple tenants — first HPC MW 'very end of 2027' if leased soon"
+     "207 MW grid energized (Vistra PPA), still mining bitcoin; HPC lease talks with multiple tenants — first HPC MW 'very end of 2027' if leased soon; critical-IT MW n/d"
     ],
     [
      "Milsing TX",
@@ -1109,21 +1123,21 @@
     ],
     [
      "Sweetwater 1 (remainder, grid MW)",
-     1100,
+     null,
      "s",
-     "1.4 GW grid site less the 300 MW-gross first phase now building; ERCOT Batch Zero base load (conditional, 9/8/26); no customer contract disclosed"
+     "1.4 GW grid site less the 300 MW-gross first phase now building (~1.1 GW grid remainder); ERCOT Batch Zero base load (conditional, 9/8/26); no customer contract disclosed; critical-IT MW n/d"
     ],
     [
      "Badajoz, Spain (Nostrum flagship)",
-     300,
+     null,
      "s",
-     "~300 MW (grid), nearest-term Nostrum build; 2028 wave"
+     "~300 MW grid, nearest-term Nostrum build; 2028 wave; critical-IT MW n/d"
     ],
     [
      "Kiowa OK",
-     1600,
+     null,
      "s",
-     "1.6 GW grid (FY26 10-K per Zacks); 2028 build wave; Sweetwater 1 is the reference design"
+     "1.6 GW grid (FY26 10-K per Zacks); 2028 build wave; Sweetwater 1 is the reference design; critical-IT MW n/d"
     ],
     [
      "Sweetwater 1 — first phase (liquid-cooled)",
@@ -1134,9 +1148,9 @@
     ],
     [
      "Sweetwater 2",
-     600,
+     null,
      "s",
-     "600 MW grid; ERCOT Batch Zero Base Load (conditional) 9/8/26; 2028 build wave"
+     "600 MW grid; ERCOT Batch Zero Base Load (conditional) 9/8/26; 2028 build wave; critical-IT MW n/d"
     ],
     [
      "Childress Horizons 5–6 (liquid-cooled)",
@@ -1159,21 +1173,21 @@
     ],
     [
      "Bundey, South Australia",
-     800,
+     null,
      "s",
-     "800 MW (grid); transmission connection agreement (four 330 kV feeder exits); energization from 2028; permitting + procurement underway"
+     "800 MW grid; transmission connection agreement (four 330 kV feeder exits); energization from 2028; permitting + procurement underway; critical-IT MW n/d"
     ],
     [
      "Other Nostrum Spain sites",
-     190,
+     null,
      "s",
-     "~190 MW secured across other Spanish development sites (490 MW Nostrum total less Badajoz ~300)"
+     "~190 MW grid secured across other Spanish development sites (490 MW Nostrum total less Badajoz ~300); critical-IT MW n/d"
     ],
     [
      "Redbank, NSW (Wagga Wagga)",
-     900,
+     null,
      "p",
-     "announced Oct 2026, early assessment; NOT in 5 GW secured portfolio (no grid agreement); scoping report due end-Oct; grid connection targeted 2029, staged over 6–8 yrs (Capital Brief)"
+     "~900 MW campus scale (not critical IT), announced Oct 2026, early assessment; NOT in 5 GW secured portfolio (no grid agreement); scoping report due end-Oct; grid connection targeted 2029, staged over 6–8 yrs (Capital Brief)"
     ]
    ],
    "src": [
@@ -1462,8 +1476,8 @@
      "Malaysia (3rd hub) — A901 (AI cloud)",
      67,
      "c",
-     "10-yr DC services agmt (10/8/26); delivery from Q1 2027, full 67 MW Q2 2027; no offtake yet",
-     null
+     "10-yr DC services agmt (10/8/26); delivery from Q1 2027 (tranche MW n/d), full 67 MW critical IT Q2 2027; no offtake yet",
+     "2027Q2"
     ],
     [
      "Cyberjaya, Malaysia — A103 (AI cloud)",
@@ -2529,14 +2543,14 @@
      "Hyperion - Richland Parish, LA",
      1440,
      "c",
-     "2 GW gross Ph1 ~summer 2028; scales to 5 GW; Blue Owl JV; Entergy gas",
+     "2 GW gross Ph1 (~1,440 MW IT at x0.72) ~summer 2028; scales to 5 GW; Blue Owl JV; Entergy gas",
      "2028Q3"
     ],
     [
      "El Paso, TX (BlackRock JV 80/20)",
      720,
      "c",
-     "1 GW gross by 2028, ~$14B dev cost, off-B/S SPV (7/28/26); 366 MW on-site modular gas",
+     "1 GW gross (~720 MW IT at x0.72) by 2028, ~$14B dev cost, off-B/S SPV (7/28/26); 366 MW on-site modular gas",
      "2028Q4"
     ],
     [
@@ -3095,11 +3109,18 @@
      "10MW+ signings Q1'26"
     ],
     [
-     "Northern Virginia — 3×96 MW ex-Blackstone JV bldgs (Manassas ×2, Digital Dulles/Sterling ×1)",
-     288,
+     "Northern Virginia — 2 of 3 ex-Blackstone JV bldgs (2×96 MW)",
+     192,
      "c",
-     "100% leased to 3 IG hyperscalers (15-yr, AA- avg); 2 bldgs stabilize H1'27, 3rd H1'28; DLR bought out BX 6/30/26",
+     "100% leased to 3 IG hyperscalers (15-yr, AA- avg); stabilize H1'27; DLR bought out BX 6/30/26 (Manassas ×2 + Sterling ×1 — release doesn't say which stabilizes later)",
      "2027Q2"
+    ],
+    [
+     "Northern Virginia — 3rd ex-Blackstone JV bldg (96 MW)",
+     96,
+     "c",
+     "stabilizes H1'28",
+     "2028Q2"
     ],
     [
      "Kansas City metro (Astra Enterprise Park, De Soto KS) — 1,440 acres",
@@ -3687,7 +3708,7 @@
    "st": "c",
    "lat": 46.98,
    "lng": -96.9,
-   "when": "initial capacity 2H 2026, full early 2027",
+   "when": "initial ~50 MW by end-2026, full early 2027",
    "approx": false
   },
   {
@@ -3777,7 +3798,7 @@
    "st": "c",
    "lat": 33.62,
    "lng": -100.84,
-   "when": "Ph II data halls from H1 2027",
+   "when": "Ph II halls Q2 2027 → early 2028; Ph III 2028",
    "approx": false
   },
   {
@@ -3949,26 +3970,6 @@
    "lng": -100.2,
    "when": "H2–4 delivery Q4 2026; NVIDIA early 2027",
    "approx": false
-  },
-  {
-   "t": "IREN",
-   "site": "Sweetwater, TX — SW1 remainder + Sweetwater 2",
-   "mw": 1700,
-   "st": "s",
-   "lat": 32.47,
-   "lng": -100.41,
-   "when": "1.1 GW SW1 remainder + 600 MW SW2 (grid); ERCOT Batch Zero base load (conditional)",
-   "approx": false
-  },
-  {
-   "t": "IREN",
-   "site": "Badajoz, Spain",
-   "mw": 300,
-   "st": "s",
-   "lat": 38.88,
-   "lng": -6.97,
-   "when": "Nostrum flagship; 2028 build wave",
-   "approx": true
   },
   {
    "t": "KEEL",
@@ -4459,7 +4460,7 @@
    "st": "c",
    "lat": 31.76,
    "lng": -106.49,
-   "when": "1 GW gross by 2028",
+   "when": "1 GW gross (~720 MW IT) by 2028",
    "approx": true
   },
   {
@@ -4768,7 +4769,7 @@
    "st": "c",
    "lat": 32.74,
    "lng": -99.35,
-   "when": "first delivery H1 2027; full ~2028",
+   "when": "first delivery H1 2027; full build ~Q4 2028",
    "approx": true
   },
   {
@@ -4808,7 +4809,7 @@
    "st": "c",
    "lat": 40.05,
    "lng": -86.47,
-   "when": "1 GW gross; broke ground Feb 2026",
+   "when": "1 GW gross (~720 MW IT); broke ground Feb 2026",
    "approx": true
   },
   {
@@ -5045,36 +5046,6 @@
    "approx": false
   },
   {
-   "t": "CIFR",
-   "site": "Stingray Phase II (TX)",
-   "mw": 200,
-   "st": "p",
-   "lat": 31.55,
-   "lng": -101.15,
-   "when": "200 MW expansion; Batch Zero studied load; 2030+",
-   "approx": true
-  },
-  {
-   "t": "CIFR",
-   "site": "Barber Lake expansion — Colorado City, TX",
-   "mw": 500,
-   "st": "p",
-   "lat": 32.1,
-   "lng": -100.86,
-   "when": "500 MW expansion; 2030+",
-   "approx": false
-  },
-  {
-   "t": "CIFR",
-   "site": "Odessa, TX (bitcoin → HPC candidate)",
-   "mw": 207,
-   "st": "s",
-   "lat": 31.85,
-   "lng": -102.37,
-   "when": "energized; HPC lease talks; first HPC MW end-2027 if leased",
-   "approx": false
-  },
-  {
    "t": "IREN",
    "site": "Sweetwater, TX — Sweetwater 1 first phase",
    "mw": 200,
@@ -5083,26 +5054,6 @@
    "lng": -100.41,
    "when": "first building going up; delivery targeted Q4 2027",
    "approx": false
-  },
-  {
-   "t": "IREN",
-   "site": "Bundey, SA (Australia)",
-   "mw": 800,
-   "st": "s",
-   "lat": -33.99,
-   "lng": 139.08,
-   "when": "TCA signed; energization from 2028",
-   "approx": true
-  },
-  {
-   "t": "IREN",
-   "site": "Redbank — Wagga Wagga, NSW (Australia)",
-   "mw": 900,
-   "st": "p",
-   "lat": -35.12,
-   "lng": 147.37,
-   "when": "early assessment; grid connection targeted 2029; power not secured",
-   "approx": true
   },
   {
    "t": "BTDR",
@@ -5441,23 +5392,23 @@
   {
    "t": "CIFR",
    "site": "Colchis JV (West TX)",
-   "mw": 1000,
+   "mw": null,
    "st": "p",
-   "why": "only 'West Texas' / 620 acres next to an existing AEP substation public; county not disclosed"
+   "why": "grid MW only (1 GW gross); only 'West Texas' / 620 acres next to an AEP substation public"
   },
   {
    "t": "CIFR",
    "site": "Mikeska (TX)",
-   "mw": 500,
+   "mw": null,
    "st": "p",
-   "why": "location not disclosed"
+   "why": "grid MW only (500 MW gross); location not disclosed"
   },
   {
    "t": "CIFR",
    "site": "McLennan (TX)",
-   "mw": 500,
+   "mw": null,
    "st": "p",
-   "why": "location not disclosed (name may refer to McLennan County/Waco — unconfirmed)"
+   "why": "grid MW only (500 MW gross); location not disclosed"
   },
   {
    "t": "CIFR",
@@ -5490,16 +5441,16 @@
   {
    "t": "IREN",
    "site": "Kiowa, OK",
-   "mw": 1600,
+   "mw": null,
    "st": "s",
-   "why": "exact location not in fetched sources (Kiowa town, Pittsburg Co., vs Kiowa County are both possible)"
+   "why": "grid MW only (1.6 GW); exact location not in fetched sources (Kiowa town, Pittsburg Co., vs Kiowa County)"
   },
   {
    "t": "IREN",
    "site": "Other Nostrum sites (Spain)",
-   "mw": 190,
+   "mw": null,
    "st": "s",
-   "why": "site locations not disclosed"
+   "why": "grid MW only (~190 MW); site locations not disclosed"
   },
   {
    "t": "BTDR",
@@ -5556,6 +5507,55 @@
    "mw": null,
    "st": "o",
    "why": "MW n/d"
+  },
+  {
+   "t": "IREN",
+   "site": "Sweetwater, TX — SW1 remainder + Sweetwater 2",
+   "mw": null,
+   "st": "s",
+   "why": "grid MW only (SW1 remainder ~1.1 GW + SW2 600 MW); no critical-IT figure"
+  },
+  {
+   "t": "IREN",
+   "site": "Badajoz, Spain",
+   "mw": null,
+   "st": "s",
+   "why": "grid MW only (~300 MW); no critical-IT figure"
+  },
+  {
+   "t": "IREN",
+   "site": "Bundey, SA (Australia)",
+   "mw": null,
+   "st": "s",
+   "why": "grid MW only (800 MW); no critical-IT figure"
+  },
+  {
+   "t": "IREN",
+   "site": "Redbank — Wagga Wagga, NSW (Australia)",
+   "mw": null,
+   "st": "p",
+   "why": "campus-scale MW only (~900 MW, power not secured); no critical-IT figure"
+  },
+  {
+   "t": "CIFR",
+   "site": "Stingray Phase II (TX)",
+   "mw": null,
+   "st": "p",
+   "why": "grid MW only (200 MW gross); no critical-IT figure"
+  },
+  {
+   "t": "CIFR",
+   "site": "Barber Lake expansion — Colorado City, TX",
+   "mw": null,
+   "st": "p",
+   "why": "grid MW only (500 MW); no critical-IT figure"
+  },
+  {
+   "t": "CIFR",
+   "site": "Odessa, TX (bitcoin → HPC candidate)",
+   "mw": null,
+   "st": "s",
+   "why": "grid MW only (207 MW, bitcoin site); no critical-IT figure"
   }
  ],
  "geo_note": "Campus-level site map, added 2026-07-09. lat/lng are town/county centroids, NOT parcel coordinates. approx=true => only the state/country is public (placed at a state-level position; dashed on the map). Sites with undisclosed locations or n/d MW live in geo_unmapped. DOCN's leased colo fleet stays unmapped except the 2026 AI data centers it has named (metro centroids); AKAM (distributed edge PoPs and colo blocks) is excluded by construction."
