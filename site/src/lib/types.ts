@@ -447,6 +447,9 @@ export type MarketElec = {
   as_of: string | null;
   base_date: string | null;
   available: boolean;
+  // under 750 electrical workers this quarter or a year earlier -- the elec
+  // block's own bar, not construction's 1,500 (absent before 2026-10-17)
+  thin_base?: boolean;
   partial: boolean;
   yoy_basis: "like_for_like" | null;
   wage: number | null;

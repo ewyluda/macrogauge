@@ -487,6 +487,27 @@ test("markets: the capacity column says it is the tracker's projects, and each m
   }
 });
 
+test("markets: the electrical column flags its own thin base, at 750 workers", async ({ page, request }) => {
+  await page.goto("/markets");
+  await expect(page.locator("#electrical-contractors")).toContainText("750 electrical workers");
+  const data = await (await request.get("/data/dc_markets.json")).json();
+  type E = { key: string; elec?: { available: boolean; thin_base?: boolean } };
+  const live = (data.markets as E[]).filter((m) => m.elec?.available);
+  // publish-gated: elec.thin_base lands with the next daily run
+  test.skip(!live.some((m) => m.elec!.thin_base !== undefined), "published dc_markets.json predates elec.thin_base (lands with the next daily publish)");
+  // the electrical cell is the last cell on both row branches
+  for (const m of live) {
+    const cell = page.locator(`#mk-row-${m.key} > td`).last();
+    if (m.elec!.thin_base) await expect(cell).toContainText("⚠");
+    else await expect(cell).not.toContainText("⚠");
+  }
+  const thin = live.find((m) => m.elec!.thin_base);
+  if (thin) {
+    await page.locator(`#mk-row-${thin.key} button[aria-expanded]`).click();
+    await expect(page.getByText("⚠ Thin base — under 750 electrical-contractor workers")).toBeVisible();
+  }
+});
+
 test("site costs: industrial power by default, one metric drives the map and a ranked table", async ({ page }) => {
   await page.goto("/states");
   // one claim as the H1; the cohort, month and US average sit in the takeaway

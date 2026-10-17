@@ -134,7 +134,7 @@
             }
           },
           "elec": {
-            "description": "Private NAICS 238212 (nonresidential electrical contractors) for this market's counties, aggregated exactly like the NAICS 23 fields (pipeline/engine/dcmarkets.py). Additive (2026-10): optional at the row level for older artifacts; the writer always emits it.",
+            "description": "Private NAICS 238212 (nonresidential electrical contractors) for this market's counties, aggregated exactly like the NAICS 23 fields (pipeline/engine/dcmarkets.py), except that thin_base uses its own 750-worker bar (pipeline/publish/dc_markets.py ELEC_THIN_BASE). Additive (2026-10): optional at the row level for older artifacts; the writer always emits it. thin_base is additive too (2026-10-17): optional in the block, always emitted.",
             "type": "object",
             "required": ["as_of", "base_date", "available", "partial", "yoy_basis",
                          "wage", "wage_yoy_pct", "wage_spread_pp", "emp",
@@ -145,6 +145,7 @@
               "as_of": {"type": ["string", "null"]},
               "base_date": {"type": ["string", "null"]},
               "available": {"type": "boolean"},
+              "thin_base": {"type": "boolean"},
               "partial": {"type": "boolean"},
               "yoy_basis": {"type": ["string", "null"], "enum": ["like_for_like", null]},
               "wage": {"type": ["number", "null"]},
