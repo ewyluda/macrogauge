@@ -48,8 +48,8 @@ edited config (including the PR 127 review fixes in section 2a), as of 2026-10-1
 
 | Cohort | Operating MW | Construction MW | Planned MW | Timeline cumulative MW |
 |---|---|---|---|---|
-| all | 41,476 → 41,490 | 33,871 → 37,891 | 49,818 → 47,159 | 57,308 → 56,186 (2028Q4) |
-| neocloud | 3,754 → 3,770 | 8,381 → 8,551 | 13,558 → 13,499 | 11,593 → 11,465 (2028Q4) |
+| all | 41,476 → 41,490 | 33,871 → 37,891 | 49,818 → 44,883 | 57,308 → 56,186 (2028Q4) |
+| neocloud | 3,754 → 3,770 | 8,381 → 8,551 | 13,558 → 11,223 | 11,593 → 11,465 (2028Q4) |
 | hyperscaler | 37,721 → 37,721 | 25,490 → 29,340 | 36,260 → 33,660 | 45,715 → 44,721 (2028Q4) |
 
 - **Counts:** site rows 174 → 242, map pins 121 → 137, unmapped entries 23 → 74, tenant edges
@@ -177,11 +177,20 @@ pass broke both rules in places.
 
   Meta's Hyperion and El Paso rows now state the tracker's existing gross × 0.72 IT basis in
   their text, as Lebanon and Sturgeon already did.
-- **Company totals still on a grid basis (decision open).** GLXY `plan` 830 is Helios II's
-  gross MW. KEEL `plan` 556 is Panther Creek, Sharon and Sherbrooke utility/PPA MW. WULF
-  `plan` 2,320 includes Muskie's 1 GW. No company discloses a critical-IT figure for these,
-  so each row's `flag` now states its basis. Re-basing them would move the neocloud cohort's
-  planned MW by up to ~2.4 GW, which is a methodology call, not a data fix.
+- **Company `plan` totals re-based to critical IT.** Three `plan` totals were the same grid
+  figures. None of these companies discloses a critical-IT figure for them, so they are
+  excluded rather than converted:
+  - *GLXY:* 830 → 0. It was Helios II's 830 MW gross, and Galaxy has no other planned IT
+    figure; the gross pipeline stays in `pipe`.
+  - *KEEL:* 556 → 110. Panther Creek's 350 MW of utility capacity and Sherbrooke's 96 MW PPA
+    are out. Sharon's "one 110-megawatt phase" stays, since its basis is not stated
+    (`evidence/2026-10-17-cap-keel-q2-zacks-sharon-moses.txt`).
+  - *WULF:* 2,320 → 1,320. Muskie's 1 GW of utility service is out. Chesapeake (TeraWulf:
+    "up to 1 GW of data center capacity") and Lake Hawkeye (320 MW critical IT) stay.
+
+  Neocloud planned MW falls 13,499 → 11,223. EV per weighted MW rises for the three:
+  GLXY 17.2 → 28.1, KEEL 11.1 → 45.2, WULF 8.0 → 10.5 ($M/MW). Each row's `flag` states
+  what its `plan` counts.
 - **P2: A901's full-delivery quarter.** The row is now dated 2027Q2, when Bitdeer says all
   67 MW of critical IT are due. The Q1 start had no stated MW, so it stays in the text.
   `test_full_capacity_quarter_survives_an_unquantified_earlier_ramp` pins this: the curated
@@ -268,6 +277,7 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 
 ### GLXY (Galaxy Digital (Helios))
 
+- **review fix:** `plan` = 0 (was 830, Helios II's gross MW). No critical-IT figure is disclosed for Helios II or the new Texas sites. Source: Galaxy Digital earnings call.
 - **site:** Helios II expansion (830 MW gross): MW n/d (grid-only figure kept in the text), `s`. Adds the stated energization timing and lease status. Source: Galaxy Digital earnings call.
 - **site:** Helios III + IV interconnects (2 × 1 GW gross): MW n/d, `p`. Galaxy now defines the Helios upside as 2 GW gross across two POIs (Helios III and IV). Source: Galaxy Digital earnings call.
 - **new site:** Merlin — McGregor, TX (500 acres): MW n/d, `s`. Second Galaxy campus, announced 2026-07-28 (missed by the 10-02 curation). Source: Galaxy Digital; Galaxy Digital earnings call.
@@ -278,6 +288,7 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 
 ### WULF (TeraWulf)
 
+- **review fix:** `plan` = 1,320 (was 2,320). Muskie's 1 GW of utility service is excluded; Chesapeake (up to 1 GW of data center capacity) and Lake Hawkeye (320 MW critical IT) stay. Source: Kentucky Power (AEP) via PR Newswire; TeraWulf Q2'26 earnings call.
 - **review fix:** Justified Data — Hawesville KY (Anthropic): 401 MW, `c`, energize 2028Q1 (initial services 2H 2027, full 401 MW of critical IT by early 2028). Source: TeraWulf via GlobeNewswire (8/24/26).
 - **site:** Lake Mariner — CB-4: 168 MW, `c`, energize 2026Q4. The first hall's rent was targeted for late September and the rest phases through 2H 2026, so the row is dated to the full phase. Source: TeraWulf Q2'26 earnings call.
 - **site:** Muskie Data — Grayson KY: MW n/d (1 GW of utility service kept in the text), `p`. Kentucky Power's 10/05/26 release: contracted demand rose 500 MW → 1 GW and the second 500 MW moved from 2030 to 2029. Source: Kentucky Power (AEP) via PR Newswire; TeraWulf; Benzinga.
@@ -338,7 +349,7 @@ that mirrors a site change is not listed. The row's own `src` list carries the s
 - **site:** Sherbrooke QC: MW n/d (96 MW PPA kept in the text), `s`. The gating item is the outstanding ministerial signature, and Keel can't say when it will come. Source: Keel Infrastructure; Keel Infrastructure mgmt at KBW AI Infrastructure Summit.
 - **site:** Scrubgrass PA: MW n/d (750 MW load study kept in the text), `s`. Adds detail and the next milestone; status unchanged. Source: Keel Infrastructure; Keel Infrastructure mgmt at KBW AI Infrastructure Summit.
 - **field:** `con` = 18. Follows the site rows: Panther Creek c → p (−350), Moses Lake p → c (+18). Source: Keel Infrastructure mgmt at KBW AI Infrastructure Summit.
-- **field:** `plan` = 556. The current 225 ≈ Sharon 110 + Moses Lake 18 + Sherbrooke 96 (=224). Source: Keel Infrastructure.
+- **field:** `plan` = 110 (first pass 556; re-based to critical IT in section 2a). This keeps Sharon's 110 MW phase and excludes Panther Creek's 350 MW of utility capacity and Sherbrooke's 96 MW PPA. Source: Keel Infrastructure.
 - **flag:** `flag`. Refreshes the date of the no-tenant flag and adds the construction status. Source: Keel Infrastructure; Keel Infrastructure mgmt at KBW AI Infrastructure Summit.
 - **field:** `dom`. The row has an empty domain; Keel's own release gives its site. Source: Keel Infrastructure via GlobeNewswire.
 
@@ -536,7 +547,6 @@ was seen.
 - **Structural issues**, which predate this review:
   - The CORZ AMD five-site row overlaps the Dalton Ph III and Hunt rows.
   - EQIX's "Global xScale portfolio 725 `c`" likely includes operating capacity.
-  - GLXY, KEEL and WULF company `plan` totals are still grid/utility MW (see section 2a).
   - CRWV has no map pins for campuses outside tracked landlords.
 - **`config/power_deals.json` candidates** found during the review:
   - Amazon–Constellation Calvert Cliffs (690 MW PPA, 9/30/26).
