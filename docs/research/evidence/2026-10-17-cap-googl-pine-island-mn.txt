@@ -9,7 +9,7 @@ Method: FMP press-release API (lead text)
 
 
 
-URL: https://www.reuters.com/ (TradingView story tag:reuters.com,2026:newsml_L4N3ZK1D6:0)
+URL: https://www.tradingview.com/news/reuters.com,2026:newsml_L4N3ZK1D6:0-xcel-energy-to-power-new-google-data-center-in-minnesota/ (TradingView story tag:reuters.com,2026:newsml_L4N3ZK1D6:0)
 Title: Xcel Energy to power new Google data center in Minnesota
 Publisher: Reuters
 Date: 2026-02-24

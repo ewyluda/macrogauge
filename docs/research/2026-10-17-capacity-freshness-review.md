@@ -548,12 +548,17 @@ was seen.
   - The CORZ AMD five-site row overlaps the Dalton Ph III and Hunt rows.
   - EQIX's "Global xScale portfolio 725 `c`" likely includes operating capacity.
   - CRWV has no map pins for campuses outside tracked landlords.
-- **`config/power_deals.json` candidates** found during the review:
-  - Amazon–Constellation Calvert Cliffs (690 MW PPA, 9/30/26).
-  - NiSource–Microsoft NW Indiana (20-yr, from 2028).
-  - Kentucky Power–TeraWulf Muskie (1 GW, 10/5/26).
-  - About seven 2026 Google deals: Black Hills, AEP's 702 MW of fuel cells, Xcel, AES, OG&E,
-    Georgia Power and Fervo.
+- **`config/power_deals.json`:** five deals found in this review are now rows (see the 2026-10-17
+  additions in `docs/research/2026-10-capacity-ppas.md`):
+  - Google–AEP: 702 MW of fuel cells, signed.
+  - Google–Black Hills: 590 MW, signed.
+  - Google–Xcel Pine Island: 1,900 MW, pending.
+  - Microsoft–NiSource NW Indiana: 1,100 MW, pending.
+  - TeraWulf–Kentucky Power Muskie: 1 GW, pending.
+
+  Amazon's Calvert Cliffs PPA and NIPSCO supply, and Google's Fervo / NV Energy deal, were
+  already rows. AES, OG&E and Evergy (Google) state no MW, and Georgia Power had no fetched
+  source.
 
 Q3 reports, all likely to move filed figures. Dates are as found, and some are not yet
 confirmed by the company:
