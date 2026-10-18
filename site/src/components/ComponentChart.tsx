@@ -15,8 +15,8 @@ const pair = (xs: string[], ys: (number | null)[]): Pt[] => {
   return out;
 };
 
-const VIEWS = [{ key: "yoy", label: "YoY" }, { key: "level", label: "INDEX LEVEL" }] as const;
-const WINDOWS = [{ key: "36m", label: "36M" }, { key: "all", label: "SINCE 2018" }] as const;
+const VIEWS = [{ key: "yoy", label: "YoY" }, { key: "level", label: "Index level" }] as const;
+const WINDOWS = [{ key: "36m", label: "36M" }, { key: "all", label: "Since 2018" }] as const;
 
 /** One component, ours vs the official series, with the splice point and
  *  any gate holds drawn as reference lines — the receipts view. */

@@ -368,6 +368,18 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
   .outlook-drivers { grid-template-columns: 1fr; }
 }
 
+/* --- segmented controls: one style site-wide (polish batch A, 10-18) --- */
+.segmented { display: flex; gap: 6px; flex-wrap: wrap; }
+.segmented-option {
+  font: inherit; font-size: 12px; line-height: 1.2; cursor: pointer; white-space: nowrap;
+  min-height: 32px; padding: 6px 10px; border-radius: 5px;
+  border: 1px solid var(--border); background: transparent; color: var(--muted);
+}
+.segmented-option:hover { color: var(--text); background: var(--chip-bg); }
+.segmented-option[aria-pressed="true"] { color: var(--accent-sky); background: #E9EFF8; border-color: #B5C9EA; }
+.segmented-option:focus-visible { outline: 2px solid var(--accent-sky); outline-offset: 2px; }
+@media (max-width: 720px) { .segmented-option { min-height: 44px; padding: 10px 12px; } }
+
 /* --- share & export (batch 1) --- */
 .tool-row { display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 .tool-btn {

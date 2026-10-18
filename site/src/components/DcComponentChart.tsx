@@ -8,8 +8,8 @@ import { CopyLink } from "./CopyLink";
 import { LinesChart } from "./LinesChart";
 import { SegmentedControl } from "./SegmentedControl";
 
-const VIEWS = [{ key: "yoy", label: "YoY" }, { key: "level", label: "INDEX LEVEL" }] as const;
-const WINDOWS = [{ key: "36m", label: "36M" }, { key: "all", label: "ALL" }] as const;
+const VIEWS = [{ key: "yoy", label: "YoY" }, { key: "level", label: "Index level" }] as const;
+const WINDOWS = [{ key: "36m", label: "36M" }, { key: "all", label: "All" }] as const;
 
 /** One DC index component, monthly, YoY or level, 36 months by default —
  *  the DC counterpart of ComponentChart. */

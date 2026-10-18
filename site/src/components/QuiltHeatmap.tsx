@@ -30,12 +30,12 @@ type Compare = {
 const WINDOWS = [
   { key: "24", label: "24M" },
   { key: "48", label: "48M" },
-  { key: "all", label: "FULL HISTORY" },
+  { key: "all", label: "Full history" },
 ] as const;
 type WindowKey = (typeof WINDOWS)[number]["key"];
 
 const MODES = [
-  { key: "ours", label: "OURS" },
+  { key: "ours", label: "Ours" },
   { key: "bls", label: "BLS" },
 ] as const satisfies readonly { key: QuiltMode; label: string }[];
 

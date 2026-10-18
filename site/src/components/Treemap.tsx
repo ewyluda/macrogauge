@@ -6,6 +6,7 @@ import { CopyLink } from "./CopyLink";
 import { useJson } from "@/lib/useJson";
 import { DataUnavailable } from "./DataUnavailable";
 import { EChart } from "./EChart";
+import { SegmentedControl } from "./SegmentedControl";
 import { C } from "@/lib/chartTheme";
 import { ramp, EMPTY_CELL, textOn } from "@/lib/heat";
 import { weightAt } from "@/lib/contribution";
@@ -210,16 +211,6 @@ export function Treemap() {
         )
       : null;
 
-  const chip = (active: boolean): React.CSSProperties => ({
-    border: `1px solid ${active ? "rgba(56,189,248,0.5)" : "var(--border)"}`,
-    background: active ? "rgba(56,189,248,0.12)" : "var(--chip-bg)",
-    color: active ? "var(--accent-sky)" : "var(--muted)",
-    borderRadius: 999,
-    padding: "2px 10px",
-    fontSize: 12,
-    cursor: "pointer",
-  });
-
   return (
     <div
       style={{
@@ -229,21 +220,15 @@ export function Treemap() {
         padding: 12,
       }}
     >
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
-        {MODES.map((m) => (
-          <button
-            key={m.key}
-            style={chip(mode === m.key)}
-            onClick={() => setMode(m.key)}
-          >
-            {m.label}
-          </button>
-        ))}
+      <div style={{ marginBottom: 10 }}>
+        <SegmentedControl options={MODES} value={mode} onChange={setMode} />
       </div>
       <EChart option={option} height={420} notMerge={false} ariaTitle="Basket treemap: component weight and YoY" />
       <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 10 }}>
         <button
-          style={chip(playing)}
+          type="button"
+          className="segmented-option"
+          aria-pressed={playing}
           onClick={() => {
             if (!playing && (pos === -1 || at >= monthEnds.length - 1)) setPos(0);
             setPlaying(!playing);

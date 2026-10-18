@@ -18,7 +18,7 @@ test("every basket component has a page and the tables link to it", async ({ pag
   await link.click();
   await expect(page).toHaveURL(/\/components\/fuel/);
   // level view is URL state
-  await page.getByRole("button", { name: "INDEX LEVEL", exact: true }).click();
+  await page.getByRole("button", { name: "Index level", exact: true }).click();
   await expect.poll(() => page.evaluate(() => location.search)).toContain("view=level");
 });
 

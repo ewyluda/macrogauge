@@ -21,14 +21,14 @@ type Replay = {
 };
 
 const MODES = [
-  { key: "ours", label: "OURS" },
+  { key: "ours", label: "Ours" },
   { key: "bls", label: "BLS" },
-  { key: "gap", label: "GAP (ours − BLS)" },
+  { key: "gap", label: "Gap (ours − BLS)" },
 ] as const;
 const WINDOWS = [
   { key: "24", label: "24M" },
   { key: "48", label: "48M" },
-  { key: "all", label: "FULL HISTORY" },
+  { key: "all", label: "Full history" },
 ] as const;
 
 /** 14 distinguishable component colours; shelter first so the two largest

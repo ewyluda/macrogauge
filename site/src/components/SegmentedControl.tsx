@@ -1,6 +1,7 @@
 "use client";
 
-/** Chip-style segmented control (Treemap-chip idiom, generalized). */
+/** The site's one segmented-control style (.segmented / .segmented-option in
+ *  globals.css): 32px tall on desktop, 44px touch targets on phones. */
 export function SegmentedControl<K extends string>({
   options,
   value,
@@ -11,7 +12,7 @@ export function SegmentedControl<K extends string>({
   onChange: (k: K) => void;
 }) {
   return (
-    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+    <div className="segmented">
       {options.map((o) => {
         const active = o.key === value;
         return (
@@ -21,15 +22,6 @@ export function SegmentedControl<K extends string>({
             className="segmented-option"
             aria-pressed={active}
             onClick={() => onChange(o.key)}
-            style={{
-              border: `1px solid ${active ? "rgba(56,189,248,0.5)" : "var(--border)"}`,
-              background: active ? "rgba(56,189,248,0.12)" : "var(--chip-bg)",
-              color: active ? "var(--accent-sky)" : "var(--muted)",
-              borderRadius: 999,
-              padding: "2px 10px",
-              fontSize: 12,
-              cursor: "pointer",
-            }}
           >
             {o.label}
           </button>

@@ -30,15 +30,6 @@ export function MethodologyInventory({ rows }: { rows: Row[] }) {
     setFilter(src);
     setOpen(true);
   };
-  const chip = (active: boolean): React.CSSProperties => ({
-    border: `1px solid ${active ? "rgba(56,189,248,0.5)" : "var(--border)"}`,
-    background: active ? "rgba(56,189,248,0.12)" : "var(--chip-bg)",
-    color: active ? "var(--accent-sky)" : "var(--muted)",
-    borderRadius: 999,
-    padding: "2px 10px",
-    fontSize: 12,
-    cursor: "pointer",
-  });
   const td: React.CSSProperties = {
     padding: "6px 12px",
     fontSize: 13,
@@ -46,12 +37,12 @@ export function MethodologyInventory({ rows }: { rows: Row[] }) {
   };
   return (
     <div>
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
-        <button type="button" aria-pressed={open && filter === null} style={chip(open && filter === null)} onClick={() => pick(null)}>
+      <div className="segmented" style={{ marginBottom: 10 }}>
+        <button type="button" aria-pressed={open && filter === null} className="segmented-option" onClick={() => pick(null)}>
           All ({rows.length})
         </button>
         {sources.map((s) => (
-          <button key={s} type="button" aria-pressed={open && filter === s} style={chip(open && filter === s)} onClick={() => pick(s)}
+          <button key={s} type="button" aria-pressed={open && filter === s} className="segmented-option" onClick={() => pick(s)}
             data-testid="inv-chip">
             {s} {count(s)}
             {stale(s) > 0 && <span className="inv-chip-stale"> · {stale(s)} stale</span>}
