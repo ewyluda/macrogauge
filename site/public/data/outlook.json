@@ -1,7 +1,7 @@
 {
-  "published_at": "2026-10-17T18:17:32Z",
+  "published_at": "2026-10-18T21:01:16Z",
   "model": "macrogauge_outlook_v1",
-  "as_of": "2026-10-17",
+  "as_of": "2026-10-18",
   "origin_month": "2026-09",
   "horizon_months": 12,
   "latest_complete_month_yoy_pct": 3.28,
@@ -110,87 +110,87 @@
   "forecast": [
     {
       "month": "2026-10",
-      "central_yoy_pct": 3.94,
-      "mom_pct": 0.331,
-      "low_yoy_pct": 3.41,
-      "high_yoy_pct": 4.47
+      "central_yoy_pct": 3.93,
+      "mom_pct": 0.325,
+      "low_yoy_pct": 3.4,
+      "high_yoy_pct": 4.46
     },
     {
       "month": "2026-11",
-      "central_yoy_pct": 4.54,
-      "mom_pct": 0.327,
-      "low_yoy_pct": 3.8,
-      "high_yoy_pct": 5.28
+      "central_yoy_pct": 4.52,
+      "mom_pct": 0.321,
+      "low_yoy_pct": 3.78,
+      "high_yoy_pct": 5.26
     },
     {
       "month": "2026-12",
-      "central_yoy_pct": 5.11,
-      "mom_pct": 0.244,
-      "low_yoy_pct": 4.2,
-      "high_yoy_pct": 6.02
+      "central_yoy_pct": 5.09,
+      "mom_pct": 0.239,
+      "low_yoy_pct": 4.18,
+      "high_yoy_pct": 6.0
     },
     {
       "month": "2027-01",
-      "central_yoy_pct": 4.8,
-      "mom_pct": 0.244,
-      "low_yoy_pct": 3.75,
-      "high_yoy_pct": 5.85
+      "central_yoy_pct": 4.79,
+      "mom_pct": 0.256,
+      "low_yoy_pct": 3.74,
+      "high_yoy_pct": 5.84
     },
     {
       "month": "2027-02",
       "central_yoy_pct": 4.44,
-      "mom_pct": 0.227,
+      "mom_pct": 0.239,
       "low_yoy_pct": 3.27,
       "high_yoy_pct": 5.61
     },
     {
       "month": "2027-03",
-      "central_yoy_pct": 3.23,
-      "mom_pct": 0.227,
-      "low_yoy_pct": 1.94,
-      "high_yoy_pct": 4.52
+      "central_yoy_pct": 3.25,
+      "mom_pct": 0.239,
+      "low_yoy_pct": 1.96,
+      "high_yoy_pct": 4.54
     },
     {
       "month": "2027-04",
-      "central_yoy_pct": 2.9,
-      "mom_pct": 0.231,
-      "low_yoy_pct": 1.51,
-      "high_yoy_pct": 4.29
+      "central_yoy_pct": 2.94,
+      "mom_pct": 0.243,
+      "low_yoy_pct": 1.55,
+      "high_yoy_pct": 4.33
     },
     {
       "month": "2027-05",
-      "central_yoy_pct": 2.5,
-      "mom_pct": 0.231,
-      "low_yoy_pct": 1.01,
-      "high_yoy_pct": 3.99
+      "central_yoy_pct": 2.55,
+      "mom_pct": 0.243,
+      "low_yoy_pct": 1.06,
+      "high_yoy_pct": 4.04
     },
     {
       "month": "2027-06",
-      "central_yoy_pct": 3.21,
-      "mom_pct": 0.231,
-      "low_yoy_pct": 1.63,
-      "high_yoy_pct": 4.79
+      "central_yoy_pct": 3.27,
+      "mom_pct": 0.243,
+      "low_yoy_pct": 1.69,
+      "high_yoy_pct": 4.85
     },
     {
       "month": "2027-07",
-      "central_yoy_pct": 3.21,
-      "mom_pct": 0.231,
-      "low_yoy_pct": 1.55,
-      "high_yoy_pct": 4.87
+      "central_yoy_pct": 3.28,
+      "mom_pct": 0.243,
+      "low_yoy_pct": 1.62,
+      "high_yoy_pct": 4.94
     },
     {
       "month": "2027-08",
-      "central_yoy_pct": 3.33,
-      "mom_pct": 0.232,
-      "low_yoy_pct": 1.59,
-      "high_yoy_pct": 5.07
+      "central_yoy_pct": 3.41,
+      "mom_pct": 0.243,
+      "low_yoy_pct": 1.67,
+      "high_yoy_pct": 5.15
     },
     {
       "month": "2027-09",
-      "central_yoy_pct": 3.03,
-      "mom_pct": 0.232,
-      "low_yoy_pct": 1.21,
-      "high_yoy_pct": 4.85
+      "central_yoy_pct": 3.12,
+      "mom_pct": 0.243,
+      "low_yoy_pct": 1.3,
+      "high_yoy_pct": 4.94
     }
   ],
   "base_effects_only": [
@@ -245,7 +245,7 @@
   ],
   "sigma_monthly_pp": 0.5251,
   "sigma_window_months": 60,
-  "driver_coverage_pct": 75.0,
+  "driver_coverage_pct": 87.5,
   "drivers": [
     {
       "key": "fuel",
@@ -311,13 +311,15 @@
     {
       "key": "used_vehicles",
       "name": "Manheim used wholesale (3mo)",
-      "value": null,
+      "value": -3.2879,
       "unit": "%",
-      "reading": "fallback",
+      "reading": "-3.29%",
       "as_of": "2026-09-01",
-      "status": "fallback",
-      "effect": "70% retail pass-through over 3 months",
-      "sources": []
+      "status": "live",
+      "effect": "70% retail pass-through over 3 months, on the official used-car trend",
+      "sources": [
+        "manheim_uvvi_m"
+      ]
     },
     {
       "key": "new_vehicles",
@@ -1109,63 +1111,63 @@
     "used_vehicles": [
       {
         "month": "2026-10",
-        "mom_pct": -0.5877,
-        "index": 135.170204
+        "mom_pct": -0.8376,
+        "index": 134.830459
       },
       {
         "month": "2026-11",
-        "mom_pct": -0.5877,
-        "index": 134.375816
+        "mom_pct": -0.8376,
+        "index": 133.701168
       },
       {
         "month": "2026-12",
-        "mom_pct": -0.5877,
-        "index": 133.586096
+        "mom_pct": -0.8376,
+        "index": 132.581336
       },
       {
         "month": "2027-01",
-        "mom_pct": -0.5877,
-        "index": 132.801018
+        "mom_pct": -0.0644,
+        "index": 132.49593
       },
       {
         "month": "2027-02",
-        "mom_pct": -0.5877,
-        "index": 132.020553
+        "mom_pct": -0.0644,
+        "index": 132.410579
       },
       {
         "month": "2027-03",
-        "mom_pct": -0.5877,
-        "index": 131.244676
+        "mom_pct": -0.0644,
+        "index": 132.325283
       },
       {
         "month": "2027-04",
-        "mom_pct": -0.5877,
-        "index": 130.473358
+        "mom_pct": -0.0644,
+        "index": 132.240041
       },
       {
         "month": "2027-05",
-        "mom_pct": -0.5877,
-        "index": 129.706573
+        "mom_pct": -0.0644,
+        "index": 132.154855
       },
       {
         "month": "2027-06",
-        "mom_pct": -0.5877,
-        "index": 128.944294
+        "mom_pct": -0.0644,
+        "index": 132.069724
       },
       {
         "month": "2027-07",
-        "mom_pct": -0.5877,
-        "index": 128.186495
+        "mom_pct": -0.0644,
+        "index": 131.984647
       },
       {
         "month": "2027-08",
-        "mom_pct": -0.5877,
-        "index": 127.43315
+        "mom_pct": -0.0644,
+        "index": 131.899625
       },
       {
         "month": "2027-09",
-        "mom_pct": -0.5877,
-        "index": 126.684232
+        "mom_pct": -0.0644,
+        "index": 131.814658
       }
     ],
     "nat_gas": [

@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-17T18:17:32Z",
+  "published_at": "2026-10-18T21:01:16Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,339 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-17T18:16:15Z",
-  "tape_last_post_at": "2026-10-17T02:00:52Z",
-  "age_hours": 0.02,
+  "feed_generated_at": "2026-10-18T20:55:05Z",
+  "tape_last_post_at": "2026-10-18T20:52:44Z",
+  "age_hours": 0.11,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3AE45E6F713AB08041EB",
+      "ts": "2026-10-18T19:52:26Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Nvidia ($NVDA) CEO Jensen Huang will deliver a keynote at GTC Berlin on Wednesday, October 21, focusing on European sovereign AI, enterprise AI infrastructure and robotics.",
+      "points": [
+        {
+          "label": "Keynote",
+          "text": "Scheduled for 5:00 a.m. ET at Berlin's Tempodrom, with a free livestream available without registration and a pregame show beforehand."
+        },
+        {
+          "label": "Conference",
+          "text": "GTC runs October 20\u201322, with more than 100 sessions covering accelerated computing, CUDA, agentic AI, robotics, open models and physical AI."
+        },
+        {
+          "label": "Industry focus",
+          "text": "STATION-Berlin will host technical sessions, hands-on training labs, certifications and networking for developers, researchers and business leaders."
+        },
+        {
+          "label": null,
+          "text": "https://www.nvidia.com/en-eu/gtc/"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19660",
+      "has_media": true
+    },
+    {
+      "id": "3A493388B97E63E4B45E",
+      "ts": "2026-10-18T18:39:54Z",
+      "category": "company",
+      "kind": "video",
+      "headline": "New Basis Points: Steve and Amit break down the tech and AI sell-off, including concerns around Anthropic\u2019s growth and the wider AI-investment trade.",
+      "points": [
+        {
+          "label": null,
+          "text": "They take a deep dive into CoreWeave\u2019s surging bond yields, revenue backlog, and whether the market is misreading its debt outlook."
+        },
+        {
+          "label": null,
+          "text": "https://youtu.be/tYxt-memteA?t=0&is=HvQp_C8JGKii48WE"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19658",
+      "has_media": true
+    },
+    {
+      "id": "3A86AF9C6AA3991D15F2",
+      "ts": "2026-10-18T16:40:43Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "TeraWulf ($WULF) CEO Paul Prager rejected comparisons with AI neoclouds, arguing the company operates as an energy infrastructure provider backed by long-term leases and investment-grade credit support.",
+      "points": [
+        {
+          "label": "Business model",
+          "text": "Unlike neoclouds that purchase GPUs and resell computing power, TeraWulf owns and operates powered data centers, generating contracted lease income."
+        },
+        {
+          "label": "Credit protection",
+          "text": "Google ($GOOGL) backs Fluidstack's Lake Mariner leases. Prager said an investment-grade credit backstop is also committed for its Kentucky project, where Anthropic signed a 20-year lease worth approximately $19 billion."
+        },
+        {
+          "label": "Construction",
+          "text": "Lake Mariner's CB-4 remains scheduled for Q4 2026 delivery, followed by CB-5 in Q1 2027. Construction costs are tracking around $9 million per MW, within guidance of $8 million\u2013$10 million."
+        },
+        {
+          "label": "Financing",
+          "text": "Prager said TeraWulf raised equity opportunistically earlier this year and can pass higher financing costs to tenants where contracts permit, protecting project economics."
+        },
+        {
+          "label": "Outlook",
+          "text": "Prager maintained that construction remains on schedule and demand is strong, while emphasizing that continued execution is essential."
+        },
+        {
+          "label": "Wall Street",
+          "text": "Morgan Stanley reiterated its Overweight rating and $65 target, arguing the sell-off undervalues existing contracts."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "WULF",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19653",
+      "has_media": true
+    },
+    {
+      "id": "3A6DD5E554705145FA18",
+      "ts": "2026-10-18T16:14:30Z",
+      "category": "earnings",
+      "kind": "text",
+      "headline": "Morgan Stanley forecasts AI infrastructure spending reaching $1.58 trillion in 2027, generating roughly 24% of S&P 500 revenue growth, while AI-related companies are projected to drive 78% of index earnings growth.",
+      "points": [
+        {
+          "label": "Nvidia exposure",
+          "text": "Roughly $1 trillion of 2027 AI spending is projected to flow into S&P 500 revenue, with ($NVDA) Nvidia accounting for approximately $690 billion of that modeled total."
+        },
+        {
+          "label": "Current earnings",
+          "text": "AI beneficiaries and the Magnificent Seven account for 61.4% of projected Q3 2026 S&P 500 earnings growth. Micron ($MU) contributes 18.8%, Nvidia ($NVDA) 15%, Meta ($META) 6.9% and Broadcom ($AVGO) 5%."
+        },
+        {
+          "label": "Latest estimates",
+          "text": "FactSet projected 29% Q3 earnings growth as of October 16, versus 27% in Morgan Stanley's chart."
+        },
+        {
+          "label": "AI spending",
+          "text": "Morgan Stanley forecasts capex rising from $980 billion in 2026 to $1.58 trillion in 2027 (+60%) and $1.81 trillion in 2028."
+        },
+        {
+          "label": "Revenue growth",
+          "text": "AI spending represents about 5% of projected 2027 index sales. Excluding its contribution, estimated revenue growth falls from 8.6% to 6.6%."
+        },
+        {
+          "label": "Lease financing",
+          "text": "The forecasts include $195 billion in 2027 lease capex, rising to $246 billion in 2028. Hyperscalers have over $1.1 trillion in pending lease commitments."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AVGO",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "MU",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19651",
+      "has_media": false
+    },
+    {
+      "id": "3AB05AC7D24D6E3532D5",
+      "ts": "2026-10-18T15:56:29Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "IREN ($IREN), the AI cloud and data center provider, has become an official sponsor of Real Madrid, expanding its sports partnerships.",
+      "points": [
+        {
+          "label": "Partnership",
+          "text": "Real Madrid announced the alliance Sunday, emphasizing community initiatives, innovation and technological progress."
+        },
+        {
+          "label": "Spain expansion",
+          "text": "IREN acquired Spanish data center developer Nostrum Group in June, adding approximately 490MW of secured, grid-connected power and a development pipeline."
+        },
+        {
+          "label": "Sports sponsorships",
+          "text": "IREN previously signed a multiyear deal with the Golden State Warriors in June, becoming the NBA team's official AI cloud partner and jersey sponsor."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "IREN",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19650",
+      "has_media": true
+    },
+    {
+      "id": "3AA5ABEF940C92309062",
+      "ts": "2026-10-18T15:13:18Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "America\u2019s projected $10 trillion AI infrastructure boom faces mounting risks from rising borrowing costs, construction delays and public opposition, raising doubts about how much planned data center capacity will materialize.",
+      "points": [
+        {
+          "label": "Nscale",
+          "text": "The Nvidia-backed ($NVDA) provider risks losing a $45 billion Anthropic contract if financing or delivery deadlines are missed. Only 25,000 of nearly 500,000 planned advanced AI chips were operational in August."
+        },
+        {
+          "label": "Investment scale",
+          "text": "Columbia Business School estimates $10 trillion in U.S. AI infrastructure spending from 2025\u20132032, averaging 3.6% of GDP annually, exceeding historical railroad and highway investment booms."
+        },
+        {
+          "label": "Project delays",
+          "text": "At least 47 major data center projects have been delayed, blocked or withdrawn in 2026. Bernstein estimates only 35% of planned U.S. capacity is credible, while over 1,000 communities have sought restrictions."
+        },
+        {
+          "label": "Credit pressure",
+          "text": "($CRWV) One $1.1 billion bond financing a CoreWeave facility fell roughly 5% within three weeks of issuance."
+        },
+        {
+          "label": "Funding gaps",
+          "text": "SoftBank-backed SB Energy needs $174 billion to fulfill contracts worth $430 billion in future revenue, despite having completed no data centers. Nebius ($NBIS) estimates its planned 5GW expansion requires $250 billion, with roughly 20% financed."
+        },
+        {
+          "label": "Execution risks",
+          "text": "Oracle ($ORCL) and OpenAI\u2019s Stargate projects face delays, while Cipher Mining ($CIFR) agreed to absorb the first $359 million in cost overruns at one Texas project. Late deliveries could allow customers to terminate contracts."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CIFR",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NBIS",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "ORCL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19649",
+      "has_media": true
+    },
+    {
+      "id": "3A20E71A739649262927",
+      "ts": "2026-10-18T14:35:44Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Samsung Electronics reportedly plans to use TSMC\u2019s ($TSM) 3nm process to manufacture base dies for Nvidia\u2019s ($NVDA) next-generation custom HBM chips, marking their first collaboration in HBM production.",
+      "points": [
+        {
+          "label": "Nvidia requirements",
+          "text": "Nvidia has asked Samsung, SK Hynix and Micron ($MU) to use TSMC\u2019s 3nm process for NVHBM base dies and sixth-generation DRAM for core dies."
+        },
+        {
+          "label": "NVHBM technology",
+          "text": "Introduced in August, the design integrates Nvidia\u2019s custom memory controller into the base die to standardize chips across suppliers."
+        },
+        {
+          "label": "Samsung strategy",
+          "text": "Samsung reportedly accepted Nvidia\u2019s requirements but will retain in-house production for other HBM products. It may also use its own foundry if TSMC faces capacity shortages."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MU",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "TSM",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19647",
+      "has_media": true
+    },
+    {
+      "id": "3A3C3275E42CE98675F4",
+      "ts": "2026-10-18T14:11:31Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Microsoft ($MSFT) has canceled its 50MW data center lease with Nvidia-backed ($NVDA) Nscale in Essex, UK, after learning the facility may not receive grid power until after 2030, according to the Financial Times.",
+      "points": [
+        {
+          "label": "Canceled project",
+          "text": "The site was expected to host 23,000 Nvidia GB300 chips and form part of Microsoft's broader \u00a322 billion UK investment initiative."
+        },
+        {
+          "label": "Nscale impact",
+          "text": "The company, targeting a New York IPO at a $35 billion valuation, is seeking another tenant and alternative power sources. It says other Microsoft contracts remain unaffected."
+        },
+        {
+          "label": "Anthropic risk",
+          "text": "Nscale's separate $45 billion agreement with Anthropic could also be canceled if financing or delivery deadlines are missed."
+        },
+        {
+          "label": "Expansion gap",
+          "text": "Nscale had just 25,000 advanced AI chips operational in August, versus nearly 500,000 planned."
+        },
+        {
+          "label": "Power bottleneck",
+          "text": "Some 315 UK data centers await grid connections requiring 73GW, compared with the country's 45GW peak electricity demand."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19645",
+      "has_media": true
+    },
     {
       "id": "3A3D02F84B188059988E",
       "ts": "2026-10-17T00:57:25Z",
@@ -6266,124 +6594,6 @@
         "WULF"
       ],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18745",
-      "has_media": true
-    },
-    {
-      "id": "3A9D148B60C15795A2D8",
-      "ts": "2026-10-11T20:36:21Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Amazon ($AMZN) is in talks to acquire AI startup Decart for approximately $7 billion, The Wall Street Journal reported. A deal could be reached soon, although negotiations could collapse or another bidder could emerge.",
-      "points": [
-        {
-          "label": "AI chip technology",
-          "text": "Decart develops software that makes it easier to switch between different AI chips, potentially supporting AWS's push to compete with Nvidia using its custom Trainium3 processors."
-        },
-        {
-          "label": "Valuation",
-          "text": "Decart was valued at nearly $4 billion in May and has raised over $400 million from investors including Sequoia Capital, Benchmark and Radical Ventures."
-        },
-        {
-          "label": "Existing partnership",
-          "text": "AWS gave Decart early access to Trainium3 in 2025. The startup also develops Lucy and Oasis, AI world models that generate and simulate 3D environments."
-        },
-        {
-          "label": "Company background",
-          "text": "Founded in 2023 by three Israeli engineers, Decart is based in San Francisco."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMZN",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18742",
-      "has_media": true
-    },
-    {
-      "id": "3AA654FB8ABAC274409C",
-      "ts": "2026-10-10T19:16:08Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Qualcomm ($QCOM) CEO Cristiano Amon said leading AI companies want smartphones running always-on, 100-billion-parameter AI models by 2028\u2014more than triple the 30 billion supported by Qualcomm's newest chips.",
-      "points": [
-        {
-          "label": "On-device AI",
-          "text": "Qualcomm is developing memory-efficient technology that loads model parameters from flash storage, enabling larger AI models to run locally. The goal is autonomous agents that understand personal context and act on users' behalf."
-        },
-        {
-          "label": "Smartphone demand",
-          "text": "Amon said memory prices have risen 5\u20136x, reducing smartphone shipments roughly 20% this year, primarily in lower-priced devices. Premium demand remains resilient."
-        },
-        {
-          "label": "Smart glasses",
-          "text": "Amon sees glasses as the leading AI wearable, with mass adoption requiring roughly 35-gram designs, 6\u201310 hours of battery life and fashionable styling."
-        },
-        {
-          "label": "Data centers",
-          "text": "Qualcomm is targeting energy-efficient AI inference. Its Modular acquisition aims to build an open, hardware-independent software platform that challenges Nvidia's CUDA ecosystem."
-        },
-        {
-          "label": "Business strategy",
-          "text": "Amon said AI productivity is helping Qualcomm expand into data centers, PCs and automotive markets while keeping operating expenses roughly flat."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "QCOM",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18727",
-      "has_media": true
-    },
-    {
-      "id": "3AE1284235C599F58689",
-      "ts": "2026-10-10T18:50:43Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Nvidia ($NVDA) is in early talks to acquire Reflection AI or increase its investment in the U.S. artificial intelligence startup, the Financial Times reported Saturday.",
-      "points": [
-        {
-          "label": "Valuation",
-          "text": "Reflection was valued at $25 billion in March. Nvidia has already invested $800 million and is among its largest backers."
-        },
-        {
-          "label": "Deal structure",
-          "text": "Options reportedly include a full acquisition or an arrangement to acquire talent and technology that could avoid some regulatory scrutiny. Financial terms remain unknown."
-        },
-        {
-          "label": "AI technology",
-          "text": "Reflection recently unveiled Beam, an open-weight AI model designed to compete with Chinese alternatives such as DeepSeek while running on Nvidia chips."
-        },
-        {
-          "label": "Strategic importance",
-          "text": "Founded by two former Google DeepMind researchers, Reflection develops customizable AI models and works with U.S. government agencies and allied countries."
-        },
-        {
-          "label": "Deal status",
-          "text": "Discussions remain preliminary and could collapse. Neither Nvidia nor Reflection commented."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18725",
       "has_media": true
     }
   ]

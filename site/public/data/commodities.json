@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-17T18:17:32Z",
+  "published_at": "2026-10-18T21:01:16Z",
   "groups": [
     {
       "group": "AI BUILD INPUTS",
@@ -452,12 +452,11 @@
           "code": "vast_h100_sxm",
           "label": "H100 SXM (vast.ai median)",
           "unit": "$/GPU-hr",
-          "value": 2.1603,
-          "as_of": "2026-10-17",
+          "value": 2.2022,
+          "as_of": "2026-10-18",
           "yoy_pct": null,
-          "chg_30d_pct": 3.05,
+          "chg_30d_pct": 23.06,
           "spark": [
-            2.1102,
             2.0046,
             2.0003,
             1.9208,
@@ -516,11 +515,12 @@
             2.9336,
             2.7602,
             2.1622,
-            2.1603
+            2.1603,
+            2.2022
           ],
-          "spark_span": "Jul 16 \u2013 Oct 17, 2026",
+          "spark_span": "Jul 17 \u2013 Oct 18, 2026",
           "chg_alt": {
-            "pct": 8.0,
+            "pct": 10.09,
             "label": "since Jul 15, 2026"
           }
         },
@@ -528,12 +528,11 @@
           "code": "caiso_sp15_da",
           "label": "CAISO SP15 day-ahead, 30-day avg",
           "unit": "$/MWh",
-          "value": 44.4,
-          "as_of": "2026-10-17",
-          "yoy_pct": 32.1,
-          "chg_30d_pct": -15.6,
+          "value": 44.69,
+          "as_of": "2026-10-18",
+          "yoy_pct": 36.4,
+          "chg_30d_pct": -13.9,
           "spark": [
-            49.6806,
             51.8523,
             52.3605,
             51.0664,
@@ -592,9 +591,10 @@
             34.9993,
             35.5234,
             43.2333,
-            47.1607
+            47.1607,
+            39.5495
           ],
-          "spark_span": "Jul 25 \u2013 Oct 17, 2026"
+          "spark_span": "Jul 26 \u2013 Oct 18, 2026"
         },
         {
           "code": "ice_pjm_west",
@@ -986,12 +986,11 @@
           "code": "miso_indiana_da",
           "label": "MISO Indiana Hub DA, 30-day avg",
           "unit": "$/MWh",
-          "value": 60.27,
-          "as_of": "2026-10-16",
-          "yoy_pct": 28.9,
-          "chg_30d_pct": 11.2,
+          "value": 57.83,
+          "as_of": "2026-10-17",
+          "yoy_pct": 24.5,
+          "chg_30d_pct": 2.5,
           "spark": [
-            45.8,
             48.23,
             46.09,
             45.83,
@@ -1050,9 +1049,10 @@
             197.58,
             108.18,
             91.97,
-            47.42
+            47.42,
+            37.87
           ],
-          "spark_span": "Aug 18 \u2013 Oct 16, 2026"
+          "spark_span": "Aug 19 \u2013 Oct 17, 2026"
         }
       ]
     },
@@ -1500,12 +1500,11 @@
           "code": "fmp_sugar",
           "label": "Sugar front month",
           "unit": "\u00a2/lb",
-          "value": 229.05,
-          "as_of": "2026-10-17",
-          "yoy_pct": 1.09,
-          "chg_30d_pct": -4.3,
+          "value": 224.571,
+          "as_of": "2026-10-18",
+          "yoy_pct": 1.18,
+          "chg_30d_pct": -10.77,
           "spark": [
-            219.0158,
             219.67,
             216.6417,
             224.9325,
@@ -1564,9 +1563,10 @@
             235.9401,
             236.5282,
             242.5458,
-            229.05
+            229.05,
+            224.571
           ],
-          "spark_span": "Jul 27 \u2013 Oct 17, 2026"
+          "spark_span": "Jul 28 \u2013 Oct 18, 2026"
         },
         {
           "code": "fmp_cocoa",

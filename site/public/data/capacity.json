@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-17T18:17:32Z",
+  "published_at": "2026-10-18T21:01:16Z",
   "as_of_curated": "2026-10-17",
   "priced_date": "2026-10-16",
   "note": "AI critical-IT MW + unit economics across the AI build-out cohort: neoclouds, powered-shell landlords, operators, and hyperscalers (incl. private builders xAI and OpenAI/Stargate). Spec: docs/superpowers/specs/2026-07-21-capacity-tracker-design.md. op/con/plan = verify-adjusted critical-IT AI MW; hyperscaler MW are estimates (no filing-grade critical-IT split is disclosed). cap/nd/bk in $B. Derived analytics (EV, weighted MW, EV/MW, coverage, %energized) are computed at render time, not stored. dupe!=null => excluded from de-duped cohort totals.",
@@ -3307,12 +3307,12 @@
           "https://www.tradingview.com/news/reuters.com,2026:newsml_FWN45Z1PW:0-tencent-prices-1-8-bln-and-cny26-bln-notes-under-global-medium-term-note-programme/"
         ]
       ],
-      "cap": 478.22,
+      "cap": 479.54,
       "px": 52.75,
       "priced_date": "2026-10-16",
       "stale": false,
       "tl": [],
-      "ev": 469.62,
+      "ev": 470.94,
       "wmw": 1875.0,
       "ev_per_mw": null,
       "pct_energized": 36.4,
@@ -6850,11 +6850,11 @@
     "basis": "Power deals for the companies on /capacity, announced 2024-01-01 or later: power purchase agreements and the other dedicated supply deals that stand behind data-center load (utility-built generation under an electric service agreement or tariff, development or funding agreements with energy rights, and MOUs, LOIs or options). One row per deal of 100 MW or more, each tied to a named facility, fleet of units or program; fleet-wide supply with no named plant (Google-Constellation's 2,700 MW PJM deal) is left out. Generic renewable-portfolio PPAs are out of scope.",
     "mw_note": "MW is the source's own figure: contracted (the buyer's stated volume) or nameplate (the plant or project's capacity where the buyer's share is not stated), so rows are not additive capacity for the buyer.",
     "totals": {
-      "signed_mw": 21379,
-      "signed_ppa_mw": 10252,
-      "pending_mw": 9200,
+      "signed_mw": 21775,
+      "signed_ppa_mw": 10648,
+      "pending_mw": 9800,
       "preliminary_mw": 4850,
-      "deals": 31
+      "deals": 33
     },
     "deals": [
       {
@@ -7102,7 +7102,7 @@
         "name": "Alphabet (Google)",
         "counterparty": "American Electric Power",
         "facility": "702 MW Bloom fuel-cell generation project near Cheyenne, WY",
-        "technology": "other",
+        "technology": "fuel cells",
         "mw": 702,
         "sites": 1,
         "mw_total": 702,
@@ -7119,7 +7119,7 @@
           "url": "https://www.prnewswire.com/news-releases/aep-advances-innovative-energy-solution-for-google-with-702mw-of-bloom-fuel-cells-302907658.html"
         },
         "quote": "American Electric Power (Nasdaq: AEP) plans to invest approximately $4 billion to advance a new 702-megawatt fuel cell generation project near Cheyenne, Wyoming, under a long-term 20-year power purchase agreement (PPA) with Google",
-        "note": "Fuel cells (Bloom), filed under 'other'; the release lead does not state the fuel. ~$4B; AEP plans to start construction in 2026 and expects full operation by end-2028 (WSJ, same evidence file)."
+        "note": "Bloom fuel cells, per the release title; the release lead does not state the fuel they burn. ~$4B; AEP plans to start construction in 2026 and expects full operation by end-2028 (WSJ, same evidence file)."
       },
       {
         "t": "AMZN",
@@ -7222,7 +7222,7 @@
         "name": "Alphabet (Google)",
         "counterparty": "Black Hills Corp.",
         "facility": "Grid-connected service to Google's planned Cheyenne, WY data center (company-owned generation + market energy)",
-        "technology": "other",
+        "technology": "gas",
         "mw": 590,
         "sites": 1,
         "mw_total": 590,
@@ -7239,7 +7239,7 @@
           "url": "https://www.globenewswire.com/news-release/2026/10/06/3376007/10381/en/black-hills-corp-executes-definitive-agreements-to-serve-google-s-planned-data-center-in-cheyenne-wyoming.html"
         },
         "quote": "Black Hills will provide up to 590 MW of grid-connected energy service through company-owned generation and market energy.",
-        "note": "Definitive agreements effective 9/30/26 with terms through 2048. Black Hills plans 564 MW (nameplate) of new company-owned generation, technology not stated. The project's 2.7 GW resource mix also includes ~2.1 GW of third-party contracted resources managed under the LPCS tariff; those are not a row (AEP's 702 MW fuel cells are a separate row and may be among them)."
+        "note": "Definitive agreements effective 9/30/26 with terms through 2048. Black Hills plans 564 MW (nameplate) of new natural gas generation at its Cheyenne Prairie Generating Station; the other 26 MW comes from market purchases and tariff service (same release, in the evidence file). The project's 2.7 GW resource mix also includes ~2.1 GW of third-party contracted resources managed under the LPCS tariff; those are not a row (AEP's 702 MW fuel cells are a separate row and may be among them)."
       },
       {
         "t": "GOOGL",
@@ -7288,6 +7288,30 @@
         },
         "quote": "Through additional 20-year nuclear energy agreements, we will purchase more than 2.1 GW of energy from two operating Vistra nuclear power plants in Ohio (Perry and Davis-Besse), in addition to the energy from expansions (uprates) at these two Ohio plants and a third Vistra nuclear plant in Pennsylvania (Beaver Valley). All three plants are located in and will continue to deliver power into the PJM grid region, and these expansions will be the largest nuclear uprates supported by a corporate customer in the US. Meta\u2019s commitments ensure that these facilities can continue providing reliable power to the regional electricity grid. The new additional uprate capacity at each of them, totaling 433 MW, is expected to come online in the early 2030s",
         "note": "Per-plant split (213/80/140 MW) and delivery dates in the Vistra 8-K evidence file; Beaver Valley's 140 MW share alone is above 100 MW."
+      },
+      {
+        "t": "GOOGL",
+        "name": "Alphabet (Google)",
+        "counterparty": "Fervo Energy",
+        "facility": "Cape Station enhanced geothermal GeoCluster, UT",
+        "technology": "geothermal",
+        "mw": 396,
+        "sites": 1,
+        "mw_total": 396,
+        "mw_basis": "contracted",
+        "status": "signed",
+        "kind": "ppa",
+        "instrument": "PPA",
+        "announced": "2026-09-01",
+        "term_years": null,
+        "start": "2028",
+        "source": {
+          "publisher": "Fervo Energy (press release)",
+          "title": "Fervo Energy and Google Sign 396 MW PPA",
+          "url": "https://fervoenergy.com/fervo-energy-and-google-sign-396-mw-ppa/"
+        },
+        "quote": "today announced a 396-megawatt (MW) power purchase agreement (PPA) with Google to enable the continued development of the Cape Station enhanced geothermal systems (EGS) GeoCluster, expected to come online in 2028.",
+        "note": "For a potential Google data center in Utah. Google also holds an option to expand its offtake by about 600 MW (nearly 1 GW in total) by June 2030; like Energy Northwest's expansion option, the option is not a row. Direct-to-load delivery under Utah's SB132 is subject to regulatory approval."
       },
       {
         "t": "AMZN",
@@ -7480,6 +7504,30 @@
         },
         "quote": "The expanded agreement would increase contracted electric demand at TeraWulf's Muskie Data campus in Grayson, Kentucky, from 500 megawatts (MW) to 1 gigawatt (GW).",
         "note": "Doubles the earlier 500 MW contracted demand (that agreement's date is not verified here). The amended contract still needs Kentucky PSC approval, so the 1 GW row is pending. TeraWulf pays the estimated financing costs of Kentucky Power's planned 760 MW combined-cycle plant at Big Sandy, hence gas."
+      },
+      {
+        "t": "GOOGL",
+        "name": "Alphabet (Google)",
+        "counterparty": "OG&E (OGE Energy)",
+        "facility": "Two Google solar facilities under construction (capacity for Google's Muskogee and Stillwater, OK data centers)",
+        "technology": "solar",
+        "mw": 600,
+        "sites": 1,
+        "mw_total": 600,
+        "mw_basis": "nameplate",
+        "status": "pending",
+        "kind": "utility supply",
+        "instrument": "special contract (electric service agreements) + two capacity purchase agreements",
+        "announced": "2026-04-29",
+        "term_years": null,
+        "start": null,
+        "source": {
+          "publisher": "OGE Energy Corp. (Q1 2026 earnings call; transcript via Financial Modeling Prep)",
+          "title": "OGE Energy Corp. first quarter 2026 earnings call",
+          "url": "https://ogeenergy.gcs-web.com/node/45591"
+        },
+        "quote": "Working with Google, we've secured generation capacity from 2 solar facilities that Google had previously announced and that are currently under construction. These facilities will provide 600 megawatts of nameplate capacity, and we will request preapproval from both Oklahoma and Arkansas commissions for these CPAs.",
+        "note": "600 MW is the two solar plants' nameplate, not Google's load, which no source read states. OG&E's release (2026-04-30) gives no MW. The OCC must approve the special contract and pre-approve the CPAs; OG&E filed in May 2026, and its Q2 10-Q set a hearing for 2026-09-09."
       },
       {
         "t": "META",
