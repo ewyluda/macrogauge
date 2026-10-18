@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { clauseText, settle, type ClauseSeries, type ClauseTerms } from "./clause";
+import { clauseText, defaultBase, isQuarterly, settle, type ClauseSeries, type ClauseTerms } from "./clause";
 
 const S: ClauseSeries = { basket: "build", code: "switchgear", label: "PPI switchgear & switchboard", series: "ppi_switchgear",
   source_id: "WPU1175", months: ["2025-08", "2026-07", "2026-08"], latest: [400, 420.184, 430.247],
@@ -47,5 +47,29 @@ describe("clauseText", () => {
     expect(txt).toContain("portion exceeding 5%");
     expect(txt).toContain("Buyer shall bear 50%");
     expect(txt).toContain("an increase of 10% or a decrease of 5%");
+  });
+});
+
+describe("quarterly series (ECI)", () => {
+  const Q: ClauseSeries = { basket: "ops", code: "ops_wages", label: "Installation & maintenance wages", series: "CIU2020000430000I",
+    source_id: "CIU2020000430000I", months: ["2025-01", "2025-04", "2025-07", "2025-10", "2026-01", "2026-04"],
+    latest: [170, 171, 172.5, 173.4, 175, 176.3], first_print: [170, 171, 172.5, 173.4, 175, 176.3],
+    first_release: ["2025-04-30", "2025-07-31", "2025-10-31", "2026-02-10", "2026-04-30", "2026-07-31"] };
+  it("is detected from the month spacing; a monthly series is not", () => {
+    expect(isQuarterly(Q)).toBe(true);
+    expect(isQuarterly(S)).toBe(false);
+  });
+  it("defaults the base to the same quarter a year earlier", () => {
+    expect(defaultBase(Q)).toBe("2025-04");
+  });
+  it("names quarters, not FRED's first-of-quarter month, in the clause", () => {
+    const txt = clauseText(Q, { ...T, baseMonth: "2025-04", adjMonth: "2026-04" });
+    expect(txt).toContain("the second quarter of 2026");
+    expect(txt).toContain("(the base quarter)");
+    expect(txt).not.toContain("April");
+  });
+  it("explains a month the quarterly series has no point for", () => {
+    const r = settle(Q, { ...T, baseMonth: "2025-05", adjMonth: "2026-04" });
+    expect(!r.ok && r.error).toContain("quarterly");
   });
 });
