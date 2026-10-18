@@ -225,7 +225,7 @@ export function Treemap() {
         <SegmentedControl options={MODES} value={mode} onChange={setMode} />
       </div>
       <EChart option={option} height={420} notMerge={false} ariaTitle="Basket treemap: component weight and YoY" />
-      <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 10 }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", marginTop: 10 }}>
         <button
           type="button"
           className="segmented-option"
@@ -248,7 +248,7 @@ export function Treemap() {
             setPlaying(false);
             setPos(Number(e.target.value));
           }}
-          style={{ flex: 1, accentColor: "#38BDF8" }}
+          style={{ flex: "1 1 140px", minWidth: 140, accentColor: "#38BDF8" }}
         />
         <span
           style={{

@@ -98,6 +98,9 @@ a { transition: color 140ms ease, background 140ms ease; }
 }
 /* Tone text is darkened 20% toward --text: the raw accents measured 4.4:1 on
    their own tinted chip, under AA's 4.5:1 for 11-12px text. */
+/* home sources strip: a long source name wraps inside its pill on a phone
+   instead of pushing the page sideways (the header pill keeps nowrap) */
+.source-strip .status-pill { white-space: normal; max-width: 100%; }
 .status-pill-ok { color: color-mix(in srgb, var(--accent-emerald) 80%, var(--text)); }
 .status-pill-advisory { color: color-mix(in srgb, var(--accent-amber) 80%, var(--text)); }
 .status-pill-critical { color: color-mix(in srgb, var(--accent-red) 80%, var(--text)); }

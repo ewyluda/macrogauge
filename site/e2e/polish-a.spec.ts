@@ -27,6 +27,14 @@ test.describe("segmented controls, desktop", () => {
   }
 });
 
+test("home fits a 360px phone with the 44px controls (CI's Linux fonts run wider than macOS at 390)", async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow).toBeLessThanOrEqual(0);
+});
+
 test.describe("segmented controls, phone (390px)", () => {
   test.use({ viewport: { width: 390, height: 844 } });
   test("options are 44px touch targets", async ({ page }) => {

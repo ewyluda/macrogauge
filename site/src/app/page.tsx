@@ -356,7 +356,7 @@ export default function Home() {
       </Section>
 
       <Section title="Sources">
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <div className="source-strip" style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
           {sources.map((p) => (
             <Link
               key={p.id}
