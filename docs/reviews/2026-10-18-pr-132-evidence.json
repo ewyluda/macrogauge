@@ -1,0 +1,146 @@
+{
+  "pr": 132,
+  "head": "d00d18938558a0e7238adf9f397978a350fc9588",
+  "base": "b181dfcb6b79e554194ac1da3790e25085d4736d",
+  "method": "Actual TS helpers and chart components evaluated with mocked React hooks and render boundary; no browser rendering or data mutation.",
+  "monthly_gap": {
+    "fixture": "Committed compare.json truncated at its November 2025 observation; October 2025 is absent in the actual artifact.",
+    "last_observations": [
+      [
+        "2025-08-01",
+        2.92
+      ],
+      [
+        "2025-09-01",
+        3.01
+      ],
+      [
+        "2025-11-01",
+        2.74
+      ]
+    ],
+    "expected_month_end": "2025-11-30",
+    "actual_synthetic_end": "2025-12-31",
+    "extra_days": 31,
+    "head_consumer_tails": {
+      "HeroChart": [
+        [
+          "2025-09-01",
+          3.01
+        ],
+        [
+          "2025-11-01",
+          2.74
+        ],
+        [
+          "2025-12-31",
+          2.74
+        ]
+      ],
+      "ColChart": [
+        [
+          "2025-09-01",
+          3.01
+        ],
+        [
+          "2025-11-01",
+          2.74
+        ],
+        [
+          "2025-12-31",
+          2.74
+        ]
+      ],
+      "LinesChart": [
+        [
+          "2025-09-01",
+          3.01
+        ],
+        [
+          "2025-11-01",
+          2.74
+        ],
+        [
+          "2025-12-31",
+          2.74
+        ]
+      ]
+    },
+    "base_consumer_tails": {
+      "HeroChart": [
+        [
+          "2025-08-01",
+          2.92
+        ],
+        [
+          "2025-09-01",
+          3.01
+        ],
+        [
+          "2025-11-01",
+          2.74
+        ]
+      ],
+      "ColChart": [
+        [
+          "2025-08-01",
+          2.92
+        ],
+        [
+          "2025-09-01",
+          3.01
+        ],
+        [
+          "2025-11-01",
+          2.74
+        ]
+      ],
+      "LinesChart": [
+        [
+          "2025-08-01",
+          2.92
+        ],
+        [
+          "2025-09-01",
+          3.01
+        ],
+        [
+          "2025-11-01",
+          2.74
+        ]
+      ]
+    }
+  },
+  "controls": {
+    "current_cpi_tail": [
+      [
+        "2026-08-01",
+        3.4
+      ],
+      [
+        "2026-09-01",
+        3.74
+      ],
+      [
+        "2026-09-30",
+        3.74
+      ]
+    ],
+    "quarterly_tail": [
+      [
+        "2026-01-01",
+        1
+      ],
+      [
+        "2026-04-01",
+        2
+      ],
+      [
+        "2026-06-30",
+        2
+      ]
+    ],
+    "daily_unchanged": true,
+    "null_ended_unchanged": true
+  }
+}
