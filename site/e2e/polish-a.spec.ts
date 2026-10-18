@@ -90,3 +90,15 @@ test.describe("dates", () => {
     await expect(page.locator("main")).toContainText(/\d{1,2}:\d{2} [AP]M ET/);
   });
 });
+
+test.describe("source names", () => {
+  test("home's sources strip and the footer show names, not pipeline keys", async ({ page }) => {
+    await page.goto("/");
+    const strip = page.locator(".status-pill", { hasText: "·" });
+    expect(await strip.count()).toBeGreaterThan(20);
+    for (const t of await strip.allInnerTexts()) expect(t, t).not.toMatch(/\b[A-Z]+_[A-Z0-9_]+\b/);
+    const footer = page.locator(".footer-meta");
+    await expect(footer).toContainText(/Data from \d+ sources/);
+    await expect(footer).not.toContainText(/[A-Z]+_[A-Z0-9_]+/);
+  });
+});

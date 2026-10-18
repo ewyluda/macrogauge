@@ -19,9 +19,7 @@ const COLUMNS: { title: string; links: [string, string][] }[] = [
 ];
 
 export function SiteFooter() {
-  const names = sourcesStatus.sources.map((s) => s.name);
-  const shown = names.slice(0, 9);
-  const rest = names.length - shown.length;
+  const sourceCount = sourcesStatus.sources.length;
   return (
     <footer className="site-footer">
       <div className="footer-main">
@@ -50,9 +48,8 @@ export function SiteFooter() {
       </div>
       <div className="footer-meta">
         Updated each weekday morning · every forecast graded in public · not
-        investment advice. Data: {shown.join(", ")}
-        {rest > 0 ? ` and ${rest} more sources` : ""} — collected daily,
-        published with as-of dates.
+        investment advice. <Link href="/status">Data from {sourceCount} sources →</Link>{" "}
+        collected daily, published with as-of dates.
       </div>
     </footer>
   );

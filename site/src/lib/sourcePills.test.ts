@@ -38,7 +38,20 @@ describe("obsLabel (polish review 2026-10-15: no future date reads as latest dat
     expect(obsLabel({ name: "STEO", latest_obs: "2026-10-15", finished_at: at })).toBe("2026-10-15");
     expect(obsLabel({ name: "FRED", latest_obs: null, finished_at: at })).toBe("never");
     const [pill] = sourcePills([{ name: "STEO", ok: true, error: null, finished_at: at, latest_obs: "2027-12-01" }]);
-    expect(pill.label).toBe("STEO · forecast to 2027-12-01");
-    expect(pill.detail).toBe(`STEO ok · forecast to 2027-12-01 · last pull ${at}`);
+    expect(pill.label).toBe("EIA short-term outlook · forecast to 2027-12-01");
+    expect(pill.detail).toBe(`EIA short-term outlook (STEO) ok · forecast to 2027-12-01 · last pull ${at}`);
+  });
+});
+
+describe("sourcePills names (polish batch A: no raw keys in the visible strip)", () => {
+  it("shows the reader's name and keeps the key in the accessible detail", () => {
+    const [pill] = sourcePills([{ name: "AZURE_GPU_RESERVED", ok: true, error: null, finished_at: "2026-10-17T18:00:00Z", latest_obs: "2026-10-17" }]);
+    expect(pill.label).toBe("Azure reserved GPU prices · 2026-10-17");
+    expect(pill.label).not.toContain("AZURE_GPU_RESERVED");
+    expect(pill.detail).toContain("(AZURE_GPU_RESERVED)");
+  });
+  it("does not repeat a key that is already its own name", () => {
+    const [pill] = sourcePills([{ name: "FRED", ok: true, error: null, finished_at: "2026-10-17T18:00:00Z", latest_obs: "2026-10-17" }]);
+    expect(pill.detail).toMatch(/^FRED ok/);
   });
 });

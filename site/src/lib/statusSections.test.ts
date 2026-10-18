@@ -3,7 +3,7 @@ import qa from "../../public/data/qa.json";
 import sourcesStatus from "../../public/data/sources_status.json";
 import methodology from "../../public/data/methodology.json";
 import {
-  CHECK_SECTION, CHECK_SECTIONS, CURATED_INPUTS, daysBetween, groupBy, NAV_SECTIONS, SOURCE_SECTION,
+  CHECK_SECTION, CHECK_SECTIONS, CURATED_INPUTS, daysBetween, groupBy, NAV_SECTIONS, SOURCE_LABEL, SOURCE_SECTION,
   SOURCE_SECTIONS, sourceFreshness,
 } from "./statusSections";
 
@@ -16,6 +16,7 @@ describe("statusSections", () => {
   it("gives every published check and source an explicit section", () => {
     for (const c of qa.checks) expect(CHECK_SECTIONS, c.name).toContain(CHECK_SECTION[c.name]);
     for (const s of sourcesStatus.sources) expect(SOURCE_SECTIONS, s.name).toContain(SOURCE_SECTION[s.name]);
+    for (const s of sourcesStatus.sources) expect(SOURCE_LABEL[s.name], s.name).toBeTruthy();
     for (const r of methodology.inventory) expect(SOURCE_SECTIONS, r.source).toContain(SOURCE_SECTION[r.source]);
   });
   it("groups in section order and drops empty sections", () => {

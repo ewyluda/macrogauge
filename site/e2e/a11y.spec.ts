@@ -67,7 +67,9 @@ test("Sources strip states status in text and exposes each detail to keyboard/AT
     const id = await pill.getAttribute("aria-describedby");
     const detail = page.locator(`[id="${id}"]`);
     await expect(detail).toHaveCount(1);
-    await expect(detail).toContainText(s.ok ? `${s.name} ok` : `${s.name} failed`);
+    // the reader's name leads; the pipeline key rides along in the detail
+    await expect(detail).toContainText(s.name);
+    await expect(detail).toContainText(s.ok ? " ok · " : " failed: ");
     if (!s.ok) {
       await expect(pill).toContainText("error");
       await expect(detail).toBeVisible(); // failures are listed in plain sight
