@@ -4,6 +4,7 @@ import { KpiCard } from "./KpiCard";
 import { Section } from "./Section";
 import { artifact } from "@/lib/artifact";
 import type { AccountabilityArtifact } from "@/lib/generated";
+import { fmtPp } from "@/lib/format";
 
 /** "Forecast → result": the latest graded CPI print, every forecaster on the
  *  SA first-release basis, plus component miss attribution once frozen
@@ -32,7 +33,7 @@ export function LastPrint() {
           context={`released ${last.release_date} · first print`} accent="emerald" />
         {Object.entries(last.forecasts).map(([name, x]) => (
           <KpiCard key={name} label={NAMES[name] ?? name} value={`${x.value.toFixed(2)}%`}
-            context={`miss ${x.error >= 0 ? "+" : ""}${x.error.toFixed(2)}pp${x.converted ? " · converted from NSA" : ""}`}
+            context={`miss ${fmtPp(x.error)}${x.converted ? " · converted from NSA" : ""}`}
             accent={Math.abs(x.error) <= 0.1 ? "emerald" : "amber"} />
         ))}
       </div>
@@ -49,7 +50,7 @@ export function LastPrint() {
                   <td style={{ textAlign: "left" }}>{r.label}</td>
                   <td>{r.forecast_nsa_mom_pct.toFixed(2)}%</td>
                   <td>{r.actual_nsa_mom_pct.toFixed(2)}%</td>
-                  <td>{r.miss_contribution_pp >= 0 ? "+" : ""}{r.miss_contribution_pp.toFixed(3)}pp</td>
+                  <td>{fmtPp(r.miss_contribution_pp, 3)}</td>
                 </tr>
               ))}
             </tbody>

@@ -5,7 +5,7 @@ import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
 import { RevisionChart } from "@/components/RevisionChart";
 import { DownloadData } from "@/components/DownloadData";
-import { fmtPp } from "@/lib/format";
+import { fmtNum, fmtPp } from "@/lib/format";
 import { payrollTakeaway } from "@/lib/revisionsHeadline";
 import type { Revisions, RevisionIndexRow, RevisionIndexTarget, RevisionLevelRow } from "@/lib/types";
 
@@ -34,9 +34,9 @@ function IndexTable({ rows, label }: { rows: RevisionIndexRow[]; label: string }
               <td style={{ color: "var(--muted)" }}>{r.first_release_date}</td>
               <td>{r.latest_value.toFixed(3)}</td>
               <td style={{ color: "var(--muted)" }}>{r.n_vintages}</td>
-              <td style={{ color: "var(--muted)" }}>{r.revision_pct == null ? "—" : `${r.revision_pct > 0 ? "+" : ""}${r.revision_pct.toFixed(3)}%`}</td>
-              <td>{r.yoy_first_pct == null ? "—" : `${r.yoy_first_pct.toFixed(2)}%`}</td>
-              <td>{r.yoy_latest_pct == null ? "—" : `${r.yoy_latest_pct.toFixed(2)}%`}</td>
+              <td style={{ color: "var(--muted)" }}>{r.revision_pct == null ? "—" : fmtNum(r.revision_pct, 3, { signed: true, unit: "%" })}</td>
+              <td>{fmtNum(r.yoy_first_pct, 2, { unit: "%" })}</td>
+              <td>{fmtNum(r.yoy_latest_pct, 2, { unit: "%" })}</td>
               <td style={{ fontWeight: 600, color: r.yoy_revision_pp == null ? "var(--muted)" : Math.abs(r.yoy_revision_pp) < 0.005 ? "var(--muted)" : r.yoy_revision_pp > 0 ? "var(--accent-red)" : "var(--accent-emerald)" }}>{fmtPp(r.yoy_revision_pp)}</td>
             </tr>
           ))}

@@ -11,7 +11,7 @@ import { outlookShape } from "@/lib/outlookHeadline";
 import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
 import { OutlookChart } from "@/components/OutlookChart";
-import { fmtMonth } from "@/lib/format";
+import { fmtMonth, fmtNum, trueMinus } from "@/lib/format";
 import type { Outlook } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 
@@ -206,7 +206,7 @@ export default function OutlookPage() {
                     <td><Link href={componentHref(c.code)}>{c.label}</Link></td>
                     <td>{(c.weight * 100).toFixed(1)}%</td>
                     <td>
-                      {nowYoy === null ? "—" : `${nowYoy.toFixed(2)}%`}
+                      {fmtNum(nowYoy, 2, { unit: "%" })}
                     </td>
                     {HORIZONS.map((h) => {
                       const mom = path?.[h.idx]?.mom_pct;
@@ -259,7 +259,7 @@ export default function OutlookPage() {
               {outlook.drivers.map((d) => (
                 <tr key={d.key}>
                   <td>{d.name}</td>
-                  <td>{d.reading}</td>
+                  <td>{trueMinus(d.reading)}</td>
                   <td>
                     <span className={d.status === "live" ? "badge" : "badge badge-muted"}>
                       {d.status}

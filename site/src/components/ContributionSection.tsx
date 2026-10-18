@@ -68,7 +68,7 @@ export function ContributionSection({
         ...base.tooltip,
         trigger: "axis",
         axisPointer: { type: "shadow" },
-        valueFormatter: (v: unknown) => (typeof v === "number" ? `${v >= 0 ? "+" : ""}${v.toFixed(2)}pp` : "—"),
+        valueFormatter: (v: unknown) => (typeof v === "number" ? fmtPp(v) : "—"),
       },
       legend: { ...base.legend, type: "scroll", top: 0 },
       grid: { ...(base.grid as object), top: 56 },

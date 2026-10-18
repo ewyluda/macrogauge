@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { EChart } from "./EChart";
 import { C, baseOption } from "@/lib/chartTheme";
-import { fmtMonth } from "@/lib/format";
+import { fmtMonth, trueMinus } from "@/lib/format";
 import type { Outlook } from "@/lib/types";
 
 type Point = [string, number];
@@ -134,7 +134,7 @@ export function OutlookChart({ outlook, peak }: {
             title={`${driver.effect}${driver.sources.length ? ` · ${driver.sources.join(" + ")}` : ""}`}
           >
             <span>{driver.name}</span>
-            <strong>{driver.reading}</strong>
+            <strong>{trueMinus(driver.reading)}</strong>
             <small>{driver.status}{driver.as_of ? ` · ${driver.as_of}` : ""}</small>
           </div>
         ))}

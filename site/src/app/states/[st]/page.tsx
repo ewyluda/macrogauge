@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import geoJson from "../../../../public/data/geo.json";
 import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
-import { fmtMonth, fmtSigned } from "@/lib/format";
+import { fmtMonth, fmtPp, fmtSigned } from "@/lib/format";
 import { stateSlug, uniqueSlugs } from "@/lib/longtail";
 import type { Geo, GeoMeasure, GeoStateRow } from "@/lib/types";
 
@@ -46,7 +46,7 @@ export default async function StatePage({ params }: { params: Promise<{ st: stri
       <Section title="Labor">
         <div className="kpi-row">
           <KpiCard label="Construction avg weekly wage" value={v(s.wage_weekly, (x) => `$${Math.round(x).toLocaleString("en-US")}`)} context={`BLS QCEW · ${when(s.wage_weekly.as_of)} · ${fmtSigned(s.wage_weekly.yoy_pct)} YoY${vs(s.wage_weekly, n.wage_weekly)}`} accent="emerald" />
-          <KpiCard label="Unemployment rate" value={s.unemployment_pct.value == null ? "—" : `${s.unemployment_pct.value.toFixed(1)}%`} context={`BLS LAUS · ${when(s.unemployment_pct.as_of)} · ${s.unemployment_pct.delta_1y_pp == null ? "—" : `${s.unemployment_pct.delta_1y_pp >= 0 ? "+" : ""}${s.unemployment_pct.delta_1y_pp.toFixed(1)}pp`} over 1y · US ${n.unemployment_pct.value?.toFixed(1) ?? "—"}%`} accent="red" />
+          <KpiCard label="Unemployment rate" value={s.unemployment_pct.value == null ? "—" : `${s.unemployment_pct.value.toFixed(1)}%`} context={`BLS LAUS · ${when(s.unemployment_pct.as_of)} · ${s.unemployment_pct.delta_1y_pp == null ? "—" : fmtPp(s.unemployment_pct.delta_1y_pp, 1)} over 1y · US ${n.unemployment_pct.value?.toFixed(1) ?? "—"}%`} accent="red" />
         </div>
         <p className="method">Each figure carries its own source date — they update on different schedules. Data: <a href="/data/geo.json">geo.json</a>.</p>
       </Section>

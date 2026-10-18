@@ -1,4 +1,4 @@
-import { fmtPp } from "@/lib/format";
+import { fmtNum, fmtPp } from "@/lib/format";
 
 export type GradedCall = {
   reference_period: string;
@@ -26,7 +26,7 @@ export function reconcileCalls(data: { graded: unknown; pending: unknown }): {
   return { graded, pending };
 }
 
-const pct2 = (v: number | null) => (v == null ? "—" : `${v.toFixed(2)}%`);
+const pct2 = (v: number | null) => fmtNum(v, 2, { unit: "%" });
 
 /** The receipts table shared by /scoreboard and /pce: newest first, so the
  *  pending calls (always the newest periods) lead and the graded calls

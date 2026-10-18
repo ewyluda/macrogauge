@@ -27,13 +27,32 @@ export function fmtSigned(pct: number | null): string {
   return `${s}${Math.abs(r).toFixed(1)}%`;
 }
 
-/** $4.13 · $4,141 · 17.4¢/kWh · 6.31% — display-only formatting */
+/** One number rule for tables, KPIs and labels: a true minus "−" (never the
+ *  hyphen toFixed prints), "+" only when `signed` (changes, errors,
+ *  revisions), the sign taken from the ROUNDED value so −0.004 at 2dp reads
+ *  "0.00", and "—" for a missing value. */
+export function fmtNum(v: number | null | undefined, dp: number,
+                       opts: { signed?: boolean; unit?: string } = {}): string {
+  if (v == null || !Number.isFinite(v)) return "—";
+  const r = Number(v.toFixed(dp));
+  const s = r < 0 ? "−" : r > 0 && opts.signed ? "+" : "";
+  return `${s}${Math.abs(r).toFixed(dp)}${opts.unit ?? ""}`;
+}
+
+/** A preformatted pipeline string ("-7.57%", "spread -0.4pp") with its
+ *  hyphen-minus turned into a true minus; hyphens in dates and words stay. */
+export function trueMinus(s: string): string {
+  return s.replace(/(^|[\s(])-(?=\d)/g, "$1−");
+}
+
+/** $4.13 · $4,141 · $4,170/oz · $4.33/gal · 17.4¢/kWh · 6.31% — display-only */
 export function fmtMoney(v: number, unit: string): string {
   if (unit === "%") return `${v.toFixed(2)}%`;
-  if (unit === "$") {
+  if (unit === "$" || unit.startsWith("$/")) {
+    const per = unit === "$" ? "" : unit.slice(1);
     return v >= 100
-      ? `$${Math.round(v).toLocaleString("en-US")}`
-      : `$${v.toFixed(2)}`;
+      ? `$${Math.round(v).toLocaleString("en-US")}${per}`
+      : `$${v.toFixed(2)}${per}`;
   }
   return `${v.toFixed(2)} ${unit}`;
 }
@@ -51,12 +70,10 @@ export function fmtStamp(iso: string): string {
   return `${iso.slice(0, 10)} ${iso.slice(11, 16)} UTC`;
 }
 
-/** +0.30pp / −0.87pp / — (2dp, for gap chips; sign from the ROUNDED value) */
-export function fmtPp(pp: number | null): string {
-  if (pp === null || pp === undefined) return "—";
-  const r = Number(pp.toFixed(2));
-  const s = r > 0 ? "+" : r < 0 ? "−" : "";
-  return `${s}${Math.abs(r).toFixed(2)}pp`;
+/** +0.30pp / −0.87pp / — (2dp for gap chips; pass dp=1 beside 1dp KPIs so
+ *  the arithmetic shows: 5.6% − 3.3% = +2.3pp, not +2.28pp) */
+export function fmtPp(pp: number | null, dp = 2): string {
+  return fmtNum(pp, dp, { signed: true, unit: "pp" });
 }
 
 /** Whole-dollar currency with a sign taken from the ROUNDED value, so −0.4

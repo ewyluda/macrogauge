@@ -4,6 +4,7 @@ import { elecCell, fmtSpread, mwFmt, pipelineCell, sortMarkets, tightness, tight
 import type { DcMarkets, MarketCounty, MarketPipelineSource, MarketRow } from "@/lib/types";
 import { ToneBadge, type Tone } from "@/components/ToneBadge";
 import { TailSpark } from "@/components/TailSpark";
+import { fmtNum } from "@/lib/format";
 
 const qLabel = (ym: string) => `Q${Math.ceil(Number(ym.slice(5, 7)) / 3)} ${ym.slice(0, 4)}`;
 
@@ -47,8 +48,7 @@ const TIGHTNESS_STYLE: Record<ReturnType<typeof tightness>, [Tone, string]> = {
 };
 
 function pct(v: number | null): string {
-  if (v == null) return "—";
-  return `${v > 0 ? "+" : ""}${v}%`;
+  return fmtNum(v, 1, { signed: true, unit: "%" });
 }
 
 // Whole dollars: QCEW weekly wages are averages, and a cents figure on one
@@ -172,7 +172,7 @@ function TightnessChart({ markets, onPick }: { markets: MarketRow[]; onPick: (k:
                     style={{ width: `${w}%`, [v >= 0 ? "left" : "right"]: v >= 0 ? `${zero}%` : `${100 - zero}%` }} />
                 </span>
                 <span className="mk-bar-val">
-                  <strong>{score > 0 ? "+" : ""}{score.toFixed(1)}</strong>
+                  <strong>{fmtNum(score, 1, { signed: true })}</strong>
                   <small>wage {fmtSpread(m.wage_spread_pp)} · jobs {fmtSpread(m.emp_spread_pp)}</small>
                 </span>
               </button>

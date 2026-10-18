@@ -1,6 +1,8 @@
 /** Head-to-head CPI MoM track record (accountability_cpi.json `leaderboard`,
  *  added 2026-09-26): every forecaster graded on one basis — seasonally
  *  adjusted, first release. Renders nothing on artifacts published before. */
+import { fmtNum } from "@/lib/format";
+
 export type LeaderboardData = {
   basis: string;
   window: number;
@@ -12,7 +14,7 @@ export type LeaderboardData = {
 };
 
 const NAMES: Record<string, string> = { macrogauge: "Macrogauge", cleveland: "Cleveland Fed", kalshi: "Kalshi" };
-const f = (v: number | null | undefined, d = 2) => (v == null ? "—" : v.toFixed(d));
+const f = (v: number | null | undefined, d = 2) => fmtNum(v, d);
 
 export function Leaderboard({ data }: { data: LeaderboardData }) {
   const names = Object.keys(data.stats);

@@ -30,7 +30,7 @@ import {
   pairedShortfall,
   type GradeLegs,
 } from "@/lib/dcGrades";
-import { fmtPp, fmtSigned, fmtUsd } from "@/lib/format";
+import { fmtNum, fmtPp, fmtSigned, fmtUsd } from "@/lib/format";
 
 export type { EscalationData };
 
@@ -303,8 +303,7 @@ export function DcEscalationClient({
             >
               {basisRows.map((b) => (
                 <option key={b.key} value={b.key}>
-                  {b.label} · {b.annualizedPct >= 0 ? "+" : ""}
-                  {b.annualizedPct.toFixed(2)}%/yr
+                  {b.label} · {fmtNum(b.annualizedPct, 2, { signed: true, unit: "%/yr" })}
                 </option>
               ))}
             </select>

@@ -2,6 +2,7 @@
 // only src/**/*.test.ts in the node env — logic inside a component is
 // untestable except through Playwright.
 import type { MarketPipelineSource, MarketRow } from "./types";
+import { fmtNum } from "./format";
 
 export type SortKey = "name" | "wage" | "wageYoy" | "emp" | "empYoy" | "mw" | "pipeline" | "elecYoy";
 
@@ -123,7 +124,7 @@ export function elecCell(r: MarketRow): ElecCell {
   if (!e) return { state: "pending" };
   if (!e.available) return { state: "suppressed", counties: e.counties_suppressed };
   const yoy = e.wage_yoy_pct == null
-    ? "—" : `${e.wage_yoy_pct > 0 ? "+" : ""}${e.wage_yoy_pct}%`;
+    ? "—" : fmtNum(e.wage_yoy_pct, 1, { signed: true, unit: "%" });
   return {
     state: "live",
     yoy,

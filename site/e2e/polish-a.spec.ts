@@ -36,3 +36,29 @@ test.describe("segmented controls, phone (390px)", () => {
     for (const b of boxes) expect(b.h, b.text).toBeGreaterThanOrEqual(44);
   });
 });
+
+test.describe("numbers", () => {
+  // a hyphen directly before a digit, not inside a word, a date or a range ("2026-10", "12-month", "0.1–0.2")
+  const HYPHEN_MINUS = /(^|[\s(·:])-\d/m;
+  for (const path of ["/markets", "/outlook", "/scoreboard", "/revisions", "/pce", "/escalation/grades", "/"]) {
+    test(`${path}: negatives use the true minus`, async ({ page }) => {
+      await page.goto(path);
+      const text = await page.locator("main").innerText();
+      const hit = text.match(HYPHEN_MINUS);
+      expect(hit?.[0] ?? null, hit ? text.slice(Math.max(0, hit.index! - 40), hit.index! + 40) : "").toBeNull();
+    });
+  }
+
+  test("/cost-of-living: the spread KPI matches the 1dp readings beside it", async ({ page }) => {
+    await page.goto("/cost-of-living");
+    const spread = page.locator(".kpi-card", { hasText: "Spread" }).locator(".kpi-value");
+    await expect(spread).toHaveText(/^[+−]\d+\.\dpp$/);
+  });
+
+  test("home market pulse: dollars lead, units follow", async ({ page }) => {
+    await page.goto("/");
+    const pulse = await page.locator(".market-grid").innerText();
+    expect(pulse).not.toMatch(/\d \$\//);
+    expect(pulse).toMatch(/\$[\d,]+(\.\d+)?\/(oz|gal)/);
+  });
+});

@@ -10,6 +10,7 @@ import { SegmentedControl } from "./SegmentedControl";
 import { C } from "@/lib/chartTheme";
 import { ramp, EMPTY_CELL, textOn } from "@/lib/heat";
 import { weightAt } from "@/lib/contribution";
+import { fmtNum } from "@/lib/format";
 
 type Replay = {
   rebase: string;
@@ -168,7 +169,7 @@ export function Treemap() {
             // per-tile label ink by WCAG luminance (white on amber is ~3:1)
             return {
               id: c.code,
-              name: `${c.label}\n${v === null ? "—" : `${v.toFixed(1)}%`}`,
+              name: `${c.label}\n${fmtNum(v, 1, { unit: "%" })}`,
               value: weightAt(c, frame && data ? data.dates[frame.i] : undefined),
               itemStyle: { color: bg },
               label: { color: textOn(bg) },

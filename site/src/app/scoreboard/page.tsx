@@ -6,7 +6,7 @@ import accountabilityNfp from "../../../public/data/accountability_nfp.json";
 import { KpiCard } from "@/components/KpiCard";
 import { DownloadData } from "@/components/DownloadData";
 import { Section } from "@/components/Section";
-import { fmtPp } from "@/lib/format";
+import { fmtNum, fmtPp } from "@/lib/format";
 import { GradeTable, reconcileCalls } from "@/components/GradeTable";
 import { Leaderboard, type LeaderboardData } from "@/components/Leaderboard";
 import { artifact } from "@/lib/artifact";
@@ -42,7 +42,7 @@ function ErrorBars({ data }: { data: LeaderboardData }) {
     <div className="chart-card err-bars" data-testid="error-bars">
       {data.rows.map((r) => (
         <div key={r.reference_period} className="err-bars-print">
-          <span className="err-bars-month">{r.reference_period} <small>actual {r.actual_sa_mom_pct.toFixed(2)}%</small></span>
+          <span className="err-bars-month">{r.reference_period} <small>actual {fmtNum(r.actual_sa_mom_pct, 2, { unit: "%" })}</small></span>
           {keys.map((k) => {
             const e = r.forecasts[k]?.error;
             return (
@@ -86,7 +86,7 @@ export default function Scoreboard() {
       <div className="kpi-row"><KpiCard label="Benchmark MAE (vintage-true)" value={summary.mae_pp == null ? "—" : `${summary.mae_pp.toFixed(2)}pp`} context={`${summary.observations} backtest observations · 3-month-average benchmark, not the live model`} accent="sky" />
         <KpiCard label="Naive MAE" value={summary.naive_mae_pp == null ? "—" : `${summary.naive_mae_pp.toFixed(2)}pp`} context="Last known monthly print" accent="amber" /></div>
       <div className="section-tools"><DownloadData filename="macrogauge-cpi-backtest" json="backtest.json" citation="Macrogauge vintage-true CPI backtest" rows={rows} /></div>
-      <div className="table-card"><table className="data-table"><thead><tr><th>Month</th><th>Badge</th><th>Vintage cutoff</th><th>Forecast</th><th>Naive (carry-fwd)</th><th>Actual (NSA, first print)</th><th>Error</th><th>vs naive</th></tr></thead><tbody>{rows.length === 0 && <tr><td colSpan={8} style={{ color: "var(--muted)", textAlign: "left" }}>No backtest rows published on this run — the harness needs the release calendar and at least one vintage-true month.</td></tr>}{rows.slice(-24).reverse().map(row => { const naiveErr = row.naive_mom_pct == null ? null : Math.abs(row.naive_mom_pct - row.actual_mom_pct); const beat = naiveErr == null ? null : Math.abs(row.error_pp) < naiveErr; return <tr key={row.target_month}><td className="cell-date">{row.target_month}</td><td><span className="badge">{row.badge}</span></td><td style={{ color: "var(--muted)" }}>{row.cutoff ?? "—"}</td><td>{row.forecast_mom_pct.toFixed(2)}%</td><td style={{ color: "var(--muted)" }}>{row.naive_mom_pct == null ? "—" : `${row.naive_mom_pct.toFixed(2)}%`}</td><td>{row.actual_mom_pct.toFixed(2)}%</td><td>{row.error_pp.toFixed(2)}pp</td><td>{beat == null ? "—" : <span className={beat ? "badge" : "badge badge-muted"}>{beat ? "beat" : "lost"}</span>}</td></tr>; })}</tbody></table></div>
+      <div className="table-card"><table className="data-table"><thead><tr><th>Month</th><th>Badge</th><th>Vintage cutoff</th><th>Forecast</th><th>Naive (carry-fwd)</th><th>Actual (NSA, first print)</th><th>Error</th><th>vs naive</th></tr></thead><tbody>{rows.length === 0 && <tr><td colSpan={8} style={{ color: "var(--muted)", textAlign: "left" }}>No backtest rows published on this run — the harness needs the release calendar and at least one vintage-true month.</td></tr>}{rows.slice(-24).reverse().map(row => { const naiveErr = row.naive_mom_pct == null ? null : Math.abs(row.naive_mom_pct - row.actual_mom_pct); const beat = naiveErr == null ? null : Math.abs(row.error_pp) < naiveErr; return <tr key={row.target_month}><td className="cell-date">{row.target_month}</td><td><span className="badge">{row.badge}</span></td><td style={{ color: "var(--muted)" }}>{row.cutoff ?? "—"}</td><td>{fmtNum(row.forecast_mom_pct, 2, { unit: "%" })}</td><td style={{ color: "var(--muted)" }}>{fmtNum(row.naive_mom_pct, 2, { unit: "%" })}</td><td>{fmtNum(row.actual_mom_pct, 2, { unit: "%" })}</td><td>{fmtPp(row.error_pp)}</td><td>{beat == null ? "—" : <span className={beat ? "badge" : "badge badge-muted"}>{beat ? "beat" : "lost"}</span>}</td></tr>; })}</tbody></table></div>
       <p className="method">BT rows are vintage-true walk-forward values frozen the day before each release — the model never sees data it wouldn&apos;t have had. Actuals here are the first-printed, not seasonally adjusted CPI-U change (CPIAUCNS), so a month can differ from the seasonally adjusted actual in the head-to-head above. The backtested model is a three-month average of previously known official prints — a long-history benchmark, not the live bottom-up nowcast graded in the table above (which is too young to backtest vintage-true).</p>
     </Section>
     <Section title="Also graded — PCE">
