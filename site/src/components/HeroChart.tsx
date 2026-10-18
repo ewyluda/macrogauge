@@ -4,7 +4,7 @@ import { EChart } from "./EChart";
 import { C, NBER_RECESSIONS, baseOption } from "@/lib/chartTheme";
 import { sliceSince, windowStart } from "@/lib/chartWindow";
 import { rateLabel, rateSeries } from "@/lib/momentum";
-import { pairWithBreaks } from "@/lib/chartPairs";
+import { closeStep, pairWithBreaks } from "@/lib/chartPairs";
 import { RateModeControl, useRateMode } from "./RateModeControl";
 
 export function HeroChart({
@@ -138,7 +138,7 @@ export function HeroChart({
             name: "Official CPI",
             type: "line",
             step: "end",
-            data: pairWithBreaks(monthly.dates, o),
+            data: closeStep(pairWithBreaks(monthly.dates, o)),
             showSymbol: false,
             lineStyle: { width: 1.5, type: "dashed", color: C.muted },
             itemStyle: { color: C.muted },
@@ -147,7 +147,7 @@ export function HeroChart({
             name: "Official Core",
             type: "line",
             step: "end",
-            data: pairWithBreaks(monthly.dates, k),
+            data: closeStep(pairWithBreaks(monthly.dates, k)),
             showSymbol: false,
             lineStyle: { width: 1.5, type: "dashed", color: "#5B6873" },
             itemStyle: { color: "#5B6873" },

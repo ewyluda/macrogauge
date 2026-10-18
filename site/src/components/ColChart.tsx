@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { EChart } from "./EChart";
 import { C, NBER_RECESSIONS, baseOption } from "@/lib/chartTheme";
 import { rateLabel, rateSeries } from "@/lib/momentum";
-import { pairWithBreaks } from "@/lib/chartPairs";
+import { closeStep, pairWithBreaks } from "@/lib/chartPairs";
 import { RateModeControl, useRateMode } from "./RateModeControl";
 import { SegmentedControl } from "./SegmentedControl";
 import { sliceSince, windowStart } from "@/lib/chartWindow";
@@ -84,7 +84,7 @@ export function ColChart({
           name: "Official CPI",
           type: "line",
           step: "end",
-          data: pairWithBreaks(offc.dates, offc.series[0]),
+          data: closeStep(pairWithBreaks(offc.dates, offc.series[0])),
           showSymbol: false,
           lineStyle: { width: 1.5, type: "dashed", color: C.muted },
           itemStyle: { color: C.muted },
