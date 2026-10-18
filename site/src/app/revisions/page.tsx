@@ -5,7 +5,7 @@ import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
 import { RevisionChart } from "@/components/RevisionChart";
 import { DownloadData } from "@/components/DownloadData";
-import { fmtNum, fmtPp } from "@/lib/format";
+import { fmtNum, fmtPp, fmtQuarter } from "@/lib/format";
 import { payrollTakeaway } from "@/lib/revisionsHeadline";
 import type { Revisions, RevisionIndexRow, RevisionIndexTarget, RevisionLevelRow } from "@/lib/types";
 
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   description: "Every payrolls, PCE, PPI, ECI and CPI print as first released beside its latest value, from the vintage store. The scoreboard grades against first prints, and escalation clauses settle on one vintage; this shows how far first prints moved.",
 };
 
-function IndexTable({ rows, label }: { rows: RevisionIndexRow[]; label: string }) {
+function IndexTable({ rows, label, quarterly = false }: { rows: RevisionIndexRow[]; label: string; quarterly?: boolean }) {
   return (
     <div className="table-card">
       <table className="data-table">
@@ -29,7 +29,7 @@ function IndexTable({ rows, label }: { rows: RevisionIndexRow[]; label: string }
         <tbody>
           {rows.slice().reverse().map((r) => (
             <tr key={r.reference_period}>
-              <td className="cell-date">{r.reference_period}</td>
+              <td className="cell-date">{quarterly ? fmtQuarter(r.reference_period) : r.reference_period}</td>
               <td>{r.first_value.toFixed(3)}</td>
               <td style={{ color: "var(--muted)" }}>{r.first_release_date}</td>
               <td>{r.latest_value.toFixed(3)}</td>
@@ -47,12 +47,12 @@ function IndexTable({ rows, label }: { rows: RevisionIndexRow[]; label: string }
   );
 }
 
-function IndexSection({ t, title, id, children }: { t: RevisionIndexTarget; title: string; id: string; children: React.ReactNode }) {
+function IndexSection({ t, title, id, quarterly = false, children }: { t: RevisionIndexTarget; title: string; id: string; quarterly?: boolean; children: React.ReactNode }) {
   return (
     <Section title={title} id={id}>
       <div className="section-tools"><DownloadData filename={`macrogauge-revisions-${id}`} json="revisions.json" rows={t.rows} citation={`Macrogauge ${t.code} revisions (first print vs latest)`} /></div>
-      <div className="chart-card"><RevisionChart months={t.rows.map((r) => r.reference_period)} values={t.rows.map((r) => r.yoy_revision_pp)} unit="pp" /></div>
-      <IndexTable rows={t.rows} label={t.code} />
+      <div className="chart-card"><RevisionChart months={t.rows.map((r) => (quarterly ? fmtQuarter(r.reference_period) : r.reference_period))} values={t.rows.map((r) => r.yoy_revision_pp)} unit="pp" /></div>
+      <IndexTable rows={t.rows} label={t.code} quarterly={quarterly} />
       <p className="method">{children}</p>
     </Section>
   );
@@ -115,9 +115,9 @@ export default function RevisionsPage() {
         </IndexSection>
       )}
       {eci && (
-        <IndexSection t={eci} title="Employment Cost Index — YoY as first printed vs latest (quarterly)" id="eci">
-          Total compensation, civilian workers (ECIALLCIV), the labor leg of many escalation clauses; each period is the
-          quarter&apos;s first month. Its revisions are small, from annual seasonal-factor updates. First prints are
+        <IndexSection t={eci} title="Employment Cost Index — YoY as first printed vs latest (quarterly)" id="eci" quarterly>
+          Total compensation, civilian workers (ECIALLCIV), the labor leg of many escalation clauses; each period is a
+          calendar quarter. Its revisions are small, from annual seasonal-factor updates. First prints are
           ALFRED release vintages.
         </IndexSection>
       )}

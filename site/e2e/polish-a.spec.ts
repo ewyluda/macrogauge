@@ -43,6 +43,7 @@ test.describe("numbers", () => {
   for (const path of ["/markets", "/outlook", "/scoreboard", "/revisions", "/pce", "/escalation/grades", "/"]) {
     test(`${path}: negatives use the true minus`, async ({ page }) => {
       await page.goto(path);
+      await page.waitForLoadState("networkidle"); // client tables (the quilt) render after hydration
       const text = await page.locator("main").innerText();
       const hit = text.match(HYPHEN_MINUS);
       expect(hit?.[0] ?? null, hit ? text.slice(Math.max(0, hit.index! - 40), hit.index! + 40) : "").toBeNull();
@@ -60,5 +61,32 @@ test.describe("numbers", () => {
     const pulse = await page.locator(".market-grid").innerText();
     expect(pulse).not.toMatch(/\d \$\//);
     expect(pulse).toMatch(/\$[\d,]+(\.\d+)?\/(oz|gal)/);
+  });
+});
+
+test.describe("dates", () => {
+  test("home's forecaster and pulse panels name months and days, not ISO", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator(".panel-title", { hasText: "Next CPI print" })).not.toContainText(/\d{4}-\d{2}/);
+    const pulse = await page.locator(".market-grid").innerText();
+    expect(pulse).not.toMatch(/week of \d{4}-/);
+  });
+
+  test("/revisions labels ECI periods as quarters", async ({ page }) => {
+    await page.goto("/revisions");
+    const first = page.locator("#eci table.data-table tbody tr td").first();
+    await expect(first).toHaveText(/^Q[1-4] \d{4}$/);
+  });
+
+  test("/matrix shows a quarterly row's as-of as a quarter", async ({ page }) => {
+    await page.goto("/matrix");
+    const row = page.locator("table.data-table tbody tr", { has: page.locator("td", { hasText: /^quarterly$/ }) }).first();
+    await expect(row).toContainText(/Q[1-4] \d{4}/);
+  });
+
+  test("/status publish stamps read in ET", async ({ page }) => {
+    await page.goto("/status");
+    await expect(page.locator("main")).not.toContainText(/\d{2}:\d{2} UTC/);
+    await expect(page.locator("main")).toContainText(/\d{1,2}:\d{2} [AP]M ET/);
   });
 });

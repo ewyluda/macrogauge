@@ -7,6 +7,7 @@ import { DataUnavailable } from "./DataUnavailable";
 import { heatColor, textOn } from "@/lib/heat";
 import { useJson } from "@/lib/useJson";
 import { exportQuiltPng, type QuiltRow } from "@/lib/quiltPng";
+import { fmtNum } from "@/lib/format";
 import {
   buildComponentRows,
   type QuiltComponent,
@@ -76,7 +77,7 @@ function Cell({ v }: { v: number | null }) {
         border: "1px solid var(--bg)",
       }}
     >
-      {v === null ? "" : v.toFixed(2)}
+      {v === null ? "" : fmtNum(v, 2)}
     </td>
   );
 }

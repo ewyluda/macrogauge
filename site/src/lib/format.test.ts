@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fmtDay, fmtMoney, fmtMonth, fmtNum, fmtPp, trueMinus } from "./format";
+import { fmtDay, fmtMoney, fmtMonth, fmtNum, fmtPp, fmtQuarter, fmtStamp, trueMinus } from "./format";
 
 describe("fmtDay", () => {
   // daily-cadence as-of dates must keep the day — fmtMonth collapsed
@@ -84,5 +84,21 @@ describe("trueMinus", () => {
     expect(trueMinus("-7.57%")).toBe("−7.57%");
     expect(trueMinus("spread (-0.4pp) since 2026-09-30")).toBe("spread (−0.4pp) since 2026-09-30");
     expect(trueMinus("12-month")).toBe("12-month");
+  });
+});
+
+describe("fmtStamp", () => {
+  it("reads publish stamps in ET, across the DST change", () => {
+    expect(fmtStamp("2026-10-15T20:41:00Z")).toBe("Oct 15, 2026, 4:41 PM ET");
+    expect(fmtStamp("2026-12-01T13:45:00Z")).toBe("Dec 1, 2026, 8:45 AM ET");
+    // 02:30 UTC is the previous ET day
+    expect(fmtStamp("2026-10-16T02:30:00Z")).toBe("Oct 15, 2026, 10:30 PM ET");
+  });
+});
+
+describe("fmtQuarter", () => {
+  it("names the quarter a first-of-quarter date stands for", () => {
+    expect(fmtQuarter("2026-04-01")).toBe("Q2 2026");
+    expect(fmtQuarter("2025-10")).toBe("Q4 2025");
   });
 });

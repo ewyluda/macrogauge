@@ -65,9 +65,20 @@ export function yoyColor(pct: number | null): string {
   return "var(--muted)";
 }
 
-/** "2026-07-14T13:12:54Z" -> "2026-07-14 13:12 UTC" (run/publish stamps) */
+const ET_STAMP = new Intl.DateTimeFormat("en-US", {
+  timeZone: "America/New_York", month: "short", day: "numeric", year: "numeric",
+  hour: "numeric", minute: "2-digit",
+});
+
+/** "2026-07-14T13:12:54Z" -> "Jul 14, 2026, 9:12 AM ET" (run/publish stamps,
+ *  in the time zone the publish schedule is set in) */
 export function fmtStamp(iso: string): string {
-  return `${iso.slice(0, 10)} ${iso.slice(11, 16)} UTC`;
+  return `${ET_STAMP.format(new Date(iso))} ET`;
+}
+
+/** "2026-04-01" or "2026-04" (FRED dates a quarter at its first month) -> "Q2 2026" */
+export function fmtQuarter(isoDate: string): string {
+  return `Q${Math.floor((Number(isoDate.slice(5, 7)) - 1) / 3) + 1} ${isoDate.slice(0, 4)}`;
 }
 
 /** +0.30pp / −0.87pp / — (2dp for gap chips; pass dp=1 beside 1dp KPIs so

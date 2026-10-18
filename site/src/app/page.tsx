@@ -31,7 +31,7 @@ import { QuiltHeatmap } from "@/components/QuiltHeatmap";
 import { OutlookChart } from "@/components/OutlookChart";
 import { Countdown } from "@/components/Countdown";
 import { ForecastNumberLine } from "@/components/ForecastNumberLine";
-import { fmtDay, fmtMonth, fmtPct, fmtPp, fmtSigned, fmtMoney } from "@/lib/format";
+import { fmtDay, fmtMoney, fmtMonth, fmtPct, fmtPp, fmtSigned } from "@/lib/format";
 import { SITE_DESCRIPTION } from "@/lib/nav";
 import { CopyLink } from "@/components/CopyLink";
 import { artifact } from "@/lib/artifact";
@@ -279,7 +279,7 @@ export default function Home() {
 
       <div className="dashboard-row">
         <section className="dashboard-panel next-print-panel">
-          <div className="panel-title">Next CPI print · {nextprint.reference_month ?? "TBA"}</div>
+          <div className="panel-title">Next CPI print · {nextprint.reference_month ? fmtMonth(`${nextprint.reference_month}-01`) : "TBA"}</div>
           <div className="release-date">{nextprint.release_date ? fmtDay(nextprint.release_date) : "TBA"}</div>
           <Countdown releaseDate={nextprint.release_date} />
           <div className="panel-muted">BLS release · previous print {pct2(cpi.yoy_pct)} YoY</div>
@@ -297,20 +297,20 @@ export default function Home() {
         <section className="dashboard-panel market-panel">
           <div className="panel-title">Market pulse</div>
           <div className="market-grid">
-            {gas && <div><span>Regular gas · EIA weekly</span><strong>{fmtMoney(gas.latest, gas.unit)}</strong><small>{fmtSigned(gas.yoy_pct)} YoY · week of {gas.obs_date}</small></div>}
+            {gas && <div><span>Regular gas · EIA weekly</span><strong>{fmtMoney(gas.latest, gas.unit)}</strong><small>{fmtSigned(gas.yoy_pct)} YoY · week of {fmtDay(gas.obs_date)}</small></div>}
             {mortgage && <div><span>30Y mortgage · Freddie Mac weekly</span><strong>{fmtMoney(mortgage.latest, mortgage.unit)}</strong><small>{(() => {
               // rates move in POINTS: render the pp delta once the pipeline
               // publishes it; %-change fallback for the pre-refresh artifact
               const pp = mortgage.yoy_pp;
               return pp != null ? `${fmtPp(pp)} YoY` : `${fmtSigned(mortgage.yoy_pct)} YoY`;
-            })()} · week of {mortgage.obs_date}</small></div>}
+            })()} · week of {fmtDay(mortgage.obs_date)}</small></div>}
             {gold && <div><span>Gold</span><strong>{fmtMoney(gold.latest, gold.unit)}</strong><small>{fmtSigned(gold.yoy_pct)} YoY</small></div>}
             {debt && <div><span>Public debt</span><strong>${(debt.latest / 1e12).toFixed(2)}T</strong><small>{fmtSigned(debt.yoy_pct)} YoY</small></div>}
           </div>
           <div className="panel-foot">
             Fuel component · AAA daily pump {fuel.pump == null ? "—" : `$${fuel.pump.toFixed(2)}`} →{" "}
             {fuel.forward_2wk == null ? "—" : `$${fuel.forward_2wk.toFixed(2)}`} in 2 weeks
-            {fuel.available && fuel.proxy ? ` · implied by ${fuel.proxy}` : ""} · {fuel.as_of ?? "awaiting data"}
+            {fuel.available && fuel.proxy ? ` · implied by ${fuel.proxy}` : ""} · {fuel.as_of ? fmtDay(fuel.as_of) : "awaiting data"}
           </div>
         </section>
 
