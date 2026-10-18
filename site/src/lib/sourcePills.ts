@@ -1,4 +1,5 @@
 import type { StatusTone } from "@/components/StatusPill";
+import { SOURCE_LABEL } from "./statusSections";
 
 export type SourceRow = {
   name: string;
@@ -45,8 +46,10 @@ export function sourcePills(sources: readonly SourceRow[]): SourcePill[] {
     const id = `source-${s.name.replace(/[^a-z0-9_-]/gi, "-")}`;
     const obs = obsLabel(s);
     const what = s.latest_obs && obs !== s.latest_obs ? obs : `latest observation ${obs}`;
+    const name = SOURCE_LABEL[s.name] ?? s.name;
+    const named = name === s.name ? name : `${name} (${s.name})`;
     return s.ok
-      ? { id, tone: "ok", label: `${s.name} · ${obs}`, detail: `${s.name} ok · ${what} · last pull ${s.finished_at}` }
-      : { id, tone: "advisory", label: `${s.name} · error · ${obs}`, detail: `${s.name} failed: ${s.error ?? "unknown error"} · ${what}` };
+      ? { id, tone: "ok", label: `${name} · ${obs}`, detail: `${named} ok · ${what} · last pull ${s.finished_at}` }
+      : { id, tone: "advisory", label: `${name} · error · ${obs}`, detail: `${named} failed: ${s.error ?? "unknown error"} · ${what}` };
   });
 }

@@ -9,7 +9,7 @@ import { tightnessScore } from "@/lib/dcMarkets";
 import type { DcMarkets } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
-import { fmtDay } from "@/lib/format";
+import { fmtDay, fmtNum } from "@/lib/format";
 
 const data = artifact<"dc_markets", DcMarkets>("dc_markets", marketsJson);
 const nat = data.national;
@@ -46,17 +46,17 @@ export default function Page() {
         <KpiCard label="National construction wage"
           value={nat.wage != null ? `$${nat.wage.toLocaleString("en-US")}/wk` : "—"}
           context={nat.wage_yoy_pct != null
-            ? `${nat.wage_yoy_pct > 0 ? "+" : ""}${nat.wage_yoy_pct}% YoY · private NAICS 23`
+            ? `${fmtNum(nat.wage_yoy_pct, 1, { signed: true, unit: "%" })} YoY · private NAICS 23`
             : "awaiting first QCEW quarter"} accent="sky" />
         <KpiCard label="National headcount"
           value={nat.emp != null ? `${(nat.emp / 1e6).toFixed(2)}M` : "—"}
           context={nat.emp_yoy_pct != null
-            ? `${nat.emp_yoy_pct > 0 ? "+" : ""}${nat.emp_yoy_pct}% YoY`
+            ? `${fmtNum(nat.emp_yoy_pct, 1, { signed: true, unit: "%" })} YoY`
             : "—"} accent="amber" />
         <KpiCard label="Tightest market"
           value={hottest ? hottest.name : "—"}
           context={hottest && hottest.wage_spread_pp != null
-            ? `${hottest.wage_spread_pp > 0 ? "+" : ""}${hottest.wage_spread_pp}pp wage vs national`
+            ? `${fmtNum(hottest.wage_spread_pp, 1, { signed: true, unit: "pp" })} wage vs national`
             : "—"} accent="violet" />
         <KpiCard label="Markets covered"
           value={`${live.length} / ${data.markets.length}`}
@@ -157,7 +157,7 @@ export default function Page() {
         figure beside the YoY is its spread against the national 238212 wage
         rate
         {elecNat && elecNat.wage_yoy_pct != null
-          ? ` (${elecNat.wage_yoy_pct > 0 ? "+" : ""}${elecNat.wage_yoy_pct}% YoY, quarter ${elecNat.as_of ?? "—"})`
+          ? ` (${fmtNum(elecNat.wage_yoy_pct, 1, { signed: true, unit: "%" })} YoY, quarter ${elecNat.as_of ?? "—"})`
           : ""}.
         A six-digit industry is often too small to publish in a single
         county: <b>disclosure-suppressed counties are skipped, never

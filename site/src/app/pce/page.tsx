@@ -98,7 +98,7 @@ export default function Pce() {
         />
         <KpiCard
           label="Gap vs PCEPI"
-          value={gap == null ? "—" : fmtPp(gap)}
+          value={fmtPp(gap, 1)}
           context={gap == null ? "needs both readings" : "gauge minus the latest official print"}
           accent={gap == null ? "sky" : gap > 0 ? "red" : "emerald"}
         />

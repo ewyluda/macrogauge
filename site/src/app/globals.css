@@ -98,6 +98,9 @@ a { transition: color 140ms ease, background 140ms ease; }
 }
 /* Tone text is darkened 20% toward --text: the raw accents measured 4.4:1 on
    their own tinted chip, under AA's 4.5:1 for 11-12px text. */
+/* home sources strip: a long source name wraps inside its pill on a phone
+   instead of pushing the page sideways (the header pill keeps nowrap) */
+.source-strip .status-pill { white-space: normal; max-width: 100%; }
 .status-pill-ok { color: color-mix(in srgb, var(--accent-emerald) 80%, var(--text)); }
 .status-pill-advisory { color: color-mix(in srgb, var(--accent-amber) 80%, var(--text)); }
 .status-pill-critical { color: color-mix(in srgb, var(--accent-red) 80%, var(--text)); }
@@ -367,6 +370,18 @@ h1 { font-size: 26px; margin: 28px 0 8px; }
   .headline-grid .kpi-card { min-height: 0; }
   .outlook-drivers { grid-template-columns: 1fr; }
 }
+
+/* --- segmented controls: one style site-wide (polish batch A, 10-18) --- */
+.segmented { display: flex; gap: 6px; flex-wrap: wrap; }
+.segmented-option {
+  font: inherit; font-size: 12px; line-height: 1.2; cursor: pointer; white-space: nowrap;
+  min-height: 32px; padding: 6px 10px; border-radius: 5px;
+  border: 1px solid var(--border); background: transparent; color: var(--muted);
+}
+.segmented-option:hover { color: var(--text); background: var(--chip-bg); }
+.segmented-option[aria-pressed="true"] { color: var(--accent-sky); background: #E9EFF8; border-color: #B5C9EA; }
+.segmented-option:focus-visible { outline: 2px solid var(--accent-sky); outline-offset: 2px; }
+@media (max-width: 720px) { .segmented-option { min-height: 44px; padding: 10px 12px; } }
 
 /* --- share & export (batch 1) --- */
 .tool-row { display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap; }

@@ -9,7 +9,7 @@ import { WhyLine } from "@/components/WhyLine";
 import { LinesChart } from "@/components/LinesChart";
 import { TailSpark } from "@/components/TailSpark";
 import { C } from "@/lib/chartTheme";
-import { fmtStamp } from "@/lib/format";
+import { fmtNum, fmtStamp } from "@/lib/format";
 import { fmtIndicatorValue, indicatorLabel } from "@/lib/indicatorLabels";
 import { distanceToTrigger, macroCycleSentence, stressWord, type RecessionSignal } from "@/lib/macroCycle";
 
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 // Presentation-only buckets on the published numbers — no new numbers.
 const bucket = (z: number) => (z > 0.25 ? "heating" : z < -0.25 ? "cooling" : "neutral");
 const zColor = (z: number) => (bucket(z) === "heating" ? "var(--accent-red)" : bucket(z) === "cooling" ? "var(--accent-emerald)" : "var(--muted)");
-const signed = (z: number) => `${z >= 0 ? "+" : ""}${z.toFixed(2)}`;
+const signed = (z: number) => fmtNum(z, 2, { signed: true });
 
 function HeatBadge({ z }: { z: number }) {
   const b = bucket(z);

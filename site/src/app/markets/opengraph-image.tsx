@@ -3,6 +3,7 @@ import { artifact } from "@/lib/artifact";
 import { tightnessScore } from "@/lib/dcMarkets";
 import type { DcMarkets } from "@/lib/types";
 import marketsJson from "../../../public/data/dc_markets.json";
+import { fmtNum } from "@/lib/format";
 
 export const dynamic = "force-static";
 export const alt = "Macrogauge DC Market Panel — construction labor across data-center markets";
@@ -17,7 +18,7 @@ export default function Image() {
   // the page's ranking: the same composite as the table's tightness badge
   const hottest = live.filter((m) => tightnessScore(m) !== null)
     .sort((a, b) => tightnessScore(b)! - tightnessScore(a)!)[0];
-  const signed = (v: number) => `${v > 0 ? "+" : ""}${v}`;
+  const signed = (v: number) => fmtNum(v, 1, { signed: true });
   return ogCard({
     kicker: "DC MARKETS",
     stamp: `QCEW quarter ${data.as_of ?? "—"}`,

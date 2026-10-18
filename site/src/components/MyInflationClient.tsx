@@ -9,7 +9,7 @@ import { DataUnavailable } from "./DataUnavailable";
 import { C, baseOption } from "@/lib/chartTheme";
 import { useJson } from "@/lib/useJson";
 import { heatColor } from "@/lib/heat";
-import { fmtPct } from "@/lib/format";
+import { fmtPct, fmtPp } from "@/lib/format";
 
 import {
   DEFAULT_ANSWERS,
@@ -249,7 +249,7 @@ export function MyInflationClient({
             legend: { show: false },
             // a difference of two rates: percentage points, not the base option's "%"
             yAxis: { ...baseOption().yAxis, axisLabel: { ...baseOption().yAxis.axisLabel, formatter: "{value}pp" } },
-            tooltip: { ...baseOption().tooltip, valueFormatter: (v: unknown) => (typeof v === "number" ? `${v > 0 ? "+" : ""}${v.toFixed(2)}pp` : "—") },
+            tooltip: { ...baseOption().tooltip, valueFormatter: (v: unknown) => (typeof v === "number" ? fmtPp(v) : "—") },
             series: [
               {
                 name: "Your rate − everyone's",

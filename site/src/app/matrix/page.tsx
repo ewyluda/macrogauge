@@ -6,7 +6,7 @@ import officialJson from "../../../public/data/official.json";
 import matrixJson from "../../../public/data/matrix.json";
 import { DownloadData } from "@/components/DownloadData";
 import { TailSpark } from "@/components/TailSpark";
-import { fmtDay, fmtMonth } from "@/lib/format";
+import { fmtDay, fmtMonth, fmtQuarter } from "@/lib/format";
 import type { Matrix, MatrixRow } from "@/lib/types";
 import { BREADTH_LATEST } from "@/components/BreadthPanel";
 import { LinesChart } from "@/components/LinesChart";
@@ -172,7 +172,7 @@ function MeasureRows({ section }: { section: Section }) {
           {r.value == null ? "—" : r.value.toFixed(2)}{" "}
           <span style={{ color: "var(--muted)", fontSize: 11 }}>{r.unit}</span>
         </td>
-        <td>{r.as_of ? (r.cadence === "daily" ? fmtDay(r.as_of) : fmtMonth(r.as_of)) : "—"}</td>
+        <td>{r.as_of ? (r.cadence === "daily" ? fmtDay(r.as_of) : r.cadence === "quarterly" ? fmtQuarter(r.as_of) : fmtMonth(r.as_of)) : "—"}</td>
         <td>{r.cadence}</td>
       </tr>
     );
@@ -248,9 +248,4 @@ export default function Matrix() {
       )}
     </div>
   );
-}
-
-function fmtQuarter(day: string): string {
-  const m = Number(day.slice(5, 7));
-  return `${day.slice(0, 4)}Q${Math.floor((m - 1) / 3) + 1}`;
 }

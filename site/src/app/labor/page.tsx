@@ -4,7 +4,7 @@ import nowcastJson from "../../../public/data/nowcast_latest.json";
 import nfpJson from "../../../public/data/accountability_nfp.json";
 import { KpiCard } from "@/components/KpiCard";
 import { LaborMonthlyChart, LaborClaimsChart } from "@/components/LaborCharts";
-import { fmtSigned, fmtMonth, fmtPct } from "@/lib/format";
+import { fmtMonth, fmtPct, fmtPp, fmtSigned } from "@/lib/format";
 import { groupTrades, tradeAsOf, tradeLevel, tradeVs } from "@/lib/dcTrades";
 import realWagesJson from "../../../public/data/real_wages.json";
 import pulse from "../../../public/data/pulse.json";
@@ -76,7 +76,7 @@ export default function LaborPage() {
         <KpiCard label="Payrolls (MoM)" value={signedK(d.payrolls.mom_change_k)}
           context={`${k(d.payrolls.level_k)}k total · ${d.payrolls.as_of ? fmtMonth(d.payrolls.as_of) : "—"}`} accent="sky" />
         <KpiCard label="Unemployment" value={d.unemployment.rate == null ? "—" : `${d.unemployment.rate.toFixed(1)}%`}
-          context={`${d.unemployment.delta_1y_pp == null ? "—" : `${d.unemployment.delta_1y_pp > 0 ? "+" : ""}${d.unemployment.delta_1y_pp.toFixed(1)}pp`} vs 1y ago`} accent="amber" />
+          context={`${fmtPp(d.unemployment.delta_1y_pp, 1)} vs 1y ago`} accent="amber" />
         <KpiCard label="Initial claims" value={k(d.claims.initial)}
           context={`${k(d.claims.initial_4wk_avg)} 4-wk avg · continued ${k(d.claims.continued)} · ${d.claims.as_of ? fmtMonth(d.claims.as_of) : "—"}`} accent="violet" />
         <KpiCard label="Wage growth" value={d.wages.atlanta_wgt_pct == null ? "—" : `${d.wages.atlanta_wgt_pct.toFixed(1)}%`}

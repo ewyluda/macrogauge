@@ -13,8 +13,8 @@ import type { Surge } from "@/lib/dcHub";
 
 type Mode = "level" | "yoy";
 const MODES = [
-  { key: "level", label: "LEVEL" },
-  { key: "yoy", label: "YOY" },
+  { key: "level", label: "Level" },
+  { key: "yoy", label: "YoY" },
 ] as const;
 
 function pair(

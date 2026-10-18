@@ -46,6 +46,7 @@ import {
 } from "@/lib/dcGrades";
 import type { DcGrades, GradeStat, Leg } from "@/lib/types";
 import { LeadLagProfile } from "./LeadLagProfile";
+import { fmtNum } from "@/lib/format";
 
 /** Everything the grading record renders, minus the `anchors` receipts it does
  *  not read. The full artifact remains available to the server page for its
@@ -78,13 +79,11 @@ const BASIS_KEYS = Object.keys(BASIS_LABELS);
 const ALFRED_RAW_HISTORY_START = "2015-03";
 
 function pct(n: number | null | undefined, digits = 1): string {
-  return n == null ? "—" : `${n.toFixed(digits)}%`;
+  return fmtNum(n, digits, { unit: "%" });
 }
 
 function pp(n: number | null | undefined, digits = 2, signed = false): string {
-  if (n == null) return "—";
-  const s = signed && n > 0 ? "+" : "";
-  return `${s}${n.toFixed(digits)}pp`;
+  return fmtNum(n, digits, { signed, unit: "pp" });
 }
 
 // ---------------------------------------------------------------------------
@@ -406,7 +405,7 @@ function ScenarioSection({ scenarios }: { scenarios: DcGrades["scenarios"] }) {
                 {s.label}
               </div>
               <div style={{ fontSize: 28, fontWeight: 700, margin: "4px 0", fontVariantNumeric: "tabular-nums" }}>
-                {s.annualized_pct != null ? `${s.annualized_pct > 0 ? "+" : ""}${s.annualized_pct}%` : "—"}
+                {fmtNum(s.annualized_pct, 2, { signed: true, unit: "%" })}
                 <span style={{ fontSize: 13, color: "var(--muted)", fontWeight: 400 }}> annualized</span>
               </div>
               <div style={{ fontSize: 12, color: "var(--muted)" }}>

@@ -125,8 +125,6 @@ body.research-site .status-pill { font-size: 12px; letter-spacing: 0; text-trans
 .research-page .tool-btn { font-size: 12px; padding: 6px 10px; min-height: 32px; border-radius: 5px; background: transparent; letter-spacing: 0; }
 .research-page .tool-btn:hover { background: var(--chip-bg); }
 .research-page .tool-btn[aria-pressed="true"] { color: var(--accent-sky); background: #E9EFF8; border-color: #B5C9EA; }
-.research-page .segmented-option { border-radius: 5px !important; background: transparent !important; }
-.research-page .segmented-option[aria-pressed="true"] { background: #E9EFF8 !important; border-color: #B5C9EA !important; }
 .research-page button { font-family: inherit; }
 .research-page .research-chart-controls button { min-height: 34px; }
 .research-disclosure { position: relative; }
@@ -265,8 +263,8 @@ body.research-site .footer-meta { font-size: 12px; }
   .research-page .section-title { font-size: 20px !important; }
   .research-page .section-heading { gap: 12px; align-items: flex-start; }
   .research-page .chart-actions { position: relative; width: 100%; gap: 6px; }
-  .research-page .tool-btn { min-height: 40px; padding: 8px 10px; }
-  .research-page .research-chart-controls button { min-height: 40px; }
+  .research-page .tool-btn { min-height: 44px; padding: 10px 10px; }
+  .research-page .research-chart-controls button { min-height: 44px; }
   .research-chart-controls { margin-bottom: 12px; }
   .research-page .chart-actions .research-disclosure { position: static; }
   .research-popover { right: 0; left: auto; max-width: min(340px, calc(100vw - 48px)); }

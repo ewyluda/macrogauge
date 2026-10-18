@@ -287,7 +287,7 @@ test("markets tightness chart ranks markets and opens the row with county names"
   expect(await bars.count()).toBeGreaterThanOrEqual(10);
   // ranked: the first bar's score is the largest
   const scores = await page.locator(".mk-bar-val strong").allTextContents();
-  const nums = scores.map((t) => Number(t.replace("+", "")));
+  const nums = scores.map((t) => Number(t.replace("+", "").replace("−", "-")));
   expect(nums[0]).toBe(Math.max(...nums));
   // clicking a bar opens that market's row, whose receipts name counties
   const nova = page.getByRole("button", { name: /^Northern Virginia: tightness/ });

@@ -2,6 +2,7 @@
 import { useMemo } from "react";
 import { EChart } from "./EChart";
 import { C, NBER_RECESSIONS, baseOption } from "@/lib/chartTheme";
+import { closeStep } from "@/lib/chartPairs";
 
 export type LineSeries = {
   name: string;
@@ -80,7 +81,7 @@ export function LinesChart({
       series: series.map((s, i) => ({
         name: s.name,
         type: "line",
-        data: pair(s.x, s.y),
+        data: s.step ? closeStep(pair(s.x, s.y)) : pair(s.x, s.y),
         showSymbol: false,
         step: s.step ? "end" : undefined,
         lineStyle: { width: s.width ?? (i === 0 ? 2 : 1.5), color: s.color, type: s.dashed ? "dashed" : "solid" },

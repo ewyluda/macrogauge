@@ -40,7 +40,7 @@ test("contribution section renders 14 component rows whose contributions sum to 
   const headline = Number((await page.locator(".headline-primary .kpi-value").textContent())!.replace("%", ""));
   expect(Math.abs(sum - headline)).toBeLessThan(0.1);
   // mode + window chips are URL state
-  await page.getByRole("button", { name: "GAP (ours − BLS)", exact: true }).click();
+  await page.getByRole("button", { name: "Gap (ours − BLS)", exact: true }).click();
   await expect.poll(() => page.evaluate(() => location.search)).toContain("cm=gap");
 });
 
@@ -56,6 +56,6 @@ test("breadth panel shows the four diagnostics and the matrix carries our trimme
 test("/gap shows the gap-contribution bars in gap mode by default", async ({ page }) => {
   await page.goto("/gap");
   await expect(page.getByText("Gap contribution over time — ours minus BLS, by component")).toBeVisible();
-  await expect(page.getByRole("button", { name: "GAP (ours − BLS)", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Gap (ours − BLS)", exact: true })).toBeVisible();
   await expect(page.locator("canvas").first()).toBeVisible();
 });

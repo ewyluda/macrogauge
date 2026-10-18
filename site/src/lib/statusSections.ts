@@ -52,6 +52,26 @@ export const SOURCE_SECTION: Record<string, string> = {
   FRED: "Shared", BLS: "Shared", FMP: "Shared", EIA: "Shared",
 };
 
+/** What a reader sees for each source key (the key itself stays in titles,
+ *  /status and /methodology). statusSections.test.ts fails on a published
+ *  source without one, like SOURCE_SECTION. */
+export const SOURCE_LABEL: Record<string, string> = {
+  FRED: "FRED", BLS: "BLS", EIA: "EIA", FMP: "Market quotes (FMP)", FMP_EQ: "Equity quotes (FMP)",
+  TREASURY: "US Treasury", ZILLOW: "Zillow", PMMS: "Freddie Mac PMMS", APTLIST: "Apartment List",
+  USDA: "USDA", AAA: "AAA gas prices", AAA_STATE: "AAA state gas prices", MND: "Mortgage News Daily",
+  MANHEIM: "Manheim used vehicles", CLEVELAND: "Cleveland Fed nowcast", KALSHI: "Kalshi CPI markets",
+  KALSHI_CORE: "Kalshi core CPI markets", KALSHI_DC: "Kalshi data-center markets", KALSHI_FED: "Kalshi Fed markets",
+  EIA_STATE: "EIA state power prices", EIA_STATE_RES: "EIA residential power prices", EIA_SPOT: "EIA spot prices",
+  STEO: "EIA short-term outlook", QCEW: "BLS QCEW construction", QCEW_238212: "BLS QCEW electrical contractors",
+  QCEW_238222: "BLS QCEW plumbing/HVAC contractors", CENSUS: "Census construction spending",
+  DRAMEX: "DRAMeXchange memory prices", VASTAI: "Vast.ai GPU rentals", SFCOMPUTE: "SF Compute",
+  OPENROUTER: "OpenRouter token prices", AWS_GPU: "AWS GPU prices", AZURE_GPU: "Azure GPU prices",
+  AZURE_GPU_RESERVED: "Azure reserved GPU prices", OCI_GPU: "Oracle Cloud GPU prices",
+  COREWEAVE: "CoreWeave GPU prices", NEBIUS: "Nebius GPU prices", CAISO: "CAISO power prices",
+  MISO: "MISO power prices", ERCOT: "ERCOT power prices", SPP: "SPP power prices", NYISO: "NYISO power prices",
+  ICE: "ICE power hubs", NYFED: "New York Fed", ATLFED: "Atlanta Fed",
+};
+
 /** Items grouped by section, in section order; empty sections dropped. */
 export function groupBy<T>(items: T[], sectionOf: (t: T) => string, order: string[]): { section: string; items: T[] }[] {
   return order.map((section) => ({ section, items: items.filter((t) => sectionOf(t) === section) }))

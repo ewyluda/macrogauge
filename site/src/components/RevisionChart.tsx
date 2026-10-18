@@ -2,13 +2,14 @@
 import { useMemo } from "react";
 import { EChart } from "./EChart";
 import { C, baseOption } from "@/lib/chartTheme";
+import { fmtNum } from "@/lib/format";
 
 /** First-print vs latest, per reference period, as bars of the revision
  *  (pp of YoY for the price indexes, thousands of jobs for payrolls). */
 export function RevisionChart({ months, values, unit }: { months: string[]; values: (number | null)[]; unit: "pp" | "k" }) {
   const option = useMemo(() => {
     const base = baseOption();
-    const fmt = (v: number) => `${v > 0 ? "+" : ""}${unit === "pp" ? v.toFixed(2) : v.toFixed(0)}${unit}`;
+    const fmt = (v: number) => fmtNum(v, unit === "pp" ? 2 : 0, { signed: true, unit });
     return {
       ...base,
       legend: { show: false },

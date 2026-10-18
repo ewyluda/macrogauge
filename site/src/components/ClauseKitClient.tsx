@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import { clauseText, defaultBase, settle, type ClauseSeries, type ClauseTerms, type Vintage } from "@/lib/clause";
-import { fmtUsd } from "@/lib/format";
+import { fmtNum, fmtUsd } from "@/lib/format";
 import { KpiCard } from "./KpiCard";
 
 const input = { background: "var(--card)", color: "var(--fg)", border: "1px solid var(--border)", borderRadius: 6, padding: "6px 8px" } as const;
@@ -66,9 +66,9 @@ export function ClauseKitClient({ series }: { series: ClauseSeries[] }) {
         <p className="method" role="alert" style={{ color: "var(--accent-red)" }}>{r.error}</p>
       ) : (
         <div className="kpi-row" data-testid="clause-result">
-          <KpiCard label="Index change" value={`${r.changePct >= 0 ? "+" : ""}${r.changePct.toFixed(2)}%`}
+          <KpiCard label="Index change" value={fmtNum(r.changePct, 2, { signed: true, unit: "%" })}
             context={`${r.baseIndex.toFixed(3)} → ${r.adjIndex.toFixed(3)}${r.adjRelease ? ` · printed ${r.adjRelease}` : ""}`} accent="sky" />
-          <KpiCard label="Adjustment" value={`${r.adjustedPct >= 0 ? "+" : ""}${r.adjustedPct.toFixed(2)}%`}
+          <KpiCard label="Adjustment" value={fmtNum(r.adjustedPct, 2, { signed: true, unit: "%" })}
             context={r.capped ? `hit the ${r.capped}` : `after deadband & ${terms.sharePct}% share`} accent="violet" />
           <KpiCard label="Price change" value={fmtUsd(r.dollars)} context={`on ${terms.escalablePct}% escalable of ${fmtUsd(terms.contractValue)}`} accent={r.dollars >= 0 ? "red" : "emerald"} />
         </div>

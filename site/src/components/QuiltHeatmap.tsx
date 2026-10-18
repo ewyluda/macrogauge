@@ -7,6 +7,7 @@ import { DataUnavailable } from "./DataUnavailable";
 import { heatColor, textOn } from "@/lib/heat";
 import { useJson } from "@/lib/useJson";
 import { exportQuiltPng, type QuiltRow } from "@/lib/quiltPng";
+import { fmtNum } from "@/lib/format";
 import {
   buildComponentRows,
   type QuiltComponent,
@@ -30,12 +31,12 @@ type Compare = {
 const WINDOWS = [
   { key: "24", label: "24M" },
   { key: "48", label: "48M" },
-  { key: "all", label: "FULL HISTORY" },
+  { key: "all", label: "Full history" },
 ] as const;
 type WindowKey = (typeof WINDOWS)[number]["key"];
 
 const MODES = [
-  { key: "ours", label: "OURS" },
+  { key: "ours", label: "Ours" },
   { key: "bls", label: "BLS" },
 ] as const satisfies readonly { key: QuiltMode; label: string }[];
 
@@ -76,7 +77,7 @@ function Cell({ v }: { v: number | null }) {
         border: "1px solid var(--bg)",
       }}
     >
-      {v === null ? "" : v.toFixed(2)}
+      {v === null ? "" : fmtNum(v, 2)}
     </td>
   );
 }

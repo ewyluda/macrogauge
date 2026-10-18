@@ -100,7 +100,7 @@ test("/gap's contribution caption describes the mode the chart opens in", async 
   await page.goto("/gap");
   const caption = page.getByTestId("contribution-caption");
   await expect(caption).toContainText("weight × (our YoY − BLS YoY)");
-  await page.getByRole("button", { name: "OURS", exact: true }).click();
+  await page.getByRole("button", { name: "Ours", exact: true }).click();
   await expect(caption).toContainText("the segments sum to the headline line exactly");
 });
 

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import llJson from "../../../public/data/longlead.json";
 import { DownloadData } from "@/components/DownloadData";
 import { flattenRow } from "@/lib/csv";
-import { fmtDay, fmtSigned } from "@/lib/format";
+import { fmtDay, fmtQuarter, fmtSigned } from "@/lib/format";
 import { BASIS_LABELS, LEAD_BASIS_LABELS, backlogMove, fmtFigure, fmtLead, fmtWeightPct, leadTakeaway, noteSegments } from "@/lib/longLead";
 import type { BacklogMonths, LeadTime, LongLead, LongLeadPackage, LongLeadVendor } from "@/lib/types";
 import { LinesChart } from "@/components/LinesChart";
@@ -49,7 +49,6 @@ function NullNote({ note }: { note: string }) {
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const fmtDate = (d: string) => `${MONTHS[Number(d.slice(5, 7)) - 1]} ${Number(d.slice(8, 10))}, ${d.slice(0, 4)}`;
-const fmtQuarter = (d: string) => `Q${Math.ceil(Number(d.slice(5, 7)) / 3)} ${d.slice(0, 4)}`;
 
 // The one figure a vendor leads with on the summary board: the most direct
 // pressure signal it states — book-to-bill, then backlog growth, then backlog.

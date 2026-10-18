@@ -231,7 +231,7 @@ test("DC index components drill down from /datacenter to their own page, 36 mont
   await expect(page.locator(".chart-card canvas")).toHaveCount(1);
   // a long-lead package shows its stated lead times
   await expect(page.getByTestId("dc-lead-times").locator("tbody tr").first()).toBeVisible();
-  await page.getByRole("button", { name: "ALL" }).click();
+  await page.getByRole("button", { name: "All", exact: true }).click();
   await expect.poll(() => page.evaluate(() => location.search)).toContain("win=all");
 });
 

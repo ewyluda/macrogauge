@@ -6,9 +6,11 @@ import { CopyLink } from "./CopyLink";
 import { useJson } from "@/lib/useJson";
 import { DataUnavailable } from "./DataUnavailable";
 import { EChart } from "./EChart";
+import { SegmentedControl } from "./SegmentedControl";
 import { C } from "@/lib/chartTheme";
 import { ramp, EMPTY_CELL, textOn } from "@/lib/heat";
 import { weightAt } from "@/lib/contribution";
+import { fmtNum } from "@/lib/format";
 
 type Replay = {
   rebase: string;
@@ -167,7 +169,7 @@ export function Treemap() {
             // per-tile label ink by WCAG luminance (white on amber is ~3:1)
             return {
               id: c.code,
-              name: `${c.label}\n${v === null ? "—" : `${v.toFixed(1)}%`}`,
+              name: `${c.label}\n${fmtNum(v, 1, { unit: "%" })}`,
               value: weightAt(c, frame && data ? data.dates[frame.i] : undefined),
               itemStyle: { color: bg },
               label: { color: textOn(bg) },
@@ -210,16 +212,6 @@ export function Treemap() {
         )
       : null;
 
-  const chip = (active: boolean): React.CSSProperties => ({
-    border: `1px solid ${active ? "rgba(56,189,248,0.5)" : "var(--border)"}`,
-    background: active ? "rgba(56,189,248,0.12)" : "var(--chip-bg)",
-    color: active ? "var(--accent-sky)" : "var(--muted)",
-    borderRadius: 999,
-    padding: "2px 10px",
-    fontSize: 12,
-    cursor: "pointer",
-  });
-
   return (
     <div
       style={{
@@ -229,21 +221,15 @@ export function Treemap() {
         padding: 12,
       }}
     >
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
-        {MODES.map((m) => (
-          <button
-            key={m.key}
-            style={chip(mode === m.key)}
-            onClick={() => setMode(m.key)}
-          >
-            {m.label}
-          </button>
-        ))}
+      <div style={{ marginBottom: 10 }}>
+        <SegmentedControl options={MODES} value={mode} onChange={setMode} />
       </div>
       <EChart option={option} height={420} notMerge={false} ariaTitle="Basket treemap: component weight and YoY" />
-      <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 10 }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", marginTop: 10 }}>
         <button
-          style={chip(playing)}
+          type="button"
+          className="segmented-option"
+          aria-pressed={playing}
           onClick={() => {
             if (!playing && (pos === -1 || at >= monthEnds.length - 1)) setPos(0);
             setPlaying(!playing);
@@ -262,7 +248,7 @@ export function Treemap() {
             setPlaying(false);
             setPos(Number(e.target.value));
           }}
-          style={{ flex: 1, accentColor: "#38BDF8" }}
+          style={{ flex: "1 1 140px", minWidth: 140, accentColor: "#38BDF8" }}
         />
         <span
           style={{

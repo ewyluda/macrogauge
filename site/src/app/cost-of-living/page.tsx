@@ -79,7 +79,7 @@ export default function CostOfLiving() {
         />
         <KpiCard
           label="Spread"
-          value={fmtPp(spread)}
+          value={fmtPp(spread, 1)}
           context={`cost of living minus headline — the buy-in premium · col ${colAsOf ?? "—"} vs gauge ${pulse.gauge.as_of}`}
           accent={spread != null && spread > 0 ? "red" : "emerald"}
         />
