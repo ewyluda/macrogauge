@@ -535,7 +535,7 @@ def test_parity_from_store_discovers_states(tmp_path):
     ]
     ops = [
         {"code": "power", "label": "P", "group": "power", "series": "eia_elec_ind_us", "weight": 0.55},
-        {"code": "ops_wages", "label": "W", "group": "ops_labor", "series": "ces_dp_ahe", "weight": 0.45},
+        {"code": "ops_wages", "label": "W", "group": "ops_labor", "series": "CIU2020000430000I", "weight": 0.45},
     ]
     basket = write_basket(tmp_path, build, ops)
     out = dcindex.parity_from_store(conn, basket_path=basket)

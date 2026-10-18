@@ -454,7 +454,6 @@
     {"code": "fred_ship_turbines_sa", "source": "FRED", "source_id": "ATGPVS", "name": "Value of shipments, turbines & generators (SA, monthly)", "max_staleness_days": 100},
     {"code": "CP0000EZCCM086NEST", "source": "FRED", "source_id": "CP0000EZCCM086NEST", "name": "Euro-area HICP, all items (changing composition, NSA index)", "max_staleness_days": 85},
     {"code": "TOTNRGFOODEA20MI15XM", "source": "FRED", "source_id": "TOTNRGFOODEA20MI15XM", "name": "Euro-area core HICP ex energy, food, alcohol & tobacco (NSA index)", "max_staleness_days": 85},
-    {"code": "ces_dp_ahe",      "source": "FRED", "source_id": "CES5000000003",   "name": "Avg hourly earnings, Information supersector ($/hr)", "max_staleness_days": 80},
     {"code": "ppi_mach_repair", "source": "FRED", "source_id": "PCU811310811310", "name": "PPI machinery repair & maintenance",       "max_staleness_days": 80},
     {"code": "ppi_storage", "source": "FRED", "source_id": "PCU334112334112", "name": "PPI computer storage device mfg", "max_staleness_days": 80},
     {"code": "ppi_semis_components", "source": "FRED", "source_id": "PCU33443344", "name": "PPI semiconductor & electronic component mfg (group)", "max_staleness_days": 80},

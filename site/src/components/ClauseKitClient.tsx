@@ -1,6 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
-import { clauseText, settle, type ClauseSeries, type ClauseTerms, type Vintage } from "@/lib/clause";
+import { clauseText, defaultBase, settle, type ClauseSeries, type ClauseTerms, type Vintage } from "@/lib/clause";
 import { fmtUsd } from "@/lib/format";
 import { KpiCard } from "./KpiCard";
 
@@ -11,7 +11,7 @@ export function ClauseKitClient({ series }: { series: ClauseSeries[] }) {
   const [code, setCode] = useState(series.find((s) => s.code === "switchgear")?.code ?? series[0].code);
   const s = series.find((x) => x.code === code) ?? series[0];
   const lastPrinted = s.months[s.months.length - 1];
-  const [baseMonth, setBase] = useState(s.months[Math.max(0, s.months.length - 13)]);
+  const [baseMonth, setBase] = useState(defaultBase(s));
   const [adjMonth, setAdj] = useState(lastPrinted);
   const [vintage, setVintage] = useState<Vintage>("first_print");
   const [band, setBand] = useState("5");
@@ -35,7 +35,14 @@ export function ClauseKitClient({ series }: { series: ClauseSeries[] }) {
   return (
     <div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: 12, marginBottom: 16 }}>
-        {field("Index (official series)", <select value={code} onChange={(e) => setCode(e.target.value)} style={input}>
+        {field("Index (official series)", <select value={code} onChange={(e) => {
+          // keep the chosen months where the new series has them; a quarterly
+          // series (ECI) has no point in most months, so those re-default
+          const next = series.find((x) => x.code === e.target.value) ?? series[0];
+          setCode(next.code);
+          if (!next.months.includes(baseMonth)) setBase(defaultBase(next));
+          if (!next.months.includes(adjMonth)) setAdj(next.months[next.months.length - 1]);
+        }} style={input}>
           {series.map((x) => <option key={x.code} value={x.code}>{`${x.label} — ${x.source_id}`}</option>)}
         </select>)}
         {field("Base month", <input type="month" value={baseMonth} min={s.months[0]} max={lastPrinted} onChange={(e) => setBase(e.target.value)} style={input} />)}

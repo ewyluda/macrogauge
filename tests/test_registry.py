@@ -26,13 +26,13 @@ def test_load_real_registry():
                             "EIA_STATE_RES", "KALSHI_FED", "NYFED", "ATLFED", "QCEW_238212", "QCEW_238222",
                             "ERCOT", "SPP", "NYISO", "AWS_GPU", "AZURE_GPU", "OCI_GPU", "COREWEAVE",
                             "NEBIUS", "AZURE_GPU_RESERVED"}
-    assert len(series) == 976  # +12 undisclosed QCEW 6-digit county cells (Storey 238212; Richland/Storey/Grant 238222), +CES2023822003 plumbing/HVAC AHE (PR #125 review, 10-16); +83 QCEW_238222, +4 BLS CES construction-trade detail, +2 ECI, +ADP construction, +3 Indeed postings (/labor DC trades, 10-16); +CES2000000006 production workers, +CES2000000011/30 avg weekly earnings all/production (/labor non-craft share, 10-08); +6 Azure GPU reservations, 1y/3y x H100/H200/GB200 (10-08); +USCONS, JOLTS construction openings level + rate (/labor construction band, 10-08); +4 Nebius GPU list prices (10-08); 8 -> 7 roster models x in/out (usage roster, 10-08); +IG/BBB OAS, BBB effective yield, 30-day SOFR (rates, 10-07); +19 cloud GPU list prices, +8 current models x in/out, -6 retired models x in/out (10-07); +ICE Mid-C/Palo Verde/Mass Hub, ERCOT/SPP/NYISO hubs (10-04); +89 QCEW_238212; +M3 SA backlog x4, euro HICP x2, SCE x3, BIE x2 (10-01); +nyfed_mct; +KXFED/DFEDTARU/tariff/GSCPI/B300 (measures) +4 PPIs/CSUSHPISA/SASL2RS (PCE, methodology)
+    assert len(series) == 975  # -ces_dp_ahe (Information AHE; DC ops leg moved to ECI CIU2020000430000I, 10-18); +12 undisclosed QCEW 6-digit county cells (Storey 238212; Richland/Storey/Grant 238222), +CES2023822003 plumbing/HVAC AHE (PR #125 review, 10-16); +83 QCEW_238222, +4 BLS CES construction-trade detail, +2 ECI, +ADP construction, +3 Indeed postings (/labor DC trades, 10-16); +CES2000000006 production workers, +CES2000000011/30 avg weekly earnings all/production (/labor non-craft share, 10-08); +6 Azure GPU reservations, 1y/3y x H100/H200/GB200 (10-08); +USCONS, JOLTS construction openings level + rate (/labor construction band, 10-08); +4 Nebius GPU list prices (10-08); 8 -> 7 roster models x in/out (usage roster, 10-08); +IG/BBB OAS, BBB effective yield, 30-day SOFR (rates, 10-07); +19 cloud GPU list prices, +8 current models x in/out, -6 retired models x in/out (10-07); +ICE Mid-C/Palo Verde/Mass Hub, ERCOT/SPP/NYISO hubs (10-04); +89 QCEW_238212; +M3 SA backlog x4, euro HICP x2, SCE x3, BIE x2 (10-01); +nyfed_mct; +KXFED/DFEDTARU/tariff/GSCPI/B300 (measures) +4 PPIs/CSUSHPISA/SASL2RS (PCE, methodology)
     assert sources["BLS"].secret_optional is True
     assert sources["TREASURY"].secret is None
     codes = [s.code for s in series]
     assert len(codes) == len(set(codes))
     fred = [s for s in series if s.source == "FRED"]
-    assert len(fred) == 158  # +2 ECI, ADP, 3 Indeed (10-16); 35 BLS-origin series moved to direct BLS (10-15)
+    assert len(fred) == 157  # -ces_dp_ahe (10-18); +2 ECI, ADP, 3 Indeed (10-16); 35 BLS-origin series moved to direct BLS (10-15)
     # Pin the FRED wire ids. A bad id fails the whole FRED batch, so lock these down.
     fred_ids = {s.code: s.source_id for s in fred}
     assert fred_ids == {
@@ -75,7 +75,6 @@ def test_load_real_registry():
             "fred_uo_electrical": "U35CUO",
             "fred_uo_hvac": "U33HUO",
             "fred_uo_turbines": "UTGPUO",
-            "ces_dp_ahe": "CES5000000003",
             # /labor DC trades (10-16), live-verified on FRED 2026-10-16;
             # ECI comes via FRED because bls.py skips quarterly periods
             **{c: c for c in ("CIU2022300000000I", "CIU2020000430000I", "ADPMINDCONNERSA",

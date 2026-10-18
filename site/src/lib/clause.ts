@@ -8,6 +8,8 @@
  *  adjusted = clamp(share · excess, −floor, +cap)                         (%)
  *  dollars  = contract value · escalable share · adjusted
  */
+import { monthDiff } from "./escalationSince";
+
 export type ClauseSeries = {
   basket: "build" | "ops" | "reference"; code: string; label: string; series: string; source_id: string;
   months: string[]; latest: number[]; first_print: (number | null)[]; first_release: (string | null)[];
@@ -25,6 +27,17 @@ export type ClauseResult =
       adjustedPct: number; capped: "cap" | "floor" | null; dollars: number;
       baseRelease: string | null; adjRelease: string | null };
 
+/** a quarterly series (the ECI) carries one point per quarter, dated at the
+ *  quarter's first month the way FRED dates it: 2026-04 is BLS's Q2 2026 */
+export function isQuarterly(s: ClauseSeries): boolean {
+  return s.months.length > 1 && s.months.every((m, i) => i === 0 || monthDiff(s.months[i - 1], m) === 3);
+}
+
+/** the default base period: a year before the last print */
+export function defaultBase(s: ClauseSeries): string {
+  return s.months[Math.max(0, s.months.length - (isQuarterly(s) ? 5 : 13))];
+}
+
 function indexAt(s: ClauseSeries, month: string, v: Vintage): { value: number | null; release: string | null } {
   const i = s.months.indexOf(month);
   if (i < 0) return { value: null, release: null };
@@ -40,7 +53,8 @@ export function settle(s: ClauseSeries, t: ClauseTerms): ClauseResult {
   const b = indexAt(s, t.baseMonth, t.vintage);
   const a = indexAt(s, t.adjMonth, t.vintage);
   if (b.value == null || a.value == null) {
-    return { ok: false, error: `${s.source_id} has no ${t.vintage === "first_print" ? "first-print " : ""}value for ${b.value == null ? t.baseMonth : t.adjMonth}.` };
+    const quarterly = isQuarterly(s) ? " It is quarterly: pick January, April, July or October for Q1–Q4." : "";
+    return { ok: false, error: `${s.source_id} has no ${t.vintage === "first_print" ? "first-print " : ""}value for ${b.value == null ? t.baseMonth : t.adjMonth}.${quarterly}` };
   }
   const change = (a.value / b.value - 1) * 100;
   const mag = Math.abs(change);
@@ -58,6 +72,8 @@ export function settle(s: ClauseSeries, t: ClauseTerms): ClauseResult {
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const monthName = (ym: string) => `${MONTHS[Number(ym.slice(5, 7)) - 1]} ${ym.slice(0, 4)}`;
+const QUARTERS = ["first", "second", "third", "fourth"];
+const quarterName = (ym: string) => `the ${QUARTERS[Math.floor((Number(ym.slice(5, 7)) - 1) / 3)]} quarter of ${ym.slice(0, 4)}`;
 
 export function clauseText(s: ClauseSeries, t: ClauseTerms): string {
   const vint = t.vintage === "first_print"
@@ -71,5 +87,7 @@ export function clauseText(s: ClauseSeries, t: ClauseTerms): string {
   const share = t.sharePct === 100 ? "" : ` The Buyer shall bear ${t.sharePct}% of the resulting change and the Seller ${100 - t.sharePct}%.`;
   const limits = [t.capPct != null ? `an increase of ${t.capPct}%` : null, t.floorPct != null ? `a decrease of ${t.floorPct}%` : null].filter(Boolean);
   const lim = limits.length ? ` The adjustment shall not exceed ${limits.join(" or ")} of the escalable portion.` : "";
-  return `Price adjustment. The ${t.escalablePct}% of the Contract Price designated as escalable shall be adjusted in proportion to the change in ${s.label} (${s.source_id}), ${vint}, comparing the index for ${monthName(t.adjMonth)} with the index for ${monthName(t.baseMonth)} (the base month).${band}${share}${lim}`;
+  const q = isQuarterly(s);
+  const period = q ? quarterName : monthName;
+  return `Price adjustment. The ${t.escalablePct}% of the Contract Price designated as escalable shall be adjusted in proportion to the change in ${s.label} (${s.source_id}), ${vint}, comparing the index for ${period(t.adjMonth)} with the index for ${period(t.baseMonth)} (the base ${q ? "quarter" : "month"}).${band}${share}${lim}`;
 }
