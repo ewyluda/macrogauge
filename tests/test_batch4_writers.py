@@ -780,3 +780,43 @@ def test_changes_flags_a_new_print_even_when_its_yoy_walks_back(tmp_path):
     assert p["official"]["latest_month"] == "2026-10-01"
     assert p["official"]["prev_month"] == "2026-09-01"
     validate.validate_file(changes.write(p, out, "T1"), SCHEMAS / "changes.schema.json")
+
+
+def test_compute_display_only_model_exits_the_index_without_moving_the_level(tmp_path):
+    """2026-10-19: OpenRouter delisted DeepSeek's own endpoint, so DeepSeek V4.1
+    Flash is priced through 10-17 and then absent. It links up to its last
+    observation and is never carried past it (the registry's 7-day carry would
+    otherwise drag its flat price into the links), the level holds across the
+    exit day, and it stays a table row, `in_index: false`, stale past its limit."""
+    ds = "deepseek_v41_flash_list"
+    assert ds in compute.TOKEN_DISPLAY_ONLY and ds in dict(compute.MODELS)
+    d1, d2, d3, d4 = "2026-10-16", "2026-10-17", "2026-10-18", "2026-10-19"
+    others = [k for k in NEW if k != ds]
+    cur = {k: {d1: 1.0, d2: 1.0, d3: 1.0, d4: 1.0} for k in others}
+    cur[ds] = {d1: 1.0, d2: 1.0}                  # delisted: nothing after 10-17
+    conn = _store(tmp_path, _roster({}, cur), source="OPENROUTER")
+    p = compute.build(conn, today=d4)
+    ti = p["token_index"]
+    by = dict(zip(ti["history"]["dates"], ti["history"]["index"]))
+    assert by[d2] == by[d3] == by[d4] == 100.0    # the exit day moves nothing
+    n = dict(zip(ti["history"]["dates"], ti["history"]["members"]))
+    assert n[d2] == len(NEW) and n[d3] == n[d4] == len(NEW) - 1   # not carried past 10-17
+    row = {m["key"]: m for m in p["models"]}[ds]
+    assert row["in_index"] is False and row["as_of"] == d2 and row["blended_usd_mtok"] == 1.0
+    assert row["stale"] is False                  # two days old, inside the 7-day limit
+    assert all(m["in_index"] for m in p["models"] if m["key"] != ds)
+    late = {m["key"]: m for m in compute.build(conn, today="2026-10-30")["models"]}[ds]
+    assert late["stale"] is True                  # never a live price once past the limit
+    validate.validate_file(compute.write(p, tmp_path / "out", "2026-10-19T12:00:00Z"),
+                           SCHEMAS / "compute.schema.json")
+
+
+def test_compute_display_only_model_keeps_its_series_registered():
+    """A returning maker endpoint is collected again: the `_list` series stay in
+    the registry, pinned to the maker's own endpoint, never a third-party host."""
+    from pipeline.registry import load_registry
+    _, series = load_registry()
+    by = {s.code: s for s in series}
+    for k in compute.TOKEN_DISPLAY_ONLY:
+        for side in ("in", "out"):
+            assert by[f"or_{k}_{side}"].source_id.startswith("deepseek/deepseek-v4.1-flash@deepseek:")
