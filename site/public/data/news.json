@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-18T21:01:16Z",
+  "published_at": "2026-10-19T12:56:43Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,517 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-18T20:55:05Z",
-  "tape_last_post_at": "2026-10-18T20:52:44Z",
-  "age_hours": 0.11,
+  "feed_generated_at": "2026-10-19T12:51:13Z",
+  "tape_last_post_at": "2026-10-19T12:47:59Z",
+  "age_hours": 0.09,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3A2A84C99B5B43BA0801",
+      "ts": "2026-10-19T12:34:16Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "American Electric Power ($AEP), Amazon ($AMZN) and X-energy ($XE) are evaluating a 960 MW nuclear power plant in Indiana, with Amazon agreeing to fund development and potentially purchase the electricity.",
+      "points": [
+        {
+          "label": "Project",
+          "text": "Twelve 80 MW Xe-100 small modular reactors are proposed for the former Breed coal plant in Sullivan County, supplying power directly to the regional grid."
+        },
+        {
+          "label": "Financing",
+          "text": "If built, Amazon intends to cover the plant's costs through a long-term power purchase agreement, with safeguards designed to protect AEP customers and investors."
+        },
+        {
+          "label": "Status",
+          "text": "The project remains in feasibility assessment, with construction dependent on a final investment decision."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "XE",
+          "layer": "Power & Grid"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19708",
+      "has_media": true
+    },
+    {
+      "id": "3A71C2EF90A4691A6972",
+      "ts": "2026-10-19T12:24:35Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "JPMorgan upgraded Intel ($INTC) to Neutral from Underweight, maintaining its $85 price target, citing improving execution and a more balanced risk/reward outlook.",
+      "points": [
+        {
+          "label": "Valuation",
+          "text": "Shares have fallen 36% from their June peak, bringing the stock closer to JPMorgan's price target."
+        },
+        {
+          "label": "Turnaround",
+          "text": "Analyst Harlan Sur sees stronger execution under CEO Lip-Bu Tan, particularly in Intel's core data center computing business."
+        },
+        {
+          "label": "Manufacturing",
+          "text": "JPMorgan also highlighted significant improvements in Intel's execution on next-generation chip manufacturing, although the broader turnaround remains a multiyear effort."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "INTC",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19705",
+      "has_media": false
+    },
+    {
+      "id": "3A36274B65DDFF8C8AA6",
+      "ts": "2026-10-19T12:24:19Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Morgan Stanley named Amazon ($AMZN) a Top Pick, raising its price target to $350 from $335 and reiterating Overweight, citing underappreciated growth and profitability potential at Amazon Web Services (AWS).",
+      "points": [
+        {
+          "label": "AWS growth",
+          "text": "Analyst Brian Nowak forecasts revenue growth of 47% in 2027 and 42% in 2028."
+        },
+        {
+          "label": "Profitability",
+          "text": "Morgan Stanley expects AWS to achieve a \"rule of 90\" profile, combining revenue growth and operating margin, supporting approximately $16.50 in Amazon EPS by 2028."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19704",
+      "has_media": false
+    },
+    {
+      "id": "3A17D31B36AC94A59868",
+      "ts": "2026-10-19T12:10:24Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Siemens and Nvidia ($NVDA) unveiled new AI-powered manufacturing systems at Siemens' Erlangen factory in Germany, advancing their partnership to develop autonomous factories.",
+      "points": [
+        {
+          "label": "Virtual production",
+          "text": "AI-generated digital twins train quality-inspection systems before physical prototypes exist, potentially reducing engineering effort by 85% and time-to-market by 40%."
+        },
+        {
+          "label": "AI agents",
+          "text": "Autonomous planning tools generate production scenarios and test them in factory simulations, targeting cost savings of up to 20% while adapting to orders and supply disruptions."
+        },
+        {
+          "label": "Nvidia technology",
+          "text": "Cosmos generates synthetic training data, while Omniverse enables virtual factory testing and Nvidia's Factory Operations Blueprint supports AI-driven planning."
+        },
+        {
+          "label": "Expansion",
+          "text": "Erlangen already uses over 100 AI algorithms, with Siemens investing \u20ac500 million in the facility's transformation through 2030."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19697",
+      "has_media": true
+    },
+    {
+      "id": "3A4154F07736BC4623BD",
+      "ts": "2026-10-19T12:04:44Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Accenture ($ACN) and Google Public Sector ($GOOGL) launched Gemini-powered AI agent hubs to help U.S. federal agencies automate operations and deploy mission-specific AI workflows.",
+      "points": [
+        {
+          "label": "Gemini Launchpads",
+          "text": "Centralized hubs allow agencies to securely connect AI agents to government data and systems, manage deployment, train staff and measure performance."
+        },
+        {
+          "label": "Federal applications",
+          "text": "Pre-built agents under development will automate complex workflows across human resources, finance and supply chains."
+        },
+        {
+          "label": "Engineering workforce",
+          "text": "Accenture Federal is training specialized engineers to work directly with agencies, supporting its broader initiative to build a 1,000-person AI engineering workforce."
+        },
+        {
+          "label": "Deployment",
+          "text": "Agencies can develop and test agents through joint workshops at Accenture's Forge facility in Washington, D.C."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19692",
+      "has_media": true
+    },
+    {
+      "id": "3A55B1B973250AFF3906",
+      "ts": "2026-10-19T12:01:26Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Goldman Sachs upgraded CoreWeave ($CRWV) from Neutral to Buy despite cutting its price target from $139 to $106, implying approximately 73% upside from $61.39.",
+      "points": [
+        {
+          "label": "Selloff",
+          "text": "Shares have fallen 43% since August 11 and 24% over the past five trading sessions amid concerns over AI demand and rising financing costs."
+        },
+        {
+          "label": "Bullish case",
+          "text": "Analyst Gabriela Borges argues investors are underestimating potential improvements in unlevered internal rates of return (IRR) while overestimating increases in weighted average cost of capital (WACC), supporting higher valuations."
+        },
+        {
+          "label": "Risks",
+          "text": "Credit-market volatility raises uncertainty over future financing, while shifting demand between frontier and smaller AI models could affect customers' ability to monetize computing capacity."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19688",
+      "has_media": false
+    },
+    {
+      "id": "3A838529C1959B1E23AD",
+      "ts": "2026-10-19T12:01:18Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Cantor Fitzgerald reiterated its Overweight rating on CoreWeave ($CRWV) with a $176 price target, implying nearly 187% upside, arguing the recent selloff is overblown.",
+      "points": [
+        {
+          "label": "AI demand",
+          "text": "Analyst Brett Knoblauch said CoreWeave has no demand problem, with computing capacity remaining scarce and customer demand strong."
+        },
+        {
+          "label": "Improving economics",
+          "text": "New contracts offer materially better returns than two years ago or even earlier this year, with capital expenditure payback periods nearly halved."
+        },
+        {
+          "label": "Financing outlook",
+          "text": "Cantor believes faster investment payback should improve CoreWeave's creditworthiness and support future financing."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19687",
+      "has_media": false
+    },
+    {
+      "id": "3AA3F2E29F616AADF194",
+      "ts": "2026-10-19T12:00:52Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Morgan Stanley raised its price target on Meta Platforms ($META) to $820 from $775, maintaining Overweight, citing stronger advertising performance and growing AI subscription revenue opportunities.",
+      "points": [
+        {
+          "label": "Higher forecasts",
+          "text": "Analyst Brian Nowak raised 2027/2028 revenue estimates by 1%/2% and GAAP EPS forecasts by 1%/3%, respectively."
+        },
+        {
+          "label": "AI monetization",
+          "text": "Improving returns from AI-powered advertising support higher ad revenue forecasts, while Muse and business AI subscriptions could add $1 billion in 2027 and $2 billion in 2028."
+        },
+        {
+          "label": "Spending",
+          "text": "Morgan Stanley also raised expense estimates by 1% in both years, to $211 billion and $267 billion, respectively."
+        },
+        {
+          "label": "Bull case",
+          "text": "A $1,000 price target is possible if Muse drives stronger user growth, engagement and monetization."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19684",
+      "has_media": false
+    },
+    {
+      "id": "3A6298874D03FDA1724B",
+      "ts": "2026-10-19T11:59:31Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Microsoft ($MSFT) withdrew from Nscale's planned UK data center near London amid prolonged power-grid delays, adding to concerns over the debt-fueled AI infrastructure boom.",
+      "points": [
+        {
+          "label": "Project setback",
+          "text": "The Loughton facility may lack grid access for years. Nscale said it is exploring alternative power sources, while Microsoft emphasized that its broader partnership remains intact."
+        },
+        {
+          "label": "IPO plans",
+          "text": "Nscale's planned offering, targeting more than $3 billion at a $30 billion valuation, is reportedly proceeding despite investor pushback over pricing."
+        },
+        {
+          "label": "Sector pressure",
+          "text": "CoreWeave ($CRWV) plunged 25% last week amid debt concerns, while rival data center operators Firmus and AirTrunk recently canceled or postponed IPOs."
+        },
+        {
+          "label": "Economic impact",
+          "text": "A Stanford study cautioned that AI infrastructure investment could create thousands of jobs without necessarily benefiting the communities hosting data centers."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19682",
+      "has_media": true
+    },
+    {
+      "id": "3A6EC9DFA1EC1A4CC1E8",
+      "ts": "2026-10-19T02:22:54Z",
+      "category": "earnings",
+      "kind": "image",
+      "headline": "China's largest DRAM maker, CXMT, fell 6.5% Monday despite forecasting a sharp profit turnaround driven by surging AI demand and higher memory-chip prices.",
+      "points": [
+        {
+          "label": "Earnings outlook",
+          "text": "CXMT expects January\u2013September net profit of 131 billion\u2013132.5 billion yuan ($19.6 billion\u2013$19.8 billion), reversing a 5.28 billion yuan loss a year earlier."
+        },
+        {
+          "label": "Revenue",
+          "text": "Nine-month sales are projected at 265 billion\u2013270 billion yuan, reflecting strong AI-driven demand, DRAM shortages and rising prices."
+        },
+        {
+          "label": "Market share",
+          "text": "CXMT captured 10% of global DRAM revenue in Q3 2026, doubling its 5% share from a year earlier, according to Counterpoint Research."
+        },
+        {
+          "label": "Competition",
+          "text": "The Chinese chipmaker continues expanding its position against Samsung, SK Hynix and Micron ($MU)."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MU",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19680",
+      "has_media": true
+    },
+    {
+      "id": "3ADAB77A125456B2A277",
+      "ts": "2026-10-18T23:21:28Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Elon Musk's criticism of memory-chip prices may be part of a broader strategy to pressure Samsung Electronics into lowering semiconductor manufacturing costs, according to South Korea's Global Economic Daily.",
+      "points": [
+        {
+          "label": "Tesla allegations",
+          "text": "A purported semiconductor engineer accused Tesla ($TSLA) of demanding sensitive foundry information, audit rights and steep discounts for its AI5 and AI6 chips. The allegations remain unverified."
+        },
+        {
+          "label": "Terafab",
+          "text": "The engineer also alleged that Musk's semiconductor project recruited numerous workers from Samsung's Texas operations."
+        },
+        {
+          "label": "Pricing strategy",
+          "text": "The publication suggests Musk's praise for Micron ($MU), criticism of rival suppliers and predictions of massive Chinese memory production by 2028 could strengthen Tesla's negotiating position. This remains speculation."
+        },
+        {
+          "label": "Samsung production",
+          "text": "Tesla's AI5 chip is reportedly in trial production at Samsung's Taylor facility, with 2nm mass production targeted for 2027."
+        },
+        {
+          "label": "China competition",
+          "text": "CXMT could reach 500,000\u2013600,000 DRAM wafers monthly by late 2028, although analysts estimate Samsung maintains a 5\u20137-year technological lead."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MU",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19671",
+      "has_media": true
+    },
+    {
+      "id": "3A9C34227903E98A21C8",
+      "ts": "2026-10-18T23:12:30Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "China's largest DRAM maker, CXMT, is projected to expand production capacity by 31% in 2027 and potentially 88% by late 2028, raising concerns about future memory oversupply and pricing pressure on Samsung, SK Hynix and Micron ($MU). - The Korea Herald and eToday",
+      "points": [
+        {
+          "label": "Capacity expansion",
+          "text": "Counterpoint Research and TrendForce estimates cited by Korean media put monthly wafer capacity at approximately 320,000 currently, rising to 420,000 in 2027 and potentially 500,000\u2013600,000 by late 2028."
+        },
+        {
+          "label": "New facilities",
+          "text": "CXMT is expanding production in Shanghai, Beijing and Hefei, targeting conventional DRAM markets as competitors prioritize high-bandwidth memory (HBM)."
+        },
+        {
+          "label": "Market share",
+          "text": "CXMT captured 9.5% of global DRAM revenue in Q2, up from 7.6% in Q1, becoming the fourth-largest supplier."
+        },
+        {
+          "label": "Pricing outlook",
+          "text": "Additional capacity from China and established producers could ease shortages around 2028, particularly in conventional DRAM. However, actual output depends on yields and utilization, while Chinese AI demand could absorb much of the increase."
+        },
+        {
+          "label": "Diverging forecasts",
+          "text": "Gartner expects DRAM prices to decline beginning in late 2027 or early 2028, while Micron anticipates even tighter supply in 2028."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MU",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19670",
+      "has_media": true
+    },
+    {
+      "id": "3A02F9708978B28984E0",
+      "ts": "2026-10-18T22:57:38Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Jim Cramer argues last week's AI-stock rout reflects forced selling by leveraged investors rather than a collapse of the data-center boom, taking a bullish stance despite mounting credit concerns.",
+      "points": [
+        {
+          "label": "Cramer's thesis",
+          "text": "He suspects leveraged hedge-fund liquidations drove the selloff, though no specific collapse has been confirmed. He argues Nvidia GPUs could retain value for a decade, supporting cheaper asset-backed financing."
+        },
+        {
+          "label": "CoreWeave",
+          "text": "Cramer views Jensen Huang's assertion that CoreWeave needs no Nvidia financial backstop as evidence the AI infrastructure model remains viable."
+        },
+        {
+          "label": "Selloff",
+          "text": "Semiconductors fell nine consecutive sessions, while CoreWeave ($CRWV) bond yields exceeded 15%, raising fears that financing costs could halt construction and undermine Nvidia ($NVDA) chip demand."
+        },
+        {
+          "label": "Bear case",
+          "text": "Critics compare Nvidia's financing of AI customers to the dot-com era's circular vendor financing, questioning whether demand is sustainable without supplier funding."
+        },
+        {
+          "label": "Outlook",
+          "text": "Cramer anticipates a $10 trillion\u2013$12 trillion AI build-out and a potential rebound if credit pressures ease, while warning that political opposition to data centers remains a risk."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19668",
+      "has_media": true
+    },
+    {
+      "id": "3A28AF6ECFFDB71592CA",
+      "ts": "2026-10-18T21:32:28Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Nvidia ($NVDA)-backed AI infrastructure firm Nscale faces investor pressure to lower its planned IPO valuation from $30 billion to $16 billion\u2013$19 billion, Bloomberg reports.",
+      "points": [
+        {
+          "label": "Investor pushback",
+          "text": "Some investors argue the lower valuation would attract more buyers following a broader selloff in AI infrastructure stocks and the collapse of Australian rival Firmus' IPO plans."
+        },
+        {
+          "label": "Project setbacks",
+          "text": "Microsoft ($MSFT) reportedly exited an agreement for a UK data center Nscale was developing after delays securing electricity."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19666",
+      "has_media": true
+    },
+    {
+      "id": "3AAB210D14FE0EC575A7",
+      "ts": "2026-10-18T21:25:11Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Charles Schwab ($SCHW) CEO Rick Wurster believes AI will transform investing but won't replace human financial advisers, expressing skepticism that autonomous trading agents can consistently outperform markets.",
+      "points": [
+        {
+          "label": "AI disruption",
+          "text": "Meta's ($META) Muse launch sparked fears that agents could move customer cash into higher-yielding accounts, sending Schwab shares down more than 6%, with Raymond James ($RJF) and LPL Financial ($LPLA) also declining."
+        },
+        {
+          "label": "Account restrictions",
+          "text": "Schwab already blocks third-party AI agents from logging into customer accounts. JPMorgan Chase ($JPM) is taking similar measures. Wurster considers mass automated cash transfers highly unlikely."
+        },
+        {
+          "label": "Schwab's AI plans",
+          "text": "Its Charley assistant provides quotes, balances and basic services. A small group can already connect Anthropic's Claude to brokerage accounts, with broader access planned."
+        },
+        {
+          "label": "Trading concerns",
+          "text": "Wurster questioned promises of automated market-beating strategies, noting that brokerages promoting frequent trading benefit from transaction revenue."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19665",
+      "has_media": true
+    },
     {
       "id": "3AE45E6F713AB08041EB",
       "ts": "2026-10-18T19:52:26Z",
@@ -6476,125 +6982,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18776",
       "has_media": false
-    },
-    {
-      "id": "3A8BAC1BC135D0ABFE4D",
-      "ts": "2026-10-12T12:19:10Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Intel ($INTC) and Broadcom ($AVGO) CEOs warned that access to capital could become the biggest constraint on the AI infrastructure boom, potentially surpassing semiconductor, memory and power shortages.",
-      "points": [
-        {
-          "label": "Financing risks",
-          "text": "Broadcom CEO Hock Tan identified capital as a potential bottleneck, while Intel CEO Lip-Bu Tan warned rising borrowing costs and pressure to demonstrate investment returns could challenge AI expansion."
-        },
-        {
-          "label": "Demand outlook",
-          "text": "Broadcom expects computing demand to exceed supply through 2029, potentially into 2030. Intel sees no significant slowdown over the next two to three years."
-        },
-        {
-          "label": "Supply constraints",
-          "text": "Broadcom expects memory shortages could ease within a year, wafer shortages by 2028\u201329 and power availability to improve as infrastructure expands."
-        },
-        {
-          "label": "Long-term uncertainty",
-          "text": "Sustained investment depends on broader AI adoption and measurable returns. Broadcom warned demand could slow if advanced AI models fail to deliver expected improvements."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AVGO",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "INTC",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18768",
-      "has_media": true
-    },
-    {
-      "id": "3A079813274F40211098",
-      "ts": "2026-10-12T11:59:03Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Lumentum ($LITE), Astera Labs ($ALAB) and Corning ($GLW) announced a joint PCIe-over-optics demonstration for AI racks, designed to overcome bandwidth, power and connectivity limitations as AI infrastructure scales.",
-      "points": [
-        {
-          "label": "Optical technology",
-          "text": "Combines Lumentum's 1060 nm VCSEL optical platform, Astera's Scorpio Smart Fabric Switch and Corning's multimode fiber to extend PCIe connectivity within AI racks."
-        },
-        {
-          "label": "Performance",
-          "text": "The proof-of-concept targets multiple 32 Gb/s optical channels and an error-free PCIe 5.0 connection."
-        },
-        {
-          "label": "Infrastructure benefits",
-          "text": "The companies aim to increase bandwidth density, extend connection distances and reduce latency, power consumption, cabling complexity and signal degradation compared with electrical interconnects."
-        },
-        {
-          "label": "Demonstration",
-          "text": "The system will be showcased at Astera Labs' booth B34 during the OCP Global Summit in San Jose, October 12\u201315."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "ALAB",
-          "layer": "Networking"
-        },
-        {
-          "ticker": "GLW",
-          "layer": "Networking"
-        },
-        {
-          "ticker": "LITE",
-          "layer": "Networking"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18760",
-      "has_media": true
-    },
-    {
-      "id": "3A0D13911D17CD26FB47",
-      "ts": "2026-10-11T22:42:58Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Anthropic has signed an unannounced multiyear cloud agreement with IREN ($IREN), The Information reported Sunday, expanding its network of data-center providers amid a roughly $530 billion AI infrastructure buildout.",
-      "points": [
-        {
-          "label": "Deal terms",
-          "text": "The agreement's financial value, computing capacity and deployment timeline were not disclosed."
-        },
-        {
-          "label": "Infrastructure expansion",
-          "text": "Anthropic increasingly relies on current and former Bitcoin miners, including IREN, Hut 8, TeraWulf and Nscale, to secure scarce power and data-center capacity."
-        },
-        {
-          "label": "Deployment economics",
-          "text": "A separate 245-MW Hut 8 facility could generate an estimated $1.3 billion in additional Anthropic revenue by coming online one month early. The estimate does not apply to IREN's contract."
-        },
-        {
-          "label": "Cloud partnerships",
-          "text": "The IREN agreement adds to Anthropic's existing arrangements with AWS, Google and more than a dozen other providers."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "IREN",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [
-        "AMZN",
-        "GOOGL",
-        "HUT",
-        "WULF"
-      ],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18745",
-      "has_media": true
     }
   ]
 }

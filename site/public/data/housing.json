@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-18T21:01:16Z",
+  "published_at": "2026-10-19T12:56:43Z",
   "prices": {
     "case_shiller": {
       "code": "CSUSHPINSA",
@@ -59,7 +59,7 @@
     },
     "mnd_30yr_daily": {
       "value": 7.37,
-      "as_of": "2026-10-18"
+      "as_of": "2026-10-19"
     }
   },
   "affordability": {

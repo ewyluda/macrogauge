@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-18T21:01:16Z",
+  "published_at": "2026-10-19T12:56:43Z",
   "as_of": "2026-09",
   "legs": {
     "strict": {
@@ -5151,7 +5151,7 @@
     "transform": "year_ratio",
     "smooth_days": 7,
     "as_of": "2026-09-01",
-    "proxy_history_days": 2803,
+    "proxy_history_days": 2810,
     "months_graded": 76,
     "min_months": 6,
     "months_dropped": 0,
@@ -5164,7 +5164,7 @@
     "best_max": 52.094,
     "lambda_ols": 0.1777,
     "regime_min_move": 0.5,
-    "proxy_yoy_pct": 565.9,
+    "proxy_yoy_pct": 587.3,
     "regime_active": true,
     "verdict": "FAIL",
     "tail_active": false,
