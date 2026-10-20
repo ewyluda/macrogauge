@@ -42,7 +42,7 @@
     },
     "outlook": {
       "type": ["object", "null"],
-      "description": "EIA STEO Henry Hub path from the current month on. release_seen = the vintage the newest forecast row arrived in; stale past 45 days (registry staleness cannot see future obs_dates).",
+      "description": "EIA STEO Henry Hub path from the current month on. release_seen = the vintage the newest forecast row arrived in; stale past 45 days (registry staleness cannot see future obs_dates). next12_avg covers the twelve calendar months next12_from..next12_to and is null unless every one prints.",
       "required": ["code", "release_seen", "stale", "months", "values", "next12_avg", "next12_from", "next12_to"],
       "additionalProperties": false,
       "properties": {
@@ -67,7 +67,7 @@
     },
     "storage": {
       "type": ["object", "null"],
-      "description": "Lower-48 working gas (Bcf, week ending Friday). avg5 = OUR mean of the same ISO week in the five prior years, not EIA's published five-year average.",
+      "description": "Lower-48 working gas (Bcf, week ending Friday). avg5 = OUR mean of the same ISO week in the five prior years, not EIA's published five-year average. chg_week_bcf is null unless the print exactly seven days earlier exists.",
       "required": ["code", "as_of", "bcf", "chg_week_bcf", "avg5_bcf", "vs_avg5_pct", "year_ago_bcf",
                    "vs_year_ago_pct", "history"],
       "additionalProperties": false,
@@ -176,10 +176,11 @@
     },
     "ai_gas_deals": {
       "type": ["object", "null"],
-      "description": "The gas-fired deals in config/power_deals.json and the gas they would burn at FULL output on a combined cycle's heat rate — an upper bound on hours, a floor on efficiency; no load factor assumed. Shares are of trailing-12-month US power burn.",
-      "required": ["as_of_curated", "heat_rate_key", "btu_per_kwh", "btu_per_cf", "heat_content_year", "signed_mw",
-                   "other_mw", "signed_bcf_d", "other_bcf_d", "power_burn_ttm_bcf_d",
-                   "signed_share_of_power_burn_pct", "all_share_of_power_burn_pct", "deals"],
+      "description": "The gas-tagged deals in config/power_deals.json with each gas plant's own stated MW (config/gas.json gas_generation) beside the deal's MW, which can be contracted load or a resource bundle. Burn = gas MW at FULL output on a combined cycle's heat rate — an upper bound on hours, a floor on efficiency; no load factor assumed. A deal whose sources do not split out the gas has null gas_mw and burn and is totalled apart in *_unstated_mw. Shares are of trailing-12-month US power burn.",
+      "required": ["as_of_curated", "heat_rate_key", "btu_per_kwh", "btu_per_cf", "heat_content_year", "generation_basis",
+                   "signed_gas_mw", "other_gas_mw", "signed_unstated_mw", "other_unstated_mw", "signed_bcf_d",
+                   "other_bcf_d", "power_burn_ttm_bcf_d", "signed_share_of_power_burn_pct",
+                   "all_share_of_power_burn_pct", "deals"],
       "additionalProperties": false,
       "properties": {
         "as_of_curated": {"type": "string"},
@@ -187,8 +188,11 @@
         "btu_per_kwh": {"type": "integer"},
         "btu_per_cf": {"type": "integer"},
         "heat_content_year": {"type": "integer"},
-        "signed_mw": {"type": "number"},
-        "other_mw": {"type": "number"},
+        "generation_basis": {"type": "string"},
+        "signed_gas_mw": {"type": "number"},
+        "other_gas_mw": {"type": "number"},
+        "signed_unstated_mw": {"type": "number"},
+        "other_unstated_mw": {"type": "number"},
         "signed_bcf_d": {"type": "number"},
         "other_bcf_d": {"type": "number"},
         "power_burn_ttm_bcf_d": {"$ref": "#/$defs/num"},
@@ -198,19 +202,22 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["t", "counterparty", "facility", "mw", "status", "kind", "announced", "source_url",
-                         "bcf_d_full_output"],
+            "required": ["t", "counterparty", "facility", "mw", "mw_basis", "gas_mw", "gas_mw_note", "status", "kind",
+                         "announced", "source_url", "bcf_d_full_output"],
             "additionalProperties": false,
             "properties": {
               "t": {"type": "string"},
               "counterparty": {"type": "string"},
               "facility": {"type": "string"},
               "mw": {"type": "number"},
+              "mw_basis": {"type": "string"},
+              "gas_mw": {"$ref": "#/$defs/num"},
+              "gas_mw_note": {"type": ["string", "null"]},
               "status": {"type": "string"},
               "kind": {"type": "string"},
               "announced": {"type": "string"},
               "source_url": {"type": "string"},
-              "bcf_d_full_output": {"type": "number"}
+              "bcf_d_full_output": {"$ref": "#/$defs/num"}
             }
           }
         }

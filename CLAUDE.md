@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (1426 tests)
+pytest -q                                     # full suite (1432 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -145,7 +145,10 @@ future obs_dates — Lower-48 storage vs OUR same-ISO-week five-year average, po
 `config/dc_power.json` hub's 30-day average ÷ Henry Hub over the hub's OWN 30 days, now and a year earlier (MMBtu/MWh;
 Henry Hub, not local gas), fuel $/MWh at the quote-checked EIA heat rates in `config/gas.json` (`pipeline/gas_config.py`
 checks each figure is the Natural Gas column of its prime mover), and the gas-fired `power_deals` at full output on a
-combined cycle — an upper bound, no load factor assumed; display-only, never an index leg), and `changes` (what moved since the previous publish — run_daily
+combined cycle — on each gas PLANT's quoted MW (`gas_generation` in `config/gas.json`; a deal's MW can be contracted load
+or a gas+battery+market bundle; an unstated split stays null, never guessed) — an upper bound, no load factor assumed;
+the page names no cause for a hub's ratio (Henry Hub can't separate local basis, plant mix and scarcity); display-only,
+never an index leg), and `changes` (what moved since the previous publish — run_daily
 snapshots pulse/gaptable/datacenter BEFORE the engine phase and this writer diffs today's files
 against it; `grocery_basket` also gained a USDA `wholesale[]` block and `pulse` variants carry
 `prev_yoy_pct`), and the batch-5 receipts: `revisions` (first print vs latest value per

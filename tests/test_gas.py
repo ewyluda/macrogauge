@@ -178,14 +178,85 @@ def test_ai_gas_deals_full_output_burn():
     block = gas.ai_gas_deals(deals, fuel, {"power_burn": {"ttm_bcf_d": 36.0}})
     # 1 GW at 7,548 Btu/kWh for 24h = 181,152 MMBtu/d / 1.036 MMBtu per Mcf
     assert gas._bcf_d_full_output(1000, fuel, fuel.heat_rates[0]) == pytest.approx(0.17486, abs=1e-4)
-    assert all(d["status"] for d in block["deals"])
     gas_deals = [d for d in deals.deals if d.technology == "gas"]
     assert {d["facility"] for d in block["deals"]} == {d.facility for d in gas_deals}
-    assert block["signed_mw"] == sum(d.mw_total for d in gas_deals if d.status == "signed")
+    known = [d for d in block["deals"] if d["gas_mw"] is not None]
+    assert block["signed_gas_mw"] == sum(d["gas_mw"] for d in known if d["status"] == "signed")
+    assert block["signed_bcf_d"] == pytest.approx(
+        gas._bcf_d_full_output(block["signed_gas_mw"], fuel, fuel.heat_rates[0]), abs=1e-3)
     assert block["signed_share_of_power_burn_pct"] == round(block["signed_bcf_d"] / 36.0 * 100, 1)
     # signed first
     statuses = [d["status"] == "signed" for d in block["deals"]]
     assert statuses == sorted(statuses, reverse=True)
+
+
+def test_every_gas_deal_has_a_gas_generation_row_quoted_from_its_evidence():
+    fuel, deals = gas_config.load(), power_deals.load()
+    gas_keys = {(d.t, d.facility) for d in deals.deals if d.technology == "gas"}
+    assert set(fuel.generation) == gas_keys
+    for g in fuel.generation.values():
+        if g.gas_mw is not None:
+            assert _norm(g.quote) in _norm((ROOT / g.evidence).read_text()), g.t
+
+
+def test_burn_uses_the_gas_plant_not_the_deals_mw():
+    # PR #134 review: contracted load, a mixed bundle and a pure gas nameplate
+    fuel, deals = gas_config.load(), power_deals.load()
+    rows = {d["t"] + ":" + d["facility"][:12]: d
+            for d in gas.ai_gas_deals(deals, fuel, None)["deals"]}
+    cc = fuel.heat_rates[0]
+    google = rows["GOOGL:Grid-connect"]     # 590 MW = 564 MW gas + 26 MW market energy
+    assert (google["mw"], google["mw_basis"], google["gas_mw"]) == (590, "contracted", 564)
+    assert google["bcf_d_full_output"] == round(gas._bcf_d_full_output(564, fuel, cc), 3) == 0.099
+    wulf = rows["WULF:Muskie Data "]          # 1 GW contracted load vs a 760 MW CCGT
+    assert (wulf["mw"], wulf["gas_mw"], wulf["bcf_d_full_output"]) == (1000, 760, 0.133)
+    amzn = rows["AMZN:New generati"]          # 3 GW of CCGT + batteries, split unstated
+    assert amzn["gas_mw"] is None and amzn["bcf_d_full_output"] is None and amzn["gas_mw_note"]
+    meta = rows["META:Franklin Far"]          # pure gas nameplate
+    assert meta["gas_mw"] == meta["mw"] == 2262
+    block = gas.ai_gas_deals(deals, fuel, None)
+    assert block["signed_unstated_mw"] == 3000 and block["signed_gas_mw"] == 2262 + 2300 + 564
+
+
+def test_gas_generation_figure_must_be_in_its_quote(tmp_path):
+    def bad(r):
+        next(g for g in r["gas_generation"] if g["t"] == "GOOGL")["gas_mw"] = 590
+    with pytest.raises(ValueError, match="does not appear in its quote"):
+        _load(tmp_path, bad)
+
+    def unexplained(r):
+        next(g for g in r["gas_generation"] if g["t"] == "AMZN").pop("note")
+    with pytest.raises(ValueError, match="needs a note"):
+        _load(tmp_path, unexplained)
+
+
+def test_outlook_needs_every_calendar_month_for_the_next12_average(tmp_path):
+    # PR #134 review: with November missing, rows[:12] reached October 2027
+    months = ["2026-10-01", "2026-12-01"] + [f"2027-{m:02d}-01" for m in range(1, 11)]
+    rows = [(gas.STEO, m, 30.0 if m == "2027-10-01" else 3.0) for m in months]
+    conn = _conn(tmp_path, rows, {(gas.STEO, m): "2026-10-07" for m in months})
+    o = gas.outlook(conn, "2026-10-19")
+    assert o["next12_avg"] is None
+    assert (o["next12_from"], o["next12_to"]) == ("2026-10-01", "2027-09-01")
+
+
+def test_outlook_complete_window_control(tmp_path):
+    months = [f"2026-{m:02d}-01" for m in (10, 11, 12)] + [f"2027-{m:02d}-01" for m in range(1, 11)]
+    rows = [(gas.STEO, m, 30.0 if m == "2027-10-01" else 3.0) for m in months]
+    conn = _conn(tmp_path, rows, {(gas.STEO, m): "2026-10-07" for m in months})
+    o = gas.outlook(conn, "2026-10-19")
+    assert o["next12_avg"] == 3.0 and o["next12_to"] == "2027-09-01"
+
+
+def test_storage_weekly_change_needs_the_print_seven_days_earlier(tmp_path):
+    # PR #134 review: a missing week must not publish a two-week move
+    gap = gas.storage(_conn(tmp_path / "a", [(gas.STORAGE, "2026-09-25", 3400.0),
+                                             (gas.STORAGE, "2026-10-09", 3567.0)]))
+    assert gap["chg_week_bcf"] is None
+    full = gas.storage(_conn(tmp_path / "b", [(gas.STORAGE, "2026-09-25", 3400.0),
+                                              (gas.STORAGE, "2026-10-02", 3500.0),
+                                              (gas.STORAGE, "2026-10-09", 3567.0)]))
+    assert full["chg_week_bcf"] == 67
 
 
 def test_empty_store_publishes_null_blocks_that_validate(tmp_path):

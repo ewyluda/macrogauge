@@ -15,13 +15,19 @@ test("/gas: the hub table prints each published ratio in published order", async
   }
 });
 
-test("/gas: every gas-fired deal is listed with its full-output burn", async ({ page }) => {
+test("/gas: every gas-fired deal shows its gas plant MW and burn, never a guess", async ({ page }) => {
   const deals = gas.ai_gas_deals?.deals ?? [];
   test.skip(deals.length === 0, "no gas-fired deals in this publish");
   await page.goto("/gas");
   const rows = page.getByTestId("gas-deals-table").locator("tbody tr");
   await expect(rows).toHaveCount(deals.length);
-  await expect(rows.first().locator("td").last()).toHaveText(deals[0].bcf_d_full_output.toFixed(2));
+  for (const [i, d] of deals.entries()) {
+    const cells = rows.nth(i).locator("td");
+    // burn is computed on the gas plant's own MW; an unstated split publishes no burn
+    await expect(cells.last()).toHaveText(d.bcf_d_full_output == null ? "—" : d.bcf_d_full_output.toFixed(2));
+    if (d.gas_mw == null) await expect(cells.nth(3)).toContainText("not stated");
+    else await expect(cells.nth(3)).toHaveText(Math.round(d.gas_mw).toLocaleString("en-US"));
+  }
 });
 
 test("/gas: the fuel table has one row per EIA heat rate", async ({ page }) => {

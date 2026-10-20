@@ -22,9 +22,11 @@ Display-only, pure store -> writer; never an index leg. Five blocks:
   the hub's local gas, and on-peak products run higher than all-hours ones —
   the page says both.
 - Fuel arithmetic: fuel $/MWh per prime mover at Henry Hub's 30-day average
-  (and STEO's next twelve months), and the gas the curated gas-fired AI power
-  deals would burn at full output. Full output is an upper bound, not a
-  forecast; no load factor is assumed.
+  (and STEO's next twelve full calendar months), and the gas the curated
+  gas-fired AI power deals' own gas plants would burn at full output — on each
+  plant's stated MW from config/gas.json, never the deal's contracted or
+  bundled MW. Full output is an upper bound, not a forecast; no load factor is
+  assumed.
 
 A series with no store rows publishes a null block; a broken fuel config or
 deals config nulls only the blocks that need it.
@@ -100,12 +102,22 @@ def outlook(conn, today: str) -> dict | None:
     rows = [(d, v) for d, v in _rows(conn, STEO) if d >= month0]
     if not rows or fc is None:
         return None
-    nxt = rows[:FORWARD_MONTHS]
+    # the next twelve CALENDAR months from the current one, each required: a
+    # missing month must not pull a 13th month into the window (PR #134 review)
+    obs = dict(rows)
+    window = [_add_months(month0, k) for k in range(FORWARD_MONTHS)]
+    vals = [obs.get(m) for m in window]
     age = (date.fromisoformat(today) - date.fromisoformat(fc)).days
     return {"code": STEO, "release_seen": fc, "stale": age > STEO_STALE_DAYS,
             "months": [d for d, _ in rows], "values": [_r(v) for _, v in rows],
-            "next12_avg": _r(sum(v for _, v in nxt) / len(nxt)) if len(nxt) == FORWARD_MONTHS else None,
-            "next12_from": nxt[0][0], "next12_to": nxt[-1][0]}
+            "next12_avg": None if any(v is None for v in vals) else _r(sum(vals) / FORWARD_MONTHS),
+            "next12_from": window[0], "next12_to": window[-1]}
+
+
+def _add_months(month: str, k: int) -> str:
+    d = date.fromisoformat(month)
+    y, m = divmod(d.month - 1 + k, 12)
+    return f"{d.year + y:04d}-{m + 1:02d}-01"
 
 
 def history(conn) -> dict:
@@ -136,7 +148,9 @@ def storage(conn) -> dict | None:
     y, w = _iso(as_of)
     avg5 = _avg5(by_week, as_of)
     year_ago = by_week.get((y - 1, w))
-    prev = rows[-2][1] if len(rows) > 1 else None
+    # the change "on the week" needs the print exactly seven days earlier; a
+    # missing week must not publish a two-week move under that label
+    prev = dict(rows).get((date.fromisoformat(as_of) - timedelta(days=7)).isoformat())
     hist = rows[-STORAGE_WEEKS:]
     return {"code": STORAGE, "as_of": as_of, "bcf": round(bcf),
             "chg_week_bcf": None if prev is None else round(bcf - prev),
@@ -253,6 +267,10 @@ def _bcf_d_full_output(mw: float, gas_cfg, hr) -> float:
 
 
 def ai_gas_deals(deals_cfg, gas_cfg, dem: dict | None) -> dict | None:
+    """Gas-tagged power deals with the gas plant's own stated MW beside the
+    deal's MW (contracted load or a resource bundle), and burn computed on the
+    gas MW only. A deal whose sources do not split the gas out keeps a null
+    gas MW and burn, and is counted apart (`*_unstated_mw`), never guessed."""
     if deals_cfg is None or gas_cfg is None:
         return None
     cc = next((h for h in gas_cfg.heat_rates if h.key == "combined_cycle"), None)
@@ -260,24 +278,36 @@ def ai_gas_deals(deals_cfg, gas_cfg, dem: dict | None) -> dict | None:
         return None
     gas = sorted((d for d in deals_cfg.deals if d.technology == "gas"),
                  key=lambda d: (d.status not in DEAL_STATUSES_SIGNED, -d.mw_total, d.t))
-    signed = sum(d.mw_total for d in gas if d.status in DEAL_STATUSES_SIGNED)
-    other = sum(d.mw_total for d in gas if d.status not in DEAL_STATUSES_SIGNED)
-    sb, ob = _bcf_d_full_output(signed, gas_cfg, cc), _bcf_d_full_output(other, gas_cfg, cc)
+    rows = []
+    for d in gas:
+        g = gas_cfg.generation.get((d.t, d.facility))
+        gmw = None if g is None else g.gas_mw
+        rows.append((d, gmw, None if g is None else g.note))
+    signed = [(d, m) for d, m, _ in rows if d.status in DEAL_STATUSES_SIGNED]
+    other = [(d, m) for d, m, _ in rows if d.status not in DEAL_STATUSES_SIGNED]
+    signed_mw = sum(m for _, m in signed if m is not None)
+    other_mw = sum(m for _, m in other if m is not None)
+    sb, ob = _bcf_d_full_output(signed_mw, gas_cfg, cc), _bcf_d_full_output(other_mw, gas_cfg, cc)
     burn = (dem or {}).get("power_burn") or {}
     ttm = burn.get("ttm_bcf_d")
     return {"as_of_curated": deals_cfg.as_of_curated, "heat_rate_key": cc.key,
             "btu_per_kwh": cc.btu_per_kwh, "btu_per_cf": gas_cfg.btu_per_cf,
             "heat_content_year": gas_cfg.heat_content_year,
-            "signed_mw": signed, "other_mw": other,
+            "generation_basis": gas_cfg.generation_basis,
+            "signed_gas_mw": signed_mw, "other_gas_mw": other_mw,
+            "signed_unstated_mw": sum(d.mw_total for d, m in signed if m is None),
+            "other_unstated_mw": sum(d.mw_total for d, m in other if m is None),
             "signed_bcf_d": round(sb, 3), "other_bcf_d": round(ob, 3),
             "power_burn_ttm_bcf_d": ttm,
             "signed_share_of_power_burn_pct": None if not ttm else round(sb / ttm * 100, 1),
             "all_share_of_power_burn_pct": None if not ttm else round((sb + ob) / ttm * 100, 1),
             "deals": [{"t": d.t, "counterparty": d.counterparty, "facility": d.facility,
-                       "mw": d.mw_total, "status": d.status, "kind": d.kind,
+                       "mw": d.mw_total, "mw_basis": d.mw_basis, "gas_mw": m, "gas_mw_note": note,
+                       "status": d.status, "kind": d.kind,
                        "announced": d.announced, "source_url": d.src_url,
-                       "bcf_d_full_output": round(_bcf_d_full_output(d.mw_total, gas_cfg, cc), 3)}
-                      for d in gas]}
+                       "bcf_d_full_output": (None if m is None
+                                             else round(_bcf_d_full_output(m, gas_cfg, cc), 3))}
+                      for d, m, note in rows]}
 
 
 def build(conn, today: str, power_cfg=None, gas_cfg=None, deals_cfg=None) -> dict:

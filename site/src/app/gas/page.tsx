@@ -74,13 +74,14 @@ export default function GasPage() {
       )}
 
       {shownHubs.length > 0 && (
-        <Section title="Power vs gas: did fuel move each hub's price?" id="power-vs-gas" featured>
+        <Section title="Power vs Henry Hub: each hub's price against gas" id="power-vs-gas" featured>
           <p className="method">
             Each hub&apos;s 30-day average power price divided by Henry Hub&apos;s average over the same 30 days, now
-            and a year earlier. The ratio is the MMBtu of gas a megawatt-hour is worth. A combined-cycle plant burns
-            about {num(data.cc_mmbtu_per_mwh, 1)} MMBtu per MWh, so a hub near that is pricing fuel; a hub far above it
-            is pricing scarcity, capacity or congestion. When power rises and the ratio rises with it, gas is not the
-            reason.
+            and a year earlier: the MMBtu of Henry Hub gas a megawatt-hour is worth. A combined-cycle plant burns
+            about {num(data.cc_mmbtu_per_mwh, 1)} MMBtu per MWh, so a hub near that clears close to its fuel cost at
+            Henry Hub prices. A ratio well above it, or rising, means power moved more than Henry Hub did. The table
+            can&apos;t say why: local gas trading above Henry Hub, less efficient plants setting the price, and
+            scarcity or congestion all look the same here.
           </p>
           <div className="table-card">
             <table className="data-table" data-testid="gas-hub-table">
@@ -186,17 +187,19 @@ export default function GasPage() {
       {ai && ai.deals.length > 0 && (
         <Section title="The gas behind AI power deals" id="ai-gas">
           <div className="kpi-row">
-            <KpiCard label="Signed gas-fired deals" value={`${int(ai.signed_mw)} MW`}
-              context={`up to ${num(ai.signed_bcf_d, 2)} Bcf/d at full output${ai.signed_share_of_power_burn_pct != null ? ` · ${num(ai.signed_share_of_power_burn_pct)}% of US power burn` : ""}`}
+            <KpiCard label="Gas plants behind signed deals" value={`${int(ai.signed_gas_mw)} MW`}
+              context={`up to ${num(ai.signed_bcf_d, 2)} Bcf/d at full output${ai.signed_share_of_power_burn_pct != null ? ` · ${num(ai.signed_share_of_power_burn_pct)}% of US power burn` : ""}` +
+                (ai.signed_unstated_mw > 0 ? ` · plus ${int(ai.signed_unstated_mw)} MW of signed deals with no gas share stated` : "")}
               accent="amber" />
-            <KpiCard label="Pending, options and MOUs" value={`${int(ai.other_mw)} MW`}
-              context={`up to ${num(ai.other_bcf_d, 2)} Bcf/d more${ai.all_share_of_power_burn_pct != null ? ` · ${num(ai.all_share_of_power_burn_pct)}% of power burn with signed` : ""}`}
+            <KpiCard label="Pending, options and MOUs" value={`${int(ai.other_gas_mw)} MW`}
+              context={`of gas plants · up to ${num(ai.other_bcf_d, 2)} Bcf/d more${ai.all_share_of_power_burn_pct != null ? ` · ${num(ai.all_share_of_power_burn_pct)}% of power burn with signed` : ""}` +
+                (ai.other_unstated_mw > 0 ? ` · plus ${int(ai.other_unstated_mw)} MW with no gas share stated` : "")}
               accent="violet" />
           </div>
           <div className="table-card">
             <table className="data-table" data-testid="gas-deals-table">
               <thead>
-                <tr><th style={{ textAlign: "left" }}>Company</th><th style={{ textAlign: "left" }}>Supplier and plant</th><th>MW</th><th>Status</th><th>Bcf/d at full output</th></tr>
+                <tr><th style={{ textAlign: "left" }}>Company</th><th style={{ textAlign: "left" }}>Supplier and plant</th><th>Deal MW</th><th>Gas plant MW</th><th>Status</th><th>Bcf/d at full output</th></tr>
               </thead>
               <tbody>
                 {ai.deals.map((d) => (
@@ -206,7 +209,10 @@ export default function GasPage() {
                       <a href={d.source_url}>{d.counterparty}</a>
                       <div style={{ color: "var(--muted)", fontSize: 11 }}>{d.facility}</div>
                     </td>
-                    <td>{int(d.mw)}</td>
+                    <td>{int(d.mw)}<div style={{ color: "var(--muted)", fontSize: 11 }}>{d.mw_basis}</div></td>
+                    <td>{d.gas_mw != null ? int(d.gas_mw) : (
+                      <>not stated{d.gas_mw_note && <div className="cell-prose" style={{ color: "var(--muted)", fontSize: 11 }}>{d.gas_mw_note}</div>}</>
+                    )}</td>
                     <td>{STATUS[d.status] ?? d.status}</td>
                     <td>{num(d.bcf_d_full_output, 2)}</td>
                   </tr>
@@ -216,7 +222,9 @@ export default function GasPage() {
           </div>
           <p className="method">
             The gas-fired deals from the <Link href="/capacity#power-deals">power deals tracker</Link> (curated{" "}
-            {fmtDay(ai.as_of_curated)}). Burn assumes every megawatt runs around the clock on a combined cycle&apos;s{" "}
+            {fmtDay(ai.as_of_curated)}). A deal&apos;s MW can be contracted load or a bundle of gas, batteries and market
+            purchases, so burn uses only the gas plant&apos;s own stated MW, quoted from the deal&apos;s source; where the
+            source gives no gas share, no burn is computed. Burn assumes every gas megawatt runs around the clock on a combined cycle&apos;s{" "}
             {int(ai.btu_per_kwh)} Btu/kWh and {int(ai.btu_per_cf)} Btu per cubic foot of gas (EIA, {ai.heat_content_year}):
             more hours than any plant runs, less fuel than turbines and engines burn. Read it as the scale of the
             commitment, not a forecast. The share is of the last 12 months of US power-sector burn

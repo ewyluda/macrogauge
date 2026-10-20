@@ -10,11 +10,20 @@ its prime mover's name — a figure lifted from the wrong column fails at load.
 The heat content's figure must be the last value on its U.S. row, under the
 year it names.
 
+`gas_generation` gives each gas-tagged power deal its gas plant's own stated
+MW (PR #134 review): a deal's MW can be contracted load (TeraWulf's 1 GW
+against a 760 MW CCGT) or a bundle (Google's 590 MW = 564 MW of gas + 26 MW of
+market energy), so burn is computed on the gas nameplate alone. Each figure
+must appear in its quote; `null` (with a note) where the source does not split
+the gas out, and that deal then has no burn.
+
 A broken config raises at load; the gas phase then publishes without the fuel
 arithmetic, never without the prices."""
 import json
 from dataclasses import dataclass
 from pathlib import Path
+
+from pipeline.power_deals import mw_in_quote
 
 DEFAULT_PATH = Path(__file__).parent.parent / "config" / "gas.json"
 COLUMNS = ["Coal", "Petroleum", "Natural Gas", "Nuclear"]
@@ -36,6 +45,16 @@ class HeatRate:
 
 
 @dataclass(frozen=True)
+class GasGeneration:
+    t: str
+    facility: str
+    gas_mw: int | None
+    evidence: str | None
+    quote: str | None
+    note: str | None
+
+
+@dataclass(frozen=True)
 class GasConfig:
     basis: str
     heat_rates: tuple[HeatRate, ...]
@@ -44,6 +63,8 @@ class GasConfig:
     heat_content_url: str
     heat_content_evidence: str
     heat_content_quote: str
+    generation_basis: str
+    generation: dict[tuple[str, str], GasGeneration]
 
 
 def _fmt(n: int) -> str:
@@ -65,6 +86,22 @@ def _heat_rate(raw: dict) -> HeatRate:
                     year=int(raw["year"]), url=raw["url"], evidence=raw["evidence"], quote=quote)
 
 
+def _generation(raw: dict) -> GasGeneration:
+    where = f"gas generation {raw['t']}/{raw['facility']}"
+    mw = raw["gas_mw"]
+    if mw is None:
+        if not raw.get("note"):
+            raise ValueError(f"{where}: an unknown gas MW needs a note saying why")
+        return GasGeneration(t=raw["t"], facility=raw["facility"], gas_mw=None,
+                             evidence=None, quote=None, note=raw["note"])
+    if not isinstance(mw, int) or mw <= 0:
+        raise ValueError(f"{where}: gas_mw must be a positive integer or null")
+    if not raw.get("quote") or not raw.get("evidence") or not mw_in_quote(mw, raw["quote"]):
+        raise ValueError(f"{where}: {mw} MW does not appear in its quote")
+    return GasGeneration(t=raw["t"], facility=raw["facility"], gas_mw=mw,
+                         evidence=raw["evidence"], quote=raw["quote"], note=raw.get("note"))
+
+
 def load(path: Path | None = None) -> GasConfig:
     raw = json.loads((path or DEFAULT_PATH).read_text())
     if raw["column_quote"].split("Prime Mover ")[-1].split() != ["Coal", "Petroleum", "Natural", "Gas", "Nuclear"]:
@@ -79,6 +116,11 @@ def load(path: Path | None = None) -> GasConfig:
             or values[-1] != _fmt(hc["btu_per_cf"]):
         raise ValueError(f"gas config: heat content {hc['btu_per_cf']} is not the U.S. "
                          f"{hc['year']} value in its quote")
+    gens = [_generation(g) for g in raw["gas_generation"]]
+    generation = {(g.t, g.facility): g for g in gens}
+    if len(generation) != len(gens):
+        raise ValueError("gas config: duplicate gas_generation rows")
     return GasConfig(basis=raw["basis"], heat_rates=rates, btu_per_cf=int(hc["btu_per_cf"]),
                      heat_content_year=int(hc["year"]), heat_content_url=hc["url"],
-                     heat_content_evidence=hc["evidence"], heat_content_quote=hc["quote"])
+                     heat_content_evidence=hc["evidence"], heat_content_quote=hc["quote"],
+                     generation_basis=raw["gas_generation_basis"], generation=generation)
