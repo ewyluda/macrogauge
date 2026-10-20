@@ -70,6 +70,7 @@ const ROUTES: [string, string][] = [
   ["/escalation/grades", "did you carry enough"],
   ["/longlead", "Survey averages are not a quote for your project"],
   ["/news", "what the tape is saying about AI and data-center names"],
+  ["/gas", "nothing here feeds the Data Center Cost Index"],
 ];
 
 for (const [path, text] of ROUTES) {

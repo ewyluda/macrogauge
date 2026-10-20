@@ -25,6 +25,7 @@ export const NAV: NavEntry[] = [
           { href: "/escalation", label: "Escalation", emoji: "🪜" },
           { href: "/longlead", label: "Long-Lead Board", emoji: "⏳" },
           { href: "/power", label: "Power & Tariffs", emoji: "🔌" },
+          { href: "/gas", label: "Natural Gas", emoji: "🔥" },
           { href: "/commodities", label: "Build Inputs", emoji: "🧱" },
           { href: "/markets", label: "DC Markets", emoji: "🏗️" },
           { href: "/states", label: "Site Costs", emoji: "🗺️" },
