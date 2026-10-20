@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-19T12:56:43Z",
+  "published_at": "2026-10-20T12:54:56Z",
   "target": "CPI",
   "release_date": "2026-11-10",
   "core_benchmarks": {
@@ -8,8 +8,8 @@
       "as_of": "2026-10-14"
     },
     "kalshi": {
-      "value": 0.21,
-      "as_of": "2026-10-19"
+      "value": 0.206,
+      "as_of": "2026-10-20"
     }
   },
   "core_ensemble": {
@@ -23,7 +23,7 @@
   "reference_month": "2026-10",
   "cpi": {
     "target_month": "2026-10",
-    "mom_pct": 0.43,
+    "mom_pct": 0.42,
     "mom_nsa_pct": 0.25,
     "basis": "SA",
     "core": {
@@ -32,8 +32,8 @@
       "basis": "SA",
       "weight_share": 0.7923
     },
-    "yoy_pct": 3.29,
-    "as_of": "2026-10-19",
+    "yoy_pct": 3.33,
+    "as_of": "2026-10-20",
     "status": "live",
     "parameters": {},
     "components": [
@@ -53,11 +53,11 @@
       },
       {
         "component": "food_home",
-        "mom_pct": 0.1726,
+        "mom_pct": 0.1742,
         "weight": 0.081612,
-        "contribution_pp": 0.0141,
+        "contribution_pp": 0.0142,
         "basis": "trend+driver",
-        "driver_mom_pct": 0.0415
+        "driver_mom_pct": 0.0431
       },
       {
         "component": "medical",
@@ -103,9 +103,9 @@
       },
       {
         "component": "fuel",
-        "mom_pct": 0.913,
+        "mom_pct": 0.8373,
         "weight": 0.040804,
-        "contribution_pp": 0.0373,
+        "contribution_pp": 0.0342,
         "basis": "measured"
       },
       {
@@ -170,7 +170,7 @@
     },
     "reference_month": "2026-09",
     "release_date": "2026-10-29",
-    "as_of": "2026-10-19",
+    "as_of": "2026-10-20",
     "core": {
       "mom_pct": 0.31,
       "bridge": "cpi+ppi",
@@ -237,17 +237,17 @@
       "as_of": "2026-10-15"
     },
     "kalshi": {
-      "value": 0.252,
-      "as_of": "2026-10-19"
+      "value": 0.229,
+      "as_of": "2026-10-20"
     }
   },
   "ensemble": {
-    "value": 0.32,
+    "value": 0.31,
     "weights": {
       "macrogauge": 0.3333,
       "cleveland": 0.3333,
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-10-19"
+  "generated_on": "2026-10-20"
 }

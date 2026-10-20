@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-19T12:56:43Z",
+  "published_at": "2026-10-20T12:54:56Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,807 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-19T12:51:13Z",
-  "tape_last_post_at": "2026-10-19T12:47:59Z",
-  "age_hours": 0.09,
+  "feed_generated_at": "2026-10-20T02:53:15Z",
+  "tape_last_post_at": "2026-10-20T01:31:38Z",
+  "age_hours": 10.03,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3A423F24E949C050D5A8",
+      "ts": "2026-10-20T01:31:38Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Broadcom ($AVGO) signed a 10-year agreement with Japan's NTT DOCOMO to expand its VMware-powered private cloud infrastructure, marking Broadcom Japan's first comprehensive decade-long VMware software contract.",
+      "points": [
+        {
+          "label": "Agreement",
+          "text": "Covers VMware Cloud Foundation (VCF) licenses, technical assistance and maintenance support, extending a partnership dating back to 2019."
+        },
+        {
+          "label": "Infrastructure",
+          "text": "DOCOMO will modernize its private cloud to support AI workloads, virtual machines and containers on a unified platform while improving scalability and service reliability."
+        },
+        {
+          "label": "Security",
+          "text": "Enhanced threat detection, automated security updates and AI-driven monitoring aim to strengthen resilience against cyberattacks."
+        },
+        {
+          "label": "Service development",
+          "text": "Kubernetes integration and automation will accelerate application deployment, with infrastructure designed to accommodate future technologies including AI, 6G and IOWN."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AVGO",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19854",
+      "has_media": true
+    },
+    {
+      "id": "3AFE7F171E6495487470",
+      "ts": "2026-10-19T23:00:10Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Alphabet's ($GOOGL) Waymo reportedly plans to expand its self-driving fleet fivefold to 20,000 vehicles by the end of 2027, using $5 billion in newly secured financing to accelerate its robotaxi rollout.",
+      "points": [
+        {
+          "label": "Fleet expansion",
+          "text": "Waymo aims to double its current 4,000 vehicles to 8,000 by year-end 2026, then reach 20,000 by the end of 2027, according to people familiar with the plans."
+        },
+        {
+          "label": "Financing",
+          "text": "Raised $5 billion from private credit lenders in its first debt deal without Google's guarantees, with potential to borrow more against vehicle leases."
+        },
+        {
+          "label": "New markets",
+          "text": "Already operating in 15 U.S. cities, Waymo is expanding toward Toronto, San Diego, Tampa and San Antonio, while partnering with Lyft ($LYFT) on fleet operations in Nashville."
+        },
+        {
+          "label": "Vehicle supply",
+          "text": "Waymo has reportedly ordered thousands of vehicles from China, including models produced by Geely-owned Zeekr."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19851",
+      "has_media": true
+    },
+    {
+      "id": "3AF755ECDCD4BC6926C8",
+      "ts": "2026-10-19T21:52:11Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Intel ($INTC) is seeking an exemption from U.S. restrictions on foreign-made advanced robots, warning that specialized equipment essential to American semiconductor manufacturing has no domestic substitute.",
+      "points": [
+        {
+          "label": "FCC petition",
+          "text": "Filed October 16 and made public October 19, Intel's request concerns automated guided vehicles (AGVs) used to transport materials inside semiconductor fabrication plants."
+        },
+        {
+          "label": "Manufacturing dependence",
+          "text": "Intel argues continued access to these specialized robots is crucial to U.S. national security and domestic chip production."
+        },
+        {
+          "label": "Federal restrictions",
+          "text": "Since July 28, the FCC has blocked new equipment authorizations for foreign-produced advanced robots unless they receive conditional approval from national security authorities."
+        },
+        {
+          "label": "Existing equipment",
+          "text": "Previously authorized models can generally remain in use and continue being imported; the restrictions primarily affect new models requiring authorization."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "INTC",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19847",
+      "has_media": true
+    },
+    {
+      "id": "3AE46E1E435208F966A0",
+      "ts": "2026-10-19T21:32:59Z",
+      "category": "other",
+      "kind": "image",
+      "headline": "Former Google ($GOOGL) CEO Eric Schmidt reportedly holds approximately 1% of Anthropic, positioning him for a potentially substantial windfall from the AI startup's anticipated IPO.",
+      "points": [
+        {
+          "label": "Early investment",
+          "text": "Schmidt invested tens of millions of dollars in Anthropic's Series A funding round, according to people familiar with the matter."
+        },
+        {
+          "label": "Ownership",
+          "text": "His stake is estimated at roughly 1%, potentially making him one of the company's largest individual beneficiaries when it goes public."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "It remains unclear whether Schmidt has sold any shares since his initial investment."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19846",
+      "has_media": true
+    },
+    {
+      "id": "3A4B8F38EDAF91F52542",
+      "ts": "2026-10-19T21:02:35Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "3M ($MMM) expanded its data center supply relationship with Amazon ($AMZN), granting Amazon warrants to purchase up to 3.16 million 3M shares, with most warrants tied to $6 billion in cumulative product purchases.",
+      "points": [
+        {
+          "label": "Commercial agreement",
+          "text": "Amazon's purchases of optical connectivity and other data center products will determine vesting of 85% of the warrant shares."
+        },
+        {
+          "label": "Purchase threshold",
+          "text": "The 85% portion fully vests once Amazon's cumulative payments to 3M reach $6 billion. This is a vesting threshold, not a guaranteed purchase commitment."
+        },
+        {
+          "label": "Equity terms",
+          "text": "Amazon can acquire up to 3,162,015 shares at $164.89 each over seven years."
+        },
+        {
+          "label": "Remaining warrants",
+          "text": "The other 15% vest upon separate event-based milestones."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19843",
+      "has_media": true
+    },
+    {
+      "id": "3A381E599F33F65E42F7",
+      "ts": "2026-10-19T20:33:36Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Bitdeer ($BTDR) shares are climbing after the company announced major AI data center agreements in Malaysia, lifting its AI Cloud revenue backlog to approximately $2.9 billion, alongside a 200% surge in Bitcoin production.",
+      "points": [
+        {
+          "label": "AI Cloud contracts",
+          "text": "Secured commitments covering over 70% of its 21.7 MW A201 facility in Malaysia, representing more than $1.7 billion in expected revenue over five years."
+        },
+        {
+          "label": "Capacity expansion",
+          "text": "Signed agreements for 67 MW at its A901 facility, targeted for Q2 2027 delivery, and another 60 MW at A103, targeted for Q1 2028."
+        },
+        {
+          "label": "U.S. expansion",
+          "text": "Acquired 200 acres near its existing 563 MW Rockdale facility in Texas for future AI and high-performance computing infrastructure."
+        },
+        {
+          "label": "Bitcoin production",
+          "text": "September output jumped 200% year-over-year to 1,355 BTC."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "BTDR",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19837",
+      "has_media": false
+    },
+    {
+      "id": "3AFD8B8F8D626893C849",
+      "ts": "2026-10-19T20:20:37Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Amazon ($AMZN) launched TorchNeuron, a new developer tool designed to challenge Nvidia's ($NVDA) CUDA software advantage by making it easier to run AI models on AWS Trainium chips.",
+      "points": [
+        {
+          "label": "Simplified migration",
+          "text": "AWS says developers can move PyTorch-based AI applications to Trainium with a single configuration change, without rewriting code."
+        },
+        {
+          "label": "Nvidia competition",
+          "text": "Amazon is contributing changes to PyTorch to reduce hardware-specific dependencies, potentially weakening the software lock-in supporting Nvidia's GPU dominance."
+        },
+        {
+          "label": "Cost efficiency",
+          "text": "AWS says Trainium supports both training and inference, improving overall economics. It cites AI startup Deepgram processing 70% more audio per dollar after switching."
+        },
+        {
+          "label": "Cloud advantage",
+          "text": "Amazon is positioning its integrated AWS infrastructure against Nvidia-dependent neocloud providers such as CoreWeave ($CRWV) and Nebius ($NBIS)."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NBIS",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19836",
+      "has_media": true
+    },
+    {
+      "id": "3AEAE93E21BB963E0962",
+      "ts": "2026-10-19T20:17:39Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Apple ($AAPL) announced an October 28 product event in Los Angeles, with analysts expecting new Macs and potentially the company's first touchscreen laptop.",
+      "points": [
+        {
+          "label": "Launch",
+          "text": "Apple's \u201cPro and tell\u201d invitation suggests a focus on high-end Pro devices powered by its custom chips."
+        },
+        {
+          "label": "Touchscreen Mac",
+          "text": "Melius Research analyst Ben Reitzes expects new Macs, potentially including Apple's first touchscreen notebook, marking a major departure from its longstanding design philosophy."
+        },
+        {
+          "label": "Leadership",
+          "text": "The event will be Apple's third product launch since CEO John Ternus succeeded Tim Cook in September, signaling a faster release cadence."
+        },
+        {
+          "label": "AI strategy",
+          "text": "Apple's high-performance Mac chips are increasingly central to its AI efforts. The company recently partnered with Meta ($META) to bring a large AI model to Mac Studio systems."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19835",
+      "has_media": true
+    },
+    {
+      "id": "3A0292679CF3886C1ADE",
+      "ts": "2026-10-19T19:52:39Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "NVIDIA: HUANG ANNOUNCES PLANNED $10B INVESTMENT IN GERMANY\u2019S AGILE ROBOTS, AVELIOS MEDICAL, MIRELO, AND REFLEX AEROSPACE.",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19825",
+      "has_media": false
+    },
+    {
+      "id": "3A8FDBF012764C8B4DB2",
+      "ts": "2026-10-19T19:46:09Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Nvidia-backed ($NVDA) neocloud Nscale is reportedly negotiating a new $45 billion AI computing agreement with Anthropic, potentially expanding their partnership ahead of Nscale's planned IPO.",
+      "points": [
+        {
+          "label": "New capacity",
+          "text": "The proposed deal covers a second building at Nscale's Monarch campus in West Virginia, providing 460 MW of capacity powered by Nvidia's next-generation Vera Rubin chips."
+        },
+        {
+          "label": "Existing agreements",
+          "text": "Anthropic already has infrastructure commitments with Nscale worth up to $44.6 billion and reportedly holds first-refusal rights on a third Monarch building."
+        },
+        {
+          "label": "IPO implications",
+          "text": "Another major contract could strengthen Nscale's pursuit of a $30 billion valuation, although investors have questioned its financing requirements and execution risks."
+        },
+        {
+          "label": "Deal status",
+          "text": "An agreement could be reached within days, but negotiations remain ongoing. Contract values represent future commitments, not revenue already collected."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19820",
+      "has_media": true
+    },
+    {
+      "id": "3A793618C2FE567161F6",
+      "ts": "2026-10-19T19:06:47Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Google's ($GOOGL) TPUv7 reportedly outperformed Nvidia's ($NVDA) GB300 by 1.64x in AI inference performance per dollar, according to preliminary SemiAnalysis benchmarks.",
+      "points": [
+        {
+          "label": "Performance",
+          "text": "TPUv7 delivered more tokens per dollar across much of the comparable latency range when running the Qwen3.5 397B model."
+        },
+        {
+          "label": "Operating costs",
+          "text": "SemiAnalysis estimates total ownership costs of $1.21 per TPUv7 chip-hour versus $2.31 for GB300, using its AI cloud cost model."
+        },
+        {
+          "label": "Technical comparison",
+          "text": "Google's results used FP8 precision, while Nvidia's initial counter-submission used NVFP4, making precision differences important when interpreting results."
+        },
+        {
+          "label": "Status",
+          "text": "Nvidia's initial submission has not closed the efficiency gap, though further optimizations could change the rankings. Results are workload-specific and remain preliminary."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19809",
+      "has_media": true
+    },
+    {
+      "id": "3A1D4A951A7A6244D57F",
+      "ts": "2026-10-19T18:30:35Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "NVIDIA CEO JENSEN HUANG SAYS EVERY COMPANY IN THE FUTURE WILL HAVE TWO FACTORIES, ONE REAL AND ONE DIGITAL, WITH THE DIGITAL FACTORY SO REAL IT MIGHT AS WELL BE REAL",
+      "points": [
+        {
+          "label": null,
+          "text": "HUANG SAYS HE BELIEVES MOST PEOPLE IN GERMANY WILL MOSTLY WORK INSIDE A DIGITAL TWIN OF THEIR COMPANY, BUILDING DIGITAL CARS WITH DIGITAL BRAINS, WITH AI ROBOTS BUILDING ROBOTIC CARS INSIDE ROBOTIC FACTORIES"
+        },
+        {
+          "label": null,
+          "text": "EVERYTHING WILL BE COMPLETELY SOFTWARE-DRIVEN AND AI-DRIVEN, AND EVERY COMPANY WILL BUILD BRAINS, INCLUDING THE BRAINS THAT GO INTO THE PRODUCTS THEY SHIP"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19802",
+      "has_media": false
+    },
+    {
+      "id": "3A5D31033FB452CBCBDC",
+      "ts": "2026-10-19T18:16:06Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Nvidia ($NVDA) completed a record 104-qubit fault-tolerant quantum computing simulation on Europe's JUPITER supercomputer, validating an approach that could reduce physical qubit requirements by 90%.",
+      "points": [
+        {
+          "label": "Breakthrough",
+          "text": "Simulated a fault-tolerant quantum processor under realistic hardware noise, surpassing earlier 50-qubit simulations conducted without noise."
+        },
+        {
+          "label": "Efficiency",
+          "text": "Validated \"magic-state cultivation,\" an error-correction technique requiring 90% fewer physical qubits than previous approaches."
+        },
+        {
+          "label": "Infrastructure",
+          "text": "Used 8,192 Nvidia GH200 GPUs with cuQuantum and CUDA-Q software. Development on GB200 systems helped reduce simulation workloads from weeks to days."
+        },
+        {
+          "label": "Implications",
+          "text": "Enables researchers to test quantum designs before building hardware, potentially accelerating applications in drug discovery, materials science and financial modeling."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19801",
+      "has_media": true
+    },
+    {
+      "id": "3ACD46F09B9B7275CD77",
+      "ts": "2026-10-19T18:02:37Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "NVIDIA RUNS RECORD SIMULATION OF FAULT-TOLERANT QUANTUM COMPUTING AT J\u00dcLICH SUPERCOMPUTING CENTRE.",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19798",
+      "has_media": false
+    },
+    {
+      "id": "3A6CCA06915A076349A9",
+      "ts": "2026-10-19T17:38:42Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "GERMAN CHANCELLOR MERZ: NVIDIA PLANS TO INVEST \u201cBILLIONS\u201d IN GERMANY.",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19795",
+      "has_media": false
+    },
+    {
+      "id": "3AB4CFCD2B33F9E12EB2",
+      "ts": "2026-10-19T16:53:12Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Oracle ($ORCL) reports rapid construction progress at its Project Jupiter AI data center campus in New Mexico, outlining new commitments to reduce emissions, expand renewable energy and conserve water.",
+      "points": [
+        {
+          "label": "Emissions",
+          "text": "Oracle proposed reducing the project's microgrid permitted emissions by 35% following regulatory and public feedback."
+        },
+        {
+          "label": "Renewable energy",
+          "text": "Issued a request for proposals for 2 GW of renewable power, targeting 100% carbon-free energy matching by 2031."
+        },
+        {
+          "label": "Water conservation",
+          "text": "Cooling and fuel cell systems are designed to use non-potable water. Oracle estimates their average annual water consumption over 15 years, including initial fills, will equal roughly nine U.S. households."
+        },
+        {
+          "label": "Development",
+          "text": "Construction continues in Do\u00f1a Ana County, with Oracle emphasizing economic development and environmental safeguards."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "ORCL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19790",
+      "has_media": true
+    },
+    {
+      "id": "3A1F0EB32CEBB9E69391",
+      "ts": "2026-10-19T16:13:20Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Semiconductor stocks rebounded Monday, putting an end to a potential nine-day losing streak, while Oracle ($ORCL) emerged as another focal point of concern over debt financing for AI infrastructure.",
+      "points": [
+        {
+          "label": "Chip rebound",
+          "text": "The iShares Semiconductor ETF ($SOXX) gained approximately 3.7%, while VanEck's Semiconductor ETF ($SMH) rose 3.2%, recovering from last week's AI-driven selloff."
+        },
+        {
+          "label": "Oracle credit stress",
+          "text": "Five-year credit default swap (CDS) spreads reached 295 basis points, briefly touching 300 last week, up 287% year-over-year. Pricing now resembles high-yield debt despite Oracle retaining an investment-grade rating."
+        },
+        {
+          "label": "Debt exposure",
+          "text": "Oracle carries $118 billion in long-term debt and another $39 billion in capital and lease obligations while expanding AI infrastructure, including its $300 billion OpenAI agreement."
+        },
+        {
+          "label": "Cash flow",
+          "text": "Analysts forecast negative free cash flow of $23.7 billion in 2026 and $36 billion in 2027."
+        },
+        {
+          "label": "Downgrade risk",
+          "text": "S&P rates Oracle BBB-, one notch above junk. Another downgrade could increase financing costs and force investment-grade-only funds to sell its bonds."
+        },
+        {
+          "label": "Company response",
+          "text": "Oracle says maintaining investment grade is its top priority and expects strong free cash flow as AI projects become operational. Some bond investors remain confident in its financial position."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "ORCL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19781",
+      "has_media": true
+    },
+    {
+      "id": "3A609C806E4868F36B53",
+      "ts": "2026-10-19T16:03:29Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "DEEPSEEK WORKING WITH HUAWEI TECHNOLOGIES \u2014 THE INFORMATION",
+      "points": [
+        {
+          "label": null,
+          "text": "DEEPSEEK AND HUAWEI ARE COLLABORATING ON NEW AI CHIP DESIGNS TO CHALLENGE NVIDIA - THE IN FORMATION"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19776",
+      "has_media": false
+    },
+    {
+      "id": "3A61DA24AF0186C89999",
+      "ts": "2026-10-19T15:54:46Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Japan plans a national security certification system for data centers and cloud services, aiming to protect sensitive information and reduce exposure to Chinese and Russian technology providers.",
+      "points": [
+        {
+          "label": "Industry impact",
+          "text": "The rules could disadvantage Chinese providers such as Alibaba ($BABA), while affecting competition with U.S. cloud leaders Amazon ($AMZN) and Microsoft ($MSFT). No countries are explicitly banned."
+        },
+        {
+          "label": "Security requirements",
+          "text": "Operators will be assessed on data protection, equipment suppliers, ownership and foreign-government influence, with implementation planned after fiscal 2027."
+        },
+        {
+          "label": "Market restrictions",
+          "text": "Certification will be voluntary, but financial institutions, healthcare providers and other sensitive industries will be encouraged to use approved infrastructure."
+        },
+        {
+          "label": "Government oversight",
+          "text": "Proposed legislation would require advance notification for certain sensitive-data operations and allow authorities to order suspensions when security risks arise."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19772",
+      "has_media": true
+    },
+    {
+      "id": "3A1A9F094D8DA2FB8DEF",
+      "ts": "2026-10-19T15:26:51Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "IREN ($IREN) co-CEO Daniel Roberts outlined the company's GPU financing model, arguing that customer prepayments, asset-backed loans and strong AI demand support continued expansion despite rising borrowing costs.",
+      "points": [
+        {
+          "label": "Customer funding",
+          "text": "Recent three-year take-or-pay contracts include upfront payments covering 45\u201355% of GPU capital costs."
+        },
+        {
+          "label": "Debt financing",
+          "text": "IREN secured Microsoft-backed GPU financing at approximately 6%, covering 96% of GPU costs when combined with prepayments. A separate Mackenzie facility carries a 9% fixed rate, with total funding exceeding GPU costs."
+        },
+        {
+          "label": "Data centers",
+          "text": "IREN owns its facilities, funded construction with cash and has no debt secured against those assets, leaving potential financing capacity as sites become operational."
+        },
+        {
+          "label": "Economics",
+          "text": "Recent GPU contracts have approximately two-year payback periods, limiting the impact of higher borrowing costs."
+        },
+        {
+          "label": "Demand",
+          "text": "2026 capacity is largely sold out. New three-year contracts command more than double last year's pricing, while demand for 2027 capacity exceeds planned supply several times over. Discussions for 2028 are underway."
+        },
+        {
+          "label": "Bottleneck",
+          "text": "Roberts says deploying GPUs, rather than securing customer contracts, remains the industry's main constraint."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "IREN",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19765",
+      "has_media": true
+    },
+    {
+      "id": "3A45271424AE1CC63074",
+      "ts": "2026-10-19T15:05:55Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "NVIDIA: EUROPEAN BROADCASTING UNION COLLABORATES WITH NVIDIA TO EXPAND SOVEREIGN FRAMEWORK FOR EUROPEAN BROADCASTERS.",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19761",
+      "has_media": false
+    },
+    {
+      "id": "3AA2CD7B51ED44F31599",
+      "ts": "2026-10-19T14:41:50Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Goldman Sachs expects CoreWeave ($CRWV) to improve AI infrastructure profitability through higher pricing, stronger GPU demand and expanding software revenue, while maintaining access to asset-backed financing.",
+      "points": [
+        {
+          "label": "Revenue per MW",
+          "text": "Goldman estimates current annualized revenue at $10 million/MW, rising toward $13 million/MW for new long-term contracts. Short-term contracts reportedly command $40 million/MW."
+        },
+        {
+          "label": "Pricing power",
+          "text": "CoreWeave raised prices 25% in July and another 10% in October. Goldman expects these increases to flow through gradually because contracts typically last 4\u20135 years."
+        },
+        {
+          "label": "Growth drivers",
+          "text": "Tight GPU supply, newer chip generations and higher-margin software offerings, including managed inference and Omni, could increase revenue without proportionate infrastructure spending."
+        },
+        {
+          "label": "Profitability",
+          "text": "Goldman's model projects a 20% pretax and 15% after-tax unlevered investment return, assuming no residual GPU value. CoreWeave targets contribution margins in the mid-20% range."
+        },
+        {
+          "label": "Debt financing",
+          "text": "CoreWeave primarily uses asset-backed delayed-draw term loans (DDTLs), secured by GPUs and customer contracts. Customer payments generally repay debt over the contract's life."
+        },
+        {
+          "label": "GPU residual value",
+          "text": "Newer financing structures increasingly recognize the potential to lease GPUs again after initial contracts expire, supporting additional returns and borrowing capacity."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19754",
+      "has_media": false
+    },
+    {
+      "id": "3AD695DD734C51AE008A",
+      "ts": "2026-10-19T14:31:44Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Nvidia ($NVDA) secured new CPU business from AI cloud startup Modal, challenging Intel ($INTC) and AMD ($AMD) as demand grows for processors powering autonomous AI agents.",
+      "points": [
+        {
+          "label": "Performance",
+          "text": "Modal said early tests showed Nvidia's Vera CPU doubled AI agent workloads compared with its existing Intel and AMD chips."
+        },
+        {
+          "label": "Deployment",
+          "text": "Modal will add Vera alongside Intel and AMD processors, selecting hardware based on performance rather than replacing existing suppliers."
+        },
+        {
+          "label": "Modal growth",
+          "text": "The startup recently raised $750 million at a $15.75 billion valuation, reporting 15x annual revenue growth and projecting $1 billion in sales over the next year."
+        },
+        {
+          "label": "Nvidia outlook",
+          "text": "The company expects at least $20 billion in Vera sales this fiscal year, targeting a CPU market it values at approximately $200 billion. OpenAI, Anthropic and Oracle also plan to use Vera."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMD",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "INTC",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "ORCL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19752",
+      "has_media": true
+    },
+    {
+      "id": "3A4B23F35D4C3FD88BDC",
+      "ts": "2026-10-19T13:07:31Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "MICROSOFT INTRODUCES FLEXIBLE PERMISSIONS FOR AGENTIC AI SYSTEMS.",
+      "points": [
+        {
+          "label": null,
+          "text": "MICROSOFT\u2019S NADELLA: EXPANDING PROJECT PERCEPTION WITH NEW CAPABILITIES TO ASSESS AGENT RISK AND CONTAIN THREATS"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19723",
+      "has_media": false
+    },
+    {
+      "id": "3A381E2534FAFF1F2452",
+      "ts": "2026-10-19T13:06:23Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "AMAZON: AI CHIPS WILL WORK WITH POPULAR CODING LANGUAGE, CHALLENGING NVIDIA",
+      "points": [
+        {
+          "label": null,
+          "text": "AMAZON OPENS AWS TRAINIUM AI CHIPS TO ALL PYTORCH DEVELOPERS; TORCHNEURON TO BE OPEN-SOURCED AT PYTORCH CONFERENCE ON OCTOBER 20"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [
+        "AMZN"
+      ],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19722",
+      "has_media": false
+    },
     {
       "id": "3A2A84C99B5B43BA0801",
       "ts": "2026-10-19T12:34:16Z",
@@ -5640,1347 +6436,6 @@
       ],
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18915",
-      "has_media": false
-    },
-    {
-      "id": "3A9005347D398E45BFA6",
-      "ts": "2026-10-13T00:14:17Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "G2AI (@G2AIStack), an independent AI supply-chain research publisher reports that Nvidia ($NVDA) Rubin system shipment expectations have been reduced by approximately 50%, from 10,000 to 5,000 systems, citing manufacturing yield problems and component-capacity constraints.",
-      "points": [
-        {
-          "label": "Shipment outlook",
-          "text": "G2AI estimates roughly 5,000 fewer Rubin systems than previously expected, although the forecast period and specific system configuration were not disclosed."
-        },
-        {
-          "label": "Production bottlenecks",
-          "text": "Reported constraints include GPU yields, orthogonal backplanes, power systems and related components needed to assemble complete systems."
-        },
-        {
-          "label": "Supplier checks",
-          "text": "G2AI says its checks with original design manufacturers (ODMs) corroborate shipments falling short of expectations."
-        },
-        {
-          "label": "Nvidia's latest update",
-          "text": "At the October 12 OCP Global Summit, Nvidia introduced updated Vera Rubin rack designs and manufacturing specifications supporting power densities up to 250 kW per rack."
-        },
-        {
-          "label": "Verification status",
-          "text": "Nvidia has not publicly confirmed the reported 50% reduction or disclosed comparable official shipment targets."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18904",
-      "has_media": false
-    },
-    {
-      "id": "3A93C2766B10265087E4",
-      "ts": "2026-10-12T23:59:34Z",
-      "category": "earnings",
-      "kind": "text",
-      "headline": "Wall Street heads into Tuesday, October 13, with major bank earnings, corporate results, AI-sector developments and Boeing delivery data in focus, after rising oil prices and declining memory stocks weighed on the S&P 500 Monday.",
-      "points": [
-        {
-          "label": "Bank earnings",
-          "text": "Citigroup ($C) is down 6% over three months, Goldman Sachs ($GS) has fallen 15%, JPMorgan ($JPM) is flat and Wells Fargo ($WFC) has declined 4%. RBC analyst Gerard Cassidy believes earnings estimates for major banks are too low."
-        },
-        {
-          "label": "Paul Tudor Jones",
-          "text": "The billionaire investor will appear on CNBC's Squawk Box around 8 a.m. ET, with artificial intelligence among the expected discussion topics."
-        },
-        {
-          "label": "IonQ ($IONQ)",
-          "text": "CEO interview scheduled for 5 a.m. ET. Shares have fallen nearly 50% over the past year and 17% in October."
-        },
-        {
-          "label": "Dell Technologies ($DELL)",
-          "text": "CEO Michael Dell will appear around 11 a.m. ET. Shares are 3% below their September peak but have surged 422% from their January low. After-hours trading indicated a potential Tuesday opening near $576."
-        },
-        {
-          "label": "Johnson & Johnson ($JNJ)",
-          "text": "Reports quarterly earnings Tuesday morning. Shares are up 2.6% over three months but 6% below their September high."
-        },
-        {
-          "label": "Domino's Pizza ($DPZ)",
-          "text": "Reports earnings Tuesday morning. Shares are up nearly 4% over three months but remain 30% below their December high."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "DELL",
-          "layer": "Servers & Storage"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18901",
-      "has_media": false
-    },
-    {
-      "id": "3A3CF4B3FFC225A0FF13",
-      "ts": "2026-10-12T21:48:15Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Applied Materials ($AMAT) CEO Gary Dickerson expects the semiconductor equipment maker to double revenue over the next few years without doubling its workforce, citing AI-driven improvements in product development, quality control and operating efficiency, according to Bloomberg.",
-      "points": [
-        {
-          "label": "AI productivity",
-          "text": "Applied previously reported a 50% improvement in coding productivity for certain software-intensive products. Dickerson said the priority is accelerating development of high-value products rather than reducing headcount."
-        },
-        {
-          "label": "Manufacturing intelligence",
-          "text": "More than 37,000 semiconductor processing chambers are connected to AI-enabled servers, supporting predictive services, improved chip yields and higher factory output."
-        },
-        {
-          "label": "Revenue growth",
-          "text": "Fiscal Q3 revenue reached $9.12 billion, up from $7.30 billion a year earlier, supported by demand for advanced chips and semiconductor manufacturing equipment."
-        },
-        {
-          "label": "Manufacturing expansion",
-          "text": "Applied separately plans to double its quarterly semiconductor systems output capacity by 2028 to meet growing demand."
-        },
-        {
-          "label": "Hiring outlook",
-          "text": "Applied expects to continue adding employees while growing revenue substantially faster than headcount."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMAT",
-          "layer": "Semi Equipment"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18897",
-      "has_media": true
-    },
-    {
-      "id": "3A05BCA33519414095BA",
-      "ts": "2026-10-12T21:21:34Z",
-      "category": "company",
-      "kind": "video",
-      "headline": "Meta ($META) CEO Mark Zuckerberg and AI chief Alexandr Wang highlighted the enormous financial risks of developing frontier AI, describing investment decisions potentially involving $100 billion to $200 billion before the technology's performance is proven.",
-      "points": [
-        {
-          "label": "Investment uncertainty",
-          "text": "Wang said developing advanced AI requires major capital commitments and technical decisions long before companies have evidence that their strategies will succeed."
-        },
-        {
-          "label": "Spending scale",
-          "text": "Zuckerberg recalled discussions about committing $100 billion or $200 billion while still waiting to see whether Meta's AI models would deliver the expected results. The figures were illustrative, not a new spending announcement."
-        },
-        {
-          "label": "Execution risk",
-          "text": "Both acknowledged uncertainty over whether the investments would succeed, underscoring the financial exposure companies face as they race to develop more capable AI systems."
-        },
-        {
-          "label": null,
-          "text": "Full interview \ud83d\udc49 https://youtu.be/XfdIhd1g6EI?is=XA6HQjKvOkkOcJwT"
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18890",
-      "has_media": true
-    },
-    {
-      "id": "3AC08E6FDB37D7E29DE2",
-      "ts": "2026-10-12T20:39:35Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Bitdeer Technologies ($BTDR) signed an eight-year data center services agreement for a 60 MW AI Cloud facility in Cyberjaya, Malaysia, designed to support Nvidia\u2019s ($NVDA) next-generation Vera Rubin platform, with energization expected in Q1 2028.",
-      "points": [
-        {
-          "label": "Malaysia expansion",
-          "text": "The A103 facility will support liquid-cooled, rack-scale Nvidia systems and share existing power, cooling and networking infrastructure with Bitdeer\u2019s A101 and A102 facilities."
-        },
-        {
-          "label": "Campus capacity",
-          "text": "The three Cyberjaya facilities will represent approximately 71.5 MW of critical IT load capacity."
-        },
-        {
-          "label": "Secured capacity",
-          "text": "Bitdeer now has approximately 333.5 MW of owned or contracted AI Cloud capacity across Malaysia, Norway and the U.S., reaching 95% of its 350 MW target for Q1 2028."
-        },
-        {
-          "label": "Customer pipeline",
-          "text": "Bitdeer estimates its active pipeline for uncontracted AI Cloud capacity exceeds $10 billion, representing potential demand rather than signed revenue."
-        },
-        {
-          "label": "Deployment timeline",
-          "text": "A103 remains a planned facility, with commercial operations dependent on future energization and deployment."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "BTDR",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18882",
-      "has_media": false
-    },
-    {
-      "id": "3AF106BB90B8D4A6D446",
-      "ts": "2026-10-12T20:32:37Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Applied Materials ($AMAT) unveiled its $5 billion EPIC Center in Sunnyvale, California, describing it as the world's largest semiconductor equipment and process technology R&D facility, designed to accelerate next-generation chip development and commercialization for AI.",
-      "points": [
-        {
-          "label": "Facility scale",
-          "text": "The 600,000-square-foot center includes nearly four acres of advanced cleanrooms, bringing semiconductor researchers, equipment developers and chip manufacturers together."
-        },
-        {
-          "label": "Founding chipmakers",
-          "text": "TSMC ($TSM), Intel ($INTC), Samsung Electronics, Micron ($MU) and SK hynix have committed to collaborating at EPIC."
-        },
-        {
-          "label": "Industry partners",
-          "text": "Broadcom ($AVGO), Advantest, SCREEN, KIOXIA and Besi are joining as innovation partners, alongside researchers from Stanford, UC Berkeley, UCLA, Arizona State and Rensselaer Polytechnic Institute."
-        },
-        {
-          "label": "Commercialization goals",
-          "text": "Applied expects joint development to shorten testing cycles, improve manufacturing yields and accelerate the transition from experimental technologies to high-volume chip production."
-        },
-        {
-          "label": "Strategic benefits",
-          "text": "Chipmakers gain early access to emerging technologies, while Applied gains visibility into future manufacturing requirements to guide its R&D investments."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMAT",
-          "layer": "Semi Equipment"
-        },
-        {
-          "ticker": "AVGO",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "INTC",
-          "layer": "Foundry & Fab"
-        },
-        {
-          "ticker": "MU",
-          "layer": "Foundry & Fab"
-        },
-        {
-          "ticker": "TSM",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18879",
-      "has_media": true
-    },
-    {
-      "id": "3AF919BCDF1C68DE5E28",
-      "ts": "2026-10-12T20:18:58Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Navitas Semiconductor ($NVTS) unveiled a new 24 kW gallium nitride (GaN) power-delivery board developed with Nvidia ($NVDA), designed to improve power efficiency and simplify 800 VDC infrastructure for AI data centers.",
-      "points": [
-        {
-          "label": "Power performance",
-          "text": "The 800 V-to-12 V board targets 97% efficiency at full load, with power density exceeding 2,000 W/in3 and 24 kW capacity to power an entire compute tray."
-        },
-        {
-          "label": "Simplified architecture",
-          "text": "Converts 800 VDC directly to 12 VDC, eliminating an intermediate conversion stage to reduce energy losses, board space and system complexity."
-        },
-        {
-          "label": "Compact design",
-          "text": "Uses 16 Navitas GaNFast transistors in Nvidia\u2019s 400 \u00d7 60 mm form factor, allowing installation near AI processors to minimize power-delivery losses."
-        },
-        {
-          "label": "Product expansion",
-          "text": "Builds on Navitas\u2019 earlier 20 kW, 800 V-to-6 V power board developed with Nvidia, expanding its AI infrastructure portfolio."
-        },
-        {
-          "label": "Deployment status",
-          "text": "The new board is scheduled for display within Nvidia\u2019s MGX ecosystem at OCP Global Summit 2026. Commercial shipment volumes and customer orders were not disclosed."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "NVTS",
-          "layer": "Power & Grid"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18875",
-      "has_media": true
-    },
-    {
-      "id": "3A5E3D621CA2AC7A06A9",
-      "ts": "2026-10-12T20:15:51Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$NVTS NAVITAS COLLABORATES WITH NVIDIA ON AN 800 V-TO-12 V POWER DELIVERY BOARD FOR NEXT-GENERATION AI INFRASTRUCTURE.",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "NVTS",
-          "layer": "Power & Grid"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18873",
-      "has_media": false
-    },
-    {
-      "id": "3A916CA7D29E6907C5EB",
-      "ts": "2026-10-12T20:03:34Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "FORMFACTOR ($FORM) & TERADYNE ($TER) REPORT PACT ON SEMICONDUCTOR TESTING",
-      "points": [
-        {
-          "label": null,
-          "text": "TERADYNE TO INVEST $300M IN FORMFACTOR COMMON STOCK"
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "TER",
-          "layer": "Semi Testing"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18870",
-      "has_media": false
-    },
-    {
-      "id": "3A5F38102A84C666CCBC",
-      "ts": "2026-10-12T19:56:58Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Intel ($INTC) detailed its next-generation GPU D-Series AI accelerators and new Xeon 6+ rack designs at the OCP Global Summit, targeting more efficient AI inference and infrastructure for autonomous AI agents.",
-      "points": [
-        {
-          "label": "GPU specifications",
-          "text": "Built on Intel\u2019s Xe3P architecture, D-Series delivers up to 1.3 petaflops of FP8 compute, 1.5 TB/s memory bandwidth and 480 GB of LPDDR5X memory within a 350W power envelope. Intel-branded cards have 160 GB, while partner designs can reach 480 GB."
-        },
-        {
-          "label": "AI model capacity",
-          "text": "Designed to support models up to 300 billion parameters on one card and more than 1 trillion across eight GPUs, targeting large language models, long-context inference and robotics."
-        },
-        {
-          "label": "Xeon infrastructure",
-          "text": "Select Xeon 6+ rack configurations exceed 46,000 CPU cores at 133.45 kW, supporting AI agent orchestration, data processing and execution alongside GPUs."
-        },
-        {
-          "label": "Deployment design",
-          "text": "Standard PCIe cards and air cooling allow D-Series GPUs to integrate into existing data centers without specialized cooling or rack infrastructure."
-        },
-        {
-          "label": "Software ecosystem",
-          "text": "Intel supports new open AI models, including Day 0 support for Meta\u2019s ($META) Muse Glimmer. Its enterprise agent toolkit runs on Xeon today, with planned GPU integration."
-        },
-        {
-          "label": "Industry standards",
-          "text": "Intel is advancing Open Rack v3 and standardized accelerator-card designs to improve interoperability across AI systems."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "INTC",
-          "layer": "Foundry & Fab"
-        },
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18868",
-      "has_media": false
-    },
-    {
-      "id": "3ADC0C9742C5A8DE5755",
-      "ts": "2026-10-12T19:47:11Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Intel ($INTC) CEO Lip-Bu Tan says lower-cost Chinese AI models, including DeepSeek, Kimi and GLM, deliver \"good enough\" performance and are seeing rapid adoption, arguing that open-source AI can drive greater efficiency.",
-      "points": [
-        {
-          "label": "AI model economics",
-          "text": "Tan said Chinese models offer lower costs per token, while market demand will determine which models succeed across different applications."
-        },
-        {
-          "label": "Open-source strategy",
-          "text": "Tan favors open models to improve efficiency, echoing Nvidia ($NVDA) CEO Jensen Huang\u2019s view that accessible AI can accelerate adoption rather than necessarily reduce hardware demand."
-        },
-        {
-          "label": "Intel opportunity",
-          "text": "Cheaper AI inference could encourage wider deployment of AI applications, increasing demand for Intel\u2019s CPUs, servers and data center infrastructure supporting autonomous AI agents."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "INTC",
-          "layer": "Foundry & Fab"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18864",
-      "has_media": false
-    },
-    {
-      "id": "3A883F35CD7921EBCA6D",
-      "ts": "2026-10-12T19:40:15Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Intel ($INTC) has begun customer sampling of its new D-Series GPUs, formerly codenamed Crescent Island, expanding into AI inference as demand grows for infrastructure supporting autonomous AI agents.",
-      "points": [
-        {
-          "label": "GPU design",
-          "text": "D-Series processors are designed to run trained AI models and services. Unlike Nvidia\u2019s ($NVDA) Blackwell server configurations, Intel\u2019s new GPUs use PCIe expansion cards."
-        },
-        {
-          "label": "Industry partners",
-          "text": "Intel is working with ASUS, Hewlett Packard Enterprise ($HPE), Dell ($DELL), Supermicro ($SMCI) and other hardware manufacturers and cloud providers to develop D-Series systems."
-        },
-        {
-          "label": "Agentic AI demand",
-          "text": "Intel is also benefiting from renewed CPU demand as AI agents increasingly perform tasks such as database searches, website navigation and application management alongside GPU-powered AI models."
-        },
-        {
-          "label": "Competitive landscape",
-          "text": "Intel faces growing data center competition from AMD ($AMD), Nvidia\u2019s Arm-based Grace CPUs and Qualcomm\u2019s ($QCOM) expanding processor and AI accelerator portfolio."
-        },
-        {
-          "label": "Deployment status",
-          "text": "D-Series chips are entering customer sampling, not confirmed widespread commercial deployment. Intel has not provided production volumes or revenue projections in the supplied material."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMD",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "DELL",
-          "layer": "Servers & Storage"
-        },
-        {
-          "ticker": "HPE",
-          "layer": "Servers & Storage"
-        },
-        {
-          "ticker": "INTC",
-          "layer": "Foundry & Fab"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "QCOM",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "SMCI",
-          "layer": "Servers & Storage"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18863",
-      "has_media": true
-    },
-    {
-      "id": "3A34A44F380D82D8DE63",
-      "ts": "2026-10-12T18:15:20Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Bumble ($BMBL) is in advanced talks to go private in a deal valuing the dating-app company at roughly $1 billion, according to people familiar with the matter. An agreement could come as soon as this week, although talks could still collapse.",
-      "points": [
-        {
-          "label": "Potential buyer",
-          "text": "Ithaca Holdings, founded by former Instacart CFO Ravi Gupta and former Meta ($META) executive John Hegeman, plans to apply AI and other advanced technologies to its investments."
-        },
-        {
-          "label": "Founder involvement",
-          "text": "Bumble founder and CEO Whitney Wolfe Herd is expected to retain at least part of her ownership stake and remain involved after the deal."
-        },
-        {
-          "label": "Valuation",
-          "text": "Bumble had a market capitalization of approximately $335 million as of Friday\u2019s close, with shares down more than 90% since its 2021 IPO."
-        },
-        {
-          "label": "Existing investor",
-          "text": "Blackstone ($BX), which acquired a majority stake in 2019, still owns roughly 14% of Bumble."
-        },
-        {
-          "label": "Business challenges",
-          "text": "Bumble and Badoo both reported second-quarter revenue declines amid weakening interest in dating apps. Bumble cut roughly 30% of its workforce in 2025 and announced plans in August to eliminate its women-first messaging feature."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18849",
-      "has_media": true
-    },
-    {
-      "id": "3A2C705A2BF6D666EB67",
-      "ts": "2026-10-12T17:13:31Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Meta ($META) CEO Mark Zuckerberg says the company has returned to the frontier of artificial intelligence following the launch of Muse Wonder, pledging continued heavy investment while rejecting calls for an industry-wide slowdown in AI development.",
-      "points": [
-        {
-          "label": "AI breakthrough",
-          "text": "Muse Wonder and Wonder Full compete with leading models from Anthropic and OpenAI. Meta reports strong results in reasoning, coding and autonomous agent benchmarks."
-        },
-        {
-          "label": "Investment strategy",
-          "text": "Zuckerberg remains committed to substantial spending on AI infrastructure, research and talent following Meta's costly overhaul of its AI division."
-        },
-        {
-          "label": "Safety debate",
-          "text": "Zuckerberg opposes coordinating an industry-wide slowdown, arguing individual AI labs should determine when to pause development for safety improvements."
-        },
-        {
-          "label": "AI strategy",
-          "text": "The new models use restricted access through subscriptions and APIs, contrasting with Meta's earlier open-weight Llama strategy. Meta says it remains committed to open-source AI."
-        },
-        {
-          "label": "Personal superintelligence",
-          "text": "Meta aims to develop AI agents that remember users' preferences, manage complex tasks and act across applications."
-        },
-        {
-          "label": "Privacy protections",
-          "text": "Meta plans to introduce Muse Confidential VM later in 2026, using user-controlled encryption keys intended to prevent even Meta from accessing personal data."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18839",
-      "has_media": false
-    },
-    {
-      "id": "3A8D0BED807B7A0E3F17",
-      "ts": "2026-10-12T17:02:25Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "MARK ZUCKERBERG SAYS $META HAS REACHED AI \u2018FRONTIER\u2019 AND REJECTS CALLS FOR SLOWDOWN - FT",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18837",
-      "has_media": false
-    },
-    {
-      "id": "3A2B78AA44E0D8C4086F",
-      "ts": "2026-10-12T17:00:23Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Meta ($META) launched Muse Wonder and Muse Wonder Full, its most advanced AI models yet, targeting complex personal assistance, professional workflows and autonomous coding tasks.",
-      "points": [
-        {
-          "label": "Model performance",
-          "text": "Muse Wonder Full scored 56 on the Artificial Analysis Intelligence Index, second to Claude Opus 5.5 at 58. Standard Muse Wonder scored 52."
-        },
-        {
-          "label": "Availability",
-          "text": "Muse Wonder is available through the Meta Model API and Muse Code, while Wonder Full requires a Muse Code subscription. Integration into Meta's Muse assistant will begin with subscribers."
-        },
-        {
-          "label": "Active Memory",
-          "text": "Models can retain relevant personal context across conversations and retrieve it when needed for future tasks."
-        },
-        {
-          "label": "Active Focus",
-          "text": "Designed to sustain complex, multi-step work, overcome obstacles, explore alternative solutions and request approval before important actions."
-        },
-        {
-          "label": "Professional capabilities",
-          "text": "Wonder Full leads the supplied comparisons in legal-agent tasks, business workflow automation and long-horizon software engineering, though competitors lead some other benchmarks."
-        },
-        {
-          "label": "AI infrastructure",
-          "text": "Trained at Meta's gigawatt-scale Prometheus data center, the models use expanded pretraining and reinforcement learning. Meta reports improved performance on unfamiliar tasks compared with Muse Spark 1.3."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18836",
-      "has_media": true
-    },
-    {
-      "id": "3A966F7B3FD38D6DAECE",
-      "ts": "2026-10-12T16:53:54Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Meta\u2019s ($META) Muse Wonder Full scored 56 on the Artificial Analysis Intelligence Index, ranking second among the models shown, just two points behind Anthropic\u2019s Claude Opus 5.5 at 58.",
-      "points": [
-        {
-          "label": "Muse Wonder Full",
-          "text": "The maximum-reasoning version leads Meta\u2019s lineup in the supplied rankings, scoring above Claude Fable 5.1, GPT-6 Astra and Gemini 4 Argon, each at 53."
-        },
-        {
-          "label": "Standard Muse Wonder",
-          "text": "Scores 52, tying GPT-6.1 Sol and ranking below the Full version."
-        },
-        {
-          "label": "Previous models",
-          "text": "Meta\u2019s Muse Spark 1.3 scores 48, followed by Spark 1.2 at 40 and Spark 1.1 at 34."
-        },
-        {
-          "label": "Model comparison",
-          "text": "The rankings measure performance on Artificial Analysis\u2019s Intelligence Index, not every aspect of model capability or real-world performance."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18834",
-      "has_media": true
-    },
-    {
-      "id": "3A005A57305F6E1F9CAE",
-      "ts": "2026-10-12T16:48:53Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Meta ($META) is reportedly preparing a new AI model called Muse Wonder, with a circulating screenshot showing two versions designed for coding, advanced reasoning and multi-step autonomous tasks. The model and its availability remain unconfirmed.",
-      "points": [
-        {
-          "label": "Muse Wonder",
-          "text": "Screenshot describes a 1-million-token context window, six reasoning levels, native tool calling, MCP support, long-task planning, sub-agent delegation and error recovery."
-        },
-        {
-          "label": "Reported pricing",
-          "text": "$4 per million input tokens, $0.20 for cached input and $20 for output."
-        },
-        {
-          "label": "Muse Wonder Full",
-          "text": "A maximum-reasoning version designed for more complex tasks, with higher latency and cost."
-        },
-        {
-          "label": "Subscription access",
-          "text": "Screenshot lists Wonder Full as exclusive to MuseCode Power Usage and Maximum Usage plans, while showing a playground option for standard Wonder."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18832",
-      "has_media": true
-    },
-    {
-      "id": "3ADAE9C05FCBEC2A9A7E",
-      "ts": "2026-10-12T16:34:00Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Meta ($META) says it doubled training efficiency for its GEM advertising AI model, reaching 20\u201325% compute utilization, but the improvement does not establish lower overall GPU or data center requirements.",
-      "points": [
-        {
-          "label": "Efficiency gains",
-          "text": "Optimized AI processing software, lower-precision calculations and improved workload distribution increased training performance across thousands of GPUs."
-        },
-        {
-          "label": "Training scale",
-          "text": "Meta doubled efficiency while increasing GEM\u2019s total training computation fourfold over 12 months."
-        },
-        {
-          "label": "Hardware strategy",
-          "text": "An October 11 industry review confirms Meta continues developing its own MTIA chips while relying on Nvidia ($NVDA), AMD ($AMD) and other external hardware suppliers."
-        },
-        {
-          "label": "Infrastructure spending",
-          "text": "Meta\u2019s July guidance projected $130 billion\u2013$145 billion in 2026 capital expenditures, including finance lease payments."
-        },
-        {
-          "label": "Capacity implications",
-          "text": "Better GPU utilization can increase output from existing hardware, but Meta has not quantified any reduction in future chip purchases, power requirements or data center construction from these optimizations."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMD",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18830",
-      "has_media": true
-    },
-    {
-      "id": "3A3E18377E22E32412BA",
-      "ts": "2026-10-12T15:43:18Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Josh Brown and Sean Russo highlighted Expeditors International ($EXPD) and Johnson Controls ($JCI) as two momentum stocks, with Expeditors outperforming despite Wall Street skepticism and Johnson Controls benefiting from AI data center cooling demand.",
-      "points": [
-        {
-          "label": "Expeditors performance",
-          "text": "EXPD trades near $193, up 30.7% YTD. Five of 17 analysts rated it Strong Sell heading into summer, and August\u2019s average price target was $159."
-        },
-        {
-          "label": "Q2 earnings",
-          "text": "EPS surged 51.5% to $2.03, beating the $1.68 consensus, while revenue rose 32.1% to $3.5 billion. Airfreight revenue jumped 57%, supported by AI server shipments."
-        },
-        {
-          "label": "Wall Street concerns",
-          "text": "Analysts question whether tariff-driven customs demand, shipping capacity constraints and restructuring benefits are sustainable. EXPD trades near 28 times trailing earnings."
-        },
-        {
-          "label": "Shareholder returns",
-          "text": "EXPD returned $748 million during the first half and authorized $3 billion in buybacks. Q3 earnings are expected November 3, followed by Investor Day on November 18."
-        },
-        {
-          "label": "EXPD technical levels",
-          "text": "Brown identifies $196 as breakout resistance, with a $183 closing stop for traders and a $177 weekly closing stop for investors."
-        },
-        {
-          "label": "Johnson Controls",
-          "text": "JCI trades near $157, up 29.7% YTD. Management expects data center cooling to grow from a high-teens share of FY26 revenue to roughly one-third within three to five years."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18826",
-      "has_media": true
-    },
-    {
-      "id": "3A370E176B461A560330",
-      "ts": "2026-10-12T15:36:13Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Microsoft ($MSFT) President Brad Smith is urging binding global AI safety regulations, warning that artificial intelligence poses cybersecurity risks while facing less oversight than everyday consumer products.",
-      "points": [
-        {
-          "label": "UK leadership",
-          "text": "Smith argues Britain is better positioned than the U.S. or EU to lead global regulation, citing its AI Security Institute\u2019s access to advanced models for pre-release safety testing."
-        },
-        {
-          "label": "US opposition",
-          "text": "President Trump reportedly urged OpenAI and Anthropic to withhold models from British testers, although the institute confirmed continued access to the latest models."
-        },
-        {
-          "label": "Voluntary safeguards",
-          "text": "Trump recently secured AI companies\u2019 commitments to independent safety audits. Smith welcomed the agreement but warned that voluntary rules cannot ensure compliance by less responsible companies."
-        },
-        {
-          "label": "Proposed rules",
-          "text": "Smith supports mandatory disclosure of AI-related security breaches, independent evaluations before product launches and emergency controls to pause AI systems if humans lose control."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18824",
-      "has_media": true
-    },
-    {
-      "id": "3A266310390B9F673CEA",
-      "ts": "2026-10-12T15:30:43Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Nvidia ($NVDA), AMD ($AMD), Google ($GOOG, $GOOGL) and Meta ($META) are developing Open Data Center Specification v0.7, a shared blueprint intended to standardize data center construction.",
-      "points": [
-        {
-          "label": "Facility design",
-          "text": "Covers building layouts, cooling and power infrastructure. Nvidia says standardized templates could reduce custom design requirements for equipment makers, colocation providers and operators."
-        },
-        {
-          "label": "Grid resilience",
-          "text": "Nvidia, Google, Meta and Microsoft ($MSFT) are also developing the OCP Grid Resilience Specification to standardize responses to power disruptions and accelerate recovery."
-        },
-        {
-          "label": "Construction efficiency",
-          "text": "Common designs could shorten construction timelines, potentially accelerating demand for Nvidia\u2019s chips, systems and networking equipment."
-        },
-        {
-          "label": "Regulatory obstacles",
-          "text": "The report says New York imposed a one-year statewide construction moratorium, while Texas halted new projects pending grid-impact assessments. President Trump has opposed restrictions, arguing data centers generate revenue for states."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMD",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "GOOG",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "GOOGL",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18822",
-      "has_media": true
-    },
-    {
-      "id": "3A5DEEB17D177967868C",
-      "ts": "2026-10-12T15:26:25Z",
-      "category": "other",
-      "kind": "image",
-      "headline": "$BE 260C 11/20/2026 for $5.8M",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "BE",
-          "layer": "Power & Grid"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18820",
-      "has_media": true
-    },
-    {
-      "id": "3AB396A655A97EF95C27",
-      "ts": "2026-10-12T15:19:53Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "$META SPECULATION BUILDS AROUND A POSSIBLE ANNOUNCEMENT FOR \u201cWATERMELON,\u201d META\u2019S REPORTED NEXT-GENERATION AI MODEL.",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18818",
-      "has_media": true
-    },
-    {
-      "id": "3A52A18FA123FD262364",
-      "ts": "2026-10-12T15:01:42Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "NVIDIA ($NVDA) and Cisco ($CSCO) introduced USFP, a new pluggable-optics format intended to scale AI computing within the same network footprint while reducing networking\u2019s share of the power budget.",
-      "points": [
-        {
-          "label": "Open ecosystem",
-          "text": "The companies are collaborating with TE Connectivity ($TEL) and Amphenol ($APH) and plan an open industry specification for USFP."
-        },
-        {
-          "label": "Module plans",
-          "text": "NVIDIA and Cisco announced plans for a USFP optical module described as \u201c400GB/S per lane.\u201d"
-        },
-        {
-          "label": "Microsoft deployment",
-          "text": "Cisco says Microsoft ($MSFT) has moved into production on systems powered by Cisco Silicon One P200."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "APH",
-          "layer": "Networking"
-        },
-        {
-          "ticker": "CSCO",
-          "layer": "Networking"
-        },
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "TEL",
-          "layer": "Networking"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18815",
-      "has_media": false
-    },
-    {
-      "id": "3A484D11979218204C87",
-      "ts": "2026-10-12T14:53:42Z",
-      "category": "other",
-      "kind": "image",
-      "headline": "$META Muse watermelon announcement speculation",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18814",
-      "has_media": true
-    },
-    {
-      "id": "3AC780B57D5EDAA141CF",
-      "ts": "2026-10-12T13:54:02Z",
-      "category": "other",
-      "kind": "image",
-      "headline": "$META 730P 10/16/2026 for $2.6M",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18800",
-      "has_media": true
-    },
-    {
-      "id": "3ABE35086D3E259925DB",
-      "ts": "2026-10-12T13:50:35Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Broadcom ($AVGO) CEO Hock Tan compared many AI investors to casino gamblers, warning that speculative expectations, unprofitable AI deployments and mounting financing needs could threaten the industry's long-term growth.",
-      "points": [
-        {
-          "label": "Investor speculation",
-          "text": "Tan criticized investors backing frontier AI models without fully understanding the technology or its economics, arguing that many are setting unrealistic expectations."
-        },
-        {
-          "label": "Enterprise AI spending",
-          "text": "Tan compared companies experimenting with AI tokens to children spending arcade tokens without learning anything, questioning whether businesses are generating meaningful returns."
-        },
-        {
-          "label": "OpenAI economics",
-          "text": "Tan cited OpenAI's reported $50 billion annualized revenue run rate in September as evidence of commercial demand, but warned that heavy model-training costs continue to prevent profitability."
-        },
-        {
-          "label": "Capital constraints",
-          "text": "Tan said financing could become AI's biggest bottleneck as chip and memory shortages ease. He emphasized that AI developers need customers capable of generating sustainable returns."
-        },
-        {
-          "label": "Financing concerns",
-          "text": "Nvidia-backed Australian data-center developer Firmus withdrew a planned $5.5 billion IPO last week, while DBS CEO Tan Su Shan said investors are repricing AI financing risks."
-        },
-        {
-          "label": "Industry outlook",
-          "text": "Intel ($INTC) CEO Lip-Bu Tan expects AI hardware demand to remain strong for another two to three years, although memory shortages may ease sooner."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AVGO",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "INTC",
-          "layer": "Foundry & Fab"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18797",
-      "has_media": true
-    },
-    {
-      "id": "3AF0A961A6E419DBD247",
-      "ts": "2026-10-12T13:24:35Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "MSFT says chiplet architecture for enhanced efficiency: A new multi-chiplet architecture separates compute, memory-controller and I/O functions, improving efficiency, scalability and cost structure. Compute chiplets are built on ($TSM) TSMC\u2019s N2P process node to maximize performance-per-watt.",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "TSM",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [
-        "MSFT"
-      ],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18789",
-      "has_media": true
-    },
-    {
-      "id": "3A563B0FE426AF9DA094",
-      "ts": "2026-10-12T13:13:49Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Google ($GOOGL) unveiled Fitbit Edge, a $179.99 AI-powered fitness tracker replacing the Charge 6, with expanded health monitoring, improved GPS and personalized coaching. Availability begins October 27.",
-      "points": [
-        {
-          "label": "AI health coaching",
-          "text": "Google Health Coach provides personalized wellness guidance, while Health Guardian is described as monitoring blood pressure and insulin resistance trends."
-        },
-        {
-          "label": "Fitness tracking",
-          "text": "Supports 50+ exercise modes, automatically recognizes 100 workouts and offers up to 40% improved GPS accuracy."
-        },
-        {
-          "label": "Health sensors",
-          "text": "Includes ECG, continuous heart-rate monitoring and advanced sleep tracking."
-        },
-        {
-          "label": "Display and battery",
-          "text": "Features a Hybrid OLED display with 46% more viewing area, up to seven days of battery life and five-minute fast charging."
-        },
-        {
-          "label": "Pricing",
-          "text": "Standard model starts at $179.99; Stephen Curry Special Edition costs $219.99. Includes a three-month Google Health Premium trial."
-        },
-        {
-          "label": "Market competition",
-          "text": "The launch expands Google's AI-powered wearable offerings, positioning Fitbit more directly against Apple's ($AAPL) health and fitness ecosystem."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "GOOGL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18786",
-      "has_media": true
-    },
-    {
-      "id": "3AB688B3CF7B736AEC25",
-      "ts": "2026-10-12T13:11:52Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Microsoft ($MSFT) unveiled Maia 300, its third-generation custom AI processor, with plans for multi-gigawatt deployments beginning in 2027 that could exceed 1 million chips. The company claims 40% greater computing efficiency per megawatt than leading GPU-based systems.",
-      "points": [
-        {
-          "label": "AI performance",
-          "text": "Maia 300 is optimized for complex AI workloads, including coding and autonomous agents. Microsoft claims 40% more useful computing per megawatt but did not disclose which GPU systems were used for comparison."
-        },
-        {
-          "label": "Deployment scale",
-          "text": "Microsoft plans to use Maia 300 across its internal AI services, potentially deploying more than 1 million processors beginning next year."
-        },
-        {
-          "label": "Chip architecture",
-          "text": "Uses a chiplet design combining TSMC ($TSM) 2nm processors with lower-cost 3nm components to optimize computing performance and data movement."
-        },
-        {
-          "label": "Rack specifications",
-          "text": "Maia 300 racks contain 96 chips consuming approximately 167 kW, compared with NVIDIA's ($NVDA) GB300 racks containing 72 GPUs consuming 142 kW."
-        },
-        {
-          "label": "Capital investment",
-          "text": "Microsoft expects more than $175 billion in capital expenditures during calendar 2026 as it expands AI infrastructure."
-        },
-        {
-          "label": "Competitive strategy",
-          "text": "Custom Maia processors aim to improve Microsoft's AI computing efficiency and reduce reliance on third-party GPUs, particularly NVIDIA hardware."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "TSM",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18785",
-      "has_media": false
-    },
-    {
-      "id": "3A7F86D27B78AF1FC3BB",
-      "ts": "2026-10-12T13:11:01Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Marvell Technology ($MRVL) unveiled its second-generation Structera X 3406 and 3506 memory expansion controllers, designed to increase AI inference performance and memory capacity while reducing infrastructure costs. Customer sampling is expected in Q1 2027.",
-      "points": [
-        {
-          "label": "Memory expansion",
-          "text": "Six DDR4/DDR5 channels, 50% more than the previous generation, support up to 9TB of DDR4 or 6TB of DDR5 memory per controller."
-        },
-        {
-          "label": "AI inference performance",
-          "text": "Marvell claims up to 40\u201350% faster time to first token, 2x longer context windows at equivalent latency and 2x higher query throughput for recommendation workloads."
-        },
-        {
-          "label": "Memory efficiency",
-          "text": "Built-in LZ4 compression delivers up to 2\u20133x more effective memory capacity, with 250GB/s compression throughput, 5x the previous generation."
-        },
-        {
-          "label": "Industry partnerships",
-          "text": "AMD ($AMD), Arm ($ARM), Alibaba ($BABA), Samsung and SK hynix are collaborating on CXL integration and memory validation."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMD",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "ARM",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "MRVL",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18784",
-      "has_media": true
-    },
-    {
-      "id": "3A30ED57F3AA03E0A00C",
-      "ts": "2026-10-12T13:06:59Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Astera Labs ($ALAB) unveiled Orion, a modular, GPU- and CPU-agnostic rack-scale architecture designed to accelerate AI infrastructure deployment and improve inference efficiency. Initial reference designs are expected in Q1 2027.",
-      "points": [
-        {
-          "label": "Hardware flexibility",
-          "text": "Orion allows customers to select and replace CPUs and GPUs based on availability, cost and workload requirements without redesigning entire racks."
-        },
-        {
-          "label": "AI performance",
-          "text": "Its 320-lane PCIe switch fabric supports 8\u2013160 accelerators per pod, targeting higher token throughput, lower latency and improved inference economics."
-        },
-        {
-          "label": "Modular infrastructure",
-          "text": "Six production-grade reference designs cover racks, compute trays, fabric trays, memory trays, link boards and compute boards, reducing integration and validation time."
-        },
-        {
-          "label": "Software management",
-          "text": "COSMOS Rack Manager and Fabric Manager provide orchestration, monitoring, diagnostics and fleet-wide infrastructure management."
-        },
-        {
-          "label": "Open standards",
-          "text": "Built around PCIe connectivity, with plans to support additional interconnects, including UALink, to reduce dependence on individual hardware platforms."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "ALAB",
-          "layer": "Networking"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18781",
-      "has_media": false
-    },
-    {
-      "id": "3A5F9D73FAF8529FBEA4",
-      "ts": "2026-10-12T13:04:11Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "MICROSOFT MAIA 300 TO DELIVER 40% MORE TOKENS PER MEGAWATT.",
-      "points": [
-        {
-          "label": null,
-          "text": "MICROSOFT MAIA 300 TO BEGIN PRODUCTION DEPLOYMENTS IN 2027."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18780",
-      "has_media": false
-    },
-    {
-      "id": "3AE410DFAF3827A35C8F",
-      "ts": "2026-10-12T13:02:52Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "AMD ($AMD) introduced Helion, an open rack-scale AI infrastructure design built for autonomous AI agents, combining high-density EPYC CPUs, Instinct GPUs and flexible computing configurations. Partner-built systems are expected in November 2026.",
-      "points": [
-        {
-          "label": "CPU-only configuration",
-          "text": "Powered by 6th Gen AMD EPYC processors, supporting up to 32,768 CPU cores per rack for large-scale AI agent execution."
-        },
-        {
-          "label": "Integrated CPU/GPU design",
-          "text": "Combines EPYC processors, Instinct MI350P GPUs and general-purpose compute in a single rack for enterprise AI agents, model inference and supporting workloads."
-        },
-        {
-          "label": "AI software",
-          "text": "Includes an integrated token router that directs AI agent requests across frontier and open-source models, helping optimize computing resources."
-        },
-        {
-          "label": "Open architecture",
-          "text": "Supports air and liquid cooling, with customizable CPU/GPU configurations to match performance, power and cost requirements. AMD plans to contribute the Helion specification to the Open Compute Project (OCP)."
-        },
-        {
-          "label": "Industry partners",
-          "text": "Cisco ($CSCO), Dell ($DELL), Foxconn, HPE ($HPE), Lenovo, QCT, Supermicro ($SMCI) and Wiwynn are supporting the design and its development."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMD",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "CSCO",
-          "layer": "Networking"
-        },
-        {
-          "ticker": "DELL",
-          "layer": "Servers & Storage"
-        },
-        {
-          "ticker": "HPE",
-          "layer": "Servers & Storage"
-        },
-        {
-          "ticker": "SMCI",
-          "layer": "Servers & Storage"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18779",
-      "has_media": false
-    },
-    {
-      "id": "3A5DD4BEF78C29A08606",
-      "ts": "2026-10-12T13:01:56Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "MICROSOFT PREPARES TO DEPLOY GIGAWATTS OF ITS CHIPS IN DATA CENTERS.",
-      "points": [
-        {
-          "label": null,
-          "text": "MICROSOFT TO SCALE AZURE MAIA TO MULTI-GIGAWATT CAPACITY IN 2027."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18778",
-      "has_media": false
-    },
-    {
-      "id": "3A449766037A7BD8F088",
-      "ts": "2026-10-12T12:53:18Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Zeta Global ($ZETA) received two price-target increases Monday, with Roth MKM raising its target to $55 and Craig-Hallum lifting its target to $38. Both firms maintained Buy ratings following Zeta's recent AI product announcements.",
-      "points": [
-        {
-          "label": "Roth MKM",
-          "text": "Raised its target to $55 from $44 (+25%), citing AthenaOS's potential to attract larger enterprise customers, increase spending per customer and accelerate growth in 2027. Highlighted partnerships with Palantir, Snowflake and OpenAI."
-        },
-        {
-          "label": "Craig-Hallum",
-          "text": "Raised its target to $38 from $30 (+26.7%), citing major Athena upgrades, an NVIDIA chip agreement, two acquisitions and record Zeta Live attendance indicating a strong sales pipeline."
-        },
-        {
-          "label": "Stock price",
-          "text": "ZETA last traded at $33.44 (+1.06%) in the premarket, implying approximately 64.5% upside to Roth's target and 13.6% to Craig-Hallum's."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/18776",
       "has_media": false
     }
   ]
