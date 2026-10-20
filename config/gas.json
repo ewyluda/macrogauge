@@ -1,0 +1,43 @@
+{
+ "basis": "Fuel arithmetic for /gas. Heat rates are EIA's 2024 average tested full-load heat rates for natural-gas units by prime mover (Electric Power Annual Table 8.2, weighted by net summer capacity); real units run hotter at part load, so fuel figures here are a floor, not a bill. Heat content converts MMBtu to cubic feet.",
+ "heat_rates": [
+  {
+   "key": "combined_cycle",
+   "label": "Combined cycle",
+   "btu_per_kwh": 7548,
+   "year": 2024,
+   "url": "https://www.eia.gov/electricity/annual/html/epa_08_02.html",
+   "evidence": "docs/research/evidence/2026-10-19-gas-eia-epa-table-8-2-heat-rates.txt",
+   "prime_mover": "Combined Cycle",
+   "quote": "2024 Steam Generator 10,018 10,331 10,337 10,443 Gas Turbine -- 13,083 10,999 -- Internal Combustion -- 10,512 8,924 -- Combined Cycle W 9,702 7,548 --"
+  },
+  {
+   "key": "recip_engine",
+   "label": "Reciprocating engine",
+   "btu_per_kwh": 8924,
+   "year": 2024,
+   "url": "https://www.eia.gov/electricity/annual/html/epa_08_02.html",
+   "evidence": "docs/research/evidence/2026-10-19-gas-eia-epa-table-8-2-heat-rates.txt",
+   "prime_mover": "Internal Combustion",
+   "quote": "2024 Steam Generator 10,018 10,331 10,337 10,443 Gas Turbine -- 13,083 10,999 -- Internal Combustion -- 10,512 8,924 -- Combined Cycle W 9,702 7,548 --"
+  },
+  {
+   "key": "gas_turbine",
+   "label": "Simple-cycle gas turbine",
+   "btu_per_kwh": 10999,
+   "year": 2024,
+   "url": "https://www.eia.gov/electricity/annual/html/epa_08_02.html",
+   "evidence": "docs/research/evidence/2026-10-19-gas-eia-epa-table-8-2-heat-rates.txt",
+   "prime_mover": "Gas Turbine",
+   "quote": "2024 Steam Generator 10,018 10,331 10,337 10,443 Gas Turbine -- 13,083 10,999 -- Internal Combustion -- 10,512 8,924 -- Combined Cycle W 9,702 7,548 --"
+  }
+ ],
+ "column_quote": "Prime Mover Coal Petroleum Natural Gas Nuclear",
+ "heat_content": {
+  "btu_per_cf": 1036,
+  "year": 2025,
+  "url": "https://www.eia.gov/dnav/ng/ng_cons_heat_a_EPG0_VGTH_btucf_a.htm",
+  "evidence": "docs/research/evidence/2026-10-19-gas-eia-heat-content.txt",
+  "quote": "2020 2021 2022 2023 2024 2025 View History U.S. 1,037 1,037 1,036 1,036 1,037 1,036"
+ }
+}

@@ -219,6 +219,7 @@ export default function Datacenter() {
           <h2 id="dc-power-title">The power bill{powerSum.headline && <> <span className="subtitle">{powerSum.headline}</span></>}</h2>
           <PowerKpis sum={powerSum} />
           <p className="dc-more"><Link href="/power">All {power.hubs.length} hubs, capacity prices by operator and every tariff →</Link></p>
+          <p className="dc-more"><Link href="/gas#power-vs-gas">Whether gas explains it: each hub against Henry Hub, and what gas-fired AI power burns →</Link></p>
         </section>
       )}
       {ten?.value != null && (

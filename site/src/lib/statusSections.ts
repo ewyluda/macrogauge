@@ -24,7 +24,7 @@ export const CHECK_SECTION: Record<string, string> = {
   // AI Infra phases (one *_ok per isolated run_daily phase)
   datacenter_ok: "AI Infra", capacity_ok: "AI Infra", markets_ok: "AI Infra", grades_ok: "AI Infra",
   longlead_ok: "AI Infra", rates_ok: "AI Infra", compute_ok: "AI Infra", commodities_ok: "AI Infra",
-  geography_ok: "AI Infra", news_ok: "AI Infra", ledger_ok: "AI Infra",
+  geography_ok: "AI Infra", news_ok: "AI Infra", ledger_ok: "AI Infra", gas_ok: "AI Infra",
   // the gauge
   headline_current: "Inflation", yoy_finite: "Inflation", engine_ok: "Inflation", gauge_current: "Inflation",
   gauge_components_present: "Inflation", basket_weights_sum: "Inflation", gauge_coverage: "Inflation",

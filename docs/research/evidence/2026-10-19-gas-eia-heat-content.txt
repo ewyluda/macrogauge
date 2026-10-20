@@ -1,0 +1,4 @@
+Source: https://www.eia.gov/dnav/ng/ng_cons_heat_a_EPG0_VGTH_btucf_a.htm
+Retrieved: 2026-10-19 (text layer, whitespace-collapsed)
+
+Heat Content of Natural Gas Consumed (Btu per Cubic Foot) Data Series: Delivered to Consumers Total Consumption Electric Power Other Sectors Period: Monthly Annual Download Series History Definitions, Sources & Notes Show Data By: Data Series Area 2020 2021 2022 2023 2024 2025 View History U.S. 1,037 1,037 1,036 1,036 1,037 1,036 2003-2025 Alabama 1,031 1,031 1,031 1,030 1,031 1,032 2007-2025 Alaska 985 982 984 998 1,003 988 2007-2025 Arizona 1,028 1,033 1,031 1,027 1,027 1,024 2007-2025 Arkansas 1,018 1,020 1,022 1,023 1,023 1,022 2007-2025 California 1,033 1,034 1,035 1,034 1,038 1,022 2007-

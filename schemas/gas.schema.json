@@ -1,0 +1,238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "gas",
+  "description": "Natural gas as the fuel behind AI power (/gas, 2026-10-19): Henry Hub spot, front month and EIA's STEO path, Lower-48 storage against our five-year average, power burn and LNG exports, each wholesale power hub's price against Henry Hub over the same 30 days, and fuel arithmetic at EIA heat rates. Display-only; every block is null when its inputs are absent.",
+  "type": "object",
+  "required": ["published_at", "window_days", "henry_hub", "futures", "outlook", "history", "storage",
+               "demand", "cc_mmbtu_per_mwh", "power_vs_gas", "fuel_cost", "ai_gas_deals"],
+  "additionalProperties": false,
+  "properties": {
+    "published_at": {"type": "string"},
+    "window_days": {"type": "integer"},
+    "henry_hub": {
+      "type": ["object", "null"],
+      "required": ["code", "latest", "as_of", "avg30", "avg30_year_ago", "avg30_yoy_pct", "chg_30d_pct",
+                   "low_52w", "high_52w"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"type": "string"},
+        "latest": {"type": "number"},
+        "as_of": {"$ref": "#/$defs/ymd"},
+        "avg30": {"$ref": "#/$defs/num"},
+        "avg30_year_ago": {"$ref": "#/$defs/num"},
+        "avg30_yoy_pct": {"$ref": "#/$defs/num"},
+        "chg_30d_pct": {"$ref": "#/$defs/num"},
+        "low_52w": {"type": "number"},
+        "high_52w": {"type": "number"}
+      }
+    },
+    "futures": {
+      "type": ["object", "null"],
+      "description": "NYMEX Henry Hub front month (FMP). vs_spot = front month minus the latest spot print.",
+      "required": ["code", "latest", "as_of", "chg_30d_pct", "chg_1y_pct", "vs_spot"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"type": "string"},
+        "latest": {"type": "number"},
+        "as_of": {"$ref": "#/$defs/ymd"},
+        "chg_30d_pct": {"$ref": "#/$defs/num"},
+        "chg_1y_pct": {"$ref": "#/$defs/num"},
+        "vs_spot": {"$ref": "#/$defs/num"}
+      }
+    },
+    "outlook": {
+      "type": ["object", "null"],
+      "description": "EIA STEO Henry Hub path from the current month on. release_seen = the vintage the newest forecast row arrived in; stale past 45 days (registry staleness cannot see future obs_dates).",
+      "required": ["code", "release_seen", "stale", "months", "values", "next12_avg", "next12_from", "next12_to"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"type": "string"},
+        "release_seen": {"$ref": "#/$defs/ymd"},
+        "stale": {"type": "boolean"},
+        "months": {"type": "array", "items": {"$ref": "#/$defs/ymd"}},
+        "values": {"type": "array", "items": {"$ref": "#/$defs/num"}},
+        "next12_avg": {"$ref": "#/$defs/num"},
+        "next12_from": {"$ref": "#/$defs/ymd"},
+        "next12_to": {"$ref": "#/$defs/ymd"}
+      }
+    },
+    "history": {
+      "type": "object",
+      "required": ["dates", "henry_hub"],
+      "additionalProperties": false,
+      "properties": {
+        "dates": {"type": "array", "items": {"$ref": "#/$defs/ymd"}},
+        "henry_hub": {"type": "array", "items": {"$ref": "#/$defs/num"}}
+      }
+    },
+    "storage": {
+      "type": ["object", "null"],
+      "description": "Lower-48 working gas (Bcf, week ending Friday). avg5 = OUR mean of the same ISO week in the five prior years, not EIA's published five-year average.",
+      "required": ["code", "as_of", "bcf", "chg_week_bcf", "avg5_bcf", "vs_avg5_pct", "year_ago_bcf",
+                   "vs_year_ago_pct", "history"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"type": "string"},
+        "as_of": {"$ref": "#/$defs/ymd"},
+        "bcf": {"type": "number"},
+        "chg_week_bcf": {"$ref": "#/$defs/num"},
+        "avg5_bcf": {"$ref": "#/$defs/num"},
+        "vs_avg5_pct": {"$ref": "#/$defs/num"},
+        "year_ago_bcf": {"$ref": "#/$defs/num"},
+        "vs_year_ago_pct": {"$ref": "#/$defs/num"},
+        "history": {
+          "type": "object",
+          "required": ["dates", "bcf", "avg5_bcf"],
+          "additionalProperties": false,
+          "properties": {
+            "dates": {"type": "array", "items": {"$ref": "#/$defs/ymd"}},
+            "bcf": {"type": "array", "items": {"type": "number"}},
+            "avg5_bcf": {"type": "array", "items": {"$ref": "#/$defs/num"}}
+          }
+        }
+      }
+    },
+    "demand": {
+      "type": ["object", "null"],
+      "required": ["power_burn", "lng_exports", "history"],
+      "additionalProperties": false,
+      "properties": {
+        "power_burn": {"$ref": "#/$defs/flow"},
+        "lng_exports": {"$ref": "#/$defs/flow"},
+        "history": {
+          "type": "object",
+          "required": ["months", "power_burn_bcf_d", "lng_exports_bcf_d"],
+          "additionalProperties": false,
+          "properties": {
+            "months": {"type": "array", "items": {"$ref": "#/$defs/ymd"}},
+            "power_burn_bcf_d": {"type": "array", "items": {"$ref": "#/$defs/num"}},
+            "lng_exports_bcf_d": {"type": "array", "items": {"$ref": "#/$defs/num"}}
+          }
+        }
+      }
+    },
+    "cc_mmbtu_per_mwh": {"$ref": "#/$defs/num"},
+    "power_vs_gas": {
+      "type": ["array", "null"],
+      "description": "Each hub's 30-day average over Henry Hub's average for the SAME 30 days (ending at the hub's own last print), now and a year earlier. ratio is MMBtu per MWh; vs_cc_fuel = ratio over the combined-cycle heat rate. Henry Hub, not local gas. Sorted by ratio, highest first.",
+      "items": {
+        "type": "object",
+        "required": ["code", "label", "grid", "region", "product", "as_of", "power_avg30", "gas_avg30", "ratio",
+                     "power_avg30_year_ago", "gas_avg30_year_ago", "ratio_year_ago", "power_yoy_pct",
+                     "gas_yoy_pct", "ratio_yoy_pct", "vs_cc_fuel"],
+        "additionalProperties": false,
+        "properties": {
+          "code": {"type": "string"},
+          "label": {"type": "string"},
+          "grid": {"type": "string"},
+          "region": {"type": "string"},
+          "product": {"type": "string"},
+          "as_of": {"$ref": "#/$defs/ymd"},
+          "power_avg30": {"$ref": "#/$defs/num"},
+          "gas_avg30": {"$ref": "#/$defs/num"},
+          "ratio": {"$ref": "#/$defs/num"},
+          "power_avg30_year_ago": {"$ref": "#/$defs/num"},
+          "gas_avg30_year_ago": {"$ref": "#/$defs/num"},
+          "ratio_year_ago": {"$ref": "#/$defs/num"},
+          "power_yoy_pct": {"$ref": "#/$defs/num"},
+          "gas_yoy_pct": {"$ref": "#/$defs/num"},
+          "ratio_yoy_pct": {"$ref": "#/$defs/num"},
+          "vs_cc_fuel": {"$ref": "#/$defs/num"}
+        }
+      }
+    },
+    "fuel_cost": {
+      "type": ["object", "null"],
+      "description": "Fuel $/MWh per prime mover at Henry Hub's 30-day average (gas_price) and at STEO's next-12-month average (forward_price, null when STEO is stale). Fuel only: no capital, O&M, pipeline basis or part-load penalty.",
+      "required": ["gas_price", "gas_as_of", "forward_price", "basis", "heat_rates"],
+      "additionalProperties": false,
+      "properties": {
+        "gas_price": {"type": "number"},
+        "gas_as_of": {"$ref": "#/$defs/ymd"},
+        "forward_price": {"$ref": "#/$defs/num"},
+        "basis": {"type": "string"},
+        "heat_rates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["key", "label", "btu_per_kwh", "year", "source_url", "fuel_usd_mwh", "fuel_usd_mwh_forward",
+                         "usd_per_mw_year", "per_dollar_usd_mwh", "per_dollar_usd_per_mw_year"],
+            "additionalProperties": false,
+            "properties": {
+              "key": {"type": "string"},
+              "label": {"type": "string"},
+              "btu_per_kwh": {"type": "integer"},
+              "year": {"type": "integer"},
+              "source_url": {"type": "string"},
+              "fuel_usd_mwh": {"type": "number"},
+              "fuel_usd_mwh_forward": {"$ref": "#/$defs/num"},
+              "usd_per_mw_year": {"type": "integer"},
+              "per_dollar_usd_mwh": {"type": "number"},
+              "per_dollar_usd_per_mw_year": {"type": "integer"}
+            }
+          }
+        }
+      }
+    },
+    "ai_gas_deals": {
+      "type": ["object", "null"],
+      "description": "The gas-fired deals in config/power_deals.json and the gas they would burn at FULL output on a combined cycle's heat rate — an upper bound on hours, a floor on efficiency; no load factor assumed. Shares are of trailing-12-month US power burn.",
+      "required": ["as_of_curated", "heat_rate_key", "btu_per_kwh", "btu_per_cf", "heat_content_year", "signed_mw",
+                   "other_mw", "signed_bcf_d", "other_bcf_d", "power_burn_ttm_bcf_d",
+                   "signed_share_of_power_burn_pct", "all_share_of_power_burn_pct", "deals"],
+      "additionalProperties": false,
+      "properties": {
+        "as_of_curated": {"type": "string"},
+        "heat_rate_key": {"type": "string"},
+        "btu_per_kwh": {"type": "integer"},
+        "btu_per_cf": {"type": "integer"},
+        "heat_content_year": {"type": "integer"},
+        "signed_mw": {"type": "number"},
+        "other_mw": {"type": "number"},
+        "signed_bcf_d": {"type": "number"},
+        "other_bcf_d": {"type": "number"},
+        "power_burn_ttm_bcf_d": {"$ref": "#/$defs/num"},
+        "signed_share_of_power_burn_pct": {"$ref": "#/$defs/num"},
+        "all_share_of_power_burn_pct": {"$ref": "#/$defs/num"},
+        "deals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["t", "counterparty", "facility", "mw", "status", "kind", "announced", "source_url",
+                         "bcf_d_full_output"],
+            "additionalProperties": false,
+            "properties": {
+              "t": {"type": "string"},
+              "counterparty": {"type": "string"},
+              "facility": {"type": "string"},
+              "mw": {"type": "number"},
+              "status": {"type": "string"},
+              "kind": {"type": "string"},
+              "announced": {"type": "string"},
+              "source_url": {"type": "string"},
+              "bcf_d_full_output": {"type": "number"}
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "num": {"type": ["number", "null"]},
+    "ymd": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "flow": {
+      "type": ["object", "null"],
+      "description": "A monthly MMcf series as Bcf/d (volume over the month's days): latest month and its like-month YoY, and the trailing twelve months (total volume over total days) against the twelve before.",
+      "required": ["code", "as_of", "bcf_d", "yoy_pct", "ttm_bcf_d", "ttm_yoy_pct"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"type": "string"},
+        "as_of": {"$ref": "#/$defs/ymd"},
+        "bcf_d": {"type": "number"},
+        "yoy_pct": {"$ref": "#/$defs/num"},
+        "ttm_bcf_d": {"$ref": "#/$defs/num"},
+        "ttm_yoy_pct": {"$ref": "#/$defs/num"}
+      }
+    }
+  }
+}

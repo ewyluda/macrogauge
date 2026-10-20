@@ -22,11 +22,12 @@ true DC contingency-basis grading plus the P3c lead-lag study (surfaces via
 grades_ok), (12) the long-lead equipment board — hand-curated vendor
 order-book figures joined to the DC engine's price legs (surfaces via
 longlead_ok), (13) the rates panel (rates_ok), (14) the compute price
-index (compute_ok), (15) the housing panel (housing_ok), and (16) the
+index (compute_ok), (15) the housing panel (housing_ok), (16) the natural
+gas panel (gas_ok), and (17) the
 since-yesterday diff, which diffs every artifact just written against a
-pre-run snapshot (changes_ok), (17) the revisions panel (revisions_ok), (18)
+pre-run snapshot (changes_ok), (18) the revisions panel (revisions_ok), (19)
 the AI/data-center news tape, baked from the live exporter's public R2 object
-(news_ok), and (19) the append-only publish ledger, LAST, because it records the headline
+(news_ok), and (20) the append-only publish ledger, LAST, because it records the headline
 readings this run just wrote (ledger_ok). A failure in any one phase still publishes status+qa (rc 0)
 without blocking the others — but a jsonschema.ValidationError re-raises and
 fails the run in every phase: a schema-invalid artifact must never deploy.
@@ -47,6 +48,7 @@ from pipeline import capacity as capacity_cfg
 from pipeline import calendar_refresh, collect, derived, dc_basket, dc_context, dc_longlead, dc_power, registry, release_calendar
 from pipeline import dc_markets as dc_markets_cfg
 from pipeline import dc_market_pipeline as dc_market_pipeline_cfg
+from pipeline import gas_config as gas_cfg
 from pipeline import gpu_specs as gpu_specs_cfg
 from pipeline import power_deals as power_deals_cfg
 from pipeline.connectors import fred
@@ -58,6 +60,7 @@ from pipeline.engine.nowcast import build_latest as build_nowcast
 from pipeline.publish import official as official_json
 from pipeline.publish import (capacity as capacity_json, changes as changes_json,
                               commodities as commodities_json, compare, compute as compute_json,
+                              gas as gas_json,
                               housing as housing_json, ledger as ledger_json,
                               rates as rates_json, revisions as revisions_json,
                               composites as composite_json,
@@ -546,6 +549,30 @@ def main(argv=None, http_get=None, http_post=None) -> int:
         print(f"published: {h_path}")
 
     _run_phase("HOUSING", _housing_phase, phase_errors, "housing")
+
+    # Natural gas panel (/gas): Henry Hub, storage, power burn and each power
+    # hub against gas over the same 30 days, plus fuel arithmetic at EIA heat
+    # rates. The two curated configs degrade alone: a bad heat-rate or deals
+    # file nulls the blocks that need it, never the prices.
+    def _gas_phase():
+        try:
+            fuel = gas_cfg.load()
+        except (ValueError, KeyError, TypeError, OSError, json.JSONDecodeError) as e:
+            print(f"WARN gas fuel config unavailable: {e}")
+            fuel = None
+        try:
+            deals = power_deals_cfg.load()
+        except (ValueError, KeyError, TypeError, OSError, json.JSONDecodeError) as e:
+            print(f"WARN power deals config unavailable: {e}")
+            deals = None
+        g_path = gas_json.write(
+            gas_json.build(conn, today, power_cfg=dc_power.load(registry_codes={s.code for s in series}),
+                           gas_cfg=fuel, deals_cfg=deals),
+            args.out, published_at=published_at)
+        validate.validate_file(g_path, SCHEMAS / "gas.schema.json")
+        print(f"published: {g_path}")
+
+    _run_phase("GAS", _gas_phase, phase_errors, "gas")
 
     # Since-yesterday diff (/changes + homepage strip + RSS body): diffs the
     # artifacts just written against the pre-run snapshot. LAST, so every

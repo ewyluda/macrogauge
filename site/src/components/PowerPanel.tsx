@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { KpiCard } from "./KpiCard";
 import { fmtDay, fmtSigned } from "@/lib/format";
 import { capacityMarkets, type PowerSummary } from "@/lib/dcHub";
@@ -212,7 +213,7 @@ export function PowerPanel({ power }: { power: PowerData }) {
         </div>
         <div className="pw-strip">
           {henry_hub && (
-            <div><span>{henry_hub.label}</span><strong>{usd(henry_hub.latest)}/MMBtu</strong><small>{fmtDate(henry_hub.asof)} · the marginal fuel behind most of these prices</small></div>
+            <div><span>{henry_hub.label}</span><strong>{usd(henry_hub.latest)}/MMBtu</strong><small>{fmtDate(henry_hub.asof)} · the marginal fuel behind most of these prices · <Link href="/gas#power-vs-gas">each hub against gas</Link></small></div>
           )}
           {power.tail.nowcast && (
             <div><span>Wholesale-implied industrial rate</span>

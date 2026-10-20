@@ -427,9 +427,9 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     # 4 existing + engine_ok + nowcast_ok + outlook_ok + composites_ok + single_run_stamp
     # + 5 gauge checks + fuel_sources_agree + quilt_complete + grocery_items + datacenter_ok
     # + geography_ok + labor_ok + commodities_ok + capacity_ok + markets_ok + grades_ok
-    # + longlead_ok + rates_ok + compute_ok + housing_ok + changes_ok + revisions_ok + news_ok
-    # + ledger_ok + expected_absence (todo #10)
-    assert qa["total"] == 36
+    # + longlead_ok + rates_ok + compute_ok + housing_ok + gas_ok + changes_ok + revisions_ok
+    # + news_ok + ledger_ok + expected_absence (todo #10)
+    assert qa["total"] == 37
     # polish review 2026-10-15: /status (qa) and /methodology published two
     # freshness counts (849/849 vs 862/870) and two source counts (43 vs 44)
     # for one publish. One definition each, pinned on the real artifacts.
@@ -440,7 +440,7 @@ def test_end_to_end_all_sources(tmp_path, monkeypatch):
     assert fresh["total"] == meth["stats"]["series_count"]
     assert (f"· {fresh['expected_absent']} past their window" in sf) == (fresh["expected_absent"] > 0)
     assert meth["stats"]["source_count"] == len(status["sources"])
-    for phase in ("rates", "compute", "housing", "changes", "revisions", "news", "ledger"):
+    for phase in ("rates", "compute", "housing", "gas", "changes", "revisions", "news", "ledger"):
         assert [c for c in qa["checks"] if c["name"] == f"{phase}_ok"][0]["pass"] is True, phase
     # backlog #10a: the KXFED fake's one liquid ladder reaches rates.json
     fed = json.loads((out / "rates.json").read_text())["fed_path"]
