@@ -19,6 +19,10 @@ NEBIUS = (FX / "nebius_prices.html").read_text()
 # 2026-10-12: the scheduled column took effect and the page now carries a single
 # "GPU-hour" column (the "On-demand, " prefix dropped), same stripping
 NEBIUS_ONE_COL = (FX / "nebius_prices_single_column.html").read_text()
+# 2026-10-21: the spot table merged into the on-demand one as a leading
+# "Preemptible, GPU-hour *" column ("from $0.79"), closed by a "* Spot prices
+# are dynamic" footnote; same stripping
+NEBIUS_MERGED = (FX / "nebius_prices_merged.html").read_text()
 NEB_IDS = ["NVIDIA HGX H100", "NVIDIA HGX H200", "NVIDIA HGX B200", "NVIDIA HGX B300"]
 V = "2026-10-07"
 
@@ -241,6 +245,30 @@ def test_nebius_single_gpu_hour_column_is_the_on_demand_price():
         "NVIDIA HGX H100": 4.5, "NVIDIA HGX H200": 5.4, "NVIDIA HGX B200": 8.5, "NVIDIA HGX B300": 9.5}
 
 
+def test_nebius_merged_table_reads_the_on_demand_column_past_the_spot_column():
+    obs = cloudgpu.fetch_nebius(NEB_IDS, vintage_date="2026-10-21", http_get=_get(text=NEBIUS_MERGED))
+    assert {o.series_code: o.value for o in obs} == {
+        "NVIDIA HGX H100": 4.5, "NVIDIA HGX H200": 5.4, "NVIDIA HGX B200": 8.5, "NVIDIA HGX B300": 9.5}
+
+
+def test_nebius_merged_table_drift_still_fails_loudly():
+    for page, why in (
+        # the two columns swap: the first priced column is no longer on-demand
+        (NEBIUS_MERGED.replace("On-demand, GPU-hour", "Spot, GPU-hour"), "unexpected price column"),
+        # the footnote that closes the table is gone
+        (NEBIUS_MERGED.replace("*&nbsp;Spot prices are dynamic", "Prices are dynamic"),
+         "does not end at the spot table or footnote"),
+    ):
+        with pytest.raises(ValueError, match=why):
+            cloudgpu.fetch_nebius(NEB_IDS, vintage_date="2026-10-21", http_get=_get(text=page))
+    # a row that loses a cell shifts every row after it off the boundary
+    i = NEBIUS_MERGED.index("NVIDIA HGX H200")
+    j = NEBIUS_MERGED.index("from $0.79", i)
+    with pytest.raises(ValueError, match="does not end at the spot table or footnote"):
+        cloudgpu.fetch_nebius(NEB_IDS, vintage_date="2026-10-21",
+                              http_get=_get(text=NEBIUS_MERGED[:j] + NEBIUS_MERGED[j + len("from $0.79"):]))
+
+
 def test_nebius_reads_only_the_on_demand_table():
     # the spot table below repeats every row "from $0.79": never a list price
     obs = cloudgpu.fetch_nebius(["NVIDIA HGX H100"], vintage_date=V, http_get=_get(text=NEBIUS))
@@ -253,7 +281,7 @@ def test_nebius_redesign_is_drift():
     for page, why in (
         ("<html>Contact sales</html>", "no on-demand"),
         (NEBIUS.replace("GPU-hour (Effective October 1, 2026)", "Reserved, GPU-hour"), "unexpected price column"),
-        (NEBIUS.replace("Preemptible", "Spot-market", 1), "no spot table"),
+        (NEBIUS.replace("Preemptible", "Spot-market", 1), "does not end at the spot table"),
     ):
         with pytest.raises(ValueError, match=why):
             cloudgpu.fetch_nebius(NEB_IDS, vintage_date=V, http_get=_get(text=page))

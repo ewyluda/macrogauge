@@ -297,14 +297,17 @@ def _cells(page: str) -> list[str]:
 
 
 def fetch_nebius(source_ids: list[str], vintage_date: str | None = None, http_get=None) -> list[Observation]:
-    """source_id = '<row name>' e.g. 'NVIDIA HGX H100'. Only the on-demand
-    table is read: it runs from the 'NVIDIA GPU Instances' header row
-    (Item | vCPUs | RAM, GB | <price columns>) to the 'Preemptible' (spot)
-    table. Each price column must be 'On-demand, GPU-hour' (plain 'GPU-hour'
-    when no change is scheduled, since 2026-10-12) or 'GPU-hour
-    (Effective <Month D, YYYY>)'; the price used is the latest column already
-    in effect on the vintage date. Any other header, a row of the wrong width
-    or a tracked row priced as 'from $X' / 'Contact us' fails loudly."""
+    """source_id = '<row name>' e.g. 'NVIDIA HGX H100'. The table runs from
+    the 'NVIDIA GPU Instances' header row (Item | vCPUs | RAM, GB | <price
+    columns>) through its 'NVIDIA ...' rows, and must end at the 'Preemptible'
+    (spot) table or, since 2026-10-21 when spot moved into this table as its
+    own column, at the '*' spot footnote. Each price column must be
+    'On-demand, GPU-hour' (plain 'GPU-hour' when no change is scheduled, since
+    2026-10-12), 'GPU-hour (Effective <Month D, YYYY>)', or the skipped
+    'Preemptible, GPU-hour *'; the price used is the latest on-demand column
+    already in effect on the vintage date. Any other header, a row of the
+    wrong width or a tracked row priced as 'from $X' / 'Contact us' fails
+    loudly."""
     http_get = http_get or requests.get
     vintage = vintage_date or today_et()
     resp = http_get(NEBIUS_URL, timeout=60, headers=UA)
@@ -314,30 +317,35 @@ def fetch_nebius(source_ids: list[str], vintage_date: str | None = None, http_ge
     start = next((i for i in range(len(cells) - 3) if cells[i:i + 4] == head), None)
     if start is None:
         raise ValueError("NEBIUS: no on-demand 'NVIDIA GPU Instances' table (structure drift?)")
-    i, effective = start + 4, []           # effective date per price column ("" = on-demand)
+    # effective date per price column ("" = on-demand, None = the spot column)
+    i, effective = start + 4, []
     while i < len(cells) and not cells[i].startswith("NVIDIA "):
-        h = cells[i]
+        h = " ".join(cells[i].replace("\xa0", " ").split())
         m = re.fullmatch(r"GPU-hour \(Effective (\w+ \d{1,2}, \d{4})\)", h)
         if h in ("On-demand, GPU-hour", "GPU-hour"):
             effective.append("")
         elif m:
             effective.append(datetime.strptime(m.group(1), "%B %d, %Y").date().isoformat())
+        elif h == "Preemptible, GPU-hour *":
+            effective.append(None)
         else:
             raise ValueError(f"NEBIUS: unexpected price column {h!r} (structure drift?)")
         i += 1
-    if not effective or effective[0] != "":
+    on_demand = [k for k, d in enumerate(effective) if d is not None]
+    if not on_demand or effective[on_demand[0]] != "":
         raise ValueError("NEBIUS: first price column is not the on-demand GPU-hour (structure drift?)")
-    col = max(k for k, d in enumerate(effective) if d <= vintage)
-    end = next((j for j in range(i, len(cells)) if cells[j].startswith("Preemptible")), None)
-    if end is None:
-        raise ValueError("NEBIUS: no spot table after the on-demand table (structure drift?)")
+    col = max(k for k in on_demand if effective[k] <= vintage)
     width = 3 + len(effective)
     rows = {}
-    while i < end:
-        if not cells[i].startswith("NVIDIA ") or i + width > end:
+    while i < len(cells) and cells[i].startswith("NVIDIA "):
+        if i + width > len(cells):
             raise ValueError(f"NEBIUS: row at {cells[i]!r} is not {width} cells wide (structure drift?)")
         rows[cells[i]] = cells[i + 3:i + width]
         i += width
+    # a row of the wrong width or a missing table end lands here off a row boundary
+    if i >= len(cells) or not (cells[i].startswith("Preemptible") or cells[i].startswith("*")):
+        raise ValueError(f"NEBIUS: table does not end at the spot table or footnote (at "
+                         f"{cells[i][:40] if i < len(cells) else 'end of page'!r}; structure drift?)")
     out = []
     for sid in source_ids:
         prices = rows.get(sid)
