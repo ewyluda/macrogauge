@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "as_of_curated": "2026-10-17",
+ "as_of_curated": "2026-10-21",
  "note": "AI critical-IT MW + unit economics across the AI build-out cohort: neoclouds, powered-shell landlords, operators, and hyperscalers (incl. private builders xAI and OpenAI/Stargate). Spec: docs/superpowers/specs/2026-07-21-capacity-tracker-design.md. op/con/plan = verify-adjusted critical-IT AI MW; hyperscaler MW are estimates (no filing-grade critical-IT split is disclosed). cap/nd/bk in $B. Derived analytics (EV, weighted MW, EV/MW, coverage, %energized) are computed at render time, not stored. dupe!=null => excluded from de-duped cohort totals.",
  "basis": {
   "weighted_mw": "op + 0.5*con + 0.25*plan",
@@ -5182,10 +5182,10 @@
   },
   {
    "t": "XAI",
-   "site": "Colossus 2 - next phase (>=220k GB300)",
-   "mw": 400,
+   "site": "Colossus 2 - Q4'26 ramp (to 2.5–3 GW fleet)",
+   "mw": 800,
    "st": "c",
-   "why": "filed as the next Colossus II phase (424B4); Colossus II spans the Memphis Tulane Rd and Southaven MS sites and the building is not specified — a pin would stack on the Colossus 2 / Southaven pins"
+   "why": "CFO-guided Q4'26 ramp to a 2.5–3 GW fleet (Q3'26 call), taking in the 424B4 next Colossus II phase; Colossus II spans the Memphis Tulane Rd and Southaven MS sites and the building is not specified — a pin would stack on the Colossus 2 / Southaven pins"
   },
   {
    "t": "AMZN",
