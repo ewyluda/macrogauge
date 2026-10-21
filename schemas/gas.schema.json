@@ -28,8 +28,8 @@
     },
     "futures": {
       "type": ["object", "null"],
-      "description": "NYMEX Henry Hub front month (FMP). vs_spot = front month minus the latest spot print.",
-      "required": ["code", "latest", "as_of", "chg_30d_pct", "chg_1y_pct", "vs_spot"],
+      "description": "NYMEX Henry Hub front month (FMP). vs_spot = the front month on the latest spot print's date minus that print (null when the futures have no print that day); vs_spot_as_of = that date.",
+      "required": ["code", "latest", "as_of", "chg_30d_pct", "chg_1y_pct", "vs_spot", "vs_spot_as_of"],
       "additionalProperties": false,
       "properties": {
         "code": {"type": "string"},
@@ -37,7 +37,8 @@
         "as_of": {"$ref": "#/$defs/ymd"},
         "chg_30d_pct": {"$ref": "#/$defs/num"},
         "chg_1y_pct": {"$ref": "#/$defs/num"},
-        "vs_spot": {"$ref": "#/$defs/num"}
+        "vs_spot": {"$ref": "#/$defs/num"},
+        "vs_spot_as_of": {"oneOf": [{"$ref": "#/$defs/ymd"}, {"type": "null"}]}
       }
     },
     "outlook": {
@@ -114,7 +115,7 @@
     "cc_mmbtu_per_mwh": {"$ref": "#/$defs/num"},
     "power_vs_gas": {
       "type": ["array", "null"],
-      "description": "Each hub's 30-day average over Henry Hub's average for the SAME 30 days (ending at the hub's own last print), now and a year earlier. ratio is MMBtu per MWh; vs_cc_fuel = ratio over the combined-cycle heat rate. Henry Hub, not local gas. Sorted by ratio, highest first.",
+      "description": "Each hub's 30-day average over Henry Hub's average for the SAME 30 days (ending at the earlier of the hub's and Henry Hub's last prints; as_of = that day), now and a year earlier. ratio is MMBtu per MWh; vs_cc_fuel = ratio over the combined-cycle heat rate. Henry Hub, not local gas. Sorted by ratio, highest first.",
       "items": {
         "type": "object",
         "required": ["code", "label", "grid", "region", "product", "as_of", "power_avg30", "gas_avg30", "ratio",

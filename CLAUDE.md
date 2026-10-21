@@ -142,7 +142,7 @@ link up to their own last price, thin links are flat and the members they span a
 PMMS rate ÷ AHE×2080/12), `gas` (/gas, AI Infra beside Power & Tariffs: Henry Hub spot + NYMEX front month + the STEO
 Henry Hub path — dated by the vintage its rows arrived in and dropped past 45 days, since registry staleness cannot see
 future obs_dates — Lower-48 storage vs OUR same-ISO-week five-year average, power burn and LNG exports in Bcf/d, each
-`config/dc_power.json` hub's 30-day average ÷ Henry Hub over the hub's OWN 30 days, now and a year earlier (MMBtu/MWh;
+`config/dc_power.json` hub's 30-day average ÷ Henry Hub over the SAME 30 days, ending at the earlier of the two series' last prints (EIA spot lags about a week), now and a year earlier (MMBtu/MWh;
 Henry Hub, not local gas), fuel $/MWh at the quote-checked EIA heat rates in `config/gas.json` (`pipeline/gas_config.py`
 checks each figure is the Natural Gas column of its prime mover), and the gas-fired `power_deals` at full output on a
 combined cycle — on each gas PLANT's quoted MW (`gas_generation` in `config/gas.json`; a deal's MW can be contracted load

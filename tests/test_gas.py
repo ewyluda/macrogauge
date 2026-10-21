@@ -148,6 +148,38 @@ def test_power_vs_gas_divides_on_the_hubs_own_window(tmp_path):
     assert r["vs_cc_fuel"] == pytest.approx(3.97, abs=0.01)
 
 
+def test_power_vs_gas_ends_both_windows_at_henry_hubs_last_print(tmp_path):
+    """EIA's Henry Hub spot lags a daily hub by about a week: the hub's days
+    past Henry Hub's last print must not be divided by gas that stops short."""
+    hub = dc_power.HubSpec(code="ercot_north_da", label="ERCOT", grid="ERCOT", region="r", product="Day-ahead")
+    cfg = dc_power.PowerConfig(hubs=(hub,), henry_hub=dc_power.HubSpec(code=gas.HH, label="HH"),
+                               capacity_auction={}, capacity_markets={}, tariffs=())
+    rows = (_daily("ercot_north_da", "2025-09-10", "2025-10-14", 40.0)
+            + _daily("ercot_north_da", "2026-09-10", "2026-10-14", 60.0)
+            + _daily("ercot_north_da", "2026-10-15", "2026-10-21", 600.0)   # past Henry Hub
+            + _daily(gas.HH, "2025-09-10", "2025-10-14", 4.0)
+            + _daily(gas.HH, "2026-09-10", "2026-10-14", 3.0))
+    (r,) = gas.power_vs_gas(_conn(tmp_path, rows), cfg, 7.548)
+    assert r["as_of"] == "2026-10-14"
+    assert r["power_avg30"] == 60.0 and r["gas_avg30"] == 3.0 and r["ratio"] == 20.0
+    assert r["ratio_year_ago"] == 10.0 and r["gas_yoy_pct"] == -25.0
+
+
+def test_futures_vs_spot_compares_the_same_day(tmp_path):
+    rows = (_daily(gas.HH, "2026-09-01", "2026-10-14", 3.0)
+            + _daily(gas.FUT, "2026-09-01", "2026-10-14", 3.1)
+            + _daily(gas.FUT, "2026-10-15", "2026-10-21", 2.5))   # futures fall after the spot's last print
+    conn = _conn(tmp_path, rows)
+    f = gas.futures(conn, gas.henry_hub(conn))
+    assert f["latest"] == 2.5 and f["as_of"] == "2026-10-21"
+    assert f["vs_spot"] == pytest.approx(0.1) and f["vs_spot_as_of"] == "2026-10-14"
+    # no futures print on the spot's date: no gap, rather than a gap across days
+    conn = _conn(tmp_path / "gap", _daily(gas.HH, "2026-09-01", "2026-10-14", 3.0)
+                 + _daily(gas.FUT, "2026-10-15", "2026-10-21", 2.5))
+    f = gas.futures(conn, gas.henry_hub(conn))
+    assert f["vs_spot"] is None and f["vs_spot_as_of"] is None
+
+
 def test_outlook_dates_the_release_by_vintage_and_goes_stale(tmp_path):
     months = [f"2026-{m:02d}-01" for m in range(9, 13)] + [f"2027-{m:02d}-01" for m in range(1, 13)]
     rows = [(gas.STEO, m, 3.0 + i * 0.1) for i, m in enumerate(months)]

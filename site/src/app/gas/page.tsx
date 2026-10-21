@@ -58,7 +58,7 @@ export default function GasPage() {
           context={hh ? `${fmtDay(hh.as_of)} · 30-day avg ${usd(hh.avg30)}, ${fmtSigned(hh.avg30_yoy_pct)} on the year` : "unavailable in this publish"}
           accent="amber" />
         <KpiCard label="Front-month futures, $/MMBtu" value={fut ? usd(fut.latest) : "—"}
-          context={fut ? `NYMEX · ${fmtDay(fut.as_of)} · ${fut.vs_spot == null ? "" : `${fut.vs_spot >= 0 ? "+" : "−"}$${Math.abs(fut.vs_spot).toFixed(2)} vs spot · `}1y ${fmtSigned(fut.chg_1y_pct)}` : "unavailable in this publish"}
+          context={fut ? `NYMEX · ${fmtDay(fut.as_of)} · ${fut.vs_spot == null ? "" : `${fut.vs_spot >= 0 ? "+" : "−"}$${Math.abs(fut.vs_spot).toFixed(2)} vs spot${fut.vs_spot_as_of ? ` on ${fmtDay(fut.vs_spot_as_of)}` : ""} · `}1y ${fmtSigned(fut.chg_1y_pct)}` : "unavailable in this publish"}
           accent="violet" />
         <KpiCard label="Gas in storage" value={st ? `${int(st.bcf)} Bcf` : "—"}
           context={st ? `week to ${fmtDay(st.as_of)} · ${fmtSigned(st.vs_avg5_pct)} vs 5-yr avg · ${fmtSigned(st.vs_year_ago_pct)} vs a year ago` : "unavailable in this publish"}
@@ -77,7 +77,8 @@ export default function GasPage() {
         <Section title="Power vs Henry Hub: each hub's price against gas" id="power-vs-gas" featured>
           <p className="method">
             Each hub&apos;s 30-day average power price divided by Henry Hub&apos;s average over the same 30 days, now
-            and a year earlier: the MMBtu of Henry Hub gas a megawatt-hour is worth. A combined-cycle plant burns
+            and a year earlier, both ending on the row&apos;s date: the hub&apos;s last print or Henry Hub&apos;s, whichever
+            is earlier, since EIA&apos;s spot runs about a week behind. The ratio is the MMBtu of Henry Hub gas a megawatt-hour is worth. A combined-cycle plant burns
             about {num(data.cc_mmbtu_per_mwh, 1)} MMBtu per MWh, so a hub near that clears close to its fuel cost at
             Henry Hub prices. A ratio well above it, or rising, means power moved more than Henry Hub did. The table
             can&apos;t say why: local gas trading above Henry Hub, less efficient plants setting the price, and
