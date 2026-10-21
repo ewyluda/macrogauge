@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-20T12:54:56Z",
+  "published_at": "2026-10-21T12:54:01Z",
   "payrolls": {
     "level_k": 159044,
     "mom_change_k": 29,
@@ -2379,9 +2379,9 @@
         "source": "Indeed Hiring Lab via FRED, CC BY 4.0",
         "unit": "index",
         "cadence": "daily",
-        "value": 129.2,
-        "yoy_pct": 6.43,
-        "as_of": "2026-10-09",
+        "value": 128.4,
+        "yoy_pct": 6.65,
+        "as_of": "2026-10-16",
         "vs_label": null,
         "vs_yoy_pct": null,
         "spread_pp": null
@@ -2394,9 +2394,9 @@
         "source": "Indeed Hiring Lab via FRED, CC BY 4.0",
         "unit": "index",
         "cadence": "daily",
-        "value": 153.0,
-        "yoy_pct": 32.4,
-        "as_of": "2026-10-09",
+        "value": 152.1,
+        "yoy_pct": 32.97,
+        "as_of": "2026-10-16",
         "vs_label": null,
         "vs_yoy_pct": null,
         "spread_pp": null
@@ -2409,9 +2409,9 @@
         "source": "Indeed Hiring Lab via FRED, CC BY 4.0",
         "unit": "index",
         "cadence": "daily",
-        "value": 117.7,
-        "yoy_pct": 4.07,
-        "as_of": "2026-10-09",
+        "value": 117.0,
+        "yoy_pct": 3.64,
+        "as_of": "2026-10-16",
         "vs_label": null,
         "vs_yoy_pct": null,
         "spread_pp": null

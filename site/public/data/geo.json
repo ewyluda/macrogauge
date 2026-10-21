@@ -1,12 +1,12 @@
 {
-  "published_at": "2026-10-20T12:54:56Z",
+  "published_at": "2026-10-21T12:54:01Z",
   "states": [
     {
       "state": "AL",
       "name": "Alabama",
       "gas_regular": {
-        "value": 3.89,
-        "as_of": "2026-10-20",
+        "value": 3.879,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -25,17 +25,17 @@
         "yoy_pct": 4.97
       },
       "unemployment_pct": {
-        "value": 3.4,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": 0.6
+        "value": 3.5,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": 0.7
       }
     },
     {
       "state": "AK",
       "name": "Alaska",
       "gas_regular": {
-        "value": 4.912,
-        "as_of": "2026-10-20",
+        "value": 4.897,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -55,16 +55,16 @@
       },
       "unemployment_pct": {
         "value": 4.3,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.3
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.4
       }
     },
     {
       "state": "AZ",
       "name": "Arizona",
       "gas_regular": {
-        "value": 4.597,
-        "as_of": "2026-10-20",
+        "value": 4.579,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -84,7 +84,7 @@
       },
       "unemployment_pct": {
         "value": 4.9,
-        "as_of": "2026-08-01",
+        "as_of": "2026-09-01",
         "delta_1y_pp": 0.5
       }
     },
@@ -92,8 +92,8 @@
       "state": "AR",
       "name": "Arkansas",
       "gas_regular": {
-        "value": 3.897,
-        "as_of": "2026-10-20",
+        "value": 3.89,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -113,7 +113,7 @@
       },
       "unemployment_pct": {
         "value": 3.9,
-        "as_of": "2026-08-01",
+        "as_of": "2026-09-01",
         "delta_1y_pp": -0.3
       }
     },
@@ -121,8 +121,8 @@
       "state": "CA",
       "name": "California",
       "gas_regular": {
-        "value": 6.145,
-        "as_of": "2026-10-20",
+        "value": 6.114,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -142,7 +142,7 @@
       },
       "unemployment_pct": {
         "value": 5.1,
-        "as_of": "2026-08-01",
+        "as_of": "2026-09-01",
         "delta_1y_pp": -0.4
       }
     },
@@ -150,8 +150,8 @@
       "state": "CO",
       "name": "Colorado",
       "gas_regular": {
-        "value": 4.317,
-        "as_of": "2026-10-20",
+        "value": 4.296,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -170,17 +170,17 @@
         "yoy_pct": 6.68
       },
       "unemployment_pct": {
-        "value": 4.0,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": 0.1
+        "value": 4.1,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": 0.3
       }
     },
     {
       "state": "CT",
       "name": "Connecticut",
       "gas_regular": {
-        "value": 4.343,
-        "as_of": "2026-10-20",
+        "value": 4.335,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -200,16 +200,16 @@
       },
       "unemployment_pct": {
         "value": 5.1,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": 1.0
+        "as_of": "2026-09-01",
+        "delta_1y_pp": 0.9
       }
     },
     {
       "state": "DE",
       "name": "Delaware",
       "gas_regular": {
-        "value": 4.022,
-        "as_of": "2026-10-20",
+        "value": 3.986,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -228,17 +228,17 @@
         "yoy_pct": null
       },
       "unemployment_pct": {
-        "value": 4.7,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.3
+        "value": 4.6,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.6
       }
     },
     {
       "state": "DC",
       "name": "District of Columbia",
       "gas_regular": {
-        "value": 4.409,
-        "as_of": "2026-10-20",
+        "value": 4.4,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -257,17 +257,17 @@
         "yoy_pct": null
       },
       "unemployment_pct": {
-        "value": 5.7,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.8
+        "value": 5.6,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -1.0
       }
     },
     {
       "state": "FL",
       "name": "Florida",
       "gas_regular": {
-        "value": 4.043,
-        "as_of": "2026-10-20",
+        "value": 4.02,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -286,17 +286,17 @@
         "yoy_pct": 3.72
       },
       "unemployment_pct": {
-        "value": 4.5,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": 0.5
+        "value": 4.4,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": 0.2
       }
     },
     {
       "state": "GA",
       "name": "Georgia",
       "gas_regular": {
-        "value": 3.723,
-        "as_of": "2026-10-20",
+        "value": 3.716,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -315,17 +315,17 @@
         "yoy_pct": 3.53
       },
       "unemployment_pct": {
-        "value": 3.2,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.2
+        "value": 3.3,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.1
       }
     },
     {
       "state": "HI",
       "name": "Hawaii",
       "gas_regular": {
-        "value": 5.63,
-        "as_of": "2026-10-20",
+        "value": 5.627,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -344,17 +344,17 @@
         "yoy_pct": 1.86
       },
       "unemployment_pct": {
-        "value": 2.7,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": 0.6
+        "value": 2.8,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": 0.7
       }
     },
     {
       "state": "ID",
       "name": "Idaho",
       "gas_regular": {
-        "value": 4.796,
-        "as_of": "2026-10-20",
+        "value": 4.77,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -374,7 +374,7 @@
       },
       "unemployment_pct": {
         "value": 3.6,
-        "as_of": "2026-08-01",
+        "as_of": "2026-09-01",
         "delta_1y_pp": 0.0
       }
     },
@@ -382,8 +382,8 @@
       "state": "IL",
       "name": "Illinois",
       "gas_regular": {
-        "value": 4.65,
-        "as_of": "2026-10-20",
+        "value": 4.645,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -402,17 +402,17 @@
         "yoy_pct": 6.0
       },
       "unemployment_pct": {
-        "value": 4.7,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": 0.4
+        "value": 4.6,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": 0.1
       }
     },
     {
       "state": "IN",
       "name": "Indiana",
       "gas_regular": {
-        "value": 3.815,
-        "as_of": "2026-10-20",
+        "value": 3.8,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -431,17 +431,17 @@
         "yoy_pct": null
       },
       "unemployment_pct": {
-        "value": 3.3,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.4
+        "value": 3.4,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.3
       }
     },
     {
       "state": "IA",
       "name": "Iowa",
       "gas_regular": {
-        "value": 4.128,
-        "as_of": "2026-10-20",
+        "value": 4.127,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -461,16 +461,16 @@
       },
       "unemployment_pct": {
         "value": 3.2,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.3
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.2
       }
     },
     {
       "state": "KS",
       "name": "Kansas",
       "gas_regular": {
-        "value": 3.982,
-        "as_of": "2026-10-20",
+        "value": 3.979,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -490,16 +490,16 @@
       },
       "unemployment_pct": {
         "value": 3.8,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": 0.1
+        "as_of": "2026-09-01",
+        "delta_1y_pp": 0.0
       }
     },
     {
       "state": "KY",
       "name": "Kentucky",
       "gas_regular": {
-        "value": 3.916,
-        "as_of": "2026-10-20",
+        "value": 3.904,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -519,7 +519,7 @@
       },
       "unemployment_pct": {
         "value": 4.7,
-        "as_of": "2026-08-01",
+        "as_of": "2026-09-01",
         "delta_1y_pp": 0.2
       }
     },
@@ -527,8 +527,8 @@
       "state": "LA",
       "name": "Louisiana",
       "gas_regular": {
-        "value": 3.853,
-        "as_of": "2026-10-20",
+        "value": 3.846,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -547,17 +547,17 @@
         "yoy_pct": 1.32
       },
       "unemployment_pct": {
-        "value": 4.2,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": 0.0
+        "value": 4.0,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.2
       }
     },
     {
       "state": "ME",
       "name": "Maine",
       "gas_regular": {
-        "value": 4.336,
-        "as_of": "2026-10-20",
+        "value": 4.329,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -576,17 +576,17 @@
         "yoy_pct": null
       },
       "unemployment_pct": {
-        "value": 3.2,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.1
+        "value": 3.3,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": 0.0
       }
     },
     {
       "state": "MD",
       "name": "Maryland",
       "gas_regular": {
-        "value": 4.089,
-        "as_of": "2026-10-20",
+        "value": 4.068,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -605,17 +605,17 @@
         "yoy_pct": 5.7
       },
       "unemployment_pct": {
-        "value": 4.1,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.2
+        "value": 3.9,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.4
       }
     },
     {
       "state": "MA",
       "name": "Massachusetts",
       "gas_regular": {
-        "value": 4.264,
-        "as_of": "2026-10-20",
+        "value": 4.253,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -635,16 +635,16 @@
       },
       "unemployment_pct": {
         "value": 4.3,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.2
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.3
       }
     },
     {
       "state": "MI",
       "name": "Michigan",
       "gas_regular": {
-        "value": 4.463,
-        "as_of": "2026-10-20",
+        "value": 4.436,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -664,7 +664,7 @@
       },
       "unemployment_pct": {
         "value": 5.0,
-        "as_of": "2026-08-01",
+        "as_of": "2026-09-01",
         "delta_1y_pp": 0.1
       }
     },
@@ -672,8 +672,8 @@
       "state": "MN",
       "name": "Minnesota",
       "gas_regular": {
-        "value": 4.243,
-        "as_of": "2026-10-20",
+        "value": 4.23,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -692,17 +692,17 @@
         "yoy_pct": 6.85
       },
       "unemployment_pct": {
-        "value": 4.4,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": 0.5
+        "value": 4.5,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": 0.4
       }
     },
     {
       "state": "MS",
       "name": "Mississippi",
       "gas_regular": {
-        "value": 3.884,
-        "as_of": "2026-10-20",
+        "value": 3.879,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -721,17 +721,17 @@
         "yoy_pct": 6.32
       },
       "unemployment_pct": {
-        "value": 3.4,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.3
+        "value": 3.3,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.4
       }
     },
     {
       "state": "MO",
       "name": "Missouri",
       "gas_regular": {
-        "value": 3.947,
-        "as_of": "2026-10-20",
+        "value": 3.957,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -750,17 +750,17 @@
         "yoy_pct": null
       },
       "unemployment_pct": {
-        "value": 3.5,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.5
+        "value": 3.6,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.3
       }
     },
     {
       "state": "MT",
       "name": "Montana",
       "gas_regular": {
-        "value": 4.457,
-        "as_of": "2026-10-20",
+        "value": 4.449,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -779,17 +779,17 @@
         "yoy_pct": 4.85
       },
       "unemployment_pct": {
-        "value": 3.2,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.2
+        "value": 3.1,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.4
       }
     },
     {
       "state": "NE",
       "name": "Nebraska",
       "gas_regular": {
-        "value": 4.338,
-        "as_of": "2026-10-20",
+        "value": 4.362,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -809,7 +809,7 @@
       },
       "unemployment_pct": {
         "value": 2.9,
-        "as_of": "2026-08-01",
+        "as_of": "2026-09-01",
         "delta_1y_pp": 0.0
       }
     },
@@ -817,8 +817,8 @@
       "state": "NV",
       "name": "Nevada",
       "gas_regular": {
-        "value": 5.377,
-        "as_of": "2026-10-20",
+        "value": 5.367,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -837,17 +837,17 @@
         "yoy_pct": 7.39
       },
       "unemployment_pct": {
-        "value": 4.8,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.4
+        "value": 4.7,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.5
       }
     },
     {
       "state": "NH",
       "name": "New Hampshire",
       "gas_regular": {
-        "value": 4.25,
-        "as_of": "2026-10-20",
+        "value": 4.241,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -866,17 +866,17 @@
         "yoy_pct": 2.34
       },
       "unemployment_pct": {
-        "value": 2.8,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.3
+        "value": 2.6,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.6
       }
     },
     {
       "state": "NJ",
       "name": "New Jersey",
       "gas_regular": {
-        "value": 4.231,
-        "as_of": "2026-10-20",
+        "value": 4.219,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -895,17 +895,17 @@
         "yoy_pct": 1.88
       },
       "unemployment_pct": {
-        "value": 4.3,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -1.2
+        "value": 4.2,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -1.3
       }
     },
     {
       "state": "NM",
       "name": "New Mexico",
       "gas_regular": {
-        "value": 4.321,
-        "as_of": "2026-10-20",
+        "value": 4.31,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -925,16 +925,16 @@
       },
       "unemployment_pct": {
         "value": 4.7,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": 0.6
+        "as_of": "2026-09-01",
+        "delta_1y_pp": 0.5
       }
     },
     {
       "state": "NY",
       "name": "New York",
       "gas_regular": {
-        "value": 4.413,
-        "as_of": "2026-10-20",
+        "value": 4.407,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -954,16 +954,16 @@
       },
       "unemployment_pct": {
         "value": 4.3,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.2
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.3
       }
     },
     {
       "state": "NC",
       "name": "North Carolina",
       "gas_regular": {
-        "value": 3.591,
-        "as_of": "2026-10-20",
+        "value": 3.571,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -982,17 +982,17 @@
         "yoy_pct": null
       },
       "unemployment_pct": {
-        "value": 3.5,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.4
+        "value": 3.4,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.5
       }
     },
     {
       "state": "ND",
       "name": "North Dakota",
       "gas_regular": {
-        "value": 4.139,
-        "as_of": "2026-10-20",
+        "value": 4.137,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1012,7 +1012,7 @@
       },
       "unemployment_pct": {
         "value": 2.2,
-        "as_of": "2026-08-01",
+        "as_of": "2026-09-01",
         "delta_1y_pp": -0.4
       }
     },
@@ -1020,8 +1020,8 @@
       "state": "OH",
       "name": "Ohio",
       "gas_regular": {
-        "value": 4.006,
-        "as_of": "2026-10-20",
+        "value": 3.979,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1040,17 +1040,17 @@
         "yoy_pct": 5.89
       },
       "unemployment_pct": {
-        "value": 3.3,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -1.1
+        "value": 3.4,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.9
       }
     },
     {
       "state": "OK",
       "name": "Oklahoma",
       "gas_regular": {
-        "value": 3.948,
-        "as_of": "2026-10-20",
+        "value": 3.937,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1069,17 +1069,17 @@
         "yoy_pct": 7.42
       },
       "unemployment_pct": {
-        "value": 4.3,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": 0.9
+        "value": 4.2,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": 0.6
       }
     },
     {
       "state": "OR",
       "name": "Oregon",
       "gas_regular": {
-        "value": 4.927,
-        "as_of": "2026-10-20",
+        "value": 4.918,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1098,17 +1098,17 @@
         "yoy_pct": 6.39
       },
       "unemployment_pct": {
-        "value": 5.1,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.2
+        "value": 5.0,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.3
       }
     },
     {
       "state": "PA",
       "name": "Pennsylvania",
       "gas_regular": {
-        "value": 4.485,
-        "as_of": "2026-10-20",
+        "value": 4.487,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1127,17 +1127,17 @@
         "yoy_pct": null
       },
       "unemployment_pct": {
-        "value": 3.7,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.7
+        "value": 3.6,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.8
       }
     },
     {
       "state": "RI",
       "name": "Rhode Island",
       "gas_regular": {
-        "value": 4.218,
-        "as_of": "2026-10-20",
+        "value": 4.205,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1156,17 +1156,17 @@
         "yoy_pct": null
       },
       "unemployment_pct": {
-        "value": 3.7,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.6
+        "value": 3.6,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.7
       }
     },
     {
       "state": "SC",
       "name": "South Carolina",
       "gas_regular": {
-        "value": 3.807,
-        "as_of": "2026-10-20",
+        "value": 3.833,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1185,17 +1185,17 @@
         "yoy_pct": 4.19
       },
       "unemployment_pct": {
-        "value": 4.1,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.5
+        "value": 4.0,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.7
       }
     },
     {
       "state": "SD",
       "name": "South Dakota",
       "gas_regular": {
-        "value": 4.231,
-        "as_of": "2026-10-20",
+        "value": 4.247,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1215,7 +1215,7 @@
       },
       "unemployment_pct": {
         "value": 2.0,
-        "as_of": "2026-08-01",
+        "as_of": "2026-09-01",
         "delta_1y_pp": -0.1
       }
     },
@@ -1223,8 +1223,8 @@
       "state": "TN",
       "name": "Tennessee",
       "gas_regular": {
-        "value": 3.827,
-        "as_of": "2026-10-20",
+        "value": 3.817,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1244,7 +1244,7 @@
       },
       "unemployment_pct": {
         "value": 3.4,
-        "as_of": "2026-08-01",
+        "as_of": "2026-09-01",
         "delta_1y_pp": -0.1
       }
     },
@@ -1252,8 +1252,8 @@
       "state": "TX",
       "name": "Texas",
       "gas_regular": {
-        "value": 3.776,
-        "as_of": "2026-10-20",
+        "value": 3.764,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1273,16 +1273,16 @@
       },
       "unemployment_pct": {
         "value": 4.4,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": 0.2
+        "as_of": "2026-09-01",
+        "delta_1y_pp": 0.1
       }
     },
     {
       "state": "UT",
       "name": "Utah",
       "gas_regular": {
-        "value": 4.772,
-        "as_of": "2026-10-20",
+        "value": 4.753,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1302,7 +1302,7 @@
       },
       "unemployment_pct": {
         "value": 3.5,
-        "as_of": "2026-08-01",
+        "as_of": "2026-09-01",
         "delta_1y_pp": -0.1
       }
     },
@@ -1310,8 +1310,8 @@
       "state": "VT",
       "name": "Vermont",
       "gas_regular": {
-        "value": 4.38,
-        "as_of": "2026-10-20",
+        "value": 4.378,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1331,7 +1331,7 @@
       },
       "unemployment_pct": {
         "value": 2.6,
-        "as_of": "2026-08-01",
+        "as_of": "2026-09-01",
         "delta_1y_pp": 0.0
       }
     },
@@ -1339,8 +1339,8 @@
       "state": "VA",
       "name": "Virginia",
       "gas_regular": {
-        "value": 4.093,
-        "as_of": "2026-10-20",
+        "value": 4.114,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1360,16 +1360,16 @@
       },
       "unemployment_pct": {
         "value": 3.6,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": 0.3
+        "as_of": "2026-09-01",
+        "delta_1y_pp": 0.2
       }
     },
     {
       "state": "WA",
       "name": "Washington",
       "gas_regular": {
-        "value": 5.366,
-        "as_of": "2026-10-20",
+        "value": 5.357,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1388,17 +1388,17 @@
         "yoy_pct": 2.91
       },
       "unemployment_pct": {
-        "value": 4.9,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": 0.3
+        "value": 4.8,
+        "as_of": "2026-09-01",
+        "delta_1y_pp": 0.1
       }
     },
     {
       "state": "WV",
       "name": "West Virginia",
       "gas_regular": {
-        "value": 4.195,
-        "as_of": "2026-10-20",
+        "value": 4.227,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1418,16 +1418,16 @@
       },
       "unemployment_pct": {
         "value": 4.0,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.3
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.5
       }
     },
     {
       "state": "WI",
       "name": "Wisconsin",
       "gas_regular": {
-        "value": 4.177,
-        "as_of": "2026-10-20",
+        "value": 4.155,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1447,7 +1447,7 @@
       },
       "unemployment_pct": {
         "value": 3.2,
-        "as_of": "2026-08-01",
+        "as_of": "2026-09-01",
         "delta_1y_pp": 0.1
       }
     },
@@ -1455,8 +1455,8 @@
       "state": "WY",
       "name": "Wyoming",
       "gas_regular": {
-        "value": 4.472,
-        "as_of": "2026-10-20",
+        "value": 4.46,
+        "as_of": "2026-10-21",
         "yoy_pct": null
       },
       "elec_res_cents": {
@@ -1476,15 +1476,15 @@
       },
       "unemployment_pct": {
         "value": 3.0,
-        "as_of": "2026-08-01",
-        "delta_1y_pp": -0.3
+        "as_of": "2026-09-01",
+        "delta_1y_pp": -0.4
       }
     }
   ],
   "national": {
     "gas_regular": {
-      "value": 4.279,
-      "as_of": "2026-10-20",
+      "value": 4.264,
+      "as_of": "2026-10-21",
       "yoy_pct": null
     },
     "elec_res_cents": {
