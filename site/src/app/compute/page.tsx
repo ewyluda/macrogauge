@@ -96,8 +96,9 @@ export default function ComputePage() {
             <> The model roster last changed on {roster.since}. History before it is earlier rosters
               ({roster.retired.join(", ")}), chained in without a rebase: each retired model leaves the index the day
               after its last collected price. Each model is priced at its maker&apos;s own endpoint on OpenRouter,
-              at the standard rate (no off-peak, long-context or discounted price); the routed entries are the
-              same models at the price of the endpoint OpenRouter routed to, often a third-party host.
+              at the standard rate (no off-peak, long-context or discounted price). The same models&apos; routed
+              prices (Oct 7–15), the endpoint OpenRouter routed to, often a third-party host or an off-peak rate,
+              are left out of the index, so it has no points Oct 9–15.
               The roster is the most-used models by paid spend on OpenRouter,
               reviewed monthly; each model&apos;s tier (frontier, standard, light) follows Ramp&apos;s split of
               enterprise model spend and is a label, never an index weight.</>
