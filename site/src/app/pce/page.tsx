@@ -17,7 +17,7 @@ import { GradeTable, reconcileCalls } from "@/components/GradeTable";
 import { PceForecastHero } from "@/components/PceForecastHero";
 import { C } from "@/lib/chartTheme";
 import { columnsToRows } from "@/lib/csv";
-import { fmtMonth, fmtPct, fmtPp } from "@/lib/format";
+import { fmtMonth, fmtPct, fmtPp, etDay } from "@/lib/format";
 
 // Both official PCE fields were added 2026-09-03 (batch 2a) and are
 // optional in their schemas until the next publish regenerates the
@@ -111,7 +111,7 @@ export default function Pce() {
       </div>
       <Citation
         series="PCE-weighted gauge YoY"
-        asOf={pceAsOf ?? gaugeDaily.published_at.slice(0, 10)}
+        asOf={pceAsOf ?? etDay(gaugeDaily.published_at)}
         rebase={gaugeDaily.rebase}
         value={pceYoy == null ? "—" : `${fmtPct(pceYoy)} YoY`}
         path="/pce"

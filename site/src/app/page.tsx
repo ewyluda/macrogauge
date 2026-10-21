@@ -31,7 +31,7 @@ import { QuiltHeatmap } from "@/components/QuiltHeatmap";
 import { OutlookChart } from "@/components/OutlookChart";
 import { Countdown } from "@/components/Countdown";
 import { ForecastNumberLine } from "@/components/ForecastNumberLine";
-import { fmtDay, fmtMoney, fmtMonth, fmtPct, fmtPp, fmtSigned } from "@/lib/format";
+import { fmtDay, fmtMoney, fmtMonth, fmtPct, fmtPp, fmtSigned, etDay } from "@/lib/format";
 import { SITE_DESCRIPTION } from "@/lib/nav";
 import { CopyLink } from "@/components/CopyLink";
 import { artifact } from "@/lib/artifact";
@@ -139,7 +139,7 @@ export default function Home() {
   // morning run that lands on release day
   const printDay =
     nextprint.release_date != null &&
-    pulse.published_at.slice(0, 10) === nextprint.release_date;
+    etDay(pulse.published_at) === nextprint.release_date;
 
   return (
     <div className="home-dashboard">
@@ -154,7 +154,7 @@ export default function Home() {
         </div>
       )}
       <header className="research-intro">
-        <div className="research-eyebrow">Daily briefing <span>Updated {fmtDay(pulse.published_at)}</span></div>
+        <div className="research-eyebrow">Daily briefing <span>Updated {fmtDay(etDay(pulse.published_at))}</span></div>
         <h1>The cost of building AI, and US inflation</h1>
         <p>{SITE_DESCRIPTION}</p>
       </header>

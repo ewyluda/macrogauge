@@ -1,6 +1,7 @@
 import { C, ogCard } from "@/lib/ogCard";
 import { artifact } from "@/lib/artifact";
 import { clusterStories } from "@/lib/newsTape";
+import { etDay } from "@/lib/format";
 import newsJson from "../../../public/data/news.json";
 
 export const dynamic = "force-static";
@@ -15,7 +16,7 @@ export default function Image() {
   const stories = clusterStories(news.posts).filter((s) => s.infra);
   return ogCard({
     kicker: "AI INFRA NEWS",
-    stamp: `tape to ${(news.tape_last_post_at ?? news.published_at).slice(0, 10)}`,
+    stamp: `tape to ${etDay(news.tape_last_post_at ?? news.published_at)}`,
     headline: `A live tape of market-news posts naming one of ${news.universe_size} AI-infrastructure companies — chips and fabs through power, cooling, cloud and data-center REITs.`,
     tiles: [
       { label: "Build-out stories", value: String(stories.length), color: C.sky, ctx: `last ${news.window_days} days` },

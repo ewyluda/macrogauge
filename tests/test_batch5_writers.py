@@ -109,6 +109,23 @@ def test_ledger_appends_once_per_publish_and_publishes_all_rows(tmp_path):
     assert len(lines) == 2
 
 
+def test_ledger_dates_a_publish_by_its_et_day_without_restating_the_store(tmp_path):
+    """A publish at 9:32 PM ET on 10-16 is 01:32Z on 10-17: its ledger date
+    (the RSS title and /as-of link) is 10-16. Rows stored with the UTC date
+    before the fix stay as written and publish re-dated."""
+    store, out = tmp_path / "store", tmp_path / "out"
+    p = ledger.ledger_path(store)
+    p.parent.mkdir(parents=True)
+    old = '{"published_at": "2026-10-17T01:32:07Z", "date": "2026-10-17", "gauge_yoy_pct": 3.0}\n'
+    p.write_text(old)
+    _write(out, "pulse.json", {"published_at": "2026-10-22T00:40:00Z", "gauge": {"yoy_pct": 3.1}})
+    rows = ledger.build(store, out)["rows"]
+    assert [r["date"] for r in rows] == ["2026-10-16", "2026-10-21"]
+    lines = p.read_text().splitlines()
+    assert lines[0] + "\n" == old                      # the stored row is never rewritten
+    assert json.loads(lines[1])["date"] == "2026-10-21"
+
+
 def test_ledger_read_rows_union_merges_duplicates(tmp_path):
     p = tmp_path / "ledger" / "pulse.jsonl"
     p.parent.mkdir(parents=True)

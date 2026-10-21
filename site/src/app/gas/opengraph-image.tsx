@@ -1,7 +1,7 @@
 import { C, monthSpan, ogCard } from "@/lib/ogCard";
 import { artifact } from "@/lib/artifact";
 import { gasHeadline } from "@/lib/gasHeadline";
-import { fmtSigned } from "@/lib/format";
+import { fmtSigned, etDay } from "@/lib/format";
 import gasJson from "../../../public/data/gas.json";
 
 export const dynamic = "force-static";
@@ -22,7 +22,7 @@ export default function Image() {
   const pts = dates.map((d, i) => [d, vals[i]] as const).filter((p): p is readonly [string, number] => typeof p[1] === "number");
   return ogCard({
     kicker: "NATURAL GAS",
-    stamp: `published ${data.published_at.slice(0, 10)}`,
+    stamp: `published ${etDay(data.published_at)}`,
     headline: headline ? `${headline.title}.` : "Henry Hub, storage, power burn and the gas behind AI power.",
     tiles: [
       ...(hh ? [{ label: "Henry Hub spot", value: `$${hh.latest.toFixed(2)}/MMBtu`, color: C.amber, ctx: `30-day avg ${fmtSigned(hh.avg30_yoy_pct)} on the year` }] : []),

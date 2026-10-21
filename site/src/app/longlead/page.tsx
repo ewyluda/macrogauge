@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import llJson from "../../../public/data/longlead.json";
 import { DownloadData } from "@/components/DownloadData";
 import { flattenRow } from "@/lib/csv";
-import { fmtDay, fmtQuarter, fmtSigned } from "@/lib/format";
+import { fmtDay, fmtQuarter, fmtSigned, etDay } from "@/lib/format";
 import { BASIS_LABELS, LEAD_BASIS_LABELS, backlogMove, fmtFigure, fmtLead, fmtWeightPct, leadTakeaway, noteSegments } from "@/lib/longLead";
 import type { BacklogMonths, LeadTime, LongLead, LongLeadPackage, LongLeadVendor } from "@/lib/types";
 import { LinesChart } from "@/components/LinesChart";
@@ -186,7 +186,7 @@ export default function Page() {
       {/* the shared research-intro header (eyebrow, H1, one dek) brings the board
           into the first screen; the lede joins "How to read the board" */}
       <header className="research-intro">
-        <div className="research-eyebrow">AI infrastructure · Long-lead board <span>Updated {fmtDay(data.published_at)}</span></div>
+        <div className="research-eyebrow">AI infrastructure · Long-lead board <span>Updated {fmtDay(etDay(data.published_at))}</span></div>
         <h1>Long-Lead Board</h1>
         {takeaway && <p data-testid="ll-takeaway">{takeaway}</p>}
       </header>

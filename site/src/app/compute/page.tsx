@@ -10,7 +10,7 @@ import { Citation } from "@/components/Citation";
 import { C } from "@/lib/chartTheme";
 import { computeIndexRows } from "@/lib/computeCsv";
 import { capabilityTakeaway, cloudProviders, cloudRows, cloudTakeaway, GPU_LABEL, listOf, reservedRows, reservedTakeaway } from "@/lib/cloudGpu";
-import { fmtDay, fmtSigned, yoyColor } from "@/lib/format";
+import { fmtDay, fmtSigned, yoyColor, etDay } from "@/lib/format";
 import type { Compute } from "@/lib/types";
 import { artifact } from "@/lib/artifact";
 
@@ -55,7 +55,7 @@ export default function ComputePage() {
       {/* the shared research-intro header (eyebrow, finding H1, one dek) puts the
           KPIs in the first screen; the method prose closes the page */}
       <header className="research-intro">
-        <div className="research-eyebrow">AI infrastructure · Compute prices <span>Updated {fmtDay(data.published_at)}</span></div>
+        <div className="research-eyebrow">AI infrastructure · Compute prices <span>Updated {fmtDay(etDay(data.published_at))}</span></div>
         <h1>{indexTitle ? `${indexTitle} in 30 days` : "Compute Prices"}</h1>
         <p>
           What a token and a GPU-hour cost, indexed daily: list prices of the {data.models.length} most-used models on
@@ -72,7 +72,7 @@ export default function ComputePage() {
         <KpiCard label="Index history" value={`${days}d`} context={`indexed since ${indexStart ?? "—"} · ${data.models.length} models · ${data.gpus.length} GPU SKUs`} accent="violet" />
       </div>
       <div className="page-asof">
-        <Citation series="Token price index" asOf={ti.as_of ?? data.published_at.slice(0, 10)} rebase={`${ti.base_date ?? "—"}=100`} value={idx(ti.value)} path="/compute" />
+        <Citation series="Token price index" asOf={ti.as_of ?? etDay(data.published_at)} rebase={`${ti.base_date ?? "—"}=100`} value={idx(ti.value)} path="/compute" />
         <span>Collected daily since {data.history_start ? fmtDay(data.history_start) : "—"}, indexed from {indexStart ? fmtDay(indexStart) : "—"}: a short history · <a href="#cp-method">How it&apos;s built</a></span>
       </div>
 
@@ -96,8 +96,9 @@ export default function ComputePage() {
             <> The model roster last changed on {roster.since}. History before it is earlier rosters
               ({roster.retired.join(", ")}), chained in without a rebase: each retired model leaves the index the day
               after its last collected price. Each model is priced at its maker&apos;s own endpoint on OpenRouter,
-              at the standard rate (no off-peak, long-context or discounted price); the routed entries are the
-              same models at the price of the endpoint OpenRouter routed to, often a third-party host.
+              at the standard rate (no off-peak, long-context or discounted price). The same models&apos; routed
+              prices (Oct 7–15), the endpoint OpenRouter routed to, often a third-party host or an off-peak rate,
+              are left out of the index, so it has no points Oct 9–15.
               The roster is the most-used models by paid spend on OpenRouter,
               reviewed monthly; each model&apos;s tier (frontier, standard, light) follows Ramp&apos;s split of
               enterprise model spend and is a label, never an index weight.</>

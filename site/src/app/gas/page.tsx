@@ -10,7 +10,7 @@ import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
 import { C } from "@/lib/chartTheme";
 import { columnsToRows } from "@/lib/csv";
-import { fmtDay, fmtMonth, fmtSigned, yoyColor } from "@/lib/format";
+import { fmtDay, fmtMonth, fmtSigned, yoyColor, etDay } from "@/lib/format";
 import { gasHeadline } from "@/lib/gasHeadline";
 
 // 2026-10-19: gas is the fuel behind most of the power an AI campus buys and
@@ -45,7 +45,7 @@ export default function GasPage() {
     <div className="datacenter-dashboard">
       <StaleBanner publishedAt={data.published_at} />
       <header className="research-intro">
-        <div className="research-eyebrow">AI infrastructure · Natural gas <span>Updated {fmtDay(data.published_at.slice(0, 10))}</span></div>
+        <div className="research-eyebrow">AI infrastructure · Natural gas <span>Updated {fmtDay(etDay(data.published_at))}</span></div>
         <h1>{headline?.title ?? "Natural Gas"}</h1>
         <p data-testid="gas-takeaway">
           {headline?.detail ?? "Gas sets the price of most US power and fuels a growing share of what AI campuses build for themselves."}{" "}
@@ -58,7 +58,7 @@ export default function GasPage() {
           context={hh ? `${fmtDay(hh.as_of)} · 30-day avg ${usd(hh.avg30)}, ${fmtSigned(hh.avg30_yoy_pct)} on the year` : "unavailable in this publish"}
           accent="amber" />
         <KpiCard label="Front-month futures, $/MMBtu" value={fut ? usd(fut.latest) : "—"}
-          context={fut ? `NYMEX · ${fmtDay(fut.as_of)} · ${fut.vs_spot == null ? "" : `${fut.vs_spot >= 0 ? "+" : "−"}$${Math.abs(fut.vs_spot).toFixed(2)} vs spot · `}1y ${fmtSigned(fut.chg_1y_pct)}` : "unavailable in this publish"}
+          context={fut ? `NYMEX · ${fmtDay(fut.as_of)} · ${fut.vs_spot == null ? "" : `${fut.vs_spot >= 0 ? "+" : "−"}$${Math.abs(fut.vs_spot).toFixed(2)} vs spot${fut.vs_spot_as_of ? ` on ${fmtDay(fut.vs_spot_as_of)}` : ""} · `}1y ${fmtSigned(fut.chg_1y_pct)}` : "unavailable in this publish"}
           accent="violet" />
         <KpiCard label="Gas in storage" value={st ? `${int(st.bcf)} Bcf` : "—"}
           context={st ? `week to ${fmtDay(st.as_of)} · ${fmtSigned(st.vs_avg5_pct)} vs 5-yr avg · ${fmtSigned(st.vs_year_ago_pct)} vs a year ago` : "unavailable in this publish"}
@@ -77,7 +77,8 @@ export default function GasPage() {
         <Section title="Power vs Henry Hub: each hub's price against gas" id="power-vs-gas" featured>
           <p className="method">
             Each hub&apos;s 30-day average power price divided by Henry Hub&apos;s average over the same 30 days, now
-            and a year earlier: the MMBtu of Henry Hub gas a megawatt-hour is worth. A combined-cycle plant burns
+            and a year earlier, both ending on the row&apos;s date: the hub&apos;s last print or Henry Hub&apos;s, whichever
+            is earlier, since EIA&apos;s spot runs about a week behind. The ratio is the MMBtu of Henry Hub gas a megawatt-hour is worth. A combined-cycle plant burns
             about {num(data.cc_mmbtu_per_mwh, 1)} MMBtu per MWh, so a hub near that clears close to its fuel cost at
             Henry Hub prices. A ratio well above it, or rising, means power moved more than Henry Hub did. The table
             can&apos;t say why: local gas trading above Henry Hub, less efficient plants setting the price, and

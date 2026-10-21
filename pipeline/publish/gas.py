@@ -15,9 +15,10 @@ Display-only, pure store -> writer; never an index leg. Five blocks:
   month's days), latest month and trailing twelve months, each against the
   year before.
 - Power vs gas: each configured wholesale hub's 30-day average divided by
-  Henry Hub's average over the SAME 30 days (the hub's own window, so a
-  biweekly ICE hub is never measured against days it hasn't reached), now and
-  a year earlier. The ratio is MMBtu per MWh: a hub whose price is just a
+  Henry Hub's average over the SAME 30 days, ending at the earlier of the two
+  series' last prints (a biweekly ICE hub is never measured against gas days
+  it hasn't reached, and a daily hub never against gas EIA hasn't printed
+  yet), now and a year earlier. The ratio is MMBtu per MWh: a hub whose price is just a
   combined cycle's fuel bill sits near its heat rate. It is Henry Hub, not
   the hub's local gas, and on-peak products run higher than all-hours ones —
   the page says both.
@@ -84,12 +85,15 @@ def futures(conn, spot: dict | None) -> dict | None:
         return None
     obs = dict(rows)
     as_of, latest = rows[-1]
+    then = None if spot is None else obs.get(spot["as_of"])
+    vs_spot = None if then is None else _r(then - spot["latest"])
     return {"code": FUT, "latest": _r(latest), "as_of": as_of,
             "chg_30d_pct": pct_change_daily(obs, as_of, 30),
             "chg_1y_pct": pct_change_daily(obs, as_of, 365),
-            # front month minus spot: positive = the market pays more for next
-            # month's gas than today's (a winter premium in the fall)
-            "vs_spot": None if spot is None else _r(latest - spot["latest"])}
+            # front month minus spot ON THE SPOT'S DATE (EIA spot lags the
+            # futures by about a week): positive = the market pays more for
+            # next month's gas than that day's (a winter premium in the fall)
+            "vs_spot": vs_spot, "vs_spot_as_of": None if vs_spot is None else spot["as_of"]}
 
 
 def outlook(conn, today: str) -> dict | None:
@@ -222,13 +226,13 @@ def power_vs_gas(conn, power_cfg, cc_mmbtu_per_mwh: float | None) -> list[dict] 
         rows = _rows(conn, h.code)
         if not rows:
             continue
-        end = date.fromisoformat(rows[-1][0])
+        end = min(date.fromisoformat(rows[-1][0]), date.fromisoformat(gas[-1][0]))
         p, g = window_avg(rows, end), window_avg(gas, end)
         p0, g0 = window_avg(rows, end - timedelta(days=365)), window_avg(gas, end - timedelta(days=365))
         ratio = p / g if p is not None and g else None
         ratio0 = p0 / g0 if p0 is not None and g0 else None
         out.append({"code": h.code, "label": h.label, "grid": h.grid, "region": h.region,
-                    "product": h.product, "as_of": rows[-1][0],
+                    "product": h.product, "as_of": end.isoformat(),
                     "power_avg30": _r(p), "gas_avg30": _r(g, 3), "ratio": _r(ratio),
                     "power_avg30_year_ago": _r(p0), "gas_avg30_year_ago": _r(g0, 3),
                     "ratio_year_ago": _r(ratio0),

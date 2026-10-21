@@ -11,6 +11,7 @@ import { artifact } from "@/lib/artifact";
 import { buildCommit, REPO } from "@/lib/buildInfo";
 import { LEDGER_SERIES, todayAtPublishes, type LedgerKey } from "@/lib/ledgerSeries";
 import type { Ledger } from "@/lib/types";
+import { etDay } from "@/lib/format";
 
 const ledger = artifact<"ledger", Ledger>("ledger", ledgerJson);
 const sha = buildCommit();
@@ -65,7 +66,7 @@ export default function AsOfPage() {
         Cost of Living) read as — because those artifacts did not exist yet. A live row is written before the commit
         that records it, so it cannot carry its own hash: it links the ledger file&apos;s history for its publish day,
         where that commit and its SHA are listed.
-        Comparison months come from <Link href="/gap#validation">compare.json</Link>; source: {compare.published_at.slice(0, 10)} publish.
+        Comparison months come from <Link href="/gap#validation">compare.json</Link>; source: {etDay(compare.published_at)} publish.
         {sha && <> This page was built from commit{" "}
           <a href={`https://github.com/${REPO}/commit/${sha}`} data-testid="build-sha"><code>{sha.slice(0, 7)}</code></a>.</>}
       </p>

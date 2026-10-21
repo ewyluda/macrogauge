@@ -3,7 +3,7 @@ import { artifact } from "@/lib/artifact";
 import { ratesHeadline } from "@/lib/ratesHeadline";
 import type { Rates } from "@/lib/types";
 import ratesJson from "../../../public/data/rates.json";
-import { fmtPp } from "@/lib/format";
+import { fmtPp, etDay } from "@/lib/format";
 
 export const dynamic = "force-static";
 export const alt = "Macrogauge Cost of Capital — Treasury curve, corporate credit and funding rates";
@@ -25,7 +25,7 @@ export default function Image() {
   // tile colours follow the page's KPI cards: 10y sky, BBB violet, SOFR amber
   return ogCard({
     kicker: "COST OF CAPITAL",
-    stamp: `published ${data.published_at.slice(0, 10)}`,
+    stamp: `published ${etDay(data.published_at)}`,
     headline: headline ? `${headline.title}.` : "Treasury curve, corporate credit and funding rates, daily.",
     tiles: [
       { label: "10-year Treasury", value: pct(ten?.value ?? null), color: C.sky, ctx: `1y ${fmtPp(ten?.chg_1y_pp ?? null)} · ${ten?.as_of ?? "—"}` },

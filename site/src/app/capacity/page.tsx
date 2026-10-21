@@ -6,7 +6,7 @@ import type { Capacity } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
 import { capacityHeadline } from "@/lib/capacityCohort";
-import { fmtDay } from "@/lib/format";
+import { fmtDay, etDay } from "@/lib/format";
 import { Section } from "@/components/Section";
 import { KIND_LABEL, STATUS_LABEL, powerDealsTakeaway } from "@/lib/powerDeals";
 
@@ -35,7 +35,7 @@ export default function Page() {
       {/* the shared research-intro header (eyebrow, finding H1, one dek) puts the
           KPIs in the first screen; the method prose closes the page */}
       <header className="research-intro">
-        <div className="research-eyebrow">AI infrastructure · AI capacity tracker <span>Updated {fmtDay(data.published_at)}</span></div>
+        <div className="research-eyebrow">AI infrastructure · AI capacity tracker <span>Updated {fmtDay(etDay(data.published_at))}</span></div>
         <h1>{headline?.title ?? "AI Capacity"}</h1>
         {headline && <p data-testid="cap-takeaway">{headline.detail}</p>}
       </header>
