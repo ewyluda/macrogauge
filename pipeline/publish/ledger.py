@@ -15,7 +15,9 @@ pulse.json (every daily commit since 2026-07-08) using the same row
 builder, so backfilled and live rows share one shape.
 """
 import json
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from pipeline.publish.util import write_json
 
@@ -23,6 +25,13 @@ LEDGER_SUBDIR = "ledger"
 LEDGER_FILE = "pulse.jsonl"
 VARIANTS = ("gauge", "tracker", "col", "supercore", "pce")
 DC = ("build", "ops", "hardware")
+_ET = ZoneInfo("America/New_York")
+
+
+def et_day(stamp: str) -> str:
+    """The publish's US Eastern day ("2026-10-17T01:32:07Z" -> "2026-10-16"),
+    the day the publish schedule and changes.json count in."""
+    return datetime.fromisoformat(stamp.replace("Z", "+00:00")).astimezone(_ET).strftime("%Y-%m-%d")
 
 
 def row_from_artifacts(pulse: dict | None, gaptable: dict | None,
@@ -33,7 +42,7 @@ def row_from_artifacts(pulse: dict | None, gaptable: dict | None,
         return None
     variants = (gaptable or {}).get("variants", {}) if gaptable else {}
     idx = (datacenter or {}).get("indexes", {}) if datacenter else {}
-    row = {"published_at": pulse["published_at"], "date": pulse["published_at"][:10]}
+    row = {"published_at": pulse["published_at"], "date": et_day(pulse["published_at"])}
     for v in VARIANTS:
         block = pulse.get(v) if v in ("gauge", "tracker") else variants.get(v)
         row[f"{v}_yoy_pct"] = block.get("yoy_pct") if block else None
@@ -91,7 +100,9 @@ def build(store_dir: Path, out_dir: Path) -> dict:
     row = row_from_artifacts(_read(out_dir, "pulse.json"), _read(out_dir, "gaptable.json"),
                              _read(out_dir, "datacenter.json"))
     appended = append_row(row, store_dir) if row else False
-    rows = read_rows(store_dir)
+    # rows before 2026-10-21 stored the UTC date; the store is never
+    # restated, so the published date is re-derived from the stamp
+    rows = [{**r, "date": et_day(r["published_at"])} for r in read_rows(store_dir)]
     return {"appended_today": appended,
             "first_publish": rows[0]["published_at"] if rows else None,
             "rows": rows}

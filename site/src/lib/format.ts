@@ -70,6 +70,12 @@ const ET_STAMP = new Intl.DateTimeFormat("en-US", {
   hour: "numeric", minute: "2-digit",
 });
 
+/** "2026-10-17T01:32:07Z" -> "2026-10-16": a publish stamp's US Eastern
+ *  day (the publish schedule's day), never the UTC date its slice gives */
+export function etDay(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-CA", { timeZone: "America/New_York" });
+}
+
 /** "2026-07-14T13:12:54Z" -> "Jul 14, 2026, 9:12 AM ET" (run/publish stamps,
  *  in the time zone the publish schedule is set in) */
 export function fmtStamp(iso: string): string {

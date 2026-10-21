@@ -8,7 +8,7 @@ import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
 import { C } from "@/lib/chartTheme";
 import { columnsToRows } from "@/lib/csv";
-import { fmtMonth, fmtSigned, yoyColor } from "@/lib/format";
+import { fmtMonth, fmtSigned, yoyColor, etDay } from "@/lib/format";
 import type { Housing, HousingMeasure } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 import { MetroTable } from "@/components/MetroTable";
@@ -58,7 +58,7 @@ export default function HousingPage() {
         <KpiCard label="Rent (ZORI)" value={money(data.rents.zori.value)} context={`${fmtSigned(data.rents.zori.yoy_pct)} YoY · Apartment List ${fmtSigned(data.rents.aptlist.yoy_pct)}`} accent="violet" />
         <KpiCard label="30y mortgage" value={pct(data.mortgage.pmms_30yr.value, 2)} context={`Freddie Mac · MND daily ${pct(data.mortgage.mnd_30yr_daily.value, 2)}`} accent="amber" />
       </div>
-      <Citation series="Housing payment-to-income" asOf={a.as_of ?? data.published_at.slice(0, 10)} value={`${pct(a.share_pct)} of an average private paycheck`} path="/housing" />
+      <Citation series="Housing payment-to-income" asOf={a.as_of ?? etDay(data.published_at)} value={`${pct(a.share_pct)} of an average private paycheck`} path="/housing" />
 
       <Section title="Affordability — monthly payment as a share of monthly pay, since 2018" featured>
         <div className="section-tools">

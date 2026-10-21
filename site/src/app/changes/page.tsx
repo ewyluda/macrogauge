@@ -4,7 +4,7 @@ import { KpiCard } from "@/components/KpiCard";
 import { Section } from "@/components/Section";
 import { DownloadData } from "@/components/DownloadData";
 import { CHANGES } from "@/components/SinceYesterday";
-import { fmtPp, fmtSigned, fmtStamp } from "@/lib/format";
+import { fmtPp, fmtSigned, fmtStamp, etDay } from "@/lib/format";
 import { baselineName, changesHeadline, fmtDelta, fmtReading, partitionMovers } from "@/lib/changesHeadline";
 import type { Mover } from "@/lib/types";
 
@@ -60,7 +60,7 @@ export default function ChangesPage() {
           accent="violet" />
         <KpiCard label="Sources landed" value={String(c.sources_landed.length)}
           context={c.sources_failed.length ? `${c.sources_failed.length} failed: ${c.sources_failed.join(", ")}` : "no source failures"} accent={c.sources_failed.length ? "amber" : "emerald"} />
-        <KpiCard label="Compared with" value={c.prev_published_at ? c.prev_published_at.slice(0, 10) : "—"}
+        <KpiCard label="Compared with" value={c.prev_published_at ? etDay(c.prev_published_at) : "—"}
           context={c.prev_published_at ? `${since.replace(/^the /, "")} · ${fmtStamp(c.prev_published_at)}` : "first reading"} accent="sky" />
       </div>
 

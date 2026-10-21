@@ -9,7 +9,7 @@ import { tightnessScore } from "@/lib/dcMarkets";
 import type { DcMarkets } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
-import { fmtDay, fmtNum } from "@/lib/format";
+import { fmtDay, fmtNum, etDay } from "@/lib/format";
 
 const data = artifact<"dc_markets", DcMarkets>("dc_markets", marketsJson);
 const nat = data.national;
@@ -35,7 +35,7 @@ export default function Page() {
       {/* the shared research-intro header (eyebrow, H1, one dek) puts the KPIs in
           the first screen; the why-counties prose joins "How it's built" */}
       <header className="research-intro">
-        <div className="research-eyebrow">AI infrastructure · DC markets <span>Updated {fmtDay(data.published_at)}</span></div>
+        <div className="research-eyebrow">AI infrastructure · DC markets <span>Updated {fmtDay(etDay(data.published_at))}</span></div>
         <h1>DC Market Panel</h1>
         <p>
           How tight is the labor where you&apos;re building? Construction wages and headcount in the core counties of{" "}

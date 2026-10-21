@@ -9,7 +9,7 @@ import { DownloadData } from "@/components/DownloadData";
 import { Citation } from "@/components/Citation";
 import { C } from "@/lib/chartTheme";
 import { RATES_CURVE_CSV, RATES_HISTORY_CSV, RATES_LIQUIDITY_CSV } from "@/lib/exportSpecs";
-import { fmtDay, fmtPp } from "@/lib/format";
+import { fmtDay, fmtPp, etDay } from "@/lib/format";
 import type { FedPath, Rates } from "@/lib/types";
 import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
@@ -109,7 +109,7 @@ export default function RatesPage() {
       {/* the shared research-intro header (eyebrow, finding H1, one dek) puts the
           KPIs in the first screen; the method prose closes the page */}
       <header className="research-intro">
-        <div className="research-eyebrow">AI infrastructure · Cost of capital <span>Updated {fmtDay(data.published_at)}</span></div>
+        <div className="research-eyebrow">AI infrastructure · Cost of capital <span>Updated {fmtDay(etDay(data.published_at))}</span></div>
         <h1>{headline?.title ?? "Rates & Liquidity"}</h1>
         {headline?.detail && <p data-testid="rates-takeaway">{headline.detail}</p>}
       </header>
@@ -137,7 +137,7 @@ export default function RatesPage() {
           accent={s.s2s10s.value != null && s.s2s10s.value < 0 ? "red" : "emerald"} />
       </div>
       <div className="page-asof">
-        <Citation series="10-year Treasury yield (DGS10)" asOf={ten?.as_of ?? data.published_at.slice(0, 10)} value={pct(ten?.value ?? null)} path="/rates" />
+        <Citation series="10-year Treasury yield (DGS10)" asOf={ten?.as_of ?? etDay(data.published_at)} value={pct(ten?.value ?? null)} path="/rates" />
         <span>Market reference rates, not a project&apos;s cost of debt · <a href="#rt-method">How it&apos;s built</a></span>
       </div>
 

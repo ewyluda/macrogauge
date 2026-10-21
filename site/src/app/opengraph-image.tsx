@@ -1,7 +1,7 @@
 import { C, monthSpan, ogCard } from "@/lib/ogCard";
 import pulse from "../../public/data/pulse.json";
 import dc from "../../public/data/datacenter.json";
-import { fmtPct, fmtSigned } from "@/lib/format";
+import { fmtPct, fmtSigned, etDay } from "@/lib/format";
 
 export const dynamic = "force-static";
 export const alt = "Macrogauge — daily AI infrastructure cost indexes beside a live US inflation gauge";
@@ -17,7 +17,7 @@ export default function Image() {
   const from = Math.max(0, m.months.length - 61);
   return ogCard({
     kicker: "AI INFRASTRUCTURE · INFLATION",
-    stamp: `published ${pulse.published_at.slice(0, 10)}`,
+    stamp: `published ${etDay(pulse.published_at)}`,
     headline: "What it costs to build and run AI infrastructure, indexed daily — beside a live gauge of US inflation, graded against every official print.",
     tiles: [
       { label: "DC Build · YoY", value: fmtSigned(build.headline_yoy_pct), color: C.sky, ctx: `as of ${build.as_of}` },

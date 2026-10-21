@@ -10,7 +10,7 @@ import { StaleBanner } from "@/components/StaleBanner";
 import { artifact } from "@/lib/artifact";
 import { C } from "@/lib/chartTheme";
 import { columnsToRows } from "@/lib/csv";
-import { fmtDay, fmtMonth, fmtSigned, yoyColor } from "@/lib/format";
+import { fmtDay, fmtMonth, fmtSigned, yoyColor, etDay } from "@/lib/format";
 import { gasHeadline } from "@/lib/gasHeadline";
 
 // 2026-10-19: gas is the fuel behind most of the power an AI campus buys and
@@ -45,7 +45,7 @@ export default function GasPage() {
     <div className="datacenter-dashboard">
       <StaleBanner publishedAt={data.published_at} />
       <header className="research-intro">
-        <div className="research-eyebrow">AI infrastructure · Natural gas <span>Updated {fmtDay(data.published_at.slice(0, 10))}</span></div>
+        <div className="research-eyebrow">AI infrastructure · Natural gas <span>Updated {fmtDay(etDay(data.published_at))}</span></div>
         <h1>{headline?.title ?? "Natural Gas"}</h1>
         <p data-testid="gas-takeaway">
           {headline?.detail ?? "Gas sets the price of most US power and fuels a growing share of what AI campuses build for themselves."}{" "}

@@ -10,7 +10,7 @@ import { Citation } from "@/components/Citation";
 import { C } from "@/lib/chartTheme";
 import { computeIndexRows } from "@/lib/computeCsv";
 import { capabilityTakeaway, cloudProviders, cloudRows, cloudTakeaway, GPU_LABEL, listOf, reservedRows, reservedTakeaway } from "@/lib/cloudGpu";
-import { fmtDay, fmtSigned, yoyColor } from "@/lib/format";
+import { fmtDay, fmtSigned, yoyColor, etDay } from "@/lib/format";
 import type { Compute } from "@/lib/types";
 import { artifact } from "@/lib/artifact";
 
@@ -55,7 +55,7 @@ export default function ComputePage() {
       {/* the shared research-intro header (eyebrow, finding H1, one dek) puts the
           KPIs in the first screen; the method prose closes the page */}
       <header className="research-intro">
-        <div className="research-eyebrow">AI infrastructure · Compute prices <span>Updated {fmtDay(data.published_at)}</span></div>
+        <div className="research-eyebrow">AI infrastructure · Compute prices <span>Updated {fmtDay(etDay(data.published_at))}</span></div>
         <h1>{indexTitle ? `${indexTitle} in 30 days` : "Compute Prices"}</h1>
         <p>
           What a token and a GPU-hour cost, indexed daily: list prices of the {data.models.length} most-used models on
@@ -72,7 +72,7 @@ export default function ComputePage() {
         <KpiCard label="Index history" value={`${days}d`} context={`indexed since ${indexStart ?? "—"} · ${data.models.length} models · ${data.gpus.length} GPU SKUs`} accent="violet" />
       </div>
       <div className="page-asof">
-        <Citation series="Token price index" asOf={ti.as_of ?? data.published_at.slice(0, 10)} rebase={`${ti.base_date ?? "—"}=100`} value={idx(ti.value)} path="/compute" />
+        <Citation series="Token price index" asOf={ti.as_of ?? etDay(data.published_at)} rebase={`${ti.base_date ?? "—"}=100`} value={idx(ti.value)} path="/compute" />
         <span>Collected daily since {data.history_start ? fmtDay(data.history_start) : "—"}, indexed from {indexStart ? fmtDay(indexStart) : "—"}: a short history · <a href="#cp-method">How it&apos;s built</a></span>
       </div>
 
