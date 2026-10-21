@@ -86,6 +86,16 @@ RETIRED_MODELS = [("gpt56_terra", "GPT-5.6 Terra"), ("claude_sonnet55", "Claude 
                   ("gpt4o", "GPT-4o"), ("claude_sonnet", "Claude Sonnet 5"),
                   ("llama70b", "Llama 3.1 70B"), ("deepseek", "DeepSeek Chat"),
                   ("gemini_flash", "Gemini 3.5 Flash"), ("mistral_large", "Mistral Large (2024)")]
+# Display-only token models: a roster member whose maker endpoint left
+# OpenRouter. It stays a table row at its last price (`in_index: false`, and
+# `stale` once past the registry limit) and its `_list` series stay registered
+# so a returning endpoint is collected again, but it links into the index only
+# up to its own last observation, exactly like a RETIRED_MODELS member: an
+# ordinary exit, no rebase. DeepSeek V4.1 Flash, from 2026-10-18 (OpenRouter
+# lists 33 third-party hosts and none tagged `deepseek`); the index is maker
+# list prices only, so the pin is never moved to a third-party host.
+# Re-admitting a model is a roster decision, not a registry side effect.
+TOKEN_DISPLAY_ONLY = {"deepseek_v41_flash_list"}
 GPUS = [("vast_h100_sxm", "H100 SXM (vast.ai)"), ("vast_h200", "H200 (vast.ai)"),
         ("vast_b200", "B200 (vast.ai)"), ("vast_a100_sxm", "A100 SXM (vast.ai)"),
         ("vast_rtx4090", "RTX 4090 (vast.ai)"), ("sfc_h100", "H100 (sfcompute spot)"),
@@ -242,8 +252,9 @@ def _index(members: dict[str, dict], limits: dict[str, int] | None = None,
             "chg_30d_pct": pct_change_daily(series, as_of, 30) if as_of else None}
 
 
-def _model_rows(conn):
+def _model_rows(conn, limits: dict | None = None, today: str | None = None):
     rows, members = [], {}
+    limits = limits or {}
     for key, _ in RETIRED_MODELS:
         blended = _blended(_rows(conn, f"or_{key}_in"), _rows(conn, f"or_{key}_out"))
         if blended:
@@ -259,7 +270,9 @@ def _model_rows(conn):
                      "out_usd_mtok": None if as_of is None else round(out[as_of], 4),
                      "blended_usd_mtok": value, "as_of": as_of,
                      "chg_30d_pct": pct_change_daily(blended, as_of, 30) if as_of else None,
-                     "tail": tail(blended, TAIL_OBS)})
+                     "tail": tail(blended, TAIL_OBS),
+                     "in_index": key not in TOKEN_DISPLAY_ONLY,
+                     "stale": _stale(as_of, limits.get(key, DEFAULT_CARRY_DAYS), today)})
     return rows, members
 
 
@@ -361,7 +374,7 @@ def build(conn, staleness: dict[str, int] | None = None, today: str | None = Non
         staleness = {s.code: s.max_staleness_days for s in series}
     today = today or today_et()
     model_lim, gpu_lim = _limits(staleness)
-    model_rows, model_members = _model_rows(conn)
+    model_rows, model_members = _model_rows(conn, model_lim, today)
     gpu_rows, gpu_members = _gpu_rows(conn, gpu_lim, today)
     all_dates = [d for m in list(model_members.values()) + list(gpu_members.values()) for d in m]
     cloud_rows = _cloud_rows(conn, staleness, today)
@@ -378,7 +391,7 @@ def build(conn, staleness: dict[str, int] | None = None, today: str | None = Non
                                 "are measured from their price before it at the next link"},
             "models": model_rows,
             "token_index": _index(model_members, model_lim,
-                                  retired=frozenset(k for k, _ in RETIRED_MODELS)),
+                                  retired=frozenset(k for k, _ in RETIRED_MODELS) | TOKEN_DISPLAY_ONLY),
             "token_roster": {"since": ROSTER_SINCE, "retired": [label for _, label in RETIRED_MODELS]},
             "gpus": gpu_rows, "gpu_index": _index(gpu_members, gpu_lim),
             "cloud_gpus": cloud_rows, "reserved_notes": RESERVED_NOTES, **extra}

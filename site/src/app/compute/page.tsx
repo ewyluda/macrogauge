@@ -116,12 +116,15 @@ export default function ComputePage() {
                   <td style={{ textAlign: "left" }}>
                     {m.label}
                     {m.tier && <> <span className="badge badge-muted" data-testid="model-tier">{m.tier}</span></>}
+                    {m.in_index === false && <> <span className="badge badge-muted" data-testid="model-not-in-index">not in index</span></>}
                   </td>
                   <td>{usd(m.in_usd_mtok)}</td>
                   <td>{usd(m.out_usd_mtok)}</td>
                   <td><strong>{usd(m.blended_usd_mtok, 3)}</strong></td>
                   {model30 && <td style={{ color: yoyColor(m.chg_30d_pct) }}>{fmtSigned(m.chg_30d_pct)}</td>}
-                  <td style={{ color: "var(--muted)" }}>{m.as_of ?? "not collected"}</td>
+                  <td style={{ color: m.stale && m.as_of ? "var(--accent-amber)" : "var(--muted)" }}>
+                    {m.as_of ?? "not collected"}{m.stale && m.as_of ? " · stale" : ""}
+                  </td>
                   <td><TailSpark tail={m.tail.values} label={m.label} /></td>
                 </tr>
               ))}

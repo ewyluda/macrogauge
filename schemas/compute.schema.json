@@ -35,7 +35,9 @@
           "blended_usd_mtok": {"$ref": "#/$defs/num"},
           "as_of": {"$ref": "#/$defs/day"},
           "chg_30d_pct": {"$ref": "#/$defs/num"},
-          "tail": {"$ref": "#/$defs/tail"}
+          "tail": {"$ref": "#/$defs/tail"},
+          "in_index": {"type": "boolean", "description": "false: a display-only row, linked into the index only up to its own last observation (2026-10-19+); optional."},
+          "stale": {"type": "boolean", "description": "last obs older than the registry staleness limit (2026-10-19+); optional."}
         }
       }
     },

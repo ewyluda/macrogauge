@@ -762,7 +762,7 @@ export type Compute = {
   blend: { in: number; out: number; min_members: number; method: string };
   /** tier: a table label after Ramp's frontier/standard/light split (2026-10-08+); absent on older files */
   models: { key: string; label: string; tier?: "frontier" | "standard" | "light"; in_usd_mtok: number | null; out_usd_mtok: number | null; blended_usd_mtok: number | null;
-            as_of: string | null; chg_30d_pct: number | null; tail: Tail }[];
+            as_of: string | null; chg_30d_pct: number | null; tail: Tail; in_index?: boolean; stale?: boolean }[];
   token_index: ComputeIndex;
   gpus: { code: string; label: string; usd_per_gpu_hr: number | null; as_of: string | null; chg_30d_pct: number | null; tail: Tail; in_index?: boolean; stale?: boolean }[];
   gpu_index: ComputeIndex;
