@@ -1,0 +1,46 @@
+Source 1: SpaceX Q3 2026 earnings release ("Earnings Update"), 8-K Ex. 99.1, filed 2026-10-20 16:00 ET
+URL: https://www.sec.gov/Archives/edgar/data/1181412/000162828026066482/spaceexplorationtechnologi.htm
+Same document on IR: https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf
+(The IR event page lists only Earnings Update, webcast and Q&A for Q3; no separate slide deck, and no Q3 10-Q or transcript PDF as of 2026-10-21.)
+Retrieved: 2026-10-21
+Method: curl EDGAR + IR PDF, pdftotext -layout
+
+  •    Continued to scale nameplate compute, reaching 1.7 GW as of September 30, 2026
+  Nameplate compute (in GW)            1.7 (Q3'26)   1.4 (Q2'26)   0.6 (Q3'25)
+  SI solutions & infrastructure revenues   7,022     2,194     359
+  SI revenues                              $7,560    $2,561    $813
+  SI Adjusted EBITDA                       $4,953    $1,146    $(428)
+  SI Capex                                 $16,444   $15,828   $4,760    (9M'26: $39,995)
+  Capex Total                              $19,593   $18,369   $6,880
+  •    Expanded nameplate compute to 1.7 GW as of September 30, 2026, up from 1.4 GW as of June 30, 2026 and 0.6 GW as of
+       September 30, 2025, as we continued the buildout of COLOSSUS II
+  •    Signed additional cloud services agreements during the quarter, increasing our pipeline of critical SI infrastructure
+       capacity for third-party customers
+  From the closing date through September 30, 2026, Cursor contributed $608 million of revenue
+  (No "contracted sales" figure for Cloud Services Agreements in Q3; Q2 release: "$14.1 billion of contracted sales".)
+
+Source 2: SpaceX Q3 2026 earnings call, 2026-10-20 (webcast on X; IR event page
+https://ir.spacex.com/events/event-details/2026/Q3-2026-Earnings/default.aspx)
+Retrieved: 2026-10-21
+Method: FMP earningsTranscript (SPCX, 2026 Q3); official transcript PDF not yet posted on IR
+
+  [CFO Bret Johnsen] We ended the third quarter with 1.7 gigawatts of nameplate compute capacity with additional data halls
+  already online in early October.
+  [CFO] we're on track to reach nearly 2.2 gigawatts of nameplate compute at the end of this month alone in October and have
+  a clear line of sight, as Elon highlighted, to nameplate compute in the range of 2.5 to 3 gigawatts just by the end of this quarter.
+  [CFO] we expect fourth quarter capital expenditures to now be in the range of $35 billion to $40 billion for this quarter.
+  [CFO] We ended the quarter with substantial backlog totaling $63 billion as of September 30, of which $17.5 billion was
+  recognized as deferred revenue.
+  [CFO] Pricing is currently tracking slightly above the high end of the $30 to $50 per watt range we were discussing just last quarter
+  [CFO] At current pricing, new compute deployments are generating a payback of less than a year.
+  [Musk] I would say I'm fairly confident of being able to bring an incremental 10 gigawatts of compute online in 2027. That would
+  be in addition to the roughly 3 gigawatts, maybe 2.5 to 3 gigawatts that we'll have online by the end of this year.
+  [Musk, Q&A Anmuth/JPM] I feel highly confident of 10 gigawatts incremental next year, so 13 total.
+  [Musk] we're actually going to aim for an incremental 20 gigawatts of power cooling and infrastructure next year
+  [Musk, Q&A] 20 is difficult but not impossible.
+  [Musk] the most powerful training cluster online by the end of Q2, which will be 440,000 Vera Rubin computers
+  [Musk, Q&A Sheridan/GS] Our goal is to kind of split it 50-50, more or less, where half of the compute is used internally and half of it is rented to others.
+  [Musk, Q&A] we see them renewing at higher dollars per watt, not lower dollars per watt.
+  [Musk, Q&A] we're casting the blades and vanes for the turbines.
+  NOT USED: GB300 monthly deployment rate — prepared remarks say "roughly 200,000 GB300s online per month",
+  the Q&A says "20,000 GB300s a month"; the transcript contradicts itself, so neither figure is carried.

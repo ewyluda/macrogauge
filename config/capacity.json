@@ -3220,22 +3220,22 @@
    "private": true,
    "valuation_b": 250,
    "confidence": "filed",
-   "op": 1400,
-   "con": 400,
+   "op": 1700,
+   "con": 800,
    "plan": 700,
-   "pipe": ">2 GW nameplate compute by YE2026 ('over two gigawatts', CFO Q2'26 call 8/4; 'a little over 2 GW', CFO 9/10); 2027: 5–10 GW deployed ('closer to 10', Musk), with ~15–20 GW of power/cooling projects targeted by end-2027; ~1M GPUs; Solaris 1.1 GW turbines by Q2 2027",
+   "pipe": "2.5–3 GW nameplate compute by YE2026 ('nearly 2.2 gigawatts' at end-October, '2.5 to 3 gigawatts' by end-Q4, CFO Q3'26 call 10/20; was 'over two gigawatts' on the Q2 call); 2027: '10 gigawatts incremental next year, so 13 total' (Musk, 'highly confident'), with a plan for +20 GW of power/cooling next year (~23 GW, 'difficult but not impossible'); 440k Vera Rubin training cluster by end-Q2'27; Solaris 1.1 GW turbines by Q2 2027",
    "nd": null,
    "ndflag": "no segment balance sheet — SpaceX (public since 6/12/26) reports AI as a segment only; nd null. valuation_b 250 = xAI's Feb-2026 merger mark, now STALE inside a public parent (SpaceX ~$85.7B net IPO proceeds; $25B bond deal; $60B Cursor merger closed 8/14/26)",
    "bk": 14.1,
-   "flag": "op is FILED: SpaceX Q2'26 10-Q 'nameplate compute draw' 1.4 GW at 6/30/26 (installed GPUs x all-in draw, excl. cooling/facility overhead ~= critical-IT; 0.4 GW a year earlier). con = filed floor (>400 MW next Colossus II phase); plan = Southaven Bldg 3. Now SpaceX's AI segment (SPCX listed 6/12/26); sells reserved compute to third parties (Anthropic) besides captive Grok training.",
+   "flag": "op is FILED: SpaceX Q3'26 earnings release (8-K Ex. 99.1) 'Nameplate compute' 1.7 GW at 9/30/26 (1.4 GW at 6/30/26; 0.6 GW a year earlier); per the Q2'26 10-Q that is installed GPUs x all-in draw, excl. cooling/facility overhead ~= critical-IT. con = CFO-stated year-end floor (2.5 GW) less filed op; plan = Southaven Bldg 3. Now SpaceX's AI segment (SPCX listed 6/12/26); sells compute to third parties (Anthropic, Google) besides captive Grok — Musk targets a ~50/50 internal/rented split, rented on short contracts at spot-like rates.",
    "dom": "x.ai",
    "econ": {
-    "backlog": "$14.1B Cloud Services Agreements contracted sales (Q2'26 release); terminable on 90 days' notice after an initial period",
-    "capexmw": "AI capex $15.8B Q2'26 / $23.6B 1H'26; earlier ~$18B for 555k GPUs on Colossus 2 (~$32M/MW-equiv, GPU-incl.)",
-    "anchor": "captive (xAI/Grok-5 training at Colossus II) + Anthropic (~325k GPUs across Colossus + Colossus II, $1.25B/month through May 2029, per 424B4) + Google (CSA signed 6/5/26: $920M/month Oct 2026–Jun 2029 per SpaceX filing as reported; ramp confirmed on Q2'26 call; ~110k GPUs press-only) + undisclosed hosting customers ($6.7B over 6 months from Oct 2026, contracted early Q3; ~$1.11B/month from 12/1/26, closed Sep 2026); CSAs are ~90-day + 90-day-out commits",
-    "power": "Southaven gas JV w/ Solaris (50.1/49.9); 7x35 MW turbines live, 1.1 GW by Q2'27; MLGW grid + on-site gas",
-    "pricing": "reserved compute via Cloud Services Agreements (~$1.25B/mo Anthropic)",
-    "margin": "Q2'26 AI segment revenue $2.56B"
+    "backlog": "$14.1B Cloud Services Agreements contracted sales (Q2'26 release; non-cancellable period only) — the Q3'26 release gives no CSA figure though more CSAs were signed in Q3; company-wide backlog $63B at 9/30/26 (from $47.5B at 6/30), not split by segment; CSAs terminable on 90 days' notice after an initial period",
+    "capexmw": "SI capex $16.4B Q3'26 / $40.0B 9M'26 (Q2 $15.8B) while nameplate rose 1.4→1.7 GW; total-company Q4'26 capex guided to $35–40B for the Q4 ramp; earlier ~$18B for 555k GPUs on Colossus 2 (~$32M/MW-equiv, GPU-incl.)",
+    "anchor": "captive (xAI/Grok-5 training at Colossus II) + Anthropic (~325k GPUs across Colossus + Colossus II, $1.25B/month through May 2029, per 424B4) + Google (CSA signed 6/5/26: $920M/month Oct 2026–Jun 2029 per SpaceX filing as reported; ramp confirmed on Q2'26 call; ~110k GPUs press-only) + undisclosed hosting customers ($6.7B over 6 months from Oct 2026, contracted early Q3; ~$1.11B/month from 12/1/26, closed Sep 2026) + further CSAs 'signed ... during the quarter' (Q3'26 release, counterparties not named); CSAs are ~90-day + 90-day-out commits",
+    "power": "Southaven gas JV w/ Solaris (50.1/49.9); 7x35 MW turbines live, 1.1 GW by Q2'27; MLGW grid + on-site gas; SpaceX casting its own turbine blades and vanes (Musk, Q3'26 call)",
+    "pricing": "reserved compute via Cloud Services Agreements (~$1.25B/mo Anthropic); CFO Q3'26: pricing 'slightly above the high end of the $30 to $50 per watt range', payback under a year; Musk: renewals at higher $/W",
+    "margin": "Q3'26 SI segment revenue $7.56B (solutions & infrastructure $7.02B incl. $608M Cursor), SI adj. EBITDA $4.95B, op income $431M after $1.2B Cursor share-based comp (Q2'26 revenue $2.56B)"
    },
    "sites": [
     [
@@ -3246,15 +3246,15 @@
     ],
     [
      "Colossus 2 - Memphis TN (Tulane Rd) + Southaven MS",
-     1100,
+     1400,
      "o",
-     "~1.1 GW live (op total = SpaceX 10-Q nameplate compute draw 1.4 GW at 6/30/26)"
+     "~1.4 GW live (op total = SpaceX nameplate compute 1.7 GW at 9/30/26, Q3'26 release)"
     ],
     [
-     "Colossus 2 - next phase (>=220k GB300)",
-     400,
+     "Colossus 2 - Q4'26 ramp (to 2.5–3 GW fleet)",
+     800,
      "c",
-     "'over 400 additional megawatts' once fully operational (424B4); Musk 9/25 targets 660k more GB300 by late Dec 2026 (~1.3 GW, press)",
+     "CFO Q3'26 call 10/20: 'nearly 2.2 gigawatts' of nameplate compute at end-October and 'nameplate compute in the range of 2.5 to 3 gigawatts' by end-Q4; 800 = 2.5 GW floor less 1.7 GW filed op; takes in the 424B4 'over 400 additional megawatts' phase",
      "2026Q4"
     ],
     [
@@ -3265,6 +3265,14 @@
     ]
    ],
    "src": [
+    [
+     "SpaceX Q3'26 earnings release, 8-K Ex. 99.1 (nameplate compute 1.7 GW at 9/30/26; SI segment)",
+     "https://www.sec.gov/Archives/edgar/data/1181412/000162828026066482/spaceexplorationtechnologi.htm"
+    ],
+    [
+     "SpaceX Q3'26 earnings call 10/20 (2.2 GW end-Oct, 2.5–3 GW YE2026, ~13 GW YE2027; $/W pricing)",
+     "https://ir.spacex.com/events/event-details/2026/Q3-2026-Earnings/default.aspx"
+    ],
     [
      "SpaceX Q2'26 10-Q (AI nameplate compute draw 1.4 GW)",
      "https://www.sec.gov/Archives/edgar/data/1181412/000162828026052535/spcx-20260630.htm"
@@ -4639,11 +4647,11 @@
   {
    "t": "XAI",
    "site": "Colossus 2 - Memphis TN (Tulane Rd)",
-   "mw": 1100,
+   "mw": 1400,
    "st": "o",
    "lat": 35.02,
    "lng": -90.06,
-   "when": "~1.1 GW live (filed 1.4 GW fleet)",
+   "when": "~1.4 GW live (filed 1.7 GW fleet)",
    "approx": true,
    "market": "memphis"
   },
