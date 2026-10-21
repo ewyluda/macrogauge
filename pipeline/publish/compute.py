@@ -69,16 +69,18 @@ TIERS = {"claude_opus55_list": "frontier", "gpt61_sol_list": "frontier",
 # past it (their series left config/series.json with the change, so they are
 # no longer collected), and the current models join the links as they are
 # priced. No rebase: the index keeps its base, and the roster change is a
-# change in which relatives are averaged, like any other entry or exit. The
-# 2026-10-16 price-basis switch is one such change: the routed-price series
-# (the top-level /models price, often a third-party host's) retire and the
-# maker-endpoint series enter, so it never moves the level.
+# change in which relatives are averaged, like any other entry or exit.
 ROSTER_SINCE = "2026-10-16"
-RETIRED_MODELS = [("claude_opus55", "routed Claude Opus 5.5"), ("gpt61_sol", "routed GPT-6.1 Sol"),
-                  ("kimi_k3", "routed Kimi K3"), ("glm53", "routed GLM-5.3"),
-                  ("deepseek_v41_flash", "routed DeepSeek V4.1 Flash"),
-                  ("gemini38_flash", "routed Gemini 3.8 Flash"), ("gpt6_luna", "routed GPT-6 Luna"),
-                  ("gpt56_terra", "GPT-5.6 Terra"), ("claude_sonnet55", "Claude Sonnet 5.5"),
+# The same seven models at OpenRouter's routed price (the top-level /models
+# price, collected 2026-10-07..10-15) are NOT index members: run to run it
+# priced whichever host OpenRouter routed to, so its links measured host and
+# off-peak switches, and a retired chain's last link is permanent (routed
+# DeepSeek V4.1 Flash ended on its off-peak rate, half its standard price,
+# and held the index 8.5% low). The roster is measured from its maker
+# endpoints from 2026-10-16; the week before has no index points.
+ROUTED_EXCLUDED = ["claude_opus55", "gpt61_sol", "kimi_k3", "glm53", "deepseek_v41_flash",
+                   "gemini38_flash", "gpt6_luna"]
+RETIRED_MODELS = [("gpt56_terra", "GPT-5.6 Terra"), ("claude_sonnet55", "Claude Sonnet 5.5"),
                   ("grok47", "Grok 4.7"), ("qwen38_max", "Qwen3.8 Max"),
                   ("mistral_large4", "Mistral Large 4"), ("llama4_maverick", "Llama 4 Maverick"),
                   ("gpt4o", "GPT-4o"), ("claude_sonnet", "Claude Sonnet 5"),

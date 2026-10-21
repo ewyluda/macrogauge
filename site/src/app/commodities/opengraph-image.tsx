@@ -3,7 +3,7 @@ import { artifact } from "@/lib/artifact";
 import { buildInputsHeadline } from "@/lib/buildInputs";
 import type { Commodities } from "@/lib/types";
 import commoditiesJson from "../../../public/data/commodities.json";
-import { fmtSigned } from "@/lib/format";
+import { fmtSigned, etDay } from "@/lib/format";
 
 export const dynamic = "force-static";
 export const alt = "Macrogauge Build Inputs — what the AI data-center build-out is bidding for, priced daily";
@@ -29,7 +29,7 @@ export default function Image() {
   // tile colours follow the page's KPI cards: copper amber, DDR5 violet, H100 sky
   return ogCard({
     kicker: "BUILD INPUTS",
-    stamp: `published ${data.published_at.slice(0, 10)}`,
+    stamp: `published ${etDay(data.published_at)}`,
     headline: headline ? `${headline}.` : "What the AI data-center build-out is bidding for, priced daily.",
     tiles: [
       { label: "Copper", value: copper?.value != null ? `$${price(copper.value)}/lb` : "—", color: C.amber, ctx: `${fmtSigned(copper?.yoy_pct ?? null)} YoY` },

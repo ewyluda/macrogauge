@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fmtDay, fmtMoney, fmtMonth, fmtNum, fmtPp, fmtQuarter, fmtStamp, trueMinus } from "./format";
+import { fmtDay, fmtMoney, fmtMonth, fmtNum, fmtPp, fmtQuarter, fmtStamp, trueMinus, etDay } from "./format";
 
 describe("fmtDay", () => {
   // daily-cadence as-of dates must keep the day — fmtMonth collapsed
@@ -100,5 +100,13 @@ describe("fmtQuarter", () => {
   it("names the quarter a first-of-quarter date stands for", () => {
     expect(fmtQuarter("2026-04-01")).toBe("Q2 2026");
     expect(fmtQuarter("2025-10")).toBe("Q4 2025");
+  });
+});
+
+describe("etDay", () => {
+  it("dates a publish by its US Eastern day, not the UTC date", () => {
+    expect(etDay("2026-10-17T01:32:07Z")).toBe("2026-10-16");   // 9:32 PM ET on the 16th
+    expect(etDay("2026-10-21T12:54:01Z")).toBe("2026-10-21");
+    expect(etDay("2026-01-15T04:30:00Z")).toBe("2026-01-14");   // EST, 11:30 PM
   });
 });

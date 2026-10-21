@@ -16,7 +16,7 @@ Design spec: `docs/macrogauge-design.md`. Per-phase plans: `docs/plans/`.
 ```bash
 # Python pipeline (repo root, Python 3.12+)
 pip install --require-hashes -r requirements.lock   # same pinned graph CI/daily use (incl. pytest)
-pytest -q                                     # full suite (1409 tests)
+pytest -q                                     # full suite (1432 tests)
 pytest tests/test_gauge.py -q                 # one file
 pytest tests/test_gauge.py::test_name -q      # one test
 
@@ -28,8 +28,8 @@ cd site && npm ci
 npm run dev        # local dev server
 npm run lint       # ESLint flat config: next core-web-vitals + jsx-a11y + react-hooks (must pass in CI)
 npm run build      # static export (must pass in CI)
-npm test           # vitest — client math (escalationSince/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/news/newsTape/homeBrief/cloudGpu/dcHub/capacityHeadline/buildInputs/siteCosts/ratesHeadline/ledgerSeries/dcTrades) + dcWeightBasis + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/chartAria/sourcePills/badge
-npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause + polish + trust + chrome + polish-a — 293 e2e tests, zero console errors
+npm test           # vitest — client math (escalationSince/reweight/realwage/quiltRows/dcEscalation/dcContingency/dcMarkets/longLead/reconcile/longtail/news/newsTape/homeBrief/cloudGpu/dcHub/capacityHeadline/buildInputs/siteCosts/ratesHeadline/gasHeadline/ledgerSeries/dcTrades) + dcWeightBasis + csv/exportSpecs/urlState/citation/dataFiles/dcAnchors/momentum/contribution/breadth/chartAria/sourcePills/badge
+npm run e2e        # Playwright smoke + share + batch2-7 + research-refresh + site-fixes + a11y + reconcile + backlog-measures + longtail + clause + polish + trust + chrome + polish-a + gas — 302 e2e tests, zero console errors
 npm run gen-types  # schemas/*.schema.json -> src/lib/generated/*.ts (gitignored; runs automatically before dev/build/test)
 ```
 
@@ -114,7 +114,7 @@ weights that **must sum to 1.0** (validated on load). Grid start is 2017-01 inte
 YoY bases); writers publish from 2018-01.
 
 ### 4. Publish (`pipeline/publish/`) + orchestration (`pipeline/run_daily.py`)
-43 published files, each with a JSON Schema in `schemas/` validated inline as it lands:
+44 published files, each with a JSON Schema in `schemas/` validated inline as it lands:
 `sources_status`, `pulse`, `gauge_daily`, `replay`, `quilt_months_24`, `quilt_months_48`,
 `quilt_months_all`, `grocery_basket`, `compare`, `gaptable`, `methodology`, `official`,
 `real_wages`, `qa`, plus phase 3 (`nowcast_latest`, `nextprint`, `releases`, `backtest`,
@@ -139,7 +139,16 @@ members; a token price is the model maker's own OpenRouter endpoint at its stand
 `<model>@<endpoint tag>`; the endpoint's base price reads the ACTIVE off-peak rate (DeepSeek), so the standard rate = the highest
 rate on its clock-scheduled overrides, size-tier overrides and `discount` ignored; never the routed top-level price (retired 2026-10-16); display-only SKUs carry `in_index: false`; a roster change never rebases — retired models
 link up to their own last price, thin links are flat and the members they span are measured from their price before them at the next link; table rows carry `stale` past the registry limit; `cloud_gpus` = AWS/Azure/Oracle/CoreWeave/Nebius on-demand list $/GPU-hr, display-only; Azure rows carry `reserved` 1y/3y terms off the `AZURE_GPU_RESERVED` key (the API prices a reservation as a TERM TOTAL), other clouds a `reserved_notes` reason; `capability` = $ per dense-BF16 PFLOP-hour by generation over the quote-checked `config/gpu_specs.json`), `housing` (prices, rents, sales, payment-to-income affordability off 0.80×ZHVI at the
-PMMS rate ÷ AHE×2080/12), and `changes` (what moved since the previous publish — run_daily
+PMMS rate ÷ AHE×2080/12), `gas` (/gas, AI Infra beside Power & Tariffs: Henry Hub spot + NYMEX front month + the STEO
+Henry Hub path — dated by the vintage its rows arrived in and dropped past 45 days, since registry staleness cannot see
+future obs_dates — Lower-48 storage vs OUR same-ISO-week five-year average, power burn and LNG exports in Bcf/d, each
+`config/dc_power.json` hub's 30-day average ÷ Henry Hub over the SAME 30 days, ending at the earlier of the two series' last prints (EIA spot lags about a week), now and a year earlier (MMBtu/MWh;
+Henry Hub, not local gas), fuel $/MWh at the quote-checked EIA heat rates in `config/gas.json` (`pipeline/gas_config.py`
+checks each figure is the Natural Gas column of its prime mover), and the gas-fired `power_deals` at full output on a
+combined cycle — on each gas PLANT's quoted MW (`gas_generation` in `config/gas.json`; a deal's MW can be contracted load
+or a gas+battery+market bundle; an unstated split stays null, never guessed) — an upper bound, no load factor assumed;
+the page names no cause for a hub's ratio (Henry Hub can't separate local basis, plant mix and scarcity); display-only,
+never an index leg), and `changes` (what moved since the previous publish — run_daily
 snapshots pulse/gaptable/datacenter BEFORE the engine phase and this writer diffs today's files
 against it; `grocery_basket` also gained a USDA `wholesale[]` block and `pulse` variants carry
 `prev_yoy_pct`), and the batch-5 receipts: `revisions` (first print vs latest value per
@@ -158,10 +167,10 @@ is BLS average-price staples.
   broken source.
 - The gauge engine, nowcast, outlook, composites, DC cost index, geography panel, labor
   dashboard, commodities grid, AI capacity tracker, DC market panel, DC escalation grading
-  harness, long-lead board, rates panel, compute index, housing panel, since-yesterday diff,
-  revisions panel, news tape and publish ledger run in nineteen ISOLATED `try/except` blocks — a failure in any one still publishes
+  harness, long-lead board, rates panel, compute index, housing panel, natural gas panel, since-yesterday diff,
+  revisions panel, news tape and publish ledger run in twenty ISOLATED `try/except` blocks — a failure in any one still publishes
   status + qa (exit 0, visible on-site via `engine_ok` / `nowcast_ok` / `outlook_ok` /
-  `composites_ok` / `datacenter_ok` / `geography_ok` / `labor_ok` / `commodities_ok` / `capacity_ok` / `markets_ok` / `grades_ok` / `longlead_ok` / `rates_ok` / `compute_ok` / `housing_ok` / `changes_ok` / `revisions_ok` / `news_ok` / `ledger_ok`) instead of a hard crash or
+  `composites_ok` / `datacenter_ok` / `geography_ok` / `labor_ok` / `commodities_ok` / `capacity_ok` / `markets_ok` / `grades_ok` / `longlead_ok` / `rates_ok` / `compute_ok` / `housing_ok` / `gas_ok` / `changes_ok` / `revisions_ok` / `news_ok` / `ledger_ok`) instead of a hard crash or
   suppressing the other phases. `changes` diffs every artifact just written; `ledger` runs LAST and appends this run's readings.
 - **`jsonschema.ValidationError` re-raises and fails the run** (caught *before* the generic
   `Exception`) — a schema-invalid artifact must never deploy. This ordering is pinned by tests.

@@ -124,8 +124,10 @@ export default function Status() {
         />
         <KpiCard
           label="Last publish"
-          value={qa.generated_at.slice(0, 10)}
-          context={fmtStamp(qa.generated_at)}
+          value={qa.generated_at}
+          // qa.generated_at is the run's ET day only: a bare date read as a
+          // stamp is UTC midnight, "8:00 PM ET" the evening before
+          context={fmtStamp(sourcesStatus.generated_at)}
           accent="sky"
         />
       </div>

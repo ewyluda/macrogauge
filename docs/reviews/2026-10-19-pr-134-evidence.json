@@ -1,0 +1,228 @@
+{
+  "mw_basis": {
+    "published_signed_mw": 8152,
+    "google_published": {
+      "t": "GOOGL",
+      "counterparty": "Black Hills Corp.",
+      "facility": "Grid-connected service to Google's planned Cheyenne, WY data center (company-owned generation + market energy)",
+      "mw": 590,
+      "status": "signed",
+      "kind": "utility supply",
+      "announced": "2026-10-06",
+      "source_url": "https://www.globenewswire.com/news-release/2026/10/06/3376007/10381/en/black-hills-corp-executes-definitive-agreements-to-serve-google-s-planned-data-center-in-cheyenne-wyoming.html",
+      "bcf_d_full_output": 0.103
+    },
+    "google_source_gas_nameplate_mw": 564,
+    "google_gas_nameplate_bcf_d": 0.099,
+    "wulf_published": {
+      "t": "WULF",
+      "counterparty": "Kentucky Power (AEP)",
+      "facility": "Muskie Data campus electric service, Grayson, KY (incl. Big Sandy 760 MW CCGT)",
+      "mw": 1000,
+      "status": "pending",
+      "kind": "utility supply",
+      "announced": "2026-10-05",
+      "source_url": "https://www.prnewswire.com/news-releases/kentucky-power-terawulf-finalize-expanded-agreement-providing-for-100-million-in-customer-benefits-302898378.html",
+      "bcf_d_full_output": 0.175
+    },
+    "wulf_source_gas_nameplate_mw": 760,
+    "wulf_gas_nameplate_bcf_d": 0.133,
+    "source_notes": [
+      {
+        "t": "META",
+        "mw": 2262,
+        "basis": "nameplate",
+        "note": "Customer is 'a subsidiary of Meta Platforms, Inc.'. The ESA was disclosed with the October 2024 application (no exact day, so 'announced' is YYYY-MM). The LPSC accepted the settlement in August 2025; Entergy's 2025-08-20 approval release gives no MW."
+      },
+      {
+        "t": "META",
+        "mw": 5200,
+        "basis": "nameplate",
+        "note": "'More than' 5,200 MW. Utility-built generation that still needs LPSC certification (still under review in July 2026 reports); counted as pending, not signed, until approved."
+      },
+      {
+        "t": "AMZN",
+        "mw": 3000,
+        "basis": "nameplate",
+        "note": "'Up to' 3 GW. The IURC approved it in June 2026, and the technology (combined-cycle gas) comes from NiSource's Q2-2026 10-Q, both in the same evidence file. The 3 GW figure covers more than the CCGT; secondary sources say two 1,300 MW CCGTs plus 400 MW BESS, which is unverified. A 7/17/26 filing amends the service agreement and GenCo PPA to raise Amazon's contracted load by 400 MW, with a final IURC order sought by November 2026 (NiSource Q2'26 call, docs/research/evidence/2026-10-17-cap-amzn-nwindiana-nipsco.txt); not a separate row."
+      },
+      {
+        "t": "ORCL",
+        "mw": 2300,
+        "basis": "nameplate",
+        "note": "The only source is VoltaGrid's release. Oracle's own newsroom post was not found."
+      },
+      {
+        "t": "WULF",
+        "mw": 1000,
+        "basis": "contracted",
+        "note": "Doubles the earlier 500 MW contracted demand (that agreement's date is not verified here). The amended contract still needs Kentucky PSC approval, so the 1 GW row is pending. TeraWulf pays the estimated financing costs of Kentucky Power's planned 760 MW combined-cycle plant at Big Sandy, hence gas."
+      },
+      {
+        "t": "GOOGL",
+        "mw": 590,
+        "basis": "contracted",
+        "note": "Definitive agreements effective 9/30/26 with terms through 2048. Black Hills plans 564 MW (nameplate) of new natural gas generation at its Cheyenne Prairie Generating Station; the other 26 MW comes from market purchases and tariff service (same release, in the evidence file). The project's 2.7 GW resource mix also includes ~2.1 GW of third-party contracted resources managed under the LPCS tariff; those are not a row (AEP's 702 MW fuel cells are a separate row and may be among them)."
+      }
+    ]
+  },
+  "headline_causality": {
+    "input": {
+      "spot": {
+        "latest": 3,
+        "avg30_yoy_pct": 0
+      },
+      "hubs": [
+        {
+          "label": "Synthetic hub",
+          "power_yoy_pct": 50,
+          "gas_yoy_pct": 0,
+          "ratio": 30,
+          "ratio_year_ago": 20,
+          "vs_cc_fuel": 3.97456279809221
+        }
+      ]
+    },
+    "output": {
+      "title": "Synthetic hub power is up 50% on the year while Henry Hub gas is flat",
+      "detail": "Over the same 30 days a megawatt-hour there cost as much as 30.0 MMBtu of gas, against 20.0 a year earlier \u2014 4.0\u00d7 a combined-cycle plant's fuel bill. The fuel did not move the price; the grid did."
+    },
+    "counterexample": {
+      "local_gas_before": 8,
+      "local_gas_after": 12,
+      "fixed_heat_rate": 7.5,
+      "power_before": 60,
+      "power_after": 90,
+      "grid_markup_before_and_after": 0,
+      "henry_hub_before_and_after": 3
+    }
+  },
+  "forecast_missing_month": {
+    "code": "steo_ng_hh",
+    "release_seen": "2026-10-07",
+    "stale": false,
+    "months": [
+      "2026-10-01",
+      "2026-12-01",
+      "2027-01-01",
+      "2027-02-01",
+      "2027-03-01",
+      "2027-04-01",
+      "2027-05-01",
+      "2027-06-01",
+      "2027-07-01",
+      "2027-08-01",
+      "2027-09-01",
+      "2027-10-01"
+    ],
+    "values": [
+      3.0,
+      3.0,
+      3.0,
+      3.0,
+      3.0,
+      3.0,
+      3.0,
+      3.0,
+      3.0,
+      3.0,
+      3.0,
+      30.0
+    ],
+    "next12_avg": 5.25,
+    "next12_from": "2026-10-01",
+    "next12_to": "2027-10-01"
+  },
+  "storage_missing_week": {
+    "code": "eia_ng_storage",
+    "as_of": "2026-10-09",
+    "bcf": 3567,
+    "chg_week_bcf": 167,
+    "avg5_bcf": null,
+    "vs_avg5_pct": null,
+    "year_ago_bcf": null,
+    "vs_year_ago_pct": null,
+    "history": {
+      "dates": [
+        "2026-09-25",
+        "2026-10-09"
+      ],
+      "bcf": [
+        3400,
+        3567
+      ],
+      "avg5_bcf": [
+        null,
+        null
+      ]
+    }
+  },
+  "controls": {
+    "sparse_full_payload_validates": true,
+    "complete_forecast": {
+      "code": "steo_ng_hh",
+      "release_seen": "2026-10-15",
+      "stale": false,
+      "months": [
+        "2026-10-01",
+        "2026-11-01",
+        "2026-12-01",
+        "2027-01-01",
+        "2027-02-01",
+        "2027-03-01",
+        "2027-04-01",
+        "2027-05-01",
+        "2027-06-01",
+        "2027-07-01",
+        "2027-08-01",
+        "2027-09-01",
+        "2027-10-01"
+      ],
+      "values": [
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        30.0
+      ],
+      "next12_avg": 3.0,
+      "next12_from": "2026-10-01",
+      "next12_to": "2027-09-01"
+    },
+    "complete_storage": {
+      "code": "eia_ng_storage",
+      "as_of": "2026-10-09",
+      "bcf": 3567,
+      "chg_week_bcf": 67,
+      "avg5_bcf": null,
+      "vs_avg5_pct": null,
+      "year_ago_bcf": null,
+      "vs_year_ago_pct": null,
+      "history": {
+        "dates": [
+          "2026-09-25",
+          "2026-10-02",
+          "2026-10-09"
+        ],
+        "bcf": [
+          3400,
+          3500,
+          3567
+        ],
+        "avg5_bcf": [
+          null,
+          null,
+          null
+        ]
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@ import { C, monthSpan, ogCard } from "@/lib/ogCard";
 import { powerSummary } from "@/lib/dcHub";
 import type { PowerData } from "@/components/PowerPanel";
 import dc from "../../../public/data/datacenter.json";
-import { fmtSigned } from "@/lib/format";
+import { fmtSigned, etDay } from "@/lib/format";
 
 export const dynamic = "force-static";
 export const alt = "Macrogauge Power & Tariffs — wholesale power, capacity prices and large-load tariffs";
@@ -16,7 +16,7 @@ export default function Image() {
   const pts = (hub?.spark ?? []).filter((p): p is [string, number] => typeof p[0] === "string" && typeof p[1] === "number");
   return ogCard({
     kicker: "POWER & TARIFFS",
-    stamp: `published ${dc.published_at.slice(0, 10)}`,
+    stamp: `published ${etDay(dc.published_at)}`,
     headline: headline ? `${headline}.` : "Wholesale power at every major US hub, capacity prices by grid operator, and large-load tariffs.",
     tiles: [
       ...(hub?.avg30 != null ? [{ label: hub.label, value: `$${hub.avg30.toFixed(2)}/MWh`, color: C.red, ctx: `30-day avg · ${fmtSigned(hub.avg30_yoy_pct ?? null)} vs a year earlier` }] : []),

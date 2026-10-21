@@ -202,6 +202,25 @@ def test_real_config_passes_registry_cross_check():
     capacity.load_capacity(registry_codes={s.code for s in series})
 
 
+def test_geo_entries_agree_with_their_same_name_site_row():
+    # A site refreshed in `sites` but not in `geo`/`geo_unmapped` publishes two
+    # MW figures for one project (PR 135: an 800 MW ramp beside a stale 400 MW
+    # unmapped row). Where the names match, MW and status must too.
+    cfg = capacity.load_capacity()
+    sites = {(c["t"], s[0]): (s[1], s[2]) for c in cfg["companies"] for s in c["sites"]}
+    bad = [(g["t"], g["site"]) for g in cfg["geo"] + cfg["geo_unmapped"]
+           if (g["t"], g["site"]) in sites and sites[(g["t"], g["site"])] != (g["mw"], g["st"])]
+    assert bad == []
+
+
+def test_as_of_curated_is_not_older_than_the_capacity_evidence():
+    # The maintenance workflow bumps as_of_curated on every filing refresh; the
+    # page labels it "MW data as of". Evidence files are dated by retrieval.
+    dated = [f.name[:10] for f in Path("docs/research/evidence").iterdir()
+             if re.match(r"\d{4}-\d{2}-\d{2}-cap-", f.name)]
+    assert capacity.load_capacity()["as_of_curated"] >= max(dated)
+
+
 def test_geo_market_tags_reference_known_markets():
     from pipeline import capacity as capacity_cfg, dc_markets, registry
     _, series = registry.load_registry()

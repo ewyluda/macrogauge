@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-19T12:56:43Z",
+  "published_at": "2026-10-21T12:54:01Z",
   "rebase": "2018-01=100",
   "group_labels": {
     "labor": "Construction labor",
@@ -15,8 +15,8 @@
   },
   "indexes": {
     "build": {
-      "as_of": "2026-10-19",
-      "headline_yoy_pct": 8.57,
+      "as_of": "2026-10-21",
+      "headline_yoy_pct": 8.56,
       "gate_flags": [],
       "dates": [
         "2018-01-01",
@@ -3232,7 +3232,9 @@
         "2026-10-16",
         "2026-10-17",
         "2026-10-18",
-        "2026-10-19"
+        "2026-10-19",
+        "2026-10-20",
+        "2026-10-21"
       ],
       "index": [
         100.0,
@@ -6448,7 +6450,9 @@
         170.48,
         170.48,
         170.48,
-        170.47
+        170.47,
+        170.48,
+        170.44
       ],
       "yoy_pct": [
         3.05,
@@ -9664,7 +9668,9 @@
         8.58,
         8.58,
         8.58,
-        8.57
+        8.57,
+        8.58,
+        8.56
       ],
       "components": [
         {
@@ -9728,9 +9734,9 @@
           "group": "materials",
           "weight": 0.055,
           "mode": "official+proxy",
-          "last_obs": "2026-10-19",
-          "yoy_pct": 23.01,
-          "contribution_pp": 1.27,
+          "last_obs": "2026-10-21",
+          "yoy_pct": 22.83,
+          "contribution_pp": 1.26,
           "stale": false
         },
         {
@@ -9739,9 +9745,9 @@
           "group": "materials",
           "weight": 0.03,
           "mode": "official+proxy",
-          "last_obs": "2026-10-19",
-          "yoy_pct": 10.75,
-          "contribution_pp": 0.32,
+          "last_obs": "2026-10-21",
+          "yoy_pct": 10.43,
+          "contribution_pp": 0.31,
           "stale": false
         },
         {
@@ -10257,7 +10263,7 @@
           169.4275,
           170.521,
           170.9016,
-          170.4738
+          170.4423
         ],
         "components": {
           "constr_wages": [
@@ -11632,7 +11638,7 @@
             196.0332,
             204.1541,
             204.3871,
-            202.5421
+            202.2485
           ],
           "alum_shapes": [
             96.7196,
@@ -11861,7 +11867,7 @@
             205.3397,
             196.2598,
             187.5801,
-            176.7032
+            176.1914
           ],
           "switchgear": [
             85.7335,
@@ -16222,7 +16228,7 @@
         {
           "group": "materials",
           "weight": 0.2,
-          "contribution_pp": 3.5
+          "contribution_pp": 3.48
         },
         {
           "group": "electrical",
@@ -38439,23 +38445,15 @@
       {
         "code": "ercot_north_da",
         "label": "ERCOT North Hub",
-        "latest": 23.41,
-        "asof": "2026-10-19",
+        "latest": 39.85,
+        "asof": "2026-10-21",
         "unit": "$/MWh",
         "grid": "ERCOT",
         "region": "Texas (Dallas\u2013Fort Worth)",
         "product": "Day-ahead, all-hours average",
-        "avg30": 38.59,
-        "avg30_yoy_pct": 28.9,
+        "avg30": 37.34,
+        "avg30_yoy_pct": 24.3,
         "spark": [
-          [
-            "2026-04-23",
-            21.06
-          ],
-          [
-            "2026-04-24",
-            66.3
-          ],
           [
             "2026-04-25",
             25.76
@@ -39167,29 +39165,29 @@
           [
             "2026-10-19",
             23.41
+          ],
+          [
+            "2026-10-20",
+            28.38
+          ],
+          [
+            "2026-10-21",
+            39.85
           ]
         ]
       },
       {
         "code": "miso_indiana_da",
         "label": "MISO Indiana Hub",
-        "latest": 32.11,
-        "asof": "2026-10-18",
+        "latest": 64.89,
+        "asof": "2026-10-20",
         "unit": "$/MWh",
         "grid": "MISO",
         "region": "Midwest",
         "product": "Day-ahead, all-hours average",
-        "avg30": 56.54,
-        "avg30_yoy_pct": 23.2,
+        "avg30": 56.81,
+        "avg30_yoy_pct": 26.3,
         "spark": [
-          [
-            "2026-04-22",
-            45.66
-          ],
-          [
-            "2026-04-23",
-            47.6
-          ],
           [
             "2026-04-24",
             42.81
@@ -39901,29 +39899,29 @@
           [
             "2026-10-18",
             32.11
+          ],
+          [
+            "2026-10-19",
+            73.75
+          ],
+          [
+            "2026-10-20",
+            64.89
           ]
         ]
       },
       {
         "code": "spp_north_da",
         "label": "SPP North Hub",
-        "latest": 32.83,
-        "asof": "2026-10-19",
+        "latest": 52.37,
+        "asof": "2026-10-21",
         "unit": "$/MWh",
         "grid": "SPP",
         "region": "Kansas and Nebraska",
         "product": "Day-ahead, all-hours average",
-        "avg30": 32.32,
-        "avg30_yoy_pct": -12.3,
+        "avg30": 32.68,
+        "avg30_yoy_pct": -10.0,
         "spark": [
-          [
-            "2026-04-23",
-            7.2
-          ],
-          [
-            "2026-04-24",
-            29.17
-          ],
           [
             "2026-04-25",
             25.34
@@ -40635,29 +40633,29 @@
           [
             "2026-10-19",
             32.83
+          ],
+          [
+            "2026-10-20",
+            24.76
+          ],
+          [
+            "2026-10-21",
+            52.37
           ]
         ]
       },
       {
         "code": "caiso_sp15_da",
         "label": "CAISO SP15",
-        "latest": 44.78,
-        "asof": "2026-10-19",
+        "latest": 51.62,
+        "asof": "2026-10-21",
         "unit": "$/MWh",
         "grid": "CAISO",
         "region": "Southern California",
         "product": "Day-ahead, all-hours average",
-        "avg30": 44.69,
-        "avg30_yoy_pct": 39.1,
+        "avg30": 45.26,
+        "avg30_yoy_pct": 42.0,
         "spark": [
-          [
-            "2026-04-23",
-            2.38
-          ],
-          [
-            "2026-04-24",
-            6.65
-          ],
           [
             "2026-04-25",
             10.29
@@ -41261,6 +41259,14 @@
           [
             "2026-10-19",
             44.78
+          ],
+          [
+            "2026-10-20",
+            45.01
+          ],
+          [
+            "2026-10-21",
+            51.62
           ]
         ]
       },
@@ -42191,23 +42197,15 @@
       {
         "code": "nyiso_west_da",
         "label": "NYISO Zone A (West)",
-        "latest": 44.15,
-        "asof": "2026-10-19",
+        "latest": 42.23,
+        "asof": "2026-10-21",
         "unit": "$/MWh",
         "grid": "NYISO",
         "region": "Western New York",
         "product": "Day-ahead, all-hours average",
-        "avg30": 36.85,
-        "avg30_yoy_pct": -7.0,
+        "avg30": 37.08,
+        "avg30_yoy_pct": -8.8,
         "spark": [
-          [
-            "2026-04-23",
-            35.43
-          ],
-          [
-            "2026-04-24",
-            32.93
-          ],
           [
             "2026-04-25",
             32.31
@@ -42919,6 +42917,14 @@
           [
             "2026-10-19",
             44.15
+          ],
+          [
+            "2026-10-20",
+            39.62
+          ],
+          [
+            "2026-10-21",
+            42.23
           ]
         ]
       },
@@ -43979,14 +43985,14 @@
     ],
     "transformer": null,
     "kalshi": {
-      "dc_count_expected": 5102.0,
-      "count_asof": "2026-10-19",
-      "nuclear_by_2030_prob": 0.54,
-      "nuclear_asof": "2026-10-19"
+      "dc_count_expected": 5099.0,
+      "count_asof": "2026-10-21",
+      "nuclear_by_2030_prob": 0.55,
+      "nuclear_asof": "2026-10-21"
     },
     "diesel": {
-      "latest": 6.18,
-      "asof": "2026-10-12",
+      "latest": 6.28,
+      "asof": "2026-10-19",
       "unit": "$/gal"
     },
     "water": {

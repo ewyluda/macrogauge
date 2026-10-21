@@ -1,6 +1,6 @@
 import { C, monthSpan, ogCard } from "@/lib/ogCard";
 import dc from "../../../public/data/datacenter.json";
-import { fmtSigned } from "@/lib/format";
+import { fmtSigned, etDay } from "@/lib/format";
 
 export const dynamic = "force-static";
 export const alt = "Macrogauge Data Center Inflation — Build, Ops and Hardware cost indexes";
@@ -14,7 +14,7 @@ export default function Image() {
   // tile colours follow the page's KPI cards: Build sky, Ops violet, Hardware amber
   return ogCard({
     kicker: "DATA CENTERS",
-    stamp: `published ${dc.published_at.slice(0, 10)}`,
+    stamp: `published ${etDay(dc.published_at)}`,
     headline: "What it costs to build, equip and operate a US data center — official PPIs, extended daily with market proxies.",
     tiles: [
       { label: "DC Build · YoY", value: fmtSigned(i.build.headline_yoy_pct), color: C.sky, ctx: `as of ${i.build.as_of}` },

@@ -250,7 +250,7 @@ def test_compute_roster_matches_the_registry_and_every_model_has_a_tier():
     codes = {s.code for s in series}
     for k, _ in compute.MODELS:
         assert {f"or_{k}_in", f"or_{k}_out"} <= codes, k
-    for k, _ in compute.RETIRED_MODELS:
+    for k in [k for k, _ in compute.RETIRED_MODELS] + compute.ROUTED_EXCLUDED:
         assert not {f"or_{k}_in", f"or_{k}_out"} & codes, k
     assert set(compute.TIERS) == {k for k, _ in compute.MODELS}
     assert set(compute.TIERS.values()) <= {"frontier", "standard", "light"}
@@ -293,27 +293,27 @@ def test_compute_round_trip_across_a_thin_link_is_counted_whole(tmp_path):
 
 
 @pytest.mark.parametrize("overlap", [False, True])
-def test_compute_list_price_switch_never_moves_the_level(tmp_path, overlap):
-    """2026-10-16: the same seven models move from OpenRouter's routed price
-    to their maker's own endpoint, under new keys. Kimi K3's input goes
-    0.405 -> 3.00, GLM-5.3's 0.079 -> 1.40, yet the index level holds: the
-    routed series retire at their last price and the list series enter, so
-    the switch day links flat (or, if both were collected that day, on the
-    routed prices alone) and the next day measures the list prices."""
-    d1, d2, d3, d4 = "2026-10-14", "2026-10-15", "2026-10-16", "2026-10-19"
-    routed = {k.removesuffix("_list"): {d1: 1.0, d2: 1.1} for k in NEW}
-    routed["kimi_k3"] = {d1: 0.405, d2: 0.405}
+def test_compute_routed_prices_never_enter_the_index(tmp_path, overlap):
+    """The 10-09 roster's routed prices (2026-10-07..10-15) priced whichever
+    host OpenRouter routed to, so they are not index members: routed DeepSeek
+    V4.1 Flash ending on its off-peak rate (half its standard price) once held
+    the index 8.5% low for good. The roster is measured from its maker
+    endpoints alone, so the switch never moves the level and the next day
+    measures the list prices, undiluted."""
+    d0, d1, d2, d3, d4 = "2026-10-13", "2026-10-14", "2026-10-15", "2026-10-16", "2026-10-19"
+    old = {k: {d0: 1.0, d1: 1.0} for k in OLD}
+    routed = {k: {d1: 1.0, d2: 1.1} for k in compute.ROUTED_EXCLUDED}
+    routed["deepseek_v41_flash"] = {d1: 0.525, d2: 0.2625}
     listed = {k: {d3: 5.0, d4: 5.5} for k in NEW}
     if overlap:
         for k in routed:
             routed[k][d3] = routed[k][d2]
-    assert set(routed) <= {k for k, _ in compute.RETIRED_MODELS}
-    ti = compute.build(_store(tmp_path, _roster(routed, listed), source="OPENROUTER"))["token_index"]
+    assert not set(routed) & {k for k, _ in compute.RETIRED_MODELS}
+    ti = compute.build(_store(tmp_path, _roster({**old, **routed}, listed), source="OPENROUTER"))["token_index"]
     by = dict(zip(ti["history"]["dates"], ti["history"]["index"]))
-    rise = 100 * 1.1 ** (6 / 7)                    # six routed members +10%, Kimi flat
-    assert by[d2] == pytest.approx(rise, abs=1e-3)
-    assert by[d3] == by[d2]                        # the switch: no level move
-    assert by[d4] == pytest.approx(rise * 1.1, abs=1e-3)   # the list prices' +10%, undiluted
+    assert d2 not in by                            # only routed prices that day: no point
+    assert by[d3] == pytest.approx(100.0)          # the switch: no level move
+    assert by[d4] == pytest.approx(110.0)          # the list prices' +10%, undiluted
     assert ti["history"]["members"][-1] == len(NEW)
 
 

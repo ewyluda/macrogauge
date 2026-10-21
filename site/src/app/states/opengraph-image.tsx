@@ -3,7 +3,7 @@ import { artifact } from "@/lib/artifact";
 import { siteCostsHeadline } from "@/lib/siteCosts";
 import type { Geo } from "@/lib/types";
 import geoJson from "../../../public/data/geo.json";
-import { fmtMonth, fmtSigned } from "@/lib/format";
+import { fmtMonth, fmtSigned, etDay } from "@/lib/format";
 
 export const dynamic = "force-static";
 export const alt = "Macrogauge Site Costs — industrial power, construction wages and more by state";
@@ -19,7 +19,7 @@ export default function Image() {
   const ind = nat.elec_ind_cents;
   return ogCard({
     kicker: "SITE COSTS",
-    stamp: `published ${data.published_at.slice(0, 10)}`,
+    stamp: `published ${etDay(data.published_at)}`,
     headline: headline ? `${headline.title}.` : "Industrial power, construction wages and more, state by state.",
     tiles: [
       { label: "US industrial power", value: ind.value != null ? `${ind.value.toFixed(2)}¢` : "—", color: C.sky,

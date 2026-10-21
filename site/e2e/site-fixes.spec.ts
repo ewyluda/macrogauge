@@ -98,6 +98,7 @@ const STALE_ROUTES: [string, string[]][] = [
   ["/rates", ["rates"]], ["/housing", ["housing"]], ["/labor", ["labor"]],
   ["/datacenter", ["datacenter", "longlead", "rates"]], ["/power", ["datacenter", "dc_grades"]], ["/markets", ["dc_markets"]],
   ["/capacity", ["capacity"]], ["/longlead", ["longlead"]], ["/commodities", ["commodities"]], ["/outlook", ["outlook"]],
+  ["/gas", ["gas"]],
 ];
 for (const [route, files] of STALE_ROUTES) {
   test(`${route} shows the stale-phase banner iff its artifact predates pulse.json`, async ({ page, request }) => {

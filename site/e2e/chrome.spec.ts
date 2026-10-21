@@ -110,7 +110,7 @@ test.describe("phone (390px)", () => {
 
 test("every AI Infra page shares its own card", async ({ page }) => {
   for (const route of ["/datacenter", "/escalation", "/calculator", "/longlead", "/power", "/commodities", "/markets",
-    "/states", "/rates", "/as-of", "/capacity", "/compute", "/news"]) {
+    "/states", "/rates", "/as-of", "/capacity", "/compute", "/news", "/gas"]) {
     await page.goto(route);
     const og = await page.locator('meta[property="og:image"]').getAttribute("content");
     expect(new URL(og!).pathname, route).toBe(`${route}/opengraph-image`);

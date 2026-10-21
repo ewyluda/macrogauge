@@ -1,10 +1,10 @@
 {
-  "published_at": "2026-10-19T12:56:43Z",
-  "score": 9.3,
+  "published_at": "2026-10-21T12:54:01Z",
+  "score": 5.1,
   "coverage_pct": 100.0,
   "groups": {
     "prices": {
-      "z": 0.29668,
+      "z": 0.30378000000000005,
       "weight": 25,
       "available": 5,
       "expected": 5,
@@ -25,14 +25,14 @@
       "active_weight": 20.0
     },
     "housing": {
-      "z": -0.573325,
+      "z": -1.11125,
       "weight": 15,
       "available": 4,
       "expected": 4,
       "active_weight": 15.0
     },
     "money_expectations": {
-      "z": 0.7364666666666667,
+      "z": 0.7065,
       "weight": 15,
       "available": 3,
       "expected": 3,
@@ -78,9 +78,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-10-16",
-      "momentum": 0.1,
-      "z": 0.284
+      "as_of": "2026-10-20",
+      "momentum": 0.11,
+      "z": 0.3195
     },
     {
       "code": "PAYEMS",
@@ -162,17 +162,17 @@
       "code": "HOUST",
       "group": "housing",
       "direction": 1,
-      "as_of": "2026-08-01",
-      "momentum": 7.868,
-      "z": 0.7354
+      "as_of": "2026-09-01",
+      "momentum": -15.1494,
+      "z": -1.8124
     },
     {
       "code": "PERMIT",
       "group": "housing",
       "direction": 1,
-      "as_of": "2026-08-01",
-      "momentum": -0.4965,
-      "z": -0.0922
+      "as_of": "2026-09-01",
+      "momentum": 1.8923,
+      "z": 0.3039
     },
     {
       "code": "CSUSHPISA",
@@ -214,9 +214,9 @@
       "direction": 1,
       "mode": "diff",
       "periods": 63,
-      "as_of": "2026-10-16",
-      "momentum": -0.02,
-      "z": -0.0
+      "as_of": "2026-10-20",
+      "momentum": -0.04,
+      "z": -0.0899
     }
   ],
   "history": {
@@ -280,7 +280,7 @@
       "2026-07-31",
       "2026-08-31",
       "2026-09-30",
-      "2026-10-16"
+      "2026-10-20"
     ],
     "score": [
       53.0,
@@ -339,10 +339,10 @@
       21.6,
       12.0,
       -3.0,
-      -11.9,
-      -7.1,
-      13.3,
-      9.3
+      -11.0,
+      -6.8,
+      9.3,
+      5.1
     ]
   }
 }

@@ -46,6 +46,7 @@ export const DATA_FILES: DataFile[] = [
   { file: "sources_status.json", description: "Per-source freshness and errors" , section: "System" },
   { file: "qa.json", description: "Data-integrity self-test results" , section: "System" },
   { file: "methodology.json", description: "Basket, series inventory, validation" , section: "System" },
+  { file: "gas.json", description: "Henry Hub, storage, power burn, LNG, power-vs-gas ratios and gas-fired AI deals" , section: "AI Infra" },
   { file: "rates.json", description: "Treasury curve, breakevens, credit, dollar, liquidity, mortgage spread" , section: "AI Infra" },
   { file: "compute.json", description: "Cost of a token and a GPU-hour: model and SKU prices with two composite indexes" , section: "AI Infra" },
   { file: "housing.json", description: "Home prices, rents, sales and payment-to-income affordability" , section: "Economy" },
