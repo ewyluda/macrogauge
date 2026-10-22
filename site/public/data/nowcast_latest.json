@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-21T12:54:01Z",
+  "published_at": "2026-10-22T12:49:31Z",
   "target": "CPI",
   "release_date": "2026-11-10",
   "core_benchmarks": {
@@ -8,8 +8,8 @@
       "as_of": "2026-10-14"
     },
     "kalshi": {
-      "value": 0.205,
-      "as_of": "2026-10-21"
+      "value": 0.196,
+      "as_of": "2026-10-22"
     }
   },
   "core_ensemble": {
@@ -33,7 +33,7 @@
       "weight_share": 0.7923
     },
     "yoy_pct": 3.31,
-    "as_of": "2026-10-21",
+    "as_of": "2026-10-22",
     "status": "live",
     "parameters": {},
     "components": [
@@ -53,11 +53,11 @@
       },
       {
         "component": "food_home",
-        "mom_pct": 0.1465,
+        "mom_pct": 0.1258,
         "weight": 0.081612,
-        "contribution_pp": 0.012,
+        "contribution_pp": 0.0103,
         "basis": "trend+driver",
-        "driver_mom_pct": 0.0154
+        "driver_mom_pct": -0.0053
       },
       {
         "component": "medical",
@@ -103,9 +103,9 @@
       },
       {
         "component": "fuel",
-        "mom_pct": 0.7108,
+        "mom_pct": 0.6299,
         "weight": 0.040804,
-        "contribution_pp": 0.029,
+        "contribution_pp": 0.0257,
         "basis": "measured"
       },
       {
@@ -170,7 +170,7 @@
     },
     "reference_month": "2026-09",
     "release_date": "2026-10-29",
-    "as_of": "2026-10-21",
+    "as_of": "2026-10-22",
     "core": {
       "mom_pct": 0.31,
       "bridge": "cpi+ppi",
@@ -217,7 +217,7 @@
     }
   },
   "nfp": {
-    "change_thousands": 67,
+    "change_thousands": 66,
     "status": "live",
     "reference_month": "2026-10",
     "parameters": {
@@ -228,17 +228,17 @@
     },
     "inputs": {
       "payroll_momentum": 50.67,
-      "claims_delta_thousands": -5.5
+      "claims_delta_thousands": -4.75
     }
   },
   "benchmarks": {
     "cleveland": {
-      "value": 0.27,
-      "as_of": "2026-10-15"
+      "value": 0.25,
+      "as_of": "2026-10-22"
     },
     "kalshi": {
-      "value": 0.208,
-      "as_of": "2026-10-21"
+      "value": 0.231,
+      "as_of": "2026-10-22"
     }
   },
   "ensemble": {
@@ -249,5 +249,5 @@
       "kalshi": 0.3333
     }
   },
-  "generated_on": "2026-10-21"
+  "generated_on": "2026-10-22"
 }

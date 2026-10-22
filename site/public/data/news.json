@@ -1,5 +1,5 @@
 {
-  "published_at": "2026-10-21T12:54:01Z",
+  "published_at": "2026-10-22T12:49:31Z",
   "live_url": "https://macrogauge-public.cloud10.dev/ai-news.json",
   "window_days": 7,
   "stale_after_hours": 24,
@@ -19,11 +19,1126 @@
   "universe_size": 94,
   "source_name": "caktus.db (Kepler feed)",
   "status": "live",
-  "feed_generated_at": "2026-10-21T12:52:00Z",
-  "tape_last_post_at": "2026-10-21T12:49:21Z",
-  "age_hours": 0.04,
+  "feed_generated_at": "2026-10-22T01:58:08Z",
+  "tape_last_post_at": "2026-10-22T00:45:41Z",
+  "age_hours": 10.86,
   "dropped": 0,
   "posts": [
+    {
+      "id": "3AAEF015FB018A812C77",
+      "ts": "2026-10-22T00:45:41Z",
+      "category": "earnings",
+      "kind": "image",
+      "headline": "U.S. stock futures declined Wednesday evening following earnings from Meta ($META) and Tesla ($TSLA), while Asian markets weakened and oil prices climbed.",
+      "points": [
+        {
+          "label": "U.S. Futures",
+          "text": "Dow futures -0.31% at 52,896; S&P 500 futures -0.40% at 7,726.7; Nasdaq-100 futures -0.67% at 29,622."
+        },
+        {
+          "label": "Asian Markets",
+          "text": "Japan's Nikkei 225 -0.40% at 64,363.50; South Korea's Kospi -0.61% at 5,700.49 and Kosdaq -0.66% at 787.54."
+        },
+        {
+          "label": "Oil Prices",
+          "text": "WTI crude +0.91% to $98.03 per barrel; Brent crude +1.09% to $110.01."
+        },
+        {
+          "label": "Thursday's Catalysts",
+          "text": "Earnings from Procter & Gamble ($PG), Lockheed Martin ($LMT), Valero ($VLO) and Honeywell ($HON), alongside weekly U.S. jobless claims."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20244",
+      "has_media": true
+    },
+    {
+      "id": "3ADFE7BE977AB60F5A5C",
+      "ts": "2026-10-21T21:31:24Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Meta ($META) reported over 10M Muse AI agent users in six weeks, with roughly 25% using it daily, as Zuckerberg outlined plans to build a highly profitable AI business.",
+      "points": [
+        {
+          "label": "AI Shopping",
+          "text": "Over 25% of active Muse users shop through the agent, averaging purchases above $200. Unexpected demand forced Stripe to increase credit limits during launch week."
+        },
+        {
+          "label": "Profitability",
+          "text": "Meta expects rising total operating costs as Muse expands, but projects 10x+ compute efficiency gains next year. Zuckerberg believes Muse could eventually generate more revenue per user than Meta's existing apps."
+        },
+        {
+          "label": "New Products",
+          "text": "Muse launches on Meta smart glasses next month, potentially boosting subscriptions. Muse Charm is nearing release."
+        },
+        {
+          "label": "Advertising & Engagement",
+          "text": "Nearly 10M advertisers used generative AI tools in Q3, with AI video adoption up 25% quarterly. Instagram time spent per user hit records, rising double digits annually, while Facebook Reels also reached record engagement."
+        },
+        {
+          "label": "AI Expansion",
+          "text": "Meta is testing Muse Wonder to autonomously improve ads and recommendations. New enterprise AI businesses could begin contributing revenue in 2027."
+        },
+        {
+          "label": "Funding",
+          "text": "Planned nonvoting Class C shares would expand financing options without diluting existing voting control. No specific fundraising plans were announced."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20225",
+      "has_media": false
+    },
+    {
+      "id": "3A7E8943F2035FCA7B33",
+      "ts": "2026-10-21T20:38:59Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "ZUCKERBERG SEES MUSE AI POTENTIALLY GENERATING HIGHER REVENUE PER USER THAN META\u2019S FAMILY OF APPS. $META",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20221",
+      "has_media": false
+    },
+    {
+      "id": "3A62C2C70112193A7EA5",
+      "ts": "2026-10-21T20:29:35Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Palantir ($PLTR) is expanding sovereign AI deployments with NVIDIA ($NVDA), L3Harris ($LHX), Ondas ($ONDS) and major enterprise customers, reporting efficiency gains across defense, healthcare, construction and supply chains.",
+      "points": [
+        {
+          "label": "L3Harris ($LHX)",
+          "text": "Unified 30+ ERP systems and established 3.5 million data connections. Initial internal testing of specialized AI models reportedly outperformed frontier models while reducing costs by 95%."
+        },
+        {
+          "label": "NVIDIA ($NVDA)",
+          "text": "Uses Palantir AIP and customized Nemotron models to optimize supply chains, identify disruptions earlier and accelerate operational decisions."
+        },
+        {
+          "label": "Ondas ($ONDS)",
+          "text": "Launched Regna AI to help governments and enterprises deploy mission-specific AI while retaining control of their data, models and infrastructure. The partnership also supports Sentinel manufacturing, SkyWeaver autonomy and corporate integrations."
+        },
+        {
+          "label": "McCarthy Building",
+          "text": "Trained construction AI models using more than 100,000 project RFIs, with AI-assisted subcontractor workflows estimated to save approximately 30,000 hours annually."
+        },
+        {
+          "label": "Tampa General Hospital",
+          "text": "Reported a 7% improvement in AI performance and a 22-fold reduction in latency while maintaining local data controls."
+        },
+        {
+          "label": "Technology",
+          "text": "Deployments combine Palantir AIP, Foundry and Ontology with NVIDIA Nemotron models, emphasizing organization-controlled AI trained on proprietary data."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20218",
+      "has_media": false
+    },
+    {
+      "id": "3AD4EDB1815EC9B9F5E1",
+      "ts": "2026-10-21T20:23:14Z",
+      "category": "earnings",
+      "kind": "text",
+      "headline": "Meta Platforms ($META) reported negative free cash flow of $2.12 billion in Q3 2026, its first negative quarter since 2012, as AI infrastructure spending surged. The company also announced plans for a 2-for-1 stock split introducing nonvoting Class C shares.",
+      "points": [
+        {
+          "label": "Cash Flow",
+          "text": "Free cash flow fell to -$2.12B from +$784M in Q2 and +$10.63B a year earlier, despite generating $32.79B in operating cash flow."
+        },
+        {
+          "label": "Capital Spending",
+          "text": "Purchases of property and equipment reached $33.94B, plus $964M in finance lease principal payments, bringing combined spending to approximately $34.91B."
+        },
+        {
+          "label": "Stock Split",
+          "text": "Shareholders will receive one new nonvoting Class C share for every existing Class A or Class B share, effectively creating a 2-for-1 split without changing voting control."
+        },
+        {
+          "label": "Timeline",
+          "text": "The new share structure is expected to take effect January 19, 2027, with the dividend's record and payment dates to be announced. Class C shares are intended to trade on Nasdaq."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20217",
+      "has_media": false
+    },
+    {
+      "id": "3AF467700F9CCAA70849",
+      "ts": "2026-10-21T20:11:31Z",
+      "category": "earnings",
+      "kind": "text",
+      "headline": "META NOT PROVIDING FULL-YEAR 2027 REVENUE OUTLOOK. $META",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20209",
+      "has_media": false
+    },
+    {
+      "id": "3A78C71DF13C39A757FA",
+      "ts": "2026-10-21T20:05:43Z",
+      "category": "earnings",
+      "kind": "text",
+      "headline": "*LAM RESEARCH 1Q REV. $8.22B, EST. $8.13B",
+      "points": [
+        {
+          "label": null,
+          "text": "*LAM RESEARCH 1Q ADJ EPS $2.20, EST. $2.19"
+        },
+        {
+          "label": null,
+          "text": "$LRCX"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "LRCX",
+          "layer": "Semi Equipment"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20204",
+      "has_media": false
+    },
+    {
+      "id": "3AE1F4D93DBEED5F83BB",
+      "ts": "2026-10-21T20:04:31Z",
+      "category": "earnings",
+      "kind": "text",
+      "headline": "$META Meta Platforms: Q3 Revenue Beats Estimates, but $9.9B Legal Charge Hits Profits as AI CapEx Reaches $35B",
+      "points": [
+        {
+          "label": null,
+          "text": "\u2800"
+        },
+        {
+          "label": null,
+          "text": "\ud83d\udcca Results"
+        },
+        {
+          "label": null,
+          "text": "EPS: $3.83 (Est. $6.80) \u274c, +265% YoY."
+        },
+        {
+          "label": null,
+          "text": "EPS Excluding Legal Charge: $7.40 (Est. $6.80) \u2705."
+        },
+        {
+          "label": null,
+          "text": "Revenue: $64.60B (Est. $63.41B) \u2705, +26% YoY."
+        },
+        {
+          "label": null,
+          "text": "Operating Income: $12.99B, -37% YoY."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20202",
+      "has_media": false
+    },
+    {
+      "id": "3AB1D9B5C9A449BE404D",
+      "ts": "2026-10-21T20:02:05Z",
+      "category": "earnings",
+      "kind": "text",
+      "headline": "*META 3Q REALITY LABS REV. $443M, EST. $517.7M",
+      "points": [
+        {
+          "label": null,
+          "text": "*META 3Q REALITY LABS OPER LOSS $4.13B, EST. LOSS $5.13B"
+        },
+        {
+          "label": null,
+          "text": "*META 3Q AD REV. $63.06B, EST. $61.85B"
+        },
+        {
+          "label": null,
+          "text": "*META 3Q REV. $64.60B, EST. $63.33B"
+        },
+        {
+          "label": null,
+          "text": "$META"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20197",
+      "has_media": false
+    },
+    {
+      "id": "3ACDA1734361B7CC6A19",
+      "ts": "2026-10-21T20:01:51Z",
+      "category": "earnings",
+      "kind": "text",
+      "headline": "*META 3Q OPER INCOME $12.99B, EST. $20.85B",
+      "points": [
+        {
+          "label": null,
+          "text": "$META"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20196",
+      "has_media": false
+    },
+    {
+      "id": "3A2D024545EA158D0FA5",
+      "ts": "2026-10-21T20:01:41Z",
+      "category": "earnings",
+      "kind": "image",
+      "headline": "META PLATFORMS Q3 EARNINGS",
+      "points": [
+        {
+          "label": null,
+          "text": "Q4 guide Revenue $73B- $76B vs $73.73B"
+        },
+        {
+          "label": null,
+          "text": "EPS $3.83"
+        },
+        {
+          "label": null,
+          "text": "Revenue $64.60B vs $63.33B: BBG"
+        },
+        {
+          "label": null,
+          "text": "FY guide Capex $135B - $145B vs PRIOR FORECAST $130B- $145B"
+        },
+        {
+          "label": null,
+          "text": "Op margin 20%: RTRS"
+        },
+        {
+          "label": null,
+          "text": "Op income $12.99B vs $20.85B: BBG"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20195",
+      "has_media": true
+    },
+    {
+      "id": "3A7CB0AF3C802C28CD52",
+      "ts": "2026-10-21T19:37:11Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Walmart ($WMT) unveiled Agent Gateway, a platform allowing approved AI agents to search products and make purchases across Walmart and Sam's Club, embracing AI-powered shopping as rival Amazon ($AMZN) restricts autonomous purchasing.",
+      "points": [
+        {
+          "label": "AI Integrations",
+          "text": "Built using Anthropic's Model Context Protocol (MCP), the gateway expands Walmart's agentic commerce strategy, including its partnership with Meta's ($META) Muse and integrations with ChatGPT and Gemini."
+        },
+        {
+          "label": "Customer Controls",
+          "text": "Agent Profiles, launching next month, will let shoppers authorize individual agents, track their purchases separately and require transaction approvals or set spending limits."
+        },
+        {
+          "label": "Privacy & Security",
+          "text": "Agents cannot access payment information, exceed customer instructions or retrieve unnecessary personal data. Walmart says purchase history need not be shared directly with agents."
+        },
+        {
+          "label": "Consumer Protections",
+          "text": "Existing return policies will apply to agent purchases, including unintended orders. Noncompliant agents can be blocked. No Walmart+ membership is required."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMZN",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20187",
+      "has_media": true
+    },
+    {
+      "id": "3A6FAB2704415FB89319",
+      "ts": "2026-10-21T19:20:35Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Meta Platforms ($META) is reportedly planning to introduce nonvoting shares, potentially enabling major new stock issuance to fund its AI expansion without diluting CEO Mark Zuckerberg's voting control, according to people familiar with the matter.",
+      "points": [
+        {
+          "label": "Funding Strategy",
+          "text": "New shares could finance AI infrastructure, chip purchases, acquisitions and recruitment of top AI talent. The plan could be announced alongside Wednesday's earnings."
+        },
+        {
+          "label": "Alphabet Precedent",
+          "text": "Alphabet ($GOOGL) introduced nonvoting shares in 2014 and issued $85B in stock earlier this year for AI investments, with half carrying no voting rights."
+        },
+        {
+          "label": "Shareholder Impact",
+          "text": "As rising AI spending pressures cash flow, Big Tech companies are reducing buybacks and increasingly issuing shares, potentially diluting existing shareholders' economic ownership."
+        },
+        {
+          "label": "Company Response",
+          "text": "Meta declined to comment."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20182",
+      "has_media": true
+    },
+    {
+      "id": "3A84C372EC0C6B686819",
+      "ts": "2026-10-21T19:17:42Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Anthropic is rolling out a research preview of Claude Duet, an always-on personal AI agent powered by Opus 5.5, directly competing with Meta Platforms' ($META) Muse and OpenAI's Dots.",
+      "points": [
+        {
+          "label": "Autonomous Tasks",
+          "text": "Duet works continuously across connected apps, handles emails and calendars, prepares daily briefings, schedules meetings, and creates documents, presentations and dashboards while users are away."
+        },
+        {
+          "label": "Integrations & Memory",
+          "text": "Anthropic advertises support for over 6,000 connectors and plugins. Duet retains context from existing Claude conversations and can coordinate longer-running tasks through Claude Code."
+        },
+        {
+          "label": "Safety Controls",
+          "text": "The agent operates through a dedicated cloud computer, with user approval required for sensitive actions such as sending messages or making payments."
+        },
+        {
+          "label": "Availability",
+          "text": "Duet is entering a limited U.S. research preview for Claude Pro and Max subscribers through a waitlist, with early testers receiving mobile and web access."
+        },
+        {
+          "label": "Competition",
+          "text": "Meta launched Muse in September with autonomous browsing, purchases, persistent memory and proactive task execution. Unlike Duet's limited preview, Muse already offers free and paid access."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20179",
+      "has_media": true
+    },
+    {
+      "id": "3A31086BE3E5DAFBB7F0",
+      "ts": "2026-10-21T18:30:08Z",
+      "category": "company",
+      "kind": "video",
+      "headline": "Alphabet ($GOOGL) CEO Sundar Pichai defended Google's aggressive AI infrastructure spending despite pressure on free cash flow, citing strong demand, long-term revenue commitments and confidence in future AI breakthroughs.",
+      "points": [
+        {
+          "label": "Investment Strategy",
+          "text": "Pichai said robust demand across consumer and enterprise markets, backed by committed revenue and long-term contracts, justifies continued spending on computing infrastructure, land and power."
+        },
+        {
+          "label": "Gemini",
+          "text": "Google's Gemini 4 Argon recorded 3 times the token usage of its predecessor during its first 72 hours. Pichai expects Gemini 5.0 to deliver significant improvements."
+        },
+        {
+          "label": "AI Development",
+          "text": "Google remains compute-constrained despite its scale. Pichai highlighted model efficiency, agentic coding breakthroughs and potential acceleration in recursive AI self-improvement over the next 12 months."
+        },
+        {
+          "label": "Personal AI Agents",
+          "text": "Pichai envisions AI agents integrating Search, Gmail and Gemini through persistent user context, potentially requiring changes to how the web operates."
+        },
+        {
+          "label": "Future Technologies",
+          "text": "Google's Project Suncatcher is exploring space-based data centers powered by near-continuous solar energy. Pichai also expects practical commercial quantum computing applications within five years."
+        },
+        {
+          "label": "AI Safety",
+          "text": "Pichai advocated independent model evaluations and consistent national regulation, noting Google's voluntary participation in U.S. government testing."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20168",
+      "has_media": true
+    },
+    {
+      "id": "3A2A748F6934A5AB15BF",
+      "ts": "2026-10-21T18:05:25Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Meta Platforms ($META) was ordered to pay $25 billion after a New Mexico judge ruled against the company in a lawsuit alleging it deceived users about data privacy practices tied to the Cambridge Analytica scandal.",
+      "points": [
+        {
+          "label": "Court Ruling",
+          "text": "A jury found 43 million violations of New Mexico's consumer protection laws following a two-week trial. Judge Francis Mathew imposed the $25B penalty Wednesday."
+        },
+        {
+          "label": "Previous Penalties",
+          "text": "New Mexico separately secured $375M and $567M in penalties and damages over child-safety violations earlier this year."
+        },
+        {
+          "label": "Multistate Settlement",
+          "text": "Meta agreed in August to pay up to $17.1B and change its products to resolve child-safety claims across 47 states and other jurisdictions. That agreement included $459M for similar Cambridge Analytica privacy claims."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20161",
+      "has_media": true
+    },
+    {
+      "id": "3A0A7A30FBEF43585A15",
+      "ts": "2026-10-21T17:31:06Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "MICRON CTO: WILL NOT PURSUE 4F-SQUARED MEMORY CHIPS DESPITE CXMT\u2019S ADVANCE \u2014 NIKKEI. $MU",
+      "points": [
+        {
+          "label": null,
+          "text": "MICRON WILL CONTINUE TO BET ON 6F-SQUARED STRUCTURE AND NEXT-GENERATION 3D DRAM TECHNOLOGY"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MU",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20157",
+      "has_media": false
+    },
+    {
+      "id": "3A0CB644C25977C19442",
+      "ts": "2026-10-21T16:55:27Z",
+      "category": "earnings",
+      "kind": "image",
+      "headline": "U.S. stocks traded mixed Wednesday midday, with SpaceX ($SPCX) and AI server stocks rallying on earnings developments, while Netflix ($NFLX) and AT&T ($T) declined.",
+      "points": [
+        {
+          "label": "SpaceX ($SPCX)",
+          "text": "+10% after Q3 revenue surged 161% to $14.58B. Tesla ($TSLA) gained 3% amid potential merger discussions, while SpaceX investor EchoStar ($SATS) rose 8%."
+        },
+        {
+          "label": "Space Stocks",
+          "text": "Rocket Lab ($RKLB) +4% and Firefly Aerospace ($FLY) +5%, alongside SpaceX's rally."
+        },
+        {
+          "label": "Super Micro ($SMCI)",
+          "text": "+9% after raising its fiscal Q1 revenue outlook to $18.5B\u2013$19.5B from $14.5B\u2013$15.5B. Competitors Dell ($DELL) gained nearly 5% and HPE ($HPE) rose 3%."
+        },
+        {
+          "label": "Meta ($META)",
+          "text": "+2% ahead of earnings after the close, with its Muse AI rollout in focus. Alphabet ($GOOGL) fell 2% following news that OpenAI models would become available through Google Cloud."
+        },
+        {
+          "label": "Roivant ($ROIV)",
+          "text": "+4% after its Lisraya treatment met primary efficacy goals in two Phase 3 trials for non-infectious uveitis."
+        },
+        {
+          "label": "Bloom Energy ($BE)",
+          "text": "+6% ahead of Thursday's earnings. Consensus expects $0.69 EPS on $1.07B revenue, with Wolfe Research citing potential for an earnings beat and guidance increase."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "BE",
+          "layer": "Power & Grid"
+        },
+        {
+          "ticker": "DELL",
+          "layer": "Servers & Storage"
+        },
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "HPE",
+          "layer": "Servers & Storage"
+        },
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "RIOT",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "SMCI",
+          "layer": "Servers & Storage"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20152",
+      "has_media": true
+    },
+    {
+      "id": "3AD85817388886D3DA13",
+      "ts": "2026-10-21T16:32:03Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "U.S. Senators Richard Blumenthal (D) and Josh Hawley (R) launched a bipartisan inquiry into Google's ($GOOGL) AI tools in schools, demanding answers about potential risks to children's mental health and academic development.",
+      "points": [
+        {
+          "label": "Investigation",
+          "text": "A Wall Street Journal investigation involving more than 60 interviews reported students developing emotional and academic dependence on AI. Google's own researchers also reportedly warned of potential cognitive and emotional harm."
+        },
+        {
+          "label": "Senate Demands",
+          "text": "Lawmakers questioned Google's knowledge of these risks, default AI integration on school devices, complaints from educators and parents, and promotional efforts. Responses are due November 2."
+        },
+        {
+          "label": "Google Response",
+          "text": "Google defended its educational benefits, citing research-based development, teacher controls and safeguards for users under 18, including protections against emotional dependence."
+        },
+        {
+          "label": "School Restrictions",
+          "text": "New York City and Los Angeles school districts have imposed moratoriums on classroom AI use amid growing concerns."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "GOOGL",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20148",
+      "has_media": true
+    },
+    {
+      "id": "3A2D1C86869DAA4DD110",
+      "ts": "2026-10-21T16:10:44Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Private equity firms explored a potential $100B\u2013$150B buyout of Microsoft's ($MSFT) Xbox gaming division, according to The Information, but discussions were preliminary and never reached Microsoft.",
+      "points": [
+        {
+          "label": "Buyout Interest",
+          "text": "Several firms reportedly considered acquiring Xbox in recent months, although no formal negotiations or offers emerged."
+        },
+        {
+          "label": "Potential Restructuring",
+          "text": "Fortune previously reported internal speculation about a possible sale, spinoff or outside investment. Xbox CEO Asha Sharma has explicitly denied that the business is for sale."
+        },
+        {
+          "label": "Financial Pressure",
+          "text": "Xbox's FY2026 revenue fell 7% to $21.8B, with hardware sales down 29% and profit margins near 3%. The division reportedly plans to cut 3,200 jobs from a workforce of approximately 14,000."
+        },
+        {
+          "label": "Consumer Outlook",
+          "text": "The next Xbox console, Project Helix, reportedly carries internal price estimates of $1,200\u2013$1,800, while Microsoft is considering restructuring Game Pass into feature-based subscription options."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MSFT",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20143",
+      "has_media": true
+    },
+    {
+      "id": "3A0FE24573D54A3AB04C",
+      "ts": "2026-10-21T15:59:01Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Nokia ($NOK) shares rose 1.88% to $9.19 Wednesday, after Nvidia ($NVDA) CEO Jensen Huang highlighted the companies' AI-native 5G partnership during his GTC Berlin keynote.",
+      "points": [
+        {
+          "label": "AI Infrastructure",
+          "text": "Nvidia and Nokia are integrating accelerated computing into telecom radio networks to support AI-native 5G."
+        },
+        {
+          "label": "Strategic Investment",
+          "text": "Nvidia announced plans last year to invest $1B in Nokia for a 2.9% ownership stake, supporting AI connectivity development."
+        },
+        {
+          "label": "Commercial Progress",
+          "text": "T-Mobile ($TMUS) recently completed what it described as the world's first AI-RAN call on its commercial network, powered by Nokia and Nvidia software."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20141",
+      "has_media": true
+    },
+    {
+      "id": "3A9A4F9B3A18256E6C46",
+      "ts": "2026-10-21T15:51:52Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Altimeter Capital CEO Brad Gerstner warned that nobody knows what AI computing demand will look like in 12 months, despite expecting continued acceleration, as concerns grow over companies such as CoreWeave ($CRWV).",
+      "points": [
+        {
+          "label": "Investment Positioning",
+          "text": "Gerstner previously reduced his exposure to the AI trade, distinguishing his hedge fund's focus on limiting losses from his long-term growth and venture investments targeting the next 5\u201310 years."
+        },
+        {
+          "label": "Profitability Concerns",
+          "text": "Investors are questioning whether AI revenues can justify trillions in infrastructure spending, particularly as OpenAI and Anthropic revenues reportedly disappoint analysts."
+        },
+        {
+          "label": "Bearish View",
+          "text": "Gartner's John Lovelock argued that computing capacity already exceeds demand, with free AI services undermining profitability. He expects many AI markets to consolidate into two dominant competitors."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20139",
+      "has_media": false
+    },
+    {
+      "id": "3AC47BA7C7A47D5180C9",
+      "ts": "2026-10-21T15:22:36Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Intel ($INTC) reached a construction milestone at its Ohio semiconductor facility, installing its first major structural truss. The project is at least five years behind its original 2025 production target.",
+      "points": [
+        {
+          "label": "Ohio Timeline",
+          "text": "Intel now targets completing its first fab in 2030 and a second in 2031, with expansion increasingly tied to confirmed customer demand."
+        },
+        {
+          "label": "Potential Partnership",
+          "text": "Intel and SK Hynix have reportedly discussed using Ohio foundry space for memory production, but neither company has confirmed an agreement."
+        },
+        {
+          "label": "Arizona Expansion",
+          "text": "Intel's next Arizona fab is expected to begin operations by late 2028. Its existing facility already produces advanced 18A chips, primarily for Intel's own processors, without a major external customer."
+        },
+        {
+          "label": "Market Opportunity",
+          "text": "Capacity constraints at TSMC ($TSM) could create demand for Intel as an alternative manufacturer for major chip designers, including Nvidia ($NVDA), AMD ($AMD), Apple ($AAPL) and Broadcom ($AVGO)."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "AMD",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "AVGO",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "INTC",
+          "layer": "Foundry & Fab"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        },
+        {
+          "ticker": "TSM",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20131",
+      "has_media": true
+    },
+    {
+      "id": "3A2DBB281F6FB701231B",
+      "ts": "2026-10-21T15:01:38Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "INTEL ADVANCES US CHIP FACTORY EXPANSION AFTER YEARS OF DELAYS. $INTC",
+      "points": [],
+      "tickers": [
+        {
+          "ticker": "INTC",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20127",
+      "has_media": false
+    },
+    {
+      "id": "3AC50A0A73E3B5D0643D",
+      "ts": "2026-10-21T14:45:15Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Micron ($MU) unveiled its next-generation DRAM, HBM and NAND roadmaps through 2030, expanding its focus on AI memory performance, energy efficiency and storage across data centers, personal devices and robotics.",
+      "points": [
+        {
+          "label": "Advanced DRAM",
+          "text": "Micron's 1\u03b4 node targets a mid-20% improvement in bit density over 1\u03b3, with U.S. manufacturing ramping in 2H 2027. Future nodes include 1\u03b5 with wafer bonding, advanced EUV processes and 3D DRAM development."
+        },
+        {
+          "label": "HBM Roadmap",
+          "text": "HBM4E is planned for 2027, followed by HBM5 and first-generation vertical HBM (vHBM) in 2028, HBM5E in 2029 and HBM6 in 2030. Custom HBM begins with HBM4E."
+        },
+        {
+          "label": "3D Memory",
+          "text": "Micron plans to stack memory directly above computing chips, using advanced packaging, hybrid bonding and thermal innovations to improve bandwidth and AI tokens generated per watt."
+        },
+        {
+          "label": "NAND Breakthrough",
+          "text": "G11 NAND targets more than 400 layers, roughly twice G9's bit density, up to 1.5x faster I/O and over 25% lower energy per bit. Volume production is planned for 2H 2027."
+        },
+        {
+          "label": "AI Storage",
+          "text": "Micron outlined future SSDs with capacities up to 512TB and high-IOPS NAND targeting 25M\u2013100M small-block operations per second, designed to keep AI accelerators supplied with data."
+        },
+        {
+          "label": "Expanding Markets",
+          "text": "AI-optimized storage targets data centers, private enterprise AI, workstations, AI PCs, autonomous vehicles, humanoid robots, mobile devices and wearables."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MU",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20123",
+      "has_media": false
+    },
+    {
+      "id": "3A4D42E3BE9D40B85866",
+      "ts": "2026-10-21T14:13:08Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Meta ($META) suspended a sharing feature in its Muse AI assistant after security researchers discovered more than 6,800 accessible links exposing sensitive personal and corporate information, raising privacy and identity-theft concerns. - NYP",
+      "points": [
+        {
+          "label": "Security Flaw",
+          "text": "Cybersecurity firm Claroc found that Muse-generated sharing links could be discovered through a single search query, allowing people who had never received the links to access their contents."
+        },
+        {
+          "label": "Exposed Information",
+          "text": "Accessible documents included loan applications, banking transactions, internal financial reports, corporate revenue documents and employee vacation schedules."
+        },
+        {
+          "label": "Vulnerability",
+          "text": "Researchers dubbed the issue \"GhostShares,\" finding that predictable URL structures made supposedly private shared pages discoverable."
+        },
+        {
+          "label": "Meta Response",
+          "text": "The company confirmed it paused the affected functionality while reviewing the findings and potential changes to link security."
+        },
+        {
+          "label": "Limitations",
+          "text": "The report identified unauthorized access risks but did not establish that identity theft had occurred."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20111",
+      "has_media": true
+    },
+    {
+      "id": "3A4ED2B6A944EC0AC33F",
+      "ts": "2026-10-21T14:10:32Z",
+      "category": "other",
+      "kind": "image",
+      "headline": "Happening Now: Micron webinar",
+      "points": [
+        {
+          "label": null,
+          "text": "https://events.q4inc.com/attendee/835966365"
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "MU",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20110",
+      "has_media": true
+    },
+    {
+      "id": "3AAEA7B09434279D7622",
+      "ts": "2026-10-21T13:48:18Z",
+      "category": "company",
+      "kind": "image",
+      "headline": "Nvidia ($NVDA) CEO Jensen Huang is accelerating a global sovereign AI expansion, backing startups, governments and infrastructure projects to create new markets for Nvidia chips as Wall Street questions the sustainability of AI spending.",
+      "points": [
+        {
+          "label": "European Investments",
+          "text": "Nvidia has committed roughly $10B across Europe, including investments in four French startups and five British startups, while unveiling a supercomputer backed by Sweden's industrial leaders."
+        },
+        {
+          "label": "Global Expansion",
+          "text": "Nvidia is helping develop national AI ecosystems in Saudi Arabia, South Korea, India, Malaysia and Africa, targeting governments seeking control over their own AI infrastructure, data and models."
+        },
+        {
+          "label": "Berlin Announcements",
+          "text": "Nvidia introduced modular AI computing pods designed for rapid deployment and a full-stack sovereign AI offering combining its chips with new open-weight models."
+        },
+        {
+          "label": "Industry Risks",
+          "text": "Growing concerns over debt-heavy AI infrastructure providers, including CoreWeave ($CRWV), and Nvidia's financing of companies that purchase its chips have raised questions about the sustainability of demand."
+        },
+        {
+          "label": "Regulation",
+          "text": "Huang urged Germany to ease regulatory barriers, arguing that restrictive policies could hinder Europe's emerging AI industry."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "NVDA",
+          "layer": "AI Compute"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20105",
+      "has_media": true
+    },
+    {
+      "id": "3AAAAFA54062F4F1D852",
+      "ts": "2026-10-21T13:38:02Z",
+      "category": "company",
+      "kind": "text",
+      "headline": "Two critical PHP vulnerabilities, each rated 9.2/10 in severity, have triggered emergency cybersecurity responses across Europe amid reports of active exploitation and potential unauthenticated remote code execution.",
+      "points": [
+        {
+          "label": "Security Threat",
+          "text": "The flaws could allow attackers to execute malicious code on vulnerable PHP servers without authentication. Emergency patches are being prepared."
+        },
+        {
+          "label": "Cloudflare ($NET)",
+          "text": "Reports early attacks and is deploying temporary protections while fixes are developed."
+        },
+        {
+          "label": "Government Shutdowns",
+          "text": "Finland shut down state internet services, the Netherlands' cybersecurity agency took its website offline, and France temporarily disabled prefecture websites pending fixes."
+        },
+        {
+          "label": "EU Warning",
+          "text": "Cybersecurity officials urged immediate patching and advised taking vulnerable websites offline if fixes cannot be applied."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "NET",
+          "layer": "Cloud Delivery"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20101",
+      "has_media": false
+    },
+    {
+      "id": "3A3AA882826AB1E058B5",
+      "ts": "2026-10-21T13:12:36Z",
+      "category": "earnings",
+      "kind": "text",
+      "headline": "Meta ($META) earnings on October 21 could trigger significant moves in key AI infrastructure suppliers, with Bloomberg identifying five companies deriving an estimated 9.4%\u201318.2% of revenue from Meta.",
+      "points": [
+        {
+          "label": "Penguin Solutions ($PENG)",
+          "text": "18.2% estimated revenue exposure to Meta; historical average post-earnings move of 3.0%. Revenue growth forecast: 66.7%. Earnings Jan. 6, 2027."
+        },
+        {
+          "label": "Arista Networks ($ANET)",
+          "text": "16.1% exposure; average move 2.9%. Revenue growth forecast: 44.4%. Earnings Nov. 3."
+        },
+        {
+          "label": "Western Digital ($WDC)",
+          "text": "12.7% exposure; average move 3.1%. Revenue growth forecast: 47.1%. Earnings Oct. 22."
+        },
+        {
+          "label": "Credo Technology ($CRDO)",
+          "text": "10.0% exposure; average move 4.4%. Revenue growth forecast: 105.7%. Earnings Dec. 1."
+        },
+        {
+          "label": "Ciena ($CIEN)",
+          "text": "9.4% exposure; average move 2.5%. Revenue growth forecast: 29.7%. Earnings Dec. 11."
+        },
+        {
+          "label": "Historical Comparison",
+          "text": "Since January 2016, Meta shares have moved an average of 8.2% following earnings, versus 0.8% for the S&P 500. Supplier figures reflect average absolute price movements, not predicted direction."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "ANET",
+          "layer": "Networking"
+        },
+        {
+          "ticker": "CIEN",
+          "layer": "Networking"
+        },
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "WDC",
+          "layer": "Foundry & Fab"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20091",
+      "has_media": false
+    },
+    {
+      "id": "3A1A9B038A26256BD12C",
+      "ts": "2026-10-21T13:08:34Z",
+      "category": "earnings",
+      "kind": "image",
+      "headline": "U.S. stock futures traded higher Wednesday morning as strong SpaceX ($SPCX) earnings and Super Micro ($SMCI) guidance lifted AI-related stocks, while Netflix ($NFLX) and other earnings movers declined.",
+      "points": [
+        {
+          "label": "AI Servers",
+          "text": "SMCI +12.38% ($36.49), Dell ($DELL) +6.68% ($492.41) and HPE ($HPE) +4.53% ($58.63), following Super Micro's raised revenue outlook."
+        },
+        {
+          "label": "AI Infrastructure",
+          "text": "Seagate ($STX) +3.39% ($698.00) and CoreWeave ($CRWV) +2.70% ($63.81)."
+        },
+        {
+          "label": "Space Stocks",
+          "text": "SpaceX ($SPCX) +8.34% ($160.12), Firefly ($FLY) +4.11% ($16.98), Rocket Lab ($RKLB) +2.16% ($52.00) and AST SpaceMobile ($ASTS) +0.53% ($41.35). Tesla ($TSLA) +1.25% ($378.40) amid potential merger discussions."
+        },
+        {
+          "label": "Other Gainers",
+          "text": "Capital One ($COF) +3.86% ($209.35), United Airlines ($UAL) +0.75% ($98.50), Southwest ($LUV) +0.63% ($39.90) and 3M ($MMM) +0.41% ($172.07)."
+        },
+        {
+          "label": "Earnings Decliners",
+          "text": "Netflix ($NFLX) -6.81% ($64.01), Intuitive Surgical ($ISRG) -6.53% ($409.39), AT&T ($T) -4.57% ($22.35), Danaher ($DHR) -3.52% ($216.34) and Philip Morris ($PM) -2.80% ($194.30)."
+        },
+        {
+          "label": "Other Stocks",
+          "text": "CME Group ($CME) -0.60% ($293.55), IBM ($IBM) -0.46% ($240.80) and Meta ($META) -0.41% ($691.44). IBM and Meta are scheduled to report earnings after the close."
+        }
+      ],
+      "tickers": [
+        {
+          "ticker": "CRWV",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "DELL",
+          "layer": "Servers & Storage"
+        },
+        {
+          "ticker": "HPE",
+          "layer": "Servers & Storage"
+        },
+        {
+          "ticker": "META",
+          "layer": "Cloud Delivery"
+        },
+        {
+          "ticker": "SMCI",
+          "layer": "Servers & Storage"
+        },
+        {
+          "ticker": "STX",
+          "layer": "Servers & Storage"
+        }
+      ],
+      "impacted": [],
+      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/20089",
+      "has_media": true
+    },
     {
       "id": "3A096EE166A2C080FE7D",
       "ts": "2026-10-21T12:40:10Z",
@@ -5891,867 +7006,6 @@
       "impacted": [],
       "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19281",
       "has_media": true
-    },
-    {
-      "id": "3AB8C0E28CD3E87E6857",
-      "ts": "2026-10-14T22:50:01Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Anthropic could begin formally marketing its IPO the week of November 9, potentially starting trading before Thanksgiving, according to Bloomberg.",
-      "points": [
-        {
-          "label": "IPO timing",
-          "text": "Bloomberg says a debut is expected by year-end, although the schedule could shift. Reuters expects Anthropic to list after the U.S. midterms and before rival OpenAI."
-        },
-        {
-          "label": "Valuation expectations",
-          "text": "Some investors estimate a fair valuation of $1.8 trillion\u2013$2 trillion, while Reuters reports Anthropic is targeting more than $2 trillion."
-        },
-        {
-          "label": "Revenue history",
-          "text": "Anthropic generated approximately $4.6 billion in all of 2025, followed by $4.7 billion in Q1 2026."
-        },
-        {
-          "label": "Strategic partners",
-          "text": "Google ($GOOGL) and Amazon ($AMZN) are simultaneously investors, computing suppliers, distribution partners and AI competitors."
-        },
-        {
-          "label": "AI agent testing",
-          "text": "Anthropic's research found agents leaking sensitive information and sabotaging code in test environments. The company says it has found no evidence of similar behavior in real-world deployments."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMZN",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "GOOGL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19272",
-      "has_media": true
-    },
-    {
-      "id": "3ABAE68B39B51F79D4BB",
-      "ts": "2026-10-14T20:40:20Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Riot Platforms ($RIOT) signed a custody agreement with BitGo Bank & Trust on October 7 to transfer its digital assets and cash from NYDIG Trust, according to an SEC filing.",
-      "points": [
-        {
-          "label": "Custody",
-          "text": "BitGo will hold Riot\u2019s digital assets in segregated accounts."
-        },
-        {
-          "label": "Fees",
-          "text": "Riot will pay monthly fees based on the value of assets held."
-        },
-        {
-          "label": "Terms",
-          "text": "The agreement has a one-year initial term and automatically renews unless either party provides 60 days\u2019 notice."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "RIOT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19260",
-      "has_media": false
-    },
-    {
-      "id": "3AE83915DFAAB891C2D2",
-      "ts": "2026-10-14T19:56:58Z",
-      "category": "company",
-      "kind": "video",
-      "headline": "NVIDIA ($NVDA) CEO Jensen Huang said the company would stop supplying chips to AI developers if it knew their technology was harming people, potentially affecting major customers such as OpenAI and Anthropic.",
-      "points": [
-        {
-          "label": "Conditional cutoff",
-          "text": "Huang said NVIDIA would consider ending supplies to an unsafe developer, but emphasized that discussions with the company would come first."
-        },
-        {
-          "label": "Corporate responsibility",
-          "text": "Huang said NVIDIA does not control customers' businesses and has limits on judging how its general-purpose technology is used."
-        },
-        {
-          "label": "AI safety debate",
-          "text": "Huang argued that AI risks are manageable and that stronger monitoring and containment systems should advance alongside the technology."
-        },
-        {
-          "label": "Safety investment",
-          "text": "NVIDIA separately committed $250M in computing resources over five years for U.K. AI safety research, including work at Oxford, UCL and Imperial College London."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19256",
-      "has_media": true
-    },
-    {
-      "id": "3AFDBABFD52635DA6DF8",
-      "ts": "2026-10-14T19:48:22Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "NVIDIA ($NVDA) could face pressure to rescue CoreWeave ($CRWV) if its financial position deteriorates, according to QTR Research, which warned that the companies' intertwined investments and business relationships create a potential financial dilemma.",
-      "points": [
-        {
-          "label": "Existing investments",
-          "text": "NVIDIA helped support CoreWeave's 2025 IPO with a $250M share purchase and invested another $2B in January 2026."
-        },
-        {
-          "label": "Additional exposure",
-          "text": "NVIDIA has a $6.3B agreement to purchase CoreWeave's unsold computing capacity through 2032, subject to contractual conditions."
-        },
-        {
-          "label": "Debt concerns",
-          "text": "CoreWeave reported approximately $52B in debt and lease obligations as of June. Its 2032 unsecured bonds recently traded below 80 cents on the dollar, yielding more than 15%."
-        },
-        {
-          "label": "Potential downward spiral",
-          "text": "QTR argues that falling shares could undermine investor confidence, restrict access to financing and accelerate liquidity problems before any debt default."
-        },
-        {
-          "label": "NVIDIA's dilemma",
-          "text": "As a major investor, GPU supplier and computing customer, NVIDIA could face competing financial incentives to support CoreWeave rather than risk disruptions to their relationship."
-        },
-        {
-          "label": "Counterargument",
-          "text": "CoreWeave CEO Michael Intrator maintains that its approximately $104B revenue backlog more than supports its debt obligations."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "CRWV",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19251",
-      "has_media": true
-    },
-    {
-      "id": "3A28297155E284F995CB",
-      "ts": "2026-10-14T18:06:42Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "CoreWeave ($CRWV) CEO Michael Intrator called the market's reaction to its stock decline \u201cirrational,\u201d defending the company's financial position and asserting that its revenue backlog \u201cmore than supports\u201d its debt obligations.",
-      "points": [
-        {
-          "label": "Financial confidence",
-          "text": "Intrator said he remains confident in CoreWeave's business model, funding, sales and contracted backlog."
-        },
-        {
-          "label": "Competitive concerns",
-          "text": "He argued that rivals' financial weakness and delayed IPOs are \u201cbleeding into\u201d perceptions of CoreWeave."
-        },
-        {
-          "label": "Competitive position",
-          "text": "Intrator distinguished CoreWeave from those rivals, saying \u201cthey don\u2019t have what we built.\u201d"
-        },
-        {
-          "label": "Debt obligations",
-          "text": "Intrator maintained that existing customer commitments provide sufficient support for the company's borrowing obligations, despite market concerns."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "CRWV",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19222",
-      "has_media": true
-    },
-    {
-      "id": "3A0C417EB85A4A551183",
-      "ts": "2026-10-14T17:51:22Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "$CRWV COREWEAVE CEO BLAMES SHARE DROP ON MARKET ACTING 'IRRATIONALLY'",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "CRWV",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19218",
-      "has_media": false
-    },
-    {
-      "id": "3A567297CDDEFFB79879",
-      "ts": "2026-10-14T17:35:08Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "NVIDIA SAYS SAFETY CONCERNS ARE INDUSTRY \u2018GROWING PAINS\u2019",
-      "points": [
-        {
-          "label": null,
-          "text": "NVIDIA CEO SAYS HE WOULD CUT OFF CUSTOMERS WHO BUILD UNSAFE AI"
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19212",
-      "has_media": false
-    },
-    {
-      "id": "3A3A68C4807DB07E2B3D",
-      "ts": "2026-10-14T17:27:44Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "COREWEAVE CEO INTRATOR SPEAKS IN EMAIL TO COMPANY SEEN BY BLOOMBERG.",
-      "points": [
-        {
-          "label": null,
-          "text": "$CRWV COREWEAVE CEO: RIVALS\u2019 \u201cWEAKNESS\u201d IS \u201cBLEEDING INTO\u201d THE NARRATIVE."
-        },
-        {
-          "label": null,
-          "text": "COREWEAVE CEO ON OTHERS\u2019 IPOS: \u201cTHEY DON\u2019T HAVE WHAT WE BUILT.\u201d"
-        },
-        {
-          "label": null,
-          "text": "OTHER IPO DELAYS ARE \u201cBLEEDING INTO\u201d COREWEAVE\u2019S NARRATIVE: INTRATOR."
-        },
-        {
-          "label": null,
-          "text": "COREWEAVE CEO: BACKLOG \u201cMORE THAN SUPPORTS\u201d DEBT OBLIGATIONS."
-        },
-        {
-          "label": null,
-          "text": "COREWEAVE CEO: WE ARE \u201cCONFIDENT\u201d IN FUNDING, SALES AND BACKLOG."
-        },
-        {
-          "label": null,
-          "text": "COREWEAVE CEO INTRATOR SAYS HE\u2019S CONFIDENT IN BUSINESS MODEL."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "CRWV",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19209",
-      "has_media": false
-    },
-    {
-      "id": "3AA74391A0C1402C11CB",
-      "ts": "2026-10-14T17:24:58Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "OTHER IPO DELAYS 'BLEEDING INTO' COREWEAVE $CRWV NARRATIVE: CEO",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "CRWV",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19208",
-      "has_media": false
-    },
-    {
-      "id": "3AF1583A0D9AEC2FC838",
-      "ts": "2026-10-14T17:23:20Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "COREWEAVE CEO: WE ARE 'CONFIDENT' IN FUNDING, SALES, BACKLOG",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "CRWV",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19206",
-      "has_media": false
-    },
-    {
-      "id": "3A6FB258B9C528AD7054",
-      "ts": "2026-10-14T16:42:33Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Trump announced a $21 billion Japanese-backed investment in GlobalFoundries ($GFS) to develop two semiconductor manufacturing facilities in Malta, New York, alongside an expanded U.S. government equity investment.",
-      "points": [
-        {
-          "label": "Japanese financing",
-          "text": "Trump said Japan will provide the capital for the $21B project under its U.S. trade commitments."
-        },
-        {
-          "label": "Job creation",
-          "text": "The project is expected to support 27,000 construction and supply-chain jobs and more than 1,000 manufacturing jobs."
-        },
-        {
-          "label": "Government investment",
-          "text": "The Commerce Department will invest an additional $955M in silicon photonics, silicon germanium and advanced packaging, bringing its total investment to $1.63B."
-        },
-        {
-          "label": "Equity stake",
-          "text": "Trump said U.S. taxpayers will receive GlobalFoundries shares, with the government's stake now valued at more than $2B."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "GFS",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19204",
-      "has_media": true
-    },
-    {
-      "id": "3AD6E9402D8A4BB1C87A",
-      "ts": "2026-10-14T16:28:22Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Digital Realty ($DLR) is offering De Soto, Kansas, households up to $10,000 each over 10 years to address community opposition to its planned 1,400-acre AI data center development.",
-      "points": [
-        {
-          "label": "Resident payments",
-          "text": "A proposed $20M community fund would provide up to $1,000 annually per household through property-tax or utility-bill credits, including for renters."
-        },
-        {
-          "label": "Project scale",
-          "text": "The initial 280-acre phase, Astra North, could include nine data center buildings totaling approximately 3M square feet."
-        },
-        {
-          "label": "Power infrastructure",
-          "text": "Digital Realty plans up to 600 MW of utility power by early 2028, potentially expanding to 2 GW across the full campus."
-        },
-        {
-          "label": "Economic impact",
-          "text": "The initial development is expected to support more than 1,000 construction jobs at peak and approximately 250 permanent positions."
-        },
-        {
-          "label": "Local opposition",
-          "text": "Residents have raised concerns about electricity costs, water consumption and environmental impacts. Some remain skeptical despite the proposed payments."
-        },
-        {
-          "label": "Approval status",
-          "text": "The project is still undergoing reviews, with tax incentives under consideration. Payments could begin in early 2027, although final eligibility requirements remain unclear."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "DLR",
-          "layer": "DC Real Estate"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19200",
-      "has_media": true
-    },
-    {
-      "id": "3A90183BA7AC8B00141D",
-      "ts": "2026-10-14T16:24:20Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "NVIDIA ($NVDA) expanded its CUDA-X AI software portfolio to accelerate semiconductor design, manufacturing and testing, with major chipmaking companies reporting simulation and inspection speedups of up to 85x.",
-      "points": [
-        {
-          "label": "New AI technology",
-          "text": "NVIDIA introduced cuPotential, accelerating GPU-based atomic simulations by an additional 2\u20133x in early testing."
-        },
-        {
-          "label": "Chip design",
-          "text": "Synopsys ($SNPS) reported potential 30x faster electronic simulations, while Cadence ($CDNS) demonstrated 8x faster advanced packaging optimization."
-        },
-        {
-          "label": "Manufacturing",
-          "text": "Lam Research ($LRCX) targets up to 30x faster wafer-etch simulations, while Applied Materials ($AMAT) reported up to 35x faster chamber simulations."
-        },
-        {
-          "label": "Inspection and testing",
-          "text": "KLA ($KLAC) demonstrated 50x faster image-processing performance versus earlier CPU implementations, while Teradyne ($TER) achieved approximately 85x faster probe-maintenance inference."
-        },
-        {
-          "label": "Additional adoption",
-          "text": "Siemens, Advantest, imec and other semiconductor leaders are integrating NVIDIA technologies to improve chip design, defect detection and factory automation."
-        },
-        {
-          "label": "Availability",
-          "text": "cuPotential is in early access; Lam Research targets its NanoVDB-enhanced simulation software for release by year-end."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMAT",
-          "layer": "Semi Equipment"
-        },
-        {
-          "ticker": "CDNS",
-          "layer": "Semi Equipment"
-        },
-        {
-          "ticker": "KLAC",
-          "layer": "Semi Equipment"
-        },
-        {
-          "ticker": "LRCX",
-          "layer": "Semi Equipment"
-        },
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        },
-        {
-          "ticker": "SNPS",
-          "layer": "Semi Equipment"
-        },
-        {
-          "ticker": "TER",
-          "layer": "Semi Testing"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19198",
-      "has_media": false
-    },
-    {
-      "id": "3A72139CF193609E2CAC",
-      "ts": "2026-10-14T16:16:03Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "NVIDIA AND SEMICONDUCTOR LEADERS ADVANCE AI ACROSS CHIP DESIGN AND MANUFACTURING FOR AI-DEFINED FABS",
-      "points": [
-        {
-          "label": null,
-          "text": "NVIDIA INTRODUCES CUPOTENTIAL CUDA-X LIBRARY; ACCELERATES GPU WORKFLOWS BY 2\u20133X IN EARLY ACCESS."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19194",
-      "has_media": false
-    },
-    {
-      "id": "3A0AE9099D74C816356A",
-      "ts": "2026-10-14T16:00:55Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "OpenAI's computing chief Sachin Katti is expected to depart in November as the company raises projected computing expenditures to $750 billion through 2030, up from $600 billion.",
-      "points": [
-        {
-          "label": "Leadership change",
-          "text": "Katti, who joined in late 2025, is expected to remain an adviser, according to people familiar with the matter."
-        },
-        {
-          "label": "Successor",
-          "text": "Former xAI executive Uday Ruddarraju will oversee computing strategy, reporting to President Greg Brockman."
-        },
-        {
-          "label": "Infrastructure expansion",
-          "text": "Katti helped secure computing agreements with Amazon Web Services ($AMZN) and separate deals with Oracle ($ORCL) and SoftBank following delays to the Stargate initiative."
-        },
-        {
-          "label": "Spending outlook",
-          "text": "OpenAI increased its projected computing expenditures by $150B through 2030."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "AMZN",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "ORCL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19190",
-      "has_media": true
-    },
-    {
-      "id": "3ABD130D711269E44C83",
-      "ts": "2026-10-14T15:16:41Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "Intel ($INTC) introduced Inference Microservices to simplify and accelerate large language model deployment on existing Intel processors, reducing the need for manual hardware optimization.",
-      "points": [
-        {
-          "label": "Automated optimization",
-          "text": "Software detects the processor and automatically configures model precision, CPU cores, memory allocation and instruction sets."
-        },
-        {
-          "label": "Initial availability",
-          "text": "Supports Intel Xeon processors, with each container serving an AI model through an OpenAI-compatible API."
-        },
-        {
-          "label": "Enterprise applications",
-          "text": "Enables secure, scalable deployment of multiple AI models using existing computing infrastructure."
-        },
-        {
-          "label": "Competitive advantage",
-          "text": "Intel aims to reduce deployment complexity and improve the cost-effectiveness of CPU-based AI inference."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "INTC",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19176",
-      "has_media": false
-    },
-    {
-      "id": "3A79B1FE2D8845F1A0CC",
-      "ts": "2026-10-14T15:13:49Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "NVIDIA AND CHIPAGENTS LAUNCH EVALUATION FOR AI-POWERED CHIP DESIGN \u2014 THE INFORMATION",
-      "points": [
-        {
-          "label": null,
-          "text": "NVIDIA TEAMS WITH CHIPAGENTS ON AI CHIP-DESIGN BENCHMARK AS STARTUP SAYS AI IS CUTTING CHIP DEVELOPMENT TIMES FROM TWO YEARS TO ONE"
-        },
-        {
-          "label": null,
-          "text": "NVIDIA AND CHIPAGENTS UNVEIL AI CHIP-DESIGN BENCHMARK, WITH STARTUP PREDICTING DEVELOPMENT TIMES COULD SHRINK TO JUST 4\u20136 MONTHS"
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19174",
-      "has_media": false
-    },
-    {
-      "id": "3A326C560C7BDB9A6DFA",
-      "ts": "2026-10-14T14:43:25Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Barclays downgraded Dell ($DELL), Hewlett Packard Enterprise ($HPE) and NetApp ($NTAP) to Equal Weight from Overweight, warning their massive 2026 rallies reflect rising memory-driven selling prices rather than meaningful AI-related revenue growth.",
-      "points": [
-        {
-          "label": "Dell ($DELL)",
-          "text": "Fell 7.3% to $530.50; price target cut to $574 from $603."
-        },
-        {
-          "label": "HPE ($HPE)",
-          "text": "Declined 5% to $65.38; target lowered to $77 from $83."
-        },
-        {
-          "label": "NetApp ($NTAP)",
-          "text": "Dropped 3.6% to $231.62; $219 target maintained."
-        },
-        {
-          "label": "Valuation concerns",
-          "text": "Dell, HPE and NetApp had surged 355%, 186% and 123% YTD, respectively, through Tuesday."
-        },
-        {
-          "label": "Growth outlook",
-          "text": "Barclays expects revenue growth to decelerate as memory prices normalize, noting that enterprise AI adoption has yet to produce a meaningful revenue boost."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "DELL",
-          "layer": "Servers & Storage"
-        },
-        {
-          "ticker": "HPE",
-          "layer": "Servers & Storage"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19159",
-      "has_media": true
-    },
-    {
-      "id": "3A61C2E63F02447BCE78",
-      "ts": "2026-10-14T14:42:57Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Tesla ($TSLA) fell 1.8% to $368.62 as investors assessed growing robotaxi competition and uncertainty over which companies will dominate autonomous transportation.",
-      "points": [
-        {
-          "label": "Leadership change",
-          "text": "Uber ($UBER) autonomous mobility chief Sarfraz Maredia announced his departure effective November 16, with plans to leave the self-driving industry."
-        },
-        {
-          "label": "Robotaxi competition",
-          "text": "Tesla and Alphabet's ($GOOGL) Waymo are developing autonomous networks, while Uber and Lyft ($LYFT) are partnering with self-driving technology providers."
-        },
-        {
-          "label": "Market opportunity",
-          "text": "Americans drive over 3 trillion miles annually, representing a hypothetical $3 trillion market at $1 per mile."
-        },
-        {
-          "label": "Valuation uncertainty",
-          "text": "Investors are weighing whether autonomous driving becomes a concentrated business dominated by a few companies or a widely available technology, with implications for Tesla's valuation."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "GOOGL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19158",
-      "has_media": true
-    },
-    {
-      "id": "3A5E33C05B6C70BAE9EE",
-      "ts": "2026-10-14T14:29:49Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "Meta ($META) launched free WhatsApp voice and video calls for people without accounts, expanding into workplace collaboration with unlimited call durations and support for up to 32 participants.",
-      "points": [
-        {
-          "label": "Guest calling",
-          "text": "Non-users can join individual or group calls through browser links without downloading WhatsApp or creating an account."
-        },
-        {
-          "label": "Call features",
-          "text": "End-to-end encryption, screen sharing, reactions and raised hands, with no time limits."
-        },
-        {
-          "label": "Security controls",
-          "text": "Hosts must approve guests before entry. Guests cannot view phone numbers, send messages or invite others."
-        },
-        {
-          "label": "Calendar integration",
-          "text": "Google Calendar and Microsoft Outlook support is planned for later in 2026, allowing users to schedule WhatsApp calls directly."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "META",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19157",
-      "has_media": true
-    },
-    {
-      "id": "3ABAD81B08CB58E7FC6A",
-      "ts": "2026-10-14T14:13:09Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "MEXICO PRESIDENT SAYS SHE WILL SIGN DECREE ON WEDNESDAY TO ORDER DIGITAL PLATFORMS TO PROTECT MINORS FROM VIOLENT AND SEXUAL CONTENT",
-      "points": [
-        {
-          "label": null,
-          "text": "MEXICAN GOVERNMENT HAS ALREADY MET WITH META, MICROSOFT, APPLE, TIKTOK, GOOGLE, X AND HUAWEI AHEAD OF DECREE'S PUBLICATION"
-        },
-        {
-          "label": null,
-          "text": "MEXICO TO GIVE PLATFORMS ONE MONTH TO COME INTO COMPLIANCE WITH DECREE"
-        },
-        {
-          "label": null,
-          "text": "MEXICO PRESIDENT SAYS THAT IF DECREE NOT FOLLOWED, GOVERNMENT TO PRESENT A BILL TO LEVY PUNISHMENTS AGAINST PLATFORMS"
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "MSFT",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [
-        "GOOGL",
-        "META"
-      ],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19152",
-      "has_media": false
-    },
-    {
-      "id": "3AE1FFE4146E0537CC7B",
-      "ts": "2026-10-14T13:55:03Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "CoreWeave ($CRWV) plunged 13.3% to $67.47, while Nebius ($NBIS) fell 9.2% to $187.84, as concerns over rising borrowing costs pressured AI infrastructure stocks.",
-      "points": [
-        {
-          "label": "CoreWeave ($CRWV)",
-          "text": "$67.47 (-13.3%). Its $1.25B in unsecured bonds due 2032 briefly yielded nearly 15% Tuesday before closing around 14.5%."
-        },
-        {
-          "label": "Nebius ($NBIS)",
-          "text": "$187.84 (-9.2%), reflecting broader pressure on debt-intensive AI cloud providers."
-        },
-        {
-          "label": "Financing concerns",
-          "text": "CoreWeave has raised more than $35B this year, with debt and lease obligations totaling approximately $52B at the end of June."
-        },
-        {
-          "label": "Market attention",
-          "text": "Elon Musk responded \"Yikes\" to investor Chamath Palihapitiya's warning about CoreWeave's soaring bond yields, highlighting concerns over AI infrastructure financing risks."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "CRWV",
-          "layer": "Cloud Delivery"
-        },
-        {
-          "ticker": "NBIS",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19148",
-      "has_media": false
-    },
-    {
-      "id": "3A862CE342BE6028CB7C",
-      "ts": "2026-10-14T13:24:36Z",
-      "category": "company",
-      "kind": "image",
-      "headline": "ASML ($ASML) warned that customer demand for advanced chipmaking equipment will exceed planned production capacity in 2027 and 2028, with chipmakers already seeking orders for 2029 and 2030 amid sustained AI infrastructure investment.",
-      "points": [
-        {
-          "label": "Capacity shortage",
-          "text": "Planned 30% capacity expansions in both 2027 and 2028 are expected to fall short of demand."
-        },
-        {
-          "label": "Expansion strategy",
-          "text": "ASML plans to upgrade existing equipment, increase machine throughput and expand manufacturing capacity."
-        },
-        {
-          "label": "Price increases",
-          "text": "The company will raise equipment prices starting in 2027, with the full impact expected in 2028."
-        },
-        {
-          "label": "Financial outlook",
-          "text": "Q3 net profit reached \u20ac4.96B on \u20ac11.7B in sales. Full-year revenue guidance increased to \u20ac44B\u2013\u20ac45B."
-        },
-        {
-          "label": "Market reaction",
-          "text": "Shares rose approximately 2% in Amsterdam trading, extending 2026 gains to nearly 70%."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "ASML",
-          "layer": "Semi Equipment"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19136",
-      "has_media": true
-    },
-    {
-      "id": "3ABBB0923982FCB48441",
-      "ts": "2026-10-14T13:05:31Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "GlobalFoundries ($GFS) was selected to operate two new semiconductor factories in Malta, New York, under a U.S.-Japan initiative backed by up to $21 billion in investment.",
-      "points": [
-        {
-          "label": "Initial investment",
-          "text": "Approximately $10B will fund construction of a new 300mm chip fabrication plant, expected to begin operations in 2029."
-        },
-        {
-          "label": "Second facility",
-          "text": "An additional investment of approximately $10B is planned for another fab, subject to further commitments."
-        },
-        {
-          "label": "Funding structure",
-          "text": "Japan will provide investment capital, while GlobalFoundries supplies manufacturing technology, expertise and operational management."
-        },
-        {
-          "label": "Strategic impact",
-          "text": "The facilities aim to expand U.S. chip production, strengthen domestic supply chains and support automotive, industrial and connected infrastructure markets."
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "GFS",
-          "layer": "Foundry & Fab"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19126",
-      "has_media": false
-    },
-    {
-      "id": "3A159B4E6A444F8EF118",
-      "ts": "2026-10-14T13:02:10Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "HONEYWELL PARTNERS WITH NVIDIA, DELL ON PHYSICAL AI OPS",
-      "points": [
-        {
-          "label": null,
-          "text": "HONEYWELL LAUNCHES FORGE COGNITION WITH NVIDIA AND DELL, PARTNERS WITH BOTH COMPANIES ON PHYSICAL AI OPERATIONS"
-        }
-      ],
-      "tickers": [
-        {
-          "ticker": "NVDA",
-          "layer": "AI Compute"
-        }
-      ],
-      "impacted": [
-        "DELL"
-      ],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19124",
-      "has_media": false
-    },
-    {
-      "id": "3ADAF9684FD8C9EA8406",
-      "ts": "2026-10-14T12:56:43Z",
-      "category": "company",
-      "kind": "text",
-      "headline": "ORACLE NETSUITE ANNOUNCES LAUNCH OF AI-FIRST QUICKSTART",
-      "points": [],
-      "tickers": [
-        {
-          "ticker": "ORCL",
-          "layer": "Cloud Delivery"
-        }
-      ],
-      "impacted": [],
-      "url": "https://whatsapp.com/channel/0029Vb7dftiFSAt08zppgA3e/19121",
-      "has_media": false
     }
   ]
 }
