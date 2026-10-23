@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-22",
+  "generated_at": "2026-10-23",
   "passed": 37,
   "total": 37,
   "checks": [
@@ -7,7 +7,7 @@
       "name": "headline_current",
       "critical": true,
       "pass": true,
-      "detail": "latest official print 2026-09-01 is 51d old (limit 80)"
+      "detail": "latest official print 2026-09-01 is 52d old (limit 80)"
     },
     {
       "name": "yoy_finite",
@@ -145,7 +145,7 @@
       "name": "calendar_horizon",
       "critical": false,
       "pass": true,
-      "detail": "CPI calendar runs 49d ahead (floor 45d)"
+      "detail": "CPI calendar runs 48d ahead (floor 45d)"
     },
     {
       "name": "connectors_ok",
@@ -157,19 +157,19 @@
       "name": "sources_fresh",
       "critical": false,
       "pass": true,
-      "detail": "958/979 fresh \u00b7 21 past their window under an expected-absence policy, judged separately"
+      "detail": "959/979 fresh \u00b7 20 past their window under an expected-absence policy, judged separately"
     },
     {
       "name": "expected_absence",
       "critical": false,
       "pass": true,
-      "detail": "38 series under an expected-absence policy (5 discontinued, 5 intermittent, 16 suppressed, 12 undisclosed) \u2014 APU0000702212 [discontinued, 174d, review_by 2027-01-15], APU0000704211 [discontinued, 174d, review_by 2027-01-15], APU0000711311 [intermittent, 51d], APU0000713111 [intermittent, 113d, review_by 2027-01-15], vast_h200 [intermittent, 0d, review_by 2027-03-31], vast_b200 [intermittent, 10d, review_by 2027-03-31], vast_b300 [intermittent, 22d, review_by 2027-03-31], sfc_h100 [discontinued, 28d, review_by 2027-03-31], or_deepseek_v41_flash_list_in [discontinued, 5d, review_by 2026-12-31], or_deepseek_v41_flash_list_out [discontinued, 5d, review_by 2026-12-31], qcew_wage23_de [suppressed, 386d, review_by 2027-03-31], qcew_wage23_ks [suppressed, 386d, review_by 2027-03-31], qcew_wage23_nc [suppressed, 386d, review_by 2027-03-31], qcew_wage23_pa [suppressed, 386d, review_by 2027-03-31], qcew_wage23_c41067 [suppressed, 569d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 569d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 569d, review_by 2027-03-31], qcew_wage238212_c22083 [suppressed, 386d, review_by 2027-03-31], qcew_emp238212_c22083 [suppressed, 386d, review_by 2027-03-31], qcew_aemp238212_c22083 [suppressed, 386d, review_by 2027-03-31], qcew_wage238212_c19049 [suppressed, 386d, review_by 2027-03-31], qcew_emp238212_c19049 [suppressed, 386d, review_by 2027-03-31], qcew_aemp238212_c19049 [suppressed, 386d, review_by 2027-03-31], qcew_wage238212_c32029 [undisclosed, review_by 2027-03-31], qcew_emp238212_c32029 [undisclosed, review_by 2027-03-31], qcew_aemp238212_c32029 [undisclosed, review_by 2027-03-31], qcew_wage238222_c04021 [suppressed, 386d, review_by 2027-03-31], qcew_emp238222_c04021 [suppressed, 386d, review_by 2027-03-31], qcew_aemp238222_c04021 [suppressed, 386d, review_by 2027-03-31], qcew_wage238222_c22083 [undisclosed, review_by 2027-03-31], qcew_emp238222_c22083 [undisclosed, review_by 2027-03-31], qcew_aemp238222_c22083 [undisclosed, review_by 2027-03-31], qcew_wage238222_c32029 [undisclosed, review_by 2027-03-31], qcew_emp238222_c32029 [undisclosed, review_by 2027-03-31], qcew_aemp238222_c32029 [undisclosed, review_by 2027-03-31], qcew_wage238222_c53025 [undisclosed, review_by 2027-03-31], qcew_emp238222_c53025 [undisclosed, review_by 2027-03-31], qcew_aemp238222_c53025 [undisclosed, review_by 2027-03-31]"
+      "detail": "38 series under an expected-absence policy (5 discontinued, 5 intermittent, 16 suppressed, 12 undisclosed) \u2014 APU0000702212 [discontinued, 175d, review_by 2027-01-15], APU0000704211 [discontinued, 175d, review_by 2027-01-15], APU0000711311 [intermittent, 52d], APU0000713111 [intermittent, 114d, review_by 2027-01-15], vast_h200 [intermittent, 0d, review_by 2027-03-31], vast_b200 [intermittent, 0d, review_by 2027-03-31], vast_b300 [intermittent, 23d, review_by 2027-03-31], sfc_h100 [discontinued, 29d, review_by 2027-03-31], or_deepseek_v41_flash_list_in [discontinued, 6d, review_by 2026-12-31], or_deepseek_v41_flash_list_out [discontinued, 6d, review_by 2026-12-31], qcew_wage23_de [suppressed, 387d, review_by 2027-03-31], qcew_wage23_ks [suppressed, 387d, review_by 2027-03-31], qcew_wage23_nc [suppressed, 387d, review_by 2027-03-31], qcew_wage23_pa [suppressed, 387d, review_by 2027-03-31], qcew_wage23_c41067 [suppressed, 570d, review_by 2027-03-31], qcew_emp23_c41067 [suppressed, 570d, review_by 2027-03-31], qcew_aemp23_c41067 [suppressed, 570d, review_by 2027-03-31], qcew_wage238212_c22083 [suppressed, 387d, review_by 2027-03-31], qcew_emp238212_c22083 [suppressed, 387d, review_by 2027-03-31], qcew_aemp238212_c22083 [suppressed, 387d, review_by 2027-03-31], qcew_wage238212_c19049 [suppressed, 387d, review_by 2027-03-31], qcew_emp238212_c19049 [suppressed, 387d, review_by 2027-03-31], qcew_aemp238212_c19049 [suppressed, 387d, review_by 2027-03-31], qcew_wage238212_c32029 [undisclosed, review_by 2027-03-31], qcew_emp238212_c32029 [undisclosed, review_by 2027-03-31], qcew_aemp238212_c32029 [undisclosed, review_by 2027-03-31], qcew_wage238222_c04021 [suppressed, 387d, review_by 2027-03-31], qcew_emp238222_c04021 [suppressed, 387d, review_by 2027-03-31], qcew_aemp238222_c04021 [suppressed, 387d, review_by 2027-03-31], qcew_wage238222_c22083 [undisclosed, review_by 2027-03-31], qcew_emp238222_c22083 [undisclosed, review_by 2027-03-31], qcew_aemp238222_c22083 [undisclosed, review_by 2027-03-31], qcew_wage238222_c32029 [undisclosed, review_by 2027-03-31], qcew_emp238222_c32029 [undisclosed, review_by 2027-03-31], qcew_aemp238222_c32029 [undisclosed, review_by 2027-03-31], qcew_wage238222_c53025 [undisclosed, review_by 2027-03-31], qcew_emp238222_c53025 [undisclosed, review_by 2027-03-31], qcew_aemp238222_c53025 [undisclosed, review_by 2027-03-31]"
     },
     {
       "name": "fuel_sources_agree",
       "critical": false,
       "pass": true,
-      "detail": "AAA avg over 7 obs $4.292 vs EIA weekly $4.284 \u2014 relative divergence 0.2% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
+      "detail": "AAA avg over 7 obs $4.287 vs EIA weekly $4.284 \u2014 relative divergence 0.1% (limit 7.5%; some gap is expected by design \u2014 different survey methods)"
     },
     {
       "name": "quilt_complete",
@@ -187,7 +187,7 @@
       "name": "nowcast_fresh",
       "critical": false,
       "pass": true,
-      "detail": "CPI nowcast as-of 2026-10-22"
+      "detail": "CPI nowcast as-of 2026-10-23"
     },
     {
       "name": "ensemble_computed",
@@ -199,7 +199,7 @@
       "name": "gauge_current",
       "critical": true,
       "pass": true,
-      "detail": "gauge as-of 2026-10-22 is 0d old (limit 7)"
+      "detail": "gauge as-of 2026-10-23 is 0d old (limit 7)"
     },
     {
       "name": "gauge_components_present",
